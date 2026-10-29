@@ -3,24 +3,25 @@
   "project_id": "showcase_econ",
   "task_id": "revise_direction-showcase_econ",
   "worker": "revise_direction",
-  "status": "completed",
-  "started_at": "2026-10-28T06:59:02.477641Z",
-  "completed_at": "2026-10-28T07:01:08.525323Z",
+  "status": "failed",
+  "started_at": "2026-10-29T16:26:10.351837Z",
+  "completed_at": "2026-10-29T16:29:16.415671Z",
   "outputs": [
-    "direction.yaml",
-    "llm_calls/llm_20261028_065902_e6dc.json"
+    "llm_calls/llm_20261029_162610_10f4.json"
   ],
   "warnings": [],
-  "errors": [],
+  "errors": [
+    "check_parsed: 지적받지 않은 부분을 바꿨다(17 §5.5):\n지적 없이 삭제: backdrop|||{\"scene_start\": \"act2\"}\n지적 없이 삭제: backdrop|||{\"scene_start\": \"ending\"}"
+  ],
   "scene_refs": [],
   "source_refs": [],
   "asset_refs": [],
-  "qa_status": "pass",
+  "qa_status": "fail",
   "risk_flags": [],
   "worker_provenance": {
     "prompt_name": "revise_direction",
-    "prompt_sha1": "bf23ac66347a55d7adb91b174a34e52da6918b04",
-    "rules_hash": "9d0e5ead25b51c6bb14491c45981a353e9b91556",
+    "prompt_sha1": "e2dcba26522bac05173d838167c50f79143e5d98",
+    "rules_hash": "e6de7328ab674ce8927acb2050b49133f952ac3f",
     "genre": "macro_monetary",
     "genre_declared": true
   }

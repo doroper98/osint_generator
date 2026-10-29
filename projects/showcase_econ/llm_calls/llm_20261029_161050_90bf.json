@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "call_id": "llm_20261029_161050_90bf",
+  "task_id": "revise_direction-showcase_econ",
+  "worker": "revise_direction",
+  "backend": "claude",
+  "model": "claude-opus-5-5",
+  "mode": "response",
+  "system_prompt_hash": "sha256:e62b7ac1f8addd21eb39b3837435ca49940bf132f78277408c8b9fee1606d619",
+  "user_prompt_path": "llm_calls/llm_20261029_161050_90bf.prompt.txt",
+  "raw_response_path": "llm_calls/llm_20261029_161050_90bf.raw.txt",
+  "parsed_status": "ok",
+  "started_at": "2026-10-29T16:10:50.551360Z",
+  "completed_at": "2026-10-29T16:13:57.192034Z",
+  "exit_code": 0,
+  "retry_index": 0,
+  "error_message": null
+}

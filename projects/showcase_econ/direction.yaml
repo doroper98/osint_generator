@@ -1,4 +1,4 @@
-# direction.yaml — AI 연출(DirectorWorker, v3.1.0, 17 §5.3). 사람 검토 전 초안 — 승인 게이트 ②에서 판정.
+# direction.yaml — AI 연출 수정본(ReviseDirectionWorker, v3.1.0, 17 §5.5). changelog 는 prev/revision.v*.json.
 version: 1
 genre: macro_monetary
 stage: backdrop
@@ -50,7 +50,7 @@ shots:
     lat: null
     place: null
     date: '2026-06-01'
-    lane: policy_rate
+    lane: null
     w: 420.0
   under: false
   allow_sea: null
@@ -67,13 +67,13 @@ shots:
     lat: null
     place: null
     date: '2026-01-15'
-    lane: policy_rate
+    lane: null
     w: 420.0
   under: false
   allow_sea: null
   scene: null
   stage: timeline
-  reason: null
+  reason: 원고 act1_0 '시간을 1년 전으로 돌려'에 맞춘 의도된 과거 이동
 - at:
     sid: act2_0
     'off': -0.6
@@ -84,7 +84,7 @@ shots:
     lat: null
     place: null
     date: '2026-06-15'
-    lane: policy_rate
+    lane: null
     w: 420.0
   under: false
   allow_sea: null
@@ -101,7 +101,7 @@ shots:
     lat: null
     place: null
     date: '2026-09-01'
-    lane: policy_rate
+    lane: null
     w: 420.0
   under: false
   allow_sea: null
@@ -118,13 +118,13 @@ shots:
     lat: null
     place: null
     date: '2026-04-01'
-    lane: policy_rate
+    lane: null
     w: 420.0
   under: false
   allow_sea: null
   scene: null
   stage: timeline
-  reason: null
+  reason: 엔딩 — 2025년 10월과 2026년 9월의 3.75~4% 두 지점을 한 화면에 함께 보이려 가운데로 물러남
 events:
 - type: backdrop
   start:
@@ -230,8 +230,7 @@ events:
     sid: cold_1
     'off': -0.4
   end:
-    card: title
-    edge: end
+    scene_start: act1
   mid: fox_0916
   theme: dark
 - type: marker
@@ -246,6 +245,16 @@ events:
   sub: 3.75~4%
   side: right
   hl: true
+- type: photo
+  start:
+    sid: act1_2
+    'off': 0.4
+  end:
+    sid: act1_2
+    edge: end
+    'off': 0.4
+  mid: fed_boardroom
+  place: backdrop_right_low
 - type: marker
   start:
     sid: act1_3
@@ -350,8 +359,7 @@ events:
     sid: act2_2
     'off': 0.1
   end:
-    sid: act2_3
-    edge: end
+    sid: act2_4
     'off': 0.3
   mid: cnn_0729
   theme: dark
@@ -399,7 +407,7 @@ events:
   lane: inflation
   label: 8월 소비자물가
   sub: 전년 대비 3.4%
-  side: left
+  side: right
   hl: true
 - type: card
   start:
@@ -448,6 +456,9 @@ events:
     'off': 0.6
   record: SEP_20260916
   tag: 점도표 · 2026년 9월 16일
+  columns:
+  - '2026'
+  - '2027'
   place: card_right
 - type: marker
   start:
@@ -461,6 +472,16 @@ events:
   sub: 다음 칸
   side: left
   hl: true
+- type: photo
+  start:
+    sid: act3_3
+    'off': 0.4
+  end:
+    sid: act3_3
+    edge: end
+    'off': 0.4
+  mid: fed_eccles_ext
+  place: backdrop_right_low
 - type: marker
   start:
     sid: ending_0
@@ -510,4 +531,8 @@ sound:
     - 0.0
   cues: []
   no_music_decision: null
-drops: []
+drops:
+- record: DFEDTARU
+  reason: 차트 아일랜드 policy_rate 레인 band 시리즈(DFEDTARL)의 upper_id 로 목표 범위 상단을 이미 그린다 — 별도 패널은 같은 선을 두 번 그린다
+- record: SEP_20260916
+  reason: act3_1~act3_2 의 primitive dot_plot(record SEP_20260916)으로 점도표를 그린다 — 패널을 더하면 같은 자료가 겹친다
