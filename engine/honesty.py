@@ -208,7 +208,8 @@ def _series_metas(P, st, times: list[float], labels: list[str], texts: dict[str,
         for e in evs:
             cuts = [lab for t, lab in zip(times, labels) if e["t0"] <= t <= e["t1"]]
             if cuts:
-                ok = all(lane_source_text(e) in texts.get(lab, set()) for lab in cuts)
+                parts = lane_source_text(e).split(" · ")   # v7.4.0 D-0265 — 폭을 넘으면 두 줄로 접어 그린다: 조각마다 그 컷 글자에 있어야 한다
+                ok = all(all(any(p in tx for tx in texts.get(lab, set())) for p in parts) for lab in cuts)
                 shown = ok if shown is None else shown and ok
         rng = ((getattr(P.R, "cache", None) or {}).get("series_range") or {}).get(lane)
         note = load_rules().stage_timeline.lane_range.axis_range_note.split("{lo}")[0]

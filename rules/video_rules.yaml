@@ -1445,6 +1445,7 @@ island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) �
   edge_w: 1.0
   shadow: [[6, 0.12], [3, 0.2]]   # [번짐 px, 알파] — 기사 카드 그림자와 같은 값
   max_concurrent: 2        # 같은 순간 아일랜드 수 상한(checks island_overlap)
+  source_wrap_lines_max: 2   # v7.4.0 back_and_forth D-0265 §3 — 레인 출처 줄이 아일랜드 상자·시간축 틀 폭(축 값 자리 제외)을 넘으면 " · " 경계에서 두 줄로 접는다(정보 손실 없음). 그래도 넘치면 [chart-edge-bleed]
   boxes:                   # [x, y, 폭, 높이] — 가운데 = 폭 78 %·높이 62 %(D-0121 §B), left·right = 오른쪽·왼쪽 카드 열(card_right x ≥ 594)을 비운다. 높이는 모두 같다(차트 레인 영역 한 벌)
     center: [94, 56, 666, 298]
     left: [24, 56, 540, 298]

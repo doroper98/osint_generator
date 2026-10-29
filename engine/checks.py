@@ -2344,7 +2344,7 @@ def chart_text_boxes(stage, v: View, events: list[dict], t: float, rng: dict, dx
     """시간축 세계의 글자 상자(화면 설계 px) — 레인 이름·레인 출처 줄·축 값(그리는 함수와 같은 자리). dx·dy = 아일랜드 상자 원점."""
     import cairo  # noqa: PLC0415
 
-    from engine.layers.series import axis_values, fmt_value, lane_name, lane_source_text, value_y  # noqa: PLC0415
+    from engine.layers.series import axis_values, fmt_value, lane_name, source_line_boxes, value_y  # noqa: PLC0415
     from engine.typography import tw  # noqa: PLC0415
 
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
@@ -2357,10 +2357,8 @@ def chart_text_boxes(stage, v: View, events: list[dict], t: float, rng: dict, dx
     for e in events:
         if e.get("type") != "series" or not e["t0"] <= t <= e["t1"] or e.get("slot", 0):
             continue
-        _, bot = stage.lane_screen(v, stage.lane_index(e["lane"]))
-        s = lane_source_text(e)
-        by = bot - S.source_dy
-        out.append((f"출처 줄 {e['lane']}", (v.ox + L.x + dx, by - S.source_size + dy, v.ox + L.x + tw(ctx, s, S.source_size, S.source_font) + dx, by + dy)))
+        for k, (s, sx, by) in enumerate(source_line_boxes(ctx, v, stage, e)):   # v7.4.0 D-0265 — 접힌 줄마다(그리기와 같은 자리)
+            out.append((f"출처 줄 {e['lane']}" + (f" {k + 1}" if k else ""), (sx + dx, by - S.source_size + dy, sx + tw(ctx, s, S.source_size, S.source_font) + dx, by + dy)))
         r = rng.get(e["lane"])
         if r is None:
             continue

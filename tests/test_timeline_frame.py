@@ -121,3 +121,26 @@ class TimelineFrameCoverTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SourceWrapTest(unittest.TestCase):
+    """v7.4.0 back_and_forth D-0265 §3 — 레인 출처 줄이 틀·상자 폭을 넘으면 " · " 경계에서 두 줄로 접는다(정보 손실 없음)."""
+
+    def test_long_source_wraps_within_width(self) -> None:
+        import cairo  # noqa: PLC0415
+
+        from engine.layers.series import source_lines  # noqa: PLC0415
+        from engine.style import ISLAND  # noqa: PLC0415
+        from engine.typography import tw  # noqa: PLC0415
+
+        st = _stage()
+        v = View(st, np.array([st.bounds[2] / 2, 1.5, 365.0]), viewport=(540.0, 298.0))
+        ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+        s = " · ".join(["FRED(세인트루이스 연은)", "원출처 연준 이사회", "2026년 9월 기준", "FRED(세인트루이스 연은)", "원출처 연준 이사회 H.15",
+                        "2026년 8월 기준", "축 범위 3~5%"])
+        lines = source_lines(ctx, v, s)
+        self.assertEqual(len(lines), ISLAND.source_wrap_lines_max)
+        self.assertEqual(" · ".join(lines), s)
+        S, L = TIMELINE.series, TIMELINE.lane_label  # noqa: N806
+        self.assertTrue(all(tw(ctx, ln, S.source_size, S.source_font) <= v.vw - L.x - S.axis_zone_px for ln in lines))
+        self.assertEqual(source_lines(ctx, v, "짧은 출처 · 2026년 9월 기준"), ["짧은 출처 · 2026년 9월 기준"])

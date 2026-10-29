@@ -35,6 +35,7 @@ ROUND_DP = 6        # 범위·눈금 값 소수 자릿수
 DECADE = 10         # 눈금 간격 = 가수 × DECADE^k
 NICE_TRIES = 4      # 가수 목록을 몇 자릿수 위까지 훑는가
 DEC_LAST_DAY = 31   # 12월 마지막 날(전망 열 = 그 해 연말)
+SOURCE_SEP = " · "  # 출처 줄 조각 구분(source_line·lane_source 가 쓰는 것과 같다)
 AXIS = "value"   # D-0087 — 값 축(정직성 검사 4개 전부, rules qa_checks.chart_targets)
 
 
@@ -514,15 +515,41 @@ def _draw_axis(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
              C["muted"], a, S.axis_label_halo, "r")
 
 
+def source_lines(ctx: cairo.Context, view: "View", s: str) -> list[str]:
+    """레인 출처 줄을 폭(틀·상자 폭 − 왼쪽 여백 − 오른쪽 축 값 자리)에 맞춰 " · " 경계에서 접는다(v7.4.0 back_and_forth D-0265 §3).
+    최대 rules island.source_wrap_lines_max 줄 — 마지막 줄은 남은 조각을 모두 담는다(넘치면 [chart-edge-bleed] 가 잡는다, 자르지 않는다)."""
+    from engine.style import ISLAND  # noqa: PLC0415
+
+    L, S = TIMELINE.lane_label, TIMELINE.series  # noqa: N806
+    max_w = view.vw - L.x - S.axis_zone_px
+    parts, lines = s.split(SOURCE_SEP), []
+    for p in parts:
+        if lines and len(lines) < ISLAND.source_wrap_lines_max and tw(ctx, lines[-1] + SOURCE_SEP + p, S.source_size, S.source_font) > max_w:
+            lines.append(p)
+        elif lines:
+            lines[-1] += SOURCE_SEP + p
+        else:
+            lines.append(p)
+    return lines
+
+
+def source_line_boxes(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict) -> list[tuple[str, float, float]]:
+    """(줄, 왼쪽 x, 기준선 y) — 아래 줄이 레인 아래 끝 − source_dy, 그 위 줄은 source_step 씩 위. 그리기와 검사가 같이 쓴다."""
+    L, S = TIMELINE.lane_label, TIMELINE.series  # noqa: N806
+    _, bot = stage.lane_screen(view, stage.lane_index(e["lane"]))
+    lines = source_lines(ctx, view, lane_source_text(e))
+    n = len(lines)
+    return [(ln, view.ox + L.x, bot - S.source_dy - (n - 1 - k) * S.source_step) for k, ln in enumerate(lines)]
+
+
 def _draw_source(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, a: float) -> None:
-    """출처·기준 시점 줄(20 §5.1·§5.3) — 레인 아래쪽, 왼쪽 고정. v7.4.0 D-0256 — 레인당 한 줄(레인 첫 series 가 레인 전체 출처를 그린다)."""
+    """출처·기준 시점 줄(20 §5.1·§5.3) — 레인 아래쪽, 왼쪽 고정. v7.4.0 D-0256 — 레인당 한 줄(레인 첫 series 가 레인 전체 출처를 그린다),
+    D-0265 — 폭을 넘으면 두 줄로 접는다."""
     if e["slot"]:
         return
-    L = TIMELINE.lane_label  # noqa: N806
     S = TIMELINE.series  # noqa: N806
-    _, bot = stage.lane_screen(view, stage.lane_index(e["lane"]))
-    text(ctx, lane_source_text(e), view.ox + L.x, bot - S.source_dy, S.source_size, S.source_font,
-         C["muted"], a, S.source_halo, "l")
+    for ln, x, y in source_line_boxes(ctx, view, stage, e):
+        text(ctx, ln, x, y, S.source_size, S.source_font, C["muted"], a, S.source_halo, "l")
 
 
-__all__ = ["lane_source_text", "place_end_label", "band_pairs", "month_colors", "regimes", "draw_series", "fmt_value", "lane_range", "nice_step", "axis_values", "axis_range_note", "column_date", "record_points", "projection_dots", "record_ids", "segments", "source_line", "value_text", "value_y"]
+__all__ = ["lane_source_text", "place_end_label", "band_pairs", "month_colors", "regimes", "draw_series", "fmt_value", "lane_range", "nice_step", "axis_values", "axis_range_note", "column_date", "record_points", "projection_dots", "source_lines", "source_line_boxes", "record_ids", "segments", "source_line", "value_text", "value_y"]
