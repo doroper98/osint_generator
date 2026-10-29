@@ -9,7 +9,7 @@ stage_reason: null
 stage_config:
   timeline:
     start: '2025-06-01'
-    end: '2031-03-31'
+    end: '2028-12-31'
     lanes:
     - id: policy_rate
       label: 연방기금 목표 범위 · 실효금리
