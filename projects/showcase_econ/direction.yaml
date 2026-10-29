@@ -291,7 +291,8 @@ events:
       sid: act1_5
       text: 2월
   end:
-    scene_end: act1
+    sid: act1_6
+    'off': -0.1
   date: '2026-02-28'
   lane: events
   label: 이란 전쟁 시작
