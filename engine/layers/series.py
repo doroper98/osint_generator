@@ -275,7 +275,8 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
         front = float(fr[min(len(fr) - 1, max(0, int(t * FPS)))])
     col = C[e["col"]]
     mcol = month_colors(e, R)   # v4.4.0 D-0091 ② — None 이면 한 색(기존 그대로)
-    fx = view.to_screen(front, 0.0)[0] if front != math.inf else view.right
+    pr = plot_right(ctx, view, stage, e["lane"], rng, rec.unit)   # v7.4.0 — 오른쪽 축 값 라벨 열은 선·띠·점이 들어가지 않는 예약 열
+    fx = min(pr, view.to_screen(front, 0.0)[0] if front != math.inf else view.right)
     ctx.save()
     ctx.rectangle(view.ox, view.oy, max(0.0, fx - view.ox), stage.area_bottom + TIMELINE.series.clip_below_px)
     ctx.clip()
@@ -311,10 +312,10 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
             if x <= front:
                 last = (x, y, v)
     ctx.restore()
-    _draw_missing(ctx, view, stage, rec, e, front, a)
+    _draw_missing(ctx, view, stage, rec, e, front, a, pr)
     if last is not None and not (e["style"] == "band" and e.get("lane_n", 1) > 1):   # v7.4.0 D-0256 — 다른 계열과 한 레인이면 띠는 끝값 라벨 없음(상·하한은 띠가 보여 준다)
         sx, sy = view.to_screen(last[0], last[1])
-        if view.ox + S.value_min_x <= sx <= view.right:
+        if view.ox + S.value_min_x <= sx <= pr:
             tip = col if mcol is None else mcol[_month_of(stage, last[0], rec)]
             ctx.arc(sx, sy, S.tip_r, 0, 2 * math.pi)
             ctx.set_source_rgba(*tip, a)
@@ -380,11 +381,14 @@ def _draw_projection(ctx: cairo.Context, R: "RenderCtx", view: "View", stage: "T
     band_start = date(d0.year + d0.month // MONTHS, d0.month % MONTHS + 1, 1)
     bx0, _ = view.to_screen(stage.x_of(band_start), 0.0)
     bx1, _ = view.to_screen(stage.bounds[2], 0.0)
+    pr = plot_right(ctx, view, stage, e["lane"], rng, rec.unit)   # 축 값 라벨 예약 열 — 띠·점·열 이름이 들어가지 않는다
     ctx.save()
     if getattr(stage, "frame", None) is not None:
         ctx.rectangle(*stage.frame)
         ctx.clip()
-    ctx.rectangle(max(view.ox, bx0), top, max(0.0, min(view.right, bx1) - max(view.ox, bx0)), bot - top)
+    ctx.rectangle(view.ox, view.oy, max(0.0, pr - view.ox), stage.area_bottom + TIMELINE.series.clip_below_px)
+    ctx.clip()
+    ctx.rectangle(max(view.ox, bx0), top, max(0.0, min(pr, bx1) - max(view.ox, bx0)), bot - top)
     ctx.set_source_rgba(*rgb, P.band_alpha * a)
     ctx.fill()
     for i, label, x, pts, my in projection_dots(stage, e, rec, rng):
@@ -525,7 +529,8 @@ def _next_month(d: date) -> date:
     return date(d.year + d.month // MONTHS, d.month % MONTHS + 1, 1)
 
 
-def _draw_missing(ctx: cairo.Context, view: "View", stage: "TimelineStage", rec: object, e: dict, front: float, a: float) -> None:
+def _draw_missing(ctx: cairo.Context, view: "View", stage: "TimelineStage", rec: object, e: dict, front: float, a: float,
+                  right: float) -> None:
     """빈 달 자리 표시(D-0086 보정 1) — 짧은 점선 + "자료 없음"."""
     M = TIMELINE.missing_mark  # noqa: N806
     lo_y, hi_y = stage.lane_y(e["lane"])
@@ -535,7 +540,7 @@ def _draw_missing(ctx: cairo.Context, view: "View", stage: "TimelineStage", rec:
             continue
         sx, top = view.to_screen(x, hi_y)
         _, bot = view.to_screen(x, lo_y)
-        if not 0 <= sx <= view.vw:
+        if not 0 <= sx <= right:
             continue
         ctx.set_dash(M.dash)
         ctx.move_to(sx, top + M.inset_px)
@@ -566,6 +571,14 @@ def _draw_axis(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
         if v in labeled:   # v7.4.0 D-0268 §2 — 라벨 간격이 axis_label_min_gap_px 미만인 중간 눈금은 선만
             text(ctx, fmt_value(v, unit), view.right - S.axis_label_margin_px, sy + S.axis_label_dy, S.axis_label_size, S.axis_label_font,
                  C["muted"], a, S.axis_label_halo, "r")
+
+
+def plot_right(ctx: cairo.Context, view: "View", stage: "TimelineStage", lane: str, rng: tuple[float, float], unit: str) -> float:
+    """자료를 그리는 영역의 오른쪽 끝(화면 x) — 그 오른쪽은 축 값 라벨 예약 열(v7.4.0 감독 지시: 선이 "3.5%" 를 가로질렀다).
+    열 폭 = 가장 긴 눈금 라벨 + 양옆 axis_label_margin_px. 시간 축척(x_of)은 그대로 — 열 안의 선·띠·점만 잘린다(UF-138 w 고정)."""
+    S = TIMELINE.series  # noqa: N806
+    w = max((tw(ctx, fmt_value(v, unit), S.axis_label_size, S.axis_label_font) for v in axis_values(rng)), default=0.0)
+    return view.right - w - 2 * S.axis_label_margin_px
 
 
 def axis_label_items(ctx: cairo.Context, view: "View", stage: "TimelineStage", lane: str, rng: tuple[float, float], unit: str,

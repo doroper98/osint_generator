@@ -228,5 +228,36 @@ class EndLabelVsTickTest(unittest.TestCase):
         self.assertLess(len(drawn), len(ticks)) if nb == by else self.assertEqual(len(drawn), len(ticks))
 
 
+class AxisLabelColumnTest(unittest.TestCase):
+    """v7.4.0 — 감독 지시(R-0273 관찰): 금리 선이 오른쪽 축 눈금 라벨 "3.5%" 를 가로질렀다. 축 값 라벨 열은 예약 열 — 선이 들어가지 않는다."""
+
+    def test_line_end_left_of_label_column(self) -> None:
+        import cairo  # noqa: PLC0415
+
+        from engine.layers.series import axis_label_boxes, draw_series, plot_right  # noqa: PLC0415
+        from engine.projection import View  # noqa: PLC0415
+        from engine.style import C  # noqa: PLC0415
+
+        st = _stage("2025-01-01")
+        P = _P(st, center="2026-06-20", w=150.0)   # noqa: N806 — 자료 끝(2026-08 달의 끝)이 라벨 열 안에 오는 자리
+        v = View(st, P.cams[0])
+        surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, int(v.ox + v.vw) + 1, int(v.oy + v.vh) + 1)
+        ctx = cairo.Context(surf)
+        rng = P.R.cache["series_range"]["policy_rate"]
+        pr = plot_right(ctx, v, st, "policy_rate", rng, "%")
+        self.assertLess(pr, min(b[0] for b in axis_label_boxes(ctx, v, st, "policy_rate", rng, "%")))
+        e = {"type": "series", "lane": "policy_rate", "series_id": "FEDFUNDS", "style": "step", "col": "amber", "grow": False,
+             "axis": False, "slot": 1, "t0": 0.0, "t1": 9.0, "lane_n": 1}
+        draw_series(ctx, P.R, v, 4.0, e)
+        surf.flush()
+        a = np.ndarray((surf.get_height(), surf.get_stride() // 4, 4), np.uint8, surf.get_data())[:, :surf.get_width()]
+        rgb = np.array([round(c * 255) for c in C["amber"]])
+        hit = np.abs(a[..., 2::-1][..., :3].astype(int) - rgb).max(axis=2) < 40
+        hit &= a[..., 3] > 200
+        xs = np.nonzero(hit.any(axis=0))[0]
+        self.assertGreater(len(xs), 0)
+        self.assertLess(xs.max(), pr + 1)   # 선 끝 x < 라벨 열 x
+
+
 if __name__ == "__main__":
     unittest.main()
