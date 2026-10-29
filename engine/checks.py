@@ -1532,17 +1532,29 @@ def timeline_cover_box(P, ctx: cairo.Context, e: dict, t: float) -> "list[tuple]
 def series_lane_rects(P, t: float) -> list[tuple[str, tuple]]:  # noqa: ANN001, N803
     """시각 t 에 레코드가 그려지는 시리즈 레인의 화면 상자 — x = 틀 좌우, y = 레인 띠(시간축 주 무대에 틀이 있을 때만)."""
     st = P.R.stage
-    if st.name != "timeline" or getattr(st, "frame", None) is None:
+    if st.name == "timeline":
+        if getattr(st, "frame", None) is None:
+            return []
+        lanes = list(dict.fromkeys(e["lane"] for e in P.events if e.get("type") == "series" and e.get("lane") and e["t0"] <= t <= e["t1"]))
+        if not lanes:
+            return []
+        fx, _, fw, _ = st.frame
+        v = View(st, P.cams[min(P.n_frames - 1, max(0, int(t * FPS)))])
+        return [(ln, (fx, st.lane_screen(v, st.lane_index(ln))[0], fx + fw, st.lane_screen(v, st.lane_index(ln))[1])) for ln in lanes]
+    chart = (getattr(P.R, "cache", None) or {}).get("island_chart")   # v7.4.0 — 차트 아일랜드도 같은 장치(C12 §3, UF-129)
+    isl = next((e for e in P.events if e.get("type") == "island" and e.get("kind") == "chart" and e["t0"] <= t <= e["t1"]), None)
+    if not chart or isl is None:
         return []
-    lanes = list(dict.fromkeys(e["lane"] for e in P.events if e.get("type") == "series" and e.get("lane") and e["t0"] <= t <= e["t1"]))
-    if not lanes:
-        return []
-    fx, _, fw, _ = st.frame
-    v = View(st, P.cams[min(P.n_frames - 1, max(0, int(t * FPS)))])
+    from engine.island import chart_view, island_box  # noqa: PLC0415
+
+    bx, by, bw, bh = island_box(isl)
+    cst = chart["stage"]
+    v = chart_view(chart, t, (bx, by, bw, bh))
+    lanes = list(dict.fromkeys(e["lane"] for e in chart["events"] if e.get("type") == "series" and e.get("lane") and e["t0"] <= t <= e["t1"]))
     out = []
     for ln in lanes:
-        top, bot = st.lane_screen(v, st.lane_index(ln))
-        out.append((ln, (fx, top, fx + fw, bot)))
+        top, bot = cst.lane_screen(v, cst.lane_index(ln))
+        out.append((ln, (bx, by + top, bx + bw, by + bot)))
     return out
 
 
@@ -1551,7 +1563,7 @@ def timeline_lanes_covered(P, boxes: "Callable[[dict, float], list[tuple] | None
     qa_checks.card_over_panel.timeline_frame_cover_types, 시간 겹침 > min_overlap_sec 이면 보고. 사건 레인(레코드 없음)은 허용.
     boxes(e, t) = 덮개 제자리 상자(기본 timeline_cover_box)."""
     cfg = R_.qa_checks.card_over_panel
-    if cfg is None or not cfg.timeline_frame_cover_types or P.R.stage.name != "timeline" or getattr(P.R.stage, "frame", None) is None:
+    if cfg is None or not cfg.timeline_frame_cover_types or chart_world(P) is None:
         return []
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
     pad = cfg.panel_pad_px
@@ -2367,15 +2379,27 @@ def chart_text_boxes(stage, v: View, events: list[dict], t: float, rng: dict, dx
 FLAT_LANE_STEP_SEC = 0.5   # 카메라가 보여 준 날짜 구간 표본 간격
 
 
-def visited_dates(st, P) -> "tuple[date, date] | None":  # noqa: ANN001, N803
-    """영상 동안 카메라가 화면에 보여 준 날짜 구간(시간축 주 무대) — 프레임 표본의 보이는 x 범위 합."""
+def chart_world(P) -> "tuple[object, object, list[dict]] | None":  # noqa: ANN001, N803
+    """시간축 세계 (무대, 카메라 배열, 시간축 이벤트) — 시간축 주 무대, 아니면 차트 아일랜드(v7.4.0 — 같은 장치를 두 경로에, C12 §3)."""
+    st = P.R.stage
+    if st.name == "timeline":
+        return st, P.cams, P.events
+    chart = (getattr(P.R, "cache", None) or {}).get("island_chart")
+    if chart:
+        return chart["stage"], chart["cams"], chart["events"]
+    return None
+
+
+def visited_dates(st, P, cams=None) -> "tuple[date, date] | None":  # noqa: ANN001, N803
+    """영상 동안 카메라가 화면에 보여 준 날짜 구간 — 프레임 표본의 보이는 x 범위 합(cams 없으면 주 무대 카메라)."""
     from datetime import timedelta  # noqa: PLC0415
 
-    if P.cams is None:
+    cams = P.cams if cams is None else cams
+    if cams is None:
         return None
     xs0, xs1 = math.inf, -math.inf
-    for i in range(0, P.n_frames, max(1, int(FLAT_LANE_STEP_SEC * FPS))):
-        v = View(st, P.cams[i])
+    for i in range(0, len(cams), max(1, int(FLAT_LANE_STEP_SEC * FPS))):
+        v = View(st, cams[i])
         xs0, xs1 = min(xs0, v.x0), max(xs1, v.x0 + v.w)
     if xs0 == math.inf:
         return None
@@ -2388,14 +2412,15 @@ def flat_lanes(P) -> list[tuple[str, float, tuple[float, float]]]:  # noqa: ANN0
     from data.series import load_series  # noqa: PLC0415
     from engine.layers.series import record_ids  # noqa: PLC0415
 
-    st = P.R.stage
+    world = chart_world(P)
     rng = P.R.cache.get("series_range") or {}
-    if st.name != "timeline" or not rng:
+    if world is None or not rng:
         return []
-    span = visited_dates(st, P)
+    st, cams, events = world
+    span = visited_dates(st, P, cams)
     out = []
     for lane, (lo, hi) in rng.items():
-        vs = [v for e in P.events if e.get("type") == "series" and e.get("lane") == lane for sid in record_ids(e)
+        vs = [v for e in events if e.get("type") == "series" and e.get("lane") == lane for sid in record_ids(e)
               for d, v in load_series(sid).values if span is None or span[0] <= d <= span[1]]
         if not vs or hi <= lo:
             continue

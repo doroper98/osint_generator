@@ -73,5 +73,37 @@ class LaneRangeFitTest(unittest.TestCase):
         self.assertEqual(lane_range(SER, "policy_rate", _stage("2019-01-01"))[0], 0.0)   # 데이터 최소 0.05 ≥ 0 → 아래 끝 0
 
 
+class IslandPathTest(unittest.TestCase):
+    """v7.4.0 — 차트 아일랜드(사진 배경 + 시간축 차트) 경로에도 같은 장치(C12 §3): [flat-lane](UF-140)·시리즈 레인 덮개(UF-129).
+    showcase_econ 연출 v4(backdrop + island)에서 금리 선이 0~7.5% 레인에 평평하게 그려지고 점도표가 차트를 덮었는데 두 검사가 돌지 않았다."""
+
+    def _P(self, start: str) -> NS:  # noqa: N802
+        from engine.island import island_box  # noqa: PLC0415
+
+        cst = TimelineStage(config={"start": start, "end": "2026-12-31",
+                                    "lanes": [{"id": "policy_rate", "label": "연방기금금리", "kind": "step", "unit": "%"},
+                                              {"id": "events", "label": "사건", "kind": "pins"}]})
+        box = island_box({"box": "left"})
+        cst.fit_island(box[3], ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)
+        cams = np.tile(np.array([cst.x_of("2025-12-15"), 1.0, 400.0]), (24 * 10, 1))
+        isl = {"type": "island", "kind": "chart", "box": "left", "t0": 0.0, "t1": 9.0}
+        chart = {"stage": cst, "cams": cams, "events": SER}
+        return NS(R=NS(stage=NS(name="backdrop"), cache={"island_chart": chart, "series_range": {"policy_rate": lane_range(SER, "policy_rate", cst)}}),
+                  cams=None, n_frames=24 * 10, events=[isl])
+
+    def test_flat_lane_on_island(self) -> None:
+        self.assertEqual(len(checks.check_flat_lane(self._P("2019-01-01"))), 1)
+        self.assertEqual(checks.check_flat_lane(self._P("2025-01-01")), [])   # 무대를 보이는 구간 쪽으로 — 3.63~4.33 / 3~5% = 0.35
+
+    def test_cover_on_island_series_lane(self) -> None:
+        P = self._P("2025-09-01")
+        P.events.append({"type": "primitive", "id": "dot_plot", "tag": "점도표", "t0": 2.0, "t1": 6.0})
+        rects = checks.series_lane_rects(P, 3.0)
+        self.assertEqual([r[0] for r in rects], ["policy_rate"])
+        box = rects[0][1]
+        got = checks.timeline_lanes_covered(P, lambda e, t: [(box[0] + 10, box[1] + 2, box[0] + 80, box[3] - 2)])
+        self.assertEqual([(g[0]["tag"], g[1]) for g in got], [("점도표", "policy_rate")])
+
+
 if __name__ == "__main__":
     unittest.main()
