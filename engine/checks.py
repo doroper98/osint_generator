@@ -2354,7 +2354,7 @@ def chart_text_boxes(stage, v: View, events: list[dict], t: float, rng: dict, dx
     """시간축 세계의 글자 상자(화면 설계 px) — 레인 이름·레인 출처 줄·축 값(그리는 함수와 같은 자리). dx·dy = 아일랜드 상자 원점."""
     import cairo  # noqa: PLC0415
 
-    from engine.layers.series import axis_values, fmt_value, lane_name, source_line_boxes, value_y  # noqa: PLC0415
+    from engine.layers.series import axis_label_values, fmt_value, lane_name, source_line_boxes, value_y  # noqa: PLC0415
     from engine.typography import tw  # noqa: PLC0415
 
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
@@ -2375,7 +2375,7 @@ def chart_text_boxes(stage, v: View, events: list[dict], t: float, rng: dict, dx
         from data.series import load_series  # noqa: PLC0415
 
         unit = load_series(e["series_id"]).unit
-        for val in axis_values(r):   # v7.4.0 D-0263 — 끝 + 중간 눈금(그리기와 같은 값)
+        for val in axis_label_values(v, stage, e["lane"], r):   # v7.4.0 D-0263·D-0268 — 라벨을 단 축 값만(그리기와 같은 값)
             _, sy = v.to_screen(0.0, value_y(stage, e["lane"], r, val))
             s = fmt_value(val, unit)
             x1 = v.right - S.axis_label_margin_px

@@ -1959,6 +1959,7 @@ class TimelineSeries(_Strict):
     axis_label_size: float
     axis_label_font: str
     axis_label_halo: float
+    axis_label_min_gap_px: float = Field(gt=0)   # v7.4.0 D-0268 §2 — 축 값 라벨 사이 화면 간격 하한. 미만이면 중간 라벨 생략(눈금선만)
     source_dy: float
     source_step: float
     source_size: float
@@ -2093,6 +2094,7 @@ class IslandChart(_Strict):
     pad_top: float = Field(ge=0)
     pad_bottom: float = Field(ge=0)
     label_flip_pad: float = Field(ge=0)   # v5.2.0 D-0133 §1 — 아일랜드 마커 라벨 ↔ 상자 가장자리 여백(넘으면 반대쪽, 그래도 넘으면 클램프)
+    lane_h_max: float = Field(gt=0)   # v7.4.0 D-0269 — 아일랜드 시간축 레인 높이 상한(fit_island 만, 주 무대 stage_timeline.lane_h 와 독립)
 
 
 class CascadeFrontRules(_Strict):

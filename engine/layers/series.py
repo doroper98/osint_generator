@@ -551,6 +551,7 @@ def _draw_axis(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
     if not e["axis"]:
         return
     S = TIMELINE.series  # noqa: N806
+    labeled = set(axis_label_values(view, stage, e["lane"], rng))
     for v in axis_values(rng):   # v7.4.0 D-0263 — 끝 + 중간 눈금
         _, sy = view.to_screen(0.0, value_y(stage, e["lane"], rng, v))
         ctx.move_to(view.ox, sy)
@@ -558,8 +559,22 @@ def _draw_axis(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
         ctx.set_source_rgba(*C["white"], (S.zero_alpha if v == 0 else S.grid_alpha) * a)
         ctx.set_line_width(S.grid_w)
         ctx.stroke()
-        text(ctx, fmt_value(v, unit), view.right - S.axis_label_margin_px, sy + S.axis_label_dy, S.axis_label_size, S.axis_label_font,
-             C["muted"], a, S.axis_label_halo, "r")
+        if v in labeled:   # v7.4.0 D-0268 §2 — 라벨 간격이 axis_label_min_gap_px 미만인 중간 눈금은 선만
+            text(ctx, fmt_value(v, unit), view.right - S.axis_label_margin_px, sy + S.axis_label_dy, S.axis_label_size, S.axis_label_font,
+                 C["muted"], a, S.axis_label_halo, "r")
+
+
+def axis_label_values(view: "View", stage: "TimelineStage", lane: str, rng: tuple[float, float]) -> list[float]:
+    """라벨을 다는 축 값(v7.4.0 back_and_forth D-0268 §2) — 위·아래 끝은 늘, 중간 눈금은 앞 라벨·위 끝 라벨과 화면 간격이
+    rules stage_timeline.series.axis_label_min_gap_px 이상일 때만. 그리기와 검사([chart-edge-bleed])가 같이 쓴다."""
+    gap = TIMELINE.series.axis_label_min_gap_px
+    vals = axis_values(rng)
+    ys = {v: view.to_screen(0.0, value_y(stage, lane, rng, v))[1] for v in vals}
+    out = [vals[0]]
+    for v in vals[1:-1]:
+        if abs(ys[v] - ys[out[-1]]) >= gap and abs(ys[vals[-1]] - ys[v]) >= gap:
+            out.append(v)
+    return out + [vals[-1]]
 
 
 def source_lines(ctx: cairo.Context, view: "View", s: str) -> list[str]:
@@ -599,4 +614,4 @@ def _draw_source(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: di
         text(ctx, ln, x, y, S.source_size, S.source_font, C["muted"], a, S.source_halo, "l")
 
 
-__all__ = ["lane_source_text", "place_end_label", "band_pairs", "month_colors", "regimes", "draw_series", "fmt_value", "lane_range", "nice_step", "axis_values", "axis_range_note", "column_date", "record_points", "projection_dots", "source_lines", "source_line_boxes", "lane_source_join", "projection_tag_lines", "record_ids", "segments", "source_line", "value_text", "value_y"]
+__all__ = ["lane_source_text", "place_end_label", "band_pairs", "month_colors", "regimes", "draw_series", "fmt_value", "lane_range", "nice_step", "axis_values", "axis_range_note", "column_date", "record_points", "projection_dots", "source_lines", "source_line_boxes", "lane_source_join", "projection_tag_lines", "axis_label_values", "record_ids", "segments", "source_line", "value_text", "value_y"]

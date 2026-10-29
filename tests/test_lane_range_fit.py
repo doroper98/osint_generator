@@ -154,5 +154,45 @@ class IslandPinCollisionTest(unittest.TestCase):
         self.assertIn("island_pin_collision", checks.HARD)
 
 
+class IslandLeftTallTest(unittest.TestCase):
+    """v7.4.0 back_and_forth D-0268 — left_tall 상자(레인 둘이면 금리 값 영역 ≥ 60px). 기존 left·center·right 는 그대로."""
+
+    def test_left_tall_value_area(self) -> None:
+        x, y, w, h = ISLAND.boxes["left_tall"]
+        self.assertEqual((x, y, w, h), (24, 52, 540, 344))
+        self.assertEqual(ISLAND.boxes["left"][3], 298)
+        S = TIMELINE.series  # noqa: N806
+        lane = (h - ISLAND.chart.pad_top - ISLAND.chart.pad_bottom) / 2
+        self.assertGreaterEqual(min(lane, ISLAND.chart.lane_h_max) * (1 - S.lane_pad_top - S.lane_pad_bottom), 60)
+
+    def test_island_cap_independent_of_main_stage(self) -> None:
+        """D-0269 — 아일랜드 레인 상한(island.chart.lane_h_max)은 fit_island 만, 주 무대(stage_timeline.lane_h) 와 독립."""
+        cfg = {"start": "2025-06-01", "end": "2026-12-31", "lanes": [{"id": "policy_rate", "label": "금리", "kind": "step", "unit": "%"},
+                                                                     {"id": "events", "label": "기록", "kind": "pins"}]}
+        isl = TimelineStage(config=cfg)
+        isl.fit_island(ISLAND.boxes["left_tall"][3], ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)
+        main = TimelineStage(config=cfg)
+        self.assertEqual(isl.y_px_per_unit, ISLAND.chart.lane_h_max)
+        self.assertEqual(main.y_px_per_unit, TIMELINE.lane_h)
+        self.assertGreater(ISLAND.chart.lane_h_max, TIMELINE.lane_h)
+
+    def test_ticks_half_step_and_label_skip(self) -> None:
+        """D-0268 §2 — ticks_max 3: 범위 2%p 는 간격 0.5(4 구간). 라벨 간격이 axis_label_min_gap_px 미만이면 중간 라벨 생략."""
+        from engine.layers.series import axis_label_values, nice_step  # noqa: PLC0415
+
+        self.assertEqual(LR.ticks_max, 3)
+        self.assertEqual(nice_step(2.0), 0.5)
+        self.assertEqual(axis_values((3.0, 5.0)), [3.0, 3.5, 4.0, 4.5, 5.0])
+        st = _stage("2025-01-01")
+        v = _P(st).cams[0]
+        from engine.projection import View  # noqa: PLC0415
+
+        view = View(st, v)
+        labs = axis_label_values(view, st, "policy_rate", (3.0, 5.0))
+        self.assertEqual((labs[0], labs[-1]), (3.0, 5.0))
+        ys = [view.to_screen(0.0, __import__("engine.layers.series", fromlist=["value_y"]).value_y(st, "policy_rate", (3.0, 5.0), x))[1] for x in labs]
+        self.assertTrue(all(abs(a - b) >= TIMELINE.series.axis_label_min_gap_px for a, b in zip(ys, ys[1:])))
+
+
 if __name__ == "__main__":
     unittest.main()

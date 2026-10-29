@@ -176,10 +176,12 @@ class TimelineStage:
     def fit_island(self, box_h: float, pad_top: float, pad_bottom: float) -> None:
         """차트 아일랜드 뷰포트로 쓴다(v5.1.0 D-0126 Q1·Q2 A). 레인 영역 = 상자 안 [pad_top, box_h − pad_bottom],
         세로 척도 = min(lane_h, 영역 ÷ 레인 수) — 넘침 0(P6), 글자 크기 불변. 무대 인스턴스는 영상당 하나라 한 번만 부른다."""
+        from engine.style import ISLAND  # noqa: PLC0415
+
         self.island = True
         self.area_top = pad_top
         self.area_bottom = box_h - pad_bottom
-        self.y_px_per_unit = min(TIMELINE.lane_h, (self.area_bottom - self.area_top) / self.n)
+        self.y_px_per_unit = min(ISLAND.chart.lane_h_max, (self.area_bottom - self.area_top) / self.n)   # v7.4.0 D-0269 — 아일랜드 상한(주 무대 lane_h 와 독립)
 
     def fit_frame(self, box: "tuple[float, float, float, float]", pad_top: float, pad_bottom: float) -> None:
         """시간축 주 무대를 화면 안쪽 틀(rules stage_timeline.frame) 안에 담는다(v7.4.0 back_and_forth D-0257, UF-137 "금리 차트가 화면

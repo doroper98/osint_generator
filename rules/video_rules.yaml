@@ -1236,6 +1236,7 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     axis_label_size: 11    # v4.4.0 D-0092 B: 10 → 11
     axis_label_font: mono
     axis_label_halo: 2.5
+    axis_label_min_gap_px: 13   # v7.4.0 D-0268 §2 — 축 값 라벨 사이 하한(글자 11 × 1.2). 미만이면 중간 라벨 생략·눈금선만
     source_dy: 7           # 레인 아래 끝 → 출처·기준 시점 줄 기준선(위로). 같은 레인 n 번째 series 는 source_step 씩 위
     source_step: 12
     source_size: 11        # v4.4.0 D-0092 B: 10 → 11
@@ -1273,7 +1274,7 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     mode: fit
     pad_ratio: 0.12
     nice_mantissas: [1, 2, 2.5, 5]
-    ticks_max: 2
+    ticks_max: 3                 # v7.4.0 D-0268 — 2 → 3(중간 눈금 3 = 4 구간, 간격 0.5 로 범위 2%p — 계단 1.5배)
     min_span: {"%": 1.0, "%p": 1.0, "bp": 50}   # 감독 제안 값(D-0263 §2①) — 사용자 합격 값 아님
     flat_lane_min_ratio: 0.35
     axis_range_note: "축 범위 {lo}~{hi}"
@@ -1452,13 +1453,14 @@ island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) �
     left_tall: [24, 52, 540, 344]   # v7.4.0 back_and_forth D-0268 — 레인 둘이면 금리 값 영역 ≈ 65px(left 는 46px). 위 52 = 날짜 뱃지 밑줄 아래, 아래 396 = 자막 2줄 위. 오른쪽 끝 564 = 카드·사진 열(x ≥ 594) 밖
     right: [290, 56, 540, 298]
   panel_box: [44, 40, 766, 362]   # backdrop 무대 위 패널 상자(패널 본문 x 80~774·제목 기준선 74 를 담고 자막 구역 410 위) — 패널 덮개(panel.cover_alpha) 대신(Q4 A)
-  chart:                   # 차트 아일랜드 안 레인 영역(Q2 A): [pad_top, 상자 높이 − pad_bottom], 세로 척도 = min(stage_timeline.lane_h, 영역 ÷ 레인 수)
+  chart:                   # 차트 아일랜드 안 레인 영역(Q2 A): [pad_top, 상자 높이 − pad_bottom], 세로 척도 = min(lane_h_max, 영역 ÷ 레인 수) — v7.4.0 D-0269 전에는 stage_timeline.lane_h
     pad_top: 34            # 압축 라벨(wave.label_dy −7) 자리
     pad_bottom: 40         # 날짜 눈금 라벨(grid.label_dy 17) 자리
     # v5.2.0 back_and_forth D-0133 §1 — 차트 아일랜드 안 마커 라벨(글자 상자)이 상자 가장자리 − label_flip_pad 를 넘으면 점 반대쪽(오른쪽 → 왼쪽)에 붙이고,
     # 그래도 넘치면 상자 안으로 클램프. 아일랜드 마커에만(지도·시간축 무대 마커 경로 무변경). 기본 = 점 ↔ 라벨 여백(markers._SIDE dx 12)과 같은 값.
     # 그 뒤에도 상자 밖 = checks island_label_clip hard `[island-label-clip]`, 라벨 ↔ 같은 순간 시리즈 출처 줄 교차 = island_label_overlap warning `[island-label-overlap]`
     label_flip_pad: 12
+    lane_h_max: 135   # v7.4.0 back_and_forth D-0269 — 아일랜드 레인 높이 상한(세로 척도 = min(이 값, 영역 ÷ 레인 수)). 주 무대 시간축은 stage_timeline.lane_h 96 그대로(골든·틀 무영향)
   # v5.2.0 back_and_forth D-0129 §B(사용자 판정 D113 "차트 없이 블러 배경 + 오른쪽 카드만 나오는 화면이 너무 오래 간다") — 주 아일랜드 상시.
   # checks backdrop_main_missing hard: backdrop 무대에서 main_kinds(chart = island kind chart, 그 밖 = 이벤트 type)가 하나도 보이지 않는 구간 > card_only_max_sec
   # → `[backdrop-main-missing] t0-t1 {n}s`(타이틀·엔딩 카드·기사 구간 제외, provenance backdrop.main_missing[]). 코드는 카드를 기사로 바꾸지 않는다(P8) — 검사 + 문법 + 재연출
