@@ -362,6 +362,8 @@ class MediaBeats(_Strict):
     caption_bar_px: float                    # 사진·영상 캡션 바 높이(14 §4.1) — 배치 점검용
     registry: str                            # v2.5.5 — 미디어 레지스트리 경로(저장소 기준)
     sources_order: list["PhotoSourcePool"] = Field(min_length=1)   # v5.19.0 D-0163 §2 — 사진 소싱 풀 순서(media_fetch search)
+    min_density_per_min: float = Field(gt=0)   # v7.4.0 D-0261(UF-139) — [media-density] hard: (photo+clip+cutout 이벤트) ÷ 영상 분 하한, 사유 통과 없음
+    density_exempt_projects: dict[str, str] = Field(default_factory=dict)   # 회귀 기준 프로젝트(폴더 이름) → 사유. 범위는 시험이 강제(골든·엔진 데모만)
     sources_excluded_licenses: list[str] = Field(default_factory=list)   # 라이선스 이름 조각(NC·ND) — 있으면 탈락
     sources_excluded_mimes: list[str] = Field(default_factory=list)      # v5.21.0 — 문서·도식 mime(pdf·svg) — 통과 수 밖
     inset_preferred_license: str = ""   # v7.4.0 D-0240 후속 — 위성 인셋 기본 라이선스 접두(그 밖은 fallback_reason 필수)

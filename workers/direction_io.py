@@ -139,8 +139,8 @@ def entities_text(pdir: Path) -> str:
 
 _INSET_PREF = load_rules().media_beats.inset_preferred_license
 
-def media_text(pdir: Path | None = None) -> str:
-    """미디어 레지스트리 + (v3.2.0) 이 프로젝트에서 post 카드로 쓸 수 있는 X 게시물(사용자 확인·검증된 것만, 18 §5)."""
+def project_media(pdir: Path | None = None) -> tuple[dict, bool]:
+    """연출 후보 미디어(레지스트리) — 주문(order.yaml)이 있는 프로젝트는 자기 자료만. (항목, 자기 자료만인가)."""
     from engine.media_registry import load_media_registry  # noqa: PLC0415
 
     reg = load_media_registry()
@@ -156,6 +156,26 @@ def media_text(pdir: Path | None = None) -> str:
             urls = {s.url for s in SourcesFile.model_validate_json(spf.read_text(encoding="utf-8")).sources} if spf.exists() else set()
             reg = {mid: a for mid, a in reg.items()
                    if (a.url in urls if a.kind == "article" else bool(a.file) and (pdir / "media" / str(a.file)).exists())}
+    return reg, own
+
+
+VISUAL_MEDIA_KINDS = ("photo", "video", "cutout")   # v7.4.0 D-0261(UF-139) — [media-density] 가 세는 실사(사진·영상·컷아웃)
+
+
+def require_visual_media(pdir: Path) -> list[str]:
+    """[media-none] hard(v7.4.0 back_and_forth D-0261, 사용자 의견 UF-139 "레퍼런스 사진이나 영상 풍부하게") — 연출 후보에 실사(사진·영상·
+    컷아웃)가 하나도 없으면 연출 착수를 거부한다(사유 통과 없음). 실사 id 목록을 돌려준다."""
+    reg, _ = project_media(pdir)
+    ids = [mid for mid, a in reg.items() if a.kind in VISUAL_MEDIA_KINDS]
+    if not ids:
+        raise ValueError(f"[media-none] {pdir.name}: 연출 후보에 사진·영상·컷아웃이 0건 — tools/media_fetch.py search 로 찾아 레지스트리에 등재한 뒤"
+                         " 연출한다(UF-139, 사유로 통과 없음)")
+    return ids
+
+
+def media_text(pdir: Path | None = None) -> str:
+    """미디어 레지스트리 + (v3.2.0) 이 프로젝트에서 post 카드로 쓸 수 있는 X 게시물(사용자 확인·검증된 것만, 18 §5)."""
+    reg, own = project_media(pdir)
     rows = [f"- {mid}: {a.kind} · {a.caption} · {a.file_note}" + (f" · {'·'.join(a.depicts)}" if own and a.kind != "article" else "")
             + (f" · 헤드라인 「{a.headline}」" if a.kind == "article" and a.headline else "")   # v5.6.0 — 어떤 기사인지 보고 고른다
             + (f" · 구간 {a.segment}" if a.segment else "")
@@ -401,4 +421,4 @@ def next_version(pdir: Path, stem: str, suffix: str) -> int:
 
 
 __all__ = ["article_candidates_text", "quote_candidates", "quote_candidates_text", "cards_table", "check_direction", "current_version", "loop_history", "restore_version", "dump_direction_yaml", "entities_text", "event_fields_table", "geo_text", "load_plan", "documents_text", "series_records_text", "stage_text",
-           "media_text", "next_version", "plan_table"]
+           "media_text", "next_version", "plan_table", "project_media", "require_visual_media"]

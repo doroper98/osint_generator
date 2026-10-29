@@ -2089,8 +2089,12 @@ entries:
   quote: 그리고 그래프만 주구장창 보여줄꺼면 내가 영상을 왜만들고 왜보냐. 내가 레퍼런스 사진이나 영상 풍부하게 하란 말은 어디다 팔아먹고 저딴식으로 만드는거야 진짜 이해가 안되네
   quote_kind: verbatim
   category: 미디어 — 사진·영상 하한(재발). UF-27·89·119 장치(media_unused·article_unused·portrait_unused)는 "등재된 것을 안 쓴" 경우만 잡고 "등재 0" 은 못 잡음. photo_target_per_min 미달은 사유만 받고 통과(경고). 네트워크 차단(Flickr)을 이유로 Commons 탐색을 하지 않음
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: media_density}
+  - {kind: rule, ref: media_beats.min_density_per_min}
+  - {kind: test, ref: tests/test_media_density.py::MediaDensityTest::test_below_min_is_hard}
+  - {kind: test, ref: tests/test_media_density.py::MediaDensityTest::test_media_none_refuses_direction}
+  status: guarded
   recurs_of: UF-119
   decision: D-0261(감독 지시 — [media-density] hard, 등재 0 금지, Commons 탐색 의무, econ 연출 재작업) · PIPELINE-AP-025 · DECISIONS D271
   source: 감독 세션(Fable) 사용자 대화 2026-10-29
