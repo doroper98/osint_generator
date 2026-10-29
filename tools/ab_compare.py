@@ -26,6 +26,8 @@ from engine.style import FPS  # noqa: E402
 
 SKIP = {"direction.yaml", "direction.B.yaml", "out", "prev_ab"}   # B 사본에 링크하지 않는 것(prev* 는 아래에서 따로 거른다)
 SHEET_N = 6
+B_EXEMPT = {"media_density": "B 문법에 사진 자리 없음(구조) — 시간축 전면 틀이 화면을 덮는다(D-0272, 비교 구간 전용)"}   # B 사본에서만 hard 로 세지 않는 검사
+SHEET_HEAD = "B: 사진·카드 자리 없음(틀이 화면을 덮음)"   # D-0272 조건 — 시트 머리 한 줄
 SAMPLE_RATE = 44100   # audio.mix 산출 형식(44.1kHz 스테레오 float32)
 SHEET_FONT = "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"   # 검수 시트 글씨(영상 글꼴 아님 — tools/media_fetch 와 같은 파일)
 
@@ -39,6 +41,7 @@ class AbCompare(BaseModel):
     direction_a_sha1: str
     direction_b_sha1: str
     checks_hard: dict[str, int]
+    b_exempt: dict[str, str]
     sheet_times: list[float]
 
 
@@ -77,15 +80,15 @@ def b_project(proj: Path, dst: Path) -> Path:
     return b
 
 
-def preview_hard(proj: Path) -> int:
-    """프리뷰(auto) 검사 hard 수 — 0 이 아니면 비교하지 않는다."""
+def preview_hard(proj: Path, exempt: dict[str, str] | None = None) -> int:
+    """프리뷰(auto) 검사 hard 수(exempt 검사 id 제외) — 0 이 아니면 비교하지 않는다."""
     f = proj / "prev" / "checks.json"
     f.unlink(missing_ok=True)   # 렌더가 검사 전에 죽으면 옛 결과를 읽지 않는다
     r = subprocess.run([sys.executable, "-m", "engine.render", str(proj), "--preview", "auto"], cwd=REPO, capture_output=True, text=True)
     if not f.exists():
         raise SystemExit(f"프리뷰 검사 결과 없음: {proj}\n{r.stdout[-3000:]}\n{r.stderr[-3000:]}")
     chk = json.loads(f.read_text(encoding="utf-8"))
-    return int(chk["hard"])
+    return sum(1 for i in chk["items"] if i["severity"] == "hard" and i["count"] and i["id"] not in (exempt or {}))
 
 
 def clip(proj: Path, mix: Path, t0: float, t1: float, out: Path) -> None:
@@ -115,11 +118,12 @@ def sheet(a: Path, b: Path, times: list[float], t0: float, out: Path) -> None:
         rows.append(pair)
     w, h = rows[0][0].size
     lab = h // 10
-    img = Image.new("RGB", (w * 2, (h + lab) * len(rows)), (16, 16, 16))
+    img = Image.new("RGB", (w * 2, (h + lab) * len(rows) + lab), (16, 16, 16))
     dr = ImageDraw.Draw(img)
     f = ImageFont.truetype(SHEET_FONT, int(lab * 0.6))
+    dr.text((w, lab / 2), f"왼쪽 A · 오른쪽 B    {SHEET_HEAD}", fill=(230, 230, 230), font=f, anchor="mm")
     for i, (ia, ib) in enumerate(rows):
-        y = i * (h + lab)
+        y = lab + i * (h + lab)
         img.paste(ia, (0, y))
         img.paste(ib, (w, y))
         dr.text((w, y + h + lab / 2), f"{times[i]:.1f}초   ← A · B →", fill=(230, 230, 230), font=f, anchor="mm")
@@ -131,6 +135,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("proj", type=Path)
     ap.add_argument("--from", dest="sid0", required=True, help="첫 문장 sid")
     ap.add_argument("--to", dest="sid1", required=True, help="끝 문장 sid")
+    ap.add_argument("--t0", type=float, default=None, help="구간 시작(초) — 없으면 앞 문장과의 틈 가운데")
+    ap.add_argument("--t1", type=float, default=None, help="구간 끝(초) — 없으면 뒤 문장과의 틈 가운데")
     args = ap.parse_args(argv)
     proj = args.proj.resolve()
     for need in ("direction.yaml", "direction.B.yaml", "plan.json", "out/mix.f32"):
@@ -143,11 +149,14 @@ def main(argv: list[str] | None = None) -> int:
         raise SystemExit("--to 가 --from 보다 앞이다")
     pre = ss[i0 - 1]["t1"] if i0 else 0.0   # 앞 문장 끝과 뒤 문장 시작 사이의 가운데에서 자른다(문장 머리·꼬리를 자르지 않는다)
     post = ss[i1 + 1]["t0"] if i1 + 1 < len(ss) else ss[i1]["t1"]
-    t0, t1 = round((pre + ss[i0]["t0"]) / 2, 2), round((ss[i1]["t1"] + post) / 2, 2)
+    t0 = args.t0 if args.t0 is not None else round((pre + ss[i0]["t0"]) / 2, 2)
+    t1 = args.t1 if args.t1 is not None else round((ss[i1]["t1"] + post) / 2, 2)
+    if not (pre <= t0 <= ss[i0]["t0"] and ss[i1]["t1"] <= t1 <= post):
+        raise SystemExit(f"구간 {t0}~{t1} 이 문장 머리·꼬리를 자른다(허용 {pre:.2f}~{ss[i0]['t0']:.2f} · {ss[i1]['t1']:.2f}~{post:.2f})")
     outd = proj / "prev_ab"
     outd.mkdir(exist_ok=True)
     b = b_project(proj, outd / "b")
-    hard = {"A": preview_hard(proj), "B": preview_hard(b)}
+    hard = {"A": preview_hard(proj), "B": preview_hard(b, B_EXEMPT)}
     if any(hard.values()):
         raise SystemExit(f"프리뷰 hard 가 0 이 아니다: {hard} — 두 연출 모두 hard 0 이어야 비교한다(D-0253 조건 ①)")
     clip(proj, proj / "out" / "mix.f32", t0, t1, outd / "A.mp4")
@@ -156,7 +165,8 @@ def main(argv: list[str] | None = None) -> int:
     times = [round(t0 + step * (k + 0.5), 2) for k in range(SHEET_N)]
     sheet(outd / "A.mp4", outd / "B.mp4", times, t0, outd / "sheet.jpg")
     prov = AbProvenance(ab_compare=AbCompare(sentences=sids[i0:i1 + 1], t0=t0, t1=t1, direction_a_sha1=sha1(proj / "direction.yaml"),
-                                             direction_b_sha1=sha1(proj / "direction.B.yaml"), checks_hard=hard, sheet_times=times))
+                                             direction_b_sha1=sha1(proj / "direction.B.yaml"), checks_hard=hard, b_exempt=B_EXEMPT,
+                                             sheet_times=times))
     (outd / "provenance.json").write_text(json.dumps(prov.model_dump(), ensure_ascii=False, indent=1), encoding="utf-8")
     print(json.dumps({"ok": True, "out": str(outd), **prov.model_dump()}, ensure_ascii=False))
     return 0
