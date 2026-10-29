@@ -4,11 +4,11 @@
   "task_id": "director-showcase_econ",
   "worker": "director",
   "status": "completed",
-  "started_at": "2026-10-28T06:32:54.607415Z",
-  "completed_at": "2026-10-28T06:39:01.896683Z",
+  "started_at": "2026-10-29T15:52:18.961031Z",
+  "completed_at": "2026-10-29T15:58:14.853609Z",
   "outputs": [
     "direction.yaml",
-    "llm_calls/llm_20261028_063254_319f.json"
+    "llm_calls/llm_20261029_155218_c0f3.json"
   ],
   "warnings": [],
   "errors": [],
@@ -19,8 +19,8 @@
   "risk_flags": [],
   "worker_provenance": {
     "prompt_name": "director",
-    "prompt_sha1": "9a675fdecc5ff9fbdbaeee776dd1b52d7968fa56",
-    "rules_hash": "9d0e5ead25b51c6bb14491c45981a353e9b91556",
+    "prompt_sha1": "4f002b0c8dff94791ff0629f67ad03afae952f3f",
+    "rules_hash": "e6de7328ab674ce8927acb2050b49133f952ac3f",
     "genre": "macro_monetary",
     "genre_declared": true
   }
