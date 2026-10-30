@@ -1090,11 +1090,11 @@ events:
 - type: clip
   start:
     sid: act3_4
-    'off': 0.2
+    'off': 0.6
   end:
     sid: act3_4
     'off':
-    - 0.2
+    - 0.6
     - 5.0
   mid: niovi
   role: broll

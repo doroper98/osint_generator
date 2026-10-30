@@ -23,6 +23,9 @@ last_review: 2026-09-30
 >
 > **자산 보관 (v5.6.0, PIPELINE-AP-016)**: 초상·휘장 등 이번 영상에서 만든 자산은 콘티 판 전에
 > `python tools/asset_library.py promote projects/{pid}` 로 공용 자산에 올린다(`check` = 0). 다음 영상은 공용 자산을 먼저 쓴다.
+>
+> **렌더 중 규칙·엔진 변경 금지 (v7.4.0, back_and_forth D-0284 — R-0287 사고).** 콘티 판·프리뷰·전편·카탈로그 렌더가 도는 동안
+> `rules/`·`schemas/`·`engine/`·`audio/`·`config.yaml` 을 고치지 않는다. 청크 프로세스가 늦게 시작하면 바뀐 규칙을 옛 스키마로 읽어 조각이 실패한다(showcase_geo 콘티 판 v2 첫 렌더). 렌더가 끝난 뒤 고치고 다시 렌더한다.
 
 용어: **콘티 판** = animatic(animation + -matic). 1930년대 디즈니가 스토리보드를 찍어 음성과 함께 틀어 본 "Leica reel"이 원형이고,
 광고·애니메이션 업계가 1970년대부터 animatic 이라 불렀다. "콘티"는 일본어 コンテ(continuity 의 축약)에서 왔다.
