@@ -497,10 +497,20 @@ class EndCardVersionStamp(_Strict):
     dy: float = Field(gt=0)
 
 
+class EndCardTemplateLine(_Strict):
+    """v7.4.0 UF-147(D-0302 ⑤) — 템플릿 표시 줄(엔딩 카드 머리 줄 오른쪽 · 타이틀 부제 앞)."""
+
+    size: float = Field(gt=0)
+    y: float = Field(gt=0)
+    font: str
+    sep: str = Field(min_length=1)
+
+
 class EndCardLayout(_Strict):
     dur_sec: float
     item_size: float
     license_size: float
+    template_line: EndCardTemplateLine      # v7.4.0 UF-147
     notice_unverified: EndCardNotice
     version_stamp: EndCardVersionStamp
     bottom_margin: float = Field(ge=0)   # v4.5.0 D-0098 — 크레딧 마지막 기준선과 하단 구분선(H−44) 사이 최소 여백
@@ -1714,6 +1724,10 @@ class QAChecks(_Strict):
     restate_min_words: int = Field(default=4, ge=1)   # 이 어절 미만 화면 글자(이름표)는 보지 않는다
     # v7.4.0 D-0311 — 회귀 기준 프로젝트 id → 사유, 그리고 hard 만 면제하는 검사 id(검사는 돌고 provenance regression_waived 기록)
     regression_refs: dict[str, str] = Field(default_factory=dict)
+    # v7.4.0 D-0312 §1-1 — [scene-visual-void] hard: 요소 없는 구간 상한(초)·표본 간격·요소로 치는 이벤트 종류
+    visual_void_max_sec: float = Field(default=5.0, gt=0)
+    visual_void_step_sec: float = Field(default=0.1, gt=0)
+    visual_void_types: list[str] = Field(default_factory=list)
     regression_ref_checks: list[str] = Field(default_factory=list)
     ratio_patterns: list[str] = Field(min_length=1)       # v7.4.0 D-0229 §2.6(UF-113) — "N 중 M" 문형(warning ratio_graphic)
     ratio_graphic_kinds: list[str] = Field(min_length=1)  # 그 문장 구간에 있어야 할 패널 종류(series 이벤트도 인정)

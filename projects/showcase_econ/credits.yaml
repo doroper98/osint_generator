@@ -54,9 +54,3 @@ sections:
       - main: 국기
         license: flag-icons · MIT
         rights: [flags.flag_icons]
-  - title: 표기
-    column: 1
-    slot: notice
-    items:
-      - main: 쇼케이스 템플릿 · 경제   # v7.4.0 UF-147(D-0302 ⑤·D-0305 ④) — 템플릿 영상 표시 줄, 고정 표기 줄(geo 와 같은 자리). 타이틀 부제 줄은 template_label merge 뒤
-        rights: []

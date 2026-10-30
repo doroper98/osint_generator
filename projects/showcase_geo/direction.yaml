@@ -1,4 +1,5 @@
 version: 1
+template_label: 쇼케이스 템플릿 · 지경학   # v7.4.0 D-0312 ③(UF-147) — 타이틀 부제 앞·엔딩 카드 머리 줄(코드 조판)
 genre: null
 stage: null
 media_note: 요소 확인용 쇼케이스(D-0251). 연출은 원 프로젝트(diesel_road_2026 v2·hormuz_korea·dmz_mine_2026)

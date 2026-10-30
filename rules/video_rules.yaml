@@ -597,6 +597,10 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     license_size: 7.8
     # v4.5.0 사용자 결정 D85(C9 개정, back_and_forth D-0096) — 검증 라벨은 본문(자막·패널·카드)에 그리지 않고 엔딩 카드 맨 마지막 줄 한 줄로만.
     # n = 영상에 들어간 문장 중 검증 라벨(script_schema.labels)이 붙은 문장 수. n = 0 이면 줄을 그리지 않는다. 문구는 사실만(`{n}` 자리만 코드가 채운다)
+    # v7.4.0 UF-147(D-0302 ⑤, 사용자 "어떤 주제의 템플릿으로 만든 영상인지 알 수 있게 텍스트로") — 장르 template_label 을 엔딩 카드 머리 줄
+    # ("자료 및 출처" 와 같은 기준선, 오른쪽 정렬 — 모서리 아님, C0)과 타이틀 카드 부제 앞("<라벨> · <부제>")에 코드가 조판. 없으면 [template-label-missing] hard
+    # (경제 템플릿 브랜치 e2c37d71 과 같은 값 — D-0312 ③ 으로 쇼케이스에 먼저 옮김. 검사 template_label 은 그 브랜치 merge 로 온다)
+    template_line: {size: 9.2, y: 110, font: sans, sep: " · "}
     notice_unverified: {size: 7.8, dy: 14, template: "확인되지 않은 보도·논평 인용 {n}건 — 출처는 위 목록"}   # size = license_size(가장 작은 글씨), dy = 날짜·안내 줄 기준선 아래
     # v5.1.0 back_and_forth D-0124(사용자 결정 D109) — 오른쪽 아래 구석 버전 도장 "v" + VERSION 파일(렌더 시점, 다른 출처 금지 P3).
     # 설계 px(480p): 오른쪽 끝에서 x_from_right, 아래 끝에서 y_from_bottom(기준선), 오른쪽 정렬. 가장 작은 글씨급·halo 없음·롤에 고정(스크롤에 안 실림).
@@ -1866,6 +1870,11 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # v7.4.0 back_and_forth D-0311 — 회귀 기준(사용자 영상 아님) 한 목록. media_density·chart_only_run·plot_height·axis_empty_band 의 hard 만 면제 —
   # 검사는 돌고 provenance regression_waived 에 줄이 남는다(D-0251·D-0271 예외 원칙). 판정 키 = direction project_id(없으면 폴더 이름) —
   # 합성 사본(tests/test_g8_animatic synthetic_project)도 원본 id 를 연출에 싣고 온다. 범위 = tests/test_regression_refs.py 가 이 둘로 고정
+  # v7.4.0 back_and_forth D-0312 §1-1 — 지도·배경만 보이는 구간(아래 요소 하나도 안 보임)이 이 초 이상이면 [scene-visual-void] hard.
+  # 콜드 오픈(타이틀 카드 전)·타이틀·엔딩 카드·카메라 이동(move) 중은 제외. provenance visual_void 에 구간 목록. 값 = 감독 제안(D-0312)
+  visual_void_max_sec: 5
+  visual_void_step_sec: 0.1
+  visual_void_types: [marker, route, flight, badge, photo, clip, cutout, article, post, quote, panel, island, cascade, primitive, series, boom, ships, tanker_loop, barrier]
   regression_refs:
     hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
     fed_timeline_demo: "시간축 엔진 검증용 데모(배포 영상 아님) — 미디어 없는 순수 차트 픽스처"

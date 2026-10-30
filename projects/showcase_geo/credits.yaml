@@ -125,8 +125,6 @@ sections:
   column: 1
   slot: notice
   items:
-  - main: 쇼케이스 템플릿 · 지경학   # v7.4.0 UF-147(D-0302 ⑤·D-0305 ④) — 템플릿 영상 표시 줄(타이틀 부제 줄은 template_label merge 뒤)
-    rights: []
   - main: 비행 경로·출발 위치는 개략 표현
     license: 51%는 우크라이나 측 발표로 독립 검증 전 · 위성 사진은 피격 전 자료(비공개 시청 한정)
     rights: []
