@@ -2292,3 +2292,14 @@ entries:
   status: open
   decision: D-0309 §5(lane.series_max·레인 3·color_families·끝값 태그 열·dim_others, 보조 축 1 유지 — 장치는 구현 뒤 guards 에)
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
+- id: UF-153
+  date: '2026-10-30'
+  project: samsung_q3_2026
+  at: "경제 템플릿 차트 종류 — agents_reviewer 디자인 시트 §6.4 매트릭스(diverging_bar·bullet·range_bar 덤벨·slope·bump 견본 화면)"
+  quote: 그리고 내가 알려준 경로(https://doroper98.github.io/agents_reviewer/samples/report_design_sheet_v8_6_0.html#s6-4 ) 의 이런 차트들도 적극적으로 고려해볼꺼지?
+  quote_kind: verbatim
+  category: 차트 종류 — bullet·덤벨·diverging·slope·bump 를 실적 템플릿 막에 배정(series 스타일, 독립 패널 금지)
+  guards: []
+  status: open
+  decision: D-0308 §6(배정 표·스케치 목록 갱신 — 장치는 T3 등록 때 guards 에)
+  source: 감독 세션(Fable) 사용자 대화 2026-10-30
