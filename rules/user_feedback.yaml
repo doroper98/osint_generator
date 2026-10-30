@@ -2200,3 +2200,14 @@ entries:
   status: guarded
   decision: D-0281(패턴 13개 추가·examples 17·린트 범위 화면 문자열 전부·tools/slop_check — 테스트·도구는 구현 뒤 guards 추가)
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
+- id: UF-146
+  date: '2026-10-30'
+  project: showcase_geo
+  at: 콘티 판 v2(artifacts f1ed94b, md5 d4801b75) 0~12초 — 랴잔 위성 인셋 원이 등장 뒤 자리를 한 번 옮기고(카메라 이동에 따라 배치 면이 바뀜) 사라짐. 인셋 지름도 작음
+  quote: geo 콘티판 v2 첫 시작에 라쟌 위성사진을 보여주는 동그라미가 한순간 위치를 옮기고 사라져. 위성 사진 크기도 좀 키워야하고 갑자기 위치를 바꿔버리는것도 조정해
+  quote_kind: verbatim
+  category: 위성 인셋 — 자리 점프(배치 면 재평가)·갑작스런 소멸·크기 부족
+  guards: []
+  status: open
+  decision: D-0300(인셋 자리는 등장 때 한 번 정해 고정, 바뀌면 보간 이동만, 퇴장은 페이드, 지름 확대 — 장치는 구현 뒤 guards 에)
+  source: 감독 세션(Fable) 사용자 대화 2026-10-30
