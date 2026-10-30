@@ -1,6 +1,8 @@
 # 『쇼케이스 — 금리 선 위의 1년』 원고 v1 (v7.4.0, back_and_forth D-0251 §6·§7·D-0253 X). 요소·목소리·글꼴 확인용 데모(경제).
 # 사실은 fed_policy_2026 의 claims(intake 이관, id 그대로)와 data/series 레코드(FEDFUNDS·DFEDTARU·DFEDTARL·CPIAUCSL·SEP_20260916)뿐이다(새 사실·새 수치 없음).
 # 원고는 claims 에서 새로 썼다(fed v16 원고를 참고로 넣지 않았다 — D-0253 §1, P9). 무대 = 시간축 한 세계(B, D-0251 §6.1). 비교 장면 A 는 direction.A.yaml(D-0253 §2).
+# v2(v7.4.0, D-0274 §4·D-0275·D-0276): 발언 자리 2곳 — cold_0 뒤 9.16 결정 발언(fed_clip_0916_decision), act2_1 뒤 7.29 표결 발언(fed_clip_0729_vote).
+# 두 앞 문장은 화자·장소만 밝히고 발언 내용을 미리 되풀이하지 않게 고쳤다(rules reference_clip.script). 번역 자막 근거 = claims clm_0019·0020(녹취록 원문).
 schema_version: 1
 title: 쇼케이스 — 금리 선 위의 1년
 subtitle: 연준의 인하·동결·인상을 한 시간축 위에서 — 화면 요소·목소리·글꼴 확인용
@@ -11,10 +13,15 @@ scenes:
   stage: 워싱턴
   sentences:
   - date: 2026.09.16
-    text: 9월 16일, 미국 연준이 기준금리 목표 범위를 0.25%p 올려 3.75~4%로 정했습니다.
-    tts: 구월 십육일, 미국 연준이 기준금리 목표 범위를 영점이오 퍼센트포인트 올려 삼점칠오에서 사 퍼센트로 정했습니다.
-    emphasis: [3.75~4%]
-    sources: [clm_0001]
+    text: 9월 16일, 미국 연준의 워시 의장이 기자회견에서 회의 결과를 발표했습니다.
+    tts: 구월 십육일, 미국 연준의 워시 의장이 기자회견에서 회의 결과를 발표했습니다.
+    emphasis: [워시 의장]
+    sources: [clm_0019]
+    hold_after:
+      mid: fed_clip_0916_decision
+      sec: 16.5
+      subtitle: [방금 끝난 회의에서 FOMC는 연준의 이중 책무를 뒷받침하기 위해, 기준금리 목표 범위를 0.25%p 올려 3.75~4%로 정했습니다.]
+      sources: [clm_0019]
   - date: 2026.09.16
     text: 2023년 이후 첫 금리 인상이었습니다.
     tts: 이천이십삼년 이후 첫 금리 인상이었습니다.
@@ -78,11 +85,15 @@ scenes:
     emphasis: []
     sources: [clm_0005]
   - date: 2026.07.29
-    text: 이날 연준은 금리를 3.5~3.75%로 동결했습니다.
-    tts: 이날 연준은 금리를 삼점오에서 삼점칠오 퍼센트로 동결했습니다.
+    text: 이날 회견에서도 워시 의장이 결과를 직접 밝혔습니다.
     role: intro
-    emphasis: [동결]
-    sources: [clm_0005]
+    emphasis: []
+    sources: [clm_0020]
+    hold_after:
+      mid: fed_clip_0729_vote
+      sec: 15.4
+      subtitle: [아시다시피 오늘 위원회는 9대 3 표결로, 기준금리 목표 범위를 3.5~3.75%로 유지하기로 했습니다.]
+      sources: [clm_0020]
   - date: 2026.07.29
     text: 그런데 결정은 9대 3으로 갈렸습니다.
     tts: 그런데 결정은 구 대 삼으로 갈렸습니다.

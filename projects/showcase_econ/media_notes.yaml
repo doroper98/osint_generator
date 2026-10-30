@@ -1,4 +1,6 @@
 # showcase_econ 미디어 사유(게이트 ① 미디어 계획 표) — 사진은 새로 찾지 않는다(D-0251 §1.4).
 schema_version: 1
 project_photo: 사진 트리거 문장(타격·공습 등)이 없는 금리 영상이다. 쓰는 실사는 미디어 레지스트리 등재본 연준 Flickr PD 6장(에클스 외관·이사회실·아트리움·회견 3장, fed_policy_2026 사용분)뿐이며 시간축 세계 안 사진 자리에 둔다
-sentences: {}
+sentences:
+  cold_0:
+    photo: 고르지 않음 — 발언 자리 앞 문장(v2). 바로 뒤 9.16 회견 영상(fed_clip_0916_decision, 액자 주 요소·원음)이 화면을 채운다(D-0274 §2)
