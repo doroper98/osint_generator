@@ -166,6 +166,10 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
         if bs is not None:
             prov["audio"]["bed_bass"] = {"applied": bs.applied.model_dump(), "ratio_db": {"before": bs.before.ratio_db, "after": bs.after.ratio_db},
                                          "rise_db": bs.rise_db, "swell_at": bs.swell_at, "bands_hz": {"bass": list(bs.bass_band_hz), "mid": list(bs.mid_band_hz)}}
+    ca = P.root / "out" / "clip_audio.json"   # v7.4.0 D-0274 §2③ — 믹서가 클립 원음을 섞었을 때만(전편·콘티 판·카탈로그 판 모두 mix.f32 를 쓴다)
+    if (stages.get("mix") or getattr(P, "animatic", False) or getattr(P, "catalog", False)) and ca.exists() \
+            and any(e["type"] == "clip" for e in P.events):
+        prov["audio"]["clip_audio"] = json.loads(ca.read_text(encoding="utf-8"))["clips"]
     if P.R.credits is not None and any(c.kind == "end" for c in P.plan.cards):   # v4.7.0 D-0106 1-C — 엔딩 카드 롤(없으면 기록 없음)
         from engine.fullcards import credit_place, endcard_roll, notice_reserve, project_credit_sections, version_stamp  # noqa: PLC0415
 

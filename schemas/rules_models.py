@@ -1590,6 +1590,16 @@ class BgmFloor(_Strict):
     n_fft: int = Field(gt=0)
 
 
+class AudioClip(_Strict):
+    """v7.4.0 D-0274 §2③·D-0276 — 클립 원음 트랙 이득(dB)."""
+
+    main_gain_db: float = Field(le=0)
+    broll_gain_db: float = Field(le=0)
+    narration_duck_db: float = Field(le=0)
+    bed_duck_db: float = Field(le=0)
+    duck_fade_sec: float = Field(gt=0)
+
+
 class AudioRules(_Strict):
     bed_gain: float
     bgm_floor: BgmFloor
@@ -1609,6 +1619,7 @@ class AudioRules(_Strict):
     loop_xfade_sec: float
     fade_in_sec: float
     fade_out_sec: float
+    clip: AudioClip
     fx_duck: float
     crossfade_sec: float = Field(gt=0)
     qa: AudioQARules

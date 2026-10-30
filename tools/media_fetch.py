@@ -202,6 +202,17 @@ def process_clip(src: Path, out: Path, a: MediaAsset, offset_sec: float = 0.0, s
     np.save(out, np.frombuffer(raw, np.uint8).reshape(-1, h, w, 3))
 
 
+def process_clip_audio(src: Path, out: Path, a: MediaAsset, offset_sec: float = 0.0) -> None:
+    """클립 원음(v7.4.0 back_and_forth D-0274 §2③) — 영상과 같은 segment 를 44.1kHz 스테레오 16bit wav 로. 음성 트랙이 없으면 오류(P6)."""
+    from audio.mix import SR  # noqa: PLC0415
+
+    t0, t1 = (x + offset_sec for x in a.segment)
+    r = subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{t0}", "-t", f"{t1 - t0}", "-i", str(src), "-vn", "-ac", "2",
+                        "-ar", str(SR), "-c:a", "pcm_s16le", str(out)], capture_output=True, text=True)
+    if r.returncode != 0 or not out.exists() or out.stat().st_size < 1000:
+        raise MediaFetchError(f"클립 원음 추출 실패 {a.title}: {r.stderr[-400:]}")
+
+
 def thumbsheet(src: Path, out: Path, mid: str, segment: tuple[float, float] | None = None) -> list[float]:
     """영상 전체에서 12장(시각 표시) — 사람이 사용 구간을 고르는 검수 시트(14 §10.3-3). 사용 구간은 초록 테두리."""
     dur = probe_duration(src)
@@ -324,6 +335,9 @@ def run(proj: Path, only: list[str] | None = None, sheets: bool = True, registry
                 name_ = f"{a.file}_480.npy" if res is None else f"res_{res}/{a.file}.npy"
                 process_clip(src, media / name_, a, var.offset_sec if var is not None else 0.0, clip_scale)
                 files = [name_]
+                if res is None:   # v7.4.0 D-0274 §2③ — 같은 segment 의 원음(믹서 클립 트랙)
+                    process_clip_audio(src, media / f"{a.file}_clip.wav", a, var.offset_sec if var is not None else 0.0)
+                    files.append(f"{a.file}_clip.wav")
                 if sheets and res is None:
                     thumbsheet(src, media / f"thumbsheet_{mid}.jpg", mid, a.segment)
                     files.append(f"thumbsheet_{mid}.jpg")

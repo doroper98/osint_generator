@@ -1118,6 +1118,10 @@ audio:                     # 10
   loop_xfade_sec: 4.0       # BGM 반복 교차 페이드
   fade_in_sec: 1.2
   fade_out_sec: 4.0
+  # v7.4.0 back_and_forth D-0274 §2③·D-0276(사용자 의견 UF-141 "영상에 대한 목소리도 들리도록 해") — 클립 원음 트랙(audio.mix). 원음은 가공 단계에서
+  # 레지스트리 segment 그대로 media/<file>_clip.wav(44.1kHz 스테레오)로 뽑고, 피크를 narration_peak 에 맞춘 뒤 이 이득. main(발언·현장, 액자) 구간은
+  # 음악 베드를 bed_duck_db 만큼 낮춘다(bed_gain 0.43 불변). 내레이션이 겹치는 동안 클립은 narration_duck_db 만큼 더 낮춘다(broll 은 내레이션 아래).
+  clip: {main_gain_db: 0, broll_gain_db: -18, narration_duck_db: -18, bed_duck_db: -18, duck_fade_sec: 0.3}
   fx_duck: 0.25             # 효과음 덕킹 깊이
   qa:                       # v3.4.0 D-0060 작업 6 — 오디오 QA(audio/qa.py, 검사기 하나). 13 Phase 8·10 §7-5
     i_tol_lu: 1.0                          # 최종 통합 음량 = loudnorm.I ± 이 값

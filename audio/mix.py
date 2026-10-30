@@ -27,6 +27,7 @@ from rules import load_rules
 from script.schema import Plan
 
 SR = 44100               # 코덱 상수(ffmpeg -ar) — rules audio.sample_rate 와 같아야 한다(테스트)
+PCM16 = float(np.iinfo(np.int16).max + 1)   # 16bit wav → [-1, 1)(클립 원음, tools/media_fetch pcm_s16le)
 AU = load_rules().audio  # 수치 SSOT(D-0060 §0, 15 P3) — 값은 v3 그대로
 FX = AU.sfx
 REPO = Path(__file__).resolve().parent.parent
@@ -39,6 +40,46 @@ class Cue(BaseModel):
     t: float
     v: float = 1.0
     dur: float | None = None   # whoosh 길이
+
+
+class ClipTrack(BaseModel):
+    """클립 원음 한 토막(v7.4.0 back_and_forth D-0274 §2③) — 이벤트 시각·역할과 원음 표본(N×2, SR)."""
+    model_config = ConfigDict(extra="forbid", arbitrary_types_allowed=True)
+
+    mid: str
+    role: str            # main | broll
+    t0: float
+    t1: float
+    pcm: np.ndarray
+
+
+def db(x: float) -> float:
+    return float(10 ** (x / 20))
+
+
+def clip_track(clips: list[ClipTrack], n: int, duck: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """(클립 트랙 N×2, main 구간 표시 0~1). 피크 = narration_peak × 역할 이득, 양 끝 duck_fade_sec 페이드,
+    내레이션 덕킹 포락선(duck)만큼 narration_duck_db 로 더 낮춘다. 표시는 베드 덕킹(bed_duck_db)용 — 같은 페이드로 부드럽게."""
+    C = AU.clip  # noqa: N806
+    out = np.zeros((n, 2), np.float32)
+    main = np.zeros(n, np.float32)
+    fn = max(1, int(C.duck_fade_sec * SR))
+    for c in clips:
+        i0 = int(c.t0 * SR)
+        m = min(len(c.pcm), int((c.t1 - c.t0) * SR), n - i0)
+        if m <= 0:
+            continue
+        a = c.pcm[:m].astype(np.float32)
+        a = a / (np.abs(a).max() + AU.norm_eps) * AU.narration_peak * db(C.main_gain_db if c.role == "main" else C.broll_gain_db)
+        env = np.ones(m, np.float32)
+        k = min(fn, m // 2)
+        env[:k] = np.linspace(0, 1, k)
+        env[m - k:] = np.linspace(1, 0, k)
+        nd = 1 - (1 - db(C.narration_duck_db)) * duck[i0:i0 + m]
+        out[i0:i0 + m] += a * (env * nd)[:, None]
+        if c.role == "main":
+            main[i0:i0 + m] = np.maximum(main[i0:i0 + m], env)
+    return out, main
 
 
 class BgmSeg(BaseModel):
@@ -226,7 +267,7 @@ def segment_bed(segs: list[tuple[float, np.ndarray]], n: int, scene_starts: list
 
 
 def mix(plan: Plan, sound: Sound, bg_raw: np.ndarray | list[tuple[float, np.ndarray]] | None,
-        stats: dict | None = None) -> tuple[np.ndarray, float]:
+        stats: dict | None = None, clips: list[ClipTrack] | None = None) -> tuple[np.ndarray, float]:
     """(N×2 float32, 정규화 전 피크). bg_raw None = 베드 없음(sound.bgm null) — 내레이션+효과음만(폴백이 아니라 명시 상태).
     stats 가 dict 이고 베드가 있으면 처리 전·후 베드 저역 비율(audio.qa.bed_stats)을 채운다(믹서가 out/bed_stats.json 에 쓴다)."""
     A = AU  # noqa: N806
@@ -258,6 +299,8 @@ def mix(plan: Plan, sound: Sound, bg_raw: np.ndarray | list[tuple[float, np.ndar
     kn = int(A.duck_smooth_sec * SR)
     duck = np.convolve(duck, np.ones(kn, np.float32) / kn, mode="same")
     bed_gain = inten * (1 - A.duck_depth * duck) * A.bed_gain
+    ct, main = clip_track(clips or [], n, duck)   # v7.4.0 D-0274 §2③ — 클립 원음(없으면 0 — 옛 믹스와 같다)
+    bed_gain = bed_gain * (1 - (1 - db(A.clip.bed_duck_db)) * main)
     sfx = Sfx(n, rng)
     tc, ss = FX.title_card, FX.scene_start
     for c in plan.cards:  # sfx_policy: 타이틀 카드 휙+쿵
@@ -274,13 +317,39 @@ def mix(plan: Plan, sound: Sound, bg_raw: np.ndarray | list[tuple[float, np.ndar
     fi, fo = int(A.fade_in_sec * SR), int(A.fade_out_sec * SR)
     fade[:fi] = np.linspace(0, 1, fi)
     fade[-fo:] = np.linspace(1, 0, fo)
-    L = (bg[:, 0] * bed_gain + sfx.fx * (1 - A.fx_duck * duck) + vo) * fade  # noqa: N806
-    R = (bg[:, 1] * bed_gain + sfx.fx * (1 - A.fx_duck * duck) + vo) * fade  # noqa: N806
+    L = (bg[:, 0] * bed_gain + sfx.fx * (1 - A.fx_duck * duck) + vo + ct[:, 0]) * fade  # noqa: N806
+    R = (bg[:, 1] * bed_gain + sfx.fx * (1 - A.fx_duck * duck) + vo + ct[:, 1]) * fade  # noqa: N806
     pk = max(np.abs(L).max(), np.abs(R).max())
     if pk > A.master_peak:
         L /= pk / A.master_peak
         R /= pk / A.master_peak
     return np.stack([L, R], 1).astype(np.float32), float(pk)
+
+
+def load_clips(proj: Path, events: list[dict]) -> tuple[list[ClipTrack], list[dict]]:
+    """연출의 clip 이벤트 → 원음 토막(media/<file>_clip.wav, tools/media_fetch 가 segment 그대로 뽑는다). 없으면 오류(조용히 무음 금지, P6)."""
+    import hashlib  # noqa: PLC0415
+
+    from scipy.io import wavfile  # noqa: PLC0415
+
+    from engine.media_registry import load_media_registry  # noqa: PLC0415
+
+    reg = load_media_registry()
+    out, rec = [], []
+    for e in events:
+        if e["type"] != "clip":
+            continue
+        f = proj / "media" / f"{reg[e['mid']].file}_clip.wav"
+        if not f.exists():
+            raise ValueError(f"클립 원음 없음: {f} — `python tools/media_fetch.py {proj} --only {e['mid']}`(D-0274 §2③)")
+        sr, pcm = wavfile.read(f)
+        if sr != SR or pcm.ndim != 2:
+            raise ValueError(f"클립 원음 형식 {f}: {sr} Hz · {pcm.shape} — {SR} Hz 스테레오여야 한다")
+        role = e.get("role", "main")
+        out.append(ClipTrack(mid=e["mid"], role=role, t0=e["t0"], t1=e["t1"], pcm=pcm.astype(np.float32) / PCM16))
+        rec.append({"mid": e["mid"], "role": role, "t0": round(e["t0"], 3), "t1": round(e["t1"], 3),
+                    "wav_md5": hashlib.md5(f.read_bytes()).hexdigest()})
+    return out, rec
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -294,7 +363,7 @@ def main(argv: list[str] | None = None) -> int:
     proj = args.proj.resolve()
     try:
         plan = load_plan(proj)
-        _, _, snd = load_direction(proj, Timebase(plan))
+        _, events, snd = load_direction(proj, Timebase(plan))
         if snd is None:
             raise ProjectError(f"{proj / 'direction.yaml'}: sound 블록이 없다")
         sound = Sound.model_validate(snd)
@@ -305,10 +374,17 @@ def main(argv: list[str] | None = None) -> int:
         else:
             src = [(g.t, decode_bgm(bgm_path(g.id))) for g in sound.bgm]
         stats: dict = {}
-        y, pk = mix(plan, sound, src, stats)
+        clips, clip_rec = load_clips(proj, events)
+        y, pk = mix(plan, sound, src, stats, clips)
         (proj / "out").mkdir(exist_ok=True)
         out = proj / "out" / "mix.f32"
         y.tofile(out)
+        ca = proj / "out" / "clip_audio.json"   # v7.4.0 D-0274 §2③ — 클립 원음을 섞었을 때만(P5)
+        if clip_rec:
+            ca.write_text(json.dumps({"schema_version": 1, "clips": clip_rec, "gains_db": AU.clip.model_dump()}, ensure_ascii=False, indent=1),
+                          encoding="utf-8")
+        elif ca.exists():
+            ca.unlink()
         bs = proj / "out" / "bed_stats.json"   # 음악이 있을 때만(안 돈 단계는 기록하지 않는다, P5)
         if stats:
             bs.write_text(json.dumps({**stats, "mix_samples": len(y)}, ensure_ascii=False, indent=1), encoding="utf-8")
