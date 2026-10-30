@@ -75,6 +75,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | island_label_clip | hard | v5.2.0(D-0133 §2): 차트 아일랜드 안 마커 라벨 글자 상자가 반전·클램프(island.chart.label_flip_pad, `markers.island_label`) 뒤에도 아일랜드 상자 밖 `[island-label-clip]`(provenance island.label_clip[]) `engine.island.label_check` |
 | axis_empty_band | hard | 시간축 레인 축 범위 중 데이터 극값(실측 + 전망 점) 밖 빈 띠(한쪽) > rules stage_timeline.lane_range.empty_band_max_ratio `[axis-empty-band]`(v7.4.0 D-0277 §3·UF-142) |
 | clip_date_mismatch | hard | 사진·영상 촬영일 ↔ 붙은 문장 날짜 차 ≥ rules media.file_clip_date_gap_days 인데 자료 표기(is_file_photo) 없음 `[clip-date-mismatch]`(v7.4.0 D-0283 §1) |
+| inset_jump | hard | 위성 인셋 원 중심 프레임 간 이동 > rules flight.inset.jump_px_max `[inset-jump]`(v7.4.0 D-0300·UF-146) |
+| inset_side_change | warning | 위성 인셋 자리 옮김 횟수(보간) `[inset-side-change]`(v7.4.0 D-0300) |
 | clip_frame | hard | 레퍼런스 영상(clip.role main)이 액자 슬롯 clip_frame 밖, 또는 보이는 길이가 rules media_beats.clip_show_sec[role] 밖 `[clip-frame]`(v7.4.0 D-0274 §2·UF-141) |
 | plot_height | hard | 시간축 주 무대 틀·차트 아일랜드: 값 레인 세로 합 < 액자 안쪽 높이 × rules island.chart.plot_min_ratio `[plot-height]`(v7.4.0 D-0274 §1①·UF-142) |
 | island_pin_collision | hard | v7.4.0(D-0267 §2 → D-0274 §1②): 값 레인 위 핀 라벨(engine.pin_labels 단 배정) ↔ 핀 라벨·점·계열 선·띠·축 값·끝값·플롯 경계 교차 `[island-pin-collision]` |
@@ -112,10 +114,10 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
-        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
+        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
 
 def missing_fonts() -> list[str]:
@@ -1358,13 +1360,52 @@ def check_inset_clipped(P) -> list[str]:  # noqa: ANN001, N803
         while t <= e["t1"]:
             if inset_alpha(t, e) > 0.5:
                 v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
-                box = inset_box(e, *v.to_screen(*e["world"]))
+                box = inset_box(e, *v.to_screen(*e["world"]), t)
                 if not inset_fits(box):
                     out.append(f"[inset-clipped] 인셋 {e['inset'].get('mid')} t={t:.1f} 원·출처 줄이 안전 영역 밖(상자 {tuple(round(x) for x in box)}) — "
                                "카메라 구도를 넓히거나 표적이 화면 가장자리에 오지 않게 한다(rules flight.inset.side_order 대체 자리도 모두 밖)")
                     break
             t += 0.5
     return out
+
+
+def inset_centers(P, e: dict) -> list[tuple[int, float, float]]:  # noqa: ANN001, N803
+    """인셋이 보이는 프레임마다 (프레임, 원 중심 x, y) — 렌더와 같은 inset_box(궤적 포함)."""
+    from engine.layers.flight import inset_alpha, inset_box  # noqa: PLC0415
+
+    out = []
+    for i in range(max(0, int(e["t0"] * FPS)), min(P.n_frames, int(e["t1"] * FPS) + 1)):
+        t = i / FPS
+        if inset_alpha(t, e) > 0:
+            x, y, w, h = inset_box(e, *View(P.R.stage, P.cams[i]).to_screen(*e["world"]), t)
+            out.append((i, x + w / 2, y + h / 2))
+    return out
+
+
+def check_inset_jump(P) -> list[str]:  # noqa: ANN001, N803
+    """[inset-jump] hard(v7.4.0 back_and_forth D-0300, 사용자 의견 UF-146 "위성사진을 보여주는 동그라미가 한순간 위치를 옮기고 사라져") —
+    위성 인셋 원 중심의 연속 프레임 간 이동이 rules flight.inset.jump_px_max 를 넘으면 실패(자리 옮김은 move_sec 보간만)."""
+    if not _map_main(P) or P.cams is None:
+        return []
+    mx = R_.flight.inset.jump_px_max
+    out = []
+    for e in P.events:
+        if e["type"] != "flight" or not e.get("inset"):
+            continue
+        c = inset_centers(P, e)
+        for (fa, xa, ya), (fb, xb, yb) in zip(c, c[1:]):
+            d = math.hypot(xb - xa, yb - ya)
+            if fb == fa + 1 and d > mx:
+                out.append(f"[inset-jump] 인셋 {e['inset'].get('mid')} t={fb / FPS:.2f} 원이 한 프레임에 {d:.0f}px 이동 > {mx:g} — 자리는 등장 때 고정, 옮기면 보간(D-0300)")
+                break
+    return out
+
+
+def check_inset_side_change(P) -> list[str]:  # noqa: ANN001, N803
+    """[inset-side-change] warning(v7.4.0 D-0300) — 인셋 자리가 바뀐 횟수(보간 이동). 카메라 구도로 줄일 수 있는지 사람이 본다."""
+    return [f"[inset-side-change] 인셋 {e['inset'].get('mid')} 자리 {len(e['inset_track']['moves'])}번 옮김 "
+            + ", ".join(f"t={f / FPS:.1f} {a}→{b}" for f, a, b in e["inset_track"]["moves"])
+            for e in P.events if e["type"] == "flight" and (e.get("inset_track") or {}).get("moves")]
 
 
 def check_badge_clipped(P) -> list[str]:  # noqa: ANN001, N803
@@ -1700,7 +1741,7 @@ def check_inset_overlap(P) -> list[str]:  # noqa: ANN001, N803
         while t <= e["t1"] and hit is None:
             if inset_alpha(t, e) > 0.5:
                 v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
-                x, y, w, h = inset_box(e, *v.to_screen(*e["world"]))
+                x, y, w, h = inset_box(e, *v.to_screen(*e["world"]), t)
                 box = (x, y, x + w, y + h + FL.inset.caption_dy)
                 card = any(c["type"] == "card" and c["t0"] <= t <= c["t1"] for c in P.events)
                 for name, b in _place_label_boxes(ctx, P, v, t) + [("카드·날짜 자리", b) for b in default_reserve(card=card)]:
@@ -2218,6 +2259,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "axis_empty_band": lambda: check_axis_empty_band(P),   # v7.4.0 D-0277 §3(hard, UF-142)
         "clip_frame": lambda: check_clip_frame(P),   # v7.4.0 D-0274 §2①②(hard, UF-141)
         "clip_date_mismatch": lambda: check_clip_date_mismatch(P),   # v7.4.0 D-0283 §1(hard)
+        "inset_jump": lambda: check_inset_jump(P),   # v7.4.0 D-0300(hard, UF-146)
+        "inset_side_change": lambda: check_inset_side_change(P),   # v7.4.0 D-0300(warning)
         "flat_lane": lambda: check_flat_lane(P),   # v7.4.0 D-0263(hard, UF-140)
         "press_credit": lambda: check_press_credit(P, times, drawn),   # v7.4.0 D-0240 §3(hard)
         "static_camera": lambda: check_static_camera(P),   # v7.4.0 D-0241 §1(hard, UF-120)

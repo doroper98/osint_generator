@@ -1495,20 +1495,25 @@ flight:                    # v7.3.0 back_and_forth D-0206·D-0225(사용자 결�
     body_lines: {drone: [[[0.9, -3.4], [0.9, 5.3]], [[-0.9, 5.3], [-0.9, -3.4]]]}
   inset:                   # 위성 인셋(flight.inset.mid — 미디어 레지스트리 kind inset, 사용자 결정 D232 U2)
     shape: circle          # UF-103 사용자 원문 "위성사진은 네모낳게 표시하지 말고 동그랗게 표시해" — 원형 마스크만(다른 값 없음, 사각 금지)
-    w_px: 118              # 원 지름(위성 타일은 정사각 가운데 자름 → 원으로 클립, 시설이 중심)
-    gap_px: 10             # 표적 점에서 원 테두리까지
+    w_px: 190              # 원 지름(위성 타일은 정사각 가운데 자름 → 원으로 클립, 시설이 중심). v7.4.0 D-0300(UF-146 "위성 사진 크기도 좀 키워야") 118 → 190(화면 폭 22 %)
+    gap_px: 14             # 표적 점에서 원 테두리까지(D-0300 10 → 14)
     lead_sec: 0.2          # 착탄 이 시간 전부터 나타남
     hold_sec: 3.0          # 착탄 링 뒤 머무는 시간
-    fade: [0.35, 0.45]     # in/out
-    frame: {width: 1.0, alpha: 0.55}   # 가는 흰 원 테두리
+    fade: [0.35, 0.8]      # in/out(D-0300 out 0.45 → 0.8 — 이벤트 끝 전에 페이드가 끝난다)
+    frame: {width: 1.2, alpha: 0.55}   # 가는 흰 원 테두리(D-0300 1.0 → 1.2)
     caption_dy: 11         # 원 아래 출처 줄 기준선 간격(가운데 정렬)
-    caption_size: 8.5      # 출처 줄 글자(layout_480p.min_font_px 이상)
+    caption_size: 10       # 출처 줄 글자(layout_480p.min_font_px 이상, D-0300 8.5 → 10)
     caption_halo: 2.4      # 출처 줄 글자 테두리(컷아웃 출처 줄과 같은 값)
     hold_same_place: true  # v7.4.0 D-0229 §2.7(UF-107) — inset.place 이름을 말하는 연속 문장 끝까지 유지(명시 hold_until 우선)
     # v7.4.0 D-0240 §2(감독 육안 "키리시 인셋 원이 위 가장자리에 걸려 잘린다") — 인셋 원+출처 줄은 안전 영역(날짜 배지 아래·자막 띠 위·좌우 여백) 안에 전부.
     # 연출이 고른 side 가 벗어나면 side_order 순서로 첫 맞는 자리(결정적). 어느 자리도 안 맞으면 [inset-clipped] hard
     safe_margin_px: 6
     side_order: [up_right, up_left, down_right, down_left, right, left, up, down]
+    # v7.4.0 D-0300(UF-146) — 자리(side)는 등장 첫 프레임에 한 번 정해 유지(sticky). 안전 영역을 벗어나면 다음 적합 자리로 move_sec 보간(한 프레임 점프 금지).
+    # 검사 [inset-jump] hard(원 중심 프레임 간 이동 > jump_px_max) · [inset-side-change] warn(자리 바뀐 횟수). 값은 감독 제안(사용자 합격 값 아님)
+    sticky_side: true
+    move_sec: 0.6
+    jump_px_max: 24
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)
   # 겹침(checks island_overlap hard, Q3 A): 같은 순간 보이는 아일랜드 제자리 상자(그림자·슬라이드 경로 제외)끼리 교차 > 0, 자막 구역(reserved_zones.subtitle) 교차.

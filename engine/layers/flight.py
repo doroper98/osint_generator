@@ -16,8 +16,8 @@ from engine.context import RenderCtx
 from engine.layers.effects import draw_boom
 from engine.layers.media import draw_inset
 from engine.projection import View
-from engine.style import W_OUT, map_c
-from engine.timebase import ease_out, window
+from engine.style import FPS, W_OUT, map_c
+from engine.timebase import ease_out, smooth, window
 from rules import load_rules
 
 _R = load_rules()
@@ -78,14 +78,53 @@ def inset_fits(box: tuple[float, float, float, float]) -> bool:
     return x >= x0 and y >= y0 and x + w <= x1 and y + h + F.inset.caption_dy + F.inset.caption_size <= y1
 
 
-def inset_box(e: dict, x: float, y: float) -> tuple[float, float, float, float]:
-    """표적 화면 점(x, y) 기준 인셋 원의 바깥 정사각(x0, y0, 지름, 지름) — side 방향으로 gap_px 떨어진 자리(UF-103 원형).
-    v7.4.0 D-0240 §2 — 고른 side 가 안전 영역을 벗어나면 rules flight.inset.side_order 순서로 첫 맞는 자리(없으면 고른 자리 — [inset-clipped])."""
+def first_fit_side(e: dict, x: float, y: float, skip: Optional[str] = None) -> str:
+    """연출 side → 안 맞으면 rules flight.inset.side_order 첫 적합(skip 제외). 어느 자리도 안 맞으면 연출 side([inset-clipped])."""
     side = (e.get("inset") or {}).get("side", "up")
-    first = _inset_box_at(side, x, y)
-    if inset_fits(first):
-        return first
-    return next((b for s in F.inset.side_order if inset_fits(b := _inset_box_at(s, x, y))), first)
+    for s in [side, *F.inset.side_order]:
+        if s != skip and inset_fits(_inset_box_at(s, x, y)):
+            return s
+    return side
+
+
+def build_inset_track(e: dict, frames: list[tuple[int, float, float]]) -> None:
+    """인셋 자리 궤적(v7.4.0 back_and_forth D-0300, UF-146) — 등장 첫 프레임에 자리를 정하고(sticky) 그 자리가 안전 영역을 벗어날 때만
+    다음 적합 자리로 move_sec 보간 이동한다. frames = 인셋이 보이는 프레임의 (번호, 표적 화면 x, y). e["inset_track"] = {"side": 첫 자리,
+    "moves": [(시작 프레임, 옛 자리, 새 자리)]} — 렌더·검사가 같은 궤적을 쓴다(청크 렌더도 결정적)."""
+    if not frames or not F.inset.sticky_side:
+        return
+    mf = max(1, round(F.inset.move_sec * FPS))
+    f0, x0, y0 = frames[0]
+    cur = first_fit_side(e, x0, y0)
+    moves: list[tuple[int, str, str]] = []
+    for f, x, y in frames[1:]:
+        if moves and f - moves[-1][0] < mf:   # 옮기는 중에는 다시 고르지 않는다
+            continue
+        if not inset_fits(_inset_box_at(cur, x, y)):
+            nxt = first_fit_side(e, x, y, skip=cur)
+            if nxt != cur and inset_fits(_inset_box_at(nxt, x, y)):
+                moves.append((f, cur, nxt))
+                cur = nxt
+    e["inset_track"] = {"side": first_fit_side(e, x0, y0), "moves": moves}
+
+
+def inset_box(e: dict, x: float, y: float, t: Optional[float] = None) -> tuple[float, float, float, float]:
+    """표적 화면 점(x, y) 기준 인셋 원의 바깥 정사각(x0, y0, 지름, 지름) — side 방향으로 gap_px 떨어진 자리(UF-103 원형).
+    궤적(inset_track, D-0300)이 있고 t 를 주면 그 시각의 자리(옮기는 중이면 두 자리 사이 보간). 없으면 v7.4.0 D-0240 §2 첫 적합 자리."""
+    tr = e.get("inset_track")
+    if tr is None or t is None:
+        return _inset_box_at(first_fit_side(e, x, y), x, y)
+    f = round(t * FPS)
+    side, prev = tr["side"], None
+    mf = max(1, round(F.inset.move_sec * FPS))
+    for fs, a, b in tr["moves"]:
+        if fs <= f:
+            side, prev = b, (fs, a)
+    if prev is None or f - prev[0] >= mf:
+        return _inset_box_at(side, x, y)
+    u = smooth((f - prev[0]) / mf)
+    a, b = _inset_box_at(prev[1], x, y), _inset_box_at(side, x, y)
+    return tuple(p + (q - p) * u for p, q in zip(a, b))  # type: ignore[return-value]
 
 
 def _inset_box_at(side: str, x: float, y: float) -> tuple[float, float, float, float]:
@@ -114,7 +153,8 @@ def circle_path(ctx: cairo.Context, box: tuple[float, float, float, float]) -> N
 def inset_alpha(t: float, e: dict) -> float:
     th = hit_time(e)
     end = (e.get("inset") or {}).get("hold_until")   # v7.4.0 D-0229 §2.7 — 명시·같은 장소 유지
-    return window(t, th - F.inset.lead_sec, max(th + F.inset.hold_sec + F.impact_sec, end or 0.0), *F.inset.fade)
+    stop = min(max(th + F.inset.hold_sec + F.impact_sec, end or 0.0), e.get("t1", math.inf))   # v7.4.0 D-0300 — 이벤트 끝 전에 페이드가 끝난다(컷에 잘리지 않게)
+    return window(t, th - F.inset.lead_sec, stop, *F.inset.fade)
 
 
 InsetDrawer = Callable[[cairo.Context, RenderCtx, tuple[float, float, float, float], float, dict], None]
@@ -170,6 +210,6 @@ def draw_flight(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict,
     if e.get("inset"):
         ia = inset_alpha(t, e)
         if ia > 0:
-            box = inset_box(e, *end)
+            box = inset_box(e, *end, t)
             (inset_drawer or draw_inset)(ctx, R, box, ia, e)
             R.reserved.append((box[0], box[1], box[0] + box[2], box[1] + box[3] + F.inset.caption_dy))

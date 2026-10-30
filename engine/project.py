@@ -554,6 +554,14 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     if island_errs:
         raise ProjectError("아일랜드 점검 실패(P6·P10):\n" + "\n".join(island_errs))
     prepare_series(R, events, chart_cams, n, chart_stage or R.stage)   # v4.3.0 D-0084 작업 4 — 레코드 로드·레인 범위·grow 앞끝(카메라 경로)
+    if R.stage.name == "mercator" and cams is not None:   # v7.4.0 D-0300(UF-146) — 위성 인셋 자리 궤적(등장 때 고정, 옮기면 보간)을 카메라 경로로 한 번 계산
+        from engine.layers.flight import build_inset_track, inset_alpha  # noqa: PLC0415
+
+        for e in events:
+            if e["type"] == "flight" and e.get("inset"):
+                fr = [(i, *View(R.stage, cams[i]).to_screen(*e["world"])) for i in range(max(0, int(e["t0"] * FPS)), min(n, int(e["t1"] * FPS) + 1))
+                      if inset_alpha(i / FPS, e) > 0]
+                build_inset_track(e, fr)
     from engine.pin_labels import PinScene, assign_pin_rows, pin_label_check  # noqa: PLC0415
 
     scene = None   # v7.4.0 D-0274 §1② — 값 레인 위 핀 라벨 단 배정(주 무대 틀·차트 아일랜드 같은 규칙, C12-3)

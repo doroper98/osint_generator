@@ -56,9 +56,9 @@ class SamePlaceTest(unittest.TestCase):
 
 class DiagonalSideTest(unittest.TestCase):
     def test_down_left(self) -> None:
-        x, y, w, h = fl.inset_box({"inset": {"side": "down_left"}}, 400.0, 200.0)
+        x, y, w, h = fl.inset_box({"inset": {"side": "down_left"}}, 400.0, 120.0)   # v7.4.0 D-0300 — 지름 190: 아래 자리가 맞는 표적 높이
         self.assertLess(x + w, 400.0)
-        self.assertGreater(y, 200.0)
+        self.assertGreater(y, 120.0)
 
 
 if __name__ == "__main__":
