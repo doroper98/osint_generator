@@ -93,7 +93,21 @@ class JobsTest(unittest.TestCase):
         j, why = plan_jobs(8, o, cpu=8, mem_mb=o.mem_per_job_mb * 3 + 10)
         self.assertEqual(j, 3)
         self.assertIn("mem", why)
+        # v7.4.0 R-0281 — 그 영상 클립 npy 합을 작업 하나에 더해 줄인다
+        j, why = plan_jobs(8, o, cpu=8, mem_mb=(o.mem_per_job_mb + 300) * 3 + 10, clip_mb=300)
+        self.assertEqual(j, 3)
+        self.assertIn("클립 300MB", why)
         self.assertEqual(plan_jobs(8, o, cpu=8, mem_mb=10)[0], 1)
+
+    def test_clip_mem_mb(self) -> None:
+        from types import SimpleNamespace  # noqa: PLC0415
+
+        import numpy as np  # noqa: PLC0415
+
+        from engine.render import clip_mem_mb  # noqa: PLC0415
+
+        clips = {"a": np.zeros((2, 1 << 19), np.uint8), "b": np.zeros(3 << 20, np.uint8)}
+        self.assertEqual(clip_mem_mb(SimpleNamespace(R=SimpleNamespace(assets=SimpleNamespace(clips=clips)))), 4)
 
     def test_config_default_cpu(self) -> None:
         self.assertIsNone(load_config().engine.render.jobs)

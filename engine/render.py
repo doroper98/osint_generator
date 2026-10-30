@@ -381,17 +381,25 @@ def mem_available_mb() -> int | None:
     return None
 
 
-def plan_jobs(requested: int | None, out: "object", cpu: int | None = None, mem_mb: int | None = None) -> tuple[int, str]:
+def clip_mem_mb(P: Project) -> int:  # noqa: N803
+    """이 영상이 여는 클립 npy 크기 합(MB, v7.4.0 R-0281) — 로드된 클립(load_project 가 이벤트의 클립을 연다)의 바이트 합."""
+    return sum(int(a.nbytes) for a in P.R.assets.clips.values()) // (1 << 20)
+
+
+def plan_jobs(requested: int | None, out: "object", cpu: int | None = None, mem_mb: int | None = None,
+              clip_mb: int = 0) -> tuple[int, str]:
     """청크 병렬 수(v3.6.0 D-0066 작업 6) — 요청(CLI --jobs) → config engine.render.jobs → os.cpu_count() 순,
-    그 뒤 사용 가능 메모리 ÷ 프로파일 mem_per_job_mb 로 줄인다(최소 1). (수, 사유)."""
+    그 뒤 사용 가능 메모리 ÷ (프로파일 mem_per_job_mb + 그 영상 클립 npy 합)으로 줄인다(최소 1). (수, 사유).
+    클립 합(v7.4.0 R-0281): 청크 프로세스마다 클립 npy 를 mmap 으로 연다 — 페이지가 공유되더라도 청크가 클립 구간을
+    읽는 동안 상주하므로 보수적으로 작업 하나에 더한다(720p 액자 클립 15초 하나 300 MB대)."""
     from orchestrator.config import load_config  # noqa: PLC0415
 
     cfg = load_config().engine.render.jobs
     j, why = (requested, "--jobs") if requested is not None else (cfg, "config") if cfg is not None else (cpu or os.cpu_count() or 1, "cpu")
     mem = mem_available_mb() if mem_mb is None else mem_mb
-    per = out.mem_per_job_mb  # type: ignore[attr-defined]
+    per = out.mem_per_job_mb + clip_mb  # type: ignore[attr-defined]
     if mem is not None and j * per > mem:
-        j, why = max(1, mem // per), f"{why}→mem({mem}MB/{per}MB)"
+        j, why = max(1, mem // per), f"{why}→mem({mem}MB/{per}MB" + (f", 클립 {clip_mb}MB" if clip_mb else "") + ")"
     return j, why
 
 
@@ -600,20 +608,20 @@ def main(argv: list[str] | None = None) -> int:
                 print(json.dumps(res.model_dump(), ensure_ascii=False))
                 return 1
         elif args.catalog:
-            jobs, why = plan_jobs(args.jobs, P.R.out)
+            jobs, why = plan_jobs(args.jobs, P.R.out, clip_mb=clip_mem_mb(P))
             log(f"jobs {jobs} ({why}) catalog")
             final, _ = render_catalog(P, jobs)
             outd = P.root / "out"
             arts = {"catalog": str(final), "provenance": str(outd / "catalog_provenance.json"), "checks": str(outd / "catalog_checks.json"),
                     "frames": str(outd / "catalog_frames.json")}
         elif args.animatic:
-            jobs, why = plan_jobs(args.jobs, P.R.out)
+            jobs, why = plan_jobs(args.jobs, P.R.out, clip_mb=clip_mem_mb(P))
             log(f"jobs {jobs} ({why}) animatic")
             final, _ = render_animatic(P, jobs)
             outd = P.root / "out"
             arts = {"animatic": str(final), "provenance": str(outd / "animatic_provenance.json"), "checks": str(outd / "animatic_checks.json")}
         else:
-            jobs, why = plan_jobs(args.jobs, P.R.out)
+            jobs, why = plan_jobs(args.jobs, P.R.out, clip_mb=clip_mem_mb(P))
             log(f"jobs {jobs} ({why})")
             arts = {"video_noaudio": str(render_full(P, jobs))}
         res = StageResult(ok=True, stage=stage, artifacts=arts, warnings=P.warnings)
