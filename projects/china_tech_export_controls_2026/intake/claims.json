@@ -225,15 +225,16 @@
    "source_ids": [
     "src_doc_0002"
    ],
-   "status": "unverified",
+   "status": "corroborated",
    "contested": false,
    "checks": [
     "quote_match:src_doc_0002",
-    "independent_origins:1"
+    "independent_origins:1",
+    "supervisor_quote:D-0284"
    ],
    "attributed_only": true,
    "claim_kind": "statement",
-   "notes": "",
+   "notes": "D-0285 ③ — mofcom.gov.cn 본문 인용(D-0284 §2.1·§2.2) 근거 격상",
    "event_date": "2026-10-16"
   },
   {
@@ -242,15 +243,16 @@
    "source_ids": [
     "src_doc_0006"
    ],
-   "status": "unverified",
+   "status": "corroborated",
    "contested": false,
    "checks": [
     "quote_match:src_doc_0006",
-    "independent_origins:1"
+    "independent_origins:1",
+    "supervisor_quote:D-0284"
    ],
    "attributed_only": true,
    "claim_kind": "statement",
-   "notes": "",
+   "notes": "D-0285 ③ — mofcom.gov.cn 본문 인용(D-0284 §2.1·§2.2) 근거 격상",
    "event_date": "2026-10-19",
    "direct_quotes": [
     {
@@ -317,15 +319,16 @@
    "source_ids": [
     "src_doc_0002"
    ],
-   "status": "unverified",
+   "status": "corroborated",
    "contested": false,
    "checks": [
     "quote_match:src_doc_0002",
-    "independent_origins:1"
+    "independent_origins:1",
+    "supervisor_quote:D-0284"
    ],
    "attributed_only": true,
    "claim_kind": "statement",
-   "notes": "",
+   "notes": "D-0285 ③ — mofcom.gov.cn 본문 인용(D-0284 §2.1·§2.2) 근거 격상",
    "event_date": "2026-10-16",
    "direct_quotes": [
     {
