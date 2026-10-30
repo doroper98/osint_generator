@@ -2284,7 +2284,7 @@ entries:
 - id: UF-152
   date: '2026-10-30'
   project: samsung_q3_2026
-  at: 경제 차트 설계 — 참고 그림 셋(TradingView: 연준 유동성 구성 겹침 · 세계 M2/중앙은행 자산/S&P/BTC 3레인 · 5개국 국채 수익률 전 만기 색 계열, docs/handoff/reports/user_ref_tradingview_*_2026-10-30.png)
+  at: "경제 차트 설계 — 참고 그림 셋(TradingView — 연준 유동성 구성 겹침 · 세계 M2/중앙은행 자산/S&P/BTC 3레인 · 5개국 국채 수익률 전 만기 색 계열, docs/handoff/reports/user_ref_tradingview_*_2026-10-30.png)"
   quote: 개인적으로 이런 형태의 차트도 좋아함. 내가 말한대로 다층적인 정보를 한번에 통섭적으로 보는걸 좋아한다는 뜻이야
   quote_kind: verbatim
   category: 차트 설계 — 같은 세계 안 다계열 겹침·다레인·색 계열·끝값 태그(통섭 보기), UF-151 보충
