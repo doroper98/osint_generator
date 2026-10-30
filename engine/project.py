@@ -566,8 +566,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         scene = PinScene(R.stage, events, R.cache["series_range"], R.cache["series_front"],
                          lambda t: View(R.stage, cams[min(n - 1, max(0, int(t * FPS)))]))
     if scene is not None and scene.pins:
-        R.cache["value_pins"] = [(p["lane"], *p["world"], p["t0"], p["t1"]) for p in scene.pins]   # v7.4.0 D-0283 §2 — 끝값 라벨 판 장애물
         dropped = assign_pin_rows(scene)
+        R.cache["value_pins"] = [(p["lane"], *p["world"], p["t0"], p["t1"], p.get("pin_row")) for p in scene.pins]   # v7.4.0 D-0283 §2 — 끝값 라벨 판 장애물(고리 + 라벨 쪽)
         R.cache["pin_labels"] = {"rows": {p["label"]: p["pin_row"] for p in scene.pins}, "dropped": dropped,
                                  "collisions": pin_label_check(scene)}
     if chart_stage is not None and R.cache.get("island_check") is not None:   # v5.2.0 D-0133 §2·§3 — 마커 라벨 ↔ 상자·출처 줄(시리즈 slot 뒤)

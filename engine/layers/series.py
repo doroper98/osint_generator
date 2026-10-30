@@ -277,14 +277,19 @@ def draw_end_label_plate(ctx: cairo.Context, box: tuple[float, float, float, flo
 
 
 def pin_ring_boxes(R: "RenderCtx", view: "View", t: float, lane: str) -> list[tuple[float, float, float, float]]:
-    """그 순간 같은 레인 값 핀의 맥동 고리 상자(화면) — load_project 가 남긴 R.cache["value_pins"](레인, 월드 x·y, t0, t1)."""
+    """그 순간 같은 레인 값 핀의 맥동 고리 상자(화면) — load_project 가 남긴 R.cache["value_pins"](레인, 월드 x·y, t0, t1, 핀 라벨 단).
+    핀 라벨 쪽(위·아래)은 리더선·라벨 자리라 고리 상자를 그쪽으로 끝까지 늘린다."""
     from engine.pin_labels import RING_PX  # noqa: PLC0415
 
     out = []
-    for ln, wx, wy, t0, t1 in R.cache.get("value_pins") or ():
+    for ln, wx, wy, t0, t1, *row in R.cache.get("value_pins") or ():
         if ln == lane and t0 <= t <= t1:
             x, y = view.to_screen(wx, wy)
-            out.append((x - RING_PX, y - RING_PX, x + RING_PX, y + RING_PX))
+            r = row[0] if row else None
+            # 핀 라벨이 선 위(row > 0)면 고리 위쪽, 아래(row < 0)면 아래쪽 세로 띠(리더선·라벨 자리)도 막는다(152초 사례)
+            y0 = y - RING_PX - (view.vh if r is not None and r > 0 else 0)
+            y1 = y + RING_PX + (view.vh if r is not None and r < 0 else 0)
+            out.append((x - RING_PX, y0, x + RING_PX, y1))
     return out
 
 
@@ -300,9 +305,13 @@ def clear_pin_rings(R: "RenderCtx", view: "View", t: float, lane: str, box: tupl
     h = box[3] - box[1]
     desc = TIMELINE.series.value_size * P.descent
     top, bot, lft = min(r[1] for r in hit), max(r[3] for r in hit), min(r[0] for r in hit)
+    oy = getattr(view, "oy", 0.0)
+    vx0, vy0, vx1, vy1 = getattr(view, "ox", 0.0), oy, getattr(view, "right", float("inf")), oy + getattr(view, "vh", float("inf"))
     for x0, by in ((box[0], top - P.pad_px - desc), (lft - P.pad_px - lw, box[3]), (box[0], bot + P.pad_px + h)):
         cand = (x0, by - h, x0 + lw, by)
-        if not any(_hits(end_label_plate_rect(cand), r) for r in rings):
+        pr = end_label_plate_rect(cand)
+        inside = vx0 <= pr[0] and pr[2] <= vx1 and vy0 <= pr[1] and pr[3] <= vy1   # 화면(뷰) 밖 자리는 쓰지 않는다
+        if inside and not any(_hits(pr, r) for r in rings):
             return cand, False
     return box, True
 
