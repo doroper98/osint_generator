@@ -4,8 +4,8 @@
   "title": "쇼케이스 — 금리 선 위의 1년",
   "category": "economy",
   "created_at": "2026-10-28T05:27:51.339439Z",
-  "updated_at": "2026-10-28T06:26:51.680599Z",
-  "current_state": "direction",
+  "updated_at": "2026-10-30T06:34:41.743760Z",
+  "current_state": "assets",
   "target_duration_min": 3,
   "topic_summary": "요소·목소리·글꼴 쇼케이스(경제). 연준 사실(fed_policy_2026 claims·data/series)을 시간축 한 세계 문법으로 — 새 수치·새 사실 없음(D-0251·D-0253)",
   "initial_links": [],
@@ -46,6 +46,24 @@
         "media_plan": "사진 0/2 · 기사 후보 23문장 · 172초(chars)"
       },
       "chosen_version": null
+    },
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "user",
+      "at": "2026-10-30T06:29:39.936420Z",
+      "comment": "사용자 원문 \"승인.\" — 게이트 ① 재승인, 원고 v2(발언 자리 2곳), back_and_forth D-0280",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/showcase_econ/script.yaml",
+        "lint_errors": "0",
+        "lint_warnings": "1",
+        "est_sec": "106.0",
+        "media_plan_errors": "0",
+        "script_sha1": "aa1ccc15ca0b4e991f95bacc974890a43db2d11e",
+        "media_plan": "사진 0/2 · 기사 후보 21문장 · 154초(plan)"
+      },
+      "chosen_version": null
     }
   ],
   "stage_records": [
@@ -73,6 +91,19 @@
       ],
       "drops": 0,
       "log": "logs/stages/02_assets.json"
+    },
+    {
+      "state": "voice_timeline",
+      "stage": "plan",
+      "ok": true,
+      "at": "2026-10-30T06:34:41.741545Z",
+      "artifacts": {
+        "plan": "/home/user/osint_generator/projects/showcase_econ/plan.json",
+        "tts": "/home/user/osint_generator/projects/showcase_econ/tts"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/03_plan.json"
     }
   ],
   "final_outputs": {},
@@ -124,8 +155,41 @@
       "to_state": "direction",
       "transitioned_at": "2026-10-28T06:26:51.680515Z",
       "reason": "지도 무대 없음(시간축 한 세계 B, D-0251 §6.1) — geo 자산 단계 해당 없음(fed_policy_2026 선례: geo.yaml 없음)"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-10-30T06:25:52.708318Z",
+      "reason": "rollback → script_draft — user: 원고 v2(발언 자리 2곳, D-0274 §4) — 게이트 ① 재승인 D-0280"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-10-30T06:26:51.037548Z",
+      "reason": "원고 v2 확정(린트 0, gate1_v2_changes.md)"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-10-30T06:29:39.936489Z",
+      "reason": "script_approval 승인 — user"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "assets",
+      "transitioned_at": "2026-10-30T06:34:41.743704Z",
+      "reason": "engine plan ok"
     }
   ],
-  "rollbacks": [],
+  "rollbacks": [
+    {
+      "from_state": "direction",
+      "to_state": "script_draft",
+      "by": "user",
+      "at": "2026-10-30T06:25:52.708285Z",
+      "reason": "원고 v2(발언 자리 2곳, D-0274 §4) — 게이트 ① 재승인 D-0280",
+      "script_fingerprint_before": "aa1ccc15ca0b4e991f95bacc974890a43db2d11e"
+    }
+  ],
   "reopens": []
 }

@@ -170,6 +170,7 @@ events:
   end:
     scene_end: ending
   img: fed_presser_0916
+# v7.4.0 D-0274 §2·D-0280 — 발언 자리 두 곳(cold_0·act2_1 뒤)은 액자 클립이 주 요소 — 그동안 차트 아일랜드는 비킨다(배경 사진 위 액자만)
 - type: island
   kind: chart
   box: left_tall
@@ -177,8 +178,52 @@ events:
     sid: cold_0
     'off': -0.4
   end:
+    hold: cold_0
+- type: island
+  kind: chart
+  box: left_tall
+  start:
+    hold: cold_0
+    edge: end
+  end:
+    hold: act2_1
+- type: island
+  kind: chart
+  box: left_tall
+  start:
+    hold: act2_1
+    edge: end
+  end:
     scene_end: ending
     'off': 0.5
+# 발언 클립(원음 + 번역 자막, 내레이션 없음) — 액자 clip_frame main(코드가 배치)
+- type: clip
+  start:
+    hold: cold_0
+  end:
+    hold: cold_0
+    edge: end
+  mid: fed_clip_0916_decision
+- type: clip
+  start:
+    hold: act2_1
+  end:
+    hold: act2_1
+    edge: end
+  mid: fed_clip_0729_vote
+# 7.29 회견장 현장(b-roll, 구석·원음 낮게) — 시점 이동 문장
+- type: clip
+  start:
+    sid: act2_0
+    'off': 0.2
+  end:
+    sid: act2_0
+    'off':
+    - 0.2
+    - 3.4
+  mid: fed_clip_0729_room_a
+  role: broll
+  place: backdrop_right_low
 - type: series
   start:
     sid: cold_0
