@@ -1,0 +1,594 @@
+{
+ "schema_version": 1,
+ "searches": [
+  {
+   "sid": "cold_0",
+   "query": "tunnel boring machine cutterhead hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "cold_0",
+   "query": "tunnel boring machine cutterhead",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 7,
+   "top": [
+    "File:Continued demolition and removal of a tunnel boring machine cutterhead that was used during a previous contract to bore the Queens tunnels. (CH058A, 10-08-19) (48919623078).jpg",
+    "File:Continued demolition of the Tunnel Boring Machine Cutterhead West of the 39th Street Bridge in Harold Interlocking. 10-01-2019 (48843694698).jpg",
+    "File:Demolishing a Tunnel Boring Machine Cutterhead to make way for the final approach structure in Harold Interlocking. 10-23-2019 (48958809063).jpg",
+    "File:Demolition of a tunnel boring machine cutterhead in Harold Interlocking to make way for the final approach structure. 10-07-2019 (48882438417).jpg",
+    "File:Demolition of the Tunnel Boring Machine Cutterhead West of the 39th Street Bridge in Harold Interlocking. 09-25-2019 (48805242842).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_2",
+   "query": "Ministry of Commerce People's Republic of China building hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 1,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_2",
+   "query": "Ministry of Commerce People's Republic of China building",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "GODL-India",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_7",
+   "query": "perovskite solar cell hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 6,
+   "top": [
+    "File:RAAF TFV (HD-SN-99-02052).jpg",
+    "File:Tuy Hoa- Fifteen civilians were killed in the explosion of a homemade Viet Cong mine on a country road HD-SN-99-02085.jpg",
+    "File:USMC-051018-F-7234P-118.jpg",
+    "File:USMC-060725-M-3006J-001.jpg",
+    "File:USMC-080328-M-3913K-001.jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_7",
+   "query": "perovskite solar cell",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 5,
+   "top": [
+    "File:Development of perovskite cell efficiencies.webp",
+    "File:Identification of key challenges in the development of perovskite solar cells.webp",
+    "File:Perovskite solar cell.jpg",
+    "File:Perovskite tin solar cell (13893069777).jpg",
+    "File:Thin film perovskite solar cell and perovskite on silicon tandem solar cell.png"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act1_7",
+   "query": "bioreactor cell culture hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_7",
+   "query": "bioreactor cell culture",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 5,
+   "top": [
+    "File:A-Versatile-Bioreactor-for-Dynamic-Suspension-Cell-Culture.-Application-to-the-Culture-of-Cancer-pone.0154610.s002.ogv",
+    "File:A-Versatile-Bioreactor-for-Dynamic-Suspension-Cell-Culture.-Application-to-the-Culture-of-Cancer-pone.0154610.s003.ogv",
+    "File:Proof of Concept for Cell Culture-Based Coffee (graphical abstract).jpg",
+    "File:Rotary Cell Culture System.jpg",
+    "File:Synthetic coffee – lyophilized cells derived from the bioreactor cultivations (A) and after three roasting regimes.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act1_12",
+   "query": "DJI drone hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 8,
+   "top": [
+    "File:A US Navy (USN) Explosive Ordnance Disposal (EOD) Sailor (right) assists a second USN EOD Sailor (left) as he dives in to conduct a force protection dive at the Port of Djibouti, Dj - DPLA - b6b26f4a4b3fed90431a34a1fea346e9.jpg",
+    "File:An Air Force firefighter dressed in a proximity suit talks to another airman seated in the cab of a P-4 aircraft firefighting and rescue truck near the runway at Melville Hall Airpo - DPLA - 09ae01bc416fb2e6d63e1870a7e83f41.jpeg",
+    "File:Romanian DJI Avata 2, Eastern Phoenix 2026 exercise.jpg",
+    "File:Romanian DJI Matrice 30, Eastern Phoenix 2026 exercise.jpg",
+    "File:Romanian DJI Matrice 300, Eastern Phoenix 2026 exercise.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_12",
+   "query": "DJI drone",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act1_14",
+   "query": "tunnel boring machine China Railway hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_14",
+   "query": "tunnel boring machine China Railway",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 1,
+   "top": [
+    "File:Tunnel boring machine of Railway Construction Heavy Industry 20210522.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_14",
+   "query": "walking excavator hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_14",
+   "query": "walking excavator",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act1_15",
+   "query": "Tian Kun Hao dredger hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_15",
+   "query": "Tian Kun Hao dredger",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_2",
+   "query": "rare earth oxides hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_2",
+   "query": "rare earth oxides",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 3,
+   "top": [
+    "File:Brannerite in rock with pyrite Titanium uranium thorium calcium iron rare earth oxide Algom Nordic Mine, Elliot Lake, Ontario, Canada.jpg",
+    "File:Mechanism of the improved rare earth elements extractability by the electrothermal activation.jpg",
+    "File:USGS rare earth oxides production graph.PNG"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_3",
+   "query": "Trump Xi Busan 2025 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_3",
+   "query": "Trump Xi Busan 2025",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 8,
+   "top": [
+    "File:2025 - Xi Jinping (cropped).jpg",
+    "File:2025 Chinese President Xi Jinping at the Gimhae International Airport in South Korea - (cropped).jpg",
+    "File:2025 Xi Jinping (cropped).jpg",
+    "File:2025 Xi Jinping -(cropped).jpg",
+    "File:2025 Xi Jinping --(cropped).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act3_2",
+   "query": "tunnel boring machine Korea hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act3_2",
+   "query": "tunnel boring machine Korea",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 1,
+   "top": [
+    "File:South Korean counter-tunnel (1990).JPEG"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act3_4",
+   "query": "Herrenknecht tunnel boring machine hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act3_4",
+   "query": "Herrenknecht tunnel boring machine",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act3_9",
+   "query": "Hanwha Qcells hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act3_9",
+   "query": "Hanwha Qcells",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0",
+    "Public domain 제한",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act3_8",
+   "query": "tandem solar cell perovskite silicon hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act3_8",
+   "query": "tandem solar cell perovskite silicon",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 2,
+   "top": [
+    "File:Perovskite photovoltaics efficiency chart 2022.png",
+    "File:Thin film perovskite solar cell and perovskite on silicon tandem solar cell.png"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act1_6",
+   "query": "malware hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 8,
+   "top": [
+    "File:A Message on Ebola Virus Disease (EVD) DVIDS371337.webm",
+    "File:An illustration shows a mosquito to promote West Nile virus awareness at Joint Base San Antonio, Texas, Aug. 9, 2012 120809-F-UR169-619.jpg",
+    "File:Port bow view of the United Kingdom research vessel RV TRITON entering the open draw of the Frederick Douglas Memorial Bridge (South Capital Street) - DPLA - dba1f6157b9684a650122605decf61f3.jpeg",
+    "File:Port side view of the United Kingdom research vessel RV TRITON about to get underway from pier one at the Washington Navy Yard. The vessel was here on a port visit - DPLA - 33d62312ec687381e7f33d9c290e4b5b.jpeg",
+    "File:Titanium bracelets a daily reminder of aviation heroes DVIDS42353.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_6",
+   "query": "malware",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 4,
+   "top": [
+    "File:CIH.png",
+    "File:Interfaccia principale di Altruistics.webp",
+    "File:Kuku virus for MS-DOS.png",
+    "File:Virus Blaster.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act2_11",
+   "query": "Global Times hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 8,
+   "top": [
+    "File:Airplanes - Flight - An American Scout Plane. The N.Y. Times - NARA - 17338732.jpg",
+    "File:Airplanes - Flight - An American Scout Plane. The N.Y. Times - NARA - 17338732 (cropped).jpg",
+    "File:Demobilization - Miscellaneous - Chateau-Thierry her wounded nine times - NARA - 26433501.jpg",
+    "File:Industries of War - Mining - Mining coal in war times - NARA - 45488476.jpg",
+    "File:Liberty Bonds - Advertising Methods - SECOND LIBERTY LOAN, OCT. 1917. Fattie Arbuckle, the movie star, putting up a Liberty Loan poster at Times Square, New York - NARA - 45491030.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act2_11",
+   "query": "Global Times",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 2,
+   "top": [
+    "File:Global forest, cropland and pasture, rangeland change.webp",
+    "File:Spatial extent of global land use- & land-cover change.webp"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act2_2",
+   "query": "Rareearthoxides hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_2",
+   "query": "Rareearthoxides",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 2,
+   "passed": 1,
+   "top": [
+    "File:Rareearthoxides.jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_3",
+   "query": "Trump Xi Jinping meeting Gimhae hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_3",
+   "query": "Trump Xi Jinping meeting Gimhae",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 8,
+   "top": [
+    "File:2025 Chinese President Xi Jinping at the Gimhae International Airport in South Korea (cropped).jpg",
+    "File:2025 Chinese President Xi Jinping at the Gimhae International Airport in South Korea - (cropped).jpg",
+    "File:2025 Xi Jinping (cropped).jpg",
+    "File:President Donald Trump arrives for a bilateral meeting with Chinese President Xi Jinping at the Gimhae International Airport terminal (54890669783).jpg",
+    "File:President Donald Trump greets Chinese President Xi Jinping before a bilateral meeting at the Gimhae International Airport terminal (54890669668).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act2_6",
+   "query": "solar farm China photovoltaic hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_6",
+   "query": "solar farm China photovoltaic",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 2,
+   "top": [
+    "File:Building a Great Solar Wall in China (153759 - 20171220 lrg).jpg",
+    "File:Building a Great Solar Wall in China (153759 - 2 20241208 lrg).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_7",
+   "query": "cell therapy manufacturing laboratory hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 1,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_7",
+   "query": "cell therapy manufacturing laboratory",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 2,
+   "top": [
+    "File:NASA astronaut Jessica Meir nourishes stem cell samples inside the Kibo laboratory module (iss074e0604163).jpg",
+    "File:NASA astronaut Jessica Meir processes stem cell samples inside the Life Science Glovebox (iss074e0603697).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act3_1",
+   "query": "Seoul subway tunnel construction hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act3_1",
+   "query": "Seoul subway tunnel construction",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_3",
+   "query": "data center servers hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 8,
+   "top": [
+    "File:250821-D-PM193-1086 SecDef Pete Hegseth Meets with DC National Guard Troops at DC Armory.jpg",
+    "File:250821-D-PM193-1090 SecDef Pete Hegseth Meets with DC National Guard Troops at DC Armory.jpg",
+    "File:250821-D-PM193-1142 SecDef Pete Hegseth Meets with DC National Guard Troops at DC Armory.jpg",
+    "File:250821-D-PM193-1149 SecDef Pete Hegseth Meets with DC National Guard Troops at DC Armory.jpg",
+    "File:250821-D-PM193-1215 SecDef Pete Hegseth Meets with DC National Guard Troops at DC Armory.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_3",
+   "query": "data center servers",
+   "pool": "commons_cc",
+   "on": "2026-10-30",
+   "found": 8,
+   "passed": 3,
+   "top": [
+    "File:Data Center Tour & Technical Deep Dive into the Power, Data and Cooling Infrastructure!.webm",
+    "File:Facebook Data Center Server Board.jpg",
+    "File:What's Inside This Decommissioned Data Center-.webm"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  }
+ ]
+}
