@@ -1314,24 +1314,13 @@ events:
     sid: act1_4
     edge: end
     'off': 0.3
-  at_place: kirishi
+  at_place: ryazan   # v7.4.0 — act1_4 카메라에서 키리시는 화면 위 끝(y 8, offscreen)·사라토프는 자막 띠 안(subtitle_overlap) → 화면 안 랴잔 정유소로, 사라토프 핀은 뺐다
   label: 정유소
   side: right
 - type: marker
   start:
     sid: act1_4
     'off': 0.8
-  end:
-    sid: act1_4
-    edge: end
-    'off': 0.3
-  at_place: saratov
-  label: 정유소
-  side: left
-- type: marker
-  start:
-    sid: act1_4
-    'off': 1.3
   end:
     sid: act1_4
     edge: end
