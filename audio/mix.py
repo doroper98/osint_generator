@@ -47,7 +47,8 @@ class ClipTrack(BaseModel):
     model_config = ConfigDict(extra="forbid", arbitrary_types_allowed=True)
 
     mid: str
-    role: str            # main | broll
+    role: str            # main | broll — 배치(액자/구석) 역할
+    audio: str           # main | broll — 원음 이득(D-0276: 액자 main 이어도 현장음은 broll 이득, geo strikes). 기본은 role
     t0: float
     t1: float
     pcm: np.ndarray
@@ -58,7 +59,7 @@ def db(x: float) -> float:
 
 
 def clip_track(clips: list[ClipTrack], n: int, duck: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-    """(클립 트랙 N×2, main 구간 표시 0~1). 피크 = narration_peak × 역할 이득, 양 끝 duck_fade_sec 페이드,
+    """(클립 트랙 N×2, main 구간 표시 0~1). 피크 = narration_peak × 원음 이득 역할(c.audio), 양 끝 duck_fade_sec 페이드,
     내레이션 덕킹 포락선(duck)만큼 narration_duck_db 로 더 낮춘다. 표시는 베드 덕킹(bed_duck_db)용 — 같은 페이드로 부드럽게."""
     C = AU.clip  # noqa: N806
     out = np.zeros((n, 2), np.float32)
@@ -70,7 +71,7 @@ def clip_track(clips: list[ClipTrack], n: int, duck: np.ndarray) -> tuple[np.nda
         if m <= 0:
             continue
         a = c.pcm[:m].astype(np.float32)
-        a = a / (np.abs(a).max() + AU.norm_eps) * AU.narration_peak * db(C.main_gain_db if c.role == "main" else C.broll_gain_db)
+        a = a / (np.abs(a).max() + AU.norm_eps) * AU.narration_peak * db(C.main_gain_db if c.audio == "main" else C.broll_gain_db)
         env = np.ones(m, np.float32)
         k = min(fn, m // 2)
         env[:k] = np.linspace(0, 1, k)
@@ -346,8 +347,9 @@ def load_clips(proj: Path, events: list[dict]) -> tuple[list[ClipTrack], list[di
         if sr != SR or pcm.ndim != 2:
             raise ValueError(f"클립 원음 형식 {f}: {sr} Hz · {pcm.shape} — {SR} Hz 스테레오여야 한다")
         role = e.get("role", "main")
-        out.append(ClipTrack(mid=e["mid"], role=role, t0=e["t0"], t1=e["t1"], pcm=pcm.astype(np.float32) / PCM16))
-        rec.append({"mid": e["mid"], "role": role, "t0": round(e["t0"], 3), "t1": round(e["t1"], 3),
+        audio = e.get("audio") or role   # v7.4.0 D-0276 — 원음 이득 역할(없으면 배치 role 과 같게)
+        out.append(ClipTrack(mid=e["mid"], role=role, audio=audio, t0=e["t0"], t1=e["t1"], pcm=pcm.astype(np.float32) / PCM16))
+        rec.append({"mid": e["mid"], "role": role, "audio": audio, "t0": round(e["t0"], 3), "t1": round(e["t1"], 3),
                     "wav_md5": hashlib.md5(f.read_bytes()).hexdigest()})
     return out, rec
 

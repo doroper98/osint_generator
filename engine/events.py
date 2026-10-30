@@ -374,6 +374,7 @@ class ClipEvent(_Event):
     type: Literal["clip"]
     mid: str
     role: Literal["main", "broll"] = "main"   # v7.4.0 D-0274 §2① — main = 주 요소(액자 clip_frame·원음), broll = 현장 보조(구석 슬롯)
+    audio: Optional[Literal["main", "broll"]] = None   # v7.4.0 D-0276 — 원음 이득을 배치 role 과 따로: None=role 과 같게, broll=현장음(발언이 아닌 전투·현장 영상을 액자(main)로 크게 보이되 소리는 낮게, geo strikes)
     x: Optional[float] = None
     y: Optional[float] = None
     w: Optional[float] = None
