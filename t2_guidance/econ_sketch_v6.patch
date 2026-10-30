@@ -1,0 +1,1388 @@
+diff --git a/engine/checks.py b/engine/checks.py
+index 230a7c4..cc5d6e9 100644
+--- a/engine/checks.py
++++ b/engine/checks.py
+@@ -2585,8 +2585,12 @@ def flat_lanes(P) -> list[tuple[str, float, tuple[float, float]]]:  # noqa: ANN0
+     st, cams, events = world
+     span = visited_dates(st, P, cams)
+     out = []
++    from engine.layers.series import zero_lane  # noqa: PLC0415
++
+     for lane, (lo, hi) in rng.items():
+-        vs = [v for e in events if e.get("type") == "series" and e.get("lane") == lane for sid in record_ids(e)
++        if zero_lane(events, lane):   # v7.4.0 감독 승인(2026-10-30) — 막대·쌓임 레인은 0 기준: 평평함이 아니라 크기 비교가 뜻([bars-from-zero])
++            continue
++        vs = [v for e in events if e.get("type") == "series" and e.get("lane") == lane and not e.get("secondary") for sid in record_ids(e)
+               for d, v in record_points(load_series(sid)) if span is None or span[0] <= d <= span[1]]   # 전망 점(scatter)도 그려진 데이터
+         if not vs or hi <= lo:
+             continue
+@@ -2726,8 +2730,10 @@ def check_axis_empty_band(P) -> list[str]:  # noqa: ANN001, N803
+     st, _, events = world
+     mx = TIMELINE.lane_range.empty_band_max_ratio
+     out = []
++    from engine.layers.series import zero_lane  # noqa: PLC0415
++
+     for lane, r in rng.items():
+-        if TIMELINE.lane_range.mode == "zero":
++        if TIMELINE.lane_range.mode == "zero" or zero_lane(events, lane):   # v7.4.0 감독 승인 — 막대·쌓임 레인은 0 기준이라 빈 띠 개념이 다르다
+             continue
+         lo_r, hi_r = empty_bands(events, lane, r, st)
+         for side, v in (("아래", lo_r), ("위", hi_r)):
+diff --git a/engine/events.py b/engine/events.py
+index 05dc549..806463e 100644
+--- a/engine/events.py
++++ b/engine/events.py
+@@ -80,6 +80,7 @@ class MarkerEvent(_Event):
+     side: Literal["right", "left", "top", "bottom"] = "right"
+     hl: bool = False
+     icon: Literal["dot", "boom"] = "dot"
++    vline: bool = False   # v7.4.0 D-0309 §1-5 — 시간축 핀: 레인 세로 전체 점선(발표일). 지도 마커는 쓰지 않는다
+     route_cross_exempt: Optional[RouteCrossExempt] = None   # v5.21.11 D-0203 — 골든 기준 프로젝트만(테스트가 강제)
+ 
+     @model_validator(mode="after")
+@@ -94,6 +95,20 @@ class MarkerEvent(_Event):
+ 
+ 
+ 
++class StackPart(BaseModel):
++    """v7.4.0 D-0309 — 쌓임 부문 하나. ids 레코드 값의 합(코드 계산)을 label 이름으로 그린다(직접 라벨, 범례 없음)."""
++
++    model_config = ConfigDict(extra="forbid")
++
++    ids: list[str] = Field(min_length=1)
++    label: str = Field(min_length=1)
++
++
++# v7.4.0 D-0309·D-0315 §1-3 — 부문(parts)을 읽는 스타일. stack = 쌓임(series_id = 합계), dumbbell = 그 분기 열 안 부문별 전분기 → 이번 분기,
++# diverging = 그 분기 열 안 부문별 전년 동기 대비 ±%(코드 계산, 0 기준). dumbbell·diverging 의 series_id = 열 날짜 기준 레코드(무대 안 마지막 분기)
++PART_STYLES = ("stack", "dumbbell", "diverging")
++
++
+ class SeriesEvent(_Event):
+     """시리즈 레이어(v4.3.0 D-0084 작업 4) — 값은 데이터 레코드 data/series/<series_id> 에서만(연출은 숫자를 주지 않는다, 20 §5.1).
+     시간축 무대 전용. key·axis·slot 은 load_project 가 채운다(레인 안 순번 — 연출이 쓰면 오류)."""
+@@ -101,10 +116,17 @@ class SeriesEvent(_Event):
+     type: Literal["series"]
+     lane: str
+     series_id: str
+-    style: Literal["step", "line", "band", "projection", "bars"]   # projection = v7.4.0 D-0260 §2 — scatter 레코드(전망 점, rules stage_timeline.projection). bars = v7.4.0 D-0278 §4.1(분기 막대, 스케치)
++    style: Literal["step", "line", "band", "projection", "bars", "stack", "dumbbell", "diverging", "range"]   # projection = v7.4.0 D-0260 §2 — scatter 레코드(전망 점, rules stage_timeline.projection). bars = v7.4.0 D-0278 §4.1(분기 막대, 스케치)
+     color_by: Literal["fixed", "change"] = "fixed"   # v4.4.0 D-0091 ② — change: 레코드 값 변화로 달마다 장르 색 의미 hike·cut·hold(코드 계산)
++    parts: list[StackPart] = Field(default_factory=list)   # v7.4.0 D-0309 — stack: 부문(아래 → 위), series_id = 합계 레코드
++    secondary: bool = False          # v7.4.0 D-0309 §1-4 — 같은 레인 보조 축(레인당 하나, line·step 만)
+     upper_id: Optional[str] = None   # v4.4.0 D-0090 작업 2 — band: series_id = 아래 끝 레코드, upper_id = 위 끝 레코드(목표 범위 띠)
+     grow: bool = True
++    # v7.4.0 D-0310 감독 지시 ① — accent 대상 하나(그 순간 내레이션이 말하는 층·부문): latest(최신 열·최신 합계, 기본) · total(합계 선·점) ·
++    # none · stack 부문 label. 문장마다 accent 를 옮기려면 같은 레이어를 문장 경계에서 이어 붙이고 뒤 이벤트는 grow false
++    accent: Optional[str] = Field(default=None, min_length=1)
++    estimate_id: Optional[str] = None   # v7.4.0 D-0308 §1-1·D-0315 ② — bars: 예상치 레코드(속빈 막대, 같은 열). 차이 % 는 코드 계산
++    total: bool = True               # v7.4.0 D-0309 §1-3 — stack 합계 점·선 층(문장마다 켜려면 앞 이벤트는 false)
+     col: ColorName = "gold"
+     key: Optional[int] = None      # 코드가 채움(load_project.prepare_series)
+     axis: Optional[bool] = None
+@@ -112,14 +134,28 @@ class SeriesEvent(_Event):
+ 
+     @model_validator(mode="after")
+     def _band(self) -> "SeriesEvent":
+-        if (self.style == "band") != (self.upper_id is not None):
+-            raise ValueError("series: style band 는 upper_id(위 끝 레코드)가 필요하고, step·line 은 upper_id 를 쓰지 않는다")
++        if (self.style in ("band", "range")) != (self.upper_id is not None):   # range = v7.4.0 D-0315 §1-3 가이던스 속빈 범위(분기 열)
++            raise ValueError("series: style band·range 는 upper_id(위 끝 레코드)가 필요하고, 다른 스타일은 upper_id 를 쓰지 않는다")
+         if self.upper_id == self.series_id:
+             raise ValueError("series band: upper_id 가 series_id 와 같다")
++        if (self.style in PART_STYLES) != bool(self.parts):
++            raise ValueError(f"series: style {'·'.join(PART_STYLES)} 은 parts(부문)가 필요하고, 다른 스타일은 parts 를 쓰지 않는다")
++        if self.secondary and self.style not in ("line", "step"):
++            raise ValueError("series secondary(보조 축)는 line·step 만 — 막대·쌓임은 주 축")
++        if self.estimate_id is not None and self.style not in ("bars", "range"):
++            raise ValueError("series estimate_id 는 bars(예상 = 속빈 막대)·range(컨센서스 = 속빈 점)만")
++        if not self.total and self.style != "stack":
++            raise ValueError("series total false 는 stack 만(합계 층)")
++        if self.accent is not None:
++            ok = {"latest", "total", "none"} | {p.label for p in self.parts}
++            if self.style not in ("bars", *PART_STYLES) or self.accent not in ok or (self.accent == "total" and self.style != "stack"):
++                raise ValueError(f"series accent {self.accent!r}: bars 는 latest·none, stack 은 latest·total·none·부문 label, "
++                                 f"dumbbell·diverging 은 none·부문 label({sorted(ok)}) 만")
+         return self
+ 
+     def record_ids(self) -> list[str]:
+-        return [self.series_id] + ([self.upper_id] if self.upper_id else [])
++        return ([self.series_id] + ([self.upper_id] if self.upper_id else []) + [i for p in self.parts for i in p.ids]
++                + ([self.estimate_id] if self.estimate_id else []))
+ 
+ 
+ class DeclaredLeg(BaseModel):
+diff --git a/engine/island.py b/engine/island.py
+index 2c789a5..fc9b3f7 100644
+--- a/engine/island.py
++++ b/engine/island.py
+@@ -22,7 +22,7 @@ import cairo
+ 
+ from engine.context import RenderCtx
+ from engine.projection import View
+-from engine.style import CARD, FPS, ISLAND, TIMELINE
++from engine.style import CARD, FPS, ISLAND, PALETTE, TIMELINE, border_rgb, island_rgb
+ from engine.timebase import ease_out, window
+ from engine.typography import rrect
+ from rules import load_rules
+@@ -85,10 +85,10 @@ def draw_frame(ctx: cairo.Context, box: Box, a: float, style: Optional[FrameStyl
+         ctx.set_source_rgba(0, 0, 0, al * a)
+         ctx.fill()
+     rrect(ctx, x, y, w, h, r)
+-    ctx.set_source_rgba(*(TIMELINE.bg_rgb if style is None else style.fill_rgb), ISLAND.fill_alpha * a)
++    ctx.set_source_rgba(*(island_rgb(TIMELINE.bg_rgb) if style is None else style.fill_rgb), ISLAND.fill_alpha * a)
+     ctx.fill_preserve()
+     if style is None:
+-        ctx.set_source_rgba(1, 1, 1, ISLAND.edge_alpha * a)
++        ctx.set_source_rgba(*border_rgb((1, 1, 1)), (1.0 if PALETTE else ISLAND.edge_alpha) * a)
+         ctx.set_line_width(ISLAND.edge_w)
+     else:
+         ctx.set_source_rgba(*style.edge_rgb, style.edge_alpha * a)
+diff --git a/engine/layers/markers.py b/engine/layers/markers.py
+index 12356b7..90ce003 100644
+--- a/engine/layers/markers.py
++++ b/engine/layers/markers.py
+@@ -178,6 +178,16 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
+     if x < ox - 80 or x > ox + view.vw + 80 or y < oy - 40 or y > oy + view.vh + 40:
+         return
+     col = map_c(view.stage, "gold") if e.get("hl") else map_c(view.stage, "white")   # v5.18.0 D-0161 §3 — 지도 테마 보정
++    if e.get("vline") and e.get("lane") is not None and hasattr(view.stage, "lane_screen"):   # v7.4.0 D-0309 §1-5 — 발표일 세로 점선
++        top, bot = view.stage.lane_screen(view, view.stage.lane_index(e["lane"]))
++        ctx.save()
++        ctx.set_dash(list(MK.vline_dash))
++        ctx.move_to(x, top)
++        ctx.line_to(x, bot)
++        ctx.set_source_rgba(*col, MK.vline_alpha * a)
++        ctx.set_line_width(MK.vline_w)
++        ctx.stroke()
++        ctx.restore()
+     halo = map_halo(view.stage)
+     hk = {} if halo is None else {"halo_rgb": halo}
+     for k in range(2):
+diff --git a/engine/layers/series.py b/engine/layers/series.py
+index a803e53..4da2f04 100644
+--- a/engine/layers/series.py
++++ b/engine/layers/series.py
+@@ -20,7 +20,8 @@ from typing import TYPE_CHECKING
+ import cairo
+ 
+ from data.series import load_series
+-from engine.style import C, FPS, TIMELINE
++from engine.events import PART_STYLES
++from engine.style import C, FPS, TIMELINE, island_rgb
+ from rules import load_rules
+ from engine.timebase import ease_out, window
+ from engine.typography import text, tw
+@@ -39,12 +40,84 @@ NICE_TRIES = 4      # 가수 목록을 몇 자릿수 위까지 훑는가
+ DEC_LAST_DAY = 31   # 12월 마지막 날(전망 열 = 그 해 연말)
+ SOURCE_SEP = " · "  # 출처 줄 조각 구분(source_line·lane_source 가 쓰는 것과 같다)
+ TAG_PAD = 3         # 전망 띠 태그 줄 사이·레인 위 끝 여백(설계 px, D-0266 C)
++SEP_RGB = (0.05, 0.06, 0.08)   # 쌓임 부문 틈·밝은 부문 위 글자(아일랜드 바탕에 가까운 어두운 잉크)
+ AXIS = "value"   # D-0087 — 값 축(정직성 검사 4개 전부, rules qa_checks.chart_targets)
+ 
+ 
+ def record_ids(e: dict) -> list[str]:
+-    """이벤트가 읽는 레코드 id — band 면 아래 끝·위 끝 두 개(v4.4.0)."""
+-    return [e["series_id"]] + ([e["upper_id"]] if e.get("upper_id") else [])
++    """이벤트가 읽는 레코드 id — band 면 아래 끝·위 끝 두 개(v4.4.0), stack 이면 합계 + 부문 레코드(v7.4.0 D-0309)."""
++    return ([e["series_id"]] + ([e["upper_id"]] if e.get("upper_id") else []) + [i for p in e.get("parts") or [] for i in p["ids"]]
++            + ([e["estimate_id"]] if e.get("estimate_id") else []))
++
++
++def _raw(rec: object, d: date) -> float:
++    """공시 원값(filing raw_value) — 없으면 레코드 값. 부문 합 검증은 반올림 전 값으로(D-0309)."""
++    f = rec.filing(d) if getattr(rec, "source_kind", "") == "filing" else None  # type: ignore[attr-defined]
++    return f.raw_value if f is not None else dict(rec.values)[d]  # type: ignore[attr-defined]
++
++
++def stack_columns(e: dict) -> list[tuple[date, float, list[float]]]:
++    """stack 의 열 (날짜, 합계 값, 부문 값들). 부문 값 = ids 레코드 값의 합(코드 계산). 부문 합 ≠ 합계(원값 기준, sum_tol_pct)면
++    ValueError(P6) — 빈 부문 날짜도 오류(보간 금지)."""
++    tot = load_series(e["series_id"])
++    parts = [[load_series(i) for i in p["ids"]] for p in e["parts"]]
++    out = []
++    for d, v in tot.values:
++        vals, raw = [], 0.0
++        for recs in parts:
++            have = [dict(r.values) for r in recs]
++            if any(d not in h for h in have):
++                raise ValueError(f"stack {e['series_id']}: 부문 {[r.series_id for r in recs]} 에 {d} 값이 없다")
++            vals.append(sum(h[d] for h in have))
++            raw += sum(_raw(r, d) for r in recs)
++        t_raw = _raw(tot, d)
++        if abs(raw - t_raw) > abs(t_raw) * TIMELINE.bars.sum_tol_pct / 100 + 1e-9:
++            raise ValueError(f"stack {e['series_id']} {d}: 부문 합 {raw:g} ≠ 합계 {t_raw:g}(허용 {TIMELINE.bars.sum_tol_pct}%) — 부문을 빠짐없이(D-0309)")
++        out.append((d, v, vals))
++    return out
++
++
++def stack_extent(e: dict) -> list[float]:
++    """stack 이 차지하는 값(열마다 양수 합·음수 합·합계) — 레인 범위가 쌓임 전체를 품게."""
++    return [x for _d, v, vals in stack_columns(e) for x in (sum(p for p in vals if p > 0), sum(p for p in vals if p < 0), v)]
++
++
++def _quarter_back(d: date, n: int) -> date:
++    """분기 마지막 날 d 에서 n 분기 앞의 분기 마지막 날."""
++    q = d.year * 4 + (d.month - 1) // 3 - n
++    y, m = q // 4, q % 4 * 3 + 3
++    return date(y, m, 31 if m in (3, 12) else 30)
++
++
++def pair_items(e: dict) -> tuple[date, date, list[tuple[str, float, float]]]:
++    """dumbbell·diverging 의 (비교 기준 분기, 열 분기, [(부문 이름, 기준 값, 열 값)]) — v7.4.0 D-0315 §1-3.
++    열 분기 = series_id 레코드의 마지막 분기, 기준 = dumbbell 전분기 · diverging 전년 동기. 부문 값 = ids 레코드 값의 합(코드 계산).
++    빈 값 = ValueError(보간 금지, P6)."""
++    d1 = load_series(e["series_id"]).values[-1][0]
++    d0 = _quarter_back(d1, 1 if e["style"] == "dumbbell" else 4)
++    out = []
++    for p in e["parts"]:
++        have = [dict(load_series(i).values) for i in p["ids"]]
++        miss = [d for d in (d0, d1) for h in have if d not in h]
++        if miss:
++            raise ValueError(f"{e['style']} 부문 {p['label']}: {p['ids']} 에 {sorted(set(miss))} 값이 없다")
++        out.append((p["label"], sum(h[d0] for h in have), sum(h[d1] for h in have)))
++    return d0, d1, out
++
++
++def yoy_pct(v0: float, v1: float) -> float:
++    """전년 동기 대비 %(코드 계산, rules data.transforms yoy_pct 와 같은 식 — 소수 첫째 자리 반올림은 표기에서)."""
++    if v0 <= 0:
++        raise ValueError(f"diverging: 기준 값 {v0} ≤ 0 — 증감률을 정의할 수 없다(손실 부문은 dumbbell 로)")
++    return (v1 / v0 - 1) * 100
++
++
++def pair_extent(e: dict) -> list[float]:
++    """dumbbell·diverging 이 차지하는 값 — dumbbell 은 두 시점 값, diverging 은 ±% 와 0."""
++    _d0, _d1, items = pair_items(e)
++    if e["style"] == "dumbbell":
++        return [x for _l, a, b in items for x in (a, b)]
++    return [0.0] + [yoy_pct(a, b) for _l, a, b in items]
+ 
+ 
+ def band_pairs(e: dict) -> list[tuple[date, float, float]]:
+@@ -90,25 +163,34 @@ def month_colors(e: dict, R: object) -> dict[date, tuple[float, float, float]] |
+     return {d: rgb[r] for (d, _), r in zip(vals, regimes(vals, TIMELINE.series.change_regime_months))}
+ 
+ 
+-def lane_extent(events: list[dict], lane: str, stage: "TimelineStage | None" = None) -> tuple[float, float, str | None]:
++def lane_extent(events: list[dict], lane: str, stage: "TimelineStage | None" = None,
++                secondary: bool = False) -> tuple[float, float, str | None]:
+     """레인 데이터 극값(최소, 최대, 단위) — 무대 기간(stage cfg start~end) 안 그 레인 모든 레코드 값(실측 + 전망 점). 기간 밖뿐이면 레코드 전체.
+     lane_range 와 [axis-empty-band] 가 같이 쓴다(v7.4.0 D-0277 §3)."""
+-    recs = [load_series(sid) for e in events if e["type"] == "series" and e["lane"] == lane for sid in record_ids(e)]
++    evs = [e for e in events if e["type"] == "series" and e["lane"] == lane and bool(e.get("secondary")) == secondary]   # v7.4.0 D-0309 — 보조 축은 따로
++    recs = [load_series(sid) for e in evs if e["style"] not in PART_STYLES for sid in record_ids(e)]
+     lo_d = stage.cfg.start if stage is not None else None
+     hi_d = stage.cfg.end if stage is not None else None
+     vs = [v for r in recs for d, v in record_points(r) if (lo_d is None or d >= lo_d) and (hi_d is None or d <= hi_d)]
++    vs += [x for e in evs if e["style"] == "stack" for x in stack_extent(e)]
++    recs += [load_series(e["series_id"]) for e in evs if e["style"] == "stack"]
++    pairs = [e for e in evs if e["style"] in ("dumbbell", "diverging")]   # v7.4.0 D-0315 §1-3
++    vs += [x for e in pairs for x in pair_extent(e)]
++    recs += [load_series(e["series_id"]) for e in pairs]
+     if not vs:   # 무대 기간 밖 레코드뿐 — 레코드 전체로(그려질 점은 없지만 범위는 정해야 한다)
+         vs = [v for r in recs for _, v in record_points(r)]
++    if any(e["style"] == "diverging" for e in evs):   # 증감률 레인 — 단위 %(레코드 단위와 다르다, 같은 레인에 금액을 섞지 않는다)
++        return min(vs), max(vs), "%"
+     return min(vs), max(vs), (recs[0].unit if recs else None)
+ 
+ 
+-def lane_range(events: list[dict], lane: str, stage: "TimelineStage | None" = None) -> tuple[float, float]:
++def lane_range(events: list[dict], lane: str, stage: "TimelineStage | None" = None, secondary: bool = False) -> tuple[float, float]:
+     """레인 값 범위(v7.4.0 back_and_forth D-0263, UF-140) — rules stage_timeline.lane_range. fit: 데이터 극값(lane_extent, 폭 하한 min_span 적용)에
+     [최소 − pad, 최대 + pad], 양 끝은 end_round 단위(눈금 간격 또는 그 절반, D-0277 §3 정정)로 내림·올림, 데이터가 모두 0 이상이면 아래 끝 ≥ 0.
+     중간 눈금(axis_values)은 간격의 배수 그대로. zero: 옛 [min(0, 최소), 최대]. 영상당 한 번(prepare_series)."""
+     cfg = TIMELINE.lane_range
+-    dmin, dmax, unit = lane_extent(events, lane, stage)
+-    if any(e["type"] == "series" and e["lane"] == lane and e["style"] == "bars" for e in events):   # v7.4.0 D-0278 §4.1 — 막대 레인은 0 을 품는다([bars-from-zero])
++    dmin, dmax, unit = lane_extent(events, lane, stage, secondary)
++    if not secondary and zero_lane(events, lane):   # v7.4.0 D-0278 §4.1 — 막대·쌓임 레인은 0 을 품는다([bars-from-zero])
+         dmin, dmax = min(dmin, 0.0), max(dmax, 0.0)
+     if cfg.mode == "zero":
+         lo, hi = min(0.0, dmin), dmax
+@@ -125,6 +207,11 @@ def lane_range(events: list[dict], lane: str, stage: "TimelineStage | None" = No
+     return round(lo, ROUND_DP), round(hi, ROUND_DP)
+ 
+ 
++def zero_lane(events: list[dict], lane: str) -> bool:
++    """막대·쌓임이 있는 레인(주 축) — 0 기준(D-0308·D-0309). [axis-empty-band]·[flat-lane] 은 이 레인을 재지 않는다(감독 승인 2026-10-30)."""
++    return any(e["type"] == "series" and e["lane"] == lane and e["style"] in ("bars", "stack", "diverging", "range") and not e.get("secondary") for e in events)
++
++
+ def fit_extent(dmin: float, dmax: float, unit: str | None) -> tuple[float, float]:
+     """데이터 극값에 폭 하한 min_span(단위별, 가운데 기준)을 적용한 구간. 데이터가 모두 0 이상이면 아래 끝 ≥ 0."""
+     cfg = TIMELINE.lane_range
+@@ -199,7 +286,9 @@ def axis_range_note(rng: tuple[float, float], unit: str) -> str | None:
+ def value_y(stage: "TimelineStage", lane: str, rng: tuple[float, float], v: float) -> float:
+     lo_y, hi_y = stage.lane_y(lane)
+     S = TIMELINE.series  # noqa: N806
+-    b, t = lo_y + S.lane_pad_bottom, hi_y - S.lane_pad_top
++    bars = stage.lanes[stage.lane_index(lane)].kind == "bars"   # v7.4.0 감독 지시(R-0293 눈 확인) — 막대·쌓임 레인은 플롯이 레인을 더 쓴다
++    pb, pt = (TIMELINE.bars.lane_pad_bottom, TIMELINE.bars.lane_pad_top) if bars else (S.lane_pad_bottom, S.lane_pad_top)
++    b, t = lo_y + pb, hi_y - pt
+     return b + (v - rng[0]) / (rng[1] - rng[0]) * (t - b)
+ 
+ 
+@@ -220,8 +309,13 @@ def fmt_value(v: float, unit: str) -> str:
+     return f"{v:.2f}".rstrip("0").rstrip(".") + unit
+ 
+ 
++def source_ids(e: dict) -> list[str]:
++    """출처 줄에 쓰는 레코드 — stack 은 합계 레코드 하나(부문은 같은 공시 표, D-0309), 그 밖은 record_ids."""
++    return [e["series_id"]] if e.get("style") in PART_STYLES else record_ids(e)
++
++
+ def source_line(e: dict) -> str:
+-    recs = [load_series(s) for s in record_ids(e)]
++    recs = [load_series(s) for s in source_ids(e)]
+     srcs = list(dict.fromkeys(f"{r.source} · {r.as_of_label()}" for r in recs))
+     return " / ".join(srcs)
+ 
+@@ -229,7 +323,7 @@ def source_line(e: dict) -> str:
+ def lane_source_join(evs: list[dict]) -> str:
+     """레인 출처 한 줄(v7.4.0 back_and_forth D-0266 B) — 같은 매체(출처 첫 조각)는 한 번, 원출처는 겹치는 앞부분을 묶어 "·" 로,
+     기준 시점은 같은 해면 달을 "·" 로 잇는다. 전망 점(style projection)의 출처는 레인 줄이 아니라 전망 띠 태그로 간다(D-0266 C)."""
+-    recs = [load_series(sid) for e in evs if e.get("style") != "projection" for sid in record_ids(e)]
++    recs = [load_series(sid) for e in evs if e.get("style") != "projection" for sid in source_ids(e)]
+     groups: dict[str, dict[str, list]] = {}
+     for r in recs:
+         head, *rest = r.source.split(SOURCE_SEP)
+@@ -276,7 +370,7 @@ def draw_end_label_plate(ctx: cairo.Context, box: tuple[float, float, float, flo
+     """끝값 라벨 뒤 판(v7.4.0 D-0277 §2) — 바탕 = stage_timeline.bg_rgb × end_label_plate.alpha. 그린 사각형을 돌려준다(검사 기록)."""
+     r = end_label_plate_rect(box)
+     ctx.rectangle(r[0], r[1], r[2] - r[0], r[3] - r[1])
+-    ctx.set_source_rgba(*TIMELINE.bg_rgb, TIMELINE.series.end_label_plate.alpha * a)
++    ctx.set_source_rgba(*island_rgb(TIMELINE.bg_rgb), TIMELINE.series.end_label_plate.alpha * a)
+     ctx.fill()
+     return r
+ 
+@@ -351,7 +445,8 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
+         return
+     stage: "TimelineStage" = view.stage  # type: ignore[assignment]
+     rec = load_series(e["series_id"])
+-    rng = R.cache["series_range"][e["lane"]]
++    sec = bool(e.get("secondary"))   # v7.4.0 D-0309 §1-4 — 보조 축: 자기 범위·가는 선·일별 점·왼쪽 축
++    rng = (R.cache["series_range2"] if sec else R.cache["series_range"])[e["lane"]]
+     if e["style"] == "projection":   # v7.4.0 D-0260 §2 — 전망 점(같은 레인·같은 축척)
+         _draw_projection(ctx, R, view, stage, t, e, rec, rng, a)
+         _draw_axis(ctx, view, stage, e, rng, rec.unit, a, R, t)
+@@ -366,15 +461,31 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
+     pr = plot_right(ctx, view, stage, e["lane"], rng, rec.unit)   # v7.4.0 — 오른쪽 축 값 라벨 열은 선·띠·점이 들어가지 않는 예약 열
+     fx = min(pr, view.to_screen(front, 0.0)[0] if front != math.inf else view.right)
+     shown = min(front, view.x0 + (pr - view.ox) / view.s)   # 끝값은 선이 실제로 끝나는 자리(예약 열 왼쪽) 기준 — 열 안 자료는 그리지 않는다
++    pl = plot_left(ctx, view, e["lane"], R)   # v7.4.0 D-0314 §1-2 — 보조 축 값은 왼쪽 예약 열(자료가 들어가지 않는다)
+     ctx.save()
+-    ctx.rectangle(view.ox, view.oy, max(0.0, fx - view.ox), stage.area_bottom + TIMELINE.series.clip_below_px)
++    ctx.rectangle(pl, view.oy, max(0.0, fx - pl), stage.area_bottom + TIMELINE.series.clip_below_px)
+     ctx.clip()
+     last: tuple[float, float, float] | None = None
+     last_hi: float | None = None
+     if e["style"] == "band":
+         last, last_hi = _draw_band(ctx, view, stage, e, rng, col, a, shown, mcol)
+-    if e["style"] == "bars":   # v7.4.0 D-0278 §4.1 — 막대마다 값 라벨(끝값 라벨 없음)
++    if e["style"] == "bars":   # v7.4.0 D-0278 §4.1·D-0308 — 캡슐·사다리·직접 라벨(끝값 라벨 없음)
+         _draw_bars(ctx, view, stage, e, rng, rec, col, a, shown)
++    if e["style"] in (*PART_STYLES, "range"):   # v7.4.0 D-0309 쌓임 · D-0315 §1-3 덤벨·diverging·가이던스 범위 — 직접 라벨(범례 없음)
++        ctx.restore()
++        ctx.save()
++        ctx.rectangle(pl, view.oy - view.vh, max(0.0, pr - pl), view.vh * 3)   # 좌우 예약 열만 막는다(값 라벨은 위·아래로 나갈 수 있다)
++        ctx.clip()
++        if e["style"] == "stack":
++            _draw_stack(ctx, view, stage, e, rng, col, a, shown, pr)
++        elif e["style"] == "range":
++            _draw_range(ctx, view, stage, e, rng, a, shown)
++        else:
++            _draw_pairs(ctx, view, stage, e, rng, col, a, shown)
++        ctx.restore()
++        _draw_axis(ctx, view, stage, e, rng, "", a, R, t)   # D-0308 감독 지시 ③ — 막대·쌓임 축은 숫자만(단위는 레인 이름)
++        _draw_source(ctx, view, stage, e, a)
++        return
+     gaps = None if rec.frequency == "monthly" else rec.missing_dates()   # v7.4.0 — daily·quarterly 는 missing 에서만 끊는다
+     for seg in ([] if e["style"] in ("band", "bars") or mcol is None else segments(rec.values, gaps)):   # 달마다 색(change)
+         _draw_pieces(ctx, view, stage, e, rng, seg, mcol, a)
+@@ -396,16 +507,21 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
+         for i, (x, y, _) in enumerate(pts):
+             sx, sy = view.to_screen(x, y)
+             (ctx.move_to if i == 0 else ctx.line_to)(sx, sy)
+-        ctx.set_source_rgba(*col, a)
+-        ctx.set_line_width(S.line_w)
++        ctx.set_source_rgba(*col, (TIMELINE.secondary.alpha if sec else 1.0) * a)
++        ctx.set_line_width(TIMELINE.secondary.line_w if sec else S.line_w)
+         ctx.set_line_join(cairo.LINE_JOIN_ROUND)
+         ctx.stroke()
+         for x, y, v in pts:
+             if x <= shown:
+                 last = (x, y, v)
++                if sec and TIMELINE.secondary.dot_r > 0:   # D-0308 §3 act4 — 일별 점 선
++                    sx, sy = view.to_screen(x, y)
++                    ctx.arc(sx, sy, TIMELINE.secondary.dot_r, 0, 2 * math.pi)
++                    ctx.set_source_rgba(*col, TIMELINE.secondary.alpha * a)
++                    ctx.fill()
+     ctx.restore()
+     _draw_missing(ctx, view, stage, rec, e, front, a, pr)
+-    if last is not None and not (e["style"] == "band" and e.get("lane_n", 1) > 1):   # v7.4.0 D-0256 — 다른 계열과 한 레인이면 띠는 끝값 라벨 없음(상·하한은 띠가 보여 준다)
++    if last is not None and not sec and not (e["style"] == "band" and e.get("lane_n", 1) > 1):   # 보조 계열은 끝값 판을 접는다(D-0314 §1-2 안 B — 값은 왼쪽 축·핀)   # v7.4.0 D-0256 — 다른 계열과 한 레인이면 띠는 끝값 라벨 없음(상·하한은 띠가 보여 준다)
+         sx, sy = view.to_screen(last[0], last[1])
+         if view.ox + S.value_min_x <= sx <= pr:
+             tip = col if mcol is None else mcol[_month_of(stage, last[0], rec)]
+@@ -424,10 +540,42 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
+                 plate = draw_end_label_plate(ctx, box, a)   # v7.4.0 D-0277 §2 — 강조 띠 위 대비
+                 text(ctx, s, box[0], by, S.value_size, S.value_font, tip, a, S.value_halo, "l")
+                 R.cache["series_end_labels"]["lanes"][e["lane"]].append((by, last[2], box, plate, covered))
+-    _draw_axis(ctx, view, stage, e, rng, rec.unit, a, R, t)
++    if sec:
++        _draw_secondary_axis(ctx, view, stage, e, rng, col, a)
++    else:
++        _draw_axis(ctx, view, stage, e, rng, "" if e["style"] == "bars" else rec.unit, a, R, t)
+     _draw_source(ctx, view, stage, e, a)
+ 
+ 
++def _draw_secondary_axis(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float],
++                         col: tuple[float, float, float], a: float) -> None:
++    """보조 축 값(v7.4.0 D-0309 §1-4) — 레인 왼쪽 끝, 계열 색, 숫자만(단위는 레인 이름). 눈금선은 그리지 않는다(주 축 격자만)."""
++    S = TIMELINE.series  # noqa: N806
++    name_box = _lane_name_box(ctx, view, stage, e["lane"])
++    rx = secondary_col_right(ctx, view, rng) - TIMELINE.secondary.axis_label_margin_px   # 왼쪽 예약 열 안 오른쪽 정렬(D-0314 §1-2)
++    for v in axis_values(rng):
++        _, sy = view.to_screen(0.0, value_y(stage, e["lane"], rng, v))
++        lw = tw(ctx, fmt_value(v, ""), S.axis_label_size, S.axis_label_font)
++        lb = (rx - lw, sy + S.axis_label_dy - S.axis_label_size, rx, sy + S.axis_label_dy)
++        if _hits(lb, name_box):   # 레인 이름과 겹치는 눈금 라벨은 접는다(R-0294 §2 — "140" 겹침)
++            continue
++        text(ctx, fmt_value(v, ""), rx, sy + S.axis_label_dy, S.axis_label_size,
++             S.axis_label_font, col, a, S.axis_label_halo, "r")
++
++
++def secondary_col_right(ctx: cairo.Context, view: "View", rng: tuple[float, float]) -> float:
++    """보조 축 왼쪽 예약 열의 오른쪽 끝(화면 x) — 가장 긴 눈금 라벨 + 양옆 axis_label_margin_px(D-0314 §1-2, plot_right 의 거울)."""
++    S = TIMELINE.series  # noqa: N806
++    w = max((tw(ctx, fmt_value(v, ""), S.axis_label_size, S.axis_label_font) for v in axis_values(rng)), default=0.0)
++    return view.ox + w + 2 * TIMELINE.secondary.axis_label_margin_px
++
++
++def plot_left(ctx: cairo.Context, view: "View", lane: str, R: "RenderCtx") -> float:  # noqa: N803
++    """자료를 그리는 영역의 왼쪽 끝 — 레인에 보조 축 계열이 있으면 그 축 값 열 오른쪽, 없으면 뷰 왼쪽 끝."""
++    rng2 = (R.cache.get("series_range2") or {}).get(lane)
++    return view.ox if rng2 is None else secondary_col_right(ctx, view, rng2)
++
++
+ def projection_rgb(R: "RenderCtx") -> tuple[float, float, float]:  # noqa: N803
+     """전망 색 = 장르 color_semantics.forecast(D-0264). 없으면 오류(P6 — 다른 색으로 대신하지 않는다)."""
+     from engine.primitives import semantic_rgba  # noqa: PLC0415
+@@ -572,30 +720,393 @@ def bar_rects(stage: "TimelineStage", e: dict, rng: tuple[float, float], rec: ob
+     return out
+ 
+ 
++def _bar_path(ctx: cairo.Context, x0: float, x1: float, yz: float, ye: float, r: float) -> None:
++    """막대 경로(v7.4.0 D-0310 §1-2, UF-155) — 0 쪽(yz)은 각, 바깥 끝(ye — 양수면 위, 음수면 아래) 두 모서리만 반지름 r. 화면 좌표."""
++    h = abs(ye - yz)
++    r = max(0.0, min(r, (x1 - x0) / 2, h))
++    ctx.new_sub_path()
++    if ye <= yz:   # 위로 선 막대
++        ctx.move_to(x0, yz)
++        ctx.line_to(x0, ye + r)
++        ctx.arc(x0 + r, ye + r, r, math.pi, 3 * math.pi / 2)
++        ctx.arc(x1 - r, ye + r, r, 3 * math.pi / 2, 2 * math.pi)
++        ctx.line_to(x1, yz)
++    else:          # 0 아래로 내려간 막대
++        ctx.move_to(x0, yz)
++        ctx.line_to(x1, yz)
++        ctx.line_to(x1, ye - r)
++        ctx.arc(x1 - r, ye - r, r, 0, math.pi / 2)
++        ctx.arc(x0 + r, ye - r, r, math.pi / 2, math.pi)
++        ctx.line_to(x0, yz)
++    ctx.close_path()
++
++
++def ladder_alpha(rank: int, steps: list[float]) -> float:
++    """잉크 사다리 농도 — rank 0 = 최신 열(steps[0]), 1 부터 차례(넘으면 마지막 값). accent 열은 부르는 쪽이 솔리드로."""
++    return steps[min(rank, len(steps) - 1)]
++
++
++def _grow(front: float, x0: float, x1: float) -> float:
++    return 1.0 if front == math.inf else ease_out(max(0.0, min(1.0, (front - x0) / max(x1 - x0, 1e-9))))
++
++
++def accent_of(e: dict) -> str:
++    """이벤트의 accent 대상(D-0310 감독 지시 ① — 그 순간 내레이션이 말하는 층·부문 하나). 기본 latest(최신 열·최신 합계)."""
++    return e.get("accent") or "latest"
++
++
+ def _draw_bars(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float], rec: object,
+                col: tuple[float, float, float], a: float, front: float) -> None:
+-    """분기 막대(v7.4.0 D-0278 §4.1) — 0 에서 자란다. 앞끝(front)이 막대 왼쪽에서 오른쪽으로 지나가는 동안 높이가 0 → 값.
+-    막대마다 값 라벨(코드 조판, 레코드 값 그대로). 부르는 쪽 clip 안에서 그린다."""
++    """분기 막대(v7.4.0 D-0278 §4.1·D-0308·D-0310) — 0 에서 자란다(앞끝이 막대를 지나는 동안 높이 0 → 값). 바닥 각·위 모서리만 top_radius.
++    accent latest 면 최신 분기만 accent(col) 솔리드, 나머지는 단일 잉크 사다리. 값 라벨은 막대 끝에 직접(범례 없음)."""
+     B = TIMELINE.bars  # noqa: N806
+-    for _d, v, x0, x1, y0, yv in bar_rects(stage, e, rng, rec):
+-        k = 1.0 if front == math.inf else max(0.0, min(1.0, (front - x0) / max(x1 - x0, 1e-9)))
++    rects = bar_rects(stage, e, rng, rec)
++    ink = C[B.ink]
++    acc = accent_of(e)
++    for n, (_d, v, x0, x1, y0, yv) in enumerate(rects):
++        rank = len(rects) - 1 - n
++        k = _grow(front, x0, x1)
+         if k <= 0:
+             continue
+-        k = ease_out(k)
+-        y = y0 + (yv - y0) * k
+         sx0, sy0 = view.to_screen(x0, y0)
+-        sx1, sy1 = view.to_screen(x1, y)
+-        ctx.rectangle(sx0, min(sy0, sy1), sx1 - sx0, abs(sy1 - sy0))
+-        ctx.set_source_rgba(*col, B.fill_alpha * a)
+-        ctx.fill_preserve()
+-        ctx.set_source_rgba(*col, B.edge_alpha * a)
+-        ctx.set_line_width(B.edge_w)
+-        ctx.stroke()
++        sx1, sy1 = view.to_screen(x1, y0 + (yv - y0) * k)
++        hot = acc == "latest" and rank == 0
++        _bar_path(ctx, sx0, sx1, sy0, sy1, B.top_radius)
++        ctx.set_source_rgba(*(col if hot else ink), (1.0 if hot else ladder_alpha(rank, B.ladder)) * a)
++        ctx.fill()
+         if k >= 1.0:
+             s = fmt_value(v, "")
+             lw = tw(ctx, s, B.value_size, B.value_font)
+             by = sy1 - B.value_gap if v >= 0 else sy1 + B.value_gap + B.value_size
+-            text(ctx, s, (sx0 + sx1) / 2 - lw / 2, by, B.value_size, B.value_font, col, a, B.value_halo, "l")
++            text(ctx, s, (sx0 + sx1) / 2 - lw / 2, by, B.value_size, B.value_font, col if hot else ink, a, B.value_halo, "l")
++    if e.get("estimate_id"):
++        _draw_estimate(ctx, view, stage, e, rng, rects, front, a)
++
++
++def _draw_estimate(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float],
++                   rects: list, front: float, a: float) -> None:
++    """예상치 = 속빈 막대(D-0308 §1-1·D-0310 §1-2 — 같은 모양, 윤곽 hollow_w). 실제보다 먼저 떠 있고(자라지 않는다) 실제가 그 안을 채운다.
++    라벨: 실제가 있는 열 = 값 라벨 위 한 줄 "예상 v · ±p%"(코드 계산), 실제가 없는 열 = 속빈 막대 위 "예상 v"."""
++    B = TIMELINE.bars  # noqa: N806
++    ink = C[B.ink]
++    act = {d: (v, x0, x1, yv, k) for d, v, x0, x1, _y0, yv in rects for k in [_grow(front, x0, x1)]}
++    for d, v in load_series(e["estimate_id"]).values:
++        qa, qb = quarter_span(stage, d)
++        half = (qb - qa) * B.w_ratio / 2
++        x0, x1 = (qa + qb) / 2 - half, (qa + qb) / 2 + half
++        y0 = value_y(stage, e["lane"], rng, 0.0)
++        sx0, sy0 = view.to_screen(x0, y0)
++        sx1, sy1 = view.to_screen(x1, value_y(stage, e["lane"], rng, v))
++        w2 = B.hollow_w
++        _bar_path(ctx, sx0 + w2 / 2, sx1 - w2 / 2, sy0, sy1 + (w2 / 2 if v >= 0 else -w2 / 2), B.top_radius)
++        ctx.set_source_rgba(*ink, 0.9 * a)
++        ctx.set_line_width(w2)
++        ctx.stroke()
++        hit = act.get(d)
++        if hit is not None and hit[4] >= 1.0:   # 실제 값 라벨 위 한 줄
++            av = hit[0]
++            top = min(sy1, view.to_screen(0.0, value_y(stage, e["lane"], rng, av))[1]) if av >= 0 else sy1
++            pct = (av - v) / abs(v) * 100 if v else None
++            s = f"예상 {fmt_value(v, '')}" + (f" · {pct:+.0f}%" if pct is not None else "")
++            by = top - B.value_gap - B.value_size - 3
++        elif hit is None:
++            s = f"예상 {fmt_value(v, '')}"
++            by = sy1 - B.value_gap
++        else:
++            continue
++        lw = tw(ctx, s, B.part_label_size, B.part_label_font)
++        text(ctx, s, (sx0 + sx1) / 2 - lw / 2, by, B.part_label_size, B.part_label_font, ink, a, B.value_halo, "l")
++
++
++def _seg_style(e: dict, i: int, v: float, col: tuple[float, float, float]) -> tuple[tuple[float, float, float], float, bool]:
++    """쌓임 부문 칠 (rgb, 알파, 손실 윤곽) — accent 부문 = col 솔리드, 손실(음수) = 잉크 neg_fill_alpha + loss_color 윤곽(D-0314 §1-1),
++    나머지 = 잉크 사다리(부문 순서)."""
++    B = TIMELINE.bars  # noqa: N806
++    if accent_of(e) == e["parts"][i]["label"]:
++        return col, 1.0, False
++    if v < 0:
++        return C[B.ink], B.neg_fill_alpha, True
++    return C[B.ink], B.stack_ladder[min(i, len(B.stack_ladder) - 1)], False
++
++
++def label_rgb(fill: tuple[float, float, float], al: float, under: tuple[float, float, float]) -> tuple[tuple[float, float, float], bool]:
++    """칠(알파 al, 아래 under 위 합성) 위 글자색 — 잉크(text)·바탕 중 대비가 큰 쪽(D-0314 §1-4). 둘 다 label_contrast_min 미만이면
++    (중간 농도 칠) 바탕색 작은 판 위 잉크 글자(판 = True) — 판 위 대비가 그 값 미만이면 오류(P6)."""
++    import numpy as np  # noqa: PLC0415
++
++    from engine.contrast import ratio, rel_lum  # noqa: PLC0415
++
++    def lum(c: tuple[float, float, float]) -> float:
++        return float(rel_lum(np.asarray(c, np.float64)))
++
++    ink = C[TIMELINE.bars.ink]
++    lm = lum(tuple(f * al + u * (1 - al) for f, u in zip(fill, under)))
++    best = max(((ratio(lm, lum(c)), c) for c in (ink, under)), key=lambda r: r[0])
++    if best[0] >= TIMELINE.bars.label_contrast_min:
++        return best[1], False
++    if ratio(lum(ink), lum(under)) < TIMELINE.bars.label_contrast_min:
++        raise ValueError(f"부문 라벨 판 위 대비 < {TIMELINE.bars.label_contrast_min} — 팔레트 text·island 를 바꾼다(D-0314 §1-4)")
++    return ink, True
++
++
++def _draw_stack(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float],
++                col: tuple[float, float, float], a: float, front: float, pr: float) -> None:
++    """부문 쌓임(v7.4.0 D-0309 §1-2·3·D-0310) — 열마다 양수 부문은 0 위로, 음수 부문은 0 아래로. 부문 칠 = _seg_style(accent 하나·손실 down·잉크 사다리),
++    부문 사이 1px 바탕색 틈. 합계 = 점 + 선(accent total 이면 accent). 부문 이름: 칸 높이 ≥ part_label_min_h 면 막대마다 안에,
++    아니면 최신 막대 오른쪽에 지시선과 함께(범례 없음). 바깥 끝 모서리만 top_radius."""
++    B = TIMELINE.bars  # noqa: N806
++    ink = C[B.ink]
++    sep = island_rgb(SEP_RGB)
++    acc = accent_of(e)
++    cols = stack_columns(e)
++    tots: list[tuple[float, float, float, bool, float]] = []   # (x, 점 y, 값, 최신, 라벨 기준 y)
++    leaders: list[tuple[float, float, str, tuple[float, float, float]]] = []   # (막대 오른쪽 x, 칸 가운데 y, 이름, 글자색)
++    for n, (d, tot, vals) in enumerate(cols):
++        latest = n == len(cols) - 1
++        qa, qb = quarter_span(stage, d)
++        half = (qb - qa) * B.w_ratio / 2
++        mid = (qa + qb) / 2
++        x0, x1 = mid - half, mid + half
++        k = _grow(front, x0, x1)
++        if k <= 0:
++            continue
++        y0 = value_y(stage, e["lane"], rng, 0.0)
++        pos = sum(v for v in vals if v > 0) * k
++        neg = sum(v for v in vals if v < 0) * k
++        sx0, sy0 = view.to_screen(x0, y0)
++        sx1, _ = view.to_screen(x1, y0)
++        ytop = view.to_screen(0.0, value_y(stage, e["lane"], rng, pos))[1]
++        ybot = view.to_screen(0.0, value_y(stage, e["lane"], rng, neg))[1]
++        segs: list[tuple[int, float, float, float]] = []   # (부문 번호, 화면 y 시작, 끝, 값)
++        up = down = 0.0
++        for i, v in enumerate(vals):
++            if v == 0:
++                continue
++            a0 = up if v > 0 else down
++            a1 = a0 + v * k
++            if v > 0:
++                up = a1
++            else:
++                down = a1
++            segs.append((i, view.to_screen(0.0, value_y(stage, e["lane"], rng, a0))[1],
++                         view.to_screen(0.0, value_y(stage, e["lane"], rng, a1))[1], v))
++        for ye in (ytop, ybot):   # 양수·음수 막대 — 바깥 끝만 둥글게(0 쪽은 각, 0 기준선이 또렷)
++            if abs(ye - sy0) < 0.5:
++                continue
++            ctx.save()
++            _bar_path(ctx, sx0, sx1, sy0, ye, B.top_radius)
++            ctx.clip()
++            for i, s0, s1, v in segs:
++                if (v > 0) == (ye < sy0):
++                    rgb, al, loss = _seg_style(e, i, v, col)
++                    ctx.rectangle(sx0, min(s0, s1), sx1 - sx0, abs(s1 - s0))
++                    ctx.set_source_rgba(*rgb, al * a)
++                    ctx.fill()
++                    if loss:   # 손실 윤곽(clip 안 — 바깥 끝 둥근 모서리를 따른다)
++                        w2 = B.neg_outline_w
++                        ctx.rectangle(sx0 + w2 / 2, min(s0, s1) + w2 / 2, sx1 - sx0 - w2, abs(s1 - s0) - w2)
++                        ctx.set_source_rgba(*C[B.loss_color], a)
++                        ctx.set_line_width(w2)
++                        ctx.stroke()
++                    if B.stack_sep_w > 0:   # 부문 경계 1px 바탕색(바깥 끝 쪽)
++                        ctx.rectangle(sx0, s1 - B.stack_sep_w / 2, sx1 - sx0, B.stack_sep_w)
++                        ctx.set_source_rgba(*sep, a)
++                        ctx.fill()
++            ctx.restore()
++        if k < 1.0:
++            continue
++        ty = view.to_screen(0.0, value_y(stage, e["lane"], rng, tot))[1]
++        ly = min(ty, ytop) - B.value_gap - B.total_dot_r if tot >= 0 else max(ty, ybot) + B.value_gap + B.total_dot_r + B.value_size
++        tots.append(((sx0 + sx1) / 2, ty, tot, latest, ly))
++        part_named = any(p["label"] == acc for p in e["parts"])   # 부문 이름은 부문을 말하는 문장(accent = 부문)에서만 — 합계·주가 층에서는 접는다(UF-154 동시 가시 상한)
++        for i, s0, s1, v in (segs if part_named else []):   # 부문 이름(직접 라벨)
++            lab = e["parts"][i]["label"]
++            lw = tw(ctx, lab, B.part_label_size, B.part_label_font)
++            rgb, al, _loss = _seg_style(e, i, v, col)
++            fg, plate = label_rgb(rgb, al, sep)
++            if abs(s1 - s0) >= B.part_label_min_h and lw <= (sx1 - sx0) - 4:
++                lx, by = (sx0 + sx1) / 2 - lw / 2, (s0 + s1) / 2 + B.part_label_size * 0.35
++                if plate:   # 중간 농도 칠 — 바탕색 판(끝값 판과 같은 여백·알파 1)
++                    pad = TIMELINE.series.end_label_plate.pad_px / 2
++                    ctx.rectangle(lx - pad, by - B.part_label_size * 0.85 - pad / 2, lw + 2 * pad, B.part_label_size * 1.05 + pad)
++                    ctx.set_source_rgba(*sep, a)
++                    ctx.fill()
++                text(ctx, lab, lx, by, B.part_label_size, B.part_label_font, fg, a, 0, "l")
++            elif latest:
++                leaders.append((sx1, (s0 + s1) / 2, lab, rgb if al >= 0.5 else (C[B.loss_color] if _loss else ink)))
++    _draw_leaders(ctx, leaders, a)
++    if not e.get("total", True):
++        return
++    if len(tots) > 1:   # 합계 선
++        ctx.new_path()
++        for j, (x, y, _v, _l, _ly) in enumerate(tots):
++            (ctx.move_to if j == 0 else ctx.line_to)(x, y)
++        ctx.set_source_rgba(*(col if acc == "total" else ink), (1.0 if acc == "total" else B.total_alpha) * a)
++        ctx.set_line_width(B.total_line_w)
++        ctx.stroke()
++    for x, y, v, latest, ly in tots:   # 합계 점·값 — accent total 이면 전부, latest 면 최신만
++        hot = acc == "total" or (acc == "latest" and latest)
++        rgb = col if hot else ink
++        ctx.arc(x, y, B.total_dot_r * (1.3 if hot else 1.0), 0, 2 * math.pi)
++        ctx.set_source_rgba(*rgb, a)
++        ctx.fill_preserve()
++        ctx.set_source_rgba(*sep, a)
++        ctx.set_line_width(1.0)
++        ctx.stroke()
++        s = fmt_value(v, "")
++        lw = tw(ctx, s, B.value_size, B.value_font)
++        text(ctx, s, x - lw / 2, ly, B.value_size, B.value_font, rgb, a, B.value_halo, "l")
++
++
++def _pair_fill(e: dict, lab: str, worse: bool, col: tuple[float, float, float]) -> tuple[tuple[float, float, float], float, bool]:
++    """덤벨 채움 원·diverging 막대 칠 (rgb, 알파, 손실 윤곽) — accent 부문 = col 솔리드, 감소 = 잉크 neg_fill_alpha + loss_color 윤곽
++    (D-0314 §1-1 — 감소는 강조색과 구별), 나머지 = 잉크 stack_ladder 첫 단."""
++    B = TIMELINE.bars  # noqa: N806
++    if accent_of(e) == lab:
++        return col, 1.0, False
++    if worse:
++        return C[B.ink], B.neg_fill_alpha, True
++    return C[B.ink], B.stack_ladder[0], False
++
++
++def _draw_pairs(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float],
++                col: tuple[float, float, float], a: float, front: float) -> None:
++    """부문 비교(v7.4.0 D-0308 §2·D-0315 §1-3) — 열 분기 안에 부문을 나란히(시간축 세계 안, 독립 패널 금지 UF-135).
++    dumbbell: 속빈 원 = 전분기, 채움 원 = 이번 분기, 사이 선. 이름·두 값은 열 오른쪽 지시선 라벨("DC 6.3→7.3").
++    diverging: 0 기준 위아래 막대(전년 동기 대비 %, 코드 계산), 값 라벨은 막대 바깥 끝, 이름은 그 바깥.
++    accent 는 부문 하나(없으면 none). 감소 = 흐린 채움 + down 윤곽. 앞끝(front)이 묶음을 지나는 동안 자란다."""
++    B = TIMELINE.bars  # noqa: N806
++    ink = C[B.ink]
++    _d0, d1, items = pair_items(e)
++    qa, qb = quarter_span(stage, d1)
++    half = (qb - qa) * B.pair_w_ratio / 2
++    gx0, gx1 = (qa + qb) / 2 - half, (qa + qb) / 2 + half
++    k = _grow(front, gx0, gx1)
++    if k <= 0:
++        return
++    slot = (gx1 - gx0) / len(items)
++    yv = lambda v: view.to_screen(0.0, value_y(stage, e["lane"], rng, v))[1]  # noqa: E731
++    leaders: list[tuple[float, float, str, tuple[float, float, float]]] = []
++    for i, (lab, v0, v1) in enumerate(items):
++        xc = view.to_screen(gx0 + slot * (i + 0.5), 0.0)[0]
++        if e["style"] == "dumbbell":
++            y0, y1 = yv(v0), yv(v0 + (v1 - v0) * k)
++            rgb, al, loss = _pair_fill(e, lab, v1 < v0, col)
++            ctx.move_to(xc, y0)
++            ctx.line_to(xc, y1)
++            ctx.set_source_rgba(*ink, B.pair_line_alpha * a)
++            ctx.set_line_width(B.pair_line_w)
++            ctx.stroke()
++            ctx.arc(xc, y0, B.pair_dot_r - B.hollow_w / 2, 0, 2 * math.pi)   # 속빈 원 = 전분기(예상·이전 = 속빈, D-0308 §1-1)
++            ctx.set_source_rgba(*island_rgb(SEP_RGB), a)
++            ctx.fill_preserve()
++            ctx.set_source_rgba(*ink, 0.9 * a)
++            ctx.set_line_width(B.hollow_w)
++            ctx.stroke()
++            ctx.arc(xc, y1, B.pair_dot_r, 0, 2 * math.pi)
++            ctx.set_source_rgba(*island_rgb(SEP_RGB), a)   # 흐린 채움이 선·바탕을 비치지 않게 바탕을 먼저
++            ctx.fill_preserve()
++            ctx.set_source_rgba(*rgb, al * a)
++            ctx.fill_preserve()
++            if loss:
++                ctx.set_source_rgba(*C[B.loss_color], a)
++                ctx.set_line_width(B.neg_outline_w)
++                ctx.stroke()
++            ctx.new_path()
++            if k >= 1.0:
++                fg = rgb if al >= 0.5 else ink   # 감소 글자는 잉크 — down 글자색은 강조(코랄)와 한눈에 같다(D-0314 §1-1)
++                leaders.append((view.to_screen(gx1, 0.0)[0], y1, f"{lab} {fmt_value(v0, '')}→{fmt_value(v1, '')}", fg))
++            continue
++        p = yoy_pct(v0, v1)
++        hw = slot * B.diverging_w_ratio / 2 * view.s
++        yz, ye = yv(0.0), yv(p * k)
++        rgb, al, loss = _pair_fill(e, lab, p < 0, col)
++        _bar_path(ctx, xc - hw, xc + hw, yz, ye, B.top_radius)
++        ctx.set_source_rgba(*rgb, al * a)
++        ctx.fill()
++        if loss:
++            w2 = B.neg_outline_w
++            _bar_path(ctx, xc - hw + w2 / 2, xc + hw - w2 / 2, yz, ye - w2 / 2 if p >= 0 else ye + w2 / 2, B.top_radius)
++            ctx.set_source_rgba(*C[B.loss_color], a)
++            ctx.set_line_width(w2)
++            ctx.stroke()
++        if k < 1.0:
++            continue
++        fg = rgb if al >= 0.5 else ink
++        s = f"{p:+.0f}%"
++        vb = ye - B.value_gap if p >= 0 else ye + B.value_gap + B.value_size   # 값 = 막대 바깥 끝 바로 옆
++        nb = vb - B.value_size - 2 if p >= 0 else vb + B.part_label_size + 2   # 이름 = 그 바깥
++        for w, by, size, font, fc in ((s, vb, B.value_size, B.value_font, fg), (lab, nb, B.part_label_size, B.part_label_font, ink)):
++            text(ctx, w, xc - tw(ctx, w, size, font) / 2, by, size, font, fc, a, B.value_halo, "l")
++    _draw_leaders(ctx, leaders, a)
++
++
++def _draw_range(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float], a: float, front: float) -> None:
++    """가이던스 속빈 범위(v7.4.0 D-0308 §1-1·D-0315 §1-3) — 분기 열마다 아래 끝(series_id)~위 끝(upper_id) 속빈 막대(윤곽 hollow_w,
++    모서리 top_radius) + 가운데 눈금. estimate_id = 컨센서스 속빈 점(같은 열, 범위 날짜만). 자라지 않고 떠오른다(앞끝이 열을 지나는 동안 알파).
++    라벨은 열 오른쪽: "가이던스 15~16" · "예상 17.1"(레코드 값 그대로, 범례 없음)."""
++    B = TIMELINE.bars  # noqa: N806
++    ink = C[B.ink]
++    est = dict(load_series(e["estimate_id"]).values) if e.get("estimate_id") else {}
++    yv = lambda v: view.to_screen(0.0, value_y(stage, e["lane"], rng, v))[1]  # noqa: E731
++    leaders: list[tuple[float, float, str, tuple[float, float, float]]] = []
++    for d, lo, hi in band_pairs(e):
++        qa, qb = quarter_span(stage, d)
++        half = (qb - qa) * B.w_ratio / 2
++        x0, x1 = (qa + qb) / 2 - half, (qa + qb) / 2 + half
++        k = _grow(front, x0, x1)
++        if k <= 0:
++            continue
++        sx0, sx1 = view.to_screen(x0, 0.0)[0], view.to_screen(x1, 0.0)[0]
++        ylo, yhi = yv(lo), yv(hi)
++        w2 = B.hollow_w
++        r = max(0.0, min(B.top_radius, (sx1 - sx0) / 2, (ylo - yhi) / 2))
++        x_a, x_b, y_a, y_b = sx0 + w2 / 2, sx1 - w2 / 2, yhi + w2 / 2, ylo - w2 / 2
++        ctx.new_sub_path()
++        ctx.arc(x_b - r, y_a + r, r, -math.pi / 2, 0)
++        ctx.arc(x_b - r, y_b - r, r, 0, math.pi / 2)
++        ctx.arc(x_a + r, y_b - r, r, math.pi / 2, math.pi)
++        ctx.arc(x_a + r, y_a + r, r, math.pi, 3 * math.pi / 2)
++        ctx.close_path()
++        ctx.set_source_rgba(*ink, 0.9 * k * a)
++        ctx.set_line_width(w2)
++        ctx.stroke()
++        ym = yv((lo + hi) / 2)   # 가운데 눈금(D-0308 §1-1)
++        ctx.move_to(sx0 + (sx1 - sx0) * 0.25, ym)
++        ctx.line_to(sx1 - (sx1 - sx0) * 0.25, ym)
++        ctx.set_line_width(1.0)
++        ctx.stroke()
++        xc = (sx0 + sx1) / 2
++        if d in est:
++            ye = yv(est[d])
++            ctx.arc(xc, ye, B.pair_dot_r - w2 / 2, 0, 2 * math.pi)
++            ctx.set_source_rgba(*ink, 0.9 * k * a)
++            ctx.set_line_width(w2)
++            ctx.stroke()
++        if k < 1.0:
++            continue
++        leaders.append((sx1, ym, f"가이던스 {fmt_value(lo, '')}~{fmt_value(hi, '')}", ink))
++        if d in est:
++            leaders.append((xc + B.pair_dot_r, yv(est[d]), f"예상 {fmt_value(est[d], '')}", ink))
++    _draw_leaders(ctx, leaders, a)
++
++
++def _draw_leaders(ctx: cairo.Context, leaders: list[tuple[float, float, str, tuple[float, float, float]]], a: float) -> None:
++    """작은 부문 이름 — 최신 막대 오른쪽에 지시선(leader_len) + 이름. 이름끼리 겹치면 아래로 민다(글자 크기 + 2px 간격)."""
++    B = TIMELINE.bars  # noqa: N806
++    gap = B.part_label_size + 2
++    placed: list[float] = []
++    for x, y, lab, rgb in sorted(leaders, key=lambda r: r[1]):
++        ly = max([y] + [p + gap for p in placed])
++        placed.append(ly)
++        ctx.move_to(x + 1, y)
++        ctx.line_to(x + B.leader_len * 0.6, y)
++        ctx.line_to(x + B.leader_len, ly)
++        ctx.set_source_rgba(*rgb, 0.85 * a)
++        ctx.set_line_width(1.0)
++        ctx.stroke()
++        text(ctx, lab, x + B.leader_len + B.part_label_dx * 0.5, ly + B.part_label_size * 0.35, B.part_label_size,
++             B.part_label_font, rgb, a, 2.0, "l")
+ 
+ 
+ def _draw_band(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float],
+@@ -706,8 +1217,9 @@ def _draw_axis(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
+         _, sy = view.to_screen(0.0, value_y(stage, e["lane"], rng, v))
+         ctx.move_to(view.ox, sy)
+         ctx.line_to(view.right, sy)
+-        ctx.set_source_rgba(*C["white"], (S.zero_alpha if v == 0 else S.grid_alpha) * a)
+-        ctx.set_line_width(S.grid_w)
++        zb = v == 0 and e.get("style") in ("bars", "stack", "diverging")   # v7.4.0 D-0309 §1-2·D-0310 — 막대·쌓임 레인 0 기준선은 또렷하게
++        ctx.set_source_rgba(*C["white"], (TIMELINE.bars.zero_alpha if zb else S.zero_alpha if v == 0 else S.grid_alpha) * a)
++        ctx.set_line_width(TIMELINE.bars.zero_w if zb else S.grid_w)
+         ctx.stroke()
+         if v in labeled:   # v7.4.0 D-0268 §2 — 라벨 간격이 axis_label_min_gap_px 미만인 중간 눈금은 선만
+             text(ctx, fmt_value(v, unit), view.right - S.axis_label_margin_px, sy + S.axis_label_dy, S.axis_label_size, S.axis_label_font,
+diff --git a/engine/pin_labels.py b/engine/pin_labels.py
+index 874d0f8..3840ad9 100644
+--- a/engine/pin_labels.py
++++ b/engine/pin_labels.py
+@@ -80,16 +80,20 @@ def dot_box(x: float, y: float) -> Box:
+ 
+ 
+ def series_hit(box: Box, view: object, stage: object, evs: list[dict], rng: tuple[float, float], t: float,
+-               fronts: dict) -> Optional[str]:
++               fronts: dict, rng2: Optional[tuple[float, float]] = None) -> Optional[str]:
+     """라벨 상자가 그 순간 보이는 계열 선·띠·전망 점과 겹치면 그 계열 id. 선은 굵기 절반, 띠는 아래~위 구간."""
+     from data.series import load_series  # noqa: PLC0415
+     from engine.layers.series import band_pairs, projection_dots, value_y  # noqa: PLC0415
+ 
+     lane = evs[0]["lane"] if evs else None
+     half = TIMELINE.series.line_w / 2
++    rng1 = rng
+     for e in evs:
+         if not e["t0"] <= t <= e["t1"]:
+             continue
++        rng = rng2 if e.get("secondary") and rng2 is not None else rng1   # v7.4.0 D-0315 ① — 보조 축 계열은 자기 범위로(주 축 범위로 재면 선을 못 본다)
++        if e["style"] in ("bars", "stack", "dumbbell", "diverging", "range"):   # 막대·쌓임은 선이 아니다(합계 레코드를 계단 선으로 재면 없는 선이 단을 막는다)
++            continue
+         if e["style"] == "projection":
+             rec = load_series(e["series_id"])
+             for _, _, x, pts, _ in projection_dots(stage, e, rec, rng):
+@@ -195,6 +199,7 @@ class PinScene:
+         from data.series import load_series  # noqa: PLC0415
+ 
+         self.stage, self.ranges, self.fronts, self.view_at = stage, ranges, fronts, view_at
++        self.ranges2: dict = {}   # 보조 축 범위(engine.project 가 채운다, D-0315 ①)
+         self.ser: dict[str, list[dict]] = {}
+         for e in events:
+             if e["type"] == "series":
+@@ -232,7 +237,7 @@ class PinScene:
+             src = next((s for s in evs if not s.get("slot", 0) and s["t0"] <= t <= s["t1"]), None)   # 레인당 출처 한 줄(D-0256)
+             others += static_boxes(self.ctx, v, self.stage, lane, self.ranges[lane], self.units[lane], ends, src)
+             hit = conflicts(self.ctx, rect, b, others,
+-                            lambda r_: series_hit(r_, v, self.stage, evs, self.ranges[lane], t, self.fronts))
++                            lambda r_: series_hit(r_, v, self.stage, evs, self.ranges[lane], t, self.fronts, self.ranges2.get(lane)))
+             out.append((p, rect, dot, hit))
+         return out
+ 
+diff --git a/engine/project.py b/engine/project.py
+index 08d1d69..f6574a9 100644
+--- a/engine/project.py
++++ b/engine/project.py
+@@ -44,7 +44,7 @@ from engine.shots import ShotStage
+ from engine.stage import StageSet, attach_world, make_stage
+ from engine.refs import emblem_ids
+ from engine.registry import FULL_LAYERS, MAP_LAYER_ORDER, LayerSet, RegistryError, validate_events
+-from engine.style import FPS, ISLAND, TIMELINE, Output, output_profile
++from engine.style import FPS, ISLAND, TIMELINE, Output, apply_palette, output_profile
+ from engine.timebase import Timebase
+ from genres.elements import used_elements
+ from rules import load_rules
+@@ -457,6 +457,10 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
+                         "configs": {k: json.loads(json.dumps(v, default=str)) for k, v in doc.stage_configs().items()}}   # v4.3.0
+     R.cache["direction_drops"] = [d.model_dump() for d in doc.drops]   # v7.4.0 D-0245 — [series-unused]·[panel-dropped] 예외
+     R.cache["invest_notice"] = doc.genre_profile().invest_notice     # v7.4.0 D-0278 §4.3 — 엔딩 카드 맨 마지막 줄 투자 고지
++    apply_palette(doc.genre_profile().palette)   # v7.4.0 D-0310(UF-155) — 장르 팔레트(없으면 기존 색으로 되돌린다 — 한 프로세스 여러 영상)
++    R.cache["palette"] = doc.genre_profile().palette
++    if R.cache["palette"] and "mercator" in doc.stage_configs():   # 팔레트 지도 테마(map_*) 지형 래스터 미준비 — 조용히 옛 지도로 그리지 않는다(P6)
++        raise ProjectError(f"팔레트 {R.cache['palette']!r} 는 아직 지도 무대(mercator)와 함께 못 쓴다 — 지도 테마 자산(geo.prep)이 없다(D-0310)")
+     R.cache["genre"] = {"name": doc.genre_name(), "declared": doc.genre is not None,    # v4.2.0 D-0081 작업 3 — provenance genre(15 P5)
+                         "status": doc.genre_profile().status,                          # v4.3.0 D-0084 작업 6 — proposed 프로필 사용 기록(P6)
+                         "elements_used": used_elements(doc.events)}                   # checks genre_elements 입력(연출이 쓴 요소)
+@@ -587,6 +591,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
+         scene = PinScene(R.stage, events, R.cache["series_range"], R.cache["series_front"],
+                          lambda t: View(R.stage, cams[min(n - 1, max(0, int(t * FPS)))]))
+     if scene is not None and scene.pins:
++        scene.ranges2 = R.cache.get("series_range2") or {}   # v7.4.0 D-0315 ① — 보조 축 선도 장애물
+         dropped = assign_pin_rows(scene)
+         R.cache["value_pins"] = [(p["lane"], *p["world"], p["t0"], p["t1"], p.get("pin_row")) for p in scene.pins]   # v7.4.0 D-0283 §2 — 끝값 라벨 판 장애물(고리 + 라벨 쪽)
+         R.cache["pin_labels"] = {"rows": {p["label"]: p["pin_row"] for p in scene.pins}, "dropped": dropped,
+@@ -695,7 +700,7 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
+     from engine.timebase import ease_out  # noqa: PLC0415
+ 
+     ser = [e for e in events if e["type"] == "series"]
+-    R.cache["series_range"], R.cache["series_front"] = {}, {}
++    R.cache["series_range"], R.cache["series_front"], R.cache["series_range2"] = {}, {}, {}
+     if not ser:
+         return
+     st = st or R.stage   # v5.1.0 D-0126 — backdrop 주 무대면 차트 아일랜드의 시간축 무대
+@@ -706,8 +711,18 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
+         try:
+             for sid in record_ids(e):
+                 load_series(sid)
+-            if e["style"] == "band":
++            if e["style"] in ("band", "range"):
+                 band_pairs(e)   # 두 레코드 날짜 일치·위 ≥ 아래(v4.4.0) — 어긋나면 렌더 전 오류(P6)
++            if e["style"] == "stack":
++                from engine.layers.series import stack_columns  # noqa: PLC0415
++
++                stack_columns(e)   # v7.4.0 D-0309 — 부문 합 = 합계(공시 원값 ±sum_tol_pct), 빈 부문 날짜 = 렌더 전 오류(P6)
++            if e["style"] in ("dumbbell", "diverging"):
++                from engine.layers.series import pair_extent  # noqa: PLC0415
++
++                pair_extent(e)   # v7.4.0 D-0315 §1-3 — 두 시점 부문 값이 다 있어야(빈 값 = 렌더 전 오류, P6). diverging 기준 ≤ 0 도 오류
++            if e["style"] in ("bars", "stack", "dumbbell", "diverging", "range") and load_series(e["series_id"]).frequency != "quarterly":
++                raise ValueError(f"style {e['style']} 은 분기(quarterly) 레코드만")
+             if (e["style"] == "projection") != (load_series(e["series_id"]).kind == "scatter"):   # v7.4.0 D-0260 §2
+                 raise ValueError("style projection 은 scatter 레코드(전망 점)에만, scatter 레코드는 style projection 으로만")
+             kind = st.lanes[st.lane_index(e["lane"])].kind  # type: ignore[attr-defined]
+@@ -718,6 +733,11 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
+         slots[e["lane"]] = e["slot"] + 1
+     for lane in slots:
+         R.cache["series_range"][lane] = lane_range(events, lane, st)   # v7.4.0 D-0263 — 무대 기간 안 데이터 맞춤
++        secs = [e for e in ser if e["lane"] == lane and e.get("secondary")]
++        if len(secs) > 1:   # v7.4.0 D-0309 §1-4 — 보조 축은 하나만([secondary-axis-single])
++            raise ProjectError(f"레인 {lane}: 보조 축 계열 {len(secs)}개 — 하나만(D-0309)")
++        if secs:
++            R.cache["series_range2"][lane] = lane_range(events, lane, st, secondary=True)
+     from engine.layers.series import axis_range_note, lane_source_join  # noqa: PLC0415
+ 
+     for lane in slots:   # v7.4.0 D-0256 — 레인당 출처 한 줄(레코드 출처를 " · " 로, 같은 출처는 한 번)
+@@ -730,9 +750,9 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
+                 e["lane_source"] = joined
+                 e["lane_n"] = slots[lane]   # 레인 안 series 수 — 둘 이상이면 띠 끝값 라벨을 찍지 않는다(D-0256)
+         lane_ser = [x for x in ser if x["lane"] == lane]
+-        drawer = next((x for x in reversed(lane_ser) if x["style"] != "projection"), lane_ser[-1])
++        drawer = next((x for x in reversed(lane_ser) if x["style"] != "projection" and not x.get("secondary")), lane_ser[-1])
+         for e in lane_ser:   # v7.4.0 — 축은 레인의 마지막(전망 점 제외 — 늦게 나와 그 전엔 축이 없다) series 가 그린다: 끝값 라벨이 다 놓인 뒤 → 겹치는 눈금 라벨 생략
+-            e["axis"] = e is drawer
++            e["axis"] = e is drawer or (e["style"] in ("bars", "stack", "dumbbell", "diverging", "range") and not e.get("secondary"))   # D-0309 — 층이 차례로 켜져도 주 축은 늘(같은 범위)
+     S = TIMELINE.series  # noqa: N806
+     for e in ser:
+         if not e["grow"]:
+@@ -749,7 +769,7 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
+             front[i] = best
+         front[i1:] = best
+         R.cache["series_front"][e["key"]] = front
+-    pins_on_series(events, st, R.cache["series_range"])
++    pins_on_series(events, st, R.cache["series_range"], R.cache["series_range2"])
+ 
+ 
+ def series_value_at(evs: list[dict], d: date) -> float:
+@@ -771,12 +791,14 @@ def series_value_at(evs: list[dict], d: date) -> float:
+     raise ProjectError(f"핀 날짜 {d} 에 레인 값이 없다 — 계열 자료 시작 전(핀은 선 위 점, D-0274)")
+ 
+ 
+-def pins_on_series(events: list[dict], st: object, ranges: dict[str, tuple[float, float]]) -> None:
++def pins_on_series(events: list[dict], st: object, ranges: dict[str, tuple[float, float]],
++                   ranges2: dict[str, tuple[float, float]] | None = None) -> None:
+     """사건 핀(date 앵커 marker)을 값 레인 위의 점으로(v7.4.0 back_and_forth D-0274 §1①, UF-142 "두 개를 그냥 합쳐서 세로축을 늘리란 말이야").
+     월드 y = 그 날짜 계열 값(series.value_y). 계열 없는 레인의 핀은 오류 — 사건 레인(pins)은 없다."""
+     from data.series import load_series  # noqa: PLC0415
+     from engine.layers.series import value_y  # noqa: PLC0415
+ 
++    ranges2 = ranges2 or {}
+     by_lane: dict[str, list[dict]] = {}
+     for e in events:
+         if e["type"] == "series":
+@@ -787,9 +809,12 @@ def pins_on_series(events: list[dict], st: object, ranges: dict[str, tuple[float
+         if e["lane"] not in by_lane:
+             raise ProjectError(f"marker {e.get('label')!r} @ {e['date']}: 레인 {e['lane']!r} 에 계열이 없다 — 핀은 값 레인 위 점(D-0274)")
+         d = date.fromisoformat(str(e["date"]))
+-        e["pin_value"] = series_value_at(by_lane[e["lane"]], d)
++        sec = [x for x in by_lane[e["lane"]] if x.get("secondary")]   # v7.4.0 D-0309 — 보조 축 선이 있으면 핀은 그 선 위(발표일 주가)
++        evs = sec or [x for x in by_lane[e["lane"]] if x["style"] not in ("bars", "stack", "dumbbell", "diverging", "range")] or by_lane[e["lane"]]
++        rng = ranges2[e["lane"]] if sec else ranges[e["lane"]]
++        e["pin_value"] = series_value_at(evs, d)
+         e["pin_unit"] = load_series(by_lane[e["lane"]][0]["series_id"]).unit   # 렌더 시 플롯 경계(축 값 라벨 열) 계산용
+-        e["world"] = (st.x_of(e["date"]), value_y(st, e["lane"], ranges[e["lane"]], e["pin_value"]))  # type: ignore[attr-defined]
++        e["world"] = (st.x_of(e["date"]), value_y(st, e["lane"], rng, e["pin_value"]))  # type: ignore[attr-defined]
+ 
+ 
+ def head_tops(R: RenderCtx, events: list[dict]) -> list[dict]:  # noqa: N803
+diff --git a/engine/stage_backdrop.py b/engine/stage_backdrop.py
+index 63637dc..e4aab0e 100644
+--- a/engine/stage_backdrop.py
++++ b/engine/stage_backdrop.py
+@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING, Any, Optional
+ 
+ import cairo
+ 
+-from engine.style import BACKDROP, H_OUT, W_OUT
++from engine.style import BACKDROP, H_OUT, W_OUT, bg_rgb
+ 
+ if TYPE_CHECKING:
+     from engine.assets import Assets
+@@ -48,7 +48,7 @@ class BackdropStage:
+         return {}
+ 
+     def render_base(self, ctx: cairo.Context, view: "View") -> None:
+-        ctx.set_source_rgb(*BACKDROP.bg_rgb)
++        ctx.set_source_rgb(*bg_rgb(BACKDROP.bg_rgb))
+         ctx.paint()
+ 
+     def draw_labels(self, ctx: cairo.Context, view: "View", reserved: list, alpha: float = 1.0) -> None:
+diff --git a/engine/stage_timeline.py b/engine/stage_timeline.py
+index 8d50035..97233dd 100644
+--- a/engine/stage_timeline.py
++++ b/engine/stage_timeline.py
+@@ -20,7 +20,7 @@ from typing import TYPE_CHECKING, Any, Optional, Union
+ import cairo
+ from pydantic import BaseModel, ConfigDict, Field, model_validator
+ 
+-from engine.style import C, TIMELINE
++from engine.style import C, TIMELINE, bg_rgb
+ from engine.typography import text
+ from schemas.genre_models import TimelineLane
+ 
+@@ -266,7 +266,7 @@ class TimelineStage:
+     def render_base(self, ctx: cairo.Context, view: "View") -> None:
+         T = TIMELINE  # noqa: N806
+         if not self.island:   # 아일랜드 뷰포트 바탕 = 아일랜드 상자(반투명, 배경 사진이 비친다)
+-            ctx.set_source_rgb(*T.bg_rgb)
++            ctx.set_source_rgb(*bg_rgb(T.bg_rgb))
+             ctx.paint()
+         if self.frame is not None:   # v7.4.0 D-0257 — 틀 = 차트 아일랜드와 같은 상자(그림자·바탕·테두리, rules island)
+             from engine.island import draw_frame  # noqa: PLC0415
+@@ -310,7 +310,7 @@ class TimelineStage:
+         if xb < view.ox or xa > view.right:
+             return
+         ctx.rectangle(xa, top, xb - xa, bot - top)
+-        ctx.set_source_rgba(*TIMELINE.bg_rgb, W.shade_alpha)
++        ctx.set_source_rgba(*bg_rgb(TIMELINE.bg_rgb), W.shade_alpha)
+         ctx.fill()
+         for x in (xa, xb):
+             ctx.new_path()
+diff --git a/engine/style.py b/engine/style.py
+index 6f874d0..618d7bc 100644
+--- a/engine/style.py
++++ b/engine/style.py
+@@ -83,6 +83,43 @@ BADGE_BG: Color = hexc(_c.badge_bg)
+ C_THEME: dict[str, dict[str, Color]] = {th: {k: hexc(v) for k, v in m.items()} for th, m in _c.themes.items()}
+ 
+ 
++# v7.4.0 D-0310 §1-1(UF-155) — 장르 팔레트(rules palettes). engine.project 가 영상마다 apply_palette 로 고른다(없으면 기존 색으로 되돌린다).
++# 의미색 → C 키: 팔레트를 고르면 C 가 그 값으로 바뀌고, 바탕·아일랜드는 PALETTE 로 읽는다(bg_rgb·island_rgb·border_rgb).
++_C_BASE: dict[str, Color] = dict(C)
++PALETTE_TO_C: dict[str, tuple[str, ...]] = {"text": ("white",), "muted": ("muted",), "accent": ("gold", "kr"), "up": ("green",), "down": ("ru",)}
++PALETTE: dict[str, Color] = {}
++
++
++def apply_palette(name: str | None) -> None:
++    """팔레트 적용(없으면 기존 색). 없는 이름 = 오류(P10)."""
++    C.clear()
++    C.update(_C_BASE)
++    PALETTE.clear()
++    if name is None:
++        return
++    pals = _RULES.palettes
++    if name not in pals:
++        raise ValueError(f"팔레트 {name!r} 없음 — rules palettes 는 {sorted(pals)}")
++    p = pals[name]
++    PALETTE.update({k: hexc(v) for k, v in p.model_dump().items()})
++    for tok, keys in PALETTE_TO_C.items():
++        for k in keys:
++            C[k] = PALETTE[tok]
++
++
++def bg_rgb(default: Color) -> Color:
++    """무대 바탕 — 팔레트 bg, 없으면 규칙 값."""
++    return PALETTE.get("bg", default)
++
++
++def island_rgb(default: Color) -> Color:
++    return PALETTE.get("island", default)
++
++
++def border_rgb(default: Color) -> Color:
++    return PALETTE.get("border", default)
++
++
+ TEXT_BASE: dict[str, str] = {"gold_text": "gold"}   # v5.20.1 D-0178 — 지도 글자 전용 토큰(공통값 없음) → 이 도형 토큰으로(dark = 공통 gold, 바이트 동일)
+ 
+ 
+diff --git a/genres/earnings.yaml b/genres/earnings.yaml
+index 012f739..aa88bb5 100644
+--- a/genres/earnings.yaml
++++ b/genres/earnings.yaml
+@@ -9,6 +9,7 @@ genre: earnings
+ status: proposed
+ template_label: 실적 발표 템플릿    # UF-147(D-0302 ⑤) — 타이틀 카드 부제 앞·엔딩 카드 머리 줄([template-label-missing] hard)
+ invest_notice: true                  # D-0278 §4.3 — 엔딩 카드 맨 마지막 줄 투자 고지([invest-notice-missing] hard)
++palette: princess                    # D-0310 §1-1(UF-155) — 흰색·푸른색 계열(rules palettes.princess, 감독 제안)
+ stage:
+   primary: backdrop              # D-0278 §2-2 — 사진·클립 배경 + 차트 아일랜드 하나(A1, D-0272). 아일랜드 카메라는 무대 전환이 아니다(D-0126 Q1)
+   secondary: [mercator]          # act5 지경학(공급망·정책 지도) — 보조 무대 전환 1회
+diff --git a/rules/video_rules.yaml b/rules/video_rules.yaml
+index 05bb28d..33b0ee5 100644
+--- a/rules/video_rules.yaml
++++ b/rules/video_rules.yaml
+@@ -628,7 +628,7 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
+   # v4.8.0 D-0101 §3 — 옛 리터럴(engine/layers/media.py·markers.py·routes.py)을 값 그대로 옮김. 크기 값은 §3 결정(decision_request)으로
+   media_caption: {pad_x: 10, caption_size: 12, caption_dy: 18, credit_size: 9, credit_dy: 34, tag_size: 9, tag_h: 16, tag_dy: 12,
+                   cutout_caption_size: 12, cutout_credit_size: 9}
+-  marker: {label_size: 13, sub_size: 12, sub_dy: 16}
++  marker: {label_size: 13, sub_size: 12, sub_dy: 16, vline_dash: [3, 3], vline_w: 1.1, vline_alpha: 0.7}   # vline_* = v7.4.0 D-0309 §1-5 발표일 세로 점선(감독 제안)
+   # v5.21.11 사용자 의견(2026-10-11 38·101·275초 "선 위의 글씨 시인성", D-0191 §1-3·D-0192) — 경로 선이 자기 라벨을 지나가지 않게
+   # 선에서 수직으로 line_gap 띄운 자리를 곡선 위 place_fracs 순서·양쪽으로 시도. 후보 0 = 옛 자리(가운데 점 위 legacy_dy). 검사 route_label_cross·route_label_overlap hard
+   route_label: {route_size: 12.5, barrier_size: 12.5, legacy_dy: 11, line_gap: 5, line_clear_px: 1.5, place_fracs: [0.5, 0.42, 0.58, 0.34, 0.66, 0.26, 0.74], screen_pad: 6, bottom_pad: 72}   # bottom_pad = 자막 구역(도시 이름과 같은 하단 여백)
+@@ -1014,6 +1014,24 @@ colors:                    # 09 §7
+       white: "#1f2125"      # 지도 위 마커 이름(흰 글자 → 짙은 글자)
+       gold_text: "#68480f"  # 지도 위 마커 부제 글자
+ 
++# v7.4.0 back_and_forth D-0310 §1-1(사용자 의견 UF-155 "경제에 대해서는 영상의 컨셉을 흰색과 푸른색 계열로 … princess 나 cosmos 둘중 하나를 니가 보고 정해서")
++# 경제 장르 화면 팔레트(감독 선택 princess — agents_reviewer report.css, 감독 제안·사용자 합격 값 아님). 장르 프로필 palette 로 고른다(없으면 기존 색).
++# 고르면 렌더 전체 의미색이 바뀐다: text → 흰 글자(colors white), muted → muted, accent → gold(차트당 accent 1), up → green, down → ru,
++# bg → 무대 바탕(stage_backdrop·stage_timeline bg_rgb), island → 아일랜드 바탕, border → 아일랜드 테두리. map_* 는 지도 테마 자리(지형 래스터 미준비 — 지도 무대와 함께 쓰면 오류)
++palettes:
++  princess:
++    bg: "#015AA0"
++    island: "#0A66AC"
++    border: "#2A74B6"
++    text: "#ECECFF"
++    muted: "#C8D7EA"
++    accent: "#FF9457"
++    up: "#88C0B0"
++    down: "#FF8378"
++    map_land: "#1572B8"
++    map_water: "#014A85"
++    map_boundary: "#2A74B6"
++
+ fonts:                     # 09 §1
+   sans: "IBM Plex Sans KR"
+   serif: "Noto Serif CJK KR"
+@@ -1314,15 +1332,50 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시
+     pin_leader_w: 1.0
+     pin_leader_alpha: 0.6
+     change_regime_months: 2   # v4.4.0 D-0091 ② color_by change — 마지막 변화가 이 달 수 안이면 그 방향(hike·cut), 넘으면 hold(동결). FOMC 회의 간격(6~7주) — 연속 회의 인상·인하는 이어지고 동결 결정 뒤는 회색(6 → 2: fed_policy 검수 루브릭 5 지적, 2026 동결기가 인하 색)
+-  bars:                    # v7.4.0 D-0278 §4.1(E4·E7 스케치) — series style bars: 분기 레코드(frequency quarterly) → 분기 열마다 0 에서 자라는 막대
++  bars:                    # v7.4.0 D-0278 §4.1·D-0308 §1(UF-149 어휘 — 감독 제안, 사용자 합격 값 아님) — series style bars·stack: 분기 열마다 0 에서 자라는 캡슐
+     w_ratio: 0.55          # 막대 폭 = 분기 폭 × 이 값(가운데 = 분기 가운데)
+-    fill_alpha: 0.85
+-    edge_alpha: 1.0
+-    edge_w: 1.0
+-    value_size: 11         # 막대마다 값 라벨(위 끝 위·음수는 아래 끝 아래). layout_480p.min_font_px 이상
++    # v7.4.0 D-0310 §1-2(UF-155 "바닥쪽에는 둥글게 하지 않고, 위쪽도 … 아주 약간의 둥글기만") — 캡슐(폭/2) 폐기. 0 쪽은 각, 바깥 끝(양수 위·음수 아래) 모서리만 이 반지름(px)
++    top_radius: 3
++    hollow_w: 2            # 속빈(예상치·가이던스) 윤곽선 굵기(px) — 같은 모양(D-0310 §1-2)
++    ink: white             # 단일 잉크(색으로 카테고리를 나누지 않는다 — 시트 §6.2). princess 팔레트면 text 토큰
++    ladder: [0.42, 0.24, 0.13]   # accent 아닌 열은 최신부터 차례로 이 농도(넘으면 마지막 값)
++    stack_ladder: [0.92, 0.62, 0.40, 0.26]   # 쌓임 부문 농도(부문 순서, accent·손실 부문 제외). 첫 단 0.92 = 어두운 글자 대비 ≥ 4.5(D-0314 §1-4), 중간 단은 판 위 글자
++    stack_sep_w: 1         # 부문 사이 틈(px, 바탕색 — D-0310 감독 지시 "1px 바탕색 구분선")
++    # v7.4.0 D-0314 §1-1 — 손실(음수) 부문: down 채움은 accent 와 한눈에 같다(princess #FF8378 vs #FF9457). 채움 = 잉크 neg_fill_alpha, 윤곽 = loss_color neg_outline_w.
++    # 코랄 채움은 그 순간 accent 부문 하나뿐(감독 제안 값)
++    negative_fill: muted_outline
++    loss_color: ru         # 손실 윤곽 = down 의미색
++    neg_fill_alpha: 0.30
++    neg_outline_w: 1.5
++    label_contrast_min: 4.5   # D-0314 §1-4 — 부문 이름 글자색 = text·바탕 중 칠(아일랜드 위 합성색)과 대비가 큰 쪽. 둘 다 이 값 미만이면 오류(P6)
++    zero_alpha: 0.7        # 막대·쌓임 레인 0 기준선 — 음수 부문이 0 아래로 내려가므로 또렷하게(D-0309 §1-2 zero_alpha, 일반 레인 series.zero_alpha 보다 진하게)
++    zero_w: 1.2
++    lane_pad_top: 0.14     # 막대·쌓임 레인 위·아래 여백(레인 높이 비율) — 일반 레인(series.lane_pad_*)보다 작게: 플롯이 레인을 더 쓴다(감독 지시 R-0293 ①)
++    lane_pad_bottom: 0.14
++    value_size: 11         # 값 라벨(막대 끝에 직접 — 범례 없음). layout_480p.min_font_px 이상
+     value_font: sansb
+     value_gap: 5           # 막대 끝 → 라벨 기준선(px)
+     value_halo: 2.5
++    part_label_size: 9.5   # 쌓임 부문 이름(막대 안 직접 — 범례 없음). layout_480p.min_font_px
++    part_label_font: sansm
++    part_label_dx: 6       # 지시선 라벨: 막대 오른쪽 끝 → 글자(px)
++    part_label_min_h: 14   # 부문 높이가 이 이상(px)이면 막대마다 안에, 아니면 마지막 막대 오른쪽에 지시선과 함께(D-0310 감독 지시 ①)
++    leader_len: 10         # 지시선 길이(px)
++    total_dot_r: 3.0       # 합계 점·선(쌓임 위 회사 전체 — D-0309 §1-3)
++    total_line_w: 1.5
++    total_alpha: 0.92
++    # v7.4.0 D-0308 §2(UF-149 어휘 — 감독 제안, 사용자 합격 값 아님)·D-0315 §1-3 — 부문 비교(series style dumbbell·diverging). 그 분기 열 안에 부문을 나란히(시간축 세계 안 — 독립 패널 금지, UF-135)
++    pair_w_ratio: 0.9      # 부문 묶음 폭 = 분기 폭 × 이 값(가운데 = 분기 가운데)
++    pair_dot_r: 4.5        # 덤벨 원 반지름(px) — 속빈 원 = 전분기, 채움 원 = 이번 분기
++    pair_line_w: 2.0       # 덤벨 두 원 사이 선(px)
++    pair_line_alpha: 0.55
++    diverging_w_ratio: 0.62   # diverging 막대 폭 = 부문 칸 폭 × 이 값
++    sum_tol_pct: 0.5       # 부문 합 vs 합계(공시 원값) 허용 오차 % — 넘으면 렌더 전 오류(P6, D-0309)
++  secondary:               # v7.4.0 D-0309 §1-4(감독 제안) — 같은 레인 안 보조 축 계열 하나(주가 일별 선). 가늘고 보조 색, 축은 왼쪽(주 축은 오른쪽)
++    line_w: 1.1
++    alpha: 0.8
++    dot_r: 1.3             # 일별 점(D-0308 §3 act4 "일별 점 선")
++    axis_label_margin_px: 6
+   band:                    # v4.4.0 D-0090 작업 2 — series style band(두 레코드 사이 띠 = 목표 범위). 색은 이벤트 col
+     fill_alpha: 0.28
+     edge_alpha: 0.9
+diff --git a/schemas/genre_models.py b/schemas/genre_models.py
+index 2bf85d5..65a1ec1 100644
+--- a/schemas/genre_models.py
++++ b/schemas/genre_models.py
+@@ -136,6 +136,8 @@ class GenreProfile(_Strict):
+     template_label: Optional[str] = Field(default=None, min_length=1)
+     # v7.4.0 D-0278 §4.3 — 엔딩 카드 투자 고지(rules end_card.notice_invest). true 인데 그리지 않으면 [invest-notice-missing] hard
+     invest_notice: bool = False
++    # v7.4.0 D-0310 §1-1(UF-155) — 화면 팔레트(rules palettes 이름). 없으면 기존 색. 없는 이름 = 오류(engine.style.apply_palette)
++    palette: Optional[str] = None
+ 
+     @field_validator("genre")
+     @classmethod
+diff --git a/schemas/rules_models.py b/schemas/rules_models.py
+index 9384fb6..9b6ebfc 100644
+--- a/schemas/rules_models.py
++++ b/schemas/rules_models.py
+@@ -587,6 +587,9 @@ class MarkerLayout(_Strict):
+     label_size: float
+     sub_size: float
+     sub_dy: float
++    vline_dash: list[float] = Field(default_factory=lambda: [3.0, 3.0])   # v7.4.0 D-0309 §1-5
++    vline_w: float = 1.1
++    vline_alpha: float = 0.7
+ 
+ 
+ class RouteLabelLayout(_Strict):
+@@ -2052,16 +2055,51 @@ class TimelineMissingMark(_Strict):
+ 
+ 
+ class TimelineBars(_Strict):
+-    """v7.4.0 D-0278 §4.1 — series bars(분기 막대, 0 에서 자란다)."""
++    """v7.4.0 D-0278 §4.1·D-0308·D-0309 — series bars·stack(분기 캡슐, 0 에서 자란다, 잉크 사다리·직접 라벨)."""
+ 
+     w_ratio: float = Field(gt=0, le=1)
+-    fill_alpha: float = Field(gt=0, le=1)
+-    edge_alpha: float = Field(ge=0, le=1)
+-    edge_w: float = Field(ge=0)
++    top_radius: float = Field(ge=0)          # D-0310 §1-2 — 바깥 끝 모서리만(0 쪽은 각)
++    hollow_w: float = Field(gt=0)
++    ink: str
++    ladder: list[float] = Field(min_length=1)
++    stack_ladder: list[float] = Field(min_length=1)
++    stack_sep_w: float = Field(ge=0)
++    negative_fill: Literal["muted_outline"]
++    loss_color: str
++    neg_fill_alpha: float = Field(gt=0, le=1)
++    neg_outline_w: float = Field(gt=0)
++    label_contrast_min: float = Field(gt=1)
++    zero_alpha: float = Field(gt=0, le=1)
++    zero_w: float = Field(gt=0)
++    lane_pad_top: float = Field(ge=0, lt=0.5)
++    lane_pad_bottom: float = Field(ge=0, lt=0.5)
+     value_size: float = Field(gt=0)
+     value_font: str
+     value_gap: float = Field(ge=0)
+     value_halo: float = Field(ge=0)
++    part_label_size: float = Field(gt=0)
++    part_label_font: str
++    part_label_dx: float
++    part_label_min_h: float = Field(ge=0)
++    leader_len: float = Field(ge=0)
++    total_dot_r: float = Field(gt=0)
++    total_line_w: float = Field(gt=0)
++    total_alpha: float = Field(gt=0, le=1)
++    sum_tol_pct: float = Field(gt=0)
++    pair_w_ratio: float = Field(gt=0, le=1)      # v7.4.0 D-0315 §1-3 — dumbbell·diverging 부문 묶음 폭
++    pair_dot_r: float = Field(gt=0)
++    pair_line_w: float = Field(gt=0)
++    pair_line_alpha: float = Field(gt=0, le=1)
++    diverging_w_ratio: float = Field(gt=0, le=1)
++
++
++class TimelineSecondary(_Strict):
++    """v7.4.0 D-0309 §1-4 — 같은 레인 보조 축 계열(하나)."""
++
++    line_w: float = Field(gt=0)
++    alpha: float = Field(gt=0, le=1)
++    dot_r: float = Field(ge=0)
++    axis_label_margin_px: float = Field(ge=0)
+ 
+ 
+ class TimelineBand(_Strict):
+@@ -2149,6 +2187,7 @@ class StageTimelineRules(_Strict):
+     series: TimelineSeries
+     band: TimelineBand             # v4.4.0 — D-0090 작업 2
+     bars: TimelineBars             # v7.4.0 — D-0278 §4.1 스케치
++    secondary: TimelineSecondary   # v7.4.0 — D-0309 §1-4 스케치
+     missing_mark: TimelineMissingMark
+     axis_scale: TimelineAxisScale  # v5.1.0 — D-0121 §A
+     lane_range: TimelineLaneRange  # v7.4.0 — D-0263(UF-140)
+@@ -3245,6 +3284,22 @@ class SketchRules(_Strict):
+         walk(self)
+         return out
+ 
++class Palette(_Strict):
++    """v7.4.0 D-0310 §1-1(UF-155) — 장르 화면 팔레트(rules palettes.<이름>). 값은 #RRGGBB."""
++
++    bg: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
++    island: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
++    border: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
++    text: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
++    muted: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
++    accent: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
++    up: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
++    down: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
++    map_land: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
++    map_water: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
++    map_boundary: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
++
++
+ class VideoRules(_Strict):
+     """`rules/video_rules.yaml` 최상위 모델."""
+ 
+@@ -3276,6 +3331,7 @@ class VideoRules(_Strict):
+     layout_480p: Layout480p
+     panels: PanelRules
+     colors: Colors
++    palettes: dict[str, Palette] = Field(default_factory=dict)   # v7.4.0 D-0310(UF-155)
+     fonts: Fonts
+     labels: LabelRules
+     geo: GeoRules
