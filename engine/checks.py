@@ -2715,12 +2715,13 @@ def media_density(events: list[dict], total_sec: float) -> tuple[int, float]:
 
 
 def visual_voids(P) -> list[tuple[float, float]]:  # noqa: ANN001, N803
-    """요소(rules qa_checks.visual_void_types)가 하나도 안 보이는 연속 구간 [(t0, t1)] — 콜드 오픈(첫 타이틀 카드 전)·전면 카드·카메라 이동(move) 중은
+    """요소(rules qa_checks.visual_void_types)가 하나도 안 보이는 연속 구간 [(t0, t1)] — 콜드 오픈(첫 타이틀 카드 전)·전면 카드·카메라 이동(move)·dip 전환 중은
     끊는다(v7.4.0 back_and_forth D-0312 §1-1). 검사 [scene-visual-void] 와 provenance visual_void 가 같은 값을 쓴다(P5)."""
     step, kinds = QA.visual_void_step_sec, set(QA.visual_void_types)
     title = [c.t0 for c in P.plan.cards if c.kind == "title"]
     start = min(title) if title else 0.0
     moves = [(k.t, k.t + k.dur) for k in (getattr(P, "keys", None) or []) if k.mode == "move" and k.dur > 0]
+    moves += [(e["t0"], e["t1"]) for e in P.events if e["type"] == "dip"]   # 어둡게 넘기는 전환(dip)도 전환 — 빈 구간이 아니다
     spans = [(e["t0"], e["t1"]) for e in P.events if e["type"] in kinds]
     out: list[tuple[float, float]] = []
     run0 = None

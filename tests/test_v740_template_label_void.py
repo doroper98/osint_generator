@@ -52,6 +52,8 @@ class VisualVoidTest(unittest.TestCase):
         self.assertEqual(len(checks.check_scene_visual_void(self._P(ev))), 1)   # 나라 칠하기는 요소가 아니다(rules visual_void_types)
         move = NS(t=19.0, dur=6.0, mode="move")
         self.assertEqual(checks.check_scene_visual_void(self._P(ev, [move])), [])   # 이동 중은 끊긴다 → 남은 빈 구간 < 5초
+        dip = {"type": "dip", "t0": 19.0, "t1": 25.0}
+        self.assertEqual(checks.check_scene_visual_void(self._P(ev + [dip])), [])   # dip 전환도 끊는다
         self.assertEqual(checks.visual_voids(self._P([{"type": "marker", "t0": 2.0, "t1": 40.0}]))[:1], [])   # 콜드 오픈(0~2초)은 보지 않는다
 
     def test_rules_keys(self) -> None:
