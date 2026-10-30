@@ -37,3 +37,14 @@ priority: urgent
 
 ## §4 장치(C12)
 `[chart-layers-min]`·`[secondary-axis-single]`·쌓임 합 검증·산문 주석 금지(기존 `[text-restates-narration]`). 원장 UF-151 guards 에 추가.
+
+## §5 보충(UF-152, 2026-10-30) — "통섭" 겹침 보기: 같은 세계 안 다계열·다레인·끝값 태그
+사용자 원문: "개인적으로 이런 형태의 차트도 좋아함. 내가 말한대로 다층적인 정보를 한번에 통섭적으로 보는걸 좋아한다는 뜻이야" — 참고 그림 셋(TradingView, `docs/handoff/reports/user_ref_tradingview_*_2026-10-30.png`): ① 연준 유동성 구성(WALCL·TREAST+WSHOMCB·WRESBAL·TGA·RRP·SOFR 거래량·US10Y 겹침) ② 세계 M2·중앙은행 자산·S&P500·BTC(3 레인: 자산/M2/M2·GDP) ③ 미·영·한·일·중 국채 수익률 곡선 전 만기(국가별 색 계열, 오른쪽 끝값 태그).
+영상 규칙으로 옮기는 것(정직성은 그대로):
+1. **같은 단위 다계열 겹침**: 한 레인에 같은 단위 계열을 여럿 겹친다(`lane.series_max` 제안 6). 끝값 태그(판)는 전부, 라벨은 계열 끝에 직접. 핵심 하나만 accent, 나머지는 사다리/계열 색.
+2. **다른 단위는 레인으로**(보조 축 1개 규칙 유지): 참고 ② 처럼 레인 셋(자산·M2·비율)이 **같은 시간축** 위에 쌓인다 — 이미 시간축 무대의 레인 문법. 레인 수 상한 3(480p).
+3. **색 계열(family)**: 국가·기관 묶음은 색 계열(미 pink 계열, 영 blue, 한 green, 일 grey, 중 orange — 토큰으로 등록)로, 만기는 같은 계열 안 농도 사다리. `color_families` 규칙 키.
+4. **끝값 태그 열**: 오른쪽 축 자리에 계열 끝값 판을 세로로 정렬(충돌 시 리더선, `[series-label-overlap]` 그대로).
+5. **카메라**: 계열이 많을수록 한꺼번에 등장 금지 — 문장마다 계열/레인을 켜고, 비교 문장에서 두 계열만 accent 로 남기고 나머지는 농도 0.13 으로 낮춘다(`dim_others`).
+6. 첫 실증 후보(macro_monetary, 데이터 전부 FRED 허용 출처): "연준 유동성 조건" — WALCL·WRESBAL·RRPONTSYD·WDTGAL·SOFR(뉴욕 연은)·DGS10. 별도 영상 주문 때 D.
+장치: `[lane-series-max]`·`[color-family-registered]` + 기존 겹침·축 검사. 원장 UF-152 guards 에.
