@@ -4,8 +4,8 @@
   "title": "제품은 팔고, 능력은 안 판다 — 중국 기술 수출통제",
   "category": "geopolitics",
   "created_at": "2026-10-30T06:43:38.640082Z",
-  "updated_at": "2026-10-30T07:08:31.355624Z",
-  "current_state": "script_approval",
+  "updated_at": "2026-10-30T08:27:21.496307Z",
+  "current_state": "voice_timeline",
   "target_duration_min": 18,
   "topic_summary": "중국 상무부 2026년 10월 기술·이중용도 수출통제 공고(제48~52호)와 영업비밀 특별규정 초안, 한국 접점",
   "initial_links": [],
@@ -28,7 +28,26 @@
     "provenance": "out/provenance.json"
   },
   "render_mode_status": {},
-  "gate_decisions": [],
+  "gate_decisions": [
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-10-30T08:27:21.496123Z",
+      "comment": "사용자 위임 D-0282(원문 '나한테 뭐 묻지 말고 … 알아서 영상 완성본을 나한테 전달') · 감독 검토 D-0285 조건 반영 확인(v1.1 56문장, script_sha1 69b37300) · R-0288",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/china_tech_export_controls_2026/script.yaml",
+        "lint_errors": "0",
+        "lint_warnings": "6",
+        "est_sec": "508.3",
+        "media_plan_errors": "0",
+        "script_sha1": "69b37300f3c84c76f1fb8e84652f62be0ce1f1ca",
+        "media_plan": "사진 0/8 · 기사 후보 49문장 · 508초(chars)"
+      },
+      "chosen_version": null
+    }
+  ],
   "stage_records": [],
   "final_outputs": {},
   "state_history": [
@@ -61,6 +80,12 @@
       "to_state": "script_approval",
       "transitioned_at": "2026-10-30T07:08:31.355524Z",
       "reason": "원고 v1 확정(58문장, 린트 오류 0·경고 0) — 게이트 ① 감독 위임(D-0282)"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-10-30T08:27:21.496223Z",
+      "reason": "script_approval 승인 — fable"
     }
   ],
   "rollbacks": [],
