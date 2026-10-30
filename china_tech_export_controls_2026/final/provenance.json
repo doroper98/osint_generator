@@ -1,0 +1,1690 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "7.4.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "b18950216286dab588424f547a10a4327524176e",
+ "prompts": {
+  "director": "0b32267066b07df188b96f68108211009eb99e96"
+ },
+ "voice": "supertonic-3 M3 ×0.95",
+ "word_anchor": "aligned",
+ "word_anchors": [
+  {
+   "sid": "act2_3",
+   "word": "중국은",
+   "mode": "aligned",
+   "t": 177.722,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_5",
+   "word": "인공지능과",
+   "mode": "aligned",
+   "t": 192.789,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act3_8",
+   "word": "진천에",
+   "mode": "aligned",
+   "t": 309.637,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_3",
+   "word": "중국은",
+   "mode": "aligned",
+   "t": 177.722,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_3",
+   "word": "중국은",
+   "mode": "aligned",
+   "t": 177.722,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "ending_1",
+   "word": "목록에",
+   "mode": "aligned",
+   "t": 379.578,
+   "alignment_source": "mms_forced_alignment"
+  }
+ ],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 397.081,
+ "sentences": 56,
+ "stages": {
+  "plan": true,
+  "geo": true,
+  "preview": true,
+  "render": true,
+  "mix": true,
+  "mux": true,
+  "ai_direction": true,
+  "visual_qa": true,
+  "bundle": false
+ },
+ "features_used": {
+  "camera_keys": 16,
+  "camera_moves": 13,
+  "camera_cuts": 3,
+  "dips": 2,
+  "dips_under": 0,
+  "badges": 4,
+  "badge_kinds": {
+   "person": 4
+  },
+  "panels": [
+   "dots",
+   "versus",
+   "fork",
+   "timeline",
+   "timeline",
+   "versus"
+  ],
+  "cards": 0,
+  "media": {
+   "clip": 0,
+   "photo": 11,
+   "cutout": 0,
+   "article": 9
+  },
+  "event_types": {
+   "article": 9,
+   "badge": 4,
+   "country": 4,
+   "dip": 2,
+   "marker": 12,
+   "panel": 6,
+   "photo": 11,
+   "quote": 3,
+   "route": 1
+  },
+  "label_lod": true,
+  "vignette": false,
+  "private_only_assets": [],
+  "at_word": {
+   "aligned": 6,
+   "ratio": 0
+  },
+  "map_layers": {
+   "roads": 0,
+   "rivers": 10,
+   "capitals": true,
+   "enabled": [
+    "roads",
+    "rivers"
+   ],
+   "reason": null
+  },
+  "transitions": [
+   {
+    "sid": "act2_0",
+    "pause_t0": 157.201678,
+    "pause_sec": 1.5,
+    "kind": [
+     "stage"
+    ]
+   },
+   {
+    "sid": "act3_0",
+    "pause_t0": 251.56424,
+    "pause_sec": 1.5,
+    "kind": [
+     "stage"
+    ]
+   },
+   {
+    "sid": "act4_0",
+    "pause_t0": 327.975986,
+    "pause_sec": 1.5,
+    "kind": [
+     "stage"
+    ]
+   }
+  ],
+  "alignment": {
+   "sources": {
+    "mms_forced_alignment": 56
+   },
+   "score_mean_min": 0.819,
+   "elapsed_ms_total": 83006
+  },
+  "prosody": {
+   "final_fall": {
+    "applied_n": 56,
+    "skipped_n": 0
+   }
+  }
+ },
+ "qa": {
+  "auto_iterations": 2,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)",
+  "visual_qa": [
+   "revise",
+   "revise",
+   "revise"
+  ]
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [
+   "flag11:cn",
+   "flag11:in",
+   "flag43:cn",
+   "flag43:us",
+   "media:cn_datacenter_racks_720.jpg",
+   "media:cn_datacenter_server_720.jpg",
+   "media:cn_dji_matrice30_720.jpg",
+   "media:cn_iss_stem_cell_720.jpg",
+   "media:cn_mta_cutterhead_2019_720.jpg",
+   "media:cn_perovskite_cell_720.jpg",
+   "media:cn_rare_earth_oxides_720.jpg",
+   "media:cn_solar_wall_nasa_720.jpg",
+   "media:cn_tbm_crchi_2021_720.jpg",
+   "media:cn_trump_xi_gimhae_2025_720.jpg",
+   "media:cn_trump_xi_meeting_2025_720.jpg",
+   "portrait:trump",
+   "portrait:xi_jinping"
+  ],
+  "emblems": {
+   "used": [],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "cn",
+    "de",
+    "in",
+    "jp",
+    "kr",
+    "trump",
+    "us",
+    "xi_jinping"
+   ],
+   "used": [
+    "trump",
+    "xi_jinping"
+   ],
+   "suggested_and_used": [
+    "trump",
+    "xi_jinping"
+   ],
+   "suggestions": 27
+  }
+ },
+ "panels": {
+  "used": [
+   {
+    "kind": "dots",
+    "title": "새로 넣는 기술 40개",
+    "t0": 64.64,
+    "prov_tag": null
+   },
+   {
+    "kind": "versus",
+    "title": "희토류 통제와 이번 초안",
+    "t0": 187.7,
+    "prov_tag": null
+   },
+   {
+    "kind": "fork",
+    "title": "수출 관리의 두 갈래",
+    "t0": 243.03,
+    "prov_tag": null
+   },
+   {
+    "kind": "timeline",
+    "title": "남은 날짜",
+    "t0": 333.64,
+    "prov_tag": null
+   },
+   {
+    "kind": "timeline",
+    "title": "공고 열흘",
+    "t0": 133.89,
+    "prov_tag": null
+   },
+   {
+    "kind": "versus",
+    "title": "제품과 생산 기술",
+    "t0": 376.24,
+    "prov_tag": null
+   }
+  ]
+ },
+ "credits": {
+  "card": {
+   "flags": 1,
+   "map": 2,
+   "media": 20,
+   "music": 1,
+   "narration": 1,
+   "people": 2
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "reserved": {
+  "avoidance": [
+   {
+    "badge": "트럼프",
+    "t0": 175.71,
+    "t1": 177.71,
+    "strategy": [
+     "edge"
+    ],
+    "direction": [
+     "right"
+    ],
+    "max_px": 46.8,
+    "zones": [
+     "screen"
+    ],
+    "frames": 49
+   }
+  ]
+ },
+ "audio": {
+  "bgm": [
+   "music.zabriskie_mario_bava"
+  ],
+  "bed_gain": 0.43,
+  "crossfades": 0,
+  "bed_bass": {
+   "applied": {
+    "shelf": {
+     "freq_hz": 110.0,
+     "gain_db": 5.0,
+     "q": 0.7
+    },
+    "sub": {
+     "band_hz": [
+      55.0,
+      220.0
+     ],
+     "out_lp_hz": 110.0,
+     "filter_order": 4,
+     "gain": 0.35,
+     "env_attack_sec": 0.03,
+     "env_release_sec": 0.25,
+     "env_block_sec": 0.001
+    },
+    "swell": {
+     "sec": 2.5,
+     "depth": 0.35
+    },
+    "norm_ref": 0.4
+   },
+   "ratio_db": {
+    "before": 3.19,
+    "after": 8.17
+   },
+   "rise_db": 4.98,
+   "swell_at": [
+    35.247,
+    157.202,
+    251.564,
+    327.976,
+    368.993
+   ],
+   "bands_hz": {
+    "bass": [
+     30.0,
+     120.0
+    ],
+    "mid": [
+     200.0,
+     2000.0
+    ]
+   }
+  },
+  "loudnorm": {
+   "passes": 2,
+   "pass1": {
+    "input_i": -15.61,
+    "input_tp": -0.96,
+    "input_lra": 4.8,
+    "input_thresh": -25.9,
+    "target_offset": 0.27
+   },
+   "pass2": {
+    "output_i": -14.03,
+    "output_tp": -1.5,
+    "normalization_type": "dynamic"
+   },
+   "post_limiter_dbfs": -2.0
+  },
+  "qa": {
+   "hard": [],
+   "warnings": [
+    "문장 act1_14 RMS 가 평균에서 3dB 넘게 벗어남"
+   ],
+   "final_loudness": {
+    "I": -14.11,
+    "TP": -1.7,
+    "LRA": 4.6
+   },
+   "music_under_narration_db": -12.07,
+   "mix_peak": 0.8777,
+   "bed_bass_ratio_db": 8.17,
+   "bed_bass_rise_db": 4.98
+  }
+ },
+ "end_card": {
+  "version_stamp": "v7.4.0",
+  "roll_px": 249.0,
+  "roll_px_per_sec": 38.31
+ },
+ "render": {
+  "resolution": {
+   "profile": "720p",
+   "width": 1280,
+   "height": 720,
+   "fps": 24,
+   "k": 1.5,
+   "pad_x": -0.5,
+   "crf": 19,
+   "preset": "faster"
+  }
+ },
+ "badge": {
+  "R_ignored": [],
+  "head_top": [
+   {
+    "pid": "trump",
+    "head_top": 1.0276,
+    "md5": "f2cd16bd229947837c8db5f19c401459"
+   },
+   {
+    "pid": "xi_jinping",
+    "head_top": 1.0399,
+    "md5": "57cc0a9c6534f7a83839301c1918852d"
+   }
+  ]
+ },
+ "geo": {
+  "unsourced": [
+   {
+    "kind": "place",
+    "name": "gyeonggi",
+    "lonlat": [
+     127.0,
+     37.3
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "jincheon",
+    "lonlat": [
+     127.44,
+     36.86
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "bayanobo",
+    "lonlat": [
+     109.97,
+     41.78
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "tbm_kr_approx",
+    "points": 4,
+    "ends": [
+     [
+      117.0,
+      34.0
+     ],
+     [
+      127.0,
+      37.3
+     ]
+    ]
+   }
+  ],
+  "matched": [
+   {
+    "kind": "place",
+    "name": "beijing",
+    "lonlat": [
+     116.4,
+     39.9
+    ],
+    "gazetteer": "beijing_chn",
+    "km": 0.5,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "busan",
+    "lonlat": [
+     129.04,
+     35.1
+    ],
+    "gazetteer": "busan_kor",
+    "km": 2.9,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "newdelhi",
+    "lonlat": [
+     77.21,
+     28.61
+    ],
+    "gazetteer": "new_delhi_ind",
+    "km": 1.5,
+    "tol_km": 25.0
+   }
+  ],
+  "mismatch": []
+ },
+ "quote": {
+  "status": "adopted",
+  "count": 3,
+  "speakers": [
+   "옵서버연구재단 마노즈 조시",
+   "중국 상무부 대변인"
+  ]
+ },
+ "border_glow": {
+  "status": "adopted",
+  "on": true
+ },
+ "article": [
+  {
+   "mid": "china_tech_export_controls_2026_art_0023",
+   "t0": 15.43,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "china_tech_export_controls_2026_art_0012",
+   "t0": 77.7,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "china_tech_export_controls_2026_art_0016",
+   "t0": 108.05,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "china_tech_export_controls_2026_art_0004",
+   "t0": 236.08,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "china_tech_export_controls_2026_art_0018",
+   "t0": 269.35,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "china_tech_export_controls_2026_art_0013",
+   "t0": 314.22,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "china_tech_export_controls_2026_art_0001",
+   "t0": 45.48,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "china_tech_export_controls_2026_art_0008",
+   "t0": 147.2,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "china_tech_export_controls_2026_art_0025",
+   "t0": 295.97,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  }
+ ],
+ "pacing": {
+  "window_sec": 45.0,
+  "min_changes": 3,
+  "static_windows": [],
+  "creep": null
+ },
+ "animatic": false,
+ "catalog": false,
+ "chart_only_runs": [
+  [
+   243.1,
+   251.3
+  ]
+ ],
+ "chart_only_exempt": false,
+ "media_density": {
+  "count": 11,
+  "value": 1.662,
+  "min": 1.5,
+  "exempt": false
+ },
+ "stage": {
+  "name": "mercator",
+  "declared": false,
+  "shots_declared": 0,
+  "instances": {
+   "mercator": 1
+  },
+  "configs": {
+   "mercator": {
+    "theme": "light",
+    "theme_reason": "지경학 장르 기본 D154, 감독 결정 D500"
+   }
+  }
+ },
+ "map_contrast_fix": {
+  "labels": {
+   "금지 예시 · AI 악성코드": 3.98,
+   "영업비밀 규정 초안 · 10.26": 4.39,
+   "전력구 공사": 4.2,
+   "제48호 · 10.16": 4.24,
+   "제49~51호 · 10.19": 3.97,
+   "중국 상무부": 4.18,
+   "탠덤 전지 시험 라인": 3.54,
+   "트럼프·시진핑 회담 · 2025.10.30": 3.84,
+   "희토류 통제 확대 · 2025.10.09": 4.19
+  }
+ },
+ "map_theme": {
+  "effective": "light",
+  "source": "direction",
+  "declared": true,
+  "reason": "지경학 장르 기본 D154, 감독 결정 D500",
+  "series": null
+ },
+ "genre": {
+  "name": "geopolitics",
+  "declared": false,
+  "status": "approved"
+ },
+ "order": {
+  "topic": "중국 상무부 2026년 10월 기술·이중용도 수출통제 — 기술 목록 개정 초안(제48호, 10/16), 드론·터널굴착기·준설선(제49~51호, 10/19, 11/18 시행), 영업비밀 보호 특별규정 초안(10/26), 그리고 한국 접점",
+  "genre": "geopolitics",
+  "decisions": {
+   "topic": {
+    "value": "중국 기술 수출통제 확대(2026.10)",
+    "by": "user",
+    "ref": "D-0282 감독 추천안 2번 위임"
+   },
+   "map_theme": {
+    "value": "light",
+    "by": "default",
+    "ref": "장르 기본(D154) — 지경학, 감독 결정 D500"
+   },
+   "bgm": {
+    "value": "music.zabriskie_mario_bava",
+    "by": "default",
+    "ref": "rules audio.bgm_default 첫 곡 — 기준 작품과 같다"
+   },
+   "resolution": {
+    "value": "720p",
+    "by": "user",
+    "ref": "사용자 결정 2026-10-04 \"기준 해상도는 720p야\""
+   },
+   "gates": {
+    "value": "게이트 ①·② 감독 위임",
+    "by": "user",
+    "ref": "D-0282"
+   }
+  }
+ },
+ "camera": {
+  "suggest_ran": true,
+  "suggested": 5,
+  "used": 0,
+  "given_to_director": false,
+  "from_current_direction": false,
+  "fits": 4,
+  "current_fits_false": 2
+ },
+ "lint_warnings": [
+  "[timeline-overlap] '공고 열흘' 2026-10-19 드론·굴착기·준설선 공고 층 2 라벨이 앞 사건과 겹친다",
+  "[media-density-total] 과밀 — 11개 / 397초 = 36.1초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act1: ['cn_datacenter_server', 'cn_iss_stem_cell', 'cn_datacenter_racks', 'cn_dji_matrice30', 'cn_mta_cutterhead_2019'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act2: ['cn_rare_earth_oxides', 'cn_trump_xi_gimhae_2025', 'cn_trump_xi_meeting_2025'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act3: ['cn_perovskite_cell', 'cn_solar_wall_nasa'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-kind-repeat] 이웃 장면 cold→act1 같은 형태 ['article', 'photo'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['article', 'photo'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['article', 'photo'] (14 §10.1)",
+  "[media-burst-window] 53.79초부터 40초 안 3개 ['cn_datacenter_server', 'cn_iss_stem_cell', 'cn_datacenter_racks'] > 2 (14 §10.1 하한, D38)",
+  "[article-unused] act2_3 172.9초 기사 카드 후보 ['china_tech_export_controls_2026_art_0019'] — 120~180초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act2_3.article 에 사유"
+ ],
+ "media": {
+  "suggested": [
+   {
+    "sid": "cold_2",
+    "scene": "cold",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 15.23,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act1_12",
+    "scene": "act1",
+    "kind": "cutout",
+    "trigger": "드론",
+    "at": 113.03,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act2_4",
+    "scene": "act2",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 181.1,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act2_6",
+    "scene": "act2",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 198.68,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act2_9",
+    "scene": "act2",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 219.76,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act3_0",
+    "scene": "act3",
+    "kind": "photo",
+    "trigger": "현장",
+    "at": 253.06,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act3_4",
+    "scene": "act3",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 280.05,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act3_5",
+    "scene": "act3",
+    "kind": "photo",
+    "trigger": "현장",
+    "at": 288.85,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act3_9",
+    "scene": "act3",
+    "kind": "clip",
+    "trigger": "타격",
+    "at": 314.02,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act4_4",
+    "scene": "act4",
+    "kind": "cutout",
+    "trigger": "드론",
+    "at": 347.07,
+    "source": "trigger",
+    "asset_id": null
+   }
+  ],
+  "used": [
+   {
+    "mid": "cn_tbm_crchi_2021",
+    "kind": "photo",
+    "t0": 2.2
+   },
+   {
+    "mid": "china_tech_export_controls_2026_art_0023",
+    "kind": "article",
+    "t0": 15.43
+   },
+   {
+    "mid": "china_tech_export_controls_2026_art_0012",
+    "kind": "article",
+    "t0": 77.7
+   },
+   {
+    "mid": "china_tech_export_controls_2026_art_0016",
+    "kind": "article",
+    "t0": 108.05
+   },
+   {
+    "mid": "cn_dji_matrice30",
+    "kind": "photo",
+    "t0": 113.63
+   },
+   {
+    "mid": "cn_trump_xi_gimhae_2025",
+    "kind": "photo",
+    "t0": 177.72
+   },
+   {
+    "mid": "china_tech_export_controls_2026_art_0004",
+    "kind": "article",
+    "t0": 236.08
+   },
+   {
+    "mid": "china_tech_export_controls_2026_art_0018",
+    "kind": "article",
+    "t0": 269.35
+   },
+   {
+    "mid": "cn_perovskite_cell",
+    "kind": "photo",
+    "t0": 303.09
+   },
+   {
+    "mid": "china_tech_export_controls_2026_art_0013",
+    "kind": "article",
+    "t0": 314.22
+   },
+   {
+    "mid": "cn_datacenter_server",
+    "kind": "photo",
+    "t0": 53.79
+   },
+   {
+    "mid": "cn_iss_stem_cell",
+    "kind": "photo",
+    "t0": 78.1
+   },
+   {
+    "mid": "cn_rare_earth_oxides",
+    "kind": "photo",
+    "t0": 168.01
+   },
+   {
+    "mid": "cn_solar_wall_nasa",
+    "kind": "photo",
+    "t0": 319.78
+   },
+   {
+    "mid": "cn_trump_xi_meeting_2025",
+    "kind": "photo",
+    "t0": 181.5
+   },
+   {
+    "mid": "china_tech_export_controls_2026_art_0001",
+    "kind": "article",
+    "t0": 45.48
+   },
+   {
+    "mid": "china_tech_export_controls_2026_art_0008",
+    "kind": "article",
+    "t0": 147.2
+   },
+   {
+    "mid": "china_tech_export_controls_2026_art_0025",
+    "kind": "article",
+    "t0": 295.97
+   },
+   {
+    "mid": "cn_mta_cutterhead_2019",
+    "kind": "photo",
+    "t0": 126.53
+   },
+   {
+    "mid": "cn_datacenter_racks",
+    "kind": "photo",
+    "t0": 93.23
+   }
+  ],
+  "suggested_and_used": [
+   "act2:article",
+   "act3:article",
+   "act3:photo",
+   "cold:article"
+  ],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 397.081,
+   "items": [
+    {
+     "mid": "cn_tbm_crchi_2021",
+     "kind": "photo",
+     "t0": 2.2,
+     "t1": 8.17,
+     "scene": "cold"
+    },
+    {
+     "mid": "china_tech_export_controls_2026_art_0023",
+     "kind": "article",
+     "t0": 15.43,
+     "t1": 22.13,
+     "scene": "cold"
+    },
+    {
+     "mid": "china_tech_export_controls_2026_art_0001",
+     "kind": "article",
+     "t0": 45.48,
+     "t1": 52.89,
+     "scene": "act1"
+    },
+    {
+     "mid": "cn_datacenter_server",
+     "kind": "photo",
+     "t0": 53.79,
+     "t1": 58.16,
+     "scene": "act1"
+    },
+    {
+     "mid": "china_tech_export_controls_2026_art_0012",
+     "kind": "article",
+     "t0": 77.7,
+     "t1": 86.34,
+     "scene": "act1"
+    },
+    {
+     "mid": "cn_iss_stem_cell",
+     "kind": "photo",
+     "t0": 78.1,
+     "t1": 86.04,
+     "scene": "act1"
+    },
+    {
+     "mid": "cn_datacenter_racks",
+     "kind": "photo",
+     "t0": 93.23,
+     "t1": 100.36,
+     "scene": "act1"
+    },
+    {
+     "mid": "china_tech_export_controls_2026_art_0016",
+     "kind": "article",
+     "t0": 108.05,
+     "t1": 113.63,
+     "scene": "act1"
+    },
+    {
+     "mid": "cn_dji_matrice30",
+     "kind": "photo",
+     "t0": 113.63,
+     "t1": 125.53,
+     "scene": "act1"
+    },
+    {
+     "mid": "cn_mta_cutterhead_2019",
+     "kind": "photo",
+     "t0": 126.53,
+     "t1": 133.49,
+     "scene": "act1"
+    },
+    {
+     "mid": "china_tech_export_controls_2026_art_0008",
+     "kind": "article",
+     "t0": 147.2,
+     "t1": 155.9,
+     "scene": "act1"
+    },
+    {
+     "mid": "cn_rare_earth_oxides",
+     "kind": "photo",
+     "t0": 168.01,
+     "t1": 172.27,
+     "scene": "act2"
+    },
+    {
+     "mid": "cn_trump_xi_gimhae_2025",
+     "kind": "photo",
+     "t0": 177.72,
+     "t1": 180.6,
+     "scene": "act2"
+    },
+    {
+     "mid": "cn_trump_xi_meeting_2025",
+     "kind": "photo",
+     "t0": 181.5,
+     "t1": 187.3,
+     "scene": "act2"
+    },
+    {
+     "mid": "china_tech_export_controls_2026_art_0004",
+     "kind": "article",
+     "t0": 236.08,
+     "t1": 242.93,
+     "scene": "act2"
+    },
+    {
+     "mid": "china_tech_export_controls_2026_art_0018",
+     "kind": "article",
+     "t0": 269.35,
+     "t1": 279.75,
+     "scene": "act3"
+    },
+    {
+     "mid": "china_tech_export_controls_2026_art_0025",
+     "kind": "article",
+     "t0": 295.97,
+     "t1": 302.49,
+     "scene": "act3"
+    },
+    {
+     "mid": "cn_perovskite_cell",
+     "kind": "photo",
+     "t0": 303.09,
+     "t1": 313.42,
+     "scene": "act3"
+    },
+    {
+     "mid": "china_tech_export_controls_2026_art_0013",
+     "kind": "article",
+     "t0": 314.22,
+     "t1": 319.48,
+     "scene": "act3"
+    },
+    {
+     "mid": "cn_solar_wall_nasa",
+     "kind": "photo",
+     "t0": 319.78,
+     "t1": 326.38,
+     "scene": "act3"
+    }
+   ],
+   "count": 20,
+   "beat_count": 11,
+   "sec_per_item": 36.1,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": 53.79,
+     "count": 3,
+     "mids": [
+      "cn_datacenter_server",
+      "cn_iss_stem_cell",
+      "cn_datacenter_racks"
+     ]
+    }
+   },
+   "per_scene": {
+    "cold": [
+     "cn_tbm_crchi_2021"
+    ],
+    "act1": [
+     "cn_datacenter_server",
+     "cn_iss_stem_cell",
+     "cn_datacenter_racks",
+     "cn_dji_matrice30",
+     "cn_mta_cutterhead_2019"
+    ],
+    "act2": [
+     "cn_rare_earth_oxides",
+     "cn_trump_xi_gimhae_2025",
+     "cn_trump_xi_meeting_2025"
+    ],
+    "act3": [
+     "cn_perovskite_cell",
+     "cn_solar_wall_nasa"
+    ]
+   },
+   "insets": [],
+   "warnings": [
+    "[media-density-total] 과밀 — 11개 / 397초 = 36.1초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act1: ['cn_datacenter_server', 'cn_iss_stem_cell', 'cn_datacenter_racks', 'cn_dji_matrice30', 'cn_mta_cutterhead_2019'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act2: ['cn_rare_earth_oxides', 'cn_trump_xi_gimhae_2025', 'cn_trump_xi_meeting_2025'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act3: ['cn_perovskite_cell', 'cn_solar_wall_nasa'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-kind-repeat] 이웃 장면 cold→act1 같은 형태 ['article', 'photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['article', 'photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['article', 'photo'] (14 §10.1)",
+    "[media-burst-window] 53.79초부터 40초 안 3개 ['cn_datacenter_server', 'cn_iss_stem_cell', 'cn_datacenter_racks'] > 2 (14 §10.1 하한, D38)"
+   ]
+  },
+  "articles": {
+   "schema_version": 1,
+   "candidates": 49,
+   "covered": 9,
+   "used_events": 9,
+   "per_min_max": 2,
+   "unused": [
+    {
+     "sid": "act2_3",
+     "t0": 172.87,
+     "mids": [
+      "china_tech_export_controls_2026_art_0019"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act2_5",
+     "t0": 187.9,
+     "mids": [
+      "china_tech_export_controls_2026_art_0019",
+      "china_tech_export_controls_2026_art_0001",
+      "china_tech_export_controls_2026_art_0003",
+      "china_tech_export_controls_2026_art_0011"
+     ],
+     "reason": "versus 패널(희토류 통제 대 이번 초안)이 화면을 차지 — 같은 보도는 act1 에서 썼다"
+    },
+    {
+     "sid": "act3_10",
+     "t0": 319.48,
+     "mids": [
+      "china_tech_export_controls_2026_art_0016",
+      "china_tech_export_controls_2026_art_0011"
+     ],
+     "reason": "막 정리 문장 — 카드(최종 목록이 정해져야)로 맺는다"
+    },
+    {
+     "sid": "ending_1",
+     "t0": 376.44,
+     "mids": [
+      "china_tech_export_controls_2026_art_0016",
+      "china_tech_export_controls_2026_art_0025",
+      "china_tech_export_controls_2026_art_0011",
+      "china_tech_export_controls_2026_art_0014"
+     ],
+     "reason": "맺음 문장 — 요약 카드(완제품과 생산 기술)"
+    },
+    {
+     "sid": "ending_0",
+     "t0": 368.99,
+     "mids": [
+      "china_tech_export_controls_2026_art_0001",
+      "china_tech_export_controls_2026_art_0002",
+      "china_tech_export_controls_2026_art_0006",
+      "china_tech_export_controls_2026_art_0007",
+      "china_tech_export_controls_2026_art_0016",
+      "china_tech_export_controls_2026_art_0025",
+      "china_tech_export_controls_2026_art_0008"
+     ],
+     "reason": "맺음 문장 — 요약 카드(세 가지 도구)"
+    }
+   ],
+   "warnings": [
+    "[article-unused] act2_3 172.9초 기사 카드 후보 ['china_tech_export_controls_2026_art_0019'] — 120~180초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act2_3.article 에 사유"
+   ]
+  },
+  "placement": {
+   "cn_tbm_crchi_2021": "explicit",
+   "cn_dji_matrice30": "explicit",
+   "cn_trump_xi_gimhae_2025": "explicit",
+   "cn_perovskite_cell": "explicit",
+   "cn_datacenter_server": "explicit",
+   "cn_iss_stem_cell": "explicit",
+   "cn_rare_earth_oxides": "explicit",
+   "cn_solar_wall_nasa": "explicit",
+   "cn_trump_xi_meeting_2025": "explicit",
+   "badge:트럼프": "slot:map_lower_left",
+   "badge:시진핑": "slot:map_lower_right",
+   "cn_mta_cutterhead_2019": "explicit",
+   "cn_datacenter_racks": "explicit"
+  }
+ },
+ "script": {
+  "labels": {
+   "verified": 17,
+   "corroborated": 26,
+   "unverified": 13,
+   "disputed": 0
+  }
+ },
+ "ai_direction": {
+  "origin": "ai+human_edit",
+  "human_edit_revisions": [
+   2
+  ],
+  "model": "claude-opus-5-5",
+  "prompt_sha1": "0b32267066b07df188b96f68108211009eb99e96",
+  "direction_versions": 3,
+  "used_version": null,
+  "selected": {
+   "version": 0,
+   "by": "code",
+   "reason": "상한 2회 도달 — checks_hard·qa_hard·qa_soft 사전식 최소 (checks hard 0, 검수 hard 1, soft 5)"
+  },
+  "rounds": [
+   {
+    "version": 0,
+    "checks_hard": 0,
+    "qa_hard": 1,
+    "qa_soft": 5
+   },
+   {
+    "version": 2,
+    "checks_hard": 0,
+    "qa_hard": 1,
+    "qa_soft": 8
+   },
+   {
+    "version": 3,
+    "checks_hard": 0,
+    "qa_hard": 1,
+    "qa_soft": 6
+   }
+  ],
+  "revisions": [
+   {
+    "direction_version": 2,
+    "changes": 5,
+    "base_human_edit": true
+   },
+   {
+    "direction_version": 3,
+    "changes": 8
+   }
+  ],
+  "visual_qa": [
+   {
+    "file": "qa_verdict.v1.json",
+    "verdict": "revise",
+    "hard": 1,
+    "soft": 5
+   },
+   {
+    "file": "qa_verdict.v2.json",
+    "verdict": "revise",
+    "hard": 1,
+    "soft": 8
+   },
+   {
+    "file": "qa_verdict.v3.json",
+    "verdict": "revise",
+    "hard": 1,
+    "soft": 6
+   }
+  ]
+ },
+ "checks": {
+  "source": "prev/provenance.json",
+  "direction_sha1": "4e04e8d6806c042d24bf1e3ab04c9b4b38d8826a",
+  "from_current_direction": true,
+  "hard": 0,
+  "warnings": 22,
+  "passed": true
+ },
+ "user_feedback_guards": [
+  {
+   "id": "UF-01",
+   "checks": {
+    "card_exposure": 0
+   }
+  },
+  {
+   "id": "UF-02",
+   "checks": {
+    "camera_continuity": 0,
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-03",
+   "checks": {
+    "route_label_cross": 0,
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-04",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-05",
+   "checks": {
+    "article_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-06",
+   "checks": {
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-07",
+   "checks": {
+    "route_missing_other": 0,
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-08",
+   "checks": {
+    "battle_geo": 0
+   }
+  },
+  {
+   "id": "UF-09",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-10",
+   "checks": {
+    "portrait_unused": 0,
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-11",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0
+   }
+  },
+  {
+   "id": "UF-12",
+   "checks": {
+    "frame_missing_target": 0,
+    "frame_missing": 0
+   }
+  },
+  {
+   "id": "UF-16",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-18",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-19",
+   "checks": {
+    "camera_per_sentence": 0
+   }
+  },
+  {
+   "id": "UF-20",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-25",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-27",
+   "checks": {
+    "portrait_unused": 0
+   }
+  },
+  {
+   "id": "UF-30",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-31",
+   "checks": {
+    "media_upscaled": 0
+   }
+  },
+  {
+   "id": "UF-32",
+   "checks": {
+    "boundary_as_route": 0
+   }
+  },
+  {
+   "id": "UF-34",
+   "checks": {
+    "offscreen": 0
+   }
+  },
+  {
+   "id": "UF-35",
+   "checks": {
+    "endcard_black": 0
+   }
+  },
+  {
+   "id": "UF-37",
+   "checks": {
+    "glyph_size": 0
+   }
+  },
+  {
+   "id": "UF-39",
+   "checks": {
+    "timeline_rescale": 0
+   }
+  },
+  {
+   "id": "UF-42",
+   "checks": {
+    "stage_choice": 0,
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-45",
+   "checks": {
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-46",
+   "checks": {
+    "cascade": 0
+   }
+  },
+  {
+   "id": "UF-54",
+   "checks": {
+    "subtitle_overlap": 0
+   }
+  },
+  {
+   "id": "UF-63",
+   "checks": {
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-72",
+   "checks": {
+    "timeline_span": 0
+   }
+  },
+  {
+   "id": "UF-73",
+   "checks": {
+    "route_frame": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-77",
+   "checks": {
+    "opening_establish": 0
+   }
+  },
+  {
+   "id": "UF-78",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-80",
+   "checks": {
+    "flag_territory": 0
+   }
+  },
+  {
+   "id": "UF-81",
+   "checks": {
+    "badge_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-84",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-88",
+   "checks": {
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-93",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-97",
+   "checks": {
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-98",
+   "checks": {
+    "title_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-99",
+   "checks": {
+    "camera_bounds": 0,
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-101",
+   "checks": {
+    "portrait_unused": 0
+   }
+  },
+  {
+   "id": "UF-102",
+   "checks": {
+    "media_beats": 9
+   }
+  },
+  {
+   "id": "UF-104",
+   "checks": {
+    "tempo_density": 0
+   }
+  },
+  {
+   "id": "UF-105",
+   "checks": {
+    "transition_camera": 0
+   }
+  },
+  {
+   "id": "UF-107",
+   "checks": {
+    "inset_overlap": 0
+   }
+  },
+  {
+   "id": "UF-109",
+   "checks": {
+    "article_press_missing": 0
+   }
+  },
+  {
+   "id": "UF-110",
+   "checks": {
+    "cutaway_churn": 0
+   }
+  },
+  {
+   "id": "UF-111",
+   "checks": {
+    "unit_glyph_font": 0
+   }
+  },
+  {
+   "id": "UF-113",
+   "checks": {
+    "ratio_graphic": 1
+   }
+  },
+  {
+   "id": "UF-115",
+   "checks": {
+    "tempo_density": 0
+   }
+  },
+  {
+   "id": "UF-118",
+   "checks": {
+    "media_unused": 0
+   }
+  },
+  {
+   "id": "UF-119",
+   "checks": {
+    "media_unused": 0
+   }
+  },
+  {
+   "id": "UF-120",
+   "checks": {
+    "static_camera": 0
+   }
+  },
+  {
+   "id": "UF-122",
+   "checks": {
+    "unit_ton_glyph": 0
+   }
+  },
+  {
+   "id": "UF-123",
+   "checks": {
+    "route_speed": 0
+   }
+  },
+  {
+   "id": "UF-125",
+   "checks": {
+    "sea_only_frame": 0
+   }
+  },
+  {
+   "id": "UF-126",
+   "checks": {
+    "series_unused": 0,
+    "panel_dropped": 0
+   }
+  },
+  {
+   "id": "UF-128",
+   "checks": {
+    "chart_honesty": 0
+   }
+  },
+  {
+   "id": "UF-129",
+   "checks": {
+    "card_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-130",
+   "checks": {
+    "article_outlet": 0
+   }
+  },
+  {
+   "id": "UF-131",
+   "checks": {
+    "glyphs": 0
+   }
+  },
+  {
+   "id": "UF-135",
+   "checks": {
+    "chart_only_run": 0,
+    "chart_world_split": 0
+   }
+  },
+  {
+   "id": "UF-137",
+   "checks": {
+    "chart_edge_bleed": 0
+   }
+  },
+  {
+   "id": "UF-138",
+   "checks": {
+    "timeline_rescale": 0
+   }
+  },
+  {
+   "id": "UF-139",
+   "checks": {
+    "media_density": 0
+   }
+  },
+  {
+   "id": "UF-140",
+   "checks": {
+    "flat_lane": 0
+   }
+  },
+  {
+   "id": "UF-141",
+   "checks": {
+    "clip_frame": 0
+   }
+  },
+  {
+   "id": "UF-142",
+   "checks": {
+    "plot_height": 0,
+    "axis_empty_band": 0
+   }
+  },
+  {
+   "id": "UF-143",
+   "checks": {
+    "island_pin_collision": 0
+   }
+  }
+ ]
+}

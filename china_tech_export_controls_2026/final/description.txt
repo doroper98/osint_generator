@@ -1,0 +1,50 @@
+제품은 팔고, 능력은 안 판다 · 중국 기술 수출통제 열흘, 그리고 한국
+
+중국 상무부는 2026년 10월 16일부터 26일까지 열흘 남짓 사이 다섯 건의 수출통제 공고를 냈습니다. 인공지능·생물의약·태양광 기술 40개를 수출 금지·제한 목록에 새로 넣는 초안(금지 후보 14개, 제한 후보 26개), 드론·터널굴착기·준설선 수출 관리(11월 18일 시행), 그리고 영업비밀 특별규정 초안입니다. 터널굴착기는 민감 국가·지역으로 갈 때 허가, 그 밖은 등록으로 수출을 증명하게 되며, 민감 국가 명단은 아직 공개되지 않았습니다. 상무부는 특정 국가·지역·실체를 겨냥하지 않는 정례 작업이라고 밝혔고, 인도 옵서버연구재단의 마노즈 조시는 제품은 팔면서 기술 우위는 지키려는 조치로 해석했습니다. 2025년 희토류 통제 확대와 부산 미중 정상회담 뒤의 유예, 2027년 1월 10일까지 연장된 휴전을 배경으로 놓고, 중국산 터널굴착기가 들어간 경기도 전력구 공사와 진천 페로브스카이트 시험 라인 등 한국 접점을 출처와 기준 시점과 함께 지도로 정리했습니다. 기술 목록 개정과 영업비밀 규정은 의견 수렴 중인 초안이며, 일부 한국 접점은 단일 보도에 근거합니다.
+
+챕터
+0:00 터널굴착기 허가제
+0:29 타이틀
+0:35 1막 열흘 — 다섯 공고
+2:37 2막 제품과 능력 — 희토류 이후와 양측 해석
+4:11 3막 한국 — 공사 현장과 공장
+5:27 4막 다음 날짜
+6:08 정리
+
+크레딧 (영상 밖 표기 — 폰트 등)
+GmarketSans · Gmarket · G마켓 무료 폰트 · https://corp.gmarket.com/fonts/
+IBM Plex Mono · IBM · SIL OFL 1.1 · https://github.com/google/fonts/tree/main/ofl/ibmplexmono
+IBM Plex Sans KR · IBM · SIL OFL 1.1 · https://github.com/google/fonts/tree/main/ofl/ibmplexsanskr
+Noto Serif CJK KR · Google · Adobe · SIL OFL 1.1 · https://github.com/notofonts/noto-cjk
+
+출처 원문 (보도 · 자료 · X 게시물)
+중국 상무부·과학기술부 “商务部 科技部公告2026年第48号 — 修订《中国禁止出口限制出口技术目录》公开征求意见并对相关技术出口实施临时登记管理” — https://www.mofcom.gov.cn/zwgk/zcfb/art/2026/art_0a31a3c9ac404f7a9b0e917ce3412997.html
+중국 상무부 대변인 “商务部新闻发言人就修订《中国禁止出口限制出口技术目录》答记者问” — https://www.mofcom.gov.cn/syxwfb/art/2026/art_a4acff07e134447fbe7bbeb486df3ea6.html
+중국 상무부·해관총서·중앙군사위 장비발전부 “商务部 海关总署 中央军委装备发展部公告2026年第49号 — 公布优化调整无人机相关物项出口管制措施的决定” — http://www.mofcom.gov.cn/zwgk/zcfb/art/2026/art_f71c27f81b8f4097b876818abbd19851.html
+중국 상무부·해관총서 “商务部 海关总署公告2026年第50号 — 公布对盾构机等物项实施出口管制的决定” — https://www.mofcom.gov.cn/zwgk/zcfb/art/2026/art_9ce34ccfa6c040d7a4f7622f89133be5.html
+중국 상무부(조약법률사) “《保护中国商业秘密特别规定（征求意见稿）》公开征求意见” — https://www.163.com/dy/article/LA69PM1G05198UNI.html
+중국 상무부 대변인 “商务部新闻发言人就对盾构机等物项实施出口管制答记者问” — https://www.mofcom.gov.cn/
+토요경제 (10.21) — http://sateconomy.co.kr/news/view/1065604129067395
+EBN (10.20) — https://www.ebn.co.kr/news/articleView.html?idxno=1728248
+이투데이 (10.19) — https://www.etoday.co.kr/news/view/2637586
+Global Trade Alert (10.23) — https://globaltradealert.org/blog/china-export-controls-a-year-on
+Reuters (10.16) — https://www.devdiscourse.com/article/international/3993501-china-proposes-adding-40-ai-biotech-solar-technologies-to-export-control-list
+CGTN (10.16) — https://news.cgtn.com/news/2026-10-16/China-mulls-export-curbs-on-AI-biomedicine-and-solar-tech-1Ri9gvMUqUE/p.html
+Global Times (10.16) — https://www.globaltimes.cn/page/202610/1372418.shtml
+Global Times (10.17) — https://www.globaltimes.cn/page/202610/1372426.shtml
+Xinhua (10.19) — https://english.news.cn/20261019/0f6c932a504444a7b47960b771eba4cd/c.html
+CGTN (10.19) — https://news.cgtn.com/news/2026-10-19/China-imposes-export-controls-on-tunnel-boring-machines-1Rn9MkAiBvW/share_amp.html
+Reuters (10.19) — https://www.devdiscourse.com/article/international/3994600-china-commerce-ministry-announces-export-controls-for-tunnel-boring-machines
+Global Times (10.26) — https://www.globaltimes.cn/page/202610/1373018.shtml
+ORF (10.28) — https://www.orfonline.org/expert-speak/china-s-new-export-controls-selling-the-output-keeping-the-capability
+China Global South Project (10.26) — https://www.chinaglobalsouth.com/2026/10/26/china-tunneling-equipment-export-controls-india/
+EBN (10.16) — https://www.ebn.co.kr/news/articleView.html?idxno=1728179
+AI타임스 (10.17) — https://www.aitimes.com/news/articleView.html?idxno=216384
+아이뉴스24 (10.20) — https://www.inews24.com/view/2016853
+메디파나뉴스 (10.17) — https://www.medipana.com/news/articleView.html?idxno=419510
+연합뉴스 (10.19) — https://www.koreancenter.or.kr/news/articleView.html?idxno=1426743
+Tunnelling Journal (12.11) — https://tunnellingjournal.com/crchi-tbms-en-route-to-korean-cable-project/
+대한경제 (2.13) — https://www.dnews.co.kr/uhtml/view.jsp?idxno=202302131347561990507
+Al Jazeera (10.30) — https://www.aljazeera.com/news/2025/10/30/trump-xi-meeting-in-busan-key-takeaways-from-the-summit
+Thomson Reuters (10.10) — https://www.thomsonreuters.com/en-us/help/onesource-global-trade/regulatory-insights/2025/october-10th/china-export-controls-rare-battery-technologies.html
+CNBC (9.24) — https://www.cnbc.com/2026/09/24/us-china-trade-truce-bessent-trump-xi.html
