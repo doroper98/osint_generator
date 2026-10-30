@@ -44,6 +44,10 @@ sections:
     license: MTA Capital Construction (CC BY 2.0) · CC BY 2.0
     rights:
     - media.cn_mta_cutterhead_2019
+  - main: 데이터센터 서버실 (2013. 09. 06)
+    license: Intel Free Press (CC BY 2.0) · CC BY 2.0
+    rights:
+    - media.cn_datacenter_racks
   - main: 데이터센터 서버 기판 (2011)
     license: Intel Free Press (CC BY 2.0) · CC BY 2.0
     rights:
@@ -108,5 +112,5 @@ sections:
   slot: notice
   items:
   - main: 기술 목록 개정·영업비밀 규정은 의견 수렴 중인 초안
-    license: 해석은 각 기관 견해 · 일부 한국 접점은 단일 보도 · 굴착기 운송 경로·출발 위치는 개략 표현
+    license: 해석은 각 기관 견해 · 일부 한국 접점은 단일 보도 · 굴착기 운송 경로와 공사 지점은 개략 표현
     rights: []

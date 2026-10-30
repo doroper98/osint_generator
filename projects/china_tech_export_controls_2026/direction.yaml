@@ -2,7 +2,7 @@
 version: 1
 genre: null
 stage: null
-media_note: 'UF-148(D-0287) 적용: card 0 — 카드 23개 삭제(자막 되풀이), 날짜·공고 번호는 marker sub·timeline 핀으로. 사진 10장 슬롯 panel_center(가운데 큰 액자). 기사 9장(60초당 ≤2, 이웃 문장 연속 금지 — act2_3·act3_2·act3_8 은 사진·경로와 겹쳐 기사 생략). 2027-01-10 은 워싱턴이 지도 범위(W 티어 68~146E) 밖이라 marker 대신 트럼프·시진핑 뱃지(act4_6) + 자막. 굴착기 운송 경로는 개략(엔딩 표기). 클립 0(YouTube 봇 검사, 우회 안 함). · v3(D-0288): 베선트 뱃지 생략 — act2_4 김해 회담 테이블 사진에 베선트가 함께 찍혀 있고, act2_5 versus 패널 위 뱃지는 badge-over-panel hard. act2_9 조시 quote 추가(초상 없음 — 직함), act2_3 트럼프·시진핑 뱃지(문장 앞부분) → 사진(“중국은”부터), act1_14 MTA 커터헤드 사진(CC BY 2.0), act3_9 태양광 사진 → act3_10, act1 회전식 세포 배양 장치 사진 삭제(40초 창 3장).'
+media_note: 'UF-148(D-0287) 적용: card 0 — 카드 23개 삭제(자막 되풀이), 날짜·공고 번호는 marker sub·timeline 핀으로. 사진 10장 슬롯 panel_center(가운데 큰 액자). 기사 9장(60초당 ≤2, 이웃 문장 연속 금지 — act2_3·act3_2·act3_8 은 사진·경로와 겹쳐 기사 생략). 2027-01-10 은 워싱턴이 지도 범위(W 티어 68~146E) 밖이라 marker 대신 트럼프·시진핑 뱃지(act4_6) + 자막. 굴착기 운송 경로는 개략(엔딩 표기). 클립 0(YouTube 봇 검사, 우회 안 함). · v3(D-0288): 베선트 뱃지 생략 — act2_4 김해 회담 테이블 사진에 베선트가 함께 찍혀 있고, act2_5 versus 패널 위 뱃지는 badge-over-panel hard. act2_9 조시 quote 추가(초상 없음 — 직함), act2_3 트럼프·시진핑 뱃지(문장 앞부분) → 사진(“중국은”부터), act1_14 MTA 커터헤드 사진(CC BY 2.0), act3_9 태양광 사진 → act3_10, act1 회전식 세포 배양 장치 사진 삭제(40초 창 3장). · 사용자 의견 반영(D-0289): UF-160 act1_9 서버실 사진(CC BY 2.0) → 사진 11, UF-161 route·marker 라벨에서 개략·비공개 문구 삭제(엔딩 표기 행에만), UF-162 트럼프·시진핑 뱃지 act4_7 끝까지.'
 story_geo_exempt: null
 opening_exempt: null
 stage_reason: null
@@ -562,7 +562,7 @@ events:
     'off': 0.4
   at_place: gyeonggi
   label: 경기도
-  sub: 전력구 공사 · 좌표 비공개
+  sub: 전력구 공사
   side: right
   hl: true
 - type: article
@@ -793,7 +793,7 @@ events:
     - sid: act3_2
       'off': 6.6
   col: gold
-  label: 굴착기 2대 · 경로 개략
+  label: 굴착기 2대
 - type: article
   start:
     sid: act1_2
@@ -830,7 +830,7 @@ events:
     sid: act4_6
     'off': 0.2
   end:
-    sid: act4_6
+    sid: act4_7
     edge: end
     'off': 0.3
   place: map_lower_left
@@ -845,7 +845,7 @@ events:
     sid: act4_6
     'off': 0.2
   end:
-    sid: act4_6
+    sid: act4_7
     edge: end
     'off': 0.3
   place: map_lower_right
@@ -990,6 +990,18 @@ events:
   label: 시진핑
   role: 중국 국가주석
   accent: ru
+- type: photo
+  start:
+    sid: act1_9
+    'off': 0.3
+  end:
+    sid: act1_9
+    edge: end
+    'off': 0.3
+  mid: cn_datacenter_racks
+  x: 227.0
+  y: 72.0
+  w: 400.0
 sound:
   bgm: music.zabriskie_mario_bava
   intensity:

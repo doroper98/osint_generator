@@ -6551,6 +6551,45 @@
    },
    "source_hash": "382d7997c0a00d341a14548dac92f6b5",
    "file": "cn_mta_cutterhead_2019_720.jpg"
+  },
+  "cn_datacenter_racks": {
+   "kind": "photo",
+   "title": "File:Intel Team Inside Facebook Data Center.jpg",
+   "license": "CC BY 2.0",
+   "author": "Intel Free Press",
+   "credit_author": "Intel Free Press (CC BY 2.0)",
+   "date": "2013-09-06",
+   "url": "https://commons.wikimedia.org/wiki/File:Intel_Team_Inside_Facebook_Data_Center.jpg",
+   "caption": "데이터센터 서버실",
+   "file_note": "자료사진",
+   "depicts": [
+    "데이터센터 서버 랙",
+    "서버실을 점검하는 기술자들(2013)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 429: Commons 파일 페이지 메타데이터(CC BY 2.0, Intel Free Press, FlickreviewR 확인)를 WebSearch(commons 한정)로 대조, 원본 upload.wikimedia.org, 이미지 육안 확인",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "act1_9 '대형 모델을 해외에 앱이나 웹으로 서비스 … 해외 현지 설치' — 연산 설비 자료사진(특정 국가·기업 무관 캡션). 사용자 의견 UF-160"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "cn_datacenter_racks.jpg",
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "b8dca745e32ebbf01cfd49cf531cde37",
+   "file": "cn_datacenter_racks_720.jpg"
   }
  }
 }
