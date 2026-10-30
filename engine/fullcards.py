@@ -30,6 +30,7 @@ TOP_Y = 158             # 크레딧 첫 절 제목 기준선
 RULE_Y = H_OUT - 44     # 하단 구분선(날짜·안내 줄 위)
 COL_W = (COLS_X[1] - COLS_X[0] - 16, W_OUT - 64 - COLS_X[1])   # v7.4.0 — 열마다 글자 폭 한도(옆 열과 16px 띄움)
 ITEM_LINE = 12          # v7.4.0 — 줄바꿈한 크레딧 항목의 줄 간격
+LICENSE_LINE = 10       # v7.4.0 — 줄바꿈한 라이선스 줄의 줄 간격(license_size 7.8 기준, 항목 줄 간격보다 좁게)
 NOTICE_DY = 4           # v7.4.0 — 표기 전용 줄 기준선 = 하단 구분선 − 이 값(구분선 바로 위)
 NOTICE_H = 12           # v7.4.0 — 표기 전용 줄이 있으면 크레딧 열 아래 한도를 이만큼 올린다(겹침 방지)
 
@@ -71,6 +72,13 @@ def item_lines(m: str, ci: int) -> list[str]:
     return wrap(_M, m, COL_W[ci], END_CARD.item_size, "sans")
 
 
+def license_lines(lic: str, ci: int) -> list[str]:
+    """라이선스 줄도 열 폭 안으로 줄바꿈(v7.4.0 — 인물 사진 auto: people 의 긴 권리 문구가 화면 오른쪽 밖으로 나가던 것). 폭 안이면 한 줄."""
+    if adv(lic, END_CARD.license_size, "monom") <= COL_W[ci]:
+        return [lic]
+    return wrap(_M, lic, COL_W[ci], END_CARD.license_size, "monom")
+
+
 def endcard_layout(secs: list[tuple[str, list[tuple[str, str]]]], place: list[int]) -> tuple[list[Placed], list[float]]:
     """절 배치와 열마다 마지막 기준선(글자를 그린 마지막 y — 라이선스 줄이 있으면 그 줄). 빈 열은 TOP_Y 이전(0).
     v7.4.0: 열 폭을 넘는 항목은 줄을 바꾼다(줄마다 ITEM_LINE px 아래) — rows 의 m 은 줄바꿈 문자로 이은 글자."""
@@ -85,10 +93,12 @@ def endcard_layout(secs: list[tuple[str, list[tuple[str, str]]]], place: list[in
         rows = []
         for m, lic in items:
             ls = item_lines(m, ci)
-            rows.append(("\n".join(ls), lic, y))
+            lls = license_lines(lic, ci) if lic else []
+            rows.append(("\n".join(ls), "\n".join(lls), y))
             y += ITEM_LINE * (len(ls) - 1)
-            last[ci] = y + 11 if lic else y
-            y += 23 if lic else 14
+            extra = LICENSE_LINE * max(0, len(lls) - 1)
+            last[ci] = y + 11 + extra if lic else y
+            y += (23 + extra) if lic else 14
         out.append((si, ci, COLS_X[ci], head, rows))
         yy[ci] = y + 10
     return out, last
@@ -237,8 +247,9 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
                 yj = y + ITEM_LINE * j
                 text(ctx, ln, x, yj, END_CARD.item_size, "sans", (0.86, 0.87, 0.9), ia * edge(yj), 0, "l", role="end_card")
             y += ITEM_LINE * (len(ls) - 1)
-            if lic:
-                text(ctx, lic, x, y + 11, END_CARD.license_size, "monom", C["muted"], ia * 0.9 * edge(y + 11), 0, "l", role="end_card")
+            for j, ll in enumerate(lic.split("\n") if lic else []):   # v7.4.0 — 열 폭을 넘는 라이선스 줄은 여러 줄(endcard_layout 과 같은 줄바꿈)
+                yl = y + 11 + LICENSE_LINE * j
+                text(ctx, ll, x, yl, END_CARD.license_size, "monom", C["muted"], ia * 0.9 * edge(yl), 0, "l", role="end_card")
     if dist > 0:
         ctx.restore()
     fa = a * smooth((lt - 1.6) / 0.8)
