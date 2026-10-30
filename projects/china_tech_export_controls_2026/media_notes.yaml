@@ -28,7 +28,7 @@ sentences:
   act1_15:
     photo: 고르지 않음 — 준설선(천곤호 등) 검색 0건·통과 0. 카드(같은 날 공고 셋·11/18 시행)
   act2_1:
-    photo: "선택 — File:RE mine in Baiyun Ebo, Inner Mongolia.jpg (Public domain) — 중국 바이윈어보 희토류 광산 자료사진"
+    photo: "등록했으나 연출에서 뺌 — File:RE mine in Baiyun Ebo, Inner Mongolia.jpg(PD, 위성 영상). 2막 40초 창 사진 2장 상한(media.density.window_max) — act2_2 희토류 산화물·act2_3 김해 회담 우선"
   act2_2:
     photo: "선택 — File:Rareearthoxides.jpg (Public domain, 미 농무부 ARS) — 희토류 산화물 자료사진"
   act2_3:
@@ -51,7 +51,21 @@ sentences:
     photo: "선택 — File:Perovskite solar cell.jpg (Commons 검색 통과) — 페로브스카이트 태양전지 시료 자료사진. 원본 확보 완료(육안 확인)"
   act3_8:
     photo: 고르지 않음 — 한화큐셀 사진은 CC BY-SA·제한 표시만. 지도 진천 marker + 기사 카드(EBN 10/20)
-  act3_9:
-    photo: 고르지 않음 — 업계 전망 문장(사진 대상 없음). 트리거 '타격'은 '직접 타격'(비유)
   act4_4:
     photo: 고르지 않음 — 날짜 문장(시간축 핀). 드론·굴착기 사진은 act1 에서 이미 썼다
+  act3_9:
+    photo: "연출 배치 — cn_solar_wall_nasa(PD NASA, 위성) — 원래 act2_6 선택, 2막 사진 몰림(40초 창 상한)으로 태양광 업계 전망 문장으로 옮김"
+  act4_6:
+    photo: "연출 배치 — cn_trump_xi_meeting_2025(미 정부 저작물, 백악관 Flickr — 비공개 시청 한정) — 휴전을 만든 부산 회담 테이블"
+  act1_17:
+    article: 같은 기사(GT 10/26 영업비밀 규정)를 act1_16 에서 이미 썼다
+  act2_5:
+    article: versus 패널(희토류 통제 대 이번 초안)이 화면을 차지 — 같은 보도는 act1 에서 썼다
+  act3_4:
+    article: 같은 기사(토요경제 10/21 동아지질)를 cold_2 에서 썼다 — 여기서는 동아지질 설명 카드
+  act3_10:
+    article: 막 정리 문장 — 카드(최종 목록이 정해져야)로 맺는다
+  ending_0:
+    article: 맺음 문장 — 요약 카드(세 가지 도구)
+  ending_1:
+    article: 맺음 문장 — 요약 카드(완제품과 생산 기술)

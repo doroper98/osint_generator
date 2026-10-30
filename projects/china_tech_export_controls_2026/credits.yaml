@@ -56,10 +56,6 @@ sections:
     license: NATO 영상 제공(DVIDS) · Public domain
     rights:
     - media.cn_dji_matrice30
-  - main: 바이윈어보 희토류 광산(위성 영상, 2006) (2006. 06. 30)
-    license: NASA·ASTER · Public domain
-    rights:
-    - media.cn_bayan_obo_mine
   - main: 희토류 산화물(미 농무부) (2009)
     license: 미 농무부 ARS(Peggy Greb) · Public domain
     rights:
@@ -76,6 +72,10 @@ sections:
     license: Dennis Schroeder / National Renewable Energy Laboratory (Public domain) · Public domain
     rights:
     - media.cn_perovskite_cell
+  - main: 미중 정상회담(김해공항, 2025.10.30)
+    license: 백악관 · United States Government Work (Public domain)
+    rights:
+    - media.cn_trump_xi_meeting_2025
 - title: 글꼴
   column: 1
   auto: fonts

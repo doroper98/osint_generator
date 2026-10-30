@@ -6470,6 +6470,47 @@
    },
    "source_hash": "c7f88657a2d6197e107afb04c65deb85",
    "file": "cn_dji_matrice30_720.jpg"
+  },
+  "cn_trump_xi_meeting_2025": {
+   "kind": "photo",
+   "title": "File:President Donald Trump participates in a bilateral meeting with Chinese President Xi Jinping at the Gimhae International Airport terminal (54890444791).jpg",
+   "license": "United States Government Work (Public domain)",
+   "author": "Official White House Photo (Flickr 54890444791)",
+   "credit_author": "백악관",
+   "date": "2025-10-30",
+   "url": "https://commons.wikimedia.org/wiki/File:President_Donald_Trump_participates_in_a_bilateral_meeting_with_Chinese_President_Xi_Jinping_at_the_Gimhae_International_Airport_terminal_(54890444791).jpg",
+   "caption": "미중 정상회담(김해공항, 2025.10.30)",
+   "file_note": "자료사진 · 2025. 10. 30",
+   "depicts": [
+    "트럼프 미국 대통령·시진핑 중국 국가주석 회담 테이블",
+    "베선트 미국 재무장관(오른쪽)",
+    "김해국제공항 터미널(2025.10.30)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 429 로 Commons 검색 결과(라이선스 Public domain·제한 없음)와 같은 백악관 Flickr 묶음(54890689419 — WebSearch: Official White House Photo by Daniel Torok, 2025-10-30 부산) 대조, 이미지 육안 확인. 백악관 사진실 관례 고지 — 비공개 시청 한정(D264)",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "act4_6 '미국이 밝힌 휴전 만료일은 내년 1월 10일' — 그 휴전을 만든 부산 회담 자료사진"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "cn_trump_xi_meeting_2025.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "4baf8e60afd397c0d9b3921c7b0cc24c",
+   "file": "cn_trump_xi_meeting_2025_720.jpg"
   }
  }
 }
