@@ -3,19 +3,19 @@
  "sources": [
   {
    "id": "src_doc_0001",
-   "url": "https://www.sohu.com/a/1089559380_120658388",
+   "url": "https://www.mofcom.gov.cn/zwgk/zcfb/art/2026/art_0a31a3c9ac404f7a9b0e917ce3412997.html",
    "retrieved_at": "2026-10-30",
    "lang": "zh",
    "verification": {
     "status": "verified",
     "checks": [
-     "claims:7"
+     "claims:8"
     ],
     "notes": ""
    },
    "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
    "confirmed_at": "2026-10-30T07:10:00Z",
-   "note": "공고 원문 재게재본(소후·신화 fortune 판). mofcom.gov.cn 원문은 컨테이너·도구 차단 — 신화(news.cn 2026-10-16 '两部门就修订…') 재게재본과 대조",
+   "note": "컨테이너·WebFetch 차단 — WebSearch(도메인 한정) 본문 인용으로 대조, 재게재본(소후·신화) 일치. 분야별 23·5·12 는 보도 집계(첨부 .wps 미열람, D-0284 §2.1)",
    "type": "document",
    "issuer": "중국 상무부·과학기술부",
    "title": "商务部 科技部公告2026年第48号 — 修订《中国禁止出口限制出口技术目录》公开征求意见并对相关技术出口实施临时登记管理",
@@ -26,7 +26,8 @@
     "14项拟禁止出口, 26项拟限制出口",
     "征求意见 2026年10月16日—11月15日",
     "目录正式修订前, 技术出口经营者出口附件所列技术前应在商务部业务系统统一平台登记(临时登记管理)",
-    "已通过开源、发表学术论文等方式进入公共领域的人工智能技术不纳入管理范围"
+    "已通过开源、发表学术论文等方式进入公共领域的人工智能技术不纳入管理范围",
+    "登记情形: 向境外转让技术所有权、境内技术授权境外使用、境内技术的所有权人或实际控制人变为境外主体"
    ]
   },
   {
@@ -37,7 +38,7 @@
    "verification": {
     "status": "verified",
     "checks": [
-     "claims:5"
+     "claims:6"
     ],
     "notes": ""
    },
@@ -53,24 +54,26 @@
     "拟限制出口技术示例: 人工智能辅助漏洞挖掘技术",
     "此次修订属于技术贸易管理的常态化工作, 不针对任何特定国家、地区或实体",
     "光伏领域达不到管控指标的技术可以自由出口",
-    "生物医药领域不涉及所有权转让的对外授权模式适用自动许可等便利措施"
+    "生物医药领域不涉及所有权转让的对外授权模式适用自动许可等便利措施",
+    "对人工智能类技术开源等情形适用自动许可等便利措施；已通过开源或发表学术论文进入公共领域的相关技术，拟不纳入出口管理范围",
+    "大模型通过API调用、应用、网页、SaaS向境外提供服务不属于技术出口管理范围, 境外本地化部署属于范围"
    ]
   },
   {
    "id": "src_doc_0003",
-   "url": "https://www.news.cn/fortune/20261019/0b8361ce5c114f8f989211e9b7566fc5/c.html",
+   "url": "http://www.mofcom.gov.cn/zwgk/zcfb/art/2026/art_f71c27f81b8f4097b876818abbd19851.html",
    "retrieved_at": "2026-10-30",
    "lang": "zh",
    "verification": {
     "status": "verified",
     "checks": [
-     "claims:2"
+     "claims:3"
     ],
     "notes": ""
    },
    "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
    "confirmed_at": "2026-10-30T07:10:00Z",
-   "note": "신화 재게재본(검색 요약). 감독 지시 D-0283 의 '10/14' 는 공고일과 다름 — 공고일 10/19(제49~52호 같은 날)",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 인용·신화 재게재(news.cn fortune 0b8361ce…) 대조. D-0283 의 '10/14' 는 오류(D-0284 §0) — 공고일 10/19. '군집' 조항은 원고에 쓰지 않는다",
    "type": "document",
    "issuer": "중국 상무부·해관총서·중앙군사위 장비발전부",
    "title": "商务部 海关总署 中央军委装备发展部公告2026年第49号 — 公布优化调整无人机相关物项出口管制措施的决定",
@@ -79,7 +82,8 @@
     "发文日期 2026年10月19日",
     "列明13类未经许可不得出口的无人机相关物项(整机、核心部件、专用软件、关键技术)",
     "自2026年11月18日起实施",
-    "较大幅度放宽低敏感无人机整机的管制, 同时新增相关部件和技术列管"
+    "较大幅度放宽低敏感无人机整机的管制, 同时新增相关部件和技术列管",
+    "部分机型(9A012.a.1)通过登记取得出口凭证后自行出口"
    ]
   },
   {
@@ -136,6 +140,131 @@
    ]
   },
   {
+   "id": "src_doc_0006",
+   "url": "https://www.mofcom.gov.cn/",
+   "retrieved_at": "2026-10-30",
+   "lang": "zh",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "답문 원문 URL 미확보 — 2차 다수(nbd·yicai·China Daily) 일치(D-0284 §2.2)",
+   "type": "document",
+   "issuer": "중국 상무부 대변인",
+   "title": "商务部新闻发言人就对盾构机等物项实施出口管制答记者问",
+   "published_at": "2026-10-19",
+   "key_facts": [
+    "具有明显的军民两用属性",
+    "符合国际通行做法",
+    "已向与中方建立出口管制对话机制的有关国家和地区作了通报",
+    "对符合规定的申请，中方将予以批准"
+   ]
+  },
+  {
+   "id": "src_art_0023",
+   "url": "http://sateconomy.co.kr/news/view/1065604129067395",
+   "retrieved_at": "2026-10-30",
+   "lang": "ko",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "감독 조사표 D-0284 §3 — WebSearch 본문 인용 대조",
+   "type": "article",
+   "publisher": "토요경제",
+   "headline_original": "[단독] 동아지질, 中 TBM 수출통제에도 대응 자신…자체모델 중국산 부품 10% 미만",
+   "headline_ko": null,
+   "published_at": "2026-10-21",
+   "key_facts": [
+    "동아지질 독자모델 TBM 의 중국산 부품 비율 10% 미만, 독일·일본 장비로 대체 가능(회사 설명)",
+    "국내에 중국산 TBM 이 다수 가동 중이라 신규 반입·부품 공급이 늦어지면 일부 현장 공정에 영향이 생길 수 있다(회사 설명)"
+   ]
+  },
+  {
+   "id": "src_art_0024",
+   "url": "https://www.ebn.co.kr/news/articleView.html?idxno=1728248",
+   "retrieved_at": "2026-10-30",
+   "lang": "ko",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "감독 조사표 D-0284 §3 — 게시일 일자 미확인(2026년 10월)",
+   "type": "article",
+   "publisher": "EBN",
+   "headline_original": "중국, 차세대 태양광 기술 수출 통제…韓 반사이익 주목",
+   "headline_ko": null,
+   "published_at": "2026-10-20",
+   "key_facts": [
+    "국내 업계는 직접적인 산업 타격이 매우 제한적일 것으로 내다봤다",
+    "한화큐셀은 진천에 탠덤 파일럿 라인을 두고 있다(양산 목표는 보도마다 다름)"
+   ]
+  },
+  {
+   "id": "src_art_0025",
+   "url": "https://www.etoday.co.kr/news/view/2637586",
+   "retrieved_at": "2026-10-30",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:3"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "감독 조사표 D-0284 §3 — etoday.co.kr WebFetch 차단, 검색 요약 대조",
+   "type": "article",
+   "publisher": "이투데이",
+   "headline_original": "中, 분쟁국에 터널굴착기 수출 제한…고성능 드론 통제도 강화",
+   "headline_ko": null,
+   "published_at": "2026-10-19",
+   "key_facts": [
+    "중국이 분쟁 관계의 민감 국가·지역에 터널굴착기 수출을 허가제로 묶었다",
+    "고성능 드론 통제를 강화했다"
+   ]
+  },
+  {
+   "id": "src_art_0026",
+   "url": "https://globaltradealert.org/blog/china-export-controls-a-year-on",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "감시 기관 해설(검색 요약). 제51호(준설선) 는 D-0284 §0 과 일치",
+   "type": "article",
+   "publisher": "Global Trade Alert",
+   "headline_original": "China's export controls, a year on",
+   "headline_ko": "중국 수출통제 1년",
+   "published_at": "2026-10-23",
+   "key_facts": [
+    "In October 2026, China extended controls to construction machinery and dredger parts, revised its drone controls and proposed controls on artificial intelligence and solar technologies"
+   ]
+  },
+  {
    "id": "src_art_0001",
    "url": "https://www.devdiscourse.com/article/international/3993501-china-proposes-adding-40-ai-biotech-solar-technologies-to-export-control-list",
    "retrieved_at": "2026-10-30",
@@ -143,7 +272,7 @@
    "verification": {
     "status": "corroborated",
     "checks": [
-     "claims:2"
+     "claims:3"
     ],
     "notes": ""
    },
@@ -387,7 +516,7 @@
    "verification": {
     "status": "corroborated",
     "checks": [
-     "claims:5"
+     "claims:6"
     ],
     "notes": ""
    },
@@ -402,7 +531,8 @@
    "key_facts": [
     "AI 23개, 바이오의약 5개, 태양광 12개",
     "14개 수출금지, 26개 수출제한",
-    "수출 전 등록 16일부터 의무화"
+    "수출 전 등록 16일부터 의무화",
+    "정식 시행일은 별도 공고로 정해질 예정"
    ]
   },
   {
@@ -438,7 +568,7 @@
    "verification": {
     "status": "unverified",
     "checks": [
-     "claims:1"
+     "claims:2"
     ],
     "notes": ""
    },
@@ -632,7 +762,7 @@
   },
   {
    "id": "src_art_0021",
-   "url": "https://investinglive.com/news/us-and-china-extend-busan-trade-truce-to-january-10-as-xi-arrives-for-trump-summit/",
+   "url": "https://www.cnbc.com/2026/09/24/us-china-trade-truce-bessent-trump-xi.html",
    "retrieved_at": "2026-10-30",
    "lang": "en",
    "verification": {
@@ -644,12 +774,12 @@
    },
    "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
    "confirmed_at": "2026-10-30T07:10:00Z",
-   "note": "검색 요약 대조(tradingeconomics·startupfortune 같은 날짜)",
+   "note": "감독 조사표 D-0284 §2.5 — headline_original 은 검색 요약 기준(원문 제목 대조 전). 중국 측 즉시 확인 없음 → 미국 발표 귀속",
    "type": "article",
-   "publisher": "investingLive",
-   "headline_original": "US and China extend Busan trade truce to January 10 as Xi arrives for Trump summit",
-   "headline_ko": "미·중, 부산 휴전 1월 10일까지 연장 — 시진핑 방미",
-   "published_at": "2026-09-23",
+   "publisher": "CNBC",
+   "headline_original": "US-China trade truce extended to January 10, Bessent says",
+   "headline_ko": "베선트 \"미·중 휴전 1월 10일까지 연장\"",
+   "published_at": "2026-09-24",
    "key_facts": [
     "Bessent announced the truce, originally due to expire November 10, now runs to January 10, 2027",
     "MOFCOM explainer (Sept 28) said the two sides agreed to extend the Kuala Lumpur joint arrangement to 10 January 2027"

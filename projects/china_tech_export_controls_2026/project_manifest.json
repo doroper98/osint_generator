@@ -4,8 +4,8 @@
   "title": "제품은 팔고, 능력은 안 판다 — 중국 기술 수출통제",
   "category": "geopolitics",
   "created_at": "2026-10-30T06:43:38.640082Z",
-  "updated_at": "2026-10-30T06:47:57.726460Z",
-  "current_state": "research",
+  "updated_at": "2026-10-30T07:01:52.859541Z",
+  "current_state": "script_draft",
   "target_duration_min": 18,
   "topic_summary": "중국 상무부 2026년 10월 기술·이중용도 수출통제 공고(제48~52호)와 영업비밀 특별규정 초안, 한국 접점",
   "initial_links": [],
@@ -49,6 +49,12 @@
       "to_state": "research",
       "transitioned_at": "2026-10-30T06:47:57.726410Z",
       "reason": "claims 판정 수동(D-0283 §3 1차 출처 재게재본 대조, 감독 조사표 D-0284 대조 예정)"
+    },
+    {
+      "from_state": "research",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-10-30T07:01:52.859499Z",
+      "reason": "원고 v1 — claims 40 에서 작성(D-0283 §4·D-0284 반영), lint 오류 0"
     }
   ],
   "rollbacks": [],

@@ -47,21 +47,23 @@
   },
   {
    "claim_id": "clm_0003",
-   "text": "분야별로 인공지능 23개, 생물의약 5개, 태양광 12개다",
+   "text": "보도 집계로 분야별 인공지능 23개, 생물의약 5개, 태양광 12개다",
    "source_ids": [
     "src_doc_0001",
-    "src_art_0011"
+    "src_art_0011",
+    "src_art_0001"
    ],
-   "status": "verified",
+   "status": "corroborated",
    "contested": false,
    "checks": [
     "quote_match:src_doc_0001",
     "quote_match:src_art_0011",
-    "independent_origins:2"
+    "quote_match:src_art_0001",
+    "independent_origins:3"
    ],
    "attributed_only": false,
    "claim_kind": "fact",
-   "notes": "",
+   "notes": "첨부 원문 미열람 — 보도 집계 귀속(D-0284 §2.1)",
    "event_date": "2026-10-16"
   },
   {
@@ -148,7 +150,7 @@
   },
   {
    "claim_id": "clm_0008",
-   "text": "오픈소스·학술 논문으로 이미 공개된 인공지능 기술은 관리 대상에서 빠진다",
+   "text": "오픈소스·학술 논문으로 이미 공개된 기술은 관리 대상에서 빠지고, 인공지능 기술을 오픈소스로 공개하는 경우에는 자동 허가 같은 편의 조치를 적용한다(상무부 대변인)",
    "source_ids": [
     "src_doc_0001",
     "src_doc_0002"
@@ -162,6 +164,151 @@
    ],
    "attributed_only": false,
    "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0038",
+   "text": "같은 10월 19일 준설선 관련 통제 조정 공고(제51호)도 나왔고 11월 18일 시행한다",
+   "source_ids": [
+    "src_art_0026",
+    "src_doc_0003"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0026",
+    "quote_match:src_doc_0003",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "D-0284 §0 일치 — 공고 원문 미열람",
+   "event_date": "2026-10-19"
+  },
+  {
+   "claim_id": "clm_0039",
+   "text": "한화큐셀은 진천에 페로브스카이트·실리콘 탠덤 셀 파일럿 라인을 두고 있다",
+   "source_ids": [
+    "src_art_0024"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0024",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "양산 목표 연도는 보도마다 달라 쓰지 않는다"
+  },
+  {
+   "claim_id": "clm_0040",
+   "text": "기술 목록의 정식 시행일은 의견 수렴 뒤 별도로 공고된다",
+   "source_ids": [
+    "src_art_0011",
+    "src_doc_0001"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0011",
+    "quote_match:src_doc_0001",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0033",
+   "text": "대형 모델을 API·앱·웹·SaaS 로 해외에 서비스하는 것은 기술 수출 관리 범위가 아니고, 해외 현지 배치는 범위 안이다(상무부 대변인)",
+   "source_ids": [
+    "src_doc_0002"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_doc_0002",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-16"
+  },
+  {
+   "claim_id": "clm_0034",
+   "text": "상무부 대변인은 터널굴착기 통제에 대해 뚜렷한 군민 양용 성격이 있고 국제 관행에 맞으며, 규정에 맞는 신청은 승인하겠다고 말했다",
+   "source_ids": [
+    "src_doc_0006"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_doc_0006",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-19",
+   "direct_quotes": [
+    {
+     "source_id": "src_doc_0006",
+     "text": "对符合规定的申请，中方将予以批准"
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0035",
+   "text": "동아지질은 자사 독자모델 터널굴착기의 중국산 부품 비율이 10% 미만이라 독일·일본 장비로 대체할 수 있다고 설명했다",
+   "source_ids": [
+    "src_art_0023"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0023",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-21"
+  },
+  {
+   "claim_id": "clm_0036",
+   "text": "동아지질은 국내에 중국산 터널굴착기가 다수 가동 중이라 신규 반입·부품 공급이 늦어지면 일부 현장 공정에 영향이 생길 수 있다고 설명했다",
+   "source_ids": [
+    "src_art_0023"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0023",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-21"
+  },
+  {
+   "claim_id": "clm_0037",
+   "text": "국내 태양광 업계는 직접적인 타격이 매우 제한적일 것으로 내다봤다",
+   "source_ids": [
+    "src_art_0024",
+    "src_art_0013"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0024",
+    "quote_match:src_art_0013",
+    "independent_origins:2"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
    "notes": ""
   },
   {
@@ -225,17 +372,19 @@
   },
   {
    "claim_id": "clm_0012",
-   "text": "같은 10월 19일 상무부 등은 드론 관련 품목 수출통제 조정(제49호)을 발표했고 11월 18일 시행한다",
+   "text": "10월 19일 상무부 등은 드론 관련 품목 수출통제 조정(제49호)을 발표했고 11월 18일 시행한다",
    "source_ids": [
     "src_doc_0003",
-    "src_art_0005"
+    "src_art_0005",
+    "src_art_0025"
    ],
    "status": "verified",
    "contested": false,
    "checks": [
     "quote_match:src_doc_0003",
     "quote_match:src_art_0005",
-    "independent_origins:2"
+    "quote_match:src_art_0025",
+    "independent_origins:3"
    ],
    "attributed_only": false,
    "claim_kind": "fact",
@@ -266,7 +415,8 @@
     "src_doc_0004",
     "src_art_0006",
     "src_art_0007",
-    "src_art_0016"
+    "src_art_0016",
+    "src_art_0025"
    ],
    "status": "verified",
    "contested": false,
@@ -275,7 +425,8 @@
     "quote_match:src_art_0006",
     "quote_match:src_art_0007",
     "quote_match:src_art_0016",
-    "independent_origins:4"
+    "quote_match:src_art_0025",
+    "independent_origins:5"
    ],
    "attributed_only": false,
    "claim_kind": "fact",
@@ -307,18 +458,20 @@
    "text": "중국과 분쟁이 있는 민감 국가·지역으로 수출하면 허가가 필요하고, 그 밖의 나라로는 등록으로 수출 증명을 받는다",
    "source_ids": [
     "src_doc_0004",
-    "src_art_0016"
+    "src_art_0016",
+    "src_art_0025"
    ],
-   "status": "verified",
+   "status": "corroborated",
    "contested": false,
    "checks": [
     "quote_match:src_doc_0004",
     "quote_match:src_art_0016",
-    "independent_origins:2"
+    "quote_match:src_art_0025",
+    "independent_origins:3"
    ],
    "attributed_only": false,
    "claim_kind": "fact",
-   "notes": ""
+   "notes": "원문 조항 미열람 — 보도 다수 일치(D-0284 §2.2)"
   },
   {
    "claim_id": "clm_0017",
