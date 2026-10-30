@@ -204,6 +204,18 @@ class MediaConfig(BaseModel):
     video_fetch: VideoFetchConfig | None = None   # 없으면 영상 받기가 오류(P6)
 
 
+class DataFetchConfig(BaseModel):
+    """v7.4.0 D-0278 §4.2(E3) — 공시·시세 받기(tools/fetch_filing.py). 키는 .env(DART_API_KEY, C9) — 여기 두지 않는다."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    edgar_user_agent: str = Field(min_length=1)       # SEC 공정 접근 규칙 — 이름·연락처가 있는 User-Agent
+    opendart_base: str = Field(min_length=1)
+    yahoo_chart_base: str = Field(min_length=1)
+    timeout_sec: float = Field(gt=0)
+    gap_sec: float = Field(ge=0)                       # 요청 간격(SEC 초당 10회 상한보다 넉넉하게)
+
+
 class CommonsConfig(BaseModel):
     """위키미디어 공용 요청 설정 (v2.5.5, D-0031 NB4) — tools/commons_fetch·media_fetch·fetch_data 가 공유.
     14 §10.4: 요청 간격 15초, 429 는 60초부터 지수 대기(최대 600초, Retry-After 우선), 시도 상한."""
@@ -247,6 +259,7 @@ class AppConfig(BaseModel):
     llm: LLMConfig = Field(default_factory=LLMConfig)
     commons: CommonsConfig = Field(default_factory=CommonsConfig)
     media: MediaConfig = Field(default_factory=MediaConfig)
+    data_fetch: DataFetchConfig | None = None   # v7.4.0 — 없으면 fetch_filing 이 오류(P6)
     review_gates: ReviewGatesConfig = Field(default_factory=ReviewGatesConfig)
 
 

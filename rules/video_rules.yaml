@@ -1579,22 +1579,35 @@ genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(
       - "정책 금리 계단·목표 범위 띠는 color_by: change(인상·인하·동결 색을 코드가 레코드 변화로 정한다). 시장 금리·물가 선은 fixed."   # v4.4.0 D-0091 ②
 
 data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs/handoff/20 §5.1, schemas/data_models.py:SeriesRecord). 이 목록 밖 값 = 로드 오류(15 P6)
-  units: ["%", "%p", "bp", "억 달러", "지수", "명", "원", "달러/갤런", "mb/d", "kb/d", "건", "척", "ton"]   # 건·척 = v7.4.0 D-0229 §4.3(점 패널 "몇 척 중 몇 척", UF-113). mb/d·kb/d = v7.3.0 D232 U4(하루 백만·천 배럴, 정제 처리량·경유 수출). v5.3.1 달러/갤런 = 미국 경유 소매가(EIA GASDESW, valdai-2026). 화면 단위(20 §5.3 "단위를 화면에 표시")
+  units: ["%", "%p", "bp", "억 달러", "지수", "명", "원", "달러/갤런", "mb/d", "kb/d", "건", "척", "ton", "조 원", "십억 달러", "달러", "곳", "배"]   # 건·척 = v7.4.0 D-0229 §4.3(점 패널 "몇 척 중 몇 척", UF-113). mb/d·kb/d = v7.3.0 D232 U4(하루 백만·천 배럴, 정제 처리량·경유 수출). v5.3.1 달러/갤런 = 미국 경유 소매가(EIA GASDESW, valdai-2026). 화면 단위(20 §5.3 "단위를 화면에 표시")
   # v7.4.0 D-0241 §3(UF-122 "십자가 처럼 보이는 t를 쓰지 말고 ton으로") — 화면 무게 단위는 ton. 숫자 뒤 t 가 화면 문자열에 남으면 [unit-ton-glyph] hard
   unit_ton_pattern: '(?<![A-Za-z])(\d|[만천억백])\s?t(?![A-Za-z])'
-  licenses_allowed: [us_gov_public_domain, cc_by_4, press_cited]   # 재배포 가능한 공개 라이선스만(20 §5.1 "시리즈마다 이용 조건 확인"). press_cited = v7.3.0 D232 U4 — 보도 인용값(값 자체는 사실 인용, 값마다 cited 필수)
+  licenses_allowed: [us_gov_public_domain, cc_by_4, press_cited, public_filing, private_only_market_data]   # public_filing·private_only_market_data = v7.4.0 D-0278 §4.2(E3) — 공개 공시 기록(DART/EDGAR, 사실 데이터)·시세(재배포 제한 — 비공개 시청 D264, license_note 에 약관 메모). 재배포 가능한 공개 라이선스만(20 §5.1 "시리즈마다 이용 조건 확인"). press_cited = v7.3.0 D232 U4 — 보도 인용값(값 자체는 사실 인용, 값마다 cited 필수)
   unit_prefixes: ["$", "₩", "€", "¥"]                    # v4.3.0 D-0087 보정 1 — 값 앞 통화 기호도 단위 표시로 인정(dual_line y_prefix)
-  sources_allowed: [fred.stlouisfed.org, www.federalreserve.gov]   # source_url 도메인(tools/fetch_series.py 가 받는 곳). federalreserve.gov = v4.4.0 SEP 점도표(D-0090 작업 2)
-  frequencies: [monthly, release]                           # 값 날짜 간격 — monthly = 매월 1일, 한 달씩. release = 발표 한 번(scatter, v4.4.0)
+  sources_allowed: [fred.stlouisfed.org, www.federalreserve.gov,
+                    dart.fss.or.kr, opendart.fss.or.kr, www.sec.gov, news.samsung.com, images.samsung.com, www.intc.com, d1io3yog0oux5.cloudfront.net,
+                    query1.finance.yahoo.com, query2.finance.yahoo.com]   # 둘째·셋째 줄 = v7.4.0 D-0278 §4.2(E3 공시 원문·IR 자료·Yahoo chart 일별 시세). source_url 도메인(tools/fetch_series.py 가 받는 곳). federalreserve.gov = v4.4.0 SEP 점도표(D-0090 작업 2)
+  frequencies: [monthly, release, quarterly, daily]         # quarterly = 분기 마지막 날(막대 중심은 분기 중앙), daily = 거래일(휴장일은 빈 날이 아니다) — v7.4.0 D-0278 §4.2. 값 날짜 간격 — monthly = 매월 1일, 한 달씩. release = 발표 한 번(scatter, v4.4.0)
   transforms:                                               # 코드가 하는 변환(명시된 것만). 레코드 transform.formula 는 이 문구와 같아야 한다
     raw: "원자료(변형 없음)"
     yoy_pct: "전년 동월 대비 % = (x_t / x_(t-12) - 1) * 100, 소수 둘째 자리 반올림"
     sep_dots: "SEP 그림 2 표(값별 참가자 수) → 열마다 참가자별 점(값을 인원수만큼 되풀이, 오름차순)"   # v4.4.0 D-0090 작업 2 — scatter(점도표)
     month_last: "일별 → 그 달의 마지막 관측값(값은 원자료 그대로, 날짜는 그 달 1일)"
+    filing: "공시 표의 값 그대로(단위 환산만 — rules data.filing_scales)"   # v7.4.0 D-0278 §4.2(E3) — source_kind filing. 값마다 filings{form·번호·제출일·항목·위치·url·원값·원단위}, 환산은 로더가 다시 계산해 대조
+    chart_close: "Yahoo chart API 일별 종가(indicators.quote close 값 그대로, 거래일만)"   # v7.4.0 D-0278 §4.2 — 주가 레인. raw/<id>.json 을 다시 읽어 대조
     press_cited: "보도 인용값(매체·날짜)"   # v7.3.0 D232 U4 — 1차 표를 열지 못한 값. 코드가 받지 않는다(source_kind press_cited, 값마다 cited)   # v4.4.0 D-0090 작업 2 — DFEDTARU·DFEDTARL(목표 범위 상·하한)
   # v7.3.0 사용자 결정 D232 U4 — 출처 종류. fetched = 코드가 source_url 에서 받은 값(sources_allowed 도메인), press_cited = 보도 인용값(IEA·Vortexa·Kpler·LSEG 등을
   # 언론·보고서가 인용한 값 — 레코드 values 마다 cited{outlet, date, url} 필수, transform press_cited, license press_cited). 추정치 없는 달은 missing(보간 금지 — 선을 끊는다)
-  source_kinds: [fetched, press_cited]
+  source_kinds: [fetched, press_cited, filing]             # filing = v7.4.0 D-0278 §4.2(E3) — 공시 원문 표의 값(값마다 filings, transform·license filing·public_filing)
+  # v7.4.0 D-0278 §4.2 — 공시 원단위 → 화면 단위(factor 곱, digits 자리 반올림). 이 표 밖 원단위 = 오류(P6)
+  filing_scales:
+    "백만 달러": {to: "십억 달러", factor: 0.001, digits: 1}
+    "억 원": {to: "조 원", factor: 0.0001, digits: 1}
+    "백만 원": {to: "조 원", factor: 0.000001, digits: 1}
+    "원(재무제표)": {to: "조 원", factor: 0.000000000001, digits: 1}   # OpenDART fnlttSinglAcntAll thstrm_amount(원 단위 금액)
+    "조 원": {to: "조 원", factor: 1, digits: 1}
+    "달러": {to: "달러", factor: 1, digits: 2}
+    "%": {to: "%", factor: 1, digits: 1}
   series_dir: data/series                                   # <series_id>.yaml(레코드) + <series_id>.csv(값) + raw/<series_id>.csv(받은 그대로)
 
 primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/primitives/<id>.py) 레이아웃 토큰. registries.primitives 마다 한 블록(20 §4.2 "색·크기는 토큰만")

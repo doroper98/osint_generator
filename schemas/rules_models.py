@@ -2368,6 +2368,14 @@ class GenrePromptRules(_Strict):
     stage_grammar: dict[str, list[str]] = Field(min_length=1)
 
 
+class FilingScale(_Strict):
+    """v7.4.0 D-0278 §4.2(E3) — 공시 원단위 → 화면 단위 환산(값 = round(원값 × factor, digits))."""
+
+    to: str
+    factor: float = Field(gt=0)
+    digits: int = Field(ge=0, le=4)
+
+
 class DataRules(_Strict):
     """v4.3.0 D-0084 작업 1 — 데이터 레코드 허용 목록(docs/handoff/20 §5.1, schemas/data_models.py)."""
 
@@ -2376,10 +2384,20 @@ class DataRules(_Strict):
     unit_ton_pattern: str = ""   # v7.4.0 D-0241 §3(UF-122) — 화면 문자열에 남으면 [unit-ton-glyph] hard(빈 값 = 검사 안 함)
     unit_prefixes: list[str] = Field(min_length=1)   # v4.3.0 D-0087 보정 1
     sources_allowed: list[str] = Field(min_length=1)
-    frequencies: list[Literal["monthly", "release"]] = Field(min_length=1)   # release = v4.4.0 scatter
+    frequencies: list[Literal["monthly", "release", "quarterly", "daily"]] = Field(min_length=1)   # release = v4.4.0 scatter · quarterly·daily = v7.4.0 D-0278 §4.2
     transforms: dict[str, str] = Field(min_length=1)
-    source_kinds: list[Literal["fetched", "press_cited"]] = Field(min_length=1)   # v7.3.0 D232 U4
+    source_kinds: list[Literal["fetched", "press_cited", "filing"]] = Field(min_length=1)   # v7.3.0 D232 U4 · filing = v7.4.0 D-0278 §4.2(E3)
+    filing_scales: dict[str, FilingScale] = Field(default_factory=dict)   # v7.4.0 D-0278 §4.2 — 공시 원단위 → 화면 단위
     series_dir: str
+
+    @model_validator(mode="after")
+    def _scales_to_units(self) -> "DataRules":
+        bad = sorted(k for k, v in self.filing_scales.items() if v.to not in self.units)
+        if bad:
+            raise ValueError(f"data.filing_scales 의 to 단위가 data.units 에 없다: {bad}")
+        if "filing" in self.source_kinds and ("filing" not in self.transforms or not self.filing_scales):
+            raise ValueError("source_kinds filing 은 transforms.filing·filing_scales 가 있어야 한다")
+        return self
 
 
 class StageRules(_Strict):

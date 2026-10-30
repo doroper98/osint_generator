@@ -104,6 +104,15 @@ media:
     max_height: 720
     format: "bv*[height<={h}]+ba/b[height<={h}]"
 
+data_fetch:
+  # v7.4.0 D-0278 §4.2(E3) — tools/fetch_filing.py(EDGAR 표·OpenDART·Yahoo chart 일별 종가). 도메인은 rules data.sources_allowed.
+  # OpenDART 키는 .env DART_API_KEY(C9) — 없으면 안내 줄을 내고 멈춘다(받지 않은 값을 만들지 않는다)
+  edgar_user_agent: "osint_generator research (econ template) contact via repository owner"
+  opendart_base: "https://opendart.fss.or.kr/api"
+  yahoo_chart_base: "https://query1.finance.yahoo.com/v8/finance/chart"
+  timeout_sec: 60
+  gap_sec: 0.5
+
 review_gates:
   # v3.0.0 — 사용자 승인 게이트 2개(docs/handoff/16 §5). 승인 없이 게이트 다음 상태로 가지 않는다.
   # 값은 true 만 허용(끌 수 없다). 옛 9개 게이트 키는 상태 머신 교체로 삭제(D-0040 작업 6).

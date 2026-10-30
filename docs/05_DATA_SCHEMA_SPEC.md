@@ -265,5 +265,6 @@ last_review: 2026-09-29
 - `engine/events.py:FlightEvent` — `type: flight`, `kind: drone|missile|jet`, `origin{lon, lat}`(개략), `lon·lat`(표적), `col`(accent), `impact`, `inset{mid, side}`(선택). 착탄 시각은 코드 계산.
 - `schemas/media_models.py:MediaAsset` — `kind` 에 `inset`, 선택 필드 `scope: private_only`(D234). kind inset 은 `rules media_beats.inset_licenses` 라이선스만.
 - `schemas/data_models.py:SeriesRecord` — `source_kind: fetched|press_cited`, `cited[]`(`ValueCitation{date, outlet, pub_date, url, note, open}`). press_cited 는 값마다 cited·transform/license `press_cited`(보간 금지 — 빈 달은 missing).
+- v7.4.0(D-0278 §4.2·E3): `source_kind: filing` + `filings[]`(`ValueFiling{date, form, number, filed_on, item, locator, url, raw_value, raw_unit, raw_md5}`) — transform `filing`·license `public_filing`, 값 = `rules data.filing_scales` 환산(로더가 다시 계산해 대조). `frequency: quarterly`(분기 마지막 날, 빈 분기 = missing)·`daily`(거래일, transform `chart_close`, raw `<id>.json` 대조, license `private_only_market_data`). `issued_on`(미래 분기 값 — 가이던스·예상치, as_of = 발표 달). 받기 = `tools/fetch_filing.py filing|price|scan`.
 - `engine/events.py:DualSeries` — `values` 에 null 허용(선을 끊는다), `record`(레코드 대조), `open_idx`(상·하한 표기 값 = 빈 점).
 - 모두 optional 추가라 `schema_version` 은 그대로(C3).

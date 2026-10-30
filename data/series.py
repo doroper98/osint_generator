@@ -88,6 +88,32 @@ def apply_transform(op: str, raw: list[tuple[date, Optional[float]]], start: dat
     raise SeriesError(f"구현 없는 transform {op!r} — rules data.transforms 와 이 함수가 같아야 한다(P10)")
 
 
+def chart_close(raw_json: str) -> list[tuple[date, float]]:
+    """transform chart_close(v7.4.0 D-0278 §4.2): Yahoo chart API JSON → [(거래일, 종가)]. 날짜 = 거래소 현지 날짜
+    (timestamp + meta.gmtoffset). close 가 null 인 거래일(체결 없음)은 오류 — 휴장일은 응답에 행이 없다. 값은 그대로."""
+    import json  # noqa: PLC0415
+    from datetime import datetime, timedelta, timezone  # noqa: PLC0415
+
+    try:
+        res = json.loads(raw_json)["chart"]["result"][0]
+        ts = res["timestamp"]
+        close = res["indicators"]["quote"][0]["close"]
+        off = int(res["meta"]["gmtoffset"])
+    except (ValueError, KeyError, IndexError, TypeError) as ex:
+        raise SeriesError(f"chart_close: Yahoo chart 응답 형식이 아니다 — {ex}") from ex
+    if len(ts) != len(close):
+        raise SeriesError(f"chart_close: timestamp {len(ts)} ≠ close {len(close)}")
+    out: list[tuple[date, float]] = []
+    for t, c in zip(ts, close):
+        d = (datetime.fromtimestamp(int(t), tz=timezone.utc) + timedelta(seconds=off)).date()
+        if c is None:
+            raise SeriesError(f"chart_close: {d} 종가 없음(null) — 채우지 않는다(P6)")
+        if out and out[-1][0] == d:
+            raise SeriesError(f"chart_close: {d} 가 두 번 나온다(장중 행 — interval=1d 로 받는다)")
+        out.append((d, float(c)))
+    return out
+
+
 SEP_FIGURE = "Figure 2."   # SEP 표 HTML 에서 점도표 표를 찾는 머리(연준 fomcprojtabl*.htm)
 
 
@@ -183,6 +209,14 @@ def load_series_file(yaml_path: Path) -> SeriesRecord:
         raise SeriesError(f"{yaml_path}: {ex}") from ex
     if rec.series_id != yaml_path.stem:
         raise SeriesError(f"{yaml_path}: series_id {rec.series_id!r} ≠ 파일 이름 {yaml_path.stem!r}")
+    jp = yaml_path.parent / "raw" / f"{yaml_path.stem}.json"
+    if rec.transform.op == "chart_close":
+        if not jp.exists():
+            raise SeriesError(f"{yaml_path}: chart_close 레코드는 원자료 {jp.name} 이 있어야 한다(받은 그대로 대조)")
+        again_c = [(d, v) for d, v in chart_close(jp.read_text(encoding="utf-8")) if rec.start <= d <= rec.end]
+        if again_c != rec.values:
+            raise SeriesError(f"{csv_path}: raw/{jp.name} 의 종가와 다르다(손으로 고친 값 금지)")
+        return rec
     rp = yaml_path.parent / "raw" / csv_path.name
     if rp.exists():
         again, miss = apply_transform(rec.transform.op, read_csv(rp, allow_empty=True), rec.start)
@@ -204,5 +238,5 @@ def load_series(series_id: str) -> SeriesRecord:
     return load_series_file(p)
 
 
-__all__ = ["SeriesError", "apply_transform", "load_series", "load_series_file", "read_csv", "read_scatter_csv", "sep_dots", "series_dir",
+__all__ = ["SeriesError", "apply_transform", "chart_close", "load_series", "load_series_file", "read_csv", "read_scatter_csv", "sep_dots", "series_dir",
            "write_csv", "write_scatter_csv"]

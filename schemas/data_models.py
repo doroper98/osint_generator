@@ -10,6 +10,9 @@
 - `transform.op` ∈ `rules data.transforms`, `transform.formula` = 그 규칙 문구(식은 한 곳 — 레코드는 사본을 들고 다닌다).
 - `values` 날짜는 엄격히 증가, monthly 면 매월 1일·한 달 간격. 빈 달은 `missing` 에 적힌 것만(D-0086 A — 보간 금지).
 - `as_of`(YYYY-MM, 화면 "YYYY년 M월 기준") = 마지막 값의 달, 그리고 as_of 달의 첫날 ≤ retrieved_at.
+- v7.4.0 D-0278 §4.2(E3): `source_kind filing`(공시 원문 표 — 값마다 `filings`, 환산은 `rules data.filing_scales` 로 다시 계산해 대조),
+  `frequency quarterly`(값 날짜 = 분기 마지막 날, 빈 분기는 missing 에) · `daily`(거래일 — 휴장일은 빈 날이 아니다),
+  `issued_on`(가이던스·예상치처럼 미래 기간을 가리키는 값 — as_of 는 발표 달, 값 날짜는 retrieved_at 뒤여도 된다).
 """
 
 from __future__ import annotations
@@ -65,6 +68,47 @@ class ValueCitation(_Strict):
         return v
 
 
+class ValueFiling(_Strict):
+    """v7.4.0 D-0278 §4.2(E3) — 공시 값 하나의 출처(source_kind filing). 값 날짜마다 하나.
+
+    form = 양식("8-K Ex.99.1", "10-Q", "S-1", "분기보고서", "연결재무제표기준영업(잠정)실적(공정공시)"),
+    number = EDGAR accession 또는 DART rcept_no, item = 표의 행 이름(원문 그대로), locator = 표 위치(표 번호·열 이름 등),
+    raw_value·raw_unit = 표에 적힌 값과 단위(rules data.filing_scales 키) — 로더가 환산을 다시 계산해 values 와 대조한다."""
+
+    date: date
+    form: str = Field(min_length=1)
+    number: str = Field(min_length=1)
+    filed_on: date
+    item: str = Field(min_length=1)
+    locator: str = Field(min_length=1)
+    url: str = Field(min_length=1)
+    raw_value: float
+    raw_unit: str
+    raw_md5: Optional[str] = None   # tools/fetch_filing.py 가 받은 원문(raw/<number>.htm|json)의 md5
+
+    @field_validator("url")
+    @classmethod
+    def _domain(cls, v: str) -> str:
+        u = urlparse(v)
+        ok = load_rules().data.sources_allowed
+        if u.scheme != "https" or u.hostname not in ok:
+            raise ValueError(f"filing url 도메인 {u.hostname!r}(https) 는 rules data.sources_allowed 에 없다: {ok}")
+        return v
+
+    @field_validator("raw_unit")
+    @classmethod
+    def _scale(cls, v: str) -> str:
+        sc = load_rules().data.filing_scales
+        if v not in sc:
+            raise ValueError(f"filing raw_unit {v!r} 는 rules data.filing_scales 에 없다: {sorted(sc)}")
+        return v
+
+    def scaled(self) -> tuple[str, float]:
+        """(화면 단위, 환산 값) — rules data.filing_scales."""
+        sc = load_rules().data.filing_scales[self.raw_unit]
+        return sc.to, round(self.raw_value * sc.factor, sc.digits)
+
+
 class MissingValue(_Strict):
     """원자료에 값이 없는 날짜(D-0086 A). 그리지도 채우지도 않는다(보간 금지) — 화면에는 끊김 + "자료 없음" 표시."""
 
@@ -97,7 +141,7 @@ class SeriesRecord(_Strict):
     frequency = release, as_of = 발표 달(released). CSV 헤더 `column,value`."""
 
     kind: Literal["series", "scatter"] = "series"
-    source_kind: Literal["fetched", "press_cited"] = "fetched"   # v7.3.0 D232 U4 — press_cited = 보도 인용값(코드가 받지 않음, cited 필수)
+    source_kind: Literal["fetched", "press_cited", "filing"] = "fetched"   # v7.3.0 D232 U4 — press_cited = 보도 인용값(코드가 받지 않음, cited 필수) · filing = v7.4.0 공시(filings 필수)
 
     series_id: str
     source: str                                  # 출처 줄(예: "FRED(세인트루이스 연은) · 원출처 연준 이사회 H.15")
@@ -115,6 +159,8 @@ class SeriesRecord(_Strict):
     columns: list[ScatterColumn] = Field(default_factory=list)       # v4.4.0 scatter 전용
     released: Optional[date] = None                                  # v4.4.0 scatter 전용 — 발표일
     cited: list[ValueCitation] = Field(default_factory=list)         # v7.3.0 press_cited 전용 — 값 날짜마다 하나
+    filings: list[ValueFiling] = Field(default_factory=list)         # v7.4.0 filing 전용 — 값 날짜마다 하나
+    issued_on: Optional[date] = None                                 # v7.4.0 — 미래 기간 값(가이던스·예상치)의 발표일. as_of = 이 날의 달
 
     @field_validator("series_id")
     @classmethod
@@ -151,6 +197,25 @@ class SeriesRecord(_Strict):
     def _source(self) -> "SeriesRecord":
         """fetched = source_url 도메인 ∈ sources_allowed(코드가 받는 곳). press_cited = 값마다 cited·transform·license press_cited(D232 U4)."""
         u = urlparse(self.source_url)
+        if self.source_kind != "filing" and self.filings:
+            raise ValueError("filings 는 source_kind filing 레코드만")
+        if self.source_kind == "filing":
+            if self.cited or self.transform.op != "filing" or self.license != "public_filing":
+                raise ValueError("filing 레코드는 transform.op filing·license public_filing, cited 없음")
+            if u.scheme != "https" or u.hostname not in load_rules().data.sources_allowed:
+                raise ValueError(f"source_url 도메인 {u.hostname!r}(https) 는 rules data.sources_allowed 에 없다")
+            if sorted(f.date for f in self.filings) != [d for d, _ in self.values]:
+                raise ValueError(f"filing 값마다 filings 하나(날짜 일치): values {[str(d) for d, _ in self.values]} ↔ filings {[str(f.date) for f in self.filings]}")
+            by = dict(self.values)
+            for f in self.filings:
+                unit, v = f.scaled()
+                if unit != self.unit:
+                    raise ValueError(f"filing {f.date}: 원단위 {f.raw_unit} → {unit} ≠ 레코드 단위 {self.unit}")
+                if v != by[f.date]:
+                    raise ValueError(f"filing {f.date}: 원값 {f.raw_value} {f.raw_unit} 환산 {v} ≠ 값 {by[f.date]}(손으로 고친 값 금지, P6)")
+                if f.filed_on > self.retrieved_at:
+                    raise ValueError(f"filing {f.date}: 제출일 {f.filed_on} 가 retrieved_at {self.retrieved_at} 보다 늦다")
+            return self
         if self.source_kind == "press_cited":
             if u.scheme != "https":
                 raise ValueError(f"source_url 은 https: {self.source_url!r}")
@@ -177,8 +242,9 @@ class SeriesRecord(_Strict):
     def _dates(self) -> "SeriesRecord":
         if self.kind == "scatter":
             return self._scatter()
-        if len(self.values) < 2 or self.columns or self.released is not None:
-            raise ValueError("series 레코드는 values 2개 이상, columns·released 없음(scatter 전용)")
+        n_min = 1 if self.frequency == "quarterly" else 2   # v7.4.0 — 분기 레코드는 한 분기(예상치·가이던스 한 열)도 된다
+        if len(self.values) < n_min or self.columns or self.released is not None:
+            raise ValueError(f"series 레코드는 values {n_min}개 이상, columns·released 없음(scatter 전용)")
         ds = [d for d, _ in self.values]
         for a, b in zip(ds, ds[1:]):
             if b <= a:
@@ -202,13 +268,40 @@ class SeriesRecord(_Strict):
                     gaps.append((a, b))
             if gaps:
                 raise ValueError(f"monthly 값에 missing 에 적히지 않은 빈 달이 있다(조용한 드롭 금지, D-0086): {gaps[:3]}")
-        last = ds[-1]
+        if self.frequency == "quarterly":
+            self._quarterly(ds)
+        if self.frequency == "daily":
+            bad = [d for d in ds if d.weekday() >= 5]
+            if bad or self.missing:
+                raise ValueError(f"daily 값은 거래일(주말 없음)·missing 없음(휴장일은 빈 날이 아니다): 주말 {bad[:3]}")
+        last = self.issued_on or ds[-1]
+        if self.issued_on is not None and self.frequency != "quarterly":
+            raise ValueError("issued_on 은 quarterly 레코드(가이던스·예상치)만")
         if self.as_of != f"{last.year:04d}-{last.month:02d}":
             raise ValueError(f"as_of {self.as_of} ≠ 마지막 값의 달 {last:%Y-%m}")
         y, m = (int(x) for x in self.as_of.split("-"))
         if date(y, m, 1) > self.retrieved_at:
             raise ValueError(f"as_of {self.as_of} 가 retrieved_at {self.retrieved_at} 보다 늦다")
         return self
+
+    def _quarterly(self, ds: list[date]) -> None:
+        """분기 마지막 날만, 빈 분기는 missing 에 적힌 것만(D-0086 — 보간 금지)."""
+        ends = {(3, 31), (6, 30), (9, 30), (12, 31)}
+        bad = [d for d in ds if (d.month, d.day) not in ends]
+        miss = {m.date for m in self.missing}
+        bad += [d for d in miss if (d.month, d.day) not in ends]
+        if bad:
+            raise ValueError(f"quarterly 값·missing 날짜는 분기 마지막 날(3/31·6/30·9/30·12/31): {bad[:3]}")
+        if miss & set(ds):
+            raise ValueError(f"missing 날짜에 값이 있다: {sorted(miss & set(ds))}")
+        qi = [d.year * 4 + (d.month - 1) // 3 for d in ds]
+        have = set(qi) | {d.year * 4 + (d.month - 1) // 3 for d in miss}
+        gaps = [q for q in range(qi[0], qi[-1] + 1) if q not in have]
+        if gaps:
+            raise ValueError(f"quarterly 값에 missing 에 적히지 않은 빈 분기가 있다(조용한 드롭 금지): {[f'{q // 4}Q{q % 4 + 1}' for q in gaps[:3]]}")
+
+    def filing(self, d: date) -> Optional[ValueFiling]:
+        return next((f for f in self.filings if f.date == d), None)
 
     def _scatter(self) -> "SeriesRecord":
         if not self.columns or self.values or self.missing or self.released is None:
@@ -254,4 +347,4 @@ class SeriesRecord(_Strict):
         return f"{y}년 {m}월 기준"
 
 
-__all__ = ["MissingValue", "ScatterColumn", "SeriesRecord", "SeriesTransform", "ValueCitation"]
+__all__ = ["MissingValue", "ScatterColumn", "SeriesRecord", "SeriesTransform", "ValueCitation", "ValueFiling"]
