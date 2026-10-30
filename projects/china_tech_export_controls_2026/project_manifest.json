@@ -4,8 +4,8 @@
   "title": "제품은 팔고, 능력은 안 판다 — 중국 기술 수출통제",
   "category": "geopolitics",
   "created_at": "2026-10-30T06:43:38.640082Z",
-  "updated_at": "2026-10-30T14:35:34.382680Z",
-  "current_state": "render",
+  "updated_at": "2026-10-30T15:46:58.734628Z",
+  "current_state": "done",
   "target_duration_min": 18,
   "topic_summary": "중국 상무부 2026년 10월 기술·이중용도 수출통제 공고(제48~52호)와 영업비밀 특별규정 초안, 한국 접점",
   "initial_links": [],
@@ -429,6 +429,24 @@
       "to_state": "render",
       "transitioned_at": "2026-10-30T14:35:34.382576Z",
       "reason": "preview_approval 승인 — fable"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-10-30T15:46:57.500213Z",
+      "reason": "엔진 CLI 직접 실행: render(--res final --jobs 4, rc0, hard 0) · audio.mix(ok) · engine.mux(ok, provenance·audio_qa) — D509 뒤 전편"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-10-30T15:46:58.139066Z",
+      "reason": "엔진 CLI 직접 실행: render(--res final --jobs 4, rc0, hard 0) · audio.mix(ok) · engine.mux(ok, provenance·audio_qa) — D509 뒤 전편"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-10-30T15:46:58.734581Z",
+      "reason": "엔진 CLI 직접 실행: render(--res final --jobs 4, rc0, hard 0) · audio.mix(ok) · engine.mux(ok, provenance·audio_qa) — D509 뒤 전편"
     }
   ],
   "rollbacks": [],
