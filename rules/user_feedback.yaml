@@ -2133,8 +2133,14 @@ entries:
   quote: 금리 차트 같은 경우에는 내가 화면에 꽉 채우지 말라고 했던 이유가, 가로축이 예를 들어서 16이야, 비율이. 세로축이 9야. 그러면은 가로로 되게 긴 차트가 되겠지. 그러면 어떻게 돼? 차트가 금리같이 변동성이 크지 않은 차트 같은 경우에는 위아래가 눌린, 그냥 가로로 쭉 뻗은, 거의 가로로 쭉 뻗은 걸로 보이는 그런 선으로밖에 안 보인단 말이야. 근데 너 지금 어떻게 했어? 차트를 넣는다고 넣고 내가 줄이라고 해서 줄였는데, 그 줄인 레이아웃 안에서 상단 40% 정도에만 금리 차트를 보여줬지. 그럼 어떻게 되겠어? 역시 가로는 오히려 더 길어지고 세로는 오히려 더 짧아진 그런 비율의 금리 차트가 그려진단 말이야. 차라리 내 생각에는 너가 액자식으로 금리 차트를 보여주기로 했잖아. 그러면은 지금 금리 차트 밑에 뭔가가 하나가 더 있는데, 그두 개를 그냥 합쳐서 세로축을 늘리란 말이야, 스케일을.
   quote_kind: verbatim
   category: 시간축 — 액자 안 차트의 세로 비율(재발 부류 UF-137·140). 레인을 쌓지 말고 금리 차트가 액자 세로 전체를 쓰고 사건 핀은 선 위에 둔다
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: plot_height}
+  - {kind: rule, ref: island.chart.plot_min_ratio}
+  - {kind: test, ref: tests/test_lane_range_fit.py::PlotHeightTest::test_stacked_lanes_fail}
+  - {kind: test, ref: tests/test_lane_range_fit.py::PlotHeightTest::test_single_lane_fills_frame}
+  - {kind: test, ref: tests/test_lane_range_fit.py::PinsOnSeriesTest::test_pin_y_is_series_value}
+  - {kind: test, ref: tests/test_series_layer.py::SeriesWiringTest::test_pins_lane_kind_removed}
+  status: guarded
   recurs_of: UF-140
   decision: 감독 — 그림 확인 뒤 D(기록 레인 제거·핀을 선 위에·플롯 높이 = 액자 높이 검사)
   source: 감독 세션(Fable) 사용자 대화 2026-10-29
@@ -2145,7 +2151,11 @@ entries:
   quote: 이거 관련해서 상당히 좋아졌는데, 차트에 글씨가 너무 겹치네?
   quote_kind: verbatim
   category: 시간축 — 선 위 핀 라벨 겹침(라벨↔라벨·라벨↔선·띠·축 값). 방향(세로 전체·핀을 선 위에)은 사용자 승인
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: island_pin_collision}
+  - {kind: rule, ref: stage_timeline.series.pin_label_rows}
+  - {kind: test, ref: tests/test_lane_range_fit.py::IslandPinCollisionTest::test_rows_clear_all_obstacles}
+  - {kind: test, ref: tests/test_lane_range_fit.py::IslandPinCollisionTest::test_crowded_pins_drop_label_or_hard}
+  status: guarded
   decision: D-0274(라벨 위·아래 두 단 + 리더선, 상자 교차 0 — [island-pin-collision] 을 선 위 핀·선·띠·축 라벨까지 확장)
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
