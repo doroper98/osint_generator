@@ -1,6 +1,7 @@
 # 감독(Fable 역할) 세션 인수인계 — 2026-10-11 (v5.21.0)
 
 ## 0-2. 2026-10-30 — 병행 트랙: 『중국의 기술 수출통제 확대(2026.10)』(사용자 결정 D-0282)
+- **상태(2026-10-30 16:00Z)**: 전편 전달 완료 — `artifacts/china-export-controls-v7.4.0` 95148beb `final/final_deliver.mp4`(md5 02ccbde3, 397.1초, 28.9 MB), DECISIONS D500~D510, 게이트 ①·② 감독 승인(D-0282 위임, 사용자 결정 D-0289). 구현 세션 `session_017Yuw8kwTv8PML5DnvDiExD`. 남은 것: 전체 pytest 결과·UF-160~162 장치 3건(D-0289 §장치).
 - 사용자 지시로 **별도 감독(Fable) 세션**이 이 영상을 묻지 않고 완성본까지 만든다. 브랜치 `claude/china-export-controls-2026`. 감독 세션 `session_017Yuw8hTb2zPgG7PvjAbjyu`(Fable 5.1, 2026-10-30 15:31 KST 기동, DECISIONS D500, 기동 지시 D-0283). 쇼케이스 트랙(0-1)과 독립 — 이 세션(sweet-galileo)은 쇼케이스·E7 만.
 
 ## 0-1. 2026-10-28 갱신 — E0 쇼케이스 트랙(감독 세션 `session_017Yuw8kbxf9Vxri6LoH5Je4`, Fable 5.1)
