@@ -17,7 +17,7 @@ note: 장르 프롬프트 층(v4.4.0, back_and_forth D-0090 작업 1) — prompt
 - 레인(장르 프로필 기본값 — stage_config.timeline.lanes 로 덮을 수 있다. 라벨은 레코드가 실제로 담은 것과 같아야 한다):
 {{GENRE.lanes}}
 
-무대 문법(20 §6)
+{{GENRE.acts}}무대 문법(20 §6)
 {{GENRE.stage_grammar}}
 
 이 장르에서 쓸 수 있는 요소(장르 프로필 — 이 밖의 요소는 결정적 검사 genre_elements 가 막는다):

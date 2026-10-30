@@ -1,0 +1,46 @@
+# 장르 프로필 — 기업 실적 발표(earnings) (v7.4.0, back_and_forth D-0278 §4.3 · D-0251 E5 · D-0302 · D-0303)
+# 사용자 요청(2026-10-30, DECISIONS D274): 예상치·실제 발표·가이던스·주가 반응·지경학 다섯 막. 첫 사례 삼성전자·인텔 Q3 2026.
+# 막 구성(고정 막)은 D-0278 §3 — order.yaml instructions 로 강제한다. 차트는 하나의 시간축 세계(C0·UF-135): 분기 실적 막대와 주가 선은
+# 같은 시간축 위 두 레인, 예상치·실제·가이던스는 같은 레인·같은 축척 위 표식. 지경학 막은 mercator 보조 무대(전환 1회).
+# status proposed: 사용자 승인 전(20 §3). approved 로 바꾸는 것은 사용자 결정이다.
+# 새 시리즈 스타일(bars·estimate)과 검사 셋([bars-from-zero]·[estimate-actual-pair]·[price-window-label])은 T3 등록 전 — qa_checks.planned.
+schema_version: 1
+genre: earnings
+status: proposed
+template_label: 실적 발표 템플릿    # UF-147(D-0302 ⑤) — 타이틀 카드 부제 앞·엔딩 카드 머리 줄([template-label-missing] hard)
+invest_notice: true                  # D-0278 §4.3 — 엔딩 카드 맨 마지막 줄 투자 고지([invest-notice-missing] hard)
+stage:
+  primary: backdrop              # D-0278 §2-2 — 사진·클립 배경 + 차트 아일랜드 하나(A1, D-0272). 아일랜드 카메라는 무대 전환이 아니다(D-0126 Q1)
+  secondary: [mercator]          # act5 지경학(공급망·정책 지도) — 보조 무대 전환 1회
+  mercator: {theme: light}       # D154 — 지정학·경제 해설 = light
+  # 차트 아일랜드 레인(timeline 은 주·보조 무대가 아니라 장르에 둘 수 없다 — direction stage_config.timeline 이 정한다, showcase_econ 과 같다):
+  #   {id: results, label: 분기 실적, kind: bars, unit: 조 원|십억 달러}  ·  {id: price, label: 주가, kind: line, unit: 원|달러}
+color_semantics:
+  beat: green                    # 예상 상회
+  miss: ru                       # 예상 하회
+  actual: gold                   # 실제 발표값
+  estimate: muted                # 예상치(컨센서스) 표식
+  guidance: amber                # 회사 가이던스 범위 띠(전망 부류 — 새 hex 금지)
+  segment_a: teal                # 부문(쌓임) 색 — 토큰만
+  segment_b: us
+  segment_c: muted
+primitives:
+  reuse: [card, article, badge, person, photo, clip, quote, series, marker, backdrop, island, route]
+  new: []                        # bars·estimate 는 series 스타일(T3 등록), 워터폴·생키는 요소별 승인 뒤(D-0302 ⑤)
+badges:
+  people: from_library           # 공용 초상 우선(없으면 회사 배지 — 국기 원 + 회사명, entities kind company)
+  institutions: rights_check
+data_sources:
+  required_fields: [series_id, source, retrieved_at, transform, as_of]
+narration:
+  define_terms_once: true        # 컨센서스·가이던스·비GAAP·HBM 등 첫 등장 때 한 문장 정의
+  attribute_causality: true
+  numbers_per_sentence_max: 2
+  forecast_attribution: true     # 가이던스·전망 귀속
+  company_metric_attribution: true
+  consensus_attribution: true
+  price_window_attribution: true
+  avoid: [투자 권유, 가격 예측 단정, 목표주가]
+media:
+  preferred: [official_photo, press_video, ir_document, article]
+qa_extra: [chart_honesty, bars_from_zero, estimate_actual_pair, price_window_label, invest_notice, template_label, units_visible, as_of_visible]

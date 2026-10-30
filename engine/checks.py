@@ -30,6 +30,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | battle_geo | warning | 전황 동사 문장에 지도 마커·경로 없음(v5.22.0 D-0200 UF-08) |
 | bgm_decision | hard | 배경음악 없음은 sound.no_music_decision(결정 번호) 필수(v5.22.2 UF-16·30·93) |
 | endcard_black | hard | 엔딩 카드 뒤~끝 프레임을 그려 평균 밝기 ≤ end_card.after_max_luma(v5.22.3 UF-35) |
+| template_label | hard | 장르 template_label 이 타이틀 카드 부제·엔딩 카드 머리 줄에 실제로 그려졌나(프레임을 그려 확인, v7.4.0 UF-147) `[template-label-missing]` |
+| invest_notice | hard | 장르 invest_notice 면 엔딩 카드 맨 마지막 줄에 투자 고지(end_card.notice_invest) 가 그려졌나(v7.4.0 D-0278 §4.3) `[invest-notice-missing]` |
 | camera_per_sentence | hard | 연속 shot_grammar.max_consecutive_move_sentences 문장이 모두 카메라 이동 시작(v5.22.4 UF-19, C0) |
 | label_jump | hard | 경로 이름표가 보이는 중에 자리를 옮김(한 프레임 사이 상대 위치 변화 > qa_checks.label_jump_px, v5.22.7 D209) — 자리는 `route_label_slots`(나타나는 순간 고정) |
 | camera_speed | hard | 카메라 pan(화면 폭/초)·zoom(|d ln w/dt|) > rules shot_grammar.camera_speed(제목 카드 전 오프닝은 더 낮은 상한) — `engine.camera.speed`, 스케치 SK-C1 같은 함수(v6.0.2 UF-97·D-0216) |
@@ -112,7 +114,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "template_label", "invest_notice")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -147,6 +149,9 @@ def _strings(v: object) -> list[str]:
 def check_glyphs(P) -> list[str]:  # noqa: ANN001, N803
     have = frozenset().union(*(_cmap(fam) for fam, _ in FONT.values()))
     texts: list[str] = [s.text for s in P.plan.sentences] + [P.plan.title, P.plan.subtitle, P.plan.date]
+    from engine.fullcards import last_notice, title_subtitle  # noqa: PLC0415
+
+    texts += [title_subtitle(P.R), last_notice(P.R) or ""]   # v7.4.0 — 템플릿 표시·투자 고지 줄도 글꼴에 있어야 한다
     for e in P.events:
         texts += _strings(e)
     miss: dict[str, str] = {}
@@ -867,12 +872,12 @@ def check_card_island(P) -> list[str]:  # noqa: ANN001, N803
 
 def check_endcard_overflow(P) -> list[str]:  # noqa: ANN001, N803
     """엔딩 카드 크레딧 넘침(v4.5.0 back_and_forth D-0098 §2) — draw_endcard 가 오류를 내는 것과 같은 함수(`fullcards.endcard_overflow`)."""
-    from engine.fullcards import credit_place, endcard_overflow, notice_reserve, project_credit_sections, unverified_notice, version_stamp_overflow  # noqa: PLC0415
+    from engine.fullcards import credit_place, endcard_overflow, last_notice, notice_reserve, project_credit_sections, version_stamp_overflow  # noqa: PLC0415
 
     if P.R.credits is None or not any(c.kind == "end" for c in P.plan.cards):
         return []
     return (endcard_overflow(project_credit_sections(P.R), credit_place(P.R), notice_reserve(P.R))
-            + version_stamp_overflow(unverified_notice(P.R)))   # v5.1.0 D-0124 — 버전 도장 포함
+            + version_stamp_overflow(last_notice(P.R)))   # v5.1.0 D-0124 — 버전 도장 포함(v7.4.0 투자 고지 줄 포함)
 
 
 def offscreen_hits(P) -> list[tuple[dict, float, float, tuple]]:  # noqa: ANN001, N803
@@ -1969,6 +1974,50 @@ def check_endcard_black(P) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
+def card_drawn_strings(P, kind: str) -> list[str]:  # noqa: ANN001, N803
+    """v7.4.0 — 전면 카드(title·end)가 다 보이는 시각의 프레임을 실제로 그려 text() 가 남긴 문자열(typography.GLYPH_LOG).
+    카드가 없으면 빈 목록. 표본 = 카드 끝 1.2초 전(등장 페이드·롤 뒤, 퇴장 페이드 앞)."""
+    from engine import typography  # noqa: PLC0415
+    from engine.render import render_frame  # noqa: PLC0415
+
+    c = next((c for c in P.R.tb.plan.cards if c.kind == kind), None)
+    if c is None:
+        return []
+    t = max(c.t0, c.t1 - 1.2)
+    old, typography.GLYPH_LOG = typography.GLYPH_LOG, []
+    try:
+        render_frame(P, min(P.n_frames - 1, int(round(t * FPS))))
+        return [s for _size, _role, s in typography.GLYPH_LOG]
+    finally:
+        typography.GLYPH_LOG = old
+
+
+def check_template_label(P) -> list[str]:  # noqa: ANN001, N803
+    """v7.4.0 UF-147(D-0302 ⑤ "어떤 주제의 템플릿으로 만든 영상인지 알 수 있게 텍스트로") — 장르 template_label 이 있으면
+    타이틀 카드 부제 줄과 엔딩 카드에 실제로 그려졌는지 프레임을 그려 본다. 없거나 카드가 없으면 hard."""
+    lab = P.R.cache.get("template_label")
+    if not lab:
+        return []
+    out = []
+    for kind, name in (("title", "타이틀 카드 부제"), ("end", "엔딩 카드 머리 줄")):
+        drawn = card_drawn_strings(P, kind)
+        if not any(lab in s for s in drawn):
+            out.append(f"[template-label-missing] 템플릿 표시 {lab!r} 가 {name}에 없다(카드 {'없음' if not drawn else '있음'}) — UF-147")
+    return out
+
+
+def check_invest_notice(P) -> list[str]:  # noqa: ANN001, N803
+    """v7.4.0 D-0278 §4.3 — 장르 invest_notice 이면 엔딩 카드 맨 마지막 줄에 투자 고지(rules end_card.notice_invest.text)가
+    실제로 그려졌는지 본다. 엔딩 카드가 없어도 hard(투자 고지 없는 실적 영상 금지)."""
+    from engine.style import END_CARD  # noqa: PLC0415
+
+    if not P.R.cache.get("invest_notice"):
+        return []
+    if any(END_CARD.notice_invest.text in s for s in card_drawn_strings(P, "end")):
+        return []
+    return [f"[invest-notice-missing] 엔딩 카드에 투자 고지 {END_CARD.notice_invest.text!r} 가 없다 — 장르 invest_notice(D-0278 §4.3)"]
+
+
 def check_camera_per_sentence(P) -> list[str]:  # noqa: ANN001, N803
     """v5.22.4 UF-19(C0 "문장마다 카메라 이동" 금지) — shot_grammar.max_consecutive_move_sentences 만큼 연속 문장이
     모두 카메라 이동(move 키)을 시작하면 hard. 장면당 이동 수(shots warning)와 별개로 '문장마다' 패턴만 본다."""
@@ -2191,6 +2240,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "battle_geo": lambda: check_battle_geo(P),            # v5.22.0 D-0200 UF-08(warning)
         "bgm_decision": lambda: check_bgm_decision(P),        # v5.22.2 UF-16·30·93(hard)
         "endcard_black": lambda: check_endcard_black(P),      # v5.22.3 UF-35(hard)
+        "template_label": lambda: check_template_label(P),    # v7.4.0 UF-147 D-0302(hard)
+        "invest_notice": lambda: check_invest_notice(P),      # v7.4.0 D-0278 §4.3(hard)
         "camera_per_sentence": lambda: check_camera_per_sentence(P),   # v5.22.4 UF-19(hard)
         "label_jump": lambda: check_label_jump(P),   # v5.22.7 D209(hard)
         "camera_speed": lambda: check_camera_speed(P),   # v6.0.2 UF-97 D-0216(hard)

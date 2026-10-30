@@ -475,6 +475,22 @@ class EndCardNotice(_Strict):
     template: str = Field(pattern=r"\{n\}")
 
 
+class EndCardInvestNotice(_Strict):
+    """v7.4.0 D-0278 §4.3 — 투자 고지 고정 문구(장르 invest_notice 일 때 맨 마지막 줄)."""
+
+    size: float = Field(gt=0)
+    text: str = Field(min_length=1)
+
+
+class EndCardTemplateLine(_Strict):
+    """v7.4.0 UF-147(D-0302 ⑤) — 템플릿 표시 줄(엔딩 카드 머리 줄 오른쪽 · 타이틀 부제 앞)."""
+
+    size: float = Field(gt=0)
+    y: float = Field(gt=0)
+    font: str
+    sep: str = Field(min_length=1)
+
+
 class EndCardVersionStamp(_Strict):
     """v5.1.0 D-0124(사용자 결정 D109) — 엔딩 카드 오른쪽 아래 구석 버전 도장. 문자열 = "v" + VERSION 파일(렌더 시점, P3).
     notice_unverified 와 겹치면 notice 를 우선하고 도장을 dy 만큼 위로 올린다."""
@@ -492,6 +508,8 @@ class EndCardLayout(_Strict):
     item_size: float
     license_size: float
     notice_unverified: EndCardNotice
+    notice_invest: EndCardInvestNotice      # v7.4.0 D-0278 §4.3
+    template_line: EndCardTemplateLine      # v7.4.0 UF-147
     version_stamp: EndCardVersionStamp
     bottom_margin: float = Field(ge=0)   # v4.5.0 D-0098 — 크레딧 마지막 기준선과 하단 구분선(H−44) 사이 최소 여백
     hold_black_after: bool = True        # v4.4.0 dmz_mine_2026(v4.7.0 병합) — 카드 뒤 검정 유지(지도가 다시 드러나지 않게)
@@ -2363,6 +2381,8 @@ class GenrePromptRules(_Strict):
 
     base_genre: str
     narration: dict[str, str] = Field(min_length=1)
+    acts_head: str = ""                                            # v7.4.0 D-0278 §3 — 템플릿 고정 막 머리 줄
+    acts: dict[str, list[str]] = Field(default_factory=dict)       # v7.4.0 D-0278 §3 — 장르 이름 → 막 줄
     data_sources: list[str] = Field(min_length=1)
     rubric_extra: list[str] = Field(min_length=1)
     stage_grammar: dict[str, list[str]] = Field(min_length=1)

@@ -23,6 +23,8 @@ from engine.typography import _M, adv, text, wrap
 
 ENDCARD_NOTE = "수치와 인용은 제작 시점의 공개 보도에 근거합니다"
 NOTICE = END_CARD.notice_unverified
+INVEST = END_CARD.notice_invest      # v7.4.0 D-0278 §4.3
+TPL = END_CARD.template_line         # v7.4.0 UF-147
 STAMP = END_CARD.version_stamp
 VERSION_FILE = Path(__file__).resolve().parent.parent / "VERSION"
 COLS_X = (64, 456)      # 크레딧 두 열의 왼쪽 x
@@ -135,7 +137,8 @@ def version_stamp_box(notice: str | None) -> tuple[float, float, float, float]:
     box = (x1 - w, base - STAMP.size, x1, base + STAMP.size * 0.25)
     if notice:
         ny = H_OUT - 26 + NOTICE.dy
-        nb = (64.0, ny - NOTICE.size, 64 + adv(notice, NOTICE.size, "sans"), ny + NOTICE.size * 0.25)
+        ns = min(NOTICE.size, INVEST.size)   # v7.4.0 — draw_endcard 맨 마지막 줄과 같은 크기
+        nb = (64.0, ny - ns, 64 + adv(notice, ns, "sans"), ny + ns * 0.25)
         if box[0] < nb[2] and nb[0] < box[2] and box[1] < nb[3] and nb[1] < box[3]:
             box = (box[0], box[1] - STAMP.dy, box[2], box[3] - STAMP.dy)
     return box
@@ -184,6 +187,24 @@ def unverified_notice(R: RenderCtx) -> str | None:  # noqa: N803
     return NOTICE.template.replace("{n}", str(n)) if n else None
 
 
+def template_label(R: RenderCtx) -> str | None:  # noqa: N803
+    """v7.4.0 UF-147(D-0302 ⑤) — 장르 프로필 template_label(engine.project 가 R.cache 에 넣는다). 없으면 None."""
+    return R.cache.get("template_label")
+
+
+def title_subtitle(R: RenderCtx) -> str:  # noqa: N803
+    """타이틀 카드 부제 줄 — 템플릿 라벨이 있으면 "<라벨> · <부제>"(UF-147). draw_fullcards 와 checks 가 같은 함수로 본다."""
+    sub = R.tb.plan.subtitle
+    lab = template_label(R)
+    return f"{lab}{TPL.sep}{sub}" if lab and sub else (lab or sub)
+
+
+def last_notice(R: RenderCtx) -> str | None:  # noqa: N803
+    """엔딩 카드 맨 마지막 줄 — 투자 고지(장르 invest_notice, D-0278 §4.3) · 검증 안내(D85) 를 · 로 잇는다. 둘 다 없으면 None."""
+    parts = [INVEST.text if R.cache.get("invest_notice") else None, unverified_notice(R)]
+    return TPL.sep.join(p for p in parts if p) or None
+
+
 def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float) -> None:  # noqa: N803
     lt = t - c.t0  # type: ignore[attr-defined]
     plan = R.tb.plan
@@ -198,6 +219,9 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
     k = ease_out((lt - 0.1) / 0.9)
     text(ctx, "SOURCES  &  CREDITS", 64, 84 - (1 - k) * 6, 8.5, "mono", C["gold"], a * k, 0, "l", spacing=2.4, role="end_card")
     text(ctx, "자료 및 출처", 64, 110 - (1 - k) * 6, 17, "serif", (0.96, 0.95, 0.93), a * k, 0, "l", spacing=1.0, role="end_card")
+    lab = template_label(R)
+    if lab:   # v7.4.0 UF-147 — 템플릿 표시 줄(머리 줄 오른쪽, 모서리 아님)
+        text(ctx, lab, W_OUT - 64, TPL.y - (1 - k) * 6, TPL.size, TPL.font, C["gold"], a * k * 0.9, 0, "r", role="end_card")
     ctx.set_source_rgba(*C["gold"], 0.9 * a * k)
     ctx.rectangle(64, 122, 36 * k, 1.1)
     ctx.fill()
@@ -250,9 +274,9 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
     nl = notice_line(R)
     if nl:   # v7.4.0 D-0229 §2.10 — 표기 전용 줄(구분선 바로 위, 전체 폭, 가장 작은 글씨)
         text(ctx, nl, 64, RULE_Y - NOTICE_DY, END_CARD.license_size, "sans", C["muted"], fa, 0, "l", role="end_card")
-    notice = unverified_notice(R)
-    if notice:   # 맨 마지막 줄, 가장 작은 글씨 — 본문(자막·패널·카드)에는 검증 라벨을 그리지 않는다
-        text(ctx, notice, 64, H_OUT - 26 + NOTICE.dy, NOTICE.size, "sans", C["muted"], fa, 0, "l", role="end_card")
+    notice = last_notice(R)
+    if notice:   # 맨 마지막 줄, 가장 작은 글씨 — 본문(자막·패널·카드)에는 검증 라벨을 그리지 않는다. 투자 고지가 앞(v7.4.0)
+        text(ctx, notice, 64, H_OUT - 26 + NOTICE.dy, min(NOTICE.size, INVEST.size), "sans", C["muted"], fa, 0, "l", role="end_card")
     # v5.1.0 D-0124 — 버전 도장: 카드 등장과 함께(a), 롤 클립·스크롤 밖이라 고정, halo 없음. 검정 홀드(a = 0)에는 없음
     _x0, _y0, x1, y1 = version_stamp_box(notice)
     text(ctx, version_stamp(), x1, y1 - STAMP.size * 0.25, STAMP.size, STAMP.font, C["muted"], a * STAMP.alpha, 0, "r", role="end_card")
@@ -279,7 +303,7 @@ def draw_fullcards(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa:
             lw = TITLE_CARD.rule_w * ease_io((lt - 0.5) / 0.9)
             ctx.rectangle(W_OUT / 2 - lw / 2, 254, lw, 1.6)
             ctx.fill()
-            text(ctx, plan.subtitle, W_OUT / 2, 290, TITLE_CARD.subtitle_size, "serifb", (0.92, 0.9, 0.88),
+            text(ctx, title_subtitle(R), W_OUT / 2, 290, TITLE_CARD.subtitle_size, "serifb", (0.92, 0.9, 0.88),
                  a * smooth((lt - 0.8) / 0.6), 0, "c")
             text(ctx, plan.date.replace(".", ". "), W_OUT / 2, 322, 12, "mono", C["gold"], a * smooth((lt - 1.1) / 0.6), 0, "c")
         else:

@@ -199,6 +199,7 @@ def _genre_placeholders(rules: VideoRules, g: GenreProfile) -> dict[str, str]:
         "{{GENRE.colors}}": _bullets([f"{k}: {v}" for k, v in g.color_semantics.items()]),
         "{{GENRE.elements}}": ", ".join(sorted(g.elements() & set(_registered(rules)))),
         "{{GENRE.narration}}": _bullets(rows) if rows else "(없음)",
+        "{{GENRE.acts}}": (gp.acts_head + "\n" + _bullets(gp.acts[g.genre]) + "\n\n") if g.genre in gp.acts else "",   # v7.4.0 D-0278 §3
         "{{GENRE.avoid}}": ", ".join(nar.avoid) if nar is not None and nar.avoid else "(없음)",
         "{{GENRE.data_sources}}": _bullets(gp.data_sources),
         "{{GENRE.rubric}}": _numbered(gp.rubric_extra),

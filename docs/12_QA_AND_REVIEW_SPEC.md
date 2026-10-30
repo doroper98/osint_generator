@@ -115,6 +115,11 @@ handoff 20 §5.3 표의 아홉 규칙을 네 검사(`chart_honesty`·`series_lim
 | 카메라 연속성·속도는 **화면 궤적**(`engine.camera.screen_track`)으로 | hard `camera_continuity`·`camera_speed` | `rules:sketch.checks`·`rules:shot_grammar.camera_speed` | RENDER-AP-026(재는 것 ≠ 보이는 것) |
 | 스케치 같은 식 | SK-C1 | 같은 키 | C12-3 |
 
+### 2.5b 템플릿 표시·투자 고지 — v7.4.0 (UF-147 D-0302 ⑤ · D-0278 §4.3)
+
+- `template_label` hard `[template-label-missing]`: 장르 프로필 `template_label` 이 있으면 타이틀 카드·엔딩 카드 프레임을 실제로 그려 글자 목록에 그 문구가 있는지 본다(모서리 금지 — 부제 앞·엔딩 머리 줄, C0).
+- `invest_notice` hard `[invest-notice-missing]`: 장르 `invest_notice: true`(earnings)면 엔딩 카드 맨 마지막 줄에 `rules end_card.notice_invest.text` 가 그려졌는지 프레임으로 본다.
+
 ### 2.6 사용자 의견 원장 게이트 — v5.22.0 (D-0200)
 
 | 검사 | 등급 | 키 | 근거 |
