@@ -2266,8 +2266,10 @@ entries:
   quote: 그리고 그런 고대나 과거 전쟁사 같은 경우에는 진영이나 인물에 대한 묘사도 중요한데 그에 못지 않게 해당 시점을 묘사한 고대 미술사적 자료나, 유적지, 지역에 대한 유래에 대한 정보를 제공하는게 못지 않게 중요해.
   quote_kind: verbatim
   category: 전쟁사 장르 — 증거 층 셋(당대 미술 자료·유적지·지명 유래) 필수, 진영·인물 묘사와 같은 무게
-  guards: []
-  status: open
+  guards:
+  - kind: doc
+    ref: back_and_forth/261030_132354_D0307_fable_war-history-template-plan.md#증거 층 셋 — UF-150(필수, 영상마다 ≥1 씩
+  status: guarded
   decision: D-0307 §3(period_art·site·toponymy 레코드와 라벨, [evidence-layer-missing]·[period-art-label-missing] hard — 장치는 구현 뒤 guards 에)
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
 - id: UF-151
