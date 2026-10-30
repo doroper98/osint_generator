@@ -25,6 +25,7 @@ class BannedPhrases(_Strict):
     patterns: list[str]
     candidates: list[str]
     defect_classes: list[str]
+    examples: list[str] = []   # v7.4.0 UF-145 — 사용자가 든 금지 예문(patterns 가 전부 잡아야 한다 — 테스트)
 
 
 class OpeningRules(_Strict):
