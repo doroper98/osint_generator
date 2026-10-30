@@ -6075,6 +6075,401 @@
    "sub": "중국은 2026년 6월 22일 MP머티리얼즈·USA레어어스 등 미국 실…",
    "note": "헤드라인 번역 · 원문 영어",
    "headline_original": "China places two US rare earths producers on export control list"
+  },
+  "cn_tbm_crchi_2021": {
+   "kind": "photo",
+   "title": "File:Tunnel boring machine of Railway Construction Heavy Industry 20210522.jpg",
+   "license": "CC BY 3.0",
+   "author": "Huangdan2060",
+   "credit_author": "Huangdan2060 (CC BY 3.0)",
+   "date": "2021-05-22",
+   "url": "https://commons.wikimedia.org/wiki/File:Tunnel_boring_machine_of_Railway_Construction_Heavy_Industry_20210522.jpg",
+   "caption": "중국철건중공 터널굴착기 전시(2021)",
+   "file_note": "자료사진",
+   "depicts": [
+    "중국철건중공(CRCHI) 대구경 실드 터널굴착기 전시품",
+    "2021-05-22 전시회"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·설명문 대조, 이미지 육안 확인. 실사용 판정은 게이트 ②",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "cold_0 '중국산 터널굴착기 수출 허가' — 중국 제조사 굴착기 자료사진(전시품)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "cn_tbm_crchi_2021.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "c99a739168fbc801b2e0c712869bdf06",
+   "file": "cn_tbm_crchi_2021_720.jpg"
+  },
+  "cn_perovskite_cell": {
+   "kind": "photo",
+   "title": "File:Perovskite solar cell.jpg",
+   "license": "Public domain",
+   "author": "Dennis Schroeder / National Renewable Energy Laboratory",
+   "credit_author": "Dennis Schroeder / National Renewable Energy Laboratory (Public domain)",
+   "date": "2022-06-01",
+   "url": "https://commons.wikimedia.org/wiki/File:Perovskite_solar_cell.jpg",
+   "caption": "페로브스카이트 태양전지 시료(미 국립재생에너지연구소)",
+   "file_note": "자료사진",
+   "depicts": [
+    "페로브스카이트 태양전지 시료"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·설명문 대조, 이미지 육안 확인. 실사용 판정은 게이트 ②",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "act3_7 '페로브스카이트·탠덤 전지 생산기술이 금지 후보' — 전지가 무엇인지 보여 주는 자료사진"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "cn_perovskite_cell.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "3c74e55e1bb80f41fa805a0fd0669373",
+   "file": "cn_perovskite_cell_720.jpg"
+  },
+  "cn_trump_xi_gimhae_2025": {
+   "kind": "photo",
+   "title": "File:President Donald Trump greets Chinese President Xi Jinping before a bilateral meeting at the Gimhae International Airport terminal (54890669668).jpg",
+   "license": "United States Government Work (Public domain)",
+   "author": "Official White House Photo by Daniel Torok",
+   "credit_author": "백악관(Daniel Torok)",
+   "date": "2025-10-30",
+   "url": "https://commons.wikimedia.org/wiki/File:President_Donald_Trump_greets_Chinese_President_Xi_Jinping_before_a_bilateral_meeting_at_the_Gimhae_International_Airport_terminal_(54890669668).jpg",
+   "caption": "트럼프·시진핑 김해공항 회담(2025.10.30)",
+   "file_note": "2025. 10. 30",
+   "depicts": [
+    "도널드 트럼프 미국 대통령",
+    "시진핑 중국 국가주석",
+    "김해국제공항 회담(2025.10.30)"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 429 지속으로 Commons 파일 페이지 메타데이터를 WebSearch(commons.wikimedia.org 한정) 본문 인용으로 대조, 원본은 upload.wikimedia.org 썸네일 1280, 이미지 육안 확인. 실사용 판정은 게이트 ②",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "act2_3 '같은 달 30일 부산에서 트럼프 대통령과 시진핑 주석이 만난 뒤' — 그 회담 당일 백악관 사진. 주의: Flickr 메타데이터에 백악관 사진실 관례 고지(조작·재배포 시 허가) — 비공개 시청 한정(D264), 크롭·색 보정만"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "cn_trump_xi_gimhae_2025.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "443b78d81c360c8cb6973e82d20bfb9a",
+   "file": "cn_trump_xi_gimhae_2025_720.jpg"
+  },
+  "cn_rare_earth_oxides": {
+   "kind": "photo",
+   "title": "File:Rareearthoxides.jpg",
+   "license": "Public domain",
+   "author": "Peggy Greb, USDA ARS",
+   "credit_author": "미 농무부 ARS(Peggy Greb)",
+   "date": "2009",
+   "url": "https://commons.wikimedia.org/wiki/File:Rareearthoxides.jpg",
+   "caption": "희토류 산화물(미 농무부)",
+   "file_note": "자료사진",
+   "depicts": [
+    "희토류 산화물 6종(프라세오디뮴·세륨·란타넘·네오디뮴·사마륨·가돌리늄)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 429 지속으로 Commons 파일 페이지 메타데이터를 WebSearch(commons.wikimedia.org 한정) 본문 인용으로 대조, 원본은 upload.wikimedia.org 썸네일 1280, 이미지 육안 확인. 실사용 판정은 게이트 ②",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "act2_2 '희토류와 관련 기술의 수출통제' — 희토류가 무엇인지 보여 주는 자료사진"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "cn_rare_earth_oxides.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "c819eb1d71be3d27660f0abd96b2bebc",
+   "file": "cn_rare_earth_oxides_720.jpg"
+  },
+  "cn_solar_wall_nasa": {
+   "kind": "photo",
+   "title": "File:Building a Great Solar Wall in China (153759 - 20171220 lrg).jpg",
+   "license": "Public domain",
+   "author": "NASA Earth Observatory (Michala Garrison, Landsat USGS)",
+   "credit_author": "NASA 지구관측소",
+   "date": "2017-12-20",
+   "url": "https://commons.wikimedia.org/wiki/File:Building_a_Great_Solar_Wall_in_China_(153759_-_20171220_lrg).jpg",
+   "caption": "중국 태양광 발전 단지(위성 영상, 2017)",
+   "file_note": "자료사진",
+   "depicts": [
+    "중국 쿠부치 사막 태양광 발전 단지 일대(Landsat 위성 영상, 2017.12.20)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 429 지속으로 Commons 파일 페이지 메타데이터를 WebSearch(commons.wikimedia.org 한정) 본문 인용으로 대조, 원본은 upload.wikimedia.org 썸네일 1280, 이미지 육안 확인. 실사용 판정은 게이트 ②",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "act2_6 '관리 기준에 못 미치는 태양광 기술은 자유롭게 수출' — 중국 태양광 산업 규모 자료 영상"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "cn_solar_wall_nasa.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "3001f3233810c33cf41c455f5a26a0cc",
+   "file": "cn_solar_wall_nasa_720.jpg"
+  },
+  "cn_datacenter_server": {
+   "kind": "photo",
+   "title": "File:Facebook Data Center Server Board.jpg",
+   "license": "CC BY 2.0",
+   "author": "Intel Free Press",
+   "credit_author": "Intel Free Press (CC BY 2.0)",
+   "date": "2011",
+   "url": "https://commons.wikimedia.org/wiki/File:Facebook_Data_Center_Server_Board.jpg",
+   "caption": "데이터센터 서버 기판",
+   "file_note": "자료사진",
+   "depicts": [
+    "데이터센터 서버 기판을 든 기술자"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 429 지속으로 Commons 파일 페이지 메타데이터를 WebSearch(commons.wikimedia.org 한정) 본문 인용으로 대조, 원본은 upload.wikimedia.org 썸네일 1280, 이미지 육안 확인. 실사용 판정은 게이트 ②",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "act1_3 '인공지능, 생물의약, 태양광 세 분야' — 연산 설비 자료사진(특정 국가·기업 무관 캡션)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "cn_datacenter_server.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "aabcfc32b682bb642acb92fc7e0ba066",
+   "file": "cn_datacenter_server_720.jpg"
+  },
+  "cn_rotary_cell_culture": {
+   "kind": "photo",
+   "title": "File:Rotary Cell Culture System.jpg",
+   "license": "Public domain",
+   "author": "NASA",
+   "credit_author": "NASA",
+   "date": "2002",
+   "url": "https://commons.wikimedia.org/wiki/File:Rotary_Cell_Culture_System.jpg",
+   "caption": "세포 배양 장치(NASA 회전식 바이오리액터)",
+   "file_note": "자료사진",
+   "depicts": [
+    "회전식 세포 배양 장치(바이오리액터)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 429 지속으로 Commons 파일 페이지 메타데이터를 WebSearch(commons.wikimedia.org 한정) 본문 인용으로 대조, 원본은 upload.wikimedia.org 썸네일 1280, 이미지 육안 확인. 실사용 판정은 게이트 ②",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "act1_4 분야별 집계(생물의약) — 세포 배양 장치 자료사진"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "cn_rotary_cell_culture.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "c68724906da981c871044ba655aeccc7",
+   "file": "cn_rotary_cell_culture_720.jpg"
+  },
+  "cn_iss_stem_cell": {
+   "kind": "photo",
+   "title": "File:NASA astronaut Jessica Meir processes stem cell samples inside the Life Science Glovebox (iss074e0603697).jpg",
+   "license": "Public domain",
+   "author": "NASA",
+   "credit_author": "NASA",
+   "date": "2026-05-20",
+   "url": "https://commons.wikimedia.org/wiki/File:NASA_astronaut_Jessica_Meir_processes_stem_cell_samples_inside_the_Life_Science_Glovebox_(iss074e0603697).jpg",
+   "caption": "줄기세포 시료 처리(국제우주정거장, 2026)",
+   "file_note": "자료사진",
+   "depicts": [
+    "NASA 우주비행사의 줄기세포 시료 처리(치료제 제조 연구)",
+    "국제우주정거장 생명과학 글러브박스"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 429 지속으로 Commons 파일 페이지 메타데이터를 WebSearch(commons.wikimedia.org 한정) 본문 인용으로 대조, 원본은 upload.wikimedia.org 썸네일 1280, 이미지 육안 확인. 실사용 판정은 게이트 ②",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "act1_7 '세포·유전자 치료 공정 플랫폼' — 세포 치료제 제조 연구 자료사진"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "cn_iss_stem_cell.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "11741a48f150153730c8c01b2050bfb2",
+   "file": "cn_iss_stem_cell_720.jpg"
+  },
+  "cn_bayan_obo_mine": {
+   "kind": "photo",
+   "title": "File:RE mine in Baiyun Ebo, Inner Mongolia.jpg",
+   "license": "Public domain",
+   "author": "NASA/GSFC/METI/ERSDAC/JAROS, U.S./Japan ASTER Science Team",
+   "credit_author": "NASA·ASTER",
+   "date": "2006-06-30",
+   "url": "https://commons.wikimedia.org/wiki/File:RE_mine_in_Baiyun_Ebo,_Inner_Mongolia.jpg",
+   "caption": "바이윈어보 희토류 광산(위성 영상, 2006)",
+   "file_note": "자료사진",
+   "depicts": [
+    "중국 내몽골 바이윈어보 희토류 광산 일대(ASTER 위성 영상, 2006.06.30)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 429 지속으로 Commons 파일 페이지 메타데이터를 WebSearch(commons.wikimedia.org 한정) 본문 인용으로 대조, 원본은 upload.wikimedia.org 썸네일 1280, 이미지 육안 확인. 실사용 판정은 게이트 ②",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "act2_1 '출발점은 지난해 가을의 희토류 통제' — 중국 최대 희토류 광산 자료 영상"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "cn_bayan_obo_mine.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "cba8986dbb796534443da74c606a1617",
+   "file": "cn_bayan_obo_mine_720.jpg"
+  },
+  "cn_dji_matrice30": {
+   "kind": "photo",
+   "title": "File:Romanian DJI Matrice 30, Eastern Phoenix 2026 exercise.jpg",
+   "license": "Public domain",
+   "author": "Courtesy Video of NATO (DVIDS 1005769)",
+   "credit_author": "NATO 영상 제공(DVIDS)",
+   "date": "2026-04-23",
+   "url": "https://commons.wikimedia.org/wiki/File:Romanian_DJI_Matrice_30,_Eastern_Phoenix_2026_exercise.jpg",
+   "caption": "중국 DJI 드론(루마니아군 대드론 훈련, 2026)",
+   "file_note": "자료사진",
+   "depicts": [
+    "DJI 매트리스 30 드론",
+    "루마니아군 이스턴 피닉스 2026 대드론 훈련(2026.04.23)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata(API) 라이선스·작성자·설명문 대조, 이미지 육안 확인. 실사용 판정은 게이트 ②",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "act1_12 드론 공고 — 중국산 민수 드론이 군 훈련에도 쓰이는 이중용도 자료사진"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "cn_dji_matrice30.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "c7f88657a2d6197e107afb04c65deb85",
+   "file": "cn_dji_matrice30_720.jpg"
   }
  }
 }
