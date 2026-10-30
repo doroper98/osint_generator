@@ -2314,3 +2314,14 @@ entries:
   status: open
   decision: D-0309 §6(layer_entry_requires_sentence·visible_series_max 4·layer_dwell_sec 4·[chart-overload] hard — 장치는 구현 뒤 guards 에)
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
+- id: UF-155
+  date: '2026-10-30'
+  project: samsung_q3_2026
+  at: "감독 구상안 v1 와이어프레임 4장(docs/handoff/reports/concept_earnings_v1) 검토 — 막대 모양·색 테마·겹침·글꼴·배경"
+  quote: "막대 그래프를 바닥쪽에는 둥글게 하지 않고, 위쪽도 차트임을 고려해서 아주 약간의 둥글기만 적용해. 그리고 경제에 대해서는 영상의 컨셉을 흰색과 푸른색 계열로 적용해. 그리고 선과 글씨가 겹치는 부분은 적용하지 말고, 내가 혹시 폰트를 agent reviewer 의 르포 계열의 폰트를 적용하라고 해서 저렇게 어설픈 폰트들이 된건가? G마켓 Sans 왜 안쓰지? 색감은 위에 공유한 링크의 princess 나 cosmos 둘중 하나를 니가 보고 정해서 적용해. 배경은 지금 무슨 세로 무늬가 있는데, 그런거 말고, 저런 어설픈 배경을 넣느니 아예 안넣는게 나은것 같아."
+  quote_kind: verbatim
+  category: 경제 시각 테마 — 막대 바닥 각·위 3px, 팔레트 princess(흰·푸른·코랄), 겹침 0, 표준 글꼴(GmarketSans) 유지, 무늬 없는 배경(사진은 가운데 요소로만)
+  guards: []
+  status: open
+  decision: D-0310(themes.princess·bars.top_radius 3·stage_backdrop.econ_default flat·겹침 검사 예외 없음 — 장치는 구현 뒤 guards 에). 어설픈 글꼴·세로 무늬는 감독 목업의 산물(엔진 아님)임을 기록
+  source: 감독 세션(Fable) 사용자 대화 2026-10-30
