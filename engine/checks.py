@@ -76,6 +76,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | axis_empty_band | hard | 시간축 레인 축 범위 중 데이터 극값(실측 + 전망 점) 밖 빈 띠(한쪽) > rules stage_timeline.lane_range.empty_band_max_ratio `[axis-empty-band]`(v7.4.0 D-0277 §3·UF-142) |
 | clip_date_mismatch | hard | 사진·영상 촬영일 ↔ 붙은 문장 날짜 차 ≥ rules media.file_clip_date_gap_days 인데 자료 표기(is_file_photo) 없음 `[clip-date-mismatch]`(v7.4.0 D-0283 §1) |
 | text_restates_narration | hard | 화면 글자(패널·캐스케이드·핀·아일랜드)가 그 순간 원고 문장 어절을 rules qa_checks.restate_overlap_max 이상 되풀이 `[text-restates-narration]`(v7.4.0 D-0306·UF-148) |
+| flight_unsourced | hard | flight 에 claim 없음·원고가 인용하지 않은 claim `[flight-unsourced]` — 비행은 출처 있는 특정 타격에만(v7.4.0 D-0316) |
 | scene_visual_void | hard | 요소(rules qa_checks.visual_void_types) 없이 지도·배경만 보이는 구간 ≥ qa_checks.visual_void_max_sec(콜드 오픈·전면 카드·카메라 move 제외) `[scene-visual-void]`(v7.4.0 D-0312, provenance visual_void) |
 | inset_jump | hard | 위성 인셋 원 중심 프레임 간 이동 > rules flight.inset.jump_px_max `[inset-jump]`(v7.4.0 D-0300·UF-146) |
 | inset_side_change | warning | 위성 인셋 자리 옮김 횟수(보간) `[inset-side-change]`(v7.4.0 D-0300) |
@@ -116,7 +117,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -2253,6 +2254,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
                                    "사건 핀·인물·사진·기사·인용·지도 중 하나를 넣는다(UF-135)" for a, b in chart_only_runs(P)
                                    if b - a > QA.chart_only_run.max_sec],   # v7.4.0 D-0252(hard). 회귀 기준 면제 = waive_regression(D-0311)
         "scene_visual_void": lambda: check_scene_visual_void(P, provenance),   # v7.4.0 D-0312 §1-1(hard)
+        "flight_unsourced": lambda: check_flight_unsourced(P),   # v7.4.0 D-0316 ①(hard)
         "chart_world_split": lambda: check_chart_world_split(P),   # v7.4.0 D-0251 §6.2-2(hard, UF-135 ②)
         "series_label_overlap": lambda: check_series_label_overlap(P),   # v7.4.0 D-0256(hard)
         "chart_edge_bleed": lambda: check_chart_edge_bleed(P),   # v7.4.0 D-0257(hard, UF-137)
@@ -2606,17 +2608,27 @@ def check_clip_date_mismatch(P) -> list[str]:  # noqa: ANN001, N803
 
 
 RESTATE_TYPES = ("panel", "cascade", "marker", "island")   # 남는 화면 글자 요소(v7.4.0 D-0306 §1.2)
-RESTATE_KEYS = frozenset({"title", "subtitle", "label", "sub", "line", "role"})
+RESTATE_KEYS = frozenset({"title", "subtitle", "label", "sub", "line", "role", "items"})   # items = v7.4.0 D-0316 ②(checklist·cascade 목록)
 WORD_RE = re.compile(r"[0-9A-Za-z가-힣%.~·]+")
 
 
+def _stem(w: str) -> str:
+    """어절 끝 조사 하나를 뗀다(v7.4.0 D-0316 ② — "경유의"·"경유" 를 같은 말로). 떼고 남은 글자가 1자 미만이면 그대로. 목록 = rules qa_checks.restate_particles(긴 것부터)."""
+    for p in sorted(QA.restate_particles, key=len, reverse=True):
+        if w.endswith(p) and len(w) - len(p) >= 1:
+            return w[: -len(p)]
+    return w
+
+
 def _words(s: str) -> set[str]:
-    return {w.strip(".·~") for w in WORD_RE.findall(s) if len(w.strip(".·~")) >= 2}
+    return {_stem(w.strip(".·~")) for w in WORD_RE.findall(s) if len(w.strip(".·~")) >= 2}
 
 
 def _screen_texts(v: object) -> list[str]:
     if isinstance(v, dict):
-        return [x for k, val in v.items() for x in ([val] if k in RESTATE_KEYS and isinstance(val, str) else _screen_texts(val) if isinstance(val, (dict, list)) else [])]
+        return [x for k, val in v.items() for x in ([val] if k in RESTATE_KEYS and isinstance(val, str)
+                                                 else [" ".join(i for i in val if isinstance(i, str))] if k in RESTATE_KEYS and isinstance(val, list) and any(isinstance(i, str) for i in val)
+                                                 else _screen_texts(val) if isinstance(val, (dict, list)) else [])]
     if isinstance(v, list):
         return [x for val in v for x in _screen_texts(val)]
     return []
@@ -2737,6 +2749,35 @@ def visual_voids(P) -> list[tuple[float, float]]:  # noqa: ANN001, N803
         t += step
     if run0 is not None:
         out.append((round(run0, 2), round(P.plan.total, 2)))
+    return out
+
+
+def cited_claims(root: Path) -> set[str]:
+    """원고(script.yaml) 문장이 인용한 claim id 전부 — 엔딩 크레딧 보도 출처(press_by_scene)와 같은 입력."""
+    import yaml  # noqa: PLC0415
+
+    p = root / "script.yaml"
+    if not p.exists():
+        return set()
+    doc = yaml.safe_load(p.read_text(encoding="utf-8")) or {}
+    return {c for sc in doc.get("scenes") or [] for s in sc.get("sentences") or [] for c in s.get("sources") or []}
+
+
+def check_flight_unsourced(P) -> list[str]:  # noqa: ANN001, N803
+    """[flight-unsourced] hard(v7.4.0 back_and_forth D-0316 ① — showcase_geo act1 "봄부터 이어진 타격" 총괄 문장에 붙은 랴잔 비행이
+    특정 타격처럼 읽혔다) — flight 이벤트에 claim 이 없거나, 그 claim 을 원고 문장이 인용하지 않으면 실패. 비행은 출처 있는 특정 타격에만."""
+    root = getattr(P, "root", None)
+    cited = cited_claims(root) if root is not None else set()
+    out = []
+    for e in P.events:
+        if e["type"] != "flight":
+            continue
+        c = e.get("claim")
+        if not c:
+            out.append(f"[flight-unsourced] flight({e.get('kind')}) t={e['t0']:.1f} → ({e.get('lon')}, {e.get('lat')}) — claim 없음. "
+                       "출처 있는 특정 타격에만 비행을 쓰고 claim 을 단다. 총괄 문장은 날짜 있는 마커로(D-0316)")
+        elif c not in cited:
+            out.append(f"[flight-unsourced] flight({e.get('kind')}) t={e['t0']:.1f} claim {c} — 원고 문장이 인용하지 않은 claim(크레딧에 출처가 안 남는다)")
     return out
 
 

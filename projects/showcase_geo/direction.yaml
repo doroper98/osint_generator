@@ -714,6 +714,7 @@ events:
   lat: 54.62
   col: teal
   impact: true
+  claim: clm_0099   # v7.4.0 D-0316 ① — 이 비행이 그리는 특정 타격(로스네프트 라잔 정유소, 10월 15일 새벽)
   inset:
     mid: inset_ryazan_esri
     side: down_left
@@ -861,13 +862,13 @@ events:
     edge: end
     'off': 0.3
   data:
-    title: 러시아 극동을 오간 유조선
-    subtitle: 일곱 척 · 열네 번 항해 · 가디언
+    title: 제재 대상 유조선   # v7.4.0 D-0316 ② — 옛 제목·부제가 act2_3 원고를 되풀이([text-restates-narration]) → 자막에 없는 제재 사실만
+    subtitle: 영국·유럽연합 제재 · 가디언
     total: 7
     highlight: 3
     accent: ru
     big: 3 / 7
-    caption: 영국·유럽연합 제재 대상
+    caption: 7척 중 3척
     provenance:
       sources:
       - clm_0002
@@ -1279,22 +1280,19 @@ events:
     'off': 7.6
   mid: diesel_road_2026_ras_laffan_lng_2012
   place: map_left
-- type: flight
+- type: marker   # v7.4.0 D-0316 ① — 총괄 문장(봄부터 이어진 타격) 구간은 비행 대신 날짜 있는 마커를 날짜순으로. 모스크바 = 사진 자산 모스크바 정유소 화재 연기(2026. 06. 18)
   start:
     sid: act1_0
     'off': 0.3
   end:
     sid: act1_1
     edge: end
-  kind: drone
-  origin:
-    lon: 34.8
-    lat: 50.9
-  lon: 39.7
-  lat: 54.62
-  col: teal
-  impact: true
-- type: marker
+    'off': 0.3
+  at_place: moscow
+  label: 모스크바 정유소
+  sub: 6월 18일 화재
+  side: left
+- type: marker   # 랴잔 = clm_0099(로스네프트 라잔 정유소 타격, 원고 cold_0 인용)
   start:
     sid: act1_0
     'off': 1.5
@@ -1303,7 +1301,8 @@ events:
     edge: end
     'off': 0.3
   at_place: ryazan
-  label: 러시아 정유소
+  label: 랴잔 정유소
+  sub: 10월 15일
   side: right
   icon: boom
 - type: marker

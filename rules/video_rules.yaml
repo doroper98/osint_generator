@@ -1867,6 +1867,8 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # v7.4.0 back_and_forth D-0306 §1.2(UF-148) — 화면 글자가 자막을 되풀이하면 [text-restates-narration] hard. 어절 겹침 비율 상한·대상 최소 어절(짧은 이름표 제외). 감독 제안 값
   restate_overlap_max: 0.6
   restate_min_words: 4
+  # v7.4.0 D-0316 ② — 어절 끝 조사(하나만, 긴 것부터 뗀다). 조사가 붙은 어절("경유의")과 맨 단어("경유")를 같은 말로 본다. GL135 체크리스트 사례
+  restate_particles: [은, 는, 이, 가, 을, 를, 의, 에, 에서, 으로, 로, 와, 과, 도, 만]
   # v7.4.0 back_and_forth D-0311 — 회귀 기준(사용자 영상 아님) 한 목록. media_density·chart_only_run·plot_height·axis_empty_band 의 hard 만 면제 —
   # 검사는 돌고 provenance regression_waived 에 줄이 남는다(D-0251·D-0271 예외 원칙). 판정 키 = direction project_id(없으면 폴더 이름) —
   # 합성 사본(tests/test_g8_animatic synthetic_project)도 원본 id 를 연출에 싣고 온다. 범위 = tests/test_regression_refs.py 가 이 둘로 고정
@@ -1878,7 +1880,7 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   regression_refs:
     hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
     fed_timeline_demo: "시간축 엔진 검증용 데모(배포 영상 아님) — 미디어 없는 순수 차트 픽스처"
-  regression_ref_checks: [media_density, chart_only_run, plot_height, axis_empty_band]
+  regression_ref_checks: [media_density, chart_only_run, plot_height, axis_empty_band, text_restates_narration]   # text_restates_narration = v7.4.0 D-0316 ② 조사 떼기 뒤 골든 핀 '9월 8일 파병 반대 집회' 60%(골든 연출 불변)
   # v7.4.0 D-0229 §2.6(UF-113 "몇 척중 몇척은 제재 대상임을 그래픽으로") — 문장에 "N 척 중·가운데 M" 문형이 있는데 그 문장 구간에 dots·versus 패널·series 가 없으면 warning ratio_graphic
   ratio_patterns:
     - '(\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|스무|스물)\s*(척|곳|건|명|개|대|기)\s*(중|가운데)'
