@@ -28,7 +28,7 @@ color_semantics:
   segment_b: us
   segment_c: muted
 primitives:
-  reuse: [card, article, badge, person, photo, clip, quote, series, marker, backdrop, island, route]
+  reuse: [article, badge, person, photo, clip, quote, series, marker, backdrop, island, route]   # card 없음 — D-0306(UF-148 구석 성명 카드 폐지). 숫자는 series 값·핀 라벨·estimate 표식
   new: []                        # bars·estimate 는 series 스타일(T3 등록), 워터폴·생키는 요소별 승인 뒤(D-0302 ⑤)
 badges:
   people: from_library           # 공용 초상 우선(없으면 회사 배지 — 국기 원 + 회사명, entities kind company)
