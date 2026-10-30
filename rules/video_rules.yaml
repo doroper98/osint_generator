@@ -496,9 +496,7 @@ media_beats:               # 14 §10
   # UF-119 재발) — 검사 [media-density] hard: (photo + clip + cutout 이벤트 수) ÷ 영상 분 < 이 값이면 실패. 사유로 통과 없음. 등재 실사 0 이면
   # 연출 착수 거부 [media-none](workers.direction_io.require_visual_media). 값 1.5 = 감독 제안(D-0261 §2①)
   min_density_per_min: 1.5   # D-0265 §5 — backdrop 무대의 배경 사진(backdrop 이벤트)도 이벤트마다 사진 1장으로 센다(배경도 실사)
-  density_exempt_projects:   # 회귀 기준만(새 영상 아님). 범위 = tests/test_media_density.py 가 이 두 개로 고정
-    hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
-    fed_timeline_demo: "시간축 엔진 검증용 데모(배포 영상 아님) — 미디어 없는 순수 차트 픽스처"
+  # 회귀 기준 면제는 qa_checks.regression_refs 한 곳(v7.4.0 D-0311 — 옛 density_exempt_projects 삭제)
   # v7.3.0 사용자 결정 D232 U1·D234 — 위성 인셋(kind inset) 라이선스 허용 목록(한 곳). 목록 밖 = 레지스트리 로드 오류(RightsError).
   # private_only: true = 비공개 시청 한정(사용자 결정 D234) — 레지스트리 항목에 scope: private_only 필수, provenance private_only_assets 에 기록.
   # 공개 전환 시 private_only 인셋은 NASA GIBS/Sentinel 타일로 교체할 의무가 있다(교체 전 공개 금지).
@@ -604,6 +602,7 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     notice_invest: {size: 7.8, text: "정보 제공 목적이며 특정 종목의 매수·매도를 권하지 않습니다"}
     # v7.4.0 UF-147(D-0302 ⑤, 사용자 "어떤 주제의 템플릿으로 만든 영상인지 알 수 있게 텍스트로") — 장르 template_label 을 엔딩 카드 머리 줄
     # ("자료 및 출처" 와 같은 기준선, 오른쪽 정렬 — 모서리 아님, C0)과 타이틀 카드 부제 앞("<라벨> · <부제>")에 코드가 조판. 없으면 [template-label-missing] hard
+    # (경제 템플릿 브랜치 e2c37d71 과 같은 값 — D-0312 ③ 으로 쇼케이스에 먼저 옮김. 검사 template_label 은 그 브랜치 merge 로 온다)
     template_line: {size: 9.2, y: 110, font: sans, sep: " · "}
     notice_unverified: {size: 7.8, dy: 14, template: "확인되지 않은 보도·논평 인용 {n}건 — 출처는 위 목록"}   # size = license_size(가장 작은 글씨), dy = 날짜·안내 줄 기준선 아래
     # v5.1.0 back_and_forth D-0124(사용자 결정 D109) — 오른쪽 아래 구석 버전 도장 "v" + VERSION 파일(렌더 시점, 다른 출처 금지 P3).
@@ -1910,8 +1909,7 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
     chart_island_kinds: [chart]
     chart_primitives: [dot_plot, statement_diff]
     neutral_types: [dip, island]   # island 는 kind 로만 판정(chart → 차트). 그 밖 아일랜드는 안의 사진·영상 이벤트가 따로 센다
-    exempt_projects:   # v7.4.0 D-0271 — 회귀 기준만(새 영상·쇼케이스 면제 없음). 검사는 돌고 provenance chart_only_runs·chart_only_exempt 기록, hard 만 면제. 범위 = tests/test_chart_world.py 가 이 하나로 고정
-      hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
+    # 회귀 기준 면제 = qa_checks.regression_refs(v7.4.0 D-0311 — 옛 exempt_projects 삭제, D-0271 원칙 그대로)
     map_stages: [mercator]
   card_over_panel: {min_overlap_sec: 0.3, panel_pad_px: 4, cover_types: [cascade, article, quote, primitive],
                     cover_types_on_data_panels: [photo, clip, cutout, badge],
@@ -1924,6 +1922,18 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # v7.4.0 back_and_forth D-0306 §1.2(UF-148) — 화면 글자가 자막을 되풀이하면 [text-restates-narration] hard. 어절 겹침 비율 상한·대상 최소 어절(짧은 이름표 제외). 감독 제안 값
   restate_overlap_max: 0.6
   restate_min_words: 4
+  # v7.4.0 back_and_forth D-0311 — 회귀 기준(사용자 영상 아님) 한 목록. media_density·chart_only_run·plot_height·axis_empty_band 의 hard 만 면제 —
+  # 검사는 돌고 provenance regression_waived 에 줄이 남는다(D-0251·D-0271 예외 원칙). 판정 키 = direction project_id(없으면 폴더 이름) —
+  # 합성 사본(tests/test_g8_animatic synthetic_project)도 원본 id 를 연출에 싣고 온다. 범위 = tests/test_regression_refs.py 가 이 둘로 고정
+  # v7.4.0 back_and_forth D-0312 §1-1 — 지도·배경만 보이는 구간(아래 요소 하나도 안 보임)이 이 초 이상이면 [scene-visual-void] hard.
+  # 콜드 오픈(타이틀 카드 전)·타이틀·엔딩 카드·카메라 이동(move)·dip 전환 중은 제외. provenance visual_void 에 구간 목록. 값 = 감독 제안(D-0312)
+  visual_void_max_sec: 5
+  visual_void_step_sec: 0.1
+  visual_void_types: [marker, route, flight, badge, photo, clip, cutout, article, post, quote, panel, island, cascade, primitive, series, boom, ships, tanker_loop, barrier]
+  regression_refs:
+    hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
+    fed_timeline_demo: "시간축 엔진 검증용 데모(배포 영상 아님) — 미디어 없는 순수 차트 픽스처"
+  regression_ref_checks: [media_density, chart_only_run, plot_height, axis_empty_band]
   # v7.4.0 D-0229 §2.6(UF-113 "몇 척중 몇척은 제재 대상임을 그래픽으로") — 문장에 "N 척 중·가운데 M" 문형이 있는데 그 문장 구간에 dots·versus 패널·series 가 없으면 warning ratio_graphic
   ratio_patterns:
     - '(\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|스무|스물)\s*(척|곳|건|명|개|대|기)\s*(중|가운데)'

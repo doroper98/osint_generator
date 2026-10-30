@@ -10,7 +10,6 @@ sections:
   - title: 안내
     column: 1
     items:
-      - main: 쇼케이스 템플릿 · 경제   # v7.4.0 UF-147(D-0302 ⑤·D-0305 ④) — 템플릿 영상 표시 줄(타이틀 부제 줄은 template_label merge 뒤)
       - main: 투자 권유가 아닌 정보 제공 목적의 영상입니다
   - title: 글꼴
     column: 0

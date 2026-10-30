@@ -1,13 +1,14 @@
+# direction.yaml — AI 연출 수정본(ReviseDirectionWorker, v3.1.0, 17 §5.5). changelog 는 prev/revision.v*.json.
 version: 1
 genre: null
 stage: null
-media_note: 요소 확인용 쇼케이스(D-0251). 연출은 원 프로젝트(diesel_road_2026 v2·hormuz_korea·dmz_mine_2026)
-  사용자 합격 연출의 같은 문장 이벤트·숏을 새 문장 번호로 옮기고(이식), 원 연출에 없는 문장만 연출가 판(direction.v1)에서 가져왔다.
-  미포함 — quote(원고에 직접 인용 문장 없음), ships·cutout(P-8A)·rok_iraq 사진·precedent 패널(원 프로젝트에서
-  이 사실을 말한 문장이 이번 원고에 없다), gantt·network·fork·checklist·versus·timeline 패널(원고 안 사실
-  묶음이 패널 하나를 채우지 못한다), post(X 게시물 출처 없음).
+media_note: 요소 확인용 쇼케이스(D-0251). 연출은 원 프로젝트(diesel_road_2026 v2·hormuz_korea·dmz_mine_2026) 사용자 합격 연출의 같은 문장 이벤트·숏을 새 문장 번호로 옮기고(이식), 원 연출에 없는 문장만 연출가 판(direction.v1)에서
+  가져왔다. 미포함 — quote(원고에 직접 인용 문장 없음), ships·cutout(P-8A)·rok_iraq 사진·precedent 패널(원 프로젝트에서 이 사실을 말한 문장이 이번 원고에 없다), gantt·network·fork·checklist·versus·timeline 패널(원고
+  안 사실 묶음이 패널 하나를 채우지 못한다), post(X 게시물 출처 없음).
 story_geo_exempt: null
 opening_exempt: null
+template_label: 쇼케이스 템플릿 · 지경학
+project_id: null
 stage_reason: null
 stage_config: {}
 places:
@@ -378,7 +379,15 @@ shots:
   camera:
     lon: 46.0
     lat: 52.0
+    place: null
+    date: null
+    lane: null
     w: 40.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
 - at:
     sid: cold_0
     'off': 0.5
@@ -387,7 +396,14 @@ shots:
   camera:
     lon: 39.0
     lat: 54.9
+    place: null
+    date: null
+    lane: null
     w: 12.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 랴잔 근접(모스크바·랴잔·M5 도로)
 - at:
     sid: cold_1
@@ -397,7 +413,14 @@ shots:
   camera:
     lon: 128.0
     lat: 36.0
+    place: null
+    date: null
+    lane: null
     w: 6.5
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 무대 전환 — 울산
 - at:
     sid: cold_1
@@ -407,7 +430,14 @@ shots:
   camera:
     lon: 128.5
     lat: 35.75
+    place: null
+    date: null
+    lane: null
     w: 6.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 울산항 근접 — 느린 이동 뒤 타이틀(§4.1)
 - at:
     card: title
@@ -417,8 +447,15 @@ shots:
   camera:
     lon: 42.0
     lat: 55.4
+    place: null
+    date: null
+    lane: null
     w: 38.0
   under: true
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
 - at:
     sid: act1_2
     'off': -4.5
@@ -427,7 +464,14 @@ shots:
   camera:
     lon: 46.0
     lat: 53.6
+    place: null
+    date: null
+    lane: null
     w: 36.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 1막 러시아 서부 drift 시작점
 - at:
     sid: act1_2
@@ -437,7 +481,14 @@ shots:
   camera:
     lon: 40.6
     lat: 55.0
+    place: null
+    date: null
+    lane: null
     w: 32.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 1막 러시아 서부 — 느린 궤도 훑기(UF-120)
 - at:
     sid: act1_5
@@ -447,7 +498,15 @@ shots:
   camera:
     lon: 42.0
     lat: 55.4
+    place: null
+    date: null
+    lane: null
     w: 38.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
 - at:
     sid: act2_0
     'off': 0.8
@@ -456,7 +515,14 @@ shots:
   camera:
     lon: 130.5
     lat: 47.0
+    place: null
+    date: null
+    lane: null
     w: 26.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 연결 문장 첫머리까지 러시아 전체(라벨) — 극동으로 옮긴다
 - at:
     sid: act2_4
@@ -466,7 +532,14 @@ shots:
   camera:
     lon: 131.2
     lat: 39.3
+    place: null
+    date: null
+    lane: null
     w: 21.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 니가타 꺾임점까지
 - at:
     sid: act3_0
@@ -476,7 +549,15 @@ shots:
   camera:
     lon: 50.5
     lat: 27.5
+    place: null
+    date: null
+    lane: null
     w: 26.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
 - at:
     sid: act3_3
     'off': -1.2
@@ -485,7 +566,15 @@ shots:
   camera:
     lon: 47.0
     lat: 29.5
+    place: null
+    date: null
+    lane: null
     w: 30.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
 - at:
     sid: act4_0
     'off': -0.5
@@ -511,7 +600,15 @@ shots:
   camera:
     lon: 38.0
     lat: 54.0
+    place: null
+    date: null
+    lane: null
     w: 30.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
 - at:
     sid: act5_1
     'off': -4.5
@@ -520,7 +617,14 @@ shots:
   camera:
     lon: 37.3
     lat: 54.0
+    place: null
+    date: null
+    lane: null
     w: 30.5
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 5막 우크라이나·러시아 서부 drift 시작점
 - at:
     sid: act5_1
@@ -530,7 +634,14 @@ shots:
   camera:
     lon: 39.2
     lat: 54.2
+    place: null
+    date: null
+    lane: null
     w: 29.5
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 5막 우크라이나·러시아 서부 — 느린 궤도 훑기(UF-120)
 - at:
     sid: ending_0
@@ -540,7 +651,15 @@ shots:
   camera:
     lon: 89.0
     lat: 43.5
+    place: null
+    date: null
+    lane: null
     w: 94.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
 events:
 - type: country
   start:
@@ -622,7 +741,6 @@ events:
     'off': 0.3
   mid: diesel_road_2026_moscow_fire_0618
   place: map_left
-# v7.4.0 D-0306 §1.2 — act1_7 한 장 캐스케이드('7월 8일 · 경유 수출 전면 금지 · 정유사까지 포함')는 문장을 그대로 되풀이해 뺐다([text-restates-narration])
 - type: route
   start:
     sid: act2_4
@@ -944,7 +1062,6 @@ events:
         word:
           sid: act3_6
           text: 한국
-# v7.4.0 D-0274 §4·D-0276 — 미 중부사령부 공개 영상(strikes_file = 같은 파일의 자료 영상 항목, 7.7 촬영 — D-0283 §1, 5초)을 액자 주 요소로(UF-141). 말이 없는 현장 영상이라 원음은 broll 이득(audio: broll), 내레이션은 그 위로 이어진다
 - type: clip
   start:
     sid: act3_3
@@ -978,7 +1095,7 @@ events:
     sid: act4_2
     edge: end
   at_place: dmz_dmz_site
-  label: 서부전선 비무장지대   # v7.4.0 D-0306 §1.2 — 부제 '9월 21일 오전 폭발'은 act4_1 문장 되풀이라 뺐다
+  label: 서부전선 비무장지대
   side: right
   hl: true
   icon: boom
@@ -1044,7 +1161,6 @@ events:
     'off': 0.8
   mid: hormuz_transit
   place: map_left
-# v7.4.0 D-0274 §4 — act3_3 카드('2월 28일 미국·이스라엘, 이란 공습')는 strikes 액자 구간과 겹쳐 뺐다(액자 구간엔 카드 없음, 같은 사실은 자막). R-0286
 - type: article
   start:
     sid: act3_5
@@ -1134,7 +1250,6 @@ events:
   label: 도널드 트럼프
   role: 미국 대통령
   accent: us
-# v7.4.0 D-0261 §3(UF-139 사진·영상 하한 [media-density] 1.5/분) — 등재본 3장 보강: 실사 5 → 8(4.0분, 분당 2.0)
 - type: photo
   start:
     sid: act2_4
@@ -1164,6 +1279,164 @@ events:
     'off': 7.6
   mid: diesel_road_2026_ras_laffan_lng_2012
   place: map_left
+- type: flight
+  start:
+    sid: act1_0
+    'off': 0.3
+  end:
+    sid: act1_1
+    edge: end
+  kind: drone
+  origin:
+    lon: 34.8
+    lat: 50.9
+  lon: 39.7
+  lat: 54.62
+  col: teal
+  impact: true
+- type: marker
+  start:
+    sid: act1_0
+    'off': 1.5
+  end:
+    sid: act1_1
+    edge: end
+    'off': 0.3
+  at_place: ryazan
+  label: 러시아 정유소
+  side: right
+  icon: boom
+- type: marker
+  start:
+    sid: act1_4
+    'off': 0.3
+  end:
+    sid: act1_4
+    edge: end
+    'off': 0.3
+  at_place: kirishi
+  label: 정유소
+  side: right
+- type: marker
+  start:
+    sid: act1_4
+    'off': 0.8
+  end:
+    sid: act1_4
+    edge: end
+    'off': 0.3
+  at_place: saratov
+  label: 정유소
+  side: left
+- type: marker
+  start:
+    sid: act1_4
+    'off': 1.3
+  end:
+    sid: act1_4
+    edge: end
+    'off': 0.3
+  at_place: syzran
+  label: 정유소
+  side: right
+- type: marker
+  start:
+    sid: act1_8
+    'off': 0.2
+  end:
+    sid: act2_0
+    'off': 1.0
+  at_place: kirishi
+  label: 정유소
+  side: right
+- type: marker
+  start:
+    sid: act1_8
+    'off': 0.2
+  end:
+    sid: act2_0
+    'off': 1.0
+  at_place: saratov
+  label: 정유소
+  side: left
+- type: marker
+  start:
+    sid: act1_8
+    'off': 0.2
+  end:
+    sid: act2_0
+    'off': 1.0
+  at_place: syzran
+  label: 정유소
+  side: right
+- type: marker
+  start:
+    sid: act2_1
+    edge: end
+  end:
+    sid: act2_3
+    edge: end
+  at_place: khabarovsk_ref
+  label: 극동
+  side: right
+- type: marker
+  start:
+    sid: act3_0
+    'off': 1.0
+  end:
+    sid: act3_1
+    edge: end
+  at_place: gulf_label
+  label: 페르시아만
+  side: top
+- type: marker
+  start:
+    sid: act4_3
+    'off': 0.9
+  end:
+    sid: act4_3
+    edge: end
+    'off': 0.6
+  at_place: dmz_dmz_site
+  label: 서부전선 비무장지대
+  side: right
+  hl: true
+- type: marker
+  start:
+    sid: act5_0
+    'off': 2.0
+  end:
+    sid: act5_2
+    edge: end
+    'off': 0.3
+  at_place: moscow
+  label: 로스네프트·루코일   # v7.4.0 D-0313 ① — 본사 모스크바. 출처 src_doc_0003(미 재무부 2025-10-22 SDN 지정)
+  sub: 미 재무부 제재 · 2025. 10. 22
+  side: left
+- type: marker   # v7.4.0 D-0313 ① — GL135 는 같은 자리 다음 문장 핀. 원고에 없는 발급일·기한만(되풀이 금지 UF-148). 출처 src_doc_0002
+  start:
+    sid: act5_3
+    'off': -0.2
+  end:
+    sid: act5_3
+    edge: end
+    'off': 0.3
+  at_place: moscow
+  label: 일반허가 135호
+  sub: 2026. 10. 9 발급 · 2027. 4. 7까지
+  side: left
+- type: marker
+  start:
+    sid: act5_5
+  end:
+    sid: act5_5
+    edge: end
+    'off': 0.8
+  at_place: ryazan
+  label: 랴잔 정유소
+  sub: 10월 15일 새벽
+  side: right
+  icon: boom
 sound:
   bgm: music.zabriskie_mario_bava
   intensity:

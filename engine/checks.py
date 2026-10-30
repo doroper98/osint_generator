@@ -78,6 +78,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | axis_empty_band | hard | 시간축 레인 축 범위 중 데이터 극값(실측 + 전망 점) 밖 빈 띠(한쪽) > rules stage_timeline.lane_range.empty_band_max_ratio `[axis-empty-band]`(v7.4.0 D-0277 §3·UF-142) |
 | clip_date_mismatch | hard | 사진·영상 촬영일 ↔ 붙은 문장 날짜 차 ≥ rules media.file_clip_date_gap_days 인데 자료 표기(is_file_photo) 없음 `[clip-date-mismatch]`(v7.4.0 D-0283 §1) |
 | text_restates_narration | hard | 화면 글자(패널·캐스케이드·핀·아일랜드)가 그 순간 원고 문장 어절을 rules qa_checks.restate_overlap_max 이상 되풀이 `[text-restates-narration]`(v7.4.0 D-0306·UF-148) |
+| scene_visual_void | hard | 요소(rules qa_checks.visual_void_types) 없이 지도·배경만 보이는 구간 ≥ qa_checks.visual_void_max_sec(콜드 오픈·전면 카드·카메라 move 제외) `[scene-visual-void]`(v7.4.0 D-0312, provenance visual_void) |
 | inset_jump | hard | 위성 인셋 원 중심 프레임 간 이동 > rules flight.inset.jump_px_max `[inset-jump]`(v7.4.0 D-0300·UF-146) |
 | inset_side_change | warning | 위성 인셋 자리 옮김 횟수(보간) `[inset-side-change]`(v7.4.0 D-0300) |
 | clip_frame | hard | 레퍼런스 영상(clip.role main)이 액자 슬롯 clip_frame 밖, 또는 보이는 길이가 rules media_beats.clip_show_sec[role] 밖 `[clip-frame]`(v7.4.0 D-0274 §2·UF-141) |
@@ -117,7 +118,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "template_label", "invest_notice")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "template_label", "invest_notice", "scene_visual_void")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -2301,7 +2302,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "catalog_label_overlap": lambda: check_catalog_label_overlap(P),   # v7.4.0 D-0251 §1.1(hard, 카탈로그 판만)
         "chart_only_run": lambda: [f"[chart-only-run] {a:.1f}~{b:.1f}초 ({b - a:.1f}초) 차트·카드만 보인다 — 상한 {QA.chart_only_run.max_sec:g}초. "
                                    "사건 핀·인물·사진·기사·인용·지도 중 하나를 넣는다(UF-135)" for a, b in chart_only_runs(P)
-                                   if b - a > QA.chart_only_run.max_sec and P.root.name not in QA.chart_only_run.exempt_projects],   # v7.4.0 D-0252(hard). D-0271 회귀 기준 면제
+                                   if b - a > QA.chart_only_run.max_sec],   # v7.4.0 D-0252(hard). 회귀 기준 면제 = waive_regression(D-0311)
+        "scene_visual_void": lambda: check_scene_visual_void(P, provenance),   # v7.4.0 D-0312 §1-1(hard)
         "chart_world_split": lambda: check_chart_world_split(P),   # v7.4.0 D-0251 §6.2-2(hard, UF-135 ②)
         "series_label_overlap": lambda: check_series_label_overlap(P),   # v7.4.0 D-0256(hard)
         "chart_edge_bleed": lambda: check_chart_edge_bleed(P),   # v7.4.0 D-0257(hard, UF-137)
@@ -2354,13 +2356,16 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "map_contrast": lambda: check_map_contrast(P, "required"),         # v5.18.0 D-0161 §4(hard)
         "map_contrast_shape": lambda: check_map_contrast(P, "shape"),      # v5.18.0 D-0161 §4(warning)
     }
-    res = {k: f() for k, f in run.items() if k not in skip}
+    res = {k: waive_regression(P, k, f()) for k, f in run.items() if k not in skip}   # v7.4.0 D-0311 — 회귀 기준 hard 만 면제(기록)
+    waived = P.R.cache.get("regression_waived") or {}
+    provenance["regression_waived"] = waived   # 면제한 hard 줄(검사는 돌았다, D-0271 ②) — provenance 는 검사 전에 만들어지므로 여기서 채운다
     notes: dict[str, list[str]] = {}
     if not set(HONESTY) <= skip:
         honesty, notes = judge(project_metas(P, times, labels or [f"t={t:.2f}" for t in times], drawn))
         res.update({k: v for k, v in honesty.items() if k not in skip})
     items = [{"id": k, "severity": "hard" if k in HARD else "warning", "count": len(v), "details": v[:20],
-              **({"notes": notes[k][:20]} if notes.get(k) else {})} for k, v in res.items()]
+              **({"notes": notes[k][:20]} if notes.get(k) else {}),
+              **({"regression_waived": waived[k][:20]} if waived.get(k) else {})} for k, v in res.items()]
     items += [{"id": k, "severity": "hard" if k in HARD else "warning", "count": 0, "details": [], "skipped": True}
               for k in sorted(skip)]
     hard = sum(i["count"] for i in items if i["severity"] == "hard")
@@ -2760,12 +2765,62 @@ def media_density(events: list[dict], total_sec: float) -> tuple[int, float]:
     return n, n / max(total_sec / 60.0, 1e-9)
 
 
+def visual_voids(P) -> list[tuple[float, float]]:  # noqa: ANN001, N803
+    """요소(rules qa_checks.visual_void_types)가 하나도 안 보이는 연속 구간 [(t0, t1)] — 콜드 오픈(첫 타이틀 카드 전)·전면 카드·카메라 이동(move)·dip 전환 중은
+    끊는다(v7.4.0 back_and_forth D-0312 §1-1). 검사 [scene-visual-void] 와 provenance visual_void 가 같은 값을 쓴다(P5)."""
+    step, kinds = QA.visual_void_step_sec, set(QA.visual_void_types)
+    title = [c.t0 for c in P.plan.cards if c.kind == "title"]
+    start = min(title) if title else 0.0
+    moves = [(k.t, k.t + k.dur) for k in (getattr(P, "keys", None) or []) if k.mode == "move" and k.dur > 0]
+    moves += [(e["t0"], e["t1"]) for e in P.events if e["type"] == "dip"]   # 어둡게 넘기는 전환(dip)도 전환 — 빈 구간이 아니다
+    spans = [(e["t0"], e["t1"]) for e in P.events if e["type"] in kinds]
+    out: list[tuple[float, float]] = []
+    run0 = None
+    t = start
+    while t <= P.plan.total:
+        skip = P.R.tb.in_fullcard(t) or any(a <= t <= b for a, b in moves)
+        void = not skip and not any(a <= t <= b for a, b in spans)
+        if void and run0 is None:
+            run0 = t
+        elif not void and run0 is not None:
+            out.append((round(run0, 2), round(t, 2)))
+            run0 = None
+        t += step
+    if run0 is not None:
+        out.append((round(run0, 2), round(P.plan.total, 2)))
+    return out
+
+
+def check_scene_visual_void(P, provenance: dict | None = None) -> list[str]:  # noqa: ANN001, N803
+    """[scene-visual-void] hard(v7.4.0 back_and_forth D-0312 §1-1 — 카드를 지운 자리가 지도+자막뿐으로 남은 showcase_geo 194·206초) —
+    요소 없는 구간 ≥ rules qa_checks.visual_void_max_sec 이면 실패. 빈 자리는 연출(revise_direction)이 사실에 맞는 요소로 채운다(P8)."""
+    vs = visual_voids(P)
+    if provenance is not None:
+        provenance["visual_void"] = [list(v) for v in vs]
+    mx = QA.visual_void_max_sec
+    return [f"[scene-visual-void] {a:.1f}~{b:.1f}초 ({b - a:.1f}초) 지도·배경만 보인다 — 상한 {mx:g}초. 그 문장이 말하는 대상의 마커·사진·기사·패널로"
+            " 채운다(D-0312, 연출 revise_direction)" for a, b in vs if b - a >= mx]
+
+
+def regression_ref(P) -> "str | None":  # noqa: ANN001, N803
+    """v7.4.0 D-0311 — 회귀 기준 프로젝트 id(rules qa_checks.regression_refs) 또는 None. 판정 키 = direction project_id(load_project 가
+    R.cache project_id 에 둔다), 없으면 폴더 이름 — 폴더 이름만 보면 합성 사본(demo)이 면제를 못 받는다."""
+    pid = (getattr(P, "R", None) and P.R.cache.get("project_id")) or getattr(getattr(P, "root", None), "name", None)
+    return pid if pid in QA.regression_refs else None
+
+
+def waive_regression(P, cid: str, lines: list[str]) -> list[str]:  # noqa: ANN001, N803
+    """회귀 기준이면 hard 줄을 provenance 용 R.cache regression_waived[cid] 로 옮기고 [] (검사는 돈다, D-0251·D-0271 원칙)."""
+    if not lines or cid not in QA.regression_ref_checks or regression_ref(P) is None:
+        return lines
+    P.R.cache.setdefault("regression_waived", {})[cid] = lines
+    return []
+
+
 def check_media_density(P) -> list[str]:  # noqa: ANN001, N803
     """[media-density] hard(v7.4.0 back_and_forth D-0261, 사용자 의견 UF-139 "레퍼런스 사진이나 영상 풍부하게") — 사진·영상·컷아웃 이벤트가
-    분당 rules media_beats.min_density_per_min 미만이면 실패. 사유로 통과 없음. 회귀 기준(density_exempt_projects)만 제외."""
+    분당 rules media_beats.min_density_per_min 미만이면 실패. 사유로 통과 없음. 회귀 기준(qa_checks.regression_refs)만 hard 면제(waive_regression)."""
     MB = R_.media_beats  # noqa: N806
-    if P.root.name in MB.density_exempt_projects:
-        return []
     n, d = media_density(P.events, P.plan.total)
     if d >= MB.min_density_per_min:
         return []

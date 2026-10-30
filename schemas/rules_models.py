@@ -376,7 +376,6 @@ class MediaBeats(_Strict):
     registry: str                            # v2.5.5 — 미디어 레지스트리 경로(저장소 기준)
     sources_order: list["PhotoSourcePool"] = Field(min_length=1)   # v5.19.0 D-0163 §2 — 사진 소싱 풀 순서(media_fetch search)
     min_density_per_min: float = Field(gt=0)   # v7.4.0 D-0261(UF-139) — [media-density] hard: (photo+clip+cutout 이벤트) ÷ 영상 분 하한, 사유 통과 없음
-    density_exempt_projects: dict[str, str] = Field(default_factory=dict)   # 회귀 기준 프로젝트(폴더 이름) → 사유. 범위는 시험이 강제(골든·엔진 데모만)
     sources_excluded_licenses: list[str] = Field(default_factory=list)   # 라이선스 이름 조각(NC·ND) — 있으면 탈락
     sources_excluded_mimes: list[str] = Field(default_factory=list)      # v5.21.0 — 문서·도식 mime(pdf·svg) — 통과 수 밖
     inset_preferred_license: str = ""   # v7.4.0 D-0240 후속 — 위성 인셋 기본 라이선스 접두(그 밖은 fallback_reason 필수)
@@ -514,10 +513,20 @@ class EndCardVersionStamp(_Strict):
     dy: float = Field(gt=0)
 
 
+class EndCardTemplateLine(_Strict):
+    """v7.4.0 UF-147(D-0302 ⑤) — 템플릿 표시 줄(엔딩 카드 머리 줄 오른쪽 · 타이틀 부제 앞)."""
+
+    size: float = Field(gt=0)
+    y: float = Field(gt=0)
+    font: str
+    sep: str = Field(min_length=1)
+
+
 class EndCardLayout(_Strict):
     dur_sec: float
     item_size: float
     license_size: float
+    template_line: EndCardTemplateLine      # v7.4.0 UF-147
     notice_unverified: EndCardNotice
     notice_invest: EndCardInvestNotice      # v7.4.0 D-0278 §4.3
     template_line: EndCardTemplateLine      # v7.4.0 UF-147
@@ -1708,7 +1717,6 @@ class ChartOnlyRun(_Strict):
     chart_island_kinds: list[str] = Field(default_factory=list)
     chart_primitives: list[str] = Field(default_factory=list)
     neutral_types: list[str] = Field(default_factory=list)
-    exempt_projects: dict[str, str] = Field(default_factory=dict)   # v7.4.0 D-0271 — 회귀 기준 프로젝트(폴더 이름) → 사유. hard 만 면제(기록은 남김), 범위는 시험이 고정
     map_stages: list[str] = Field(min_length=1)
 
 
@@ -1732,6 +1740,13 @@ class QAChecks(_Strict):
     card_full_exposure_min_sec: float = Field(gt=0)   # v5.21.10 D-0191 §1-2 — 기사·인용 카드 완전 불투명 구간 하한(hard card_exposure)
     restate_overlap_max: float = Field(default=0.6, gt=0, le=1)   # v7.4.0 D-0306 §1.2 — [text-restates-narration] 어절 겹침 상한
     restate_min_words: int = Field(default=4, ge=1)   # 이 어절 미만 화면 글자(이름표)는 보지 않는다
+    # v7.4.0 D-0311 — 회귀 기준 프로젝트 id → 사유, 그리고 hard 만 면제하는 검사 id(검사는 돌고 provenance regression_waived 기록)
+    regression_refs: dict[str, str] = Field(default_factory=dict)
+    # v7.4.0 D-0312 §1-1 — [scene-visual-void] hard: 요소 없는 구간 상한(초)·표본 간격·요소로 치는 이벤트 종류
+    visual_void_max_sec: float = Field(default=5.0, gt=0)
+    visual_void_step_sec: float = Field(default=0.1, gt=0)
+    visual_void_types: list[str] = Field(default_factory=list)
+    regression_ref_checks: list[str] = Field(default_factory=list)
     ratio_patterns: list[str] = Field(min_length=1)       # v7.4.0 D-0229 §2.6(UF-113) — "N 중 M" 문형(warning ratio_graphic)
     ratio_graphic_kinds: list[str] = Field(min_length=1)  # 그 문장 구간에 있어야 할 패널 종류(series 이벤트도 인정)
     cutaway_full_types: list[str] = Field(min_length=1)   # v7.4.0 D-0229 §2.3(UF-110) — 화면 전체를 덮는 컷어웨이 이벤트(hard cutaway_churn). 지도 복귀 ≥ shot_min_hold_sec

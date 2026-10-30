@@ -5420,6 +5420,72 @@
    },
    "file": "intc_hq_2008_720.jpg",
    "source_hash": "2d89cf04de9061c848e43704d304adff"
+  },
+  "showcase_geo_art_0035": {
+   "kind": "article",
+   "title": "The Insider 2026-09-01 — Russia's Far East depends on fuel deliveries from other regions",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The Insider",
+   "credit_author": "The Insider",
+   "date": "2026-09-01",
+   "url": "https://theins.press/en/news/286687",
+   "caption": "The Insider",
+   "file_note": "2026. 09. 01",
+   "depicts": [
+    "러시아 극동은 현지 정제로 휘발유 수요의 55~60%, 경유 수요의 6…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "showcase_geo 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-18",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "러시아 극동, 현지 정제로 연료 수요 다 못 채워",
+   "sub": "러시아 극동은 현지 정제로 휘발유 수요의 55~60%, 경유 수요의 6…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Russia's Far East depends on fuel deliveries from other regions"
+  },
+  "showcase_geo_art_0037": {
+   "kind": "article",
+   "title": "EastRussia 2026-07-15 — Situation with gasoline and diesel in the Far East is gradually stabilizing",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "EastRussia",
+   "credit_author": "EastRussia",
+   "date": "2026-07-15",
+   "url": "https://www.eastrussia.ru/news/situatsiya-s-benzinom-i-dizelem-na-dalnem-vostoke-postepenno-stabiliziruetsya/",
+   "caption": "EastRussia",
+   "file_note": "2026. 07. 15",
+   "depicts": [
+    "극동 연료 부족은 5월 정유소 피격 뒤 시작돼 여름 중반 안정됐다(Ea…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "showcase_geo 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-18",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "극동 휘발유·경유 상황 점차 안정",
+   "sub": "극동 연료 부족은 5월 정유소 피격 뒤 시작돼 여름 중반 안정됐다(Ea…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Situation with gasoline and diesel in the Far East is gradually stabilizing"
   }
  }
 }

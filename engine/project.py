@@ -429,6 +429,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     from engine.source_note import source_notes  # noqa: PLC0415
 
     R.cache["story_geo_exempt"] = doc.story_geo_exempt   # v5.22.1 D-0205 — 골든만
+    R.cache["template_label"] = doc.template_label or doc.genre_profile().template_label   # v7.4.0 UF-147 — 타이틀 부제 앞·엔딩 카드 머리 줄(fullcards). 연출 값 우선(D-0312 ③)
+    R.cache["project_id"] = doc.project_id or proj.name   # v7.4.0 D-0311 — 회귀 기준 판정 키(폴더 이름 폴백)
     R.cache["opening_exempt"] = doc.opening_exempt   # v5.6.0 RENDER-AP-016 — 검사 opening_establish 면제 사유
     R.cache["source_notes"] = source_notes(proj)   # v5.6.0 — 참조 출처 화면 표기(sid → 링크 줄, rules source_note)
     modes = {}
@@ -454,7 +456,6 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
                         "shots_declared": sum(1 for s in doc.shots if s.stage is not None), "instances": dict(stages.created),
                         "configs": {k: json.loads(json.dumps(v, default=str)) for k, v in doc.stage_configs().items()}}   # v4.3.0
     R.cache["direction_drops"] = [d.model_dump() for d in doc.drops]   # v7.4.0 D-0245 — [series-unused]·[panel-dropped] 예외
-    R.cache["template_label"] = doc.genre_profile().template_label   # v7.4.0 UF-147 — 타이틀 부제 앞·엔딩 카드 머리 줄(fullcards)
     R.cache["invest_notice"] = doc.genre_profile().invest_notice     # v7.4.0 D-0278 §4.3 — 엔딩 카드 맨 마지막 줄 투자 고지
     R.cache["genre"] = {"name": doc.genre_name(), "declared": doc.genre is not None,    # v4.2.0 D-0081 작업 3 — provenance genre(15 P5)
                         "status": doc.genre_profile().status,                          # v4.3.0 D-0084 작업 6 — proposed 프로필 사용 기록(P6)

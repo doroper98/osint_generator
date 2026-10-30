@@ -2269,8 +2269,10 @@ entries:
   quote: 그리고 그런 고대나 과거 전쟁사 같은 경우에는 진영이나 인물에 대한 묘사도 중요한데 그에 못지 않게 해당 시점을 묘사한 고대 미술사적 자료나, 유적지, 지역에 대한 유래에 대한 정보를 제공하는게 못지 않게 중요해.
   quote_kind: verbatim
   category: 전쟁사 장르 — 증거 층 셋(당대 미술 자료·유적지·지명 유래) 필수, 진영·인물 묘사와 같은 무게
-  guards: []
-  status: open
+  guards:
+  - kind: doc
+    ref: back_and_forth/261030_132354_D0307_fable_war-history-template-plan.md#증거 층 셋 — UF-150(필수, 영상마다 ≥1 씩
+  status: guarded
   decision: D-0307 §3(period_art·site·toponymy 레코드와 라벨, [evidence-layer-missing]·[period-art-label-missing] hard — 장치는 구현 뒤 guards 에)
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
 - id: UF-151
@@ -2283,4 +2285,48 @@ entries:
   guards: []
   status: open
   decision: D-0309([chart-layers-min]·[secondary-axis-single]·쌓임 합 검증, 다섯 막에서 층이 하나씩 켜짐 — 장치는 구현 뒤 guards 에)
+  source: 감독 세션(Fable) 사용자 대화 2026-10-30
+- id: UF-152
+  date: '2026-10-30'
+  project: samsung_q3_2026
+  at: "경제 차트 설계 — 참고 그림 셋(TradingView — 연준 유동성 구성 겹침 · 세계 M2/중앙은행 자산/S&P/BTC 3레인 · 5개국 국채 수익률 전 만기 색 계열, docs/handoff/reports/user_ref_tradingview_*_2026-10-30.png)"
+  quote: 개인적으로 이런 형태의 차트도 좋아함. 내가 말한대로 다층적인 정보를 한번에 통섭적으로 보는걸 좋아한다는 뜻이야
+  quote_kind: verbatim
+  category: 차트 설계 — 같은 세계 안 다계열 겹침·다레인·색 계열·끝값 태그(통섭 보기), UF-151 보충
+  guards: []
+  status: open
+  decision: D-0309 §5(lane.series_max·레인 3·color_families·끝값 태그 열·dim_others, 보조 축 1 유지 — 장치는 구현 뒤 guards 에)
+  source: 감독 세션(Fable) 사용자 대화 2026-10-30
+- id: UF-153
+  date: '2026-10-30'
+  project: samsung_q3_2026
+  at: "경제 템플릿 차트 종류 — agents_reviewer 디자인 시트 §6.4 매트릭스(diverging_bar·bullet·range_bar 덤벨·slope·bump 견본 화면)"
+  quote: 그리고 내가 알려준 경로(https://doroper98.github.io/agents_reviewer/samples/report_design_sheet_v8_6_0.html#s6-4 ) 의 이런 차트들도 적극적으로 고려해볼꺼지?
+  quote_kind: verbatim
+  category: 차트 종류 — bullet·덤벨·diverging·slope·bump 를 실적 템플릿 막에 배정(series 스타일, 독립 패널 금지)
+  guards: []
+  status: open
+  decision: D-0308 §6(배정 표·스케치 목록 갱신 — 장치는 T3 등록 때 guards 에)
+  source: 감독 세션(Fable) 사용자 대화 2026-10-30
+- id: UF-154
+  date: '2026-10-30'
+  project: samsung_q3_2026
+  at: "경제 차트 설계 — UF-151·152 보충(복잡도 상한)"
+  quote: 꼭 저 트레이딩뷰 처럼 만들라는게 아니야. 너무 복잡하지 않지만, 그럼에도 불구하고 영상으로서 보는 사람이 이해하고 소화할 수 있는 수준을 높일 수 있도록 고민해서 만들라는 뜻이야
+  quote_kind: verbatim
+  category: 차트 설계 — 소화 가능한 깊이(층은 설명 문장과 함께, 동시 가시 상한, 소화 시간, 나누어 켜기)
+  guards: []
+  status: open
+  decision: D-0309 §6(layer_entry_requires_sentence·visible_series_max 4·layer_dwell_sec 4·[chart-overload] hard — 장치는 구현 뒤 guards 에)
+  source: 감독 세션(Fable) 사용자 대화 2026-10-30
+- id: UF-155
+  date: '2026-10-30'
+  project: samsung_q3_2026
+  at: "감독 구상안 v1 와이어프레임 4장(docs/handoff/reports/concept_earnings_v1) 검토 — 막대 모양·색 테마·겹침·글꼴·배경"
+  quote: "막대 그래프를 바닥쪽에는 둥글게 하지 않고, 위쪽도 차트임을 고려해서 아주 약간의 둥글기만 적용해. 그리고 경제에 대해서는 영상의 컨셉을 흰색과 푸른색 계열로 적용해. 그리고 선과 글씨가 겹치는 부분은 적용하지 말고, 내가 혹시 폰트를 agent reviewer 의 르포 계열의 폰트를 적용하라고 해서 저렇게 어설픈 폰트들이 된건가? G마켓 Sans 왜 안쓰지? 색감은 위에 공유한 링크의 princess 나 cosmos 둘중 하나를 니가 보고 정해서 적용해. 배경은 지금 무슨 세로 무늬가 있는데, 그런거 말고, 저런 어설픈 배경을 넣느니 아예 안넣는게 나은것 같아."
+  quote_kind: verbatim
+  category: 경제 시각 테마 — 막대 바닥 각·위 3px, 팔레트 princess(흰·푸른·코랄), 겹침 0, 표준 글꼴(GmarketSans) 유지, 무늬 없는 배경(사진은 가운데 요소로만)
+  guards: []
+  status: open
+  decision: D-0310(themes.princess·bars.top_radius 3·stage_backdrop.econ_default flat·겹침 검사 예외 없음 — 장치는 구현 뒤 guards 에). 어설픈 글꼴·세로 무늬는 감독 목업의 산물(엔진 아님)임을 기록
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
