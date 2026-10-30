@@ -1,0 +1,26 @@
+# diverging 스케치(D-0308 §2·D-0315 §1-3) — princess 평면 바탕. 3분기 열 안에 부문 셋: 전년 동기 대비 %(코드 계산), 0 기준 위아래.
+# accent 는 문장이 말하는 부문 하나(DC). PC 감소 = 흐린 채움 + down 윤곽. 값·이름은 막대 바깥 끝(범례 없음).
+version: 1
+genre: earnings
+stage: backdrop
+stage_config:
+  timeline:
+    start: "2025-04-01"
+    end: "2027-06-30"
+    lanes:
+      - {id: yoy, label: "인텔 부문 매출 · 1년 전 같은 분기 대비 %", kind: bars}
+shots:
+  - {at: 0, mode: cut, dur: 0, camera: {}}
+  - {at: {sid: yoy_0, off: -0.4}, mode: cut, dur: 0, stage: timeline, camera: {date: "2026-06-15", w: 636}}
+events:
+  - {type: island, kind: chart, box: center, start: {sid: yoy_0, off: -0.4}, end: {sid: yoy_3, edge: end, off: 0.4}}
+  - {type: series, start: {sid: yoy_1, off: -0.2}, end: {sid: yoy_2, off: -0.3}, lane: yoy, series_id: INTC_SEG_DCAI_Q, style: diverging, col: gold, accent: none,
+     parts: [{ids: [INTC_SEG_DCAI_Q], label: DC}, {ids: [INTC_SEG_CCG_Q], label: PC}, {ids: [INTC_SEG_FOUNDRY_Q], label: 파운드리}]}
+  - {type: series, start: {sid: yoy_2, off: -0.3}, end: {sid: yoy_3, off: -0.3}, lane: yoy, series_id: INTC_SEG_DCAI_Q, style: diverging, col: gold, accent: DC, grow: false,
+     parts: [{ids: [INTC_SEG_DCAI_Q], label: DC}, {ids: [INTC_SEG_CCG_Q], label: PC}, {ids: [INTC_SEG_FOUNDRY_Q], label: 파운드리}]}
+  - {type: series, start: {sid: yoy_3, off: -0.3}, end: {sid: yoy_3, edge: end, off: 0.4}, lane: yoy, series_id: INTC_SEG_DCAI_Q, style: diverging, col: gold, accent: none, grow: false,
+     parts: [{ids: [INTC_SEG_DCAI_Q], label: DC}, {ids: [INTC_SEG_CCG_Q], label: PC}, {ids: [INTC_SEG_FOUNDRY_Q], label: 파운드리}]}
+sound:
+  bgm: null
+  no_music_decision: D-0309
+  intensity: [[0, 0.55], [{total: true}, 0.55]]
