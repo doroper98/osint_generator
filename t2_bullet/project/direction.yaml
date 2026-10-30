@@ -1,0 +1,21 @@
+# bullet(예상 대 실제) 스케치(D-0308 §1-1·D-0315 ②) — 같은 레인 분기 막대 위에 예상치 = 속빈 막대(윤곽 hollow_w), 실제 = 채움. 차이(%)는 코드 계산 라벨
+version: 1
+genre: earnings
+stage: backdrop
+stage_config:
+  timeline:
+    start: "2025-04-01"
+    end: "2027-06-30"
+    lanes:
+      - {id: eps, label: "인텔 조정 주당순이익(비GAAP) · 달러", kind: bars}
+shots:
+  - {at: 0, mode: cut, dur: 0, camera: {}}
+  - {at: {sid: eps_0, off: -0.4}, mode: cut, dur: 0, stage: timeline, camera: {date: "2026-05-15", w: 636}}
+events:
+  - {type: island, kind: chart, box: center, start: {sid: eps_0, off: -0.4}, end: {sid: eps_3, edge: end, off: 0.4}}
+  - {type: series, start: {sid: eps_0, off: -0.2}, end: {sid: eps_3, edge: end, off: 0.4}, lane: eps, series_id: INTC_EPS_Q, style: bars, col: gold,
+     accent: latest, estimate_id: INTC_EPS_Q_EST}
+sound:
+  bgm: null
+  no_music_decision: D-0308
+  intensity: [[0, 0.55], [{total: true}, 0.55]]

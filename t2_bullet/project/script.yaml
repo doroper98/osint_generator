@@ -1,0 +1,40 @@
+schema_version: 1
+title: 예상 대 실제 스케치
+subtitle: 인텔 조정 주당순이익 · 시장 예상
+date: 2026.10.30
+scenes:
+- id: eps
+  sentences:
+  - date: '2026.09'
+    role: intro
+    text: 이번에는 인텔의 조정 주당순이익을 시장 예상과 겹쳐 보겠습니다.
+    tts: 이번에는 인텔의 조정 주당순이익을 시장 예상과 겹쳐 보겠습니다.
+    emphasis:
+    - 시장 예상
+    sources:
+    - series:INTC_EPS_Q
+    - series:INTC_EPS_Q_EST
+  - date: '2026.09'
+    role: intro
+    text: 속이 빈 막대가 발표 전 시장 예상치입니다.
+    tts: 속이 빈 막대가 발표 전 시장 예상치입니다.
+    emphasis:
+    - 속이 빈 막대
+    sources:
+    - series:INTC_EPS_Q_EST
+  - date: '2026.09'
+    text: 그리고 3분기 실제 값이 그 안을 채우고 위로 넘쳤습니다.
+    tts: 그리고 삼분기 실제 값이 그 안을 채우고 위로 넘쳤습니다.
+    emphasis:
+    - 위로 넘쳤습니다
+    sources:
+    - series:INTC_EPS_Q
+    - series:INTC_EPS_Q_EST
+  - date: '2026.12'
+    role: outro
+    text: 반면 다음 분기 예상은 다시 빈 막대로 떠 있습니다.
+    tts: 반면 다음 분기 예상은 다시 빈 막대로 떠 있습니다.
+    emphasis:
+    - 다음 분기
+    sources:
+    - series:INTC_EPS_Q_EST
