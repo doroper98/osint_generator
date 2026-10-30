@@ -292,3 +292,15 @@ projects/gulf_pact_2026/assets/
 projects/gulf_pact_2026/media/
 projects/gulf_pact_2026/prev/
 projects/gulf_pact_2026/out/
+
+# v7.4.0 — E0 쇼케이스 두 편 생성물(음성·자산·미디어·프리뷰·렌더). 복원은 artifacts/showcase-v7.4.0(media_src) + 레지스트리 재현 정보
+projects/showcase_econ/tts/
+projects/showcase_econ/assets/
+projects/showcase_econ/media/
+projects/showcase_econ/prev/
+projects/showcase_econ/out/
+projects/showcase_geo/tts/
+projects/showcase_geo/assets/
+projects/showcase_geo/media/
+projects/showcase_geo/prev/
+projects/showcase_geo/out/
