@@ -1,0 +1,26 @@
+# 슬로프 열 확대 인셋 판(D-0318·D-0320 C2) — 삼성 분기 매출 막대(최신 accent) 위 3분기 열을 가리키는 인셋. 부문 매출 1년 전 → 지금(값 그대로, 구성비 아님).
+# 상승 accent 1 = 문장이 말하는 부문(DS). 부문 매출은 부문 간 내부 매출 포함(IR 별첨 2 각주 — 출처 줄).
+version: 1
+genre: earnings
+stage: backdrop
+stage_config:
+  timeline:
+    start: "2025-01-01"
+    end: "2027-06-30"
+    lanes:
+      - {id: rev, label: "삼성전자 분기 매출 · 조 원", kind: bars}
+shots:
+  - {at: 0, mode: cut, dur: 0, camera: {}}
+  - {at: {sid: slope_0, off: -0.4}, mode: cut, dur: 0, stage: timeline, camera: {date: "2025-12-20", w: 636}}
+  - {at: {sid: slope_1, off: -0.2}, mode: move, dur: 1.2, stage: timeline, camera: {date: "2026-04-10", w: 636}}
+events:
+  - {type: island, kind: chart, box: center, start: {sid: slope_0, off: -0.4}, end: {sid: slope_3, edge: end, off: 0.4}}
+  - {type: series, start: {sid: slope_0, off: -0.2}, end: {sid: slope_3, edge: end, off: 0.4}, lane: rev, series_id: SSNLF_REV_Q, style: bars, col: gold, accent: latest}
+  - {type: island, kind: column_detail, start: {sid: slope_1, off: 0.3}, end: {sid: slope_2, off: -0.3}, lane: rev, style: slope, series_id: SSNLF_SEG_DS_REV_Q,
+     title: "부문 매출", accent: none, parts: [{ids: [SSNLF_SEG_DS_REV_Q], label: DS}, {ids: [SSNLF_SEG_DX_REV_Q], label: DX}, {ids: [SSNLF_SEG_SDC_REV_Q], label: SDC}, {ids: [SSNLF_SEG_HARMAN_REV_Q], label: 하만}]}
+  - {type: island, kind: column_detail, start: {sid: slope_2, off: -0.3}, end: {sid: slope_3, edge: end, off: 0.4}, lane: rev, style: slope, series_id: SSNLF_SEG_DS_REV_Q,
+     title: "부문 매출", accent: DS, parts: [{ids: [SSNLF_SEG_DS_REV_Q], label: DS}, {ids: [SSNLF_SEG_DX_REV_Q], label: DX}, {ids: [SSNLF_SEG_SDC_REV_Q], label: SDC}, {ids: [SSNLF_SEG_HARMAN_REV_Q], label: 하만}]}
+sound:
+  bgm: null
+  no_music_decision: D-0309
+  intensity: [[0, 0.55], [{total: true}, 0.55]]

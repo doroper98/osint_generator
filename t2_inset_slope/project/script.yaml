@@ -1,0 +1,38 @@
+schema_version: 1
+title: 슬로프 스케치
+subtitle: 삼성전자 부문 매출 · 1년 전에서 지금으로
+date: 2026.10.30
+scenes:
+- id: slope
+  sentences:
+  - date: '2026.09'
+    role: intro
+    text: 삼성전자의 분기 매출은 1년 사이 두 배 넘게 늘었습니다.
+    tts: 삼성전자의 분기 매출은 일 년 사이 두 배 넘게 늘었습니다.
+    emphasis:
+    - 두 배
+    sources:
+    - series:SSNLF_REV_Q
+  - date: '2026.09'
+    role: intro
+    text: 그래서 같은 분기의 부문 매출을 1년 전과 지금으로 이어 보겠습니다.
+    tts: 그래서 같은 분기의 부문 매출을 일 년 전과 지금으로 이어 보겠습니다.
+    emphasis:
+    - 부문 매출
+    sources:
+    - series:SSNLF_SEG_DS_REV_Q
+  - date: '2026.09'
+    text: 특히 반도체 부문 매출이 33조 원에서 147조 원으로 뛰었습니다.
+    tts: 특히 반도체 부문 매출이 삼십삼조 원에서 백사십칠조 원으로 뛰었습니다.
+    emphasis:
+    - 반도체 부문
+    sources:
+    - series:SSNLF_SEG_DS_REV_Q
+  - date: '2026.09'
+    role: outro
+    text: 반면 나머지 부문은 1년 전과 비슷한 자리에 머물렀습니다.
+    tts: 반면 나머지 부문은 일 년 전과 비슷한 자리에 머물렀습니다.
+    emphasis:
+    - 나머지 부문
+    sources:
+    - series:SSNLF_SEG_DX_REV_Q
