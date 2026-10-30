@@ -3,7 +3,7 @@
  "engine": "engine",
  "repo_version": "7.4.0",
  "rules_version": "2.0.0",
- "rules_hash": "6161de5c152cd4be2dc931314249876334ab26d8",
+ "rules_hash": "a15135362f4edfab4f815d6445da6e8336986c7a",
  "prompts": {
   "director": "4b0d8abce2533f324bbe69742891e6ff31b77d96"
  },
@@ -136,8 +136,8 @@
    "clip": 2,
    "country": 5,
    "dip": 7,
-   "flight": 1,
-   "marker": 10,
+   "flight": 2,
+   "marker": 22,
    "panel": 4,
    "photo": 7,
    "primitive": 1,
@@ -150,9 +150,9 @@
    "inset_ryazan_esri"
   ],
   "flight": {
-   "count": 1,
+   "count": 2,
    "kinds": {
-    "drone": 1
+    "drone": 2
    },
    "insets": [
     "inset_ryazan_esri"
@@ -231,7 +231,7 @@
   }
  },
  "qa": {
-  "auto_iterations": 0,
+  "auto_iterations": 1,
   "user_approved": false,
   "reviewer": "fable (back_and_forth)",
   "visual_qa": []
@@ -358,8 +358,8 @@
  },
  "end_card": {
   "version_stamp": "v7.4.0",
-  "roll_px": 214.0,
-  "roll_px_per_sec": 32.92
+  "roll_px": 233.0,
+  "roll_px_per_sec": 35.85
  },
  "render": {
   "resolution": {
@@ -981,7 +981,7 @@
    161.8
   ]
  ],
- "chart_only_exempt": false,
+ "regression_ref": null,
  "media_density": {
   "count": 9,
   "value": 2.241,
@@ -1355,7 +1355,7 @@
   },
   "articles": {
    "schema_version": 1,
-   "candidates": 27,
+   "candidates": 29,
    "covered": 4,
    "used_events": 3,
    "per_min_max": 2,
@@ -1427,13 +1427,22 @@
  },
  "ai_direction": {
   "origin": "ai+human_edit",
+  "human_edit_revisions": [
+   2
+  ],
   "model": "claude-opus-5-5",
   "prompt_sha1": "4b0d8abce2533f324bbe69742891e6ff31b77d96",
-  "direction_versions": 1,
+  "direction_versions": 2,
   "used_version": null,
   "selected": null,
   "rounds": [],
-  "revisions": [],
+  "revisions": [
+   {
+    "direction_version": 2,
+    "changes": 7,
+    "base_human_edit": true
+   }
+  ],
   "visual_qa": []
  },
  "preview": {
@@ -1457,11 +1466,98 @@
    234.93
   ],
   "dir": "prev",
-  "direction_sha1": "9a47d8ca449c95de6a1b91c816ec8e26b566a9fa"
+  "direction_sha1": "c10ce72eaa97d042d6bb208ef133fd6bec12816a"
  },
+ "visual_void": [
+  [
+   23.09,
+   24.99
+  ],
+  [
+   33.39,
+   34.29
+  ],
+  [
+   45.79,
+   46.69
+  ],
+  [
+   53.19,
+   53.59
+  ],
+  [
+   63.29,
+   63.99
+  ],
+  [
+   69.89,
+   70.39
+  ],
+  [
+   78.89,
+   79.59
+  ],
+  [
+   95.19,
+   95.29
+  ],
+  [
+   112.69,
+   114.99
+  ],
+  [
+   115.99,
+   117.09
+  ],
+  [
+   124.69,
+   125.69
+  ],
+  [
+   148.69,
+   149.39
+  ],
+  [
+   161.79,
+   163.89
+  ],
+  [
+   164.89,
+   165.69
+  ],
+  [
+   169.99,
+   170.59
+  ],
+  [
+   184.09,
+   185.89
+  ],
+  [
+   186.89,
+   187.09
+  ],
+  [
+   198.69,
+   199.09
+  ],
+  [
+   205.99,
+   206.69
+  ],
+  [
+   211.89,
+   212.29
+  ],
+  [
+   215.79,
+   217.39
+  ]
+ ],
+ "regression_waived": {},
  "map_contrast": {
   "required": {
-   "n": 198,
+   "n": 199,
    "lowest": [
     {
      "ratio": 4.54,

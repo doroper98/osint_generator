@@ -1,0 +1,30 @@
+{
+ "schema_version": 1,
+ "ab_compare": {
+  "sentences": [
+   "act1_2",
+   "act1_3",
+   "act1_4",
+   "act1_5"
+  ],
+  "t0": 44.02,
+  "t1": 69.85,
+  "direction_a_sha1": "43b29be836c8f48c3179d6010312d2609dda1142",
+  "direction_b_sha1": "6ca2d415442466b0ef21a361f10a931c956dfa18",
+  "checks_hard": {
+   "A": 0,
+   "B": 0
+  },
+  "b_exempt": {
+   "media_density": "B 문법에 사진 자리 없음(구조) — 시간축 전면 틀이 화면을 덮는다(D-0272, 비교 구간 전용)"
+  },
+  "sheet_times": [
+   46.17,
+   50.48,
+   54.78,
+   59.09,
+   63.39,
+   67.7
+  ]
+ }
+}

@@ -25,9 +25,6 @@
     "dip",
     "island"
    ],
-   "exempt_projects": {
-    "hormuz_korea": "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
-   },
    "map_stages": [
     "mercator"
    ]
@@ -299,6 +296,39 @@
   "card_full_exposure_min_sec": 2.5,
   "restate_overlap_max": 0.6,
   "restate_min_words": 4,
+  "regression_refs": {
+   "hormuz_korea": "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다",
+   "fed_timeline_demo": "시간축 엔진 검증용 데모(배포 영상 아님) — 미디어 없는 순수 차트 픽스처"
+  },
+  "visual_void_max_sec": 5.0,
+  "visual_void_step_sec": 0.1,
+  "visual_void_types": [
+   "marker",
+   "route",
+   "flight",
+   "badge",
+   "photo",
+   "clip",
+   "cutout",
+   "article",
+   "post",
+   "quote",
+   "panel",
+   "island",
+   "cascade",
+   "primitive",
+   "series",
+   "boom",
+   "ships",
+   "tanker_loop",
+   "barrier"
+  ],
+  "regression_ref_checks": [
+   "media_density",
+   "chart_only_run",
+   "plot_height",
+   "axis_empty_band"
+  ],
   "ratio_patterns": [
    "(\\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|스무|스물)\\s*(척|곳|건|명|개|대|기)\\s*(중|가운데)",
    "(중|가운데)\\s*(\\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열)\\s*(척|곳|건|명|개|대|기)"
@@ -403,7 +433,7 @@
    "severity": "warning",
    "count": 1,
    "details": [
-    "[endcard-roll] 크레딧이 넘쳐 롤 227px · 34.9 px/s(상한 60)"
+    "[endcard-roll] 크레딧이 넘쳐 롤 213px · 32.8 px/s(상한 60)"
    ]
   },
   {
@@ -618,6 +648,12 @@
   },
   {
    "id": "chart_only_run",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "scene_visual_void",
    "severity": "hard",
    "count": 0,
    "details": []

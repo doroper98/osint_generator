@@ -3,7 +3,7 @@
  "engine": "engine",
  "repo_version": "7.4.0",
  "rules_version": "2.0.0",
- "rules_hash": "6161de5c152cd4be2dc931314249876334ab26d8",
+ "rules_hash": "a15135362f4edfab4f815d6445da6e8336986c7a",
  "prompts": {
   "director": "4f002b0c8dff94791ff0629f67ad03afae952f3f"
  },
@@ -185,8 +185,8 @@
  },
  "end_card": {
   "version_stamp": "v7.4.0",
-  "roll_px": 227.0,
-  "roll_px_per_sec": 34.92
+  "roll_px": 213.0,
+  "roll_px_per_sec": 32.77
  },
  "render": {
   "resolution": {
@@ -429,7 +429,7 @@
    1.2
   ]
  ],
- "chart_only_exempt": false,
+ "regression_ref": null,
  "media_density": {
   "count": 15,
   "value": 4.888,
@@ -476,6 +476,7 @@
    "timeline": 1
   },
   "configs": {
+   "backdrop": {},
    "timeline": {
     "lanes": [
      {
@@ -487,8 +488,7 @@
     ],
     "start": "2025-06-01",
     "end": "2028-12-31"
-   },
-   "backdrop": {}
+   }
   }
  },
  "genre": {
@@ -918,8 +918,10 @@
    178.13
   ],
   "dir": "prev",
-  "direction_sha1": "de51dfcfdfeaa35122fc42099bb28726af766971"
+  "direction_sha1": "43b29be836c8f48c3179d6010312d2609dda1142"
  },
+ "visual_void": [],
+ "regression_waived": {},
  "checks": {
   "hard": 0,
   "warnings": 13,
