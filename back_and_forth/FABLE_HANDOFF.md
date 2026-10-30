@@ -4,6 +4,9 @@
 - 사용자 지시로 **별도 감독(Fable) 세션**이 이 영상을 묻지 않고 완성본까지 만든다. 브랜치 `claude/china-export-controls-2026`. 감독 세션 `session_017Yuw8hTb2zPgG7PvjAbjyu`(Fable 5.1, env_01SnvGMv3UmrvejEraZxEACo, 2026-10-30 06:31Z 생성, 기동 프롬프트 = 부모 감독이 D-0282 §1~§4 요지로 작성). 쇼케이스 트랙(0-1)과 독립 — 이 세션(sweet-galileo)은 쇼케이스·E7 만.
 - **D 번호 분리(충돌 방지)**: 중국 트랙 감독은 D-0285~D-0299(넘으면 D-0400~), 쇼케이스 트랙(이 세션)은 **D-0300~**(2026-10-30 D-0300 부터). 두 브랜치를 합칠 때 번호가 겹치지 않는다.
 
+## 0-3. 2026-10-30 — 경제 템플릿 트랙(E3·E4·E5·E7, D-0301)
+- 사용자 지시로 착수. 감독 = 이 세션(별도 Fable 없음). 전용 구현 세션(Opus 5.5) id 는 DECISIONS D281 행. 브랜치 `claude/econ-template-2026`. 정본 D-0251 §2·D-0278·D-0301. 쇼케이스 세션 3 은 E7 에서 손을 뗐다.
+
 ## 0-1. 2026-10-28 갱신 — E0 쇼케이스 트랙(감독 세션 `session_017Yuw8kbxf9Vxri6LoH5Je4`, Fable 5.1)
 - **현재 트랙**: E0 쇼케이스 데모 2편 + 카탈로그 층(back_and_forth D-0251 §1·§5·§6·§7). 브랜치 `claude/sweet-galileo-7yok3b`(main 8d93103 위), 버전 v7.4.0.
 - **구현 세션**: `session_017Yuw8k4hDAiSpVRGtFv4Lu`(Opus 5.5, env_01SnvGMv3UmrvejEraZxEACo, 2026-10-28 04:06Z 생성). 옛 구현 세션 `session_012yN5MN9eH1tBnNrQ1D8sBG` 은 diesel v2 종결·disconnected.
