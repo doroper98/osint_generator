@@ -20,6 +20,7 @@ from rules import load_rules
 MK = load_rules().layout_480p.marker
 Box = tuple[float, float, float, float]
 DOT_PX = 7.0          # 핀 점(맥동 고리 안쪽 점 + 테두리) 반폭 — 라벨이 다른 핀의 점을 덮으면 겹침(D-0267)
+RING_PX = 24.0        # 핀 맥동 고리 최대 반지름(engine.layers.markers.draw_marker 4 + 20·ease_out) — 끝값 라벨 판이 덮지 않는다(D-0283 §2)
 GAP_PX = 6.0          # 라벨끼리 가로 최소 간격(맞닿은 라벨 "인하워시" 금지, D-0267)
 TOL_PX = 2.0          # 세로 경계 접촉(≤ 2px)은 겹침이 아니다
 LINE_STEP_PX = 2      # 계열 선·띠 교차 표본 간격(가로 px)

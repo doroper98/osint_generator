@@ -70,3 +70,27 @@ class EndLabelPlateTest(unittest.TestCase):
         self.assertEqual(checks.unplated_end_labels(1.0, "policy_rate", [(32.0, 3.63, box, S.end_label_plate_rect(box))]), [])
         out = checks.unplated_end_labels(1.0, "policy_rate", [(32.0, 3.63, box, None)])
         self.assertTrue(out and "[series-label-overlap]" in out[0] and "판 없음" in out[0])
+
+
+class EndLabelPinRingTest(unittest.TestCase):
+    """v7.4.0 back_and_forth D-0283 §2 — 끝값 라벨 판이 핀 맥동 고리를 덮지 않는다(preview_v10 94초 "3.63 %" ↔ 9월 16일 핀 재현)."""
+
+    def _R(self, pins: list) -> NS:  # noqa: N802
+        return NS(cache={"value_pins": pins})
+
+    def test_moves_off_ring(self) -> None:
+        from engine.pin_labels import RING_PX  # noqa: PLC0415
+
+        view = NS(to_screen=lambda x, y: (x, y))
+        sx, sy, lw = 300.0, 200.0, 40.0
+        h = TIMELINE.series.value_size
+        by = sy + TIMELINE.series.value_dy
+        box = (sx + TIMELINE.series.value_dx, by - h, sx + TIMELINE.series.value_dx + lw, by)
+        R = self._R([("policy_rate", sx + 20.0, sy, 0.0, 10.0)])   # 끝점 바로 오른쪽에 핀(고리 24px)
+        nb, covered = S.clear_pin_rings(R, view, 5.0, "policy_rate", box, sx, sy, lw)
+        self.assertFalse(covered)
+        ring = (sx + 20.0 - RING_PX, sy - RING_PX, sx + 20.0 + RING_PX, sy + RING_PX)
+        self.assertFalse(S._hits(S.end_label_plate_rect(nb), ring))
+        self.assertNotEqual(nb, box)
+        same, cov = S.clear_pin_rings(self._R([]), view, 5.0, "policy_rate", box, sx, sy, lw)   # 핀 없으면 그대로
+        self.assertEqual((same, cov), (box, False))

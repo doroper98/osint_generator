@@ -276,6 +276,37 @@ def draw_end_label_plate(ctx: cairo.Context, box: tuple[float, float, float, flo
     return r
 
 
+def pin_ring_boxes(R: "RenderCtx", view: "View", t: float, lane: str) -> list[tuple[float, float, float, float]]:
+    """그 순간 같은 레인 값 핀의 맥동 고리 상자(화면) — load_project 가 남긴 R.cache["value_pins"](레인, 월드 x·y, t0, t1)."""
+    from engine.pin_labels import RING_PX  # noqa: PLC0415
+
+    out = []
+    for ln, wx, wy, t0, t1 in R.cache.get("value_pins") or ():
+        if ln == lane and t0 <= t <= t1:
+            x, y = view.to_screen(wx, wy)
+            out.append((x - RING_PX, y - RING_PX, x + RING_PX, y + RING_PX))
+    return out
+
+
+def clear_pin_rings(R: "RenderCtx", view: "View", t: float, lane: str, box: tuple[float, float, float, float], sx: float, sy: float,  # noqa: N803
+                    lw: float) -> tuple[tuple[float, float, float, float], bool]:
+    """끝값 라벨 판이 핀 맥동 고리와 겹치면 고리 위 → 고리 왼쪽 → 고리 아래 순으로 옮긴다(v7.4.0 D-0283 §2 — 핀 라벨 두 단과 같은 우선순위).
+    (상자, 끝내 겹침) — 끝내 겹치면 기록해 검사가 hard 로 잡는다([island-pin-collision])."""
+    rings = pin_ring_boxes(R, view, t, lane)
+    hit = [r for r in rings if _hits(end_label_plate_rect(box), r)]
+    if not hit:
+        return box, False
+    P = TIMELINE.series.end_label_plate  # noqa: N806
+    h = box[3] - box[1]
+    desc = TIMELINE.series.value_size * P.descent
+    top, bot, lft = min(r[1] for r in hit), max(r[3] for r in hit), min(r[0] for r in hit)
+    for x0, by in ((box[0], top - P.pad_px - desc), (lft - P.pad_px - lw, box[3]), (box[0], bot + P.pad_px + h)):
+        cand = (x0, by - h, x0 + lw, by)
+        if not any(_hits(end_label_plate_rect(cand), r) for r in rings):
+            return cand, False
+    return box, True
+
+
 def place_end_label(R: "RenderCtx", t: float, lane: str, y: float, v: float) -> float:  # noqa: N803
     """같은 프레임·같은 레인 끝값 라벨 기준선 세로 분산(v7.4.0 D-0256) — 이미 놓인 라벨과 rules series.end_label_min_gap_px 안이면
     값이 작으면 아래로, 크면 위로 민다. 놓인 자리는 R.cache["series_end_labels"] 에(검사 [series-label-overlap] 가 읽는다)."""
@@ -370,10 +401,12 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
             by = place_end_label(R, t, e["lane"], sy + S.value_dy, last[2])
             by = clear_axis_labels(ctx, view, stage, e["lane"], rng, rec.unit, x0, lw, by)   # v7.4.0 — 축 눈금 라벨을 세로로 비킨다
             box = (x0, by - S.value_size, x0 + lw, by)
+            box, covered = clear_pin_rings(R, view, t, e["lane"], box, sx, sy, lw)   # v7.4.0 D-0283 §2 — 판이 핀 맥동 고리를 덮지 않게(위 → 왼쪽)
+            by = box[3]
             if not _hits(box, _lane_name_box(ctx, view, stage, e["lane"])):   # 레인 이름을 덮지 않는다(끝점은 그대로)
                 plate = draw_end_label_plate(ctx, box, a)   # v7.4.0 D-0277 §2 — 강조 띠 위 대비
                 text(ctx, s, box[0], by, S.value_size, S.value_font, tip, a, S.value_halo, "l")
-                R.cache["series_end_labels"]["lanes"][e["lane"]].append((by, last[2], box, plate))
+                R.cache["series_end_labels"]["lanes"][e["lane"]].append((by, last[2], box, plate, covered))
     _draw_axis(ctx, view, stage, e, rng, rec.unit, a, R, t)
     _draw_source(ctx, view, stage, e, a)
 
