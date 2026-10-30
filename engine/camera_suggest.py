@@ -183,7 +183,7 @@ def suggest(P) -> CameraSuggest:  # noqa: ANN001, N803 — engine.project.Projec
             info.append(None)
             notes.append("장소 이벤트 없음 — 제안 없음")
         else:
-            card = any(e["type"] in ("card", "article", "post") and e["t0"] <= t1 and e["t1"] >= t0 for e in P.events)
+            card = any(e["type"] in ("article", "post") and e["t0"] <= t1 and e["t1"] >= t0 for e in P.events)
             info.append((pts, card))
             notes.append("")
     w_min: list[Optional[float]] = [f[1] for f in floors]   # 맥락 폭 하한 위에서 검증 라운드(D-0058 §3)

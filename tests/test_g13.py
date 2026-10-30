@@ -97,14 +97,15 @@ class MainMissingTest(unittest.TestCase):
 class CardIslandTest(unittest.TestCase):
     def test_overlap_same_time_only(self) -> None:
         boxes = [("island chart left", 0.0, 10.0, (24.0, 56.0, 540.0, 298.0))]
-        cards = [_ev("card", 2, 5, tag="in"), _ev("card", 12, 15, tag="later"), _ev("card", 2, 5, tag="clear")]
-        geo = {"in": (500.0, 60.0, 700.0, 160.0), "later": (500.0, 60.0, 700.0, 160.0), "clear": (600.0, 60.0, 800.0, 160.0)}
-        with mock.patch("engine.reserved.card_box", side_effect=lambda ctx, e: geo[e["tag"]]):
-            rows = card_overlap(cards, boxes)
-        self.assertEqual([r["card"] for r in rows], ["card:in"])
+        # v7.4.0 D-0306 — card 이벤트 폐지. 같은 교차 판정을 게시물 카드(post_box = x, y, w, h)로 본다.
+        cards = [_ev("post", 2, 5, src="in", post_box=(500.0, 60.0, 200.0, 100.0)),
+                 _ev("post", 12, 15, src="later", post_box=(500.0, 60.0, 200.0, 100.0)),
+                 _ev("post", 2, 5, src="clear", post_box=(600.0, 60.0, 200.0, 100.0))]
+        rows = card_overlap(cards, boxes)
+        self.assertEqual([r["card"] for r in rows], ["post:in"])
         self.assertEqual(rows[0]["px2"], 64 * 100)
         self.assertEqual((rows[0]["t0"], rows[0]["t1"]), (2, 5))
-        self.assertTrue(card_overlap_details(rows)[0].startswith("[card-island] card:in ↔ island chart left"))
+        self.assertTrue(card_overlap_details(rows)[0].startswith("[card-island] post:in ↔ island chart left"))
         self.assertEqual(card_overlap(cards, []), [])   # 아일랜드 없는 무대 = 0
 
 

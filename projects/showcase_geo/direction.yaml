@@ -612,19 +612,6 @@ events:
   - RU
   col: ru
   a: 0.05
-- type: card
-  start:
-    sid: act1_2
-    'off': 0.2
-  end:
-    sid: act1_2
-    edge: end
-    'off': 0.6
-  tag: 2026년 첫 여덟 달
-  bigs:
-  - - 사흘에 한 번
-    - 우크라이나의 러시아 정유소 타격
-  accent: ru
 - type: photo
   start:
     sid: act1_2
@@ -635,62 +622,7 @@ events:
     'off': 0.3
   mid: diesel_road_2026_moscow_fire_0618
   place: map_left
-- type: card
-  start:
-    sid: act1_3
-    'off': 0.3
-  end:
-    sid: act1_3
-    edge: end
-    'off': 0.5
-  tag: 표적
-  lines:
-  - 원유를 캐는 유전이 아니라
-  - 경유·휘발유를 만드는 정유소
-  accent: ru
-- type: card
-  start:
-    sid: act1_4
-    'off': 0.2
-  end:
-    sid: act1_4
-    edge: end
-    'off': 0.5
-  tag: 원유는 팔리고, 공장은 타격
-  lines:
-  - 원유는 계속 팔려 나갔다
-  - 경유·휘발유 만드는 공장이 타격
-  accent: ru
-- type: cascade
-  start:
-    sid: act1_7
-    'off': 0.1
-  end:
-    sid: act1_7
-    edge: end
-    'off': 0.3
-  items:
-  - at:
-      sid: act1_7
-      'off': 0.3
-    flag: ru
-    date: 7월 8일
-    title: 경유 수출 전면 금지
-    line: 정유사까지 포함
-    accent: ru
-- type: card
-  start:
-    sid: act2_2
-    'off': 0.2
-  end:
-    sid: act2_2
-    edge: end
-    'off': 0.5
-  tag: 7~8월 한국 항구 선적
-  bigs:
-  - - 17만 6천 ton
-    - 이상 · 대부분 경유
-  accent: gold
+# v7.4.0 D-0306 §1.2 — act1_7 한 장 캐스케이드('7월 8일 · 경유 수출 전면 금지 · 정유사까지 포함')는 문장을 그대로 되풀이해 뺐다([text-restates-narration])
 - type: route
   start:
     sid: act2_4
@@ -743,31 +675,6 @@ events:
   - IR
   col: ru
   a: 0.06
-- type: card
-  start:
-    sid: act5_1
-    'off': 0.2
-  end:
-    sid: act5_2
-    edge: end
-    'off': 0.3
-  tag: 미국
-  lines:
-  - 지난해 러시아 석유회사들을 제재
-  accent: us
-- type: card
-  start:
-    sid: act5_3
-    'off': 0.2
-  end:
-    sid: act5_3
-    edge: end
-    'off': 0.5
-  tag: 미국 재무부
-  lines:
-  - 일반허가 135호
-  - 러시아산 경유 판매·운송·수입 허용
-  accent: us
 - type: article
   start:
     sid: act5_4
@@ -779,19 +686,6 @@ events:
   mid: diesel_road_2026_art_0030
   theme: dark
   press: diesel_road_2026_trump_1006
-- type: card
-  start:
-    sid: act5_5
-    'off': 0.1
-  end:
-    sid: act5_5
-    edge: end
-    'off': 0.3
-  tag: 에너지 휴전
-  bigs:
-  - - 나흘
-    - 10월 11일 발효 → 10월 15일 끝
-  accent: muted
 - type: marker
   start:
     word:
@@ -827,31 +721,6 @@ events:
   grow: 2.6
   col: gold
   ship: true
-- type: card
-  start:
-    word:
-      sid: ending_0
-      text: 워싱턴
-  end:
-    sid: ending_0
-    edge: end
-    'off': 0.6
-  tag: 워싱턴
-  lines:
-  - 러시아산 경유 거래
-  accent: us
-- type: card
-  start:
-    sid: ending_1
-    'off': 0.2
-  end:
-    sid: ending_1
-    edge: end
-    'off': 0.5
-  tag: 네 장면
-  lines:
-  - 모자란 경유 한 가지로 이어져 있다
-  accent: gold
 - type: marker
   start:
     word:
@@ -1109,8 +978,7 @@ events:
     sid: act4_2
     edge: end
   at_place: dmz_dmz_site
-  label: 서부전선 비무장지대
-  sub: 9월 21일 오전 폭발
+  label: 서부전선 비무장지대   # v7.4.0 D-0306 §1.2 — 부제 '9월 21일 오전 폭발'은 act4_1 문장 되풀이라 뺐다
   side: right
   hl: true
   icon: boom
@@ -1122,18 +990,6 @@ events:
     sid: act4_1
     'off': 3.2
   at_place: dmz_dmz_site
-- type: card
-  start:
-    sid: act4_3
-    'off': 0.3
-  end:
-    sid: act4_3
-    edge: end
-    'off': 0.3
-  tag: 아직 규명되지 않은 것
-  lines:
-  - 지뢰를 누가, 언제 묻었나
-  accent: gold
 - type: country
   start:
     sid: act2_0

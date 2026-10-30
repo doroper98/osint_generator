@@ -237,11 +237,11 @@ def card_overlap(events: list[dict], boxes: list[tuple[str, float, float, Box]])
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
     out: list[dict] = []
     for e in events:
-        if e["type"] not in ("card", "post") or (e["type"] == "post" and "post_box" not in e):
+        if e["type"] != "post" or "post_box" not in e:
             continue
         x0, y0, x1, y1 = card_box(ctx, e)
         cb = (x0, y0, x1 - x0, y1 - y0)
-        ref = f"post:{e['src']}" if e["type"] == "post" else f"card:{e.get('tag') or ''}"
+        ref = f"post:{e['src']}"
         for name, a0, a1, ib in boxes:
             lo, hi = max(e["t0"], a0), min(e["t1"], a1)
             if lo < hi and _inter(cb, ib) > 0:

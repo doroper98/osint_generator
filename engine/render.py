@@ -128,7 +128,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
         if e["type"] in ("photo", "clip"):
             L.resolve(e).render(ctx, R, t, e)
     for e in act:
-        if e["type"] in ("card", "post"):
+        if e["type"] == "post":
             L.resolve(e).render(ctx, R, t, e)
         elif e["type"] == "primitive":            # v4.2.0 D-0081 — 무대 무관 오버레이(카드 층), 20 §4.2 draw(ctx, view, t, e, style)
             L.resolve(e).render(ctx, R, view, t, e)

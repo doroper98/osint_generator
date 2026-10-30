@@ -77,6 +77,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | island_label_clip | hard | v5.2.0(D-0133 §2): 차트 아일랜드 안 마커 라벨 글자 상자가 반전·클램프(island.chart.label_flip_pad, `markers.island_label`) 뒤에도 아일랜드 상자 밖 `[island-label-clip]`(provenance island.label_clip[]) `engine.island.label_check` |
 | axis_empty_band | hard | 시간축 레인 축 범위 중 데이터 극값(실측 + 전망 점) 밖 빈 띠(한쪽) > rules stage_timeline.lane_range.empty_band_max_ratio `[axis-empty-band]`(v7.4.0 D-0277 §3·UF-142) |
 | clip_date_mismatch | hard | 사진·영상 촬영일 ↔ 붙은 문장 날짜 차 ≥ rules media.file_clip_date_gap_days 인데 자료 표기(is_file_photo) 없음 `[clip-date-mismatch]`(v7.4.0 D-0283 §1) |
+| text_restates_narration | hard | 화면 글자(패널·캐스케이드·핀·아일랜드)가 그 순간 원고 문장 어절을 rules qa_checks.restate_overlap_max 이상 되풀이 `[text-restates-narration]`(v7.4.0 D-0306·UF-148) |
 | inset_jump | hard | 위성 인셋 원 중심 프레임 간 이동 > rules flight.inset.jump_px_max `[inset-jump]`(v7.4.0 D-0300·UF-146) |
 | inset_side_change | warning | 위성 인셋 자리 옮김 횟수(보간) `[inset-side-change]`(v7.4.0 D-0300) |
 | clip_frame | hard | 레퍼런스 영상(clip.role main)이 액자 슬롯 clip_frame 밖, 또는 보이는 길이가 rules media_beats.clip_show_sec[role] 밖 `[clip-frame]`(v7.4.0 D-0274 §2·UF-141) |
@@ -116,7 +117,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "template_label", "invest_notice")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "template_label", "invest_notice")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -1159,7 +1160,7 @@ def ratio_graphic(sentences: list, events: list[dict]) -> list[str]:
     return out
 
 
-NEW_ELEMENT_TYPES = ("card", "photo", "clip", "cutout", "route", "panel", "flight", "badge", "article", "marker", "quote", "cascade", "boom",
+NEW_ELEMENT_TYPES = ("photo", "clip", "cutout", "route", "panel", "flight", "badge", "article", "marker", "quote", "cascade", "boom",
                      "post", "primitive", "backdrop", "island", "ships", "barrier", "country")   # [static-camera] — 등장하면 화면이 바뀐 것
 
 
@@ -1339,7 +1340,7 @@ def badge_orphans(events: list[dict]) -> list[str]:
         if b["type"] != "badge" or b.get("kind") != "flag" or b.get("over_panel"):
             continue
         dur = max(1e-6, b["t1"] - b["t0"])
-        held = any(c["type"] in ("card", "quote") and min(b["t1"], c["t1"]) - max(b["t0"], c["t0"]) >= dur / 2 for c in events)
+        held = any(c["type"] == "quote" and min(b["t1"], c["t1"]) - max(b["t0"], c["t0"]) >= dur / 2 for c in events)
         bw = b.get("world")   # 무대 월드 좌표(투영은 무대만, 15 P1) — 메르카토르 월드 단위 ≈ 경도 1°
         near = bw is not None and any(
             m["type"] == "marker" and m["t0"] < b["t1"] and m["t1"] > b["t0"] and m.get("world") is not None
@@ -1562,7 +1563,7 @@ def check_card_over_panel(P) -> list[str]:  # noqa: ANN001, N803
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
 
     def boxes(e: dict) -> "list[tuple] | None":
-        if e["type"] in ("card", "primitive"):
+        if e["type"] == "primitive":
             return [tuple(card_box(ctx, e))]
         if e["type"] == "cascade":
             return [tuple(b) for t in (e["t0"] + 1.0, (e["t0"] + e["t1"]) / 2) for b in cascade_boxes(t, e)]
@@ -1583,7 +1584,7 @@ def timeline_cover_box(P, ctx: cairo.Context, e: dict, t: float) -> "list[tuple]
     from engine.media_plan import media_box  # noqa: PLC0415
     from engine.reserved import card_box  # noqa: PLC0415
 
-    if e["type"] in ("card", "primitive"):
+    if e["type"] == "primitive":
         return [tuple(card_box(ctx, e))]
     if e["type"] == "cascade":
         return [tuple(b) for b in cascade_boxes(t, e)]
@@ -1748,8 +1749,7 @@ def check_inset_overlap(P) -> list[str]:  # noqa: ANN001, N803
                 v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
                 x, y, w, h = inset_box(e, *v.to_screen(*e["world"]), t)
                 box = (x, y, x + w, y + h + FL.inset.caption_dy)
-                card = any(c["type"] == "card" and c["t0"] <= t <= c["t1"] for c in P.events)
-                for name, b in _place_label_boxes(ctx, P, v, t) + [("카드·날짜 자리", b) for b in default_reserve(card=card)]:
+                for name, b in _place_label_boxes(ctx, P, v, t) + [("날짜 자리", b) for b in default_reserve(card=False)]:
                     if _overlap_px(box, b) > 0:
                         hit = (t, name)
                         break
@@ -2310,6 +2310,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "axis_empty_band": lambda: check_axis_empty_band(P),   # v7.4.0 D-0277 §3(hard, UF-142)
         "clip_frame": lambda: check_clip_frame(P),   # v7.4.0 D-0274 §2①②(hard, UF-141)
         "clip_date_mismatch": lambda: check_clip_date_mismatch(P),   # v7.4.0 D-0283 §1(hard)
+        "text_restates_narration": lambda: check_text_restates_narration(P),   # v7.4.0 D-0306 §1.2(hard, UF-148)
         "inset_jump": lambda: check_inset_jump(P),   # v7.4.0 D-0300(hard, UF-146)
         "inset_side_change": lambda: check_inset_side_change(P),   # v7.4.0 D-0300(warning)
         "flat_lane": lambda: check_flat_lane(P),   # v7.4.0 D-0263(hard, UF-140)
@@ -2647,6 +2648,45 @@ def check_clip_date_mismatch(P) -> list[str]:  # noqa: ANN001, N803
         if d_m is not None and d_s is not None and abs((d_m - d_s).days) >= gap:
             out.append(f"[clip-date-mismatch] {e['type']} {e['mid']} t={e['t0']:.2f} 촬영일 {d_m} ↔ 문장 날짜 {d_s}({abs((d_m - d_s).days)}일) — "
                        f"자료사진·자료 영상 표기 항목(is_file_photo true)으로 등재해 쓴다(D-0283 §1)")
+    return out
+
+
+RESTATE_TYPES = ("panel", "cascade", "marker", "island")   # 남는 화면 글자 요소(v7.4.0 D-0306 §1.2)
+RESTATE_KEYS = frozenset({"title", "subtitle", "label", "sub", "line", "role"})
+WORD_RE = re.compile(r"[0-9A-Za-z가-힣%.~·]+")
+
+
+def _words(s: str) -> set[str]:
+    return {w.strip(".·~") for w in WORD_RE.findall(s) if len(w.strip(".·~")) >= 2}
+
+
+def _screen_texts(v: object) -> list[str]:
+    if isinstance(v, dict):
+        return [x for k, val in v.items() for x in ([val] if k in RESTATE_KEYS and isinstance(val, str) else _screen_texts(val) if isinstance(val, (dict, list)) else [])]
+    if isinstance(v, list):
+        return [x for val in v for x in _screen_texts(val)]
+    return []
+
+
+def check_text_restates_narration(P) -> list[str]:  # noqa: ANN001, N803
+    """[text-restates-narration] hard(v7.4.0 back_and_forth D-0306 §1.2, 사용자 의견 UF-148 "어짜피 자막으로도, 음성으로도 그 이야기를 하는데 굳이 …") —
+    화면 글자(패널·캐스케이드·핀·아일랜드의 제목·라벨·줄)가 그 순간 원고 문장의 어절을 rules qa_checks.restate_overlap_max 이상 되풀이하면 실패.
+    rules qa_checks.restate_min_words 어절 미만의 짧은 이름표(지명·인물)는 보지 않는다."""
+    mx, mn = R_.qa_checks.restate_overlap_max, R_.qa_checks.restate_min_words
+    sents = [(s.t0, s.t1, _words(s.text), s.sid) for s in P.plan.sentences]
+    out = []
+    for e in P.events:
+        if e["type"] not in RESTATE_TYPES:
+            continue
+        for txt in _screen_texts(e):
+            ws = _words(txt)
+            if len(ws) < mn:
+                continue
+            for t0, t1, sw, sid in sents:
+                if t0 < e["t1"] and e["t0"] < t1 and len(ws & sw) / len(ws) >= mx:
+                    out.append(f"[text-restates-narration] {e['type']} {txt!r} t={e['t0']:.2f} — 문장 {sid} 를 {len(ws & sw) / len(ws):.0%} 되풀이"
+                               " (화면 글자는 자막에 없는 수치·이름·목록·출처만, D-0306)")
+                    break
     return out
 
 

@@ -267,10 +267,21 @@ class PlacementSlot(_Strict):
         return self
 
 
+class CenterMedia(_Strict):
+    """v7.4.0 back_and_forth D-0306 §1.4(UF-148) — 구석 카드가 사라진 지도 무대에서 사진은 가운데 큰 자리로. 동시에 둘이면 좌우 2분할."""
+
+    stage: str
+    kinds: list[str] = Field(min_length=1)
+    from_slots: list[str]          # 이 슬롯(구석 지도 자리·자동 자리)을 가운데로 바꾼다
+    single: str
+    pair: tuple[str, str]
+
+
 class PlacementRules(_Strict):
     auto_media: dict[str, dict[str, str]]    # 종류 → {map|panel → 슬롯}
     stage_slots: dict[str, dict[str, str]] = Field(default_factory=dict)   # v4.4.0 D-0093 — 무대 → {이벤트 종류 → 슬롯}
     slots: dict[str, PlacementSlot]
+    center_media: Optional[CenterMedia] = None   # v7.4.0 D-0306 §1.4
 
     @model_validator(mode="after")
     def _refs(self) -> "PlacementRules":
@@ -1719,6 +1730,8 @@ class QAChecks(_Strict):
     frame_missing: "FrameMissingRules"   # v5.21.14 D-0199 — 문장이 부르는 지명이 화면 밖
     battle_geo: "BattleGeoRules"         # v5.22.0 D-0200 UF-08 — 전황 문장에 지명·경로 없음(warning)
     card_full_exposure_min_sec: float = Field(gt=0)   # v5.21.10 D-0191 §1-2 — 기사·인용 카드 완전 불투명 구간 하한(hard card_exposure)
+    restate_overlap_max: float = Field(default=0.6, gt=0, le=1)   # v7.4.0 D-0306 §1.2 — [text-restates-narration] 어절 겹침 상한
+    restate_min_words: int = Field(default=4, ge=1)   # 이 어절 미만 화면 글자(이름표)는 보지 않는다
     ratio_patterns: list[str] = Field(min_length=1)       # v7.4.0 D-0229 §2.6(UF-113) — "N 중 M" 문형(warning ratio_graphic)
     ratio_graphic_kinds: list[str] = Field(min_length=1)  # 그 문장 구간에 있어야 할 패널 종류(series 이벤트도 인정)
     cutaway_full_types: list[str] = Field(min_length=1)   # v7.4.0 D-0229 §2.3(UF-110) — 화면 전체를 덮는 컷어웨이 이벤트(hard cutaway_churn). 지도 복귀 ≥ shot_min_hold_sec

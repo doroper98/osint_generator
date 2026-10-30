@@ -46,9 +46,9 @@ class BadgeOrphanTest(unittest.TestCase):
         self.assertEqual(len(badge_orphans([self._flag()])), 1)
         self.assertIn("badge_orphan", WARN)
 
-    def test_with_card_or_marker_ok(self) -> None:
-        card = {"type": "card", "t0": 10.5, "t1": 14.0}
-        self.assertEqual(badge_orphans([self._flag(), card]), [])
+    def test_with_quote_or_marker_ok(self) -> None:
+        quote = {"type": "quote", "t0": 10.5, "t1": 14.0}   # v7.4.0 D-0306 — card 폐지, 인용이 붙잡는다
+        self.assertEqual(badge_orphans([self._flag(), quote]), [])
         marker = {"type": "marker", "world": (136.0, 47.0), "t0": 9.0, "t1": 15.0}
         self.assertEqual(badge_orphans([self._flag(), marker]), [])
 

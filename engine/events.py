@@ -290,17 +290,6 @@ class DipEvent(_Event):
     under: bool = False
 
 
-class CardEvent(_Event):
-    type: Literal["card"]
-    tag: str
-    lines: list[str] = Field(default_factory=list)
-    bigs: list[tuple[str, str]] = Field(default_factory=list)
-    accent: Accent
-    src: Optional[str] = None
-    quote: bool = False
-    y: Optional[float] = None
-
-
 class CascadeItem(BaseModel):
     """겹침 카드 카드 하나 — at = 등장 시각(앵커는 direction 이 초로 푼다). flag = 국기 코드(좌상단 원). 문구는 원고 문장의 사실만."""
 

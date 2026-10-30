@@ -83,12 +83,6 @@ events:
   label: 이재명
   role: 대한민국 대통령
   accent: gold
-- type: card
-  start: {sid: open_1, off: 0.1}
-  end: {sid: open_2, edge: end, off: 0.6}
-  tag: 기자회견 · 9월 18일
-  lines: [전쟁에 개입하는 파병은 없다, 한국 선박·국민 보호는 최소한으로 계속]
-  accent: gold
 - type: marker
   start: {sid: route_0, off: 0.1}
   end: {scene_end: route}
@@ -105,13 +99,6 @@ events:
   grow: {span: [{sid: route_1, off: 0.6}, {sid: route_3, edge: end, off: -0.4}]}
   col: gold
   ship: true
-- type: card
-  start: {sid: route_1, off: 0.5}
-  end: {sid: route_2, edge: end, off: 0.7}
-  tag: 2025년 수입 중 호르무즈 경유 비중
-  bigs: [[61%, 원유], [54%, 나프타]]
-  accent: gold
-  src: 로이터 · 대통령실 인용 수치
 - type: badge
   start: {sid: route_3, edge: end, off: -0.5}
   end: {scene_end: route}
@@ -333,12 +320,6 @@ events:
   box: [48.3, 56.2, 24.2, 29.9]
   n: 150
   seed: 4
-- type: card
-  start: {sid: cost_0, off: 0.4}
-  end: {scene_end: cost, off: -0.2}
-  tag: 국제해사기구 · 6월 11일 기준
-  lines: [선박 공격 46건, 선원 사망 14명, '발 묶인 배 약 1,000척 · 선원 2만 명']
-  accent: ru
 - type: route
   start: {sid: review_0, off: 0.3}
   end: {scene_end: review}
@@ -364,13 +345,6 @@ events:
   R: 18
   label: 부산에서 출항
   accent: gold
-- type: card
-  start: {sid: review_1}
-  end: {sid: review_2, edge: end, off: 0.6}
-  tag: 거론된 선택지
-  lines: [해상초계기, 군수지원함]
-  accent: teal
-  src: JTBC·MBC 보도 · 대통령실 “결정된 것 없다”
 - type: panel
   start: {scene_start: past, off: -0.2}
   end: {scene_end: past}
@@ -452,13 +426,6 @@ events:
   label: 이재명
   role: 대한민국 대통령
   accent: gold
-- type: card
-  start: {sid: decision_0, off: 0.8}
-  end: {scene_end: decision, off: -0.1}
-  tag: 이재명 대통령 · 발언 요지
-  lines: [“전쟁에 관여하거나 들어가는, 파병은 없다”]
-  accent: gold
-  quote: true
 - type: route
   start: {scene_start: now, off: -0.2}
   end: {total: true}
@@ -482,18 +449,6 @@ events:
   label: 미 해군 중부사령부
   role: 호위 작전
   accent: us
-- type: card
-  start: {sid: now_0, off: 0.5}
-  end: {sid: now_1, edge: end, off: 0.4}
-  tag: 미 중부사령부 발표
-  bigs: [[10억 배럴, 호위 작전으로 반출된 원유]]
-  accent: us
-- type: card
-  start: {sid: now_2, off: 0.1}
-  end: {sid: now_2, edge: end, off: 0.8}
-  tag: 2025년 기준
-  bigs: [[61%, 원유 수입의 호르무즈 경유 비중]]
-  accent: gold
 - type: marker
   start: {scene_start: now}
   end: {total: true}

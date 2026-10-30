@@ -30,7 +30,6 @@ def features(keys: list[CamKey], events: list[dict]) -> dict:
         "badges": by.get("badge", 0),
         "badge_kinds": dict(collections.Counter(e.get("kind") for e in events if e["type"] == "badge")),
         "panels": [e["kind"] for e in events if e["type"] == "panel"],
-        "cards": by.get("card", 0),
         "media": media,
         "event_types": dict(sorted(by.items())),
         "label_lod": True,   # draw_labels 는 패널이 화면을 덮지 않은 모든 프레임에서 w 별 LOD 로 호출된다
