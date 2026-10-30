@@ -11,6 +11,6 @@ sentences:
   act1_4:
     photo: 등재본 사용 — diesel_road_2026_moscow_fire_0618 'Fire at the Moscow Oil Refinery on June 18, 2026'(Rotafinus, CC0) 자료사진. 문장은 일반 서술이고 사진은 모스크바 정유소 6월 화재 → 캡션에 장소·날짜, 자료사진 표기(diesel act1_7 판정)
   act3_3:
-    photo: 등재본 영상 사용 — strikes_file '미 중부사령부 공개 영상 · 이란 군사 목표 타격'(미 국방부, Public domain, hormuz_korea strikes 와 같은 파일의 자료 영상 항목 — 7.7 촬영, D-0283 §1). 사진 대신 영상 액자(사용 구간은 레지스트리 segment). 원음: Commons 원본 webm 전 구간 무음(max −91 dB) — 소리 있는 공개 판 시도 2026-10-30: DVIDS 원본(레지스트리 source_variants dvids, cloudfront) = 프록시 403(allowed_domains 밖), CENTCOM·C-SPAN 게시본은 allowed_domains 안에 없음 → 무음 그대로, 효과음 합성 없음(D-0284 ②)
+    photo: 등재본 영상 사용 — strikes_file '미 중부사령부 공개 영상 · 이란 군사 목표 타격'(미 국방부, Public domain, hormuz_korea strikes 와 같은 파일의 자료 영상 항목 — 7.7 촬영, D-0283 §1). 사진 대신 영상 액자(사용 구간은 레지스트리 segment). 원음: Commons 원본 webm 전 구간 무음(max −91 dB) — 소리 있는 공개 판 시도 2026-10-30 — DVIDS 원본(레지스트리 source_variants dvids, cloudfront) = 프록시 403(allowed_domains 밖), CENTCOM·C-SPAN 게시본은 allowed_domains 안에 없음 → 무음 그대로, 효과음 합성 없음(D-0284 ②)
   ending_0:
     photo: 고르지 않음 — 맺음 요약 문장. diesel ending_0 판정 그대로 — 앞 장면의 지도 마커(랴잔·울산·호르무즈·워싱턴)를 다시 불러 모은다
