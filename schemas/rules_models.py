@@ -2287,6 +2287,12 @@ class FlightInsetRules(_Strict):
     hold_same_place: bool = False
     safe_margin_px: float = Field(default=0.0, ge=0)   # v7.4.0 D-0240 §2 — 안전 영역 여백(날짜 배지 아래·자막 띠 위)
     side_order: list[Literal["right", "left", "up", "down", "up_left", "up_right", "down_left", "down_right"]] = Field(default_factory=list)
+    # v7.4.0 D-0300(UF-146 "위성사진을 보여주는 동그라미가 한순간 위치를 옮기고 사라져") — 자리는 등장 때 한 번 정해 고정, 옮겨야 하면 보간
+    sticky_side: bool = False
+    move_sec: float = Field(default=0.6, gt=0)       # 자리 옮김 보간 길이(ease in-out)
+    jump_px_max: float = Field(default=24.0, gt=0)   # [inset-jump] hard — 원 중심 프레임 간 이동 상한
+    move_headroom: float = Field(default=0.75, gt=0, le=1)   # 보간 최고 속도 ≤ jump_px_max × 이 값(나머지는 카메라가 표적을 미는 몫)
+    predict_keyframes: bool = False   # v7.4.0 D-0305 ② — 인셋 생애 전 구도에 맞는 자리를 미리 골라 처음부터 고정(옮김 0), 없을 때만 보간
 
 
 class FlightRules(_Strict):

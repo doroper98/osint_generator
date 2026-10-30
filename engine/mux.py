@@ -257,6 +257,13 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     pl = P.R.cache.get("pin_labels")
     if pl is not None:   # v7.4.0 D-0274 §1② — 값 레인 위 핀 라벨 단(+1·+2 선 위, −1·−2 아래, None = 점만)·교차(검사 [island-pin-collision] 과 같은 값)
         prov["pin_labels"] = {"rows": pl["rows"], "dropped": pl["dropped"], "collisions": len(pl["collisions"])}
+    from engine.style import FPS  # noqa: PLC0415
+
+    tracks = {e["inset"].get("mid") or f"flight@{e['t0']:.2f}": {"side": e["inset_track"]["side"], "basis": e["inset_track"]["basis"],
+              "moves": [[round(f / FPS, 2), a, b, round(mf / FPS, 2)] for f, a, b, mf in e["inset_track"]["moves"]]}
+              for e in P.events if e["type"] == "flight" and e.get("inset_track")}
+    if tracks:   # v7.4.0 D-0305 ② — 인셋 자리 근거(예측 고정 / sticky 보간), 돌지 않은 영상은 기록 없음(P5)
+        prov["inset_tracks"] = tracks
     prov["stage"] = P.R.cache.get("stage")   # v4.1.0 D-0076 작업 7 — 무대(name·declared·shots_declared·instances)
     from engine.typography import CONTRAST_FIXED as lcf  # noqa: PLC0415 — 프리뷰(같은 프로세스)
     rjf = P.root / "out" / "render.json"

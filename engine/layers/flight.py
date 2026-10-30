@@ -16,8 +16,8 @@ from engine.context import RenderCtx
 from engine.layers.effects import draw_boom
 from engine.layers.media import draw_inset
 from engine.projection import View
-from engine.style import W_OUT, map_c
-from engine.timebase import ease_out, window
+from engine.style import FPS, W_OUT, map_c
+from engine.timebase import ease_out, smooth, window
 from rules import load_rules
 
 _R = load_rules()
@@ -78,14 +78,79 @@ def inset_fits(box: tuple[float, float, float, float]) -> bool:
     return x >= x0 and y >= y0 and x + w <= x1 and y + h + F.inset.caption_dy + F.inset.caption_size <= y1
 
 
-def inset_box(e: dict, x: float, y: float) -> tuple[float, float, float, float]:
-    """표적 화면 점(x, y) 기준 인셋 원의 바깥 정사각(x0, y0, 지름, 지름) — side 방향으로 gap_px 떨어진 자리(UF-103 원형).
-    v7.4.0 D-0240 §2 — 고른 side 가 안전 영역을 벗어나면 rules flight.inset.side_order 순서로 첫 맞는 자리(없으면 고른 자리 — [inset-clipped])."""
+Box = tuple[float, float, float, float]
+
+
+def inset_clear(side: str, x: float, y: float, obstacles: "list[Box] | None" = None) -> bool:
+    """그 자리가 안전 영역 안이고 장애물(표적 표지 라벨 상자, D-0305 ①)과 겹치지 않는가 — 원 + 출처 줄 상자로 잰다."""
+    b = _inset_box_at(side, x, y)
+    if not inset_fits(b):
+        return False
+    r = (b[0], b[1], b[0] + b[2], b[1] + b[3] + F.inset.caption_dy + F.inset.caption_size)
+    return not any(r[0] < o[2] and o[0] < r[2] and r[1] < o[3] and o[1] < r[3] for o in obstacles or ())
+
+
+def first_fit_side(e: dict, x: float, y: float, skip: Optional[str] = None, obstacles: "list[Box] | None" = None) -> str:
+    """연출 side → 안 맞으면 rules flight.inset.side_order 첫 적합(skip 제외, 장애물 피함). 어느 자리도 안 맞으면 연출 side([inset-clipped])."""
     side = (e.get("inset") or {}).get("side", "up")
-    first = _inset_box_at(side, x, y)
-    if inset_fits(first):
-        return first
-    return next((b for s in F.inset.side_order if inset_fits(b := _inset_box_at(s, x, y))), first)
+    for s in [side, *F.inset.side_order]:
+        if s != skip and inset_clear(s, x, y, obstacles):
+            return s
+    return side
+
+
+MOVE_PEAK = 3 / 2        # smooth(3u² − 2u³) 보간의 최고 속도 = 평균 속도 × 3/2(u = 1/2 에서 미분 최댓값)
+
+
+def move_frames(a: tuple[float, float, float, float], b: tuple[float, float, float, float]) -> int:
+    """자리 옮김 보간 프레임 수 — rules flight.inset.move_sec 이 하한, 최고 속도가 jump_px_max × move_headroom 을 넘지 않게 거리에 맞춰 늘린다."""
+    d = math.hypot(b[0] - a[0], b[1] - a[1])
+    return max(1, round(F.inset.move_sec * FPS), math.ceil(MOVE_PEAK * d / (F.inset.jump_px_max * F.inset.move_headroom)))
+
+
+def build_inset_track(e: dict, frames: list[tuple[int, float, float, "list[Box]"]]) -> None:
+    """인셋 자리 궤적(v7.4.0 back_and_forth D-0300·D-0305, UF-146). frames = 인셋이 보이는 프레임의 (번호, 표적 화면 x, y, 장애물 상자).
+    ① 예측(flight.inset.predict_keyframes): 연출 side → side_order 순으로, 인셋 생애의 **모든 프레임** 구도에서 안전 영역·표적 라벨에 맞는
+       자리를 찾으면 처음부터 그 자리로 고정(옮김 0) ② 없으면 등장 때 자리를 정하고(sticky) 벗어날 때만 다음 적합 자리로 보간 이동.
+    e["inset_track"] = {"side", "moves": [(시작 프레임, 옛 자리, 새 자리, 보간 프레임 수)], "basis": predicted|sticky} — 렌더·검사가 같은 궤적."""
+    if not frames or not F.inset.sticky_side:
+        return
+    side0 = (e.get("inset") or {}).get("side", "up")
+    if F.inset.predict_keyframes:
+        for s in dict.fromkeys([side0, *F.inset.side_order]):
+            if all(inset_clear(s, x, y, obs) for _, x, y, obs in frames):
+                e["inset_track"] = {"side": s, "moves": [], "basis": "predicted"}
+                return
+    f0, x0, y0, o0 = frames[0]
+    first = cur = first_fit_side(e, x0, y0, obstacles=o0)
+    moves: list[tuple[int, str, str, int]] = []
+    for f, x, y, obs in frames[1:]:
+        if moves and f - moves[-1][0] < moves[-1][3]:   # 옮기는 중에는 다시 고르지 않는다
+            continue
+        if not inset_clear(cur, x, y, obs):
+            nxt = first_fit_side(e, x, y, skip=cur, obstacles=obs)
+            if nxt != cur and inset_clear(nxt, x, y, obs):
+                moves.append((f, cur, nxt, move_frames(_inset_box_at(cur, x, y), _inset_box_at(nxt, x, y))))
+                cur = nxt
+    e["inset_track"] = {"side": first, "moves": moves, "basis": "sticky"}
+
+
+def inset_box(e: dict, x: float, y: float, t: Optional[float] = None) -> tuple[float, float, float, float]:
+    """표적 화면 점(x, y) 기준 인셋 원의 바깥 정사각(x0, y0, 지름, 지름) — side 방향으로 gap_px 떨어진 자리(UF-103 원형).
+    궤적(inset_track, D-0300)이 있고 t 를 주면 그 시각의 자리(옮기는 중이면 두 자리 사이 보간). 없으면 v7.4.0 D-0240 §2 첫 적합 자리."""
+    tr = e.get("inset_track")
+    if tr is None or t is None:
+        return _inset_box_at(first_fit_side(e, x, y), x, y)
+    f = round(t * FPS)
+    side, prev = tr["side"], None
+    for fs, a, b, mf in tr["moves"]:
+        if fs <= f:
+            side, prev = b, (fs, a, mf)
+    if prev is None or f - prev[0] >= prev[2]:
+        return _inset_box_at(side, x, y)
+    u = smooth((f - prev[0]) / prev[2])
+    a, b = _inset_box_at(prev[1], x, y), _inset_box_at(side, x, y)
+    return tuple(p + (q - p) * u for p, q in zip(a, b))  # type: ignore[return-value]
 
 
 def _inset_box_at(side: str, x: float, y: float) -> tuple[float, float, float, float]:
@@ -114,7 +179,8 @@ def circle_path(ctx: cairo.Context, box: tuple[float, float, float, float]) -> N
 def inset_alpha(t: float, e: dict) -> float:
     th = hit_time(e)
     end = (e.get("inset") or {}).get("hold_until")   # v7.4.0 D-0229 §2.7 — 명시·같은 장소 유지
-    return window(t, th - F.inset.lead_sec, max(th + F.inset.hold_sec + F.impact_sec, end or 0.0), *F.inset.fade)
+    stop = min(max(th + F.inset.hold_sec + F.impact_sec, end or 0.0), e.get("t1", math.inf))   # v7.4.0 D-0300 — 이벤트 끝 전에 페이드가 끝난다(컷에 잘리지 않게)
+    return window(t, th - F.inset.lead_sec, stop, *F.inset.fade)
 
 
 InsetDrawer = Callable[[cairo.Context, RenderCtx, tuple[float, float, float, float], float, dict], None]
@@ -170,6 +236,6 @@ def draw_flight(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict,
     if e.get("inset"):
         ia = inset_alpha(t, e)
         if ia > 0:
-            box = inset_box(e, *end)
+            box = inset_box(e, *end, t)
             (inset_drawer or draw_inset)(ctx, R, box, ia, e)
             R.reserved.append((box[0], box[1], box[0] + box[2], box[1] + box[3] + F.inset.caption_dy))
