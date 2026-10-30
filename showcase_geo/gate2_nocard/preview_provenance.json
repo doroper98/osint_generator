@@ -3,7 +3,7 @@
  "engine": "engine",
  "repo_version": "7.4.0",
  "rules_version": "2.0.0",
- "rules_hash": "a15135362f4edfab4f815d6445da6e8336986c7a",
+ "rules_hash": "80f1ebedf8bde063d25e188d5256e1cfeacb511e",
  "prompts": {
   "director": "4b0d8abce2533f324bbe69742891e6ff31b77d96"
  },
@@ -136,8 +136,8 @@
    "clip": 2,
    "country": 5,
    "dip": 7,
-   "flight": 2,
-   "marker": 22,
+   "flight": 1,
+   "marker": 23,
    "panel": 4,
    "photo": 7,
    "primitive": 1,
@@ -150,9 +150,9 @@
    "inset_ryazan_esri"
   ],
   "flight": {
-   "count": 2,
+   "count": 1,
    "kinds": {
-    "drone": 2
+    "drone": 1
    },
    "insets": [
     "inset_ryazan_esri"
@@ -293,7 +293,7 @@
   "used": [
    {
     "kind": "dots",
-    "title": "러시아 극동을 오간 유조선",
+    "title": "제재 대상 유조선",
     "t0": 91.56,
     "prov_tag": null
    },
@@ -1466,7 +1466,7 @@
    234.93
   ],
   "dir": "prev",
-  "direction_sha1": "c10ce72eaa97d042d6bb208ef133fd6bec12816a"
+  "direction_sha1": "ca57834be4bce5836e86f1bd195c36f9b7fcd21d"
  },
  "visual_void": [
   [
