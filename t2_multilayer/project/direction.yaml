@@ -1,0 +1,31 @@
+# 다층 아일랜드 스케치 연출(D-0309·D-0308) — A1 문법: 사진 배경(인텔 본사, 자료사진) + 차트 아일랜드 하나(earnings island_stages timeline).
+# 레인 하나에 층이 문장마다 하나씩: 추이 캡슐 → 부문 쌓임(음수) + 합계 → 주가 보조 축 → 발표일 핀·점선. 축 스케일 w 고정·날짜 이동만(UF-138).
+version: 1
+genre: earnings
+stage: backdrop
+stage_config:
+  timeline:
+    start: "2025-06-01"
+    end: "2027-02-28"
+    lanes:
+      - {id: op, label: "인텔 분기 영업이익 · 십억 달러 | 주가 · 달러(왼쪽)", kind: bars}
+shots:
+  - {at: 0, mode: cut, dur: 0, camera: {}}
+  - {at: {sid: trend_1, off: -0.4}, mode: cut, dur: 0, stage: timeline, camera: {date: "2026-02-10", w: 480}}
+  - {at: {sid: price_1, off: -0.4}, mode: move, dur: 4.0, stage: timeline, camera: {date: "2026-06-10", w: 480},
+     reason: "주가 층(9월~) 이 켜지기 전에 같은 축척으로 오른쪽으로 이동(D-0309 — 층은 문장마다, 카메라는 날짜 이동만)"}
+events:
+  - {type: backdrop, start: 0.0, end: {total: true}, img: intc_hq_2008}
+  - {type: island, kind: chart, box: center, start: {sid: trend_1, off: -0.4}, end: {sid: price_3, edge: end, off: 0.4}}
+  - {type: series, start: {sid: trend_1, off: -0.2}, end: {sid: trend_2, off: -0.3}, lane: op, series_id: INTC_OP_Q, style: bars, col: gold}
+  - {type: series, start: {sid: trend_2, off: -0.3}, end: {sid: price_3, edge: end, off: 0.4}, lane: op, series_id: INTC_OP_Q, style: stack, col: gold,
+     parts: [{ids: [INTC_SEG_CCG_OP_Q], label: PC}, {ids: [INTC_SEG_DCAI_OP_Q], label: DC},
+             {ids: [INTC_SEG_FOUNDRY_OP_Q], label: 파운드리},
+             {ids: [INTC_SEG_OTHER_OP_Q, INTC_SEG_CORP_OP_Q, INTC_SEG_ELIM_OP_Q], label: 기타}]}
+  - {type: series, start: {sid: price_1, off: -0.3}, end: {sid: price_3, edge: end, off: 0.4}, lane: op, series_id: INTC_PX_D, style: line, col: teal, secondary: true}
+  - {type: marker, start: {sid: price_2, off: -0.2}, end: {sid: price_3, edge: end, off: 0.4}, date: "2026-10-29", lane: op,
+     label: 실적 발표일, sub: 10월 29일, side: left, hl: true, vline: true}
+sound:
+  bgm: null
+  no_music_decision: D-0309
+  intensity: [[0, 0.55], [{total: true}, 0.55]]

@@ -1,0 +1,10 @@
+schema_version: 1
+headline: 다층 아일랜드 스케치 — 인텔 분기 영업이익(추이·부문·합계)과 주가(보조 축), 하나의 시간축
+summary: 새 요소 스케치(docs/handoff/20 §4.1-2, D-0309). 영상이 아니다.
+chapters:
+- at: trend
+  label: 추이·부문·합계
+- at: TITLE
+  label: 타이틀
+- at: price
+  label: 주가·발표일
