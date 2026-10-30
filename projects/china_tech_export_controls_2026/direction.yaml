@@ -383,7 +383,7 @@ events:
     highlight: 14
     total: 40
     accent: ru
-    big: 14개
+    big: "14"
     caption: 수출 금지 후보
     detail: 40개 가운데
     note_label: 수출 제한 후보
