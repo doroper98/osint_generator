@@ -138,13 +138,17 @@ def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
     img = Image.fromarray(rgb).resize(size, Image.BILINEAR).convert("RGBA")
     surf, buf = surf_from_pil(img)
     R.cache["clip_buf"] = buf  # 표면이 칠해질 때까지 버퍼를 붙잡아 둔다
-    media_frame(ctx, x, y, w, h + BAR, a)
+    bar = 0 if e.get("frame") else BAR   # v7.4.0 D-0274 §2① — 액자(clip_frame): 캡션 줄은 상자 안 위쪽 띠(아래는 자막 자리)
+    media_frame(ctx, x, y, w, h + bar, a)
     set_raster(ctx, surf, OP.k, x, y)
     ctx.paint_with_alpha(a)
-    ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + BAR - 1)
+    ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + bar - 1)
     ctx.set_source_rgba(1, 1, 1, 0.22 * a)
     ctx.set_line_width(1)
     ctx.stroke()
+    if e.get("frame"):
+        media_caption(ctx, x, y, w, m.caption, credit_line(m), a)
+        return
     media_tag(ctx, x, y, "VIDEO", a)
     media_caption(ctx, x, y + h, w, m.caption, credit_line(m), a)
 

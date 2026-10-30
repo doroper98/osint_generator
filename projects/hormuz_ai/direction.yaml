@@ -443,6 +443,7 @@ events:
     - 0.2
     - 5.0
   mid: niovi
+  role: broll
   place: map_left
 - type: route
   start:
@@ -730,6 +731,7 @@ events:
     - 0.3
     - 5.0
   mid: strikes
+  role: broll
   place: clip_panel_side
 - type: card
   start:

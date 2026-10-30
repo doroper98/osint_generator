@@ -1085,6 +1085,7 @@ events:
     - 0.2
     - 5.0
   mid: niovi
+  role: broll
   x: 40
   y: 150
   w: 300

@@ -73,6 +73,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | backdrop_main_missing | hard | v5.2.0(D-0129 §B): backdrop 무대에서 주 아일랜드(island.main_kinds)가 하나도 보이지 않는 구간 > island.card_only_max_sec `[backdrop-main-missing] t0-t1 {n}s`(타이틀·엔딩 카드·기사 구간 제외, provenance backdrop.main_missing[]) `engine.island` |
 | card_island | warning | v5.2.0(D-0129 §C): 카드·게시물 카드 제자리 상자와 같은 순간 보이는 아일랜드 상자 교차 > 0 `[card-island]`(provenance island.card_overlap[]) `engine.island` |
 | island_label_clip | hard | v5.2.0(D-0133 §2): 차트 아일랜드 안 마커 라벨 글자 상자가 반전·클램프(island.chart.label_flip_pad, `markers.island_label`) 뒤에도 아일랜드 상자 밖 `[island-label-clip]`(provenance island.label_clip[]) `engine.island.label_check` |
+| clip_frame | hard | 레퍼런스 영상(clip.role main)이 액자 슬롯 clip_frame 밖, 또는 보이는 길이가 rules media_beats.clip_show_sec[role] 밖 `[clip-frame]`(v7.4.0 D-0274 §2·UF-141) |
 | plot_height | hard | 시간축 주 무대 틀·차트 아일랜드: 값 레인 세로 합 < 액자 안쪽 높이 × rules island.chart.plot_min_ratio `[plot-height]`(v7.4.0 D-0274 §1①·UF-142) |
 | island_pin_collision | hard | v7.4.0(D-0267 §2 → D-0274 §1②): 값 레인 위 핀 라벨(engine.pin_labels 단 배정) ↔ 핀 라벨·점·계열 선·띠·축 값·끝값·플롯 경계 교차 `[island-pin-collision]` |
 | island_label_overlap | warning | v5.2.0(D-0133 §3): 차트 아일랜드 안 마커 라벨 글자 상자 ∩ 같은 순간 시리즈 출처 줄 글자 상자 > 0 `[island-label-overlap]`(provenance island.label_overlap[]) — 고치는 것은 연출 회차 |
@@ -109,7 +110,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -2212,6 +2213,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "chart_edge_bleed": lambda: check_chart_edge_bleed(P),   # v7.4.0 D-0257(hard, UF-137)
         "media_density": lambda: check_media_density(P),   # v7.4.0 D-0261(hard, UF-139)
         "plot_height": lambda: check_plot_height(P),   # v7.4.0 D-0274 §1①(hard, UF-142)
+        "clip_frame": lambda: check_clip_frame(P),   # v7.4.0 D-0274 §2①②(hard, UF-141)
         "flat_lane": lambda: check_flat_lane(P),   # v7.4.0 D-0263(hard, UF-140)
         "press_credit": lambda: check_press_credit(P, times, drawn),   # v7.4.0 D-0240 §3(hard)
         "static_camera": lambda: check_static_camera(P),   # v7.4.0 D-0241 §1(hard, UF-120)
@@ -2494,6 +2496,24 @@ def plot_height(P) -> "tuple[float, float] | None":  # noqa: ANN001, N803
         return (plot, max(hs)) if hs else None
     frame = getattr(st, "frame", None)
     return (plot, frame[3]) if frame is not None else None
+
+
+def check_clip_frame(P) -> list[str]:  # noqa: ANN001, N803
+    """[clip-frame] hard(v7.4.0 back_and_forth D-0274 §2①②, 사용자 의견 UF-141 "영상도 메인 요소야 … 보충물로서 쓰지 말고") —
+    main 클립(clip.role 기본)이 액자 슬롯 clip_frame 밖이거나, 보이는 길이가 역할 범위(rules media_beats.clip_show_sec)를 벗어나면 실패."""
+    rng = R_.media_beats.clip_show_sec
+    out = []
+    for e in P.events:
+        if e["type"] != "clip":
+            continue
+        role = e.get("role", "main")
+        if role == "main" and e.get("frame") != "clip_frame":
+            out.append(f"[clip-frame] 클립 {e['mid']} t={e['t0']:.2f} 이 구석 상자 — 레퍼런스 영상(role main)은 액자 clip_frame 만."
+                       " 현장 보조면 role: broll(UF-141)")
+        lo, hi = rng[role]
+        if not lo <= e["t1"] - e["t0"] <= hi:
+            out.append(f"[clip-frame] 클립 {e['mid']} t={e['t0']:.2f} 길이 {e['t1'] - e['t0']:.1f}초 — {role} 범위 {lo:g}~{hi:g}초(D-0276)")
+    return out
 
 
 def check_plot_height(P) -> list[str]:  # noqa: ANN001, N803

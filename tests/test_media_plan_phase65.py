@@ -86,7 +86,7 @@ class PlacementTest(unittest.TestCase):
 
     def _events(self) -> list[dict]:
         panels = [{"type": "panel", "t0": 110.0, "t1": 150.0}, {"type": "panel", "t0": 186.0, "t1": 208.0}]
-        return panels + [dict(_ev("clip", "niovi", 58.95)), dict(_ev("clip", "strikes", 134.48)),
+        return panels + [dict(_ev("clip", "niovi", 58.95), role="broll"), dict(_ev("clip", "strikes", 134.48), role="broll"),   # v3 구석 = 보조 영상(D-0274)
                          dict(_ev("photo", "rok_iraq", 191.32, 10.8)), dict(_ev("photo", "hormuz_transit", 256.11, 10.0))]
 
     def test_defaults_reproduce_v3(self) -> None:

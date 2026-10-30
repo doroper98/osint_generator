@@ -256,6 +256,7 @@ class PlacementSlot(_Strict):
     beside_panel: Optional[BesidePanel] = None
     screen: Optional[list[tuple[float, float]]] = None   # v4.8.0 D-0104 D2(c) — 패널 위 화면 고정 점들(동시 n 번째 = n 번째 점)
     stages: Optional[list[str]] = None   # v5.2.0 D-0132 — 이 주 무대에서만 쓰는 슬롯(없으면 무대 무관). 다른 무대 = 배치 오류(P10)
+    frame: bool = False   # v7.4.0 D-0274 §2① — 클립 액자(캡션 줄은 상자 안 위쪽 띠, 상자 = 16:9 본체만)
 
     @model_validator(mode="after")
     def _one(self) -> "PlacementSlot":
@@ -352,7 +353,7 @@ class PacingRules(_Strict):
 class MediaBeats(_Strict):
     kinds: list[str]
     photo_show_sec: Range2
-    clip_show_sec: Range2
+    clip_show_sec: dict[Literal["main", "broll"], Range2]   # v7.4.0 D-0274 §2② — clip.role 별
     file_photo_label_required: bool
     caption_credit_required: bool
     ai_generated_forbidden: bool
@@ -436,6 +437,7 @@ class HudRules(_Strict):
     allowed_corner_elements: list[str]
     forbidden_components: list[str]
     date_badge: DateBadge
+    date_badge_over_clip_frame: bool = False   # v7.4.0 D-0276 — 클립 액자 위에 날짜 뱃지(그 슬롯과의 교차만 예외)
 
 
 class LayoutBase(_Strict):
@@ -451,6 +453,7 @@ class SubtitleLayout(_Strict):
     halo: float
     halo_alpha: float
     emphasis_color: str
+    over_clip_frame: bool = False   # v7.4.0 D-0276 — 클립 액자 위에 자막(그 슬롯과의 교차만 예외)
 
 
 class TitleCardLayout(_Strict):

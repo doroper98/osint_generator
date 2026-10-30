@@ -373,6 +373,7 @@ class PhotoEvent(_Event):
 class ClipEvent(_Event):
     type: Literal["clip"]
     mid: str
+    role: Literal["main", "broll"] = "main"   # v7.4.0 D-0274 §2① — main = 주 요소(액자 clip_frame·원음), broll = 현장 보조(구석 슬롯)
     x: Optional[float] = None
     y: Optional[float] = None
     w: Optional[float] = None

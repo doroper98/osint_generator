@@ -106,6 +106,8 @@ def resolve_places(events: list[dict], view_at: Callable[[float], object],
         media = e["type"] in PL.auto_media
         tag = e["mid"] if media else f"{e['type']}:{e.get('label') or i}"
         how = "slot"
+        if slot_name is None and e["type"] == "clip" and e.get("role", "main") == "main" and e.get("x") is None:
+            slot_name, how = "clip_frame", "role"   # v7.4.0 D-0274 §2① — 레퍼런스 영상은 액자(코드가 정한다, P8)
         if slot_name is None:
             if media and e.get("x") is None:
                 slot_name = PL.auto_media[e["type"]]["panel" if _panel_at(events, e["t0"]) else "map"]
@@ -134,6 +136,8 @@ def resolve_places(events: list[dict], view_at: Callable[[float], object],
                 continue
         elif slot.box is not None:
             e["x"], e["y"], e["w"] = slot.box
+            if slot.frame:
+                e["frame"] = slot_name
         elif slot.point is not None or slot.screen:
             if slot.screen:
                 err = _screen_point(e, slot, on_screen)

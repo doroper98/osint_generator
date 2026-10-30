@@ -447,7 +447,7 @@ media:                     # v2.5.5 D-0037(D38) — 14 §10.1 밀도 경고. v3 
 media_beats:               # 14 §10
   kinds: [photo, clip, cutout, article, post]
   photo_show_sec: [4, 8]
-  clip_show_sec: [3, 6]
+  clip_show_sec: {main: [5, 20], broll: [3, 6]}   # v7.4.0 D-0274 §2②·D-0276 — 역할별(clip.role). main = 주 요소(액자 clip_frame, 원음), broll = 현장 보조(구석 슬롯, 내레이션 아래)
   file_photo_label_required: true         # "자료사진 · 연월"
   caption_credit_required: true
   ai_generated_forbidden: true            # G4-10, 14 §2.2
@@ -525,6 +525,10 @@ placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `pl
     # 자막 구역(y 410) 위·left 상자 오른쪽 끝 564 밖. 폭 236 → 16:9 + 캡션 바 42 = y 212~387. stages = 이 무대에서만(다른 무대 = 배치 오류, P10).
     # 사용자 합격 값 아님(480p 시감 뒤 조정 가능)
     backdrop_right_low: {kinds: [photo, clip], box: [594, 212, 236], stages: [backdrop]}
+    # v7.4.0 back_and_forth D-0274 §2①·D-0276 A(사용자 의견 UF-141 "영상이 나올 때는 한쪽 구석에 몰아서 … 보여주지 말고 … 액자 형식으로 … 꽉 채워서") —
+    # 레퍼런스 영상(clip.role main, 기본)의 유일한 자리: 화면 폭 84 %·16:9·가운데 [68, 38, 785, 441]. 배경(블러 사진·지도)은 그대로, 캡션 줄은 액자 안 위쪽 띠.
+    # 날짜 뱃지·자막은 액자 위에 그린다(예외 키 layout_480p.subtitle.over_clip_frame·hud.date_badge_over_clip_frame — 이 슬롯에만). 검사 [clip-frame] hard
+    clip_frame: {kinds: [clip], box: [68, 38, 717], frame: true, stages: [backdrop, mercator, timeline]}
     # v4.8.0 D-0104 D2(c) — 패널 위 인물 뱃지(화면 고정, 패널 층 위에 그린다). 동시에 떠 있는 n 번째 뱃지 = n 번째 점. 모자라면 오류.
     # y 300: solo R 56 상자(머리 2.2R 위 ~ 이름·역할 46px 아래) = y 177~402 — 자막 구역(y≥410) 밖. 왼쪽 먼저(카드 자리 x≥594 를 피함)
     panel_badge:     {kinds: [badge], screen: [[96, 300], [758, 300]]}
@@ -538,12 +542,14 @@ hud:                       # 09 §5 — 모서리에는 날짜만
   allowed_corner_elements: [date_badge]
   forbidden_components: [brand_mark, section_number, section_title, stamp, vignette, scrubber, chapter_number]
   date_badge: {font: mono, size: 15, x_right: 26, y: 40, underline_y: 48, underline_w: 1.4, slide_px: 6, slide_sec: 0.45}
+  date_badge_over_clip_frame: true   # v7.4.0 D-0276 — 날짜 뱃지는 클립 액자 위(그 슬롯과의 [media-over-date] 만 예외)
 
 layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480. 다른 해상도는 k = H/480
   base: {w: 854, h: 480, fps: 24}
   # v4.8.0 back_and_forth D-0113(D-0101 §3 A) — 화면 글자 크기 전수 표 1·2 적용: 본문 ≥ 12·메타 ≥ 9, 자막 21, 연동 기하(line_gap·src_gap·caption_bar_px·caption_dy·credit_dy·tag_h·tag_dy·sub_dy·body_line)
   # v4.11.0 back_and_forth D-0118 §3(사용자 위임 D103, G7 480p 판정 대신) — 2차 표: 자막 21 → 22, card.line_size 15 → 16. 그 밖 무변경(표 3 유지)
-  subtitle: {size: 22, last_line_y: 452, line_gap: 26, halo: 5.0, halo_alpha: 0.92, emphasis_color: gold}   # v4.5.0 D85 — 검증 라벨 접두(label_style) 폐지
+  subtitle: {size: 22, last_line_y: 452, line_gap: 26, halo: 5.0, halo_alpha: 0.92, emphasis_color: gold,
+             over_clip_frame: true}   # v7.4.0 D-0276 — 자막은 클립 액자(clip_frame) 위에 그린다(그 슬롯과의 [media-over-subtitle] 만 예외)   # v4.5.0 D85 — 검증 라벨 접두(label_style) 폐지
   min_font_px: 9.5         # 화면 높이 2% 규칙(엔딩 카드 예외)
   title_card: {dur_sec: 5.6, title_size: 46, subtitle_size: 18, rule_w: 220, max_w_ratio: 0.9, title_min_size: 30}   # v5.21.3 — 제목 폭 > W × max_w_ratio 일 때만 줄임, title_min_size 미만이면 오류
   end_card:

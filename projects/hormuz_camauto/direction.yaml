@@ -974,6 +974,7 @@ events:
     - 0.2
     - 5.0
   mid: niovi
+  role: broll
   x: 40
   y: 150
   w: 300
@@ -1020,6 +1021,7 @@ events:
     - 0.3
     - 5.0
   mid: strikes
+  role: broll
   x: 207
   y: 112
   w: 440
