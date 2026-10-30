@@ -2017,6 +2017,7 @@ class EndLabelPlate(_Strict):
 
     alpha: float = Field(gt=0, le=1)
     pad_px: float = Field(ge=0)
+    descent: float = Field(ge=0, lt=1)   # 글자 내림 ÷ 글자 크기
 
 
 class TimelineLaneRange(_Strict):

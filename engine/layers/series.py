@@ -261,10 +261,10 @@ def lane_source_text(e: dict) -> str:
 
 
 def end_label_plate_rect(box: tuple[float, float, float, float]) -> tuple[float, float, float, float]:
-    """끝값 라벨 판 사각형 — 글자 상자(x0, top, x1, 기준선) + rules series.end_label_plate.pad_px. 아래 끝은 글자 내림(value_size × 0.22)까지."""
+    """끝값 라벨 판 사각형 — 글자 상자(x0, top, x1, 기준선) + rules series.end_label_plate.pad_px. 아래 끝은 글자 내림(value_size × end_label_plate.descent)까지."""
     pd = TIMELINE.series.end_label_plate.pad_px
     x0, y0, x1, y1 = box
-    return x0 - pd, y0 - pd, x1 + pd, y1 + TIMELINE.series.value_size * 0.22 + pd
+    return x0 - pd, y0 - pd, x1 + pd, y1 + TIMELINE.series.value_size * TIMELINE.series.end_label_plate.descent + pd
 
 
 def draw_end_label_plate(ctx: cairo.Context, box: tuple[float, float, float, float], a: float) -> tuple[float, float, float, float]:

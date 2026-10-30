@@ -1257,7 +1257,7 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     end_label_min_gap_px: 14   # value_size 12 + 2
     # v7.4.0 back_and_forth D-0277 §2 — 끝값 라벨 뒤 작은 판(바탕 = stage_timeline.bg_rgb). 강조 띠(9.16 목표 범위 등) 위에서 대비가 죽던 것(preview_v9 94초 "3.63 %").
     # 모든 레인 끝값 라벨에 같은 규칙. 판 없는 끝값 라벨 = [series-label-overlap] hard(판이 곧 장치). alpha 0.72 = 감독 제안 값(사용자 합격 값 아님)
-    end_label_plate: {alpha: 0.72, pad_px: 4}
+    end_label_plate: {alpha: 0.72, pad_px: 4, descent: 0.22}   # descent = 글자 내림 ÷ 글자 크기(자막 글자 상자와 같은 값) — 판 아래 끝
     # v7.4.0 back_and_forth D-0274 §1②·D-0276(UF-143 "차트에 글씨가 너무 겹치네") — 값 레인 위 사건 핀 라벨: 점 가운데 정렬, 선 위 1·2단 → 선 아래 1·2단 순으로
     # 코드가 고른다(다른 핀 라벨·점, 계열 선·띠, 축 값 라벨, 끝값 라벨과 교차 0, 상자는 플롯 안 x 클램프). 넷 다 막히면 점만(provenance pin_labels.dropped).
     # 점 ↔ 라벨 상자 가장자리 = first_dy, 단 간격 = row_gap(한 줄 라벨 13 + 여백 3 — 부제 있는 두 줄 라벨은 같은 여백 3 을 두고 상자 높이만큼).

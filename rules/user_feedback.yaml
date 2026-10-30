@@ -2149,6 +2149,9 @@ entries:
   - {kind: test, ref: tests/test_lane_range_fit.py::PlotHeightTest::test_single_lane_fills_frame}
   - {kind: test, ref: tests/test_lane_range_fit.py::PinsOnSeriesTest::test_pin_y_is_series_value}
   - {kind: test, ref: tests/test_series_layer.py::SeriesWiringTest::test_pins_lane_kind_removed}
+  - {kind: check, ref: axis_empty_band}
+  - {kind: rule, ref: stage_timeline.lane_range.end_round}
+  - {kind: test, ref: tests/test_lane_range_fit.py::AxisEmptyBandTest::test_empty_band_hard}
   status: guarded
   recurs_of: UF-140
   decision: 감독 — 그림 확인 뒤 D(기록 레인 제거·핀을 선 위에·플롯 높이 = 액자 높이 검사)
