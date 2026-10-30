@@ -2333,6 +2333,12 @@ def check_chart_world_split(P) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
+def unplated_end_labels(t: float, lane: str, placed: list) -> list[str]:
+    """판 없이 그린 끝값 라벨(v7.4.0 back_and_forth D-0277 §2) — 강조 띠·채움 위에서 대비가 죽는다. 기록 (기준선, 값, 글자 상자, 판 사각형|None)."""
+    return [f"[series-label-overlap] t={t:.2f} 레인 {lane} 끝값 라벨 {tuple(round(v, 1) for v in p[2])} 판 없음 — 띠·강조 채움 위 대비"
+            " (rules stage_timeline.series.end_label_plate, D-0277 §2)" for p in placed if len(p) < 4 or p[3] is None]
+
+
 def check_series_label_overlap(P) -> list[str]:  # noqa: ANN001, N803
     """[series-label-overlap] hard(v7.4.0 back_and_forth D-0256) — 같은 레인에 series 둘 이상이 떠 있는 순간, 실제로 그린 끝값 라벨
     글자 상자(engine.layers.series.place_end_label 기록)가 서로 교차하면 실패. 그런 구간만 1초 간격으로 프레임을 그려 잰다."""
@@ -2355,6 +2361,7 @@ def check_series_label_overlap(P) -> list[str]:  # noqa: ANN001, N803
         reg = P.R.cache.get("series_end_labels") or {}
         for lane, placed in (reg.get("lanes") or {}).items():
             boxes = [p[2] for p in placed]
+            out += unplated_end_labels(t, lane, placed)   # v7.4.0 D-0277 §2 — 끝값 라벨 ↔ 띠·강조 채움: 판이 곧 장치
             for i, a in enumerate(boxes):
                 for b in boxes[i + 1:]:
                     if a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]:

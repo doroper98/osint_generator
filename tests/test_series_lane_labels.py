@@ -42,3 +42,31 @@ class EndLabelSpreadTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class EndLabelPlateTest(unittest.TestCase):
+    """v7.4.0 back_and_forth D-0277 §2 — 끝값 라벨 뒤 판(강조 띠 위 대비, preview_v9 94초 "3.63 %"). 판 없는 끝값 라벨 = [series-label-overlap] hard."""
+
+    def test_plate_drawn_behind_label(self) -> None:
+        import cairo  # noqa: PLC0415
+
+        surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, 120, 60)
+        ctx = cairo.Context(surf)
+        ctx.set_source_rgb(1.0, 0.4, 0.1)   # 강조 띠 색 바탕
+        ctx.paint()
+        box = (40.0, 20.0, 80.0, 32.0)
+        r = S.draw_end_label_plate(ctx, box, 1.0)
+        pd = TIMELINE.series.end_label_plate.pad_px
+        self.assertEqual(r[:3], (box[0] - pd, box[1] - pd, box[2] + pd))
+        surf.flush()
+        px = surf.get_data()[(int(r[1]) + 2) * surf.get_stride() + (int(r[0]) + 2) * 4 + 2]   # 판 안 빨강 채널(BGRA)
+        self.assertLess(px, 255 * 0.5)   # 바탕(bg_rgb) 쪽으로 어두워졌다
+        self.assertEqual(TIMELINE.series.end_label_plate.alpha, 0.72)
+
+    def test_unplated_label_is_hard(self) -> None:
+        from engine import checks  # noqa: PLC0415
+
+        box = (40.0, 20.0, 80.0, 32.0)
+        self.assertEqual(checks.unplated_end_labels(1.0, "policy_rate", [(32.0, 3.63, box, S.end_label_plate_rect(box))]), [])
+        out = checks.unplated_end_labels(1.0, "policy_rate", [(32.0, 3.63, box, None)])
+        self.assertTrue(out and "[series-label-overlap]" in out[0] and "판 없음" in out[0])

@@ -260,6 +260,22 @@ def lane_source_text(e: dict) -> str:
     return e.get("lane_source") or source_line(e)
 
 
+def end_label_plate_rect(box: tuple[float, float, float, float]) -> tuple[float, float, float, float]:
+    """끝값 라벨 판 사각형 — 글자 상자(x0, top, x1, 기준선) + rules series.end_label_plate.pad_px. 아래 끝은 글자 내림(value_size × 0.22)까지."""
+    pd = TIMELINE.series.end_label_plate.pad_px
+    x0, y0, x1, y1 = box
+    return x0 - pd, y0 - pd, x1 + pd, y1 + TIMELINE.series.value_size * 0.22 + pd
+
+
+def draw_end_label_plate(ctx: cairo.Context, box: tuple[float, float, float, float], a: float) -> tuple[float, float, float, float]:
+    """끝값 라벨 뒤 판(v7.4.0 D-0277 §2) — 바탕 = stage_timeline.bg_rgb × end_label_plate.alpha. 그린 사각형을 돌려준다(검사 기록)."""
+    r = end_label_plate_rect(box)
+    ctx.rectangle(r[0], r[1], r[2] - r[0], r[3] - r[1])
+    ctx.set_source_rgba(*TIMELINE.bg_rgb, TIMELINE.series.end_label_plate.alpha * a)
+    ctx.fill()
+    return r
+
+
 def place_end_label(R: "RenderCtx", t: float, lane: str, y: float, v: float) -> float:  # noqa: N803
     """같은 프레임·같은 레인 끝값 라벨 기준선 세로 분산(v7.4.0 D-0256) — 이미 놓인 라벨과 rules series.end_label_min_gap_px 안이면
     값이 작으면 아래로, 크면 위로 민다. 놓인 자리는 R.cache["series_end_labels"] 에(검사 [series-label-overlap] 가 읽는다)."""
@@ -355,8 +371,9 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
             by = clear_axis_labels(ctx, view, stage, e["lane"], rng, rec.unit, x0, lw, by)   # v7.4.0 — 축 눈금 라벨을 세로로 비킨다
             box = (x0, by - S.value_size, x0 + lw, by)
             if not _hits(box, _lane_name_box(ctx, view, stage, e["lane"])):   # 레인 이름을 덮지 않는다(끝점은 그대로)
+                plate = draw_end_label_plate(ctx, box, a)   # v7.4.0 D-0277 §2 — 강조 띠 위 대비
                 text(ctx, s, box[0], by, S.value_size, S.value_font, tip, a, S.value_halo, "l")
-                R.cache["series_end_labels"]["lanes"][e["lane"]].append((by, last[2], box))
+                R.cache["series_end_labels"]["lanes"][e["lane"]].append((by, last[2], box, plate))
     _draw_axis(ctx, view, stage, e, rng, rec.unit, a, R, t)
     _draw_source(ctx, view, stage, e, a)
 

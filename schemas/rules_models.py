@@ -1981,6 +1981,7 @@ class TimelineSeries(_Strict):
     source_font: str
     source_halo: float
     end_label_min_gap_px: float = Field(gt=0)   # v7.4.0 D-0256 — 같은 레인 끝값 라벨 세로 최소 간격(기준선 사이)
+    end_label_plate: "EndLabelPlate"   # v7.4.0 D-0277 §2 — 끝값 라벨 뒤 판(바탕 bg_rgb)
     pin_label_rows: int = Field(ge=1)              # v7.4.0 D-0274 §1② — 값 레인 위 핀 라벨 단 수(선 위·아래 각)
     pin_label_first_dy_px: float = Field(gt=0)     # 점 → 가장 가까운 단 라벨 상자 가장자리
     pin_label_row_gap_px: float = Field(gt=0)      # 한 줄 라벨 단 간격(글자 + 여백)
@@ -2009,6 +2010,13 @@ class TimelineBand(_Strict):
     edge_alpha: float = Field(gt=0, le=1)
     edge_w: float = Field(gt=0)
     sep: str = Field(min_length=1)
+
+
+class EndLabelPlate(_Strict):
+    """v7.4.0 back_and_forth D-0277 §2 — 끝값 라벨 뒤 판. 색 = stage_timeline.bg_rgb, 글자 상자 + pad_px."""
+
+    alpha: float = Field(gt=0, le=1)
+    pad_px: float = Field(ge=0)
 
 
 class TimelineLaneRange(_Strict):
