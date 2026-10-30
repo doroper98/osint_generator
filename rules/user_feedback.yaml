@@ -2259,3 +2259,14 @@ entries:
   status: open
   decision: D-0308(어휘 6가지 → 규칙 키, 패턴 해칭 제외, 다섯 막 대입, 스케치 재작업 요소별 — 장치는 구현 뒤 guards 에)
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
+- id: UF-150
+  date: '2026-10-30'
+  project: war_history_template
+  at: 전쟁사 템플릿 설계 대화 — 고대·과거 전쟁사의 필수 요소
+  quote: 그리고 그런 고대나 과거 전쟁사 같은 경우에는 진영이나 인물에 대한 묘사도 중요한데 그에 못지 않게 해당 시점을 묘사한 고대 미술사적 자료나, 유적지, 지역에 대한 유래에 대한 정보를 제공하는게 못지 않게 중요해.
+  quote_kind: verbatim
+  category: 전쟁사 장르 — 증거 층 셋(당대 미술 자료·유적지·지명 유래) 필수, 진영·인물 묘사와 같은 무게
+  guards: []
+  status: open
+  decision: D-0307 §3(period_art·site·toponymy 레코드와 라벨, [evidence-layer-missing]·[period-art-label-missing] hard — 장치는 구현 뒤 guards 에)
+  source: 감독 세션(Fable) 사용자 대화 2026-10-30
