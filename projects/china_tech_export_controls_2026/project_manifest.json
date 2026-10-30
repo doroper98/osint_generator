@@ -4,8 +4,8 @@
   "title": "제품은 팔고, 능력은 안 판다 — 중국 기술 수출통제",
   "category": "geopolitics",
   "created_at": "2026-10-30T06:43:38.640082Z",
-  "updated_at": "2026-10-30T08:27:21.496307Z",
-  "current_state": "voice_timeline",
+  "updated_at": "2026-10-30T10:00:16.211439Z",
+  "current_state": "preview_qa",
   "target_duration_min": 18,
   "topic_summary": "중국 상무부 2026년 10월 기술·이중용도 수출통제 공고(제48~52호)와 영업비밀 특별규정 초안, 한국 접점",
   "initial_links": [],
@@ -48,7 +48,124 @@
       "chosen_version": null
     }
   ],
-  "stage_records": [],
+  "stage_records": [
+    {
+      "state": "voice_timeline",
+      "stage": "plan",
+      "ok": true,
+      "at": "2026-10-30T08:50:15.883624Z",
+      "artifacts": {
+        "plan": "/home/user/osint_generator/projects/china_tech_export_controls_2026/plan.json",
+        "tts": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/01_plan.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets",
+      "ok": true,
+      "at": "2026-10-30T08:56:41.056209Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/china_tech_export_controls_2026/assets",
+        "report": "/home/user/osint_generator/projects/china_tech_export_controls_2026/assets/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/02_assets.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets_final",
+      "ok": true,
+      "at": "2026-10-30T08:57:48.427524Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/china_tech_export_controls_2026/assets/res_720p",
+        "report": "/home/user/osint_generator/projects/china_tech_export_controls_2026/assets/res_720p/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/03_assets_final.json"
+    },
+    {
+      "state": "direction",
+      "stage": "director",
+      "ok": false,
+      "at": "2026-10-30T09:18:37.307786Z",
+      "artifacts": {},
+      "errors": [
+        "director 입력 오류: FileNotFoundError: [Errno 2] No such file or directory: '/home/user/osint_generator/projects/china_tech_export_controls_2026/labels.yaml'"
+      ],
+      "drops": 0,
+      "log": "logs/stages/04_director.json"
+    },
+    {
+      "state": "direction",
+      "stage": "director",
+      "ok": false,
+      "at": "2026-10-30T09:39:11.017595Z",
+      "artifacts": {
+        "out0": "llm_calls/llm_20261030_093015_5257.json"
+      },
+      "errors": [
+        "check_parsed: 크레딧·권리 점검 실패:\n크레딧 '내레이션' 이 가리키는 권리 항목 없음: narration.tts\n권리 레지스트리 fonts 절이 비었다 — 렌더가 쓰는 자산의 권리 기록 없음\n권리 레지스트리 map 절이 비었다 — 렌더가 쓰는 자산의 권리 기록 없음\n엔딩 크레딧 누락: media.china_tech_export_controls_2026_art_0001\n엔딩 크레딧 누락: media.china_tech_export_controls_2026_art_0002\n엔딩 크레딧 누락: media.china_tech_export_controls_2026_art_0004\n엔딩 크레딧 누락: media.china_tech_export_controls_2026_art_0007\n엔딩 크레딧 누락: media.china_tech_export_controls_2026_art_0012\n엔딩 크레딧 누락: media.china_tech_export_controls_2026_art_0021\n엔딩 크레딧 누락: media.china_tech_export_controls_2026_art_0023\n엔딩 크레딧 누락: media.cn_dji_matrice30\n엔딩 크레딧 누락: media.cn_perovskite_cell\n엔딩 크레딧 누락: media.cn_tbm_crchi_2021\n엔딩 크레딧 누락: media.cn_trump_xi_gimhae_2025\n권리 레지스트리 narration 절이 비었다 — 렌더가 쓰는 자산의 권리 기록 없음"
+      ],
+      "drops": 0,
+      "log": "logs/stages/05_director.json"
+    },
+    {
+      "state": "direction",
+      "stage": "director",
+      "ok": true,
+      "at": "2026-10-30T09:52:31.235310Z",
+      "artifacts": {
+        "out0": "direction.yaml",
+        "out1": "llm_calls/llm_20261030_094108_87c0.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/06_director.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-10-30T09:54:26.535064Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/china_tech_export_controls_2026/script.yaml",
+        "label_counts": "{\"verified\": 17, \"corroborated\": 26, \"unverified\": 13, \"disputed\": 0}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/07_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-10-30T09:57:20.428450Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/china_tech_export_controls_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 6, \"events\": 56, \"frames\": 9529}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/08_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": true,
+      "at": "2026-10-30T10:00:16.208465Z",
+      "artifacts": {
+        "camera_suggest": "/home/user/osint_generator/projects/china_tech_export_controls_2026/prev/camera_suggest.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/09_camera_suggest.json"
+    }
+  ],
   "final_outputs": {},
   "state_history": [
     {
@@ -86,6 +203,24 @@
       "to_state": "voice_timeline",
       "transitioned_at": "2026-10-30T08:27:21.496223Z",
       "reason": "script_approval 승인 — fable"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "assets",
+      "transitioned_at": "2026-10-30T08:50:15.889835Z",
+      "reason": "engine plan ok"
+    },
+    {
+      "from_state": "assets",
+      "to_state": "direction",
+      "transitioned_at": "2026-10-30T08:57:48.434811Z",
+      "reason": "engine assets, assets_final ok"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-10-30T10:00:16.211327Z",
+      "reason": "engine direction_validate, validate, camera_suggest ok"
     }
   ],
   "rollbacks": [],
