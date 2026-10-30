@@ -27,3 +27,6 @@ princess 팔레트·무늬 없는 바탕·각진 막대(바깥 끝 3px)·accent 
 
 ## §3 다음
 위 넷 반영한 **3차 7컷**(같은 시각) → artifacts → R. 그다음 bullet(컨센서스 넷으로)·덤벨·diverging·slope·가이던스 각 1컷. 삼성 DX = −0.8(손실) 확인 — 구상안 CONCEPT.md 에 반영했다.
+
+## §4 정정(감독, 2026-10-30 17:40Z) — 비네팅은 **끈다**. §2 첫 줄과 D-0310 §1-4 는 감독 오독
+구현(R 회신)이 맞다: `docs/handoff/KICKOFF_PROMPT.md` §5 "**다시 들여오면 안 되는 것**: … 도장 · 비네팅 …", `rules/video_rules.yaml forbidden_components: [stamp, vignette, …]`, `engine/checks.py` forbidden hard, provenance "비네트 없음". CLAUDE.md C0 의 "되돌리면 안 되는 것" 목록은 **이미 뺀 것을 다시 넣지 말라**는 목록이지 유지 항목이 아니다. 감독이 반대로 읽었다(LLM-AP-021). 경제 테마 배경 = princess 바탕 **평면**(비네팅·무늬 없음). 3차 스케치는 비네팅 없이 — 구현 판단 승인.
