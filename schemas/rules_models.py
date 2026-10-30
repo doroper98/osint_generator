@@ -2274,6 +2274,7 @@ class FlightInsetRules(_Strict):
     move_sec: float = Field(default=0.6, gt=0)       # 자리 옮김 보간 길이(ease in-out)
     jump_px_max: float = Field(default=24.0, gt=0)   # [inset-jump] hard — 원 중심 프레임 간 이동 상한
     move_headroom: float = Field(default=0.75, gt=0, le=1)   # 보간 최고 속도 ≤ jump_px_max × 이 값(나머지는 카메라가 표적을 미는 몫)
+    predict_keyframes: bool = False   # v7.4.0 D-0305 ② — 인셋 생애 전 구도에 맞는 자리를 미리 골라 처음부터 고정(옮김 0), 없을 때만 보간
 
 
 class FlightRules(_Strict):

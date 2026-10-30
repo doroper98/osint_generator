@@ -12,6 +12,7 @@ import re
 
 import json
 from dataclasses import dataclass, field
+import math
 from datetime import date
 from pathlib import Path
 from typing import Optional
@@ -556,11 +557,20 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     prepare_series(R, events, chart_cams, n, chart_stage or R.stage)   # v4.3.0 D-0084 작업 4 — 레코드 로드·레인 범위·grow 앞끝(카메라 경로)
     if R.stage.name == "mercator" and cams is not None:   # v7.4.0 D-0300(UF-146) — 위성 인셋 자리 궤적(등장 때 고정, 옮기면 보간)을 카메라 경로로 한 번 계산
         from engine.layers.flight import build_inset_track, inset_alpha  # noqa: PLC0415
+        from engine.layers.markers import marker_box  # noqa: PLC0415
 
+        mctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
         for e in events:
             if e["type"] == "flight" and e.get("inset"):
-                fr = [(i, *View(R.stage, cams[i]).to_screen(*e["world"])) for i in range(max(0, int(e["t0"] * FPS)), min(n, int(e["t1"] * FPS) + 1))
-                      if inset_alpha(i / FPS, e) > 0]
+                # D-0305 ① — 표적 자신의 표지(같은 자리 marker) 라벨 상자는 인셋 자리 장애물
+                tgt = [m for m in events if m["type"] == "marker" and m.get("label") and m.get("world") is not None
+                       and math.hypot(m["world"][0] - e["world"][0], m["world"][1] - e["world"][1]) < 1e-6]
+                fr = []
+                for i in range(max(0, int(e["t0"] * FPS)), min(n, int(e["t1"] * FPS) + 1)):
+                    if inset_alpha(i / FPS, e) > 0:
+                        v = View(R.stage, cams[i])
+                        obs = [marker_box(mctx, m, *v.to_screen(*m["world"]), with_sub=True) for m in tgt if m["t0"] <= i / FPS <= m["t1"]]
+                        fr.append((i, *v.to_screen(*e["world"]), obs))
                 build_inset_track(e, fr)
     from engine.pin_labels import PinScene, assign_pin_rows, pin_label_check  # noqa: PLC0415
 

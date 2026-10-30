@@ -1514,6 +1514,9 @@ flight:                    # v7.3.0 back_and_forth D-0206·D-0225(사용자 결�
     sticky_side: true
     move_sec: 0.6
     jump_px_max: 24
+    # v7.4.0 D-0305 — 자리는 예측해서 고른다: 인셋 생애(lead~hold_until)의 모든 프레임 구도에서 안전 영역·표적 표지 라벨에 맞는 side 를 side_order 순으로 먼저 찾아
+    # 처음부터 고정(미끄러짐 0). 없을 때만 sticky + 보간. 표적 표지(같은 자리 marker) 라벨 상자는 늘 장애물(D-0305 ①)
+    predict_keyframes: true
     move_headroom: 0.75          # 보간 시간은 move_sec 이 하한 — 거리가 길면 최고 속도 ≤ jump_px_max × 0.75 가 되게 늘린다(geo 콘티 판 v2.1: 0.6초 보간이 25px/프레임)
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)
