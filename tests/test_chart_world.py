@@ -59,21 +59,18 @@ class ChartOnlyRunTest(unittest.TestCase):
         self.assertEqual(len(_hard(_P(ev, stage="timeline"))), 1)
 
     def test_exempt_regression_only(self) -> None:
-        """D-0271 — 면제는 회귀 기준 hormuz_korea 하나(시험 고정). 면제 프로젝트도 구간은 계산·기록하고 hard 만 뺀다."""
+        """D-0271·D-0311 — 면제는 qa_checks.regression_refs(회귀 기준만, 범위 = tests/test_regression_refs.py). 구간은 계산·기록하고 hard 만 뺀다."""
         from pathlib import Path  # noqa: PLC0415
 
-        self.assertEqual(sorted(C.exempt_projects), ["hormuz_korea"])
-        src = (Path(checks.__file__).parent / "mux.py").read_text(encoding="utf-8")
-        self.assertIn("P.root.name not in QA.chart_only_run.exempt_projects", Path(checks.__file__).read_text(encoding="utf-8"))
-        self.assertIn('prov["chart_only_exempt"] = P.root.name in load_rules().qa_checks.chart_only_run.exempt_projects', src)
+        self.assertIn("chart_only_run", checks.QA.regression_ref_checks)
         ev = [{"type": "series", "t0": 0.0, "t1": 20.0}]
         for name, n in (("hormuz_korea", 0), ("showcase_econ", 1)):
             P = _P(ev, stage="timeline")  # noqa: N806
             P.root = Path(name)
             runs = checks.chart_only_runs(P)
             self.assertEqual(len(runs), 1)   # 구간 기록은 면제와 무관
-            hard = [r for r in runs if r[1] - r[0] > C.max_sec and P.root.name not in C.exempt_projects]
-            self.assertEqual(len(hard), n)
+            lines = [f"x{b - a}" for a, b in runs if b - a > C.max_sec]
+            self.assertEqual(len(checks.waive_regression(P, "chart_only_run", lines)), n)
 
     def test_rules_key(self) -> None:
         self.assertEqual(C.max_sec, 12)   # D-0252 Fable 결정 — 바꾸면 결정 기록과 함께

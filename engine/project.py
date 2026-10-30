@@ -429,6 +429,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     from engine.source_note import source_notes  # noqa: PLC0415
 
     R.cache["story_geo_exempt"] = doc.story_geo_exempt   # v5.22.1 D-0205 — 골든만
+    R.cache["project_id"] = doc.project_id or proj.name   # v7.4.0 D-0311 — 회귀 기준 판정 키(폴더 이름 폴백)
     R.cache["opening_exempt"] = doc.opening_exempt   # v5.6.0 RENDER-AP-016 — 검사 opening_establish 면제 사유
     R.cache["source_notes"] = source_notes(proj)   # v5.6.0 — 참조 출처 화면 표기(sid → 링크 줄, rules source_note)
     modes = {}

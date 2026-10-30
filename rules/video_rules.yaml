@@ -496,9 +496,7 @@ media_beats:               # 14 §10
   # UF-119 재발) — 검사 [media-density] hard: (photo + clip + cutout 이벤트 수) ÷ 영상 분 < 이 값이면 실패. 사유로 통과 없음. 등재 실사 0 이면
   # 연출 착수 거부 [media-none](workers.direction_io.require_visual_media). 값 1.5 = 감독 제안(D-0261 §2①)
   min_density_per_min: 1.5   # D-0265 §5 — backdrop 무대의 배경 사진(backdrop 이벤트)도 이벤트마다 사진 1장으로 센다(배경도 실사)
-  density_exempt_projects:   # 회귀 기준만(새 영상 아님). 범위 = tests/test_media_density.py 가 이 두 개로 고정
-    hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
-    fed_timeline_demo: "시간축 엔진 검증용 데모(배포 영상 아님) — 미디어 없는 순수 차트 픽스처"
+  # 회귀 기준 면제는 qa_checks.regression_refs 한 곳(v7.4.0 D-0311 — 옛 density_exempt_projects 삭제)
   # v7.3.0 사용자 결정 D232 U1·D234 — 위성 인셋(kind inset) 라이선스 허용 목록(한 곳). 목록 밖 = 레지스트리 로드 오류(RightsError).
   # private_only: true = 비공개 시청 한정(사용자 결정 D234) — 레지스트리 항목에 scope: private_only 필수, provenance private_only_assets 에 기록.
   # 공개 전환 시 private_only 인셋은 NASA GIBS/Sentinel 타일로 교체할 의무가 있다(교체 전 공개 금지).
@@ -1852,8 +1850,7 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
     chart_island_kinds: [chart]
     chart_primitives: [dot_plot, statement_diff]
     neutral_types: [dip, island]   # island 는 kind 로만 판정(chart → 차트). 그 밖 아일랜드는 안의 사진·영상 이벤트가 따로 센다
-    exempt_projects:   # v7.4.0 D-0271 — 회귀 기준만(새 영상·쇼케이스 면제 없음). 검사는 돌고 provenance chart_only_runs·chart_only_exempt 기록, hard 만 면제. 범위 = tests/test_chart_world.py 가 이 하나로 고정
-      hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
+    # 회귀 기준 면제 = qa_checks.regression_refs(v7.4.0 D-0311 — 옛 exempt_projects 삭제, D-0271 원칙 그대로)
     map_stages: [mercator]
   card_over_panel: {min_overlap_sec: 0.3, panel_pad_px: 4, cover_types: [cascade, article, quote, primitive],
                     cover_types_on_data_panels: [photo, clip, cutout, badge],
@@ -1866,6 +1863,13 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # v7.4.0 back_and_forth D-0306 §1.2(UF-148) — 화면 글자가 자막을 되풀이하면 [text-restates-narration] hard. 어절 겹침 비율 상한·대상 최소 어절(짧은 이름표 제외). 감독 제안 값
   restate_overlap_max: 0.6
   restate_min_words: 4
+  # v7.4.0 back_and_forth D-0311 — 회귀 기준(사용자 영상 아님) 한 목록. media_density·chart_only_run·plot_height·axis_empty_band 의 hard 만 면제 —
+  # 검사는 돌고 provenance regression_waived 에 줄이 남는다(D-0251·D-0271 예외 원칙). 판정 키 = direction project_id(없으면 폴더 이름) —
+  # 합성 사본(tests/test_g8_animatic synthetic_project)도 원본 id 를 연출에 싣고 온다. 범위 = tests/test_regression_refs.py 가 이 둘로 고정
+  regression_refs:
+    hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
+    fed_timeline_demo: "시간축 엔진 검증용 데모(배포 영상 아님) — 미디어 없는 순수 차트 픽스처"
+  regression_ref_checks: [media_density, chart_only_run, plot_height, axis_empty_band]
   # v7.4.0 D-0229 §2.6(UF-113 "몇 척중 몇척은 제재 대상임을 그래픽으로") — 문장에 "N 척 중·가운데 M" 문형이 있는데 그 문장 구간에 dots·versus 패널·series 가 없으면 warning ratio_graphic
   ratio_patterns:
     - '(\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|스무|스물)\s*(척|곳|건|명|개|대|기)\s*(중|가운데)'

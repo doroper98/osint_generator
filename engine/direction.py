@@ -208,6 +208,7 @@ class Direction(_Strict):
     media_note: Optional[str] = None       # v5.6.0 PIPELINE-AP-019 — 인용·기사 조판·실사를 0건으로 둔 이유(게이트 ② 미디어 요약에 보인다)
     story_geo_exempt: Optional[dict[str, str]] = None   # v5.22.1 D-0205 — 골든 기준 연출만 {reason, decision}: route_missing·frame_missing 면제(테스트가 범위 강제)
     opening_exempt: Optional[str] = None   # v5.6.0 RENDER-AP-016 — 넓은 지도 오프닝을 하지 않는 이유(없으면 검사 opening_establish hard)
+    project_id: Optional[str] = None   # v7.4.0 D-0311 — 프로젝트 id(회귀 기준 판정 qa_checks.regression_refs). 없으면 폴더 이름
     stage_reason: Optional[str] = None   # v5.1.0 D-0123 §2 — 장르 기본 무대(default_stage)와 다른 무대를 고른 이유(없으면 checks stage_choice warning)
     stage_config: dict[str, dict[str, Any]] = Field(default_factory=dict)   # v4.3.0 D-0084 작업 3 — 무대 이름 → 설정
     places: dict[str, tuple[float, float]] = Field(default_factory=dict)

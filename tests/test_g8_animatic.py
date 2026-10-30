@@ -9,6 +9,7 @@ from __future__ import annotations
 import pytest
 import hashlib
 import json
+import re
 import shutil
 import subprocess
 import tempfile
@@ -33,6 +34,9 @@ def synthetic_project(name: str, dst: Path) -> Path:
         q = dst / (REPO / f).relative_to(src)
         q.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy(REPO / f, q)
+    d = dst / "direction.yaml"   # v7.4.0 D-0311 — 사본도 원본 프로젝트 id(회귀 기준 판정 키)를 싣는다
+    if d.exists() and not re.search(r"^project_id:", d.read_text(encoding="utf-8"), re.M):
+        d.write_text(f"project_id: {name}\n" + d.read_text(encoding="utf-8"), encoding="utf-8")
     sc = load_script(dst)
     rows = sentence_rows(sc)
     for x in rows:

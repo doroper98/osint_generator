@@ -2250,7 +2250,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "catalog_label_overlap": lambda: check_catalog_label_overlap(P),   # v7.4.0 D-0251 §1.1(hard, 카탈로그 판만)
         "chart_only_run": lambda: [f"[chart-only-run] {a:.1f}~{b:.1f}초 ({b - a:.1f}초) 차트·카드만 보인다 — 상한 {QA.chart_only_run.max_sec:g}초. "
                                    "사건 핀·인물·사진·기사·인용·지도 중 하나를 넣는다(UF-135)" for a, b in chart_only_runs(P)
-                                   if b - a > QA.chart_only_run.max_sec and P.root.name not in QA.chart_only_run.exempt_projects],   # v7.4.0 D-0252(hard). D-0271 회귀 기준 면제
+                                   if b - a > QA.chart_only_run.max_sec],   # v7.4.0 D-0252(hard). 회귀 기준 면제 = waive_regression(D-0311)
         "chart_world_split": lambda: check_chart_world_split(P),   # v7.4.0 D-0251 §6.2-2(hard, UF-135 ②)
         "series_label_overlap": lambda: check_series_label_overlap(P),   # v7.4.0 D-0256(hard)
         "chart_edge_bleed": lambda: check_chart_edge_bleed(P),   # v7.4.0 D-0257(hard, UF-137)
@@ -2303,13 +2303,16 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "map_contrast": lambda: check_map_contrast(P, "required"),         # v5.18.0 D-0161 §4(hard)
         "map_contrast_shape": lambda: check_map_contrast(P, "shape"),      # v5.18.0 D-0161 §4(warning)
     }
-    res = {k: f() for k, f in run.items() if k not in skip}
+    res = {k: waive_regression(P, k, f()) for k, f in run.items() if k not in skip}   # v7.4.0 D-0311 — 회귀 기준 hard 만 면제(기록)
+    waived = P.R.cache.get("regression_waived") or {}
+    provenance["regression_waived"] = waived   # 면제한 hard 줄(검사는 돌았다, D-0271 ②) — provenance 는 검사 전에 만들어지므로 여기서 채운다
     notes: dict[str, list[str]] = {}
     if not set(HONESTY) <= skip:
         honesty, notes = judge(project_metas(P, times, labels or [f"t={t:.2f}" for t in times], drawn))
         res.update({k: v for k, v in honesty.items() if k not in skip})
     items = [{"id": k, "severity": "hard" if k in HARD else "warning", "count": len(v), "details": v[:20],
-              **({"notes": notes[k][:20]} if notes.get(k) else {})} for k, v in res.items()]
+              **({"notes": notes[k][:20]} if notes.get(k) else {}),
+              **({"regression_waived": waived[k][:20]} if waived.get(k) else {})} for k, v in res.items()]
     items += [{"id": k, "severity": "hard" if k in HARD else "warning", "count": 0, "details": [], "skipped": True}
               for k in sorted(skip)]
     hard = sum(i["count"] for i in items if i["severity"] == "hard")
@@ -2709,12 +2712,25 @@ def media_density(events: list[dict], total_sec: float) -> tuple[int, float]:
     return n, n / max(total_sec / 60.0, 1e-9)
 
 
+def regression_ref(P) -> "str | None":  # noqa: ANN001, N803
+    """v7.4.0 D-0311 — 회귀 기준 프로젝트 id(rules qa_checks.regression_refs) 또는 None. 판정 키 = direction project_id(load_project 가
+    R.cache project_id 에 둔다), 없으면 폴더 이름 — 폴더 이름만 보면 합성 사본(demo)이 면제를 못 받는다."""
+    pid = (getattr(P, "R", None) and P.R.cache.get("project_id")) or getattr(getattr(P, "root", None), "name", None)
+    return pid if pid in QA.regression_refs else None
+
+
+def waive_regression(P, cid: str, lines: list[str]) -> list[str]:  # noqa: ANN001, N803
+    """회귀 기준이면 hard 줄을 provenance 용 R.cache regression_waived[cid] 로 옮기고 [] (검사는 돈다, D-0251·D-0271 원칙)."""
+    if not lines or cid not in QA.regression_ref_checks or regression_ref(P) is None:
+        return lines
+    P.R.cache.setdefault("regression_waived", {})[cid] = lines
+    return []
+
+
 def check_media_density(P) -> list[str]:  # noqa: ANN001, N803
     """[media-density] hard(v7.4.0 back_and_forth D-0261, 사용자 의견 UF-139 "레퍼런스 사진이나 영상 풍부하게") — 사진·영상·컷아웃 이벤트가
-    분당 rules media_beats.min_density_per_min 미만이면 실패. 사유로 통과 없음. 회귀 기준(density_exempt_projects)만 제외."""
+    분당 rules media_beats.min_density_per_min 미만이면 실패. 사유로 통과 없음. 회귀 기준(qa_checks.regression_refs)만 hard 면제(waive_regression)."""
     MB = R_.media_beats  # noqa: N806
-    if P.root.name in MB.density_exempt_projects:
-        return []
     n, d = media_density(P.events, P.plan.total)
     if d >= MB.min_density_per_min:
         return []
