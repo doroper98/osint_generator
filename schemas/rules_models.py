@@ -2043,6 +2043,7 @@ class TimelineProjection(_Strict):
     band_alpha: float = Field(ge=0, le=1)
     median_alpha: float = Field(gt=0, le=1)
     label_dy: float = Field(gt=0)
+    hold_clip: Literal["hard", "off"] = "hard"   # v7.4.0 D-0277 §1 — 카메라가 머무는 창에서 전망 열 반쯤 잘림·마지막 실측 점 없음 = [chart-edge-bleed]
 
 
 class TimelineAxisScale(_Strict):

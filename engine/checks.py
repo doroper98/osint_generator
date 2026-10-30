@@ -2638,7 +2638,102 @@ def check_chart_edge_bleed(P) -> list[str]:  # noqa: ANN001, N803
                 for name, b in chart_text_boxes(cst, v, chart["events"], t, rng, bx, by_):
                     if b[0] < bx or b[2] > bx + bw or b[1] < by_ or b[3] > by_ + bh:
                         out.append(f"[chart-edge-bleed] t={t:.2f} 아일랜드 {name} 상자 {tuple(round(x, 1) for x in b)} 가 상자 밖에 닿는다")
+    out += projection_hold_issues(P)   # v7.4.0 D-0277 §1
     return list(dict.fromkeys(out))
+
+
+PROJ_HOLD_MIN_SEC = 0.5   # v7.4.0 D-0277 §1 — 카메라가 이만큼 멈춰 있으면 "머무는 창"(이동 보간 중 통과는 허용)
+
+
+def camera_holds(cams: np.ndarray) -> list[int]:
+    """카메라가 PROJ_HOLD_MIN_SEC 이상 멈춘 구간마다 가운데 프레임 번호."""
+    if cams is None or len(cams) < 2:
+        return []
+    still = np.r_[False, np.all(np.abs(np.diff(cams, axis=0)) < 1e-6, axis=1)]
+    out, i, n = [], 0, len(cams)
+    while i < n:
+        if not still[i]:
+            i += 1
+            continue
+        j = i
+        while j < n and still[j]:
+            j += 1
+        if j - i + 1 >= PROJ_HOLD_MIN_SEC * FPS:
+            out.append((i - 1 + j) // 2)
+        i = j
+    return out
+
+
+def projection_hold_views(P) -> list[tuple[float, object, list[dict]]]:  # noqa: ANN001, N803
+    """(시각, 그 프레임의 시간축 뷰, 시간축 이벤트) — 카메라가 머무는 창마다(주 무대 timeline 또는 그 시각 차트 아일랜드)."""
+    st = P.R.stage
+    if st.name == "timeline":
+        return [(i / FPS, View(st, P.cams[i]), P.events) for i in camera_holds(P.cams)]
+    chart = (getattr(P.R, "cache", None) or {}).get("island_chart")
+    if not chart:
+        return []
+    from engine.island import chart_view, island_box  # noqa: PLC0415
+
+    isl = [e for e in P.events if e.get("type") == "island" and e.get("kind") == "chart"]
+    out = []
+    for i in camera_holds(chart["cams"]):
+        t = i / FPS
+        e = next((x for x in isl if x["t0"] <= t <= x["t1"]), None)
+        if e is not None:
+            out.append((t, chart_view(chart, t, island_box(e)), chart["events"]))
+    return out
+
+
+def projection_column_issues(ctx: cairo.Context, st, v, t: float, events: list[dict], rng: dict) -> list[str]:  # noqa: ANN001
+    """한 머무는 창의 전망 열 판정(v7.4.0 back_and_forth D-0277 §1) — ① 열(점 묶음)이 플롯 가장자리에 점 반지름 이상 잘리면 실패
+    ② 전망 열이 하나라도 보이는데 같은 레인 마지막 실측 점이 플롯 밖이면 실패(선 → 점 연속, C0 chart_world)."""
+    from data.series import load_series  # noqa: PLC0415
+    from engine.layers.series import _dot_rules, projection_dots, record_ids, record_points  # noqa: PLC0415
+    from engine.pin_labels import plot_bounds  # noqa: PLC0415
+
+    out = []
+    r = _dot_rules().dot_r
+    stag = TIMELINE.projection.column_stagger_sec
+    for e in events:
+        if e.get("type") != "series" or e.get("style") != "projection" or not e["t0"] <= t <= e["t1"] or e["lane"] not in rng:
+            continue
+        rec = load_series(e["series_id"])
+        L, _, R, _ = plot_bounds(ctx, v, st, e["lane"], rng[e["lane"]], rec.unit)
+        seen = False
+        for i, label, x, pts, _ in projection_dots(st, e, rec, rng[e["lane"]]):
+            if t < e["t0"] + i * stag:
+                continue
+            sx, _ = v.to_screen(x, 0.0)
+            c0, c1 = sx + min(dx for dx, _ in pts) - r, sx + max(dx for dx, _ in pts) + r
+            if c1 <= L or c0 >= R:
+                continue
+            seen = True
+            cut = max(0.0, L - c0) + max(0.0, c1 - R)
+            if cut >= r:
+                out.append(f"[chart-edge-bleed] t={t:.2f} 전망 열 {label} 이 플롯 가장자리에 {cut:.0f}px 잘린 채 카메라가 머문다 — 완전히 안 또는"
+                           " 완전히 밖으로(D-0277 §1)")
+        if not seen:
+            continue
+        last = max((d for o in events if o.get("type") == "series" and o.get("lane") == e["lane"] and o.get("style") != "projection"
+                    for sid in record_ids(o) for d, _ in record_points(load_series(sid))), default=None)
+        if last is not None:
+            ax, _ = v.to_screen(st.x_of(last), 0.0)
+            if not L <= ax <= R:
+                out.append(f"[chart-edge-bleed] t={t:.2f} 전망 열이 보이는 머무는 창에 마지막 실측 점({last})이 없다 — 선 → 점 연속이 끊긴다(D-0277 §1, C0)")
+    return out
+
+
+def projection_hold_issues(P) -> list[str]:  # noqa: ANN001, N803
+    """[chart-edge-bleed] 전망 열 홀드 판정(v7.4.0 D-0277 §1, rules stage_timeline.projection.hold_clip)."""
+    if TIMELINE.projection.hold_clip != "hard":
+        return []
+    rng = P.R.cache.get("series_range") or {}
+    world = chart_world(P)
+    if world is None or not rng:
+        return []
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    st = world[0]
+    return [s for t, v, ev in projection_hold_views(P) for s in projection_column_issues(ctx, st, v, t, ev, rng)]
 
 
 def catalog_label_times(P) -> list[float]:  # noqa: ANN001, N803

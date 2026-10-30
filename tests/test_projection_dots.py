@@ -97,3 +97,59 @@ class LaneSourceJoinTest(unittest.TestCase):
         lines = [t for t, _ in projection_tag_lines(v, st, EV[0], SEP)]
         self.assertIn("SEP", lines[0])
         self.assertEqual(lines[1], "참가자별 전망이며 약속이 아님")
+
+
+class ProjectionHoldTest(unittest.TestCase):
+    """v7.4.0 back_and_forth D-0277 §1 — 카메라가 머무는 창에서 전망 열은 완전히 안/밖, 보이면 마지막 실측 점도 함께([chart-edge-bleed] hard).
+    preview_v9 124초: 카메라 2027-08-01 중심 → 2026 연말 열이 왼쪽에 반쯤 잘리고 현재 금리 점(2026-09)이 창 밖."""
+
+    EVS = EV + [{"type": "series", "lane": "policy_rate", "series_id": "FEDFUNDS", "t0": 0.0, "t1": 9.0}]
+
+    def _issues(self, center: str, w: float = 420.0) -> list[str]:
+        import cairo  # noqa: PLC0415
+        import numpy as np  # noqa: PLC0415
+
+        from engine.checks import projection_column_issues  # noqa: PLC0415
+        from engine.projection import View  # noqa: PLC0415
+
+        st = _stage()
+        rng = {"policy_rate": lane_range(self.EVS, "policy_rate", st)}
+        v = View(st, np.array([st.x_of(center), 1.0, w]))
+        ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+        return projection_column_issues(ctx, st, v, 8.9, self.EVS, rng)
+
+    def test_cut_column_and_missing_last_point_fail(self) -> None:
+        out = self._issues("2027-08-01")
+        self.assertTrue(any("잘린" in s for s in out) or any("마지막 실측 점" in s for s in out), out)
+        self.assertTrue(any("마지막 실측 점" in s for s in out), out)
+
+    def test_half_cut_column_fails(self) -> None:
+        """2026 연말 열 가운데가 플롯 왼쪽 끝에 오도록 카메라를 둔다 → 열이 반 잘림 = hard."""
+        import cairo  # noqa: PLC0415
+        import numpy as np  # noqa: PLC0415
+
+        from engine.checks import projection_column_issues  # noqa: PLC0415
+        from engine.pin_labels import plot_bounds  # noqa: PLC0415
+        from engine.projection import View  # noqa: PLC0415
+
+        st = _stage()
+        rng = {"policy_rate": lane_range(self.EVS, "policy_rate", st)}
+        ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+        v = View(st, np.array([st.x_of("2027-06-01"), 1.0, 420.0]))
+        L = plot_bounds(ctx, v, st, "policy_rate", rng["policy_rate"], "%")[0]
+        col_x = v.to_screen(st.x_of("2026-12-31"), 0.0)[0]
+        v = View(st, np.array([st.x_of("2027-06-01") + (col_x - L) / v.s, 1.0, 420.0]))   # 열 가운데 = L
+        out = projection_column_issues(ctx, st, v, 8.9, self.EVS, rng)
+        self.assertTrue(any("2026" in s and "잘린" in s for s in out), out)
+
+    def test_year_end_column_with_current_point_passes(self) -> None:
+        self.assertEqual(self._issues("2026-11-01"), [])
+
+    def test_camera_holds(self) -> None:
+        import numpy as np  # noqa: PLC0415
+
+        from engine.checks import camera_holds  # noqa: PLC0415
+
+        cams = np.vstack([np.linspace([0, 1, 400], [100, 1, 400], 24), np.tile([100, 1, 400], (48, 1))])
+        self.assertEqual(len(camera_holds(cams)), 1)
+        self.assertEqual(TIMELINE.projection.hold_clip, "hard")
