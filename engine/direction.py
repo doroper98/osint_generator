@@ -53,7 +53,7 @@ if TYPE_CHECKING:
     from engine.stage import Stage
     from schemas.genre_models import GenreProfile
 
-ANCHOR_BASES: tuple[str, ...] = ("sid", "scene_start", "scene_end", "word", "card", "total", "span")
+ANCHOR_BASES: tuple[str, ...] = ("sid", "scene_start", "scene_end", "word", "card", "total", "span", "hold")   # hold = v7.4.0 D-0274 §2③ 발언 자리(plan.holds, 문장 sid)
 ANCHOR_KEYS: frozenset[str] = frozenset(ANCHOR_BASES) | {"off", "edge"}
 DIP_HALF_SEC = 0.5   # Director.dip 과 같은 1초 암전(05 §2 dip_total_sec) — 한가운데 cut
 
@@ -367,6 +367,9 @@ def resolve_anchor(a: object, tb: Timebase) -> float:
         elif "card" in a:
             c = tb.card(a["card"])
             t = c.t1 if edge == "end" else c.t0
+        elif "hold" in a:
+            h = tb.hold(a["hold"])
+            t = h.t1 if edge == "end" else h.t0
         else:
             t = tb.total
     except (KeyError, StopIteration, ValueError) as ex:
