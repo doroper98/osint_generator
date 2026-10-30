@@ -29,7 +29,7 @@ media:
   rights: 권리 레지스트리·미디어 레지스트리에 라이선스를 기록한다. 비공개 시청 전제(D264) scope private_only. 사실 장면 AI 생성 금지.
 decisions:
   topic: {value: 중국 기술 수출통제 확대(2026.10), by: user, ref: "D-0282 감독 추천안 2번 위임"}
-  map_theme: {value: light, by: default, ref: "장르 기본(D154) — 지경학, 감독 결정 D279"}
+  map_theme: {value: light, by: default, ref: "장르 기본(D154) — 지경학, 감독 결정 D500"}
   bgm: {value: music.zabriskie_mario_bava, by: default, ref: "rules audio.bgm_default 첫 곡 — 기준 작품과 같다"}
   resolution: {value: 720p, by: user, ref: 사용자 결정 2026-10-04 "기준 해상도는 720p야"}
   gates: {value: "게이트 ①·② 감독 위임", by: user, ref: "D-0282"}

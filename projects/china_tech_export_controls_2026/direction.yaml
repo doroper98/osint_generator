@@ -9,7 +9,7 @@ stage_reason: null
 stage_config:
   mercator:
     theme: light
-    theme_reason: 지경학 장르 기본 D154, 감독 결정 D279
+    theme_reason: 지경학 장르 기본 D154, 감독 결정 D500
 places:
   beijing:
   - 116.4
