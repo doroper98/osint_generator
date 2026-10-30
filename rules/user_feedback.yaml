@@ -2303,3 +2303,14 @@ entries:
   status: open
   decision: D-0308 §6(배정 표·스케치 목록 갱신 — 장치는 T3 등록 때 guards 에)
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
+- id: UF-154
+  date: '2026-10-30'
+  project: samsung_q3_2026
+  at: "경제 차트 설계 — UF-151·152 보충(복잡도 상한)"
+  quote: 꼭 저 트레이딩뷰 처럼 만들라는게 아니야. 너무 복잡하지 않지만, 그럼에도 불구하고 영상으로서 보는 사람이 이해하고 소화할 수 있는 수준을 높일 수 있도록 고민해서 만들라는 뜻이야
+  quote_kind: verbatim
+  category: 차트 설계 — 소화 가능한 깊이(층은 설명 문장과 함께, 동시 가시 상한, 소화 시간, 나누어 켜기)
+  guards: []
+  status: open
+  decision: D-0309 §6(layer_entry_requires_sentence·visible_series_max 4·layer_dwell_sec 4·[chart-overload] hard — 장치는 구현 뒤 guards 에)
+  source: 감독 세션(Fable) 사용자 대화 2026-10-30
