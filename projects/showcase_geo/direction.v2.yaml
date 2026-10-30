@@ -1,0 +1,1487 @@
+# direction.yaml — AI 연출 수정본(ReviseDirectionWorker, v3.1.0, 17 §5.5). changelog 는 prev/revision.v*.json.
+version: 1
+genre: null
+stage: null
+media_note: 요소 확인용 쇼케이스(D-0251). 연출은 원 프로젝트(diesel_road_2026 v2·hormuz_korea·dmz_mine_2026) 사용자 합격 연출의 같은 문장 이벤트·숏을 새 문장 번호로 옮기고(이식), 원 연출에 없는 문장만 연출가 판(direction.v1)에서
+  가져왔다. 미포함 — quote(원고에 직접 인용 문장 없음), ships·cutout(P-8A)·rok_iraq 사진·precedent 패널(원 프로젝트에서 이 사실을 말한 문장이 이번 원고에 없다), gantt·network·fork·checklist·versus·timeline 패널(원고
+  안 사실 묶음이 패널 하나를 채우지 못한다), post(X 게시물 출처 없음).
+story_geo_exempt: null
+opening_exempt: null
+template_label: 쇼케이스 템플릿 · 지경학
+project_id: null
+stage_reason: null
+stage_config: {}
+places:
+  moscow:
+  - 37.62
+  - 55.75
+  ryazan:
+  - 39.7
+  - 54.62
+  ulsan:
+  - 129.31
+  - 35.54
+  vladivostok:
+  - 131.89
+  - 43.12
+  niigata:
+  - 139.04
+  - 37.92
+  hormuz:
+  - 56.35
+  - 26.55
+  iran_strike:
+  - 51.0
+  - 33.6
+  gulf:
+  - 51.6
+  - 27.0
+  dmz_west:
+  - 126.85
+  - 37.93
+  kirishi:
+  - 32.02
+  - 59.45
+  saratov:
+  - 45.95
+  - 51.5
+  syzran:
+  - 48.4
+  - 53.16
+  khabarovsk_ref:
+  - 135.1
+  - 48.43
+  komsomolsk_ref:
+  - 136.98
+  - 50.56
+  primorye:
+  - 133.6
+  - 44.4
+  yeosu_off:
+  - 127.82
+  - 34.52
+  seoul:
+  - 126.98
+  - 37.57
+  kharg:
+  - 50.32
+  - 29.24
+  south_pars:
+  - 52.6
+  - 27.5
+  ras_laffan:
+  - 51.53
+  - 25.92
+  fujairah:
+  - 56.36
+  - 25.12
+  pump_station:
+  - 44.5
+  - 24.6
+  kharkiv:
+  - 36.23
+  - 49.99
+  poltava:
+  - 34.55
+  - 49.59
+  gulf_label:
+  - 51.5
+  - 29.6
+  hz_hormuz:
+  - 56.35
+  - 26.55
+  hz_seoul:
+  - 126.98
+  - 37.57
+  hz_ulsan:
+  - 129.31
+  - 35.54
+  hz_busan:
+  - 129.04
+  - 35.1
+  hz_kharg:
+  - 50.32
+  - 29.24
+  hz_aden:
+  - 46.8
+  - 12.4
+  hz_embassy:
+  - 126.9775
+  - 37.5725
+  hz_erbil:
+  - 44.01
+  - 36.19
+  dmz_dmz_site:
+  - 126.79
+  - 38.012
+  dmz_cheongwadae:
+  - 126.975
+  - 37.587
+  dmz_yeouido:
+  - 126.914
+  - 37.532
+  dmz_pyongyang:
+  - 125.75
+  - 39.02
+  dmz_paju_2015:
+  - 126.73
+  - 37.955
+  dmz_moscow:
+  - 37.62
+  - 55.75
+  dmz_kyiv:
+  - 30.52
+  - 50.45
+  dmz_kursk:
+  - 36.19
+  - 51.73
+paths:
+  ulsan_vlad:
+  - - 129.45
+    - 35.5
+  - - 130.2
+    - 36.6
+  - - 131.0
+    - 39.0
+  - - 131.6
+    - 41.5
+  - - 132.1
+    - 42.6
+  - - 132.05
+    - 42.95
+  - - 131.92
+    - 43.08
+  leyla_2nd:
+  - - 129.45
+    - 35.5
+  - - 133.5
+    - 37.0
+  - - 137.9
+    - 38.2
+  - - 134.6
+    - 41.0
+  - - 131.85
+    - 42.95
+  gulf_exit:
+  - - 50.0
+    - 28.6
+  - - 52.5
+    - 27.0
+  - - 55.0
+    - 26.4
+  - - 56.35
+    - 26.55
+  - - 57.3
+    - 25.6
+  - - 58.8
+    - 24.0
+  - - 61.5
+    - 22.3
+  il_ir:
+  - - 34.9
+    - 31.7
+  - - 40.5
+    - 33.4
+  - - 46.0
+    - 34.0
+  - - 51.0
+    - 33.6
+  rail_fe:
+  - - 128.47
+    - 50.92
+  - - 130.08
+    - 49.42
+  - - 131.05
+    - 49.0
+  - - 132.93
+    - 48.79
+  - - 135.07
+    - 48.48
+  - - 134.75
+    - 47.53
+  - - 134.27
+    - 46.82
+  - - 133.73
+    - 45.93
+  - - 132.82
+    - 44.6
+  - - 131.95
+    - 43.8
+  - - 131.89
+    - 43.12
+  layla1:
+  - - 129.5
+    - 35.45
+  - - 130.5
+    - 36.9
+  - - 131.4
+    - 39.4
+  - - 131.9
+    - 41.6
+  - - 132.2
+    - 42.6
+  - - 132.08
+    - 42.95
+  - - 131.93
+    - 43.07
+  layla2:
+  - - 129.5
+    - 35.45
+  - - 132.5
+    - 36.9
+  - - 136.0
+    - 37.8
+  - - 138.2
+    - 37.65
+  - - 138.6
+    - 38.15
+  - - 137.5
+    - 39.5
+  - - 134.5
+    - 41.5
+  - - 132.5
+    - 42.55
+  - - 132.08
+    - 42.95
+  - - 131.93
+    - 43.07
+  astoria:
+  - - 129.5
+    - 35.45
+  - - 131.0
+    - 35.65
+  - - 132.6
+    - 35.8
+  - - 132.4
+    - 38.0
+  - - 132.2
+    - 41.0
+  - - 132.2
+    - 42.6
+  - - 132.08
+    - 42.95
+  - - 131.93
+    - 43.07
+  cheong:
+  - - 127.85
+    - 34.48
+  - - 127.3
+    - 33.9
+  - - 128.7
+    - 34.45
+  - - 129.75
+    - 35.25
+  - - 130.4
+    - 36.8
+  - - 131.2
+    - 39.5
+  - - 131.9
+    - 41.7
+  - - 132.2
+    - 42.6
+  - - 132.08
+    - 42.95
+  - - 131.93
+    - 43.07
+  ew_pipeline:
+  - - 49.68
+    - 25.93
+  - - 47.0
+    - 25.0
+  - - 44.5
+    - 24.6
+  - - 41.5
+    - 24.2
+  - - 38.1
+    - 24.1
+  hz_route:
+  - - 56.2
+    - 26.45
+  - - 57.8
+    - 24.9
+  - - 60.5
+    - 22.6
+  - - 65.0
+    - 18.2
+  - - 72.0
+    - 11.0
+  - - 79.5
+    - 5.4
+  - - 88.0
+    - 5.6
+  - - 95.2
+    - 5.9
+  - - 98.8
+    - 4.6
+  - - 101.5
+    - 2.6
+  - - 104.1
+    - 1.25
+  - - 106.5
+    - 3.8
+  - - 110.0
+    - 9.5
+  - - 115.0
+    - 15.5
+  - - 120.2
+    - 20.2
+  - - 122.4
+    - 23.8
+  - - 123.8
+    - 28.2
+  - - 126.2
+    - 32.2
+  - - 128.6
+    - 34.5
+  - - 129.35
+    - 35.45
+  hz_cheong:
+  - - 129.04
+    - 35.05
+  - - 126.4
+    - 32.3
+  - - 123.9
+    - 28.3
+  - - 122.5
+    - 23.9
+  - - 120.3
+    - 20.3
+  - - 115.0
+    - 15.5
+  - - 110.0
+    - 9.5
+  - - 106.5
+    - 3.8
+  - - 104.1
+    - 1.25
+  - - 101.5
+    - 2.6
+  - - 98.8
+    - 4.6
+  - - 95.2
+    - 5.9
+  - - 88.0
+    - 5.6
+  - - 79.5
+    - 5.4
+  - - 70.0
+    - 9.0
+  - - 60.0
+    - 12.0
+  - - 52.5
+    - 12.6
+  - - 47.2
+    - 12.3
+shots:
+- at: 0.0
+  mode: cut
+  dur: 0.0
+  camera:
+    lon: 46.0
+    lat: 52.0
+    place: null
+    date: null
+    lane: null
+    w: 40.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: cold_0
+    'off': 0.5
+  mode: move
+  dur: 11.0
+  camera:
+    lon: 39.0
+    lat: 54.9
+    place: null
+    date: null
+    lane: null
+    w: 12.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: 랴잔 근접(모스크바·랴잔·M5 도로)
+- at:
+    sid: cold_1
+    'off': -0.4
+  mode: dip
+  dur: 2.6
+  camera:
+    lon: 128.0
+    lat: 36.0
+    place: null
+    date: null
+    lane: null
+    w: 6.5
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: 무대 전환 — 울산
+- at:
+    sid: cold_1
+    'off': 2.3
+  mode: move
+  dur: 6.0
+  camera:
+    lon: 128.5
+    lat: 35.75
+    place: null
+    date: null
+    lane: null
+    w: 6.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: 울산항 근접 — 느린 이동 뒤 타이틀(§4.1)
+- at:
+    card: title
+    'off': 2.9
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 42.0
+    lat: 55.4
+    place: null
+    date: null
+    lane: null
+    w: 38.0
+  under: true
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: act1_2
+    'off': -4.5
+  mode: move
+  dur: 4.0
+  camera:
+    lon: 46.0
+    lat: 53.6
+    place: null
+    date: null
+    lane: null
+    w: 36.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: 1막 러시아 서부 drift 시작점
+- at:
+    sid: act1_2
+    'off': 0.0
+  mode: drift
+  dur: 19.71
+  camera:
+    lon: 40.6
+    lat: 55.0
+    place: null
+    date: null
+    lane: null
+    w: 32.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: 1막 러시아 서부 — 느린 궤도 훑기(UF-120)
+- at:
+    sid: act1_5
+    'off': 0.0
+  mode: move
+  dur: 5.0
+  camera:
+    lon: 42.0
+    lat: 55.4
+    place: null
+    date: null
+    lane: null
+    w: 38.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: act2_0
+    'off': 0.8
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 130.5
+    lat: 47.0
+    place: null
+    date: null
+    lane: null
+    w: 26.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: 연결 문장 첫머리까지 러시아 전체(라벨) — 극동으로 옮긴다
+- at:
+    sid: act2_4
+    'off': -0.5
+  mode: move
+  dur: 4.5
+  camera:
+    lon: 131.2
+    lat: 39.3
+    place: null
+    date: null
+    lane: null
+    w: 21.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: 니가타 꺾임점까지
+- at:
+    sid: act3_0
+    'off': -0.55
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 50.5
+    lat: 27.5
+    place: null
+    date: null
+    lane: null
+    w: 26.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: act3_3
+    'off': -1.2
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 47.0
+    lat: 29.5
+    place: null
+    date: null
+    lane: null
+    w: 30.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: act4_0
+    'off': -0.5
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 126.95
+    lat: 37.95
+    place: null
+    date: null
+    lane: null
+    w: 4.5
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: act5_0
+    'off': -0.55
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 38.0
+    lat: 54.0
+    place: null
+    date: null
+    lane: null
+    w: 30.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: act5_1
+    'off': -4.5
+  mode: move
+  dur: 4.0
+  camera:
+    lon: 37.3
+    lat: 54.0
+    place: null
+    date: null
+    lane: null
+    w: 30.5
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: 5막 우크라이나·러시아 서부 drift 시작점
+- at:
+    sid: act5_1
+    'off': 0.0
+  mode: drift
+  dur: 23.51
+  camera:
+    lon: 39.2
+    lat: 54.2
+    place: null
+    date: null
+    lane: null
+    w: 29.5
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: 5막 우크라이나·러시아 서부 — 느린 궤도 훑기(UF-120)
+- at:
+    sid: ending_0
+    'off': -0.55
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 89.0
+    lat: 43.5
+    place: null
+    date: null
+    lane: null
+    w: 94.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+events:
+- type: country
+  start:
+    sid: cold_0
+    'off': 0.2
+  end:
+    sid: cold_1
+    edge: end
+  codes:
+  - RU
+  col: ru
+  a: 0.05
+- type: marker
+  start:
+    word:
+      sid: cold_0
+      text: 모스크바
+  end:
+    sid: cold_0
+    edge: end
+    'off': 0.3
+  at_place: moscow
+  label: 모스크바
+  side: left
+- type: marker
+  start:
+    word:
+      sid: cold_0
+      text: 랴잔
+  end:
+    sid: cold_1
+    edge: end
+  at_place: ryazan
+  label: 랴잔 정유소
+  sub: 10월 15일 새벽
+  side: right
+  hl: true
+  icon: boom
+- type: flight
+  start:
+    sid: cold_0
+    'off': 1.0
+  end:
+    sid: cold_0
+    edge: end
+    'off': 0.3
+  kind: drone
+  origin:
+    lon: 34.8
+    lat: 50.9
+  lon: 39.7
+  lat: 54.62
+  col: teal
+  impact: true
+  inset:
+    mid: inset_ryazan_esri
+    side: down_left
+    hold_until:
+      sid: cold_0
+      edge: end
+- type: country
+  start:
+    sid: act1_0
+    'off': 0.1
+  end:
+    sid: act1_8
+    edge: end
+  codes:
+  - RU
+  col: ru
+  a: 0.05
+- type: photo
+  start:
+    sid: act1_2
+    'off': 0.4
+  end:
+    sid: act1_3
+    edge: end
+    'off': 0.3
+  mid: diesel_road_2026_moscow_fire_0618
+  place: map_left
+- type: route
+  start:
+    sid: act2_4
+    'off': 0.3
+  end:
+    sid: act2_4
+    'off': 11.8
+  pts:
+    path: layla1
+  grow: 10.5
+  col: ru
+  ship: true
+  label: 레일라호 · 7월·8월
+- type: route
+  start:
+    sid: act2_5
+    'off': 0.3
+  end:
+    sid: act2_6
+    edge: end
+  pts:
+    path: layla2
+  grow: 18.3
+  col: ru
+  ship: true
+  label: 레일라호 · 두 번째
+  declared:
+    label: '신고: 니가타'
+    bend_index: 4
+- type: marker
+  start:
+    word:
+      sid: act2_5
+      text: 니가타
+  end:
+    sid: act2_5
+    edge: end
+    'off': 0.3
+  at_place: niigata
+  label: 니가타
+  side: right
+- type: country
+  start:
+    sid: act3_1
+    'off': 0.3
+  end:
+    sid: act3_8
+    edge: end
+  codes:
+  - IR
+  col: ru
+  a: 0.06
+- type: article
+  start:
+    sid: act5_4
+    'off': 0.1
+  end:
+    sid: act5_4
+    edge: end
+    'off': 0.4
+  mid: diesel_road_2026_art_0030
+  theme: dark
+  press: diesel_road_2026_trump_1006
+- type: marker
+  start:
+    word:
+      sid: ending_0
+      text: 러시아의 정유소
+  end:
+    total: true
+  at_place: syzran
+  label: 러시아 정유소
+  sub: 사흘에 한 번 타격
+  side: right
+  hl: true
+- type: marker
+  start:
+    word:
+      sid: ending_0
+      text: 울산
+  end:
+    total: true
+  at_place: ulsan
+  label: 울산
+  side: left
+  hl: true
+- type: route
+  start:
+    word:
+      sid: ending_0
+      text: 유조선
+  end:
+    total: true
+  pts:
+    path: ulsan_vlad
+  grow: 2.6
+  col: gold
+  ship: true
+- type: marker
+  start:
+    word:
+      sid: cold_1
+      text: 울산항
+  end:
+    card: title
+    edge: end
+  at_place: ulsan
+  label: 울산항
+  side: right
+  hl: true
+- type: panel
+  kind: dots
+  start:
+    sid: act2_3
+    'off': -0.2
+  end:
+    sid: act2_3
+    edge: end
+    'off': 0.3
+  data:
+    title: 러시아 극동을 오간 유조선
+    subtitle: 일곱 척 · 열네 번 항해 · 가디언
+    total: 7
+    highlight: 3
+    accent: ru
+    big: 3 / 7
+    caption: 영국·유럽연합 제재 대상
+    provenance:
+      sources:
+      - clm_0002
+      - clm_0003
+      verification: verified
+    unit: 척
+- type: panel
+  start:
+    sid: act1_5
+    'off': -0.2
+  end:
+    sid: act1_6
+    edge: end
+    'off': 0.3
+  kind: dual_line
+  title: 러시아 정제 처리량
+  subtitle: 하루 백만 배럴 · 보도 인용(IEA·블룸버그·로이터)
+  provenance:
+    verification: estimated
+    sources:
+    - IEA·블룸버그·로이터 보도 인용
+  y_min: 3
+  y_max: 6
+  y_step: 1
+  unit: mb/d
+  x_labels:
+  - 3월
+  - 4월
+  - 5월
+  - 6월
+  - 7월
+  - 8월
+  - 9월
+  series:
+  - label: 러시아
+    col: ru
+    values:
+    - 5.1
+    - 4.7
+    - null
+    - 3.8
+    - 3.6
+    - null
+    - 3.9
+    decimals: 1
+    record: RU_REFINERY_RUNS_2026
+    open_idx:
+    - 6
+- type: panel
+  start:
+    sid: act3_7
+    'off': -0.2
+  end:
+    sid: act3_8
+    edge: end
+    'off': 0.3
+  kind: dual_line
+  title: 걸프 경유 순수출
+  subtitle: 하루 천 배럴 · 보도 인용(IEA) · 9월은 언론 집계 · 호르무즈 통과량과 다른 집계
+  provenance:
+    verification: estimated
+    sources:
+    - IEA 석유시장보고서·언론 집계 인용
+  y_min: 0
+  y_max: 1600
+  y_step: 400
+  unit: kb/d
+  x_labels:
+  - 2월
+  - 3월
+  - 4월
+  - 5월
+  - 6월
+  - 7월
+  - 8월
+  - 9월
+  series:
+  - label: 걸프
+    col: gold
+    values:
+    - 1450
+    - null
+    - null
+    - null
+    - null
+    - null
+    - 390
+    - 670
+    decimals: 0
+    record: GULF_DIESEL_NET_EXPORTS_2026
+    open_idx: []
+- type: marker
+  start:
+    sid: act3_2
+    'off': 0.1
+  end:
+    sid: act3_2
+    edge: end
+  at_place: hz_hormuz
+  label: 호르무즈 해협
+  sub: 가장 좁은 곳 약 39km
+  side: right
+  hl: true
+- type: country
+  start:
+    sid: act3_3
+    'off': 0.1
+  end:
+    sid: act3_4
+    edge: end
+  codes:
+  - IR
+  col: ru
+  a: 0.07
+- type: boom
+  start:
+    sid: act3_3
+    'off': 1.2
+  end:
+    sid: act3_3
+    'off': 3.4
+  at_place: hz_kharg
+- type: marker
+  start:
+    sid: act3_3
+    'off': 1.2
+  end:
+    sid: act3_3
+    edge: end
+    'off': 0.5
+  at_place: hz_kharg
+  label: 하르그섬
+  sub: 이란 원유 수출 거점
+  side: left
+  icon: boom
+- type: marker
+  start:
+    sid: act3_4
+  end:
+    sid: act3_4
+    edge: end
+  at_place: hz_hormuz
+  label: 호르무즈 해협
+  sub: 3월 2일 IRGC 봉쇄 선언
+  side: right
+  hl: true
+- type: barrier
+  start:
+    sid: act3_4
+    'off': 0.3
+  end:
+    sid: act3_4
+    edge: end
+  p0:
+  - 56.28
+  - 27.05
+  p1:
+  - 56.42
+  - 26.28
+  label: 봉쇄
+- type: panel
+  start:
+    sid: act3_6
+    'off': -0.3
+  end:
+    sid: act3_6
+    edge: end
+  kind: statement
+  data:
+    title: 3월 21일 공동성명
+    subtitle: 이란의 공격 규탄 · 항행의 자유 보장 촉구
+    signers:
+    - flag: gb
+      label: 영국
+    - flag: fr
+      label: 프랑스
+    - flag: de
+      label: 독일
+    - flag: it
+      label: 이탈리아
+    - flag: jp
+      label: 일본
+    - flag: nl
+      label: 네덜란드
+    - flag: ca
+      label: 캐나다
+    joiner:
+      flag: kr
+      label: 대한민국
+      role: 성명에 동참
+      t_join:
+        word:
+          sid: act3_6
+          text: 한국
+- type: clip
+  start:
+    sid: act3_3
+    'off': 0.2
+  end:
+    sid: act3_3
+    'off':
+    - 0.2
+    - 5.0
+  mid: strikes_file
+  audio: broll
+- type: clip
+  start:
+    sid: act3_4
+    'off': 0.6
+  end:
+    sid: act3_4
+    'off':
+    - 0.6
+    - 5.0
+  mid: niovi
+  role: broll
+  x: 40
+  y: 150
+  w: 300
+- type: marker
+  start:
+    sid: act4_1
+    'off': 0.3
+  end:
+    sid: act4_2
+    edge: end
+  at_place: dmz_dmz_site
+  label: 서부전선 비무장지대
+  side: right
+  hl: true
+  icon: boom
+- type: boom
+  start:
+    sid: act4_1
+    'off': 1.0
+  end:
+    sid: act4_1
+    'off': 3.2
+  at_place: dmz_dmz_site
+- type: country
+  start:
+    sid: act2_0
+    'off': 0.2
+  end:
+    scene_end: act2
+  codes:
+  - RU
+  col: ru
+  a: 0.06
+- type: photo
+  start:
+    sid: act2_0
+    'off': 2.0
+  end:
+    sid: act2_1
+    edge: end
+    'off': 0.6
+  mid: diesel_road_2026_khabarovsk_ref_2005
+  place: map_left
+- type: article
+  start:
+    sid: act1_7
+    'off': 0.1
+  end:
+    sid: act1_7
+    edge: end
+    'off': 0.6
+  mid: diesel_road_2026_art_0009
+  theme: dark
+- type: route
+  start:
+    sid: act3_2
+    'off': 0.3
+  end:
+    sid: act3_3
+    edge: end
+  pts:
+    path: gulf_exit
+  grow: 11.0
+  col: gold
+  ship: false
+  dashed: true
+  label: 유일한 바닷길
+- type: photo
+  start:
+    sid: act3_2
+    'off': 0.6
+  end:
+    sid: act3_2
+    edge: end
+    'off': 0.8
+  mid: hormuz_transit
+  place: map_left
+- type: article
+  start:
+    sid: act3_5
+    'off': -0.3
+  end:
+    sid: act3_5
+    edge: end
+    'off': 1.4
+  mid: diesel_road_2026_art_0020
+  theme: dark
+- type: photo
+  start:
+    sid: act4_0
+    'off': 0.8
+  end:
+    sid: act4_0
+    edge: end
+    'off': 0.6
+  mid: dmz_mine_sign
+  place: map_left
+- type: primitive
+  start:
+    sid: act4_2
+    'off': -0.3
+  end:
+    sid: act4_3
+    'off': 1.2
+  id: site_diagram
+  claims:
+  - clm_dmz_0022
+  - clm_dmz_0024
+  header: 9월 21일 · 서부전선 비무장지대
+  north: 북측
+  south: 남측
+  nll: 북방한계선
+  mdl: 군사분계선
+  sll: 남방한계선
+  width_note: 남·북방한계선 사이가 비무장지대
+  distance: 약 10m
+  distance_src: 보도 종합
+  marks:
+  - kind: burst
+    label: 폭발 · 군사분계선 남쪽 약 10m
+    t:
+      word:
+        sid: act4_2
+        text: 10m
+  footnote: 지뢰 매설 주체·시점은 아직 규명되지 않음(9월 29일 기준)
+  source: 보도 종합
+  date: 2026.09.21
+- type: tanker_loop
+  start:
+    sid: act3_2
+    'off': 1.2
+  end:
+    sid: act3_3
+    edge: end
+  pts:
+    path: gulf_exit
+- type: badge
+  start:
+    sid: act3_3
+    'off': 0.6
+  end:
+    sid: act3_3
+    edge: end
+    'off': 0.3
+  lon: 53.5
+  lat: 31.6
+  kind: emblem
+  img: centcom
+  label: 미 중부사령부
+  role: 공습
+  accent: us
+- type: badge
+  start:
+    sid: act5_4
+    'off': 0.3
+  end:
+    sid: act5_4
+    edge: end
+    'off': 0.5
+  place: map_upper_left
+  kind: person
+  pid: trump
+  flag: us
+  label: 도널드 트럼프
+  role: 미국 대통령
+  accent: us
+- type: photo
+  start:
+    sid: act2_4
+    'off': 0.5
+  end:
+    sid: act2_4
+    edge: end
+    'off': 0.3
+  mid: diesel_road_2026_vladivostok_port_1992
+  place: map_left
+- type: photo
+  start:
+    sid: act4_1
+    'off': 3.4
+  end:
+    sid: act4_1
+    edge: end
+    'off': -0.1
+  mid: dmz_fence
+  place: map_left
+- type: photo
+  start:
+    sid: ending_0
+    'off': 3.0
+  end:
+    sid: ending_0
+    'off': 7.6
+  mid: diesel_road_2026_ras_laffan_lng_2012
+  place: map_left
+- type: flight
+  start:
+    sid: act1_0
+    'off': 0.3
+  end:
+    sid: act1_1
+    edge: end
+  kind: drone
+  origin:
+    lon: 34.8
+    lat: 50.9
+  lon: 39.7
+  lat: 54.62
+  col: teal
+  impact: true
+- type: marker
+  start:
+    sid: act1_0
+    'off': 1.5
+  end:
+    sid: act1_1
+    edge: end
+    'off': 0.3
+  at_place: ryazan
+  label: 러시아 정유소
+  side: right
+  icon: boom
+- type: marker
+  start:
+    sid: act1_4
+    'off': 0.3
+  end:
+    sid: act1_4
+    edge: end
+    'off': 0.3
+  at_place: kirishi
+  label: 정유소
+  side: right
+- type: marker
+  start:
+    sid: act1_4
+    'off': 0.8
+  end:
+    sid: act1_4
+    edge: end
+    'off': 0.3
+  at_place: saratov
+  label: 정유소
+  side: left
+- type: marker
+  start:
+    sid: act1_4
+    'off': 1.3
+  end:
+    sid: act1_4
+    edge: end
+    'off': 0.3
+  at_place: syzran
+  label: 정유소
+  side: right
+- type: marker
+  start:
+    sid: act1_8
+    'off': 0.2
+  end:
+    sid: act2_0
+    'off': 1.0
+  at_place: kirishi
+  label: 정유소
+  side: right
+- type: marker
+  start:
+    sid: act1_8
+    'off': 0.2
+  end:
+    sid: act2_0
+    'off': 1.0
+  at_place: saratov
+  label: 정유소
+  side: left
+- type: marker
+  start:
+    sid: act1_8
+    'off': 0.2
+  end:
+    sid: act2_0
+    'off': 1.0
+  at_place: syzran
+  label: 정유소
+  side: right
+- type: marker
+  start:
+    sid: act2_1
+    edge: end
+  end:
+    sid: act2_3
+    edge: end
+  at_place: khabarovsk_ref
+  label: 극동
+  side: right
+- type: marker
+  start:
+    sid: act3_0
+    'off': 1.0
+  end:
+    sid: act3_1
+    edge: end
+  at_place: gulf_label
+  label: 페르시아만
+  side: top
+- type: marker
+  start:
+    sid: act4_3
+    'off': 0.9
+  end:
+    sid: act4_3
+    edge: end
+    'off': 0.6
+  at_place: dmz_dmz_site
+  label: 서부전선 비무장지대
+  side: right
+  hl: true
+- type: marker
+  start:
+    sid: act5_0
+    'off': 2.0
+  end:
+    sid: act5_2
+    edge: end
+    'off': 0.3
+  at_place: moscow
+  label: 러시아 석유회사
+  side: left
+- type: panel
+  kind: checklist
+  start:
+    sid: act5_3
+    'off': -0.2
+  end:
+    sid: act5_3
+    edge: end
+    'off': 0.3
+  data:
+    title: 일반허가 135호
+    subtitle: 러시아산 경유 · 미국 재무부
+    items:
+    - 판매
+    - 운송
+    - 수입
+- type: marker
+  start:
+    sid: act5_5
+  end:
+    sid: act5_5
+    edge: end
+    'off': 0.8
+  at_place: ryazan
+  label: 랴잔 정유소
+  sub: 10월 15일 새벽
+  side: right
+  icon: boom
+sound:
+  bgm: music.zabriskie_mario_bava
+  intensity:
+  - - 0.0
+    - 0.55
+  - - scene_start: act1
+    - 0.6
+  - - scene_start: act2
+    - 0.6
+  - - scene_start: act3
+    - 0.7
+  - - scene_start: act4
+    - 0.62
+  - - scene_start: act5
+    - 0.6
+  - - scene_start: ending
+    - 0.6
+  - - total: true
+      'off':
+      - 0.5
+      - -7.0
+    - 0.58
+  - - total: true
+      'off': 0.5
+    - 0.0
+  cues:
+  - kind: boom
+    t:
+      word:
+        sid: cold_0
+        text: 불길이
+    v: 0.45
+  - kind: boom
+    t:
+      sid: act3_3
+      'off': 2.0
+    v: 0.4
+  - kind: boom
+    t:
+      word:
+        sid: act4_1
+        text: 폭발이
+    v: 0.5
+  no_music_decision: null
+drops: []
