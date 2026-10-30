@@ -374,7 +374,7 @@ events:
     'off': 0.5
   kind: dots
   data:
-    title: 새로 넣는 기술 40개
+    title: 새로 넣는 기술 40건
     subtitle: 기술 목록 개정 초안 · 10월 16일
     provenance:
       verification: verified
@@ -383,11 +383,12 @@ events:
     highlight: 14
     total: 40
     accent: ru
-    big: 14개
+    big: 14건
     caption: 수출 금지 후보
     detail: 40개 가운데
     note_label: 수출 제한 후보
-    note_value: 26개
+    note_value: 26건
+    unit: 건
 - type: article
   start:
     sid: act1_7

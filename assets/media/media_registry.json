@@ -6175,7 +6175,7 @@
     "by": "opus 구현 세션 — Commons API 429 지속으로 Commons 파일 페이지 메타데이터를 WebSearch(commons.wikimedia.org 한정) 본문 인용으로 대조, 원본은 upload.wikimedia.org 썸네일 1280, 이미지 육안 확인. 실사용 판정은 게이트 ②",
     "on": "2026-10-30",
     "casualty_free": true,
-    "relevance": "act2_3 '같은 달 30일 부산에서 트럼프 대통령과 시진핑 주석이 만난 뒤' — 그 회담 당일 백악관 사진. 주의: Flickr 메타데이터에 백악관 사진실 관례 고지(조작·재배포 시 허가) — 비공개 시청 한정(D264), 크롭·색 보정만"
+    "relevance": "act2_3 '같은 달 30일 부산에서 트럼프 대통령과 시진핑 주석이 만난 뒤' — 그 회담 당일 백악관 사진. 주의: Flickr 메타데이터에 백악관 사진실 관례 고지(조작·재배포 시 허가)"
    },
    "rights_status": "rights_clear",
    "retrieved_at": "2026-10-30",
@@ -6488,7 +6488,7 @@
    ],
    "is_file_photo": true,
    "verified_by": {
-    "by": "opus 구현 세션 — Commons API 429 로 Commons 검색 결과(라이선스 Public domain·제한 없음)와 같은 백악관 Flickr 묶음(54890689419 — WebSearch: Official White House Photo by Daniel Torok, 2025-10-30 부산) 대조, 이미지 육안 확인. 백악관 사진실 관례 고지 — 비공개 시청 한정(D264)",
+    "by": "opus 구현 세션 — Commons API 429 로 Commons 검색 결과(라이선스 Public domain·제한 없음)와 같은 백악관 Flickr 묶음(54890689419 — WebSearch: Official White House Photo by Daniel Torok, 2025-10-30 부산) 대조, 이미지 육안 확인. 백악관 사진실 관례 고지",
     "on": "2026-10-30",
     "casualty_free": true,
     "relevance": "act4_6 '미국이 밝힌 휴전 만료일은 내년 1월 10일' — 그 휴전을 만든 부산 회담 자료사진"
