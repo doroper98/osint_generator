@@ -112,7 +112,8 @@ class ProvenanceE2ETest(unittest.TestCase):
         # v5.6.0 G17 — 뱃지 고정(badge_hold)·가운데 라벨 클램프로 2컷 바뀐 phaseG17 기준선(expected_deltas g17_badge_hold_label_clamp)
         # v5.15.0 Q2 — 인물 뱃지 V2·국기 물결(사용자 결정 D148, 가이드 23 §10)로 8컷 바뀐 phaseQ2 기준선(expected_deltas q2_portrait_flag_d148)
         # v5.17.0 V3 — 목소리 Supertonic M3 + MMS 정렬(D-0167)로 25컷 시각이 바뀐 phaseV3 기준선(expected_deltas v3_voice_supertonic_m3)
-        base = json.loads((REPO / "docs" / "handoff" / "reports" / "phaseV3" / "hormuz_baseline.json").read_text(encoding="utf-8"))
+        # v7.4.0 D-0306 — 구석 카드(card 이벤트) 폐지(UF-148)로 골든 연출 card 7개 삭제, 7컷 바뀐 phaseD0306 기준선(changed_vs_prev). 옛 기준선 = phaseV3
+        base = json.loads((REPO / "docs" / "handoff" / "reports" / "phaseD0306" / "hormuz_baseline.json").read_text(encoding="utf-8"))
         self.assertEqual(prov.get("border_glow"), {"status": "adopted", "on": True})
         want = {c["png"]: c.get("md5_masked") or c["md5"] for c in base["cuts"]}
         masked = {c["png"] for c in base["cuts"] if c.get("mask")}

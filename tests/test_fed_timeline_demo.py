@@ -27,7 +27,7 @@ class DemoInputsTest(unittest.TestCase):
         d = load_direction_doc(PROJ / "direction.yaml")
         self.assertEqual((d.genre_name(), d.main_stage(), d.genre_profile().status), ("macro_monetary", "timeline", "proposed"))
         cfg = d.stage_settings("timeline")
-        self.assertEqual([ln["id"] for ln in cfg["lanes"]], ["policy_rate", "inflation", "events"])
+        self.assertEqual([ln["id"] for ln in cfg["lanes"]], ["policy_rate", "inflation"])   # v7.4.0 D-0274 §1① — 사건 레인(kind pins) 삭제, 사건 핀은 값 레인 위
         self.assertEqual(cfg["lanes"][0]["label"], "연방기금 실효금리")   # 레코드 = 실효금리(기준금리 목표 범위 아님)
         self.assertEqual({e["series_id"] for e in d.events if e["type"] == "series"}, {"FEDFUNDS", "CPIAUCSL"})
         self.assertTrue(all("value" not in e and "values" not in e for e in d.events))   # 값은 레코드에서만
