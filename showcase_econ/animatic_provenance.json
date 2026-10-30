@@ -3,7 +3,7 @@
  "engine": "engine",
  "repo_version": "7.4.0",
  "rules_version": "2.0.0",
- "rules_hash": "7bb89d8dae7ae58929c8242e1de5b41728dce19c",
+ "rules_hash": "1170820adc8965e628088e024b7d33b4bbd58ecd",
  "prompts": {
   "director": "4f002b0c8dff94791ff0629f67ad03afae952f3f"
  },
@@ -14,7 +14,7 @@
    "sid": "act1_5",
    "word": "2월",
    "mode": "ratio",
-   "t": 50.316,
+   "t": 64.901,
    "alignment_source": "mms_forced_alignment",
    "note": "단어가 발음 텍스트에 없음"
   },
@@ -22,7 +22,7 @@
    "sid": "act1_7",
    "word": "7월",
    "mode": "ratio",
-   "t": 62.554,
+   "t": 77.138,
    "alignment_source": "mms_forced_alignment",
    "note": "단어가 발음 텍스트에 없음"
   },
@@ -30,14 +30,14 @@
    "sid": "ending_0",
    "word": "다시",
    "mode": "aligned",
-   "t": 138.103,
+   "t": 167.983,
    "alignment_source": "mms_forced_alignment"
   }
  ],
  "tts": {
   "resynthesized": []
  },
- "total_sec": 154.251,
+ "total_sec": 184.132,
  "sentences": 23,
  "stages": {
   "plan": true,
@@ -61,7 +61,7 @@
   "panels": [],
   "cards": 4,
   "media": {
-   "clip": 0,
+   "clip": 3,
    "photo": 7,
    "cutout": 0,
    "article": 3
@@ -70,7 +70,8 @@
    "article": 3,
    "backdrop": 5,
    "card": 4,
-   "island": 1,
+   "clip": 3,
+   "island": 3,
    "marker": 12,
    "photo": 7,
    "series": 3
@@ -90,7 +91,7 @@
   "transitions": [
    {
     "sid": "act1_0",
-    "pause_t0": 19.493084,
+    "pause_t0": 34.07771,
     "pause_sec": 1.5,
     "kind": [
      "date_jump"
@@ -98,7 +99,7 @@
    },
    {
     "sid": "act2_0",
-    "pause_t0": 66.382971,
+    "pause_t0": 80.967596,
     "pause_sec": 1.5,
     "kind": [
      "date_jump"
@@ -106,7 +107,7 @@
    },
    {
     "sid": "act3_0",
-    "pause_t0": 105.931066,
+    "pause_t0": 135.811565,
     "pause_sec": 1.5,
     "kind": [
      "date_jump"
@@ -118,7 +119,7 @@
     "mms_forced_alignment": 23
    },
    "score_mean_min": 0.7199,
-   "elapsed_ms_total": 62600
+   "elapsed_ms_total": 150992
   },
   "prosody": {
    "final_fall": {
@@ -128,7 +129,7 @@
   }
  },
  "qa": {
-  "auto_iterations": 1,
+  "auto_iterations": 0,
   "user_approved": false,
   "reviewer": "fable (back_and_forth)",
   "visual_qa": []
@@ -156,7 +157,7 @@
  },
  "credits": {
   "card": {
-   "media": 12,
+   "media": 15,
    "music": 1,
    "narration": 1
   },
@@ -199,15 +200,15 @@
     "norm_ref": 0.4
    },
    "ratio_db": {
-    "before": 12.45,
-    "after": 17.76
+    "before": 12.05,
+    "after": 17.38
    },
-   "rise_db": 5.31,
+   "rise_db": 5.33,
    "swell_at": [
-    19.493,
-    66.383,
-    105.931,
-    132.59
+    34.078,
+    80.968,
+    135.812,
+    162.47
    ],
    "bands_hz": {
     "bass": [
@@ -219,12 +220,38 @@
      2000.0
     ]
    }
-  }
+  },
+  "clip_audio": [
+   {
+    "mid": "fed_clip_0916_decision",
+    "role": "main",
+    "audio": "main",
+    "t0": 7.124,
+    "t1": 23.624,
+    "wav_md5": "3517b1ffd5f6e0cddc6b58955b46cf3d"
+   },
+   {
+    "mid": "fed_clip_0729_vote",
+    "role": "main",
+    "audio": "main",
+    "t0": 90.023,
+    "t1": 105.423,
+    "wav_md5": "88c0928bf5e01701c0bb289738ae063d"
+   },
+   {
+    "mid": "fed_clip_0729_room_a",
+    "role": "broll",
+    "audio": "broll",
+    "t0": 82.668,
+    "t1": 86.068,
+    "wav_md5": "b6a736aa2dcc6f699c7a03793e28443e"
+   }
+  ]
  },
  "end_card": {
   "version_stamp": "v7.4.0",
-  "roll_px": 176.0,
-  "roll_px_per_sec": 27.08
+  "roll_px": 213.0,
+  "roll_px_per_sec": 32.77
  },
  "render": {
   "resolution": {
@@ -246,7 +273,7 @@
   {
    "name": "island chart left_tall",
    "t0": 0.8,
-   "t1": 154.75,
+   "t1": 7.12,
    "box": [
     24.0,
     52.0,
@@ -255,9 +282,64 @@
    ]
   },
   {
+   "name": "island chart left_tall",
+   "t0": 23.62,
+   "t1": 90.02,
+   "box": [
+    24.0,
+    52.0,
+    540.0,
+    344.0
+   ]
+  },
+  {
+   "name": "island chart left_tall",
+   "t0": 105.42,
+   "t1": 184.63,
+   "box": [
+    24.0,
+    52.0,
+    540.0,
+    344.0
+   ]
+  },
+  {
+   "name": "clip fed_clip_0916_decision (액자)",
+   "t0": 7.12,
+   "t1": 23.62,
+   "box": [
+    68.0,
+    38.0,
+    717.0,
+    403.3
+   ]
+  },
+  {
+   "name": "clip fed_clip_0729_vote (액자)",
+   "t0": 90.02,
+   "t1": 105.42,
+   "box": [
+    68.0,
+    38.0,
+    717.0,
+    403.3
+   ]
+  },
+  {
+   "name": "clip fed_clip_0729_room_a",
+   "t0": 82.67,
+   "t1": 86.07,
+   "box": [
+    594.0,
+    212.0,
+    236.0,
+    174.8
+   ]
+  },
+  {
    "name": "photo fed_boardroom",
-   "t0": 30.28,
-   "t1": 37.83,
+   "t0": 44.87,
+   "t1": 52.42,
    "box": [
     594.0,
     212.0,
@@ -267,8 +349,8 @@
   },
   {
    "name": "photo econ_warsh_swearing_5",
-   "t0": 56.12,
-   "t1": 59.5,
+   "t0": 70.7,
+   "t1": 74.09,
    "box": [
     594.0,
     212.0,
@@ -278,8 +360,8 @@
   },
   {
    "name": "photo fed_presser_0729",
-   "t0": 71.82,
-   "t1": 76.14,
+   "t0": 86.41,
+   "t1": 89.72,
    "box": [
     594.0,
     212.0,
@@ -289,8 +371,8 @@
   },
   {
    "name": "photo fed_presser_0916_b",
-   "t0": 107.83,
-   "t1": 113.03,
+   "t0": 137.71,
+   "t1": 142.91,
    "box": [
     594.0,
     212.0,
@@ -300,8 +382,8 @@
   },
   {
    "name": "photo fed_eccles_ext",
-   "t0": 126.29,
-   "t1": 131.09,
+   "t0": 156.17,
+   "t1": 160.97,
    "box": [
     594.0,
     212.0,
@@ -311,8 +393,8 @@
   },
   {
    "name": "photo econ_powell_presser_552",
-   "t0": 44.75,
-   "t1": 48.94,
+   "t0": 59.33,
+   "t1": 63.53,
    "box": [
     594.0,
     212.0,
@@ -322,8 +404,8 @@
   },
   {
    "name": "photo econ_walmart_2508",
-   "t0": 96.09,
-   "t1": 99.94,
+   "t0": 125.97,
+   "t1": 129.82,
    "box": [
     594.0,
     212.0,
@@ -333,39 +415,32 @@
   }
  ],
  "island": {
-  "lane_h_effective": 135.0,
+  "lane_h_effective": 270.0,
   "lane_h": 96.0,
-  "lanes": 2,
+  "lanes": 1,
   "card_overlap": [],
   "label_clip": [],
   "label_overlap": [],
-  "label_flip": [
-   "3.75~4%",
-   "9월 16일"
-  ],
-  "pin_collision": [],
-  "pin_sides_moved": [
-   "10월 29일 인하"
-  ]
+  "label_flip": []
  },
  "article": [
   {
    "mid": "fox_0916",
-   "t0": 9.54,
+   "t0": 24.12,
    "press": "none",
    "theme": "dark",
    "headline": "original"
   },
   {
    "mid": "cnn_0729",
-   "t0": 76.54,
+   "t0": 106.42,
    "press": "none",
    "theme": "dark",
    "headline": "original"
   },
   {
    "mid": "cnn_0916",
-   "t0": 86.14,
+   "t0": 116.02,
    "press": "none",
    "theme": "dark",
    "headline": "original"
@@ -376,27 +451,27 @@
    {
     "img": "fed_presser_0916",
     "t0": 1.2,
-    "t1": 20.09
+    "t1": 34.68
    },
    {
     "img": "fed_eccles_ext",
-    "t0": 19.49,
-    "t1": 66.98
+    "t0": 34.08,
+    "t1": 81.57
    },
    {
     "img": "fed_boardroom",
-    "t0": 66.38,
-    "t1": 106.53
+    "t0": 80.97,
+    "t1": 136.41
    },
    {
     "img": "fed_eccles_atrium",
-    "t0": 105.93,
-    "t1": 133.19
+    "t0": 135.81,
+    "t1": 163.07
    },
    {
     "img": "fed_presser_0916",
-    "t0": 132.59,
-    "t1": 154.25
+    "t0": 162.47,
+    "t1": 184.13
    }
   ],
   "unique": 4,
@@ -419,9 +494,10 @@
    1.2
   ]
  ],
+ "chart_only_exempt": false,
  "media_density": {
-  "count": 12,
-  "value": 4.668,
+  "count": 15,
+  "value": 4.888,
   "min": 1.5,
   "exempt": false
  },
@@ -429,10 +505,32 @@
   "policy_rate": {
    "range": [
     3.0,
-    5.0
+    4.75
    ],
-   "visible_ratio": 0.688
+   "visible_ratio": 0.571
   }
+ },
+ "plot_height": {
+  "plot_px": 270.0,
+  "inner_px": 344.0,
+  "ratio": 0.785,
+  "min": 0.7
+ },
+ "pin_labels": {
+  "rows": {
+   "9월 16일 인상": -1,
+   "10월 29일 인하": 1,
+   "12월 10일 인하": -1,
+   "이란 전쟁 시작": 1,
+   "워시 의장 취임": 1,
+   "7월 회의": 1,
+   "7월 29일 동결": 2,
+   "9월 16일": 2,
+   "10월 27~28일 회의": -1,
+   "3.75~4%": 2
+  },
+  "dropped": [],
+  "collisions": 0
  },
  "stage": {
   "name": "backdrop",
@@ -443,6 +541,7 @@
    "timeline": 1
   },
   "configs": {
+   "backdrop": {},
    "timeline": {
     "lanes": [
      {
@@ -450,17 +549,11 @@
       "label": "연방기금 목표 범위 · 실효금리",
       "kind": "step",
       "unit": "%"
-     },
-     {
-      "id": "events",
-      "label": "기록",
-      "kind": "pins"
      }
     ],
     "start": "2025-06-01",
     "end": "2028-12-31"
-   },
-   "backdrop": {}
+   }
   }
  },
  "genre": {
@@ -545,79 +638,103 @@
   "given_to_director": false
  },
  "lint_warnings": [
-  "[media-density-total] 과밀 — 7개 / 154초 = 22.0초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+  "[media-density-total] 과밀 — 10개 / 184초 = 18.4초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
   "[media-density-scene] 장면 act1: ['fed_boardroom', 'econ_powell_presser_552', 'econ_warsh_swearing_5'] > 1 (14 §10.1, ['article'] 제외)",
-  "[media-density-scene] 장면 act2: ['fed_presser_0729', 'econ_walmart_2508'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act2: ['fed_clip_0729_room_a', 'fed_presser_0729', 'fed_clip_0729_vote', 'econ_walmart_2508'] > 1 (14 §10.1, ['article'] 제외)",
   "[media-density-scene] 장면 act3: ['fed_presser_0916_b', 'fed_eccles_ext'] > 1 (14 §10.1, ['article'] 제외)",
   "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['photo'] (14 §10.1)",
   "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
-  "[media-burst-window] 30.28초부터 40초 안 3개 ['fed_boardroom', 'econ_powell_presser_552', 'econ_warsh_swearing_5'] > 2 (14 §10.1 하한, D38)",
-  "[article-unused] cold_0 1.2초 기사 카드 후보 ['fox_0916', 'nbc_0916', 'abc_0916'] — 0~60초 구간 1/2개. 쓰거나 media_notes.yaml sentences.cold_0.article 에 사유",
-  "[article-unused] ending_0 132.6초 기사 카드 후보 ['fox_0729', 'fox_0916', 'nbc_0916', 'abc_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유",
-  "[article-unused] act3_3 125.9초 기사 카드 후보 ['fox_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act3_3.article 에 사유"
+  "[media-burst-window] 59.33초부터 40초 안 5개 ['econ_powell_presser_552', 'econ_warsh_swearing_5', 'fed_clip_0729_room_a', 'fed_presser_0729', 'fed_clip_0729_vote'] > 2 (14 §10.1 하한, D38)",
+  "[article-unused] act1_2 44.5초 기사 카드 후보 ['fox_0729'] — 0~60초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act1_2.article 에 사유",
+  "[article-unused] ending_0 162.5초 기사 카드 후보 ['fox_0729', 'fox_0916', 'nbc_0916', 'abc_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유",
+  "[article-unused] act3_1 143.4초 기사 카드 후보 ['fox_0916', 'nbc_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act3_1.article 에 사유"
  ],
  "media": {
   "suggested": [
+   {
+    "sid": "cold_0",
+    "scene": "cold",
+    "kind": "photo",
+    "trigger": "발표",
+    "at": 1.2,
+    "source": "trigger",
+    "asset_id": null
+   },
    {
     "sid": "act2_5",
     "scene": "act2",
     "kind": "article",
     "trigger": "밝혔",
-    "at": 91.18,
+    "at": 121.06,
     "source": "trigger",
     "asset_id": null
    }
   ],
   "used": [
    {
+    "mid": "fed_clip_0916_decision",
+    "kind": "clip",
+    "t0": 7.12
+   },
+   {
+    "mid": "fed_clip_0729_vote",
+    "kind": "clip",
+    "t0": 90.02
+   },
+   {
+    "mid": "fed_clip_0729_room_a",
+    "kind": "clip",
+    "t0": 82.67
+   },
+   {
     "mid": "fox_0916",
     "kind": "article",
-    "t0": 9.54
+    "t0": 24.12
    },
    {
     "mid": "fed_boardroom",
     "kind": "photo",
-    "t0": 30.28
+    "t0": 44.87
    },
    {
     "mid": "econ_warsh_swearing_5",
     "kind": "photo",
-    "t0": 56.12
+    "t0": 70.7
    },
    {
     "mid": "fed_presser_0729",
     "kind": "photo",
-    "t0": 71.82
+    "t0": 86.41
    },
    {
     "mid": "cnn_0729",
     "kind": "article",
-    "t0": 76.54
+    "t0": 106.42
    },
    {
     "mid": "cnn_0916",
     "kind": "article",
-    "t0": 86.14
+    "t0": 116.02
    },
    {
     "mid": "fed_presser_0916_b",
     "kind": "photo",
-    "t0": 107.83
+    "t0": 137.71
    },
    {
     "mid": "fed_eccles_ext",
     "kind": "photo",
-    "t0": 126.29
+    "t0": 156.17
    },
    {
     "mid": "econ_powell_presser_552",
     "kind": "photo",
-    "t0": 44.75
+    "t0": 59.33
    },
    {
     "mid": "econ_walmart_2508",
     "kind": "photo",
-    "t0": 96.09
+    "t0": 125.97
    }
   ],
   "suggested_and_used": [
@@ -625,82 +742,103 @@
   ],
   "density": {
    "schema_version": 1,
-   "total_sec": 154.251,
+   "total_sec": 184.132,
    "items": [
+    {
+     "mid": "fed_clip_0916_decision",
+     "kind": "clip",
+     "t0": 7.12,
+     "t1": 23.62,
+     "scene": "cold"
+    },
     {
      "mid": "fox_0916",
      "kind": "article",
-     "t0": 9.54,
-     "t1": 19.49,
+     "t0": 24.12,
+     "t1": 34.08,
      "scene": "cold"
     },
     {
      "mid": "fed_boardroom",
      "kind": "photo",
-     "t0": 30.28,
-     "t1": 37.83,
+     "t0": 44.87,
+     "t1": 52.42,
      "scene": "act1"
     },
     {
      "mid": "econ_powell_presser_552",
      "kind": "photo",
-     "t0": 44.75,
-     "t1": 48.94,
+     "t0": 59.33,
+     "t1": 63.53,
      "scene": "act1"
     },
     {
      "mid": "econ_warsh_swearing_5",
      "kind": "photo",
-     "t0": 56.12,
-     "t1": 59.5,
+     "t0": 70.7,
+     "t1": 74.09,
      "scene": "act1"
+    },
+    {
+     "mid": "fed_clip_0729_room_a",
+     "kind": "clip",
+     "t0": 82.67,
+     "t1": 86.07,
+     "scene": "act2"
     },
     {
      "mid": "fed_presser_0729",
      "kind": "photo",
-     "t0": 71.82,
-     "t1": 76.14,
+     "t0": 86.41,
+     "t1": 89.72,
+     "scene": "act2"
+    },
+    {
+     "mid": "fed_clip_0729_vote",
+     "kind": "clip",
+     "t0": 90.02,
+     "t1": 105.42,
      "scene": "act2"
     },
     {
      "mid": "cnn_0729",
      "kind": "article",
-     "t0": 76.54,
-     "t1": 86.14,
+     "t0": 106.42,
+     "t1": 116.02,
      "scene": "act2"
     },
     {
      "mid": "cnn_0916",
      "kind": "article",
-     "t0": 86.14,
-     "t1": 91.18,
+     "t0": 116.02,
+     "t1": 121.06,
      "scene": "act2"
     },
     {
      "mid": "econ_walmart_2508",
      "kind": "photo",
-     "t0": 96.09,
-     "t1": 99.94,
+     "t0": 125.97,
+     "t1": 129.82,
      "scene": "act2"
     },
     {
      "mid": "fed_presser_0916_b",
      "kind": "photo",
-     "t0": 107.83,
-     "t1": 113.03,
+     "t0": 137.71,
+     "t1": 142.91,
      "scene": "act3"
     },
     {
      "mid": "fed_eccles_ext",
      "kind": "photo",
-     "t0": 126.29,
-     "t1": 131.09,
+     "t0": 156.17,
+     "t1": 160.97,
      "scene": "act3"
     }
    ],
-   "count": 10,
-   "beat_count": 7,
-   "sec_per_item": 22.0,
+   "count": 13,
+   "beat_count": 10,
+   "sec_per_item": 18.4,
    "target_sec_per_item": [
     40.0,
     60.0
@@ -712,23 +850,30 @@
      "article"
     ],
     "max": {
-     "t0": 30.28,
-     "count": 3,
+     "t0": 59.33,
+     "count": 5,
      "mids": [
-      "fed_boardroom",
       "econ_powell_presser_552",
-      "econ_warsh_swearing_5"
+      "econ_warsh_swearing_5",
+      "fed_clip_0729_room_a",
+      "fed_presser_0729",
+      "fed_clip_0729_vote"
      ]
     }
    },
    "per_scene": {
+    "cold": [
+     "fed_clip_0916_decision"
+    ],
     "act1": [
      "fed_boardroom",
      "econ_powell_presser_552",
      "econ_warsh_swearing_5"
     ],
     "act2": [
+     "fed_clip_0729_room_a",
      "fed_presser_0729",
+     "fed_clip_0729_vote",
      "econ_walmart_2508"
     ],
     "act3": [
@@ -738,35 +883,33 @@
    },
    "insets": [],
    "warnings": [
-    "[media-density-total] 과밀 — 7개 / 154초 = 22.0초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+    "[media-density-total] 과밀 — 10개 / 184초 = 18.4초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
     "[media-density-scene] 장면 act1: ['fed_boardroom', 'econ_powell_presser_552', 'econ_warsh_swearing_5'] > 1 (14 §10.1, ['article'] 제외)",
-    "[media-density-scene] 장면 act2: ['fed_presser_0729', 'econ_walmart_2508'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act2: ['fed_clip_0729_room_a', 'fed_presser_0729', 'fed_clip_0729_vote', 'econ_walmart_2508'] > 1 (14 §10.1, ['article'] 제외)",
     "[media-density-scene] 장면 act3: ['fed_presser_0916_b', 'fed_eccles_ext'] > 1 (14 §10.1, ['article'] 제외)",
     "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['photo'] (14 §10.1)",
     "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
-    "[media-burst-window] 30.28초부터 40초 안 3개 ['fed_boardroom', 'econ_powell_presser_552', 'econ_warsh_swearing_5'] > 2 (14 §10.1 하한, D38)"
+    "[media-burst-window] 59.33초부터 40초 안 5개 ['econ_powell_presser_552', 'econ_warsh_swearing_5', 'fed_clip_0729_room_a', 'fed_presser_0729', 'fed_clip_0729_vote'] > 2 (14 §10.1 하한, D38)"
    ]
   },
   "articles": {
    "schema_version": 1,
-   "candidates": 23,
+   "candidates": 21,
    "covered": 4,
    "used_events": 3,
    "per_min_max": 2,
    "unused": [
     {
-     "sid": "cold_0",
-     "t0": 1.2,
+     "sid": "act1_2",
+     "t0": 44.47,
      "mids": [
-      "fox_0916",
-      "nbc_0916",
-      "abc_0916"
+      "fox_0729"
      ],
      "reason": null
     },
     {
      "sid": "ending_0",
-     "t0": 132.59,
+     "t0": 162.47,
      "mids": [
       "fox_0729",
       "fox_0916",
@@ -776,21 +919,25 @@
      "reason": null
     },
     {
-     "sid": "act3_3",
-     "t0": 125.89,
+     "sid": "act3_1",
+     "t0": 143.41,
      "mids": [
-      "fox_0916"
+      "fox_0916",
+      "nbc_0916"
      ],
      "reason": null
     }
    ],
    "warnings": [
-    "[article-unused] cold_0 1.2초 기사 카드 후보 ['fox_0916', 'nbc_0916', 'abc_0916'] — 0~60초 구간 1/2개. 쓰거나 media_notes.yaml sentences.cold_0.article 에 사유",
-    "[article-unused] ending_0 132.6초 기사 카드 후보 ['fox_0729', 'fox_0916', 'nbc_0916', 'abc_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유",
-    "[article-unused] act3_3 125.9초 기사 카드 후보 ['fox_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act3_3.article 에 사유"
+    "[article-unused] act1_2 44.5초 기사 카드 후보 ['fox_0729'] — 0~60초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act1_2.article 에 사유",
+    "[article-unused] ending_0 162.5초 기사 카드 후보 ['fox_0729', 'fox_0916', 'nbc_0916', 'abc_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유",
+    "[article-unused] act3_1 143.4초 기사 카드 후보 ['fox_0916', 'nbc_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act3_1.article 에 사유"
    ]
   },
   "placement": {
+   "fed_clip_0916_decision": "role:clip_frame",
+   "fed_clip_0729_vote": "role:clip_frame",
+   "fed_clip_0729_room_a": "slot:backdrop_right_low",
    "fed_boardroom": "slot:backdrop_right_low",
    "econ_warsh_swearing_5": "slot:backdrop_right_low",
    "fed_presser_0729": "slot:backdrop_right_low",
@@ -815,26 +962,8 @@
   "direction_versions": 4,
   "used_version": null,
   "selected": null,
-  "rounds": [
-   {
-    "version": 3,
-    "checks_hard": 31,
-    "qa_hard": null,
-    "qa_soft": null
-   },
-   {
-    "version": 4,
-    "checks_hard": 26,
-    "qa_hard": null,
-    "qa_soft": null
-   }
-  ],
-  "revisions": [
-   {
-    "direction_version": 4,
-    "changes": 10
-   }
-  ],
+  "rounds": [],
+  "revisions": [],
   "visual_qa": []
  },
  "animatic_run": {
@@ -846,6 +975,7 @@
   "placeholders": {
    "article": 3,
    "backdrop": 5,
+   "clip": 3,
    "photo": 7
   },
   "map": null,
@@ -861,32 +991,32 @@
    "series_limit_3",
    "units_visible"
   ],
-  "direction_sha1": "2341738225d7683668b99e4eef5b40f0c6b7a60f",
-  "script_sha1": "9bfdadfc0a87ef162121f6952aef87718274814e",
+  "direction_sha1": "ead2323523f30e13b25b05bc0409c4ba195fc630",
+  "script_sha1": "aa1ccc15ca0b4e991f95bacc974890a43db2d11e",
   "sec": {
-   "render": 391.3,
-   "total": 589.0,
-   "mux": 26.7
+   "render": 926.5,
+   "total": 1191.2,
+   "mux": 30.8
   },
   "jobs": 4,
-  "frames": 3702,
+  "frames": 4419,
   "loudnorm": {
    "passes": 2,
    "pass1": {
-    "input_i": -15.57,
-    "input_tp": -0.75,
-    "input_lra": 7.6,
-    "input_thresh": -26.28,
-    "target_offset": -0.02
+    "input_i": -15.94,
+    "input_tp": -0.54,
+    "input_lra": 7.1,
+    "input_thresh": -26.65,
+    "target_offset": 0.01
    },
    "pass2": {
-    "output_i": -13.99,
+    "output_i": -14.0,
     "output_tp": -1.5,
     "normalization_type": "dynamic"
    },
    "post_limiter_dbfs": -2.0
   },
-  "bytes": 9349787
+  "bytes": 10797946
  },
  "checks": {
   "hard": 0,
@@ -1316,6 +1446,25 @@
    "id": "UF-140",
    "checks": {
     "flat_lane": 0
+   }
+  },
+  {
+   "id": "UF-141",
+   "checks": {
+    "clip_frame": 0
+   }
+  },
+  {
+   "id": "UF-142",
+   "checks": {
+    "plot_height": 0,
+    "axis_empty_band": 0
+   }
+  },
+  {
+   "id": "UF-143",
+   "checks": {
+    "island_pin_collision": 0
    }
   }
  ]

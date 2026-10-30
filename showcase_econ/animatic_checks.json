@@ -36,6 +36,9 @@
     "dip",
     "island"
    ],
+   "exempt_projects": {
+    "hormuz_korea": "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
+   },
    "map_stages": [
     "mercator"
    ]
@@ -373,16 +376,16 @@
    "severity": "warning",
    "count": 10,
    "details": [
-    "[media-density-total] 과밀 — 7개 / 154초 = 22.0초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+    "[media-density-total] 과밀 — 10개 / 184초 = 18.4초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
     "[media-density-scene] 장면 act1: ['fed_boardroom', 'econ_powell_presser_552', 'econ_warsh_swearing_5'] > 1 (14 §10.1, ['article'] 제외)",
-    "[media-density-scene] 장면 act2: ['fed_presser_0729', 'econ_walmart_2508'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act2: ['fed_clip_0729_room_a', 'fed_presser_0729', 'fed_clip_0729_vote', 'econ_walmart_2508'] > 1 (14 §10.1, ['article'] 제외)",
     "[media-density-scene] 장면 act3: ['fed_presser_0916_b', 'fed_eccles_ext'] > 1 (14 §10.1, ['article'] 제외)",
     "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['photo'] (14 §10.1)",
     "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
-    "[media-burst-window] 30.28초부터 40초 안 3개 ['fed_boardroom', 'econ_powell_presser_552', 'econ_warsh_swearing_5'] > 2 (14 §10.1 하한, D38)",
-    "[article-unused] cold_0 1.2초 기사 카드 후보 ['fox_0916', 'nbc_0916', 'abc_0916'] — 0~60초 구간 1/2개. 쓰거나 media_notes.yaml sentences.cold_0.article 에 사유",
-    "[article-unused] ending_0 132.6초 기사 카드 후보 ['fox_0729', 'fox_0916', 'nbc_0916', 'abc_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유",
-    "[article-unused] act3_3 125.9초 기사 카드 후보 ['fox_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act3_3.article 에 사유"
+    "[media-burst-window] 59.33초부터 40초 안 5개 ['econ_powell_presser_552', 'econ_warsh_swearing_5', 'fed_clip_0729_room_a', 'fed_presser_0729', 'fed_clip_0729_vote'] > 2 (14 §10.1 하한, D38)",
+    "[article-unused] act1_2 44.5초 기사 카드 후보 ['fox_0729'] — 0~60초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act1_2.article 에 사유",
+    "[article-unused] ending_0 162.5초 기사 카드 후보 ['fox_0729', 'fox_0916', 'nbc_0916', 'abc_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유",
+    "[article-unused] act3_1 143.4초 기사 카드 후보 ['fox_0916', 'nbc_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act3_1.article 에 사유"
    ]
   },
   {
@@ -390,7 +393,7 @@
    "severity": "warning",
    "count": 1,
    "details": [
-    "[endcard-roll] 크레딧이 넘쳐 롤 176px · 27.1 px/s(상한 60)"
+    "[endcard-roll] 크레딧이 넘쳐 롤 213px · 32.8 px/s(상한 60)"
    ]
   },
   {
@@ -617,6 +620,24 @@
   },
   {
    "id": "media_density",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "plot_height",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "axis_empty_band",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "clip_frame",
    "severity": "hard",
    "count": 0,
    "details": []

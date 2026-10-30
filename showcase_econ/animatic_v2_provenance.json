@@ -1,0 +1,1322 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "7.4.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "7bb89d8dae7ae58929c8242e1de5b41728dce19c",
+ "prompts": {
+  "director": "4f002b0c8dff94791ff0629f67ad03afae952f3f"
+ },
+ "voice": "supertonic-3 M3 ×0.95",
+ "word_anchor": "mixed",
+ "word_anchors": [
+  {
+   "sid": "act1_5",
+   "word": "2월",
+   "mode": "ratio",
+   "t": 50.316,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act1_7",
+   "word": "7월",
+   "mode": "ratio",
+   "t": 62.554,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "ending_0",
+   "word": "다시",
+   "mode": "aligned",
+   "t": 138.103,
+   "alignment_source": "mms_forced_alignment"
+  }
+ ],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 154.251,
+ "sentences": 23,
+ "stages": {
+  "plan": true,
+  "geo": false,
+  "preview": false,
+  "render": false,
+  "mix": true,
+  "mux": false,
+  "ai_direction": true,
+  "visual_qa": false,
+  "bundle": false
+ },
+ "features_used": {
+  "camera_keys": 1,
+  "camera_moves": 0,
+  "camera_cuts": 1,
+  "dips": 0,
+  "dips_under": 0,
+  "badges": 0,
+  "badge_kinds": {},
+  "panels": [],
+  "cards": 4,
+  "media": {
+   "clip": 0,
+   "photo": 7,
+   "cutout": 0,
+   "article": 3
+  },
+  "event_types": {
+   "article": 3,
+   "backdrop": 5,
+   "card": 4,
+   "island": 1,
+   "marker": 12,
+   "photo": 7,
+   "series": 3
+  },
+  "label_lod": true,
+  "vignette": false,
+  "private_only_assets": [],
+  "at_word": {
+   "aligned": 1,
+   "ratio": 2
+  },
+  "map_layers": {
+   "roads": 0,
+   "rivers": 0,
+   "capitals": true
+  },
+  "transitions": [
+   {
+    "sid": "act1_0",
+    "pause_t0": 19.493084,
+    "pause_sec": 1.5,
+    "kind": [
+     "date_jump"
+    ]
+   },
+   {
+    "sid": "act2_0",
+    "pause_t0": 66.382971,
+    "pause_sec": 1.5,
+    "kind": [
+     "date_jump"
+    ]
+   },
+   {
+    "sid": "act3_0",
+    "pause_t0": 105.931066,
+    "pause_sec": 1.5,
+    "kind": [
+     "date_jump"
+    ]
+   }
+  ],
+  "alignment": {
+   "sources": {
+    "mms_forced_alignment": 23
+   },
+   "score_mean_min": 0.7199,
+   "elapsed_ms_total": 62600
+  },
+  "prosody": {
+   "final_fall": {
+    "applied_n": 22,
+    "skipped_n": 1
+   }
+  }
+ },
+ "qa": {
+  "auto_iterations": 1,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)",
+  "visual_qa": []
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [],
+  "emblems": {
+   "used": [],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "il",
+    "ir",
+    "us"
+   ],
+   "used": [],
+   "suggested_and_used": [],
+   "suggestions": 4
+  }
+ },
+ "panels": {
+  "used": []
+ },
+ "credits": {
+  "card": {
+   "media": 12,
+   "music": 1,
+   "narration": 1
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "reserved": {
+  "avoidance": []
+ },
+ "audio": {
+  "bgm": [
+   "music.zabriskie_patriarch"
+  ],
+  "bed_gain": 0.43,
+  "crossfades": 0,
+  "bed_bass": {
+   "applied": {
+    "shelf": {
+     "freq_hz": 110.0,
+     "gain_db": 5.0,
+     "q": 0.7
+    },
+    "sub": {
+     "band_hz": [
+      55.0,
+      220.0
+     ],
+     "out_lp_hz": 110.0,
+     "filter_order": 4,
+     "gain": 0.35,
+     "env_attack_sec": 0.03,
+     "env_release_sec": 0.25,
+     "env_block_sec": 0.001
+    },
+    "swell": {
+     "sec": 2.5,
+     "depth": 0.35
+    },
+    "norm_ref": 0.4
+   },
+   "ratio_db": {
+    "before": 12.45,
+    "after": 17.76
+   },
+   "rise_db": 5.31,
+   "swell_at": [
+    19.493,
+    66.383,
+    105.931,
+    132.59
+   ],
+   "bands_hz": {
+    "bass": [
+     30.0,
+     120.0
+    ],
+    "mid": [
+     200.0,
+     2000.0
+    ]
+   }
+  }
+ },
+ "end_card": {
+  "version_stamp": "v7.4.0",
+  "roll_px": 176.0,
+  "roll_px_per_sec": 27.08
+ },
+ "render": {
+  "resolution": {
+   "profile": "480p",
+   "width": 854,
+   "height": 480,
+   "fps": 24,
+   "k": 1.0,
+   "pad_x": 0.0,
+   "crf": 19,
+   "preset": "faster"
+  }
+ },
+ "badge": {
+  "R_ignored": [],
+  "head_top": []
+ },
+ "islands": [
+  {
+   "name": "island chart left_tall",
+   "t0": 0.8,
+   "t1": 154.75,
+   "box": [
+    24.0,
+    52.0,
+    540.0,
+    344.0
+   ]
+  },
+  {
+   "name": "photo fed_boardroom",
+   "t0": 30.28,
+   "t1": 37.83,
+   "box": [
+    594.0,
+    212.0,
+    236.0,
+    189.5
+   ]
+  },
+  {
+   "name": "photo econ_warsh_swearing_5",
+   "t0": 56.12,
+   "t1": 59.5,
+   "box": [
+    594.0,
+    212.0,
+    236.0,
+    189.5
+   ]
+  },
+  {
+   "name": "photo fed_presser_0729",
+   "t0": 71.82,
+   "t1": 76.14,
+   "box": [
+    594.0,
+    212.0,
+    236.0,
+    189.5
+   ]
+  },
+  {
+   "name": "photo fed_presser_0916_b",
+   "t0": 107.83,
+   "t1": 113.03,
+   "box": [
+    594.0,
+    212.0,
+    236.0,
+    189.5
+   ]
+  },
+  {
+   "name": "photo fed_eccles_ext",
+   "t0": 126.29,
+   "t1": 131.09,
+   "box": [
+    594.0,
+    212.0,
+    236.0,
+    189.5
+   ]
+  },
+  {
+   "name": "photo econ_powell_presser_552",
+   "t0": 44.75,
+   "t1": 48.94,
+   "box": [
+    594.0,
+    212.0,
+    236.0,
+    189.5
+   ]
+  },
+  {
+   "name": "photo econ_walmart_2508",
+   "t0": 96.09,
+   "t1": 99.94,
+   "box": [
+    594.0,
+    212.0,
+    236.0,
+    189.5
+   ]
+  }
+ ],
+ "island": {
+  "lane_h_effective": 135.0,
+  "lane_h": 96.0,
+  "lanes": 2,
+  "card_overlap": [],
+  "label_clip": [],
+  "label_overlap": [],
+  "label_flip": [
+   "3.75~4%",
+   "9월 16일"
+  ],
+  "pin_collision": [],
+  "pin_sides_moved": [
+   "10월 29일 인하"
+  ]
+ },
+ "article": [
+  {
+   "mid": "fox_0916",
+   "t0": 9.54,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "cnn_0729",
+   "t0": 76.54,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "cnn_0916",
+   "t0": 86.14,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  }
+ ],
+ "backdrop": {
+  "photos": [
+   {
+    "img": "fed_presser_0916",
+    "t0": 1.2,
+    "t1": 20.09
+   },
+   {
+    "img": "fed_eccles_ext",
+    "t0": 19.49,
+    "t1": 66.98
+   },
+   {
+    "img": "fed_boardroom",
+    "t0": 66.38,
+    "t1": 106.53
+   },
+   {
+    "img": "fed_eccles_atrium",
+    "t0": 105.93,
+    "t1": 133.19
+   },
+   {
+    "img": "fed_presser_0916",
+    "t0": 132.59,
+    "t1": 154.25
+   }
+  ],
+  "unique": 4,
+  "main_missing": []
+ },
+ "timeline": {
+  "w_changes": []
+ },
+ "pacing": {
+  "window_sec": 45.0,
+  "min_changes": 3,
+  "static_windows": [],
+  "creep": null
+ },
+ "animatic": true,
+ "catalog": false,
+ "chart_only_runs": [
+  [
+   0.8,
+   1.2
+  ]
+ ],
+ "media_density": {
+  "count": 12,
+  "value": 4.668,
+  "min": 1.5,
+  "exempt": false
+ },
+ "lane_range": {
+  "policy_rate": {
+   "range": [
+    3.0,
+    5.0
+   ],
+   "visible_ratio": 0.688
+  }
+ },
+ "stage": {
+  "name": "backdrop",
+  "declared": true,
+  "shots_declared": 6,
+  "instances": {
+   "backdrop": 1,
+   "timeline": 1
+  },
+  "configs": {
+   "timeline": {
+    "lanes": [
+     {
+      "id": "policy_rate",
+      "label": "연방기금 목표 범위 · 실효금리",
+      "kind": "step",
+      "unit": "%"
+     },
+     {
+      "id": "events",
+      "label": "기록",
+      "kind": "pins"
+     }
+    ],
+    "start": "2025-06-01",
+    "end": "2028-12-31"
+   },
+   "backdrop": {}
+  }
+ },
+ "genre": {
+  "name": "macro_monetary",
+  "declared": true,
+  "status": "proposed"
+ },
+ "order": {
+  "topic": "쇼케이스(경제) — 연준의 인하·동결·인상(2025.10~2026.09)을 시간축 한 세계 위에서. 화면 요소·목소리·글꼴 확인",
+  "genre": "macro_monetary",
+  "decisions": {
+   "topic": {
+    "value": "쇼케이스 데모 2편 중 경제 편",
+    "by": "user",
+    "ref": "D265 ⑥ · D-0251"
+   },
+   "material": {
+    "value": "연준 사실 + 시간축 세계(X)",
+    "by": "default",
+    "ref": "감독 결정 D-0253"
+   },
+   "macro_monetary_status": {
+    "value": "proposed",
+    "by": "default",
+    "ref": "D-0251 §1.3 — approved 전환은 데모를 본 사용자 결정"
+   },
+   "elements_approval": {
+    "value": "pending",
+    "by": "default",
+    "ref": "D-0251 §3 ② — dot_plot 승인은 데모 시청 뒤"
+   },
+   "bgm": {
+    "value": "music.zabriskie_patriarch",
+    "by": "default",
+    "ref": "fed_policy_2026 credits 선례"
+   },
+   "resolution": {
+    "value": "720p",
+    "by": "user",
+    "ref": "사용자 결정 2026-10-04 \"기준 해상도는 720p야\""
+   }
+  }
+ },
+ "series": [
+  {
+   "series_id": "DFEDTARL",
+   "as_of": "2026-09",
+   "license": "us_gov_public_domain",
+   "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DFEDTARL&cosd=2019-01-01",
+   "transform": "month_last",
+   "missing": []
+  },
+  {
+   "series_id": "DFEDTARU",
+   "as_of": "2026-09",
+   "license": "us_gov_public_domain",
+   "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DFEDTARU&cosd=2019-01-01",
+   "transform": "month_last",
+   "missing": []
+  },
+  {
+   "series_id": "FEDFUNDS",
+   "as_of": "2026-08",
+   "license": "us_gov_public_domain",
+   "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=2019-01-01",
+   "transform": "raw",
+   "missing": []
+  },
+  {
+   "series_id": "SEP_20260916",
+   "as_of": "2026-09",
+   "license": "us_gov_public_domain",
+   "source_url": "https://www.federalreserve.gov/monetarypolicy/fomcprojtabl20260916.htm",
+   "transform": "sep_dots",
+   "missing": []
+  }
+ ],
+ "camera": {
+  "suggest_ran": false,
+  "suggested": 0,
+  "used": 0,
+  "given_to_director": false
+ },
+ "lint_warnings": [
+  "[media-density-total] 과밀 — 7개 / 154초 = 22.0초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act1: ['fed_boardroom', 'econ_powell_presser_552', 'econ_warsh_swearing_5'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act2: ['fed_presser_0729', 'econ_walmart_2508'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act3: ['fed_presser_0916_b', 'fed_eccles_ext'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['photo'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
+  "[media-burst-window] 30.28초부터 40초 안 3개 ['fed_boardroom', 'econ_powell_presser_552', 'econ_warsh_swearing_5'] > 2 (14 §10.1 하한, D38)",
+  "[article-unused] cold_0 1.2초 기사 카드 후보 ['fox_0916', 'nbc_0916', 'abc_0916'] — 0~60초 구간 1/2개. 쓰거나 media_notes.yaml sentences.cold_0.article 에 사유",
+  "[article-unused] ending_0 132.6초 기사 카드 후보 ['fox_0729', 'fox_0916', 'nbc_0916', 'abc_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유",
+  "[article-unused] act3_3 125.9초 기사 카드 후보 ['fox_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act3_3.article 에 사유"
+ ],
+ "media": {
+  "suggested": [
+   {
+    "sid": "act2_5",
+    "scene": "act2",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 91.18,
+    "source": "trigger",
+    "asset_id": null
+   }
+  ],
+  "used": [
+   {
+    "mid": "fox_0916",
+    "kind": "article",
+    "t0": 9.54
+   },
+   {
+    "mid": "fed_boardroom",
+    "kind": "photo",
+    "t0": 30.28
+   },
+   {
+    "mid": "econ_warsh_swearing_5",
+    "kind": "photo",
+    "t0": 56.12
+   },
+   {
+    "mid": "fed_presser_0729",
+    "kind": "photo",
+    "t0": 71.82
+   },
+   {
+    "mid": "cnn_0729",
+    "kind": "article",
+    "t0": 76.54
+   },
+   {
+    "mid": "cnn_0916",
+    "kind": "article",
+    "t0": 86.14
+   },
+   {
+    "mid": "fed_presser_0916_b",
+    "kind": "photo",
+    "t0": 107.83
+   },
+   {
+    "mid": "fed_eccles_ext",
+    "kind": "photo",
+    "t0": 126.29
+   },
+   {
+    "mid": "econ_powell_presser_552",
+    "kind": "photo",
+    "t0": 44.75
+   },
+   {
+    "mid": "econ_walmart_2508",
+    "kind": "photo",
+    "t0": 96.09
+   }
+  ],
+  "suggested_and_used": [
+   "act2:article"
+  ],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 154.251,
+   "items": [
+    {
+     "mid": "fox_0916",
+     "kind": "article",
+     "t0": 9.54,
+     "t1": 19.49,
+     "scene": "cold"
+    },
+    {
+     "mid": "fed_boardroom",
+     "kind": "photo",
+     "t0": 30.28,
+     "t1": 37.83,
+     "scene": "act1"
+    },
+    {
+     "mid": "econ_powell_presser_552",
+     "kind": "photo",
+     "t0": 44.75,
+     "t1": 48.94,
+     "scene": "act1"
+    },
+    {
+     "mid": "econ_warsh_swearing_5",
+     "kind": "photo",
+     "t0": 56.12,
+     "t1": 59.5,
+     "scene": "act1"
+    },
+    {
+     "mid": "fed_presser_0729",
+     "kind": "photo",
+     "t0": 71.82,
+     "t1": 76.14,
+     "scene": "act2"
+    },
+    {
+     "mid": "cnn_0729",
+     "kind": "article",
+     "t0": 76.54,
+     "t1": 86.14,
+     "scene": "act2"
+    },
+    {
+     "mid": "cnn_0916",
+     "kind": "article",
+     "t0": 86.14,
+     "t1": 91.18,
+     "scene": "act2"
+    },
+    {
+     "mid": "econ_walmart_2508",
+     "kind": "photo",
+     "t0": 96.09,
+     "t1": 99.94,
+     "scene": "act2"
+    },
+    {
+     "mid": "fed_presser_0916_b",
+     "kind": "photo",
+     "t0": 107.83,
+     "t1": 113.03,
+     "scene": "act3"
+    },
+    {
+     "mid": "fed_eccles_ext",
+     "kind": "photo",
+     "t0": 126.29,
+     "t1": 131.09,
+     "scene": "act3"
+    }
+   ],
+   "count": 10,
+   "beat_count": 7,
+   "sec_per_item": 22.0,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": 30.28,
+     "count": 3,
+     "mids": [
+      "fed_boardroom",
+      "econ_powell_presser_552",
+      "econ_warsh_swearing_5"
+     ]
+    }
+   },
+   "per_scene": {
+    "act1": [
+     "fed_boardroom",
+     "econ_powell_presser_552",
+     "econ_warsh_swearing_5"
+    ],
+    "act2": [
+     "fed_presser_0729",
+     "econ_walmart_2508"
+    ],
+    "act3": [
+     "fed_presser_0916_b",
+     "fed_eccles_ext"
+    ]
+   },
+   "insets": [],
+   "warnings": [
+    "[media-density-total] 과밀 — 7개 / 154초 = 22.0초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act1: ['fed_boardroom', 'econ_powell_presser_552', 'econ_warsh_swearing_5'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act2: ['fed_presser_0729', 'econ_walmart_2508'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act3: ['fed_presser_0916_b', 'fed_eccles_ext'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
+    "[media-burst-window] 30.28초부터 40초 안 3개 ['fed_boardroom', 'econ_powell_presser_552', 'econ_warsh_swearing_5'] > 2 (14 §10.1 하한, D38)"
+   ]
+  },
+  "articles": {
+   "schema_version": 1,
+   "candidates": 23,
+   "covered": 4,
+   "used_events": 3,
+   "per_min_max": 2,
+   "unused": [
+    {
+     "sid": "cold_0",
+     "t0": 1.2,
+     "mids": [
+      "fox_0916",
+      "nbc_0916",
+      "abc_0916"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "ending_0",
+     "t0": 132.59,
+     "mids": [
+      "fox_0729",
+      "fox_0916",
+      "nbc_0916",
+      "abc_0916"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act3_3",
+     "t0": 125.89,
+     "mids": [
+      "fox_0916"
+     ],
+     "reason": null
+    }
+   ],
+   "warnings": [
+    "[article-unused] cold_0 1.2초 기사 카드 후보 ['fox_0916', 'nbc_0916', 'abc_0916'] — 0~60초 구간 1/2개. 쓰거나 media_notes.yaml sentences.cold_0.article 에 사유",
+    "[article-unused] ending_0 132.6초 기사 카드 후보 ['fox_0729', 'fox_0916', 'nbc_0916', 'abc_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유",
+    "[article-unused] act3_3 125.9초 기사 카드 후보 ['fox_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act3_3.article 에 사유"
+   ]
+  },
+  "placement": {
+   "fed_boardroom": "slot:backdrop_right_low",
+   "econ_warsh_swearing_5": "slot:backdrop_right_low",
+   "fed_presser_0729": "slot:backdrop_right_low",
+   "fed_presser_0916_b": "slot:backdrop_right_low",
+   "fed_eccles_ext": "slot:backdrop_right_low",
+   "econ_powell_presser_552": "slot:backdrop_right_low",
+   "econ_walmart_2508": "slot:backdrop_right_low"
+  }
+ },
+ "script": {
+  "labels": {
+   "verified": 18,
+   "corroborated": 3,
+   "unverified": 2,
+   "disputed": 0
+  }
+ },
+ "ai_direction": {
+  "origin": "ai+human_edit",
+  "model": "claude-opus-5-5",
+  "prompt_sha1": "4f002b0c8dff94791ff0629f67ad03afae952f3f",
+  "direction_versions": 4,
+  "used_version": null,
+  "selected": null,
+  "rounds": [
+   {
+    "version": 3,
+    "checks_hard": 31,
+    "qa_hard": null,
+    "qa_soft": null
+   },
+   {
+    "version": 4,
+    "checks_hard": 26,
+    "qa_hard": null,
+    "qa_soft": null
+   }
+  ],
+  "revisions": [
+   {
+    "direction_version": 4,
+    "changes": 10
+   }
+  ],
+  "visual_qa": []
+ },
+ "animatic_run": {
+  "output": "out/animatic.mp4",
+  "profile": "480p",
+  "fps": 24,
+  "preset": "veryfast",
+  "band": "콘티 판 · 검토용 · 배포 금지",
+  "placeholders": {
+   "article": 3,
+   "backdrop": 5,
+   "photo": 7
+  },
+  "map": null,
+  "voice": "supertonic-3 M3 ×0.95",
+  "checks_skipped": [
+   "as_of_visible",
+   "chart_honesty",
+   "glyph_size",
+   "glyphs",
+   "labels",
+   "media_upscaled",
+   "rights",
+   "series_limit_3",
+   "units_visible"
+  ],
+  "direction_sha1": "2341738225d7683668b99e4eef5b40f0c6b7a60f",
+  "script_sha1": "9bfdadfc0a87ef162121f6952aef87718274814e",
+  "sec": {
+   "render": 391.3,
+   "total": 589.0,
+   "mux": 26.7
+  },
+  "jobs": 4,
+  "frames": 3702,
+  "loudnorm": {
+   "passes": 2,
+   "pass1": {
+    "input_i": -15.57,
+    "input_tp": -0.75,
+    "input_lra": 7.6,
+    "input_thresh": -26.28,
+    "target_offset": -0.02
+   },
+   "pass2": {
+    "output_i": -13.99,
+    "output_tp": -1.5,
+    "normalization_type": "dynamic"
+   },
+   "post_limiter_dbfs": -2.0
+  },
+  "bytes": 9349787
+ },
+ "checks": {
+  "hard": 0,
+  "warnings": 11,
+  "passed": true,
+  "profile": "animatic"
+ },
+ "user_feedback_guards": [
+  {
+   "id": "UF-01",
+   "checks": {
+    "card_exposure": 0
+   }
+  },
+  {
+   "id": "UF-02",
+   "checks": {
+    "camera_continuity": 0,
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-03",
+   "checks": {
+    "route_label_cross": 0,
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-04",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-05",
+   "checks": {
+    "article_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-06",
+   "checks": {
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-07",
+   "checks": {
+    "route_missing_other": 0,
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-08",
+   "checks": {
+    "battle_geo": 0
+   }
+  },
+  {
+   "id": "UF-09",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-10",
+   "checks": {
+    "portrait_unused": 0,
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-11",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0
+   }
+  },
+  {
+   "id": "UF-12",
+   "checks": {
+    "frame_missing_target": 0,
+    "frame_missing": 0
+   }
+  },
+  {
+   "id": "UF-16",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-18",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-19",
+   "checks": {
+    "camera_per_sentence": 0
+   }
+  },
+  {
+   "id": "UF-20",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-25",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-27",
+   "checks": {
+    "portrait_unused": 0
+   }
+  },
+  {
+   "id": "UF-30",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-31",
+   "checks": {
+    "media_upscaled": "skipped"
+   }
+  },
+  {
+   "id": "UF-32",
+   "checks": {
+    "boundary_as_route": 0
+   }
+  },
+  {
+   "id": "UF-34",
+   "checks": {
+    "offscreen": 0
+   }
+  },
+  {
+   "id": "UF-35",
+   "checks": {
+    "endcard_black": 0
+   }
+  },
+  {
+   "id": "UF-37",
+   "checks": {
+    "glyph_size": "skipped"
+   }
+  },
+  {
+   "id": "UF-39",
+   "checks": {
+    "timeline_rescale": 0
+   }
+  },
+  {
+   "id": "UF-42",
+   "checks": {
+    "stage_choice": 0,
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-45",
+   "checks": {
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-46",
+   "checks": {
+    "cascade": 0
+   }
+  },
+  {
+   "id": "UF-54",
+   "checks": {
+    "subtitle_overlap": 0
+   }
+  },
+  {
+   "id": "UF-63",
+   "checks": {
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-72",
+   "checks": {
+    "timeline_span": 0
+   }
+  },
+  {
+   "id": "UF-73",
+   "checks": {
+    "route_frame": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-77",
+   "checks": {
+    "opening_establish": 0
+   }
+  },
+  {
+   "id": "UF-78",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-80",
+   "checks": {
+    "flag_territory": 0
+   }
+  },
+  {
+   "id": "UF-81",
+   "checks": {
+    "badge_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-84",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-88",
+   "checks": {
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-93",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-97",
+   "checks": {
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-98",
+   "checks": {
+    "title_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-99",
+   "checks": {
+    "camera_bounds": 0,
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-101",
+   "checks": {
+    "portrait_unused": 0
+   }
+  },
+  {
+   "id": "UF-102",
+   "checks": {
+    "media_beats": 10
+   }
+  },
+  {
+   "id": "UF-104",
+   "checks": {
+    "tempo_density": 0
+   }
+  },
+  {
+   "id": "UF-105",
+   "checks": {
+    "transition_camera": 0
+   }
+  },
+  {
+   "id": "UF-107",
+   "checks": {
+    "inset_overlap": 0
+   }
+  },
+  {
+   "id": "UF-109",
+   "checks": {
+    "article_press_missing": 0
+   }
+  },
+  {
+   "id": "UF-110",
+   "checks": {
+    "cutaway_churn": 0
+   }
+  },
+  {
+   "id": "UF-111",
+   "checks": {
+    "unit_glyph_font": 0
+   }
+  },
+  {
+   "id": "UF-113",
+   "checks": {
+    "ratio_graphic": 0
+   }
+  },
+  {
+   "id": "UF-115",
+   "checks": {
+    "tempo_density": 0
+   }
+  },
+  {
+   "id": "UF-118",
+   "checks": {
+    "media_unused": 0
+   }
+  },
+  {
+   "id": "UF-119",
+   "checks": {
+    "media_unused": 0
+   }
+  },
+  {
+   "id": "UF-120",
+   "checks": {
+    "static_camera": 0
+   }
+  },
+  {
+   "id": "UF-122",
+   "checks": {
+    "unit_ton_glyph": 0
+   }
+  },
+  {
+   "id": "UF-123",
+   "checks": {
+    "route_speed": 0
+   }
+  },
+  {
+   "id": "UF-125",
+   "checks": {
+    "sea_only_frame": 0
+   }
+  },
+  {
+   "id": "UF-126",
+   "checks": {
+    "series_unused": 0,
+    "panel_dropped": 0
+   }
+  },
+  {
+   "id": "UF-128",
+   "checks": {
+    "chart_honesty": "skipped"
+   }
+  },
+  {
+   "id": "UF-129",
+   "checks": {
+    "card_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-130",
+   "checks": {
+    "article_outlet": 0
+   }
+  },
+  {
+   "id": "UF-131",
+   "checks": {
+    "glyphs": "skipped"
+   }
+  },
+  {
+   "id": "UF-135",
+   "checks": {
+    "chart_only_run": 0,
+    "chart_world_split": 0
+   }
+  },
+  {
+   "id": "UF-137",
+   "checks": {
+    "chart_edge_bleed": 0
+   }
+  },
+  {
+   "id": "UF-138",
+   "checks": {
+    "timeline_rescale": 0
+   }
+  },
+  {
+   "id": "UF-139",
+   "checks": {
+    "media_density": 0
+   }
+  },
+  {
+   "id": "UF-140",
+   "checks": {
+    "flat_lane": 0
+   }
+  }
+ ]
+}
