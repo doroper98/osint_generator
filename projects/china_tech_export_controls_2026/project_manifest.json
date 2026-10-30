@@ -4,8 +4,8 @@
   "title": "제품은 팔고, 능력은 안 판다 — 중국 기술 수출통제",
   "category": "geopolitics",
   "created_at": "2026-10-30T06:43:38.640082Z",
-  "updated_at": "2026-10-30T14:12:31.002764Z",
-  "current_state": "preview_approval",
+  "updated_at": "2026-10-30T14:35:34.382680Z",
+  "current_state": "render",
   "target_duration_min": 18,
   "topic_summary": "중국 상무부 2026년 10월 기술·이중용도 수출통제 공고(제48~52호)와 영업비밀 특별규정 초안, 한국 접점",
   "initial_links": [],
@@ -44,6 +44,24 @@
         "media_plan_errors": "0",
         "script_sha1": "69b37300f3c84c76f1fb8e84652f62be0ce1f1ca",
         "media_plan": "사진 0/8 · 기사 후보 49문장 · 508초(chars)"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-10-30T14:35:34.382337Z",
+      "comment": "사용자 결정 D-0289(원문 '콘티 아주 만족스러워 … 그거 반영하는 완성본으로 바로 직행해') · 사용자 위임 D-0282 · 감독 확인: 연출 판에 UF-160(act1_9 사진)·UF-161(라벨 문구 삭제)·UF-162(뱃지 act4_7 끝) 반영, card 0, dots 단위 '개'(D508), 콘티 판 v2 md5 b521abe3 흐름 사용자 승인",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/china_tech_export_controls_2026/prev/sheet.jpg",
+        "cuts": "0",
+        "media_used": "quote 3 · article 9 · real 11",
+        "quote_candidates": "2",
+        "animatic": "out/animatic.mp4 · 397.081초 · direction b6d26211c511319ac9504af4cfa7105e964cd87c · script 69b37300f3",
+        "user_feedback": "경고: 이 영상 의견 3건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-160 \"1:30~1:50 즘 까지 거의 아무것도 안뜨고 자막과 나레이션만 나오는\" · UF-161 \"이미지의 경로 개략, 좌표 비공개 라는 문구는 빼.\" · UF-162 \"마지막 쯤에 시진핑과 트럼프 뱃지가 나오는데 너무 빨리 사라져.\"",
+        "asset_library": "공용 자산 미승격 0"
       },
       "chosen_version": null
     }
@@ -405,6 +423,12 @@
       "to_state": "preview_approval",
       "transitioned_at": "2026-10-30T14:12:31.002700Z",
       "reason": "preview ok · 검수 3회 · 수정 2회"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-10-30T14:35:34.382576Z",
+      "reason": "preview_approval 승인 — fable"
     }
   ],
   "rollbacks": [],
