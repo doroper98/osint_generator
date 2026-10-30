@@ -1,0 +1,26 @@
+# 덤벨 스케치(D-0308 §2·D-0315 §1-3) — princess 평면 바탕. 3분기 열 안에 부문 셋: 속빈 원 = 2분기, 채움 원 = 3분기.
+# accent 는 문장이 말하는 부문 하나(DC). PC 감소 = 흐린 채움 + down 윤곽. 이름·두 값은 열 오른쪽 지시선 라벨(범례 없음).
+version: 1
+genre: earnings
+stage: backdrop
+stage_config:
+  timeline:
+    start: "2025-04-01"
+    end: "2027-06-30"
+    lanes:
+      - {id: seg, label: "인텔 부문 매출 · 십억 달러", kind: bars}
+shots:
+  - {at: 0, mode: cut, dur: 0, camera: {}}
+  - {at: {sid: pair_0, off: -0.4}, mode: cut, dur: 0, stage: timeline, camera: {date: "2026-06-15", w: 636}}
+events:
+  - {type: island, kind: chart, box: center, start: {sid: pair_0, off: -0.4}, end: {sid: pair_3, edge: end, off: 0.4}}
+  - {type: series, start: {sid: pair_1, off: -0.2}, end: {sid: pair_2, off: -0.3}, lane: seg, series_id: INTC_SEG_DCAI_Q, style: dumbbell, col: gold, accent: none,
+     parts: [{ids: [INTC_SEG_DCAI_Q], label: DC}, {ids: [INTC_SEG_CCG_Q], label: PC}, {ids: [INTC_SEG_FOUNDRY_Q], label: 파운드리}]}
+  - {type: series, start: {sid: pair_2, off: -0.3}, end: {sid: pair_3, off: -0.3}, lane: seg, series_id: INTC_SEG_DCAI_Q, style: dumbbell, col: gold, accent: DC, grow: false,
+     parts: [{ids: [INTC_SEG_DCAI_Q], label: DC}, {ids: [INTC_SEG_CCG_Q], label: PC}, {ids: [INTC_SEG_FOUNDRY_Q], label: 파운드리}]}
+  - {type: series, start: {sid: pair_3, off: -0.3}, end: {sid: pair_3, edge: end, off: 0.4}, lane: seg, series_id: INTC_SEG_DCAI_Q, style: dumbbell, col: gold, accent: none, grow: false,
+     parts: [{ids: [INTC_SEG_DCAI_Q], label: DC}, {ids: [INTC_SEG_CCG_Q], label: PC}, {ids: [INTC_SEG_FOUNDRY_Q], label: 파운드리}]}
+sound:
+  bgm: null
+  no_music_decision: D-0309
+  intensity: [[0, 0.55], [{total: true}, 0.55]]
