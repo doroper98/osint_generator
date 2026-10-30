@@ -94,6 +94,7 @@ R 보고(README §6.3): 커밋 목록, 테스트, 콘티 판·전편·카탈로�
 | **E5** 기업 장르 | `genres/corporate.yaml`(proposed, stage backdrop, 색 의미, narration: `company_metric_attribution`(회사 산정 지표 귀속)·`filing_version_attribution`), 투자 고지 엔딩 줄을 장르 요구 시 결정적 검사 `[invest-notice-missing]` hard 로, `EntityIn.kind` 에 `company`(name·ticker·exchange; 배지 = 코드 조판 회사명, 로고는 private_only 기록 시 허용 — D264), `prompts/intake_planner_category_guidance.yaml` economy 항목(Bloomberg → 공시·공개 통계·DART), 공용 사진(SEC·나스닥·데이터센터, PD/CC) 확보 | |
 | **E2b** 영상 소스 — 연출 | 발언 클립: `quote` 이벤트에 `clip` + 클립 음성 재생 구간 내레이션 덕킹(`rules audio.duck_db`·`duck_fade_sec`, 표준 음성 규칙 C0.2 불변). 움직이는 배경: `backdrop` kind clip(무음·블러·감광 = 사진 배경 수치 그대로, D-0134). 양측 발언 나란히(quote 둘 좌우) 연출 문법 → 스케치 → 승인 | 영상미 상승이 가장 큰 단계 |
 | **E6** 첫 실증 | 앤트로픽 S-1 영상(E1 반영 번들 필요) — W0 전 공정(게이트 ① → 콘티 판 → 게이트 ②). 완료 뒤 `showcase_econ` v2 재렌더로 카탈로그 갱신(P12 — 적용은 영상으로 증명) | |
+| **E7** 기업 실적 발표 템플릿 | 사용자 요청 2026-10-30(DECISIONS D274): 예상치·실제·가이던스·주가 반응·지경학 다섯 막, 첫 사례 삼성전자·인텔 Q3 2026. E3(filing)·E4(bars)·E5(company) 를 끌어당긴다 — 정본 **D-0278** | 착수는 사용자 승인 대기 시간에(D-0278 §9) |
 
 ## 3. 사용자 결정 대기(README §7 사용자 고유 결정)
 ① showcase 두 편의 게이트 ①·② ② dot_plot 승인(데모 시청 뒤) ③ `macro_monetary` approved 전환 ④ E1 착수 시점 ⑤ E3 공시 라이선스 범주 이름(Opus 제안 뒤).
