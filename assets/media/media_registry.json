@@ -5381,6 +5381,45 @@
      "note": "Commons egress 차단 대체(D-0045). VIRIN 260707-D-D0477-3001, h264 1920x1080 60fps"
     }
    ]
+  },
+  "intc_hq_2008": {
+   "kind": "photo",
+   "title": "File:Intel headquarters in Santa Clara.jpg",
+   "license": "CC BY 3.0",
+   "author": "Lijorijo at ml.wikipedia",
+   "credit_author": "Lijorijo(위키미디어 공용, CC BY 3.0)",
+   "date": "2008-10-07",
+   "url": "https://commons.wikimedia.org/wiki/File:Intel_headquarters_in_Santa_Clara.jpg",
+   "caption": "미국 산타클라라 인텔 본사",
+   "file_note": "자료사진 · 2008. 10",
+   "depicts": [
+    "인텔 본사 건물(산타클라라)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus(경제 템플릿 구현 세션) — Commons 파일 페이지 라이선스·작성자 대조(2026-10-30), 실사용은 게이트 ②",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "인텔 실적 발표 영상 배경(회사 본사) — 실적 아일랜드 스케치 배경"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "intc_hq_2008.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.85,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "file": "intc_hq_2008_720.jpg",
+   "source_hash": "2d89cf04de9061c848e43704d304adff"
   }
  }
 }

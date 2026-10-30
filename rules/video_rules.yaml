@@ -1315,6 +1315,15 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     pin_leader_w: 1.0
     pin_leader_alpha: 0.6
     change_regime_months: 2   # v4.4.0 D-0091 ② color_by change — 마지막 변화가 이 달 수 안이면 그 방향(hike·cut), 넘으면 hold(동결). FOMC 회의 간격(6~7주) — 연속 회의 인상·인하는 이어지고 동결 결정 뒤는 회색(6 → 2: fed_policy 검수 루브릭 5 지적, 2026 동결기가 인하 색)
+  bars:                    # v7.4.0 D-0278 §4.1(E4·E7 스케치) — series style bars: 분기 레코드(frequency quarterly) → 분기 열마다 0 에서 자라는 막대
+    w_ratio: 0.55          # 막대 폭 = 분기 폭 × 이 값(가운데 = 분기 가운데)
+    fill_alpha: 0.85
+    edge_alpha: 1.0
+    edge_w: 1.0
+    value_size: 11         # 막대마다 값 라벨(위 끝 위·음수는 아래 끝 아래). layout_480p.min_font_px 이상
+    value_font: sansb
+    value_gap: 5           # 막대 끝 → 라벨 기준선(px)
+    value_halo: 2.5
   band:                    # v4.4.0 D-0090 작업 2 — series style band(두 레코드 사이 띠 = 목표 범위). 색은 이벤트 col
     fill_alpha: 0.28
     edge_alpha: 0.9

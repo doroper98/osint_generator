@@ -2036,6 +2036,19 @@ class TimelineMissingMark(_Strict):
     inset_px: float
 
 
+class TimelineBars(_Strict):
+    """v7.4.0 D-0278 §4.1 — series bars(분기 막대, 0 에서 자란다)."""
+
+    w_ratio: float = Field(gt=0, le=1)
+    fill_alpha: float = Field(gt=0, le=1)
+    edge_alpha: float = Field(ge=0, le=1)
+    edge_w: float = Field(ge=0)
+    value_size: float = Field(gt=0)
+    value_font: str
+    value_gap: float = Field(ge=0)
+    value_halo: float = Field(ge=0)
+
+
 class TimelineBand(_Strict):
     """v4.4.0 D-0090 작업 2 — series band(목표 범위 띠)."""
 
@@ -2120,6 +2133,7 @@ class StageTimelineRules(_Strict):
     wave: TimelineWave
     series: TimelineSeries
     band: TimelineBand             # v4.4.0 — D-0090 작업 2
+    bars: TimelineBars             # v7.4.0 — D-0278 §4.1 스케치
     missing_mark: TimelineMissingMark
     axis_scale: TimelineAxisScale  # v5.1.0 — D-0121 §A
     lane_range: TimelineLaneRange  # v7.4.0 — D-0263(UF-140)
