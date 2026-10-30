@@ -28,7 +28,7 @@ color_semantics:
   added: green                   # (3) 성명서 문구 추가 — 초록(20 §3.1 policy_document)
   removed: ru                    # (3) 성명서 문구 삭제 — 붉은 취소선(20 §3.1 policy_document)
 primitives:                      # 이 장르에서 쓰는 시각 요소(레지스트리 id)
-  reuse: [card, article, post, badge, person, photo, versus, timeline, checklist, series, marker, backdrop, island, quote]   # quote = v7.4.0 back_and_forth D-0256(인물 발언은 경제 영상에도 — Fable 전결, proposed 프로필). backdrop·island = v5.1.0 D-0123·D-0126   # (1) 20 §3 timeline_panel = panel kind timeline, (4) series·marker, (6) person·photo
+  reuse: [card, article, post, badge, person, photo, versus, timeline, checklist, series, marker, backdrop, island, quote, clip]   # clip = v7.4.0 D-0274 §2·D-0280(연준 회견 영상 = 액자 주 요소·원음, proposed 프로필). quote = v7.4.0 back_and_forth D-0256(인물 발언은 경제 영상에도 — Fable 전결, proposed 프로필). backdrop·island = v5.1.0 D-0123·D-0126   # (1) 20 §3 timeline_panel = panel kind timeline, (4) series·marker, (6) person·photo
   new:   [rate_step_line, dot_plot, yield_curve_shift, statement_diff, target_band]   # (2) statement_diff·dot_plot(v4.4.0) 등록 — rate_step_line = series step, target_band = series band 가 대신(만들지 않음), yield_curve_shift = G4 밖(chart_wall)
 badges:
   people: from_library           # 라이브러리 인물(예: 제롬 파월, 케빈 워시 초상이 이미 있음)

@@ -29,6 +29,7 @@ from rules import load_rules
 
 Box = tuple[float, float, float, float]   # x, y, 폭, 높이
 SUB_Y = load_rules().layout_480p.reserved_zones.subtitle.y_from
+FRAME_TAG = " (액자)"   # v7.4.0 D-0276 — 아일랜드 이름 끝 표시: 액자 슬롯 clip_frame 클립(자막 위 예외 대상)
 
 
 def island_box(e: dict) -> Box:
@@ -154,7 +155,8 @@ def island_boxes(events: list[dict], media_assets: dict, stage_name: str) -> lis
             out.append((f"island {e['kind']} {e.get('box') or 'center'}", e["t0"], e["t1"], island_box(e)))
         elif typ in ("photo", "clip"):
             x0, y0, x1, y1 = media_box(e, media_assets)
-            out.append((f"{typ} {e['mid']}", e["t0"], e["t1"], (x0, y0, x1 - x0, y1 - y0)))
+            tag = FRAME_TAG if e.get("frame") == "clip_frame" else ""
+            out.append((f"{typ} {e['mid']}{tag}", e["t0"], e["t1"], (x0, y0, x1 - x0, y1 - y0)))
         elif typ == "panel":
             out.append((f"panel {e['kind']} {event_name(e)}".rstrip(), e["t0"], e["t1"], _panel_box()))
         elif typ == "primitive":
@@ -172,8 +174,9 @@ def _inter(a: Box, b: Box) -> float:
 def island_overlap(boxes: list[tuple[str, float, float, Box]]) -> list[str]:
     """`[island-overlap]` — 같은 순간 보이는 두 아일랜드 제자리 상자 교차 > 0, 자막 구역 교차, 동시 수 > max_concurrent."""
     out: list[str] = []
+    over_frame = load_rules().layout_480p.subtitle.over_clip_frame   # v7.4.0 D-0276 — 액자 클립(clip_frame)만 자막 위 예외(그 슬롯과의 교차만)
     for i, (na, a0, a1, ba) in enumerate(boxes):
-        if ba[1] + ba[3] > SUB_Y:
+        if ba[1] + ba[3] > SUB_Y and not (over_frame and na.endswith(FRAME_TAG)):
             out.append(f"[island-overlap] {na} t={a0:.2f} 상자 아래 끝 {ba[1] + ba[3]:.0f} > 자막 구역 {SUB_Y:g}")
         for nb, b0, b1, bb in boxes[i + 1:]:
             if max(a0, b0) < min(a1, b1) and _inter(ba, bb) > 0:

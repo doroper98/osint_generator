@@ -206,7 +206,9 @@ def _series_metas(P, st, times: list[float], labels: list[str], texts: dict[str,
         recs = [load_series(sid) for e in evs for sid in record_ids(e)]   # band = 계열 하나, 레코드 둘(v4.4.0)
         shown: Optional[bool] = None
         for e in evs:
-            cuts = [lab for t, lab in zip(times, labels) if e["t0"] <= t <= e["t1"]]
+            isl = [i for i in P.events if i["type"] == "island" and i.get("kind") == "chart"]
+            cuts = [lab for t, lab in zip(times, labels) if e["t0"] <= t <= e["t1"]
+                    and (not isl or any(i["t0"] <= t <= i["t1"] for i in isl))]   # v7.4.0 D-0274 §2 — 아일랜드가 비킨 컷(발언 자리 액자)은 차트가 없다
             if cuts:
                 parts = lane_source_text(e).split(" · ")   # v7.4.0 D-0265 — 폭을 넘으면 두 줄로 접어 그린다: 조각마다 그 컷 글자에 있어야 한다
                 ok = all(all(any(p in tx for tx in texts.get(lab, set())) for p in parts) for lab in cuts)

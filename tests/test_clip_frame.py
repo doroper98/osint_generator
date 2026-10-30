@@ -34,6 +34,9 @@ class ClipFrameTest(unittest.TestCase):
         self.assertEqual((ev[0]["x"], ev[0]["y"], ev[0]["w"], ev[0]["frame"]), (68.0, 38.0, 717.0, "clip_frame"))
         self.assertEqual(rec["niovi"], "role:clip_frame")
         self.assertEqual(checks.check_clip_frame(NS(events=ev)), [])
+        from engine.events import ClipEvent  # noqa: PLC0415 — 배치된 이벤트가 이벤트 모델을 통과한다(econ 콘티 판 v3 에서 frame 키 거부로 드러남)
+
+        ClipEvent.model_validate(ev[0])
 
     def test_main_clip_in_corner_is_hard(self) -> None:
         ev = [_clip(place="map_left")]

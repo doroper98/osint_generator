@@ -85,6 +85,7 @@ class OverlapTest(unittest.TestCase):
 
     def test_subtitle_zone_and_concurrency(self) -> None:
         self.assertEqual(len(island_overlap([("low", 0, 5, (0.0, SUB_Y - 10, 50.0, 20.0))])), 1)
+        self.assertEqual(island_overlap([("clip fed_clip_0916_decision (액자)", 0, 5, (68.0, 38.0, 717.0, 403.0))]), [])   # v7.4.0 D-0276 액자만 자막 위 예외
         n = ISLAND.max_concurrent + 1
         many = [(f"i{k}", 0, 5, (k * 100.0, 0.0, 90.0, 90.0)) for k in range(n)]
         self.assertTrue(any("동시 아일랜드" in s for s in island_overlap(many)))
@@ -120,6 +121,12 @@ class WiringTest(unittest.TestCase):
         self.assertEqual(len(errs), 1)
         self.assertIn("차트 아일랜드 구간 밖", errs[0])
         self.assertTrue(check_islands([_isl(0, 5)], "mercator", None))   # island 는 backdrop 무대에만
+        # v7.4.0 D-0274 §2 — 발언 자리(액자 클립)에서 아일랜드를 나눠도 같은 세계: 범위 안 + 한 구간과 겹치면 통과, 틈 안에만 있으면 오류
+        split = [_isl(0.0, 10.0), _isl(20.0, 60.0)]
+        ser2 = {"type": "series", "t0": 1.0, "t1": 50.0, "in_island": True}
+        gap_pin = {"type": "marker", "t0": 12.0, "t1": 18.0, "date": "2026-09-16", "lane": "policy_rate", "in_island": True}
+        self.assertEqual(check_islands(split + [ser2], "backdrop", object()), [])
+        self.assertEqual(len(check_islands(split + [gap_pin], "backdrop", object())), 1)
         diff = {"type": "primitive", "id": "statement_diff", "t0": 1.0, "t1": 2.0, "date": "2026.09"}   # 라벨 날짜(앵커 아님, lane 없음)
         self.assertEqual(check_islands([_isl(0.0, 40.0), diff], "backdrop", object()), [])
         badge = {"type": "badge", "t0": 1.0, "t1": 2.0, "date": "2026-09-16", "lane": "events"}   # 시간축 앵커 뱃지 = 오류
