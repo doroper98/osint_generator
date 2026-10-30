@@ -1,9 +1,97 @@
-# 『제품은 팔고, 능력은 안 판다』 엔딩 크레딧 (v7.4.0, D-0283). 보도 출처 = 장면별 인용 매체(auto: press, D243). 기사 카드·사진 행은 연출이 쓴 미디어만 채운다(연출 단계에서 rights 보강).
+# 『제품은 팔고, 능력은 안 판다』 엔딩 크레딧 (v7.4.0, D-0283). 보도 출처 = 장면별 인용 매체(auto: press, D243). 기사 카드·사진 행은 연출 뒤 실제로 쓴 미디어만 남긴다.
 schema_version: 1
 sections:
 - title: 보도 출처
   column: 0
   auto: press
+- title: 기사 카드
+  column: 0
+  items:
+  - main: 헤드라인 번역·요지 자체 조판(위 보도)
+    license: 기사 화면 캡처·로고 없음
+    rights:
+    - media.china_tech_export_controls_2026_art_0001
+    - media.china_tech_export_controls_2026_art_0002
+    - media.china_tech_export_controls_2026_art_0003
+    - media.china_tech_export_controls_2026_art_0004
+    - media.china_tech_export_controls_2026_art_0005
+    - media.china_tech_export_controls_2026_art_0006
+    - media.china_tech_export_controls_2026_art_0007
+    - media.china_tech_export_controls_2026_art_0008
+    - media.china_tech_export_controls_2026_art_0010
+    - media.china_tech_export_controls_2026_art_0011
+    - media.china_tech_export_controls_2026_art_0012
+    - media.china_tech_export_controls_2026_art_0013
+    - media.china_tech_export_controls_2026_art_0014
+    - media.china_tech_export_controls_2026_art_0015
+    - media.china_tech_export_controls_2026_art_0016
+    - media.china_tech_export_controls_2026_art_0017
+    - media.china_tech_export_controls_2026_art_0018
+    - media.china_tech_export_controls_2026_art_0019
+    - media.china_tech_export_controls_2026_art_0021
+    - media.china_tech_export_controls_2026_art_0022
+    - media.china_tech_export_controls_2026_art_0023
+    - media.china_tech_export_controls_2026_art_0024
+    - media.china_tech_export_controls_2026_art_0025
+- title: 사진
+  column: 0
+  items:
+  - main: 중국철건중공 터널굴착기 전시(2021) (2021. 05. 22)
+    license: Huangdan2060 (CC BY 3.0) · CC BY 3.0
+    rights:
+    - media.cn_tbm_crchi_2021
+  - main: 데이터센터 서버 기판 (2011)
+    license: Intel Free Press (CC BY 2.0) · CC BY 2.0
+    rights:
+    - media.cn_datacenter_server
+  - main: 세포 배양 장치(NASA 회전식 바이오리액터) (2002)
+    license: NASA · Public domain
+    rights:
+    - media.cn_rotary_cell_culture
+  - main: 줄기세포 시료 처리(국제우주정거장, 2026) (2026. 05. 20)
+    license: NASA · Public domain
+    rights:
+    - media.cn_iss_stem_cell
+  - main: 중국 DJI 드론(루마니아군 대드론 훈련, 2026) (2026. 04. 23)
+    license: NATO 영상 제공(DVIDS) · Public domain
+    rights:
+    - media.cn_dji_matrice30
+  - main: 바이윈어보 희토류 광산(위성 영상, 2006) (2006. 06. 30)
+    license: NASA·ASTER · Public domain
+    rights:
+    - media.cn_bayan_obo_mine
+  - main: 희토류 산화물(미 농무부) (2009)
+    license: 미 농무부 ARS(Peggy Greb) · Public domain
+    rights:
+    - media.cn_rare_earth_oxides
+  - main: 트럼프·시진핑 김해공항 회담(2025.10.30) (2025. 10. 30)
+    license: 백악관(Daniel Torok) · United States Government Work (Public domain)
+    rights:
+    - media.cn_trump_xi_gimhae_2025
+  - main: 중국 태양광 발전 단지(위성 영상, 2017) (2017. 12. 20)
+    license: NASA 지구관측소 · Public domain
+    rights:
+    - media.cn_solar_wall_nasa
+  - main: 페로브스카이트 태양전지 시료(미 국립재생에너지연구소) (2022. 06. 01)
+    license: Dennis Schroeder / National Renewable Energy Laboratory (Public domain) · Public domain
+    rights:
+    - media.cn_perovskite_cell
+- title: 글꼴
+  column: 1
+  auto: fonts
+- title: 지도
+  column: 1
+  auto: map
+- title: 국기
+  column: 1
+  items:
+  - main: 국기
+    license: flag-icons · MIT
+    rights:
+    - flags.flag_icons
+- title: 인물 사진
+  column: 1
+  auto: people
 - title: 음악
   column: 1
   items:
@@ -20,5 +108,5 @@ sections:
   slot: notice
   items:
   - main: 기술 목록 개정·영업비밀 규정은 의견 수렴 중인 초안
-    license: 해석은 각 기관 견해 · 일부 한국 접점은 단일 보도
+    license: 해석은 각 기관 견해 · 일부 한국 접점은 단일 보도 · 백악관 사진은 비공개 시청 한정
     rights: []
