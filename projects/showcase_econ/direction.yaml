@@ -260,19 +260,6 @@ events:
   sub: 3.75~4%
   side: right
   hl: true
-- type: card
-  start:
-    sid: cold_0
-    'off': 0.8
-  end:
-    sid: cold_0
-    edge: end
-    'off': 0.4
-  tag: 9월 16일 · 연준
-  bigs:
-  - - 3.75~4%
-    - 기준금리 목표 범위 · 0.25%p 인상
-  accent: gold
 - type: article
   start:
     sid: cold_1
@@ -317,18 +304,6 @@ events:
   sub: 3.5~3.75%
   side: right
   hl: true
-- type: card
-  start:
-    sid: act1_4
-    'off': 0.3
-  end:
-    sid: act1_4
-    edge: end
-    'off': 0.6
-  tag: 2026년 1~6월
-  lines:
-  - 네 번의 회의 · 금리 그대로
-  accent: muted
 - type: marker
   start:
     word:
@@ -432,32 +407,6 @@ events:
     'off': 0.9
   mid: cnn_0916
   theme: dark
-- type: card
-  start:
-    sid: act2_5
-    'off': 0.2
-  end:
-    sid: act2_5
-    edge: end
-    'off': 0.6
-  tag: 연준 성명 · 9월 16일
-  lines:
-  - 인플레이션은 여전히 높다
-  accent: gold
-- type: card
-  start:
-    sid: act2_6
-    'off': 0.5
-  end:
-    sid: act2_7
-    edge: end
-    'off': 0.4
-  tag: 8월 소비자물가 · 1년 전 대비
-  bigs:
-  - - 3.4%
-    - 상승
-  accent: amber
-  src: 미 노동통계국(BLS) CPI-U · FRED
 - type: marker
   start:
     sid: act3_0

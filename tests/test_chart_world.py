@@ -29,9 +29,8 @@ def _hard(P: NS) -> list[str]:  # noqa: N803
 
 class ChartOnlyRunTest(unittest.TestCase):
     def test_long_chart_only_fails(self) -> None:
-        """fed v16 구성(backdrop + 차트 아일랜드·카드만 20초) → hard."""
-        ev = [{"type": "island", "kind": "chart", "t0": 5.0, "t1": 25.0}, {"type": "series", "t0": 5.0, "t1": 25.0},
-              {"type": "card", "t0": 10.0, "t1": 14.0}]
+        """fed v16 구성(backdrop + 차트 아일랜드만 20초) → hard."""
+        ev = [{"type": "island", "kind": "chart", "t0": 5.0, "t1": 25.0}, {"type": "series", "t0": 5.0, "t1": 25.0}]   # v7.4.0 D-0306 — card 폐지
         runs = checks.chart_only_runs(_P(ev))
         self.assertEqual(len(runs), 1)
         self.assertAlmostEqual(runs[0][1] - runs[0][0], 20.0, delta=0.2)

@@ -15,7 +15,6 @@ from typing import Callable, Literal, Optional
 from pydantic import BaseModel, ValidationError
 
 from engine import events as ev
-from engine.cards import draw_card
 from engine.cascade import draw_cascade
 from engine.quote import draw_quote
 from engine.layers.areas import draw_country
@@ -69,7 +68,6 @@ REGISTRY: dict[str, Entry] = {
     "dip": Entry(ev.DipEvent, draw_dip, "dip"),
     "photo": Entry(ev.PhotoEvent, draw_photo, "media"),
     "clip": Entry(ev.ClipEvent, draw_clip, "media"),
-    "card": Entry(ev.CardEvent, draw_card, "card"),
     "cascade": Entry(ev.CascadeEvent, draw_cascade, "card"),       # v5.2.0 겹침 카드(v5.3.0 D-0139 채택) — 패널 덮개 아래에 그린다(engine/render.py)
     "quote": Entry(ev.QuoteEvent, draw_quote, "card"),             # v5.4.0 인물 발언 인용(정규, 사용자 결정 2026-10-02) — 카드 층 위·기사 아래(engine/render.py)
     "article": Entry(ev.ArticleEvent, draw_article, "card"),

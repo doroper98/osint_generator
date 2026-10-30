@@ -109,7 +109,7 @@ class SemanticColorTest(unittest.TestCase):
         self.assertEqual(style.map_c(object(), "gold"), style.C["gold"])   # 지도 무대가 아님(아일랜드 등)
 
     def test_cards_subtitles_hud_endcard_do_not_use_map_colors(self) -> None:
-        for rel in ("engine/fullcards.py", "engine/cards.py", "engine/subtitles.py", "engine/hud.py", "engine/island.py"):
+        for rel in ("engine/fullcards.py", "engine/subtitles.py", "engine/hud.py", "engine/island.py"):
             src = (REPO / rel).read_text(encoding="utf-8")
             for name in ("map_c(", "map_halo(", "C_THEME"):
                 self.assertNotIn(name, src, f"{rel} 가 지도 테마 색을 쓴다 — 카드·자막·HUD·엔딩은 테마 무관(D-0161 §3)")

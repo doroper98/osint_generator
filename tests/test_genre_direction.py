@@ -25,7 +25,7 @@ DOC: dict = {
 }
 TIMELINE_GENRE = GenreProfile.model_validate({
     "genre": "tl_only", "status": "proposed", "stage": {"primary": "timeline"},
-    "color_semantics": {"hike": "#ff7a59"}, "primitives": {"reuse": ["card"]}})
+    "color_semantics": {"hike": "#ff7a59"}, "primitives": {"reuse": ["article"]}})
 
 
 def doc(**over: object) -> dict:

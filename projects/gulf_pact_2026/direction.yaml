@@ -448,19 +448,6 @@ events:
   ship: false
   dashed: true
   label: 메카 협정 · 2026
-- type: card
-  start:
-    sid: pact_origin_4
-    'off': 0.3
-  end:
-    scene_end: pact_origin
-    'off': 0.3
-  tag: 3국 현역 병력
-  bigs:
-  - - 약 140만 명
-    - 글로벌 파이어파워 2026 지수 기준
-  accent: gold
-  src: Global Firepower 2026
 - type: photo
   start:
     sid: pact_origin_4
@@ -562,17 +549,6 @@ events:
   flag: ir
   label: 이란 · 부인
   accent: muted
-- type: card
-  start:
-    sid: mecca_attack_2
-    'off': 0.1
-  end:
-    scene_end: mecca_attack
-    'off': 0.6
-  tag: 후티·이란
-  lines:
-  - 메카 공격 시도를 부인
-  accent: muted
 - type: marker
   start:
     word:
@@ -609,31 +585,6 @@ events:
   - TR
   col: gold
   a: 0.1
-- type: card
-  start:
-    sid: invocation_1
-    'off': 0.2
-  end:
-    sid: invocation_1
-    edge: end
-    'off': 0.3
-  tag: 10월 5일 · 메카 협정 전략정치국방위원회
-  lines:
-  - 협정 발동 결정
-  - 집단방위 공약을 실제로 이행
-  accent: gold
-- type: card
-  start:
-    sid: invocation_3
-    'off': 0.2
-  end:
-    sid: invocation_3
-    edge: end
-    'off': 0.3
-  tag: 10월 5일 · 3국 공동성명
-  lines:
-  - 후티를 위협으로 명시하지 않음
-  accent: muted
 - type: badge
   start:
     sid: invocation_4
@@ -700,19 +651,6 @@ events:
     'off': 0.4
   mid: gulf_pact_2026_art_0014
   theme: dark
-- type: card
-  start:
-    sid: roles_1
-    'off': 0.3
-  end:
-    sid: roles_1
-    edge: end
-    'off': 0.6
-  tag: 아시프 국방장관 · 보도
-  lines:
-  - 전투 작전에는 사우디군만 참여
-  accent: gold
-  src: Business Standard · 2026.10.06
 - type: badge
   start:
     sid: roles_2
@@ -886,19 +824,6 @@ events:
     'off': 0.4
   mid: gulf_pact_2026_art_0017
   theme: dark
-- type: card
-  start:
-    sid: yemen_front_0
-    'off': 0.4
-  end:
-    sid: yemen_front_0
-    edge: end
-    'off': 0.4
-  tag: 10월 초 · 탈환 공세
-  lines:
-  - 사우디 주도 연합군 · 예멘 정부군
-  - 후티 점령지 탈환 공세 시작
-  accent: teal
 - type: badge
   start:
     word:
@@ -986,17 +911,6 @@ events:
   col: teal
   label: 정부군 진격 (주장)
   claims: [clm_0055]
-- type: card
-  start:
-    sid: yemen_front_2
-    'off': 0.2
-  end:
-    scene_end: yemen_front
-    'off': 0.4
-  tag: 후티
-  lines:
-  - 정부군의 모카 도달 주장 부인
-  accent: muted
 - type: marker
   start:
     word:
@@ -1041,20 +955,6 @@ events:
     'off': 0.3
   mid: gulf_kkia_aerial
   place: map_right_low
-- type: card
-  start:
-    sid: riyadh_airport_1
-    'off': 0.3
-  end:
-    sid: riyadh_airport_1
-    edge: end
-    'off': 0.3
-  tag: 사우디 민간항공청 · 10월 8일 공격
-  bigs:
-  - - 최소 3명
-    - 사망 · 조종사 포함 사우디인
-  accent: ru
-  src: 사우디 민간항공청
 - type: article
   start:
     sid: riyadh_airport_2
@@ -1075,34 +975,6 @@ events:
     sid: riyadh_airport_3
     'off': 2.0
   at_place: kkia
-- type: card
-  start:
-    sid: riyadh_airport_3
-    'off': 0.2
-  end:
-    sid: riyadh_airport_3
-    edge: end
-    'off': 0.3
-  tag: 사우디 발표 · 10월 10일 재공격
-  bigs:
-  - - 최소 12명
-    - 사망
-  accent: ru
-  src: 사우디 정부
-- type: card
-  start:
-    sid: riyadh_airport_4
-    'off': 0.2
-  end:
-    sid: riyadh_airport_4
-    edge: end
-    'off': 0.5
-  tag: 사우디 민간항공청 · 10월 10일 재공격
-  bigs:
-  - - 최소 309명
-    - 부상
-  accent: ru
-  src: 사우디 민간항공청
 - type: quote
   start:
     sid: riyadh_airport_6
@@ -1161,20 +1033,6 @@ events:
     'off': 0.5
   mid: csis_0402_korea
   theme: dark
-- type: card
-  start:
-    sid: korea_1
-    'off': 0.3
-  end:
-    sid: korea_1
-    edge: end
-    'off': 0.3
-  tag: 산업통상부 · 5월 26일 브리핑
-  bigs:
-  - - 69.1% → 48.5%
-    - 중동산 원유 비중
-  accent: ru
-  src: 산업통상부
 - type: photo
   start:
     sid: korea_1
@@ -1185,19 +1043,6 @@ events:
     'off': 0.3
   mid: hormuz_transit
   place: map_right_low
-- type: card
-  start:
-    sid: korea_2
-    'off': 0.3
-  end:
-    scene_end: korea
-    'off': 0.3
-  tag: 산업통상부 · 미주산 원유 비중
-  bigs:
-  - - 23.1% → 35.6%
-    - 지난해 → 올해 5~7월
-  accent: us
-  src: 산업통상부
 - type: route
   start:
     word:
@@ -1228,20 +1073,6 @@ events:
   label: 트럼프
   role: 미국 대통령
   accent: muted
-- type: card
-  start:
-    sid: riyadh_airport_8
-    'off': 0.5
-  end:
-    sid: riyadh_airport_8
-    edge: end
-    'off': 0.5
-  tag: TIME 보도 · 10월 8일
-  lines:
-  - 트럼프, 후티 직접 타격 요청 거절
-  accent: muted
-  src: TIME · 2026.10.08
-  y: 290
 - type: route
   start:
     word:

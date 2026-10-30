@@ -21,7 +21,7 @@ BASE: dict = {
     "status": "approved",
     "stage": {"primary": "mercator", "secondary": []},
     "color_semantics": {"confrontation": "ru", "hike": "#ff7a59", "band": "rgba(232,184,96,0.15)"},
-    "primitives": {"reuse": ["marker", "card", "versus", "person"], "new": []},
+    "primitives": {"reuse": ["marker", "article", "versus", "person"], "new": []},
     "badges": {"people": "from_library"},
     "qa_extra": ["stage_continuity"],
 }
@@ -37,7 +37,7 @@ def prof(**over: object) -> dict:
 class GenreProfileSchemaTest(unittest.TestCase):
     def test_minimal_passes(self) -> None:
         p = GenreProfile.model_validate(prof())
-        self.assertEqual(p.elements(), {"marker", "card", "versus", "person"})
+        self.assertEqual(p.elements(), {"marker", "article", "versus", "person"})
 
     def test_extra_key_forbidden(self) -> None:
         with self.assertRaises(ValidationError):
@@ -68,20 +68,20 @@ class GenreProfileSchemaTest(unittest.TestCase):
     def test_unregistered_reuse(self) -> None:
         for bad in ("timeline_panel", "occupied"):   # 레지스트리 밖 / event_types_planned
             with self.subTest(bad=bad), self.assertRaisesRegex(ValidationError, "등록 요소가 아님"):
-                GenreProfile.model_validate(prof(primitives={"reuse": ["card", bad]}))
+                GenreProfile.model_validate(prof(primitives={"reuse": ["article", bad]}))
 
     def test_unregistered_new(self) -> None:
         with self.assertRaisesRegex(ValidationError, "registries.primitives 에 없음"):
-            GenreProfile.model_validate(prof(primitives={"reuse": ["card"], "new": ["hologram"]}))
+            GenreProfile.model_validate(prof(primitives={"reuse": ["article"], "new": ["hologram"]}))
 
     def test_new_planned_only_for_proposed(self) -> None:   # D-0082 쟁점 1 A
         with self.assertRaisesRegex(ValidationError, "primitives_planned"):
-            GenreProfile.model_validate(prof(primitives={"reuse": ["card"], "new": ["yield_curve_shift"]}))   # v4.4.0 dot_plot 등록 → 남은 planned
-        GenreProfile.model_validate(prof(status="proposed", primitives={"reuse": ["card"], "new": ["yield_curve_shift"]}))
+            GenreProfile.model_validate(prof(primitives={"reuse": ["article"], "new": ["yield_curve_shift"]}))   # v4.4.0 dot_plot 등록 → 남은 planned
+        GenreProfile.model_validate(prof(status="proposed", primitives={"reuse": ["article"], "new": ["yield_curve_shift"]}))
 
     def test_reuse_new_overlap(self) -> None:
         with self.assertRaises(ValidationError):
-            GenreProfile.model_validate(prof(primitives={"reuse": ["card"], "new": ["card"]}))
+            GenreProfile.model_validate(prof(primitives={"reuse": ["article"], "new": ["article"]}))
 
     def test_qa_extra_unknown(self) -> None:
         with self.assertRaisesRegex(ValidationError, "결정적 검사 id 가 아님"):

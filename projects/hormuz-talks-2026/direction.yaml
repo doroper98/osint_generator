@@ -205,16 +205,6 @@ events:
   label: 도널드 트럼프
   role: 미국 대통령
   accent: us
-- type: card
-  start:
-    sid: open_2
-    'off': 0.4
-  end:
-    scene_end: open
-  tag: 쟁점 · 무엇을 먼저 하느냐
-  lines:
-  - 해협 · 제재 · 자금 · 핵 사찰
-  accent: gold
 - type: cascade
   start:
     sid: proposal_0
@@ -306,32 +296,6 @@ events:
   label: 아락치
   role: 이란 외무장관
   accent: ru
-- type: card
-  start:
-    sid: proposal_2
-    'off': 0.3
-  end:
-    sid: proposal_2
-    edge: end
-    'off': 0.4
-  tag: 아락치 이란 외무장관 · 9월 25일
-  bigs:
-  - - 4~5일
-    - 미국 측 조치
-  accent: us
-  y: 165
-- type: card
-  start:
-    sid: proposal_4
-    'off': 0.4
-  end:
-    scene_end: proposal
-  tag: 해제 대상 동결 자산
-  bigs:
-  - - 약 120억 달러
-    - 이란이 요구하는 동결 자금
-  accent: gold
-  y: 165
 - type: badge
   start:
     sid: rejection_dispute_0
@@ -462,19 +426,6 @@ events:
   R: 18
   label: 미국 관리
   accent: us
-- type: card
-  start:
-    sid: mediation_4
-    'off': 0.4
-  end:
-    sid: mediation_4
-    edge: end
-    'off': 0.4
-  tag: 미국 관리 · 거부 이후
-  lines:
-  - 간접 협상은 이어진다
-  accent: us
-  y: 165
 - type: badge
   start:
     sid: mediation_5
@@ -490,19 +441,6 @@ events:
   label: 아락치
   role: 이란 외무장관
   accent: ru
-- type: card
-  start:
-    sid: mediation_6
-    'off': 0.3
-  end:
-    sid: mediation_6
-    edge: end
-    'off': 0.4
-  tag: 아락치 이란 외무장관
-  lines:
-  - 카타르가 새 아이디어를 미국에 전달
-  accent: gold
-  y: 165
 - type: article
   start:
     sid: mediation_7
@@ -547,18 +485,6 @@ events:
         t:
           sid: nuclear_3
           'off': 0.8
-- type: card
-  start:
-    sid: nuclear_4
-    'off': 0.2
-  end:
-    sid: nuclear_4
-    edge: end
-    'off': 0.4
-  tag: 페제시키안 이란 대통령
-  lines:
-  - 미국과의 협상, 더는 신뢰하지 않는다
-  accent: ru
 - type: marker
   start:
     sid: war_background_0
@@ -598,19 +524,6 @@ events:
   label: 페제시키안
   role: 이란 대통령
   accent: ru
-- type: card
-  start:
-    sid: war_background_1
-    'off': 0.6
-  end:
-    sid: war_background_1
-    edge: end
-    'off': 0.3
-  tag: 페제시키안 이란 대통령
-  lines:
-  - 미국이 먼저 이란의 길을 막았다
-  accent: ru
-  quote: true
 - type: panel
   start:
     sid: war_background_2
@@ -679,19 +592,6 @@ events:
   R: 18
   label: 미국 관리
   accent: us
-- type: card
-  start:
-    sid: war_background_5
-    'off': 0.5
-  end:
-    sid: war_background_5
-    edge: end
-    'off': 0.2
-  tag: 미국 관리 · 6월
-  lines:
-  - 이란이 상선에 발포해 합의를 깼다
-  accent: us
-  quote: true
 - type: panel
   start:
     sid: war_background_6
@@ -737,18 +637,6 @@ events:
   label: 도널드 트럼프
   role: 미국 대통령
   accent: us
-- type: card
-  start:
-    sid: pressure_0
-    'off': 0.8
-  end:
-    sid: pressure_0
-    edge: end
-    'off': 0.4
-  tag: 트럼프 대통령 · 9월 28일
-  lines:
-  - 미국이 이길 것
-  accent: us
 - type: badge
   start:
     sid: pressure_1
@@ -791,18 +679,6 @@ events:
   R: 34
   label: 도널드 트럼프
   role: 미국 대통령
-  accent: us
-- type: card
-  start:
-    sid: pressure_2
-    'off': 0.6
-  end:
-    sid: pressure_2
-    edge: end
-    'off': 0.3
-  tag: 트럼프 대통령 · 측근들에게
-  lines:
-  - 중간선거 뒤 폭격 재개 예상
   accent: us
 - type: panel
   start:
@@ -847,19 +723,6 @@ events:
   - 28.3
   n: 120
   seed: 7
-- type: card
-  start:
-    sid: shipping_oil_0
-    'off': 0.5
-  end:
-    sid: shipping_oil_0
-    edge: end
-    'off': 0.4
-  tag: 전쟁 전
-  bigs:
-  - - 약 20%
-    - 이 해협을 지난 세계 석유
-  accent: gold
 - type: country
   start:
     sid: shipping_oil_1
@@ -872,32 +735,6 @@ events:
   - IR
   col: ru
   a: 0.08
-- type: card
-  start:
-    sid: shipping_oil_2
-    'off': 0.5
-  end:
-    sid: shipping_oil_2
-    edge: end
-    'off': 0.3
-  tag: 해협 통과 · 마린트래픽 집계
-  bigs:
-  - - 132건
-    - 9월 21~27일 일주일
-  accent: teal
-- type: card
-  start:
-    sid: shipping_oil_3
-    'off': 0.3
-  end:
-    sid: shipping_oil_3
-    edge: end
-    'off': 0.4
-  tag: 해협 통과 · 전쟁 전
-  bigs:
-  - - 약 130건
-    - 하루
-  accent: muted
 - type: badge
   start:
     sid: shipping_oil_4
@@ -913,32 +750,6 @@ events:
   label: 쿠퍼
   role: 미 중부사령관
   accent: us
-- type: card
-  start:
-    sid: shipping_oil_4
-    'off': 0.8
-  end:
-    sid: shipping_oil_4
-    edge: end
-    'off': 0.3
-  tag: 쿠퍼 미 중부사령관 · 9월 26일
-  bigs:
-  - - 2000건
-    - 최근 몇 달 미군이 지원한 통항
-  accent: us
-- type: card
-  start:
-    sid: shipping_oil_5
-    'off': 0.3
-  end:
-    sid: shipping_oil_5
-    edge: end
-    'off': 0.4
-  tag: 쿠퍼 미 중부사령관 · 9월 26일
-  bigs:
-  - - 10억 배럴+
-    - 미군이 지원한 원유 수송
-  accent: us
 - type: article
   start:
     sid: shipping_oil_6
@@ -948,17 +759,6 @@ events:
     edge: end
     'off': 0.5
   mid: aj_0928_oil
-- type: card
-  start:
-    sid: shipping_oil_7
-    'off': 0.3
-  end:
-    scene_end: shipping_oil
-  tag: 브렌트유 · 9월 28일
-  bigs:
-  - - 108달러 안팎
-    - 배럴당 · 3% 넘게 상승
-  accent: ru
 - type: marker
   start:
     sid: second_strait_0
@@ -991,16 +791,6 @@ events:
   - SA
   col: muted
   a: 0.08
-- type: card
-  start:
-    sid: second_strait_2
-    'off': 0.6
-  end:
-    scene_end: second_strait
-  tag: 후티
-  lines:
-  - 사우디 선박에 해상봉쇄 선언
-  accent: ru
 - type: route
   start:
     sid: korea_0
@@ -1031,20 +821,6 @@ events:
   R: 18
   label: 한국
   accent: gold
-- type: card
-  start:
-    sid: korea_0
-    'off': 0.6
-  end:
-    sid: korea_0
-    edge: end
-    'off': 0.4
-  tag: 한국 원유 수입
-  bigs:
-  - - 70%
-    - 호르무즈 해협 경유
-  accent: gold
-  y: 290
 - type: marker
   start:
     word:
@@ -1059,47 +835,6 @@ events:
   sub: ''
   side: bottom
   hl: true
-- type: card
-  start:
-    sid: korea_1
-    'off': 0.3
-  end:
-    sid: korea_1
-    edge: end
-    'off': 0.3
-  tag: 한국 헬륨 공급
-  bigs:
-  - - 약 65%
-    - 카타르산
-  accent: teal
-  y: 290
-- type: card
-  start:
-    sid: korea_2
-    'off': 0.4
-  end:
-    sid: korea_2
-    edge: end
-    'off': 0.3
-  tag: 코스피 · 9월 28일
-  bigs:
-  - - -2.7%
-    - 하락
-  accent: ru
-  y: 290
-- type: card
-  start:
-    sid: korea_3
-    'off': 0.2
-  end:
-    sid: korea_3
-    edge: end
-    'off': 0.3
-  tag: 한국 정부
-  lines:
-  - 유가 상한제 도입
-  accent: gold
-  y: 290
 - type: article
   start:
     sid: korea_4
@@ -1109,32 +844,6 @@ events:
     edge: end
     'off': -0.6
   mid: csis_0402_korea
-- type: card
-  start:
-    sid: korea_4
-    edge: end
-    'off': -0.5
-  end:
-    sid: korea_5
-    'off': 0.1
-  tag: CSIS 분석 · 4월 초
-  bigs:
-  - - 7760만 배럴
-    - IEA 공동 방출 뒤 정부 비축유
-  accent: gold
-  y: 290
-- type: card
-  start:
-    sid: korea_5
-    'off': 0.2
-  end:
-    scene_end: korea
-  tag: CSIS 분석 · 4월 초
-  bigs:
-  - - 약 26일분
-    - 당시 실소비 기준
-  accent: gold
-  y: 290
 - type: marker
   start:
     scene_start: close
@@ -1145,18 +854,6 @@ events:
   sub: ''
   side: right
   hl: true
-- type: card
-  start:
-    sid: close_0
-    'off': 0.4
-  end:
-    card: end
-  tag: 9월 30일 기준 · 확인되지 않은 것
-  lines:
-  - 미국의 답변에 담긴 내용
-  - 해협과 핵 사찰, 무엇이 먼저 움직일지
-  accent: muted
-  y: 250
 sound:
   bgm: music.zabriskie_patriarch
   intensity:

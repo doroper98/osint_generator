@@ -15,7 +15,7 @@ from pydantic import ValidationError
 
 from engine import camera as camera_mod
 from engine.camera import Director, build_camera, cam
-from engine.events import BadgeEvent, CardEvent, PanelVersus
+from engine.events import BadgeEvent, MarkerEvent, PanelVersus
 from engine.mux import Chapter, Description, build_description, build_srt, srt_time
 from engine.stage import MercatorStage, lat_of, ym, ymv
 from engine.registry import RegistryError, validate_events
@@ -147,12 +147,12 @@ class RegistrySchemaTest(unittest.TestCase):
         with self.assertRaises(ValidationError):
             BadgeEvent(type="badge", t0=0, t1=1, lon=0, lat=0, kind="person", flag="kr")  # pid 없음
         with self.assertRaises(ValidationError):
-            CardEvent(type="card", t0=0, t1=1, tag="x", accent="pink")  # 레지스트리 밖 accent
+            BadgeEvent(type="badge", t0=0, t1=1, lon=0, lat=0, kind="person", pid="x", flag="kr", label="x", accent="pink")  # 레지스트리 밖 accent(v7.4.0 D-0306 card 폐지 — 뱃지로)
         with self.assertRaises(ValidationError):
             PanelVersus(type="panel", kind="versus", t0=0, t1=1, title="x",
                         sides=[dict(title="a", src="s", items=[dict(text="t", t=0)])])  # 한쪽만
         with self.assertRaises(ValidationError):
-            CardEvent(type="card", t0=2, t1=1, tag="x", accent="gold")  # t1 < t0
+            MarkerEvent(type="marker", t0=2, t1=1, lon=0, lat=0, label="x")  # t1 < t0
 
     def test_validated_defaults_match_v3(self) -> None:
         out = validate_events([{"type": "marker", "t0": 0, "t1": 1, "lon": 0, "lat": 0, "label": "a"}])[0]

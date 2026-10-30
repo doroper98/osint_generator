@@ -13,17 +13,17 @@ TOP_RIGHT = (560.0, 60.0, 840.0, 160.0)   # 오른쪽 상단 카드 자리
 
 
 def _boxes(e: dict) -> list[tuple] | None:
-    return [TOP_RIGHT] if e["type"] == "card" else None
+    return [TOP_RIGHT] if e["type"] == "cascade" else None
 
 
 class CardOverPanelTest(unittest.TestCase):
     def test_card_on_panel_is_hard(self) -> None:
-        card = {"type": "card", "tag": "수치", "t0": 12.0, "t1": 16.0}
+        card = {"type": "cascade", "tag": "수치", "t0": 12.0, "t1": 16.0}
         self.assertEqual(len(C.cards_over_panel([PANEL, card], _boxes)), 1)
         self.assertIn("card_over_panel", C.HARD)
 
     def test_card_ending_before_panel_passes(self) -> None:
-        card = {"type": "card", "tag": "수치", "t0": 6.0, "t1": 10.5}   # 패널 페이드 안에서 끝남
+        card = {"type": "cascade", "tag": "수치", "t0": 6.0, "t1": 10.5}   # 패널 페이드 안에서 끝남
         self.assertEqual(C.cards_over_panel([PANEL, card], _boxes), [])
 
     def test_date_badge_and_subtitles_only(self) -> None:

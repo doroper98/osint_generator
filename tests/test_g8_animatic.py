@@ -117,7 +117,7 @@ class PlaceholderLabelTest(unittest.TestCase):
         self.assertIs(FULL_LAYERS.resolve, resolve)
         for key in ("marker", "route", "boom", "series", "country", "ships", "dip", "barrier", "tanker_loop"):
             self.assertIs(resolve_animatic(key).render, resolve(key).render, key)   # 마커·경로·타격 링·시리즈 그대로
-        for key in ("panel:relation", "panel:precedent", "card"):   # v5.6.0 PIPELINE-AP-018 — 패널·카드는 전편 렌더러(콘티 판에서 숫자·문구 승인)
+        for key in ("panel:relation", "panel:precedent"):   # v5.6.0 PIPELINE-AP-018 — 패널은(v7.4.0 D-0306 card 폐지) 전편 렌더러(콘티 판에서 숫자·문구 승인)
             self.assertIs(resolve_animatic(key).render, resolve(key).render, key)
         self.assertIs(resolve_animatic("badge").render, PLACEHOLDERS["badge"])
 
@@ -139,9 +139,9 @@ class AnimaticMapRenderTest(_Hormuz):
             self.assertTrue(P.R.stage.bord)   # geo.pkl 지오메트리(국경·행정선)를 실제로 읽었다
             self.assertTrue(P.animatic)
             kinds = {e["type"] for e in P.events}
-            self.assertTrue({"badge", "photo", "clip", "cutout", "card", "panel"} <= kinds)   # 요소 종류가 실제로 지나간다
+            self.assertTrue({"badge", "photo", "clip", "cutout", "panel"} <= kinds)   # 요소 종류가 실제로 지나간다
             for e in P.events:
-                if e["type"] in ("badge", "photo", "clip", "cutout", "card", "panel", "article"):
+                if e["type"] in ("badge", "photo", "clip", "cutout", "panel", "article"):
                     render_frame(P, min(P.n_frames - 1, int((e["t0"] + e["t1"]) / 2 * 24)))
         finally:
             for p in pats:

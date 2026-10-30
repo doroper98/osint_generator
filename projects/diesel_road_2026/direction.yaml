@@ -639,18 +639,6 @@ events:
     hold_until:
       sid: cold_3
       edge: end
-- type: card
-  start:
-    sid: cold_1
-    'off': 0.3
-  end:
-    sid: cold_1
-    edge: end
-    'off': 0.2
-  tag: 러시아 국방부
-  lines:
-  - 무인기 격추 — 그 파편이 불을 냈다
-  accent: ru
 - type: article
   start:
     sid: cold_2
@@ -682,19 +670,6 @@ events:
     'off': 0.4
   mid: diesel_road_2026_art_0005
   theme: dark
-- type: card
-  start:
-    sid: act1_3
-    'off': 0.2
-  end:
-    sid: act1_3
-    edge: end
-    'off': 0.6
-  tag: 2026년 첫 여덟 달
-  bigs:
-  - - 사흘에 한 번
-    - 우크라이나의 러시아 정유소 타격
-  accent: ru
 - type: photo
   start:
     sid: act1_3
@@ -705,69 +680,6 @@ events:
     'off': 0.3
   mid: diesel_road_2026_moscow_fire_0618
   place: map_left
-- type: card
-  start:
-    sid: act1_4
-    'off': 0.3
-  end:
-    sid: act1_4
-    edge: end
-    'off': 0.5
-  tag: 표적
-  lines:
-  - 원유를 캐는 유전이 아니라
-  - 경유·휘발유를 만드는 정유소
-  accent: ru
-- type: card
-  start:
-    sid: act1_5
-    'off': 0.2
-  end:
-    sid: act1_5
-    edge: end
-    'off': 0.5
-  tag: 카네기 국제평화재단 분석
-  lines:
-  - 표적이 정유소로 옮겨 간 뒤
-  - 러시아 안 원유 정제가 어려워졌다
-  accent: muted
-- type: card
-  start:
-    sid: act1_6
-    'off': 0.2
-  end:
-    sid: act1_6
-    edge: end
-    'off': 0.5
-  tag: 같은 분석
-  lines:
-  - 러시아 원유 수출은 오히려 늘었다
-  accent: muted
-- type: card
-  start:
-    sid: act1_7
-    'off': 0.2
-  end:
-    sid: act1_7
-    edge: end
-    'off': 0.5
-  tag: 원유는 팔리고, 공장은 타격
-  lines:
-  - 원유는 계속 팔려 나갔다
-  - 경유·휘발유 만드는 공장이 타격
-  accent: ru
-- type: card
-  start:
-    sid: act1_10
-    'off': 0.1
-  end:
-    sid: act1_10
-    edge: end
-    'off': 0.5
-  tag: 서방 제재
-  lines:
-  - 정제 설비 교체 장비를 구하기 어렵다
-  accent: muted
 - type: panel
   start:
     sid: act1_11
@@ -884,34 +796,6 @@ events:
   lat: 53.16
   col: teal
   impact: true
-- type: card
-  start:
-    sid: act1_16
-    'off': 0.2
-  end:
-    sid: act1_16
-    edge: end
-    'off': 0.5
-  tag: 러시아 경유 생산 · 월간
-  bigs:
-  - - 750만 ton
-    - 3월
-  - - 약 590만 ton
-    - 5월
-  accent: ru
-- type: card
-  start:
-    sid: act1_17
-    'off': 0.2
-  end:
-    sid: act1_17
-    edge: end
-    'off': 0.5
-  tag: 국제에너지기구 추정
-  bigs:
-  - - 30% 가까이
-    - 올해 러시아 경유 생산 감소
-  accent: ru
 - type: cascade
   start:
     sid: act1_18
@@ -937,18 +821,6 @@ events:
     title: 6대 정유소 중 3곳
     accent: ru
     line: 감산·중단
-- type: card
-  start:
-    sid: act1_21
-    'off': 0.2
-  end:
-    sid: act1_21
-    edge: end
-    'off': 0.5
-  tag: 러시아
-  lines:
-  - 거꾸로 연료를 사들이기 시작
-  accent: ru
 - type: panel
   start:
     sid: act1_23
@@ -982,19 +854,6 @@ events:
     'off': 0.3
   mid: diesel_road_2026_art_0011
   theme: dark
-- type: card
-  start:
-    sid: act1_26
-    'off': 0.2
-  end:
-    sid: act1_26
-    edge: end
-    'off': 0.5
-  tag: 정유소가 멈추자
-  lines:
-  - 경유를 팔던 러시아
-  - 연료를 사 와야 하는 처지
-  accent: ru
 - type: marker
   start:
     sid: act2_2
@@ -1021,44 +880,6 @@ events:
   sub: 로스네프트
   side: left
   hl: true
-- type: card
-  start:
-    sid: act2_2
-    'off': 0.2
-  end:
-    sid: act2_2
-    edge: end
-    'off': 0.5
-  tag: 러시아 철도 관계자
-  lines:
-  - 극동연방관구 정유소는 두 곳뿐
-  accent: ru
-- type: card
-  start:
-    sid: act2_3
-    'off': 0.2
-  end:
-    sid: act2_3
-    edge: end
-    'off': 0.5
-  tag: 러시아 업계 전문가
-  bigs:
-  - - 60~65%
-    - 극동 정유소가 채우는 경유 수요
-  accent: ru
-- type: card
-  start:
-    sid: act2_4
-    'off': 0.2
-  end:
-    sid: act2_4
-    edge: end
-    'off': 0.5
-  tag: 같은 전문가
-  lines:
-  - 옴스크 정유소 물량
-  - → 드론 피해 입은 서쪽으로
-  accent: muted
 - type: route
   start:
     sid: act2_2
@@ -1074,30 +895,6 @@ events:
   ship: false
   dashed: true
   label: 철도
-- type: card
-  start:
-    sid: act2_5
-    'off': 0.2
-  end:
-    sid: act2_5
-    edge: end
-    'off': 0.5
-  tag: 극동의 연료
-  lines:
-  - 다른 지역에서 철도로 들어오는 연료에 의존
-  accent: teal
-- type: card
-  start:
-    sid: act2_7
-    'off': 0.2
-  end:
-    sid: act2_7
-    edge: end
-    'off': 0.5
-  tag: 극동 연료 부족
-  lines:
-  - 5월 정유소 피격 뒤 시작
-  accent: ru
 - type: boom
   start:
     sid: act2_8
@@ -1129,34 +926,6 @@ events:
   label: 연해주
   side: right
   hl: true
-- type: card
-  start:
-    sid: act2_11
-    'off': 0.2
-  end:
-    sid: act2_11
-    edge: end
-    'off': 0.5
-  tag: 연해주 · 화물차 경유 주유 한도
-  bigs:
-  - - 100L
-    - 시내
-  - - 200L
-    - 간선도로
-  accent: ru
-- type: card
-  start:
-    sid: act2_12
-    'off': 0.2
-  end:
-    sid: act2_12
-    edge: end
-    'off': 0.5
-  tag: 연해주 당국 설명
-  lines:
-  - 실제 부족이 아니라
-  - 되팔기를 막기 위한 조치
-  accent: muted
 - type: marker
   start:
     sid: act2_14
@@ -1193,30 +962,6 @@ events:
   col: gold
   ship: true
   label: 7월 말 · 약 3만 ton
-- type: card
-  start:
-    sid: act2_15
-    'off': 0.2
-  end:
-    sid: act2_16
-    edge: end
-    'off': 0.4
-  tag: 동북아 → 러시아 선적
-  lines:
-  - 2022년 2월 이후 처음
-  accent: gold
-- type: card
-  start:
-    sid: act2_18
-    'off': 0.2
-  end:
-    sid: act2_18
-    edge: end
-    'off': 0.5
-  tag: 극동 석유제품 철도 하역
-  lines:
-  - '주된 곳: 블라디보스토크가 있는 연해주'
-  accent: teal
 - type: article
   start:
     sid: act2_19
@@ -1227,19 +972,6 @@ events:
     'off': 0.6
   mid: diesel_road_2026_art_0002
   theme: dark
-- type: card
-  start:
-    sid: act2_20
-    'off': 0.2
-  end:
-    sid: act2_20
-    edge: end
-    'off': 0.5
-  tag: 7~8월 한국 항구 선적
-  bigs:
-  - - 17만 6천 ton 이상
-    - 대부분 경유
-  accent: gold
 - type: route
   start:
     sid: act2_23
@@ -1253,19 +985,6 @@ events:
   col: ru
   ship: true
   label: 레일라호 · 7월·8월
-- type: card
-  start:
-    sid: act2_24
-    'off': 0.2
-  end:
-    sid: act2_24
-    edge: end
-    'off': 0.5
-  tag: 레일라호 두 차례
-  bigs:
-  - - 약 5만 7천 ton
-    - 실어 나른 경유
-  accent: ru
 - type: route
   start:
     sid: act2_25
@@ -1294,32 +1013,6 @@ events:
   at_place: niigata
   label: 니가타
   side: right
-- type: card
-  start:
-    sid: act2_26
-    'off': 0.2
-  end:
-    sid: act2_26
-    edge: end
-    'off': 0.5
-  tag: 레일라호 두 번째 항해
-  lines:
-  - '신고 목적지: 일본 니가타'
-  - '실제 도착: 블라디보스토크'
-  accent: ru
-- type: card
-  start:
-    sid: act2_27
-    'off': 0.2
-  end:
-    sid: act2_27
-    edge: end
-    'off': 0.5
-  tag: 아스토리아호 · 8월 1일 울산
-  bigs:
-  - - 약 1만 1천 ton
-    - 선적량
-  accent: teal
 - type: route
   start:
     sid: act2_28
@@ -1348,19 +1041,6 @@ events:
   label: 여수 앞바다
   sub: 옮겨 싣기
   side: top
-- type: card
-  start:
-    sid: act2_29
-    'off': 0.2
-  end:
-    sid: act2_29
-    edge: end
-    'off': 0.5
-  tag: 청천호 · 여수 앞바다
-  bigs:
-  - - 약 2만 6천 ton
-    - 옮겨 받은 연료
-  accent: teal
 - type: route
   start:
     sid: act2_30
@@ -1377,30 +1057,6 @@ events:
   declared:
     label: '신고: 싱가포르'
     bend_index: 1
-- type: card
-  start:
-    sid: act2_31
-    'off': 0.2
-  end:
-    sid: act2_31
-    edge: end
-    'off': 0.5
-  tag: 케이플러 자료 · 구매자
-  lines:
-  - 로스네프트 — 러시아 국영 석유회사
-  accent: ru
-- type: card
-  start:
-    sid: act2_32
-    'off': 0.2
-  end:
-    sid: act2_32
-    edge: end
-    'off': 0.5
-  tag: 케이플러 자료 · 구매자
-  lines:
-  - NNK — 하바롭스크 정유소 보유
-  accent: ru
 - type: panel
   start:
     sid: act2_33
@@ -1443,18 +1099,6 @@ events:
   label: 서울
   side: right
   hl: true
-- type: card
-  start:
-    sid: act3_1
-    'off': 0.2
-  end:
-    sid: act3_1
-    edge: end
-    'off': 0.5
-  tag: 가디언 보도 뒤
-  lines:
-  - 한국 정부 ↔ 우크라이나 논쟁
-  accent: gold
 - type: panel
   start:
     sid: act3_2
@@ -1469,32 +1113,6 @@ events:
     items:
     - 이 선적이 법에 어긋났는가
     - 제재의 취지를 거슬렀는가
-- type: card
-  start:
-    sid: act3_3
-    'off': 0.2
-  end:
-    sid: act3_3
-    edge: end
-    'off': 0.5
-  tag: 외교부
-  lines:
-  - 경유·항공유 등 석유 정제제품
-  - 대러 수출통제 품목 아님
-  accent: gold
-- type: card
-  start:
-    sid: act3_4
-    'off': 0.2
-  end:
-    sid: act3_4
-    edge: end
-    'off': 0.5
-  tag: 정부
-  bigs:
-  - - 1,402개
-    - 상황허가 대상 품목 · 군사용 전용 가능
-  accent: gold
 - type: article
   start:
     sid: act3_5
@@ -1525,19 +1143,6 @@ events:
     - head: 비제재 대상
       body: 러시아가 사들이는 연료
       col: muted
-- type: card
-  start:
-    sid: act3_9
-    'off': 0.2
-  end:
-    sid: act3_9
-    edge: end
-    'off': 0.5
-  tag: 2024년 한국 경유 수출
-  bigs:
-  - - 2억 166만 배럴
-    - 1992년 통계 이후 최대
-  accent: gold
 - type: article
   start:
     sid: act3_10
@@ -1548,60 +1153,6 @@ events:
     'off': 0.5
   mid: diesel_road_2026_art_0017
   theme: dark
-- type: card
-  start:
-    sid: act3_11
-    'off': 0.2
-  end:
-    sid: act3_11
-    edge: end
-    'off': 0.5
-  tag: 올해 1~8월 한국 경유 수출
-  bigs:
-  - - 1억 2,982만 배럴
-    - 수출량
-  - - −3.4%
-    - 1년 전 대비
-  accent: gold
-- type: card
-  start:
-    sid: act3_12
-    'off': 0.2
-  end:
-    sid: act3_12
-    edge: end
-    'off': 0.5
-  tag: 정부 수출 관리
-  lines:
-  - 휘발유·경유·등유 수출 물량
-  - 지난해 수준 안으로
-  accent: gold
-- type: card
-  start:
-    sid: act3_13
-    'off': 0.2
-  end:
-    sid: act3_13
-    edge: end
-    'off': 0.5
-  tag: 정부
-  lines:
-  - 실제 항로와 신고 목적국이 다른지 확인
-  - 국내법 위반 여부 가린다
-  accent: gold
-- type: card
-  start:
-    sid: act3_14
-    'off': 0.2
-  end:
-    sid: act3_14
-    edge: end
-    'off': 0.5
-  tag: 정부
-  lines:
-  - 신고지로 곧장 가지 않은 사실만으로는
-  - 허위 신고 단정 어렵다
-  accent: gold
 - type: badge
   start:
     sid: act3_15
@@ -1617,31 +1168,6 @@ events:
   label: 청와대
   role: 국가안보실
   accent: gold
-- type: card
-  start:
-    sid: act3_15
-    'off': 0.2
-  end:
-    sid: act3_15
-    edge: end
-    'off': 0.5
-  tag: 청와대 국가안보실
-  lines:
-  - 무역통계상 한국 → 러시아
-  - 경유·휘발유·제트유 수출 기록 없음
-  accent: gold
-- type: card
-  start:
-    sid: act3_16
-    'off': 0.2
-  end:
-    sid: act3_16
-    edge: end
-    'off': 0.5
-  tag: 한국 항만 기록
-  lines:
-  - 연료의 소유주·판매자는 나오지 않는다
-  accent: muted
 - type: article
   start:
     sid: act3_17
@@ -1652,18 +1178,6 @@ events:
     'off': 0.5
   mid: diesel_road_2026_art_0015
   theme: dark
-- type: card
-  start:
-    sid: act3_20
-    'off': 0.2
-  end:
-    sid: act3_20
-    edge: end
-    'off': 0.5
-  tag: 우크라이나가 문제 삼은 것
-  lines:
-  - 법 조항보다 그 시점
-  accent: teal
 - type: badge
   start:
     sid: act3_22
@@ -1677,80 +1191,6 @@ events:
   kind: emblem
   img: cheongwadae
   label: 청와대
-  accent: gold
-- type: card
-  start:
-    sid: act3_22
-    'off': 0.2
-  end:
-    sid: act3_22
-    edge: end
-    'off': 0.5
-  tag: 청와대
-  lines:
-  - 거래 주체·원산지·최종 구매자 미확인
-  - 개별 거래
-  accent: gold
-- type: card
-  start:
-    sid: act3_23
-    'off': 0.2
-  end:
-    sid: act3_24
-    edge: end
-    'off': 0.5
-  tag: 구매자 로스네프트 · 제재국
-  lines:
-  - 영국 · 미국 · 유럽연합 · 호주
-  accent: ru
-- type: card
-  start:
-    sid: act3_25
-    'off': 0.2
-  end:
-    sid: act3_25
-    edge: end
-    'off': 0.5
-  tag: 미국 재무부
-  lines:
-  - 2025년 10월 22일 로스네프트 제재
-  accent: us
-- type: card
-  start:
-    sid: act3_26
-    'off': 0.2
-  end:
-    sid: act3_26
-    edge: end
-    'off': 0.5
-  tag: 미국 재무부 경고
-  lines:
-  - 제재 대상과의 중대한 거래를 돕는
-  - 외국 금융기관도 제재 가능
-  accent: us
-- type: card
-  start:
-    sid: act3_27
-    'off': 0.2
-  end:
-    sid: act3_27
-    edge: end
-    'off': 0.5
-  tag: 외교 갈등
-  lines:
-  - 주우크라이나 대사 소환
-  accent: gold
-- type: card
-  start:
-    sid: act3_28
-    'off': 0.2
-  end:
-    sid: act3_28
-    edge: end
-    'off': 0.5
-  tag: 외교 갈등
-  lines:
-  - 북한군 포로 이송 공개 갈등에 뒤이어
   accent: gold
 - type: panel
   start:
@@ -1844,18 +1284,6 @@ events:
   label: 트럼프
   role: 미국 대통령
   accent: us
-- type: card
-  start:
-    sid: act4_4
-    'off': 0.2
-  end:
-    sid: act4_4
-    edge: end
-    'off': 0.5
-  tag: 트럼프 대통령
-  lines:
-  - 하르그섬 석유 시설은 겨냥하지 않기로
-  accent: us
 - type: marker
   start:
     word:
@@ -1885,30 +1313,6 @@ events:
   lat: 27.5
   col: us
   impact: true
-- type: card
-  start:
-    sid: act4_6
-    'off': 0.2
-  end:
-    sid: act4_6
-    edge: end
-    'off': 0.5
-  tag: 이란 주장
-  lines:
-  - 미국과 이스라엘이 함께 공격
-  accent: ru
-- type: card
-  start:
-    sid: act4_7
-    'off': 0.2
-  end:
-    sid: act4_7
-    edge: end
-    'off': 0.5
-  tag: 이란 경고
-  lines:
-  - 걸프 전역의 에너지 시설에 보복
-  accent: ru
 - type: marker
   start:
     word:
@@ -1943,21 +1347,6 @@ events:
     side: left
   claims:
   - clm_0066
-- type: card
-  start:
-    sid: act4_10
-    'off': 0.2
-  end:
-    sid: act4_10
-    edge: end
-    'off': 0.5
-  tag: 라스라판 LNG 생산 라인
-  bigs:
-  - - 14기 중 2기
-    - 멈춤
-  - - 연 1,300만 ton
-    - 생산 능력의 약 17%
-  accent: ru
 - type: article
   start:
     sid: act4_11
@@ -2100,86 +1489,6 @@ events:
   label: 호르무즈 해협
   side: right
   hl: true
-- type: card
-  start:
-    sid: act4_20
-    'off': 0.2
-  end:
-    sid: act4_20
-    edge: end
-    'off': 0.5
-  tag: 호르무즈 통과 석유제품 · 하루
-  bigs:
-  - - 67만 7천 배럴
-    - 통과량
-  - - 360만 배럴
-    - 전쟁 전
-  accent: ru
-- type: card
-  start:
-    sid: act4_23
-    'off': 0.2
-  end:
-    sid: act4_23
-    edge: end
-    'off': 0.5
-  tag: 9월 경유 정제마진
-  bigs:
-  - - 배럴당 약 95달러
-    - 사상 최고
-  accent: ru
-- type: card
-  start:
-    sid: act4_24
-    'off': 0.2
-  end:
-    sid: act4_24
-    edge: end
-    'off': 0.5
-  tag: 한국 원유 수입 중 중동산 비중
-  bigs:
-  - - 69.1%
-    - 지난해
-  - - 48.5%
-    - 올해 5~7월
-  accent: gold
-- type: card
-  start:
-    sid: act4_25
-    'off': 0.2
-  end:
-    sid: act4_25
-    edge: end
-    'off': 0.5
-  tag: 국제에너지기구
-  lines:
-  - 경유 부족, 2027년까지 이어질 수 있다
-  accent: muted
-- type: card
-  start:
-    sid: act5_1
-    'off': 0.2
-  end:
-    sid: act5_2
-    edge: end
-    'off': 0.3
-  tag: 미국
-  lines:
-  - 지난해 러시아 석유회사들을 제재
-  accent: us
-- type: card
-  start:
-    sid: act5_3
-    'off': 0.2
-  end:
-    sid: act5_4
-    edge: end
-    'off': 0.4
-  tag: 미국 재무부 · 3월 12일
-  lines:
-  - 일반허가 134호
-  - 이미 배에 실린 러시아산 원유·석유제품 거래 허용
-  accent: us
 - type: badge
   start:
     sid: act5_4
@@ -2194,32 +1503,6 @@ events:
   flag: us
   label: 베선트
   role: 미국 재무장관
-  accent: us
-- type: card
-  start:
-    sid: act5_5
-    'off': 0.2
-  end:
-    sid: act5_5
-    edge: end
-    'off': 0.5
-  tag: 미국 재무부
-  lines:
-  - 일반허가 135호
-  - 러시아산 경유 판매·운송·수입 허용
-  accent: us
-- type: card
-  start:
-    sid: act5_6
-    'off': 0.2
-  end:
-    sid: act5_6
-    edge: end
-    'off': 0.5
-  tag: 일반허가 135호
-  bigs:
-  - - 2027년 4월 7일
-    - 까지 유효
   accent: us
 - type: article
   start:
@@ -2247,19 +1530,6 @@ events:
   label: 노바크
   role: 러시아 부총리
   accent: ru
-- type: card
-  start:
-    sid: act5_8
-    'off': 0.2
-  end:
-    sid: act5_8
-    edge: end
-    'off': 0.5
-  tag: 노바크 러시아 부총리
-  bigs:
-  - - 월 300만~350만 ton
-    - 늘 수 있는 경유 수출
-  accent: ru
 - type: badge
   start:
     sid: act5_9
@@ -2275,31 +1545,6 @@ events:
   label: 베선트
   role: 미국 재무장관
   accent: us
-- type: card
-  start:
-    sid: act5_9
-    'off': 0.2
-  end:
-    sid: act5_9
-    edge: end
-    'off': 0.5
-  tag: 베선트 재무장관
-  lines:
-  - 가진 모든 법적 권한으로 이행
-  accent: us
-- type: card
-  start:
-    sid: act5_10
-    'off': 0.2
-  end:
-    sid: act5_10
-    edge: end
-    'off': 0.5
-  tag: 카네기 국제평화재단 추정
-  bigs:
-  - - 약 70억 달러
-    - 이론상 가치 · 6개월 약 500만 ton 기준
-  accent: muted
 - type: article
   start:
     sid: act5_11
@@ -2359,33 +1604,6 @@ events:
   date: 2026.09.22
   accent: us
   pos: center
-- type: card
-  start:
-    sid: act5_15
-    'off': 0.2
-  end:
-    sid: act5_15
-    edge: end
-    'off': 0.5
-  tag: 미국 경유 평균 가격
-  bigs:
-  - - 갤런당 6.26달러
-    - 평균 가격
-  - - 80% 가까이 상승
-    - 연초 대비
-  accent: us
-- type: card
-  start:
-    sid: act5_16
-    'off': 0.2
-  end:
-    sid: act5_16
-    edge: end
-    'off': 0.4
-  tag: 미국 국내 정치
-  lines:
-  - 경유값이 정치 문제가 됐다
-  accent: us
 - type: badge
   start:
     sid: act5_17
@@ -2400,30 +1618,6 @@ events:
   flag: us
   label: 트럼프
   role: 미국 대통령
-  accent: us
-- type: card
-  start:
-    sid: act5_17
-    'off': 0.2
-  end:
-    sid: act5_17
-    edge: end
-    'off': 0.5
-  tag: 중간선거 앞 트럼프 대통령
-  lines:
-  - 경유값 상승 → 정유소 공격 탓
-  accent: us
-- type: card
-  start:
-    sid: act5_18
-    'off': 0.2
-  end:
-    sid: act5_18
-    edge: end
-    'off': 0.4
-  tag: 그 해법
-  lines:
-  - 에너지 휴전
   accent: us
 - type: article
   start:
@@ -2449,31 +1643,6 @@ events:
   img: potus
   label: 백악관
   accent: us
-- type: card
-  start:
-    sid: act5_20
-    'off': 0.2
-  end:
-    sid: act5_20
-    edge: end
-    'off': 0.5
-  tag: 백악관 당국자
-  lines:
-  - '첫 단계: 서로의 정유소를 공격하지 않는다'
-  accent: us
-- type: card
-  start:
-    sid: act5_21
-    'off': 0.2
-  end:
-    sid: act5_21
-    edge: end
-    'off': 0.5
-  tag: 우크라이나 반발
-  lines:
-  - 러시아의 정유망이 훨씬 크다
-  - 맞교환은 불공평
-  accent: teal
 - type: quote
   start:
     sid: act5_22
@@ -2506,19 +1675,6 @@ events:
   flag: ua
   label: 젤렌스키
   role: 우크라이나 대통령
-  accent: teal
-- type: card
-  start:
-    sid: act5_23
-    'off': 0.2
-  end:
-    sid: act5_23
-    edge: end
-    'off': 0.5
-  tag: 젤렌스키 대통령
-  lines:
-  - 러시아가 에너지 시설 공격을 멈추면
-  - 우크라이나도 멈춘다
   accent: teal
 - type: marker
   start:
@@ -2608,19 +1764,6 @@ events:
   inset:
     mid: inset_ryazan_esri
     side: left
-- type: card
-  start:
-    sid: act5_26
-    'off': 0.2
-  end:
-    sid: act5_26
-    edge: end
-    'off': 0.5
-  tag: 크렘린궁
-  lines:
-  - 우크라이나의 에너지 시설 공격
-  - 미국의 평화 노력에 어긋난다
-  accent: ru
 - type: badge
   start:
     sid: act5_27
@@ -2637,30 +1780,6 @@ events:
   label: 젤렌스키
   role: 우크라이나 대통령
   accent: teal
-- type: card
-  start:
-    sid: act5_27
-    'off': 0.2
-  end:
-    sid: act5_27
-    edge: end
-    'off': 0.5
-  tag: 젤렌스키 대통령
-  lines:
-  - 트럼프 대통령에게 배신감을 느낀다
-  accent: teal
-- type: card
-  start:
-    sid: act5_28
-    'off': 0.1
-  end:
-    sid: act5_29
-    'off': 0.1
-  tag: 에너지 휴전
-  bigs:
-  - - 나흘
-    - 10월 11일 발효 → 10월 15일 끝
-  accent: muted
 - type: article
   start:
     sid: act5_29
@@ -2706,44 +1825,6 @@ events:
   grow: 2.6
   col: gold
   ship: true
-- type: card
-  start:
-    word:
-      sid: ending_0
-      text: 워싱턴
-  end:
-    sid: ending_0
-    edge: end
-    'off': 0.6
-  tag: 워싱턴
-  lines:
-  - 러시아산 경유 거래
-  accent: us
-- type: card
-  start:
-    sid: ending_1
-    'off': 0.2
-  end:
-    sid: ending_1
-    edge: end
-    'off': 0.5
-  tag: 네 장면
-  lines:
-  - 모자란 경유 한 가지로 이어져 있다
-  accent: gold
-- type: card
-  start:
-    sid: ending_2
-    'off': 0.2
-  end:
-    sid: ending_2
-    edge: end
-    'off': 0.6
-  tag: 국제에너지기구
-  bigs:
-  - - 2027년까지
-    - 경유 부족이 이어질 수 있다
-  accent: muted
 - type: marker
   start:
     word:
@@ -2959,31 +2040,6 @@ events:
     edge: end
     'off': 0.3
   accent: teal
-- type: card
-  start:
-    sid: act2_10
-    'off': 0.2
-  end:
-    sid: act2_10
-    edge: end
-    'off': 0.5
-  tag: 콤소몰스크나아무레 – 우크라이나
-  bigs:
-  - - 약 6,500km
-    - 거리
-  accent: teal
-- type: card
-  start:
-    sid: act3_21
-    'off': 0.2
-  end:
-    sid: act3_21
-    edge: end
-    'off': 0.4
-  tag: 강유정 청와대 수석대변인
-  lines:
-  - 우크라이나 측 주장은 사실과 다르고 부적절
-  accent: gold
 - type: panel
   start:
     sid: act1_14

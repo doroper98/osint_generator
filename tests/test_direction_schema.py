@@ -72,10 +72,10 @@ class DocTest(unittest.TestCase):
         doc = load_direction_doc(MINIMAL)
         keys, events, sound = build(doc, Timebase(_plan()), MercatorStage())
         self.assertEqual([k.mode for k in keys], ["cut", "move", "cut"])      # dip = 한가운데 cut
-        self.assertEqual([e["type"] for e in events], ["marker", "route", "card", "dip"])
+        self.assertEqual([e["type"] for e in events], ["marker", "route", "dip"])   # v7.4.0 D-0306 — card 폐지(고정본에서 뺐다)
         self.assertEqual((events[0]["lon"], events[0]["lat"]), (56.35, 26.55))  # at_place
         self.assertEqual(events[1]["pts"][0], (56.2, 26.45))                     # {path: lane}
-        self.assertAlmostEqual(events[3]["t1"] - events[3]["t0"], 1.0)
+        self.assertAlmostEqual(events[2]["t1"] - events[2]["t0"], 1.0)
         assert sound is not None
         self.assertEqual(sound["cues"][0]["t"], 1.2)
 

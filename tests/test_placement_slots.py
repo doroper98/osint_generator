@@ -36,11 +36,6 @@ class SlotTest(unittest.TestCase):
         self.assertAlmostEqual(x, PL.slots["map_upper_right"].point[0], places=6)
         self.assertAlmostEqual(y, PL.slots["map_upper_right"].point[1], places=6)
 
-    def test_card_slot_default_y(self) -> None:
-        ev = [{"type": "card", "t0": 1, "t1": 2, "place": "card_right"}]
-        resolve_places(ev, view)
-        self.assertNotIn("y", ev[0])   # null = 렌더러 기본
-
     def test_wrong_kind_and_unknown_slot(self) -> None:
         with self.assertRaises(PlacementError):
             resolve_places([{"type": "badge", "t0": 0, "t1": 1, "place": "panel_gap"}], view)
