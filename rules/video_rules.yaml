@@ -1291,11 +1291,13 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
   # 검사 [flat-lane] hard: 그려진 선·계단의 세로 폭 < 레인 값 영역 × flat_lane_min_ratio. 막대(E4)·패널은 대상 아님(0 기준 그대로). 가로축(w)은 고정 — 세로 범위로 살린다
   lane_range:
     mode: fit
-    pad_ratio: 0.08              # v7.4.0 D-0270 — 0.12 → 0.08(econ 금리 범위 3~5%, 0.25%p ≈ 8px)
+    pad_ratio: 0.08              # v7.4.0 D-0270 — 0.12 → 0.08
     nice_mantissas: [1, 2, 2.5, 5]
-    ticks_max: 3                 # v7.4.0 D-0268 — 2 → 3(중간 눈금 3 = 4 구간, 간격 0.5 로 범위 2%p — 계단 1.5배)
+    ticks_max: 3                 # v7.4.0 D-0268 — 2 → 3(중간 눈금 최대 3, 간격 0.5)
+    end_round: half_step         # v7.4.0 D-0277 §3 정정 — 끝 값은 눈금 간격의 절반 단위로 내림·올림(간격 단위 올림이 econ 3~5% 위 0.5%p 빈 띠를 만들었다 → 3~4.75%). 중간 눈금은 간격의 배수 그대로
     min_span: {"%": 1.0, "%p": 1.0, "bp": 50}   # 감독 제안 값(D-0263 §2①) — 사용자 합격 값 아님
     flat_lane_min_ratio: 0.35
+    empty_band_max_ratio: 0.15   # v7.4.0 D-0277 §3 [axis-empty-band] hard — 데이터 극값 밖 빈 띠(한쪽) ÷ 축 범위 상한. 감독 제안 값(사용자 합격 값 아님)
     axis_range_note: "축 범위 {lo}~{hi}"
   # v7.4.0 back_and_forth D-0260 §2·D-0264 — 전망 점: series style projection + scatter 레코드(예: SEP 점도표)를 같은 레인·같은 축척 위의 점으로.
   # 열 x = 그 해 12월 31일(column_date year_end), 장기(Longer run) = 마지막 연도 열 + longer_run_gap_days. 점 크기·간격·중앙값 선·열 이름·고정 문구는

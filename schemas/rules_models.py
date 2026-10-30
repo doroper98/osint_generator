@@ -2013,14 +2013,16 @@ class TimelineBand(_Strict):
 
 class TimelineLaneRange(_Strict):
     """v7.4.0 back_and_forth D-0263(사용자 의견 UF-140 "변동이 크지 않은 데이터… 가로로 펼쳐진 직선으로밖에 안보인다") — 시간축 레인 값 범위.
-    fit = [min − pad, max + pad](무대 기간 안 레코드 전체, 영상당 한 번), 최소 폭 하한(단위별), 눈금 반올림. 막대는 0 기준(chart_honesty) 그대로."""
+    fit = [min − pad, max + pad](무대 기간 안 레코드 전체, 영상당 한 번), 최소 폭 하한(단위별), 끝 값 반올림(end_round, D-0277 §3 정정). 막대는 0 기준(chart_honesty) 그대로."""
 
     mode: Literal["fit", "zero"]
     pad_ratio: float = Field(ge=0, lt=0.5)
     nice_mantissas: list[float] = Field(min_length=1)
     ticks_max: int = Field(ge=0)              # 위·아래 끝 사이 중간 눈금 최대 수
+    end_round: Literal["step", "half_step"] = "step"   # v7.4.0 D-0277 §3 정정 — 끝 값 내림·올림 단위(간격 / 간격의 절반)
     min_span: dict[str, float]                # 단위 → 최소 폭(없는 단위 = 데이터 폭)
     flat_lane_min_ratio: float = Field(gt=0, lt=1)   # [flat-lane] hard — 그려진 세로 폭 ÷ 레인 값 영역 높이 하한
+    empty_band_max_ratio: float = Field(gt=0, lt=0.5)   # v7.4.0 D-0277 §3 [axis-empty-band] hard — 데이터 극값 밖 빈 띠(한쪽) ÷ 축 범위 상한
     axis_range_note: str = Field(pattern=r"\{lo\}.*\{hi\}")   # 0 이 아닌 곳에서 시작하면 출처 줄 끝에 붙는 표기
 
 

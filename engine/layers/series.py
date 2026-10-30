@@ -90,33 +90,59 @@ def month_colors(e: dict, R: object) -> dict[date, tuple[float, float, float]] |
     return {d: rgb[r] for (d, _), r in zip(vals, regimes(vals, TIMELINE.series.change_regime_months))}
 
 
-def lane_range(events: list[dict], lane: str, stage: "TimelineStage | None" = None) -> tuple[float, float]:
-    """레인 값 범위(v7.4.0 back_and_forth D-0263, UF-140) — rules stage_timeline.lane_range. fit: 무대 기간(stage 가 있으면 cfg start~end) 안
-    그 레인 모든 레코드 값의 [최소 − pad, 최대 + pad], 폭 하한 min_span(단위별), 양 끝 눈금 반올림, 데이터가 모두 0 이상이면 아래 끝 ≥ 0.
-    zero: 옛 [min(0, 최소), 최대]. 영상당 한 번(prepare_series)."""
-    cfg = TIMELINE.lane_range
+def lane_extent(events: list[dict], lane: str, stage: "TimelineStage | None" = None) -> tuple[float, float, str | None]:
+    """레인 데이터 극값(최소, 최대, 단위) — 무대 기간(stage cfg start~end) 안 그 레인 모든 레코드 값(실측 + 전망 점). 기간 밖뿐이면 레코드 전체.
+    lane_range 와 [axis-empty-band] 가 같이 쓴다(v7.4.0 D-0277 §3)."""
     recs = [load_series(sid) for e in events if e["type"] == "series" and e["lane"] == lane for sid in record_ids(e)]
     lo_d = stage.cfg.start if stage is not None else None
     hi_d = stage.cfg.end if stage is not None else None
     vs = [v for r in recs for d, v in record_points(r) if (lo_d is None or d >= lo_d) and (hi_d is None or d <= hi_d)]
     if not vs:   # 무대 기간 밖 레코드뿐 — 레코드 전체로(그려질 점은 없지만 범위는 정해야 한다)
         vs = [v for r in recs for _, v in record_points(r)]
+    return min(vs), max(vs), (recs[0].unit if recs else None)
+
+
+def lane_range(events: list[dict], lane: str, stage: "TimelineStage | None" = None) -> tuple[float, float]:
+    """레인 값 범위(v7.4.0 back_and_forth D-0263, UF-140) — rules stage_timeline.lane_range. fit: 데이터 극값(lane_extent, 폭 하한 min_span 적용)에
+    [최소 − pad, 최대 + pad], 양 끝은 end_round 단위(눈금 간격 또는 그 절반, D-0277 §3 정정)로 내림·올림, 데이터가 모두 0 이상이면 아래 끝 ≥ 0.
+    중간 눈금(axis_values)은 간격의 배수 그대로. zero: 옛 [min(0, 최소), 최대]. 영상당 한 번(prepare_series)."""
+    cfg = TIMELINE.lane_range
+    dmin, dmax, unit = lane_extent(events, lane, stage)
     if cfg.mode == "zero":
-        lo, hi = min(0.0, min(vs)), max(vs)
+        lo, hi = min(0.0, dmin), dmax
         return (lo, hi) if hi > lo else (lo, lo + 1)
-    dmin, dmax = min(vs), max(vs)
-    span = max(dmax - dmin, cfg.min_span.get(recs[0].unit, 0.0) if recs else 0.0)
-    if span <= 0:
-        span = abs(dmax) or 1.0
-    mid = (dmin + dmax) / 2
-    lo, hi = mid - span / 2 - span * cfg.pad_ratio, mid + span / 2 + span * cfg.pad_ratio
+    a, b = fit_extent(dmin, dmax, unit)
+    pad = (b - a) * cfg.pad_ratio
+    lo, hi = a - pad, b + pad
     if dmin >= 0 and lo < 0:
         lo, hi = 0.0, hi - lo
-    step = nice_step(hi - lo)
-    lo, hi = math.floor(lo / step + EPS) * step, math.ceil(hi / step - EPS) * step
+    unit_r = nice_step(hi - lo) / (2 if cfg.end_round == "half_step" else 1)
+    lo, hi = math.floor(lo / unit_r + EPS) * unit_r, math.ceil(hi / unit_r - EPS) * unit_r
     if dmin >= 0:
         lo = max(lo, 0.0)
     return round(lo, ROUND_DP), round(hi, ROUND_DP)
+
+
+def fit_extent(dmin: float, dmax: float, unit: str | None) -> tuple[float, float]:
+    """데이터 극값에 폭 하한 min_span(단위별, 가운데 기준)을 적용한 구간. 데이터가 모두 0 이상이면 아래 끝 ≥ 0."""
+    cfg = TIMELINE.lane_range
+    span = max(dmax - dmin, cfg.min_span.get(unit, 0.0) if unit else 0.0)
+    if span <= 0:
+        span = abs(dmax) or 1.0
+    mid = (dmin + dmax) / 2
+    a, b = min(dmin, mid - span / 2), max(dmax, mid + span / 2)
+    if dmin >= 0 and a < 0:
+        a, b = 0.0, b - a
+    return a, b
+
+
+def empty_bands(events: list[dict], lane: str, rng: tuple[float, float], stage: "TimelineStage | None" = None) -> tuple[float, float]:
+    """축 범위 중 데이터 극값(폭 하한 적용) 밖 빈 띠 비율(아래, 위) — [axis-empty-band](v7.4.0 D-0277 §3)."""
+    dmin, dmax, unit = lane_extent(events, lane, stage)
+    dmin, dmax = fit_extent(dmin, dmax, unit)   # 폭 하한으로 넓힌 여백은 빈 띠가 아니다(납작한 선을 절벽처럼 늘리지 않는 장치, D-0263)
+    lo, hi = rng
+    h = (hi - lo) or 1.0
+    return max(0.0, dmin - lo) / h, max(0.0, hi - dmax) / h
 
 
 def column_date(label: str, cols: list) -> date:  # noqa: ANN001 — ScatterColumn
@@ -156,7 +182,8 @@ def axis_values(rng: tuple[float, float]) -> list[float]:
     if TIMELINE.lane_range.mode == "zero":
         return [lo, hi]
     st = nice_step(hi - lo)
-    mids = [round(lo + i * st, ROUND_DP) for i in range(1, int(round((hi - lo) / st)))][:TIMELINE.lane_range.ticks_max]
+    k0 = math.floor(lo / st + EPS) + 1   # 중간 눈금 = 간격의 배수(끝 값이 반 눈금이어도, D-0277 §3 정정)
+    mids = [round(k * st, ROUND_DP) for k in range(k0, math.ceil(hi / st - EPS))][:TIMELINE.lane_range.ticks_max]
     return [lo, *mids, hi]
 
 

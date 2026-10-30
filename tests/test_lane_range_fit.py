@@ -73,6 +73,37 @@ class LaneRangeFitTest(unittest.TestCase):
         self.assertEqual(lane_range(SER, "policy_rate", _stage("2019-01-01"))[0], 0.0)   # 데이터 최소 0.05 ≥ 0 → 아래 끝 0
 
 
+class AxisEmptyBandTest(unittest.TestCase):
+    """v7.4.0 back_and_forth D-0277 §3(정정) — 끝 값은 반 눈금 단위로 내림·올림, [axis-empty-band] hard.
+    showcase_econ 금리 레인(목표 범위 띠 + 실효금리 + SEP 점도표, 무대 2025-06~2028): 데이터 3.125~4.5 → 옛 3~5(위 빈 띠 25 %) → 3~4.75(14 %)."""
+
+    EV = [{"type": "series", "lane": "policy_rate", "series_id": "DFEDTARL", "upper_id": "DFEDTARU", "t0": 0.0, "t1": 9.0},
+          {"type": "series", "lane": "policy_rate", "series_id": "FEDFUNDS", "t0": 0.0, "t1": 9.0},
+          {"type": "series", "lane": "policy_rate", "series_id": "SEP_20260916", "style": "projection", "t0": 0.0, "t1": 9.0}]
+
+    def _st(self) -> TimelineStage:
+        st = TimelineStage(config={"start": "2025-06-01", "end": "2028-12-31",
+                                   "lanes": [{"id": "policy_rate", "label": "연방기금금리", "kind": "step", "unit": "%"}]})
+        st.fit_frame(tuple(TIMELINE.frame.box), ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)
+        return st
+
+    def test_econ_range(self) -> None:
+        rng = lane_range(self.EV, "policy_rate", self._st())
+        self.assertEqual(rng, (3.0, 4.75))   # D-0277 §3 정정 — 끝 값 반 눈금(0.25) 올림
+        self.assertEqual(axis_values(rng), [3.0, 3.5, 4.0, 4.5, 4.75])   # 중간 눈금은 0.5 배수
+        self.assertEqual(LR.end_round, "half_step")
+
+    def test_empty_band_hard(self) -> None:
+        st = self._st()
+        P = NS(R=NS(stage=st, cache={"series_range": {"policy_rate": (3.0, 5.0)}}), cams=np.tile(np.array([st.x_of("2026-06-01"), 1.0, 420.0]), (24, 1)),
+               n_frames=24, events=self.EV)
+        out = checks.check_axis_empty_band(P)
+        self.assertTrue(out and "[axis-empty-band]" in out[0] and "위" in out[0])   # 4.5~5.0 = 25 % > 15 %
+        self.assertIn("axis_empty_band", checks.HARD)
+        P.R.cache["series_range"]["policy_rate"] = lane_range(self.EV, "policy_rate", st)
+        self.assertEqual(checks.check_axis_empty_band(P), [])
+
+
 class IslandPathTest(unittest.TestCase):
     """v7.4.0 — 차트 아일랜드(사진 배경 + 시간축 차트) 경로에도 같은 장치(C12 §3): [flat-lane](UF-140)·시리즈 레인 덮개(UF-129).
     showcase_econ 연출 v4(backdrop + island)에서 금리 선이 0~7.5% 레인에 평평하게 그려지고 점도표가 차트를 덮었는데 두 검사가 돌지 않았다."""
