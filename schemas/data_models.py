@@ -274,10 +274,13 @@ class SeriesRecord(_Strict):
                 raise ValueError(f"monthly 값에 missing 에 적히지 않은 빈 달이 있다(조용한 드롭 금지, D-0086): {gaps[:3]}")
         if self.frequency == "quarterly":
             self._quarterly(ds)
-        if self.frequency == "daily":
-            bad = [d for d in ds if d.weekday() >= 5]
-            if bad or self.missing:
-                raise ValueError(f"daily 값은 거래일(주말 없음)·missing 없음(휴장일은 빈 날이 아니다): 주말 {bad[:3]}")
+        if self.frequency == "daily":   # 휴장일은 빈 날이 아니다. missing = 받은 값을 쓰지 않기로 한 거래일(급변일 보도 미확인 등) — 사유 필수
+            miss = {m.date for m in self.missing}
+            bad = [d for d in [*ds, *miss] if d.weekday() >= 5]
+            if bad:
+                raise ValueError(f"daily 값·missing 은 거래일(주말 없음): {bad[:3]}")
+            if miss & set(ds) or [d for d in miss if not ds[0] < d < ds[-1]]:
+                raise ValueError(f"daily missing 은 값 구간 안쪽이고 값이 없는 날: {sorted(miss)}")
         last = self.issued_on or ds[-1]
         if self.issued_on is not None and self.frequency != "quarterly":
             raise ValueError("issued_on 은 quarterly 레코드(가이던스·예상치)만")
@@ -291,7 +294,9 @@ class SeriesRecord(_Strict):
     def _price_outliers(self) -> None:
         """[price-outlier] — 일별 종가 하루 변동 ≥ rules data.price_outlier_pct 인 날은 cited(보도 확인) 필수. cited 는 그런 날만."""
         pct = load_rules().data.price_outlier_pct
-        jumps = {d1: (v1 / v0 - 1) * 100 for (_d0, v0), (d1, v1) in zip(self.values, self.values[1:]) if v0 and abs(v1 / v0 - 1) * 100 >= pct}
+        miss = [m.date for m in self.missing]   # 사이에 missing 이 있으면 선이 끊긴다 — 그려지지 않는 변동은 재지 않는다
+        jumps = {d1: (v1 / v0 - 1) * 100 for (d0, v0), (d1, v1) in zip(self.values, self.values[1:])
+                 if v0 and abs(v1 / v0 - 1) * 100 >= pct and not any(d0 < m < d1 for m in miss)}
         cited = {c.date for c in self.cited}
         bad = sorted(set(jumps) - cited)
         if bad:

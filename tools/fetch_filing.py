@@ -353,14 +353,16 @@ def cmd_price(a: argparse.Namespace) -> int:
     p1 = int(datetime.combine(a.start, datetime.min.time(), tzinfo=timezone.utc).timestamp())
     p2 = int(datetime.combine(a.end, datetime.max.time(), tzinfo=timezone.utc).timestamp())
     url = f"{_cfg().yahoo_chart_base}/{a.ticker}?" + urlencode({"period1": p1, "period2": p2, "interval": "1d"})
-    if a.offline:
+    if a.offline or (jp.exists() and not a.refresh):   # 캐시(raw json 재사용) — Yahoo 429 를 피한다(감독 지시). 새로 받으려면 --refresh
         if not jp.exists():
             raise SeriesError(f"--offline: {jp} 가 없다 — {url} 응답을 이 이름으로 둔다")
         b = jp.read_bytes()
     else:
         b = _get(url)
         jp.write_bytes(b)
-    values = [(d, v) for d, v in chart_close(b.decode("utf-8")) if a.start <= d <= a.end]
+    notes = dict(x.split("=", 1) for x in a.missing_note)
+    skip = {date.fromisoformat(k) for k in notes}
+    values = [(d, v) for d, v in chart_close(b.decode("utf-8")) if a.start <= d <= a.end and d not in skip]
     if len(values) < 2:
         raise SeriesError(f"{a.ticker}: {a.start}~{a.end} 종가 {len(values)}개")
     last = values[-1][0]
@@ -376,6 +378,7 @@ def cmd_price(a: argparse.Namespace) -> int:
         "frequency": "daily",
         "license": "private_only_market_data",
         "license_note": a.license_note,
+        "missing": [{"date": k, "note": n} for k, n in sorted(notes.items())],
     }
     cites = []
     for c in a.cite:   # [price-outlier] 급변일 보도 확인: 날짜=매체|보도일|url|메모
@@ -413,6 +416,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--unit", required=True)
     p.add_argument("--source", required=True)
     p.add_argument("--license-note", default="Yahoo Finance 이용약관 — 시세 재배포 제한(비공개 시청용 기록, D264)")
+    p.add_argument("--refresh", action="store_true", help="캐시(raw/<id>.json)가 있어도 다시 받는다")
+    p.add_argument("--missing-note", action="append", default=[], metavar="YYYY-MM-DD=사유",
+                   help="받은 값을 쓰지 않을 거래일(급변일 보도 원문 미확인 등) — 선이 끊긴다")
     p.add_argument("--cite", action="append", default=[], metavar="YYYY-MM-DD=매체|보도일|url|메모",
                    help="하루 변동 ≥ rules data.price_outlier_pct 인 날의 보도 확인([price-outlier])")
     sc = sub.add_parser("scan", help="원문 표 목록(명세 작성 보조)")

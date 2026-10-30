@@ -198,6 +198,20 @@ class FetchFilingOfflineTest(unittest.TestCase):
         with self.assertRaisesRegex(ValidationError, "급변일에만"):
             SeriesRecord.model_validate({**d, "cited": [cite, {**cite, "date": "2026-10-29"}]})
 
+    def test_daily_missing_breaks_outlier_pair(self) -> None:
+        """급변일을 missing 으로 비우면 그 사이 변동은 그려지지 않으므로 [price-outlier] 가 재지 않는다(감독 지시 2026-10-30)."""
+        d = {"series_id": "TEST_PX_D", "source": "시험 시세", "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/TEST",
+             "retrieved_at": "2026-10-30", "transform": {"op": "chart_close", "formula": TR["chart_close"]}, "as_of": "2026-10",
+             "unit": "달러", "frequency": "daily", "license": "private_only_market_data", "license_note": "시험",
+             "values": [("2026-10-26", 100.0), ("2026-10-28", 112.0), ("2026-10-29", 111.0)]}
+        with self.assertRaisesRegex(ValidationError, "price-outlier"):
+            SeriesRecord.model_validate(d)
+        r = SeriesRecord.model_validate({**d, "missing": [{"date": "2026-10-27", "note": "시험 — 급변일 보도 미확인"}]})
+        self.assertEqual(r.missing_dates(), [date(2026, 10, 27)])
+        with self.assertRaisesRegex(ValidationError, "거래일"):
+            SeriesRecord.model_validate({**d, "values": [("2026-10-23", 100.0), ("2026-10-26", 101.0), ("2026-10-28", 102.0)],
+                                         "missing": [{"date": "2026-10-25", "note": "일요일"}]})
+
     def test_chart_close_null_is_error(self) -> None:
         with self.assertRaisesRegex(SeriesError, "종가 없음"):
             chart_close(_chart_json([date(2026, 10, 28), date(2026, 10, 29)], [1.0, None]))

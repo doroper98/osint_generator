@@ -213,7 +213,8 @@ def load_series_file(yaml_path: Path) -> SeriesRecord:
     if rec.transform.op == "chart_close":
         if not jp.exists():
             raise SeriesError(f"{yaml_path}: chart_close 레코드는 원자료 {jp.name} 이 있어야 한다(받은 그대로 대조)")
-        again_c = [(d, v) for d, v in chart_close(jp.read_text(encoding="utf-8")) if rec.start <= d <= rec.end]
+        skip = set(rec.missing_dates())   # missing = 받았지만 쓰지 않기로 한 날(사유는 레코드에)
+        again_c = [(d, v) for d, v in chart_close(jp.read_text(encoding="utf-8")) if rec.start <= d <= rec.end and d not in skip]
         if again_c != rec.values:
             raise SeriesError(f"{csv_path}: raw/{jp.name} 의 종가와 다르다(손으로 고친 값 금지)")
         return rec

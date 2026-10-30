@@ -1,0 +1,26 @@
+source_kind: press_cited
+retrieved_at: '2026-10-30'
+transform:
+  op: press_cited
+  formula: 보도 인용값(매체·날짜)
+frequency: quarterly
+license: press_cited
+license_note: 보도 인용값(사실) — 매체·날짜·인용 문장 표기, 집계 기관은 기사가 적은 그대로
+series_id: INTC_REV_Q_EST
+source: 글로벌이코노믹 보도 · 매출 월가 전망치(집계 기관 미표기)
+source_url: https://www.g-enews.com/article/Securities/2026/10/202610300705192714e250e8e188_1
+as_of: 2026-10
+issued_on: '2026-10-30'
+unit: 십억 달러
+revision_note: 3분기 = 발표 전 전망치, 4분기 = 가이던스 발표 시점의 시장 전망치
+cited:
+- date: '2026-09-30'
+  outlet: 글로벌이코노믹(집계 기관 미표기)
+  pub_date: '2026-10-30'
+  url: https://www.g-enews.com/article/Securities/2026/10/202610300705192714e250e8e188_1
+  note: '원문: "…165억 1,000만 달러를 기록해 월가 전망치(165억 달러)에 부합했다." (환산 16.5 십억 달러)'
+- date: '2026-12-31'
+  outlet: 글로벌이코노믹(집계 기관 미표기)
+  pub_date: '2026-10-30'
+  url: https://www.g-enews.com/article/Securities/2026/10/202610300705192714e250e8e188_1
+  note: '원문: "이는 시장 전망치인 매출 171억 달러와 EPS 43센트를 대폭 밑도는 수준이다." (4분기, 환산 17.1 십억 달러)'

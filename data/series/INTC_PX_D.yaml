@@ -11,9 +11,6 @@ unit: 달러
 frequency: daily
 license: private_only_market_data
 license_note: Yahoo Finance 이용약관 — 시세 재배포 제한(비공개 시청용 기록, D264)
-cited:
+missing:
 - date: '2026-09-21'
-  outlet: Trefis
-  pub_date: '2026-09-29'
-  url: https://www.trefis.com/stock/intc/articles2/616955/what-changed-for-intel-stock-and-what-did-not/2026-09-29
-  note: 하루 +12.1% 보도 — 웹 검색 결과로 확인(원문 미열람, 프록시 차단)
+  note: 급변일(+12.1%), 보도 원문 미확인 — 값을 쓰지 않는다
