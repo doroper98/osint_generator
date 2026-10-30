@@ -6,7 +6,7 @@ kind: progress
 responds_to: [D-0306]
 phase: "E0"
 version: v7.4.0
-commit: 60686dcd
+commit: 87a622cf
 status: done
 ---
 
@@ -14,7 +14,7 @@ status: done
 
 ## 1. 커밋
 - 4c84dbb7 — card 삭제(P2)와 이식, 검사·슬롯·시험, 원장 UF-148 guarded.
-- 60686dcd — hormuz 골든 재기준(dark·light), 시험 기준선 경로 교체.
+- 87a622cf — hormuz 골든 재기준(dark·light), 시험 기준선 경로 교체.
 
 ## 2. 무엇을 지웠나
 - 규칙: `registries.event_types` 의 card. `qa_checks.card_over_panel.cover_types`·`timeline_frame_cover_types`·`qa_checks.chart_only_run.chart_types` 의 card. placement `card_right` 슬롯의 kinds 에서 card.
