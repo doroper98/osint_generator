@@ -2206,8 +2206,12 @@ entries:
   quote: 1:30~1:50 즘 까지 거의 아무것도 안뜨고 자막과 나레이션만 나오는 구간이 있어. 사진 하나정도 더 추가 하는게 좋을거 같아.
   quote_kind: verbatim
   category: 미디어 — 요소 없이 자막·내레이션만 이어지는 구간(20초). 사진 1장 추가. 장치 = 요소 공백 구간 상한 검사(영상 전달 뒤 첫 작업, C12-2)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: element_gap}
+  - {kind: rule, ref: qa_checks.element_gap.max_sec}
+  - {kind: test, ref: tests/test_feedback_guards_uf160_162.py::ElementGapTest::test_v2_gap_fails}
+  - {kind: test, ref: tests/test_feedback_guards_uf160_162.py::ElementGapTest::test_marker_appearance_counts_only_briefly}
+  status: guarded
   decision: D-0289(감독 — act1_8~act1_10 에 사진 1장, 권리 기록. 장치는 전달 뒤)
   source: 감독 세션(Fable, 중국 트랙) 사용자 대화 2026-10-30 — 콘티 판 v2 검토 "콘티 아주 만족스러워"
 - id: UF-161
@@ -2217,8 +2221,11 @@ entries:
   quote: 이미지의 경로 개략, 좌표 비공개 라는 문구는 빼.
   quote_kind: verbatim
   category: 지도 라벨 — 개략·비공개 고지 문구를 화면 라벨에 쓰지 않는다(고지는 엔딩 카드 표기 행으로, D85 방식). W1.1 M5 "좌표 비공개 sub" 관행 개정
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: label_banned_terms}
+  - {kind: rule, ref: qa_checks.label_banned_terms.terms}
+  - {kind: test, ref: tests/test_feedback_guards_uf160_162.py::LabelBannedTermsTest::test_v2_labels_fail}
+  status: guarded
   decision: D-0289(감독 — 라벨 문구 삭제, 엔딩 표기 행 유지. 장치 = 규칙 키 + 라벨 문자열 검사, 전달 뒤)
   source: 감독 세션(Fable, 중국 트랙) 사용자 대화 2026-10-30
 - id: UF-162
@@ -2228,7 +2235,11 @@ entries:
   quote: 마지막 쯤에 시진핑과 트럼프 뱃지가 나오는데 너무 빨리 사라져.
   quote_kind: verbatim
   category: 뱃지 노출 — 인물 뱃지 최소 유지 시간(문장 끝이 아니라 다음 문장 끝 또는 장면 끝까지). 장치 = badge 최소 노출 규칙 키 + 검사(전달 뒤)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: badge_hold}
+  - {kind: rule, ref: qa_checks.badge_hold.min_hold_sec}
+  - {kind: test, ref: tests/test_feedback_guards_uf160_162.py::BadgeHoldTest::test_v2_short_badge_fails}
+  - {kind: test, ref: tests/test_feedback_guards_uf160_162.py::BadgeHoldTest::test_long_or_handoff_passes}
+  status: guarded
   decision: D-0289(감독 — act4_6 뱃지를 act4_7 끝까지 유지. 장치는 전달 뒤)
   source: 감독 세션(Fable, 중국 트랙) 사용자 대화 2026-10-30

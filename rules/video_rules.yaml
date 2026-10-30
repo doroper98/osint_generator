@@ -1838,6 +1838,31 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
     exempt_projects:   # v7.4.0 D-0271 — 회귀 기준만(새 영상·쇼케이스 면제 없음). 검사는 돌고 provenance chart_only_runs·chart_only_exempt 기록, hard 만 면제. 범위 = tests/test_chart_world.py 가 이 하나로 고정
       hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
     map_stages: [mercator]
+  # v7.4.0 사용자 의견 UF-160(D-0289 "1:30~1:50 즘 까지 거의 아무것도 안뜨고 자막과 나레이션만 나오는 구간") — 화면 요소 없이 지도·자막만 이어지는 구간이
+  # max_sec 를 넘으면 [element-gap] hard. 지도 위 점·선·나라(appear_types)는 나타난 뒤 appear_hold_sec 동안만 요소로 센다(떠 있기만 한 마커는 '아무것도 안 뜸').
+  # 값 근거: 콘티 판 v2 act1_8~10 공백 21.7초 = 실패, 전달본 최장 16.2초 = 통과(구현 실측 2026-10-30). 모든 무대, 콘티 판·프리뷰·전편 같은 키(C12-3)
+  element_gap:
+    max_sec: 18
+    step_sec: 0.1
+    appear_hold_sec: 4
+    element_types: [photo, clip, cutout, article, quote, panel, card, badge, island, backdrop, inset, cascade, primitive, series]
+    appear_types: [marker, route, country]
+    exempt_projects:   # 회귀 기준만(새 영상 면제 없음). 범위 = tests/test_feedback_guards_uf160_162.py 가 고정
+      hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
+    director_line: "화면 요소(사진·기사·인용·패널·뱃지 등) 없이 지도·자막만 이어지는 구간은 {max_sec}초 이하 — 넘으면 사진 한 장이나 새 지도 요소를 넣는다(검사 [element-gap] hard, UF-160)."
+  # v7.4.0 사용자 의견 UF-161(D-0289 "경로 개략, 좌표 비공개 라는 문구는 빼") — 지도 라벨에 고지 낱말 금지. 고지는 엔딩 카드 표기 행(end_card.notice_*)으로만. [label-banned-terms] hard
+  label_banned_terms:
+    terms: [개략, 비공개]
+    event_types: [marker, route, country, label, arrow]
+    fields: [label, sub, name, text, title]
+    director_line: "지도 라벨(마커·경로·나라 이름표)에 고지 낱말({terms})을 쓰지 않는다 — 개략 표현·좌표 비공개 같은 고지는 엔딩 카드 표기 행으로(검사 [label-banned-terms] hard, UF-161)."
+  # v7.4.0 사용자 의견 UF-162(D-0289 "시진핑과 트럼프 뱃지가 나오는데 너무 빨리 사라져") — 인물 뱃지 노출 하한. 문장 끝에서 끊지 말고 다음 문장 끝·장면 끝까지.
+  # 같은 인물 장면을 사진·영상으로 넘기는 경우(뱃지 끝 ±handoff_sec 안에 handoff_types 시작)만 예외. 값 근거: v2 act4_6 약 4초 = 실패, 전달본 4.7초(김해 회담 사진으로 넘김)·8.7초 = 통과
+  badge_hold:
+    min_hold_sec: 6
+    handoff_sec: 0.5
+    handoff_types: [photo, clip, cutout]
+    director_line: "인물 뱃지는 {min_hold_sec}초 이상 띄운다 — 문장 끝에서 끊지 말고 다음 문장 끝이나 장면 끝까지. 같은 장면 사진·영상으로 곧바로 넘길 때만 예외(검사 [badge-hold] hard, UF-162)."
   card_over_panel: {min_overlap_sec: 0.3, panel_pad_px: 4, cover_types: [card, cascade, article, quote, primitive],
                     cover_types_on_data_panels: [photo, clip, cutout, badge],
                     # v7.4.0 back_and_forth D-0259(UF-129 미보호 경로) — 시간축 주 무대: 틀 안 시리즈 레인(레코드가 그려지는 레인) 상자를

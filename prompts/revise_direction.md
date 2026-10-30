@@ -44,6 +44,10 @@ note: ReviseDirectionWorker system prompt (17 §5.5, D-0047 작업 7). 출력 = 
 -------------------------------------------------
 {{RULES.chart_world}}
 
+사용자 의견 장치 (규칙 파일 — 모든 영상)
+-----------------------------------------
+{{RULES.feedback_guards}}
+
 레퍼런스 영상 (규칙 파일)
 -------------------------
 {{RULES.reference_clip.director}}

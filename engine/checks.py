@@ -111,7 +111,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "element_gap", "label_banned_terms", "badge_hold")   # element_gap·label_banned_terms·badge_hold v7.4.0 UF-160~162, cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -2213,6 +2213,9 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "series_label_overlap": lambda: check_series_label_overlap(P),   # v7.4.0 D-0256(hard)
         "chart_edge_bleed": lambda: check_chart_edge_bleed(P),   # v7.4.0 D-0257(hard, UF-137)
         "media_density": lambda: check_media_density(P),   # v7.4.0 D-0261(hard, UF-139)
+        "element_gap": lambda: check_element_gap(P),   # v7.4.0 UF-160(hard)
+        "label_banned_terms": lambda: check_label_banned_terms(P),   # v7.4.0 UF-161(hard)
+        "badge_hold": lambda: check_badge_hold(P),   # v7.4.0 UF-162(hard)
         "plot_height": lambda: check_plot_height(P),
         "axis_empty_band": lambda: check_axis_empty_band(P),   # v7.4.0 D-0277 §3(hard, UF-142)
         "clip_frame": lambda: check_clip_frame(P),   # v7.4.0 D-0274 §2①②(hard, UF-141)
@@ -2589,6 +2592,73 @@ def check_media_density(P) -> list[str]:  # noqa: ANN001, N803
     need = math.ceil(MB.min_density_per_min * P.plan.total / 60.0)
     return [f"[media-density] 사진·영상·컷아웃 {n}개 / {P.plan.total / 60:.1f}분 = 분당 {d:.2f} < {MB.min_density_per_min:g} — {need}개 이상 필요. "
             "tools/media_fetch.py search 로 찾아 등재하고 연출에 넣는다(UF-139, 사유로 통과 없음)"]
+
+
+def element_gaps(P) -> list[tuple[float, float]]:  # noqa: ANN001, N803
+    """화면 요소 공백 구간(v7.4.0 UF-160, rules qa_checks.element_gap) — step_sec 표본. 타이틀·엔딩 카드 구간은 끊는다.
+    요소 = element_types 가 떠 있음 또는 appear_types 가 나타난 뒤 appear_hold_sec 안."""
+    C = QA.element_gap  # noqa: N806
+    if C is None:
+        return []
+    fg = [(e["t0"], e["t1"]) for e in P.events if e["type"] in C.element_types]
+    fg += [(e["t0"], min(e["t1"], e["t0"] + C.appear_hold_sec)) for e in P.events if e["type"] in C.appear_types]
+    runs: list[tuple[float, float]] = []
+    start: float | None = None
+    for i in range(int(P.plan.total / C.step_sec) + 1):
+        t = i * C.step_sec
+        busy = P.R.tb.in_fullcard(t) or any(a <= t <= b for a, b in fg)
+        if not busy and start is None:
+            start = t
+        elif busy and start is not None:
+            runs.append((round(start, 2), round(t, 2)))
+            start = None
+    if start is not None:
+        runs.append((round(start, 2), round(P.plan.total, 2)))
+    return runs
+
+
+def check_element_gap(P) -> list[str]:  # noqa: ANN001, N803
+    """[element-gap] hard(v7.4.0 UF-160 "거의 아무것도 안뜨고 자막과 나레이션만 나오는 구간") — 화면 요소 공백이 max_sec 초과면 실패.
+    회귀 기준(exempt_projects)만 hard 를 뺀다."""
+    C = QA.element_gap  # noqa: N806
+    if C is None or P.root.name in C.exempt_projects:
+        return []
+    return [f"[element-gap] {a:.1f}~{b:.1f}초 ({b - a:.1f}초) 지도·자막만 보인다 — 상한 {C.max_sec:g}초. 사진·기사·인용·패널·뱃지나 새 지도 요소를 넣는다(UF-160)"
+            for a, b in element_gaps(P) if b - a > C.max_sec]
+
+
+def check_label_banned_terms(P) -> list[str]:  # noqa: ANN001, N803
+    """[label-banned-terms] hard(v7.4.0 UF-161 "경로 개략, 좌표 비공개 라는 문구는 빼") — 지도 라벨에 고지 낱말이 있으면 실패. 고지는 엔딩 표기 행으로."""
+    C = QA.label_banned_terms  # noqa: N806
+    if C is None:
+        return []
+    out = []
+    for e in P.events:
+        if e["type"] not in C.event_types:
+            continue
+        for f in C.fields:
+            v = e.get(f)
+            hit = [w for w in C.terms if isinstance(v, str) and w in v]
+            if hit:
+                out.append(f"[label-banned-terms] {e['type']} t={e['t0']:.1f} {f}={v!r} — 고지 낱말 {hit} 는 지도 라벨에 쓰지 않는다(엔딩 카드 표기 행으로, UF-161)")
+    return out
+
+
+def check_badge_hold(P) -> list[str]:  # noqa: ANN001, N803
+    """[badge-hold] hard(v7.4.0 UF-162 "뱃지가 나오는데 너무 빨리 사라져") — 뱃지 노출 < min_hold_sec 면 실패.
+    뱃지 끝 ±handoff_sec 안에 사진·영상(handoff_types)이 시작하면(같은 장면을 실사로 넘김) 예외."""
+    C = QA.badge_hold  # noqa: N806
+    if C is None:
+        return []
+    starts = [e["t0"] for e in P.events if e["type"] in C.handoff_types]
+    out = []
+    for b in (e for e in P.events if e["type"] == "badge"):
+        dur = b["t1"] - b["t0"]
+        if dur >= C.min_hold_sec or any(abs(s - b["t1"]) <= C.handoff_sec for s in starts):
+            continue
+        out.append(f"[badge-hold] 뱃지 {b.get('label') or b.get('pid')!r} t={b['t0']:.1f} 노출 {dur:.1f}초 < {C.min_hold_sec:g}초 — "
+                   "다음 문장 끝이나 장면 끝까지 띄운다(UF-162)")
+    return out
 
 
 def check_chart_edge_bleed(P) -> list[str]:  # noqa: ANN001, N803

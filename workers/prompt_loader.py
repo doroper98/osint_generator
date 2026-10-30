@@ -84,6 +84,7 @@ def _rules_placeholders(rules: VideoRules) -> dict[str, str]:
         "{{RULES.stage_timeline.axis_scale}}": _axis_scale(rules),   # v5.1.0 D-0121 §A — 검사 [timeline-rescale] 와 같은 값
         "{{RULES.chart_world}}": _bullets([ln.replace("{max_sec}", f"{rules.qa_checks.chart_only_run.max_sec:g}")
                                             for ln in rules.chart_world.grammar]),   # v7.4.0 D-0251 §6.2-4 — 검사 [chart-world-split]·[chart-only-run] 과 같은 값
+        "{{RULES.feedback_guards}}": _feedback_guards(rules),   # v7.4.0 UF-160~162 — 검사 [element-gap]·[label-banned-terms]·[badge-hold] 와 같은 값
         "{{RULES.reference_clip.director}}": _bullets([_clip_ranges(ln, rules) for ln in rules.reference_clip.director]),   # v7.4.0 D-0274 §2⑤
         "{{RULES.reference_clip.script}}": _bullets([_clip_ranges(ln, rules) for ln in rules.reference_clip.script]),
         "{{RULES.backdrop_island}}": _backdrop_island(rules),   # v5.1.0 D-0123·D-0126·D-0121 §C — backdrop 무대·아일랜드·기사 프레스 v2
@@ -96,6 +97,19 @@ def _ladder(rules: VideoRules) -> str:
     sw = rules.pacing.static_window
     return (sw.ladder.replace("{window_sec}", f"{sw.window_sec:g}").replace("{min_changes}", str(sw.min_changes))
             .replace("{change_kinds}", ", ".join(sw.change_kinds)).replace("{w_ratio}", f"{sw.creep.w_ratio:g}"))
+
+
+def _feedback_guards(rules: VideoRules) -> str:
+    """사용자 의견 장치 연출 문법(v7.4.0 UF-160~162) — rules qa_checks.{element_gap,label_banned_terms,badge_hold}.director_line 의 {자리}를 같은 블록 값으로(.replace, C2)."""
+    q = rules.qa_checks
+    out = []
+    if q.element_gap:
+        out.append(q.element_gap.director_line.replace("{max_sec}", f"{q.element_gap.max_sec:g}"))
+    if q.label_banned_terms:
+        out.append(q.label_banned_terms.director_line.replace("{terms}", "·".join(q.label_banned_terms.terms)))
+    if q.badge_hold:
+        out.append(q.badge_hold.director_line.replace("{min_hold_sec}", f"{q.badge_hold.min_hold_sec:g}"))
+    return _bullets(out)
 
 
 def _media_density(rules: VideoRules) -> str:

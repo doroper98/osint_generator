@@ -1682,9 +1682,45 @@ class ChartOnlyRun(_Strict):
     map_stages: list[str] = Field(min_length=1)
 
 
+class ElementGap(_Strict):
+    """v7.4.0 UF-160(D-0289 "1:30~1:50 즘 까지 거의 아무것도 안뜨고 자막과 나레이션만") — 화면 요소 공백 구간 상한. 모든 무대, 콘티 판·프리뷰·전편 같은 키.
+    요소 = element_types 이벤트가 떠 있는 동안 + appear_types(지도 위 점·선·나라)가 나타난 뒤 appear_hold_sec 동안. 타이틀·엔딩 카드 구간 제외."""
+
+    max_sec: float = Field(gt=0)
+    step_sec: float = Field(gt=0)
+    appear_hold_sec: float = Field(ge=0)
+    element_types: list[str] = Field(min_length=1)
+    appear_types: list[str] = Field(default_factory=list)
+    exempt_projects: dict[str, str] = Field(default_factory=dict)   # 회귀 기준(폴더 이름) → 사유. hard 만 면제, 범위는 시험이 고정
+    director_line: str                                # 연출·수정 프롬프트 한 줄({max_sec} 자리)
+
+
+class LabelBannedTerms(_Strict):
+    """v7.4.0 UF-161(D-0289 "경로 개략, 좌표 비공개 라는 문구는 빼") — 지도 라벨(마커·경로·나라 이름표)에 쓰지 않는 고지 낱말.
+    고지는 엔딩 카드 표기 행(end_card.notice_*)으로만."""
+
+    terms: list[str] = Field(min_length=1)
+    event_types: list[str] = Field(min_length=1)
+    fields: list[str] = Field(min_length=1)
+    director_line: str                                # {terms} 자리
+
+
+class BadgeHold(_Strict):
+    """v7.4.0 UF-162(D-0289 "시진핑과 트럼프 뱃지가 나오는데 너무 빨리 사라져") — 인물 뱃지 최소 노출. 같은 순간(handoff_sec 안)
+    사진·영상이 이어 뜨면(같은 장면을 실사로 넘김) 예외."""
+
+    min_hold_sec: float = Field(gt=0)
+    handoff_sec: float = Field(ge=0)
+    handoff_types: list[str] = Field(default_factory=list)
+    director_line: str                                # {min_hold_sec} 자리
+
+
 class QAChecks(_Strict):
     overlap_core_elements: int
     chart_only_run: ChartOnlyRun                      # v7.4.0 D-0252 — [chart-only-run] hard
+    element_gap: Optional[ElementGap] = None          # v7.4.0 UF-160 — [element-gap] hard
+    label_banned_terms: Optional[LabelBannedTerms] = None   # v7.4.0 UF-161 — [label-banned-terms] hard
+    badge_hold: Optional[BadgeHold] = None            # v7.4.0 UF-162 — [badge-hold] hard
     card_over_panel: Optional[CardOverPanel] = None   # v7.4.0 D-0248(UF-129)
     outlet_min_overlap_sec: float = 0.5               # v7.4.0 D-0250(UF-130)
     outlet_names: dict[str, OutletNames] = Field(default_factory=dict)
