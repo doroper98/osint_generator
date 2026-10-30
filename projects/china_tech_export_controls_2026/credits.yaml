@@ -40,14 +40,14 @@ sections:
     license: Huangdan2060 (CC BY 3.0) · CC BY 3.0
     rights:
     - media.cn_tbm_crchi_2021
+  - main: 해체 중인 터널굴착기 커터헤드(뉴욕) (2019. 10. 08)
+    license: MTA Capital Construction (CC BY 2.0) · CC BY 2.0
+    rights:
+    - media.cn_mta_cutterhead_2019
   - main: 데이터센터 서버 기판 (2011)
     license: Intel Free Press (CC BY 2.0) · CC BY 2.0
     rights:
     - media.cn_datacenter_server
-  - main: 세포 배양 장치(NASA 회전식 바이오리액터) (2002)
-    license: NASA · Public domain
-    rights:
-    - media.cn_rotary_cell_culture
   - main: 줄기세포 시료 처리(국제우주정거장, 2026) (2026. 05. 20)
     license: NASA · Public domain
     rights:

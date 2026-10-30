@@ -6511,6 +6511,46 @@
    },
    "source_hash": "4baf8e60afd397c0d9b3921c7b0cc24c",
    "file": "cn_trump_xi_meeting_2025_720.jpg"
+  },
+  "cn_mta_cutterhead_2019": {
+   "kind": "photo",
+   "title": "File:Continued demolition and removal of a tunnel boring machine cutterhead that was used during a previous contract to bore the Queens tunnels. (CH058A, 10-08-19) (48919623078).jpg",
+   "license": "CC BY 2.0",
+   "author": "MTA Capital Construction — East Side Access (Flickr mtacc-esa)",
+   "credit_author": "MTA Capital Construction (CC BY 2.0)",
+   "date": "2019-10-08",
+   "url": "https://commons.wikimedia.org/wiki/File:Continued_demolition_and_removal_of_a_tunnel_boring_machine_cutterhead_that_was_used_during_a_previous_contract_to_bore_the_Queens_tunnels._(CH058A,_10-08-19)_(48919623078).jpg",
+   "caption": "해체 중인 터널굴착기 커터헤드(뉴욕, 2019)",
+   "file_note": "자료사진",
+   "depicts": [
+    "터널굴착기 실드·커터헤드 해체 현장",
+    "뉴욕 이스트사이드 액세스 공사(2019.10.08)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 429: Commons 검색 결과(CC BY 2.0·제한 없음)와 같은 MTA East Side Access Flickr 계정 사진(WebSearch — CC BY 2.0) 대조, 이미지 육안 확인. 실사용 판정은 게이트 ②",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "act1_14 '터널굴착기 공고는 완제품과 커터헤드 같은 핵심 부품' — 커터헤드가 무엇인지 보여 주는 자료사진(중국산 아님, 장소·연도 캡션)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "cn_mta_cutterhead_2019.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "382d7997c0a00d341a14548dac92f6b5",
+   "file": "cn_mta_cutterhead_2019_720.jpg"
   }
  }
 }
