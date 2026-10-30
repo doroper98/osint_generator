@@ -149,7 +149,11 @@ class CommittedSeriesTest(unittest.TestCase):
                 if r.source_kind == "press_cited":   # v7.3.0 D232 U4 — 보도 인용값은 코드가 받지 않는다(raw/ 없음), 값마다 cited 가 재현 근거
                     self.assertEqual(len(r.cited), len(r.values))
                     continue
-                raw = f"{r.series_id}.htm" if r.kind == "scatter" else f"{r.series_id}.csv"   # v4.4.0 scatter 원자료 = SEP HTML
+                if r.source_kind == "filing":   # v7.4.0 D-0278 §4.2 — 공시·IR 원문은 회사 저작물이라 저장소에 싣지 않는다(C9). 값마다 url·raw md5 가 재현 근거
+                    self.assertTrue(all(f.raw_md5 and f.url for f in r.filings), "filing 값마다 url·raw_md5(fetch_filing 이 다시 받아 대조)")
+                    continue
+                raw = (f"{r.series_id}.htm" if r.kind == "scatter" else f"{r.series_id}.json" if r.transform.op == "chart_close"
+                       else f"{r.series_id}.csv")   # v4.4.0 scatter 원자료 = SEP HTML · v7.4.0 시세 = Yahoo chart JSON
                 self.assertTrue((p.parent / "raw" / raw).exists(), "raw/ 원자료 필수(재현)")
 
 

@@ -126,8 +126,10 @@ class FetchFilingOfflineTest(unittest.TestCase):
                 ff.parse_number(bad)
 
     def test_table_cell(self) -> None:
-        self.assertEqual(ff.table_cell(HTML, 0, "Net revenue", 1), (13653.0, 0))
-        self.assertEqual(ff.table_cell(HTML, None, "Operating income (loss)", 1), (-1234.0, 0))
+        self.assertEqual(ff.table_cell(HTML, 0, "Net revenue", 1)[:2], (13653.0, 0))
+        self.assertEqual(ff.table_cell(HTML, None, "Operating income (loss)", 1)[:2], (-1234.0, 0))
+        self.assertEqual(ff.parse_part("$15.0 - $16.0", "hi"), 16.0)
+        self.assertEqual(ff.parse_number("$8.5 billion"), 8.5)
         with self.assertRaisesRegex(SeriesError, "0개"):
             ff.table_cell(HTML, 0, "Gross margin", 1)
 

@@ -304,3 +304,6 @@ projects/showcase_geo/assets/
 projects/showcase_geo/media/
 projects/showcase_geo/prev/
 projects/showcase_geo/out/
+
+# v7.4.0 D-0278 §4.2 — 공시·IR 원문(회사 저작물)은 저장소에 싣지 않는다. 레코드 filings 에 url·raw_md5 가 남고 tools/fetch_filing.py 가 다시 받는다(C9)
+data/series/raw/filing_*

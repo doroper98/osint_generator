@@ -1,0 +1,13 @@
+series_id: INTC_PX_D
+source: Yahoo Finance chart API · 나스닥 INTC 일별 종가
+source_url: https://query1.finance.yahoo.com/v8/finance/chart/INTC?period1=1782864000&period2=1793404799&interval=1d
+retrieved_at: '2026-10-30'
+transform:
+  op: chart_close
+  formula: Yahoo chart API 일별 종가(indicators.quote close 값 그대로, 거래일만)
+as_of: 2026-10
+revision_note: null
+unit: 달러
+frequency: daily
+license: private_only_market_data
+license_note: Yahoo Finance 이용약관 — 시세 재배포 제한(비공개 시청용 기록, D264)

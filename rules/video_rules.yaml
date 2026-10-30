@@ -1614,7 +1614,7 @@ data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs
   unit_prefixes: ["$", "₩", "€", "¥"]                    # v4.3.0 D-0087 보정 1 — 값 앞 통화 기호도 단위 표시로 인정(dual_line y_prefix)
   sources_allowed: [fred.stlouisfed.org, www.federalreserve.gov,
                     dart.fss.or.kr, opendart.fss.or.kr, www.sec.gov, news.samsung.com, images.samsung.com, www.intc.com, d1io3yog0oux5.cloudfront.net,
-                    query1.finance.yahoo.com, query2.finance.yahoo.com]   # 둘째·셋째 줄 = v7.4.0 D-0278 §4.2(E3 공시 원문·IR 자료·Yahoo chart 일별 시세). source_url 도메인(tools/fetch_series.py 가 받는 곳). federalreserve.gov = v4.4.0 SEP 점도표(D-0090 작업 2)
+                    query1.finance.yahoo.com, query2.finance.yahoo.com, data.sec.gov]   # data.sec.gov = XBRL companyfacts(D-0303 이후 허용)   # 둘째·셋째 줄 = v7.4.0 D-0278 §4.2(E3 공시 원문·IR 자료·Yahoo chart 일별 시세). source_url 도메인(tools/fetch_series.py 가 받는 곳). federalreserve.gov = v4.4.0 SEP 점도표(D-0090 작업 2)
   frequencies: [monthly, release, quarterly, daily]         # quarterly = 분기 마지막 날(막대 중심은 분기 중앙), daily = 거래일(휴장일은 빈 날이 아니다) — v7.4.0 D-0278 §4.2. 값 날짜 간격 — monthly = 매월 1일, 한 달씩. release = 발표 한 번(scatter, v4.4.0)
   transforms:                                               # 코드가 하는 변환(명시된 것만). 레코드 transform.formula 는 이 문구와 같아야 한다
     raw: "원자료(변형 없음)"
@@ -1634,6 +1634,9 @@ data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs
     "백만 원": {to: "조 원", factor: 0.000001, digits: 1}
     "원(재무제표)": {to: "조 원", factor: 0.000000000001, digits: 1}   # OpenDART fnlttSinglAcntAll thstrm_amount(원 단위 금액)
     "조 원": {to: "조 원", factor: 1, digits: 1}
+    "십억 달러": {to: "십억 달러", factor: 1, digits: 1}   # 보도자료 부문 표($8.1 — In Billions)
+    "USD": {to: "십억 달러", factor: 0.000000001, digits: 1}   # XBRL companyfacts 금액(달러 원값)
+    "USD/shares": {to: "달러", factor: 1, digits: 2}            # XBRL companyfacts 주당 값
     "달러": {to: "달러", factor: 1, digits: 2}
     "%": {to: "%", factor: 1, digits: 1}
   series_dir: data/series                                   # <series_id>.yaml(레코드) + <series_id>.csv(값) + raw/<series_id>.csv(받은 그대로)
