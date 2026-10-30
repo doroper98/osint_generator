@@ -16,6 +16,12 @@
 - 문법 B(시간축 한 세계). 차트·카드만 보이는 최장 구간 10.8초(상한 12초)
 - `preview_sheet.jpg` — 같은 연출의 프리뷰 컷 12장(480p)
 
+## showcase_geo 콘티 판 v2.1 (검토용 · 배포 금지) — UF-146 인셋 수정만
+- `showcase_geo/animatic.mp4` — 240.9초, 29.2 MB, md5 1d905a68d955968928fd2eac43258c79, checks hard 0
+- 랴잔 위성 인셋: 지름 118 → 190, 자리는 등장 때 고정, 6.8초에 down_left → right 로 0.83초 보간 이동(점프 0, [inset-jump] 0), 퇴장 페이드 0.8초(D-0300). niovi b-roll 0.4초 늦춤(D-0284)
+- `animatic_v21_tile_0_12s.jpg` — 0~12초 1초 간격 12컷
+- 이전 v2 는 `animatic_v2.mp4`(보존)
+
 ## showcase_geo 콘티 판 v2 (검토용 · 배포 금지) — 사용자 흐름 검토 대상
 - `showcase_geo/animatic.mp4` — 240.9초, 480p, 29.1 MB, md5 d4801b75a6c821c07a58aa5cce4aa86e, 표준 음성, checks hard 0
 - 바뀐 것: act3_3(2월 28일 공습) 130.75~135.75초에 미 중부사령부 영상을 화면 84 % 액자 주 요소로(UF-141). 같은 파일의 자료 영상 항목 strikes_file — 캡션 "자료 영상 · 2026. 07. 07 촬영"(D-0283 §1). 액자와 겹치던 act3_3 카드는 뺐다(같은 사실은 자막)

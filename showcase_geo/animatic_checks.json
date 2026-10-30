@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "hard": 0,
- "warnings": 61,
+ "warnings": 62,
  "passed": true,
  "profile": "animatic",
  "skipped": [
@@ -657,6 +657,20 @@
    "severity": "hard",
    "count": 0,
    "details": []
+  },
+  {
+   "id": "inset_jump",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "inset_side_change",
+   "severity": "warning",
+   "count": 1,
+   "details": [
+    "[inset-side-change] 인셋 inset_ryazan_esri 자리 1번 옮김 t=6.8 down_left→right(0.83초)"
+   ]
   },
   {
    "id": "flat_lane",

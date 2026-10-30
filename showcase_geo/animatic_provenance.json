@@ -3,7 +3,7 @@
  "engine": "engine",
  "repo_version": "7.4.0",
  "rules_version": "2.0.0",
- "rules_hash": "c6906bfeebb7f423519e8ed2bdebfd9088aa0c94",
+ "rules_hash": "59e7ac90d3f8f0fc57a0033c82ef5c10f5b1f5d6",
  "prompts": {
   "director": "4b0d8abce2533f324bbe69742891e6ff31b77d96"
  },
@@ -390,8 +390,8 @@
     "mid": "niovi",
     "role": "broll",
     "audio": "broll",
-    "t0": 135.433,
-    "t1": 140.433,
+    "t0": 135.833,
+    "t1": 140.833,
     "wav_md5": "c980d0da231ec2870a4414ca99d1d768"
    }
   ]
@@ -1198,7 +1198,7 @@
    {
     "mid": "niovi",
     "kind": "clip",
-    "t0": 135.43
+    "t0": 135.83
    },
    {
     "mid": "diesel_road_2026_khabarovsk_ref_2005",
@@ -1294,8 +1294,8 @@
     {
      "mid": "niovi",
      "kind": "clip",
-     "t0": 135.43,
-     "t1": 140.43,
+     "t0": 135.83,
+     "t1": 140.83,
      "scene": "act3"
     },
     {
@@ -1504,12 +1504,12 @@
    "series_limit_3",
    "units_visible"
   ],
-  "direction_sha1": "2d7215a2700e23e6e0e7d65178003f9667036a41",
+  "direction_sha1": "f7c5531961f8301714f10f9cb135976d3b0c9531",
   "script_sha1": "9e9ee0b613bf8165f7b63b77bfbe9c6eae01c77d",
   "sec": {
-   "render": 832.0,
-   "total": 1090.5,
-   "mux": 43.4
+   "render": 887.3,
+   "total": 1167.2,
+   "mux": 42.4
   },
   "jobs": 4,
   "frames": 5782,
@@ -1529,11 +1529,11 @@
    },
    "post_limiter_dbfs": -2.0
   },
-  "bytes": 29122911
+  "bytes": 29168539
  },
  "checks": {
   "hard": 0,
-  "warnings": 61,
+  "warnings": 62,
   "passed": true,
   "profile": "animatic"
  },
@@ -1978,6 +1978,12 @@
    "id": "UF-143",
    "checks": {
     "island_pin_collision": 0
+   }
+  },
+  {
+   "id": "UF-146",
+   "checks": {
+    "inset_jump": 0
    }
   }
  ]
