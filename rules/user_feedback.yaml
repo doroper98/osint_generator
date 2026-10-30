@@ -2211,3 +2211,14 @@ entries:
   status: open
   decision: D-0300(인셋 자리는 등장 때 한 번 정해 고정, 바뀌면 보간 이동만, 퇴장은 페이드, 지름 확대 — 장치는 구현 뒤 guards 에)
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
+- id: UF-147
+  date: '2026-10-30'
+  project: samsung_q3_2026
+  at: 경제 템플릿 결정 답(D-0302) — 템플릿으로 만든 영상에 템플릿 주제 표시 텍스트
+  quote: 영상에 어떤 주제의 템플릿으로 만든 영상인지 알 수 있게 텍스트로 넣어줘.
+  quote_kind: verbatim
+  category: 화면 — 템플릿 표시 줄(타이틀 카드 부제·엔딩 카드 한 줄, 모서리 금지)
+  guards: []
+  status: open
+  decision: D-0302 ⑤(genres <genre>.template_label → 코드 조판, 없으면 [template-label-missing] hard — 장치는 구현 뒤 guards 에)
+  source: 감독 세션(Fable) 사용자 대화 2026-10-30
