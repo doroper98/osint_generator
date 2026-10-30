@@ -1,0 +1,1140 @@
+# direction.yaml — AI 연출 수정본(ReviseDirectionWorker, v3.1.0, 17 §5.5). changelog 는 prev/revision.v*.json.
+version: 1
+genre: null
+stage: null
+media_note: 'UF-148(D-0287) 적용: card 0 — 카드 23개 삭제(자막 되풀이), 날짜·공고 번호는 marker sub·timeline 핀으로. 사진 10장 슬롯 panel_center(가운데 큰 액자). 기사 9장(60초당 ≤2, 이웃 문장 연속 금지 — act2_3·act3_2·act3_8
+  은 사진·경로와 겹쳐 기사 생략). 2027-01-10 은 워싱턴이 지도 범위(W 티어 68~146E) 밖이라 marker 대신 트럼프·시진핑 뱃지(act4_6) + 자막. 굴착기 운송 경로는 개략(엔딩 표기). 클립 0(YouTube 봇 검사, 우회 안 함). · v3(D-0288):
+  act2_9 조시 quote 추가(초상 없음 — 직함), act2_3 트럼프·시진핑 뱃지(문장 앞부분) → 사진(“중국은”부터), act1_14 MTA 커터헤드 사진(CC BY 2.0), act3_9 태양광 사진 → act3_10, act1 회전식 세포 배양 장치 사진 삭제(40초 창
+  3장). · 사용자 의견 반영(D-0289): UF-160 act1_9 서버실 사진(CC BY 2.0) → 사진 11, UF-161 route·marker 라벨에서 개략·비공개 문구 삭제(엔딩 표기 행에만), UF-162 트럼프·시진핑 뱃지 act4_7 끝까지. · v4: act2_4
+  정상회담 사진 삭제(문장과 날짜 불일치) → 휴전 연장 timeline 패널. 베선트 초상은 레지스트리에 없어 패널 부제에 ''미국 재무장관 발표''로 밝힘. 패널 위 뱃지 금지.'
+story_geo_exempt: null
+opening_exempt: null
+stage_reason: null
+stage_config:
+  mercator:
+    theme: light
+    theme_reason: 지경학 장르 기본 D154, 감독 결정 D500
+places:
+  beijing:
+  - 116.4
+  - 39.9
+  busan:
+  - 129.04
+  - 35.1
+  gyeonggi:
+  - 127.0
+  - 37.3
+  jincheon:
+  - 127.44
+  - 36.86
+  newdelhi:
+  - 77.21
+  - 28.61
+  bayanobo:
+  - 109.97
+  - 41.78
+paths:
+  tbm_kr_approx:
+  - - 117.0
+    - 34.0
+  - - 121.0
+    - 36.0
+  - - 124.5
+    - 37.0
+  - - 127.0
+    - 37.3
+shots:
+- at: 0.0
+  mode: cut
+  dur: 0.0
+  camera:
+    lon: 105.0
+    lat: 33.0
+    place: null
+    date: null
+    lane: null
+    w: 60.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: cold_0
+    'off': 4.8
+  mode: move
+  dur: 6.5
+  camera:
+    lon: 112.0
+    lat: 36.0
+    place: null
+    date: null
+    lane: null
+    w: 23.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: cold_0 오프닝 — 전체 지도에서 베이징 권역으로 들어간다
+- at:
+    sid: cold_2
+    'off': -0.3
+  mode: move
+  dur: 4.0
+  camera:
+    lon: 118.0
+    lat: 37.0
+    place: null
+    date: null
+    lane: null
+    w: 28.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: cold_2 국내 현장 — 베이징에서 한반도까지 한 화면
+- at:
+    sid: act1_2
+    'off': -0.3
+  mode: move
+  dur: 2.8
+  camera:
+    lon: 111.0
+    lat: 37.0
+    place: null
+    date: null
+    lane: null
+    w: 22.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act1_2 상무부·과학기술부 공고 — 베이징 쪽으로 다가가되 중국 전체를 담는다
+- at:
+    sid: act1_8
+    'off': -0.3
+  mode: move
+  dur: 8.0
+  camera:
+    lon: 114.0
+    lat: 35.5
+    place: null
+    date: null
+    lane: null
+    w: 28.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act1_8~10 공개 기술·해외 서비스·등록 — 중국 전역으로 천천히 넓힌다
+- at:
+    sid: act1_11
+    'off': -0.3
+  mode: move
+  dur: 4.0
+  camera:
+    lon: 111.0
+    lat: 37.0
+    place: null
+    date: null
+    lane: null
+    w: 22.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act1_11 10월 19일 공고 세 건 — 베이징으로 다시 다가간다
+- at:
+    scene_start: act2
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 105.0
+    lat: 30.0
+    place: null
+    date: null
+    lane: null
+    w: 60.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: act2_1
+    'off': -0.3
+  mode: move
+  dur: 4.0
+  camera:
+    lon: 108.0
+    lat: 37.0
+    place: null
+    date: null
+    lane: null
+    w: 24.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act2_1 희토류 — 바이윈어보(내몽골)와 베이징을 한 화면
+- at:
+    sid: act2_3
+    'off': -0.3
+  mode: move
+  dur: 4.5
+  camera:
+    lon: 117.0
+    lat: 36.0
+    place: null
+    date: null
+    lane: null
+    w: 32.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act2_3 부산 회담 — 베이징에서 부산까지 한 화면
+- at:
+    sid: act2_4
+    'off': -0.3
+  mode: move
+  dur: 4.0
+  camera:
+    lon: 118.0
+    lat: 36.0
+    place: null
+    date: null
+    lane: null
+    w: 30.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act2_4 휴전 연장 — 부산에서 다시 동아시아 전체로
+- at:
+    sid: act2_9
+    'off': -0.6
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 96.0
+    lat: 31.0
+    place: null
+    date: null
+    lane: null
+    w: 52.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act2_9~10 인도 싱크탱크·인도 인프라 해석 — 인용이 뜨기 전에 남아시아(뉴델리)와 중국을 한 화면에 잡는다
+- at:
+    scene_start: act3
+    'off': -0.55
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 123.0
+    lat: 36.5
+    place: null
+    date: null
+    lane: null
+    w: 40.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act3 한국 — 중국·한반도·일본을 한 화면(문장이 셋을 부른다)
+- at:
+    sid: act3_5
+    'off': -0.3
+  mode: move
+  dur: 4.0
+  camera:
+    lon: 124.0
+    lat: 36.8
+    place: null
+    date: null
+    lane: null
+    w: 30.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act3_5 반입 지연 영향 — 경기도 권역 쪽으로 좁힌다
+- at:
+    scene_start: act4
+    'off': -1.0
+  mode: dip
+  dur: 3.0
+  camera:
+    lon: 117.0
+    lat: 35.0
+    place: null
+    date: null
+    lane: null
+    w: 30.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act4 남은 날짜 — 한반도에서 베이징으로 장면 전환(바다 위 이동 대신 암전)
+- at:
+    sid: act4_6
+    'off': -0.3
+  mode: move
+  dur: 4.0
+  camera:
+    lon: 117.0
+    lat: 35.0
+    place: null
+    date: null
+    lane: null
+    w: 40.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act4_6 휴전 만료 — 미중 두 정상, 넓은 화면
+- at:
+    sid: ending_0
+    'off': -0.5
+  mode: move
+  dur: 9.0
+  camera:
+    lon: 107.0
+    lat: 32.0
+    place: null
+    date: null
+    lane: null
+    w: 60.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+events:
+- type: country
+  start:
+    sid: cold_0
+    'off': 0.2
+  end:
+    scene_end: cold
+  codes:
+  - CN
+  col: ru
+  a: 0.06
+- type: marker
+  start:
+    sid: cold_0
+    'off': 0.4
+  end:
+    scene_end: cold
+  at_place: beijing
+  label: 베이징
+  sub: 중국 상무부
+  side: right
+  hl: true
+- type: photo
+  start:
+    sid: cold_0
+    'off': 1.0
+  end:
+    sid: cold_0
+    edge: end
+    'off': 0.3
+  mid: cn_tbm_crchi_2021
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: article
+  start:
+    sid: cold_2
+    'off': 0.2
+  end:
+    sid: cold_2
+    edge: end
+    'off': 0.5
+  mid: china_tech_export_controls_2026_art_0023
+  theme: dark
+- type: country
+  start:
+    sid: act1_1
+    'off': 0.2
+  end:
+    scene_end: act1
+  codes:
+  - CN
+  col: ru
+  a: 0.05
+- type: panel
+  start:
+    sid: act1_5
+    'off': -0.2
+  end:
+    sid: act1_5
+    edge: end
+    'off': 0.5
+  kind: dots
+  data:
+    title: 새로 넣는 기술 40건
+    subtitle: 기술 목록 개정 초안 · 10월 16일
+    provenance:
+      verification: verified
+      sources:
+      - clm_0004
+    highlight: 14
+    total: 40
+    accent: ru
+    big: 14건
+    caption: 수출 금지 후보
+    detail: 40개 가운데
+    note_label: 수출 제한 후보
+    note_value: 26건
+    unit: 건
+- type: article
+  start:
+    sid: act1_7
+    'off': 0.2
+  end:
+    sid: act1_7
+    edge: end
+    'off': 0.6
+  mid: china_tech_export_controls_2026_art_0012
+  theme: dark
+- type: article
+  start:
+    sid: act1_11
+    'off': 0.0
+  end:
+    sid: act1_12
+    'off': 0.6
+  mid: china_tech_export_controls_2026_art_0016
+  theme: dark
+- type: photo
+  start:
+    sid: act1_12
+    'off': 0.6
+  end:
+    sid: act1_13
+    edge: end
+    'off': 0.3
+  mid: cn_dji_matrice30
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: marker
+  start:
+    sid: act2_2
+    'off': 0.2
+  end:
+    sid: act2_6
+    edge: end
+    'off': 0.4
+  at_place: beijing
+  label: 베이징
+  sub: 희토류 통제 확대 · 2025.10.09
+  side: left
+  hl: true
+- type: marker
+  start:
+    sid: act2_3
+    'off': 0.2
+  end:
+    sid: act2_4
+    edge: end
+    'off': 0.3
+  at_place: busan
+  label: 부산
+  sub: 트럼프·시진핑 회담 · 2025.10.30
+  side: left
+  hl: true
+- type: photo
+  start:
+    word:
+      sid: act2_3
+      text: 중국은
+  end:
+    sid: act2_3
+    edge: end
+    'off': 0.4
+  mid: cn_trump_xi_gimhae_2025
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: panel
+  start:
+    sid: act2_5
+    'off': -0.2
+  end:
+    sid: act2_5
+    edge: end
+    'off': 0.4
+  kind: versus
+  data:
+    title: 희토류 통제와 이번 초안
+    sides:
+    - title: 희토류 통제
+      src: 중국 상무부 · 2025년 10월 9일
+      items:
+      - text: 한 가지 소재와 그 가공 기술
+        t:
+          sid: act2_5
+          'off': 0.4
+    - title: 기술 목록 개정 초안
+      src: 중국 상무부 · 2026년 10월 16일
+      items:
+      - text: 인공지능·생물의약·태양광 같은 새 산업의 기술
+        t:
+          word:
+            sid: act2_5
+            text: 인공지능과
+- type: quote
+  start:
+    sid: act2_7
+    'off': 0.2
+  end:
+    sid: act2_7
+    edge: end
+    'off': 0.5
+  flag: cn
+  speaker: 중국 상무부 대변인
+  text: 특정 국가나 지역, 실체를 대상으로 하지 않는다
+  src: 중국 상무부
+  date: 2026.10.16
+  accent: ru
+  pos: center
+  claims:
+  - clm_0009
+- type: quote
+  start:
+    sid: act2_8
+    'off': 0.2
+  end:
+    sid: act2_8
+    edge: end
+    'off': 0.5
+  flag: cn
+  speaker: 중국 상무부 대변인
+  text: 규정에 맞는 신청은 승인하겠다
+  src: 중국 상무부
+  date: 2026.10.19
+  accent: ru
+  pos: center
+  claims:
+  - clm_0034
+- type: article
+  start:
+    sid: act2_11
+    'off': 0.2
+  end:
+    sid: act2_11
+    edge: end
+    'off': 0.6
+  mid: china_tech_export_controls_2026_art_0004
+  theme: dark
+- type: panel
+  start:
+    sid: act2_12
+    'off': -0.2
+  end:
+    scene_end: act2
+  kind: fork
+  data:
+    title: 수출 관리의 두 갈래
+    origin: 중국 기술 수출통제
+    branches:
+    - head: 장비
+      body: 허가나 등록을 거쳐 수출
+      col: teal
+    - head: 핵심 생산 기술
+      body: 금지와 제한 목록으로 관리
+      col: ru
+    provenance:
+      verification: verified
+      sources:
+      - clm_0016
+      - clm_0004
+- type: marker
+  start:
+    sid: act3_2
+    'off': 0.6
+  end:
+    sid: act3_6
+    edge: end
+    'off': 0.4
+  at_place: gyeonggi
+  label: 경기도
+  sub: 전력구 공사
+  side: right
+  hl: true
+- type: article
+  start:
+    sid: act3_3
+    'off': 0.2
+  end:
+    sid: act3_3
+    edge: end
+    'off': 0.6
+  mid: china_tech_export_controls_2026_art_0018
+  theme: dark
+  press: cn_tbm_crchi_2021
+- type: photo
+  start:
+    sid: act3_7
+    'off': 0.3
+  end:
+    sid: act3_8
+    edge: end
+    'off': 0.3
+  mid: cn_perovskite_cell
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: marker
+  start:
+    word:
+      sid: act3_8
+      text: 진천에
+  end:
+    scene_end: act3
+  at_place: jincheon
+  label: 진천
+  sub: 탠덤 전지 시험 라인
+  side: right
+  hl: true
+- type: article
+  start:
+    sid: act3_9
+    'off': 0.2
+  end:
+    sid: act3_9
+    edge: end
+    'off': 0.9
+  mid: china_tech_export_controls_2026_art_0013
+  theme: dark
+- type: marker
+  start:
+    sid: act4_0
+    'off': 0.2
+  end:
+    scene_end: act4
+  at_place: beijing
+  label: 베이징
+  sub: 중국 상무부
+  side: right
+  hl: true
+- type: panel
+  start:
+    sid: act4_1
+    'off': -0.2
+  end:
+    sid: act4_5
+    edge: end
+    'off': 0.5
+  kind: timeline
+  data:
+    title: 남은 날짜
+    subtitle: 2026년 10월 – 11월
+    start: '2026-10-12'
+    end: '2026-11-28'
+    band:
+      start: '2026-10-16'
+      end: '2026-10-26'
+      label: 통제 조치 다섯 건
+      col: gold
+      t_show:
+        sid: act4_1
+        'off': 0.3
+    events:
+    - date: '2026-11-15'
+      label: 기술 목록 의견 수렴 끝
+      col: ru
+      side: -1
+      t:
+        sid: act4_2
+        'off': 0.2
+    - date: '2026-11-18'
+      label: 드론·터널굴착기·준설선 시행
+      col: ru
+      side: 1
+      t:
+        sid: act4_4
+        'off': 0.2
+    - date: '2026-11-24'
+      label: 영업비밀 초안 의견 마감
+      col: ru
+      side: 2
+      t:
+        sid: act4_5
+        'off': 0.2
+- type: country
+  start:
+    scene_start: ending
+  end:
+    total: true
+  codes:
+  - CN
+  col: ru
+  a: 0.06
+- type: panel
+  start:
+    sid: act1_15
+    'off': -0.2
+  end:
+    sid: act1_16
+    edge: end
+    'off': 0.3
+  kind: timeline
+  data:
+    title: 공고 열흘
+    subtitle: 2026년 10월 – 11월
+    start: '2026-10-01'
+    end: '2026-12-01'
+    band:
+      start: '2026-10-16'
+      end: '2026-10-26'
+      label: 통제 조치 다섯 건
+      col: ru
+      t_show:
+        sid: act1_16
+        'off': 0.3
+    events:
+    - date: '2026-10-16'
+      label: 기술 목록 초안
+      col: ru
+      side: -1
+      t:
+        sid: act1_15
+        'off': 0.3
+    - date: '2026-10-19'
+      label: 드론·굴착기·준설선 공고
+      col: ru
+      side: 2
+      t:
+        sid: act1_15
+        'off': 1.2
+    - date: '2026-10-26'
+      label: 영업비밀 규정 초안
+      col: ru
+      side: -2
+      t:
+        sid: act1_16
+        'off': 0.2
+- type: photo
+  start:
+    sid: act1_3
+    'off': 0.6
+  end:
+    sid: act1_3
+    edge: end
+    'off': 0.3
+  mid: cn_datacenter_server
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: photo
+  start:
+    sid: act1_7
+    'off': 0.6
+  end:
+    sid: act1_7
+    edge: end
+    'off': 0.3
+  mid: cn_iss_stem_cell
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: photo
+  start:
+    sid: act2_2
+    'off': 0.6
+  end:
+    sid: act2_2
+    edge: end
+    'off': 0.3
+  mid: cn_rare_earth_oxides
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: photo
+  start:
+    sid: act3_10
+    'off': 0.3
+  end:
+    sid: act3_10
+    edge: end
+    'off': 0.3
+  mid: cn_solar_wall_nasa
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: panel
+  start:
+    sid: act2_4
+    'off': -0.2
+  end:
+    sid: act2_4
+    edge: end
+    'off': 0.3
+  kind: timeline
+  data:
+    title: 미중 휴전 연장
+    subtitle: 미국 재무장관 발표 · 2026년 9월
+    start: '2026-09-01'
+    end: '2027-02-01'
+    band:
+      start: '2026-09-01'
+      end: '2026-09-30'
+      label: 연장 발표
+      col: teal
+      t_show:
+        sid: act2_4
+        'off': 0.3
+    events:
+    - date: '2027-01-10'
+      label: 휴전 만료
+      col: us
+      side: 1
+      t:
+        sid: act2_4
+        'off': 2.0
+- type: route
+  start:
+    sid: act3_2
+    'off': 0.3
+  end:
+    sid: act3_3
+    'off': 0.4
+  pts:
+    path: tbm_kr_approx
+  grow:
+    span:
+    - sid: act3_2
+      'off': 0.2
+    - sid: act3_2
+      'off': 6.6
+  col: gold
+  label: 굴착기 2대
+- type: article
+  start:
+    sid: act1_2
+    'off': 0.2
+  end:
+    sid: act1_2
+    edge: end
+    'off': 0.6
+  mid: china_tech_export_controls_2026_art_0001
+  theme: dark
+- type: article
+  start:
+    sid: act1_17
+    'off': 0.2
+  end:
+    sid: act1_17
+    edge: end
+    'off': 0.6
+  mid: china_tech_export_controls_2026_art_0008
+  theme: dark
+- type: article
+  start:
+    sid: act3_6
+    'off': 0.2
+  end:
+    sid: act3_6
+    edge: end
+    'off': 0.6
+  mid: china_tech_export_controls_2026_art_0025
+  theme: dark
+- type: badge
+  kind: person
+  start:
+    sid: act4_6
+    'off': 0.2
+  end:
+    sid: act4_7
+    edge: end
+    'off': 0.3
+  place: map_lower_left
+  pid: trump
+  flag: us
+  label: 트럼프
+  role: 미국 대통령
+  accent: us
+- type: badge
+  kind: person
+  start:
+    sid: act4_6
+    'off': 0.2
+  end:
+    sid: act4_7
+    edge: end
+    'off': 0.3
+  place: map_lower_right
+  pid: xi_jinping
+  flag: cn
+  label: 시진핑
+  role: 중국 국가주석
+  accent: ru
+- type: marker
+  start:
+    sid: act1_2
+    'off': 0.2
+  end:
+    sid: act1_4
+    edge: end
+    'off': 0.3
+  at_place: beijing
+  label: 베이징
+  sub: 제48호 · 10.16
+  side: left
+  hl: true
+- type: marker
+  start:
+    sid: act1_11
+    'off': 0.2
+  end:
+    sid: act1_14
+    edge: end
+    'off': 0.3
+  at_place: beijing
+  label: 베이징
+  sub: 제49~51호 · 10.19
+  side: right
+  hl: true
+- type: marker
+  start:
+    sid: act1_17
+    'off': 0.2
+  end:
+    sid: act1_17
+    edge: end
+    'off': 0.3
+  at_place: beijing
+  label: 베이징
+  sub: 영업비밀 규정 초안 · 10.26
+  side: left
+  hl: true
+- type: marker
+  start:
+    sid: act2_1
+    'off': 0.2
+  end:
+    sid: act2_2
+    edge: end
+    'off': 0.3
+  at_place: bayanobo
+  label: 바이윈어보
+  sub: 희토류 광산
+  side: right
+  hl: true
+- type: marker
+  start:
+    sid: act2_9
+    'off': 0.2
+  end:
+    sid: act2_10
+    edge: end
+    'off': 0.3
+  at_place: newdelhi
+  label: 뉴델리
+  sub: 인도
+  side: top
+  hl: true
+- type: country
+  start:
+    sid: act3_1
+    'off': 0.2
+  end:
+    sid: act3_10
+    edge: end
+    'off': 0.3
+  codes:
+  - KR
+  col: gold
+  a: 0.06
+- type: photo
+  start:
+    sid: act1_14
+    'off': 0.4
+  end:
+    sid: act1_14
+    edge: end
+    'off': 0.3
+  mid: cn_mta_cutterhead_2019
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: quote
+  start:
+    sid: act2_9
+    'off': 2.6
+  end:
+    sid: act2_9
+    edge: end
+    'off': 0.5
+  flag: in
+  speaker: 옵서버연구재단 마노즈 조시
+  text: 중국이 기술로 만든 제품은 팔면서 기술 우위는 지키려 한다
+  src: ORF
+  date: 2026.10.28
+  accent: teal
+  pos: lower
+  claims:
+  - clm_0027
+- type: badge
+  kind: person
+  start:
+    sid: act2_3
+    'off': 0.2
+  end:
+    word:
+      sid: act2_3
+      text: 중국은
+  place: map_lower_left
+  pid: trump
+  flag: us
+  label: 트럼프
+  role: 미국 대통령
+  accent: us
+- type: badge
+  kind: person
+  start:
+    sid: act2_3
+    'off': 0.2
+  end:
+    word:
+      sid: act2_3
+      text: 중국은
+  place: map_lower_right
+  pid: xi_jinping
+  flag: cn
+  label: 시진핑
+  role: 중국 국가주석
+  accent: ru
+- type: photo
+  start:
+    sid: act1_9
+    'off': 0.3
+  end:
+    sid: act1_9
+    edge: end
+    'off': 0.3
+  mid: cn_datacenter_racks
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: panel
+  start:
+    sid: act1_6
+    'off': -0.2
+  end:
+    sid: act1_6
+    edge: end
+    'off': 0.3
+  kind: checklist
+  data:
+    title: 금지 예시
+    subtitle: 기술 목록 개정 초안 · 중국 상무부
+    items:
+    - 인공지능으로 악성코드를 만들고 변형하는 기술
+    footer: 중국 상무부 · 10월 16일
+- type: panel
+  start:
+    sid: cold_3
+    'off': -0.2
+  end:
+    sid: cold_3
+    edge: end
+    'off': 0.3
+  kind: dots
+  data:
+    title: 열흘 남짓 사이 통제 조치
+    subtitle: 중국 · 2026년 10월
+    provenance:
+      verification: verified
+      sources: []
+    highlight: 1
+    total: 5
+    accent: ru
+    big: 1건
+    caption: 터널굴착기 공고
+    detail: 다섯 건 가운데
+    unit: 건
+- type: panel
+  start:
+    sid: act1_0
+    'off': -0.2
+  end:
+    sid: act1_0
+    edge: end
+    'off': 0.4
+  kind: dots
+  data:
+    title: 통제 조치 다섯 건
+    subtitle: 중국 · 2026년 10월
+    provenance:
+      verification: verified
+      sources: []
+    highlight: 3
+    total: 5
+    accent: ru
+    big: 3건
+    caption: 다음 달 시행 공고
+    detail: 다섯 건 가운데
+    note_label: 의견 묻는 초안
+    note_value: 2건
+    unit: 건
+- type: panel
+  start:
+    sid: ending_1
+    'off': -0.2
+  end:
+    sid: ending_1
+    edge: end
+    'off': 0.5
+  kind: versus
+  data:
+    title: 제품과 생산 기술
+    sides:
+    - title: 완제품
+      src: 중국 상무부 공고 · 2026년 10월 19일
+      items:
+      - text: 허가나 등록을 거쳐 판매
+        t:
+          sid: ending_1
+          'off': 0.4
+    - title: 목록에 오른 생산 기술
+      src: 기술 목록 개정 초안 · 2026년 10월 16일
+      items:
+      - text: 수출 금지 또는 제한
+        t:
+          sid: ending_1
+          'off': 1.2
+sound:
+  bgm: music.zabriskie_mario_bava
+  intensity:
+  - - 0.0
+    - 0.55
+  - - scene_start: act1
+    - 0.6
+  - - scene_start: act2
+    - 0.64
+  - - scene_start: act3
+    - 0.6
+  - - scene_start: act4
+    - 0.62
+  - - scene_start: ending
+    - 0.58
+  - - total: true
+      'off':
+      - 0.5
+      - -6.0
+    - 0.55
+  - - total: true
+      'off': 0.5
+    - 0.0
+  cues: []
+  no_music_decision: null
+drops: []

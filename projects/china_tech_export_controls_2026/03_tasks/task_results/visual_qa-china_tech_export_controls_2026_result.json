@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "project_id": "china_tech_export_controls_2026",
+  "task_id": "visual_qa-china_tech_export_controls_2026",
+  "worker": "visual_qa",
+  "status": "completed",
+  "started_at": "2026-10-30T14:11:48.622314Z",
+  "completed_at": "2026-10-30T14:12:30.962715Z",
+  "outputs": [
+    "prev/qa_verdict.v3.json",
+    "llm_calls/llm_20261030_141148_1a07.json"
+  ],
+  "warnings": [],
+  "errors": [],
+  "scene_refs": [],
+  "source_refs": [],
+  "asset_refs": [],
+  "qa_status": "pass",
+  "risk_flags": [],
+  "worker_provenance": {
+    "prompt_name": "visual_qa",
+    "prompt_sha1": "f7d11fd886ea843e74c1f0cd13097382d29e0fc9",
+    "rules_hash": "1170820adc8965e628088e024b7d33b4bbd58ecd",
+    "genre": null,
+    "genre_declared": null
+  }
+}
