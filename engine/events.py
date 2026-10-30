@@ -211,6 +211,9 @@ class FlightEvent(_Event):
     col: Accent = "amber"
     impact: bool = True
     inset: Optional[FlightInset] = None
+    # v7.4.0 back_and_forth D-0316 ① — 이 비행이 그리는 특정 타격의 원고 claim id(intake/claims.json, 원고 문장이 인용한 것).
+    # 비행은 출처 있는 특정 타격에만 — 없으면 checks [flight-unsourced] hard. 총괄 문장 구간은 날짜 있는 마커로
+    claim: Optional[str] = Field(default=None, min_length=1)
 
     @model_validator(mode="after")
     def _long_enough(self) -> "FlightEvent":

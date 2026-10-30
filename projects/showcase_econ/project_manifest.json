@@ -4,8 +4,8 @@
   "title": "쇼케이스 — 금리 선 위의 1년",
   "category": "economy",
   "created_at": "2026-10-28T05:27:51.339439Z",
-  "updated_at": "2026-10-30T06:34:41.743760Z",
-  "current_state": "assets",
+  "updated_at": "2026-10-30T19:53:23.569863Z",
+  "current_state": "preview_approval",
   "target_duration_min": 3,
   "topic_summary": "요소·목소리·글꼴 쇼케이스(경제). 연준 사실(fed_policy_2026 claims·data/series)을 시간축 한 세계 문법으로 — 새 수치·새 사실 없음(D-0251·D-0253)",
   "initial_links": [],
@@ -179,6 +179,24 @@
       "to_state": "assets",
       "transitioned_at": "2026-10-30T06:34:41.743704Z",
       "reason": "engine plan ok"
+    },
+    {
+      "from_state": "assets",
+      "to_state": "direction",
+      "transitioned_at": "2026-10-30T19:53:22.316756Z",
+      "reason": "게이트 ② 자료 R-0290·R-0291 연출 지문 고정(D-0317 ①) — 단계 실행 없이 상태만"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-10-30T19:53:22.995359Z",
+      "reason": "게이트 ② 자료 R-0290·R-0291 연출 지문 고정(D-0317 ①) — 단계 실행 없이 상태만"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-10-30T19:53:23.569815Z",
+      "reason": "게이트 ② 자료 R-0290·R-0291 연출 지문 고정(D-0317 ①) — 단계 실행 없이 상태만"
     }
   ],
   "rollbacks": [

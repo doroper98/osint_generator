@@ -1740,6 +1740,7 @@ class QAChecks(_Strict):
     card_full_exposure_min_sec: float = Field(gt=0)   # v5.21.10 D-0191 §1-2 — 기사·인용 카드 완전 불투명 구간 하한(hard card_exposure)
     restate_overlap_max: float = Field(default=0.6, gt=0, le=1)   # v7.4.0 D-0306 §1.2 — [text-restates-narration] 어절 겹침 상한
     restate_min_words: int = Field(default=4, ge=1)   # 이 어절 미만 화면 글자(이름표)는 보지 않는다
+    restate_particles: list[str] = Field(default_factory=list)   # v7.4.0 D-0316 ② — 어절 끝 조사(떼고 비교)
     # v7.4.0 D-0311 — 회귀 기준 프로젝트 id → 사유, 그리고 hard 만 면제하는 검사 id(검사는 돌고 provenance regression_waived 기록)
     regression_refs: dict[str, str] = Field(default_factory=dict)
     # v7.4.0 D-0312 §1-1 — [scene-visual-void] hard: 요소 없는 구간 상한(초)·표본 간격·요소로 치는 이벤트 종류
