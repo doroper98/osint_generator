@@ -1,0 +1,62 @@
+# 새 요소 스케치(docs/handoff/20 §4.1-2, back_and_forth D-0278 §4.1·D-0302 ⑤) — series style bars 실제 엔진 렌더. 영상 아님(게이트 대상 아님).
+# 내레이션은 레코드가 그린 것만 말한다(INTC_REV_Q — 인텔 8-K Ex.99.1, INTC_PX_D — Yahoo 일별 종가). 숫자는 막대 라벨이 말한다.
+schema_version: 1
+title: 막대 스케치
+subtitle: 인텔 분기 매출과 주가, 하나의 시간축
+date: 2026.10.30
+scenes:
+- id: bars
+  sentences:
+  - date: "2025.09"
+    role: intro
+    text: 실적 발표 영상은 분기 매출을 어떻게 보여 줄까요.
+    tts: 실적 발표 영상은 분기 매출을 어떻게 보여 줄까요.
+    emphasis: [분기 매출]
+    sources: ["series:INTC_REV_Q"]
+  - date: "2025.09"
+    role: intro
+    text: 그래서 인텔의 다섯 분기 매출을 같은 시간축 위에 막대로 세웁니다.
+    tts: 그래서 인텔의 다섯 분기 매출을 같은 시간축 위에 막대로 세웁니다.
+    emphasis: [막대]
+    sources: ["series:INTC_REV_Q"]
+  - date: "2026.03"
+    text: 막대는 분기마다 0에서 자라고, 값은 공시 표에서 읽은 그대로입니다.
+    tts: 막대는 분기마다 영에서 자라고, 값은 공시 표에서 읽은 그대로입니다.
+    emphasis: [공시 표]
+    sources: ["series:INTC_REV_Q"]
+  - date: "2026.06"
+    text: 이어서 올해 2분기부터 막대가 한 단 높아집니다.
+    tts: 이어서 올해 이분기부터 막대가 한 단 높아집니다.
+    emphasis: [한 단]
+    sources: ["series:INTC_REV_Q"]
+  - date: "2026.09"
+    role: outro
+    text: 결국 3분기 막대가 다섯 분기 가운데 가장 높았습니다.
+    tts: 결국 삼분기 막대가 다섯 분기 가운데 가장 높았습니다.
+    emphasis: [가장 높았습니다]
+    sources: ["series:INTC_REV_Q"]
+- id: price
+  sentences:
+  - date: "2026.09"
+    role: bridge
+    text: 그렇다면 같은 기간 주가는 어땠을까요.
+    tts: 그렇다면 같은 기간 주가는 어땠을까요.
+    emphasis: [주가]
+    sources: ["series:INTC_PX_D"]
+  - date: "2026.09"
+    role: intro
+    text: 아래 레인은 9월부터의 일별 종가로, 막대와 같은 시간축을 씁니다.
+    tts: 아래 레인은 구월부터의 일별 종가로, 막대와 같은 시간축을 씁니다.
+    emphasis: [같은 시간축]
+    sources: ["series:INTC_PX_D"]
+  - date: "2026.10"
+    text: 그리고 오른쪽 끝 핀이 실적 발표일인 10월 29일입니다.
+    tts: 그리고 오른쪽 끝 핀이 실적 발표일인 시월 이십구일입니다.
+    emphasis: [실적 발표일]
+    sources: ["series:INTC_PX_D"]
+  - date: "2026.10"
+    role: outro
+    text: 이처럼 실적 막대와 주가 선이 한 세계 안에 놓입니다.
+    tts: 이처럼 실적 막대와 주가 선이 한 세계 안에 놓입니다.
+    emphasis: [한 세계]
+    sources: ["series:INTC_REV_Q", "series:INTC_PX_D"]

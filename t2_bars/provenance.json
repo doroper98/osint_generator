@@ -1,0 +1,806 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "7.4.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "431295f34e722ccbca226fad83185d4d0d3b5e2e",
+ "prompts": {},
+ "voice": "supertonic-3 M3 ×0.95",
+ "word_anchor": "none",
+ "word_anchors": [],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 57.085,
+ "sentences": 9,
+ "stages": {
+  "plan": true,
+  "geo": true,
+  "preview": true,
+  "render": false,
+  "mix": false,
+  "mux": false,
+  "ai_direction": false,
+  "visual_qa": false,
+  "bundle": false
+ },
+ "features_used": {
+  "camera_keys": 3,
+  "camera_moves": 2,
+  "camera_cuts": 1,
+  "dips": 0,
+  "dips_under": 0,
+  "badges": 0,
+  "badge_kinds": {},
+  "panels": [],
+  "cards": 0,
+  "media": {
+   "clip": 0,
+   "photo": 0,
+   "cutout": 0,
+   "article": 0
+  },
+  "event_types": {
+   "marker": 1,
+   "series": 2
+  },
+  "label_lod": true,
+  "vignette": false,
+  "private_only_assets": [],
+  "at_word": {
+   "aligned": 0,
+   "ratio": 0
+  },
+  "map_layers": {
+   "roads": 0,
+   "rivers": 0,
+   "capitals": true
+  },
+  "transitions": [
+   {
+    "sid": "price_0",
+    "pause_t0": 27.51449,
+    "pause_sec": 1.5,
+    "kind": [
+     "date_jump"
+    ]
+   }
+  ],
+  "alignment": {
+   "sources": {
+    "mms_forced_alignment": 9
+   },
+   "score_mean_min": 0.7782,
+   "elapsed_ms_total": 37680
+  },
+  "prosody": {
+   "final_fall": {
+    "applied_n": 7,
+    "skipped_n": 2
+   }
+  }
+ },
+ "qa": {
+  "auto_iterations": 0,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)"
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [],
+  "emblems": {
+   "used": [],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "intel"
+   ],
+   "used": [],
+   "suggested_and_used": [],
+   "suggestions": 1
+  }
+ },
+ "panels": {
+  "used": []
+ },
+ "credits": {
+  "card": {
+   "narration": 1
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "reserved": {
+  "avoidance": []
+ },
+ "audio": {
+  "bgm": null,
+  "bed_gain": 0.43,
+  "crossfades": 0,
+  "no_music_decision": "D-0278"
+ },
+ "end_card": {
+  "version_stamp": "v7.4.0"
+ },
+ "render": {
+  "resolution": {
+   "profile": "480p",
+   "width": 854,
+   "height": 480,
+   "fps": 24,
+   "k": 1.0,
+   "pad_x": 0.0,
+   "crf": 19,
+   "preset": "faster"
+  }
+ },
+ "badge": {
+  "R_ignored": [],
+  "head_top": []
+ },
+ "timeline": {
+  "w_changes": []
+ },
+ "pacing": {
+  "window_sec": 45.0,
+  "min_changes": 3,
+  "static_windows": [],
+  "creep": null
+ },
+ "animatic": false,
+ "catalog": false,
+ "chart_only_runs": [
+  [
+   0.3,
+   21.3
+  ],
+  [
+   27.5,
+   36.3
+  ],
+  [
+   41.1,
+   45.3
+  ]
+ ],
+ "chart_only_exempt": false,
+ "media_density": {
+  "count": 0,
+  "value": 0.0,
+  "min": 1.5,
+  "exempt": false
+ },
+ "lane_range": {
+  "results": {
+   "range": [
+    0.0,
+    20.0
+   ],
+   "visible_ratio": 0.145
+  },
+  "price": {
+   "range": [
+    80.0,
+    140.0
+   ],
+   "visible_ratio": 0.698
+  }
+ },
+ "plot_height": {
+  "plot_px": 192.0,
+  "inner_px": 330.0,
+  "ratio": 0.582,
+  "min": 0.7
+ },
+ "pin_labels": {
+  "rows": {
+   "실적 발표일": 1
+  },
+  "dropped": [],
+  "collisions": 0
+ },
+ "stage": {
+  "name": "timeline",
+  "declared": true,
+  "shots_declared": 0,
+  "instances": {
+   "timeline": 1
+  },
+  "configs": {
+   "timeline": {
+    "lanes": [
+     {
+      "id": "results",
+      "label": "인텔 분기 매출",
+      "kind": "bars",
+      "unit": "십억 달러"
+     },
+     {
+      "id": "price",
+      "label": "인텔 주가 · 일별 종가",
+      "kind": "line",
+      "unit": "달러"
+     }
+    ],
+    "start": "2025-06-01",
+    "end": "2027-01-31"
+   }
+  }
+ },
+ "genre": {
+  "name": "macro_monetary",
+  "declared": true,
+  "status": "proposed"
+ },
+ "series": [
+  {
+   "series_id": "INTC_REV_Q",
+   "as_of": "2026-09",
+   "license": "public_filing",
+   "source_url": "https://www.intc.com/filings-reports/all-sec-filings/content/0000050863-26-000188/q326earningsrelease.htm",
+   "transform": "filing",
+   "missing": []
+  },
+  {
+   "series_id": "INTC_PX_D",
+   "as_of": "2026-10",
+   "license": "private_only_market_data",
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/INTC?period1=1788220800&period2=1793404799&interval=1d",
+   "transform": "chart_close",
+   "missing": []
+  }
+ ],
+ "camera": {
+  "suggest_ran": false,
+  "suggested": 0,
+  "used": 0,
+  "given_to_director": false
+ },
+ "lint_warnings": [
+  "[media-density-total] 과소 — 0개 / 57초 = inf초당 1개 > 60초 (14 §10.1, ['article'] 제외)"
+ ],
+ "media": {
+  "suggested": [
+   {
+    "sid": "bars_0",
+    "scene": "bars",
+    "kind": "photo",
+    "trigger": "발표",
+    "at": 1.2,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "price_2",
+    "scene": "price",
+    "kind": "photo",
+    "trigger": "발표",
+    "at": 36.41,
+    "source": "trigger",
+    "asset_id": null
+   }
+  ],
+  "used": [],
+  "suggested_and_used": [],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 57.085,
+   "items": [],
+   "count": 0,
+   "beat_count": 0,
+   "sec_per_item": null,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": null,
+     "count": 0,
+     "mids": []
+    }
+   },
+   "per_scene": {},
+   "insets": [],
+   "warnings": [
+    "[media-density-total] 과소 — 0개 / 57초 = inf초당 1개 > 60초 (14 §10.1, ['article'] 제외)"
+   ]
+  },
+  "articles": {
+   "schema_version": 1,
+   "candidates": 0,
+   "covered": 0,
+   "used_events": 0,
+   "per_min_max": 2,
+   "unused": [],
+   "warnings": []
+  },
+  "placement": {}
+ },
+ "script": {
+  "labels": null
+ },
+ "preview": {
+  "frames": 8,
+  "times": [
+   2.0,
+   8.99,
+   19.38,
+   24.31,
+   36.39,
+   43.09,
+   48.21,
+   51.09
+  ],
+  "dir": "prev",
+  "direction_sha1": "1fd2cce6a03629f9339cd668236741d966028ad4"
+ },
+ "checks": {
+  "hard": 7,
+  "warnings": 2,
+  "passed": false
+ },
+ "user_feedback_guards": [
+  {
+   "id": "UF-01",
+   "checks": {
+    "card_exposure": 0
+   }
+  },
+  {
+   "id": "UF-02",
+   "checks": {
+    "camera_continuity": 0,
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-03",
+   "checks": {
+    "route_label_cross": 0,
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-04",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-05",
+   "checks": {
+    "article_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-06",
+   "checks": {
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-07",
+   "checks": {
+    "route_missing_other": 0,
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-08",
+   "checks": {
+    "battle_geo": 0
+   }
+  },
+  {
+   "id": "UF-09",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-10",
+   "checks": {
+    "portrait_unused": 0,
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-11",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0
+   }
+  },
+  {
+   "id": "UF-12",
+   "checks": {
+    "frame_missing_target": 0,
+    "frame_missing": 0
+   }
+  },
+  {
+   "id": "UF-16",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-18",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-19",
+   "checks": {
+    "camera_per_sentence": 0
+   }
+  },
+  {
+   "id": "UF-20",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-25",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-27",
+   "checks": {
+    "portrait_unused": 0
+   }
+  },
+  {
+   "id": "UF-30",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-31",
+   "checks": {
+    "media_upscaled": 0
+   }
+  },
+  {
+   "id": "UF-32",
+   "checks": {
+    "boundary_as_route": 0
+   }
+  },
+  {
+   "id": "UF-34",
+   "checks": {
+    "offscreen": 0
+   }
+  },
+  {
+   "id": "UF-35",
+   "checks": {
+    "endcard_black": 0
+   }
+  },
+  {
+   "id": "UF-37",
+   "checks": {
+    "glyph_size": 0
+   }
+  },
+  {
+   "id": "UF-39",
+   "checks": {
+    "timeline_rescale": 0
+   }
+  },
+  {
+   "id": "UF-42",
+   "checks": {
+    "stage_choice": 0,
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-45",
+   "checks": {
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-46",
+   "checks": {
+    "cascade": 0
+   }
+  },
+  {
+   "id": "UF-54",
+   "checks": {
+    "subtitle_overlap": 0
+   }
+  },
+  {
+   "id": "UF-63",
+   "checks": {
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-72",
+   "checks": {
+    "timeline_span": 0
+   }
+  },
+  {
+   "id": "UF-73",
+   "checks": {
+    "route_frame": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-77",
+   "checks": {
+    "opening_establish": 0
+   }
+  },
+  {
+   "id": "UF-78",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-80",
+   "checks": {
+    "flag_territory": 0
+   }
+  },
+  {
+   "id": "UF-81",
+   "checks": {
+    "badge_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-84",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-88",
+   "checks": {
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-93",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-97",
+   "checks": {
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-98",
+   "checks": {
+    "title_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-99",
+   "checks": {
+    "camera_bounds": 0,
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-101",
+   "checks": {
+    "portrait_unused": 0
+   }
+  },
+  {
+   "id": "UF-102",
+   "checks": {
+    "media_beats": 1
+   }
+  },
+  {
+   "id": "UF-104",
+   "checks": {
+    "tempo_density": 0
+   }
+  },
+  {
+   "id": "UF-105",
+   "checks": {
+    "transition_camera": 0
+   }
+  },
+  {
+   "id": "UF-107",
+   "checks": {
+    "inset_overlap": 0
+   }
+  },
+  {
+   "id": "UF-109",
+   "checks": {
+    "article_press_missing": 0
+   }
+  },
+  {
+   "id": "UF-110",
+   "checks": {
+    "cutaway_churn": 0
+   }
+  },
+  {
+   "id": "UF-111",
+   "checks": {
+    "unit_glyph_font": 0
+   }
+  },
+  {
+   "id": "UF-113",
+   "checks": {
+    "ratio_graphic": 0
+   }
+  },
+  {
+   "id": "UF-115",
+   "checks": {
+    "tempo_density": 0
+   }
+  },
+  {
+   "id": "UF-118",
+   "checks": {
+    "media_unused": 0
+   }
+  },
+  {
+   "id": "UF-119",
+   "checks": {
+    "media_unused": 0
+   }
+  },
+  {
+   "id": "UF-120",
+   "checks": {
+    "static_camera": 0
+   }
+  },
+  {
+   "id": "UF-122",
+   "checks": {
+    "unit_ton_glyph": 0
+   }
+  },
+  {
+   "id": "UF-123",
+   "checks": {
+    "route_speed": 0
+   }
+  },
+  {
+   "id": "UF-125",
+   "checks": {
+    "sea_only_frame": 0
+   }
+  },
+  {
+   "id": "UF-126",
+   "checks": {
+    "series_unused": 0,
+    "panel_dropped": 0
+   }
+  },
+  {
+   "id": "UF-128",
+   "checks": {
+    "chart_honesty": 0
+   }
+  },
+  {
+   "id": "UF-129",
+   "checks": {
+    "card_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-130",
+   "checks": {
+    "article_outlet": 0
+   }
+  },
+  {
+   "id": "UF-131",
+   "checks": {
+    "glyphs": 0
+   }
+  },
+  {
+   "id": "UF-135",
+   "checks": {
+    "chart_only_run": 1,
+    "chart_world_split": 0
+   }
+  },
+  {
+   "id": "UF-137",
+   "checks": {
+    "chart_edge_bleed": 0
+   }
+  },
+  {
+   "id": "UF-138",
+   "checks": {
+    "timeline_rescale": 0
+   }
+  },
+  {
+   "id": "UF-139",
+   "checks": {
+    "media_density": 1
+   }
+  },
+  {
+   "id": "UF-140",
+   "checks": {
+    "flat_lane": 1
+   }
+  },
+  {
+   "id": "UF-141",
+   "checks": {
+    "clip_frame": 0
+   }
+  },
+  {
+   "id": "UF-142",
+   "checks": {
+    "plot_height": 1,
+    "axis_empty_band": 3
+   }
+  },
+  {
+   "id": "UF-143",
+   "checks": {
+    "island_pin_collision": 0
+   }
+  },
+  {
+   "id": "UF-146",
+   "checks": {
+    "inset_jump": 0
+   }
+  },
+  {
+   "id": "UF-147",
+   "checks": {
+    "template_label": 0
+   }
+  }
+ ]
+}

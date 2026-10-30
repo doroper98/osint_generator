@@ -1,0 +1,10 @@
+schema_version: 1
+headline: 막대 스케치 — 인텔 분기 매출(막대)과 일별 종가(선), 하나의 시간축
+summary: 새 요소 series bars 의 실제 엔진 렌더 스케치(docs/handoff/20 §4.1-2). 영상이 아니다.
+chapters:
+- at: bars
+  label: 분기 매출
+- at: TITLE
+  label: 타이틀
+- at: price
+  label: 주가

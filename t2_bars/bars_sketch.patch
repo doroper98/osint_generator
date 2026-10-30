@@ -1,0 +1,150 @@
+diff --git a/engine/events.py b/engine/events.py
+index ce2e0077..11eef003 100644
+--- a/engine/events.py
++++ b/engine/events.py
+@@ -101,7 +101,7 @@ class SeriesEvent(_Event):
+     type: Literal["series"]
+     lane: str
+     series_id: str
+-    style: Literal["step", "line", "band", "projection"]   # projection = v7.4.0 D-0260 §2 — scatter 레코드(전망 점, rules stage_timeline.projection)
++    style: Literal["step", "line", "band", "projection", "bars"]   # projection = v7.4.0 D-0260 §2 — scatter 레코드(전망 점, rules stage_timeline.projection). bars = v7.4.0 D-0278 §4.1(분기 막대, 스케치)
+     color_by: Literal["fixed", "change"] = "fixed"   # v4.4.0 D-0091 ② — change: 레코드 값 변화로 달마다 장르 색 의미 hike·cut·hold(코드 계산)
+     upper_id: Optional[str] = None   # v4.4.0 D-0090 작업 2 — band: series_id = 아래 끝 레코드, upper_id = 위 끝 레코드(목표 범위 띠)
+     grow: bool = True
+diff --git a/engine/layers/series.py b/engine/layers/series.py
+index 07350dd9..a803e538 100644
+--- a/engine/layers/series.py
++++ b/engine/layers/series.py
+@@ -108,6 +108,8 @@ def lane_range(events: list[dict], lane: str, stage: "TimelineStage | None" = No
+     중간 눈금(axis_values)은 간격의 배수 그대로. zero: 옛 [min(0, 최소), 최대]. 영상당 한 번(prepare_series)."""
+     cfg = TIMELINE.lane_range
+     dmin, dmax, unit = lane_extent(events, lane, stage)
++    if any(e["type"] == "series" and e["lane"] == lane and e["style"] == "bars" for e in events):   # v7.4.0 D-0278 §4.1 — 막대 레인은 0 을 품는다([bars-from-zero])
++        dmin, dmax = min(dmin, 0.0), max(dmax, 0.0)
+     if cfg.mode == "zero":
+         lo, hi = min(0.0, dmin), dmax
+         return (lo, hi) if hi > lo else (lo, lo + 1)
+@@ -371,14 +373,16 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
+     last_hi: float | None = None
+     if e["style"] == "band":
+         last, last_hi = _draw_band(ctx, view, stage, e, rng, col, a, shown, mcol)
++    if e["style"] == "bars":   # v7.4.0 D-0278 §4.1 — 막대마다 값 라벨(끝값 라벨 없음)
++        _draw_bars(ctx, view, stage, e, rng, rec, col, a, shown)
+     gaps = None if rec.frequency == "monthly" else rec.missing_dates()   # v7.4.0 — daily·quarterly 는 missing 에서만 끊는다
+-    for seg in ([] if e["style"] == "band" or mcol is None else segments(rec.values, gaps)):   # 달마다 색(change)
++    for seg in ([] if e["style"] in ("band", "bars") or mcol is None else segments(rec.values, gaps)):   # 달마다 색(change)
+         _draw_pieces(ctx, view, stage, e, rng, seg, mcol, a)
+         for d, v in seg:
+             x = stage.x_of(d)
+             if x <= shown:
+                 last = (x, value_y(stage, e["lane"], rng, v), v)
+-    for seg in ([] if e["style"] == "band" or mcol is not None else segments(rec.values, gaps)):
++    for seg in ([] if e["style"] in ("band", "bars") or mcol is not None else segments(rec.values, gaps)):
+         pts = [(stage.x_of(d), value_y(stage, e["lane"], rng, v), v) for d, v in seg]
+         if e["style"] == "step":   # 값은 그 달 첫날부터 다음 달 첫날까지 유지(월평균)
+             nxt = stage.x_of(_next_month(seg[-1][0]))
+@@ -548,6 +552,52 @@ def _draw_pieces(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: di
+     ctx.set_line_cap(cairo.LINE_CAP_BUTT)
+ 
+ 
++def quarter_span(stage: "TimelineStage", d: date) -> tuple[float, float]:
++    """분기 마지막 날 d → 그 분기의 월드 x 구간 [분기 첫날, 다음 분기 첫날)."""
++    q0 = date(d.year, (d.month - 1) // 3 * 3 + 1, 1)
++    q1 = date(d.year + (q0.month == 10), 1 if q0.month == 10 else q0.month + 3, 1)
++    return stage.x_of(q0), stage.x_of(q1)
++
++
++def bar_rects(stage: "TimelineStage", e: dict, rng: tuple[float, float], rec: object) -> list[tuple[date, float, float, float, float, float]]:
++    """(날짜, 값, 막대 x0, x1, 0 의 y, 값의 y) — 월드 좌표. 그리기와 검사가 같이 쓴다."""
++    B = TIMELINE.bars  # noqa: N806
++    y0 = value_y(stage, e["lane"], rng, 0.0)
++    out = []
++    for d, v in rec.values:  # type: ignore[attr-defined]
++        qa, qb = quarter_span(stage, d)
++        half = (qb - qa) * B.w_ratio / 2
++        mid = (qa + qb) / 2
++        out.append((d, v, mid - half, mid + half, y0, value_y(stage, e["lane"], rng, v)))
++    return out
++
++
++def _draw_bars(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float], rec: object,
++               col: tuple[float, float, float], a: float, front: float) -> None:
++    """분기 막대(v7.4.0 D-0278 §4.1) — 0 에서 자란다. 앞끝(front)이 막대 왼쪽에서 오른쪽으로 지나가는 동안 높이가 0 → 값.
++    막대마다 값 라벨(코드 조판, 레코드 값 그대로). 부르는 쪽 clip 안에서 그린다."""
++    B = TIMELINE.bars  # noqa: N806
++    for _d, v, x0, x1, y0, yv in bar_rects(stage, e, rng, rec):
++        k = 1.0 if front == math.inf else max(0.0, min(1.0, (front - x0) / max(x1 - x0, 1e-9)))
++        if k <= 0:
++            continue
++        k = ease_out(k)
++        y = y0 + (yv - y0) * k
++        sx0, sy0 = view.to_screen(x0, y0)
++        sx1, sy1 = view.to_screen(x1, y)
++        ctx.rectangle(sx0, min(sy0, sy1), sx1 - sx0, abs(sy1 - sy0))
++        ctx.set_source_rgba(*col, B.fill_alpha * a)
++        ctx.fill_preserve()
++        ctx.set_source_rgba(*col, B.edge_alpha * a)
++        ctx.set_line_width(B.edge_w)
++        ctx.stroke()
++        if k >= 1.0:
++            s = fmt_value(v, "")
++            lw = tw(ctx, s, B.value_size, B.value_font)
++            by = sy1 - B.value_gap if v >= 0 else sy1 + B.value_gap + B.value_size
++            text(ctx, s, (sx0 + sx1) / 2 - lw / 2, by, B.value_size, B.value_font, col, a, B.value_halo, "l")
++
++
+ def _draw_band(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float],
+                col: tuple[float, float, float], a: float, front: float,
+                mcol: dict | None = None) -> tuple[tuple[float, float, float] | None, float | None]:
+diff --git a/rules/video_rules.yaml b/rules/video_rules.yaml
+index 3489a6a6..2a5aca61 100644
+--- a/rules/video_rules.yaml
++++ b/rules/video_rules.yaml
+@@ -1309,6 +1309,15 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시
+     pin_leader_w: 1.0
+     pin_leader_alpha: 0.6
+     change_regime_months: 2   # v4.4.0 D-0091 ② color_by change — 마지막 변화가 이 달 수 안이면 그 방향(hike·cut), 넘으면 hold(동결). FOMC 회의 간격(6~7주) — 연속 회의 인상·인하는 이어지고 동결 결정 뒤는 회색(6 → 2: fed_policy 검수 루브릭 5 지적, 2026 동결기가 인하 색)
++  bars:                    # v7.4.0 D-0278 §4.1(E4·E7 스케치) — series style bars: 분기 레코드(frequency quarterly) → 분기 열마다 0 에서 자라는 막대
++    w_ratio: 0.55          # 막대 폭 = 분기 폭 × 이 값(가운데 = 분기 가운데)
++    fill_alpha: 0.85
++    edge_alpha: 1.0
++    edge_w: 1.0
++    value_size: 11         # 막대마다 값 라벨(위 끝 위·음수는 아래 끝 아래). layout_480p.min_font_px 이상
++    value_font: sansb
++    value_gap: 5           # 막대 끝 → 라벨 기준선(px)
++    value_halo: 2.5
+   band:                    # v4.4.0 D-0090 작업 2 — series style band(두 레코드 사이 띠 = 목표 범위). 색은 이벤트 col
+     fill_alpha: 0.28
+     edge_alpha: 0.9
+diff --git a/schemas/rules_models.py b/schemas/rules_models.py
+index 4ddb24ae..689c7c9e 100644
+--- a/schemas/rules_models.py
++++ b/schemas/rules_models.py
+@@ -2023,6 +2023,19 @@ class TimelineMissingMark(_Strict):
+     inset_px: float
+ 
+ 
++class TimelineBars(_Strict):
++    """v7.4.0 D-0278 §4.1 — series bars(분기 막대, 0 에서 자란다)."""
++
++    w_ratio: float = Field(gt=0, le=1)
++    fill_alpha: float = Field(gt=0, le=1)
++    edge_alpha: float = Field(ge=0, le=1)
++    edge_w: float = Field(ge=0)
++    value_size: float = Field(gt=0)
++    value_font: str
++    value_gap: float = Field(ge=0)
++    value_halo: float = Field(ge=0)
++
++
+ class TimelineBand(_Strict):
+     """v4.4.0 D-0090 작업 2 — series band(목표 범위 띠)."""
+ 
+@@ -2107,6 +2120,7 @@ class StageTimelineRules(_Strict):
+     wave: TimelineWave
+     series: TimelineSeries
+     band: TimelineBand             # v4.4.0 — D-0090 작업 2
++    bars: TimelineBars             # v7.4.0 — D-0278 §4.1 스케치
+     missing_mark: TimelineMissingMark
+     axis_scale: TimelineAxisScale  # v5.1.0 — D-0121 §A
+     lane_range: TimelineLaneRange  # v7.4.0 — D-0263(UF-140)
