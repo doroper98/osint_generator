@@ -63,7 +63,11 @@ class ChartMeta(BaseModel):
 
 
 def _first_token(s: str) -> str:
-    return s.split()[0] if s.strip() else ""
+    """화면 단위 문자열의 단위 머리 — rules data.units 중 이 문자열과 같거나 "단위 + 공백" 으로 시작하는 가장 긴 것
+    (v7.4.0 — "십억 달러"·"조 원" 처럼 공백 있는 단위, D-0278 §4.2). 없으면 첫 낱말(종전)."""
+    t = s.strip()
+    hits = [u for u in load_rules().data.units if t == u or t.startswith(u + " ")]
+    return max(hits, key=len) if hits else (t.split()[0] if t else "")
 
 
 def chart_honesty(m: ChartMeta) -> list[str]:

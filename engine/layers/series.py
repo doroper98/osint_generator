@@ -201,11 +201,14 @@ def value_y(stage: "TimelineStage", lane: str, rng: tuple[float, float], v: floa
     return b + (v - rng[0]) / (rng[1] - rng[0]) * (t - b)
 
 
-def segments(values: list[tuple[date, float]]) -> list[list[tuple[date, float]]]:
-    """빈 달(한 달보다 긴 간격)에서 끊은 연속 구간들 — 보간하지 않는다(D-0086)."""
+def segments(values: list[tuple[date, float]], missing: list[date] | None = None) -> list[list[tuple[date, float]]]:
+    """빈 날에서 끊은 연속 구간들 — 보간하지 않는다(D-0086). missing 이 None 이면 월별 규칙(한 달보다 긴 간격 = 빈 달),
+    주면 레코드 missing 날짜를 사이에 둔 곳에서만 끊는다(v7.4.0 — daily 는 휴장일이 빈 날이 아니고, quarterly 는 분기 간격이 정상)."""
     out: list[list[tuple[date, float]]] = [[values[0]]]
     for a, b in zip(values, values[1:]):
-        if (b[0].year * MONTHS + b[0].month) - (a[0].year * MONTHS + a[0].month) != 1:
+        gap = (any(a[0] < m < b[0] for m in missing) if missing is not None
+               else (b[0].year * MONTHS + b[0].month) - (a[0].year * MONTHS + a[0].month) != 1)
+        if gap:
             out.append([])
         out[-1].append(b)
     return out
@@ -368,13 +371,14 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
     last_hi: float | None = None
     if e["style"] == "band":
         last, last_hi = _draw_band(ctx, view, stage, e, rng, col, a, shown, mcol)
-    for seg in ([] if e["style"] == "band" or mcol is None else segments(rec.values)):   # 달마다 색(change)
+    gaps = None if rec.frequency == "monthly" else rec.missing_dates()   # v7.4.0 — daily·quarterly 는 missing 에서만 끊는다
+    for seg in ([] if e["style"] == "band" or mcol is None else segments(rec.values, gaps)):   # 달마다 색(change)
         _draw_pieces(ctx, view, stage, e, rng, seg, mcol, a)
         for d, v in seg:
             x = stage.x_of(d)
             if x <= shown:
                 last = (x, value_y(stage, e["lane"], rng, v), v)
-    for seg in ([] if e["style"] == "band" or mcol is not None else segments(rec.values)):
+    for seg in ([] if e["style"] == "band" or mcol is not None else segments(rec.values, gaps)):
         pts = [(stage.x_of(d), value_y(stage, e["lane"], rng, v), v) for d, v in seg]
         if e["style"] == "step":   # 값은 그 달 첫날부터 다음 달 첫날까지 유지(월평균)
             nxt = stage.x_of(_next_month(seg[-1][0]))

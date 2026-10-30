@@ -203,5 +203,24 @@ class FetchFilingOfflineTest(unittest.TestCase):
             chart_close(_chart_json([date(2026, 10, 28), date(2026, 10, 29)], [1.0, None]))
 
 
+class SpacedUnitAndSegmentsTest(unittest.TestCase):
+    """v7.4.0 T1 — 공백 있는 단위(십억 달러·조 원)의 화면 단위 판정, daily·quarterly 선은 missing 에서만 끊는다."""
+
+    def test_unit_head(self) -> None:
+        from engine.honesty import _first_token  # noqa: PLC0415
+
+        self.assertEqual(_first_token("십억 달러"), "십억 달러")
+        self.assertEqual(_first_token("조 원 (연결)"), "조 원")
+        self.assertEqual(_first_token("% (전년 대비)"), "%")
+
+    def test_segments_daily(self) -> None:
+        from engine.layers.series import segments  # noqa: PLC0415
+
+        v = [(date(2026, 10, 27), 1.0), (date(2026, 10, 28), 1.0), (date(2026, 10, 30), 1.0)]
+        self.assertEqual(len(segments(v, [])), 1)                     # 휴장일(10-29 없음)은 끊지 않는다
+        self.assertEqual(len(segments(v, [date(2026, 10, 29)])), 2)   # missing 이면 끊는다
+        self.assertEqual(len(segments(v)), 3)                         # 월별 규칙(종전) — daily 에 쓰면 점마다 끊겼다
+
+
 if __name__ == "__main__":
     unittest.main()
