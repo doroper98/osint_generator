@@ -294,7 +294,7 @@
    ]
   },
   {
-   "sid": "act3_4",
+   "sid": "act3_3",
    "query": "Herrenknecht tunnel boring machine hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-10-30",
@@ -304,7 +304,7 @@
    "rejected": []
   },
   {
-   "sid": "act3_4",
+   "sid": "act3_3",
    "query": "Herrenknecht tunnel boring machine",
    "pool": "commons_cc",
    "on": "2026-10-30",
@@ -316,7 +316,7 @@
    ]
   },
   {
-   "sid": "act3_9",
+   "sid": "act3_8",
    "query": "Hanwha Qcells hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-10-30",
@@ -326,7 +326,7 @@
    "rejected": []
   },
   {
-   "sid": "act3_9",
+   "sid": "act3_8",
    "query": "Hanwha Qcells",
    "pool": "commons_cc",
    "on": "2026-10-30",
@@ -341,7 +341,7 @@
    ]
   },
   {
-   "sid": "act3_8",
+   "sid": "act3_7",
    "query": "tandem solar cell perovskite silicon hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-10-30",
@@ -351,7 +351,7 @@
    "rejected": []
   },
   {
-   "sid": "act3_8",
+   "sid": "act3_7",
    "query": "tandem solar cell perovskite silicon",
    "pool": "commons_cc",
    "on": "2026-10-30",

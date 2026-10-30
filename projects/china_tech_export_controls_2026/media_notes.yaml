@@ -1,35 +1,57 @@
-# china_tech_export_controls_2026 미디어 사유(게이트 ① 미디어 계획 표) — 원고 v1(58문장) 문장 번호. D-0283 §5(Commons 탐색 의무, 등재 0 금지).
-# 고른 사진은 원고 문장 media(asset_id)로 표시한다. 여기 적은 문장은 고르지 않은 사유.
+# china_tech_export_controls_2026 미디어 사유(게이트 ① 미디어 계획 표) — 원고 v1.1(56문장) 문장 번호. D-0283 §5(Commons 탐색 의무, 등재 0 금지).
+# 감독 지시(2026-10-30 07:50Z, D-0285 후속): 게이트 ① 은 원본 받기와 분리 — 고른 후보(파일명·라이선스·사유)를 여기 적고, 원본 바이트는 승인 뒤
+# 미디어 등록 단계에서 받는다(Wikimedia 429 지속). 원고 지문은 그대로.
+# 사진 밀도 하한: rules media_beats.min_density_per_min 1.5 × 예상 6.5분 ≈ 9.75 → 10장. 아래 '선택' 10장.
 # 클립: YouTube 공식 채널(CCTV Video News Agency) 후보는 찾았으나 받기에서 봇 검사 — 우회 금지(D-0283 §5·§8) → 클립 0, 사진 액자.
 schema_version: 1
 sentences:
+  cold_0:
+    photo: "선택 — File:Tunnel boring machine of Railway Construction Heavy Industry 20210522.jpg (Commons 검색 통과 — 허용 라이선스) — 중국철건중공 대구경 실드 굴착기 전시품(2021), 자료사진 표기. 원본 확보 완료(육안 확인)"
   cold_2:
     photo: 고르지 않음 — 국내 현장(동아지질·중국산 굴착기 가동 현장) 사진은 Commons 에 없다. 지도 한반도 권역 + 기사 카드(토요경제 10/21)
   act1_2:
     photo: 고르지 않음 — 상무부 건물 검색 통과 0(GODL-India·문서 파일만). 지도 베이징 marker + 기사 카드(로이터 10/16)
+  act1_3:
+    photo: "선택 — File:Facebook Data Center Server Board.jpg (CC BY 2.0) — 인공지능 연산 설비 자료사진(특정 국가·기업 무관 캡션)"
+  act1_4:
+    photo: "선택 — File:NASA astronaut Jessica Meir processes stem cell samples inside the Life Science Glovebox (iss074e0603697).jpg (Public domain, NASA) — 세포 시료 처리 자료사진(생물의약 분야)"
   act1_6:
     photo: 고르지 않음 — 통과 후보는 옛 도스 바이러스 화면·무관한 군 사진뿐(문장은 인공지능 악성코드 생성 '기술' 예시). 카드로만
+  act1_7:
+    photo: "선택 — File:Rotary Cell Culture System.jpg (Commons 검색 통과, NASA) — 세포 배양 장치 자료사진(세포·유전자 치료 공정 문장). 페로브스카이트 사진은 act3_7 로"
+  act1_12:
+    photo: "선택 — File:Romanian DJI Matrice 30, Eastern Phoenix 2026 exercise.jpg (Commons 검색 통과) — 중국산 민수 드론의 군 훈련 사용(이중용도) 자료사진"
   act1_13:
     photo: 고르지 않음 — 앞 문장(act1_12) 드론 사진 유지. 같은 대상 사진을 이어 붙이지 않는다
+  act1_14:
+    photo: 고르지 않음 — 통과 후보는 cold_0 에 쓴 중국철건중공 굴착기 1건뿐(같은 사진 반복 안 함). 보행식 굴착기 사진은 CC BY-SA 만. 카드(완제품·부품·재제조·보행식)
   act1_15:
     photo: 고르지 않음 — 준설선(천곤호 등) 검색 0건·통과 0. 카드(같은 날 공고 셋·11/18 시행)
+  act2_1:
+    photo: "선택 — File:RE mine in Baiyun Ebo, Inner Mongolia.jpg (Public domain) — 중국 바이윈어보 희토류 광산 자료사진"
   act2_2:
-    photo: 고르지 않음 — 통과 후보 3건은 광물 표본(브래너라이트)·논문 도식·생산 그래프(사진 아님·희토류 산화물 아님). 지도·카드로
+    photo: "선택 — File:Rareearthoxides.jpg (Public domain, 미 농무부 ARS) — 희토류 산화물 자료사진"
+  act2_3:
+    photo: "선택 — File:President Donald Trump greets Chinese President Xi Jinping before a bilateral meeting at the Gimhae International Airport terminal (54890669668).jpg (Public domain, 백악관) — 2025-10-30 회담 당일 사진(자료사진 아님)"
+  act2_6:
+    photo: "선택 — File:Building a Great Solar Wall in China (153759 - 20171220 lrg).jpg (Public domain, NASA 지구관측소) — 중국 태양광 발전 단지 위성 사진(2017)"
   act2_11:
     photo: 고르지 않음 — '글로벌 타임스' 검색 통과 후보는 무관한 옛 신문·토지 이용 도식. 기사 카드(GT 10/17 논평)
   act3_0:
-    photo: 고르지 않음 — 막 전환 문장(호흡). 지도 한반도 진입
+    photo: 고르지 않음 — 막 전환 문장(호흡, '공사 현장과 공장으로 가 보겠습니다'). 국내 현장 사진 없음(cold_2 와 같다). 지도 한반도 진입
+  act3_1:
+    photo: 고르지 않음 — 서울 지하철 터널 공사 검색 통과 0. 지도 한반도 진입
   act3_2:
     photo: 고르지 않음 — 통과 1건은 1990년 비무장지대 땅굴 사진(남침 땅굴, 문장의 전력구 공사와 무관·오해 소지). 기사 카드(Tunnelling Journal 2025-12-11)
-  act3_4:
+  act3_3:
     photo: 고르지 않음 — 헤렌크네히트 사진은 모두 CC BY-SA(규칙 제외 라이선스). 기사 카드(대한경제 2023-02-13)
-  act3_6:
+  act3_5:
     photo: 고르지 않음 — 국내 현장 사진 없음(cold_2 와 같다). 카드(동아지질 설명)
+  act3_7:
+    photo: "선택 — File:Perovskite solar cell.jpg (Commons 검색 통과) — 페로브스카이트 태양전지 시료 자료사진. 원본 확보 완료(육안 확인)"
   act3_8:
-    photo: 고르지 않음 — 통과 2건은 효율 도표·구조 도식(사진 아님). act1_7 페로브스카이트 사진을 다시 쓰지 않는다 — 기사 카드(EBN 10/20)
-  act3_9:
     photo: 고르지 않음 — 한화큐셀 사진은 CC BY-SA·제한 표시만. 지도 진천 marker + 기사 카드(EBN 10/20)
-  act3_10:
+  act3_9:
     photo: 고르지 않음 — 업계 전망 문장(사진 대상 없음). 트리거 '타격'은 '직접 타격'(비유)
   act4_4:
     photo: 고르지 않음 — 날짜 문장(시간축 핀). 드론·굴착기 사진은 act1 에서 이미 썼다
