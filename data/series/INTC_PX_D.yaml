@@ -1,6 +1,6 @@
 series_id: INTC_PX_D
 source: Yahoo Finance chart API · 나스닥 INTC 일별 종가
-source_url: https://query1.finance.yahoo.com/v8/finance/chart/INTC?period1=1782864000&period2=1793404799&interval=1d
+source_url: https://query1.finance.yahoo.com/v8/finance/chart/INTC?period1=1788220800&period2=1793404799&interval=1d
 retrieved_at: '2026-10-30'
 transform:
   op: chart_close
@@ -11,3 +11,9 @@ unit: 달러
 frequency: daily
 license: private_only_market_data
 license_note: Yahoo Finance 이용약관 — 시세 재배포 제한(비공개 시청용 기록, D264)
+cited:
+- date: '2026-09-21'
+  outlet: Trefis
+  pub_date: '2026-09-29'
+  url: https://www.trefis.com/stock/intc/articles2/616955/what-changed-for-intel-stock-and-what-did-not/2026-09-29
+  note: 하루 +12.1% 보도 — 웹 검색 결과로 확인(원문 미열람, 프록시 차단)

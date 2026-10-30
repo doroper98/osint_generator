@@ -99,9 +99,9 @@ class QuarterlyDailyTest(unittest.TestCase):
         d = {"series_id": "TEST_PX_D", "source": "시험 시세", "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/TEST",
              "retrieved_at": "2026-10-30", "transform": {"op": "chart_close", "formula": TR["chart_close"]}, "as_of": "2026-10",
              "unit": "달러", "frequency": "daily", "license": "private_only_market_data", "license_note": "시험"}
-        SeriesRecord.model_validate({**d, "values": [("2026-10-28", 1.0), ("2026-10-29", 2.0)]})
+        SeriesRecord.model_validate({**d, "values": [("2026-10-28", 1.0), ("2026-10-29", 1.05)]})
         with self.assertRaisesRegex(ValidationError, "거래일"):
-            SeriesRecord.model_validate({**d, "values": [("2026-10-23", 1.0), ("2026-10-24", 2.0)]})
+            SeriesRecord.model_validate({**d, "values": [("2026-10-23", 1.0), ("2026-10-24", 1.05)]})
 
 
 def _chart_json(days: list[date], closes: list[float | None], off: int = -14400) -> str:
@@ -175,15 +175,28 @@ class FetchFilingOfflineTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             out = Path(td)
             (out / "raw").mkdir()
-            (out / "raw" / "TEST_PX_D.json").write_text(_chart_json(days, [10.0, 11.5, 9.25]), encoding="utf-8")
+            (out / "raw" / "TEST_PX_D.json").write_text(_chart_json(days, [10.0, 10.5, 9.75]), encoding="utf-8")
             self.assertEqual(ff.main(["price", "TEST_PX_D", "--ticker", "TEST", "--start", "2026-10-27", "--end", "2026-10-29",
                                       "--unit", "달러", "--source", "시험 시세", "--offline", "--out", str(out),
                                       "--retrieved-at", "2026-10-30"]), 0)
             r = load_series_file(out / "TEST_PX_D.yaml")
-            self.assertEqual(r.values[-1], (date(2026, 10, 29), 9.25))
-            (out / "TEST_PX_D.csv").write_text("date,value\n2026-10-27,10.0\n2026-10-28,11.5\n2026-10-29,9.5\n", encoding="utf-8")
+            self.assertEqual(r.values[-1], (date(2026, 10, 29), 9.75))
+            (out / "TEST_PX_D.csv").write_text("date,value\n2026-10-27,10.0\n2026-10-28,10.5\n2026-10-29,9.5\n", encoding="utf-8")
             with self.assertRaisesRegex(SeriesError, "종가와 다르다"):
                 load_series_file(out / "TEST_PX_D.yaml")
+
+    def test_price_outlier_needs_citation(self) -> None:
+        """[price-outlier] — 하루 변동 ≥ rules data.price_outlier_pct 는 보도 확인(cited) 필수(감독 점검 2026-10-30)."""
+        d = {"series_id": "TEST_PX_D", "source": "시험 시세", "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/TEST",
+             "retrieved_at": "2026-10-30", "transform": {"op": "chart_close", "formula": TR["chart_close"]}, "as_of": "2026-10",
+             "unit": "달러", "frequency": "daily", "license": "private_only_market_data", "license_note": "시험",
+             "values": [("2026-10-27", 100.0), ("2026-10-28", 112.0), ("2026-10-29", 111.0)]}
+        with self.assertRaisesRegex(ValidationError, r"price-outlier.*2026-10-28 \+12.0%"):
+            SeriesRecord.model_validate(d)
+        cite = {"date": "2026-10-28", "outlet": "시험 매체", "pub_date": "2026-10-28", "url": "https://example.com/a"}
+        SeriesRecord.model_validate({**d, "cited": [cite]})
+        with self.assertRaisesRegex(ValidationError, "급변일에만"):
+            SeriesRecord.model_validate({**d, "cited": [cite, {**cite, "date": "2026-10-29"}]})
 
     def test_chart_close_null_is_error(self) -> None:
         with self.assertRaisesRegex(SeriesError, "종가 없음"):

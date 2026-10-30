@@ -227,8 +227,12 @@ class SeriesRecord(_Strict):
         ok = load_rules().data.sources_allowed
         if u.scheme != "https" or u.hostname not in ok:
             raise ValueError(f"source_url 도메인 {u.hostname!r}(https) 는 rules data.sources_allowed 에 없다: {ok}")
-        if self.cited or self.transform.op == "press_cited" or self.license == "press_cited":
-            raise ValueError("cited·transform/license press_cited 는 source_kind press_cited 레코드만")
+        if self.transform.op == "press_cited" or self.license == "press_cited":
+            raise ValueError("transform/license press_cited 는 source_kind press_cited 레코드만")
+        if self.cited and self.transform.op != "chart_close":
+            raise ValueError("cited 는 press_cited 레코드(값 출처)·chart_close 레코드(급변일 보도 확인)만")
+        if self.transform.op == "chart_close":
+            self._price_outliers()
         return self
 
     @field_validator("as_of")
@@ -283,6 +287,19 @@ class SeriesRecord(_Strict):
         if date(y, m, 1) > self.retrieved_at:
             raise ValueError(f"as_of {self.as_of} 가 retrieved_at {self.retrieved_at} 보다 늦다")
         return self
+
+    def _price_outliers(self) -> None:
+        """[price-outlier] — 일별 종가 하루 변동 ≥ rules data.price_outlier_pct 인 날은 cited(보도 확인) 필수. cited 는 그런 날만."""
+        pct = load_rules().data.price_outlier_pct
+        jumps = {d1: (v1 / v0 - 1) * 100 for (_d0, v0), (d1, v1) in zip(self.values, self.values[1:]) if v0 and abs(v1 / v0 - 1) * 100 >= pct}
+        cited = {c.date for c in self.cited}
+        bad = sorted(set(jumps) - cited)
+        if bad:
+            raise ValueError("[price-outlier] 하루 변동 ≥ " + f"{pct}% 인데 보도 확인(cited)이 없다: "
+                             + ", ".join(f"{d} {jumps[d]:+.1f}%" for d in bad) + " — 보도로 확인하거나 기간에서 뺀다(G4)")
+        extra = sorted(cited - set(jumps))
+        if extra:
+            raise ValueError(f"chart_close cited 는 급변일에만: {extra}")
 
     def _quarterly(self, ds: list[date]) -> None:
         """분기 마지막 날만, 빈 분기는 missing 에 적힌 것만(D-0086 — 보간 금지)."""

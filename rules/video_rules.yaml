@@ -1639,6 +1639,11 @@ data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs
     "USD/shares": {to: "달러", factor: 1, digits: 2}            # XBRL companyfacts 주당 값
     "달러": {to: "달러", factor: 1, digits: 2}
     "%": {to: "%", factor: 1, digits: 1}
+  # v7.4.0 감독 점검(T1 레코드) — 일별 시세(transform chart_close) 하루 변동이 이 % 이상이면 그 날짜에 보도 확인(cited) 필수, 없으면 로드 오류 [price-outlier](G4)
+  price_outlier_pct: 10
+  # v7.4.0 감독 점검(T1 레코드, 2026-10-30) — 일별 시세(transform chart_close) 하루 변동 |종가/전일 종가 − 1| 이 이 % 이상이면
+  # 그 날짜에 보도 확인(cited: 매체·날짜·url)이 있어야 한다. 없으면 레코드 로드 오류 [price-outlier](G4 — 잘못된 틱을 그리지 않는다)
+  price_outlier_pct: 10
   series_dir: data/series                                   # <series_id>.yaml(레코드) + <series_id>.csv(값) + raw/<series_id>.csv(받은 그대로)
 
 primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/primitives/<id>.py) 레이아웃 토큰. registries.primitives 마다 한 블록(20 §4.2 "색·크기는 토큰만")

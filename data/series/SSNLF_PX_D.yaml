@@ -1,6 +1,6 @@
 series_id: SSNLF_PX_D
 source: Yahoo Finance chart API · 한국거래소 005930 일별 종가
-source_url: https://query1.finance.yahoo.com/v8/finance/chart/005930.KS?period1=1782864000&period2=1793404799&interval=1d
+source_url: https://query1.finance.yahoo.com/v8/finance/chart/005930.KS?period1=1788220800&period2=1793404799&interval=1d
 retrieved_at: '2026-10-30'
 transform:
   op: chart_close

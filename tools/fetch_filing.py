@@ -377,6 +377,13 @@ def cmd_price(a: argparse.Namespace) -> int:
         "license": "private_only_market_data",
         "license_note": a.license_note,
     }
+    cites = []
+    for c in a.cite:   # [price-outlier] 급변일 보도 확인: 날짜=매체|보도일|url|메모
+        d, rest = c.split("=", 1)
+        outlet, pub, url, note = (rest.split("|") + [None])[:4]
+        cites.append({"date": d, "outlet": outlet, "pub_date": pub, "url": url, "note": note})
+    if cites:
+        rec["cited"] = sorted(cites, key=lambda x: x["date"])
     r = load_series_file(_write(out, rec, values))
     print(json.dumps({"series_id": r.series_id, "n": len(r.values), "start": r.start.isoformat(), "end": r.end.isoformat(),
                       "last": r.values[-1][1], "raw_md5": hashlib.md5(b).hexdigest()}, ensure_ascii=False))
@@ -406,6 +413,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--unit", required=True)
     p.add_argument("--source", required=True)
     p.add_argument("--license-note", default="Yahoo Finance 이용약관 — 시세 재배포 제한(비공개 시청용 기록, D264)")
+    p.add_argument("--cite", action="append", default=[], metavar="YYYY-MM-DD=매체|보도일|url|메모",
+                   help="하루 변동 ≥ rules data.price_outlier_pct 인 날의 보도 확인([price-outlier])")
     sc = sub.add_parser("scan", help="원문 표 목록(명세 작성 보조)")
     sc.add_argument("source", help="raw 파일 경로 또는 https url")
     for s in (f, p):
