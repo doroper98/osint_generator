@@ -356,6 +356,52 @@
    ],
    "attributed_only": false,
    "notes": " [쇼케이스 이관: fed_policy_2026]"
+  },
+  {
+   "claim_id": "clm_0019",
+   "text": "워시 의장은 2026년 9월 16일 기자회견에서 FOMC가 연방기금금리 목표 범위를 0.25%p 올려 3.75~4%로 정했다고 밝혔다",
+   "source_ids": [
+    "src_doc_0010"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-16",
+   "checks": [
+    "quote_match:src_doc_0010",
+    "official:src_doc_0010"
+   ],
+   "attributed_only": false,
+   "notes": "영상 fed_clip_0916_decision 6.5~23.0초 = 녹취록 1쪽 원문(발언 자리 자막 근거, D-0275)",
+   "claim_kind": "statement",
+   "direct_quotes": [
+    {
+     "source_id": "src_doc_0010",
+     "text": "Good day. In the meeting just concluded, the FOMC decided to raise the target range for the federal funds rate by a ¼ percentage point to 3¾ to 4 percent, in support of the Federal Reserve’s dual mandate."
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0020",
+   "text": "워시 의장은 2026년 7월 29일 기자회견에서 위원회가 9대 3 표결로 연방기금금리 목표 범위를 3.5~3.75%로 유지했다고 밝혔다",
+   "source_ids": [
+    "src_doc_0011"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-07-29",
+   "checks": [
+    "quote_match:src_doc_0011",
+    "official:src_doc_0011"
+   ],
+   "attributed_only": false,
+   "notes": "영상 fed_clip_0729_vote 34.3~49.7초 = 녹취록 1쪽 원문(발언 자리 자막 근거, D-0275)",
+   "claim_kind": "statement",
+   "direct_quotes": [
+    {
+     "source_id": "src_doc_0011",
+     "text": "Today, as you know, our Committee decided to vote by a 9-to-3 vote to maintain the target range for the federal funds rate at 3½ to 3¾ percent."
+    }
+   ]
   }
  ]
 }

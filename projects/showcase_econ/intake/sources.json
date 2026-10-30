@@ -345,6 +345,52 @@
    "key_facts": [
     "Federal Reserve raises interest rates for the 1st time since 2023"
    ]
+  },
+  {
+   "id": "src_doc_0010",
+   "url": "https://www.federalreserve.gov/mediacenter/files/FOMCpresconf20260916.pdf",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "checks": [
+     "claims:1"
+    ],
+    "notes": "",
+    "status": "verified"
+   },
+   "confirmed_by": "opus(D-0275 — 녹취록 PDF 1쪽 원문과 영상 fed_clip_0916_decision 6.5~23.0초를 MMS 강제 정렬·무음 감지로 대조, 실사용은 사람)",
+   "confirmed_at": "2026-10-30T00:00:00Z",
+   "note": "",
+   "type": "document",
+   "issuer": "연준 FOMC",
+   "title": "의장 기자회견 녹취록 9.16",
+   "published_at": "2026-09-16",
+   "key_facts": [
+    "Good day. In the meeting just concluded, the FOMC decided to raise the target range for the federal funds rate by a ¼ percentage point to 3¾ to 4 percent, in support of the Federal Reserve’s dual mandate."
+   ]
+  },
+  {
+   "id": "src_doc_0011",
+   "url": "https://www.federalreserve.gov/mediacenter/files/FOMCpresconf20260729.pdf",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "checks": [
+     "claims:1"
+    ],
+    "notes": "",
+    "status": "verified"
+   },
+   "confirmed_by": "opus(D-0275 — 녹취록 PDF 1쪽 원문과 영상 fed_clip_0729_vote 34.3~49.7초를 MMS 강제 정렬·무음 감지로 대조, 실사용은 사람)",
+   "confirmed_at": "2026-10-30T00:00:00Z",
+   "note": "",
+   "type": "document",
+   "issuer": "연준 FOMC",
+   "title": "의장 기자회견 녹취록 7.29",
+   "published_at": "2026-07-29",
+   "key_facts": [
+    "Today, as you know, our Committee decided to vote by a 9-to-3 vote to maintain the target range for the federal funds rate at 3½ to 3¾ percent."
+   ]
   }
  ]
 }

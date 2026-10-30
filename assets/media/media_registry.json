@@ -5104,6 +5104,218 @@
     }
    },
    "file": "econ_walmart_2508_720.jpg"
+  },
+  "fed_clip_0916_decision": {
+   "kind": "video",
+   "title": "FOMC Press Conference, September 16, 2026 (Chairman Warsh)",
+   "license": "Public domain",
+   "author": "Board of Governors of the Federal Reserve System",
+   "credit_author": "Federal Reserve",
+   "date": "2026-09-16",
+   "url": "https://www.federalreserve.gov/monetarypolicy/fomcpresconf20260916.htm",
+   "caption": "워시 연준 의장 — 금리 인상 결정 발표",
+   "file_note": "자료 영상 · 2026. 09. 16",
+   "depicts": [
+    "케빈 워시 연준 의장",
+    "FOMC 기자회견 2026-09-16"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "감독 결정 D-0275 · 검수 시트 artifacts d1d5f4f(showcase_econ/fed_video)",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "segment_checked": [
+     6.5,
+     23.0
+    ],
+    "relevance": "9월 16일 인상 결정 문장 — 의장이 직접 발표(녹취록 1쪽 첫 문단)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-29",
+   "tool": {
+    "name": "media_fetch.clip",
+    "params": {
+     "cache": "npy",
+     "fps": 24,
+     "pix_fmt": "rgb24",
+     "scale": [
+      480,
+      270
+     ],
+     "source": "raw/fed_presser_20260916.mp4",
+     "thumb_w": null,
+     "fetch": "yt-dlp",
+     "url": "https://players.brightcove.net/66043936001/default_default/index.html?videoId=6405157968112",
+     "yt_dlp": "2026.10.21"
+    }
+   },
+   "source_hash": "6f19e9c27a8ef7492a6f3492353e3aa4",
+   "duration": 1722.432,
+   "segment": [
+    6.5,
+    23.0
+   ],
+   "note": "federalreserve.gov/disclaimer.htm: \"Unless otherwise indicated, information on Board's website is in the public domain and may be copied and distributed without permission\"",
+   "file": "fed_clip_0916_decision"
+  },
+  "fed_clip_0729_vote": {
+   "kind": "video",
+   "title": "FOMC Press Conference, July 29, 2026 (Chairman Warsh)",
+   "license": "Public domain",
+   "author": "Board of Governors of the Federal Reserve System",
+   "credit_author": "Federal Reserve",
+   "date": "2026-07-29",
+   "url": "https://www.federalreserve.gov/monetarypolicy/fomcpresconf20260729.htm",
+   "caption": "워시 연준 의장 — 9대 3 동결 발표",
+   "file_note": "자료 영상 · 2026. 07. 29",
+   "depicts": [
+    "케빈 워시 연준 의장",
+    "FOMC 기자회견 2026-07-29"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "감독 결정 D-0275 · 검수 시트 artifacts d1d5f4f(showcase_econ/fed_video)",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "segment_checked": [
+     34.3,
+     49.7
+    ],
+    "relevance": "7월 29일 동결·9대 3 표결 문장(녹취록 1쪽)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-29",
+   "tool": {
+    "name": "media_fetch.clip",
+    "params": {
+     "cache": "npy",
+     "fps": 24,
+     "pix_fmt": "rgb24",
+     "scale": [
+      480,
+      270
+     ],
+     "source": "raw/fed_presser_20260729.mp4",
+     "thumb_w": null,
+     "fetch": "yt-dlp",
+     "url": "https://players.brightcove.net/66043936001/default_default/index.html?videoId=6402426667112",
+     "yt_dlp": "2026.10.21"
+    }
+   },
+   "source_hash": "dcd3a8561ca8df2da0e79f1ae7be206a",
+   "duration": 2703.978,
+   "segment": [
+    34.3,
+    49.7
+   ],
+   "note": "federalreserve.gov/disclaimer.htm: \"Unless otherwise indicated, information on Board's website is in the public domain and may be copied and distributed without permission\"",
+   "file": "fed_clip_0729_vote"
+  },
+  "fed_clip_0729_room_a": {
+   "kind": "video",
+   "title": "FOMC Press Conference, July 29, 2026 (Chairman Warsh)",
+   "license": "Public domain",
+   "author": "Board of Governors of the Federal Reserve System",
+   "credit_author": "Federal Reserve",
+   "date": "2026-07-29",
+   "url": "https://www.federalreserve.gov/monetarypolicy/fomcpresconf20260729.htm",
+   "caption": "연준 기자회견장 — 질문하려 손 든 기자들",
+   "file_note": "자료 영상 · 2026. 07. 29",
+   "depicts": [
+    "FOMC 기자회견장",
+    "기자석"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "감독 결정 D-0275 · 검수 시트 artifacts d1d5f4f(showcase_econ/fed_video)",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "segment_checked": [
+     1007.4,
+     1016.9
+    ],
+    "relevance": "7월 29일 회견 현장(회견장 전경)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-29",
+   "tool": {
+    "name": "media_fetch.clip",
+    "params": {
+     "cache": "npy",
+     "fps": 24,
+     "pix_fmt": "rgb24",
+     "scale": [
+      480,
+      270
+     ],
+     "source": "raw/fed_presser_20260729.mp4",
+     "thumb_w": null,
+     "fetch": "yt-dlp",
+     "url": "https://players.brightcove.net/66043936001/default_default/index.html?videoId=6402426667112",
+     "yt_dlp": "2026.10.21"
+    }
+   },
+   "source_hash": "dcd3a8561ca8df2da0e79f1ae7be206a",
+   "duration": 2703.978,
+   "segment": [
+    1007.4,
+    1016.9
+   ],
+   "note": "federalreserve.gov/disclaimer.htm: \"Unless otherwise indicated, information on Board's website is in the public domain and may be copied and distributed without permission\"",
+   "file": "fed_clip_0729_room_a"
+  },
+  "fed_clip_0729_room_b": {
+   "kind": "video",
+   "title": "FOMC Press Conference, July 29, 2026 (Chairman Warsh)",
+   "license": "Public domain",
+   "author": "Board of Governors of the Federal Reserve System",
+   "credit_author": "Federal Reserve",
+   "date": "2026-07-29",
+   "url": "https://www.federalreserve.gov/monetarypolicy/fomcpresconf20260729.htm",
+   "caption": "연준 기자회견장 전경",
+   "file_note": "자료 영상 · 2026. 07. 29",
+   "depicts": [
+    "FOMC 기자회견장",
+    "연단의 케빈 워시 의장"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "감독 결정 D-0275 · 검수 시트 artifacts d1d5f4f(showcase_econ/fed_video)",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "segment_checked": [
+     2585.0,
+     2594.0
+    ],
+    "relevance": "7월 29일 회견 현장(뒤쪽 카메라 포함 전경)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-29",
+   "tool": {
+    "name": "media_fetch.clip",
+    "params": {
+     "cache": "npy",
+     "fps": 24,
+     "pix_fmt": "rgb24",
+     "scale": [
+      480,
+      270
+     ],
+     "source": "raw/fed_presser_20260729.mp4",
+     "thumb_w": null,
+     "fetch": "yt-dlp",
+     "url": "https://players.brightcove.net/66043936001/default_default/index.html?videoId=6402426667112",
+     "yt_dlp": "2026.10.21"
+    }
+   },
+   "source_hash": "dcd3a8561ca8df2da0e79f1ae7be206a",
+   "duration": 2703.978,
+   "segment": [
+    2585.0,
+    2594.0
+   ],
+   "note": "federalreserve.gov/disclaimer.htm: \"Unless otherwise indicated, information on Board's website is in the public domain and may be copied and distributed without permission\"",
+   "file": "fed_clip_0729_room_b"
   }
  }
 }
