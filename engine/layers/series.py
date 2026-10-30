@@ -277,18 +277,19 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
     mcol = month_colors(e, R)   # v4.4.0 D-0091 ② — None 이면 한 색(기존 그대로)
     pr = plot_right(ctx, view, stage, e["lane"], rng, rec.unit)   # v7.4.0 — 오른쪽 축 값 라벨 열은 선·띠·점이 들어가지 않는 예약 열
     fx = min(pr, view.to_screen(front, 0.0)[0] if front != math.inf else view.right)
+    shown = min(front, view.x0 + (pr - view.ox) / view.s)   # 끝값은 선이 실제로 끝나는 자리(예약 열 왼쪽) 기준 — 열 안 자료는 그리지 않는다
     ctx.save()
     ctx.rectangle(view.ox, view.oy, max(0.0, fx - view.ox), stage.area_bottom + TIMELINE.series.clip_below_px)
     ctx.clip()
     last: tuple[float, float, float] | None = None
     last_hi: float | None = None
     if e["style"] == "band":
-        last, last_hi = _draw_band(ctx, view, stage, e, rng, col, a, front, mcol)
+        last, last_hi = _draw_band(ctx, view, stage, e, rng, col, a, shown, mcol)
     for seg in ([] if e["style"] == "band" or mcol is None else segments(rec.values)):   # 달마다 색(change)
         _draw_pieces(ctx, view, stage, e, rng, seg, mcol, a)
         for d, v in seg:
             x = stage.x_of(d)
-            if x <= front:
+            if x <= shown:
                 last = (x, value_y(stage, e["lane"], rng, v), v)
     for seg in ([] if e["style"] == "band" or mcol is not None else segments(rec.values)):
         pts = [(stage.x_of(d), value_y(stage, e["lane"], rng, v), v) for d, v in seg]
@@ -309,7 +310,7 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
         ctx.set_line_join(cairo.LINE_JOIN_ROUND)
         ctx.stroke()
         for x, y, v in pts:
-            if x <= front:
+            if x <= shown:
                 last = (x, y, v)
     ctx.restore()
     _draw_missing(ctx, view, stage, rec, e, front, a, pr)

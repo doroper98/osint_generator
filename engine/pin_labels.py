@@ -24,6 +24,7 @@ GAP_PX = 6.0          # 라벨끼리 가로 최소 간격(맞닿은 라벨 "인�
 TOL_PX = 2.0          # 세로 경계 접촉(≤ 2px)은 겹침이 아니다
 LINE_STEP_PX = 2      # 계열 선·띠 교차 표본 간격(가로 px)
 LEAD_SEC = 0.6        # 핀이 나타난 뒤 라벨이 다 보인 시각(draw_marker 라벨 페이드 0.2+0.4초)
+ASSIGN_STEP_SEC = 0.25   # 단 고르기 표본 간격 — 이동 숏 중 전망 점 열을 스치는 순간을 놓치지 않게(econ 115초)
 
 
 def rows() -> list[int]:
@@ -162,6 +163,7 @@ def end_boxes(ctx: cairo.Context, view: object, stage: object, evs: list[dict], 
             continue
         fr = fronts.get(e.get("key"))
         front = float(fr[min(len(fr) - 1, max(0, int(t * FPS)))]) if fr is not None and e.get("grow") else float("inf")
+        front = min(front, view.x0 + (pr - view.ox) / view.s)  # type: ignore[attr-defined]  # series.draw_series 와 같은 끝(예약 열 왼쪽)
         if e["style"] == "band":
             pts = [(stage.x_of(d), lo, hi) for d, lo, hi in band_pairs(e)]  # type: ignore[attr-defined]
             pts = [p for p in pts if p[0] <= front]
@@ -235,12 +237,13 @@ class PinScene:
 
 
 def assign_pin_rows(scene: PinScene) -> list[str]:
-    """핀 순서대로(t0) 단을 고른다 — 앞서 놓인 핀과 장애물에 교차 0 인 첫 단(선 위 1·2 → 아래 1·2). 표본 시각 = 나타난 뒤 LEAD_SEC·
-    가운데·끝 직전. 넷 다 막히면 pin_row None(점만). 라벨을 못 단 핀 목록을 돌려준다(provenance pin_labels.dropped)."""
+    """핀 순서대로(t0) 단을 고른다 — 앞서 놓인 핀과 장애물에 교차 0 인 첫 단(선 위 1·2 → 아래 1·2). 표본 시각 = 나타난 뒤 LEAD_SEC 부터
+    끝 직전까지 ASSIGN_STEP_SEC 간격. 넷 다 막히면 pin_row None(점만). 라벨을 못 단 핀 목록을 돌려준다(provenance pin_labels.dropped)."""
     placed: set[int] = set()
     dropped: list[str] = []
     for e in scene.pins:
-        ts = sorted({min(e["t1"], e["t0"] + LEAD_SEC), (e["t0"] + e["t1"]) / 2, max(e["t0"], e["t1"] - 0.05)})
+        t_a, t_b = min(e["t1"], e["t0"] + LEAD_SEC), max(e["t0"], e["t1"] - 0.05)   # 카메라가 움직이는 동안 자리가 바뀐다 — 수명 전체를 표본
+        ts = sorted({t_a, t_b, *(t_a + k * ASSIGN_STEP_SEC for k in range(int((t_b - t_a) / ASSIGN_STEP_SEC) + 1))})
         e["pin_row"] = None
         for r in rows():
             def rows_of(p: dict, r: int = r) -> Optional[int]:
