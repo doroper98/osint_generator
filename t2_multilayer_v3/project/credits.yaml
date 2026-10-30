@@ -1,0 +1,25 @@
+# 다층 아일랜드 스케치 엔딩 크레딧 — 자료 = 이번 스케치가 그린 데이터 레코드(auto: series)
+schema_version: 1
+sections:
+  - title: 자료
+    column: 0
+    auto: series
+  - title: 안내
+    column: 0
+    items:
+      - main: 새 요소 스케치 — 영상 아님
+  - title: 사진
+    column: 1
+    items:
+      - main: 인텔 본사(산타클라라) · 자료사진 · 2008.10
+        license: Lijorijo · Wikimedia Commons · CC BY 3.0
+        rights: [media.intc_hq_2008]
+  - title: 글꼴
+    column: 1
+    auto: fonts
+  - title: 음성
+    column: 1
+    items:
+      - main: 내레이션
+        license: AI 음성 합성
+        rights: [narration.tts]

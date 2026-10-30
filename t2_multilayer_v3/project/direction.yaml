@@ -1,0 +1,33 @@
+# 다층 아일랜드 스케치 2차(D-0309·D-0308·D-0310) — 무늬 없는 princess 바탕(배경 사진 없음, D-0310 §1-4). 인텔 본사 사진은 첫 문장의 가운데 요소로만.
+# 레인 하나에 층이 문장마다 하나씩: 추이 막대 → 부문 쌓임(음수) → 합계 → 주가 보조 축 → 발표일 핀·점선. accent 는 문장이 말하는 층·부문 하나(D-0310 감독 지시 ①).
+version: 1
+genre: earnings
+stage: backdrop
+stage_config:
+  timeline:
+    start: "2025-04-01"
+    end: "2027-02-28"
+    lanes:
+      - {id: op, label: "인텔 분기 영업이익 · 십억 달러 | 주가 · 달러(왼쪽)", kind: bars}
+shots:
+  - {at: 0, mode: cut, dur: 0, camera: {}}
+  - {at: {sid: trend_1, off: -0.4}, mode: cut, dur: 0, stage: timeline, camera: {date: "2026-03-18", w: 636}}
+events:
+  - {type: photo, mid: intc_hq_2008, start: {sid: trend_0, off: -0.2}, end: {sid: trend_1, off: -0.6}, x: 187, y: 52, w: 480}
+  - {type: island, kind: chart, box: center, start: {sid: trend_1, off: -0.4}, end: {sid: price_3, edge: end, off: 0.4}}
+  - {type: series, start: {sid: trend_1, off: -0.2}, end: {sid: trend_2, off: -0.3}, lane: op, series_id: INTC_OP_Q, style: bars, col: gold, accent: latest}
+  - {type: series, start: {sid: trend_2, off: -0.3}, end: {sid: trend_3, off: -0.3}, lane: op, series_id: INTC_OP_Q, style: stack, col: gold, accent: 파운드리, grow: true, total: false,
+     parts: [{ids: [INTC_SEG_CCG_OP_Q], label: PC}, {ids: [INTC_SEG_DCAI_OP_Q], label: DC}, {ids: [INTC_SEG_FOUNDRY_OP_Q], label: 파운드리}, {ids: [INTC_SEG_OTHER_OP_Q, INTC_SEG_CORP_OP_Q, INTC_SEG_ELIM_OP_Q], label: 기타}]}
+  - {type: series, start: {sid: trend_3, off: -0.3}, end: {sid: trend_4, off: -0.3}, lane: op, series_id: INTC_OP_Q, style: stack, col: gold, accent: DC, grow: false, total: false,
+     parts: [{ids: [INTC_SEG_CCG_OP_Q], label: PC}, {ids: [INTC_SEG_DCAI_OP_Q], label: DC}, {ids: [INTC_SEG_FOUNDRY_OP_Q], label: 파운드리}, {ids: [INTC_SEG_OTHER_OP_Q, INTC_SEG_CORP_OP_Q, INTC_SEG_ELIM_OP_Q], label: 기타}]}
+  - {type: series, start: {sid: trend_4, off: -0.3}, end: {sid: price_0, off: -0.3}, lane: op, series_id: INTC_OP_Q, style: stack, col: gold, accent: total, grow: false,
+     parts: [{ids: [INTC_SEG_CCG_OP_Q], label: PC}, {ids: [INTC_SEG_DCAI_OP_Q], label: DC}, {ids: [INTC_SEG_FOUNDRY_OP_Q], label: 파운드리}, {ids: [INTC_SEG_OTHER_OP_Q, INTC_SEG_CORP_OP_Q, INTC_SEG_ELIM_OP_Q], label: 기타}]}
+  - {type: series, start: {sid: price_0, off: -0.3}, end: {sid: price_3, edge: end, off: 0.4}, lane: op, series_id: INTC_OP_Q, style: stack, col: gold, accent: none, grow: false,
+     parts: [{ids: [INTC_SEG_CCG_OP_Q], label: PC}, {ids: [INTC_SEG_DCAI_OP_Q], label: DC}, {ids: [INTC_SEG_FOUNDRY_OP_Q], label: 파운드리}, {ids: [INTC_SEG_OTHER_OP_Q, INTC_SEG_CORP_OP_Q, INTC_SEG_ELIM_OP_Q], label: 기타}]}
+  - {type: series, start: {sid: price_1, off: -0.3}, end: {sid: price_3, edge: end, off: 0.4}, lane: op, series_id: INTC_PX_D, style: line, col: muted, secondary: true}
+  - {type: marker, start: {sid: price_2, off: -0.2}, end: {sid: price_3, edge: end, off: 0.4}, date: "2026-10-29", lane: op,
+     label: 실적 발표일, sub: 10월 29일, side: right, hl: true, vline: true}
+sound:
+  bgm: null
+  no_music_decision: D-0309
+  intensity: [[0, 0.55], [{total: true}, 0.55]]
