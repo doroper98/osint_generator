@@ -26,3 +26,8 @@
 ## 게이트 ② 자료 준비분 (사용자 흐름 승인 전 — 아직 보내지 않음, D-0273)
 - `showcase_{econ,geo}/gate2/`: `preview_sheet.jpg`(프리뷰 auto 컷) · `preview_checks.json`·`preview_provenance.json`(hard 0) · `catalog.mp4`(카탈로그 판 720p, 배포 금지) · `catalog_table.md`(카탈로그 판 기록에서 만든 요소·글꼴 표) · `catalog_checks.json`(hard 0) · `media_summary.md`
 - econ 프리뷰는 축 값 라벨 예약 열(cd314ea) 반영. 콘티 판 v2(animatic.mp4)는 그 이전 렌더
+
+## showcase_econ 연준 회견 클립 조각 (D-0275 — 다음 컨테이너 복원용)
+- `showcase_econ/media_src/<mid>_segment.mp4`(레지스트리 segment 구간만, h264 crf 18) · `<mid>_clip.wav`(원음, 44.1kHz 스테레오) · MD5SUMS
+- 원본(9.16 1722초 · 7.29 2704초, 966 MB)은 올리지 않는다 — 레지스트리 tool.params(Brightcove 플레이어 주소·video id·yt-dlp 버전)와 source_hash 로 다시 받는다
+- npy(480p 84~154 MB · 720p 181~332 MB)는 GitHub 파일 한도(100 MB)로 올리지 않는다 — 원본 또는 조각에서 `tools/media_fetch.py` 로 다시 만든다
