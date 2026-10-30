@@ -2122,8 +2122,17 @@ entries:
   quote: 먼저 영상이 나올 때는 영상을, 그러니까 레퍼런스 영상이겠지? 영상이 나올 때는 한쪽 구석에 몰아서 그 영상을 보여주지 말고 영상을 한 화면 프레임에 채워서 보여줘. 그렇다고 다 채우지 말고 배경을 우리가 블러 처리 해놨잖아? 그 안에 액자 형식으로 보일 수 있게 꽉 채워서. 그러니까 영상도 메인 요소야. 주된 요소 중에 하나이기 때문에 그냥 보충물로서 쓰지 말고, 그다음에 영상에 대한 목소리도 들리도록 해. 가능할까?
   quote_kind: verbatim
   category: 영상 문법 — 클립은 주 요소(블러 배경 안 액자로 화면 대부분을 채움, 구석 상자 금지) + 클립 원음 재생(내레이션 덕킹)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: clip_frame}
+  - {kind: rule, ref: placement.slots.clip_frame}
+  - {kind: rule, ref: media_beats.clip_show_sec}
+  - {kind: rule, ref: audio.clip}
+  - {kind: test, ref: tests/test_clip_frame.py::ClipFrameTest::test_main_clip_in_corner_is_hard}
+  - {kind: test, ref: tests/test_clip_frame.py::ClipFrameTest::test_main_clip_goes_to_frame}
+  - {kind: test, ref: tests/test_clip_audio.py::ClipTrackTest::test_main_full_broll_low_and_bed_mark}
+  - {kind: test, ref: tests/test_clip_audio.py::ClipTrackTest::test_missing_wav_is_error}
+  - {kind: test, ref: tests/test_clip_hold.py::ClipHoldTest::test_layout_inserts_gap}
+  status: guarded
   decision: 감독 — 그림 확인 뒤 D(클립 액자 슬롯 + 원음 재생·덕킹 규칙 키 + 검사)
   source: 감독 세션(Fable) 사용자 대화 2026-10-29
 - id: UF-142

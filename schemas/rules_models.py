@@ -2088,6 +2088,13 @@ class ChartWorldRules(_Strict):
     grammar: list[str] = Field(min_length=1)
 
 
+class ReferenceClipRules(_Strict):
+    """v7.4.0 D-0274 §2⑤ — 레퍼런스 영상 문법(연출·원고 프롬프트)."""
+
+    director: list[str] = Field(min_length=1)
+    script: list[str] = Field(min_length=1)
+
+
 class StageBackdropRules(_Strict):
     """v5.1.0 D-0121 §B·D-0123 §1 — 사진 배경 무대·backdrop 이벤트 토큰(engine/stage_backdrop.py·engine/layers/backdrop.py)."""
 
@@ -3184,6 +3191,7 @@ class VideoRules(_Strict):
     stage_timeline: StageTimelineRules   # v4.3.0 — D-0084 작업 3·D-0085
     stage_backdrop: StageBackdropRules   # v5.1.0 — D-0121 §B·D-0123
     chart_world: ChartWorldRules   # v7.4.0 — D-0251 §6.2-4
+    reference_clip: ReferenceClipRules   # v7.4.0 — D-0274 §2⑤
     island: IslandRules                  # v5.1.0 — D-0123 §1·D-0126
     cascade: CascadeRules                # v5.2.0 — 겹침 카드(사용자 재구성 2026-10-01, v5.3.0 D-0139 채택)
     quote_center: QuoteCenterRules       # v5.3.1 — 인물 발언 중앙 인용(시안, valdai-2026 한정)
