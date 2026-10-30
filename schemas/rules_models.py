@@ -2383,6 +2383,7 @@ class GenrePromptRules(_Strict):
     narration: dict[str, str] = Field(min_length=1)
     acts_head: str = ""                                            # v7.4.0 D-0278 §3 — 템플릿 고정 막 머리 줄
     acts: dict[str, list[str]] = Field(default_factory=dict)       # v7.4.0 D-0278 §3 — 장르 이름 → 막 줄
+    data_sources_by_genre: dict[str, list[str]] = Field(default_factory=dict)   # v7.4.0 D-0304 ② — 공통 data_sources 뒤 장르 보충 줄
     data_sources: list[str] = Field(min_length=1)
     rubric_extra: list[str] = Field(min_length=1)
     stage_grammar: dict[str, list[str]] = Field(min_length=1)

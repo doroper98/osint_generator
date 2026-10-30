@@ -1,0 +1,15 @@
+{"version": 1, "genre": "{{GENRE.name}}", "stage": "backdrop",
+ "stage_config": {"timeline": {"start": "2026-06-01", "end": "2026-11-30",
+   "lanes": [{"id": "price", "label": "주가(일별 종가)", "kind": "line", "unit": "원"}]}},
+ "shots": [{"at": 0, "mode": "cut", "dur": 0, "camera": {}},
+           {"at": {"sid": "act4_0", "off": -0.4}, "mode": "cut", "dur": 0, "stage": "timeline", "camera": {"date": "2026-09-15", "w": 150}},
+           {"at": {"sid": "act4_2", "off": -0.3}, "mode": "move", "dur": 3.0, "stage": "timeline", "camera": {"date": "2026-10-20", "w": 150}}],
+ "events": [
+   {"type": "backdrop", "start": {"scene_start": "cold"}, "end": {"scene_start": "act5", "off": 0.6}, "img": "fab_exterior"},
+   {"type": "island", "kind": "chart", "box": "left_tall", "start": {"sid": "act4_0", "off": -0.4}, "end": {"hold": "act4_3"}},
+   {"type": "series", "start": {"sid": "act4_0", "off": -0.2}, "end": {"hold": "act4_3"}, "lane": "price",
+    "series_id": "CO_PX_D", "style": "line", "col": "gold"},
+   {"type": "marker", "start": {"sid": "act4_1", "off": 0.3}, "end": {"hold": "act4_3"}, "date": "2026-10-29", "lane": "price",
+    "label": "실적 발표일", "sub": "종가 기준", "side": "right", "hl": true},
+   {"type": "article", "start": {"sid": "act4_2", "off": -0.4}, "end": {"sid": "act4_2", "edge": "end", "off": 0.4}, "mid": "press_reaction", "theme": "dark"}],
+ "sound": {"bgm": null, "intensity": [[0, 0.5], [{"total": true}, 0.5]], "cues": []}}

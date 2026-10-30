@@ -46,6 +46,10 @@ class GenreStage(_Strict):
 
     primary: str
     secondary: list[str] = Field(default_factory=list)
+    # v7.4.0 D-0304 ①(R-0291) — 차트 아일랜드 숏 전용 무대(주 무대 backdrop 에서 stage: timeline 숏 = 아일랜드 뷰포트 카메라, D-0126 Q1).
+    # 보조 무대 수(rules stage.max_secondary)에 세지 않는다 — engine.shots.stage_continuity 가 아일랜드 숏을 무대 전환에서 빼는 것과 같은 뜻.
+    # Direction 은 아일랜드 숏에만 이 무대를 허용한다(최상위 stage·일반 숏은 주·보조만)
+    island_stages: list[str] = Field(default_factory=list)
     mercator: Optional[dict[str, Any]] = None
     timeline: Optional[TimelineSettings] = None
     chart_wall: Optional[dict[str, Any]] = None
@@ -56,6 +60,10 @@ class GenreStage(_Strict):
     def names(self) -> list[str]:
         return [self.primary, *self.secondary]
 
+    def all_names(self) -> list[str]:
+        """주·보조 + 아일랜드 전용 무대(v7.4.0 D-0304) — 무대 설정 키·레지스트리 점검 대상."""
+        return [*self.names(), *self.island_stages]
+
     def settings(self) -> dict[str, object]:
         return {k: v for k in ("mercator", "timeline", "chart_wall", "flow", "structure", "document") if (v := getattr(self, k)) is not None}
 
@@ -63,9 +71,13 @@ class GenreStage(_Strict):
     def _shape(self) -> "GenreStage":
         if len(set(self.names())) != len(self.names()):
             raise ValueError(f"stage: 무대 이름 중복 {self.names()}")
-        stray = sorted(set(self.settings()) - set(self.names()))
+        if set(self.island_stages) & set(self.names()) or len(set(self.island_stages)) != len(self.island_stages):
+            raise ValueError(f"stage.island_stages {self.island_stages} 는 주·보조 무대와 겹치지 않고 중복 없음")
+        if self.island_stages and self.primary != "backdrop":
+            raise ValueError("stage.island_stages 는 주 무대 backdrop 에서만(차트 아일랜드 = 사진 배경 위 뷰포트, D-0126 Q1)")
+        stray = sorted(set(self.settings()) - set(self.all_names()))
         if stray:
-            raise ValueError(f"stage: 주·보조 무대가 아닌 무대의 설정 {stray}")
+            raise ValueError(f"stage: 주·보조·아일랜드 무대가 아닌 무대의 설정 {stray}")
         return self
 
 
@@ -145,7 +157,7 @@ class GenreProfile(_Strict):
         proposed = self.status == "proposed"
         errs: list[str] = []
         stages_ok = set(reg.stages) | (set(reg.stages_planned) if proposed else set())
-        for s in self.stage.names():
+        for s in self.stage.all_names():
             if s not in stages_ok:
                 why = "구현 전(stages_planned) — approved 는 등록 무대만" if s in reg.stages_planned else "레지스트리에 없음"
                 errs.append(f"stage {s!r}: {why}")

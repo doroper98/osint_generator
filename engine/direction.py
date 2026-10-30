@@ -312,8 +312,11 @@ class Direction(_Strict):
         allowed = self.genre_profile().stage.names()   # v4.2.0 D-0081 작업 3 — 무대는 장르 프로필 안에서만
         if self.stage is not None and self.stage not in allowed:
             errs.append(f"stage {self.stage!r} 가 장르 {self.genre_name()!r} 프로필 무대 {allowed} 밖이다")
+        isl = self.genre_profile().stage.island_stages   # v7.4.0 D-0304 — 아일랜드 숏에만 허용
         errs += [f"shots[{i}].stage {s.stage!r} 가 장르 {self.genre_name()!r} 프로필 무대 {allowed} 밖이다"
-                 for i, s in enumerate(self.shots) if s.stage is not None and s.stage not in allowed]
+                 + (f"(아일랜드 전용 {isl} 은 주 무대 backdrop 의 차트 아일랜드 숏만)" if s.stage in isl else "")
+                 for i, s in enumerate(self.shots) if s.stage is not None and s.stage not in allowed
+                 and not (s.stage in isl and is_island_shot(self, s, self.main_stage()))]
         from engine.stage import stage_class  # noqa: PLC0415
 
         used = {self.main_stage()} | {self.shot_stage(s) for s in self.shots}

@@ -37,6 +37,25 @@ class GenreEarningsTest(unittest.TestCase):
         self.assertTrue(n.company_metric_attribution and n.consensus_attribution and n.price_window_attribution)
         self.assertEqual(g.stage.primary, "backdrop")
         self.assertIn("mercator", g.stage.secondary)
+        self.assertEqual(g.stage.island_stages, ["timeline"])   # D-0304 ① — 보조 무대 수에 세지 않는다
+        self.assertEqual(len(g.stage.secondary), 1)
+
+    def test_island_stage_only_for_island_shots(self) -> None:
+        """D-0304 ① — island_stages 무대는 아일랜드 숏(주 무대 backdrop 의 stage: timeline 숏)에만. 최상위 stage 로는 오류."""
+        import json  # noqa: PLC0415
+
+        from engine.direction import Direction  # noqa: PLC0415
+        from workers.prompt_loader import PROMPTS_DIR  # noqa: PLC0415
+
+        raw = (PROMPTS_DIR / "examples" / "genre_director_backdrop.json").read_text(encoding="utf-8").replace("{{GENRE.name}}", "earnings")
+        d = json.loads(raw)
+        Direction.model_validate(d)
+        with self.assertRaisesRegex(ValidationError, "프로필 무대"):
+            Direction.model_validate({**d, "stage": "timeline"})
+        with self.assertRaisesRegex(ValidationError, "island_stages"):
+            from schemas.genre_models import GenreStage  # noqa: PLC0415
+
+            GenreStage.model_validate({"primary": "mercator", "island_stages": ["timeline"]})
 
     def test_other_genres_unchanged(self) -> None:
         for name in ("geopolitics", "macro_monetary"):
@@ -105,6 +124,13 @@ class PromptActsTest(unittest.TestCase):
         for k in ("company_metric_attribution", "consensus_attribution", "price_window_attribution"):
             self.assertIn(R_.genre_prompt.narration[k], t)
         self.assertIn(R_.genre_prompt.acts_head, load_prompt("director", R_, load_genre("earnings")))
+
+    def test_data_sources_by_genre(self) -> None:
+        t = load_prompt("script", R_, load_genre("earnings"))
+        for line in R_.genre_prompt.data_sources_by_genre["earnings"]:
+            self.assertIn(line, t)
+        m = load_prompt("script", R_, load_genre("macro_monetary"))
+        self.assertNotIn(R_.genre_prompt.data_sources_by_genre["earnings"][0], m)
 
     def test_macro_has_no_acts(self) -> None:
         self.assertNotIn(R_.genre_prompt.acts_head, load_prompt("script", R_, load_genre("macro_monetary")))

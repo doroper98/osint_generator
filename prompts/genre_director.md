@@ -34,22 +34,5 @@ note: 장르 프롬프트 층(v4.4.0, back_and_forth D-0090 작업 1) — prompt
   카드·마커·뱃지의 `accent`, series 의 `col` 은 팔레트 토큰만: {{GENRE.accents}}.
 - 뱃지·마커는 시간축 앵커 `date`·`lane` 을 쓰거나 `place` 슬롯을 쓴다(경도·위도 없음).
 
-작은 완전 예시 — 시간축 무대(형식 참고, 값·문구를 복사하지 않는다)
-```json
-{"version": 1, "genre": "{{GENRE.name}}", "stage": "timeline",
- "stage_config": {"timeline": {"start": "2022-01-01", "end": "2026-10-01",
-   "lanes": [{"id": "policy_rate", "label": "연방기금 실효금리", "kind": "step", "unit": "%"}]}},
- "shots": [{"at": 0, "mode": "cut", "dur": 0, "camera": {"date": "2022-06-01", "w": 900}},
-           {"at": {"scene_start": "hike", "off": -0.3}, "mode": "move", "dur": 3.0, "camera": {"date": "2023-07-26", "w": 60}},
-           {"at": {"scene_start": "now", "off": -0.3}, "mode": "move", "dur": 3.2, "camera": {"date": "2025-01-01", "w": 1400}}],
- "events": [
-   {"type": "series", "start": 0.3, "end": {"card": "end", "edge": "start", "off": 0.4}, "lane": "policy_rate",
-    "series_id": "DFEDTARL", "upper_id": "DFEDTARU", "style": "band", "color_by": "change", "col": "gold"},
-   {"type": "series", "start": 0.3, "end": {"card": "end", "edge": "start", "off": 0.4}, "lane": "policy_rate",
-    "series_id": "FEDFUNDS", "style": "step", "col": "amber"},
-   {"type": "badge", "start": {"sid": "hike_0", "off": 0.4}, "end": {"sid": "hike_1", "edge": "end"}, "place": "map_upper_left",
-    "kind": "person", "pid": "warsh", "flag": "us", "label": "케빈 워시", "role": "연준 의장", "accent": "gold"},
-   {"type": "marker", "start": {"sid": "hike_0", "off": -0.2}, "end": {"sid": "hike_1", "edge": "end", "off": 0.6},
-    "date": "2023-07-26", "lane": "policy_rate", "label": "FOMC 회의", "sub": "2023년 7월 26일", "side": "right", "hl": true}],
- "sound": {"bgm": null, "intensity": [[0, 0.5], [{"total": true}, 0.5]], "cues": []}}
-```
+작은 완전 예시(형식 참고, 값·문구를 복사하지 않는다)
+{{GENRE.director_example}}

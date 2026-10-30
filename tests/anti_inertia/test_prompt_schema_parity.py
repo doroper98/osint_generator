@@ -44,9 +44,7 @@ GENRE_ACTIVE: dict[str, str] = {
     "visual_qa": "engine.qa:QAVerdict",
 }
 GENRE_FOR_PARITY = "macro_monetary"
-# v7.4.0 — 다른 장르도 예시 파리티. earnings 는 아직 넣지 않는다: 연출 예시(prompts/genre_director.md)가 시간축 무대인데
-# earnings 무대(backdrop+mercator)가 timeline 을 허용하지 않아 예시가 스키마를 통과하지 못한다 — 결정 요청 R-0291(무대·예시) 뒤 넣는다
-GENRES_EXTRA: tuple[str, ...] = ()
+GENRES_EXTRA: tuple[str, ...] = ("earnings",)   # v7.4.0 D-0304 ① — 다른 장르도 예시 파리티(earnings = backdrop + 차트 아일랜드 예시)
 PENDING_6_9: dict[str, str] = {}
 _FENCE = re.compile(r"```(yaml|json)\n(.*?)```", re.DOTALL)
 

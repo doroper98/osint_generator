@@ -12,9 +12,12 @@ invest_notice: true                  # D-0278 §4.3 — 엔딩 카드 맨 마지
 stage:
   primary: backdrop              # D-0278 §2-2 — 사진·클립 배경 + 차트 아일랜드 하나(A1, D-0272). 아일랜드 카메라는 무대 전환이 아니다(D-0126 Q1)
   secondary: [mercator]          # act5 지경학(공급망·정책 지도) — 보조 무대 전환 1회
+  island_stages: [timeline]      # D-0304 ① — 차트 아일랜드 숏 전용(보조 무대 수에 세지 않는다)
   mercator: {theme: light}       # D154 — 지정학·경제 해설 = light
-  # 차트 아일랜드 레인(timeline 은 주·보조 무대가 아니라 장르에 둘 수 없다 — direction stage_config.timeline 이 정한다, showcase_econ 과 같다):
-  #   {id: results, label: 분기 실적, kind: bars, unit: 조 원|십억 달러}  ·  {id: price, label: 주가, kind: line, unit: 원|달러}
+  timeline:                      # 아일랜드 레인 기본값(direction stage_config.timeline 이 덮는다 — 단위는 회사마다 조 원·십억 달러 / 원·달러)
+    lanes:
+      - {id: results, label: 분기 실적, kind: bars}
+      - {id: price,   label: 주가,      kind: line}
 color_semantics:
   beat: green                    # 예상 상회
   miss: ru                       # 예상 하회
