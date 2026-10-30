@@ -2248,3 +2248,14 @@ entries:
   status: guarded
   decision: D-0306(card 이벤트 삭제 P2 · [text-restates-narration] hard · 미디어 기본 슬롯 가운데 · 기존 연출 이식·골든 재기준 — 장치는 구현 뒤 guards 에)
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
+- id: UF-149
+  date: '2026-10-30'
+  project: samsung_q3_2026
+  at: 경제 템플릿 T2 막대 스케치(인텔 분기 매출 막대) — 표현이 전형적
+  quote: "https://doroper98.github.io/agents_reviewer/samples/report_design_sheet_v8_6_0.html 여기에 나온 차트 문법들을 쓸 순 없을까? 너무 막대 차트가 성의가 없고 전형적이야. 직관적이면서도 비쥬얼하게 전달력을 갖출 수 있도록 해야해"
+  quote_kind: verbatim
+  category: 차트 표현 — agents_reviewer 디자인 시트 v8.6.0 어휘 흡수(속빈/채움 캡슐·잉크 농도 사다리·칸 질감·직접 라벨·dash 선 어휘·데이터 진입 모션)
+  guards: []
+  status: open
+  decision: D-0308(어휘 6가지 → 규칙 키, 패턴 해칭 제외, 다섯 막 대입, 스케치 재작업 요소별 — 장치는 구현 뒤 guards 에)
+  source: 감독 세션(Fable) 사용자 대화 2026-10-30
