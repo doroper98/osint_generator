@@ -1,0 +1,683 @@
+{
+ "schema_version": 1,
+ "sources": [
+  {
+   "id": "src_doc_0001",
+   "url": "https://www.sohu.com/a/1089559380_120658388",
+   "retrieved_at": "2026-10-30",
+   "lang": "zh",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:7"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "공고 원문 재게재본(소후·신화 fortune 판). mofcom.gov.cn 원문은 컨테이너·도구 차단 — 신화(news.cn 2026-10-16 '两部门就修订…') 재게재본과 대조",
+   "type": "document",
+   "issuer": "중국 상무부·과학기술부",
+   "title": "商务部 科技部公告2026年第48号 — 修订《中国禁止出口限制出口技术目录》公开征求意见并对相关技术出口实施临时登记管理",
+   "published_at": "2026-10-16",
+   "key_facts": [
+    "拟增列人工智能、生物医药、光伏三个领域40项技术",
+    "人工智能23项(大模型、智能体、算力集群、信息处理), 生物医药5项(细胞和基因治疗、小核酸药、病原微生物), 光伏12项(多晶硅、硅片、电池制造)",
+    "14项拟禁止出口, 26项拟限制出口",
+    "征求意见 2026年10月16日—11月15日",
+    "目录正式修订前, 技术出口经营者出口附件所列技术前应在商务部业务系统统一平台登记(临时登记管理)",
+    "已通过开源、发表学术论文等方式进入公共领域的人工智能技术不纳入管理范围"
+   ]
+  },
+  {
+   "id": "src_doc_0002",
+   "url": "https://www.mofcom.gov.cn/syxwfb/art/2026/art_a4acff07e134447fbe7bbeb486df3ea6.html",
+   "retrieved_at": "2026-10-30",
+   "lang": "zh",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:5"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "원문 URL 은 검색 결과로 확인, 열람은 차단 — 신화(news.cn/fortune 2026-10-16 b8cffe56…) 재게재본·MOFCOM 공식 X 계정 영문 게시와 대조",
+   "type": "document",
+   "issuer": "중국 상무부 대변인",
+   "title": "商务部新闻发言人就修订《中国禁止出口限制出口技术目录》答记者问",
+   "published_at": "2026-10-16",
+   "key_facts": [
+    "拟禁止出口技术示例: 人工智能驱动的恶意代码生成与变异技术、具有自主知识产权的细胞和基因治疗技术工艺平台、钙钛矿及叠层电池组件生产技术",
+    "拟限制出口技术示例: 人工智能辅助漏洞挖掘技术",
+    "此次修订属于技术贸易管理的常态化工作, 不针对任何特定国家、地区或实体",
+    "光伏领域达不到管控指标的技术可以自由出口",
+    "生物医药领域不涉及所有权转让的对外授权模式适用自动许可等便利措施"
+   ]
+  },
+  {
+   "id": "src_doc_0003",
+   "url": "https://www.news.cn/fortune/20261019/0b8361ce5c114f8f989211e9b7566fc5/c.html",
+   "retrieved_at": "2026-10-30",
+   "lang": "zh",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "신화 재게재본(검색 요약). 감독 지시 D-0283 의 '10/14' 는 공고일과 다름 — 공고일 10/19(제49~52호 같은 날)",
+   "type": "document",
+   "issuer": "중국 상무부·해관총서·중앙군사위 장비발전부",
+   "title": "商务部 海关总署 中央军委装备发展部公告2026年第49号 — 公布优化调整无人机相关物项出口管制措施的决定",
+   "published_at": "2026-10-19",
+   "key_facts": [
+    "发文日期 2026年10月19日",
+    "列明13类未经许可不得出口的无人机相关物项(整机、核心部件、专用软件、关键技术)",
+    "自2026年11月18日起实施",
+    "较大幅度放宽低敏感无人机整机的管制, 同时新增相关部件和技术列管"
+   ]
+  },
+  {
+   "id": "src_doc_0004",
+   "url": "https://www.mofcom.gov.cn/zwgk/zcfb/art/2026/art_9ce34ccfa6c040d7a4f7622f89133be5.html",
+   "retrieved_at": "2026-10-30",
+   "lang": "zh",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:5"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "원문 URL 은 검색 결과로 확인, 열람 차단 — 신화(xinhuanet fortune 2026-10-19 56f70f05…) 재게재본과 대조. '민감 국가·지역' 목록은 공표되지 않음",
+   "type": "document",
+   "issuer": "중국 상무부·해관총서",
+   "title": "商务部 海关总署公告2026年第50号 — 公布对盾构机等物项实施出口管制的决定",
+   "published_at": "2026-10-19",
+   "key_facts": [
+    "2B906 全断面隧道掘进机(土压平衡、泥水平衡盾构机, 敞开式、单护盾、双护盾岩石隧道掘进机)",
+    "2A906 零部件: 刀盘、螺旋输送机、管片拼装机、主驱动系统; 2E906 再制造技术",
+    "符合特定参数的步履式挖掘机、高原地区用湿喷机",
+    "向与中国存在争议的敏感国家和地区出口须申请许可; 向其他国家和地区出口通过登记填报信息取得出口凭证",
+    "中国境外的组织和个人未经许可不得向上述敏感国家和地区转移、提供原产于中国的上述物项",
+    "自2026年11月18日起实施"
+   ]
+  },
+  {
+   "id": "src_doc_0005",
+   "url": "https://www.163.com/dy/article/LA69PM1G05198UNI.html",
+   "retrieved_at": "2026-10-30",
+   "lang": "zh",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "넷이즈 전재(검색 요약), Global Times 2026-10-26·Baker McKenzie 알림과 대조",
+   "type": "document",
+   "issuer": "중국 상무부(조약법률사)",
+   "title": "《保护中国商业秘密特别规定（征求意见稿）》公开征求意见",
+   "published_at": "2026-10-26",
+   "key_facts": [
+    "征求意见截止 2026年11月24日",
+    "外国实体在国际经贸活动中侵害中国商业秘密, 且危害国家主权、安全、发展利益或构成现实威胁时适用",
+    "措施: 限制货物·技术进出口和国际服务贸易, 限制在华新增投资, 限制相关人员入境, 取消工作许可或居留资格, 罚款"
+   ]
+  },
+  {
+   "id": "src_art_0001",
+   "url": "https://www.devdiscourse.com/article/international/3993501-china-proposes-adding-40-ai-biotech-solar-technologies-to-export-control-list",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "로이터 기사 전재본(Devdiscourse). reuters.com 차단",
+   "type": "article",
+   "publisher": "Reuters",
+   "headline_original": "China proposes adding 40 AI, biotech, solar technologies to export control list",
+   "headline_ko": "중국, AI·바이오·태양광 기술 40개 수출통제 목록 추가 제안",
+   "published_at": "2026-10-16",
+   "key_facts": [
+    "China's commerce ministry proposed adding 40 technologies in AI, biotech and solar to its catalogue of technologies prohibited or restricted from export"
+   ]
+  },
+  {
+   "id": "src_art_0002",
+   "url": "https://news.cgtn.com/news/2026-10-16/China-mulls-export-curbs-on-AI-biomedicine-and-solar-tech-1Ri9gvMUqUE/p.html",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "검색 요약 대조",
+   "type": "article",
+   "publisher": "CGTN",
+   "headline_original": "China mulls export curbs on AI, biomedicine and solar tech",
+   "headline_ko": "중국, AI·바이오의약·태양광 기술 수출 제한 검토",
+   "published_at": "2026-10-16",
+   "key_facts": [
+    "Two ministries proposing changes covering 40 technologies across three sectors; public comments until November 15"
+   ]
+  },
+  {
+   "id": "src_art_0003",
+   "url": "https://www.globaltimes.cn/page/202610/1372418.shtml",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "globaltimes.cn 차단 — 검색 요약 대조",
+   "type": "article",
+   "publisher": "Global Times",
+   "headline_original": "China adds 40 technologies in AI, biomedicine and PV for export controls in draft revised catalog in 'necessary step' to safeguard national security",
+   "headline_ko": "중국, 개정 목록 초안에 AI·바이오·태양광 기술 40개 추가 — '국가안보 수호를 위한 필요한 조치'",
+   "published_at": "2026-10-16",
+   "key_facts": [
+    "Draft revised catalogue adds 40 technologies in AI, biomedicine and photovoltaics"
+   ]
+  },
+  {
+   "id": "src_art_0004",
+   "url": "https://www.globaltimes.cn/page/202610/1372426.shtml",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "논평(관영 매체 해설) — 해설 귀속 전용",
+   "type": "article",
+   "publisher": "Global Times",
+   "headline_original": "China's dynamic adjustments to its tech export management in step with shifting global trends",
+   "headline_ko": "중국의 기술 수출관리 조정은 세계 흐름에 맞춘 것",
+   "published_at": "2026-10-17",
+   "key_facts": [
+    "Commentary frames the move as an important step in line with common international experience; some PV technologies are already used in aerospace and other sensitive fields"
+   ]
+  },
+  {
+   "id": "src_art_0005",
+   "url": "https://english.news.cn/20261019/0f6c932a504444a7b47960b771eba4cd/c.html",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "news.cn 차단 — 검색 요약 대조",
+   "type": "article",
+   "publisher": "Xinhua",
+   "headline_original": "China optimizes, adjusts export control measures for some drone-related items",
+   "headline_ko": "중국, 일부 드론 관련 품목 수출통제 조정",
+   "published_at": "2026-10-19",
+   "key_facts": [
+    "New rules take effect on Nov. 18, 2026"
+   ]
+  },
+  {
+   "id": "src_art_0006",
+   "url": "https://news.cgtn.com/news/2026-10-19/China-imposes-export-controls-on-tunnel-boring-machines-1Rn9MkAiBvW/share_amp.html",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "검색 요약 대조",
+   "type": "article",
+   "publisher": "CGTN",
+   "headline_original": "China imposes export controls on tunnel boring machines",
+   "headline_ko": "중국, 터널굴착기 수출통제 시행",
+   "published_at": "2026-10-19",
+   "key_facts": [
+    "China imposes export controls on tunnel boring machines, effective November 18"
+   ]
+  },
+  {
+   "id": "src_art_0007",
+   "url": "https://www.devdiscourse.com/article/international/3994600-china-commerce-ministry-announces-export-controls-for-tunnel-boring-machines",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "로이터 기사 전재본(Devdiscourse). reuters.com 차단",
+   "type": "article",
+   "publisher": "Reuters",
+   "headline_original": "China commerce ministry announces export controls for tunnel boring machines",
+   "headline_ko": "중국 상무부, 터널굴착기 수출통제 발표",
+   "published_at": "2026-10-19",
+   "key_facts": [
+    "Export operators would need to apply for a licence in accordance with the export control law and regulations on dual-use items",
+    "Controls cover complete machines and specialised components including cutterheads, screw conveyors, segment erectors and main drive systems"
+   ]
+  },
+  {
+   "id": "src_art_0008",
+   "url": "https://www.globaltimes.cn/page/202610/1373018.shtml",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "검색 요약 대조",
+   "type": "article",
+   "publisher": "Global Times",
+   "headline_original": "China seeks input on new rules to protect trade secrets, targeting foreign entities posing risks to national interests",
+   "headline_ko": "중국, 영업비밀 보호 새 규정 의견 수렴 — 국익 위협 외국 실체 대상",
+   "published_at": "2026-10-26",
+   "key_facts": [
+    "MOFCOM released draft special provisions on protecting Chinese trade secrets for public comment",
+    "Chinese enterprises may apply to MOFCOM for approval to transact with restricted foreign entities"
+   ]
+  },
+  {
+   "id": "src_art_0009",
+   "url": "https://www.orfonline.org/expert-speak/china-s-new-export-controls-selling-the-output-keeping-the-capability",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "인도 싱크탱크 해설 — 해설 귀속 전용. orfonline.org 차단, 검색 요약·now.solar 전재 대조",
+   "type": "article",
+   "publisher": "ORF",
+   "headline_original": "China's New Export Controls: Selling the Output, Keeping the Capability",
+   "headline_ko": "중국의 새 수출통제 — 산출물은 팔고, 능력은 지킨다",
+   "published_at": "2026-10-28",
+   "key_facts": [
+    "Author: Manoj Joshi (Observer Research Foundation, Expert Speak)",
+    "Beijing is trying to hold onto its technological edge while still selling products made with it"
+   ]
+  },
+  {
+   "id": "src_art_0010",
+   "url": "https://www.chinaglobalsouth.com/2026/10/26/china-tunneling-equipment-export-controls-india/",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "해설 귀속 전용(검색 요약)",
+   "type": "article",
+   "publisher": "China Global South Project",
+   "headline_original": "China's New Tunnel-Boring Export Controls Cast Shadow Over Warming Ties With India",
+   "headline_ko": "중국 터널굴착기 수출통제, 인도와의 관계 개선에 그늘",
+   "published_at": "2026-10-26",
+   "key_facts": [
+    "Analysts link the TBM controls to India's infrastructure plans; this is an interpretation, not an official rationale",
+    "Chinese manufacturers account for nearly 70% of the global TBM market"
+   ]
+  },
+  {
+   "id": "src_art_0011",
+   "url": "https://www.ebn.co.kr/news/articleView.html?idxno=1728179",
+   "retrieved_at": "2026-10-30",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:5"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "ebn.co.kr 차단 — 검색 요약 대조",
+   "type": "article",
+   "publisher": "EBN",
+   "headline_original": "中, 첨단기술 해외 이전 문턱 높인다…AI·바이오 등 40개 추가",
+   "headline_ko": null,
+   "published_at": "2026-10-16",
+   "key_facts": [
+    "AI 23개, 바이오의약 5개, 태양광 12개",
+    "14개 수출금지, 26개 수출제한",
+    "수출 전 등록 16일부터 의무화"
+   ]
+  },
+  {
+   "id": "src_art_0012",
+   "url": "https://www.aitimes.com/news/articleView.html?idxno=216384",
+   "retrieved_at": "2026-10-30",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "검색 요약 대조",
+   "type": "article",
+   "publisher": "AI타임스",
+   "headline_original": "중국, 페로브스카이트·탠덤 태양광 제조기술 수출금지 추진",
+   "headline_ko": null,
+   "published_at": "2026-10-17",
+   "key_facts": [
+    "태양광 12개 항목 가운데 페로브스카이트 및 탠덤 태양전지 제조기술이 수출금지 대상",
+    "중국 상무부는 규제 기준에 해당하지 않는 기술은 계속 수출할 수 있다고 설명"
+   ]
+  },
+  {
+   "id": "src_art_0013",
+   "url": "https://www.inews24.com/view/2016853",
+   "retrieved_at": "2026-10-30",
+   "lang": "ko",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "게시일 일자 미확인(2026년 10월 — 공고 뒤 보도, 검색 요약). 원문 대조 전",
+   "type": "article",
+   "publisher": "아이뉴스24",
+   "headline_original": "中 태양광 기술 빗장…한화솔루션·OCI는 \"직접 영향 제한적\"",
+   "headline_ko": null,
+   "published_at": "2026-10-20",
+   "key_facts": [
+    "IBK투자증권: 기술 수출통제로 후발 업체 해외 공장 건설이 지연되면 미국 생산시설을 확보한 한화솔루션에 긍정적",
+    "기존 해외 생산시설에 즉각적인 타격보다는 향후 해외 증설·기술 확보 경쟁에 영향",
+    "중국산 태양광 완제품의 수출 자체가 금지되는 것은 아니다"
+   ]
+  },
+  {
+   "id": "src_art_0014",
+   "url": "https://www.medipana.com/news/articleView.html?idxno=419510",
+   "retrieved_at": "2026-10-30",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:4"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "게시일 일자 미확인(2026년 10월, 검색 요약)",
+   "type": "article",
+   "publisher": "메디파나뉴스",
+   "headline_original": "中, 세포·유전자치료 핵심기술 해외 매각 제한 추진",
+   "headline_ko": null,
+   "published_at": "2026-10-17",
+   "key_facts": [
+    "수출 금지: 독자적 지식재산권을 보유한 세포·유전자치료 공정 플랫폼 등",
+    "중국 정부는 개별 신약 후보물질의 해외 라이선스 계약이나 기술을 활용한 위탁연구·생산 서비스는 규제 대상에서 제외한다고 설명"
+   ]
+  },
+  {
+   "id": "src_art_0015",
+   "url": "https://www.inews24.com/view/2018439",
+   "retrieved_at": "2026-10-30",
+   "lang": "ko",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "게시일 일자 미확인(2026년 10월, 검색 요약)",
+   "type": "article",
+   "publisher": "아이뉴스24",
+   "headline_original": "중국 바이오 기술 수출통제 임박⋯K-바이오 영향은?",
+   "headline_ko": null,
+   "published_at": "2026-10-24",
+   "key_facts": [
+    "중국이 바이오 분야 5개에 수출 금지·제한",
+    "K바이오 영향은 제한적이며 중국을 대체할 기술 파트너로 한국이 떠오른다는 분석"
+   ]
+  },
+  {
+   "id": "src_art_0016",
+   "url": "https://www.koreancenter.or.kr/news/articleView.html?idxno=1426743",
+   "retrieved_at": "2026-10-30",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:5"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "연합뉴스 기사 전재본(한민족센터). yna.co.kr 차단",
+   "type": "article",
+   "publisher": "연합뉴스",
+   "headline_original": "'이중용도' 내세워 내달 18일부터 시행…관련 부품·기술 등 통제 세분화",
+   "headline_ko": null,
+   "published_at": "2026-10-19",
+   "key_facts": [
+    "19일 중국 상무부는 일부 터널굴착기와 보행식 굴착기, 고원용 콘크리트 분사장비 및 관련 핵심 부품·기술을 수출통제 대상에 포함한다고 공지",
+    "민감 국가·지역 수출은 상무부 허가 필요, 구체적으로 어떤 국가·지역이 해당하는지는 명시하지 않았다",
+    "중국 밖의 기업·개인도 허가 없이 중국산 해당 품목을 이들 국가·지역으로 이전·제공할 수 없다"
+   ]
+  },
+  {
+   "id": "src_art_0017",
+   "url": "https://tunnellingjournal.com/crchi-tbms-en-route-to-korean-cable-project/",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "검색 요약 대조",
+   "type": "article",
+   "publisher": "Tunnelling Journal",
+   "headline_original": "CRCHI TBMs en route to Korean cable project",
+   "headline_ko": "중국철건중공 굴착기, 한국 전력구 공사로 출발",
+   "published_at": "2025-12-11",
+   "key_facts": [
+    "CRCHI dispatched two slurry TBMs on 24 November, bound for Gyeonggi Province to start work on a power cable project",
+    "CRCHI was the largest equipment provider on the project, with a contract for six sets of tunnelling machinery"
+   ]
+  },
+  {
+   "id": "src_art_0018",
+   "url": "https://www.dnews.co.kr/uhtml/view.jsp?idxno=202302131347561990507",
+   "retrieved_at": "2026-10-30",
+   "lang": "ko",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "2023년 보도(배경). 원문 대조 전 — 검색 요약. GTX 현장에 중국산 TBM 투입을 특정한 보도는 찾지 못함",
+   "type": "article",
+   "publisher": "대한경제",
+   "headline_original": "한국 터널굴착기 시장, 차이나 공습 속수무책",
+   "headline_ko": null,
+   "published_at": "2023-02-13",
+   "key_facts": [
+    "GTX 등 철도·도로 지하화 프로젝트가 쏟아지면서 중국산 TBM이 대구경·중소구경 시장에 파고든다",
+    "국내 TBM 시장은 독일 헤렌크네히트와 중국(CREG·CRCHI) 양강 구도, 헤렌크네히트도 중국 공장에서 장비를 만들어 공급"
+   ]
+  },
+  {
+   "id": "src_art_0019",
+   "url": "https://www.aljazeera.com/news/2025/10/30/trump-xi-meeting-in-busan-key-takeaways-from-the-summit",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "검색 요약 대조",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "Trump-Xi meeting in Busan: Key takeaways from the summit",
+   "headline_ko": "부산 트럼프·시진핑 회담 요점",
+   "published_at": "2025-10-30",
+   "key_facts": [
+    "China agreed to suspend the rare earth export controls announced on October 9 for one year"
+   ]
+  },
+  {
+   "id": "src_art_0020",
+   "url": "https://www.thomsonreuters.com/en-us/help/onesource-global-trade/regulatory-insights/2025/october-10th/china-export-controls-rare-battery-technologies.html",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "검색 요약 대조",
+   "type": "article",
+   "publisher": "Thomson Reuters",
+   "headline_original": "China expands export controls on rare earths, battery materials, and related technologies",
+   "headline_ko": "중국, 희토류·배터리 소재·관련 기술 수출통제 확대",
+   "published_at": "2025-10-10",
+   "key_facts": [
+    "On October 9, 2025 MOFCOM expanded export controls on rare earths, battery materials and related technologies"
+   ]
+  },
+  {
+   "id": "src_art_0021",
+   "url": "https://investinglive.com/news/us-and-china-extend-busan-trade-truce-to-january-10-as-xi-arrives-for-trump-summit/",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "검색 요약 대조(tradingeconomics·startupfortune 같은 날짜)",
+   "type": "article",
+   "publisher": "investingLive",
+   "headline_original": "US and China extend Busan trade truce to January 10 as Xi arrives for Trump summit",
+   "headline_ko": "미·중, 부산 휴전 1월 10일까지 연장 — 시진핑 방미",
+   "published_at": "2026-09-23",
+   "key_facts": [
+    "Bessent announced the truce, originally due to expire November 10, now runs to January 10, 2027",
+    "MOFCOM explainer (Sept 28) said the two sides agreed to extend the Kuala Lumpur joint arrangement to 10 January 2027"
+   ]
+  },
+  {
+   "id": "src_art_0022",
+   "url": "https://www.miningweekly.com/article/china-places-two-us-rare-earths-producers-on-export-control-list-2026-06-22",
+   "retrieved_at": "2026-10-30",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0283 — 사용자 위임 D-0282, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 모두 해당 호스트 차단)",
+   "confirmed_at": "2026-10-30T07:10:00Z",
+   "note": "로이터 기사 전재로 추정(검색 요약)",
+   "type": "article",
+   "publisher": "Mining Weekly",
+   "headline_original": "China places two US rare earths producers on export control list",
+   "headline_ko": "중국, 미국 희토류 생산업체 두 곳을 수출통제 명단에",
+   "published_at": "2026-06-22",
+   "key_facts": [
+    "China's commerce ministry put MP Materials and USA Rare Earth on its export control list along with eight other U.S. entities"
+   ]
+  }
+ ]
+}

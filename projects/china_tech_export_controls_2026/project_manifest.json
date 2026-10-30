@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "project_id": "china_tech_export_controls_2026",
+  "title": "제품은 팔고, 능력은 안 판다 — 중국 기술 수출통제",
+  "category": "geopolitics",
+  "created_at": "2026-10-30T06:43:38.640082Z",
+  "updated_at": "2026-10-30T06:47:57.726460Z",
+  "current_state": "research",
+  "target_duration_min": 18,
+  "topic_summary": "중국 상무부 2026년 10월 기술·이중용도 수출통제 공고(제48~52호)와 영업비밀 특별규정 초안, 한국 접점",
+  "initial_links": [],
+  "paths": {
+    "sources": "intake/sources.json",
+    "claims": "intake/claims.json",
+    "screenshots": "intake/screenshots",
+    "script": "script.yaml",
+    "script_labels": "script_labels.json",
+    "plan": "plan.json",
+    "tts": "tts",
+    "assets": "assets",
+    "media": "media",
+    "direction": "direction.yaml",
+    "prev": "prev",
+    "prev_sheet": "prev/sheet.jpg",
+    "prev_provenance": "prev/provenance.json",
+    "out": "out",
+    "final": "out/final.mp4",
+    "provenance": "out/provenance.json"
+  },
+  "render_mode_status": {},
+  "gate_decisions": [],
+  "stage_records": [],
+  "final_outputs": {},
+  "state_history": [
+    {
+      "from_state": "created",
+      "to_state": "intake",
+      "transitioned_at": "2026-10-30T06:47:56.454280Z",
+      "reason": "D-0283 §3 — 세션 도구 조사로 sources 27·claims 32 작성(검색 요약 대조, 원문 호스트 차단)"
+    },
+    {
+      "from_state": "intake",
+      "to_state": "source_verify",
+      "transitioned_at": "2026-10-30T06:47:57.080233Z",
+      "reason": "확인 opus(사용자 위임 D-0282) — URL·매체·게시일 대조"
+    },
+    {
+      "from_state": "source_verify",
+      "to_state": "research",
+      "transitioned_at": "2026-10-30T06:47:57.726410Z",
+      "reason": "claims 판정 수동(D-0283 §3 1차 출처 재게재본 대조, 감독 조사표 D-0284 대조 예정)"
+    }
+  ],
+  "rollbacks": [],
+  "reopens": []
+}
