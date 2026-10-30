@@ -2194,6 +2194,9 @@ entries:
   guards:
   - {kind: rule, ref: banned_phrases.patterns}
   - {kind: rule, ref: banned_phrases.examples}
+  - {kind: test, ref: tests/test_script_lint.py::BannedExamplesTest::test_examples_all_caught}
+  - {kind: test, ref: tests/test_script_lint.py::BannedExamplesTest::test_screen_strings_and_docs}
+  - {kind: test, ref: tests/test_script_lint.py::BannedExamplesTest::test_slop_check_tool}
   - kind: doc
     ref: back_and_forth/FABLE_HANDOFF.md#보고문을 보내기 전에 금지 문구 패턴으로 자기 점검
   status: guarded

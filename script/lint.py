@@ -628,6 +628,9 @@ def main(argv: list[str] | None = None) -> int:
         from script import lint_waivers  # noqa: PLC0415 — v5.17.0 D-0168(plan 과 같은 면제 적용)
 
         rep, waived = lint_waivers.apply(rep, lint_waivers.load(path.parent), script)
+        from script.slop import project_slop  # noqa: PLC0415 — v7.4.0 D-0281(UF-145) 원고 밖 화면 문자열·검토 문서도 같은 패턴, 면제 없음
+
+        rep.issues += [LintIssue(kind="slop", severity="error", sid=where, detail=pat, text=txt) for where, txt, pat in project_slop(path.parent)]
         labels = check_project_labels(path.parent, script)   # 도시어가 있으면 라벨 재계산·대조(D-0043 §3)
         arts = {"script": str(path)}
         if labels is not None:

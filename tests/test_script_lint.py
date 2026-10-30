@@ -143,3 +143,47 @@ class SourceRulesTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class BannedExamplesTest(unittest.TestCase):
+    """v7.4.0 back_and_forth D-0281(사용자 의견 UF-145 "ai slop 느껴지는 문구들") — 사용자 예문은 모두 금지 패턴에 걸리고,
+    기존 원고(hormuz·diesel·showcase 둘)는 오탐 0. 원고 밖 화면 문자열·검토 문서도 같은 패턴(script.slop), 보고문은 tools/slop_check."""
+
+    def test_examples_all_caught(self) -> None:
+        import re  # noqa: PLC0415
+
+        from rules import load_rules  # noqa: PLC0415
+
+        b = load_rules().banned_phrases
+        pats = [re.compile(p) for p in b.patterns]
+        self.assertGreater(len(b.examples), 0)
+        self.assertEqual([e for e in b.examples if not any(p.search(e) for p in pats)], [])
+
+    def test_existing_scripts_clean(self) -> None:
+        import yaml  # noqa: PLC0415
+
+        from script.slop import slop_hits  # noqa: PLC0415
+        from tests.anti_inertia._ast_util import REPO  # noqa: PLC0415
+
+        for pid in ("hormuz_korea", "diesel_road_2026", "showcase_econ", "showcase_geo"):
+            sc = yaml.safe_load((REPO / "projects" / pid / "script.yaml").read_text(encoding="utf-8"))
+            hits = [(s["text"], slop_hits(s["text"])) for c in sc["scenes"] for s in c["sentences"] if slop_hits(s["text"])]
+            self.assertEqual(hits, [], pid)
+
+    def test_screen_strings_and_docs(self) -> None:
+        from script.slop import direction_strings, project_slop  # noqa: PLC0415
+        from tests.anti_inertia._ast_util import REPO  # noqa: PLC0415
+
+        for pid in ("showcase_econ", "showcase_geo"):
+            self.assertEqual(project_slop(REPO / "projects" / pid), [], pid)
+        doc = {"events": [{"type": "card", "tag": "제재", "lines": ["이 제재가 겨누는 것은 석유"]},
+                          {"type": "quote", "text": "이 제재가 겨누는 것은 석유", "label": "인물"}]}   # quote 원문은 남의 말 — 제외
+        found = [(w, s) for w, s in direction_strings(doc)]
+        self.assertIn(("direction.events[0].card.lines", "이 제재가 겨누는 것은 석유"), found)
+        self.assertFalse(any(".quote.text" in w for w, _ in found))
+
+    def test_slop_check_tool(self) -> None:
+        from tools.slop_check import check_text  # noqa: PLC0415
+
+        self.assertTrue(check_text("r", "---\nid: R-1\n---\n\n이 제재가 겨누는 것은 석유다.\n"))
+        self.assertEqual(check_text("r", "---\nid: R-1\n---\n\n연준은 금리를 올렸다.\n```\n이 제재가 겨누는 것은\n```\n"), [])
