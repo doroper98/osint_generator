@@ -36,6 +36,9 @@
     "dip",
     "island"
    ],
+   "exempt_projects": {
+    "hormuz_korea": "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
+   },
    "map_stages": [
     "mercator"
    ]
@@ -381,14 +384,14 @@
    "severity": "warning",
    "count": 12,
    "details": [
-    "[media-density-total] 과밀 — 8개 / 241초 = 30.1초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+    "[media-density-total] 과밀 — 9개 / 241초 = 26.8초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
     "[media-density-scene] 장면 act2: ['diesel_road_2026_khabarovsk_ref_2005', 'diesel_road_2026_vladivostok_port_1992'] > 1 (14 §10.1, ['article'] 제외)",
-    "[media-density-scene] 장면 act3: ['hormuz_transit', 'niovi'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act3: ['hormuz_transit', 'strikes_file', 'niovi'] > 1 (14 §10.1, ['article'] 제외)",
     "[media-density-scene] 장면 act4: ['dmz_mine_sign', 'dmz_fence'] > 1 (14 §10.1, ['article'] 제외)",
     "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['photo'] (14 §10.1)",
     "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
     "[media-kind-repeat] 이웃 장면 act3→act4 같은 형태 ['photo'] (14 §10.1)",
-    "[media-burst-window] 96.24초부터 40초 안 3개 ['diesel_road_2026_vladivostok_port_1992', 'hormuz_transit', 'niovi'] > 2 (14 §10.1 하한, D38)",
+    "[media-burst-window] 96.24초부터 40초 안 4개 ['diesel_road_2026_vladivostok_port_1992', 'hormuz_transit', 'strikes_file', 'niovi'] > 2 (14 §10.1 하한, D38)",
     "[article-unused] cold_0 1.2초 기사 카드 후보 ['diesel_road_2026_art_0032'] — 0~60초 구간 0/2개. 쓰거나 media_notes.yaml sentences.cold_0.article 에 사유",
     "[article-unused] act1_4 46.3초 기사 카드 후보 ['diesel_road_2026_art_0005'] — 0~60초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act1_4.article 에 사유",
     "[article-unused] act2_4 95.7초 기사 카드 후보 ['diesel_road_2026_art_0002'] — 60~120초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act2_4.article 에 사유",
@@ -632,6 +635,36 @@
    "details": []
   },
   {
+   "id": "plot_height",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "axis_empty_band",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "clip_frame",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "clip_date_mismatch",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "flat_lane",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
    "id": "press_credit",
    "severity": "hard",
    "count": 0,
@@ -794,6 +827,12 @@
   },
   {
    "id": "island_label_clip",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "island_pin_collision",
    "severity": "hard",
    "count": 0,
    "details": []

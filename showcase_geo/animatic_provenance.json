@@ -3,7 +3,7 @@
  "engine": "engine",
  "repo_version": "7.4.0",
  "rules_version": "2.0.0",
- "rules_hash": "c2e8a08fce785df34b0896990cefc696ccefa698",
+ "rules_hash": "c6906bfeebb7f423519e8ed2bdebfd9088aa0c94",
  "prompts": {
   "director": "4b0d8abce2533f324bbe69742891e6ff31b77d96"
  },
@@ -129,9 +129,9 @@
    "dual_line",
    "statement"
   ],
-  "cards": 11,
+  "cards": 10,
   "media": {
-   "clip": 1,
+   "clip": 2,
    "photo": 7,
    "cutout": 0,
    "article": 3
@@ -141,9 +141,9 @@
    "badge": 2,
    "barrier": 1,
    "boom": 2,
-   "card": 11,
+   "card": 10,
    "cascade": 1,
-   "clip": 1,
+   "clip": 2,
    "country": 5,
    "dip": 7,
    "flight": 1,
@@ -231,7 +231,7 @@
     "mms_forced_alignment": 39
    },
    "score_mean_min": 0.7101,
-   "elapsed_ms_total": 125164
+   "elapsed_ms_total": 224559
   },
   "prosody": {
    "final_fall": {
@@ -310,7 +310,7 @@
   "card": {
    "emblems": 1,
    "map": 2,
-   "media": 12,
+   "media": 13,
    "music": 1,
    "narration": 1,
    "people": 1
@@ -320,24 +320,7 @@
   }
  },
  "reserved": {
-  "avoidance": [
-   {
-    "badge": "미 중부사령부",
-    "t0": 131.15,
-    "t1": 134.63,
-    "strategy": [
-     "hold"
-    ],
-    "direction": [
-     "down"
-    ],
-    "max_px": 49.4,
-    "zones": [
-     "card"
-    ],
-    "frames": 83
-   }
-  ]
+  "avoidance": []
  },
  "audio": {
   "bgm": [
@@ -393,7 +376,25 @@
      2000.0
     ]
    }
-  }
+  },
+  "clip_audio": [
+   {
+    "mid": "strikes_file",
+    "role": "main",
+    "audio": "broll",
+    "t0": 130.749,
+    "t1": 135.749,
+    "wav_md5": "c980d0da231ec2870a4414ca99d1d768"
+   },
+   {
+    "mid": "niovi",
+    "role": "broll",
+    "audio": "broll",
+    "t0": 135.433,
+    "t1": 140.433,
+    "wav_md5": "c980d0da231ec2870a4414ca99d1d768"
+   }
+  ]
  },
  "end_card": {
   "version_stamp": "v7.4.0",
@@ -1027,6 +1028,13 @@
    161.8
   ]
  ],
+ "chart_only_exempt": false,
+ "media_density": {
+  "count": 9,
+  "value": 2.241,
+  "min": 1.5,
+  "exempt": false
+ },
  "stage": {
   "name": "mercator",
   "declared": false,
@@ -1092,14 +1100,14 @@
   "given_to_director": false
  },
  "lint_warnings": [
-  "[media-density-total] 과밀 — 8개 / 241초 = 30.1초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+  "[media-density-total] 과밀 — 9개 / 241초 = 26.8초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
   "[media-density-scene] 장면 act2: ['diesel_road_2026_khabarovsk_ref_2005', 'diesel_road_2026_vladivostok_port_1992'] > 1 (14 §10.1, ['article'] 제외)",
-  "[media-density-scene] 장면 act3: ['hormuz_transit', 'niovi'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act3: ['hormuz_transit', 'strikes_file', 'niovi'] > 1 (14 §10.1, ['article'] 제외)",
   "[media-density-scene] 장면 act4: ['dmz_mine_sign', 'dmz_fence'] > 1 (14 §10.1, ['article'] 제외)",
   "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['photo'] (14 §10.1)",
   "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
   "[media-kind-repeat] 이웃 장면 act3→act4 같은 형태 ['photo'] (14 §10.1)",
-  "[media-burst-window] 96.24초부터 40초 안 3개 ['diesel_road_2026_vladivostok_port_1992', 'hormuz_transit', 'niovi'] > 2 (14 §10.1 하한, D38)",
+  "[media-burst-window] 96.24초부터 40초 안 4개 ['diesel_road_2026_vladivostok_port_1992', 'hormuz_transit', 'strikes_file', 'niovi'] > 2 (14 §10.1 하한, D38)",
   "[article-unused] cold_0 1.2초 기사 카드 후보 ['diesel_road_2026_art_0032'] — 0~60초 구간 0/2개. 쓰거나 media_notes.yaml sentences.cold_0.article 에 사유",
   "[article-unused] act1_4 46.3초 기사 카드 후보 ['diesel_road_2026_art_0005'] — 0~60초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act1_4.article 에 사유",
   "[article-unused] act2_4 95.7초 기사 카드 후보 ['diesel_road_2026_art_0002'] — 60~120초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act2_4.article 에 사유",
@@ -1181,6 +1189,11 @@
     "mid": "diesel_road_2026_art_0030",
     "kind": "article",
     "t0": 206.64
+   },
+   {
+    "mid": "strikes_file",
+    "kind": "clip",
+    "t0": 130.75
    },
    {
     "mid": "niovi",
@@ -1272,6 +1285,13 @@
      "scene": "act3"
     },
     {
+     "mid": "strikes_file",
+     "kind": "clip",
+     "t0": 130.75,
+     "t1": 135.75,
+     "scene": "act3"
+    },
+    {
      "mid": "niovi",
      "kind": "clip",
      "t0": 135.43,
@@ -1314,9 +1334,9 @@
      "scene": "ending"
     }
    ],
-   "count": 11,
-   "beat_count": 8,
-   "sec_per_item": 30.1,
+   "count": 12,
+   "beat_count": 9,
+   "sec_per_item": 26.8,
    "target_sec_per_item": [
     40.0,
     60.0
@@ -1329,10 +1349,11 @@
     ],
     "max": {
      "t0": 96.24,
-     "count": 3,
+     "count": 4,
      "mids": [
       "diesel_road_2026_vladivostok_port_1992",
       "hormuz_transit",
+      "strikes_file",
       "niovi"
      ]
     }
@@ -1347,6 +1368,7 @@
     ],
     "act3": [
      "hormuz_transit",
+     "strikes_file",
      "niovi"
     ],
     "act4": [
@@ -1361,14 +1383,14 @@
     "inset_ryazan_esri"
    ],
    "warnings": [
-    "[media-density-total] 과밀 — 8개 / 241초 = 30.1초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+    "[media-density-total] 과밀 — 9개 / 241초 = 26.8초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
     "[media-density-scene] 장면 act2: ['diesel_road_2026_khabarovsk_ref_2005', 'diesel_road_2026_vladivostok_port_1992'] > 1 (14 §10.1, ['article'] 제외)",
-    "[media-density-scene] 장면 act3: ['hormuz_transit', 'niovi'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act3: ['hormuz_transit', 'strikes_file', 'niovi'] > 1 (14 §10.1, ['article'] 제외)",
     "[media-density-scene] 장면 act4: ['dmz_mine_sign', 'dmz_fence'] > 1 (14 §10.1, ['article'] 제외)",
     "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['photo'] (14 §10.1)",
     "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
     "[media-kind-repeat] 이웃 장면 act3→act4 같은 형태 ['photo'] (14 §10.1)",
-    "[media-burst-window] 96.24초부터 40초 안 3개 ['diesel_road_2026_vladivostok_port_1992', 'hormuz_transit', 'niovi'] > 2 (14 §10.1 하한, D38)"
+    "[media-burst-window] 96.24초부터 40초 안 4개 ['diesel_road_2026_vladivostok_port_1992', 'hormuz_transit', 'strikes_file', 'niovi'] > 2 (14 §10.1 하한, D38)"
    ]
   },
   "articles": {
@@ -1424,6 +1446,7 @@
   },
   "placement": {
    "diesel_road_2026_moscow_fire_0618": "slot:map_left",
+   "strikes_file": "role:clip_frame",
    "niovi": "explicit",
    "diesel_road_2026_khabarovsk_ref_2005": "slot:map_left",
    "hormuz_transit": "slot:map_left",
@@ -1463,7 +1486,7 @@
    "article": 3,
    "badge": 2,
    "cascade": 1,
-   "clip": 1,
+   "clip": 2,
    "flight": 1,
    "photo": 7,
    "primitive": 1
@@ -1481,32 +1504,32 @@
    "series_limit_3",
    "units_visible"
   ],
-  "direction_sha1": "d08116bedbcebff7676bf1c36ac269d2d40eae73",
+  "direction_sha1": "2d7215a2700e23e6e0e7d65178003f9667036a41",
   "script_sha1": "9e9ee0b613bf8165f7b63b77bfbe9c6eae01c77d",
   "sec": {
-   "render": 1105.5,
-   "total": 1355.7,
-   "mux": 43.7
+   "render": 832.0,
+   "total": 1090.5,
+   "mux": 43.4
   },
-  "jobs": 3,
+  "jobs": 4,
   "frames": 5782,
   "loudnorm": {
    "passes": 2,
    "pass1": {
-    "input_i": -15.91,
+    "input_i": -15.9,
     "input_tp": -0.25,
     "input_lra": 6.7,
-    "input_thresh": -26.29,
-    "target_offset": 0.07
+    "input_thresh": -26.3,
+    "target_offset": 0.08
    },
    "pass2": {
-    "output_i": -14.02,
+    "output_i": -14.01,
     "output_tp": -1.5,
     "normalization_type": "dynamic"
    },
    "post_limiter_dbfs": -2.0
   },
-  "bytes": 29162261
+  "bytes": 29122911
  },
  "checks": {
   "hard": 0,
@@ -1930,6 +1953,31 @@
    "id": "UF-139",
    "checks": {
     "media_density": 0
+   }
+  },
+  {
+   "id": "UF-140",
+   "checks": {
+    "flat_lane": 0
+   }
+  },
+  {
+   "id": "UF-141",
+   "checks": {
+    "clip_frame": 0
+   }
+  },
+  {
+   "id": "UF-142",
+   "checks": {
+    "plot_height": 0,
+    "axis_empty_band": 0
+   }
+  },
+  {
+   "id": "UF-143",
+   "checks": {
+    "island_pin_collision": 0
    }
   }
  ]
