@@ -57,14 +57,14 @@ supersedes: []
 ## 5. 미디어(UF-139 밀도 1.5/분 hard, Commons 탐색 의무, 등재 0 금지)
 - **기사 카드**(`article_register.py`, headline_ko 채움, 60초당 ≤2): 공고 4건 각각의 보도 1건 이상(로이터·SCMP·블룸버그·신화·GT 중 등재 가능한 것), 한국 접점 보도(한경·전자신문·연합·조선비즈 등). 법무법인 알림은 기사 카드로 조판하지 않는다(해설 출처로 claims 에만).
 - **사진**(Commons, 라이선스·피사체·시기 대조): 상무부 건물(北京 商务部), 터널굴착기(TBM 커터헤드 — 중국철건중공 CREG·Herrenknecht 등 Commons 사진), 페로브스카이트 셀·탠덤 모듈 연구 사진, 드론 군집 비행(공연·전시 사진 PD/CC), 세포배양·바이오리액터, 희토류(배경 한 장), GTX·지하철 터널 공사(한국 Commons 사진 있으면). 자료사진 표기.
-- **클립 액자(UF-141, 원음·덕킹)**: MOFCOM 정례 회견(대변인 何亚东 허야둥) 또는 CCTV·CGTN 보도 클립. 받기 경로 우선순위: ① Commons 영상 ② **YouTube 공식 채널(CGTN·CCTV Video News Agency·新华社)** — 감독 결정으로 이 영상에 한해 `config.yaml media.video_fetch.allowed_domains` 에 `youtube.com`·`youtu.be`·`googlevideo.com` 추가 허용(DECISIONS D279, 되돌릴 수 있음). 봇 검사 우회 옵션은 쓰지 않는다 — yt-dlp 가 그냥 안 받아지면 포기하고 사진으로. 권리 기록 `scope: private_only`(D264), 출처 줄에 매체·날짜. 클립 0건이어도 막지 않는다(사유 media_note).
+- **클립 액자(UF-141, 원음·덕킹)**: MOFCOM 정례 회견(대변인 何亚东 허야둥) 또는 CCTV·CGTN 보도 클립. 받기 경로 우선순위: ① Commons 영상 ② **YouTube 공식 채널(CGTN·CCTV Video News Agency·新华社)** — 감독 결정으로 이 영상에 한해 `config.yaml media.video_fetch.allowed_domains` 에 `youtube.com`·`youtu.be`·`googlevideo.com` 추가 허용(DECISIONS D500, 되돌릴 수 있음). 봇 검사 우회 옵션은 쓰지 않는다 — yt-dlp 가 그냥 안 받아지면 포기하고 사진으로. 권리 기록 `scope: private_only`(D264), 출처 줄에 매체·날짜. 클립 0건이어도 막지 않는다(사유 media_note).
 - **인물 뱃지**: 공용 라이브러리 먼저(`assets/library/people` — xi·trump·lee_jae_myung 등 있음). 새로 필요하면 왕원타오(상무부장)·허야둥(대변인) — Commons/정부 공개 초상 권리 확인된 것만, `portrait_fallback.py cutout` → promote. 권리 미확인은 직함 카드.
 - **국기**: cn·kr·us·eu(+ 출처 있는 흐름의 상대국). 대만은 국기가 아니라 지명 라벨만.
 - **위성 인셋**: 이 영상은 타격이 없다 — 쓰지 않는다(공장·항만 인셋은 출처 있는 지점이 있을 때만 1~2곳, 원형 UF-103).
 - 콘티 판 전 `python tools/asset_library.py promote` → `check` = 0(C8.7).
 
 ## 6. 연출(기준 작품 diesel v2 문법 — 카메라 밀도·이야기 안의 데이터 패널)
-- 주 무대 mercator **light**(`theme_reason: "지경학 — 장르 기본 D154, 감독 결정 D279"`). 권역: 베이징(상무부) → 동아시아(한국·대만·일본) → 미국·EU·동남아 흐름(출처 있는 교역·공급 관계만 route). 핀은 선 위(UF-142), 한꺼번에 튀어나오는 관계선 금지, 문장마다 요소 2~3개.
+- 주 무대 mercator **light**(`theme_reason: "지경학 — 장르 기본 D154, 감독 결정 D500"`). 권역: 베이징(상무부) → 동아시아(한국·대만·일본) → 미국·EU·동남아 흐름(출처 있는 교역·공급 관계만 route). 핀은 선 위(UF-142), 한꺼번에 튀어나오는 관계선 금지, 문장마다 요소 2~3개.
 - **보조 무대 timeline(한 세계, UF-135·138)**: 축 범위 **2026-10-01 → 2026-12-01 고정**(w_changes 0). 네 공고 날짜(10/14·10/16·10/19·10/26)와 두 마감(11/15·11/18)이 같은 축 위에 핀. 2027-01-10 휴전 만료는 축에 올리지 않고 **카드**로(축 고정 때문 — 감독 결정). 시간축은 act1·act4 두 번만 진입·복귀(암전 dip), 안의 카메라 이동만.
 - 데이터 패널: 수치가 출처로 확정될 때만 — 기술 수 분야별(AI·바이오·태양광) dots 또는 bars, 금지/제한 versus. 축척 다른 독립 차트 번갈아 띄우기 금지(chart_world_split hard). 차트만 보이는 구간 ≤ `qa_checks.chart_only_run.max_sec`.
 - 카드: 허가제 vs 등록제 대비(한 줄 병렬), "오픈소스 공개 = 기술 수출" 카드, 의견수렴·시행 날짜 카드. AI 상투 문구 0(linter).

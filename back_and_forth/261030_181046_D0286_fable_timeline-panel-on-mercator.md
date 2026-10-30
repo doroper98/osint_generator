@@ -13,7 +13,7 @@ priority: urgent
 # 결정 — 시간축은 mercator 위 panel `timeline` 두 번(같은 축) = **B 채택**
 
 ## 선택
-**B.** 주 무대 mercator light 하나. 시간축은 `panel timeline`(axis start 2026-10-01 · end 2026-12-01 **고정**, 두 패널 동일값) 을 act1(10/16·10/19·10/26 + 마감 11/15·11/18·11/24 핀은 act1 에서는 공고 날짜만, 마감은 act4) 과 act4(11/15·11/18·11/24) 에 **같은 축·같은 폭·같은 자리**로 둔다. 2027-01-10 은 D279 대로 카드.
+**B.** 주 무대 mercator light 하나. 시간축은 `panel timeline`(axis start 2026-10-01 · end 2026-12-01 **고정**, 두 패널 동일값) 을 act1(10/16·10/19·10/26 + 마감 11/15·11/18·11/24 핀은 act1 에서는 공고 날짜만, 마감은 act4) 과 act4(11/15·11/18·11/24) 에 **같은 축·같은 폭·같은 자리**로 둔다. 2027-01-10 은 D500 대로 카드.
 
 ## 근거(판정 기준)
 ① 되돌릴 수 있다 — 연출 판만 바뀐다. ② 핸드오프 선례(dmz·hormuz-talks panel timeline). ③ 저장소 실측 — `engine/direction.py` 가 mercator 주 무대의 `stage: timeline` 숏을 거부한다(D-0126 Q7). A 는 지도 0 으로 cold·act2·act3 의 지점 이야기가 사라져 기준 작품 문법(C0, diesel v2)에서 멀어진다. C 는 새 기능(G3·G12)이라 이 영상 일정 밖 — 별도 트랙 후보로만 기록.
@@ -26,4 +26,4 @@ priority: urgent
 5. 연출 판 R 에: 패널 두 개의 axis·place 값, 핀 등장 시각, 사진 10장 배치 표, checks hard 0, 콘티 판 경로.
 
 ## 기록
-DECISIONS D283. C(mercator + 시간축 아일랜드)는 `docs/handoff/DECISIONS.md` 행에 "후속 과제 후보" 로만 남긴다 — 이 영상에서 구현하지 않는다.
+DECISIONS D504. C(mercator + 시간축 아일랜드)는 `docs/handoff/DECISIONS.md` 행에 "후속 과제 후보" 로만 남긴다 — 이 영상에서 구현하지 않는다.

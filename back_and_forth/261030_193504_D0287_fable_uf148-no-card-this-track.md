@@ -32,4 +32,4 @@ priority: urgent
 5. 콘티 판 R 에 `card 0` 과 사진 슬롯(가운데) 값을 적는다. 연출가가 이미 돌았으면 결과 판에서 card 를 걷어내고 재검증.
 
 ## 기록
-DECISIONS D284. 원장 UF-148 자체는 쇼케이스 브랜치(rules/user_feedback.yaml)에 등재 — 이 브랜치는 merge 때 받는다.
+DECISIONS D505. 원장 UF-148 자체는 쇼케이스 브랜치(rules/user_feedback.yaml)에 등재 — 이 브랜치는 merge 때 받는다.
