@@ -421,6 +421,7 @@ class FlickrRules(_Strict):
 class MediaRules(_Strict):
     density: MediaDensity
     flickr: Optional[FlickrRules] = None   # v4.4.0
+    file_clip_date_gap_days: int = Field(default=30, gt=0)   # v7.4.0 D-0283 §1 — [clip-date-mismatch] 촬영일 ↔ 문장 날짜 차 상한(자료 표기 없을 때)
 
 
 class DateBadge(_Strict):

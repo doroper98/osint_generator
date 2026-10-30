@@ -54,3 +54,22 @@ class ClipFrameTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ClipDateMismatchTest(unittest.TestCase):
+    """v7.4.0 back_and_forth D-0283 §1 — 촬영일 ↔ 문장 날짜 차 ≥ media.file_clip_date_gap_days 인데 자료 영상 표기 없음 = [clip-date-mismatch] hard.
+    showcase_geo: strikes(2026-07-07 촬영)가 act3_3 "2월 28일 … 공습" 문장에 → 같은 파일의 자료 영상 항목 strikes_file 로."""
+
+    def _P(self, mid: str) -> NS:  # noqa: N802
+        from engine.media_registry import load_media_registry  # noqa: PLC0415
+
+        sent = [NS(t0=128.0, t1=134.0, date="2026.02.28")]
+        return NS(events=[{"type": "clip", "mid": mid, "t0": 130.75, "t1": 135.75}], plan=NS(sentences=sent),
+                  R=NS(assets=NS(media_assets=load_media_registry())))
+
+    def test_mismatch_hard_and_file_entry_passes(self) -> None:
+        out = checks.check_clip_date_mismatch(self._P("strikes"))
+        self.assertTrue(out and out[0].startswith("[clip-date-mismatch]") and "2026-07-07" in out[0])
+        self.assertEqual(checks.check_clip_date_mismatch(self._P("strikes_file")), [])
+        self.assertIn("clip_date_mismatch", checks.HARD)
+        self.assertEqual(R.media.file_clip_date_gap_days, 30)

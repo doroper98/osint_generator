@@ -1075,6 +1075,18 @@ events:
         word:
           sid: act3_6
           text: 한국
+# v7.4.0 D-0274 §4·D-0276 — 미 중부사령부 공개 영상(strikes_file = 같은 파일의 자료 영상 항목, 7.7 촬영 — D-0283 §1, 5초)을 액자 주 요소로(UF-141). 말이 없는 현장 영상이라 원음은 broll 이득(audio: broll), 내레이션은 그 위로 이어진다
+- type: clip
+  start:
+    sid: act3_3
+    'off': 0.2
+  end:
+    sid: act3_3
+    'off':
+    - 0.2
+    - 5.0
+  mid: strikes_file
+  audio: broll
 - type: clip
   start:
     sid: act3_4
@@ -1176,18 +1188,7 @@ events:
     'off': 0.8
   mid: hormuz_transit
   place: map_left
-- type: card
-  start:
-    sid: act3_3
-    'off': 0.2
-  end:
-    sid: act3_3
-    edge: end
-    'off': 0.6
-  tag: 2월 28일
-  lines:
-  - 미국·이스라엘, 이란 공습
-  accent: ru
+# v7.4.0 D-0274 §4 — act3_3 카드('2월 28일 미국·이스라엘, 이란 공습')는 strikes 액자 구간과 겹쳐 뺐다(액자 구간엔 카드 없음, 같은 사실은 자막). R-0286
 - type: article
   start:
     sid: act3_5

@@ -449,6 +449,8 @@ camera:                    # v3.3.0 D-0056 — 카메라 자동화 보조(05 §7
     point_px: {up: 10, down: 10, side: 10}       # 그 밖(컷아웃 기준점·경로 꼭짓점)
 
 media:                     # v2.5.5 D-0037(D38) — 14 §10.1 밀도 경고. v3 실측: 292.4초 7개 = 41.8초당 1개, 60초 창 최대 3개(56.8초) → 40초 창 최대 2개
+  # v7.4.0 back_and_forth D-0283 §1 — 사진·영상 촬영일과 붙은 문장 날짜가 이 일수 이상 차이 나는데 자료사진·자료 영상 표기(is_file_photo)가 없으면 [clip-date-mismatch] hard. 30 = 감독 제안 값
+  file_clip_date_gap_days: 30
   density:
     per_item_sec: [40, 60]
     per_scene_max: 1

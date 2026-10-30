@@ -74,6 +74,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | card_island | warning | v5.2.0(D-0129 §C): 카드·게시물 카드 제자리 상자와 같은 순간 보이는 아일랜드 상자 교차 > 0 `[card-island]`(provenance island.card_overlap[]) `engine.island` |
 | island_label_clip | hard | v5.2.0(D-0133 §2): 차트 아일랜드 안 마커 라벨 글자 상자가 반전·클램프(island.chart.label_flip_pad, `markers.island_label`) 뒤에도 아일랜드 상자 밖 `[island-label-clip]`(provenance island.label_clip[]) `engine.island.label_check` |
 | axis_empty_band | hard | 시간축 레인 축 범위 중 데이터 극값(실측 + 전망 점) 밖 빈 띠(한쪽) > rules stage_timeline.lane_range.empty_band_max_ratio `[axis-empty-band]`(v7.4.0 D-0277 §3·UF-142) |
+| clip_date_mismatch | hard | 사진·영상 촬영일 ↔ 붙은 문장 날짜 차 ≥ rules media.file_clip_date_gap_days 인데 자료 표기(is_file_photo) 없음 `[clip-date-mismatch]`(v7.4.0 D-0283 §1) |
 | clip_frame | hard | 레퍼런스 영상(clip.role main)이 액자 슬롯 clip_frame 밖, 또는 보이는 길이가 rules media_beats.clip_show_sec[role] 밖 `[clip-frame]`(v7.4.0 D-0274 §2·UF-141) |
 | plot_height | hard | 시간축 주 무대 틀·차트 아일랜드: 값 레인 세로 합 < 액자 안쪽 높이 × rules island.chart.plot_min_ratio `[plot-height]`(v7.4.0 D-0274 §1①·UF-142) |
 | island_pin_collision | hard | v7.4.0(D-0267 §2 → D-0274 §1②): 값 레인 위 핀 라벨(engine.pin_labels 단 배정) ↔ 핀 라벨·점·계열 선·띠·축 값·끝값·플롯 경계 교차 `[island-pin-collision]` |
@@ -111,7 +112,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -2216,6 +2217,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "plot_height": lambda: check_plot_height(P),
         "axis_empty_band": lambda: check_axis_empty_band(P),   # v7.4.0 D-0277 §3(hard, UF-142)
         "clip_frame": lambda: check_clip_frame(P),   # v7.4.0 D-0274 §2①②(hard, UF-141)
+        "clip_date_mismatch": lambda: check_clip_date_mismatch(P),   # v7.4.0 D-0283 §1(hard)
         "flat_lane": lambda: check_flat_lane(P),   # v7.4.0 D-0263(hard, UF-140)
         "press_credit": lambda: check_press_credit(P, times, drawn),   # v7.4.0 D-0240 §3(hard)
         "static_camera": lambda: check_static_camera(P),   # v7.4.0 D-0241 §1(hard, UF-120)
@@ -2362,6 +2364,8 @@ def check_series_label_overlap(P) -> list[str]:  # noqa: ANN001, N803
         for lane, placed in (reg.get("lanes") or {}).items():
             boxes = [p[2] for p in placed]
             out += unplated_end_labels(t, lane, placed)   # v7.4.0 D-0277 §2 — 끝값 라벨 ↔ 띠·강조 채움: 판이 곧 장치
+            out += [f"[island-pin-collision] t={t:.2f} 레인 {lane} 끝값 라벨 판 {tuple(round(v, 1) for v in p[2])} 이 핀 맥동 고리를 덮는다 — 위·왼쪽 자리도"
+                    " 막혔다(D-0283 §2)" for p in placed if len(p) > 4 and p[4]]
             for i, a in enumerate(boxes):
                 for b in boxes[i + 1:]:
                     if a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]:
@@ -2505,6 +2509,51 @@ def plot_height(P) -> "tuple[float, float] | None":  # noqa: ANN001, N803
         return (plot, max(hs)) if hs else None
     frame = getattr(st, "frame", None)
     return (plot, frame[3]) if frame is not None else None
+
+
+MEDIA_DATE_RE = re.compile(r"(\d{4})\.\s?(\d{1,2})\.\s?(\d{1,2})")   # 화면 출처 줄 날짜("2026. 07. 07")
+ISO_DATE_RE = re.compile(r"(\d{4})-(\d{2})-(\d{2})")
+
+
+def media_shot_date(a) -> "date | None":  # noqa: ANN001 — MediaAsset
+    """사진·영상 촬영일 — 화면 출처 줄(file_note)의 연·월·일, 없으면 레지스트리 date 의 ISO 날짜. 일 단위로 못 읽으면 None(판정 안 함)."""
+    from datetime import date  # noqa: PLC0415
+
+    for rx, s in ((MEDIA_DATE_RE, a.file_note or ""), (ISO_DATE_RE, a.date or "")):
+        m = rx.search(s)
+        if m:
+            return date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+    return None
+
+
+def sentence_date_at(P, t: float) -> "date | None":  # noqa: ANN001, N803
+    """시각 t 에 걸린(또는 직전) 문장의 날짜(YYYY.MM.DD 만 — 월·연 단위 문장은 None)."""
+    from datetime import date  # noqa: PLC0415
+
+    sent = [s for s in P.plan.sentences if s.t0 <= t + 0.05]
+    if not sent:
+        return None
+    m = re.fullmatch(r"(\d{4})\.(\d{2})\.(\d{2})", sent[-1].date)
+    return date(int(m.group(1)), int(m.group(2)), int(m.group(3))) if m else None
+
+
+def check_clip_date_mismatch(P) -> list[str]:  # noqa: ANN001, N803
+    """[clip-date-mismatch] hard(v7.4.0 back_and_forth D-0283 §1, C0 "자료사진·자료 영상 표기") — 사진·영상 촬영일과 붙은 문장 날짜가
+    rules media.file_clip_date_gap_days 이상 차이 나는데 자료사진·자료 영상 표기(is_file_photo)가 없으면 실패. geo strikes(7.7 촬영)가 2.28 공습 문장에."""
+    gap = R_.media.file_clip_date_gap_days
+    reg = P.R.assets.media_assets
+    out = []
+    for e in P.events:
+        if e["type"] not in ("clip", "photo") or e.get("mid") not in reg:
+            continue
+        a = reg[e["mid"]]
+        if a.is_file_photo:
+            continue
+        d_m, d_s = media_shot_date(a), sentence_date_at(P, e["t0"])
+        if d_m is not None and d_s is not None and abs((d_m - d_s).days) >= gap:
+            out.append(f"[clip-date-mismatch] {e['type']} {e['mid']} t={e['t0']:.2f} 촬영일 {d_m} ↔ 문장 날짜 {d_s}({abs((d_m - d_s).days)}일) — "
+                       f"자료사진·자료 영상 표기 항목(is_file_photo true)으로 등재해 쓴다(D-0283 §1)")
+    return out
 
 
 def check_clip_frame(P) -> list[str]:  # noqa: ANN001, N803

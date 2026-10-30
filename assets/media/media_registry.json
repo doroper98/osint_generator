@@ -5316,6 +5316,71 @@
    ],
    "note": "federalreserve.gov/disclaimer.htm: \"Unless otherwise indicated, information on Board's website is in the public domain and may be copied and distributed without permission\"",
    "file": "fed_clip_0729_room_b"
+  },
+  "strikes_file": {
+   "kind": "video",
+   "title": "File:U S Forces Complete New Round of Retaliatory Strikes Against Iran (1013909).webm",
+   "license": "Public domain",
+   "author": "U.S. Central Command (Commons extmetadata Artist 비어 있음 — '[null Courtesy]' 정제, 14 §10.4)",
+   "credit_author": "U.S. Central Command",
+   "date": "Taken on 7 July 2026",
+   "url": "https://commons.wikimedia.org/wiki/File:U_S_Forces_Complete_New_Round_of_Retaliatory_Strikes_Against_Iran_(1013909).webm",
+   "caption": "미 중부사령부 공개 영상 · 이란 군사 목표 타격",
+   "file_note": "자료 영상 · 2026. 07. 07 촬영",
+   "depicts": [
+    "미군 공습",
+    "이란 군사 목표"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "사용자 라운드 7 — 12장 썸네일 시트로 구간 선택(media3b_round2.md), 13초 이후 소형 선박 타격 구간 제외",
+    "on": "2026-09-26",
+    "casualty_free": true,
+    "segment_checked": [
+     1.5,
+     6.5
+    ],
+    "relevance": "자료 영상 — 2026-07-07 촬영본을 2026-02-28 공습 문장(showcase_geo act3_3)에 쓴다. 자료 영상 표기 의무(D-0283 §1, C0)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-28",
+   "tool": {
+    "name": "media_fetch.clip",
+    "params": {
+     "source": "strikes.webm",
+     "thumb_w": null,
+     "scale": [
+      480,
+      270
+     ],
+     "fps": 24,
+     "pix_fmt": "rgb24",
+     "cache": "npy"
+    }
+   },
+   "source_hash": "64db28093fae9a1b77165bfbfd435966",
+   "file": "strikes",
+   "duration": 24.6,
+   "segment": [
+    1.5,
+    6.5
+   ],
+   "source_variants": [
+    {
+     "source": "dvids",
+     "url": "https://www.dvidshub.net/video/1013909",
+     "id": "1013909",
+     "file_url": "https://d34w7g4gy10iej.cloudfront.net/video/2607/DOD_111826477/DOD_111826477.mp4",
+     "file": "strikes.dvids.mp4",
+     "md5": "9933fefd8c174f7bb8a3f4f48d713726",
+     "license": "Public domain",
+     "duration": 24.6,
+     "offset_sec": 0.0,
+     "retrieved_at": "2026-09-28",
+     "match": "docs/handoff/reports/phase6_8/dvids_match.md",
+     "note": "Commons egress 차단 대체(D-0045). VIRIN 260707-D-D0477-3001, h264 1920x1080 60fps"
+    }
+   ]
   }
  }
 }

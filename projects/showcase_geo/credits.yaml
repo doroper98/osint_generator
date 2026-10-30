@@ -79,10 +79,10 @@ sections:
     license: U.S. Navy · Public domain
     rights:
     - media.niovi
-  - main: 이란 군사 목표 타격 영상 (2026.7.7)
+  - main: 이란 군사 목표 타격 영상 (자료 영상 · 2026.7.7 촬영)
     license: U.S. Central Command · Public domain
     rights:
-    - media.strikes
+    - media.strikes_file
 - title: 글꼴
   column: 1
   auto: fonts
