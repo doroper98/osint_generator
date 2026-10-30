@@ -1404,7 +1404,7 @@ def check_inset_jump(P) -> list[str]:  # noqa: ANN001, N803
 def check_inset_side_change(P) -> list[str]:  # noqa: ANN001, N803
     """[inset-side-change] warning(v7.4.0 D-0300) — 인셋 자리가 바뀐 횟수(보간 이동). 카메라 구도로 줄일 수 있는지 사람이 본다."""
     return [f"[inset-side-change] 인셋 {e['inset'].get('mid')} 자리 {len(e['inset_track']['moves'])}번 옮김 "
-            + ", ".join(f"t={f / FPS:.1f} {a}→{b}" for f, a, b in e["inset_track"]["moves"])
+            + ", ".join(f"t={f / FPS:.1f} {a}→{b}({mf / FPS:.2f}초)" for f, a, b, mf in e["inset_track"]["moves"])
             for e in P.events if e["type"] == "flight" and (e.get("inset_track") or {}).get("moves")]
 
 

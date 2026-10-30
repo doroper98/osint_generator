@@ -87,23 +87,31 @@ def first_fit_side(e: dict, x: float, y: float, skip: Optional[str] = None) -> s
     return side
 
 
+MOVE_PEAK = 3 / 2        # smooth(3u² − 2u³) 보간의 최고 속도 = 평균 속도 × 3/2(u = 1/2 에서 미분 최댓값)
+
+
+def move_frames(a: tuple[float, float, float, float], b: tuple[float, float, float, float]) -> int:
+    """자리 옮김 보간 프레임 수 — rules flight.inset.move_sec 이 하한, 최고 속도가 jump_px_max × move_headroom 을 넘지 않게 거리에 맞춰 늘린다."""
+    d = math.hypot(b[0] - a[0], b[1] - a[1])
+    return max(1, round(F.inset.move_sec * FPS), math.ceil(MOVE_PEAK * d / (F.inset.jump_px_max * F.inset.move_headroom)))
+
+
 def build_inset_track(e: dict, frames: list[tuple[int, float, float]]) -> None:
     """인셋 자리 궤적(v7.4.0 back_and_forth D-0300, UF-146) — 등장 첫 프레임에 자리를 정하고(sticky) 그 자리가 안전 영역을 벗어날 때만
     다음 적합 자리로 move_sec 보간 이동한다. frames = 인셋이 보이는 프레임의 (번호, 표적 화면 x, y). e["inset_track"] = {"side": 첫 자리,
-    "moves": [(시작 프레임, 옛 자리, 새 자리)]} — 렌더·검사가 같은 궤적을 쓴다(청크 렌더도 결정적)."""
+    "moves": [(시작 프레임, 옛 자리, 새 자리, 보간 프레임 수)]} — 렌더·검사가 같은 궤적을 쓴다(청크 렌더도 결정적)."""
     if not frames or not F.inset.sticky_side:
         return
-    mf = max(1, round(F.inset.move_sec * FPS))
     f0, x0, y0 = frames[0]
     cur = first_fit_side(e, x0, y0)
-    moves: list[tuple[int, str, str]] = []
+    moves: list[tuple[int, str, str, int]] = []
     for f, x, y in frames[1:]:
-        if moves and f - moves[-1][0] < mf:   # 옮기는 중에는 다시 고르지 않는다
+        if moves and f - moves[-1][0] < moves[-1][3]:   # 옮기는 중에는 다시 고르지 않는다
             continue
         if not inset_fits(_inset_box_at(cur, x, y)):
             nxt = first_fit_side(e, x, y, skip=cur)
             if nxt != cur and inset_fits(_inset_box_at(nxt, x, y)):
-                moves.append((f, cur, nxt))
+                moves.append((f, cur, nxt, move_frames(_inset_box_at(cur, x, y), _inset_box_at(nxt, x, y))))
                 cur = nxt
     e["inset_track"] = {"side": first_fit_side(e, x0, y0), "moves": moves}
 
@@ -116,13 +124,12 @@ def inset_box(e: dict, x: float, y: float, t: Optional[float] = None) -> tuple[f
         return _inset_box_at(first_fit_side(e, x, y), x, y)
     f = round(t * FPS)
     side, prev = tr["side"], None
-    mf = max(1, round(F.inset.move_sec * FPS))
-    for fs, a, b in tr["moves"]:
+    for fs, a, b, mf in tr["moves"]:
         if fs <= f:
-            side, prev = b, (fs, a)
-    if prev is None or f - prev[0] >= mf:
+            side, prev = b, (fs, a, mf)
+    if prev is None or f - prev[0] >= prev[2]:
         return _inset_box_at(side, x, y)
-    u = smooth((f - prev[0]) / mf)
+    u = smooth((f - prev[0]) / prev[2])
     a, b = _inset_box_at(prev[1], x, y), _inset_box_at(side, x, y)
     return tuple(p + (q - p) * u for p, q in zip(a, b))  # type: ignore[return-value]
 
