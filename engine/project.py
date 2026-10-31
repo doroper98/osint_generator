@@ -521,6 +521,9 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         R.cache["island_check"] = {
             "main_missing": main_missing(events, plan.total, [(c.t0 - 0.3, c.t1 + 0.3) for c in plan.cards], R.stage.name),
             "card_overlap": card_overlap(events, island_boxes(events, R.assets.media_assets, R.stage.name))}
+    from engine.reserved import delay_covered_badges  # noqa: PLC0415
+
+    R.cache["badge_delays"] = delay_covered_badges(events)   # v7.4.0 D-0329 ② — 전면 덮개 아래 배지는 덮개 끝으로(provenance reserve.badge_delays)
     ent_errs = check_event_refs(events, load_entities())  # 07 §6 — 미등재 인물·국기·휘장은 렌더 전 오류(P10)
     if ent_errs:
         raise RegistryError("엔티티 레지스트리 점검 실패:\n" + "\n".join(ent_errs))

@@ -782,6 +782,9 @@ class BadgeLayout(_Strict):
     R_flag: Range2
     R_other: float
     flag_requires_anchor: bool = False   # v7.4.0 D-0240 §4 — 국기 뱃지는 카드·인용·마커에 붙을 때만([badge-orphan])
+    covered_max_ratio: float = Field(default=0.5, gt=0, le=1)   # v7.4.0 D-0329 ② — [badge-covered] hard
+    covered_box_ratio: float = Field(default=0.5, gt=0, le=1)
+    covered_step_sec: float = Field(default=0.1, gt=0)
     anchor_marker_deg: float = Field(default=3.0, gt=0)
     resize_sec: float
     fade_in_sec: float

@@ -1236,14 +1236,13 @@ events:
   label: 미 중부사령부
   role: 공습
   accent: us
-- type: badge
+- type: badge   # v7.4.0 D-0329 ② — 기사 카드 전면 사진(act5_4)에 98% 덮였다([badge-covered]) → 카드가 끝난 act5_5 로(옛 act5_4 +0.3 ~ 끝 +0.5)
   start:
-    sid: act5_4
-    'off': 0.3
+    sid: act5_5
   end:
-    sid: act5_4
+    sid: act5_5
     edge: end
-    'off': 0.5
+    'off': 0.8
   place: map_upper_left
   kind: person
   pid: trump

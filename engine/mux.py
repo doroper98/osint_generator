@@ -153,7 +153,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     exc = rights_exceptions(req, P.R.assets.rights, P.R.assets.media)   # v5.21.0 — 보도 인용(B) 사진 포함
     if exc:   # v5.15.0 D-0160 — restricted·사용자 예외 자산을 쓴 영상에만(P5·P6)
         prov["rights"] = {"exceptions": exc}
-    prov["reserved"] = {"avoidance": avoidance_report(P)}   # D-0033 §2 — 카드 영역 때문에 비킨·흐린 뱃지
+    prov["reserved"] = {"avoidance": avoidance_report(P), "badge_delays": P.R.cache.get("badge_delays") or []}   # D-0033 §2 — 카드 영역 때문에 비킨·흐린 뱃지. badge_delays = v7.4.0 D-0329 ② 전면 덮개 뒤로 미룬 배지
     mus = sorted(r for r in (P.R.cache.get("credit_refs") or set()) if r.startswith("music."))
     segs = P.R.cache.get("bgm_segments", 1 if mus else 0)
     prov["audio"] = {"bgm": mus or None, "bed_gain": load_rules().audio.bed_gain,    # v3.4.0 — bgm null = 음악 없음(명시 상태, F1)

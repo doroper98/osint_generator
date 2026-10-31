@@ -745,6 +745,12 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     # 붙을 때만. 아니면 [badge-orphan] warning. 빈 지도 구간은 country 강조 + 지명 라벨로
     flag_requires_anchor: true
     anchor_marker_deg: 3.0
+    # v7.4.0 back_and_forth D-0329 ②(세션 3 발견 — showcase_geo 트럼프 배지가 같은 시각 기사 카드 전면 사진에 거의 내내 덮였다. 덮인 배지 = 조용한 드롭, P6) —
+    # 지도 층 배지 계획 구간(at_word 그대로) 중 안 보인 비율(전면 덮개 기사·인용에 밀려 늦춰진 시간 + 사진·영상·카드 상자에 상자 절반 이상 가린 시간)이
+    # 이 값을 넘으면 [badge-covered] hard. 엔진은 전면 덮개가 떠 있으면 배지를 덮개 끝으로 미루고 provenance reserve.badge_delays 에 남긴다. 값 = 감독 제안(D-0329)
+    covered_max_ratio: 0.5
+    covered_box_ratio: 0.5     # 배지 상자의 이 비율 이상이 다른 상자에 가리면 그 순간은 덮임
+    covered_step_sec: 0.1
     resize_sec: 0.6
     fade_in_sec: 0.01             # draw_badge window(옛 리터럴)
     fade_out_sec: 0.7   # UF-159 ×1.5(0.45)
