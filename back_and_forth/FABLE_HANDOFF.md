@@ -25,6 +25,7 @@
 - 사용자 의견은 받은 즉시 `rules/user_feedback.yaml` 에 원문 그대로 UF 로(C12). 보고문은 `python tools/slop_check.py <file>` 통과 뒤 보낸다(UF-145·UF-202 금지어 — "~축에 겹칩니다" 류 화면 조작 해설 포함).
 - 레퍼런스는 느낌만, 요소 이식 지시 금지(LLM-AP-022). 렌더 전 구상 1프레임으로 판정. 샘플은 나오는 대로 바로 사용자에게(UF-144).
 - 점검: 옛 감독의 send_later 트리거 `trig_011XELpyTdKrmNeGj35Y9DEk` 는 승계 시 옛 감독이 끈다. 새 감독은 자기 점검(60~120분, 사용자 결정 대기 중엔 2~4시간)을 건다.
+  - **승계 완료(2026-10-31 23:57Z)**: 새 감독이 §0-4 ·README·CLAUDE.md·15·DECISIONS D299~D312·D-0318~D-0333 을 읽고, 세션 3·2 에 새 id 통보, 자기 점검 `trig_011g2r2iF93joBssYXSawwdo`(3시간 간격, 02:58Z 첫 발화)를 걸었다. 세션 2 컨텍스트 71만/100만 — 인계 임박.
 - 네트워크: 이 컨테이너는 doroper98.github.io·analysis-reports.pages.dev·en.wikipedia.org·www.aljazeera.com 이 막혔다(정책은 세션 시작 시 굳음). 사용자가 허용 목록에 넣은 뒤 새 세션부터 열린다. agents_reviewer 는 public 저장소라 `GIT_LFS_SKIP_SMUDGE=1 git clone --depth 1 https://github.com/doroper98/agents_reviewer` 로 받아 로컬에서 본다(reports/*.html + src/templates/static/charts.js·charts.css·d3 를 같은 폴더에 두고 Playwright 로 스크롤 뒤 캡처).
 - 최근 산출: 유튜브 문안 `docs/handoff/reports/china_youtube_meta_2026-10-31.md`, 르포 참고 캡처 `docs/handoff/reports/reportage_ref_2026-10-31/`.
 
