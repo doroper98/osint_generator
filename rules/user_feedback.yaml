@@ -2429,3 +2429,16 @@ entries:
   status: guarded
   decision: D-0330(261031_123650_D0330_fable_user-approves-stage-layout.md)
   source: 감독 세션(Fable) 사용자 대화 2026-10-31
+- id: UF-204
+  date: '2026-10-31'
+  project: samsung_q3_2026
+  at: "D-0330 — 감독이 '응'을 손실 막대 B(옅은 잉크) 수용으로 해석해 보고한 뒤"
+  quote: "A"
+  quote_kind: verbatim
+  category: 경제 템플릿 — 손실 막대 = A(하락색을 섞은 채도 낮은 면). 감독 해석(B) 정정
+  guards:
+  - kind: doc
+    ref: back_and_forth/261031_123650_D0330_fable_user-approves-stage-layout.md#정정(사용자, UF-204) — 손실 막대 = A
+  status: guarded
+  decision: D-0330 §정정
+  source: 감독 세션(Fable) 사용자 대화 2026-10-31
