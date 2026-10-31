@@ -1221,21 +1221,6 @@ events:
     edge: end
   pts:
     path: gulf_exit
-- type: badge
-  start:
-    sid: act3_3
-    'off': 0.6
-  end:
-    sid: act3_3
-    edge: end
-    'off': 0.3
-  lon: 53.5
-  lat: 31.6
-  kind: emblem
-  img: centcom
-  label: 미 중부사령부
-  role: 공습
-  accent: us
 - type: badge   # v7.4.0 D-0329 ② — 기사 카드 전면 사진(act5_4)에 98% 덮였다([badge-covered]) → 카드가 끝난 act5_5 로(옛 act5_4 +0.3 ~ 끝 +0.5)
   start:
     sid: act5_5
@@ -1468,4 +1453,6 @@ sound:
         text: 폭발이
     v: 0.5
   no_music_decision: null
-drops: []
+drops:
+- record: badge emblem act3_3
+  reason: "미 중부사령부 휘장 배지 — 공습 영상 액자(clip_frame, 화면 x 68~785·y 38~441)가 130.75~135.75 내내, 그 앞은 호르무즈 사진이 덮어 100% 안 보였다([badge-covered]). 영상 캡션이 U.S. Central Command 를 이미 말한다 — 삭제(D-0329 ②·D-0331 (a))"
