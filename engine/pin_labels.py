@@ -13,7 +13,7 @@ from typing import Callable, Optional
 
 import cairo
 
-from engine.style import FPS, ISLAND, TIMELINE
+from engine.style import ELEM, FPS, ISLAND, MOTION, TIMELINE
 from engine.typography import tw
 from rules import load_rules
 
@@ -277,7 +277,7 @@ def pin_label_check(scene: PinScene) -> list[dict]:
     for f in range(-(-f0 // STEP_FRAMES) * STEP_FRAMES, f1 + 1, STEP_FRAMES):
         t = f / FPS
         for p, rect, _, hit in scene.frame(t, lambda q: q.get("pin_row")):
-            la = window(t, p["t0"], p["t1"], 0.35, 0.5) * smooth((t - p["t0"] - 0.2) / 0.4)
+            la = window(t, p["t0"], p["t1"], *ELEM["pin_label"]) * smooth((t - p["t0"] - MOTION["pin_label_delay_sec"]) / MOTION["pin_label_in_sec"])
             if rect is None or la <= 0.01:
                 continue
             for h in hit:

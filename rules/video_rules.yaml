@@ -148,9 +148,48 @@ script_vocab:
 transition:
   bridge_pause_sec: 1.5
   camera_move_min_sec: 4.0
-  date_badge_xfade_sec: 0.6
+  date_badge_xfade_sec: 0.9   # UF-159 ×1.5(0.6)
   jump_days: 30
   in_scene_jump_days: 365
+  # v7.4.0 back_and_forth D-0325(사용자 의견 UF-159 "뭔가가 등장 했다가 사라지는 트랜지션(사진이나 기사 등 모든것)에 … 50% 정도만 시간을 더 …
+  # 0.8초 → 1.2초 … 너무 성급해 보임") — 요소 등장·퇴장 시간. 옛 코드 리터럴(engine/layers·fullcards·panels·island·pin_labels·animatic)을 여기로 옮기고
+  # ×1.5(0.05 반올림). 카메라·음악·음성·보이는 시간(hold·show)·쓸기(grow)·자막은 대상이 아니다. 장치 = tests/anti_inertia/test_element_fade_floor.py
+  element_fade_min_sec: 0.55   # *fade*_sec·popin_sec·appear*_sec·*xfade_sec·element [in, out] 하한(아래 element_fade_exempt 만 예외)
+  element_fade_exempt:         # 하한 예외 — 경로 → 사유(시험이 이 목록을 고정)
+    layout_480p.badge.fade_in_sec: "등장은 popin_sec 의 크기 튀어 오름이 맡는다 — 알파 창은 즉시(옛 리터럴 0.01)"
+    transition.element.boom: "in 0.05 = 착탄 섬광(즉시) — out 만 ×1.5"
+    transition.element.route_label_swap: "경로 라벨 자리 바꿈 교차(0.25 ×1.5) — 등장·퇴장이 아니라 같은 라벨의 자리 이동"
+  element:                     # 이벤트 종류별 [in, out] 초 — window(t, t0, t1, in, out). 괄호 = UF-159 이전 값
+    photo: [0.75, 0.75]        # (0.5, 0.5)
+    clip: [0.55, 0.7]          # (0.35, 0.45)
+    cutout: [0.9, 0.75]        # (0.6, 0.5)
+    marker: [0.55, 0.75]       # (0.35, 0.5)
+    pin_label: [0.55, 0.75]    # (0.35, 0.5) 아일랜드·차트 핀 라벨
+    route: [0.55, 0.9]         # (0.35, 0.6)
+    route_label_swap: [0.4, 0.4]   # (0.25, 0.25)
+    country: [1.2, 0.9]        # (0.8, 0.6)
+    ships: [1.2, 0.9]          # (0.8, 0.6)
+    boom: [0.05, 1.2]          # (0.05, 0.8)
+    tanker_loop: [0.9, 0.9]    # (0.6, 0.6)
+    barrier: [0.6, 0.75]       # (0.4, 0.5)
+    fullcard: [1.05, 1.05]     # (0.7, 0.7) 타이틀·엔딩 카드 전체
+  element_motion:              # 등장 움직임·글자 차오름 길이(초). 괄호 = 이전 값
+    photo_rise_sec: 0.9        # (0.6) 사진 12px 떠오름
+    cutout_slide_sec: 1.8      # (1.2) 컷아웃 40px 미끄러짐
+    marker_icon_pop_sec: 0.45  # (0.3) 핀 아이콘 차오름
+    pin_label_delay_sec: 0.2   # 라벨 시작 지연(그대로 — 순서이지 길이가 아니다)
+    pin_label_in_sec: 0.6      # (0.4)
+    badge_label_in_sec: 0.55   # (0.35)
+    route_label_in_sec: 0.6    # (0.4) 경로 라벨(선 쓸기 grow 가 끝난 뒤)
+    title_settle_sec: 1.5      # (1.0) 제목 10px 내려앉음
+    title_text_in_sec: 0.9     # (0.6) 제목·부제·날짜 차오름
+    title_rule_in_sec: 1.35    # (0.9) 금색 선
+    endcard_head_in_sec: 1.35  # (0.9) 머리 줄
+    endcard_item_in_sec: 0.9   # (0.6) 절·항목
+    endcard_foot_in_sec: 1.2   # (0.8) 아래 줄
+    panel_item_in_sec: 0.75    # (0.5) versus 머리·statement 강조·precedent 틀·각주
+    panel_item_fast_in_sec: 0.7   # (0.45) versus 항목
+    panel_caption_in_sec: 0.6  # (0.4) precedent 캡션
 script_schema:             # 02 §2.1 요약 — 프롬프트 예시는 tests/anti_inertia/test_prompt_schema_parity 로 검증
   sentence_fields: [date, text, tts, emphasis, sources, media, role]   # role = v7.4.0 D-0229(intro·outro·bridge)
   date_formats: ["YYYY", "YYYY.MM", "YYYY.MM.DD"]
@@ -620,7 +659,7 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     scroll_hold_out_sec: 2.0
     scroll_fade_px: 18
     scroll_max_px_per_sec: 60
-  card: {x_right_margin: 24, y: 70, min_w: 230, slide_px: 30, fade_sec: 0.45, big_size: 30, line_size: 16, tag_size: 12, src_size: 11,
+  card: {x_right_margin: 24, y: 70, min_w: 230, slide_px: 30, fade_sec: 0.7, big_size: 30, line_size: 16, tag_size: 12, src_size: 11,   # UF-159 ×1.5(fade_sec 0.45)
          cap_size: 12, line_gap: 24, src_gap: 20}    # v4.8.0 D-0101 §3 — cap_size·line_gap·src_gap = 옛 engine/cards.py 리터럴
   # v4.8.0 D-0101 §3 — 옛 리터럴(engine/layers/media.py·markers.py·routes.py)을 값 그대로 옮김. 크기 값은 §3 결정(decision_request)으로
   media_caption: {pad_x: 10, caption_size: 12, caption_dy: 18, credit_size: 9, credit_dy: 34, tag_size: 9, tag_h: 16, tag_dy: 12,
@@ -646,7 +685,7 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     title_sink: {alpha: 0.35, blur_px: 1.5}   # v6.0.2 D-0216 UF-98 — 제목 카드가 이 기사 위에 뜨면 기사 글자를 지우지 않고 흐리게(불투명도·블러) 제목 뒤에 남긴다
     press_fallback: {blur_px: 18, dim: 0.55, max_luma: 0.075}   # v5.2.0 D-0129 §A — 프레스 사진 없을 때 무대 블러. G12 stage_backdrop 값 그대로(배경 사진 값과 분리 — hormuz 기사 골든 15_review_0·19_debate_0 불변)
     overlay_alpha: 0.82
-    overlay_fade_sec: 0.5
+    overlay_fade_sec: 0.75   # UF-159 ×1.5(0.5)
     x_left_ratio: 0.11
     max_w_ratio: 0.78
     rule: {w: 4, gap: 18}     # 왼쪽 세로 선 두께·글자까지 간격
@@ -676,10 +715,10 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     orig_max_words: 15
     foot_size: 9
     slide_px: 30
-    fade_sec: 0.45
+    fade_sec: 0.7   # UF-159 ×1.5(0.45)
     hl_delay_sec: 0.8
     hl_sec: 0.7
-  panel: {cover_alpha: 0.8, fade_sec: 0.6, title_size: 19, title_y: 74, subtitle_size: 12.5, subtitle_y: 96, min_screen_use: 0.7}
+  panel: {cover_alpha: 0.8, fade_sec: 0.9, title_size: 19, title_y: 74, subtitle_size: 12.5, subtitle_y: 96, min_screen_use: 0.7}   # UF-159 ×1.5(fade_sec 0.6)
   # v4.8.0 back_and_forth D-0101 §1(사용자 결정 D89) — 인물 뱃지 적응 크기. 같은 무대에서 보이는 인물 뱃지 수 n(t)(팝인 완료 ~ 페이드 아웃 시작)를
   # 코드가 센다: n = 1 → R_person_solo, n = 2 → R_person_group[1], n ≥ 3 → R_person_group[0]. 바뀌면 resize_sec 동안 smooth 보간(t 만의 함수).
   # 새로 뜨는 뱃지는 자기 자신을 세어 처음부터 그 크기로 뜬다. 연출이 R 를 주면 그 값(적응 없음). 이름표 글자는 R 에 따라 group ↔ solo 사이 보간
@@ -695,7 +734,7 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     anchor_marker_deg: 3.0
     resize_sec: 0.6
     fade_in_sec: 0.01             # draw_badge window(옛 리터럴)
-    fade_out_sec: 0.45
+    fade_out_sec: 0.7   # UF-159 ×1.5(0.45)
     label_solo: [15, 11]          # 인물 solo — [이름, 역할] 글자 크기
     label_group: [12, 10]         # 인물 group·국기·휘장(이름표 아래)
     label_side: [13, 10]          # side: right(v3)
@@ -705,7 +744,7 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     head_reserve: measured        # measured | factor(되돌림)
     edge_nudge: true              # 그 순간 상자가 화면 밖이면 그 px 만큼 안쪽으로(avoid_badge 와 같은 단계, provenance reserve.avoidance strategy edge). 보정 뒤에도 밖이면 offscreen hard
     reserve_bottom_px: 44
-    popin_sec: 0.55
+    popin_sec: 0.85   # UF-159 ×1.5(0.55)
     # v5.5.0 사용자 지적(2026-10-02 "푸틴의 정수리가 원 테두리 밖(위쪽)으로 나와 어색", RENDER-AP) — v3 의 '머리 내밀기'(원 위 2.4R 직사각형까지 그림)를 끈다.
     # 초상은 원 안에만 그린다(배치 = 아래 portrait — v5.15.0 V2 가 옛 head_inside_max 내림 방식을 대체).
     head_popout: false
@@ -741,7 +780,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
     max_edges: 7                    # 규칙 6 — 초과 = lint 경고 + 2분할 제안(자동 분할은 하지 않음, P8)
     curve_samples: 36               # 규칙 3 — 모든 선은 수평 접선 3차 베지어(곡률 통일)
     line_width: 1.5
-    state_fade_sec: 0.5             # 규칙 5 — 상태 변화(요구→거절)는 내레이션이 이름을 부를 때(at_word)부터
+    state_fade_sec: 0.75             # 규칙 5 — 상태 변화(요구→거절)는 내레이션이 이름을 부를 때(at_word)부터 · UF-159 ×1.5(0.5)
     dash_after: 0.5
     source: {x: 235, cy: 262, dy: 62, R: 36, t0: 0.4, step: 0.2, pad: 4}     # 요구자 한쪽
     target: {x: 590, cy: 262, dy: 62, R: 19, t0: 1.0, step: 0.2, pad: 7}     # 대상 세로 열(이름 오른쪽)
@@ -749,9 +788,9 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       demand: {color: gold, alpha: 0.8, dash: []}
       refuse: {color: ru, alpha: 0.55, dash: [4, 4]}
     state_label: {dx: 78, dy: 5, size: 12, halo: 2.4}
-    edge_label: {x: 400, y: 150, size: 12, delay_sec: 3.2, fade_sec: 0.5, halo: 2.4}   # 규칙 4 — 첫 선이 자라기 시작한 뒤(08 §3 v2.5.5 정정, D-0035 NB6). 앞서면 lint 경고
-    quote_bottom: {y: 414, size: 13, fade_sec: 0.4, halo: 3}
-    quote_source: {dy: 92, size: 12.5, fade_sec: 0.4, halo: 3}
+    edge_label: {x: 400, y: 150, size: 12, delay_sec: 3.2, fade_sec: 0.75, halo: 2.4}   # 규칙 4 — 첫 선이 자라기 시작한 뒤(08 §3 v2.5.5 정정, D-0035 NB6). 앞서면 lint 경고 · UF-159 ×1.5(fade_sec 0.5)
+    quote_bottom: {y: 414, size: 13, fade_sec: 0.6, halo: 3}   # UF-159 ×1.5(fade_sec 0.4)
+    quote_source: {dy: 92, size: 12.5, fade_sec: 0.6, halo: 3}   # UF-159 ×1.5(fade_sec 0.4)
   timeline:                # 08 §5 v3 P_timeline 합격 값(수치 무변경) + 자동 층 배치(08 §11-3)
     max_span_months: 36     # v5.6.0 사용자 지적(2026-10-04 "숫자나 도식화 모두 0점") — 월 눈금 축. 1250~2000 을 넣자 월 라벨 9천 개가 겹쳐 굵은 띠가 됐다(RENDER-AP-011). 더 길면 precedent(연도 카드)
     x: [80, 774]
@@ -767,10 +806,10 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
     month_alpha: 0.9
     band_h: 14
     band_alpha: 0.18
-    band_fade_sec: 0.6
+    band_fade_sec: 0.9   # UF-159 ×1.5(0.6)
     band_label: {size: 11, halo: 2}
     band_label_dy: 40
-    event_fade_sec: 0.5
+    event_fade_sec: 0.75   # UF-159 ×1.5(0.5)
     dim_alpha: 0.55
     stem_alpha: 0.8
     stem_width: 1.2
@@ -839,7 +878,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       caption: {x: 542, y: 196, size: 14}
       detail: {x: 542, y: 222, size: 12.5}
       label_sec: 2.0
-      label_fade_sec: 0.5
+      label_fade_sec: 0.75   # UF-159 ×1.5(0.5)
       rule: [542, 250, 250, 0.15]
       note_sec: 3.2
       note_label: {x: 542, y: 276, size: 10.5, spacing: 0.6}
@@ -868,7 +907,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       note_dy: 31
       note_size: 9.5
       today_sec: 3.0
-      today_fade_sec: 0.5
+      today_fade_sec: 0.75   # UF-159 ×1.5(0.5)
       today_top: 124                # v2 112 → v3 중앙 제목·부제(08 §2, y 74·96) 아래로
       today_dash: [4, 4]
       today_width: 1.4
@@ -927,7 +966,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       grow_step_sec: 0.8
       grow_sec: 0.9
       card_start_sec: 1.3
-      card_fade_sec: 0.4
+      card_fade_sec: 0.6   # UF-159 ×1.5(0.4)
       samples: 30
       line_width: 1.6
       head: {x: 18, y: -4, size: 15}
@@ -941,9 +980,9 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       box_alpha: 0.18
       y0: 150
       dy: 52
-      appear_start_sec: 0.6
-      appear_step_sec: 0.7
-      appear_sec: 0.4
+      appear_start_sec: 0.9   # UF-159 ×1.5(0.6)
+      appear_step_sec: 1.05   # UF-159 ×1.5(0.7)
+      appear_sec: 0.6   # UF-159 ×1.5(0.4)
       check_delay_sec: 0.2
       check_sec: 0.35
       check_width: 2.6
@@ -952,7 +991,7 @@ panels:                    # D-0032 — 패널 기하·타이밍. 코드에 리�
       footer_y: 372
       footer_size: 14
       footer_sec: 4.2
-      footer_fade_sec: 0.6
+      footer_fade_sec: 0.9   # UF-159 ×1.5(0.6)
       max_items: 4
     network:                 # 08 §3.1 — 선 타이밍·곡선은 panels.relation(규칙 1~5), 노드는 엔티티 레지스트리 뱃지(문자 원 금지)
       columns: {left: 150, center: 427, right: 704}
@@ -1269,7 +1308,7 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     lane_pad_bottom: 0.22  # 레인 띠 아래 여백 — 출처·기준 시점 줄 자리
     line_w: 2.2
     tip_r: 3.2
-    fade_sec: 0.5
+    fade_sec: 0.75   # UF-159 ×1.5(0.5)
     min_alpha: 0.01        # 이보다 흐리면 그리지 않는다(다른 레이어의 등장 문턱과 같은 값)
     playhead: 0.8          # grow 앞끝 = 화면 왼쪽 + 화면 폭 × 이 값(누적 최대). 화면 오른쪽 끝이 무대 끝에 가까워지면 1 로 늘어난다
     grow_in_sec: 1.6       # 등장 직후 화면 왼쪽에서 앞끝까지 쓸어 나가는 시간
@@ -1393,7 +1432,7 @@ stage_backdrop:            # v5.1.0 back_and_forth D-0121 §B·D-0123 §1(사용
   blur_px: 6               # 가우시안 블러 반경(설계 px — 장치 해상도에서는 × k)
   dim: 0.38                # 검정 덮개 알파
   desaturate: 0.15         # 채도 낮춤(0 = 원본, 1 = 흑백)
-  crossfade_sec: 1.2       # 등장 페이드 인 = 앞 사진 페이드 아웃(끝 + 이 값까지 남는다)
+  crossfade_sec: 1.8       # 등장 페이드 인 = 앞 사진 페이드 아웃(끝 + 이 값까지 남는다) · UF-159 ×1.5(1.2)
   ken_burns: 0.04          # 이벤트 길이에 걸친 느린 확대(1 → 1 + 이 값, 연속 변환 — G7 D6, 줌 범프 아님)
   change_on: scene         # 전환 단위 = 장면(주제 전환)
   min_photos: 3            # 영상 안 서로 다른 배경 사진 수(checks backdrop_repeat [backdrop-photos])
@@ -1463,7 +1502,7 @@ quote_center:              # v5.4.0 정규(사용자 결정 2026-10-02 "마음�
   src_size: 10.5
   src_dy: 19                # 이름 줄 → 매체·날짜 줄
   rise_px: 8
-  fade_sec: 0.35
+  fade_sec: 0.55   # UF-159 ×1.5(0.35)
   # v5.3.1 사용자 지시(2026-10-02) — A 의 인용과 그에 맞서는 B 의 인용: A = 왼쪽 위 초상 + 윗줄(왼쪽 정렬), B = 오른쪽 아래 초상 + 아랫줄(오른쪽 정렬).
   # 이벤트 quote pos: upper | lower(기본 center). 덮개는 같은 순간 한 번만 깐다.
   pair_R: 38
@@ -1487,8 +1526,8 @@ flight:                    # v7.3.0 back_and_forth D-0206·D-0225(사용자 결�
   bulge_ratio: 0.18        # 2차 베지어 제어점 = 중점 + 법선 × 화면 거리 × 이 값
   samples: 32              # 꼬리선 베지어 분할 수
   heading_du: 0.01         # 진행 방향(접선) 계산용 매개변수 간격
-  trail: {width: 1.6, dash: [6, 5], alpha: 0.85, fade_sec: 1.4}   # 점선 = 개략. 착탄 뒤 fade_sec 에 걸쳐 알파 → 0
-  origin: {r_px: 22, alpha: 0.28, pulse_sec: 1.6, out_sec: 0.4, fade_in_sec: 0.5, breath: 0.25}   # 방사형 발광(점·라벨 없음). 출발 전 pulse_sec 동안 숨 쉬고 출발 뒤 out_sec 에 사라짐
+  trail: {width: 1.6, dash: [6, 5], alpha: 0.85, fade_sec: 2.1}   # 점선 = 개략. 착탄 뒤 fade_sec 에 걸쳐 알파 → 0 · UF-159 ×1.5(fade_sec 1.4)
+  origin: {r_px: 22, alpha: 0.28, pulse_sec: 1.6, out_sec: 0.6, fade_in_sec: 0.75, breath: 0.25}   # 방사형 발광(점·라벨 없음). 출발 전 pulse_sec 동안 숨 쉬고 출발 뒤 out_sec 에 사라짐 · UF-159 ×1.5(out_sec 0.4) · UF-159 ×1.5(fade_in_sec 0.5)
   icon:
     size_px: {drone: 11, missile: 13, jet: 14}   # 긴 변(사용자 결정 D234 U6 — "작게 해도 좋을 것 같아")
     halo: 2.0
@@ -1507,7 +1546,7 @@ flight:                    # v7.3.0 back_and_forth D-0206·D-0225(사용자 결�
     gap_px: 14             # 표적 점에서 원 테두리까지(D-0300 10 → 14)
     lead_sec: 0.2          # 착탄 이 시간 전부터 나타남
     hold_sec: 3.0          # 착탄 링 뒤 머무는 시간
-    fade: [0.35, 0.8]      # in/out(D-0300 out 0.45 → 0.8 — 이벤트 끝 전에 페이드가 끝난다)
+    fade: [0.55, 1.2]      # in/out(D-0300 out 0.45 → 0.8 — 이벤트 끝 전에 페이드가 끝난다) · UF-159 ×1.5([0.35, 0.8])
     frame: {width: 1.2, alpha: 0.55}   # 가는 흰 원 테두리(D-0300 1.0 → 1.2)
     caption_dy: 11         # 원 아래 출처 줄 기준선 간격(가운데 정렬)
     caption_size: 10       # 출처 줄 글자(layout_480p.min_font_px 이상, D-0300 8.5 → 10)
@@ -1621,7 +1660,7 @@ primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/p
     w: 520
     h: 330
     radius: 5
-    fade_sec: 0.5          # 상자 등장·퇴장(20 §4.2 0.4~0.6초)
+    fade_sec: 0.75          # 상자 등장·퇴장(20 §4.2 0.4~0.6초) · UF-159 ×1.5(0.5)
     scale_from: 0.97       # 등장 때 상자 배율(연속 변환 — 래스터 계단 없음)
     north_bg: "rgba(51,33,31,1)"
     south_bg: "rgba(18,23,31,1)"
@@ -1671,7 +1710,7 @@ primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/p
     label_v: 0.52          # 라벨 첫 줄 높이(그림 영역 비율)
     row_h: 19
     label_size: 11.5
-    label_fade_sec: 0.4
+    label_fade_sec: 0.6   # UF-159 ×1.5(0.4)
     limit_label_size: 10
     mdl_label_size: 12.5
     side_size: 12.5
@@ -1699,7 +1738,7 @@ primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/p
     bar_inset: 10
     strike_w: 1.4          # 취소선 두께
     strike_rise: 0.32      # 취소선 높이 = 글자 크기 × 이 값(기준선 위)
-    fade_sec: 0.5          # 등장·퇴장 페이드(20 §4.2 0.4~0.6초)
+    fade_sec: 0.75          # 등장·퇴장 페이드(20 §4.2 0.4~0.6초) · UF-159 ×1.5(0.5)
     slide_px: 24           # 등장 슬라이드(오른쪽 → 제자리, fade_sec 동안)
   dot_plot:                # v4.4.0 D-0090 작업 3 — 점도표(참가자별 전망 점, 열 = 연도, 중앙값 표시, 20 §5.2·§10). 설계 px(480p). 값은 scatter 레코드에서만
     w: 400                 # 상자 폭(같은 슬롯 card_right) — 한 값에 12명이 몰려도 열 폭 안(점 지름 + 간격 × 12)
@@ -1735,7 +1774,7 @@ primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/p
     radius: 5
     bar_w: 3
     bar_inset: 10
-    fade_sec: 0.5          # 20 §4.2 0.4~0.6초
+    fade_sec: 0.75          # 20 §4.2 0.4~0.6초 · UF-159 ×1.5(0.5)
     slide_px: 24
     dot_stagger_sec: 0.6   # 점이 열마다 차례로(요소는 하나씩 — 05). 열 i 는 fade 뒤 i × (이 값 ÷ 열 수)
 
@@ -1968,7 +2007,7 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     note_out: 0.6
     end_dim_alpha: 0.92    # 엔딩 자료 카드 바탕 어둡게
     end_bg: [0.02, 0.025, 0.04]
-    end_in_sec: 0.6
+    end_in_sec: 0.9   # UF-159 ×1.5(0.6)
     date_in_t: 0.4         # 날짜 배지 등장 시작
     date_alpha: 0.95
     date_line_alpha: 0.9
@@ -2019,7 +2058,7 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
   rights:                  # SK-R1 — projects/<pid>/media/RIGHTS.json 라이선스 허용 목록(D-0142 §3, D133). 목록 밖·항목 없음 = hard
     allowed_licenses: ["CC0", "CC BY 3.0", "CC BY 4.0", "CC BY-SA 3.0", "CC BY-SA 4.0", "Public domain", "United States Government Work"]
   eez:
-    appear_sec: 0.7
+    appear_sec: 1.05   # UF-159 ×1.5(0.7)
     min_alpha: 0.01
     fill_alpha: 0.10
     pulse_fill_alpha: 0.14      # 착탄 뒤 강조(spec eez.pulse 나라)
@@ -2048,8 +2087,8 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     claim_ext_dash: [2, 3]
     vertex_half: 2.2            # 발표 꼭짓점 사각 반폭
     label_delay: 0.3            # 나라 EEZ 이름
-    label_in: 0.6
-    label_out: 0.6
+    label_in: 0.9   # UF-159 ×1.5(0.6)
+    label_out: 0.9   # UF-159 ×1.5(0.6)
     region_label_delay: 0.3     # 중첩·공동 수역 설명
     claim_label_delay: 0.9
     ext_tag_delay: 1.4
@@ -2063,7 +2102,7 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     place_box: [40, 4, 20]      # 섬 이름 예약 상자 [반폭, 위(+), 아래]
   sensors:
     grow_sec: 1.3
-    appear_sec: 0.5
+    appear_sec: 0.75   # UF-159 ×1.5(0.5)
     sector_points: 48
     fill_alpha: [0.30, 0.05]    # 방사 그라데이션 [중심, 끝]
     edge_alpha: 0.7
@@ -2087,8 +2126,8 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     undisclosed_glow_alpha: 0.55
     focus_dim: 0.55             # 뒤 자산이 나오면 앞 자산이 물러나는 정도
     label_delay: 0.6
-    label_in: 0.5
-    label_out: 0.6
+    label_in: 0.75   # UF-159 ×1.5(0.5)
+    label_out: 0.9   # UF-159 ×1.5(0.6)
     full_out: 0.5               # 다음 자산이 나오면 부제·태그가 물러나는 시간
     full_min: 0.02
     short_alpha: 0.8            # 이름만 남은 라벨 알파
@@ -2104,7 +2143,7 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     ship_label: [16, 4, 38]     # [dx, 라벨 dy, 태그 dy]
   launch_track_impact:
     min_alpha: 0.01
-    launch_appear: 0.4
+    launch_appear: 0.6   # UF-159 ×1.5(0.4)
     launch_rings: 2
     launch_ring: [4, 20]
     launch_ring_rate: 0.5
@@ -2113,7 +2152,7 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     launch_tri: [6, 5, 4]       # 발사 삼각형 [위, 반폭, 아래]
     launch_tri_w: 1
     launch_label_delay: 0.3
-    launch_label_in: 0.4
+    launch_label_in: 0.6   # UF-159 ×1.5(0.4)
     launch_label: [12, 14, 22, 4]   # [왼쪽 간격, 대체 dx, 대체 dy, 기본 dy]
     track_w: 2.0
     track_points: 160
@@ -2126,7 +2165,7 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     hud_range_in: 0.5
     range_color: gold
     impact_color: amber
-    impact_appear: 0.3
+    impact_appear: 0.45   # UF-159 ×1.5(0.3)
     flash_r: 40
     flash_decay: 3.0
     flash_min: 0.02
@@ -2149,14 +2188,14 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     ref_mid_delay: 1.6
     ref_mid_in: 0.4
     impact_label_delay: 0.4
-    impact_label_in: 0.5
+    impact_label_in: 0.75   # UF-159 ×1.5(0.5)
     impact_label: [-2, 34, 66]   # [dx, 라벨 dy, 태그 dy]
     impact_tag_delay: 2.2
     impact_tag_in: 0.5
     pulse: [2.0, 0.6, 5.5, 1.0]  # 착탄 뒤 EEZ 강조 [시작, 오름, 끝, 내림] 초
   profile:
     rect: [436, 64, 392, 362]   # 고도 단면 패널 [x, y, w, h]
-    in_sec: 0.6
+    in_sec: 0.9   # UF-159 ×1.5(0.6)
     min_alpha: 0.01
     slide_px: 30
     dim_alpha: 0.55             # 패널 뒤 지도 어둡게(fade.end_bg 색)
@@ -2205,7 +2244,7 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
       row: {size: 11, font: sansm, halo: 0}
   card:
     rect: [452, 64, 376, 168]   # 미사일 도해 카드 [x, y, w, h]
-    fade_sec: 0.55
+    fade_sec: 0.85   # UF-159 ×1.5(0.55)
     min_alpha: 0.01
     slide_px: 24
     radius: 8
@@ -2270,8 +2309,8 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     volume_mid_alpha: 0.35
     volume_mid_w: 1.0
     volume_mid_dash: [3, 4]
-    fade_open: 0.6
-    fade_close: 1.0
+    fade_open: 0.9   # UF-159 ×1.5(0.6)
+    fade_close: 1.5   # UF-159 ×1.5(1)
     handoff_rate: 0.3           # 2D 이어받는 동안 2D 시간 진행 비율
     track_w: [2.2, 1.4]         # 지상 궤적 [옆 시점 전, 후]
     track_alpha_side: 0.55
@@ -2286,7 +2325,7 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     flown_w: 2.4
     head_r: 22
     label_delay: 1.6            # 발사·착탄·정점 라벨(t_side0 뒤)
-    label_in: 0.6
+    label_in: 0.9   # UF-159 ×1.5(0.6)
     label: {size: 13, font: sansb, halo: 3.2}
     label_sub: {size: 11.5, font: sansm, halo: 3, dy: 17}
     label_launch: [-14, 6]      # 발사·착탄·정점 라벨 오프셋 — px_ref_height 장치 px 기준(원본)
@@ -2323,15 +2362,15 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     unit_name: {size: 11.5, font: sansb, halo: 3, dy: 22}
     light_name_rgb: [1.0, 0.82, 0.82]
     unit_in: 0.5
-    unit_fade_sec: 2.0
+    unit_fade_sec: 3   # UF-159 ×1.5(2)
     offscreen_px: 40            # 화면 밖 이만큼 넘는 부대는 그리지 않는다
     unit_box: [3, 22, 26]       # 예약 상자 [좌우 여백, 위, 아래]
     arrow: {spline: 16, half: [2.5, 6.5], tip: 16, wing: 14.0, alpha: [0.15, 0.78], edge_rgb: [1.0, 0.85, 0.85], edge_alpha: 0.55, edge_w: 0.8,
-            appear: 0.4, label_from: 0.35, label_in: 0.6, label_out: 0.8,
+            appear: 0.6, label_from: 0.35, label_in: 0.9, label_out: 1.2,   # UF-159 ×1.5(appear 0.4) · UF-159 ×1.5(label_in 0.6) · UF-159 ×1.5(label_out 0.8)
             max_step_px: 0.5}   # v5.12.0 D-0154 S5 — 성장 끝점의 프레임 간 이동이 호 길이 증가분을 넘는 허용 폭(px, 꼭짓점 건너뜀 금지 — 테스트 상한)
     arrow_label: {size: 11.5, font: sansb, halo: 3.2, dy: -13}
     arrow_label_rgb: [1.0, 0.86, 0.86]
-    place: {size: 11.5, font: sansm, halo: 3, alpha: 0.9, dot_r: 2.6, dx: 6, dy: 4, in_sec: 0.8, probe: [60, 14]}
+    place: {size: 11.5, font: sansm, halo: 3, alpha: 0.9, dot_r: 2.6, dx: 6, dy: 4, in_sec: 1.2, probe: [60, 14]}   # UF-159 ×1.5(in_sec 0.8)
     place_sub: {size: 9.5, font: sans, halo: 2.5, dy: 18}
     river_label: {size: 11, font: serif, alpha: 0.75, spacing: 2.0}
     tag: {size: 10.5, font: sansb, pad_w: 12, text_dx: 6, text_dy: 1, box_dy: -12, box_h: 17, radius: 3, bg_alpha: 0.75, edge_alpha: 0.95, edge_w: 0.9}

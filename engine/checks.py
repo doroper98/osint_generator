@@ -104,7 +104,7 @@ import numpy as np
 from engine.layers.media import KEN_BURNS_MAX
 from engine.media_plan import article_candidate_usage, density_report, placement_warnings
 from engine.projection import View
-from engine.style import FONT, FPS, H_OUT, ISLAND, TIMELINE, W_OUT
+from engine.style import ELEM, FONT, FPS, H_OUT, ISLAND, MOTION, TIMELINE, W_OUT
 from engine.typography import FontMissingError, family_found, fc_match, require_family
 from rules import load_rules
 from script.schema import DATE_RE
@@ -493,7 +493,7 @@ def _place_label_boxes(ctx: cairo.Context, P, v: View, t: float) -> list[tuple[s
         if e["type"] not in ("marker", "route", "barrier") or not e.get("label") or not e["t0"] <= t <= e["t1"] or own_pin_label(e):
             continue   # 아일랜드 안 핀은 주 무대 지명과 겹침을 따지지 않는다(아일랜드 라벨은 island label_check)
         if e["type"] == "marker":
-            if window(t, e["t0"], e["t1"], 0.35, 0.5) <= 0.01 or t - e["t0"] < 0.2:   # 라벨은 0.2초 뒤부터(draw_marker)
+            if window(t, e["t0"], e["t1"], *ELEM["marker"]) <= 0.01 or t - e["t0"] < 0.2:   # 라벨은 0.2초 뒤부터(draw_marker). v7.4.0 UF-159 — 렌더와 같은 키
                 continue
             x, y = v.to_screen(*e["world"])
             if -80 <= x <= W_OUT + 80 and -40 <= y <= H_OUT + 40:
@@ -534,7 +534,7 @@ def _label_shown(e: dict, t: float) -> bool:
     from engine.timebase import ease_io, window  # noqa: PLC0415
 
     return (e["t0"] <= t <= e["t1"] and (ease_io((t - e["t0"]) / e["grow"]) if e["grow"] > 0.05 else 1) >= 0.99
-            and window(t, e["t0"], e["t1"], 0.35, 0.6) > 0.01)
+            and window(t, e["t0"], e["t1"], *ELEM["route"]) > 0.01)
 
 
 def _capture_reserved(P, i: int) -> list:  # noqa: ANN001, N803
@@ -579,7 +579,7 @@ def route_label_slots(P) -> dict[int, int]:  # noqa: ANN001, N803
     lives = []
     for n, e in enumerate(routes):
         fr = [i for i in range(max(0, math.floor(e["t0"] * FPS)), min(P.n_frames - 1, math.ceil(e["t1"] * FPS)) + 1)
-              if _label_shown(e, i / FPS) and window(i / FPS, e["t0"], e["t1"], 0.35, 0.6) * smooth((i / FPS - e["t0"] - e["grow"]) / 0.4) > 0.01]
+              if _label_shown(e, i / FPS) and window(i / FPS, e["t0"], e["t1"], *ELEM["route"]) * smooth((i / FPS - e["t0"] - e["grow"]) / MOTION["route_label_in_sec"]) > 0.01]
         if fr:
             lives.append((fr[0], n, e, sorted(set(fr[::step]) | {fr[-1]})))
     slots: dict[int, int] = {}

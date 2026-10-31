@@ -12,7 +12,7 @@ import cairo
 
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import C, ISLAND, W_OUT, map_c, map_halo
+from engine.style import C, ELEM, ISLAND, MOTION, W_OUT, map_c, map_halo
 from engine.timebase import ease_out, smooth, window
 from engine.typography import text, tw
 from rules import load_rules
@@ -169,7 +169,7 @@ def _draw_pin_label(ctx: cairo.Context, R: RenderCtx, view: View, lt: float, a: 
 
 
 def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
-    a = window(t, e["t0"], e["t1"], 0.35, 0.5)
+    a = window(t, e["t0"], e["t1"], *ELEM["marker"])   # v7.4.0 UF-159 ×1.5
     if a <= 0.01:
         return
     x, y = view.to_screen(*e["world"])
@@ -187,7 +187,7 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
         ctx.set_source_rgba(*col, 0.5 * (1 - f) * a)
         ctx.set_line_width(1.3)
         ctx.stroke()
-    icon(ctx, e.get("icon") or "dot", x, y, col, a * ease_out(lt / 0.3))
+    icon(ctx, e.get("icon") or "dot", x, y, col, a * ease_out(lt / MOTION["marker_icon_pop_sec"]))
     if e.get("pin_value") is not None:   # v7.4.0 D-0274 §1② — 값 레인 위 핀: 단 라벨 + 리더선(engine.pin_labels), 단 없으면 점만
         _draw_pin_label(ctx, R, view, lt, a, e, x, y, hk)
         return

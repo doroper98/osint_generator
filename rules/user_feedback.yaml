@@ -2369,7 +2369,12 @@ entries:
   quote: "다만 뭔가가 등장 했다가 사라지는 트랜지션(사진이나 기사 등 모든것)에 지금보다 한 50% 정도만 시간을 더 배정해. 예를 들어 트랜지션 애니메이션에 0.8초 걸리는것 같은데 그걸 1.2 초로 늘리라는 뜻. 너무 성급해 보임.."
   quote_kind: verbatim
   category: 영상 문법 — 요소 등장·퇴장 전환 시간 ×1.5(모든 요소, 모든 렌더 경로)
-  guards: []
-  status: open
+  guards:
+  - {kind: rule, ref: transition.element_fade_min_sec}
+  - {kind: rule, ref: transition.element}
+  - {kind: test, ref: tests/anti_inertia/test_element_fade_floor.py::ElementFadeFloorTest::test_rule_keys_above_floor}
+  - {kind: test, ref: tests/anti_inertia/test_element_fade_floor.py::ElementFadeFloorTest::test_element_pairs_above_floor}
+  - {kind: test, ref: tests/anti_inertia/test_element_fade_floor.py::ElementFadeFloorTest::test_no_window_literals_in_engine}
+  status: guarded
   decision: D-0325(rules 의 요소 등장·퇴장 fade/popin 키 전부 ×1.5, 카메라·음악·배경 사진 crossfade 는 별도 판단 기록, 장치 = 최소 전환 시간 규칙 키 + 전 키 검사 테스트, 골든 재기준)
   source: 감독 세션(Fable) 사용자 대화 2026-10-31

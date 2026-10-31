@@ -17,7 +17,7 @@ import cairo
 
 from engine.context import RenderCtx
 from engine.credits import credit_sections
-from engine.style import END_CARD, TITLE_CARD, C, H_OUT, W_OUT
+from engine.style import C, ELEM, END_CARD, H_OUT, MOTION, TITLE_CARD, W_OUT
 from engine.timebase import ease_io, ease_out, smooth, window
 from engine.typography import _M, adv, text, wrap
 
@@ -218,7 +218,7 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
     ctx.paint()
     if a <= 0.01:
         return
-    k = ease_out((lt - 0.1) / 0.9)
+    k = ease_out((lt - 0.1) / MOTION["endcard_head_in_sec"])   # v7.4.0 UF-159 ×1.5
     text(ctx, "SOURCES  &  CREDITS", 64, 84 - (1 - k) * 6, 8.5, "mono", C["gold"], a * k, 0, "l", spacing=2.4, role="end_card")
     text(ctx, "자료 및 출처", 64, 110 - (1 - k) * 6, 17, "serif", (0.96, 0.95, 0.93), a * k, 0, "l", spacing=1.0, role="end_card")
     lab = template_label(R)
@@ -252,10 +252,10 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
 
     n = 0
     for si, _ci, x, head, rows in endcard_layout(secs, place)[0]:
-        sa = a * smooth((lt - 0.5 - si * 0.18) / 0.6)
+        sa = a * smooth((lt - 0.5 - si * 0.18) / MOTION["endcard_item_in_sec"])
         text(ctx, secs[si][0], x, head - off, 8.5, "sansb", C["gold"], sa * 0.9 * edge(head - off), 0, "l", spacing=1.4, role="end_card")
         for m, lic, y in rows:
-            ia = a * smooth((lt - 0.6 - si * 0.18 - n * 0.03) / 0.6)
+            ia = a * smooth((lt - 0.6 - si * 0.18 - n * 0.03) / MOTION["endcard_item_in_sec"])
             n += 1
             y -= off
             ls = m.split("\n")
@@ -268,7 +268,7 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
                 text(ctx, ll, x, yl, END_CARD.license_size, "monom", C["muted"], ia * 0.9 * edge(yl), 0, "l", role="end_card")
     if dist > 0:
         ctx.restore()
-    fa = a * smooth((lt - 1.6) / 0.8)
+    fa = a * smooth((lt - 1.6) / MOTION["endcard_foot_in_sec"])
     ctx.set_source_rgba(1, 1, 1, 0.08 * fa)
     ctx.rectangle(64, RULE_Y, W_OUT - 128, 0.8)
     ctx.fill()
@@ -291,7 +291,7 @@ def draw_fullcards(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa:
         hold = c.kind == "end" and END_CARD.hold_black_after
         if not (c.t0 - 0.1 <= t <= c.t1 + 0.1) and not (hold and t > c.t1):
             continue
-        a = window(t, c.t0, c.t1, 0.7, 0.7)
+        a = window(t, c.t0, c.t1, *ELEM["fullcard"])   # v7.4.0 UF-159 ×1.5
         lt = t - c.t0
         if c.kind == "title":
             g = cairo.LinearGradient(0, 0, 0, H_OUT)
@@ -299,15 +299,15 @@ def draw_fullcards(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa:
                 g.add_color_stop_rgba(st, 0.01, 0.015, 0.03, al * a)
             ctx.set_source(g)
             ctx.paint()
-            k = ease_out(lt / 1.0)
+            k = ease_out(lt / MOTION["title_settle_sec"])
             text(ctx, plan.title, W_OUT / 2, 232 - (1 - k) * 10, title_fit_size(ctx, plan.title), "disp", (1, 1, 1),
-                 a * smooth((lt - 0.1) / 0.6), 0, "c")
+                 a * smooth((lt - 0.1) / MOTION["title_text_in_sec"]), 0, "c")
             ctx.set_source_rgba(*C["gold"], 0.95 * a)
-            lw = TITLE_CARD.rule_w * ease_io((lt - 0.5) / 0.9)
+            lw = TITLE_CARD.rule_w * ease_io((lt - 0.5) / MOTION["title_rule_in_sec"])
             ctx.rectangle(W_OUT / 2 - lw / 2, 254, lw, 1.6)
             ctx.fill()
             text(ctx, title_subtitle(R), W_OUT / 2, 290, TITLE_CARD.subtitle_size, "serifb", (0.92, 0.9, 0.88),
-                 a * smooth((lt - 0.8) / 0.6), 0, "c")
-            text(ctx, plan.date.replace(".", ". "), W_OUT / 2, 322, 12, "mono", C["gold"], a * smooth((lt - 1.1) / 0.6), 0, "c")
+                 a * smooth((lt - 0.8) / MOTION["title_text_in_sec"]), 0, "c")
+            text(ctx, plan.date.replace(".", ". "), W_OUT / 2, 322, 12, "mono", C["gold"], a * smooth((lt - 1.1) / MOTION["title_text_in_sec"]), 0, "c")
         else:
             draw_endcard(ctx, R, t, c, a)

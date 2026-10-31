@@ -15,7 +15,7 @@ import cairo
 from engine.assets import set_raster
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import BADGE, BADGE_BG, C, H_OUT, W_OUT
+from engine.style import BADGE, BADGE_BG, C, H_OUT, MOTION, W_OUT
 from engine.timebase import ease_back, smooth, window
 from engine.typography import rrect, text, tw
 
@@ -346,7 +346,7 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
     ctx.set_line_width(RING.inner_w)
     ctx.stroke()
     ctx.restore()
-    la = a * smooth((lt - 0.3) / 0.35)
+    la = a * smooth((lt - 0.3) / MOTION["badge_label_in_sec"])   # v7.4.0 UF-159 ×1.5
     if e.get("label") and la > 0.01:
         LB = BADGE.label_box  # noqa: N806
         ls, rs = label_sizes(e, Rr)

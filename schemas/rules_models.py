@@ -99,6 +99,11 @@ class TransitionRules(_Strict):
     date_badge_xfade_sec: float = Field(gt=0)    # bridge 문장에서 날짜 배지를 옛 날짜 → 새 날짜로 교차 페이드
     jump_days: int = Field(gt=0)                 # 이웃 장면 대표 날짜(문장 날짜 중앙값) 차가 이 이상이면 시점 전환(D-0230 B)
     in_scene_jump_days: int = Field(gt=0)        # 장면 안 문장 날짜가 장면 중앙값과 이 이상 차이 나면 warning [transition-in-scene](role background 제외)
+    # v7.4.0 D-0325(UF-159) — 요소 등장·퇴장(×1.5). element = 종류별 [in, out], element_motion = 등장 움직임 길이
+    element_fade_min_sec: float = Field(gt=0)
+    element_fade_exempt: dict[str, str] = Field(default_factory=dict)
+    element: dict[str, tuple[float, float]]
+    element_motion: dict[str, float]
 
 
 class ScriptSchemaRules(_Strict):
@@ -2444,7 +2449,7 @@ class StatementDiffLayout(_Strict):
     bar_inset: float
     strike_w: float
     strike_rise: float
-    fade_sec: float = Field(ge=0.4, le=0.6)   # 20 §4.2 등장 0.4~0.6초
+    fade_sec: float = Field(ge=0.6, le=0.9)   # 20 §4.2 등장 0.4~0.6초 → v7.4.0 UF-159(D-0325) ×1.5 = 0.6~0.9초
     slide_px: float
 
 
@@ -2484,7 +2489,7 @@ class DotPlotLayout(_Strict):
     radius: float
     bar_w: float
     bar_inset: float
-    fade_sec: float = Field(ge=0.4, le=0.6)
+    fade_sec: float = Field(ge=0.6, le=0.9)   # v7.4.0 UF-159(D-0325) ×1.5 — 옛 0.4~0.6초
     slide_px: float
     dot_stagger_sec: float = Field(ge=0)
 
@@ -2497,7 +2502,7 @@ class SiteDiagramLayout(_Strict):
     w: float = Field(gt=0)
     h: float = Field(gt=0)
     radius: float
-    fade_sec: float = Field(ge=0.4, le=0.6)
+    fade_sec: float = Field(ge=0.6, le=0.9)   # v7.4.0 UF-159(D-0325) ×1.5 — 옛 0.4~0.6초
     scale_from: float = Field(gt=0, le=1)
     north_bg: str
     south_bg: str

@@ -8,7 +8,7 @@ import cairo
 
 from engine.context import RenderCtx
 from engine.panels.base import panel_title
-from engine.style import C
+from engine.style import C, MOTION
 from engine.timebase import smooth
 from engine.typography import rrect, text, tw, wrap
 from rules import load_rules
@@ -42,7 +42,7 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
     for (cname, x), side in zip(_COLS, e["sides"]):
         col = C[cname]
         items = side["items"]
-        fa = a * smooth((t - items[0]["t"] + 0.6) / 0.5)
+        fa = a * smooth((t - items[0]["t"] + 0.6) / MOTION["panel_item_in_sec"])   # v7.4.0 UF-159 ×1.5
         if fa <= 0:
             continue
         rrect(ctx, x, 120, BOX_W, 262, 6)
@@ -53,7 +53,7 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
         ctx.fill()
         text(ctx, side["title"], x + 22, 156, VS.title_size, "sansb", col, fa, 0, "l")
         for i, it in enumerate(items):
-            ia = a * smooth((t - it["t"]) / 0.45)
+            ia = a * smooth((t - it["t"]) / MOTION["panel_item_fast_in_sec"])
             ctx.arc(x + 26, 196 + i * 50 - 5, 3, 0, 2 * math.pi)
             ctx.set_source_rgba(*col, ia)
             ctx.fill()
