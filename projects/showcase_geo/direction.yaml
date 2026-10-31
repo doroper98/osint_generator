@@ -1033,7 +1033,7 @@ events:
 - type: panel
   start:
     sid: act3_6
-    'off': -0.3
+    'off': 0.0   # v7.4.0 UF-159 — 기사 art_0020 끝 +1.8(전환 ×1.5)과 패널 완전 노출이 0.3초 겹쳐 [card-over-panel] hard. 시작을 0.3초 늦춤(옛 -0.3)
   end:
     sid: act3_6
     edge: end
