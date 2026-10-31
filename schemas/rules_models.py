@@ -2419,7 +2419,7 @@ class DataRules(_Strict):
     unit_ton_pattern: str = ""   # v7.4.0 D-0241 §3(UF-122) — 화면 문자열에 남으면 [unit-ton-glyph] hard(빈 값 = 검사 안 함)
     unit_prefixes: list[str] = Field(min_length=1)   # v4.3.0 D-0087 보정 1
     sources_allowed: list[str] = Field(min_length=1)
-    frequencies: list[Literal["monthly", "release"]] = Field(min_length=1)   # release = v4.4.0 scatter
+    frequencies: list[Literal["monthly", "release", "daily"]] = Field(min_length=1)   # release = v4.4.0 scatter. daily = v7.4.0 D-0326(목표 범위 발효일 계단)
     transforms: dict[str, str] = Field(min_length=1)
     source_kinds: list[Literal["fetched", "press_cited"]] = Field(min_length=1)   # v7.3.0 D232 U4
     series_dir: str

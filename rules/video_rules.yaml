@@ -1660,7 +1660,7 @@ data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs
   licenses_allowed: [us_gov_public_domain, cc_by_4, press_cited]   # 재배포 가능한 공개 라이선스만(20 §5.1 "시리즈마다 이용 조건 확인"). press_cited = v7.3.0 D232 U4 — 보도 인용값(값 자체는 사실 인용, 값마다 cited 필수)
   unit_prefixes: ["$", "₩", "€", "¥"]                    # v4.3.0 D-0087 보정 1 — 값 앞 통화 기호도 단위 표시로 인정(dual_line y_prefix)
   sources_allowed: [fred.stlouisfed.org, www.federalreserve.gov]   # source_url 도메인(tools/fetch_series.py 가 받는 곳). federalreserve.gov = v4.4.0 SEP 점도표(D-0090 작업 2)
-  frequencies: [monthly, release]                           # 값 날짜 간격 — monthly = 매월 1일, 한 달씩. release = 발표 한 번(scatter, v4.4.0)
+  frequencies: [monthly, release, daily]                    # 값 날짜 간격 — monthly = 매월 1일, 한 달씩. release = 발표 한 번(scatter, v4.4.0). daily = 일별 원자료(v7.4.0 D-0326 UF-200 — 목표 범위는 발효일 계단)
   transforms:                                               # 코드가 하는 변환(명시된 것만). 레코드 transform.formula 는 이 문구와 같아야 한다
     raw: "원자료(변형 없음)"
     yoy_pct: "전년 동월 대비 % = (x_t / x_(t-12) - 1) * 100, 소수 둘째 자리 반올림"
