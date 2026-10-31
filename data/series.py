@@ -88,9 +88,11 @@ def apply_transform(op: str, raw: list[tuple[date, Optional[float]]], start: dat
     raise SeriesError(f"구현 없는 transform {op!r} — rules data.transforms 와 이 함수가 같아야 한다(P10)")
 
 
-def chart_close(raw_json: str) -> list[tuple[date, float]]:
+def chart_close(raw_json: str, nulls: list[date] | None = None) -> list[tuple[date, float]]:
     """transform chart_close(v7.4.0 D-0278 §4.2): Yahoo chart API JSON → [(거래일, 종가)]. 날짜 = 거래소 현지 날짜
-    (timestamp + meta.gmtoffset). close 가 null 인 거래일(체결 없음)은 오류 — 휴장일은 응답에 행이 없다. 값은 그대로."""
+    (timestamp + meta.gmtoffset). 휴장일은 응답에 행이 없다. 값은 그대로.
+    close 가 null 인 거래일: nulls 를 주지 않으면 오류, 주면 그 목록에 날짜를 넣고 값에서 뺀다 — 부르는 쪽이 레코드 missing
+    (사유 rules data.chart_null_note)으로 적어야 한다(v7.4.0 D-0319 ① — 조용히 채우거나 버리지 않는다, P6)."""
     import json  # noqa: PLC0415
     from datetime import datetime, timedelta, timezone  # noqa: PLC0415
 
@@ -107,7 +109,10 @@ def chart_close(raw_json: str) -> list[tuple[date, float]]:
     for t, c in zip(ts, close):
         d = (datetime.fromtimestamp(int(t), tz=timezone.utc) + timedelta(seconds=off)).date()
         if c is None:
-            raise SeriesError(f"chart_close: {d} 종가 없음(null) — 채우지 않는다(P6)")
+            if nulls is None:
+                raise SeriesError(f"chart_close: {d} 종가 없음(null) — 채우지 않는다(P6)")
+            nulls.append(d)
+            continue
         if out and out[-1][0] == d:
             raise SeriesError(f"chart_close: {d} 가 두 번 나온다(장중 행 — interval=1d 로 받는다)")
         out.append((d, float(c)))
@@ -214,7 +219,11 @@ def load_series_file(yaml_path: Path) -> SeriesRecord:
         if not jp.exists():
             raise SeriesError(f"{yaml_path}: chart_close 레코드는 원자료 {jp.name} 이 있어야 한다(받은 그대로 대조)")
         skip = set(rec.missing_dates())   # missing = 받았지만 쓰지 않기로 한 날(사유는 레코드에)
-        again_c = [(d, v) for d, v in chart_close(jp.read_text(encoding="utf-8")) if rec.start <= d <= rec.end and d not in skip]
+        nulls: list[date] = []
+        again_c = [(d, v) for d, v in chart_close(jp.read_text(encoding="utf-8"), nulls) if rec.start <= d <= rec.end and d not in skip]
+        lost = [d for d in nulls if rec.start <= d <= rec.end and d not in skip]
+        if lost:   # v7.4.0 D-0319 ① — null 종가 날은 레코드 missing 에 적혀 있어야 한다
+            raise SeriesError(f"{csv_path}: raw/{jp.name} 의 null 종가 {lost} 가 레코드 missing 에 없다(조용한 드롭 금지)")
         if again_c != rec.values:
             raise SeriesError(f"{csv_path}: raw/{jp.name} 의 종가와 다르다(손으로 고친 값 금지)")
         return rec

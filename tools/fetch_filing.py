@@ -361,8 +361,13 @@ def cmd_price(a: argparse.Namespace) -> int:
         b = _get(url)
         jp.write_bytes(b)
     notes = dict(x.split("=", 1) for x in a.missing_note)
+    nulls: list[date] = []
+    closes = chart_close(b.decode("utf-8"), nulls)
+    for d in nulls:   # v7.4.0 D-0319 ① — null 종가 = missing(사유 rules data.chart_null_note), 기간 안만
+        if a.start <= d <= a.end:
+            notes.setdefault(d.isoformat(), load_rules().data.chart_null_note)
     skip = {date.fromisoformat(k) for k in notes}
-    values = [(d, v) for d, v in chart_close(b.decode("utf-8")) if a.start <= d <= a.end and d not in skip]
+    values = [(d, v) for d, v in closes if a.start <= d <= a.end and d not in skip]
     if len(values) < 2:
         raise SeriesError(f"{a.ticker}: {a.start}~{a.end} 종가 {len(values)}개")
     last = values[-1][0]

@@ -216,6 +216,13 @@ class FetchFilingOfflineTest(unittest.TestCase):
         with self.assertRaisesRegex(SeriesError, "종가 없음"):
             chart_close(_chart_json([date(2026, 10, 28), date(2026, 10, 29)], [1.0, None]))
 
+    def test_chart_close_null_listed(self) -> None:
+        """v7.4.0 D-0319 ① — nulls 를 주면 null 날은 값에서 빠지고 목록에 남는다(부르는 쪽이 missing 으로 적는다)."""
+        nulls: list[date] = []
+        out = chart_close(_chart_json([date(2026, 10, 27), date(2026, 10, 28), date(2026, 10, 29)], [1.0, None, 1.1]), nulls)
+        self.assertEqual([d for d, _ in out], [date(2026, 10, 27), date(2026, 10, 29)])
+        self.assertEqual(nulls, [date(2026, 10, 28)])
+
 
 class SpacedUnitAndSegmentsTest(unittest.TestCase):
     """v7.4.0 T1 — 공백 있는 단위(십억 달러·조 원)의 화면 단위 판정, daily·quarterly 선은 missing 에서만 끊는다."""
