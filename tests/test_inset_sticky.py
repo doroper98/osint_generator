@@ -32,7 +32,7 @@ def _frames(n: int) -> list[tuple[int, float, float]]:
 
 class InsetStickyTest(unittest.TestCase):
     def test_rule_values(self) -> None:
-        self.assertEqual((F.inset.w_px, F.inset.gap_px, F.inset.caption_size, F.inset.frame.width, tuple(F.inset.fade)), (190, 14, 10, 1.2, (0.35, 0.8)))
+        self.assertEqual((F.inset.w_px, F.inset.gap_px, F.inset.caption_size, F.inset.frame.width, tuple(F.inset.fade)), (190, 14, 10, 1.2, (0.55, 1.2)))   # fade = v7.4.0 UF-159 ×1.5(옛 0.35·0.8)
         self.assertTrue(F.inset.sticky_side)
         self.assertEqual((F.inset.move_sec, F.inset.jump_px_max), (0.6, 24))
 
