@@ -1165,7 +1165,7 @@ events:
     'off': 0.8
   mid: hormuz_strait_modis_2020   # v7.4.0 D-0327 — 옛 hormuz_transit(주된 피사체가 문장 대상이 아니다: [photo-subject-background])
   for: 호르무즈 해협   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
-  place: map_left
+  place: map_pair_left   # v7.4.0 R-0294 판정 — 가운데 큰 자리(x 196~657)가 마커 '호르무즈 해협' 라벨 왼쪽을 2.7초 가렸다([label-under-media]). 왼쪽 자리 x 42~418
 - type: article
   start:
     sid: act3_5

@@ -1918,6 +1918,9 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
     neutral_types: [dip, island]   # island 는 kind 로만 판정(chart → 차트). 그 밖 아일랜드는 안의 사진·영상 이벤트가 따로 센다
     # 회귀 기준 면제 = qa_checks.regression_refs(v7.4.0 D-0311 — 옛 exempt_projects 삭제, D-0271 원칙 그대로)
     map_stages: [mercator]
+  # v7.4.0 R-0294 감독 판정(겹침 0 원칙) — 지도 마커 라벨(+부제)이 사진·영상 상자 아래로 깔리는 시간.
+  # 둘 다 알파 min_alpha 이상인 표본만 센다(서로 페이드 중 겹침은 허용). 마커·미디어 쌍마다 max_sec 초과 = [label-under-media] hard
+  label_under_media: {max_sec: 0.2, step_sec: 0.1, min_alpha: 0.5, media_types: [photo, clip]}
   card_over_panel: {min_overlap_sec: 0.3, panel_pad_px: 4, cover_types: [cascade, article, quote, primitive],
                     cover_types_on_data_panels: [photo, clip, cutout, badge],
                     # v7.4.0 back_and_forth D-0259(UF-129 미보호 경로) — 시간축 주 무대: 틀 안 시리즈 레인(레코드가 그려지는 레인) 상자를

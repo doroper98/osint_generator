@@ -1697,6 +1697,15 @@ class CardOverPanel(_Strict):
     timeline_frame_cover_types: list[str] = Field(default_factory=list)   # v7.4.0 D-0259 — 시간축 틀 안 시리즈 레인 위에서 세는 덮개(사건 레인 허용)
 
 
+class LabelUnderMedia(_Strict):
+    """v7.4.0 R-0294 판정 — 지도 마커 라벨이 사진·영상 상자에 깔리는 시간 상한([label-under-media] hard)."""
+
+    max_sec: float = Field(ge=0)
+    step_sec: float = Field(gt=0, le=0.5)
+    min_alpha: float = Field(gt=0, le=1)
+    media_types: list[Literal["photo", "clip"]] = Field(min_length=1)
+
+
 class ChartOnlyRun(_Strict):
     """v7.4.0 D-0251 §6.2-3·D-0252(UF-135 ① "너무 차트만") — 차트·카드만 보이는 구간 상한. 모든 무대·장르, 콘티 판·프리뷰·전편 같은 키.
     차트 요소 = chart_types(+ island kind chart_island_kinds, primitive id chart_primitives). neutral_types 는 판정에 넣지 않는다.
@@ -1715,6 +1724,7 @@ class QAChecks(_Strict):
     overlap_core_elements: int
     chart_only_run: ChartOnlyRun                      # v7.4.0 D-0252 — [chart-only-run] hard
     card_over_panel: Optional[CardOverPanel] = None   # v7.4.0 D-0248(UF-129)
+    label_under_media: Optional[LabelUnderMedia] = None   # v7.4.0 R-0294 판정
     outlet_min_overlap_sec: float = 0.5               # v7.4.0 D-0250(UF-130)
     outlet_names: dict[str, OutletNames] = Field(default_factory=dict)
     offscreen_clip: int

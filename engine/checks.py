@@ -80,6 +80,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | photo_age | warning | 문장 날짜 − 사진 촬영일 > rules media.photo_age_max_years 인데 age_reason 없음 `[photo-age]`(v7.4.0 D-0327, 장르 photo_age_check) |
 | band_line_outside | hard | 레코드 within([아래, 위]) 관계를 선언한 선 값이 같은 레인 band 밖(띠 변경 달·변경일 ± rules stage_timeline.series.within_band_tolerance_days 제외) `[band-line-outside]`(v7.4.0 D-0326·UF-200) |
 | series_date_convention | warning | 같은 레인에 frequency 가 다른 시리즈인데 레코드 grain 없음 `[series-date-convention]`(v7.4.0 D-0326) |
+| label_under_media | hard | 지도 마커 라벨(+부제) 상자가 사진·영상 상자 아래에 깔린 시간(둘 다 알파 ≥ min_alpha) > rules qa_checks.label_under_media.max_sec `[label-under-media]`(v7.4.0 R-0294 판정) |
 | badge_covered | hard | 지도 층 배지 계획 구간 중 안 보인 비율(전면 덮개로 늦춰짐·덮개 아래·상자 가림) > rules badge.covered_max_ratio `[badge-covered]`(v7.4.0 D-0329) |
 | flight_unsourced | hard | flight 에 claim 없음·원고가 인용하지 않은 claim `[flight-unsourced]` — 비행은 출처 있는 특정 타격에만(v7.4.0 D-0316) |
 | scene_visual_void | hard | 요소(rules qa_checks.visual_void_types) 없이 지도·배경만 보이는 구간 ≥ qa_checks.visual_void_max_sec(콜드 오픈·전면 카드·카메라 move 제외) `[scene-visual-void]`(v7.4.0 D-0312, provenance visual_void) |
@@ -122,7 +123,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -969,6 +970,48 @@ def check_label_hidden(P) -> list[str]:  # noqa: ANN001, N803
             out.append(f"[label-hidden-by-card] 마커 {e['label']!r} t0={e['t0']:.2f} 라벨이 카드 {refs} 뒤에서 표시 시간의 {r:.0%} 흐려짐"
                        f" > {QA.label_hidden_max_ratio:.0%} — 마커나 카드 자리를 옮겨라(카메라 구도·카드 y·place)")
     return out
+
+
+def label_under_media(P) -> list[tuple[dict, str, float, float]]:  # noqa: ANN001, N803
+    """(마커, 덮은 미디어 mid, 처음 시각, 깔린 초) — v7.4.0 R-0294 판정. 마커 라벨(부제 포함) 상자와 사진·영상 상자(캡션 바 포함)가
+    둘 다 알파 rules min_alpha 이상으로 겹친 표본 × step_sec. 지도가 가려진 순간(_covered)·화면 밖 마커는 세지 않는다."""
+    from engine.layers.markers import marker_box  # noqa: PLC0415
+    from engine.media_plan import media_box  # noqa: PLC0415
+    from engine.timebase import window  # noqa: PLC0415
+
+    cfg = QA.label_under_media
+    if cfg is None:
+        return []
+    assets = P.R.assets.media_assets
+    media = [(m, tuple(media_box(m, assets))) for m in P.events if m["type"] in cfg.media_types and "x" in m and m.get("mid") in assets]
+    if not media:
+        return []
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    out = []
+    for e in P.events:
+        if e["type"] != "marker" or "world" not in e:
+            continue
+        hits: dict[str, list[float]] = {}
+        t = e["t0"] + cfg.step_sec / 2
+        while t < e["t1"]:
+            live = [(m, b) for m, b in media if window(t, m["t0"], m["t1"], *ELEM[m["type"]]) >= cfg.min_alpha]
+            if live and window(t, e["t0"], e["t1"], *ELEM["marker"]) >= cfg.min_alpha and not _covered(P, t):
+                v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
+                x, y = v.to_screen(*e["world"])
+                if -80 <= x <= W_OUT + 80 and -40 <= y <= H_OUT + 40:
+                    box = marker_box(ctx, e, x, y, with_sub=True)
+                    for m, b in live:
+                        if _box_hit(box, b):
+                            hits.setdefault(m["mid"], []).append(t)
+            t += cfg.step_sec
+        out += [(e, mid, ts[0], len(ts) * cfg.step_sec) for mid, ts in hits.items() if len(ts) * cfg.step_sec > cfg.max_sec + 1e-9]
+    return out
+
+
+def check_label_under_media(P) -> list[str]:  # noqa: ANN001, N803
+    """[label-under-media] hard(v7.4.0 R-0294 감독 판정 — 겹침 0 원칙) — 지도 마커 라벨이 사진·영상 아래에 깔린다."""
+    return [f"[label-under-media] 마커 {e['label']!r} 라벨이 {mid} 상자 아래 {sec:.1f}초 깔림(t={t:.1f}, > {QA.label_under_media.max_sec:g}초) — "
+            "사진 자리(place)를 라벨과 겹치지 않는 슬롯으로 옮기거나 마커 시각을 사진 밖으로 옮긴다" for e, mid, t, sec in label_under_media(P)]
 
 
 def check_labels(P, times: list[float]) -> list[str]:  # noqa: ANN001, N803
@@ -2261,6 +2304,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "scene_visual_void": lambda: check_scene_visual_void(P, provenance),   # v7.4.0 D-0312 §1-1(hard)
         "flight_unsourced": lambda: check_flight_unsourced(P),   # v7.4.0 D-0316 ①(hard)
         "badge_covered": lambda: check_badge_covered(P),   # v7.4.0 D-0329 ②(hard)
+        "label_under_media": lambda: check_label_under_media(P),   # v7.4.0 R-0294 판정(hard)
         "band_line_outside": lambda: check_band_line_outside(P),   # v7.4.0 D-0326(hard, UF-200)
         "photo_subject_background": lambda: check_photo_subject_background(P),   # v7.4.0 D-0327(hard, UF-201)
         "photo_subject_unmatched": lambda: check_photo_subject_unmatched(P),     # v7.4.0 D-0327(hard)
