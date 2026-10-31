@@ -2349,3 +2349,16 @@ entries:
   status: open
   decision: D-0323(네 르포의 번들·테마 토큰·디자인 시트를 저장소 사본에서 추출해 영상 테마·차트 문법 명세로 옮긴다. 20261027 번들 테마 = reportage_noturno)
   source: 감독 세션(Fable) 사용자 대화 2026-10-31
+- id: UF-158
+  date: '2026-10-31'
+  project: china_tech_export_controls_2026
+  at: "완성본 final_deliver.mp4(artifacts/china-export-controls-v7.4.0 95148beb, md5 02ccbde3) 전체 판정"
+  quote: "중국 관련 영상은 95점. 완성 처리 해."
+  quote_kind: verbatim
+  category: 영상 문법 — 전체 판정(95점, 완성 확정)
+  guards:
+  - kind: doc
+    ref: back_and_forth/261031_100127_D0324_fable_china-video-complete-95.md#기록 — 『제품은 팔고, 능력은 안 판다 — 중국 기술 수출통제 열흘, 그리고 한국』 완성 확정(사용자 판정 95점)
+  status: guarded
+  decision: D-0324(완성 확정, 재작업 없음, main 병합은 별도 지시) · DECISIONS D302
+  source: 감독 세션(Fable) 사용자 대화 2026-10-31
