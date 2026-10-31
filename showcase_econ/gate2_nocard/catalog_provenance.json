@@ -3,7 +3,7 @@
  "engine": "engine",
  "repo_version": "7.4.0",
  "rules_version": "2.0.0",
- "rules_hash": "a15135362f4edfab4f815d6445da6e8336986c7a",
+ "rules_hash": "b3c075a92fe483ac0834b2719b33c47ab862ea51",
  "prompts": {
   "director": "4f002b0c8dff94791ff0629f67ad03afae952f3f"
  },
@@ -132,7 +132,16 @@
   "reviewer": "fable (back_and_forth)",
   "visual_qa": []
  },
- "drops": [],
+ "drops": [
+  {
+   "record": "CPIAUCSL",
+   "reason": "아일랜드 높이 298 에 레인 셋이면 금리 값 영역이 약 25px 이라 동결기가 평평해 보인다(UF-140) — 금리 + 기록 두 레인(D-0267 §1). 물가 3.4% 는 act2_6 카드가 말하고, 물가 시계열은 geo 편 dual_line 이 보여 준다"
+  },
+  {
+   "record": "DFEDTARU",
+   "reason": "차트 아일랜드 policy_rate 레인 band 시리즈(DFEDTARL)의 upper_id 로 목표 범위 상단을 이미 그린다 — 별도 패널은 같은 선을 두 번 그린다"
+  }
+ ],
  "assets": {
   "images_used": [
    "media:econ_powell_presser_552_720.jpg",
@@ -174,7 +183,8 @@
   }
  },
  "reserved": {
-  "avoidance": []
+  "avoidance": [],
+  "badge_delays": []
  },
  "audio": {
   "bgm": [
@@ -526,16 +536,16 @@
  },
  "pin_labels": {
   "rows": {
-   "9월 16일 인상": -1,
+   "9월 16일 인상": 2,
    "10월 29일 인하": 1,
    "12월 10일 인하": -1,
    "이란 전쟁 시작": 1,
    "워시 의장 취임": 1,
    "7월 회의": 1,
-   "7월 29일 동결": 2,
+   "7월 29일 동결": 1,
    "9월 16일": 2,
    "10월 27~28일 회의": -1,
-   "3.75~4%": 2
+   "3.75~4%": 1
   },
   "dropped": [],
   "collisions": 0
@@ -549,6 +559,7 @@
    "timeline": 1
   },
   "configs": {
+   "backdrop": {},
    "timeline": {
     "lanes": [
      {
@@ -560,8 +571,7 @@
     ],
     "start": "2025-06-01",
     "end": "2028-12-31"
-   },
-   "backdrop": {}
+   }
   }
  },
  "genre": {
@@ -611,7 +621,7 @@
    "as_of": "2026-09",
    "license": "us_gov_public_domain",
    "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DFEDTARL&cosd=2019-01-01",
-   "transform": "month_last",
+   "transform": "raw",
    "missing": []
   },
   {
@@ -619,7 +629,7 @@
    "as_of": "2026-09",
    "license": "us_gov_public_domain",
    "source_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DFEDTARU&cosd=2019-01-01",
-   "transform": "month_last",
+   "transform": "raw",
    "missing": []
   },
   {
@@ -1000,11 +1010,11 @@
   ],
   "voice": "음성 supertonic M3 ×0.95 · 끝 '니다' 3자 −4반음",
   "truncated": [],
-  "direction_sha1": "43b29be836c8f48c3179d6010312d2609dda1142",
+  "direction_sha1": "0ca98db5afaba065aef35342a45c2fd2c903835f",
   "sec": {
-   "render": 1210.2,
-   "total": 1611.0,
-   "mux": 28.1
+   "render": 1255.2,
+   "total": 1682.4,
+   "mux": 31.6
   },
   "jobs": 4,
   "frames": 4419,
@@ -1024,7 +1034,7 @@
    },
    "post_limiter_dbfs": -2.0
   },
-  "bytes": 24555722
+  "bytes": 25743985
  },
  "checks": {
   "hard": 0,
@@ -1485,6 +1495,20 @@
    "id": "UF-148",
    "checks": {
     "text_restates_narration": 0
+   }
+  },
+  {
+   "id": "UF-200",
+   "checks": {
+    "band_line_outside": 0,
+    "series_date_convention": 0
+   }
+  },
+  {
+   "id": "UF-201",
+   "checks": {
+    "photo_subject_background": 0,
+    "photo_subject_unmatched": 0
    }
   }
  ]

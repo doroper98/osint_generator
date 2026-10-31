@@ -1,6 +1,6 @@
 # 카탈로그 요소 표 — showcase_econ
 
-출처: `out/catalog_frames.json`(표본 185개, 1초 간격) · 연출 지문 43b29be8 · 음성 음성 supertonic M3 ×0.95 · 끝 '니다' 3자 −4반음
+출처: `out/catalog_frames.json`(표본 185개, 1초 간격) · 연출 지문 0ca98db5 · 음성 음성 supertonic M3 ×0.95 · 끝 '니다' 3자 −4반음
 
 | 구간 | 요소(레지스트리 이름) | 글꼴 |
 |---|---|---|

@@ -1,6 +1,6 @@
 # 카탈로그 요소 표 — showcase_geo
 
-출처: `out/catalog_frames.json`(표본 241개, 1초 간격) · 연출 지문 c10ce72e · 음성 음성 supertonic M3 ×0.95 · 끝 '니다' 3자 −4반음
+출처: `out/catalog_frames.json`(표본 241개, 1초 간격) · 연출 지문 af3e620c · 음성 음성 supertonic M3 ×0.95 · 끝 '니다' 3자 −4반음
 
 | 구간 | 요소(레지스트리 이름) | 글꼴 |
 |---|---|---|
@@ -18,9 +18,7 @@
 | 0:21–0:23 | marker | sans · serif · display · mono |
 | 0:23–0:24 | - | sans |
 | 0:24–0:25 | - | sans · mono |
-| 0:25–0:27 | country · flight | sans · mono |
-| 0:27–0:33 | country · flight · marker | sans · mono |
-| 0:33–0:34 | country · marker | sans · mono |
+| 0:25–0:34 | country · marker | sans · mono |
 | 0:34–0:35 | country | sans · mono |
 | 0:35–0:46 | country · photo | sans · mono |
 | 0:46–0:47 | country | sans · mono |
@@ -54,14 +52,15 @@
 | 2:07–2:10 | country · marker · route · photo · tanker_loop | sans · serif · mono |
 | 2:10–2:11 | country · route · photo · tanker_loop | sans · serif · mono |
 | 2:11–2:12 | country · clip · route · tanker_loop | sans · serif · mono |
-| 2:12–2:14 | country · boom · marker · clip · route · tanker_loop · badge:emblem | sans · serif · mono |
-| 2:14–2:15 | country · marker · clip · route · tanker_loop · badge:emblem | sans · serif · mono |
+| 2:12–2:14 | country · boom · marker · clip · route · tanker_loop | sans · serif · mono |
+| 2:14–2:15 | country · marker · clip · route · tanker_loop | sans · serif · mono |
 | 2:15–2:16 | country · clip | sans · serif · mono |
 | 2:16–2:18 | country · marker · barrier · clip | sans · serif · mono |
 | 2:18–2:19 | country · clip | sans · serif · mono |
 | 2:19–2:21 | country · clip · article | sans · serif · mono |
 | 2:21–2:23 | country · article | sans · serif · mono |
-| 2:23–2:29 | country · panel:statement | sans · serif · mono |
+| 2:23–2:24 | country · panel:statement · article | sans · serif · mono |
+| 2:24–2:29 | country · panel:statement | sans · serif · mono |
 | 2:29–2:30 | country | sans · serif · mono |
 | 2:30–2:42 | country · panel:dual_line | sans · serif · mono |
 | 2:42–2:44 | - | sans · serif · mono |
@@ -83,10 +82,10 @@
 | 3:19–3:20 | - | sans · mono |
 | 3:20–3:26 | marker | sans · mono |
 | 3:26–3:27 | - | sans · mono |
-| 3:27–3:28 | article · badge:person | sans · mono |
-| 3:28–3:32 | article · badge:person | sans · serif · mono |
+| 3:27–3:28 | article | sans · mono |
+| 3:28–3:32 | article | sans · serif · mono |
 | 3:32–3:33 | - | sans |
-| 3:33–3:35 | marker | sans · mono |
+| 3:33–3:35 | badge:person · marker | sans · mono |
 | 3:35–3:36 | dip | sans · mono |
 | 3:36–3:38 | - | sans · mono |
 | 3:38–3:39 | marker | sans · mono |
@@ -95,9 +94,9 @@
 | 3:44–3:50 | marker · route | sans · mono |
 | 3:50–4:01 | marker · route | sans · serif · mono |
 
-## 영상 전체 요소 (17)
+## 영상 전체 요소 (16)
 
-article · badge:emblem · badge:person · barrier · boom · clip · country · dip · flight · marker · panel:dots · panel:dual_line · panel:statement · photo · primitive:site_diagram · route · tanker_loop
+article · badge:person · barrier · boom · clip · country · dip · flight · marker · panel:dots · panel:dual_line · panel:statement · photo · primitive:site_diagram · route · tanker_loop
 
 ## 영상 전체 글꼴 (4)
 

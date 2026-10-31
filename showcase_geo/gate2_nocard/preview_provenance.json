@@ -3,7 +3,7 @@
  "engine": "engine",
  "repo_version": "7.4.0",
  "rules_version": "2.0.0",
- "rules_hash": "80f1ebedf8bde063d25e188d5256e1cfeacb511e",
+ "rules_hash": "b3c075a92fe483ac0834b2719b33c47ab862ea51",
  "prompts": {
   "director": "4b0d8abce2533f324bbe69742891e6ff31b77d96"
  },
@@ -111,9 +111,8 @@
   "camera_cuts": 8,
   "dips": 7,
   "dips_under": 1,
-  "badges": 2,
+  "badges": 1,
   "badge_kinds": {
-   "emblem": 1,
    "person": 1
   },
   "panels": [
@@ -130,7 +129,7 @@
   },
   "event_types": {
    "article": 3,
-   "badge": 2,
+   "badge": 1,
    "barrier": 1,
    "boom": 2,
    "clip": 2,
@@ -236,10 +235,14 @@
   "reviewer": "fable (back_and_forth)",
   "visual_qa": []
  },
- "drops": [],
+ "drops": [
+  {
+   "record": "badge emblem act3_3",
+   "reason": "미 중부사령부 휘장 배지 — 공습 영상 액자(clip_frame, 화면 x 68~785·y 38~441)가 130.75~135.75 내내, 그 앞은 호르무즈 사진이 덮어 100% 안 보였다([badge-covered]). 영상 캡션이 U.S. Central Command 를 이미 말한다 — 삭제(D-0329 ②·D-0331 (a))"
+  }
+ ],
  "assets": {
   "images_used": [
-   "emblem:centcom",
    "flag11:ca",
    "flag11:de",
    "flag11:fr",
@@ -253,17 +256,15 @@
    "media:diesel_road_2026_moscow_fire_0618_720.jpg",
    "media:diesel_road_2026_ras_laffan_lng_2012_720.jpg",
    "media:diesel_road_2026_trump_1006_720.jpg",
-   "media:diesel_road_2026_vladivostok_port_1992_720.jpg",
    "media:dmz_fence_720.jpg",
    "media:dmz_mine_sign_720.jpg",
-   "media:hormuz_transit_720.jpg",
+   "media:hormuz_strait_modis_2020_720.jpg",
    "media:inset_ryazan_esri.png",
+   "media:vladivostok_golden_horn_2010_720.jpg",
    "portrait:trump"
   ],
   "emblems": {
-   "used": [
-    "centcom"
-   ],
+   "used": [],
    "flag_fallback": {}
   },
   "badges": {
@@ -280,7 +281,6 @@
     "us"
    ],
    "used": [
-    "centcom",
     "trump"
    ],
    "suggested_and_used": [
@@ -327,14 +327,13 @@
    {
     "kind": "statement",
     "title": "3월 21일 공동성명",
-    "t0": 142.08,
+    "t0": 142.38,
     "prov_tag": null
    }
   ]
  },
  "credits": {
   "card": {
-   "emblems": 1,
    "flags": 1,
    "map": 2,
    "media": 13,
@@ -347,7 +346,8 @@
   }
  },
  "reserved": {
-  "avoidance": []
+  "avoidance": [],
+  "badge_delays": []
  },
  "audio": {
   "bgm": [
@@ -358,8 +358,8 @@
  },
  "end_card": {
   "version_stamp": "v7.4.0",
-  "roll_px": 233.0,
-  "roll_px_per_sec": 35.85
+  "roll_px": 214.0,
+  "roll_px_per_sec": 32.92
  },
  "render": {
   "resolution": {
@@ -1061,13 +1061,13 @@
  },
  "lint_warnings": [
   "[media-density-total] 과밀 — 9개 / 241초 = 26.8초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
-  "[media-density-scene] 장면 act2: ['diesel_road_2026_khabarovsk_ref_2005', 'diesel_road_2026_vladivostok_port_1992'] > 1 (14 §10.1, ['article'] 제외)",
-  "[media-density-scene] 장면 act3: ['hormuz_transit', 'strikes_file', 'niovi'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act2: ['diesel_road_2026_khabarovsk_ref_2005', 'vladivostok_golden_horn_2010'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act3: ['hormuz_strait_modis_2020', 'strikes_file', 'niovi'] > 1 (14 §10.1, ['article'] 제외)",
   "[media-density-scene] 장면 act4: ['dmz_mine_sign', 'dmz_fence'] > 1 (14 §10.1, ['article'] 제외)",
   "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['photo'] (14 §10.1)",
   "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
   "[media-kind-repeat] 이웃 장면 act3→act4 같은 형태 ['photo'] (14 §10.1)",
-  "[media-burst-window] 96.24초부터 40초 안 4개 ['diesel_road_2026_vladivostok_port_1992', 'hormuz_transit', 'strikes_file', 'niovi'] > 2 (14 §10.1 하한, D38)",
+  "[media-burst-window] 96.24초부터 40초 안 4개 ['vladivostok_golden_horn_2010', 'hormuz_strait_modis_2020', 'strikes_file', 'niovi'] > 2 (14 §10.1 하한, D38)",
   "[article-unused] cold_0 1.2초 기사 카드 후보 ['diesel_road_2026_art_0032'] — 0~60초 구간 0/2개. 쓰거나 media_notes.yaml sentences.cold_0.article 에 사유",
   "[article-unused] act1_4 46.3초 기사 카드 후보 ['diesel_road_2026_art_0005'] — 0~60초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act1_4.article 에 사유",
   "[article-unused] act2_4 95.7초 기사 카드 후보 ['diesel_road_2026_art_0002'] — 60~120초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act2_4.article 에 사유",
@@ -1171,7 +1171,7 @@
     "t0": 63.9
    },
    {
-    "mid": "hormuz_transit",
+    "mid": "hormuz_strait_modis_2020",
     "kind": "photo",
     "t0": 126.17
    },
@@ -1186,7 +1186,7 @@
     "t0": 165.6
    },
    {
-    "mid": "diesel_road_2026_vladivostok_port_1992",
+    "mid": "vladivostok_golden_horn_2010",
     "kind": "photo",
     "t0": 96.24
    },
@@ -1231,14 +1231,14 @@
      "scene": "act2"
     },
     {
-     "mid": "diesel_road_2026_vladivostok_port_1992",
+     "mid": "vladivostok_golden_horn_2010",
      "kind": "photo",
      "t0": 96.24,
      "t1": 101.48,
      "scene": "act2"
     },
     {
-     "mid": "hormuz_transit",
+     "mid": "hormuz_strait_modis_2020",
      "kind": "photo",
      "t0": 126.17,
      "t1": 130.45,
@@ -1262,7 +1262,7 @@
      "mid": "diesel_road_2026_art_0020",
      "kind": "article",
      "t0": 138.15,
-     "t1": 142.88,
+     "t1": 143.28,
      "scene": "act3"
     },
     {
@@ -1311,8 +1311,8 @@
      "t0": 96.24,
      "count": 4,
      "mids": [
-      "diesel_road_2026_vladivostok_port_1992",
-      "hormuz_transit",
+      "vladivostok_golden_horn_2010",
+      "hormuz_strait_modis_2020",
       "strikes_file",
       "niovi"
      ]
@@ -1324,10 +1324,10 @@
     ],
     "act2": [
      "diesel_road_2026_khabarovsk_ref_2005",
-     "diesel_road_2026_vladivostok_port_1992"
+     "vladivostok_golden_horn_2010"
     ],
     "act3": [
-     "hormuz_transit",
+     "hormuz_strait_modis_2020",
      "strikes_file",
      "niovi"
     ],
@@ -1344,13 +1344,13 @@
    ],
    "warnings": [
     "[media-density-total] 과밀 — 9개 / 241초 = 26.8초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
-    "[media-density-scene] 장면 act2: ['diesel_road_2026_khabarovsk_ref_2005', 'diesel_road_2026_vladivostok_port_1992'] > 1 (14 §10.1, ['article'] 제외)",
-    "[media-density-scene] 장면 act3: ['hormuz_transit', 'strikes_file', 'niovi'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act2: ['diesel_road_2026_khabarovsk_ref_2005', 'vladivostok_golden_horn_2010'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act3: ['hormuz_strait_modis_2020', 'strikes_file', 'niovi'] > 1 (14 §10.1, ['article'] 제외)",
     "[media-density-scene] 장면 act4: ['dmz_mine_sign', 'dmz_fence'] > 1 (14 §10.1, ['article'] 제외)",
     "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['photo'] (14 §10.1)",
     "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
     "[media-kind-repeat] 이웃 장면 act3→act4 같은 형태 ['photo'] (14 §10.1)",
-    "[media-burst-window] 96.24초부터 40초 안 4개 ['diesel_road_2026_vladivostok_port_1992', 'hormuz_transit', 'strikes_file', 'niovi'] > 2 (14 §10.1 하한, D38)"
+    "[media-burst-window] 96.24초부터 40초 안 4개 ['vladivostok_golden_horn_2010', 'hormuz_strait_modis_2020', 'strikes_file', 'niovi'] > 2 (14 §10.1 하한, D38)"
    ]
   },
   "articles": {
@@ -1409,10 +1409,10 @@
    "strikes_file": "role:clip_frame",
    "niovi": "explicit",
    "diesel_road_2026_khabarovsk_ref_2005": "center:map_center_media",
-   "hormuz_transit": "center:map_center_media",
+   "hormuz_strait_modis_2020": "center:map_center_media",
    "dmz_mine_sign": "center:map_center_media",
    "badge:도널드 트럼프": "slot:map_upper_left",
-   "diesel_road_2026_vladivostok_port_1992": "center:map_center_media",
+   "vladivostok_golden_horn_2010": "center:map_center_media",
    "dmz_fence": "center:map_center_media",
    "diesel_road_2026_ras_laffan_lng_2012": "center:map_center_media"
   }
@@ -1466,7 +1466,7 @@
    234.93
   ],
   "dir": "prev",
-  "direction_sha1": "ca57834be4bce5836e86f1bd195c36f9b7fcd21d"
+  "direction_sha1": "af3e620c203db653369b6e2dfd82f8ee35b24a1b"
  },
  "visual_void": [
   [
@@ -1546,7 +1546,7 @@
    206.69
   ],
   [
-   211.89,
+   211.79,
    212.29
   ],
   [
@@ -1565,6 +1565,11 @@
      "cut": "t=178.52"
     },
     {
+     "ratio": 4.79,
+     "name": "가장 좁은 곳 약 39km",
+     "cut": "t=129.06"
+    },
+    {
      "ratio": 4.97,
      "name": "강릉시",
      "cut": "t=169.82"
@@ -1578,11 +1583,6 @@
      "ratio": 5.04,
      "name": "다롄시",
      "cut": "t=102.74"
-    },
-    {
-     "ratio": 5.12,
-     "name": "모스크바",
-     "cut": "t=7.69"
     }
    ]
   },
@@ -1590,7 +1590,7 @@
    "n": 68,
    "lowest": [
     {
-     "ratio": 1.25,
+     "ratio": 1.3,
      "name": "오만만",
      "cut": "t=148.43"
     },
@@ -1605,14 +1605,14 @@
      "cut": "t=102.74"
     },
     {
-     "ratio": 1.39,
-     "name": "페르시아만",
-     "cut": "t=148.43"
-    },
-    {
      "ratio": 1.41,
      "name": "황해남도",
      "cut": "t=169.82"
+    },
+    {
+     "ratio": 1.43,
+     "name": "황해남도",
+     "cut": "t=178.52"
     }
    ]
   },
@@ -1651,7 +1651,7 @@
  },
  "checks": {
   "hard": 0,
-  "warnings": 63,
+  "warnings": 64,
   "passed": true
  },
  "user_feedback_guards": [
@@ -1718,7 +1718,7 @@
   {
    "id": "UF-10",
    "checks": {
-    "portrait_unused": 0,
+    "portrait_unused": 1,
     "quote_in_script": 0
    }
   },
@@ -1769,7 +1769,7 @@
   {
    "id": "UF-27",
    "checks": {
-    "portrait_unused": 0
+    "portrait_unused": 1
    }
   },
   {
@@ -1923,7 +1923,7 @@
   {
    "id": "UF-101",
    "checks": {
-    "portrait_unused": 0
+    "portrait_unused": 1
    }
   },
   {
@@ -2107,6 +2107,20 @@
    "id": "UF-148",
    "checks": {
     "text_restates_narration": 0
+   }
+  },
+  {
+   "id": "UF-200",
+   "checks": {
+    "band_line_outside": 0,
+    "series_date_convention": 0
+   }
+  },
+  {
+   "id": "UF-201",
+   "checks": {
+    "photo_subject_background": 0,
+    "photo_subject_unmatched": 0
    }
   }
  ]
