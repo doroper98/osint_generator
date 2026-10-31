@@ -2,7 +2,7 @@
 
 `projects/hormuz_korea` 를 임시 폴더에 링크로 펼치고 direction 의 stage_config.mercator 만 light(사유 포함)로 바꾼다.
 `geo.prep --theme light` 로 assets/theme_light 를 만든 뒤 `engine.render --preview golden` → 25컷 md5(25_END 도장 가림) =
-`docs/handoff/reports/phaseD0325/hormuz_light_baseline.json`(v7.4.0 D-0325 재기준, 옛 phaseD0306·phaseQ3). provenance map_theme(light·direction·장르와 같아 override warning 없음),
+`docs/handoff/reports/phaseD0329/hormuz_light_baseline.json`(v7.4.0 D-0329 재기준, 옛 phaseD0325·phaseD0306·phaseQ3). provenance map_theme(light·direction·장르와 같아 override warning 없음),
 지도 대비 hard 0. 자산이 없는 컨테이너에서는 test_provenance_e2e 처럼 **오류로 실패**한다(조용히 넘어가지 않는다).
 """
 
@@ -69,7 +69,7 @@ class LightE2ETest(unittest.TestCase):
             self.assertEqual(next(i for i in chk["items"] if i["id"] == "map_contrast")["count"], 0)
             # v7.4.0 D-0306 — card 7개 삭제로 7컷 바뀐 phaseD0306 기준선(changed_vs_prev). 옛 기준선 = phaseQ3
             # v7.4.0 D-0325 — 전환 ×1.5 로 2컷 바뀐 phaseD0325 기준선. 옛 = phaseD0306
-            base = json.loads((REPO / "docs/handoff/reports/phaseD0325/hormuz_light_baseline.json").read_text(encoding="utf-8"))
+            base = json.loads((REPO / "docs/handoff/reports/phaseD0329/hormuz_light_baseline.json").read_text(encoding="utf-8"))
             want = {c["png"]: c.get("md5_masked") or c["md5"] for c in base["cuts"]}
             masked = {c["png"] for c in base["cuts"] if c.get("mask")}
             got = {p.name: (_masked_md5(p, base["stamp_box"], base["mask_pad_px"]) if p.name in masked else hashlib.md5(p.read_bytes()).hexdigest())
