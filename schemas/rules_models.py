@@ -556,6 +556,15 @@ class CardLayout(_Strict):
     src_gap: float        # 출처 줄이 더하는 높이(옛 18)
 
 
+class CaptionOverflow(_Strict):
+    """v7.4.0 D-0333 — 캡션 바 폭 안 맞춤. 캡션 줄 = 줄임표, 출처 줄 = 접기(권리 표기 보존). 구현된 방식만 받는다(P10)."""
+
+    caption: Literal["ellipsis"]
+    source: Literal["wrap"]
+    source_max_lines: int = Field(ge=1, le=3)
+    source_line_px: float = Field(gt=0)
+
+
 class MediaCaptionLayout(_Strict):
     """v4.8.0 D-0101 §3 — 사진·영상 캡션 바·PHOTO/VIDEO 태그·컷아웃 캡션(옛 engine/layers/media.py 리터럴). 바 높이 = media_beats.caption_bar_px."""
 
@@ -569,6 +578,7 @@ class MediaCaptionLayout(_Strict):
     tag_dy: float
     cutout_caption_size: float
     cutout_credit_size: float
+    overflow: CaptionOverflow   # v7.4.0 D-0333
 
 
 class MarkerLayout(_Strict):

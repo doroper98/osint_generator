@@ -12,7 +12,7 @@ from engine import checks
 
 
 def _P(events: list[dict]) -> NS:  # noqa: N802
-    assets = {"ph": NS(tool=NS(params={"scale": [16, 9]}))}
+    assets = {"ph": NS(caption="호르무즈 해협 위성 사진", kind="photo", credit_line=lambda fmt: "NASA", file="f", tool=NS(params={"scale": [16, 9]}))}
     return NS(events=events, R=NS(assets=NS(media_assets=assets), stage=None, tb=NS(in_fullcard=lambda t: False)),
               cams=[None] * 10_000, n_frames=10_000)
 

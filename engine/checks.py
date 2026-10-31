@@ -80,6 +80,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | photo_age | warning | 문장 날짜 − 사진 촬영일 > rules media.photo_age_max_years 인데 age_reason 없음 `[photo-age]`(v7.4.0 D-0327, 장르 photo_age_check) |
 | band_line_outside | hard | 레코드 within([아래, 위]) 관계를 선언한 선 값이 같은 레인 band 밖(띠 변경 달·변경일 ± rules stage_timeline.series.within_band_tolerance_days 제외) `[band-line-outside]`(v7.4.0 D-0326·UF-200) |
 | series_date_convention | warning | 같은 레인에 frequency 가 다른 시리즈인데 레코드 grain 없음 `[series-date-convention]`(v7.4.0 D-0326) |
+| caption_overflow | hard | 사진·영상 캡션 바 글자가 바 폭(− 좌우 pad_x)을 넘는다 — 캡션 줄 줄임표·출처 줄 접기(rules layout_480p.media_caption.overflow) 뒤에도 `[caption-overflow]`(v7.4.0 D-0333) |
 | label_under_media | hard | 지도 마커 라벨(+부제) 상자가 사진·영상 상자 아래에 깔린 시간(둘 다 알파 ≥ min_alpha) > rules qa_checks.label_under_media.max_sec `[label-under-media]`(v7.4.0 R-0294 판정) |
 | badge_covered | hard | 지도 층 배지 계획 구간 중 안 보인 비율(전면 덮개로 늦춰짐·덮개 아래·상자 가림) > rules badge.covered_max_ratio `[badge-covered]`(v7.4.0 D-0329) |
 | flight_unsourced | hard | flight 에 claim 없음·원고가 인용하지 않은 claim `[flight-unsourced]` — 비행은 출처 있는 특정 타격에만(v7.4.0 D-0316) |
@@ -123,7 +124,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -1012,6 +1013,25 @@ def check_label_under_media(P) -> list[str]:  # noqa: ANN001, N803
     """[label-under-media] hard(v7.4.0 R-0294 감독 판정 — 겹침 0 원칙) — 지도 마커 라벨이 사진·영상 아래에 깔린다."""
     return [f"[label-under-media] 마커 {e['label']!r} 라벨이 {mid} 상자 아래 {sec:.1f}초 깔림(t={t:.1f}, > {QA.label_under_media.max_sec:g}초) — "
             "사진 자리(place)를 라벨과 겹치지 않는 슬롯으로 옮기거나 마커 시각을 사진 밖으로 옮긴다" for e, mid, t, sec in label_under_media(P)]
+
+
+def check_caption_overflow(P) -> list[str]:  # noqa: ANN001, N803
+    """[caption-overflow] hard(v7.4.0 back_and_forth D-0333 — 넘침 허용 설계 폐기) — 렌더와 같은 caption_layout 으로 재서
+    캡션 줄(줄임표 뒤)·출처 줄(접기 뒤, 줄 수 ≤ source_max_lines)이 바 폭 안에 다 들어가는지."""
+    from engine.layers.media import caption_layout  # noqa: PLC0415
+    from engine.media_registry import credit_line  # noqa: PLC0415
+
+    assets = P.R.assets.media_assets
+    out = []
+    for e in P.events:
+        if e["type"] not in ("photo", "clip") or "w" not in e or e.get("mid") not in assets:
+            continue
+        m = assets[e["mid"]]
+        _, src, ok = caption_layout(m.caption, credit_line(m), e["w"])
+        if not ok:
+            out.append(f"[caption-overflow] {e['type']} {e['mid']} t0={e['t0']:.1f} 폭 {e['w']:g} — 캡션·출처 줄이 바 밖으로 넘친다"
+                       f"(출처 {len(src)}줄, 상한 {R_.layout_480p.media_caption.overflow.source_max_lines}줄, 또는 낱말 하나가 바보다 길다). 더 넓은 자리로 옮긴다")
+    return out
 
 
 def check_labels(P, times: list[float]) -> list[str]:  # noqa: ANN001, N803
@@ -2304,6 +2324,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "scene_visual_void": lambda: check_scene_visual_void(P, provenance),   # v7.4.0 D-0312 §1-1(hard)
         "flight_unsourced": lambda: check_flight_unsourced(P),   # v7.4.0 D-0316 ①(hard)
         "badge_covered": lambda: check_badge_covered(P),   # v7.4.0 D-0329 ②(hard)
+        "caption_overflow": lambda: check_caption_overflow(P),   # v7.4.0 D-0333(hard)
         "label_under_media": lambda: check_label_under_media(P),   # v7.4.0 R-0294 판정(hard)
         "band_line_outside": lambda: check_band_line_outside(P),   # v7.4.0 D-0326(hard, UF-200)
         "photo_subject_background": lambda: check_photo_subject_background(P),   # v7.4.0 D-0327(hard, UF-201)

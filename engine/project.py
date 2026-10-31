@@ -32,9 +32,8 @@ from engine.entities import check_event_refs, load_entities
 from engine.panels import network, relation, timeline
 from engine.credits import RightsError
 from engine.layers.article import ArticleOverflowError, article_layout, validate_press
-from engine.layers.media import caption_width, validate_media
+from engine.layers.media import validate_media
 from engine.layers.backdrop import backdrop_report, validate_backdrop
-from engine.media_registry import credit_line
 from engine.media_plan import article_candidate_usage, density_report, media_box, placement_warnings
 from engine.pacing import change_times, creep_ranges, map_segments, static_windows
 from engine.layers.badges import assign_person_sizes, drop_person_R, portrait_head_top
@@ -255,10 +254,8 @@ class Project:
 
 
 def _media_extent(e: dict, w: float, media_assets: dict) -> tuple[float, float]:
-    """폭 w 일 때 미디어 상자 (높이, 글자까지 포함한 폭) — 패널 옆 슬롯(engine.placement beside_panel)용."""
-    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
-    m = media_assets[e["mid"]]
-    return media_box(dict(e, x=0, y=0, w=w), media_assets)[3], max(w, caption_width(ctx, m.caption, credit_line(m)))
+    """폭 w 일 때 미디어 상자 (높이, 폭) — 패널 옆 슬롯(engine.placement beside_panel)용. v7.4.0 D-0333 — 캡션 글자는 바 폭 안(줄임표·접기)이라 폭 = w."""
+    return media_box(dict(e, x=0, y=0, w=w), media_assets)[3], w
 
 
 def sentence_labels(proj: Path) -> dict[str, str]:
