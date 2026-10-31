@@ -328,3 +328,4 @@ last_review: 2026-09-27
 | 2026-10-31 | D309 | **Fable(D-0331)**: [badge-covered] 실측 — showcase_geo 트럼프 배지는 act5_5 로 이동(0%), 미 중부사령부 휘장 배지(act3_3)는 공습 영상 액자·호르무즈 사진에 100% 덮여 **삭제(a)**(캡션이 이미 기관명을 말함; 사진 단축·새 over_clip 층은 기각). 크레딧 휘장 줄 삭제, 카탈로그 요소 표 정합(없는 요소 금지, P5), provenance drops[] 기록. |
 | 2026-10-31 | D310 | **사용자 결정 UF-204**(원문 "A") → D-0330 정정: 손실 막대 = A(하락색을 섞은 채도 낮은 면, muted_fill). 감독의 "응 = B" 해석 취소. |
 | 2026-10-31 | D311 | **Fable(D-0332)**: showcase_geo act3_3 공습 영상이 하르그섬 마커·boom 을 전 구간 덮음 → 영상 role broll 구석 자리(b, 5.0초). 지도 위 사건 자리가 먼저(C0). 휘장 배지는 재측정 뒤 <50% 면 복원(D-0331 되돌림). 새 검사 [label-under-media] hard(qa_checks.label_under_media, 감독 제안 값). 호르무즈 MODIS 사진은 map_pair_left 로 이동. |
+| 2026-10-31 | D312 | **Fable(D-0333)**: 미디어 캡션 바 넘침 6건(모두 출처 줄 끝 = 라이선스 이름) → 캡션 줄 ellipsis, 출처 줄 wrap(바 +1줄). 권리 표기는 화면에서 자르지 않는다(C9). `layout_480p.media_caption.overflow` + [caption-overflow] hard, 골든 변화 0. |
