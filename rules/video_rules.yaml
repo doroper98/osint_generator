@@ -502,6 +502,9 @@ camera:                    # v3.3.0 D-0056 — 카메라 자동화 보조(05 §7
 media:                     # v2.5.5 D-0037(D38) — 14 §10.1 밀도 경고. v3 실측: 292.4초 7개 = 41.8초당 1개, 60초 창 최대 3개(56.8초) → 40초 창 최대 2개
   # v7.4.0 back_and_forth D-0283 §1 — 사진·영상 촬영일과 붙은 문장 날짜가 이 일수 이상 차이 나는데 자료사진·자료 영상 표기(is_file_photo)가 없으면 [clip-date-mismatch] hard. 30 = 감독 제안 값
   file_clip_date_gap_days: 30
+  # v7.4.0 back_and_forth D-0327(UF-201) — [photo-age] warning: 문장 날짜 − 사진 촬영일이 이 햇수를 넘으면 연출 photo age_reason 이 있어야 한다.
+  # 장르 프로필 photo_age_check: false(역사 장르)면 보지 않는다. 값 = 감독 제안(사용자 합격 값 아님)
+  photo_age_max_years: 15
   density:
     per_item_sec: [40, 60]
     per_scene_max: 1
@@ -1939,7 +1942,7 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   regression_refs:
     hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
     fed_timeline_demo: "시간축 엔진 검증용 데모(배포 영상 아님) — 미디어 없는 순수 차트 픽스처"
-  regression_ref_checks: [media_density, chart_only_run, plot_height, axis_empty_band, text_restates_narration]   # text_restates_narration = v7.4.0 D-0316 ② 조사 떼기 뒤 골든 핀 '9월 8일 파병 반대 집회' 60%(골든 연출 불변)
+  regression_ref_checks: [media_density, chart_only_run, plot_height, axis_empty_band, text_restates_narration, photo_subject_unmatched, photo_subject_background]   # text_restates_narration = v7.4.0 D-0316 ② 조사 떼기 뒤 골든 핀 '9월 8일 파병 반대 집회' 60%(골든 연출 불변)
   # v7.4.0 D-0229 §2.6(UF-113 "몇 척중 몇척은 제재 대상임을 그래픽으로") — 문장에 "N 척 중·가운데 M" 문형이 있는데 그 문장 구간에 dots·versus 패널·series 가 없으면 warning ratio_graphic
   ratio_patterns:
     - '(\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|스무|스물)\s*(척|곳|건|명|개|대|기)\s*(중|가운데)'

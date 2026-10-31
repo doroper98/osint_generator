@@ -741,6 +741,7 @@ events:
     edge: end
     'off': 0.3
   mid: diesel_road_2026_moscow_fire_0618
+  for: 러시아 정유소   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: map_left
 - type: route
   start:
@@ -1127,6 +1128,8 @@ events:
     edge: end
     'off': 0.6
   mid: diesel_road_2026_khabarovsk_ref_2005
+  for: 러시아 극동 정유소   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
+  age_reason: "하바롭스크 정유소 위치·외관을 보이는 자료사진(2005, 화면 '자료사진' 표기) — 2015년 이후 권리 기록 가능한 사진은 아직 찾지 않았다(후속)"
   place: map_left
 - type: article
   start:
@@ -1160,7 +1163,8 @@ events:
     sid: act3_2
     edge: end
     'off': 0.8
-  mid: hormuz_transit
+  mid: hormuz_strait_modis_2020   # v7.4.0 D-0327 — 옛 hormuz_transit(주된 피사체가 문장 대상이 아니다: [photo-subject-background])
+  for: 호르무즈 해협   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: map_left
 - type: article
   start:
@@ -1181,6 +1185,7 @@ events:
     edge: end
     'off': 0.6
   mid: dmz_mine_sign
+  for: 지뢰 경고 표지판   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: map_left
 - type: primitive
   start:
@@ -1243,7 +1248,9 @@ events:
     sid: act2_4
     edge: end
     'off': 0.3
-  mid: diesel_road_2026_vladivostok_port_1992
+  mid: vladivostok_golden_horn_2010   # v7.4.0 D-0327 — 옛 diesel_road_2026_vladivostok_port_1992(주된 피사체가 문장 대상이 아니다: [photo-subject-background])
+  for: 블라디보스토크 항(금각만)   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
+  age_reason: "2015년 이후 Commons 권리 기록 사진 중 항구가 주된 피사체인 낮 사진이 없다(2022 야경 CC0 는 항구가 화면 아래 띠) — 금각만·부두 배치는 같다(화면 '자료사진' 표기)"
   place: map_left
 - type: photo
   start:
@@ -1254,6 +1261,8 @@ events:
     edge: end
     'off': -0.1
   mid: dmz_fence
+  for: DMZ 남측 철책   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
+  age_reason: "비무장지대 철책을 보이는 자료사진(2008, 화면 '자료사진' 표기) — 철책 경계선은 그대로다"
   place: map_left
 - type: photo
   start:
@@ -1263,6 +1272,7 @@ events:
     sid: ending_0
     'off': 7.6
   mid: diesel_road_2026_ras_laffan_lng_2012
+  for: 걸프 에너지 수출 시설   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: map_left
 - type: marker   # v7.4.0 D-0316 ① — 총괄 문장(봄부터 이어진 타격) 구간은 비행 대신 날짜 있는 마커를 날짜순으로. 모스크바 = 사진 자산 모스크바 정유소 화재 연기(2026. 06. 18)
   start:

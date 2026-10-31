@@ -35,10 +35,10 @@ sections:
 - title: 사진
   column: 0
   items:
-  - main: 호르무즈 해협 통과 중 경계 근무를 서는 미 해군 (2023. 05)
-    license: U.S. Navy · Public domain
+  - main: 호르무즈 해협 위성 사진 (2020. 12. 04)   # v7.4.0 D-0327 — 옛 미 해군 경계 근무 사진(주된 피사체가 수병) 교체
+    license: NASA (MODIS) · Public domain
     rights:
-    - media.hormuz_transit
+    - media.hormuz_strait_modis_2020
   - main: 백악관 남쪽 잔디밭의 트럼프 대통령 (2026. 10. 06)
     license: 백악관 · Public domain
     rights:
@@ -55,10 +55,10 @@ sections:
     license: Matthew Smith · CC BY 2.0 · CC BY 2.0
     rights:
     - media.diesel_road_2026_ras_laffan_lng_2012
-  - main: 블라디보스토크 항 (1992. 09)
-    license: U.S. Navy · Public domain
+  - main: 블라디보스토크 금각만 항구 (2010. 09)   # v7.4.0 D-0327(UF-201) — 옛 예인선 사진(1992) 교체
+    license: Russian.dissident · Public domain
     rights:
-    - media.diesel_road_2026_vladivostok_port_1992
+    - media.vladivostok_golden_horn_2010
   - main: 이라크 파병 한국군 (2003)
     license: U.S. Government · Public domain
     rights:

@@ -40,7 +40,14 @@
     }
    },
    "source_hash": "deff52c243b44ec984a79b5e17d5cef1",
-   "file": "hormuz_transit_720.jpg"
+   "file": "hormuz_transit_720.jpg",
+   "main_subject": [
+    "미 해군 경계 근무 수병",
+    "미 해군 함정"
+   ],
+   "background": [
+    "호르무즈 해협"
+   ]
   },
   "rok_iraq": {
    "kind": "photo",
@@ -394,7 +401,13 @@
     }
    },
    "source_hash": "74e47e34bbea9238ec5171ac2440a6c4",
-   "file": "fed_presser_0916_b_720.jpg"
+   "file": "fed_presser_0916_b_720.jpg",
+   "main_subject": [
+    "케빈 워시 연준 의장 기자회견"
+   ],
+   "background": [
+    "FOMC 기자회견장"
+   ]
   },
   "fed_presser_0729": {
    "kind": "photo",
@@ -433,7 +446,13 @@
     }
    },
    "source_hash": "e3fe1a0c521da44ca6e8d748de8d2807",
-   "file": "fed_presser_0729_720.jpg"
+   "file": "fed_presser_0729_720.jpg",
+   "main_subject": [
+    "케빈 워시 연준 의장 기자회견"
+   ],
+   "background": [
+    "FOMC 기자회견장"
+   ]
   },
   "cnn_0729": {
    "kind": "article",
@@ -942,7 +961,13 @@
     }
    },
    "source_hash": "84ce3f92b227a095d6fe9eba14d21d6d",
-   "file": "dmz_mine_sign_720.jpg"
+   "file": "dmz_mine_sign_720.jpg",
+   "main_subject": [
+    "지뢰 경고 표지판"
+   ],
+   "background": [
+    "철조망"
+   ]
   },
   "dmz_fence": {
    "kind": "photo",
@@ -981,7 +1006,14 @@
     }
    },
    "source_hash": "94c221544f105dd455e38d8d44236685",
-   "file": "dmz_fence_720.jpg"
+   "file": "dmz_fence_720.jpg",
+   "main_subject": [
+    "DMZ 남측 철책",
+    "비무장지대 능선"
+   ],
+   "background": [
+    "산"
+   ]
   },
   "hk_0923": {
    "kind": "article",
@@ -1285,7 +1317,14 @@
     }
    },
    "source_hash": "c2b56e854dc36ab512b449d7e5384916",
-   "file": "fed_eccles_ext_720.jpg"
+   "file": "fed_eccles_ext_720.jpg",
+   "main_subject": [
+    "연준 에클스 빌딩",
+    "연준"
+   ],
+   "background": [
+    "워싱턴 D.C."
+   ]
   },
   "fed_boardroom": {
    "kind": "photo",
@@ -1325,7 +1364,12 @@
     }
    },
    "source_hash": "ca9572d1666a83c2df7f674d9bb1704e",
-   "file": "fed_boardroom_720.jpg"
+   "file": "fed_boardroom_720.jpg",
+   "main_subject": [
+    "연준 이사회 회의실",
+    "연준"
+   ],
+   "background": []
   },
   "fed_eccles_atrium": {
    "kind": "photo",
@@ -4701,7 +4745,15 @@
     }
    },
    "source_hash": "69a0a748cd0b6d1bb40c7ff7ca5fbfc6",
-   "file": "diesel_road_2026_moscow_fire_0618_720.jpg"
+   "file": "diesel_road_2026_moscow_fire_0618_720.jpg",
+   "main_subject": [
+    "모스크바 정유소 화재 연기",
+    "러시아 정유소"
+   ],
+   "background": [
+    "송전탑",
+    "아파트 단지"
+   ]
   },
   "diesel_road_2026_khabarovsk_ref_2005": {
    "kind": "photo",
@@ -4740,7 +4792,14 @@
     }
    },
    "source_hash": "fe8f8a442fe075cd512dc3327190b52d",
-   "file": "diesel_road_2026_khabarovsk_ref_2005_720.jpg"
+   "file": "diesel_road_2026_khabarovsk_ref_2005_720.jpg",
+   "main_subject": [
+    "하바롭스크 정유소(NNK)",
+    "러시아 극동 정유소"
+   ],
+   "background": [
+    "도로·주차장"
+   ]
   },
   "diesel_road_2026_ras_laffan_lng_2012": {
    "kind": "photo",
@@ -4781,7 +4840,15 @@
     }
    },
    "source_hash": "e2d0d6d4239e3cfb0b96307291c1c14d",
-   "file": "diesel_road_2026_ras_laffan_lng_2012_720.jpg"
+   "file": "diesel_road_2026_ras_laffan_lng_2012_720.jpg",
+   "main_subject": [
+    "라스라판 LNG 터미널",
+    "LNG 운반선",
+    "걸프 에너지 수출 시설"
+   ],
+   "background": [
+    "바다"
+   ]
   },
   "diesel_road_2026_vladivostok_port_1992": {
    "kind": "photo",
@@ -4802,7 +4869,7 @@
     "by": "opus 구현 세션 — Commons extmetadata 라이선스·작성자·촬영일 대조(UF-119, D-0239). 실사용 판정은 게이트 ②",
     "on": "2026-10-18",
     "casualty_free": true,
-    "relevance": "act2 '블라디보스토크는 울산에서 가장 가까운 러시아의 큰 항구' 문장 — 항구 전경(1992 자료사진)"
+    "relevance": "act2 '블라디보스토크는 울산에서 가장 가까운 러시아의 큰 항구' 문장 — 항구 전경(1992 자료사진) · v7.4.0 D-0327(UF-201) — 주된 피사체는 예인선, 항구는 배경(실제 프레임 판정). 항구를 말하는 문장에는 쓰지 않는다"
    },
    "rights_status": "rights_clear",
    "retrieved_at": "2026-10-18",
@@ -4821,7 +4888,13 @@
     }
    },
    "source_hash": "f4ec392daf6eb4f5ab160b813ac4df6e",
-   "file": "diesel_road_2026_vladivostok_port_1992_720.jpg"
+   "file": "diesel_road_2026_vladivostok_port_1992_720.jpg",
+   "main_subject": [
+    "예인선"
+   ],
+   "background": [
+    "블라디보스토크 항(금각만)"
+   ]
   },
   "econ_powell_presser_552": {
    "kind": "photo",
@@ -4861,7 +4934,14 @@
      "jpeg_quality": 92
     }
    },
-   "file": "econ_powell_presser_552_720.jpg"
+   "file": "econ_powell_presser_552_720.jpg",
+   "main_subject": [
+    "제롬 파월 연준 의장 기자회견",
+    "FOMC 회의"
+   ],
+   "background": [
+    "기자"
+   ]
   },
   "econ_fomc_room_2016": {
    "kind": "photo",
@@ -5022,7 +5102,14 @@
      "jpeg_quality": 92
     }
    },
-   "file": "econ_warsh_swearing_5_720.jpg"
+   "file": "econ_warsh_swearing_5_720.jpg",
+   "main_subject": [
+    "케빈 워시 연준 의장 취임 선서"
+   ],
+   "background": [
+    "백악관 이스트룸",
+    "클래런스 토머스 대법관"
+   ]
   },
   "econ_warsh_swearing_1": {
    "kind": "photo",
@@ -5103,7 +5190,12 @@
      "jpeg_quality": 92
     }
    },
-   "file": "econ_walmart_2508_720.jpg"
+   "file": "econ_walmart_2508_720.jpg",
+   "main_subject": [
+    "미국 마트 식료품 가격",
+    "소비자물가"
+   ],
+   "background": []
   },
   "fed_clip_0916_decision": {
    "kind": "video",
@@ -5447,6 +5539,103 @@
    "sub": "극동 연료 부족은 5월 정유소 피격 뒤 시작돼 여름 중반 안정됐다(Ea…",
    "note": "헤드라인 번역 · 원문 영어",
    "headline_original": "Situation with gasoline and diesel in the Far East is gradually stabilizing"
+  },
+  "vladivostok_golden_horn_2010": {
+   "kind": "photo",
+   "title": "File:Golden Horn bay and Egersheld peninsula.jpg",
+   "license": "Public domain",
+   "author": "Russian.dissident",
+   "credit_author": "Russian.dissident",
+   "date": "2010-09-13",
+   "url": "https://commons.wikimedia.org/wiki/File:Golden_Horn_bay_and_Egersheld_peninsula.jpg",
+   "caption": "블라디보스토크 금각만 항구",
+   "file_note": "자료사진 · 2010. 09",
+   "depicts": [
+    "블라디보스토크 항(금각만)",
+    "에게르셸드 반도 부두"
+   ],
+   "main_subject": [
+    "블라디보스토크 항(금각만)",
+    "블라디보스토크 부두"
+   ],
+   "background": [
+    "시가지",
+    "동해"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata(DateTimeOriginal 2010-09-13·Public domain·Own work) 대조, 프레임 확인(항구·부두가 화면 대부분)",
+    "on": "2026-10-31",
+    "casualty_free": true,
+    "relevance": "showcase_geo act2_4 '레일라호는 … 블라디보스토크로 갔습니다' — 금각만 항구·부두 항공 사진(D-0327 UF-201 교체, 2015년 이후 사진 중 항구가 주된 피사체인 낮 사진 없음 — 2022 야경 CC0 는 항구가 화면 아래 띠)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-31",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "vladivostok_golden_horn_2010.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.05,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "366dfc5468c3ae224107fdcce8c88b37",
+   "file": "vladivostok_golden_horn_2010_720.jpg"
+  },
+  "hormuz_strait_modis_2020": {
+   "kind": "photo",
+   "title": "File:Strait of Hormuz (MODIS 2020-12-04).jpg",
+   "license": "Public domain",
+   "author": "MODIS Land Rapid Response Team, NASA GSFC",
+   "credit_author": "NASA",
+   "date": "2020-12-04",
+   "url": "https://commons.wikimedia.org/wiki/File:Strait_of_Hormuz_(MODIS_2020-12-04).jpg",
+   "caption": "호르무즈 해협 위성 사진",
+   "file_note": "자료사진 · 위성 · 2020. 12. 04",
+   "depicts": [
+    "호르무즈 해협",
+    "무산담 반도",
+    "페르시아만·오만만"
+   ],
+   "main_subject": [
+    "호르무즈 해협",
+    "페르시아만에서 먼바다로 나가는 바닷길"
+   ],
+   "background": [
+    "이란 남부",
+    "아랍에미리트"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons 라이선스(NASA Public domain)·제목 날짜 대조, 프레임 확인(해협이 화면 가운데)",
+    "on": "2026-10-31",
+    "casualty_free": true,
+    "relevance": "showcase_geo act3_2 '호르무즈 해협은 … 유일한 바닷길' — 해협 자체가 주된 피사체(D-0327 [photo-subject-background] 로 드러난 hormuz_transit 교체: 그 사진은 수병이 주된 피사체)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-31",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "hormuz_strait_modis_2020.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "e5750050bfbe78199f6d0e29b5390830",
+   "file": "hormuz_strait_modis_2020_720.jpg"
   }
  }
 }

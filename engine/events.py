@@ -351,6 +351,9 @@ class PhotoEvent(_Event):
 
     type: Literal["photo"]
     mid: str
+    # v7.4.0 D-0327(UF-201) — 이 사진이 보여 주는 문장 대상(용어). 레지스트리 main_subject 에 있어야 한다. age_reason = 오래된 사진을 쓰는 이유([photo-age])
+    for_: Optional[str] = Field(default=None, alias="for", min_length=1)
+    age_reason: Optional[str] = Field(default=None, min_length=4)
     x: Optional[float] = None      # 없으면 배치 슬롯 기본값(engine.placement, rules placement.auto_media — 14 §10.3-5)
     y: Optional[float] = None
     w: Optional[float] = None

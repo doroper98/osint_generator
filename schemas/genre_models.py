@@ -117,6 +117,7 @@ class GenreProfile(_Strict):
     narration: Optional[GenreNarration] = None
     media: Optional[GenreMedia] = None
     qa_extra: list[str] = Field(default_factory=list)
+    photo_age_check: bool = True   # v7.4.0 D-0327 — [photo-age] warning(역사 장르는 false)
     # v7.4.0 UF-147(D-0302 ⑤) — 템플릿 표시 줄 문구("실적 발표 템플릿"). 있으면 타이틀 부제 앞·엔딩 카드 머리 줄에 코드가 조판([template-label-missing] hard)
     template_label: Optional[str] = Field(default=None, min_length=1)
 

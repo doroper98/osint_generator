@@ -291,6 +291,7 @@ events:
     edge: end
     'off': 0.4
   mid: fed_boardroom
+  for: 연준   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: backdrop_right_low
 - type: marker
   start:
@@ -341,6 +342,7 @@ events:
     edge: end
     'off': 0.8
   mid: econ_warsh_swearing_5
+  for: 케빈 워시 연준 의장 취임 선서   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: backdrop_right_low
 - type: marker
   start:
@@ -376,6 +378,7 @@ events:
     edge: end
     'off': 0.6
   mid: fed_presser_0729
+  for: 케빈 워시 연준 의장 기자회견   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: backdrop_right_low
 - type: article
   start:
@@ -429,6 +432,7 @@ events:
     edge: end
     'off': 0.4
   mid: fed_presser_0916_b
+  for: 케빈 워시 연준 의장 기자회견   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: backdrop_right_low
 - type: series
   start:
@@ -463,6 +467,7 @@ events:
     edge: end
     'off': 0.4
   mid: fed_eccles_ext
+  for: 연준   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: backdrop_right_low
 - type: marker
   start:
@@ -500,6 +505,7 @@ events:
     edge: end
     'off': 0.5
   mid: econ_powell_presser_552
+  for: FOMC 회의   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: backdrop_right_low
 - type: photo
   start:
@@ -510,6 +516,7 @@ events:
     edge: end
     'off': 0.6
   mid: econ_walmart_2508
+  for: 소비자물가   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: backdrop_right_low
 sound:
   bgm: music.zabriskie_patriarch
