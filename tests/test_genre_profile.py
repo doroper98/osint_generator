@@ -62,7 +62,7 @@ class GenreProfileSchemaTest(unittest.TestCase):
             GenreProfile.model_validate(prof(status="proposed", stage={"primary": "timeline", "secondary": ["chart_wall", "flow"]}))
 
     def test_settings_for_unused_stage(self) -> None:
-        with self.assertRaisesRegex(ValidationError, "주·보조 무대가 아닌"):
+        with self.assertRaisesRegex(ValidationError, "주·보조·아일랜드 무대가 아닌"):
             GenreProfile.model_validate(prof(stage={"primary": "mercator", "timeline": {"lanes": [{"id": "a", "label": "a", "kind": "line"}]}}))
 
     def test_unregistered_reuse(self) -> None:

@@ -199,12 +199,13 @@ def unverified_notice(R: RenderCtx) -> str | None:  # noqa: N803
 
 def template_label(R: RenderCtx) -> str | None:  # noqa: N803
     """v7.4.0 UF-147(D-0302 ⑤) — 장르 프로필 template_label(engine.project 가 R.cache 에 넣는다). 없으면 None."""
-    return R.cache.get("template_label")
+    return getattr(R, "cache", {}).get("template_label")
 
 
-def title_subtitle(R: RenderCtx) -> str:  # noqa: N803
-    """타이틀 카드 부제 줄 — 템플릿 라벨이 있으면 "<라벨> · <부제>"(UF-147). draw_fullcards 와 checks 가 같은 함수로 본다."""
-    sub = R.tb.plan.subtitle
+def title_subtitle(R: RenderCtx, plan: object = None) -> str:  # noqa: N803
+    """타이틀 카드 부제 줄 — 템플릿 라벨이 있으면 "<라벨> · <부제>"(UF-147). draw_fullcards 와 checks 가 같은 함수로 본다.
+    plan 을 주면 그 원고의 부제(검사 — 렌더 문맥 없이도 같은 문자열)."""
+    sub = (plan if plan is not None else R.tb.plan).subtitle  # type: ignore[attr-defined]
     lab = template_label(R)
     return f"{lab}{TPL.sep}{sub}" if lab and sub else (lab or sub)
 

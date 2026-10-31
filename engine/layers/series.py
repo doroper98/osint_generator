@@ -108,7 +108,7 @@ def lane_range(events: list[dict], lane: str, stage: "TimelineStage | None" = No
     중간 눈금(axis_values)은 간격의 배수 그대로. zero: 옛 [min(0, 최소), 최대]. 영상당 한 번(prepare_series)."""
     cfg = TIMELINE.lane_range
     dmin, dmax, unit = lane_extent(events, lane, stage)
-    if any(e["type"] == "series" and e["lane"] == lane and e["style"] == "bars" for e in events):   # v7.4.0 D-0278 §4.1 — 막대 레인은 0 을 품는다([bars-from-zero])
+    if any(e["type"] == "series" and e["lane"] == lane and e.get("style") == "bars" for e in events):   # v7.4.0 D-0278 §4.1 — 막대 레인은 0 을 품는다([bars-from-zero])
         dmin, dmax = min(dmin, 0.0), max(dmax, 0.0)
     if cfg.mode == "zero":
         lo, hi = min(0.0, dmin), dmax
@@ -330,7 +330,7 @@ def place_end_label(R: "RenderCtx", t: float, lane: str, y: float, v: float) -> 
         reg = R.cache["series_end_labels"] = {"t": t, "lanes": {}}
     placed = reg["lanes"].setdefault(lane, [])
     for _ in range(len(placed) + 1):
-        hit = next(((py, pv) for py, pv, _ in placed if abs(y - py) < gap), None)
+        hit = next(((py, pv) for py, pv, *_ in placed if abs(y - py) < gap), None)   # 놓인 항목 = (y, 값, 상자, 판, 가림) — 앞 둘만 본다
         if hit is None:
             break
         y = hit[0] + gap if v < hit[1] else hit[0] - gap

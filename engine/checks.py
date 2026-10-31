@@ -156,7 +156,9 @@ def check_glyphs(P) -> list[str]:  # noqa: ANN001, N803
     texts: list[str] = [s.text for s in P.plan.sentences] + [P.plan.title, P.plan.subtitle, P.plan.date]
     from engine.fullcards import last_notice, title_subtitle  # noqa: PLC0415
 
-    texts += [title_subtitle(P.R), last_notice(P.R) or ""]   # v7.4.0 — 템플릿 표시·투자 고지 줄도 글꼴에 있어야 한다
+    texts += [title_subtitle(P.R, P.plan)]   # v7.4.0 — 템플릿 표시·투자 고지 줄도 글꼴에 있어야 한다
+    if hasattr(P.R, "cache") and hasattr(P.R, "tb"):   # 렌더 문맥(R.cache·R.tb.order)이 있을 때만 — 검사 단독 문맥(시험)은 고지 줄 없음
+        texts.append(last_notice(P.R) or "")
     for e in P.events:
         texts += _strings(e)
     miss: dict[str, str] = {}
