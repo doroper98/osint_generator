@@ -1,0 +1,28 @@
+# diverging 열 확대 인셋 판(D-0318 §1) — 분기 매출 막대(최신 accent) 위 3분기 열을 리더선으로 가리키는 인셋. 같은 레코드·같은 값을 크게.
+# 문장마다 accent 만 옮기는 같은 인셋(이어 붙임 — 사이 페이드 없음). 카메라는 그 열로(문장마다 카메라).
+version: 1
+genre: earnings
+stage: backdrop
+stage_config:
+  timeline:
+    start: "2025-01-01"
+    end: "2027-06-30"
+    lanes:
+      - {id: rev, label: "인텔 분기 매출 · 십억 달러", kind: bars}
+shots:
+  - {at: 0, mode: cut, dur: 0, camera: {}}
+  - {at: {sid: yoy_0, off: -0.4}, mode: cut, dur: 0, stage: timeline, camera: {date: "2025-12-20", w: 636}}
+  - {at: {sid: yoy_1, off: -0.2}, mode: move, dur: 1.2, stage: timeline, camera: {date: "2026-04-10", w: 636}}
+events:
+  - {type: island, kind: chart, box: center, start: {sid: yoy_0, off: -0.4}, end: {sid: yoy_3, edge: end, off: 0.4}}
+  - {type: series, start: {sid: yoy_0, off: -0.2}, end: {sid: yoy_3, edge: end, off: 0.4}, lane: rev, series_id: INTC_REV_Q, style: bars, col: gold, accent: latest}
+  - {type: island, kind: column_detail, start: {sid: yoy_1, off: 0.3}, end: {sid: yoy_2, off: -0.3}, lane: rev, style: diverging, series_id: INTC_SEG_DCAI_Q,
+     title: "1년 전 대비 부문 매출 증감 · %", accent: 파운드리, parts: [{ids: [INTC_SEG_DCAI_Q], label: DC}, {ids: [INTC_SEG_CCG_Q], label: PC}, {ids: [INTC_SEG_FOUNDRY_Q], label: 파운드리}]}
+  - {type: island, kind: column_detail, start: {sid: yoy_2, off: -0.3}, end: {sid: yoy_3, off: -0.3}, lane: rev, style: diverging, series_id: INTC_SEG_DCAI_Q,
+     title: "1년 전 대비 부문 매출 증감 · %", accent: DC, parts: [{ids: [INTC_SEG_DCAI_Q], label: DC}, {ids: [INTC_SEG_CCG_Q], label: PC}, {ids: [INTC_SEG_FOUNDRY_Q], label: 파운드리}]}
+  - {type: island, kind: column_detail, start: {sid: yoy_3, off: -0.3}, end: {sid: yoy_3, edge: end, off: 0.4}, lane: rev, style: diverging, series_id: INTC_SEG_DCAI_Q,
+     title: "1년 전 대비 부문 매출 증감 · %", accent: none, parts: [{ids: [INTC_SEG_DCAI_Q], label: DC}, {ids: [INTC_SEG_CCG_Q], label: PC}, {ids: [INTC_SEG_FOUNDRY_Q], label: 파운드리}]}
+sound:
+  bgm: null
+  no_music_decision: D-0309
+  intensity: [[0, 0.55], [{total: true}, 0.55]]

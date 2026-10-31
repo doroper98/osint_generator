@@ -1,0 +1,38 @@
+schema_version: 1
+title: 무대 조판 구상
+subtitle: 인텔 영업이익과 주가
+date: 2026.10.30
+scenes:
+- id: op
+  sentences:
+  - date: '2025.09'
+    role: intro
+    text: 인텔의 분기 영업이익은 지난 1년 사이 크게 출렁였습니다.
+    tts: 인텔의 분기 영업이익은 지난 일 년 사이 크게 출렁였습니다.
+    emphasis:
+    - 분기 영업이익
+    sources:
+    - series:INTC_OP_Q
+  - date: '2026.03'
+    role: intro
+    text: 특히 올해 1분기에는 31억 달러 적자였습니다.
+    tts: 특히 올해 일분기에는 삼십일억 달러 적자였습니다.
+    emphasis:
+    - 적자
+    sources:
+    - series:INTC_OP_Q
+  - date: '2026.09'
+    text: 그리고 3분기 영업이익은 25억 달러로 다섯 분기 중 가장 많았습니다.
+    tts: 그리고 삼분기 영업이익은 이십오억 달러로 다섯 분기 중 가장 많았습니다.
+    emphasis:
+    - 25억 달러
+    sources:
+    - series:INTC_OP_Q
+  - date: '2026.10'
+    role: outro
+    text: 같은 기간 주가는 약 23달러에서 92달러까지 올랐습니다.
+    tts: 같은 기간 주가는 약 이십삼 달러에서 구십이 달러까지 올랐습니다.
+    emphasis:
+    - 92달러
+    sources:
+    - series:INTC_PX_D

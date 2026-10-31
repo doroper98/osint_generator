@@ -1,0 +1,26 @@
+# 가이던스 스케치(D-0308 §1-1·D-0315 §1-3) — princess 평면 바탕. 분기 매출 막대(최신 accent) 다음 열(4분기)에 회사 전망 속빈 범위 15~16 + 가운데 눈금,
+# 같은 열에 시장 예상 속빈 점 17.1. 겹치지 않음이 한눈에. 라벨은 열 오른쪽 지시선(범례 없음).
+# D-0319 ④ — 열 안 표식은 그대로(정직한 축척) + 회사 전망 문장부터 열 확대 인셋(같은 값을 크게, 차이 = 코드 계산).
+version: 1
+genre: earnings
+stage: backdrop
+stage_config:
+  timeline:
+    start: "2025-01-01"
+    end: "2027-03-31"
+    lanes:
+      - {id: rev, label: "인텔 분기 매출 · 십억 달러", kind: bars}
+shots:
+  - {at: 0, mode: cut, dur: 0, camera: {}}
+  - {at: {sid: guide_0, off: -0.4}, mode: cut, dur: 0, stage: timeline, camera: {date: "2026-05-15", w: 636}}
+events:
+  - {type: island, kind: chart, box: center, start: {sid: guide_0, off: -0.4}, end: {sid: guide_3, edge: end, off: 0.4}}
+  - {type: series, start: {sid: guide_0, off: -0.2}, end: {sid: guide_3, edge: end, off: 0.4}, lane: rev, series_id: INTC_REV_Q, style: bars, col: gold, accent: latest}
+  - {type: series, start: {sid: guide_1, off: -0.2}, end: {sid: guide_3, edge: end, off: 0.4}, lane: rev, series_id: INTC_GUIDE_REV_LO, upper_id: INTC_GUIDE_REV_HI,
+     estimate_id: INTC_REV_Q_EST, style: range, col: gold, grow: false}
+  - {type: island, kind: column_detail, start: {sid: guide_1, off: 1.2}, end: {sid: guide_3, edge: end, off: 0.4}, lane: rev, style: range,
+     series_id: INTC_GUIDE_REV_LO, upper_id: INTC_GUIDE_REV_HI, estimate_id: INTC_REV_Q_EST, title: "4분기 매출 전망 · 십억 달러"}
+sound:
+  bgm: null
+  no_music_decision: D-0309
+  intensity: [[0, 0.55], [{total: true}, 0.55]]

@@ -1,0 +1,22 @@
+# 무대 조판 구상(D-0328, UF-202) — 차트 = 무대: 테두리·바탕·머리 띠 없음, 레인 이름 = 짧은 이름 + 단위, 막대 = 속 채운 면(사다리·초점 accent·손실 = 채도 낮춘 면),
+# 주가 = 가는 선 + 끝값 핀(보조 축 숫자 없음), 출처 한 줄. 층은 문장마다 하나씩.
+version: 1
+genre: earnings
+stage: backdrop
+stage_config:
+  timeline:
+    start: "2025-04-01"
+    end: "2027-02-28"
+    lanes:
+      - {id: op, label: "인텔 영업이익 · 십억 달러", kind: bars}
+shots:
+  - {at: 0, mode: cut, dur: 0, camera: {}}
+  - {at: {sid: op_0, off: -0.4}, mode: cut, dur: 0, stage: timeline, camera: {date: "2026-04-14", w: 636}}
+events:
+  - {type: island, kind: chart, box: center, start: {sid: op_0, off: -0.4}, end: {sid: op_3, edge: end, off: 0.4}}
+  - {type: series, start: {sid: op_0, off: -0.2}, end: {sid: op_3, edge: end, off: 0.4}, lane: op, series_id: INTC_OP_Q, style: bars, col: gold, accent: latest}
+  - {type: series, start: {sid: op_3, off: -0.3}, end: {sid: op_3, edge: end, off: 0.4}, lane: op, series_id: INTC_PX_D, style: line, col: muted, secondary: true}
+sound:
+  bgm: null
+  no_music_decision: D-0309
+  intensity: [[0, 0.55], [{total: true}, 0.55]]
