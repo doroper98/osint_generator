@@ -44,7 +44,7 @@ from engine.shots import ShotStage
 from engine.stage import StageSet, attach_world, make_stage
 from engine.refs import emblem_ids
 from engine.registry import FULL_LAYERS, MAP_LAYER_ORDER, LayerSet, RegistryError, validate_events
-from engine.style import FPS, ISLAND, TIMELINE, Output, output_profile
+from engine.style import FPS, ISLAND, TIMELINE, Output, apply_palette, output_profile
 from engine.timebase import Timebase
 from genres.elements import used_elements
 from rules import load_rules
@@ -457,6 +457,10 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
                         "configs": {k: json.loads(json.dumps(v, default=str)) for k, v in doc.stage_configs().items()}}   # v4.3.0
     R.cache["direction_drops"] = [d.model_dump() for d in doc.drops]   # v7.4.0 D-0245 — [series-unused]·[panel-dropped] 예외
     R.cache["invest_notice"] = doc.genre_profile().invest_notice     # v7.4.0 D-0278 §4.3 — 엔딩 카드 맨 마지막 줄 투자 고지
+    apply_palette(doc.genre_profile().palette)   # v7.4.0 D-0310(UF-155) — 장르 팔레트(없으면 기존 색으로 되돌린다 — 한 프로세스 여러 영상)
+    R.cache["palette"] = doc.genre_profile().palette
+    if R.cache["palette"] and "mercator" in doc.stage_configs():   # 팔레트 지도 테마(map_*) 지형 래스터 미준비 — 조용히 옛 지도로 그리지 않는다(P6)
+        raise ProjectError(f"팔레트 {R.cache['palette']!r} 는 아직 지도 무대(mercator)와 함께 못 쓴다 — 지도 테마 자산(geo.prep)이 없다(D-0310)")
     R.cache["genre"] = {"name": doc.genre_name(), "declared": doc.genre is not None,    # v4.2.0 D-0081 작업 3 — provenance genre(15 P5)
                         "status": doc.genre_profile().status,                          # v4.3.0 D-0084 작업 6 — proposed 프로필 사용 기록(P6)
                         "elements_used": used_elements(doc.events)}                   # checks genre_elements 입력(연출이 쓴 요소)
@@ -587,6 +591,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         scene = PinScene(R.stage, events, R.cache["series_range"], R.cache["series_front"],
                          lambda t: View(R.stage, cams[min(n - 1, max(0, int(t * FPS)))]))
     if scene is not None and scene.pins:
+        scene.ranges2 = R.cache.get("series_range2") or {}   # v7.4.0 D-0315 ① — 보조 축 선도 장애물
         dropped = assign_pin_rows(scene)
         R.cache["value_pins"] = [(p["lane"], *p["world"], p["t0"], p["t1"], p.get("pin_row")) for p in scene.pins]   # v7.4.0 D-0283 §2 — 끝값 라벨 판 장애물(고리 + 라벨 쪽)
         R.cache["pin_labels"] = {"rows": {p["label"]: p["pin_row"] for p in scene.pins}, "dropped": dropped,
@@ -695,7 +700,7 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
     from engine.timebase import ease_out  # noqa: PLC0415
 
     ser = [e for e in events if e["type"] == "series"]
-    R.cache["series_range"], R.cache["series_front"] = {}, {}
+    R.cache["series_range"], R.cache["series_front"], R.cache["series_range2"] = {}, {}, {}
     if not ser:
         return
     st = st or R.stage   # v5.1.0 D-0126 — backdrop 주 무대면 차트 아일랜드의 시간축 무대
@@ -706,8 +711,18 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
         try:
             for sid in record_ids(e):
                 load_series(sid)
-            if e["style"] == "band":
+            if e["style"] in ("band", "range"):
                 band_pairs(e)   # 두 레코드 날짜 일치·위 ≥ 아래(v4.4.0) — 어긋나면 렌더 전 오류(P6)
+            if e["style"] == "stack":
+                from engine.layers.series import stack_columns  # noqa: PLC0415
+
+                stack_columns(e)   # v7.4.0 D-0309 — 부문 합 = 합계(공시 원값 ±sum_tol_pct), 빈 부문 날짜 = 렌더 전 오류(P6)
+            if e["style"] in ("dumbbell", "diverging", "slope"):
+                from engine.layers.series import pair_extent  # noqa: PLC0415
+
+                pair_extent(e)   # v7.4.0 D-0315 §1-3 — 두 시점 부문 값이 다 있어야(빈 값 = 렌더 전 오류, P6). diverging 기준 ≤ 0 도 오류
+            if e["style"] in ("bars", "stack", "dumbbell", "diverging", "slope", "range") and load_series(e["series_id"]).frequency != "quarterly":
+                raise ValueError(f"style {e['style']} 은 분기(quarterly) 레코드만")
             if (e["style"] == "projection") != (load_series(e["series_id"]).kind == "scatter"):   # v7.4.0 D-0260 §2
                 raise ValueError("style projection 은 scatter 레코드(전망 점)에만, scatter 레코드는 style projection 으로만")
             kind = st.lanes[st.lane_index(e["lane"])].kind  # type: ignore[attr-defined]
@@ -718,10 +733,20 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
         slots[e["lane"]] = e["slot"] + 1
     for lane in slots:
         R.cache["series_range"][lane] = lane_range(events, lane, st)   # v7.4.0 D-0263 — 무대 기간 안 데이터 맞춤
+        secs = [e for e in ser if e["lane"] == lane and e.get("secondary")]
+        if len(secs) > 1:   # v7.4.0 D-0309 §1-4 — 보조 축은 하나만([secondary-axis-single])
+            raise ProjectError(f"레인 {lane}: 보조 축 계열 {len(secs)}개 — 하나만(D-0309)")
+        if secs:
+            R.cache["series_range2"][lane] = lane_range(events, lane, st, secondary=True)
     from engine.layers.series import axis_range_note, lane_source_join  # noqa: PLC0415
 
     for lane in slots:   # v7.4.0 D-0256 — 레인당 출처 한 줄(레코드 출처를 " · " 로, 같은 출처는 한 번)
-        joined = lane_source_join([e for e in ser if e["lane"] == lane])   # v7.4.0 D-0266 B — 같은 매체 한 번, 전망 출처는 띠 태그(C)
+        from engine.layers.series import lane_source_short  # noqa: PLC0415
+        from engine.style import stage_surface  # noqa: PLC0415
+
+        lane_evs = [e for e in ser if e["lane"] == lane]
+        # v7.4.0 D-0266 B — 같은 매체 한 번, 전망 출처는 띠 태그(C). D-0328 — 무대 표면은 한 줄(출처 머리 + 마지막 기준 시점), 전부는 엔딩 카드
+        joined = lane_source_short(lane_evs) if stage_surface() else lane_source_join(lane_evs)
         note = axis_range_note(R.cache["series_range"][lane], load_series(next(e for e in ser if e["lane"] == lane)["series_id"]).unit)
         if note:   # v7.4.0 D-0263 §2② — 0 이 아닌 곳에서 시작하는 축은 출처 줄 끝에 범위 표기
             joined = f"{joined} · {note}"
@@ -730,9 +755,40 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
                 e["lane_source"] = joined
                 e["lane_n"] = slots[lane]   # 레인 안 series 수 — 둘 이상이면 띠 끝값 라벨을 찍지 않는다(D-0256)
         lane_ser = [x for x in ser if x["lane"] == lane]
-        drawer = next((x for x in reversed(lane_ser) if x["style"] != "projection"), lane_ser[-1])
+        drawer = next((x for x in reversed(lane_ser) if x["style"] != "projection" and not x.get("secondary") and not x.get("detail")),
+                      lane_ser[-1])
         for e in lane_ser:   # v7.4.0 — 축은 레인의 마지막(전망 점 제외 — 늦게 나와 그 전엔 축이 없다) series 가 그린다: 끝값 라벨이 다 놓인 뒤 → 겹치는 눈금 라벨 생략
-            e["axis"] = e is drawer
+            e["axis"] = not e.get("detail") and (e is drawer or (e["style"] in ("bars", "stack", "range") and not e.get("secondary")))   # D-0309 — 층이 차례로 켜져도 주 축은 늘(같은 범위)
+    from engine.layers.series import detail_column, detail_side_ok, quarter_span  # noqa: PLC0415
+    from rules import load_rules  # noqa: PLC0415
+
+    sides = load_rules().island.column_detail.side_order
+    for e in ser:   # v7.4.0 D-0318 — 열 확대 인셋 자리(예측): 생애 모든 프레임에서 열을 가리지 않는 첫 자리, 없으면 가린 프레임이 가장 적은 자리
+        if not e.get("detail"):
+            continue
+        if not any(x["lane"] == e["lane"] and not x.get("detail") for x in ser):
+            raise ProjectError(f"island column_detail @ {e['lane']}: 같은 레인에 가리킬 층(막대·쌓임·선)이 없다 — 열 확대는 레인 안 열을 가리킨다")
+        qa, qb = quarter_span(st, detail_column(e)[0])
+        spans = []
+        for i in range(int(e["t0"] * FPS), min(n, int(e["t1"] * FPS) + 1)):
+            v = View(st, cams[i])
+            spans.append(((qa - v.x0) / v.w, (qb - v.x0) / v.w))
+        bad = {sd: sum(not detail_side_ok(sd, fa, fb) for fa, fb in spans) for sd in sides}
+        e["detail_side"] = min(sides, key=lambda sd: (bad[sd], sides.index(sd)))
+        e["detail_cover_frames"] = bad[e["detail_side"]]
+        if bad[e["detail_side"]] and load_rules().island.column_detail.never_cover_focus_column:
+            raise ProjectError(f"island column_detail @ {e['lane']} t={e['t0']:.2f}~{e['t1']:.2f}: 어느 자리(side_order {sides})도 가리키는 열을 "
+                               f"가리지 않는 자리가 없다(최소 {bad[e['detail_side']]}프레임) — 카메라가 그 열을 화면 한쪽 1/3 에 두게 한다(never_cover_focus_column)")
+    for e in ser:   # v7.4.0 D-0321 §2 — 같은 열 가이던스 인셋이 떠 있는 동안 열 안 라벨은 접는다(같은 수 되풀이 금지)
+        if e["style"] == "range" and not e.get("detail"):
+            e["labels_hidden"] = [(x["t0"], x["t1"]) for x in ser if x.get("detail") and x["style"] == "range"
+                                  and x["lane"] == e["lane"] and x["series_id"] == e["series_id"]]
+    dets = sorted((e for e in ser if e.get("detail")), key=lambda e: e["t0"])
+    same = ("lane", "style", "series_id", "upper_id", "estimate_id", "parts", "title")
+    for a_, b_ in zip(dets, dets[1:]):   # 문장마다 accent 만 옮기는 이어 붙임 — 사이 페이드·재등장 없이 한 인셋(자리도 앞 것을 잇는다)
+        if abs(b_["t0"] - a_["t1"]) <= 0.05 and all(a_.get(k) == b_.get(k) for k in same):
+            a_["detail_cont_out"] = b_["detail_cont_in"] = True
+            b_["detail_side"] = a_["detail_side"]
     S = TIMELINE.series  # noqa: N806
     for e in ser:
         if not e["grow"]:
@@ -749,7 +805,7 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
             front[i] = best
         front[i1:] = best
         R.cache["series_front"][e["key"]] = front
-    pins_on_series(events, st, R.cache["series_range"])
+    pins_on_series(events, st, R.cache["series_range"], R.cache["series_range2"])
 
 
 def series_value_at(evs: list[dict], d: date) -> float:
@@ -771,12 +827,14 @@ def series_value_at(evs: list[dict], d: date) -> float:
     raise ProjectError(f"핀 날짜 {d} 에 레인 값이 없다 — 계열 자료 시작 전(핀은 선 위 점, D-0274)")
 
 
-def pins_on_series(events: list[dict], st: object, ranges: dict[str, tuple[float, float]]) -> None:
+def pins_on_series(events: list[dict], st: object, ranges: dict[str, tuple[float, float]],
+                   ranges2: dict[str, tuple[float, float]] | None = None) -> None:
     """사건 핀(date 앵커 marker)을 값 레인 위의 점으로(v7.4.0 back_and_forth D-0274 §1①, UF-142 "두 개를 그냥 합쳐서 세로축을 늘리란 말이야").
     월드 y = 그 날짜 계열 값(series.value_y). 계열 없는 레인의 핀은 오류 — 사건 레인(pins)은 없다."""
     from data.series import load_series  # noqa: PLC0415
     from engine.layers.series import value_y  # noqa: PLC0415
 
+    ranges2 = ranges2 or {}
     by_lane: dict[str, list[dict]] = {}
     for e in events:
         if e["type"] == "series":
@@ -787,9 +845,12 @@ def pins_on_series(events: list[dict], st: object, ranges: dict[str, tuple[float
         if e["lane"] not in by_lane:
             raise ProjectError(f"marker {e.get('label')!r} @ {e['date']}: 레인 {e['lane']!r} 에 계열이 없다 — 핀은 값 레인 위 점(D-0274)")
         d = date.fromisoformat(str(e["date"]))
-        e["pin_value"] = series_value_at(by_lane[e["lane"]], d)
+        sec = [x for x in by_lane[e["lane"]] if x.get("secondary")]   # v7.4.0 D-0309 — 보조 축 선이 있으면 핀은 그 선 위(발표일 주가)
+        evs = sec or [x for x in by_lane[e["lane"]] if x["style"] not in ("bars", "stack", "dumbbell", "diverging", "range")] or by_lane[e["lane"]]
+        rng = ranges2[e["lane"]] if sec else ranges[e["lane"]]
+        e["pin_value"] = series_value_at(evs, d)
         e["pin_unit"] = load_series(by_lane[e["lane"]][0]["series_id"]).unit   # 렌더 시 플롯 경계(축 값 라벨 열) 계산용
-        e["world"] = (st.x_of(e["date"]), value_y(st, e["lane"], ranges[e["lane"]], e["pin_value"]))  # type: ignore[attr-defined]
+        e["world"] = (st.x_of(e["date"]), value_y(st, e["lane"], rng, e["pin_value"]))  # type: ignore[attr-defined]
 
 
 def head_tops(R: RenderCtx, events: list[dict]) -> list[dict]:  # noqa: N803

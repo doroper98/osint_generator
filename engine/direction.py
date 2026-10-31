@@ -494,6 +494,9 @@ def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], l
             d[k] = _resolve(v, tb, doc)
         if d["type"] == "flight":
             hold_same_place(d, tb)
+        if d["type"] == "island" and d.get("kind") == "column_detail":   # v7.4.0 D-0318 — 열 확대 인셋 = 차트 아일랜드 안 레인 열에 매달린 층(같은 뷰·카메라)
+            d = {**{k: v for k, v in d.items() if k not in ("kind", "box")}, "type": "series", "detail": True, "grow": False,
+                 "col": "gold", "parts": d.get("parts") or []}
         events.append(d)
     sound = None
     if doc.sound is not None:

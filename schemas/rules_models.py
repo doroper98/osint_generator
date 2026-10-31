@@ -592,6 +592,9 @@ class MarkerLayout(_Strict):
     label_size: float
     sub_size: float
     sub_dy: float
+    vline_dash: list[float] = Field(default_factory=lambda: [3.0, 3.0])   # v7.4.0 D-0309 §1-5
+    vline_w: float = 1.1
+    vline_alpha: float = 0.7
 
 
 class RouteLabelLayout(_Strict):
@@ -1978,6 +1981,7 @@ class TimelineGrid(_Strict):
     label_dy: float
     label_margin_px: float
     min_label_gap_px: float
+    stop_at_source: Literal["source_band", "through"]   # v7.4.0 D-0321 §4 — 세로 격자선을 출처 줄 띠 위에서 끊는다
 
 
 class TimelineLaneLabel(_Strict):
@@ -2055,19 +2059,60 @@ class TimelineMissingMark(_Strict):
     dash: list[float]
     line_w: float
     inset_px: float
+    daily_note_outlier: str = Field(min_length=1)   # v7.4.0 D-0319 ③ — 일별 계열 missing 은 출처 줄 한 줄({n} = 날 수)
+    daily_note: str = Field(min_length=1)
 
 
 class TimelineBars(_Strict):
-    """v7.4.0 D-0278 §4.1 — series bars(분기 막대, 0 에서 자란다)."""
+    """v7.4.0 D-0278 §4.1·D-0308·D-0309 — series bars·stack(분기 캡슐, 0 에서 자란다, 잉크 사다리·직접 라벨)."""
 
     w_ratio: float = Field(gt=0, le=1)
-    fill_alpha: float = Field(gt=0, le=1)
-    edge_alpha: float = Field(ge=0, le=1)
-    edge_w: float = Field(ge=0)
+    top_radius: float = Field(ge=0)          # D-0310 §1-2 — 바깥 끝 모서리만(0 쪽은 각)
+    hollow_w: float = Field(gt=0)
+    ink: str
+    ladder: list[float] = Field(min_length=1)
+    stack_ladder: list[float] = Field(min_length=1)
+    stack_sep_w: float = Field(ge=0)
+    negative_fill: Literal["muted_fill", "ink_light"]   # v7.4.0 D-0328 — 손실 = 채도 낮춘 면 | 잉크 사다리 가장 옅은 면(값이 손실을 말한다). 테두리 없음
+    neg_fill_mix: float = Field(gt=0, le=1)
+    neg_ink_step: int = Field(ge=0)   # v7.4.0 D-0330 — ink_light 사다리 단
+    loss_color: str
+    neg_fill_alpha: float = Field(gt=0, le=1)
+    neg_outline_w: float = Field(gt=0)
+    label_contrast_min: float = Field(gt=1)
+    zero_alpha: float = Field(gt=0, le=1)
+    zero_w: float = Field(gt=0)
+    lane_pad_top: float = Field(ge=0, lt=0.5)
+    lane_pad_bottom: float = Field(ge=0, lt=0.5)
     value_size: float = Field(gt=0)
     value_font: str
     value_gap: float = Field(ge=0)
     value_halo: float = Field(ge=0)
+    part_label_size: float = Field(gt=0)
+    part_label_font: str
+    part_label_dx: float
+    part_label_min_h: float = Field(ge=0)
+    leader_len: float = Field(ge=0)
+    total_dot_r: float = Field(gt=0)
+    total_line_w: float = Field(gt=0)
+    total_alpha: float = Field(gt=0, le=1)
+    sum_tol_pct: float = Field(gt=0)
+    pair_w_ratio: float = Field(gt=0, le=1)      # v7.4.0 D-0315 §1-3 — dumbbell·diverging 부문 묶음 폭
+    pair_dot_r: float = Field(gt=0)
+    pair_line_w: float = Field(gt=0)
+    pair_line_alpha: float = Field(gt=0, le=1)
+    diverging_w_ratio: float = Field(gt=0, le=1)
+    guide_band_alpha: float = Field(gt=0, le=1)   # v7.4.0 D-0321 §2-1
+    guide_tick_ratio: float = Field(gt=0, le=1)
+
+
+class TimelineSecondary(_Strict):
+    """v7.4.0 D-0309 §1-4 — 같은 레인 보조 축 계열(하나)."""
+
+    line_w: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+    dot_r: float = Field(ge=0)
+    axis_label_margin_px: float = Field(ge=0)
 
 
 class TimelineBand(_Strict):
@@ -2155,6 +2200,7 @@ class StageTimelineRules(_Strict):
     series: TimelineSeries
     band: TimelineBand             # v4.4.0 — D-0090 작업 2
     bars: TimelineBars             # v7.4.0 — D-0278 §4.1 스케치
+    secondary: TimelineSecondary   # v7.4.0 — D-0309 §1-4 스케치
     missing_mark: TimelineMissingMark
     axis_scale: TimelineAxisScale  # v5.1.0 — D-0121 §A
     lane_range: TimelineLaneRange  # v7.4.0 — D-0263(UF-140)
@@ -2411,6 +2457,50 @@ class CascadeRules(_Strict):
         return self
 
 
+class IslandColumnDetail(_Strict):
+    """v7.4.0 D-0318·D-0319 ④ — 열 확대 인셋(island kind column_detail)."""
+
+    w_ratio: float = Field(gt=0, lt=1)
+    h_ratio: float = Field(gt=0, le=1)
+    margin_px: float = Field(ge=0)
+    side_order: list[Literal["left", "right"]] = Field(min_length=1)
+    never_cover_focus_column: bool
+    radius: float = Field(ge=0)
+    fill_alpha: float = Field(gt=0, le=1)
+    edge_alpha: float = Field(ge=0, le=1)
+    pad_px: float = Field(ge=0)
+    head_size: float = Field(ge=12)
+    head_font: str
+    text_size: float = Field(ge=12)
+    text_font: str
+    value_font: str
+    dot_r: float = Field(ge=5)
+    line_w: float = Field(gt=0)
+    bar_w_ratio: float = Field(gt=0, le=1)
+    band_alpha: float = Field(gt=0, le=1)
+    band_ink_alpha: float = Field(gt=0, le=1)   # v7.4.0 — 무대 표면 열 띠(text 잉크)
+    leader_w: float = Field(gt=0)
+    leader_alpha: float = Field(gt=0, le=1)
+    fade: tuple[float, float]
+    slide_px: float = Field(ge=0)
+    grow_sec: float = Field(ge=0)
+    guide_bar_ratio: float = Field(gt=0, lt=1)   # v7.4.0 D-0321 §2-2
+    label_gap_ratio: float = Field(ge=1)          # v7.4.0 D-0321 §3
+
+
+class IslandStageSurface(_Strict):
+    """v7.4.0 D-0328 — 팔레트 surface: stage(차트 = 무대, 테두리·머리 띠 없음)."""
+
+    lane_label_size: float = Field(gt=0)
+    lane_label_font: str
+    end_pin_size: float = Field(gt=0)
+    end_pin_font: str
+    end_pin_dx: float = Field(ge=0)
+    end_pin_r: float = Field(gt=0)
+    plate_pad: float = Field(ge=0)
+    source_lines: int = Field(ge=1)
+
+
 class IslandRules(_Strict):
     """v5.1.0 D-0123 §1·D-0126 — backdrop 무대 위 아일랜드 공통 규칙(engine/island.py)."""
 
@@ -2427,6 +2517,8 @@ class IslandRules(_Strict):
     source_wrap_lines_max: int = Field(ge=1)   # v7.4.0 D-0265 §3 — 시간축 레인 출처 줄이 틀·상자 폭을 넘으면 " · " 경계에서 접는 최대 줄 수
     main_kinds: list[Literal["chart", "primitive", "photo", "clip", "article", "panel"]] = Field(min_length=1)
     card_only_max_sec: float = Field(gt=0)   # 주 아일랜드 없는 구간 상한(전환 허용)
+    column_detail: IslandColumnDetail        # v7.4.0 D-0318 — 열 확대 인셋
+    stage_surface: IslandStageSurface        # v7.4.0 D-0328 — 차트 = 무대
 
 
 
@@ -3252,6 +3344,26 @@ class SketchRules(_Strict):
         walk(self)
         return out
 
+class Palette(_Strict):
+    """v7.4.0 D-0310 §1-1(UF-155) — 장르 화면 팔레트(rules palettes.<이름>). 값은 #RRGGBB."""
+
+    bg: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    island: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    border: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    text: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    muted: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    accent: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    up: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    down: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    surface: Optional[Literal["stage"]] = None   # v7.4.0 D-0328 — 차트 = 무대(rules island.stage_surface)
+    island_deep: Optional[str] = Field(default=None, pattern=r"^#[0-9A-Fa-f]{6}$")   # v7.4.0 D-0322 정정 — 르포 card_deep(열 확대 인셋 바탕)
+    grid_alpha: Optional[float] = Field(default=None, gt=0, le=1)   # 시간축 격자선 알파 상한(르포 ≤ 0.06)
+    zero_alpha: Optional[float] = Field(default=None, gt=0, le=1)   # 막대·쌓임 레인 0 기준선 알파(르포 0.55)
+    map_land: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    map_water: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    map_boundary: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+
+
 class VideoRules(_Strict):
     """`rules/video_rules.yaml` 최상위 모델."""
 
@@ -3283,6 +3395,7 @@ class VideoRules(_Strict):
     layout_480p: Layout480p
     panels: PanelRules
     colors: Colors
+    palettes: dict[str, Palette] = Field(default_factory=dict)   # v7.4.0 D-0310(UF-155)
     fonts: Fonts
     labels: LabelRules
     geo: GeoRules

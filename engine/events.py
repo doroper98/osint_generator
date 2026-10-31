@@ -80,6 +80,7 @@ class MarkerEvent(_Event):
     side: Literal["right", "left", "top", "bottom"] = "right"
     hl: bool = False
     icon: Literal["dot", "boom"] = "dot"
+    vline: bool = False   # v7.4.0 D-0309 §1-5 — 시간축 핀: 레인 세로 전체 점선(발표일). 지도 마커는 쓰지 않는다
     route_cross_exempt: Optional[RouteCrossExempt] = None   # v5.21.11 D-0203 — 골든 기준 프로젝트만(테스트가 강제)
 
     @model_validator(mode="after")
@@ -94,6 +95,20 @@ class MarkerEvent(_Event):
 
 
 
+class StackPart(BaseModel):
+    """v7.4.0 D-0309 — 쌓임 부문 하나. ids 레코드 값의 합(코드 계산)을 label 이름으로 그린다(직접 라벨, 범례 없음)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    ids: list[str] = Field(min_length=1)
+    label: str = Field(min_length=1)
+
+
+# v7.4.0 D-0309·D-0315 §1-3 — 부문(parts)을 읽는 스타일. stack = 쌓임(series_id = 합계), dumbbell = 그 분기 열 안 부문별 전분기 → 이번 분기,
+# diverging = 그 분기 열 안 부문별 전년 동기 대비 ±%(코드 계산, 0 기준). dumbbell·diverging 의 series_id = 열 날짜 기준 레코드(무대 안 마지막 분기)
+PART_STYLES = ("stack", "dumbbell", "diverging", "slope")   # dumbbell·diverging·slope = 열 확대 인셋 전용(island column_detail, D-0318 §1-3)
+
+
 class SeriesEvent(_Event):
     """시리즈 레이어(v4.3.0 D-0084 작업 4) — 값은 데이터 레코드 data/series/<series_id> 에서만(연출은 숫자를 주지 않는다, 20 §5.1).
     시간축 무대 전용. key·axis·slot 은 load_project 가 채운다(레인 안 순번 — 연출이 쓰면 오류)."""
@@ -101,10 +116,21 @@ class SeriesEvent(_Event):
     type: Literal["series"]
     lane: str
     series_id: str
-    style: Literal["step", "line", "band", "projection", "bars"]   # projection = v7.4.0 D-0260 §2 — scatter 레코드(전망 점, rules stage_timeline.projection). bars = v7.4.0 D-0278 §4.1(분기 막대, 스케치)
+    style: Literal["step", "line", "band", "projection", "bars", "stack", "range", "dumbbell", "diverging", "slope"]   # projection = v7.4.0 D-0260 §2 — scatter 레코드(전망 점, rules stage_timeline.projection). bars = v7.4.0 D-0278 §4.1(분기 막대, 스케치)
     color_by: Literal["fixed", "change"] = "fixed"   # v4.4.0 D-0091 ② — change: 레코드 값 변화로 달마다 장르 색 의미 hike·cut·hold(코드 계산)
+    parts: list[StackPart] = Field(default_factory=list)   # v7.4.0 D-0309 — stack: 부문(아래 → 위), series_id = 합계 레코드
+    secondary: bool = False          # v7.4.0 D-0309 §1-4 — 같은 레인 보조 축(레인당 하나, line·step 만)
     upper_id: Optional[str] = None   # v4.4.0 D-0090 작업 2 — band: series_id = 아래 끝 레코드, upper_id = 위 끝 레코드(목표 범위 띠)
     grow: bool = True
+    # v7.4.0 D-0310 감독 지시 ① — accent 대상 하나(그 순간 내레이션이 말하는 층·부문): latest(최신 열·최신 합계, 기본) · total(합계 선·점) ·
+    # none · stack 부문 label. 문장마다 accent 를 옮기려면 같은 레이어를 문장 경계에서 이어 붙이고 뒤 이벤트는 grow false
+    accent: Optional[str] = Field(default=None, min_length=1)
+    estimate_id: Optional[str] = None   # v7.4.0 D-0308 §1-1·D-0315 ② — bars: 예상치 레코드(속빈 막대, 같은 열). 차이 % 는 코드 계산
+    # v7.4.0 D-0318 — 열 확대 인셋 층(island kind column_detail 을 engine.direction.build 가 바꾼 것 — 연출이 직접 쓰지 않는다).
+    # dumbbell·diverging·slope 는 이 층에서만(열 안 직접 그리기 폐기, D-0318 §1-3). title = 인셋 머리 줄 이름
+    detail: bool = False
+    title: Optional[str] = Field(default=None, min_length=1)
+    total: bool = True               # v7.4.0 D-0309 §1-3 — stack 합계 점·선 층(문장마다 켜려면 앞 이벤트는 false)
     col: ColorName = "gold"
     key: Optional[int] = None      # 코드가 채움(load_project.prepare_series)
     axis: Optional[bool] = None
@@ -112,14 +138,32 @@ class SeriesEvent(_Event):
 
     @model_validator(mode="after")
     def _band(self) -> "SeriesEvent":
-        if (self.style == "band") != (self.upper_id is not None):
-            raise ValueError("series: style band 는 upper_id(위 끝 레코드)가 필요하고, step·line 은 upper_id 를 쓰지 않는다")
+        if (self.style in ("band", "range")) != (self.upper_id is not None):   # range = v7.4.0 D-0315 §1-3 가이던스 속빈 범위(분기 열)
+            raise ValueError("series: style band·range 는 upper_id(위 끝 레코드)가 필요하고, 다른 스타일은 upper_id 를 쓰지 않는다")
         if self.upper_id == self.series_id:
             raise ValueError("series band: upper_id 가 series_id 와 같다")
+        if (self.style in PART_STYLES) != bool(self.parts):
+            raise ValueError(f"series: style {'·'.join(PART_STYLES)} 은 parts(부문)가 필요하고, 다른 스타일은 parts 를 쓰지 않는다")
+        if self.style in ("dumbbell", "diverging", "slope") and not self.detail:
+            raise ValueError(f"series style {self.style} 은 열 확대 인셋 전용 — island kind column_detail 로 쓴다(D-0318 §1-3)")
+        if self.detail and (self.style not in ("dumbbell", "diverging", "slope", "range") or self.title is None):
+            raise ValueError("series detail(열 확대 인셋)은 style dumbbell·diverging·slope·range + title")
+        if self.secondary and self.style not in ("line", "step"):
+            raise ValueError("series secondary(보조 축)는 line·step 만 — 막대·쌓임은 주 축")
+        if self.estimate_id is not None and self.style not in ("bars", "range"):
+            raise ValueError("series estimate_id 는 bars(예상 = 속빈 막대)·range(컨센서스 = 속빈 점)만")
+        if not self.total and self.style != "stack":
+            raise ValueError("series total false 는 stack 만(합계 층)")
+        if self.accent is not None:
+            ok = {"latest", "total", "none"} | {p.label for p in self.parts}
+            if self.style not in ("bars", "range", *PART_STYLES) or self.accent not in ok or (self.accent == "total" and self.style != "stack"):
+                raise ValueError(f"series accent {self.accent!r}: bars 는 latest·none, stack 은 latest·total·none·부문 label, "
+                                 f"dumbbell·diverging 은 none·부문 label({sorted(ok)}) 만")
         return self
 
     def record_ids(self) -> list[str]:
-        return [self.series_id] + ([self.upper_id] if self.upper_id else [])
+        return ([self.series_id] + ([self.upper_id] if self.upper_id else []) + [i for p in self.parts for i in p.ids]
+                + ([self.estimate_id] if self.estimate_id else []))
 
 
 class DeclaredLeg(BaseModel):
@@ -392,14 +436,40 @@ class IslandEvent(_Event):
     box = rules island.boxes 이름(연출은 픽셀을 다루지 않는다 — place 는 배치 슬롯 키라 쓰지 않는다). 사진·기사·패널·프리미티브 아일랜드는 각자의 이벤트 타입이다."""
 
     type: Literal["island"]
-    kind: Literal["chart"]
+    kind: Literal["chart", "column_detail"]
     box: str = "center"
+    # v7.4.0 D-0318·D-0319 ④ — kind column_detail(열 확대 인셋): 차트 아일랜드 안 lane 의 한 분기 열을 가리키는 인셋. 값은 레코드에서만.
+    # style dumbbell(전분기→이번)·diverging(전년 동기 대비 %)·slope(1년 전→지금 값 — 구성비는 외부 매출 분모가 공시에 있을 때만, D-0320)·range(가이던스 범위 + 컨센서스 점).
+    # 열 = series_id 레코드의 마지막 분기(range 는 아래 끝 레코드의 분기). title = 머리 줄 이름(분기·단위는 코드가 붙인다)
+    lane: Optional[str] = None
+    style: Optional[Literal["dumbbell", "diverging", "slope", "range"]] = None
+    series_id: Optional[str] = None
+    parts: list[StackPart] = Field(default_factory=list)
+    upper_id: Optional[str] = None
+    estimate_id: Optional[str] = None
+    accent: Optional[str] = Field(default=None, min_length=1)
+    title: Optional[str] = Field(default=None, min_length=1)
 
     @model_validator(mode="after")
     def _box(self) -> "IslandEvent":
         boxes = load_rules().island.boxes
         if self.box not in boxes:
             raise ValueError(f"island box {self.box!r} 가 rules island.boxes {sorted(boxes)} 에 없다")
+        detail = (self.lane, self.style, self.series_id, self.title)
+        if self.kind == "chart":
+            if any(v is not None for v in detail) or self.parts or self.upper_id or self.estimate_id or self.accent:
+                raise ValueError("island kind chart 는 lane·style·series_id·parts·upper_id·estimate_id·accent·title 을 쓰지 않는다(column_detail 전용)")
+            return self
+        if any(v is None for v in detail):
+            raise ValueError("island column_detail 은 lane·style·series_id·title 이 필요하다")
+        if (self.style in ("dumbbell", "diverging", "slope")) != bool(self.parts):
+            raise ValueError("column_detail dumbbell·diverging·slope 는 parts 가 필요하고, range 는 parts 를 쓰지 않는다")
+        if (self.style == "range") != (self.upper_id is not None):
+            raise ValueError("column_detail range 는 upper_id(위 끝)가 필요하고, 다른 스타일은 쓰지 않는다")
+        if self.estimate_id is not None and self.style != "range":
+            raise ValueError("column_detail estimate_id(컨센서스 점)는 range 만")
+        if self.accent is not None and self.accent not in {"none", *(p.label for p in self.parts)}:
+            raise ValueError(f"column_detail accent {self.accent!r}: none · 부문 label 만")
         return self
 
 

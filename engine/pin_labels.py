@@ -80,15 +80,19 @@ def dot_box(x: float, y: float) -> Box:
 
 
 def series_hit(box: Box, view: object, stage: object, evs: list[dict], rng: tuple[float, float], t: float,
-               fronts: dict) -> Optional[str]:
+               fronts: dict, rng2: Optional[tuple[float, float]] = None) -> Optional[str]:
     """라벨 상자가 그 순간 보이는 계열 선·띠·전망 점과 겹치면 그 계열 id. 선은 굵기 절반, 띠는 아래~위 구간."""
     from data.series import load_series  # noqa: PLC0415
     from engine.layers.series import band_pairs, projection_dots, value_y  # noqa: PLC0415
 
     lane = evs[0]["lane"] if evs else None
     half = TIMELINE.series.line_w / 2
+    rng1 = rng
     for e in evs:
         if not e["t0"] <= t <= e["t1"]:
+            continue
+        rng = rng2 if e.get("secondary") and rng2 is not None else rng1   # v7.4.0 D-0315 ① — 보조 축 계열은 자기 범위로(주 축 범위로 재면 선을 못 본다)
+        if e["style"] in ("bars", "stack", "dumbbell", "diverging", "range"):   # 막대·쌓임은 선이 아니다(합계 레코드를 계단 선으로 재면 없는 선이 단을 막는다)
             continue
         if e["style"] == "projection":
             rec = load_series(e["series_id"])
@@ -195,6 +199,7 @@ class PinScene:
         from data.series import load_series  # noqa: PLC0415
 
         self.stage, self.ranges, self.fronts, self.view_at = stage, ranges, fronts, view_at
+        self.ranges2: dict = {}   # 보조 축 범위(engine.project 가 채운다, D-0315 ①)
         self.ser: dict[str, list[dict]] = {}
         for e in events:
             if e["type"] == "series":
@@ -232,7 +237,7 @@ class PinScene:
             src = next((s for s in evs if not s.get("slot", 0) and s["t0"] <= t <= s["t1"]), None)   # 레인당 출처 한 줄(D-0256)
             others += static_boxes(self.ctx, v, self.stage, lane, self.ranges[lane], self.units[lane], ends, src)
             hit = conflicts(self.ctx, rect, b, others,
-                            lambda r_: series_hit(r_, v, self.stage, evs, self.ranges[lane], t, self.fronts))
+                            lambda r_: series_hit(r_, v, self.stage, evs, self.ranges[lane], t, self.fronts, self.ranges2.get(lane)))
             out.append((p, rect, dot, hit))
         return out
 

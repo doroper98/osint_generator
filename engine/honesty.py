@@ -58,7 +58,7 @@ class ChartMeta(BaseModel):
     interp_distinct: bool = True                        # 보간 구간이 실측과 다른 스타일(점선·연하게·점 표식 없음)
     interp_noted: bool = True                           # 출처 줄에 보간 표기(rules gap_note)
     extrapolated: int = 0                               # 실측 양 끝 바깥을 채운 점 수(외삽 = hard)
-    axis_offset: bool = False                           # v7.4.0 D-0263 — 값 축이 0 이 아닌 곳에서 시작(시간축 레인 fit)
+    axis_offset: bool = False                           # v7.4.0 D-0263 — 값 축이 0 을 품지 않는다(시간축 레인 fit). D-0328 — 0 을 가로지르는 축은 잘린 축이 아니다(series.axis_range_note 와 같은 조건)
     axis_range_noted: bool = True                       # 그때 출처 줄에 축 범위 표기(rules stage_timeline.lane_range.axis_range_note)가 있다
 
 
@@ -222,7 +222,7 @@ def _series_metas(P, st, times: list[float], labels: list[str], texts: dict[str,
         out.append(ChartMeta(ref=f"series lane {lane!r} [{', '.join(r.series_id for r in recs)}]", axis=AXIS,
                              kind="line", series_count=len(evs), units=[r.unit for r in recs],
                              unit_label=ln.unit, as_of=min(r.as_of for r in recs), source_shown=shown,
-                             axis_offset=bool(rng and rng[0] != 0), axis_range_noted=all(note in lane_source_text(e) for e in evs)))
+                             axis_offset=bool(rng and not rng[0] <= 0 <= rng[1]), axis_range_noted=all(note in lane_source_text(e) for e in evs)))
     return out
 
 

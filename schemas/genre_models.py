@@ -136,6 +136,8 @@ class GenreProfile(_Strict):
     template_label: Optional[str] = Field(default=None, min_length=1)
     # v7.4.0 D-0278 §4.3 — 엔딩 카드 투자 고지(rules end_card.notice_invest). true 인데 그리지 않으면 [invest-notice-missing] hard
     invest_notice: bool = False
+    # v7.4.0 D-0310 §1-1(UF-155) — 화면 팔레트(rules palettes 이름). 없으면 기존 색. 없는 이름 = 오류(engine.style.apply_palette)
+    palette: Optional[str] = None
 
     @field_validator("genre")
     @classmethod

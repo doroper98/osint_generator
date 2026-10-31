@@ -9,6 +9,7 @@ genre: earnings
 status: proposed
 template_label: 실적 발표 템플릿    # UF-147(D-0302 ⑤) — 타이틀 카드 부제 앞·엔딩 카드 머리 줄([template-label-missing] hard)
 invest_notice: true                  # D-0278 §4.3 — 엔딩 카드 맨 마지막 줄 투자 고지([invest-notice-missing] hard)
+palette: noturno                    # D-0310 §1-1(UF-155) — 흰색·푸른색 계열(rules palettes.princess, 감독 제안)
 stage:
   primary: backdrop              # D-0278 §2-2 — 사진·클립 배경 + 차트 아일랜드 하나(A1, D-0272). 아일랜드 카메라는 무대 전환이 아니다(D-0126 Q1)
   secondary: [mercator]          # act5 지경학(공급망·정책 지도) — 보조 무대 전환 1회

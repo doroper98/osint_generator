@@ -2589,8 +2589,12 @@ def flat_lanes(P) -> list[tuple[str, float, tuple[float, float]]]:  # noqa: ANN0
     st, cams, events = world
     span = visited_dates(st, P, cams)
     out = []
+    from engine.layers.series import zero_lane  # noqa: PLC0415
+
     for lane, (lo, hi) in rng.items():
-        vs = [v for e in events if e.get("type") == "series" and e.get("lane") == lane for sid in record_ids(e)
+        if zero_lane(events, lane):   # v7.4.0 감독 승인(2026-10-30) — 막대·쌓임 레인은 0 기준: 평평함이 아니라 크기 비교가 뜻([bars-from-zero])
+            continue
+        vs = [v for e in events if e.get("type") == "series" and e.get("lane") == lane and not e.get("secondary") for sid in record_ids(e)
               for d, v in record_points(load_series(sid)) if span is None or span[0] <= d <= span[1]]   # 전망 점(scatter)도 그려진 데이터
         if not vs or hi <= lo:
             continue
@@ -2740,8 +2744,10 @@ def check_axis_empty_band(P) -> list[str]:  # noqa: ANN001, N803
     st, _, events = world
     mx = TIMELINE.lane_range.empty_band_max_ratio
     out = []
+    from engine.layers.series import zero_lane  # noqa: PLC0415
+
     for lane, r in rng.items():
-        if TIMELINE.lane_range.mode == "zero":
+        if TIMELINE.lane_range.mode == "zero" or zero_lane(events, lane):   # v7.4.0 감독 승인 — 막대·쌓임 레인은 0 기준이라 빈 띠 개념이 다르다
             continue
         lo_r, hi_r = empty_bands(events, lane, r, st)
         for side, v in (("아래", lo_r), ("위", hi_r)):
