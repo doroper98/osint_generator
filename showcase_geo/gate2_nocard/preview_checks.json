@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "hard": 0,
- "warnings": 64,
+ "warnings": 63,
  "passed": true,
  "profile": "full",
  "skipped": [],
@@ -51,6 +51,15 @@
     "clip",
     "cutout",
     "badge"
+   ]
+  },
+  "label_under_media": {
+   "max_sec": 0.2,
+   "step_sec": 0.1,
+   "min_alpha": 0.5,
+   "media_types": [
+    "photo",
+    "clip"
    ]
   },
   "outlet_min_overlap_sec": 0.5,
@@ -452,17 +461,15 @@
   {
    "id": "media_upscaled",
    "severity": "warning",
-   "count": 1,
-   "details": [
-    "[media-upscaled] clip strikes_file 원본 폭 480px < 480p 장치 폭 717px"
-   ]
+   "count": 0,
+   "details": []
   },
   {
    "id": "endcard_roll",
    "severity": "warning",
    "count": 1,
    "details": [
-    "[endcard-roll] 크레딧이 넘쳐 롤 214px · 32.9 px/s(상한 60)"
+    "[endcard-roll] 크레딧이 넘쳐 롤 233px · 35.8 px/s(상한 60)"
    ]
   },
   {
@@ -695,6 +702,18 @@
   },
   {
    "id": "badge_covered",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "caption_overflow",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "label_under_media",
    "severity": "hard",
    "count": 0,
    "details": []

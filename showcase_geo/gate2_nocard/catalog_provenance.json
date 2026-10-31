@@ -3,7 +3,7 @@
  "engine": "engine",
  "repo_version": "7.4.0",
  "rules_version": "2.0.0",
- "rules_hash": "b3c075a92fe483ac0834b2719b33c47ab862ea51",
+ "rules_hash": "ff03b89e072c961b37dc6d2c842f504976796e6d",
  "prompts": {
   "director": "4b0d8abce2533f324bbe69742891e6ff31b77d96"
  },
@@ -111,8 +111,9 @@
   "camera_cuts": 8,
   "dips": 7,
   "dips_under": 1,
-  "badges": 1,
+  "badges": 2,
   "badge_kinds": {
+   "emblem": 1,
    "person": 1
   },
   "panels": [
@@ -129,7 +130,7 @@
   },
   "event_types": {
    "article": 3,
-   "badge": 1,
+   "badge": 2,
    "barrier": 1,
    "boom": 2,
    "clip": 2,
@@ -235,14 +236,10 @@
   "reviewer": "fable (back_and_forth)",
   "visual_qa": []
  },
- "drops": [
-  {
-   "record": "badge emblem act3_3",
-   "reason": "미 중부사령부 휘장 배지 — 공습 영상 액자(clip_frame, 화면 x 68~785·y 38~441)가 130.75~135.75 내내, 그 앞은 호르무즈 사진이 덮어 100% 안 보였다([badge-covered]). 영상 캡션이 U.S. Central Command 를 이미 말한다 — 삭제(D-0329 ②·D-0331 (a))"
-  }
- ],
+ "drops": [],
  "assets": {
   "images_used": [
+   "emblem:centcom",
    "flag11:ca",
    "flag11:de",
    "flag11:fr",
@@ -264,7 +261,9 @@
    "portrait:trump"
   ],
   "emblems": {
-   "used": [],
+   "used": [
+    "centcom"
+   ],
    "flag_fallback": {}
   },
   "badges": {
@@ -281,6 +280,7 @@
     "us"
    ],
    "used": [
+    "centcom",
     "trump"
    ],
    "suggested_and_used": [
@@ -334,6 +334,7 @@
  },
  "credits": {
   "card": {
+   "emblems": 1,
    "flags": 1,
    "map": 2,
    "media": 13,
@@ -425,8 +426,8 @@
  },
  "end_card": {
   "version_stamp": "v7.4.0",
-  "roll_px": 214.0,
-  "roll_px_per_sec": 32.92
+  "roll_px": 233.0,
+  "roll_px_per_sec": 35.85
  },
  "render": {
   "resolution": {
@@ -1473,10 +1474,10 @@
   },
   "placement": {
    "diesel_road_2026_moscow_fire_0618": "center:map_center_media",
-   "strikes_file": "role:clip_frame",
+   "strikes_file": "auto:map_left",
    "niovi": "explicit",
    "diesel_road_2026_khabarovsk_ref_2005": "center:map_center_media",
-   "hormuz_strait_modis_2020": "center:map_center_media",
+   "hormuz_strait_modis_2020": "slot:map_pair_left",
    "dmz_mine_sign": "center:map_center_media",
    "badge:도널드 트럼프": "slot:map_upper_left",
    "vladivostok_golden_horn_2010": "center:map_center_media",
@@ -1608,6 +1609,7 @@
   "samples": 241,
   "elements": [
    "article",
+   "badge:emblem",
    "badge:person",
    "barrier",
    "boom",
@@ -1632,11 +1634,11 @@
   ],
   "voice": "음성 supertonic M3 ×0.95 · 끝 '니다' 3자 −4반음",
   "truncated": [],
-  "direction_sha1": "af3e620c203db653369b6e2dfd82f8ee35b24a1b",
+  "direction_sha1": "85c9978eb849e51316f14a7f94a7cdc3da770d00",
   "sec": {
-   "render": 1301.6,
-   "total": 1639.5,
-   "mux": 40.0
+   "render": 1391.3,
+   "total": 1758.1,
+   "mux": 39.1
   },
   "jobs": 4,
   "frames": 5782,
@@ -1656,11 +1658,11 @@
    },
    "post_limiter_dbfs": -2.0
   },
-  "bytes": 56025545
+  "bytes": 56127503
  },
  "checks": {
   "hard": 0,
-  "warnings": 69,
+  "warnings": 67,
   "passed": true,
   "profile": "catalog"
  },
@@ -1791,7 +1793,7 @@
   {
    "id": "UF-31",
    "checks": {
-    "media_upscaled": 8
+    "media_upscaled": 6
    }
   },
   {

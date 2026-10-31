@@ -1,6 +1,6 @@
 # 카탈로그 요소 표 — showcase_geo
 
-출처: `out/catalog_frames.json`(표본 241개, 1초 간격) · 연출 지문 af3e620c · 음성 음성 supertonic M3 ×0.95 · 끝 '니다' 3자 −4반음
+출처: `out/catalog_frames.json`(표본 241개, 1초 간격) · 연출 지문 85c9978e · 음성 음성 supertonic M3 ×0.95 · 끝 '니다' 3자 −4반음
 
 | 구간 | 요소(레지스트리 이름) | 글꼴 |
 |---|---|---|
@@ -52,8 +52,8 @@
 | 2:07–2:10 | country · marker · route · photo · tanker_loop | sans · serif · mono |
 | 2:10–2:11 | country · route · photo · tanker_loop | sans · serif · mono |
 | 2:11–2:12 | country · clip · route · tanker_loop | sans · serif · mono |
-| 2:12–2:14 | country · boom · marker · clip · route · tanker_loop | sans · serif · mono |
-| 2:14–2:15 | country · marker · clip · route · tanker_loop | sans · serif · mono |
+| 2:12–2:14 | country · boom · marker · clip · route · tanker_loop · badge:emblem | sans · serif · mono |
+| 2:14–2:15 | country · marker · clip · route · tanker_loop · badge:emblem | sans · serif · mono |
 | 2:15–2:16 | country · clip | sans · serif · mono |
 | 2:16–2:18 | country · marker · barrier · clip | sans · serif · mono |
 | 2:18–2:19 | country · clip | sans · serif · mono |
@@ -94,9 +94,9 @@
 | 3:44–3:50 | marker · route | sans · mono |
 | 3:50–4:01 | marker · route | sans · serif · mono |
 
-## 영상 전체 요소 (16)
+## 영상 전체 요소 (17)
 
-article · badge:person · barrier · boom · clip · country · dip · flight · marker · panel:dots · panel:dual_line · panel:statement · photo · primitive:site_diagram · route · tanker_loop
+article · badge:emblem · badge:person · barrier · boom · clip · country · dip · flight · marker · panel:dots · panel:dual_line · panel:statement · photo · primitive:site_diagram · route · tanker_loop
 
 ## 영상 전체 글꼴 (4)
 

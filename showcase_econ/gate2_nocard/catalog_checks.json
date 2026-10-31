@@ -53,6 +53,15 @@
     "badge"
    ]
   },
+  "label_under_media": {
+   "max_sec": 0.2,
+   "step_sec": 0.1,
+   "min_alpha": 0.5,
+   "media_types": [
+    "photo",
+    "clip"
+   ]
+  },
   "outlet_min_overlap_sec": 0.5,
   "outlet_names": {
    "guardian": {
@@ -686,6 +695,18 @@
   },
   {
    "id": "badge_covered",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "caption_overflow",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "label_under_media",
    "severity": "hard",
    "count": 0,
    "details": []
