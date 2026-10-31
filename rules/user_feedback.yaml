@@ -2389,3 +2389,14 @@ entries:
   status: open
   decision: D-0326(261031_110136_D0326_fable_uf200-fed-band-vs-line.md — band 는 일별 원자료 그대로 발효일에 계단, 선은 월평균 유지·출처 줄에 "월평균" 명시 · 장치 [band-line-outside] hard · 1bp 단차는 실제 값이라 유지 — 사용자 판단 요청)
   source: 감독 세션(Fable) 사용자 대화 2026-10-31
+- id: UF-201
+  date: '2026-10-31'
+  project: showcase_geo
+  at: "게이트 ② 패키지 v2 프리뷰 — act2(레일라호 울산→블라디보스토크) 문장의 사진 diesel_road_2026_vladivostok_port_1992(U.S. Navy 1992, 러시아 예인선이 화면 대부분, 항구는 배경)"
+  quote: "블라디보스토크항의 이미지로 이런 통통배(터그선)이미지가 크게 박힌 이미지를 쓰는게 맞아?"
+  quote_kind: verbatim
+  category: 사진 선택 — 자료사진의 주된 피사체가 문장의 대상(항구·유조선)과 다르면 쓰지 않는다(배경에만 있는 대상은 불일치) · 34년 전 자료사진의 현재 사건 사용
+  guards: []
+  status: open
+  decision: "D-0327(261031_110350_D0327_fable_uf201-vladivostok-photo-subject.md) — 교체(블라디보스토크 항·유류 터미널이 주된 피사체인 권리 기록 사진, 없으면 사진 없이 지도 카메라 + 위성 인셋) · 장치 = 레지스트리 main_subject/background 분리 + checks [photo-subject-background] hard · photo_age_max_years warning"
+  source: 감독 세션(Fable) 사용자 대화 2026-10-31
