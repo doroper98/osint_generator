@@ -2338,3 +2338,14 @@ entries:
   status: open
   decision: D-0322(UF-155 "흰색과 푸른색 계열"을 감독이 '푸른 바탕 + 흰 글자'로 뒤집어 읽은 것이 원인. 교체 후보 A = 흰 종이 바탕 + 남색 잉크 사다리 + 강조 1색, B = 네이비 바탕 + 크림 글자(cosmos 계열). 실제 엔진 두 컷씩 렌더해 사용자가 고른 뒤 princess 는 삭제(P2))
   source: 감독 세션(Fable) 사용자 대화 2026-10-31
+- id: UF-157
+  date: '2026-10-31'
+  project: samsung_q3_2026
+  at: "경제 템플릿 테마 교체(UF-156) 직후 — 참고 르포 네 편(analysis-reports.pages.dev: analysis_20261027_141313_f96b5aaf36 · analysis_20260909_170148_65c3b5f19c · analysis_20260829_225100_3dfe84ee8e · analysis_20260817_204443_f8c2463154) 제시"
+  quote: "이 르포 형식과 지난번에 준 https://analysis-reports.pages.dev/analysis_20260817_204443_f8c2463154 여기를 참고해서 디자인적으로 유려한 그런 형태의 템플릿을 만드는게 우리의 목표야"
+  quote_kind: verbatim
+  category: 경제 템플릿 목표 — agents_reviewer 르포(reportage) 형식의 디자인 문법(테마·글꼴·차트·여백)을 영상 템플릿으로 옮긴 '유려한' 형태
+  guards: []
+  status: open
+  decision: D-0323(네 르포의 번들·테마 토큰·디자인 시트를 저장소 사본에서 추출해 영상 테마·차트 문법 명세로 옮긴다. 20261027 번들 테마 = reportage_noturno)
+  source: 감독 세션(Fable) 사용자 대화 2026-10-31
