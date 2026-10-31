@@ -325,7 +325,7 @@ def place_end_label(R: "RenderCtx", t: float, lane: str, y: float, v: float) -> 
         reg = R.cache["series_end_labels"] = {"t": t, "lanes": {}}
     placed = reg["lanes"].setdefault(lane, [])
     for _ in range(len(placed) + 1):
-        hit = next(((py, pv) for py, pv, _ in placed if abs(y - py) < gap), None)
+        hit = next(((py, pv) for py, pv, *_ in placed if abs(y - py) < gap), None)
         if hit is None:
             break
         y = hit[0] + gap if v < hit[1] else hit[0] - gap
