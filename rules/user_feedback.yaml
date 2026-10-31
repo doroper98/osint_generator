@@ -2327,3 +2327,14 @@ entries:
   status: open
   decision: D-0310(themes.princess·bars.top_radius 3·stage_backdrop.econ_default flat·겹침 검사 예외 없음 — 장치는 구현 뒤 guards 에). 어설픈 글꼴·세로 무늬는 감독 목업의 산물(엔진 아님)임을 기록
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
+- id: UF-156
+  date: '2026-10-31'
+  project: samsung_q3_2026
+  at: "경제 템플릿 실제 엔진 스케치(artifacts a7e4476 — 40초 핀 컷·가이던스 인셋·slope 인셋, princess 테마 적용본) 검토"
+  quote: "와 princess 컨셉 너무 구리다 갈아엎어."
+  quote_kind: verbatim
+  category: 경제 시각 테마 — princess(푸른 바탕 #015AA0 + 흰 글자 + 코랄) 기각, 테마 전면 교체
+  guards: []
+  status: open
+  decision: D-0322(UF-155 "흰색과 푸른색 계열"을 감독이 '푸른 바탕 + 흰 글자'로 뒤집어 읽은 것이 원인. 교체 후보 A = 흰 종이 바탕 + 남색 잉크 사다리 + 강조 1색, B = 네이비 바탕 + 크림 글자(cosmos 계열). 실제 엔진 두 컷씩 렌더해 사용자가 고른 뒤 princess 는 삭제(P2))
+  source: 감독 세션(Fable) 사용자 대화 2026-10-31
