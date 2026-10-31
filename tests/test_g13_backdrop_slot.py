@@ -31,7 +31,7 @@ def _photo() -> dict:
 
 
 def _asset(crop: tuple[int, int]) -> NS:
-    return NS(tool=NS(params={"crop": list(crop)}))
+    return NS(caption="사진", kind="photo", credit_line=lambda fmt: "자료사진", tool=NS(params={"crop": list(crop)}))   # v7.4.0 D-0333 — media_box 가 캡션 바 높이를 잰다
 
 
 class SlotRegistryTest(unittest.TestCase):

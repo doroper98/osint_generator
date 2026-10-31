@@ -64,12 +64,12 @@ def regimes(values: list[tuple[date, float]], months: int) -> list[str]:
     첫 달·변화 기록 없음 = hold. 빈 달(끊김)은 앞뒤 값을 비교하지 않는다(보간 금지 — 끊긴 뒤 첫 달은 새로 시작)."""
     out: list[str] = []
     last: tuple[int, str] | None = None
-    daily = any(d.day != 1 for d, _ in values)   # v7.4.0 D-0326 — 일별 레코드(목표 범위 발효일 계단): 이웃 관측(≤ 7일) 끼리 비교
+    daily = any(d.day != 1 for d, _ in values)   # v7.4.0 D-0326 — 일별 레코드(목표 범위 발효일 계단): 이웃 관측(≤ rules daily_adjacent_days) 끼리 비교
     for i, (d, v) in enumerate(values):
         k = d.year * MONTHS + d.month
         if i:
             pd, pv = values[i - 1]
-            adjacent = (d - pd).days <= 7 if daily else k - (pd.year * MONTHS + pd.month) == 1
+            adjacent = (d - pd).days <= TIMELINE.series.daily_adjacent_days if daily else k - (pd.year * MONTHS + pd.month) == 1
             if adjacent and v != pv:
                 last = (k, "hike" if v > pv else "cut")
         out.append(last[1] if last is not None and k - last[0] < months else "hold")
