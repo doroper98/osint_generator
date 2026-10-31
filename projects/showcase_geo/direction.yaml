@@ -1169,7 +1169,7 @@ events:
   end:
     sid: act3_5
     edge: end
-    'off': 1.4
+    'off': 1.8   # v7.4.0 UF-159 — 전환 ×1.5 로 완전 노출이 2.23초(< card_full_exposure_min_sec 2.5)가 돼 끝을 0.4초 늘림(옛 1.4)
   mid: diesel_road_2026_art_0020
   theme: dark
 - type: photo

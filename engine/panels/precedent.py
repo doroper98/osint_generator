@@ -7,7 +7,7 @@ import cairo
 from engine.context import RenderCtx
 from engine.layers.badges import badge_at
 from engine.panels.base import panel_title
-from engine.style import C
+from engine.style import C, MOTION
 from engine.timebase import smooth
 from engine.typography import rrect, text
 from rules import load_rules
@@ -61,7 +61,7 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
     panel_title(ctx, a, e["title"], e.get("subtitle"))
     for i, cd in enumerate(e["cards"]):
         t0 = cd["t0"]
-        f = smooth((t - t0) / 0.5)
+        f = smooth((t - t0) / MOTION["panel_item_in_sec"])   # v7.4.0 UF-159 ×1.5
         if f <= 0:
             continue
         x = CARD_X0 + i * CARD_STEP
@@ -82,10 +82,10 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
         if pp:
             badge_at(ctx, R, x + 136, y + 172, dict(kind="person", pid=pp["pid"], flag=pp["flag"], R=24, t0=t0 + 0.3,
                                                     label="", accent="teal"), t, a)
-            text(ctx, pp["caption"], x + 16, y + 196, PR.caption_size, "sansb", C["teal"], ca * smooth((t - t0 - 0.6) / 0.4), 0, "l")
+            text(ctx, pp["caption"], x + 16, y + 196, PR.caption_size, "sansb", C["teal"], ca * smooth((t - t0 - 0.6) / MOTION["panel_caption_in_sec"]), 0, "l")
     fn = e.get("footnote")
     if fn:
-        fa = a * smooth((t - fn["t0"]) / 0.5)
+        fa = a * smooth((t - fn["t0"]) / MOTION["panel_item_in_sec"])
         if fa > 0:
             x0, _ = footnote_span(len(e["cards"]))
             for j, s_ in enumerate(fn["lines"]):

@@ -22,7 +22,7 @@ import cairo
 
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import CARD, FPS, ISLAND, TIMELINE
+from engine.style import CARD, ELEM, FPS, ISLAND, MOTION, TIMELINE
 from engine.timebase import ease_out, window
 from engine.typography import rrect
 from rules import load_rules
@@ -312,7 +312,7 @@ def label_check(events: list[dict], chart: dict) -> dict:
         for f in range(f0, f1 + 1, LABEL_STEP_FRAMES):
             t = f / FPS
             box_e = next((i for i in isl if i["t0"] <= t <= i["t1"]), None)
-            la = window(t, e["t0"], e["t1"], 0.35, 0.5) * smooth((t - e["t0"] - 0.2) / 0.4)
+            la = window(t, e["t0"], e["t1"], *ELEM["pin_label"]) * smooth((t - e["t0"] - MOTION["pin_label_delay_sec"]) / MOTION["pin_label_in_sec"])
             if box_e is None or la <= 0.01 or island_alpha(t, box_e) <= 0.01:
                 continue
             bw, bh = island_box(box_e)[2:]

@@ -18,7 +18,7 @@ from engine.context import RenderCtx
 from engine.credits import RightsError
 from engine.media_registry import credit_line, load_media_registry
 from engine.projection import View
-from engine.style import C, FPS
+from engine.style import C, ELEM, FPS, MOTION
 from rules import load_rules
 from engine.timebase import clamp01, ease_out, smooth, window
 from engine.typography import rrect, text, tw
@@ -99,12 +99,12 @@ def ken_burns_source(ctx: cairo.Context, src: cairo.ImageSurface, x: float, y: f
 
 
 def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
-    a = window(t, e["t0"], e["t1"], 0.5, 0.5)
+    a = window(t, e["t0"], e["t1"], *ELEM["photo"])   # v7.4.0 UF-159 ×1.5
     if a <= 0.01:
         return
     m = R.assets.media_assets[e["mid"]]
     lt = t - e["t0"]
-    x, y, w = e["x"], e["y"] + (1 - ease_out(lt / 0.6)) * 12, e["w"]
+    x, y, w = e["x"], e["y"] + (1 - ease_out(lt / MOTION["photo_rise_sec"])) * 12, e["w"]
     h = w * 0.625
     media_frame(ctx, x, y, w, h + BAR, a)
     k = 1.0 + (KEN_BURNS_MAX - 1.0) * clamp01(lt / (e["t1"] - e["t0"]))  # Ken Burns
@@ -123,7 +123,7 @@ def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
 
 
 def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
-    a = window(t, e["t0"], e["t1"], 0.35, 0.45)
+    a = window(t, e["t0"], e["t1"], *ELEM["clip"])
     if a <= 0.01:
         return
     m = R.assets.media_assets[e["mid"]]
@@ -154,12 +154,12 @@ def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
 
 
 def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
-    a = window(t, e["t0"], e["t1"], 0.6, 0.5)
+    a = window(t, e["t0"], e["t1"], *ELEM["cutout"])
     if a <= 0.01:
         return
     lt = t - e["t0"]
     x, y = view.to_screen(*e["world"])
-    x -= (1 - ease_out(lt / 1.2)) * 40
+    x -= (1 - ease_out(lt / MOTION["cutout_slide_sec"])) * 40
     y += math.sin(t * 1.3) * 2.2
     m = R.assets.media_assets[e["mid"]]
     fs, fw, fh = R.assets.raster(f"media:{m.file}", e["w"], R.out.k)

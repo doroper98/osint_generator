@@ -9,7 +9,7 @@ import numpy as np
 
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import H_OUT, W_OUT, C, map_c, map_halo
+from engine.style import C, ELEM, H_OUT, MOTION, W_OUT, map_c, map_halo
 from engine.timebase import ease_io, ease_out, smooth, window
 from engine.typography import text, tw
 from rules import load_rules
@@ -96,7 +96,7 @@ def log_shape(ctx: cairo.Context, pts: "np.ndarray", col: tuple, a: float, name:
 
 
 def draw_route(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
-    a = window(t, e["t0"], e["t1"], 0.35, 0.6)
+    a = window(t, e["t0"], e["t1"], *ELEM["route"])
     if a <= 0.01:
         return
     if "curve" not in e:
@@ -136,7 +136,7 @@ def draw_route(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) 
         ctx.set_source_rgba(*col, a)
         ctx.fill()
     if e.get("label") and prog >= 0.99:
-        la = a * smooth((t - e["t0"] - e["grow"]) / 0.4)
+        la = a * smooth((t - e["t0"] - e["grow"]) / MOTION["route_label_in_sec"])   # v7.4.0 UF-159 ×1.5
         pend = R.cache.get("route_labels_pending")
         if pend is None or e.get("in_island"):   # 아일랜드 안(상자 좌표)·지연 목록 없는 호출 = 그 자리에서(옛 동작)
             draw_route_label(ctx, view, e, S_, col, la, place_route_label(ctx, view.stage, e["label"], S_, [], [S_]))
@@ -272,7 +272,7 @@ def route_lines(view: View, events: list[dict], t: float) -> list["np.ndarray"]:
     """지금 화면에 그려진 경로 선(자라는 중이면 자란 부분) — 라벨 교차 판정 대상(자기 선·남의 선)."""
     out = []
     for e in events:
-        if e["type"] != "route" or e.get("in_island") or not e["t0"] <= t <= e["t1"] or window(t, e["t0"], e["t1"], 0.35, 0.6) <= 0.01:
+        if e["type"] != "route" or e.get("in_island") or not e["t0"] <= t <= e["t1"] or window(t, e["t0"], e["t1"], *ELEM["route"]) <= 0.01:
             continue
         S_ = view.to_screen_arr(e["curve"] if "curve" in e else catmull(e["world_pts"], 12))  # noqa: N806
         prog = ease_io((t - e["t0"]) / e["grow"]) if e["grow"] > 0.05 else 1
@@ -326,7 +326,7 @@ def foreground_zones(ctx: cairo.Context, events: list[dict], t: float) -> list[t
 def slot_fade(fades: dict, e: dict, t: float) -> float:
     """v5.22.7 D210 — 수명 전체에서 안 겹치는 자리가 없던 이름표: 겹치는 구간(route_label_slots 가 정한 [시작, 끝])에서 그 자리 그대로 흐린다.
     구간 가장자리 RL 고정 0.25초로 나고 든다(튀지 않게)."""
-    return 1.0 - max([window(t, a, b, 0.25, 0.25) for a, b in fades.get(id(e), [])] + [0.0])
+    return 1.0 - max([window(t, a, b, *ELEM["route_label_swap"]) for a, b in fades.get(id(e), [])] + [0.0])
 
 
 def label_fade(ctx: cairo.Context, events: list[dict], t: float, b: Box) -> float:
@@ -364,7 +364,7 @@ def flush_route_labels(ctx: cairo.Context, R: RenderCtx, view: View, events: lis
 
 
 def draw_tanker_loop(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
-    a = window(t, e["t0"], e["t1"], 0.6, 0.6)
+    a = window(t, e["t0"], e["t1"], *ELEM["tanker_loop"])
     if "curve" not in e:
         e["curve"] = catmull(e["world_pts"], 12)   # 경로 꼭짓점의 월드 좌표(engine.stage.attach_world) → 곡선
     S_ = view.to_screen_arr(e["curve"])  # noqa: N806
@@ -376,7 +376,7 @@ def draw_tanker_loop(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: 
 
 
 def draw_barrier(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
-    a = window(t, e["t0"], e["t1"], 0.4, 0.5)
+    a = window(t, e["t0"], e["t1"], *ELEM["barrier"])
     k = ease_out((t - e["t0"]) / 0.8)
     x0, y0 = view.to_screen(*e["world_p0"])
     x1, y1 = view.to_screen(*e["world_p1"])
