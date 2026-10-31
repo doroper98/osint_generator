@@ -618,7 +618,7 @@ placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `pl
     # v5.2.0 back_and_forth D-0132(A) — backdrop 무대 전용 사진 자리(left 차트 아일랜드 x 24~564 와 함께). 카드 예약 구역(x ≥ 594, y 70~200) 아래·
     # 자막 구역(y 410) 위·left 상자 오른쪽 끝 564 밖. 폭 236 → 16:9 + 캡션 바 42 = y 212~387. stages = 이 무대에서만(다른 무대 = 배치 오류, P10).
     # 사용자 합격 값 아님(480p 시감 뒤 조정 가능)
-    backdrop_right_low: {kinds: [photo, clip], box: [594, 212, 236], stages: [backdrop]}
+    backdrop_right_low: {kinds: [photo, clip], box: [594, 200, 236], stages: [backdrop]}   # v7.4.0 D-0333 — 출처 줄 두 줄(바 +12)에도 자막 위 8px 여백(옛 y 212)
     # v7.4.0 back_and_forth D-0274 §2①·D-0276 A(사용자 의견 UF-141 "영상이 나올 때는 한쪽 구석에 몰아서 … 보여주지 말고 … 액자 형식으로 … 꽉 채워서") —
     # 레퍼런스 영상(clip.role main, 기본)의 유일한 자리: 화면 폭 84 %·16:9·가운데 [68, 38, 785, 441]. 배경(블러 사진·지도)은 그대로, 캡션 줄은 액자 안 위쪽 띠.
     # 날짜 뱃지·자막은 액자 위에 그린다(예외 키 layout_480p.subtitle.over_clip_frame·hud.date_badge_over_clip_frame — 이 슬롯에만). 검사 [clip-frame] hard

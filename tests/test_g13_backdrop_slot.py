@@ -37,14 +37,14 @@ def _asset(crop: tuple[int, int]) -> NS:
 class SlotRegistryTest(unittest.TestCase):
     def test_slot_exists_backdrop_only(self) -> None:
         s = R.placement.slots[SLOT]
-        self.assertEqual(list(s.box), [594, 212, 236])
+        self.assertEqual(list(s.box), [594, 200, 236])
         self.assertEqual(s.stages, ["backdrop"])
         self.assertTrue(set(s.stages) <= set(R.registries.stages))
         self.assertEqual(sorted(s.kinds), ["clip", "photo"])
         ev = [_photo()]
         rec = resolve_places(ev, lambda t: None, stage_name="backdrop")
         self.assertEqual(rec["p"], f"slot:{SLOT}")
-        self.assertEqual([ev[0]["x"], ev[0]["y"], ev[0]["w"]], [594, 212, 236])
+        self.assertEqual([ev[0]["x"], ev[0]["y"], ev[0]["w"]], [594, 200, 236])
         for other in ("timeline", "mercator", None):
             with self.assertRaises(PlacementError, msg=other):
                 resolve_places([_photo()], lambda t: None, stage_name=other)
