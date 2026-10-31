@@ -2,7 +2,7 @@
 
 ## 0-4. 2026-10-31 23:40Z — 감독 승계(사용자 지시 "새로운 감독 세션을 띄워서 인수인계시켜")
 
-이 블록이 새 감독 세션의 **출발점**이다. 옛 감독 = `session_017Yuw8kbxf9Vxri6LoH5Je4`(Fable 5.1, sweet-galileo). 읽는 순서: 이 블록 → 0-3·0-2·0-1 → `back_and_forth/README.md` → `CLAUDE.md` → `docs/handoff/15` → DECISIONS D299~D312 → D-0318~D-0333.
+이 블록이 새 감독 세션의 **출발점**이다. 옛 감독 = `session_017Yuw8kbxf9Vxri6LoH5Je4`(Fable 5.1, sweet-galileo). **새 감독 = `session_017Yuw8iKFWUG9yMqoGHN39V`(Fable 5.1, 2026-10-31 23:53Z 생성, 같은 env).** 옛 감독 점검 트리거 `trig_011XELpyTdKrmNeGj35Y9DEk` 는 23:53Z 에 껐다. 구현 세션 3·2 에는 새 id 를 통보했다. 읽는 순서: 이 블록 → 0-3·0-2·0-1 → `back_and_forth/README.md` → `CLAUDE.md` → `docs/handoff/15` → DECISIONS D299~D312 → D-0318~D-0333.
 
 ### 세션 목록(이 감독이 잡고 있던 것)
 | 역할 | 세션 id | 브랜치 | 상태(23:40Z) |
