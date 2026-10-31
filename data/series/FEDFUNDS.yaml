@@ -12,3 +12,7 @@ frequency: monthly
 license: us_gov_public_domain
 license_note: 'Public Domain: Citation Requested'
 missing: []
+grain: 실효금리 월평균
+within:
+- DFEDTARL
+- DFEDTARU

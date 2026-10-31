@@ -2385,8 +2385,13 @@ entries:
   quote: "fed 금리 관련해서 왜 상한과 하한의 밴드와 금리 기준 선(노란색)이 다른 구간이 있지? 그리고 기준금리가 계속 유지 되는 구간임에도 노란색에 픽셀 수준에서 높이가 다른 부분이 있는거야?"
   quote_kind: verbatim
   category: 데이터 정직성·차트 문법 — 같은 레인의 band(일별 목표 범위를 월초에 찍은 월 표본)와 step 선(월평균 실효금리)의 날짜 규약이 달라 인하 달에 선이 밴드 밖으로 나간다 · 월평균 1bp 차이(3.64→3.63)가 2px 단차로 보인다
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: band_line_outside}
+  - {kind: check, ref: series_date_convention}
+  - {kind: rule, ref: stage_timeline.series.within_band_tolerance_days}
+  - {kind: test, ref: tests/test_v740_band_line_d0326.py::CheckTest::test_outside_in_quiet_month_fails_change_month_passes}
+  - {kind: test, ref: tests/test_v740_band_line_d0326.py::DataTest::test_band_daily_effective_dates}
+  status: guarded
   decision: D-0326(261031_110136_D0326_fable_uf200-fed-band-vs-line.md — band 는 일별 원자료 그대로 발효일에 계단, 선은 월평균 유지·출처 줄에 "월평균" 명시 · 장치 [band-line-outside] hard · 1bp 단차는 실제 값이라 유지 — 사용자 판단 요청)
   source: 감독 세션(Fable) 사용자 대화 2026-10-31
 - id: UF-201

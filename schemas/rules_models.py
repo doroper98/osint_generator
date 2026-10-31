@@ -1997,6 +1997,7 @@ class TimelineSeries(_Strict):
     min_alpha: float
     playhead: float = Field(gt=0, le=1)
     grow_in_sec: float = Field(gt=0)
+    within_band_tolerance_days: int = Field(default=0, ge=0)   # v7.4.0 D-0326(UF-200) — [band-line-outside] 일별 선 변경일 허용
     clip_below_px: float
     value_dx: float
     value_dy: float

@@ -64,11 +64,13 @@ def regimes(values: list[tuple[date, float]], months: int) -> list[str]:
     첫 달·변화 기록 없음 = hold. 빈 달(끊김)은 앞뒤 값을 비교하지 않는다(보간 금지 — 끊긴 뒤 첫 달은 새로 시작)."""
     out: list[str] = []
     last: tuple[int, str] | None = None
+    daily = any(d.day != 1 for d, _ in values)   # v7.4.0 D-0326 — 일별 레코드(목표 범위 발효일 계단): 이웃 관측(≤ 7일) 끼리 비교
     for i, (d, v) in enumerate(values):
         k = d.year * MONTHS + d.month
         if i:
             pd, pv = values[i - 1]
-            if k - (pd.year * MONTHS + pd.month) == 1 and v != pv:
+            adjacent = (d - pd).days <= 7 if daily else k - (pd.year * MONTHS + pd.month) == 1
+            if adjacent and v != pv:
                 last = (k, "hike" if v > pv else "cut")
         out.append(last[1] if last is not None and k - last[0] < months else "hold")
     return out
@@ -244,6 +246,8 @@ def lane_source_join(evs: list[dict]) -> str:
             else:
                 orig[orig.index(base)] = base + "·" + piece[len(base):].strip()
         out.append(SOURCE_SEP.join([head, *orig, _asof_join(sorted(g["asof"]))]))
+    if len({r.frequency for r in recs}) > 1:   # v7.4.0 D-0326 — 날짜 규약이 다른 시리즈가 한 레인에(일별 목표 범위 · 월평균 실효금리) → 입자 문구
+        out.append(SOURCE_SEP.join(dict.fromkeys(r.grain for r in recs if r.grain)))
     return SOURCE_SEP.join(out)
 
 

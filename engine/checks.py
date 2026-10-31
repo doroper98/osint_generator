@@ -76,6 +76,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | axis_empty_band | hard | 시간축 레인 축 범위 중 데이터 극값(실측 + 전망 점) 밖 빈 띠(한쪽) > rules stage_timeline.lane_range.empty_band_max_ratio `[axis-empty-band]`(v7.4.0 D-0277 §3·UF-142) |
 | clip_date_mismatch | hard | 사진·영상 촬영일 ↔ 붙은 문장 날짜 차 ≥ rules media.file_clip_date_gap_days 인데 자료 표기(is_file_photo) 없음 `[clip-date-mismatch]`(v7.4.0 D-0283 §1) |
 | text_restates_narration | hard | 화면 글자(패널·캐스케이드·핀·아일랜드)가 그 순간 원고 문장 어절을 rules qa_checks.restate_overlap_max 이상 되풀이 `[text-restates-narration]`(v7.4.0 D-0306·UF-148) |
+| band_line_outside | hard | 레코드 within([아래, 위]) 관계를 선언한 선 값이 같은 레인 band 밖(띠 변경 달·변경일 ± rules stage_timeline.series.within_band_tolerance_days 제외) `[band-line-outside]`(v7.4.0 D-0326·UF-200) |
+| series_date_convention | warning | 같은 레인에 frequency 가 다른 시리즈인데 레코드 grain 없음 `[series-date-convention]`(v7.4.0 D-0326) |
 | badge_covered | hard | 지도 층 배지 계획 구간 중 안 보인 비율(전면 덮개로 늦춰짐·덮개 아래·상자 가림) > rules badge.covered_max_ratio `[badge-covered]`(v7.4.0 D-0329) |
 | flight_unsourced | hard | flight 에 claim 없음·원고가 인용하지 않은 claim `[flight-unsourced]` — 비행은 출처 있는 특정 타격에만(v7.4.0 D-0316) |
 | scene_visual_void | hard | 요소(rules qa_checks.visual_void_types) 없이 지도·배경만 보이는 구간 ≥ qa_checks.visual_void_max_sec(콜드 오픈·전면 카드·카메라 move 제외) `[scene-visual-void]`(v7.4.0 D-0312, provenance visual_void) |
@@ -118,10 +120,10 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "badge_covered")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "badge_covered", "band_line_outside")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
-        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
+        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
 
 def missing_fonts() -> list[str]:
@@ -2257,6 +2259,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "scene_visual_void": lambda: check_scene_visual_void(P, provenance),   # v7.4.0 D-0312 §1-1(hard)
         "flight_unsourced": lambda: check_flight_unsourced(P),   # v7.4.0 D-0316 ①(hard)
         "badge_covered": lambda: check_badge_covered(P),   # v7.4.0 D-0329 ②(hard)
+        "band_line_outside": lambda: check_band_line_outside(P),   # v7.4.0 D-0326(hard, UF-200)
+        "series_date_convention": lambda: check_series_date_convention(P),   # v7.4.0 D-0326(warning)
         "chart_world_split": lambda: check_chart_world_split(P),   # v7.4.0 D-0251 §6.2-2(hard, UF-135 ②)
         "series_label_overlap": lambda: check_series_label_overlap(P),   # v7.4.0 D-0256(hard)
         "chart_edge_bleed": lambda: check_chart_edge_bleed(P),   # v7.4.0 D-0257(hard, UF-137)
@@ -2792,6 +2796,84 @@ def check_scene_visual_void(P, provenance: dict | None = None) -> list[str]:  # 
     mx = QA.visual_void_max_sec
     return [f"[scene-visual-void] {a:.1f}~{b:.1f}초 ({b - a:.1f}초) 지도·배경만 보인다 — 상한 {mx:g}초. 그 문장이 말하는 대상의 마커·사진·기사·패널로"
             " 채운다(D-0312, 연출 revise_direction)" for a, b in vs if b - a >= mx]
+
+
+def _chart_window(P) -> "tuple | None":  # noqa: ANN001, N803
+    """시간축 무대(주 무대 또는 차트 아일랜드)의 (start, end) 날짜 — 없으면 None(레코드 전 구간)."""
+    st = P.R.stage if getattr(P.R.stage, "name", "") == "timeline" else (P.R.cache.get("island_chart") or {}).get("stage")
+    cfg = getattr(st, "cfg", None)
+    return (cfg.start, cfg.end) if cfg is not None else None
+
+
+def band_line_outside(P) -> list[tuple[str, str, object, float, float, float]]:  # noqa: ANN001, N803
+    """v7.4.0 back_and_forth D-0326(UF-200) — 레코드 within 관계([아래, 위] 띠)를 선언한 선(step·line)이 같은 레인 band 밖인 날.
+    월별 값(달 1일 = 그 달 전체)은 그 달에 띠가 바뀌면 보지 않는다(월평균은 두 수준 사이에 선다). 일별 값은 띠 변경일 ±
+    rules stage_timeline.series.within_band_tolerance_days 를 보지 않는다. 화면 기간(시간축 무대 start~end) 안만. → [(레인, 시리즈, 날짜, 값, 아래, 위)]"""
+    import bisect  # noqa: PLC0415
+    from datetime import date  # noqa: PLC0415
+
+    from data.series import load_series  # noqa: PLC0415
+
+    tol = R_.stage_timeline.series.within_band_tolerance_days
+    win = _chart_window(P)
+    bands = {(e["lane"], e["series_id"], e.get("upper_id")) for e in P.events if e["type"] == "series" and e.get("style") == "band"}
+    out = []
+    for e in P.events:
+        if e["type"] != "series" or e.get("style") not in ("step", "line"):
+            continue
+        rec = load_series(e["series_id"])
+        if len(rec.within) != 2 or (e["lane"], *rec.within) not in bands:
+            continue
+        lo, hi = load_series(rec.within[0]), load_series(rec.within[1])
+        days = [d for d, _ in lo.values]
+        lov, hiv = dict(lo.values), dict(hi.values)
+        changes = [d for a, d in zip(days, days[1:]) if lov[d] != lov[a] or hiv[d] != hiv[a]]
+
+        def band_at(d):  # noqa: ANN001, ANN202
+            i = bisect.bisect_right(days, d) - 1
+            return None if i < 0 else (lov[days[i]], hiv[days[i]])
+
+        for d, v in rec.values:
+            if win is not None and not win[0] <= d <= win[1]:
+                continue
+            if rec.frequency == "monthly":
+                nxt = date(d.year + d.month // 12, d.month % 12 + 1, 1)
+                if any(d <= c < nxt for c in changes):
+                    continue
+                span = [d]
+            else:
+                if any(abs((d - c).days) <= tol for c in changes):
+                    continue
+                span = [d]
+            for dd in span:
+                b = band_at(dd)
+                if b is not None and not b[0] - 1e-9 <= v <= b[1] + 1e-9:
+                    out.append((e["lane"], rec.series_id, dd, v, b[0], b[1]))
+    return out
+
+
+def check_band_line_outside(P) -> list[str]:  # noqa: ANN001, N803
+    """[band-line-outside] hard(v7.4.0 back_and_forth D-0326, UF-200) — within 띠 밖에 선 값이 있는 날(띠 변경 달·변경일 근처 제외)."""
+    return [f"[band-line-outside] 레인 {ln} {sid} {d} 값 {v:g} 가 띠 {a:g}~{b:g} 밖 — 날짜 규약(일별 발효일·월평균)을 맞추거나 within 관계를 고친다(UF-200)"
+            for ln, sid, d, v, a, b in band_line_outside(P)]
+
+
+def check_series_date_convention(P) -> list[str]:  # noqa: ANN001, N803
+    """[series-date-convention] warning(v7.4.0 D-0326) — 같은 레인에 frequency 가 다른 시리즈가 있는데 레코드 grain(출처 줄 입자 문구)이 빠졌다."""
+    from data.series import load_series  # noqa: PLC0415
+    from engine.layers.series import record_ids  # noqa: PLC0415
+
+    lanes: dict[str, list] = {}
+    for e in P.events:
+        if e["type"] == "series" and e.get("style") != "projection":
+            lanes.setdefault(e["lane"], []).extend(load_series(s) for s in record_ids(e))
+    out = []
+    for ln, recs in lanes.items():
+        if len({r.frequency for r in recs}) > 1:
+            miss = sorted({r.series_id for r in recs if not r.grain})
+            if miss:
+                out.append(f"[series-date-convention] 레인 {ln}: 입자가 다른 시리즈({'·'.join(sorted({r.frequency for r in recs}))})인데 grain 없음 {miss} — 출처 줄에 입자를 적는다(UF-200)")
+    return out
 
 
 def badge_covered_ratios(P) -> list[tuple[dict, float]]:  # noqa: ANN001, N803

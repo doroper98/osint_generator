@@ -115,6 +115,11 @@ class SeriesRecord(_Strict):
     columns: list[ScatterColumn] = Field(default_factory=list)       # v4.4.0 scatter 전용
     released: Optional[date] = None                                  # v4.4.0 scatter 전용 — 발표일
     cited: list[ValueCitation] = Field(default_factory=list)         # v7.3.0 press_cited 전용 — 값 날짜마다 하나
+    # v7.4.0 back_and_forth D-0326(UF-200 "왜 상한과 하한의 밴드와 금리 기준 선(노란색)이 다른 구간이 있지?") —
+    # within = 이 시리즈 값이 그날의 [아래 끝, 위 끝] 띠 안에 있어야 하는 관계(checks [band-line-outside] hard). grain = 출처 줄에 적는 입자 문구
+    # (같은 레인에 frequency 가 다른 시리즈가 있으면 출처 줄에 둘 다 — checks [series-date-convention] warning)
+    within: list[str] = Field(default_factory=list, max_length=2)
+    grain: Optional[str] = Field(default=None, min_length=2)
 
     @field_validator("series_id")
     @classmethod
