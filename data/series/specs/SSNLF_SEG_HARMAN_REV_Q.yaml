@@ -1,0 +1,60 @@
+series_id: SSNLF_SEG_HARMAN_REV_Q
+source: 삼성전자 실적 발표 자료(IR) · 별첨 2 사업부문별 매출 및 영업이익 · 하만(Harman) 매출(부문 간 내부 매출 포함)
+unit: 조 원
+revision_note: 연결 기준, 외부감사인 검토 전 실적(회사 IR 자료). 부문별 매출은 부문 간 내부 매출을 포함한다(IR 별첨 2 각주) — 부문 합 ≠ 전사 매출, 구성비 분모로 쓰지 않는다(D-0320)
+values:
+- kind: pdf_line
+  date: '2025-09-30'
+  label: Harman
+  occurrence: 1
+  token: 0
+  form: 실적 발표 자료(IR)
+  number: 2026_3Q_conference_kor.pdf
+  filed_on: '2026-10-29'
+  url: https://images.samsung.com/kdp/ir/events/2026/2026_3Q_conference_kor.pdf
+  anchor: 별첨 2
+  raw_unit: 조 원
+- kind: pdf_line
+  date: '2025-12-31'
+  label: Harman
+  occurrence: 2
+  token: 1
+  form: 실적 발표 자료(IR)
+  number: 2026_1Q_conference_kor.pdf
+  filed_on: '2026-04-30'
+  url: https://images.samsung.com/kdp/ir/events/2026/2026_1Q_conference_kor.pdf
+  anchor: 별첨 2
+  raw_unit: 조 원
+- kind: pdf_line
+  date: '2026-03-31'
+  label: Harman
+  occurrence: 2
+  token: 2
+  form: 실적 발표 자료(IR)
+  number: 2026_1Q_conference_kor.pdf
+  filed_on: '2026-04-30'
+  url: https://images.samsung.com/kdp/ir/events/2026/2026_1Q_conference_kor.pdf
+  anchor: 별첨 2
+  raw_unit: 조 원
+- kind: pdf_line
+  date: '2026-06-30'
+  label: Harman
+  occurrence: 1
+  token: 1
+  form: 실적 발표 자료(IR)
+  number: 2026_3Q_conference_kor.pdf
+  filed_on: '2026-10-29'
+  url: https://images.samsung.com/kdp/ir/events/2026/2026_3Q_conference_kor.pdf
+  anchor: 별첨 2
+  raw_unit: 조 원
+- kind: pdf_line
+  date: '2026-09-30'
+  label: Harman
+  occurrence: 1
+  token: 2
+  form: 실적 발표 자료(IR)
+  number: 2026_3Q_conference_kor.pdf
+  filed_on: '2026-10-29'
+  url: https://images.samsung.com/kdp/ir/events/2026/2026_3Q_conference_kor.pdf
+  anchor: 별첨 2
+  raw_unit: 조 원
