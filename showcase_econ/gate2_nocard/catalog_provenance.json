@@ -3,7 +3,7 @@
  "engine": "engine",
  "repo_version": "7.4.0",
  "rules_version": "2.0.0",
- "rules_hash": "ff03b89e072c961b37dc6d2c842f504976796e6d",
+ "rules_hash": "194ac950f343f994e763d21f21b3fa5c3ef8ff72",
  "prompts": {
   "director": "4f002b0c8dff94791ff0629f67ad03afae952f3f"
  },
@@ -1010,11 +1010,11 @@
   ],
   "voice": "음성 supertonic M3 ×0.95 · 끝 '니다' 3자 −4반음",
   "truncated": [],
-  "direction_sha1": "0ca98db5afaba065aef35342a45c2fd2c903835f",
+  "direction_sha1": "49a1496382d53d1c8280fbbe96a99887cd643e89",
   "sec": {
-   "render": 1359.9,
-   "total": 1936.5,
-   "mux": 29.2
+   "render": 1296.8,
+   "total": 2260.5,
+   "mux": 30.5
   },
   "jobs": 4,
   "frames": 4419,
@@ -1034,7 +1034,7 @@
    },
    "post_limiter_dbfs": -2.0
   },
-  "bytes": 25763188
+  "bytes": 25627084
  },
  "checks": {
   "hard": 0,
@@ -1492,9 +1492,40 @@
    }
   },
   {
+   "id": "UF-147",
+   "checks": {
+    "template_label": 0
+   }
+  },
+  {
    "id": "UF-148",
    "checks": {
     "text_restates_narration": 0
+   }
+  },
+  {
+   "id": "UF-151",
+   "checks": {
+    "chart_layers_min": 0
+   }
+  },
+  {
+   "id": "UF-152",
+   "checks": {
+    "secondary_axis_single": 0
+   }
+  },
+  {
+   "id": "UF-154",
+   "checks": {
+    "chart_overload": 0
+   }
+  },
+  {
+   "id": "UF-155",
+   "checks": {
+    "grid_text_cross": 0,
+    "label_collision": 0
    }
   },
   {
@@ -1509,6 +1540,19 @@
    "checks": {
     "photo_subject_background": 0,
     "photo_subject_unmatched": 0
+   }
+  },
+  {
+   "id": "UF-202",
+   "checks": {
+    "forbidden": 0,
+    "bar_border": 0
+   }
+  },
+  {
+   "id": "UF-203",
+   "checks": {
+    "bar_border": 0
    }
   }
  ]

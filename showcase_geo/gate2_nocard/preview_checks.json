@@ -356,7 +356,8 @@
    "axis_empty_band",
    "text_restates_narration",
    "photo_subject_unmatched",
-   "photo_subject_background"
+   "photo_subject_background",
+   "chart_overload"
   ],
   "ratio_patterns": [
    "(\\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|스무|스물)\\s*(척|곳|건|명|개|대|기)\\s*(중|가운데)",
@@ -376,7 +377,9 @@
   "map_contrast_text": 4.5,
   "map_contrast_shape": 3.0,
   "map_contrast_min_alpha": 0.8,
-  "planned": [],
+  "planned": [
+   "price_window_label"
+  ],
   "chart_targets": {
    "value": [
     "chart_honesty",
@@ -390,6 +393,22 @@
    "none": []
   },
   "series_max": 3,
+  "grid_text_cross": {
+   "occluder_alpha_min": 0.98
+  },
+  "chart_depth": {
+   "layers_min": 3,
+   "layers_min_genres": [
+    "earnings"
+   ],
+   "visible_series_max": 4,
+   "layer_dwell_sec": 4.0,
+   "secondary_per_lane_max": 1,
+   "grid_text_pad_px": 1.0,
+   "bar_edge_inset_px": 1.0,
+   "bar_edge_tol": 0.06,
+   "sample_step_sec": 1.0
+  },
   "visual_qa_loop_max": 2,
   "empty_exempt": [
    "article_press_lead"
@@ -587,6 +606,18 @@
    "details": []
   },
   {
+   "id": "template_label",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "invest_notice",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
    "id": "camera_per_sentence",
    "severity": "hard",
    "count": 0,
@@ -708,6 +739,48 @@
   },
   {
    "id": "caption_overflow",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "chart_overload",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "chart_layers_min",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "secondary_axis_single",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "bars_from_zero",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "estimate_actual_pair",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "grid_text_cross",
+   "severity": "hard",
+   "count": 0,
+   "details": []
+  },
+  {
+   "id": "bar_border",
    "severity": "hard",
    "count": 0,
    "details": []
