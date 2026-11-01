@@ -1,7 +1,7 @@
 ---
 title: 유튜브 업로드 문안 — 『휴전안의 한 달 — 미국과 이란, 무엇이 먼저 풀려야 하나』
 last_synced_with: v7.4.0
-source: projects/iran_ceasefire_2026 script.yaml(66문장)·intake/sources.json(80)·credits.yaml · artifacts/iran-ceasefire-v7.4.0 final/(description.txt·credits.txt·final.srt — 전달본 확정 뒤 챕터 시각 대조)
+source: artifacts/iran-ceasefire-v7.4.0 424fb28 final/(final_deliver.mp4 md5 fd89a455 · description.txt · credits.txt · final.srt 66 큐) · projects/iran_ceasefire_2026 script.yaml(66문장)·intake/sources.json(80) — 챕터·크레딧은 전달본과 대조 완료
 ---
 
 # 1. 제목(3안 — 1안 권장)
@@ -33,6 +33,7 @@ source: projects/iran_ceasefire_2026 script.yaml(66문장)·intake/sources.json(
 
 챕터
 0:00 10월 31일 도하
+0:22 타이틀
 0:28 1막 여덟 달 — 2월 28일부터 8월 17일까지
 1:53 2막 휴전안의 한 달 — 7일안에서 도하 협의까지
 3:30 3막 양측 조건
@@ -86,7 +87,7 @@ Insurance Business (2026.10.14) 전쟁 위험 보험료 — https://www.insuranc
 
 크레딧
 사진·영상: 카타르 도하 웨스트베이(2023) — Zairon, CC BY 4.0 / '에픽 퓨리' 작전 타격 영상(2026.3.1 공개) — 미 국방부, Public domain / 호르무즈 해협 위성 사진(2020) — NASA, Public domain / 이슬라마바드 회담장 입구(2026.4.11) — 메흐르통신 Hamed Malekpour, CC BY 4.0 / 미 해군 헬기의 봉쇄 작전 감시(2026.4.25) — 미 해군 중부사령부, Public domain / 앙카라 나토 정상회의 도착 미 대통령 전용기(2026.7.7) — Kayra, CC BY 4.0 / 봉쇄 작전 중인 미 해군 상륙함 뉴올리언스(2026.4.28, 자료사진) — 미 국방부, Public domain / 미 중부사령부 보복 타격 영상(2026.7.7) — 미 중부사령부, Public domain / 봉쇄 검문 미 해병대 헬기(2026.7.16) — 미 해군 중부사령부, Public domain / 테헤란 도심 밀라드 타워(2026.7.21) — Sajjadmrt, CC0 / 취재진 앞의 아라그치 외무장관(모스크바, 2026.4.27) — kremlin.ru, CC BY 4.0 / 국제우주정거장에서 본 호르무즈 해협(2016) — NASA, Public domain
-인물 사진: 아라그치·페제시키안·샤리프·레자이 — Wikimedia Commons(CC BY), 루비오·밴스 — 미 정부 공식 초상(Public domain), 트럼프 — Shealeah Craighead(Public domain), 알리 하메네이 — 공용 라이브러리 등재본
+인물 사진: 아라그치 — kremlin.ru(Presidential Executive Office of Russia), CC BY 4.0 / 페제시키안 — Ayoub Ghaderi, CC BY 4.0 / 루비오 — U.S. Department of State, Public domain / 샤리프 — Press Service of the President of the Republic of Azerbaijan, CC BY 4.0 / 도널드 트럼프 — Shealeah Craighead, Public domain / 알리 하메네이 — khamenei.ir, CC BY 4.0
 지도: Natural Earth(Public domain) · AWS Terrain Tiles(Mapzen) / 국기: flag-icons(MIT)
 음악: "Mario Bava Sleeps In a Little Later Than He Expected To" — Chris Zabriskie, CC BY 4.0
 글꼴: GmarketSans(Gmarket) · IBM Plex Sans KR · IBM Plex Mono(IBM, SIL OFL 1.1) · Noto Serif CJK KR(Google·Adobe, SIL OFL 1.1)
@@ -97,5 +98,4 @@ Insurance Business (2026.10.14) 전쟁 위험 보험료 — https://www.insuranc
 - 카테고리: 뉴스/정치. 언어: 한국어. 자막: `final.srt`(한국어 66 큐)를 '자막 추가 → 파일 업로드'로 올린다.
 - '변형 또는 합성 콘텐츠' 항목: AI 음성 내레이션이므로 **예**로 표시한다(사실 장면은 실제 자료).
 - 썸네일 문구는 제목 1안의 앞 구절("휴전안의 한 달")만. 미검증 주장(기뢰 피격)·예측 문구는 썸네일에 넣지 않는다.
-- 챕터 시각은 전달본 `description.txt` 와 대조해 확정한다(초안 = plan.json 막 시작 시각).
-- 인물 사진 크레딧의 개별 작가명은 전달본 `credits.txt` 로 확정한다.
+- 챕터 시각·인물 사진 크레딧은 전달본 `description.txt`·`credits.txt` 와 대조해 확정했다(2026-11-01 10:55Z).
