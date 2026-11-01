@@ -15,6 +15,7 @@ draw_labels = 레인 이름(왼쪽 고정, 단위 포함)·날짜 눈금 라벨(
 from __future__ import annotations
 
 from datetime import date, timedelta
+from functools import lru_cache
 from typing import TYPE_CHECKING, Any, Optional, Union
 
 import cairo
@@ -36,11 +37,17 @@ MONTHS = 12
 DRAWN_GRID: list[tuple[float, float, float]] = []
 
 
-def grid_segments(x: float, y0: float, y1: float, boxes: list[tuple[float, float, float, float]]) -> list[tuple[float, float]]:
-    """세로 격자선 [y0, y1] 에서 x 를 가로로 품은 글자 상자(± rules qa_checks.chart_depth.grid_text_pad_px)의 세로 구간을 뺀 조각들."""
+@lru_cache(maxsize=1)
+def _rules() -> "VideoRules":
+    """규칙 한 번만 읽기 — grid_segments 는 프레임마다 격자선마다 불린다(옛 매 호출 load_rules = YAML 재파싱, fed 데모 프리뷰 50분+ 시간 초과)."""
     from rules import load_rules  # noqa: PLC0415
 
-    pad = load_rules().qa_checks.chart_depth.grid_text_pad_px
+    return load_rules()
+
+
+def grid_segments(x: float, y0: float, y1: float, boxes: list[tuple[float, float, float, float]]) -> list[tuple[float, float]]:
+    """세로 격자선 [y0, y1] 에서 x 를 가로로 품은 글자 상자(± rules qa_checks.chart_depth.grid_text_pad_px)의 세로 구간을 뺀 조각들."""
+    pad = _rules().qa_checks.chart_depth.grid_text_pad_px
     cuts = sorted((b[1] - pad, b[3] + pad) for b in boxes if b[0] - pad < x < b[2] + pad and b[1] < y1 and b[3] > y0)
     out, y = [], y0
     for a, b in cuts:
@@ -56,9 +63,8 @@ def grid_source_band() -> float:
     if TIMELINE.grid.stop_at_source == "through":
         return 0.0
     from engine.style import stage_surface  # noqa: PLC0415
-    from rules import load_rules  # noqa: PLC0415
 
-    isl = load_rules().island
+    isl = _rules().island
     n = isl.stage_surface.source_lines if stage_surface() else isl.source_wrap_lines_max   # D-0328 — 무대 표면은 출처 한 줄
     S = TIMELINE.series  # noqa: N806
     return S.source_dy + (n - 1) * S.source_step + S.source_size + 2
