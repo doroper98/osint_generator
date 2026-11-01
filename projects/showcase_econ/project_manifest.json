@@ -4,8 +4,8 @@
   "title": "쇼케이스 — 금리 선 위의 1년",
   "category": "economy",
   "created_at": "2026-10-28T05:27:51.339439Z",
-  "updated_at": "2026-11-01T09:32:37.845296Z",
-  "current_state": "deliver",
+  "updated_at": "2026-11-01T09:37:48.760278Z",
+  "current_state": "done",
   "target_duration_min": 3,
   "topic_summary": "요소·목소리·글꼴 쇼케이스(경제). 연준 사실(fed_policy_2026 claims·data/series)을 시간축 한 세계 문법으로 — 새 수치·새 사실 없음(D-0251·D-0253)",
   "initial_links": [],
@@ -149,6 +149,22 @@
       "errors": [],
       "drops": 0,
       "log": "logs/stages/05_mix.json"
+    },
+    {
+      "state": "deliver",
+      "stage": "deliver",
+      "ok": true,
+      "at": "2026-11-01T09:37:48.757574Z",
+      "artifacts": {
+        "final": "/home/user/osint_generator/projects/showcase_econ/out/final.mp4",
+        "srt": "/home/user/osint_generator/projects/showcase_econ/out/final.srt",
+        "description": "/home/user/osint_generator/projects/showcase_econ/out/description.txt",
+        "credits": "/home/user/osint_generator/projects/showcase_econ/out/credits.txt",
+        "provenance": "/home/user/osint_generator/projects/showcase_econ/out/provenance.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/06_deliver.json"
     }
   ],
   "final_outputs": {},
@@ -260,6 +276,12 @@
       "to_state": "deliver",
       "transitioned_at": "2026-11-01T09:32:37.845232Z",
       "reason": "engine mix ok"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-11-01T09:37:48.760223Z",
+      "reason": "engine deliver ok"
     }
   ],
   "rollbacks": [
