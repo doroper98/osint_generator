@@ -4,8 +4,8 @@
   "title": "쇼케이스 — 금리 선 위의 1년",
   "category": "economy",
   "created_at": "2026-10-28T05:27:51.339439Z",
-  "updated_at": "2026-11-01T08:42:23.745056Z",
-  "current_state": "render",
+  "updated_at": "2026-11-01T09:30:47.560265Z",
+  "current_state": "audio_mix",
   "target_duration_min": 3,
   "topic_summary": "요소·목소리·글꼴 쇼케이스(경제). 연준 사실(fed_policy_2026 claims·data/series)을 시간축 한 세계 문법으로 — 새 수치·새 사실 없음(D-0251·D-0253)",
   "initial_links": [],
@@ -124,6 +124,18 @@
       "errors": [],
       "drops": 0,
       "log": "logs/stages/03_plan.json"
+    },
+    {
+      "state": "render",
+      "stage": "render",
+      "ok": true,
+      "at": "2026-11-01T09:30:47.557384Z",
+      "artifacts": {
+        "video_noaudio": "/home/user/osint_generator/projects/showcase_econ/out/video_noaudio.mp4"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/04_render.json"
     }
   ],
   "final_outputs": {},
@@ -223,6 +235,12 @@
       "to_state": "render",
       "transitioned_at": "2026-11-01T08:42:23.745016Z",
       "reason": "preview_approval 승인 — user"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-11-01T09:30:47.560196Z",
+      "reason": "engine render ok"
     }
   ],
   "rollbacks": [
