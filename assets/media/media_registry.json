@@ -8111,6 +8111,191 @@
    "sub": "미국외교협회 분석: 11월 3일 뒤 트럼프의 정치적 제약이 풀린다",
    "note": "헤드라인 번역 · 원문 영어",
    "headline_original": "Escalate, Negotiate, or Wait: Trump's Iran Options After the Midterms"
+  },
+  "iran_doha_skyline": {
+   "kind": "photo",
+   "title": "File:Doha Skyline 01.jpg",
+   "license": "CC BY 4.0",
+   "author": "Zairon",
+   "credit_author": "Zairon (CC BY 4.0)",
+   "date": "2023-01-15",
+   "url": "https://commons.wikimedia.org/wiki/File:Doha_Skyline_01.jpg",
+   "caption": "카타르 도하 웨스트베이 스카이라인",
+   "file_note": "자료사진 · 2023. 01",
+   "depicts": [
+    "도하 웨스트베이 고층 건물",
+    "도하 해안 도로"
+   ],
+   "main_subject": [
+    "도하 도심 스카이라인"
+   ],
+   "background": [
+    "해안 도로·보행자"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타(라이선스·작성자·촬영/공개일·VIRIN) 대조, 1280px 원본 육안 확인(주된 피사체 D-0327)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "cold_0 '이란 대표단 도하 도착' — 회담 장소 도시 자체가 주된 피사체(자료사진)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "iran_doha_skyline.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "1dbead63c2d53d61668d8bea27737628",
+   "file": "iran_doha_skyline_720.jpg"
+  },
+  "iran_islamabad_talks": {
+   "kind": "photo",
+   "title": "File:Sidelines of Islamabad Talks 11.jpg",
+   "license": "CC BY 4.0",
+   "author": "Hamed Malekpour (Mehr News Agency)",
+   "credit_author": "메흐르통신 Hamed Malekpour (CC BY 4.0)",
+   "date": "2026-04-11",
+   "url": "https://commons.wikimedia.org/wiki/File:Sidelines_of_Islamabad_Talks_11.jpg",
+   "caption": "이슬라마바드 회담장 입구(2026년 4월)",
+   "file_note": "2026. 04. 11",
+   "depicts": [
+    "이슬라마바드 회담 현수막(미국·파키스탄·이란 국기)",
+    "회담장 진입로"
+   ],
+   "main_subject": [
+    "Islamabad Talks April 2026 현수막이 걸린 회담장 입구"
+   ],
+   "background": [
+    "걸어가는 사람들·셔틀버스"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타(라이선스·작성자·촬영/공개일·VIRIN) 대조, 1280px 원본 육안 확인(주된 피사체 D-0327)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "act1_5 '이슬라마바드 회담은 합의 없이 끝났고' — 회담 당일 회담장 사진(4/11)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "iran_islamabad_talks.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "704d4069cb0c248ab3c665c1e0226d90",
+   "file": "iran_islamabad_talks_720.jpg"
+  },
+  "iran_uss_new_orleans_blockade": {
+   "kind": "photo",
+   "title": "File:USS New Orleans Enforces Maritime Blockade (9670518).jpg",
+   "license": "Public domain",
+   "author": "U.S. Department of Defense (VIRIN 260428-D-D0477-9086)",
+   "credit_author": "미 국방부",
+   "date": "2026-04-28",
+   "url": "https://commons.wikimedia.org/wiki/File:USS_New_Orleans_Enforces_Maritime_Blockade_(9670518).jpg",
+   "caption": "이란 해상 봉쇄 작전 중인 미 해군 상륙함 뉴올리언스",
+   "file_note": "2026. 04. 28",
+   "depicts": [
+    "미 해군 상륙수송함 USS 뉴올리언스",
+    "아라비아해·오만만 해상"
+   ],
+   "main_subject": [
+    "봉쇄 작전 중인 미 해군 함정"
+   ],
+   "background": [
+    "바다·연무"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타(라이선스·작성자·촬영/공개일·VIRIN) 대조, 1280px 원본 육안 확인(주된 피사체 D-0327)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "act1_5·act1_10 봉쇄 문장 — 1차 봉쇄 기간(4/13~6/18) 촬영 미 국방부 공개 사진"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "iran_uss_new_orleans_blockade.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "f60b83efdd8959e3d556e1100f368633",
+   "file": "iran_uss_new_orleans_blockade_720.jpg"
+  },
+  "iran_uss_dextrous_mcm": {
+   "kind": "photo",
+   "title": "File:US Navy 030319-N-5319A-002 The mine countermeasure ship USS Dextrous (MCM 13) takes part in mine counter measure operations in the Arabian Gulf.jpg",
+   "license": "Public domain",
+   "author": "U.S. Navy photo by Photographer’s Mate 1st Class Brien Aho",
+   "credit_author": "미 해군",
+   "date": "2003-03-19",
+   "url": "https://commons.wikimedia.org/wiki/File:US_Navy_030319-N-5319A-002_The_mine_countermeasure_ship_USS_Dextrous_(MCM_13)_takes_part_in_mine_counter_measure_operations_in_the_Arabian_Gulf.jpg",
+   "caption": "걸프에서 기뢰 대응 작전 중인 미 해군 소해함",
+   "file_note": "자료사진 · 2003. 03",
+   "depicts": [
+    "미 해군 소해함 USS 덱스트러스(MCM 13)",
+    "걸프 해상",
+    "뒤쪽 구축함"
+   ],
+   "main_subject": [
+    "기뢰 대응 작전 중인 소해함"
+   ],
+   "background": [
+    "뒤쪽 미 해군 구축함"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타(라이선스·작성자·촬영/공개일·VIRIN) 대조, 1280px 원본 육안 확인(주된 피사체 D-0327)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "act4_4 중부사령부 '주요 통항로 기뢰 제거' 문장 — 같은 바다의 미 해군 기뢰 대응(2003 자료사진, D-0453 §2)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "iran_uss_dextrous_mcm.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "d67da23c608b895ca947c8193af314ab",
+   "file": "iran_uss_dextrous_mcm_720.jpg"
   }
  }
 }

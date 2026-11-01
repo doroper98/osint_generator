@@ -4,8 +4,8 @@
   "title": "휴전안 — 미국과 이란, 무엇이 먼저 풀려야 하나",
   "category": "geopolitics",
   "created_at": "2026-11-01T00:29:59.874133Z",
-  "updated_at": "2026-11-01T02:23:52.355954Z",
-  "current_state": "voice_timeline",
+  "updated_at": "2026-11-01T02:39:00.639560Z",
+  "current_state": "assets",
   "target_duration_min": 18,
   "topic_summary": "2026년 미국·이란 전쟁의 휴전안 정리(9월 말 이란 7일안~10/31 도하)와 휴전 가능성의 조건부 시나리오·신호",
   "initial_links": [],
@@ -48,7 +48,21 @@
       "chosen_version": null
     }
   ],
-  "stage_records": [],
+  "stage_records": [
+    {
+      "state": "voice_timeline",
+      "stage": "plan",
+      "ok": true,
+      "at": "2026-11-01T02:39:00.636133Z",
+      "artifacts": {
+        "plan": "/home/user/osint_generator/projects/iran_ceasefire_2026/plan.json",
+        "tts": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/01_plan.json"
+    }
+  ],
   "final_outputs": {},
   "state_history": [
     {
@@ -86,6 +100,12 @@
       "to_state": "voice_timeline",
       "transitioned_at": "2026-11-01T02:23:52.355911Z",
       "reason": "script_approval 승인 — fable"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "assets",
+      "transitioned_at": "2026-11-01T02:39:00.639487Z",
+      "reason": "engine plan ok"
     }
   ],
   "rollbacks": [],
