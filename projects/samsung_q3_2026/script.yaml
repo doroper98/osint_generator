@@ -1,0 +1,274 @@
+# 『삼성전자 2026년 3분기 실적』 원고 v1 (v7.4.0, back_and_forth D-0342 T5 · D-0278 §3 막 구성). 실적 발표 템플릿(earnings) 첫 사례.
+# 사실 = intake/claims.json(IR 발표 자료·컨퍼런스콜 전문·한국일보·글로벌이코노믹·인텔 8-K) + data/series 레코드(SSNLF_*). 새 수치 없음.
+# 컨퍼런스콜 발언(디일렉 전문, 한 매체)은 unverified — 자막에 "회사는 … 밝혔습니다" 귀속. 예상치는 집계 기관·전한 매체 귀속(consensus_attribution).
+# 예상 대비 차이(%)·주가 등락(%)은 화면 라벨(코드 계산)이 말한다 — 내레이션은 값만(series 린트는 % 를 레코드 값으로 대조한다).
+schema_version: 1
+title: 삼성전자 2026년 3분기 실적
+subtitle: 107조 원 영업이익, 그리고 4% 내린 주가
+date: 2026.10.29
+scenes:
+- id: cold
+  kind: cold
+  stage: 서울
+  sentences:
+  - date: 2026.10.29
+    text: 10월 29일, 삼성전자가 3분기 영업이익 107조 4천억 원을 확정 발표했습니다.
+    tts: 시월 이십구일, 삼성전자가 삼분기 영업이익 백칠조 사천억 원을 확정 발표했습니다.
+    emphasis:
+    - 107조 4천억 원
+    sources:
+    - series:SSNLF_OP_Q
+    - clm_0002
+  - date: 2026.10.29
+    text: 그러나 같은 날 삼성전자 주가는 4.13% 내린 23만 2천 원에 장을 마쳤습니다.
+    tts: 그러나 같은 날 삼성전자 주가는 사 점 일삼 퍼센트 내린 이십삼만 이천 원에 장을 마쳤습니다.
+    emphasis:
+    - 4.13% 내린
+    sources:
+    - clm_0021
+- id: act1
+  kind: act
+  stage: 서울
+  sentences:
+  - date: 2026.10.29
+    text: 실적 발표의 첫 질문은 시장의 예상을 넘었느냐입니다.
+    tts: 실적 발표의 첫 질문은 시장의 예상을 넘었느냐입니다.
+    role: intro
+    emphasis: []
+    sources: []
+  - date: '2025.09'
+    text: 1년 전 3분기 영업이익은 12조 2천억 원이었습니다.
+    tts: 일 년 전 삼분기 영업이익은 십이조 이천억 원이었습니다.
+    role: intro
+    emphasis: []
+    sources:
+    - series:SSNLF_OP_Q
+  - date: 2026.10.08
+    text: 글로벌이코노믹이 전한 에프앤가이드 집계로는, 3분기 예상치가 106조 6천억 원이었습니다.
+    tts: 글로벌이코노믹이 전한 에프앤가이드 집계로는, 삼분기 예상치가 백육조 육천억 원이었습니다.
+    emphasis:
+    - 예상치
+    sources:
+    - series:SSNLF_OP_Q_EST
+  - date: 2026.10.29
+    text: 결국 실제 영업이익은 그 예상치를 조금 웃돌았습니다.
+    tts: 결국 실제 영업이익은 그 예상치를 조금 웃돌았습니다.
+    emphasis: []
+    sources:
+    - series:SSNLF_OP_Q
+  - date: 2026.10.29
+    text: 특히 회사는 글로벌 테크 기업 가운데 처음으로 분기 영업이익 100조 원을 넘었다고 밝혔습니다.
+    tts: 특히 회사는 글로벌 테크 기업 가운데 처음으로 분기 영업이익 백조 원을 넘었다고 밝혔습니다.
+    role: outro
+    emphasis: []
+    sources:
+    - clm_0001
+- id: act2
+  kind: act
+  stage: 서울
+  sentences:
+  - date: 2026.10.29
+    text: 이익이 어디서 나왔는지는 사업부문별 숫자가 보여 줍니다.
+    tts: 이익이 어디서 나왔는지는 사업부문별 숫자가 보여 줍니다.
+    role: intro
+    emphasis: []
+    sources: []
+  - date: 2026.10.29
+    text: 107조 4천억 원 가운데 106조 5천억 원이 반도체를 맡는 DS부문에서 나왔습니다.
+    tts: 백칠조 사천억 원 가운데 백육조 오천억 원이 반도체를 맡는 디에스부문에서 나왔습니다.
+    role: intro
+    emphasis:
+    - DS부문
+    sources:
+    - series:SSNLF_SEG_DS_Q
+  - date: 2026.10.29
+    text: 반면 스마트폰과 TV, 가전을 맡는 DX부문은 8천억 원 영업손실이었습니다.
+    tts: 반면 스마트폰과 티브이, 가전을 맡는 디엑스부문은 팔천억 원 영업손실이었습니다.
+    emphasis:
+    - 영업손실
+    sources:
+    - series:SSNLF_SEG_DX_Q
+  - date: 2026.10.29
+    text: 한편 반도체 이익을 끌어올린 것은 AI 서버용 고대역폭 메모리, HBM4였다고 회사는 밝혔습니다.
+    tts: 한편 반도체 이익을 끌어올린 것은 에이아이 서버용 고대역폭 메모리, 에이치비엠 포였다고 회사는 밝혔습니다.
+    emphasis:
+    - HBM4
+    sources:
+    - clm_0003
+  - date: 2026.10.29
+    text: 회사는 3분기 HBM4 매출이 전분기의 3배를 넘었다고 밝혔습니다.
+    tts: 회사는 삼분기 에이치비엠 포 매출이 전분기의 세 배를 넘었다고 밝혔습니다.
+    emphasis: []
+    sources:
+    - clm_0004
+  - date: 2026.10.29
+    text: 또한 D램 평균 판매 가격도 전분기보다 약 20% 올랐다고 밝혔습니다.
+    tts: 또한 디램 평균 판매 가격도 전분기보다 약 이십 퍼센트 올랐다고 밝혔습니다.
+    emphasis: []
+    sources:
+    - clm_0005
+  - date: 2026.10.29
+    text: 결국 이번 분기 이익은 메모리 값과 HBM이 만든 숫자였습니다.
+    tts: 결국 이번 분기 이익은 메모리 값과 에이치비엠이 만든 숫자였습니다.
+    role: outro
+    emphasis: []
+    sources:
+    - clm_0003
+    - clm_0005
+- id: act3
+  kind: act
+  stage: 서울
+  sentences:
+  - date: 2026.10.29
+    text: 다만 삼성전자는 4분기 실적 숫자 대신 업황 전망을 내놓았습니다.
+    tts: 다만 삼성전자는 사분기 실적 숫자 대신 업황 전망을 내놓았습니다.
+    role: intro
+    emphasis: []
+    sources:
+    - clm_0009
+  - date: 2026.10.29
+    text: 회사는 4분기 D램 출하량이 전분기보다 10% 중후반 늘 것으로 내다봤다고 밝혔습니다.
+    tts: 회사는 사분기 디램 출하량이 전분기보다 십 퍼센트 중후반 늘 것으로 내다봤다고 밝혔습니다.
+    role: intro
+    emphasis: []
+    sources:
+    - clm_0009
+  - date: 2026.10.29
+    text: 또한 2027년 HBM 공급 물량은 이미 협상이 끝나 완판됐다고 밝혔습니다.
+    tts: 또한 이천이십칠년 에이치비엠 공급 물량은 이미 협상이 끝나 완판됐다고 밝혔습니다.
+    emphasis:
+    - 완판
+    sources:
+    - clm_0006
+  - date: 2026.10.29
+    text: 특히 회사는 내년 메모리 공급 부족이 올해보다 심해질 것이라고 밝혔습니다.
+    tts: 특히 회사는 내년 메모리 공급 부족이 올해보다 심해질 것이라고 밝혔습니다.
+    emphasis: []
+    sources:
+    - clm_0007
+  - date: 2026.10.29
+    text: 한편 DX부문은 내년에도 원가 상승 부담이 이어질 것이라고 밝혔습니다.
+    tts: 한편 디엑스부문은 내년에도 원가 상승 부담이 이어질 것이라고 밝혔습니다.
+    role: outro
+    emphasis: []
+    sources:
+    - clm_0010
+- id: act4
+  kind: act
+  stage: 서울
+  sentences:
+  - date: 2026.10.29
+    text: 숫자에 대한 시장의 답은 주가였습니다.
+    tts: 숫자에 대한 시장의 답은 주가였습니다.
+    role: bridge
+    emphasis: []
+    sources: []
+  - date: 2026.10.28
+    text: 주가는 발표 전날 2만 원 올라 24만 2천 원에 마감했습니다.
+    tts: 주가는 발표 전날 이만 원 올라 이십사만 이천 원에 마감했습니다.
+    role: intro
+    emphasis: []
+    sources:
+    - series:SSNLF_PX_D
+  - date: 2026.10.29
+    text: 그러나 발표 당일 종가는 23만 2천 원으로, 하루 만에 1만 원이 빠졌습니다.
+    tts: 그러나 발표 당일 종가는 이십삼만 이천 원으로, 하루 만에 만 원이 빠졌습니다.
+    emphasis: []
+    sources:
+    - series:SSNLF_PX_D
+  - date: 2026.10.29
+    text: 이날 회사는 3분기 현금배당 30조 원을 확정했습니다.
+    tts: 이날 회사는 삼분기 현금배당 삼십조 원을 확정했습니다.
+    emphasis:
+    - 30조 원
+    sources:
+    - clm_0014
+  - date: 2026.10.29
+    text: 또한 올해 남은 주주환원 재원은 55조에서 75조 원입니다.
+    tts: 또한 올해 남은 주주환원 재원은 오십오조에서 칠십오조 원입니다.
+    emphasis: []
+    sources:
+    - clm_0015
+  - date: 2026.10.29
+    text: 다만 그 집행 방안은 내년 1월 말 이사회에서 정합니다.
+    tts: 다만 그 집행 방안은 내년 일월 말 이사회에서 정합니다.
+    emphasis: []
+    sources:
+    - clm_0016
+  - date: 2026.10.29
+    text: 시장이 기다린 추가 자사주 매입과 소각 계획은 이번에 구체화되지 않았습니다.
+    tts: 시장이 기다린 추가 자사주 매입과 소각 계획은 이번에 구체화되지 않았습니다.
+    emphasis: []
+    sources:
+    - clm_0018
+  - date: 2026.10.29
+    text: 결국 주가는 사상 최대 이익보다 주주환원 계획에 반응했습니다.
+    tts: 결국 주가는 사상 최대 이익보다 주주환원 계획에 반응했습니다.
+    role: outro
+    emphasis: []
+    sources:
+    - clm_0017
+- id: act5
+  kind: act
+  stage: 텍사스 테일러
+  sentences:
+  - date: 2026.10.29
+    text: 한편 회사는 미국 텍사스주 테일러에서 다음 공장을 준비하고 있다고 밝혔습니다.
+    tts: 한편 회사는 미국 텍사스주 테일러에서 다음 공장을 준비하고 있다고 밝혔습니다.
+    role: bridge
+    emphasis:
+    - 테일러
+    sources:
+    - clm_0013
+  - date: 2026.10.29
+    text: 회사는 테일러 1공장이 클린룸 가동과 장비 반입을 시작했다고 밝혔습니다.
+    tts: 회사는 테일러 일공장이 클린룸 가동과 장비 반입을 시작했다고 밝혔습니다.
+    role: intro
+    emphasis: []
+    sources:
+    - clm_0012
+  - date: 2026.10.29
+    text: 이어서 2027년에는 첫 팹을 가동해 글로벌 공급 역량을 키우겠다고 밝혔습니다.
+    tts: 이어서 이천이십칠년에는 첫 팹을 가동해 글로벌 공급 역량을 키우겠다고 밝혔습니다.
+    emphasis: []
+    sources:
+    - clm_0013
+  - date: 2026.10.29
+    text: 그런데 회사는 달러와 유로 환율 하락이 영업이익을 전분기보다 약 10조 원 줄였다고 밝혔습니다.
+    tts: 그런데 회사는 달러와 유로 환율 하락이 영업이익을 전분기보다 약 십조 원 줄였다고 밝혔습니다.
+    emphasis: []
+    sources:
+    - clm_0011
+  - date: 2026.10.29
+    text: 같은 날 인텔은 실적 자료에서 업계 전반의 메모리 부족을 공급망 위험으로 밝혔습니다.
+    tts: 같은 날 인텔은 실적 자료에서 업계 전반의 메모리 부족을 공급망 위험으로 밝혔습니다.
+    emphasis:
+    - 메모리 부족
+    sources:
+    - clm_0019
+  - date: 2026.10.29
+    text: 이처럼 메모리를 파는 삼성에는 호황이, 메모리를 사는 쪽에는 부담이 되는 구도입니다.
+    tts: 이처럼 메모리를 파는 삼성에는 호황이, 메모리를 사는 쪽에는 부담이 되는 구도입니다.
+    role: outro
+    emphasis: []
+    sources:
+    - clm_0007
+    - clm_0019
+- id: ending
+  kind: ending
+  stage: 서울
+  sentences:
+  - date: 2026.10.29
+    text: 다시 3분기 숫자로 돌아오면, 영업이익 거의 전부가 반도체에서 나왔습니다.
+    tts: 다시 삼분기 숫자로 돌아오면, 영업이익 거의 전부가 반도체에서 나왔습니다.
+    role: bridge
+    emphasis: []
+    sources:
+    - series:SSNLF_SEG_DS_Q
+  - date: 2026.10.29
+    text: 그리고 주주환원의 나머지 답은 내년 1월 말 이사회에서 나옵니다.
+    tts: 그리고 주주환원의 나머지 답은 내년 일월 말 이사회에서 나옵니다.
+    role: outro
+    emphasis: []
+    sources:
+    - clm_0016

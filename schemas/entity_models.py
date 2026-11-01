@@ -20,7 +20,7 @@ class _Strict(BaseModel):
 class EntityIn(_Strict):
     """`entities.yaml` 한 항목(사람이 쓰는 형식). 라이브러리 인물은 `library` 로 조인한다."""
 
-    kind: Literal["person", "org", "country"]
+    kind: Literal["person", "org", "country", "company"]   # company = v7.4.0 D-0278 §4.3(E5) — 상장 기업. 뱃지 = flag 뱃지(국기 원 + 코드 조판 회사명)
     names: list[str] = Field(default_factory=list)
     flag: Optional[str] = Field(default=None, pattern=r"^[a-z]{2}$")
     portrait: Optional[str] = None      # 프로젝트 portraits/ id(= 뱃지 pid). 라이브러리 인물은 조인으로 채운다
@@ -30,6 +30,8 @@ class EntityIn(_Strict):
     accent: Optional[Accent] = None
     note: Optional[str] = None          # v4.8.0 D-0109 — 사람용 메모(표기·연혁). 렌더에 쓰지 않는다
     rights: Optional[str] = None        # 권리 레지스트리 참조 "people.<pid>" · "emblems.<id>" · "library.<pid>" · "flags.<set>"
+    ticker: Optional[str] = Field(default=None, pattern=r"^[A-Z0-9.]{1,12}$")   # v7.4.0 company 전용 — Yahoo 표기(005930.KS, INTC)
+    exchange: Optional[str] = None      # v7.4.0 company 전용 — 상장 거래소(KRX, NASDAQ)
 
 
 class Entity(EntityIn):
@@ -46,6 +48,10 @@ class Entity(EntityIn):
             raise ValueError(f"인물 엔티티 {self.id}: portrait 또는 library 필요")
         if self.kind == "org" and self.flag is None:
             raise ValueError(f"기관 엔티티 {self.id}: 대체 국기(flag) 필요 — 휘장 제한 시 국기로 대체(D5)")
+        if self.kind == "company" and (self.flag is None or self.ticker is None or self.exchange is None):
+            raise ValueError(f"기업 엔티티 {self.id}: flag(본사 국가)·ticker·exchange 필요 — 로고 대신 국기 원 + 회사명(D264)")
+        if self.kind != "company" and (self.ticker is not None or self.exchange is not None):
+            raise ValueError(f"{self.id}: ticker·exchange 는 기업(company)만")
         if self.kind != "org" and self.emblem is not None:
             raise ValueError(f"{self.id}: emblem 은 기관(org)만")
         if self.rights is None:

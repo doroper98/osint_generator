@@ -491,6 +491,22 @@ class EndCardNotice(_Strict):
     template: str = Field(pattern=r"\{n\}")
 
 
+class EndCardInvestNotice(_Strict):
+    """v7.4.0 D-0278 §4.3 — 투자 고지 고정 문구(장르 invest_notice 일 때 맨 마지막 줄)."""
+
+    size: float = Field(gt=0)
+    text: str = Field(min_length=1)
+
+
+class EndCardTemplateLine(_Strict):
+    """v7.4.0 UF-147(D-0302 ⑤) — 템플릿 표시 줄(엔딩 카드 머리 줄 오른쪽 · 타이틀 부제 앞)."""
+
+    size: float = Field(gt=0)
+    y: float = Field(gt=0)
+    font: str
+    sep: str = Field(min_length=1)
+
+
 class EndCardVersionStamp(_Strict):
     """v5.1.0 D-0124(사용자 결정 D109) — 엔딩 카드 오른쪽 아래 구석 버전 도장. 문자열 = "v" + VERSION 파일(렌더 시점, P3).
     notice_unverified 와 겹치면 notice 를 우선하고 도장을 dy 만큼 위로 올린다."""
@@ -518,6 +534,8 @@ class EndCardLayout(_Strict):
     license_size: float
     template_line: EndCardTemplateLine      # v7.4.0 UF-147
     notice_unverified: EndCardNotice
+    notice_invest: EndCardInvestNotice      # v7.4.0 D-0278 §4.3
+    template_line: EndCardTemplateLine      # v7.4.0 UF-147
     version_stamp: EndCardVersionStamp
     bottom_margin: float = Field(ge=0)   # v4.5.0 D-0098 — 크레딧 마지막 기준선과 하단 구분선(H−44) 사이 최소 여백
     hold_black_after: bool = True        # v4.4.0 dmz_mine_2026(v4.7.0 병합) — 카드 뒤 검정 유지(지도가 다시 드러나지 않게)
@@ -585,6 +603,9 @@ class MarkerLayout(_Strict):
     label_size: float
     sub_size: float
     sub_dy: float
+    vline_dash: list[float] = Field(default_factory=lambda: [3.0, 3.0])   # v7.4.0 D-0309 §1-5
+    vline_w: float = 1.1
+    vline_alpha: float = 0.7
 
 
 class RouteLabelLayout(_Strict):
@@ -1492,9 +1513,14 @@ class Registries(_Strict):
     stages_planned: list[str] = Field(default_factory=list)   # v4.2.0 D-0081 — 20 §2.1 구현 전 무대(장르 프로필 proposed 만)
     primitives: list[str] = Field(default_factory=list)       # v4.2.0 D-0081 — engine/primitives/<id>.py (20 §4.2)
     primitives_planned: list[str] = Field(default_factory=list)   # v4.2.0 D-0082 — 구현 전 프리미티브(장르 프로필 proposed 만)
+    series_styles: list[str] = Field(min_length=1)               # v7.4.0 D-0336 T3 — series 스타일(engine.layers.series STYLE_RENDERERS)
+    series_styles_detail_only: list[str] = Field(default_factory=list)   # 열 확대 인셋 전용(island column_detail)
+    island_kinds: list[str] = Field(min_length=1)                # v7.4.0 D-0336 T3 — island 종류(engine.island KIND_RENDERERS)
 
     @model_validator(mode="after")
     def _disjoint(self) -> "Registries":
+        if not set(self.series_styles_detail_only) <= set(self.series_styles):
+            raise ValueError("registries.series_styles_detail_only 는 series_styles 의 부분집합")
         for a, b in (("stages", "stages_planned"), ("primitives", "primitives_planned")):
             both = set(getattr(self, a)) & set(getattr(self, b))
             if both:
@@ -1730,6 +1756,20 @@ class ChartOnlyRun(_Strict):
     map_stages: list[str] = Field(min_length=1)
 
 
+class ChartDepth(_Strict):
+    """v7.4.0 back_and_forth D-0339(UF-151·152·154·155·202 장치, 값 = D-0309 §5·§6 감독 제안) — qa_checks.chart_depth."""
+
+    layers_min: int = Field(ge=2)                       # [chart-layers-min] 경제 영상의 차트 아일랜드 하나는 층 ≥ 이 값(UF-151)
+    layers_min_genres: list[str] = Field(min_length=1)  # 적용 장르
+    visible_series_max: int = Field(ge=1)               # [chart-overload] 한 순간 보이는 계열 수 상한(UF-154)
+    layer_dwell_sec: float = Field(gt=0)                # [chart-overload] 새 층 사이 최소 간격(초, UF-154)
+    secondary_per_lane_max: int = Field(ge=0, le=1)     # [secondary-axis-single] 레인당 보조 계열(UF-152 — 보조 축 1)
+    grid_text_pad_px: float = Field(ge=0)               # [grid-text-cross] 격자선 ↔ 글자 상자 여유(UF-155)
+    bar_edge_inset_px: float = Field(gt=0)              # [bar-border] 막대 가장자리 안쪽 표본 거리(UF-202)
+    bar_edge_tol: float = Field(gt=0, lt=1)             # [bar-border] 가장자리 ↔ 가운데 색 차이 허용(0~1 성분 최대 차)
+    sample_step_sec: float = Field(gt=0)                # 프레임을 그려 재는 검사(grid-text-cross·bar-border)의 표본 간격
+
+
 class QAChecks(_Strict):
     overlap_core_elements: int
     chart_only_run: ChartOnlyRun                      # v7.4.0 D-0252 — [chart-only-run] hard
@@ -1771,6 +1811,7 @@ class QAChecks(_Strict):
     planned: list[str] = Field(default_factory=list)   # v4.2.0 D-0081 — 예정 검사 id(장르 프로필 proposed qa_extra 만)
     chart_targets: dict[Literal["value", "date", "none"], list[Literal["chart_honesty", "series_limit_3", "units_visible", "as_of_visible"]]]   # v4.3.0 D-0087
     series_max: int = Field(ge=1)   # v4.3.0 — 20 §5.3 계열 수 상한
+    chart_depth: "ChartDepth"   # v7.4.0 D-0339 — 차트 깊이·과밀·보조 축·격자↔글자·막대 테두리(UF-151·152·154·155·202)
     visual_qa_loop_max: int
     empty_exempt: list[Literal["article_press_lead"]] = Field(default_factory=list)   # v5.1.0 D-0127 §5 — 검수 empty 제외 구간
     loop_pick_order: list[Literal["checks_hard", "qa_hard", "qa_soft"]]
@@ -1984,6 +2025,7 @@ class TimelineGrid(_Strict):
     label_dy: float
     label_margin_px: float
     min_label_gap_px: float
+    stop_at_source: Literal["source_band", "through"]   # v7.4.0 D-0321 §4 — 세로 격자선을 출처 줄 띠 위에서 끊는다
 
 
 class TimelineLaneLabel(_Strict):
@@ -2063,6 +2105,75 @@ class TimelineMissingMark(_Strict):
     dash: list[float]
     line_w: float
     inset_px: float
+    daily_note_outlier: str = Field(min_length=1)   # v7.4.0 D-0319 ③ — 일별 계열 missing 은 출처 줄 한 줄({n} = 날 수)
+    daily_note: str = Field(min_length=1)
+
+
+class TimelineBars(_Strict):
+    """v7.4.0 D-0278 §4.1·D-0308·D-0309 — series bars·stack(분기 캡슐, 0 에서 자란다, 잉크 사다리·직접 라벨)."""
+
+    w_ratio: float = Field(gt=0, le=1)
+    top_radius: float = Field(ge=0)          # D-0310 §1-2 — 바깥 끝 모서리만(0 쪽은 각)
+    hollow_w: float = Field(gt=0)
+    ink: str
+    ladder: list[float] = Field(min_length=1)
+    stack_ladder: list[float] = Field(min_length=1)
+    stack_sep_w: float = Field(ge=0)
+    negative_fill: Literal["muted_fill"]   # v7.4.0 D-0328·UF-204(A) — 손실 = 채도 낮춘 면, 테두리 없음. 대안 ink_light 삭제(P2, D-0336)
+    neg_fill_mix: float = Field(gt=0, le=1)
+    loss_color: str
+    label_contrast_min: float = Field(gt=1)
+    zero_alpha: float = Field(gt=0, le=1)
+    zero_w: float = Field(gt=0)
+    lane_pad_top: float = Field(ge=0, lt=0.5)
+    lane_pad_bottom: float = Field(ge=0, lt=0.5)
+    value_size: float = Field(gt=0)
+    value_font: str
+    value_gap: float = Field(ge=0)
+    value_halo: float = Field(ge=0)
+    part_label_size: float = Field(gt=0)
+    part_label_font: str
+    part_label_dx: float
+    part_label_min_h: float = Field(ge=0)
+    leader_len: float = Field(ge=0)
+    total_dot_r: float = Field(gt=0)
+    total_line_w: float = Field(gt=0)
+    total_alpha: float = Field(gt=0, le=1)
+    sum_tol_pct: float = Field(gt=0)
+    pair_w_ratio: float = Field(gt=0, le=1)      # v7.4.0 D-0315 §1-3 — dumbbell·diverging 부문 묶음 폭
+    pair_dot_r: float = Field(gt=0)
+    pair_line_w: float = Field(gt=0)
+    pair_line_alpha: float = Field(gt=0, le=1)
+    diverging_w_ratio: float = Field(gt=0, le=1)
+    guide_band_alpha: float = Field(gt=0, le=1)   # v7.4.0 D-0321 §2-1
+    guide_tick_ratio: float = Field(gt=0, le=1)
+    guide_tick_w_ratio: float = Field(gt=0)       # 예상 가로 획 굵기 ÷ hollow_w
+    guide_edge_alpha: float = Field(gt=0, le=1)
+    sep_rgb: tuple[float, float, float]           # 쌓임 틈·덤벨 원 속 어두운 잉크(팔레트 island 가 우선)
+    hollow_alpha: float = Field(gt=0, le=1)
+    solid_alpha_min: float = Field(gt=0, le=1)    # 칠 알파 ≥ 이 값이면 글자 = 칠 색
+    part_plate_h_ratio: float = Field(gt=0)
+    total_dot_hot_scale: float = Field(ge=1)
+    leader_bend_ratio: float = Field(gt=0, lt=1)
+    leader_alpha: float = Field(gt=0, le=1)
+    leader_label_dx_ratio: float = Field(ge=0)
+
+
+class TimelineTextMetrics(_Strict):
+    """v7.4.0 — series 레이어 라벨 기준선 보정(글자 크기 비율)."""
+
+    mid_drop: float = Field(gt=0, lt=1)   # 세로 가운데 → 기준선
+    cap_rise: float = Field(gt=0, le=1)   # 위 끝 → 기준선
+    ascent: float = Field(gt=0, le=1)     # 기준선 → 판 위 끝
+
+
+class TimelineSecondary(_Strict):
+    """v7.4.0 D-0309 §1-4 — 같은 레인 보조 축 계열(하나)."""
+
+    line_w: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+    dot_r: float = Field(ge=0)
+    axis_label_margin_px: float = Field(ge=0)
 
 
 class TimelineBand(_Strict):
@@ -2149,6 +2260,9 @@ class StageTimelineRules(_Strict):
     wave: TimelineWave
     series: TimelineSeries
     band: TimelineBand             # v4.4.0 — D-0090 작업 2
+    bars: TimelineBars             # v7.4.0 — D-0278 §4.1 스케치
+    secondary: TimelineSecondary   # v7.4.0 — D-0309 §1-4 스케치
+    text_metrics: TimelineTextMetrics   # v7.4.0 — series 라벨 기준선 보정
     missing_mark: TimelineMissingMark
     axis_scale: TimelineAxisScale  # v5.1.0 — D-0121 §A
     lane_range: TimelineLaneRange  # v7.4.0 — D-0263(UF-140)
@@ -2405,6 +2519,75 @@ class CascadeRules(_Strict):
         return self
 
 
+class IslandColumnDetail(_Strict):
+    """v7.4.0 D-0318·D-0319 ④ — 열 확대 인셋(island kind column_detail)."""
+
+    w_ratio: float = Field(gt=0, lt=1)
+    h_ratio: float = Field(gt=0, le=1)
+    margin_px: float = Field(ge=0)
+    side_order: list[Literal["left", "right"]] = Field(min_length=1)
+    never_cover_focus_column: bool
+    radius: float = Field(ge=0)
+    fill_alpha: float = Field(gt=0, le=1)
+    edge_alpha: float = Field(ge=0, le=1)
+    pad_px: float = Field(ge=0)
+    head_size: float = Field(ge=12)
+    head_font: str
+    text_size: float = Field(ge=12)
+    text_font: str
+    value_font: str
+    dot_r: float = Field(ge=5)
+    line_w: float = Field(gt=0)
+    bar_w_ratio: float = Field(gt=0, le=1)
+    band_alpha: float = Field(gt=0, le=1)
+    band_ink_alpha: float = Field(gt=0, le=1)   # v7.4.0 — 무대 표면 열 띠(text 잉크)
+    leader_w: float = Field(gt=0)
+    leader_alpha: float = Field(gt=0, le=1)
+    fade: tuple[float, float]
+    slide_px: float = Field(ge=0)
+    grow_sec: float = Field(ge=0)
+    guide_bar_ratio: float = Field(gt=0, lt=1)   # v7.4.0 D-0321 §2-2
+    label_gap_ratio: float = Field(ge=1)          # v7.4.0 D-0321 §3
+    side_slack: float = Field(ge=0, lt=1)         # v7.4.0 — 아래는 series.py 리터럴 이전(값 그대로)
+    min_alpha: float = Field(ge=0, lt=1)
+    grow_delay_ratio: float = Field(ge=0)
+    plot_top_gap: float = Field(ge=0)
+    plot_bottom_gap: float = Field(ge=0)
+    range_pad_below: float = Field(ge=0)
+    range_pad_above: float = Field(ge=0)
+    guide_bar_x_ratio: float = Field(ge=0, lt=1)
+    tick_alpha: float = Field(gt=0, le=1)
+    tick_label_dx: float = Field(ge=0)
+    tick_label_alpha: float = Field(gt=0, le=1)
+    guide_line_scale: float = Field(gt=0)
+    label_dx: float = Field(ge=0)
+    slope_pad_ratio: float = Field(ge=0)
+    slope_x0_ratio: float = Field(ge=0, lt=1)
+    slope_x1_inset_ratio: float = Field(ge=0, lt=1)
+    slope_head_alpha: float = Field(gt=0, le=1)
+    slope_dot_ratio: float = Field(gt=0)
+    hot_line_scale: float = Field(ge=1)
+    dumbbell_pad_ratio: float = Field(ge=0)
+    dumbbell_x_shift_ratio: float = Field(ge=0, lt=0.5)
+    value_dx: float = Field(ge=0)
+    prior_value_alpha: float = Field(gt=0, le=1)
+    diverging_pad_ratio: float = Field(ge=0)
+
+
+class IslandStageSurface(_Strict):
+    """v7.4.0 D-0328 — 팔레트 surface: stage(차트 = 무대, 테두리·머리 띠 없음)."""
+
+    lane_label_size: float = Field(gt=0)
+    lane_label_font: str
+    end_pin_size: float = Field(gt=0)
+    end_pin_font: str
+    end_pin_dx: float = Field(ge=0)
+    end_pin_r: float = Field(gt=0)
+    plate_pad: float = Field(ge=0)
+    plate_h_ratio: float = Field(gt=0)   # 핀 글자 판 높이 ÷ 글자 크기
+    source_lines: int = Field(ge=1)
+
+
 class IslandRules(_Strict):
     """v5.1.0 D-0123 §1·D-0126 — backdrop 무대 위 아일랜드 공통 규칙(engine/island.py)."""
 
@@ -2421,6 +2604,8 @@ class IslandRules(_Strict):
     source_wrap_lines_max: int = Field(ge=1)   # v7.4.0 D-0265 §3 — 시간축 레인 출처 줄이 틀·상자 폭을 넘으면 " · " 경계에서 접는 최대 줄 수
     main_kinds: list[Literal["chart", "primitive", "photo", "clip", "article", "panel"]] = Field(min_length=1)
     card_only_max_sec: float = Field(gt=0)   # 주 아일랜드 없는 구간 상한(전환 허용)
+    column_detail: IslandColumnDetail        # v7.4.0 D-0318 — 열 확대 인셋
+    stage_surface: IslandStageSurface        # v7.4.0 D-0328 — 차트 = 무대
 
 
 
@@ -2429,9 +2614,20 @@ class GenrePromptRules(_Strict):
 
     base_genre: str
     narration: dict[str, str] = Field(min_length=1)
+    acts_head: str = ""                                            # v7.4.0 D-0278 §3 — 템플릿 고정 막 머리 줄
+    acts: dict[str, list[str]] = Field(default_factory=dict)       # v7.4.0 D-0278 §3 — 장르 이름 → 막 줄
+    data_sources_by_genre: dict[str, list[str]] = Field(default_factory=dict)   # v7.4.0 D-0304 ② — 공통 data_sources 뒤 장르 보충 줄
     data_sources: list[str] = Field(min_length=1)
     rubric_extra: list[str] = Field(min_length=1)
     stage_grammar: dict[str, list[str]] = Field(min_length=1)
+
+
+class FilingScale(_Strict):
+    """v7.4.0 D-0278 §4.2(E3) — 공시 원단위 → 화면 단위 환산(값 = round(원값 × factor, digits))."""
+
+    to: str
+    factor: float = Field(gt=0)
+    digits: int = Field(ge=0, le=4)
 
 
 class DataRules(_Strict):
@@ -2442,10 +2638,22 @@ class DataRules(_Strict):
     unit_ton_pattern: str = ""   # v7.4.0 D-0241 §3(UF-122) — 화면 문자열에 남으면 [unit-ton-glyph] hard(빈 값 = 검사 안 함)
     unit_prefixes: list[str] = Field(min_length=1)   # v4.3.0 D-0087 보정 1
     sources_allowed: list[str] = Field(min_length=1)
-    frequencies: list[Literal["monthly", "release", "daily"]] = Field(min_length=1)   # release = v4.4.0 scatter. daily = v7.4.0 D-0326(목표 범위 발효일 계단)
+    frequencies: list[Literal["monthly", "release", "quarterly", "daily"]] = Field(min_length=1)   # release = v4.4.0 scatter · quarterly·daily = v7.4.0 D-0278 §4.2 · daily 계단 = D-0326
     transforms: dict[str, str] = Field(min_length=1)
-    source_kinds: list[Literal["fetched", "press_cited"]] = Field(min_length=1)   # v7.3.0 D232 U4
+    source_kinds: list[Literal["fetched", "press_cited", "filing"]] = Field(min_length=1)   # v7.3.0 D232 U4 · filing = v7.4.0 D-0278 §4.2(E3)
+    filing_scales: dict[str, FilingScale] = Field(default_factory=dict)   # v7.4.0 D-0278 §4.2 — 공시 원단위 → 화면 단위
+    price_outlier_pct: float = Field(default=10.0, gt=0)   # v7.4.0 — 일별 시세 하루 변동 상한(넘으면 cited 필수, [price-outlier])
+    chart_null_note: str = Field(min_length=1)   # v7.4.0 D-0319 ① — 일별 종가 null → missing 사유
     series_dir: str
+
+    @model_validator(mode="after")
+    def _scales_to_units(self) -> "DataRules":
+        bad = sorted(k for k, v in self.filing_scales.items() if v.to not in self.units)
+        if bad:
+            raise ValueError(f"data.filing_scales 의 to 단위가 data.units 에 없다: {bad}")
+        if "filing" in self.source_kinds and ("filing" not in self.transforms or not self.filing_scales):
+            raise ValueError("source_kinds filing 은 transforms.filing·filing_scales 가 있어야 한다")
+        return self
 
 
 class StageRules(_Strict):
@@ -3223,6 +3431,26 @@ class SketchRules(_Strict):
         walk(self)
         return out
 
+class Palette(_Strict):
+    """v7.4.0 D-0310 §1-1(UF-155) — 장르 화면 팔레트(rules palettes.<이름>). 값은 #RRGGBB."""
+
+    bg: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    island: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    border: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    text: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    muted: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    accent: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    up: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    down: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    surface: Optional[Literal["stage"]] = None   # v7.4.0 D-0328 — 차트 = 무대(rules island.stage_surface)
+    island_deep: Optional[str] = Field(default=None, pattern=r"^#[0-9A-Fa-f]{6}$")   # v7.4.0 D-0322 정정 — 르포 card_deep(열 확대 인셋 바탕)
+    grid_alpha: Optional[float] = Field(default=None, gt=0, le=1)   # 시간축 격자선 알파 상한(르포 ≤ 0.06)
+    zero_alpha: Optional[float] = Field(default=None, gt=0, le=1)   # 막대·쌓임 레인 0 기준선 알파(르포 0.55)
+    map_land: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    map_water: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    map_boundary: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+
+
 class VideoRules(_Strict):
     """`rules/video_rules.yaml` 최상위 모델."""
 
@@ -3254,6 +3482,7 @@ class VideoRules(_Strict):
     layout_480p: Layout480p
     panels: PanelRules
     colors: Colors
+    palettes: dict[str, Palette] = Field(default_factory=dict)   # v7.4.0 D-0310(UF-155)
     fonts: Fonts
     labels: LabelRules
     geo: GeoRules

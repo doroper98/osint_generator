@@ -1,0 +1,79 @@
+{
+ "schema_version": 1,
+ "searches": [
+  {
+   "sid": "cold_0",
+   "query": "Intel headquarters Santa Clara",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 6,
+   "passed": 1,
+   "top": [
+    "File:Intel headquarters in Santa Clara.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act4_1",
+   "query": "Nasdaq MarketSite",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 6,
+   "passed": 6,
+   "top": [
+    "File:NASA Artemis II Crew Rings Nasdaq Closing Bell (NHQ202604300026).jpg",
+    "File:NASA Artemis II Crew Rings Nasdaq Closing Bell (NHQ202604300033).jpg",
+    "File:NASA Artemis II Crew Rings Nasdaq Closing Bell (NHQ202604300034).jpg",
+    "File:NASA Artemis II Crew Rings Nasdaq Closing Bell (NHQ202604300035).jpg",
+    "File:Nasdaq MarketSite (51494550508).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act4_2",
+   "query": "Nasdaq Times Square",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 6,
+   "passed": 2,
+   "top": [
+    "File:NASDAQ Times Square - panoramio.jpg",
+    "File:Yoni Assia at the eToro IPO launch event at Nasdaq on May 15, 2025 02.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "ending_1",
+   "query": "Intel Robert Noyce Building",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 6,
+   "passed": 1,
+   "top": [
+    "File:Robert Noyce Building in Santa Clara.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act5_0",
+   "query": "Intel Kiryat Gat",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 1,
+   "passed": 1,
+   "top": [
+    "File:Intel factory, Kiryat Gat industry zone.jpg"
+   ],
+   "rejected": []
+  }
+ ]
+}

@@ -97,6 +97,11 @@ class IntakePlannerWorker(BaseLLMWorker):
             category_str,
             "(해당 카테고리의 표준 가이드가 등록되지 않았습니다. 일반 OSINT 원칙에 따라 항목을 도출하십시오.)",
         )
+        from genres.load import load_order  # noqa: PLC0415
+
+        order = load_order(self.project_dir(args))   # v7.4.0 D-0278 §4.3 — 장르 가이드(예: earnings)는 카테고리 가이드 뒤에 붙인다
+        if order is not None and order.genre in self.CATEGORY_GUIDANCE:
+            guidance = guidance + "\n\n" + self.CATEGORY_GUIDANCE[order.genre]
         topic_summary = manifest.topic_summary or "(요약 미입력 — title 기반으로 추론하십시오)"
 
         # 사용자가 생성 시 제공한 자료 링크. 한 줄에 하나씩 번호를 매겨 prompt 에 노출.

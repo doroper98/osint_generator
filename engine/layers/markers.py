@@ -178,6 +178,16 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     if x < ox - 80 or x > ox + view.vw + 80 or y < oy - 40 or y > oy + view.vh + 40:
         return
     col = map_c(view.stage, "gold") if e.get("hl") else map_c(view.stage, "white")   # v5.18.0 D-0161 §3 — 지도 테마 보정
+    if e.get("vline") and e.get("lane") is not None and hasattr(view.stage, "lane_screen"):   # v7.4.0 D-0309 §1-5 — 발표일 세로 점선
+        top, bot = view.stage.lane_screen(view, view.stage.lane_index(e["lane"]))
+        ctx.save()
+        ctx.set_dash(list(MK.vline_dash))
+        ctx.move_to(x, top)
+        ctx.line_to(x, bot)
+        ctx.set_source_rgba(*col, MK.vline_alpha * a)
+        ctx.set_line_width(MK.vline_w)
+        ctx.stroke()
+        ctx.restore()
     halo = map_halo(view.stage)
     hk = {} if halo is None else {"halo_rgb": halo}
     for k in range(2):
