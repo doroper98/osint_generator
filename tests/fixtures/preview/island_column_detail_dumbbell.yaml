@@ -1,0 +1,16 @@
+# 레지스트리 프리뷰 예제(v7.4.0 back_and_forth D-0336 §1·D-0339 T3, 15 P10) — 모델을 그대로 통과한다(P4). 값은 레코드에서만(연출은 숫자를 주지 않는다).
+# 출처 = artifacts econ-template-2026 t2_stage_v3(사용자 승인 컷, D-0330·D-0336). 시간축 무대 · 경제 장르(earnings, 팔레트 noturno·무대 표면).
+schema_version: 1
+key: island_column_detail_dumbbell
+source: t2_stage_v3/dumbbell (전분기 → 이번 분기 부문 매출, 속빈 원 = 전분기)
+event:
+  type: island
+  kind: column_detail
+  t0: 0.5
+  t1: 20.0
+  lane: rev
+  style: dumbbell
+  series_id: INTC_SEG_DCAI_Q
+  title: "2분기 → 3분기 부문 매출 · 십억 달러"
+  accent: 파운드리
+  parts: [{ids: [INTC_SEG_DCAI_Q], label: DC}, {ids: [INTC_SEG_CCG_Q], label: PC}, {ids: [INTC_SEG_FOUNDRY_Q], label: 파운드리}]

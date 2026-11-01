@@ -138,6 +138,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     from engine.provenance import build as build_prov  # noqa: PLC0415
     from engine.provenance import bundle_summary  # noqa: PLC0415
     from engine.provenance import camera_summary  # noqa: PLC0415
+    from engine.provenance import user_approval  # noqa: PLC0415
     from engine.reserved import avoidance_report  # noqa: PLC0415
     from orchestrator import __version__  # noqa: PLC0415
     from script.labels import check_project_labels  # noqa: PLC0415
@@ -149,6 +150,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     stages = {**stages, "ai_direction": ai is not None, "visual_qa": bool(ai and ai["visual_qa"]), "bundle": bun is not None}
     req = P.R.cache.get("credit_refs") or set()
     prov = build_prov(P.plan, P.keys, P.events, __version__, stages, P.R.tb.word_anchors, asset_usage(P))
+    prov["qa"] = {**prov["qa"], **user_approval(P.root)}   # v7.4.0 D-0345 — 게이트 ② 승인 실값(manifest gate_decisions)
     prov["credits"] = credit_summary(req)   # D-0030 §3 — 표기 위치별 종류 개수
     exc = rights_exceptions(req, P.R.assets.rights, P.R.assets.media)   # v5.21.0 — 보도 인용(B) 사진 포함
     if exc:   # v5.15.0 D-0160 — restricted·사용자 예외 자산을 쓴 영상에만(P5·P6)

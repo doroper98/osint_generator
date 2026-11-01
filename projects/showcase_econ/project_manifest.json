@@ -4,8 +4,8 @@
   "title": "쇼케이스 — 금리 선 위의 1년",
   "category": "economy",
   "created_at": "2026-10-28T05:27:51.339439Z",
-  "updated_at": "2026-10-30T19:53:23.569863Z",
-  "current_state": "preview_approval",
+  "updated_at": "2026-11-01T09:37:48.760278Z",
+  "current_state": "done",
   "target_duration_min": 3,
   "topic_summary": "요소·목소리·글꼴 쇼케이스(경제). 연준 사실(fed_policy_2026 claims·data/series)을 시간축 한 세계 문법으로 — 새 수치·새 사실 없음(D-0251·D-0253)",
   "initial_links": [],
@@ -64,6 +64,26 @@
         "media_plan": "사진 0/2 · 기사 후보 21문장 · 154초(plan)"
       },
       "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "user",
+      "at": "2026-11-01T08:42:23.744961Z",
+      "comment": "사용자 원문(2026-11-01, UF-206): \"1~4까지 승인.\" — 게이트 ② 승인. showcase_econ = A(사진 배경 + 아일랜드). D-0335·D-0340·D-0344. 대상 artifacts/showcase-v7.4.0 47427cc(gate2_nocard v5) + 72d8446(v6, econ 병합 뒤 사용자 의견 장치 적용 — 끝값 판 불투명·실효금리 계단 지연, before/after d0340/)",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/showcase_econ/prev/sheet.jpg",
+        "cuts": "12",
+        "provenance": "/home/user/osint_generator/projects/showcase_econ/prev/provenance.json",
+        "drops": "2",
+        "media_used": "quote 0 · article 3 · real 10",
+        "quote_candidates": "2",
+        "animatic": "out/animatic.mp4 · 184.132초 · direction ead2323523f30e13b25b05bc0409c4ba195fc630 · script aa1ccc15ca",
+        "user_feedback": "사용자 의견 166건 모두 장치 있음(최근 UF-206)",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
     }
   ],
   "stage_records": [
@@ -104,6 +124,47 @@
       "errors": [],
       "drops": 0,
       "log": "logs/stages/03_plan.json"
+    },
+    {
+      "state": "render",
+      "stage": "render",
+      "ok": true,
+      "at": "2026-11-01T09:30:47.557384Z",
+      "artifacts": {
+        "video_noaudio": "/home/user/osint_generator/projects/showcase_econ/out/video_noaudio.mp4"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/04_render.json"
+    },
+    {
+      "state": "audio_mix",
+      "stage": "mix",
+      "ok": true,
+      "at": "2026-11-01T09:32:37.842920Z",
+      "artifacts": {
+        "mix": "/home/user/osint_generator/projects/showcase_econ/out/mix.f32",
+        "bed_stats": "/home/user/osint_generator/projects/showcase_econ/out/bed_stats.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/05_mix.json"
+    },
+    {
+      "state": "deliver",
+      "stage": "deliver",
+      "ok": true,
+      "at": "2026-11-01T09:37:48.757574Z",
+      "artifacts": {
+        "final": "/home/user/osint_generator/projects/showcase_econ/out/final.mp4",
+        "srt": "/home/user/osint_generator/projects/showcase_econ/out/final.srt",
+        "description": "/home/user/osint_generator/projects/showcase_econ/out/description.txt",
+        "credits": "/home/user/osint_generator/projects/showcase_econ/out/credits.txt",
+        "provenance": "/home/user/osint_generator/projects/showcase_econ/out/provenance.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/06_deliver.json"
     }
   ],
   "final_outputs": {},
@@ -197,6 +258,30 @@
       "to_state": "preview_approval",
       "transitioned_at": "2026-10-30T19:53:23.569815Z",
       "reason": "게이트 ② 자료 R-0290·R-0291 연출 지문 고정(D-0317 ①) — 단계 실행 없이 상태만"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-11-01T08:42:23.745016Z",
+      "reason": "preview_approval 승인 — user"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-11-01T09:30:47.560196Z",
+      "reason": "engine render ok"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-11-01T09:32:37.845232Z",
+      "reason": "engine mix ok"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-11-01T09:37:48.760223Z",
+      "reason": "engine deliver ok"
     }
   ],
   "rollbacks": [

@@ -77,6 +77,20 @@ def feedback_guards(checks: dict) -> list[dict]:
     return out
 
 
+def user_approval(root: Path) -> dict:
+    """provenance qa 의 사용자 승인 실값(v7.4.0 back_and_forth D-0345) — project_manifest.json gate_decisions 의 마지막 preview_approval(게이트 ②)
+    결정이 사용자 승인이면 user_approved true 와 그 시각. 기록이 없거나 마지막이 반려면 false(옛 False 상수 = 승인 전편에도 false, P5 위반)."""
+    p = root / "project_manifest.json"
+    if not p.exists():
+        return {"user_approved": False}
+    gd = [g for g in json.loads(p.read_text(encoding="utf-8")).get("gate_decisions") or [] if g.get("gate") == "preview_approval"]
+    if not gd:
+        return {"user_approved": False}
+    last = gd[-1]
+    ok = last.get("decision") == "approved" and last.get("by") == "user"
+    return {"user_approved": ok, "approval": {"gate": "preview_approval", "decision": last.get("decision"), "by": last.get("by"), "at": last.get("at")}}
+
+
 def direction_sha1(root: Path) -> str | None:
     """연출 파일 지문(v5.22.5 D208) — 프리뷰가 남기고 mux 가 대조한다. 연출 파일이 없으면 None."""
     dp = root / "direction.yaml"

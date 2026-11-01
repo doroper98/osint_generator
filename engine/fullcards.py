@@ -24,6 +24,7 @@ from engine.typography import _M, adv, text, wrap
 
 ENDCARD_NOTE = "수치와 인용은 제작 시점의 공개 보도에 근거합니다"
 NOTICE = END_CARD.notice_unverified
+INVEST = END_CARD.notice_invest      # v7.4.0 D-0278 §4.3
 TPL = END_CARD.template_line         # v7.4.0 UF-147
 STAMP = END_CARD.version_stamp
 VERSION_FILE = Path(__file__).resolve().parent.parent / "VERSION"
@@ -147,7 +148,8 @@ def version_stamp_box(notice: str | None) -> tuple[float, float, float, float]:
     box = (x1 - w, base - STAMP.size, x1, base + STAMP.size * 0.25)
     if notice:
         ny = H_OUT - 26 + NOTICE.dy
-        nb = (64.0, ny - NOTICE.size, 64 + adv(notice, NOTICE.size, "sans"), ny + NOTICE.size * 0.25)
+        ns = min(NOTICE.size, INVEST.size)   # v7.4.0 — draw_endcard 맨 마지막 줄과 같은 크기
+        nb = (64.0, ny - ns, 64 + adv(notice, ns, "sans"), ny + ns * 0.25)
         if box[0] < nb[2] and nb[0] < box[2] and box[1] < nb[3] and nb[1] < box[3]:
             box = (box[0], box[1] - STAMP.dy, box[2], box[3] - STAMP.dy)
     return box
@@ -198,14 +200,21 @@ def unverified_notice(R: RenderCtx) -> str | None:  # noqa: N803
 
 def template_label(R: RenderCtx) -> str | None:  # noqa: N803
     """v7.4.0 UF-147(D-0302 ⑤) — 장르 프로필 template_label(engine.project 가 R.cache 에 넣는다). 없으면 None."""
-    return R.cache.get("template_label")
+    return getattr(R, "cache", {}).get("template_label")
 
 
-def title_subtitle(R: RenderCtx) -> str:  # noqa: N803
-    """타이틀 카드 부제 줄 — 템플릿 라벨이 있으면 "<라벨> · <부제>"(UF-147). draw_fullcards 와 checks 가 같은 함수로 본다."""
-    sub = R.tb.plan.subtitle
+def title_subtitle(R: RenderCtx, plan: object = None) -> str:  # noqa: N803
+    """타이틀 카드 부제 줄 — 템플릿 라벨이 있으면 "<라벨> · <부제>"(UF-147). draw_fullcards 와 checks 가 같은 함수로 본다.
+    plan 을 주면 그 원고의 부제(검사 — 렌더 문맥 없이도 같은 문자열)."""
+    sub = (plan if plan is not None else R.tb.plan).subtitle  # type: ignore[attr-defined]
     lab = template_label(R)
     return f"{lab}{TPL.sep}{sub}" if lab and sub else (lab or sub)
+
+
+def last_notice(R: RenderCtx) -> str | None:  # noqa: N803
+    """엔딩 카드 맨 마지막 줄 — 투자 고지(장르 invest_notice, D-0278 §4.3) · 검증 안내(D85) 를 · 로 잇는다. 둘 다 없으면 None."""
+    parts = [INVEST.text if R.cache.get("invest_notice") else None, unverified_notice(R)]
+    return TPL.sep.join(p for p in parts if p) or None
 
 
 def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float) -> None:  # noqa: N803
@@ -278,9 +287,9 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
     nl = notice_line(R)
     if nl:   # v7.4.0 D-0229 §2.10 — 표기 전용 줄(구분선 바로 위, 전체 폭, 가장 작은 글씨)
         text(ctx, nl, 64, RULE_Y - NOTICE_DY, END_CARD.license_size, "sans", C["muted"], fa, 0, "l", role="end_card")
-    notice = unverified_notice(R)
-    if notice:   # 맨 마지막 줄, 가장 작은 글씨 — 본문(자막·패널·카드)에는 검증 라벨을 그리지 않는다
-        text(ctx, notice, 64, H_OUT - 26 + NOTICE.dy, NOTICE.size, "sans", C["muted"], fa, 0, "l", role="end_card")
+    notice = last_notice(R)
+    if notice:   # 맨 마지막 줄, 가장 작은 글씨 — 본문(자막·패널·카드)에는 검증 라벨을 그리지 않는다. 투자 고지가 앞(v7.4.0)
+        text(ctx, notice, 64, H_OUT - 26 + NOTICE.dy, min(NOTICE.size, INVEST.size), "sans", C["muted"], fa, 0, "l", role="end_card")
     # v5.1.0 D-0124 — 버전 도장: 카드 등장과 함께(a), 롤 클립·스크롤 밖이라 고정, halo 없음. 검정 홀드(a = 0)에는 없음
     _x0, _y0, x1, y1 = version_stamp_box(notice)
     text(ctx, version_stamp(), x1, y1 - STAMP.size * 0.25, STAMP.size, STAMP.font, C["muted"], a * STAMP.alpha, 0, "r", role="end_card")
