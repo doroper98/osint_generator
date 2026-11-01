@@ -61,7 +61,7 @@ class EndLabelPlateTest(unittest.TestCase):
         surf.flush()
         px = surf.get_data()[(int(r[1]) + 2) * surf.get_stride() + (int(r[0]) + 2) * 4 + 2]   # 판 안 빨강 채널(BGRA)
         self.assertLess(px, 255 * 0.5)   # 바탕(bg_rgb) 쪽으로 어두워졌다
-        self.assertEqual(TIMELINE.series.end_label_plate.alpha, 0.72)
+        self.assertEqual(TIMELINE.series.end_label_plate.alpha, 1.0)   # v7.4.0 D-0344(UF-155) 불투명 판 — 옛 0.72(fd28ef1c 가 규칙만 바꿈)
 
     def test_unplated_label_is_hard(self) -> None:
         from engine import checks  # noqa: PLC0415
