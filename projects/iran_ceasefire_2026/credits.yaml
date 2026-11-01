@@ -39,6 +39,10 @@ sections:
     license: 미 해군 중부사령부 · Public domain
     rights:
     - media.iran_blockade_apr_video
+  - main: 앙카라 나토 정상회의에 도착하는 미국 대통령 전용기 (2026. 07. 07)
+    license: Kayra (CC BY 4.0) · CC BY 4.0
+    rights:
+    - media.iran_trump_ankara
   - main: 이란 해상 봉쇄 작전 중인 미 해군 상륙함 뉴올리언스 (2026. 04. 28)
     license: 미 국방부 · Public domain
     rights:
@@ -63,10 +67,6 @@ sections:
     license: NASA · Public domain
     rights:
     - media.iran_hormuz_night_iss
-  - main: 걸프에서 기뢰 대응 작전 중인 미 해군 소해함 (2003. 03. 19)
-    license: 미 해군 · Public domain
-    rights:
-    - media.iran_uss_dextrous_mcm
   - main: 카타르 도하 웨스트베이 (2023. 01. 16)
     license: Zairon (CC BY 4.0) · CC BY 4.0
     rights:

@@ -8742,6 +8742,52 @@
    },
    "source_hash": "2ca5baf9ce979384274c30a497a51733",
    "file": "iran_tehran_2026_720.jpg"
+  },
+  "iran_trump_ankara": {
+   "kind": "photo",
+   "title": "File:Donald Trump lands by plane for the 2026 Ankara NATO summit, 7072026.jpg",
+   "license": "CC BY 4.0",
+   "author": "Kayra",
+   "credit_author": "Kayra (CC BY 4.0)",
+   "date": "2026-07-07",
+   "url": "https://commons.wikimedia.org/wiki/File:Donald_Trump_lands_by_plane_for_the_2026_Ankara_NATO_summit,_7072026.jpg",
+   "caption": "앙카라 나토 정상회의에 도착하는 미국 대통령 전용기",
+   "file_note": "2026. 07. 07",
+   "depicts": [
+    "미국 대통령 전용기(보잉 747)",
+    "앙카라 시가지"
+   ],
+   "main_subject": [
+    "착륙하는 대통령 전용기"
+   ],
+   "background": [
+    "앙카라 시가지·구릉"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타(CC BY 4.0·작성자 Kayra·2026-07-07 13:50) 대조, 1280px 원본 육안 확인",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "act1_9 '7월 8일 트럼프 대통령은 휴전은 끝났다' — 그 발언이 나온 앙카라 나토 정상회의 도착 전날 사진"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "iran_trump_ankara.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "ea9131be059b812a51c2d29fcb81ff23",
+   "file": "iran_trump_ankara_720.jpg"
   }
  }
 }

@@ -477,11 +477,10 @@ events:
 - type: article
   start:
     sid: cold_2
-    'off': 0.1
+    'off': 2.9
   end:
-    sid: cold_2
-    edge: end
-    'off': 0.5
+    sid: cold_3
+    'off': 2.2
   mid: iran_ceasefire_2026_art_0005
   theme: dark
 - type: country
@@ -598,10 +597,10 @@ events:
 - type: quote
   start:
     sid: act1_9
-    'off': 0.1
+    'off': 2.1
   end:
     sid: act1_10
-    'off': 0.4
+    'off': 1.6
   pid: trump
   flag: us
   speaker: 트럼프
@@ -879,21 +878,6 @@ events:
     'off': 0.4
   mid: iran_ceasefire_2026_art_0057
   theme: dark
-- type: badge
-  start:
-    sid: act6_0
-    'off': 0.2
-  end:
-    sid: act6_1
-    edge: end
-    'off': 0.3
-  lon: 127.9
-  lat: 36.3
-  kind: flag
-  flag: kr
-  R: 18
-  label: 한국
-  accent: gold
 - type: route
   start:
     sid: act6_1
@@ -1105,7 +1089,7 @@ events:
 - type: photo
   start:
     sid: act1_10
-    'off': 0.3
+    'off': 1.7
   end:
     sid: act1_10
     'off': 0.3
@@ -1141,16 +1125,6 @@ events:
     edge: end
   mid: iran_hormuz_night_iss
   for: 호르무즈 해협
-- type: photo
-  start:
-    sid: act4_3
-    'off': 0.4
-  end:
-    sid: act4_3
-    'off': 0.3
-    edge: end
-  mid: iran_uss_dextrous_mcm
-  for: 기뢰 대응 작전 중인 소해함
 - type: photo
   start:
     sid: ending_1
@@ -1568,6 +1542,94 @@ events:
       - 1855.7
       decimals: 1
     unit: 원
+- type: photo
+  start:
+    sid: act1_9
+    'off': 0.2
+  end:
+    sid: act1_9
+    'off': 2.0
+  mid: iran_trump_ankara
+  for: 착륙하는 대통령 전용기
+- type: country
+  start:
+    sid: act6_0
+    'off': 0.2
+  end:
+    sid: act6_1
+    'off': 0.3
+    edge: end
+  codes:
+  - KR
+  col: gold
+  a: 0.08
+- type: quote
+  start:
+    sid: act4_3
+    'off': 0.4
+  end:
+    sid: act4_3
+    'off': 0.4
+    edge: end
+  flag: ir
+  speaker: 이란 혁명수비대
+  role: 해군
+  text: 남쪽 항로에서 유조선 세 척이 기뢰에 맞았다
+  src: CNBC · The New Arab
+  date: 2026.10.29
+  accent: ru
+  pos: center
+  claims:
+  - clm_0042
+- type: quote
+  start:
+    sid: act4_4
+    'off': 0.4
+  end:
+    sid: act4_4
+    'off': 0.4
+    edge: end
+  flag: us
+  speaker: 미 중부사령부
+  role: ''
+  text: 국제적으로 인정된 주요 통항로의 기뢰는 모두 제거했다
+  src: Middle East Eye · Gulf News
+  date: 2026.10.28
+  accent: us
+  pos: center
+  claims:
+  - clm_0042
+- type: badge
+  start:
+    sid: cold_2
+    'off': 0.3
+  end:
+    sid: cold_2
+    'off': 2.8
+  lon: 47.5
+  lat: 31.5
+  kind: person
+  pid: rubio
+  flag: us
+  label: 루비오
+  role: 미국 국무장관
+  accent: us
+- type: badge
+  start:
+    sid: act1_4
+    'off': 3.6
+  end:
+    sid: act1_4
+    'off': 0.4
+    edge: end
+  lon: 70.0
+  lat: 30.5
+  kind: person
+  pid: sharif
+  flag: pk
+  label: 샤리프
+  role: 파키스탄 총리
+  accent: green
 sound:
   bgm: music.zabriskie_mario_bava
   intensity:
@@ -1620,4 +1682,6 @@ media_note: 'v2(구현 세션 손질, AI 초안 v1 바탕): 출처 없는 좌표
   묶음). 유튜브 공식 클립은 봇 검사로 실패(우회 안 함, D551). 휘장 0(중부사령부 휘장 Commons Restrictions). UF-170 — 화면 라벨 0. · v3(콘티 판 사전 검사 hard 46 정리): 국기 뱃지 정리(한국만), 사진↔마커 시간 분리, 경로 grow ≥ 속도 상한, act2_11·act4·act6 구도 넓힘, 사진 for
   = 레지스트리 main_subject, 테헤란→도하 경로(cold_0 도착), 빈 지도 구간 마커·기사. · v4: 오프닝 첫 폭 60, ''선박 위협'' 경계선·소하르 마커 삭제(라벨 겹침), 기사 2(8/17 만료·해운협회 반박). · v5: 기사 이웃 연속 정리(8/17·해운협회 기사 대신 테헤란 마커 부제·도하 마커), act5_1 아라그치 뱃지,
   도하 마커 왼쪽, 오프닝 중심 60E. · v6(D-0457): 시간축 패널 act2 전체(act2_0→act2_12, 핀 9 문장마다)·act5 재진입(act5_0→act5_3, 11/3 강조 — act5_4 하메네이 인용은 패널 뒤 지도에서), act2 의 뱃지·인용·기사·사진은 패널을 덮어 걷어냄(테헤란 사진 → ending_0). 데이터 패널: dots
-  70%·dual_line 2점(브렌트·보험료·울산 선적지·휘발유 — 레지스트리에 bars 패널 없음)·checklist 4+꼬리 줄(레바논). · v6.1: versus 4행 대 4행(5행이 상자 밖으로 넘침 — 합친 행), 10/11 핀 아래쪽.'
+  70%·dual_line 2점(브렌트·보험료·울산 선적지·휘발유 — 레지스트리에 bars 패널 없음)·checklist 4+꼬리 줄(레바논). · v6.1: versus 4행 대 4행(5행이 상자 밖으로 넘침 — 합친 행), 10/11 핀 아래쪽. · v7(D-0458): 덱스트러스 2003 사진 삭제(23년 전 자료, photo-age) → act4_3·act4_4
+  양측 quote 두 줄(같은 무게). 실사 13 유지: act1_9 앙카라 나토 도착 사진(2026-07-07, CC BY 4.0). 한국 국기 뱃지 → country KR 강조. 초상 뱃지 루비오(cold_2)·샤리프(act1_4) 추가. 밴스·레자이 뱃지는 act2 시간축 패널 위라 넣지 않음(badge-over-panel). 푸자이라 지명 사전 등재(data/gazetteer.yaml
+  manual).'

@@ -1086,6 +1086,124 @@
    "rejected": [
     "문서·도식(application/pdf)"
    ]
+  },
+  {
+   "sid": "act4_4",
+   "query": "mine countermeasures Bahrain 2019 Navy hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_4",
+   "query": "mine countermeasures Bahrain 2019 Navy",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 8,
+   "passed": 8,
+   "top": [
+    "File:Artemis Trident 19 (5256515).jpg",
+    "File:Artemis Trident 19 (5263731).jpg",
+    "File:Artemis Trident 19 (5278529).jpg",
+    "File:Artemis Trident 19 (5278532).jpg",
+    "File:Artemis Trident 19 (5278534).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act4_4",
+   "query": "minehunting Arabian Gulf 2021 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_4",
+   "query": "minehunting Arabian Gulf 2021",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_4",
+   "query": "Avenger-class mine countermeasures ship 2018 Arabian Gulf hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_4",
+   "query": "Avenger-class mine countermeasures ship 2018 Arabian Gulf",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_9",
+   "query": "Trump NATO summit Ankara 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_9",
+   "query": "Trump NATO summit Ankara 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 8,
+   "passed": 8,
+   "top": [
+    "File:Donald Trump lands by plane for the 2026 Ankara NATO summit, 7072026.jpg",
+    "File:NATO Family Photo at the Presidential Palace in Ankara - 2026.jpg",
+    "File:Official photo - 2026 NATO Summit in Ankara.jpg",
+    "File:Official photo - 2026 NATO Summit in Ankara (cropped).jpg",
+    "File:President Donald J. Trump participates in a bilateral meeting with Ukraine’s President Volodymyr Zelenskyy at the 2026 NATO Summit (55382311762).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_9",
+   "query": "2026 NATO summit Ankara hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_9",
+   "query": "2026 NATO summit Ankara",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 8,
+   "passed": 8,
+   "top": [
+    "File:António Costa, Recep Tayyip Erdoğan and Ursula von der Leyen - NATO Summit 2026 in Ankara, Türkiye (03).jpg",
+    "File:Donald Trump lands by plane for the 2026 Ankara NATO summit, 7072026.jpg",
+    "File:Friedrich Merz und seine Frau beim NATO Family Photo at the Presidential Palace in Ankara - 2026 (cropped).jpg",
+    "File:Keir Starmer and Mark Carney at the Presidential Palace in Ankara - 2026 (cropped).jpg",
+    "File:Meeting between Ursula von der Leyen and Volodymyr Zelenskyy during the 2026 NATO Summit in Ankara, Türkiye.jpg"
+   ],
+   "rejected": []
   }
  ]
 }
