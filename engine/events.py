@@ -68,7 +68,7 @@ class MarkerEvent(_Event):
     """지점 마커. 지도 앵커 lon·lat, 또는 시간축 핀 앵커 date(YYYY-MM-DD)·lane(레인 id) — 둘 중 하나(v4.3.0 D-0084 작업 4·D-0085).
     어느 무대 앵커인지는 attach_world 가 무대에 물어 검사한다(다른 무대의 키 = 오류)."""
 
-    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane", "route_cross_exempt", "toponymy")   # 쓰지 않은 무대의 앵커 쌍은 dict 에 남기지 않는다(지도 이벤트 dict = v4.2.0 과 같음)
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane", "route_cross_exempt", "toponymy", "glyph")   # 쓰지 않은 무대의 앵커 쌍은 dict 에 남기지 않는다(지도 이벤트 dict = v4.2.0 과 같음)
 
     type: Literal["marker"]
     lon: Optional[float] = None
@@ -83,6 +83,7 @@ class MarkerEvent(_Event):
     vline: bool = False   # v7.4.0 D-0309 §1-5 — 시간축 핀: 레인 세로 전체 점선(발표일). 지도 마커는 쓰지 않는다
     route_cross_exempt: Optional[RouteCrossExempt] = None   # v5.21.11 D-0203 — 골든 기준 프로젝트만(테스트가 강제)
     toponymy: Optional[str] = Field(default=None, min_length=1, description="지명 유래 레코드 id(projects/<pid>/toponymy.yaml) — 핀 라벨 아래 한 줄을 코드가 조판(v7.4.0 전쟁사 W2, 증거 층 toponymy). sub 와 함께 쓰지 않는다")
+    glyph: Optional[str] = Field(default=None, min_length=1, description="병종 픽토그램 이름(rules war_history.symbol_sets.*.glyphs 값 — 예: heavy_inf·light_cav·elephant). 점 대신 픽토그램을 그린다(v7.4.0 D-0608 §1-3, 전쟁사). icon boom 과 함께 쓰지 않는다")
 
     @model_validator(mode="after")
     def _anchor(self) -> "MarkerEvent":
@@ -90,6 +91,14 @@ class MarkerEvent(_Event):
         tl = (self.date is not None, self.lane is not None)
         if not ((all(geo) and not any(tl)) or (all(tl) and not any(geo))):
             raise ValueError("marker 앵커는 lon·lat(지도) 또는 date·lane(시간축) 중 한 쌍")
+        if self.glyph is not None:   # v7.4.0 D-0608 §1-3 — 픽토그램 이름은 규칙 부호 세트에 있는 것만(P10)
+            from rules import load_rules  # noqa: PLC0415
+
+            known = load_rules().war_history.symbol_sets.glyph_names()
+            if self.glyph not in known:
+                raise ValueError(f"marker glyph {self.glyph!r} 는 rules war_history.symbol_sets 픽토그램 {sorted(known)} 밖이다")
+            if self.icon != "dot":
+                raise ValueError("marker glyph 는 icon dot(기본) 자리에 그린다 — icon boom 과 함께 쓰지 않는다")
         if self.date is not None and not DATE_ISO_RE.match(self.date):
             raise ValueError(f"marker date 는 YYYY-MM-DD: {self.date!r}")
         return self
@@ -284,7 +293,7 @@ class CountryEvent(_Event):
 class BadgeEvent(_Event):
     """뱃지. 지도 앵커 lon·lat, 또는 시간축 앵커 date·lane(v4.4.0 D-0090 작업 4 — 배치 슬롯이 시간축에서 date·lane 을 돌려준다). 한 쌍만."""
 
-    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane", "over_panel", "screen")   # 쓰지 않은 앵커 쌍·패널 위 자리는 dict 에 남기지 않는다(지도 뱃지 dict = v4.3.0 과 같음)
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane", "over_panel", "screen", "emblem")   # 쓰지 않은 앵커 쌍·패널 위 자리는 dict 에 남기지 않는다(지도 뱃지 dict = v4.3.0 과 같음)
 
     type: Literal["badge"]
     lon: Optional[float] = None
@@ -294,7 +303,8 @@ class BadgeEvent(_Event):
     kind: Literal["person", "flag", "emblem"]
     pid: Optional[str] = Field(default=None, description="kind person 이면 필수")
     flag: Optional[str] = Field(default=None, description="kind person·flag 이면 필수 — person 은 초상 바탕 국기 ISO 2자")   # v5.21.1 LLM-AP-018
-    img: Optional[str] = Field(default=None, description="kind emblem 이면 필수")
+    img: Optional[str] = Field(default=None, description="kind emblem 이면 img 또는 emblem 중 하나")
+    emblem: Optional[str] = Field(default=None, min_length=1, description="kind emblem — 유물 근거 진영 휘장 재작도 키(assets/emblems/registry.json reconstructions, 코드 벡터). img 와 함께 쓰지 않는다(v7.4.0 D-0608 §1-3)")
     R: Optional[float] = None        # v4.8.0 D-0101 §1 — 없으면 인물은 적응 크기, 국기·휘장은 rules badge.R_other(옛 기본 30 리터럴)
     label: str = ""
     role: Optional[str] = None
@@ -317,7 +327,13 @@ class BadgeEvent(_Event):
 
     @model_validator(mode="after")
     def _kind_fields(self) -> "BadgeEvent":
-        need = {"person": ("pid", "flag"), "flag": ("flag",), "emblem": ("img",)}[self.kind]
+        if self.kind == "emblem":   # v7.4.0 D-0608 §1-3 — 래스터 휘장(img) 또는 재작도 휘장(emblem) 정확히 하나
+            if (self.img is None) == (self.emblem is None):
+                raise ValueError("badge kind=emblem 은 img(휘장 레지스트리) 또는 emblem(재작도 reconstructions) 중 정확히 하나")
+            return self
+        if self.emblem is not None:
+            raise ValueError(f"badge emblem(재작도)은 kind emblem 에서만 — 받은 kind {self.kind}")
+        need = {"person": ("pid", "flag"), "flag": ("flag",)}[self.kind]
         missing = [f for f in need if getattr(self, f) is None]
         if missing:
             raise ValueError(f"badge kind={self.kind} 에 필요한 필드 없음: {missing}")

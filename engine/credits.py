@@ -22,7 +22,7 @@ from typing import Callable, Literal, Optional
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from engine.refs import emblem_ids
+from engine.refs import emblem_ids, recon_emblem_ids
 from rules import load_rules
 from schemas.rules_models import CreditRules
 
@@ -247,6 +247,7 @@ def required_refs(events: list[dict], rights: dict, emblem_flag: Callable[[str],
         for img in emblem_ids(e):   # 뱃지·패널 노드 모두(engine/refs.py)
             if emblem_flag(img) is None:
                 need.add(f"emblems.{img}")
+        need |= {f"emblems.{k}" for k in recon_emblem_ids(e)}   # v7.4.0 D-0608 §1-3 — 재작도 휘장(국기 대체 없음)
         if e["type"] in ("photo", "clip", "cutout", "article") and e.get("mid"):   # v2.5.5 — 기사도 레지스트리 항목
             need.add(f"media.{e['mid']}")
         if e["type"] == "backdrop":   # v5.1.0 D-0123 — 배경 사진도 미디어 레지스트리 항목(크레딧 media 참조)

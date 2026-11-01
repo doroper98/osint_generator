@@ -197,7 +197,14 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
         ctx.set_source_rgba(*col, 0.5 * (1 - f) * a)
         ctx.set_line_width(1.3)
         ctx.stroke()
-    icon(ctx, e.get("icon") or "dot", x, y, col, a * ease_out(lt / MOTION["marker_icon_pop_sec"]))
+    if e.get("glyph"):   # v7.4.0 D-0608 §1-3 — 병종 픽토그램(전쟁사). 크기·테두리 = rules war_history.symbol_sets.glyph, 색 = 마커 글자색, 테두리 = 지도 글자 halo
+        from engine.glyphs.arms import draw_glyph  # noqa: PLC0415
+
+        G = load_rules().war_history.symbol_sets.glyph  # noqa: N806
+        draw_glyph(ctx, e["glyph"], x, y, G.size_px, col, G.alpha * a * ease_out(lt / MOTION["marker_icon_pop_sec"]),
+                   halo if halo is not None else G.halo_rgb, G.halo_px)
+    else:
+        icon(ctx, e.get("icon") or "dot", x, y, col, a * ease_out(lt / MOTION["marker_icon_pop_sec"]))
     if e.get("pin_value") is not None:   # v7.4.0 D-0274 §1② — 값 레인 위 핀: 단 라벨 + 리더선(engine.pin_labels), 단 없으면 점만
         _draw_pin_label(ctx, R, view, lt, a, e, x, y, hk)
         return

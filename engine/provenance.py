@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Callable
 
 from engine.camera import CamKey
-from engine.refs import emblem_ids
+from engine.refs import emblem_ids, recon_emblem_ids, walk_dicts
 from rules import load_rules, rules_hash
 from script.schema import Plan
 
@@ -210,7 +210,14 @@ def emblem_usage(events: list[dict], emblem_flag: Callable[[str], str | None]) -
                 used.add(img)
             else:
                 fallback[img] = fb
-    return {"used": sorted(used), "flag_fallback": dict(sorted(fallback.items()))}
+    out = {"used": sorted(used), "flag_fallback": dict(sorted(fallback.items()))}
+    recon = sorted({k for e in events for k in recon_emblem_ids(e)})   # v7.4.0 D-0608 §1-3 — 재작도 휘장(쓴 영상만 키가 생긴다, P5)
+    glyphs = sorted({d["glyph"] for e in events for d in walk_dicts(e) if d.get("type") == "marker" and d.get("glyph")})
+    if recon:
+        out["reconstructed"] = recon
+    if glyphs:
+        out["marker_glyphs"] = glyphs
+    return out
 
 
 def build(plan: Plan, keys: list[CamKey], events: list[dict], repo_version: str, stages: dict[str, bool],

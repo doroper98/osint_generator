@@ -18,6 +18,7 @@ from engine.projection import View
 from engine.style import BADGE, BADGE_BG, C, H_OUT, MOTION, W_OUT
 from engine.timebase import ease_back, smooth, window
 from engine.typography import rrect, text, tw
+from rules import load_rules
 
 
 FW = BADGE.flag_wave
@@ -71,6 +72,8 @@ def flag_wave(ctx: cairo.Context, R: RenderCtx, key: str, cx: float, cy: float, 
 
 def resolve_kind(R: RenderCtx, e: dict) -> tuple[str, str | None]:  # noqa: N803
     """휘장 뱃지의 권리 결정 적용(D5): flag_fallback 이면 ("flag", 대체 국기). 그 밖에는 (kind, 국기)."""
+    if e["kind"] == "emblem" and e.get("emblem"):   # v7.4.0 D-0608 §1-3 — 재작도 휘장(코드 벡터)은 국기 대체가 없다
+        return "emblem", None
     if e["kind"] == "emblem":
         fb = R.assets.emblem_flag(e["img"])
         if fb is not None:
@@ -80,6 +83,8 @@ def resolve_kind(R: RenderCtx, e: dict) -> tuple[str, str | None]:  # noqa: N803
 
 def image_keys(e: dict, R: RenderCtx | None = None) -> list[str]:  # noqa: N803
     """뱃지 하나가 쓰는 이미지 키(렌더 전 자산 점검용)."""
+    if e["kind"] == "emblem" and e.get("emblem"):   # 재작도 휘장 = 이미지 없음(벡터)
+        return []
     if e["kind"] == "emblem" and R is not None:
         kind, fb = resolve_kind(R, e)
         if kind == "flag":
@@ -309,6 +314,14 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
         fs, fw, fh = R.assets.raster(f"flag11:{flag}", Rr * 2.1, R.out.k)
         set_raster(ctx, fs, R.out.k, -fw / 2, -fh / 2)
         ctx.paint_with_alpha(a)
+    elif kind == "emblem" and e.get("emblem"):   # v7.4.0 D-0608 §1-3 — 유물 근거 재작도(engine.glyphs.emblems), 밝은 원 안 짙은 잉크
+        from engine.glyphs.emblems import draw_emblem  # noqa: PLC0415
+
+        ES = load_rules().war_history.faction_badge.emblem  # noqa: N806
+        ctx.set_source_rgba(0.96, 0.96, 0.97, a)
+        ctx.paint()
+        draw_emblem(ctx, R.assets.emblems.reconstructions[e["emblem"]].glyph, 0, 0, Rr * ES.badge_frac, ES.badge_ink, ES.alpha * a,
+                    (0.96, 0.96, 0.97), 0.0)
     elif kind == "emblem":
         ctx.set_source_rgba(0.96, 0.96, 0.97, a)
         ctx.paint()

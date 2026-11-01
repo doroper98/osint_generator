@@ -22,3 +22,8 @@ def walk_dicts(o: object) -> Iterator[dict]:
 def emblem_ids(e: dict) -> list[str]:
     """이벤트(중첩 포함)가 참조하는 휘장 id — `kind: emblem` + `img`."""
     return [d["img"] for d in walk_dicts(e) if d.get("kind") == "emblem" and isinstance(d.get("img"), str)]
+
+
+def recon_emblem_ids(e: dict) -> list[str]:
+    """v7.4.0 D-0608 §1-3 — 지도 뱃지가 참조하는 재작도 휘장 키(`kind: emblem` + `emblem`, assets/emblems/registry.json reconstructions)."""
+    return [d["emblem"] for d in walk_dicts(e) if d.get("kind") == "emblem" and isinstance(d.get("emblem"), str)]

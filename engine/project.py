@@ -44,7 +44,7 @@ from engine.placement import PlacementError, resolve_places
 from engine.projection import View
 from engine.shots import ShotStage
 from engine.stage import StageSet, attach_world, make_stage
-from engine.refs import emblem_ids
+from engine.refs import emblem_ids, recon_emblem_ids
 from engine.registry import FULL_LAYERS, MAP_LAYER_ORDER, LayerSet, RegistryError, validate_events
 from engine.style import FPS, ISLAND, TIMELINE, Output, apply_palette, output_profile
 from engine.timebase import Timebase
@@ -137,6 +137,8 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
                     A.emblem_flag(img)
                 except Exception as ex:  # noqa: BLE001 — 모아서 한 번에 보고
                     errs.append(str(ex))
+            errs += [f"휘장 재작도 없음: {rk} (assets/emblems/registry.json reconstructions)" for rk in recon_emblem_ids(e)
+                     if rk not in A.emblems.reconstructions]   # v7.4.0 D-0608 §1-3 — 콘티 판도 레지스트리는 본다
             if e["type"] == "backdrop":   # v5.1.0 D-0123 — 배경 사진 권리(콘티 판도 레지스트리는 본다)
                 try:
                     validate_backdrop(e, A.media_assets)
@@ -182,6 +184,11 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
                 errs += portrait_fit_errors(R, d["pid"])
             elif "flag" in d and d["flag"] is not None:
                 keys.add(f"flag11:{d['flag']}")
+        for rk in recon_emblem_ids(e):   # v7.4.0 D-0608 §1-3 — 재작도 휘장: 레지스트리 reconstructions + 프로젝트 권리 기록(근거 사진) 둘 다 필수
+            if rk not in A.emblems.reconstructions:
+                errs.append(f"휘장 재작도 없음: {rk} (assets/emblems/registry.json reconstructions {sorted(A.emblems.reconstructions)})")
+            elif rk not in A.rights.get("emblems", {}):
+                errs.append(f"권리 레지스트리에 휘장 없음: {rk}(재작도 — 근거 사진 저자·라이선스)")
         for img in emblem_ids(e):   # 뱃지·패널 노드 모두(engine/refs.py)
             try:
                 fb = A.emblem_flag(img)   # D5 — 제한 휘장은 국기로(코드 결정)

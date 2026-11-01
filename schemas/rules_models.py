@@ -3790,6 +3790,10 @@ class WarSymbolSets(_Strict):
     def by_era(self) -> dict[str, WarSymbolSet]:
         return {"ancient": self.ancient, "early_modern": self.early_modern, "modern": self.modern}
 
+    def glyph_names(self) -> set[str]:
+        """세 세트의 픽토그램 이름 합(본편 marker glyph 가 쓸 수 있는 값, v7.4.0 D-0608 §1-3). 렌더러 = engine.glyphs.arms.GLYPHS(시험 대조)."""
+        return {g for s in self.by_era().values() for g in s.glyphs.values()}
+
     def shape_of(self, symbol: str) -> WarShape:
         for s in self.by_era().values():
             if symbol in s.shapes:
@@ -3826,6 +3830,8 @@ class WarEmblemStyle(_Strict):
     alpha: float = Field(gt=0, le=1)
     halo_px: float = Field(ge=0)
     note: WarEmblemNote
+    badge_frac: float = Field(gt=0, le=2)        # v7.4.0 D-0608 §1-3 — 본편 뱃지(kind emblem + emblem 재작도): 휘장 높이 = 뱃지 반지름 × 이 값
+    badge_ink: tuple[float, float, float]        # 본편 뱃지 휘장 잉크색(밝은 원 바탕 위)
 
 
 class WarFactionBadge(_Strict):

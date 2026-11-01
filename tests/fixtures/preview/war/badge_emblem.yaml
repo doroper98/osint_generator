@@ -1,0 +1,14 @@
+# 전쟁사 프리뷰 예제(v7.4.0 D-0608 §1-3, 15 P10) — 유물 근거 재작도 휘장 뱃지(assets/emblems/registry.json reconstructions).
+schema_version: 1
+key: badge:emblem_recon
+source: projects/cannae_sketch/sketch.yaml(카르타고 진영 — 타니트 비석 기호 재현)
+event:
+  type: badge
+  t0: 1.0
+  t1: 8.0
+  lon: 16.15
+  lat: 41.29
+  kind: emblem
+  emblem: carthage_tanit
+  label: 카르타고
+  accent: gold
