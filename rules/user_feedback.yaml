@@ -2410,6 +2410,34 @@ entries:
   status: guarded
   decision: D-0325(rules 의 요소 등장·퇴장 fade/popin 키 전부 ×1.5, 카메라·음악·배경 사진 crossfade 는 별도 판단 기록, 장치 = 최소 전환 시간 규칙 키 + 전 키 검사 테스트, 골든 재기준)
   source: 감독 세션(Fable) 사용자 대화 2026-10-31
+- id: UF-171
+  date: '2026-11-01'
+  project: iran_ceasefire_2026
+  at: "완성본 final_deliver.mp4(md5 fd89a455) 전달 직후 — 뱃지·사진·기사 조판 노출 시간"
+  quote: "뱃지나 사진이나 기사 조판이나 너무 빨리 사라져... 나타났다가 금방 슉 사라지고 있어... 이번껀 탈락이야. 쓸수 없어. 최소한 처음에 나오는 아라그치 뱃지 정도의 유지시간은정도의 시간동안은 각각 보이고 있어야지. 뜨자마자 사라지는것들이 너무 많아."
+  quote_kind: verbatim
+  category: 요소 노출 시간 — 뱃지·사진·영상·기사·인용은 각각 최소 유지 시간(기준 = 첫 아라그치 뱃지) 이상 보여야 함. 완성본 탈락 → 연출 재작업·재렌더·재전달
+  guards:
+  - {kind: check, ref: element_hold}
+  - {kind: rule, ref: qa_checks.element_hold.min_full_sec}
+  - {kind: test, ref: tests/test_element_hold.py::ElementHoldTest::test_short_photo_fails}
+  status: guarded
+  decision: D-0462(이 영상 — 요소별 노출 시간 전수 측정, 최소 유지 시간 규칙 키 + hard 검사 [element-hold] 전 종류, 겹침·조기 종료 제거, 콘티 판 → 프리뷰 → 게이트 ② → 전편 재전달)
+  source: 감독 세션(Fable) 사용자 대화 2026-11-01
+- id: UF-172
+  date: '2026-11-01'
+  project: iran_ceasefire_2026
+  at: "완성본 — 자막 '이에 미국은 다음 날 봉쇄를 풀었고' 장면(약 72초), 기사 조판 직전"
+  quote: "그리고 “이에 미국은 봉쇄를 풀었고” 자막이 나오는 씬에서 기사 조판이 나오기 직전에 뭔가 사진 템플릿에 뒤에 떴는데 뭔지 안나오고 그냥 제목에 묻혀 사라졌어. 짧게 나왔다가 사라지는 애들 다 검수해서 충분한 시간동안 보이게 수정해"
+  quote_kind: verbatim
+  category: 요소 겹침·조기 종료 — 사진(뉴올리언스 봉쇄, 2.4초)이 기사 카드(0.1초 뒤 시작)에 덮여 정체가 안 보임. 같은 문장에서 사진 직후 기사 카드 금지, 모든 짧은 노출 전수 검수
+  guards:
+  - {kind: check, ref: media_overlap}
+  - {kind: rule, ref: qa_checks.media_overlap.full_types}
+  - {kind: test, ref: tests/test_element_hold.py::MediaOverlapTest::test_photo_started_under_article}
+  status: guarded
+  decision: D-0462(이 영상 — act1_7 사진·기사 겹침 해소 + [element-hold]·[media-overlap] 검사)
+  source: 감독 세션(Fable) 사용자 대화 2026-11-01
 - id: UF-200
   date: '2026-10-31'
   project: showcase_econ
