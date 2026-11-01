@@ -419,7 +419,7 @@ def draw_end_label_plate(ctx: cairo.Context, box: tuple[float, float, float, flo
     """끝값 라벨 뒤 판(v7.4.0 D-0277 §2) — 바탕 = stage_timeline.bg_rgb × end_label_plate.alpha. 그린 사각형을 돌려준다(검사 기록)."""
     r = end_label_plate_rect(box)
     ctx.rectangle(r[0], r[1], r[2] - r[0], r[3] - r[1])
-    ctx.set_source_rgba(*island_rgb(TIMELINE.bg_rgb), TIMELINE.series.end_label_plate.alpha * a)
+    ctx.set_source_rgba(*island_rgb(TIMELINE.bg_rgb), TIMELINE.series.end_label_plate.alpha * (1.0 if a > 0 else 0.0))   # v7.4.0 D-0344 — 판은 글자 페이드와 무관하게 불투명(바탕색, 격자선을 판 가장자리에서 끊는다). 글자만 페이드
     ctx.fill()
     return r
 
@@ -589,7 +589,7 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
             if not _hits(box, _lane_name_box(ctx, view, stage, e["lane"])):   # 레인 이름을 덮지 않는다(끝점은 그대로)
                 plate = draw_end_label_plate(ctx, box, a)   # v7.4.0 D-0277 §2 — 강조 띠 위 대비
                 text(ctx, s, box[0], by, S.value_size, S.value_font, tip, a, S.value_halo, "l")
-                R.cache["series_end_labels"]["lanes"][e["lane"]].append((by, last[2], box, plate, covered, S.end_label_plate.alpha * a))   # 끝 = 그린 판 알파(D-0344 [grid-text-cross] 가림)
+                R.cache["series_end_labels"]["lanes"][e["lane"]].append((by, last[2], box, plate, covered, S.end_label_plate.alpha * (1.0 if a > 0 else 0.0)))   # 끝 = 그린 판 알파(D-0344 [grid-text-cross] 가림)
     if sec:
         from engine.style import stage_surface  # noqa: PLC0415
 
