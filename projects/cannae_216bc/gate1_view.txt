@@ -1,0 +1,210 @@
+[게이트 ① 원고 승인] 칸나이, 기원전 216년 — 한니발의 초승달 진형과 양익 포위 (2026.11.01)
+
+장면 목록
+  cold_open  문장  4  예상   30.4초
+  prelude    문장  9  예상   64.3초
+  deployment 문장 16  예상   96.6초
+  encirclement 문장 16  예상  108.2초
+  aftermath  문장 12  예상   84.6초
+  ending     문장  4  예상   30.2초
+  합계 61문장 · 예상 414.2초 (글자 수 추정 320자/분)
+
+원고 전문(자막) · [검증 라벨]
+  cold_open_0  기원전 216년, 로마 원로원은 8개 군단을 전장에 보내기로 했습니다.
+  cold_open_1  폴리비오스에 따르면 이렇게 모인 로마군은 동맹군을 포함해 보병 약 8만 명, 기병 6천여 명이었습니다.
+  cold_open_2  반면 카르타고군은 보병 약 4만 명, 기병 약 1만 명이었습니다.
+  cold_open_3  그러나 이 전투에서 포위돼 무너진 쪽은 병력이 많은 로마군이었습니다.
+  prelude_0    전투에 앞서 로마 지휘부 안에서는 이견이 있었습니다.
+  prelude_1    그때 로마군은 두 집정관이 함께 이끌고 있었습니다.
+  prelude_2    집정관 루키우스 아이밀리우스 파울루스는 평탄한 지형에서 싸우는 데 반대했습니다.
+  prelude_3    적의 기병이 우세했기 때문이었습니다.
+  prelude_4    또한 폴리비오스에 따르면 아이밀리우스는 연설에서 이전 패전 때는 두 집정관이 함께 싸운 적이 없었다고 말했습니다.
+  prelude_5    한편 한니발은 누미디아 기병을 보내 작은 로마 진영의 물 긷는 병사들을 공격했습니다.
+  prelude_6    이후 전투 당일, 지휘 당번이던 집정관 테렌티우스 바로가 군을 출진시켰습니다.
+  prelude_7    특히 리비우스에 따르면 바로는 아이밀리우스와 상의하지 않고 출진 신호를 올렸습니다.
+  prelude_8    이제 두 군대는 강을 끼고 마주 섰습니다.
+  deployment_0 전투는 두 군대가 진을 치는 데서 시작됐습니다.
+  deployment_1 로마군은 남쪽을, 카르타고군은 북쪽을 향해 진을 쳤습니다.
+  deployment_2 그리고 로마 기병은 강 쪽 우익에 섰습니다.
+  deployment_3 로마군 우익은 아이밀리우스가, 좌익은 바로가 지휘했습니다.
+  deployment_4 또한 중앙은 그나이우스 세르빌리우스가 맡았습니다.
+  deployment_5 한편 카르타고군 좌익은 하스드루발이 지휘했습니다.
+  deployment_6 그리고 중앙은 한니발이 동생 마고와 함께 맡았습니다.
+  deployment_7 훗날 1667년, 카푸아에서는 한니발의 대리석 흉상이 발견됐습니다.
+  deployment_8 다만 폴리비오스에 따르면 카르타고군 우익 지휘관은 한노였습니다.  [<논쟁>]
+  deployment_9 한편 리비우스에 따르면 우익 지휘관은 마하르발이었습니다.  [<논쟁>]
+  deployment_10 특히 한니발은 중앙의 히스파니아·켈트 보병을 앞으로 내밀었습니다.
+  deployment_11 이렇게 한니발은 초승달 모양의 진형을 만들었습니다.
+  deployment_12 초승달 진형은 중앙을 적 쪽으로 볼록하게 내민 배치였습니다.
+  deployment_13 또한 아프리카 보병은 앞선 전투에서 노획한 로마 무기로 무장했습니다.
+  deployment_14 게다가 리비우스에 따르면 볼투르누스라는 바람이 불어 먼지가 로마군의 시야를 가렸습니다.
+  deployment_15 진형이 갖춰진 뒤, 강가에서 기병전이 벌어졌습니다.
+  encirclement_0 첫 충돌은 강가의 기병 사이에서 일어났습니다.
+  encirclement_1 그곳에서 양측 기병은 말에서 내려 백병전을 벌였습니다.
+  encirclement_2 결국 로마군 우익 기병은 히스파니아·켈트 기병에게 패했습니다.
+  encirclement_3 한편 리비우스에 따르면 한니발은 기병을 말에서 내리게 한 명령을 듣고 탄식했다고 전해졌습니다.
+  encirclement_4 또한 리비우스에 따르면 아이밀리우스는 전투 초반 투석에 맞아 중상을 입었습니다.
+  encirclement_5 그사이 중앙에서는 로마 보병이 카르타고군 중앙으로 밀고 들어갔습니다.
+  encirclement_6 그러자 양 측면의 아프리카 보병이 로마 보병을 에워쌌습니다.
+  encirclement_7 폴리비오스에 따르면 로마 동맹군 기병은 하스드루발의 돌격을 앞두고 무너져 달아났습니다.
+  encirclement_8 이어서 하스드루발은 기병으로 로마 군단의 후방을 공격했습니다.
+  encirclement_9 또한 리비우스에 따르면 누미디아 기병 약 500명이 거짓 투항한 뒤 후방을 공격했습니다.
+  encirclement_10 결국 아이밀리우스는 이 전투에서 전사했습니다.
+  encirclement_11 이 장면은 훗날 존 트럼불이 「칸나이 전투에서 파울루스 아이밀리우스의 죽음」으로 그렸습니다.
+  encirclement_12 한편 집정관 바로는 베누시아로 도주했습니다.
+  encirclement_13 폴리비오스에 따르면 바로와 함께 달아난 기병은 70명이었습니다.  [<논쟁>]
+  encirclement_14 반면 리비우스에 따르면 그 기병은 약 50명이었습니다.  [<논쟁>]
+  encirclement_15 이렇게 포위된 로마군은 전장에서 무너졌습니다.
+  aftermath_0  이렇게 칸나이의 하루가 끝났습니다.
+  aftermath_1  그렇다면 폴리비오스와 리비우스는 이 패배의 규모를 어떻게 전했을까요?  [<논쟁>]
+  aftermath_2  폴리비오스에 따르면 로마군 전사자는 약 7만 명이었습니다.  [<논쟁>]
+  aftermath_3  반면 리비우스에 따르면 보병 45,500명과 기병 2,700명이 전사했다고 전해졌습니다.  [<논쟁>]
+  aftermath_4  한편 폴리비오스에 따르면 아이밀리우스는 보병 1만 명을 진영에 남겨 카르타고 진영을 치게 했습니다.
+  aftermath_5  포로는 폴리비오스에 따르면 보병 약 1만 명이었습니다.  [<논쟁>]
+  aftermath_6  반면 리비우스에 따르면 보병 3천 명과 기병 1,500명이었다고 전해졌습니다.  [<논쟁>]
+  aftermath_7  이에 비해 폴리비오스에 따르면 한니발군은 켈트인 약 4천 명을 잃었습니다.
+  aftermath_8  그리고 히스파니아·아프리카인 1,500명과 기병 200명을 더 잃었습니다.
+  aftermath_9  이어서 전투 직후 타렌툼이 곧바로 카르타고에 항복했습니다.
+  aftermath_10 또한 며칠 뒤 갈리아 키살피나로 간 로마 지휘관은 켈트인의 매복에 걸려 전멸했습니다.
+  aftermath_11 이처럼 칸나이의 패배는 전장 밖으로 번졌습니다.
+  ending_0     8개 군단을 보내고도 로마가 무너진 기원전 216년의 칸나이.
+  ending_1     그날 한니발군은 초승달 진형으로 로마 보병을 끌어들인 뒤 측면과 후방에서 에워쌌습니다.
+  ending_2     그 결과 집정관 아이밀리우스는 전사했고, 바로는 베누시아로 달아났습니다.
+  ending_3     그리고 그날의 칸나이는 훗날 트럼불의 붓으로 다시 그려졌습니다.
+
+출처 표
+  cold_open_0  clm_0002
+  cold_open_1  clm_0003
+  cold_open_2  clm_0005, clm_0004, force:carthage_strength
+  cold_open_3  clm_0018
+  prelude_0    clm_0033
+  prelude_1    clm_0035, clm_0032
+  prelude_2    clm_0033
+  prelude_3    clm_0033
+  prelude_4    clm_0032
+  prelude_5    clm_0034
+  prelude_6    clm_0035
+  prelude_7    clm_0036
+  prelude_8    clm_0007
+  deployment_0 clm_0006
+  deployment_1 clm_0006
+  deployment_2 clm_0007
+  deployment_3 clm_0008, clm_0009
+  deployment_4 clm_0008, clm_0009
+  deployment_5 clm_0010, clm_0012
+  deployment_6 clm_0010, clm_0012
+  deployment_7 clm_0039
+  deployment_8 clm_0011
+  deployment_9 clm_0011
+  deployment_10 clm_0013
+  deployment_11 clm_0013
+  deployment_12 clm_0013
+  deployment_13 clm_0014
+  deployment_14 clm_0015
+  deployment_15 clm_0016
+  encirclement_0 clm_0016
+  encirclement_1 clm_0016
+  encirclement_2 clm_0017
+  encirclement_3 clm_0031
+  encirclement_4 clm_0023
+  encirclement_5 clm_0018
+  encirclement_6 clm_0018
+  encirclement_7 clm_0019
+  encirclement_8 clm_0020
+  encirclement_9 clm_0021
+  encirclement_10 clm_0022
+  encirclement_11 clm_0040
+  encirclement_12 clm_0024
+  encirclement_13 clm_0025
+  encirclement_14 clm_0025
+  encirclement_15 clm_0018
+  aftermath_0  clm_0018
+  aftermath_1  clm_0026, clm_0027
+  aftermath_2  clm_0026, force:rome_killed
+  aftermath_3  clm_0026, clm_0027, force:rome_killed_livy
+  aftermath_4  clm_0029
+  aftermath_5  clm_0028, force:rome_captured
+  aftermath_6  clm_0028, force:rome_captured
+  aftermath_7  clm_0030, force:carthage_killed
+  aftermath_8  clm_0030, force:carthage_killed
+  aftermath_9  clm_0037
+  aftermath_10 clm_0038
+  aftermath_11 clm_0037, clm_0038
+  ending_0     clm_0002, clm_0018
+  ending_1     clm_0013, clm_0018, clm_0020
+  ending_2     clm_0022, clm_0024
+  ending_3     clm_0040
+
+린트 — 오류 0 · 경고 0
+
+린트 면제 표 — 없음
+
+미디어 후보 — 원고 media 필드 0건
+  트리거 제안 — plan.json 이 생기면(voice_timeline 뒤) 표시
+
+검증 라벨 집계 {"verified": 52, "corroborated": 0, "unverified": 0, "disputed": 9}
+
+미디어 계획 표 — 사진 0/6장(분당 1, 414초 추정) · 기사 카드 후보 0문장(60초당 2개까지 쓴다)
+  문장         인용 출처              기사(등록/미등록)        사진 찾음/통과/선택      사유
+  cold_open_0  clm_0002               -                        0/0/-                  
+  cold_open_1  clm_0003               -                        0/0/-                  
+  cold_open_2  clm_0005,clm_0004      -                        0/0/-                  
+  cold_open_3  clm_0018               -                        0/0/-                  
+  prelude_0    clm_0033               -                        0/0/-                  
+  prelude_1    clm_0035,clm_0032      -                        0/0/-                  
+  prelude_2    clm_0033               -                        0/0/-                  
+  prelude_3    clm_0033               -                        0/0/-                  
+  prelude_4    clm_0032               -                        0/0/-                  
+  prelude_5    clm_0034               -                        0/0/-                  
+  prelude_6    clm_0035               -                        0/0/-                  
+  prelude_7    clm_0036               -                        0/0/-                  
+  prelude_8    clm_0007               -                        0/0/-                  
+  deployment_0 clm_0006               -                        0/0/-                  
+  deployment_1 clm_0006               -                        0/0/-                  
+  deployment_2 clm_0007               -                        0/0/-                  
+  deployment_3 clm_0008,clm_0009      -                        0/0/-                  
+  deployment_4 clm_0008,clm_0009      -                        0/0/-                  
+  deployment_5 clm_0010,clm_0012      -                        0/0/-                  
+  deployment_6 clm_0010,clm_0012      -                        0/0/-                  
+  deployment_7 clm_0039               -                        0/0/-                  
+  deployment_8 clm_0011               -                        0/0/-                  
+  deployment_9 clm_0011               -                        0/0/-                  
+  deployment_10 clm_0013               -                        0/0/-                  
+  deployment_11 clm_0013               -                        0/0/-                  
+  deployment_12 clm_0013               -                        0/0/-                  
+  deployment_13 clm_0014               -                        0/0/-                  
+  deployment_14 clm_0015               -                        0/0/-                  
+  deployment_15 clm_0016               -                        0/0/-                  
+  encirclement_0 clm_0016               -                        0/0/- (충돌)             (사유 없음)
+  encirclement_1 clm_0016               -                        0/0/-                  
+  encirclement_2 clm_0017               -                        0/0/-                  
+  encirclement_3 clm_0031               -                        0/0/-                  
+  encirclement_4 clm_0023               -                        0/0/-                  
+  encirclement_5 clm_0018               -                        0/0/-                  
+  encirclement_6 clm_0018               -                        0/0/-                  
+  encirclement_7 clm_0019               -                        0/0/-                  
+  encirclement_8 clm_0020               -                        0/0/-                  
+  encirclement_9 clm_0021               -                        0/0/-                  
+  encirclement_10 clm_0022               -                        0/0/-                  
+  encirclement_11 clm_0040               -                        0/0/-                  
+  encirclement_12 clm_0024               -                        0/0/-                  
+  encirclement_13 clm_0025               -                        0/0/-                  
+  encirclement_14 clm_0025               -                        0/0/-                  
+  encirclement_15 clm_0018               -                        0/0/-                  
+  aftermath_0  clm_0018               -                        0/0/-                  
+  aftermath_1  clm_0026,clm_0027      -                        0/0/-                  
+  aftermath_2  clm_0026               -                        0/0/-                  
+  aftermath_3  clm_0026,clm_0027      -                        0/0/-                  
+  aftermath_4  clm_0029               -                        0/0/-                  
+  aftermath_5  clm_0028               -                        0/0/-                  
+  aftermath_6  clm_0028               -                        0/0/-                  
+  aftermath_7  clm_0030               -                        0/0/-                  
+  aftermath_8  clm_0030               -                        0/0/-                  
+  aftermath_9  clm_0037               -                        0/0/-                  
+  aftermath_10 clm_0038               -                        0/0/-                  
+  aftermath_11 clm_0037,clm_0038      -                        0/0/-                  
+  ending_0     clm_0002,clm_0018      -                        0/0/-                  
+  ending_1     clm_0013,clm_0018,clm_0020 -                        0/0/-                  
+  ending_2     clm_0022,clm_0024      -                        0/0/-                  
+  ending_3     clm_0040               -                        0/0/-                  
+  오류 [photo-reason] encirclement_0: 사진 후보 문장(충돌) — 검색 기록·사유 없음. `tools/media_fetch.py search --log /home/user/osint_generator/projects/cannae_216bc --sid encirclement_0 "검색어"` 또는 media_notes.yaml sentences.encirclement_0.photo

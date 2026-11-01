@@ -1,0 +1,445 @@
+{
+  "schema_version": 1,
+  "labels": {
+    "cold_open_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0002"
+      ]
+    },
+    "cold_open_1": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0003"
+      ]
+    },
+    "cold_open_2": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0005",
+        "clm_0004"
+      ]
+    },
+    "cold_open_3": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0018"
+      ]
+    },
+    "prelude_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0033"
+      ]
+    },
+    "prelude_1": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0035",
+        "clm_0032"
+      ]
+    },
+    "prelude_2": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0033"
+      ]
+    },
+    "prelude_3": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0033"
+      ]
+    },
+    "prelude_4": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0032"
+      ]
+    },
+    "prelude_5": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0034"
+      ]
+    },
+    "prelude_6": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0035"
+      ]
+    },
+    "prelude_7": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0036"
+      ]
+    },
+    "prelude_8": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0007"
+      ]
+    },
+    "deployment_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0006"
+      ]
+    },
+    "deployment_1": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0006"
+      ]
+    },
+    "deployment_2": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0007"
+      ]
+    },
+    "deployment_3": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0008",
+        "clm_0009"
+      ]
+    },
+    "deployment_4": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0008",
+        "clm_0009"
+      ]
+    },
+    "deployment_5": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0010",
+        "clm_0012"
+      ]
+    },
+    "deployment_6": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0010",
+        "clm_0012"
+      ]
+    },
+    "deployment_7": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0039"
+      ]
+    },
+    "deployment_8": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0011"
+      ]
+    },
+    "deployment_9": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0011"
+      ]
+    },
+    "deployment_10": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0013"
+      ]
+    },
+    "deployment_11": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0013"
+      ]
+    },
+    "deployment_12": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0013"
+      ]
+    },
+    "deployment_13": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0014"
+      ]
+    },
+    "deployment_14": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0015"
+      ]
+    },
+    "deployment_15": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0016"
+      ]
+    },
+    "encirclement_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0016"
+      ]
+    },
+    "encirclement_1": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0016"
+      ]
+    },
+    "encirclement_2": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0017"
+      ]
+    },
+    "encirclement_3": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0031"
+      ]
+    },
+    "encirclement_4": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0023"
+      ]
+    },
+    "encirclement_5": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0018"
+      ]
+    },
+    "encirclement_6": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0018"
+      ]
+    },
+    "encirclement_7": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0019"
+      ]
+    },
+    "encirclement_8": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0020"
+      ]
+    },
+    "encirclement_9": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0021"
+      ]
+    },
+    "encirclement_10": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0022"
+      ]
+    },
+    "encirclement_11": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0040"
+      ]
+    },
+    "encirclement_12": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0024"
+      ]
+    },
+    "encirclement_13": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0025"
+      ]
+    },
+    "encirclement_14": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0025"
+      ]
+    },
+    "encirclement_15": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0018"
+      ]
+    },
+    "aftermath_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0018"
+      ]
+    },
+    "aftermath_1": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0026",
+        "clm_0027"
+      ]
+    },
+    "aftermath_2": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0026"
+      ]
+    },
+    "aftermath_3": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0026",
+        "clm_0027"
+      ]
+    },
+    "aftermath_4": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0029"
+      ]
+    },
+    "aftermath_5": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0028"
+      ]
+    },
+    "aftermath_6": {
+      "status": "disputed",
+      "label": "<논쟁>",
+      "claim_ids": [
+        "clm_0028"
+      ]
+    },
+    "aftermath_7": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0030"
+      ]
+    },
+    "aftermath_8": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0030"
+      ]
+    },
+    "aftermath_9": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0037"
+      ]
+    },
+    "aftermath_10": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0038"
+      ]
+    },
+    "aftermath_11": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0037",
+        "clm_0038"
+      ]
+    },
+    "ending_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0002",
+        "clm_0018"
+      ]
+    },
+    "ending_1": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0013",
+        "clm_0018",
+        "clm_0020"
+      ]
+    },
+    "ending_2": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0022",
+        "clm_0024"
+      ]
+    },
+    "ending_3": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0040"
+      ]
+    }
+  }
+}

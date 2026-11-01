@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "project_id": "cannae_216bc",
+  "task_id": "script-cannae_216bc",
+  "worker": "script",
+  "status": "completed",
+  "started_at": "2026-11-01T14:36:25.272887Z",
+  "completed_at": "2026-11-01T14:39:06.079947Z",
+  "outputs": [
+    "script.yaml",
+    "llm_calls/llm_20261101_143625_98bc.json"
+  ],
+  "warnings": [],
+  "errors": [],
+  "scene_refs": [],
+  "source_refs": [],
+  "asset_refs": [],
+  "qa_status": "pass",
+  "risk_flags": [],
+  "worker_provenance": {
+    "prompt_name": "script",
+    "prompt_sha1": "54f312481c3d7f8467b13c3a9865006f8782797a",
+    "rules_hash": "6b34ad5825df9b4332d071093310b3a67ffd53bf",
+    "genre": "war_history",
+    "genre_declared": true
+  }
+}

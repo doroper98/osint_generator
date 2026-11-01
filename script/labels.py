@@ -70,7 +70,7 @@ def compute_labels(script: Script, statuses: dict[str, str]) -> ScriptLabels:
     for sc in script.scenes:
         for k, s in enumerate(sc.sentences):
             sid = f"{sc.id}_{k}"
-            cids = [c for c in s.sources if not c.startswith("series:")]   # v4.3.0 D-0088 — 데이터 레코드 참조는 claim 이 아니다(라벨 계산 밖)
+            cids = [c for c in s.sources if not c.startswith(("series:", "force:"))]   # v4.3.0 D-0088 — 데이터 레코드 참조는 claim 이 아니다(라벨 계산 밖). v7.4.0 전쟁사 force:<id>(병력·사상자 레코드)도 같다
             missing = [c for c in cids if c not in statuses]
             unknown += [f"{sid}:{c}" for c in missing]
             if missing or not cids:
