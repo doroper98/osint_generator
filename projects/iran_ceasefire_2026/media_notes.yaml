@@ -11,28 +11,27 @@ sentences:
   cold_2:
     photo: 고르지 않음 — 루비오 공식 초상(File:Official portrait of Secretary Marco Rubio, January 2025.jpg, 미 국무부 PD) → 인물 뱃지. 10/31 애틀랜타 G20 사진 Commons 없음
   act1_1:
-    photo: 선택(영상) — File:Epic Fury Strike compilation (997841).webm (미 국방부 DVIDS, Public domain) — 2/28 작전 공개 영상, 영상 액자 broll 구석(D-0332). 피사체·촬영일은 원본 메타로 확인
+    photo: 선택(영상) — iran_epic_fury_video(File:Epic Fury Strike compilation (997841).webm, 미 국방부 PD, VIRIN 260301 — 2/28 작전 타격 모음 3/1 공개), 구간 0.5~8.0초(비행장 시설 타격, 인물 없음). Commons 원본 429 → 변환본 480p
   act1_3:
-    photo: 선택 — 등재본 hormuz_strait_modis_2020(File:Strait of Hormuz (MODIS 2020-12-04).jpg, NASA PD) — 해협 위성 사진(자료, 2020). 위성 인셋 act4 와 겹치면 act4 는 지도 인셋만
+    photo: 선택 — iran_hormuz_modis(File:Strait of Hormuz (MODIS 2020-12-04).jpg, NASA PD — 공용 등재본과 같은 파일, 1280 썸네일)
   act1_4:
     photo: 고르지 않음 — 휴전 발표 장면 사진 없음. 샤리프 총리 초상(File:Shehbaz Sharif in 2024.jpg, CC BY 4.0) → 인물 뱃지
   act1_5:
-    photo: 선택(영상) — File:U S Forces Enforce Blockade Against Iran (1006029).webm (Commons, 미 국방부 DVIDS PD, 2026 봉쇄 작전 공개 영상) — 4/13 봉쇄 문장. 촬영일은 원본 메타로 확인(1차 봉쇄 4~6월이 아니면 act1_10 두 번째 봉쇄로). 대안 File:USS New Orleans Enforces Maritime Blockade (9670518).jpg (PD). 이슬라마바드 회담 사진(Sidelines of Islamabad Talks
-      11, CC BY 4.0)은 주된 피사체 확인 뒤
+    photo: 선택 — iran_islamabad_talks(Commons, 메흐르통신 Hamed Malekpour CC BY 4.0, 2026-04-11 회담장 입구 'Islamabad Talks April 2026' 현수막) + 영상 iran_blockade_apr_video(미 해군 중부사령부 PD, VIRIN 260425, 헬기에서 본 유조선 16~28초)
   act1_6:
     photo: 고르지 않음 — 6/17 전자 서명 장면(베르사유·테헤란) Commons 검색 통과 없음. 페제시키안 초상(File:Masoud Pezeshkian 2024 (A) (cropped).jpg, CC BY 4.0) → 인물 뱃지 + 트럼프 라이브러리 뱃지
   act1_8:
-    photo: 선택(영상) — File:U S Forces Complete New Round of Retaliatory Strikes Against Iran (1013909).webm (미 국방부 PD) = 등재본 strikes_file 과 같은 계열(2026-07-07 촬영) — 등재본 우선. broll 구석 자리(D-0332)
+    photo: 선택(영상) — iran_strikes_jul_video(미 중부사령부 PD, 2026-07-07 촬영, 구간 1.5~6.5초 — 공용 strikes_file 과 같은 파일·같은 구간)
   act2_1:
-    photo: 고르지 않음 — 유엔총회장 통과 후보는 레이건(1986)·다카이치·칼라스 연설 사진뿐 — 아라그치 9/24 회견이 아니다(주된 피사체 불일치, UF-201). 지도 뉴욕은 W 밖 → 기사 카드(알자지라 9/25) + 아라그치 뱃지
+    photo: 고르지 않음 — 유엔총회장·아라그치 9월 뉴욕 사진 통과 후보 없음(레이건·다카이치·칼라스 연설 사진뿐, 주된 피사체 불일치 UF-201). 아라그치 뱃지 + 기사 카드. 유튜브 공식 클립은 봇 검사로 받기 실패(우회 안 함, D551)
   act2_5:
     photo: 고르지 않음 — 밴스 공식 초상(File:March 2026 Official Vice Presidential Portrait of JD Vance.jpg, 백악관 PD) → 인물 뱃지
   act2_8:
     photo: 고르지 않음 — 레자이 초상(File:Mohsen Rezaei in August 2026 (cropped).jpg, CC BY 4.0) → 인물 뱃지
   act2_12:
-    photo: 고르지 않음 — 테헤란 전경 통과 후보 없음(CC BY-SA 탈락). 카타르 총리 초상(PD 2024) 은 대표단장(총리 보좌관)이 아니라 쓰지 않는다. 지도 테헤란 marker + 기사 카드(CNBC 10/31)
+    photo: 선택 — iran_tehran_2026(File:Tehran spring 2026.jpg, Sajjadmrt CC0, 2026) — 테헤란 도심(협의 장소 도시)
   act4_1:
-    photo: 선택 — 등재본 hormuz_transit(미 해군 PD, 2023 자료사진). 통과 후보 'Estimated oil tanker transit times…png' 는 도표 — 쓰지 않는다
+    photo: 고르지 않음 — 등재본 hormuz_transit 은 주된 피사체가 경계 근무 수병(D-0327 판정) — 통항 비율 문장과 맞지 않는다. 패널(UKMTO 70%)
   act4_4:
     photo: 선택 — (D-0453 §2 중부사령부 문장에) File:US Navy 030319-N-5319A-002 The mine countermeasure ship USS Dextrous (MCM 13) takes part in mine counter measure operations in the Arabian Gulf.jpg (미 해군 PD, 2003 자료사진) — 걸프 소해 작전 자료(중부사령부 '기뢰 제거' 문장). CENTCOM 사령관 사진은 인물·시기 미확인 → 쓰지 않는다
   act6_2:
@@ -44,14 +43,20 @@ sentences:
   act1_2:
     photo: 고르지 않음 — 알리 하메네이 사망 문장. 공습 현장 사진은 act1_1 영상과 겹친다. 공용 초상 khamenei_mono_v01(알리) 뱃지만 — 모즈타바 초상 없음
   act1_10:
-    photo: 고르지 않음 — 두 번째 봉쇄. act1_5 봉쇄 영상과 같은 대상 반복 안 함 → 지도 반다르아바스·해협 + 날짜 카드 7.14
+    photo: 선택 — iran_marines_boarding(미 해군 중부사령부 PD, VIRIN 260716 — 두 번째 봉쇄 이틀 뒤 유조선 검문 승선)
   act1_11:
     photo: 고르지 않음 — 이란 7/18 발표 문장. 가리바바디 차관 초상 권리 미확인 → quote 카드(직함)
   act4_3:
-    photo: 선택(영상) — 등재본 niovi(File:Oil tanker Niovi seized by Iran's Islamic Revolutionary Guard Corps Navy.webm, PD, 2023-05 자료 영상) — 혁명수비대 해군의 해협 유조선 단속 자료. 캡션 '자료 영상 · 2023' — 10/29 기뢰 사건 장면처럼 쓰지 않는다. 사건 선박 사진 없음(선박명 미공개)
+    photo: 고르지 않음 — 등재본 niovi(2023 혁명수비대 유조선 나포)는 사건이 달라 미검증 기뢰 주장 옆에서 증거처럼 읽힌다(D-0453 §2 Kokuka 판정과 같은 이유). quote 두 줄
   act4_5:
     photo: 고르지 않음 — Kokuka Courageous(2019 오만만 부착식 기뢰 피해, PD)는 사건이 달라 미검증 주장 옆에서 증거처럼 읽힌다 → 감독 판정 D-0453 §2 쓰지 않는다. 지도 카메라 + quote 두 줄
   ending_2:
     photo: 고르지 않음 — 정리 문장, 카드(확인된 것/확인되지 않은 것)
   act3_1:
-    photo: 고르지 않음 — 아라그치 사진(File:Meeting with Foreign Minister of Iran Abbas Araghchi (1).jpg, Commons 통과)은 cold_1 뱃지 원본 후보로. 이 문장은 versus 패널
+    photo: 선택 — iran_araghchi_moscow(kremlin.ru CC BY 4.0, 2026-04-27 모스크바 — 발언자 본인, 자료사진)
+  act1_7:
+    photo: 선택 — iran_uss_new_orleans_blockade(미 국방부 PD, VIRIN 260428 — 1차 봉쇄 중) — '봉쇄를 풀었고' 앞부분까지
+  act4_0:
+    photo: 선택 — iran_hormuz_night_iss(NASA PD, ISS-46 2016 — 해협 야간, 자료사진)
+  ending_1:
+    photo: 선택 — iran_doha_skyline_09(Zairon CC BY 4.0, 2023 — cold_0 과 다른 각도)

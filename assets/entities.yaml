@@ -134,6 +134,55 @@ entities:
     accent: us
     rights: people.nauseda
   # diesel_road_2026 — 초상 = 위키미디어 공용(PD-USGov·CC BY 4.0·KOGL 제1유형) 판화 가공(tools/portrait_fallback.py --style engraving)
+  # v7.4.0 iran_ceasefire_2026(D-0450 §5) — 초상 Commons 권리 확인 → 공용 라이브러리 승격
+  araghchi:
+    kind: person
+    names: [아라그치, 아라그치 외무장관, 아바스 아라그치, Abbas Araghchi]
+    flag: ir
+    portrait: araghchi
+    role_default: 이란 외무장관
+    accent: ru
+    rights: people.araghchi
+  pezeshkian:
+    kind: person
+    names: [페제시키안, 페제시키안 대통령, 마수드 페제시키안, Masoud Pezeshkian]
+    flag: ir
+    portrait: pezeshkian
+    role_default: 이란 대통령
+    accent: ru
+    rights: people.pezeshkian
+  rubio:
+    kind: person
+    names: [루비오, 루비오 국무장관, 마코 루비오, Marco Rubio]
+    flag: us
+    portrait: rubio
+    role_default: 미국 국무장관
+    accent: us
+    rights: people.rubio
+  vance:
+    kind: person
+    names: [밴스, 밴스 부통령, JD 밴스, JD Vance]
+    flag: us
+    portrait: vance
+    role_default: 미국 부통령
+    accent: us
+    rights: people.vance
+  sharif:
+    kind: person
+    names: [샤리프, 샤리프 총리, 셰바즈 샤리프, Shehbaz Sharif]
+    flag: pk
+    portrait: sharif
+    role_default: 파키스탄 총리
+    accent: green
+    rights: people.sharif
+  rezaei:
+    kind: person
+    names: [레자이, 레자이 사무총장, 모흐센 레자이, Mohsen Rezaei]
+    flag: ir
+    portrait: rezaei
+    role_default: 이란 최고국가안보회의 사무총장
+    accent: ru
+    rights: people.rezaei
   bessent:
     kind: person
     names: [베선트, 베선트 장관, 스콧 베선트, Scott Bessent]

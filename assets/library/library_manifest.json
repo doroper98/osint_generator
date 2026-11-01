@@ -919,6 +919,168 @@
     }
    ],
    "usage_count": 0
+  },
+  {
+   "person_id": "araghchi",
+   "name_ko": "아라그치",
+   "name_en": "",
+   "role": "이란 외무장관",
+   "aliases": [],
+   "accent_hint": "",
+   "source": {
+    "url": "https://commons.wikimedia.org/wiki/Meeting_with_Foreign_Minister_of_Iran_Abbas_Araghchi_(1).jpg",
+    "license": "CC BY 4.0",
+    "rights_status": "rights_clear",
+    "credit": "kremlin.ru (Presidential Executive Office of Russia)",
+    "note": "iran_ceasefire_2026 에서 승격(v5.6.0) · 원본 araghchi_crop.jpg"
+   },
+   "variants": [
+    {
+     "style": "mono",
+     "pose": "front",
+     "path": "assets/library/people/araghchi_mono_v01.png",
+     "generator_version": "",
+     "tool": "tools/portrait_fallback.py --style v3",
+     "prompt_ref": "",
+     "normalized": true
+    }
+   ],
+   "usage_count": 0
+  },
+  {
+   "person_id": "pezeshkian",
+   "name_ko": "페제시키안",
+   "name_en": "",
+   "role": "이란 대통령",
+   "aliases": [],
+   "accent_hint": "",
+   "source": {
+    "url": "https://commons.wikimedia.org/wiki/Masoud_Pezeshkian,_2024-6-12_(cropped).jpg",
+    "license": "CC BY 4.0",
+    "rights_status": "rights_clear",
+    "credit": "Ayoub Ghaderi",
+    "note": "iran_ceasefire_2026 에서 승격(v5.6.0) · 원본 pezeshkian2.jpg"
+   },
+   "variants": [
+    {
+     "style": "mono",
+     "pose": "front",
+     "path": "assets/library/people/pezeshkian_mono_v01.png",
+     "generator_version": "",
+     "tool": "tools/portrait_fallback.py --style v3",
+     "prompt_ref": "",
+     "normalized": true
+    }
+   ],
+   "usage_count": 0
+  },
+  {
+   "person_id": "rezaei",
+   "name_ko": "레자이",
+   "name_en": "",
+   "role": "이란 최고국가안보회의 사무총장",
+   "aliases": [],
+   "accent_hint": "",
+   "source": {
+    "url": "https://commons.wikimedia.org/wiki/Mohsen_Rezaei_in_August_2026_(cropped).jpg",
+    "license": "CC BY 4.0",
+    "rights_status": "rights_clear",
+    "credit": "mehrnews.com",
+    "note": "iran_ceasefire_2026 에서 승격(v5.6.0) · 원본 rezaei.jpg"
+   },
+   "variants": [
+    {
+     "style": "mono",
+     "pose": "front",
+     "path": "assets/library/people/rezaei_mono_v01.png",
+     "generator_version": "",
+     "tool": "tools/portrait_fallback.py --style v3",
+     "prompt_ref": "",
+     "normalized": true
+    }
+   ],
+   "usage_count": 0
+  },
+  {
+   "person_id": "rubio",
+   "name_ko": "루비오",
+   "name_en": "",
+   "role": "미국 국무장관",
+   "aliases": [],
+   "accent_hint": "",
+   "source": {
+    "url": "https://commons.wikimedia.org/wiki/Official_portrait_of_Secretary_Marco_Rubio_(3x4_cropped).jpg",
+    "license": "Public domain",
+    "rights_status": "rights_clear",
+    "credit": "U.S. Department of State",
+    "note": "iran_ceasefire_2026 에서 승격(v5.6.0) · 원본 rubio2.jpg"
+   },
+   "variants": [
+    {
+     "style": "mono",
+     "pose": "front",
+     "path": "assets/library/people/rubio_mono_v01.png",
+     "generator_version": "",
+     "tool": "tools/portrait_fallback.py --style v3",
+     "prompt_ref": "",
+     "normalized": true
+    }
+   ],
+   "usage_count": 0
+  },
+  {
+   "person_id": "sharif",
+   "name_ko": "샤리프",
+   "name_en": "",
+   "role": "파키스탄 총리",
+   "aliases": [],
+   "accent_hint": "",
+   "source": {
+    "url": "https://commons.wikimedia.org/wiki/Shehbaz_Sharif_in_2024.jpg",
+    "license": "CC BY 4.0",
+    "rights_status": "rights_clear",
+    "credit": "Press Service of the President of the Republic of Azerbaijan",
+    "note": "iran_ceasefire_2026 에서 승격(v5.6.0) · 원본 sharif.jpg"
+   },
+   "variants": [
+    {
+     "style": "mono",
+     "pose": "front",
+     "path": "assets/library/people/sharif_mono_v01.png",
+     "generator_version": "",
+     "tool": "tools/portrait_fallback.py --style v3",
+     "prompt_ref": "",
+     "normalized": true
+    }
+   ],
+   "usage_count": 0
+  },
+  {
+   "person_id": "vance",
+   "name_ko": "밴스",
+   "name_en": "",
+   "role": "미국 부통령",
+   "aliases": [],
+   "accent_hint": "",
+   "source": {
+    "url": "https://commons.wikimedia.org/wiki/March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(cropped).jpg",
+    "license": "Public domain",
+    "rights_status": "rights_clear",
+    "credit": "Emily J. Higgins (The White House)",
+    "note": "iran_ceasefire_2026 에서 승격(v5.6.0) · 원본 vance.jpg"
+   },
+   "variants": [
+    {
+     "style": "mono",
+     "pose": "front",
+     "path": "assets/library/people/vance_mono_v01.png",
+     "generator_version": "",
+     "tool": "tools/portrait_fallback.py --style v3",
+     "prompt_ref": "",
+     "normalized": true
+    }
+   ],
+   "usage_count": 0
   }
  ],
  "logos": [],

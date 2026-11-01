@@ -797,6 +797,295 @@
    "rejected": [
     "OGL-om 1.0"
    ]
+  },
+  {
+   "sid": "act1_10",
+   "query": "Blockade Iran July 2026 Navy hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_10",
+   "query": "Blockade Iran July 2026 Navy",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 6,
+   "passed": 2,
+   "top": [
+    "File:U S Marines from the 11th Marine Expeditionary Unit Conduct Verification Boarding (9815000).jpg",
+    "File:U S Marines from the 11th Marine Expeditionary Unit Conduct Verification Boarding (9815001).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act5_6",
+   "query": "tanker transits Strait of Hormuz Navy escort 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act5_6",
+   "query": "tanker transits Strait of Hormuz Navy escort 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act6_1",
+   "query": "Onsan refinery Ulsan hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act6_1",
+   "query": "Onsan refinery Ulsan",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_0",
+   "query": "ISS Strait of Hormuz night hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_0",
+   "query": "ISS Strait of Hormuz night",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 6,
+   "passed": 6,
+   "top": [
+    "File:ISS-46 Gulf of Oman with Strait of Hormuz at night.jpg",
+    "File:ISS-49 Iran, United Arab Emirates and Oman at night.jpg",
+    "File:ISS-63 Persian Gulf at night.jpg",
+    "File:ISS-64 Persian Gulf and Gulf of Oman at night.jpg",
+    "File:ISS062-E-45333 - View of United Arab Emirates.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act5_6",
+   "query": "merchant vessel Strait of Hormuz transit 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act5_6",
+   "query": "merchant vessel Strait of Hormuz transit 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 1,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act5_6",
+   "query": "NAVCENT escort commercial vessel Strait of Hormuz hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act5_6",
+   "query": "NAVCENT escort commercial vessel Strait of Hormuz",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 1,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act5_6",
+   "query": "oil tanker Gulf of Oman hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 3,
+   "top": [
+    "File:Burning MV EVERTON in 2004.JPEG",
+    "File:U S Forces Disable 3rd Oil Tanker Violating Blockade in Gulf of Oman (1010393).webm",
+    "File:U S Marines board M-T Celestial Sea (1007639).webm"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act5_6",
+   "query": "oil tanker Gulf of Oman",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 8,
+   "passed": 4,
+   "top": [
+    "File:German oiler Spessart (A1442) underway in the Gulf of Oman on 4 October 2006 (061004-N-8547M-009).jpg",
+    "File:Iranian corvette Bayandor filmed by U.S. Navy near oil tanker Richmond Voyager.webm",
+    "File:Mike Pompeo talks about Gulf of Oman tanker attacks.jpg",
+    "File:U S Forces Disable 3rd Oil Tanker Violating Blockade in Gulf of Oman (1010393).webm"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act5_6",
+   "query": "Strait of Hormuz ships hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 8,
+   "passed": 3,
+   "top": [
+    "File:140614-N-EI510-217 (14310331669).jpg",
+    "File:2026 Iran war collage 3.jpg",
+    "File:The amphibious dock landing ship USS Rushmore (LSD 47) leads the amphibious assault ship USS Peleliu (LHA 5) and the amphibious transport dock ship USS Green Bay (LPD 20) in a transit of the Strait of Hormuz 130330-N-ER662-259.jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act5_6",
+   "query": "Strait of Hormuz ships",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 8,
+   "passed": 6,
+   "top": [
+    "File:Flickr - Official U.S. Navy Imagery - U.S. Navy ships transit the Strait of Hormuz..jpg",
+    "File:STS004-37-716 - Strait of Hormuz.jpg",
+    "File:Strait of Hormuz and Musandam Peninsula (MODIS 2018-12-10).jpg",
+    "File:The position of the city of Hormuz set on the strait at the bottom of the Persian Gulf-1572.jpg",
+    "File:USCGC Aquidneck in Strait of Hormuz 201202-N-IE405-2219.JPG"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0"
+   ]
+  },
+  {
+   "sid": "act2_1",
+   "query": "Araghchi New York September 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_1",
+   "query": "Araghchi New York September 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 1,
+   "passed": 1,
+   "top": [
+    "File:Participation of Kaja Kallas, in the UNGA (P-070483-00-30).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act6_6",
+   "query": "Qatar Central Bank Doha hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 1,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act6_6",
+   "query": "Qatar Central Bank Doha",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 8,
+   "passed": 3,
+   "top": [
+    "File:PIIGS Mk 4 map.png",
+    "File:Steven Mnuchin and Central Bank Governor Al Thani Feb 2020.jpg",
+    "File:Steven Mnuchin meets with Abdulla Bin Saoud Al-Thani at Doha.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_12",
+   "query": "Tehran 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 4,
+   "top": [
+    "File:2026 Iran war collage.jpg",
+    "File:2026 Iran war collage 2.jpg",
+    "File:2026 Iran war collage 3.jpg",
+    "File:Middle Eastern Crisis Collage.jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_12",
+   "query": "Tehran 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 8,
+   "passed": 7,
+   "top": [
+    "File:Damages in Tehran (26 March 2026) 14 Avash.webp",
+    "File:Pro Government demonstration on Enqelab Square (Tehran)-1 14 (Images published by Tasnim on 12 January 2026).jpg",
+    "File:Pro Government demonstration on Enqelab Square (Tehran)-1 49 (Images published by Tasnim on 12 January 2026).jpg",
+    "File:Pro Government demonstration on Enqelab Square (Tehran)-1 55 (Images published by Tasnim on 12 January 2026).jpg",
+    "File:Pro Government demonstration on Enqelab Square (Tehran)-1 5 (Images published by Tasnim on 12 January 2026).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
   }
  ]
 }

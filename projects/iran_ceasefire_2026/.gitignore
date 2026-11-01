@@ -10,3 +10,6 @@ media/*.npy
 media/*.wav
 media/*.mp4
 media/*.f32
+media/*.webm
+media/*.mp4
+portrait_src/

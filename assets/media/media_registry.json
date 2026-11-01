@@ -8296,6 +8296,452 @@
    },
    "source_hash": "d67da23c608b895ca947c8193af314ab",
    "file": "iran_uss_dextrous_mcm_720.jpg"
+  },
+  "iran_hormuz_night_iss": {
+   "kind": "photo",
+   "title": "File:ISS-46 Gulf of Oman with Strait of Hormuz at night.jpg",
+   "license": "Public domain",
+   "author": "NASA/Tim Kopra",
+   "credit_author": "NASA",
+   "date": "2016-01-23",
+   "url": "https://commons.wikimedia.org/wiki/File:ISS-46_Gulf_of_Oman_with_Strait_of_Hormuz_at_night.jpg",
+   "caption": "국제우주정거장에서 본 호르무즈 해협과 오만만(야간)",
+   "file_note": "자료사진 · 위성 · 2016. 01",
+   "depicts": [
+    "호르무즈 해협",
+    "오만만",
+    "이란 남부 해안 도시 불빛"
+   ],
+   "main_subject": [
+    "호르무즈 해협과 오만만"
+   ],
+   "background": [
+    "무산담 반도·이란 남부"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타(라이선스·작성자·촬영일·VIRIN) 대조, 1280px 원본 육안 확인(주된 피사체 D-0327)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "act4_0 '조건의 한가운데에는 호르무즈 해협' — 해협 자체가 주된 피사체(우주에서 본 야간)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "iran_hormuz_night_iss.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "8bbf225d6297a9a16e2f398743588a25",
+   "file": "iran_hormuz_night_iss_720.jpg"
+  },
+  "iran_marines_boarding": {
+   "kind": "photo",
+   "title": "File:U S Marines from the 11th Marine Expeditionary Unit Conduct Verification Boarding (9815000).jpg",
+   "license": "Public domain",
+   "author": "NAVCENT Public Affairs (VIRIN 260716-N-NO146-1322)",
+   "credit_author": "미 해군 중부사령부",
+   "date": "2026-07-16",
+   "url": "https://commons.wikimedia.org/wiki/File:U_S_Marines_from_the_11th_Marine_Expeditionary_Unit_Conduct_Verification_Boarding_(9815000).jpg",
+   "caption": "봉쇄 검문 — 유조선에 내리는 미 해병대 헬기",
+   "file_note": "2026. 07. 16",
+   "depicts": [
+    "미 해병대 제11해병원정대 검문 승선",
+    "대형 유조선",
+    "해병대 헬기"
+   ],
+   "main_subject": [
+    "검문 대상 유조선과 헬기"
+   ],
+   "background": [
+    "바다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타(라이선스·작성자·촬영일·VIRIN) 대조, 1280px 원본 육안 확인(주된 피사체 D-0327)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "act1_10 '7월 14일 두 번째 봉쇄' — 두 번째 봉쇄 이틀 뒤(7/16) 검문 승선 공개 사진"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "iran_marines_boarding.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "72788e4ffe2b38349f5e163911a0bb2a",
+   "file": "iran_marines_boarding_720.jpg"
+  },
+  "iran_doha_skyline_09": {
+   "kind": "photo",
+   "title": "File:Doha Skyline 09.jpg",
+   "license": "CC BY 4.0",
+   "author": "Zairon",
+   "credit_author": "Zairon (CC BY 4.0)",
+   "date": "2023-01-16",
+   "url": "https://commons.wikimedia.org/wiki/File:Doha_Skyline_09.jpg",
+   "caption": "카타르 도하 웨스트베이",
+   "file_note": "자료사진 · 2023. 01",
+   "depicts": [
+    "도하 웨스트베이 고층 건물",
+    "해안 공원"
+   ],
+   "main_subject": [
+    "도하 도심 고층 건물"
+   ],
+   "background": [
+    "공원 잔디"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타(라이선스·작성자·촬영일·VIRIN) 대조, 1280px 원본 육안 확인(주된 피사체 D-0327)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "ending_1 '이란 대표단의 도하 방문' — 도시 자체가 주된 피사체(cold_0 과 다른 각도)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "iran_doha_skyline_09.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "87d9e3ad7a9dd6d2eee9d461b39fcfaf",
+   "file": "iran_doha_skyline_09_720.jpg"
+  },
+  "iran_araghchi_moscow": {
+   "kind": "photo",
+   "title": "File:Meeting with Foreign Minister of Iran Abbas Araghchi (1).jpg",
+   "license": "CC BY 4.0",
+   "author": "kremlin.ru (Presidential Executive Office of Russia)",
+   "credit_author": "kremlin.ru (CC BY 4.0)",
+   "date": "2026-04-27",
+   "url": "https://commons.wikimedia.org/wiki/File:Meeting_with_Foreign_Minister_of_Iran_Abbas_Araghchi_(1).jpg",
+   "caption": "취재진 앞의 아라그치 이란 외무장관(모스크바)",
+   "file_note": "자료사진 · 2026. 04",
+   "depicts": [
+    "아바스 아라그치 이란 외무장관",
+    "취재진 마이크·카메라"
+   ],
+   "main_subject": [
+    "아라그치 외무장관"
+   ],
+   "background": [
+    "취재진"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타(라이선스·작성자·촬영일·VIRIN) 대조, 1280px 원본 육안 확인(주된 피사체 D-0327)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "act3_1 '아라그치 외무장관은 10월 31일 … 조건으로 밝혔습니다' — 발언자 본인이 주된 피사체(4월 모스크바 자료사진)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "iran_araghchi_moscow.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "17ba12b8dd47a6698891b322ecfd0dfd",
+   "file": "iran_araghchi_moscow_720.jpg"
+  },
+  "iran_blockade_apr_video": {
+   "kind": "video",
+   "title": "File:U S Forces Enforce Blockade Against Iran (1006029).webm",
+   "license": "Public domain",
+   "author": "NAVCENT Public Affairs (VIRIN 260425-N-NO146-8271)",
+   "credit_author": "미 해군 중부사령부",
+   "date": "2026-04-25",
+   "url": "https://commons.wikimedia.org/wiki/File:U_S_Forces_Enforce_Blockade_Against_Iran_(1006029).webm",
+   "caption": "미 해군 헬기의 이란 봉쇄 작전 감시(4월)",
+   "file_note": "2026. 04. 25",
+   "depicts": [
+    "미 해군 헬기 기관총 사수",
+    "항해 중인 유조선",
+    "걸프·오만만 해상"
+   ],
+   "main_subject": [
+    "헬기에서 내려다본 유조선"
+   ],
+   "background": [
+    "바다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타(VIRIN 260425) 대조, 4초 간격 12장 시트 육안 확인(사상자 없음)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "segment_checked": [
+     16.0,
+     28.0
+    ],
+    "relevance": "act1_5 '4월 13일 미국은 이란 항만 봉쇄를 시작했습니다' — 1차 봉쇄 기간 공개 영상"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "media_fetch.clip",
+    "params": {
+     "source": "iran_blockade_apr.webm",
+     "thumb_w": null,
+     "scale": [
+      480,
+      270
+     ],
+     "fps": 24,
+     "pix_fmt": "rgb24",
+     "cache": "npy",
+     "note": "Commons 원본 429 — Commons 변환본 480p.vp9.webm 사용"
+    }
+   },
+   "source_hash": "f0558828030472931d0b229bd2d32e7a",
+   "file": "iran_blockade_apr",
+   "duration": 29.6,
+   "segment": [
+    16.0,
+    28.0
+   ]
+  },
+  "iran_hormuz_modis": {
+   "kind": "photo",
+   "title": "File:Strait of Hormuz (MODIS 2020-12-04).jpg",
+   "license": "Public domain",
+   "author": "MODIS Land Rapid Response Team, NASA GSFC",
+   "credit_author": "NASA",
+   "date": "2020-12-04",
+   "url": "https://commons.wikimedia.org/wiki/File:Strait_of_Hormuz_(MODIS_2020-12-04).jpg",
+   "caption": "호르무즈 해협 위성 사진",
+   "file_note": "자료사진 · 위성 · 2020. 12. 04",
+   "depicts": [
+    "호르무즈 해협",
+    "무산담 반도",
+    "페르시아만·오만만"
+   ],
+   "main_subject": [
+    "호르무즈 해협",
+    "페르시아만에서 먼바다로 나가는 바닷길"
+   ],
+   "background": [
+    "이란 남부",
+    "아랍에미리트"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — 공용 등재본 hormuz_strait_modis_2020 과 같은 Commons 파일(NASA PD), 1280 썸네일로 다시 받음(공용본 1600 은 직접 URL 거부)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "act1_3 '3월 2일 혁명수비대는 해협을 지나는 배를 공격하겠다' — 해협 자체가 주된 피사체"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "iran_hormuz_modis.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "f62fe2997019edaac1a80672f2cdcd96",
+   "file": "iran_hormuz_modis_720.jpg"
+  },
+  "iran_epic_fury_video": {
+   "kind": "video",
+   "title": "File:Epic Fury Strike compilation (997841).webm",
+   "license": "Public domain",
+   "author": "U.S. Department of Defense (VIRIN 260301-D-D0477-2045)",
+   "credit_author": "미 국방부",
+   "date": "2026-03-01",
+   "url": "https://commons.wikimedia.org/wiki/File:Epic_Fury_Strike_compilation_(997841).webm",
+   "caption": "미 국방부 공개 영상 · '에픽 퓨리' 작전 타격",
+   "file_note": "2026. 03. 01 공개",
+   "depicts": [
+    "미군 공습(에픽 퓨리 작전)",
+    "이란 군 비행장 시설"
+   ],
+   "main_subject": [
+    "미군 공습(에픽 퓨리 작전)"
+   ],
+   "background": [],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타 대조, 12장 시트 육안 확인(사상자·인물 식별 없음)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "segment_checked": [
+     0.5,
+     8.0
+    ],
+    "relevance": "act1_1 '전쟁은 2월 28일 … 합동 공습으로 시작' — 2/28 작전 타격 모음(3/1 공개)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "media_fetch.clip",
+    "params": {
+     "source": "iran_epic_fury.webm",
+     "thumb_w": null,
+     "scale": [
+      480,
+      270
+     ],
+     "fps": 24,
+     "pix_fmt": "rgb24",
+     "cache": "npy",
+     "note": "Commons 원본 429 — Commons 변환본 480p.vp9.webm"
+    }
+   },
+   "source_hash": "1583a046d0d38ec65b49d5bec1214675",
+   "file": "iran_epic_fury",
+   "duration": 41.96,
+   "segment": [
+    0.5,
+    8.0
+   ]
+  },
+  "iran_strikes_jul_video": {
+   "kind": "video",
+   "title": "File:U S Forces Complete New Round of Retaliatory Strikes Against Iran (1013909).webm",
+   "license": "Public domain",
+   "author": "U.S. Central Command (VIRIN 260707-D-D0477-3001)",
+   "credit_author": "미 중부사령부",
+   "date": "2026-07-07",
+   "url": "https://commons.wikimedia.org/wiki/File:U_S_Forces_Complete_New_Round_of_Retaliatory_Strikes_Against_Iran_(1013909).webm",
+   "caption": "미 중부사령부 공개 영상 · 이란 군사 목표 보복 타격",
+   "file_note": "2026. 07. 07",
+   "depicts": [
+    "미군 공습",
+    "이란 군사 목표"
+   ],
+   "main_subject": [
+    "미군 공습"
+   ],
+   "background": [],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타 대조, 12장 시트 육안 확인(사상자·인물 식별 없음)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "segment_checked": [
+     1.5,
+     6.5
+    ],
+    "relevance": "act1_8 '7월 6일과 7일 … 미국은 이란 남부를 공습' — 같은 날 촬영 공개 영상(공용 strikes_file 과 같은 파일, 구간도 사용자 라운드 7 선택과 같다)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "media_fetch.clip",
+    "params": {
+     "source": "iran_strikes_jul.webm",
+     "thumb_w": null,
+     "scale": [
+      480,
+      270
+     ],
+     "fps": 24,
+     "pix_fmt": "rgb24",
+     "cache": "npy",
+     "note": "Commons 원본 429 — Commons 변환본 480p.vp9.webm"
+    }
+   },
+   "source_hash": "7c30a185088c83aaa1608ad4c33cda3f",
+   "file": "iran_strikes_jul",
+   "duration": 24.6,
+   "segment": [
+    1.5,
+    6.5
+   ]
+  },
+  "iran_tehran_2026": {
+   "kind": "photo",
+   "title": "File:Tehran spring 2026.jpg",
+   "license": "CC0",
+   "author": "Sajjadmrt",
+   "credit_author": "Sajjadmrt (CC0)",
+   "date": "2026-07-21",
+   "url": "https://commons.wikimedia.org/wiki/File:Tehran_spring_2026.jpg",
+   "caption": "테헤란 도심(밀라드 타워)",
+   "file_note": "자료사진 · 2026",
+   "depicts": [
+    "테헤란 도심 스카이라인",
+    "밀라드 타워"
+   ],
+   "main_subject": [
+    "테헤란 도심"
+   ],
+   "background": [
+    "하늘·구름"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타(CC0·작성자·날짜) 대조, 1280px 원본 육안 확인",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "act2_12 '카타르 대표단은 테헤란에서 12시간 넘게 협의' — 협의 장소 도시가 주된 피사체(자료사진)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "iran_tehran_2026.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "2ca5baf9ce979384274c30a497a51733",
+   "file": "iran_tehran_2026_720.jpg"
   }
  }
 }
