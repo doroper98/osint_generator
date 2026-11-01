@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "kind": "war",
+  "spec_sha1": "fba882063298d41925ba5632949ee3203607a454",
+  "rules_hash": "2689cc51ce817f3cf668df64fb57807cb494f27b",
+  "data_files": [
+    {
+      "path": "media_src/inchon_lopez.jpg",
+      "sha1": "681cdb5387491215d6edbe06e57d7dec8e722a54",
+      "source": "https://commons.wikimedia.org/wiki/File:Lopez_scaling_seawall.jpg",
+      "license": "Public domain"
+    },
+    {
+      "path": "media_src/inchon_lst.jpg",
+      "sha1": "b1fab2b76f1fcdcea7646016c0229005fbbd7aae",
+      "source": "https://commons.wikimedia.org/wiki/File:Invasion_of_Ichon,_Korea_HD-SN-99-03065.jpg",
+      "license": "Public domain"
+    },
+    {
+      "path": "media_src/inchon_map.jpg",
+      "sha1": "6dd87681fb51491c726b787a921340775ecaaca1",
+      "source": "https://commons.wikimedia.org/wiki/File:Inchon_landing_map.jpg",
+      "license": "Public domain"
+    },
+    {
+      "path": "toponymy.yaml",
+      "sha1": "712031693cbb67a433786899109a3da38c44a189",
+      "source": "toponymy.yaml 레코드 출처 칸",
+      "license": "사실 기록(출처 귀속)"
+    }
+  ],
+  "features_drawn": {
+    "place": 3548,
+    "route": 1236,
+    "faction_legend": 527,
+    "toponymy": 386,
+    "evidence:photo": 270,
+    "evidence:document": 129,
+    "quote": 129,
+    "unit:app6_inf": 1360
+  },
+  "approximations": [
+    "부대 위치·모양·이동: 사료 서술(spec sources)의 개략 — 크기·간격은 축척이 아니다",
+    "강 경로: 개략 선(spec rivers)",
+    "지명 좌표: Pleiades 대표 좌표(있는 것) · 그 밖 개략"
+  ],
+  "numbers_shown": [],
+  "numbers_computed": [],
+  "checks": {
+    "ran": [
+      "SK-H1",
+      "SK-H5",
+      "SK-C1",
+      "SK-W1",
+      "SK-R1",
+      "SK-W2",
+      "SK-W3",
+      "SK-W4",
+      "SK-E1",
+      "SK-C2"
+    ],
+    "hard": [],
+    "warnings": [
+      {
+        "id": "SK-C2",
+        "message": "라벨 예약 상자 겹침 389프레임(첫 t=18.08s, 끝 t=42.12s)"
+      }
+    ]
+  },
+  "render": {
+    "profile": "480p",
+    "frames": 1704,
+    "duration_sec": 71.0,
+    "elapsed_sec": 604.8
+  }
+}

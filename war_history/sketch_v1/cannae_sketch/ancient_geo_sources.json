@@ -1,0 +1,54 @@
+{
+ "schema_version": 1,
+ "bbox": [
+  7.0,
+  37.5,
+  18.5,
+  46.5
+ ],
+ "date": "-216",
+ "retrieved_at": "2026-11-01",
+ "layers": [
+  {
+   "layer": "places",
+   "license": "CC BY 3.0",
+   "attribution": "Pleiades(pleiades.stoa.org), CC BY 3.0",
+   "chain": [
+    "① https://pleiades.stoa.org/downloads: 막힘: URLError: <urlopen error Tunnel connection failed: 403 Forbidden>",
+    "② https://github.com/isawnyu/pleiades.datasets@c0534ffa62 data/gis/places.csv: 받음"
+   ],
+   "license_file": "LICENSE",
+   "license_sha1": "928ea31bd37dc414b8451821d69592cd4452dca0",
+   "status": "ok",
+   "count": 5794,
+   "repo": "https://github.com/isawnyu/pleiades.datasets",
+   "commit": "c0534ffa6226a6d3dd6e1a59ef109b9359e1aabd",
+   "path": "data/gis/places.csv",
+   "file": "ancient_geo/places.json"
+  },
+  {
+   "layer": "roads",
+   "license": "ODbL 1.0",
+   "attribution": "Ancient World Mapping Center (awmc.unc.edu), ODbL 1.0",
+   "chain": [
+    "① https://awmc.unc.edu: 막힘: URLError: <urlopen error Tunnel connection failed: 403 Forbidden>",
+    "② https://github.com/AWMC/geodata@7ecf8bccea Cultural-Data/roads/roads.geojson: 받음"
+   ],
+   "license_file": "LICENSE.txt",
+   "license_sha1": "8ce690f6868a6b57a27cfb86431cfafc80f061f7",
+   "era_filter": {
+    "year": -216,
+    "dropped": {
+     "other_era": 1106,
+     "undated": 1998
+    }
+   },
+   "status": "ok",
+   "count": 27,
+   "repo": "https://github.com/AWMC/geodata",
+   "commit": "7ecf8bccea2efe1e1e9df2daf6001942de73fb87",
+   "path": "Cultural-Data/roads/roads.geojson",
+   "file": "ancient_geo/roads.json"
+  }
+ ]
+}

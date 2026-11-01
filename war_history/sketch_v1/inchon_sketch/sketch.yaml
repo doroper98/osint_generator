@@ -1,0 +1,94 @@
+# 전쟁사 화면 스케치 spec — 인천 상륙과 서울 수복(1950.9.15~9.28, 크로마이트 작전). v7.4.0 전쟁사 W4(back_and_forth D-0600 §6, DECISIONS D700)
+# 사실·연출 값만. 화면 수치는 rules/video_rules.yaml sketch.war. 실행: python -m sketch.war projects/inchon_sketch
+# 사실 출처 = L. Montross·N. Canzona, U.S. Marine Operations in Korea 1950-1953 vol. II(1955, 미 정부 저작물 — archive.org
+#   montross-u-s-marine-operations-in-korea-vol-ll): 상륙군 계획 (1)~(4) — BLT-3(5연대 3대대) 녹색 해안 L-hour·월미도 점령, RCT-5 적색 해안 H-hour,
+#   RCT-1 청색 해안 H-hour. 녹색 해안 06:33 상륙, H-hour 17:30(늦은 오후 만조). 조수 높이 제약(42쪽).
+# 좌표: 인천·서울 = Natural Earth(data/gazetteer.yaml src ne), 월미도 = Terrarium 고도 타일의 월미산 봉우리(해발 약 108, 126.6025E 37.4725N 측정),
+#   적색·청색 해안 = 공간사 상륙 경로 지도(Commons File:Inchon landing map.jpg) 대조 개략. 고도 타일은 현대 지형(매립지 포함) — 1950년 해안선과 다르다.
+# 부대 위치·이동 = 개략. 북한군 배치는 공간사 서술 범위(월미도 수비) 밖으로 그리지 않는다.
+schema_version: 1
+kind: war
+title: "인천 상륙과 서울 수복 — 1950년 9월"
+date: "1950.09.15"
+duration_sec: 71.0
+sheet_times: [7.0, 20.0, 24.5, 30.0, 39.0, 45.0, 51.0, 57.0, 63.0]
+
+sources:
+  - text: "부대·상륙 순서: Montross·Canzona, U.S. Marine Operations in Korea vol. II(1955) — 개략"
+  - text: "해안 위치: 공간사 상륙 경로 지도 대조 개략 · 월미도: 고도 타일 봉우리 측정 · 인천·서울: Natural Earth"
+  - text: "사진: 미 해군 역사유산사령부 NH 96876 · NARA 080-G-420027(퍼블릭 도메인)"
+  - text: "지도 기록: 미 해병대 공간사 2권(1955, 퍼블릭 도메인) · 지형은 현대 고도 타일(매립지 포함)"
+
+shots:
+  - {t0: 0.0, t1: 0.0, lon: 127.3, lat: 36.6, w: 6.0}
+  - {t0: 9.0, t1: 15.5, lon: 126.75, lat: 37.42, w: 1.2}
+  - {t0: 16.5, t1: 23.0, lon: 126.622, lat: 37.468, w: 0.12}
+  - {t0: 32.0, t1: 38.5, lon: 126.8, lat: 37.52, w: 0.5}
+
+dates:
+  - {t: 0.0, date: "1950.09.15"}
+  - {t: 36.0, date: "1950.09.15~1950.09.28"}
+
+factions:
+  un: {token: us, name: "유엔군(미 해병 제1사단)"}
+  nk: {token: ru, name: "북한군"}
+legend_t: [18.0, 40.0]
+
+places:
+  - {name: "인천", lon: 126.6403, lat: 37.4781, t: 1.5, t_out: 41.0}
+  - {name: "서울", lon: 126.9978, lat: 37.5683, t: 1.5}
+  - {name: "월미도", lon: 126.6025, lat: 37.4725, t: 18.0, t_out: 41.0}
+  - {name: "적색 해안", lon: 126.6165, lat: 37.4805, toponymy: beach_codes, t: 26.0, t_out: 41.0}
+  - {name: "청색 해안", lon: 126.644, lat: 37.4575, t: 26.5, t_out: 41.0}
+
+routes:
+  - {name: "상륙 함대(서해)", faction: un, pts: [[124.9, 36.4], [125.8, 36.9], [126.3, 37.25], [126.58, 37.46]], t0: 2.0, t1: 8.0, t_out: 18.0}
+  - {name: "서울로", faction: un, pts: [[126.648, 37.474], [126.72, 37.52], [126.82, 37.55], [126.92, 37.556], [126.985, 37.562]], t0: 36.0, t1: 41.0}
+
+units:
+  - {faction: nk, symbol: app6_inf, name: "북한군 수비대", t_out: 25.5, keys: [{t: 19.5, lon: 126.6065, lat: 37.4695, heading: 270, length_km: 0.5, depth_km: 0.3}]}
+  - faction: un
+    symbol: app6_inf
+    name: "5연대 3대대 · 06:33"
+    t_out: 41.0
+    keys:
+      - {t: 21.0, lon: 126.578, lat: 37.462, heading: 60, length_km: 0.5, depth_km: 0.3}
+      - {t: 24.5, lon: 126.5975, lat: 37.4705, heading: 60, length_km: 0.5, depth_km: 0.3}
+  - faction: un
+    symbol: app6_inf
+    name: "5연대 · 17:30"
+    t_out: 41.0
+    keys:
+      - {t: 26.5, lon: 126.598, lat: 37.489, heading: 120, length_km: 0.6, depth_km: 0.3}
+      - {t: 30.0, lon: 126.6135, lat: 37.4865, heading: 120, length_km: 0.6, depth_km: 0.3}
+      - {t: 34.0, lon: 126.655, lat: 37.484, heading: 80, length_km: 0.6, depth_km: 0.3}
+  - faction: un
+    symbol: app6_inf
+    name: "1연대 · 17:30"
+    t_out: 41.0
+    keys:
+      - {t: 27.0, lon: 126.622, lat: 37.438, heading: 50, length_km: 0.6, depth_km: 0.3}
+      - {t: 30.5, lon: 126.6395, lat: 37.4525, heading: 50, length_km: 0.6, depth_km: 0.3}
+      - {t: 34.0, lon: 126.665, lat: 37.462, heading: 80, length_km: 0.6, depth_km: 0.3}
+
+evidence:
+  - {mid: inchon_lopez, t0: 42.0, t1: 48.0, side: left}
+  - {mid: inchon_lst, t0: 48.5, t1: 54.0, side: right}
+  - {mid: inchon_map, t0: 54.5, t1: 60.0, side: left}
+
+quotes:
+  - t0: 60.5
+    t1: 66.0
+    text: "시간과 조수가 힘을 합쳐 바다에서 오는 적으로부터 인천을 지키는 듯했다."
+    original: "Time and tide seemed to have combined forces to protect Inchon from seaborne foes."
+    locator: "미 해병대 공간사 2권 42쪽"
+    translation: "Montross·Canzona(1955, 미 정부 저작물)에서 옮김"
+    translation_url: "https://archive.org/details/montross-u-s-marine-operations-in-korea-vol-ll"
+    translation_license: "Public domain(미국 연방 정부 저작물)"
+
+notes:
+  source_lines:
+    - {text: "부대·경로·해안: 미 해병대 공간사(1955) 서술의 개략 — 지형은 현대 고도 타일(매립지 포함)", t0: 0.0, t1: 66.0}
+  end_title: "인천 상륙과 서울 수복 — 자료"
+  end_note: "전쟁사 스케치 v1 · 자막·내레이션 없음 · 사용자 검토용"
+  end_sec: 5.0

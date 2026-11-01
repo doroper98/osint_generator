@@ -1,0 +1,181 @@
+{
+ "schema_version": 1,
+ "assets": {
+  "cannae_coin": {
+   "is_file_photo": false,
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "source_hash": "71fb5b28fe05f2d05791448f895cab07",
+   "kind": "period_art",
+   "title": "File:Carthage, quarter shekel, 237-209 BC, SNG BM Spain 102.jpg",
+   "license": "Public domain",
+   "author": "Classical Numismatic Group, Inc.(CNG)",
+   "credit_author": "CNG",
+   "date": "2011-09-14",
+   "url": "https://commons.wikimedia.org/wiki/File:Carthage,_quarter_shekel,_237-209_BC,_SNG_BM_Spain_102.jpg",
+   "caption": "걸어가는 코끼리를 새긴 카르타고 은화",
+   "file_note": "4분의 1 셰켈 은화 · 히스파니아 주조",
+   "depicts": [
+    "카르타고 은화",
+    "코끼리",
+    "곤봉을 멘 남성 두상"
+   ],
+   "main_subject": [
+    "은화 양면"
+   ],
+   "verified_by": {
+    "by": "구현 세션(Commons 파일 설명·라이선스 확인)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "한니발 집안(바르카 가문)이 다스리던 히스파니아의 주화 — 전투 코끼리 도안"
+   },
+   "tool": {
+    "name": "sketch.war.fetch",
+    "params": {
+     "commons_title": "File:Carthage, quarter shekel, 237-209 BC, SNG BM Spain 102.jpg",
+     "width": null
+    }
+   },
+   "file": "cannae_coin.jpg",
+   "created": "-237~-209",
+   "work_kind": "coin",
+   "holder": "CNG 경매 출품(현 소장 미상)",
+   "inventory_no": "CNG CoinID 191596",
+   "material": "은",
+   "identification": "certain",
+   "art_history": "바르카 가문이 히스파니아를 다스리던 기원전 237~209년경 찍은 은화로, 앞면에 곤봉을 멘 남성 두상, 뒷면에 걸어가는 코끼리를 새겼다.",
+   "art_history_source": "CNG 경매 설명(CoinID 191596) — Commons 파일 설명에 옮겨 실림"
+  },
+  "cannae_bust": {
+   "is_file_photo": false,
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "source_hash": "2bf389ec674c3e602a28293c5803dc36",
+   "kind": "period_art",
+   "title": "File:Hannibal Barca bust from Capua photo.jpg",
+   "license": "Public domain",
+   "author": "Fratelli Alinari(사진, 1900년경)",
+   "credit_author": "Fratelli Alinari",
+   "date": "1900",
+   "url": "https://commons.wikimedia.org/wiki/File:Hannibal_Barca_bust_from_Capua_photo.jpg",
+   "caption": "대리석 흉상",
+   "file_note": "대리석 흉상 · 나폴리 국립고고학박물관",
+   "depicts": [
+    "대리석 흉상",
+    "한니발"
+   ],
+   "main_subject": [
+    "대리석 흉상"
+   ],
+   "verified_by": {
+    "by": "구현 세션(Commons 파일 설명·라이선스 확인)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "카르타고 지휘관 한니발로 전해지는 흉상 — 인물 소개"
+   },
+   "tool": {
+    "name": "sketch.war.fetch",
+    "params": {
+     "commons_title": "File:Hannibal Barca bust from Capua photo.jpg",
+     "width": 960
+    }
+   },
+   "file": "cannae_bust.jpg",
+   "created": "-100~400",
+   "work_kind": "sculpture",
+   "holder": "나폴리 국립고고학박물관",
+   "material": "대리석",
+   "identification": "probable",
+   "art_history": "1667년 카푸아에서 발견된 로마 시대(기원전 1세기~서기 4세기) 대리석 흉상으로, 한니발로 전해진다.",
+   "art_history_source": "Commons 파일 설명(Fratelli Alinari 유리 건판 사진, 나폴리 국립고고학박물관 소장품)",
+   "identified_as": "한니발"
+  },
+  "cannae_trumbull": {
+   "is_file_photo": false,
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "source_hash": "aeb39ed1ed765b9eb0b9bead544fb3c8",
+   "kind": "period_art",
+   "title": "File:The Death of Paulus Aemilius at the Battle of Cannae (Yale University Art Gallery scan).jpg",
+   "license": "Public domain",
+   "author": "John Trumbull",
+   "credit_author": "Yale University Art Gallery",
+   "date": "1773",
+   "url": "https://commons.wikimedia.org/wiki/File:The_Death_of_Paulus_Aemilius_at_the_Battle_of_Cannae_(Yale_University_Art_Gallery_scan).jpg",
+   "caption": "칸나이 전투에서 숨지는 집정관 파울루스",
+   "file_note": "존 트럼불 · 유화 · 예일대학교 미술관",
+   "depicts": [
+    "집정관 아이밀리우스 파울루스",
+    "칸나이 전투"
+   ],
+   "main_subject": [
+    "쓰러진 집정관과 말을 권하는 기병"
+   ],
+   "verified_by": {
+    "by": "구현 세션(Commons 파일 설명·라이선스 확인)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "칸나이 전투 집정관 파울루스의 죽음을 그린 후대 역사화"
+   },
+   "tool": {
+    "name": "sketch.war.fetch",
+    "params": {
+     "commons_title": "File:The Death of Paulus Aemilius at the Battle of Cannae (Yale University Art Gallery scan).jpg",
+     "width": 1280
+    }
+   },
+   "file": "cannae_trumbull.jpg",
+   "created": "1773",
+   "work_kind": "painting",
+   "holder": "예일대학교 미술관",
+   "inventory_no": "1832.100",
+   "material": "캔버스에 유채",
+   "identification": "certain",
+   "art_history": "미국 화가 존 트럼불이 1773년에 그린 역사화로, 예일대학교 미술관이 소장한다(1832.100).",
+   "art_history_source": "Commons 파일 정보(작가·연대·소장처, Yale University Art Gallery 스캔)"
+  },
+  "cannae_closs": {
+   "is_file_photo": false,
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "source_hash": "cd516e88fbef1d16b28cdd8bdd37074a",
+   "kind": "period_art",
+   "title": "File:Punti storici d’Italia campo della battaglia di Canne.jpg",
+   "license": "Public domain",
+   "author": "Gustav Adolf Closs",
+   "credit_author": "G. A. Closs",
+   "date": "1885",
+   "url": "https://commons.wikimedia.org/wiki/File:Punti_storici_d%E2%80%99Italia_campo_della_battaglia_di_Canne.jpg",
+   "caption": "칸나이 전투가 벌어진 들판",
+   "file_note": "화보 삽화 · L'illustrazione popolare(1885)",
+   "depicts": [
+    "칸나이 전투 들판",
+    "아우피두스 강가 평원"
+   ],
+   "main_subject": [
+    "강가 평원 풍경"
+   ],
+   "verified_by": {
+    "by": "구현 세션(Commons 파일 설명·라이선스 확인)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "현장 사진(PD·CC BY) 부재 — 현장을 그린 후대 작품으로 유적 층(D-0601 ② A)"
+   },
+   "tool": {
+    "name": "sketch.war.fetch",
+    "params": {
+     "commons_title": "File:Punti storici d’Italia campo della battaglia di Canne.jpg",
+     "width": 1280
+    }
+   },
+   "file": "cannae_closs.jpg",
+   "created": "1885",
+   "work_kind": "print",
+   "holder": "『L'illustrazione popolare』 지면(Fratelli Treves, 밀라노)",
+   "identification": "certain",
+   "art_history": "구스타프 아돌프 클로스가 1885년 밀라노 화보 잡지의 '이탈리아 역사의 장소' 꼭지에 그린 칸나이 전투 들판 풍경이다.",
+   "art_history_source": "Commons 파일 정보(제목 'Punti storici d’Italia', 출전 L’illustrazione popolare, Fratelli Treves 1885)",
+   "site_report": "W. Smith, Dictionary of Greek and Roman Geography vol. I(1856) 'CANNAE' 499~500쪽 — 유적은 카노사에서 약 8마일 떨어진 작은 언덕 위에 남아 있다"
+  }
+ }
+}
