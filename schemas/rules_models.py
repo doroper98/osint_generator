@@ -1484,6 +1484,26 @@ class GeoRules(_Strict):
     map_layers_default: list[Literal["roads", "rivers"]]   # v7.4.0 D-0231 — stage_config.mercator.map_layers 기본값
     country_polygons: str = "data/geo_flat/ne_110m_countries.json"   # v7.4.0 D-0241 §2 — 국가 폴리곤 자료(flag_territory·sea_only_frame)
     river_major_scalerank_max: int = Field(ge=0)      # v7.4.0 D-0229 §2.1-2 — NE 강 scalerank 이 값 이하 = 큰 강(geo.prep_geometry.load_rivers)
+    basemap_era: Optional["BasemapEra"] = None         # v7.4.0 전쟁사 W3(D-0600 §5) — 시대별 기반 지도 층·고대 지리 자료 출처
+
+
+class AncientSource(_Strict):
+    """고대 지리 자료 한 곳 — 1차(사이트)와 우회(GitHub 공개 저장소, 고정 커밋). 라이선스가 licenses_allowed 밖이면 받지 않고 기록(P6)."""
+
+    layer: Literal["places", "roads", "coast", "provinces"]
+    site: Optional[str] = None          # 1차 출처(막히면 기록하고 우회)
+    repo: str                            # https://github.com/<owner>/<repo>
+    commit: str = Field(min_length=7)
+    path: str                            # 저장소 안 파일
+    license: str
+    attribution: str
+
+
+class BasemapEra(_Strict):
+    ancient: list[str] = Field(min_length=1)    # 고대 기반 지도 층(이름만 — 렌더러가 읽는다)
+    modern: list[str] = Field(min_length=1)
+    licenses_allowed: list[str] = Field(min_length=1)
+    sources: list[AncientSource] = Field(min_length=1)
 
 
 class CreditRules(_Strict):
@@ -3205,6 +3225,121 @@ class SketchChecks(_Strict):
     seam_px: float = Field(gt=0)
 
 
+class SketchWarText(_Strict):
+    size: float = Field(gt=0)
+    font: str
+    halo: float = Field(ge=0)
+    dy: float = 0
+    dx: float = 0
+    alpha: float = Field(default=1.0, gt=0, le=1)
+
+
+class SketchWarRiver(_Strict):
+    rgb: tuple[float, float, float]
+    w: float
+    alpha: float
+    label: SketchWarText
+
+
+class SketchWarRoute(_Strict):
+    w: float
+    alpha: float
+    head: float
+    head_wing: float
+    label: SketchWarText
+
+
+class SketchWarUnit(_Strict):
+    in_sec: float
+    edge_w: float
+    edge_alpha: float
+    fill_alpha: float
+    min_px: tuple[float, float]
+    wedge_ratio: float
+    dot_gap_px: float
+    dot_r: float
+    name: SketchWarText
+    app6_scale: float
+
+
+class SketchWarPlace(_Strict):
+    size: float
+    font: str
+    halo: float
+    alpha: float
+    dot_r: float
+    dx: float
+    dy: float
+    in_sec: float
+
+
+class SketchWarLegend(_Strict):
+    x: float
+    y: float
+    row_dy: float
+    chip: tuple[float, float]
+    chip_dy: float
+    label_dx: float
+    bg: tuple[float, float, float, float]
+    radius: float
+    alpha: float
+    label: SketchWarText
+
+
+class SketchWarCard(_Strict):
+    w: float
+    y: float
+    x_left: float
+    x_right_margin: float
+    in_sec: float
+    out_sec: float
+    rise_px: float
+    max_img_h: float
+    dim_alpha: float
+    art: SketchWarText
+    art_lines: int
+    art_pad: float
+    art_bg_alpha: float
+
+
+class SketchWarQuote(_Strict):
+    w: float
+    y: float
+    pad: float
+    in_sec: float
+    out_sec: float
+    bg_alpha: float
+    bar_w: float
+    text: SketchWarText
+    text_lines: int
+    original: SketchWarText
+    locator: SketchWarText
+
+
+class SketchWarEnd(_Strict):
+    x: float
+    line_size: float
+    note_y: float
+
+
+class SketchWar(_Strict):
+    """v7.4.0 전쟁사 W3·W4 — sketch/war 화면 수치."""
+
+    terrain_dim: Color4
+    river: SketchWarRiver
+    route: SketchWarRoute
+    unit: SketchWarUnit
+    place: SketchWarPlace
+    toponymy: SketchWarText
+    place_now: SketchWarText
+    legend: SketchWarLegend
+    card: SketchWarCard
+    quote: SketchWarQuote
+    end: SketchWarEnd
+    date_delay: float
+    source_alpha: float
+
+
 class SketchRules(_Strict):
     """스케치 계층 화면 수치(D-0140 §3, D130). 사실·연출 값은 spec — 여기는 화면 수치만."""
 
@@ -3221,6 +3356,7 @@ class SketchRules(_Strict):
     card: SketchCard
     globe: SketchGlobe
     campaign: SketchCampaign
+    war: SketchWar                 # v7.4.0 전쟁사 W3·W4
     checks: SketchChecks
 
     def fonts_used(self) -> set[str]:

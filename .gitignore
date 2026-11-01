@@ -304,3 +304,4 @@ projects/showcase_geo/assets/
 projects/showcase_geo/media/
 projects/showcase_geo/prev/
 projects/showcase_geo/out/
+.cache/ancient_geo/

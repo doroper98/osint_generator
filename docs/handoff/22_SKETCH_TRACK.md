@@ -217,6 +217,13 @@ python -m sketch.campaign projects/uranus_sketch --res final
 | 포위망 미세 조각 | (44.669, 48.918) 레시피 맞물림 | 대기(D140 warning, 본편 등록 때 레시피 다듬기) | S3 |
 | 집게 예약 상자 | 태그가 사라진 뒤에도 예약(SK-C2 warning) | 그대로(원본 동작). 집게 = 남북 두 갈래 진격이 만나는 순간을 찍는 점·태그(D-0154 §4) | S3 |
 
+### 7.x 전쟁사 스케치 `sketch/war`(v7.4.0 전쟁사 W3·W4, back_and_forth D-0600)
+
+- `python -m sketch.war projects/<pid>` — spec `kind: war`(`sketch/war/spec.py`). 작전 지도와 전술 무대가 같은 좌표계(숏 w 로 확대), 시대 부호 세트 부대 키프레임,
+  EraDate 뱃지, Pleiades 고대 지명(`tools/fetch_ancient_geo.py`), 지명 유래, 증거 카드(작품·사진·기록 — `media.json` MediaAsset, 당대/후대 라벨·미술사 한 문장), 사료 인용.
+- 검사 추가: SK-W1 부호 세트(hard)·SK-W2 작품 라벨(hard)·SK-W3 증거 층(warning — 본편은 hard)·SK-W4 지명 자료(hard). 화면 수치 = `rules sketch.war`.
+- 사례: `projects/cannae_sketch`(기원전 216)·`projects/inchon_sketch`(1950.9). 절차 = `.claude/skills/campaign-front-map/SKILL.md` ⑧.
+
 ## 7. 남은 과제 = 본편 등록 후보
 
 스케치는 본편이 아닙니다. 본편 요소로 등록하려면 엔진 레지스트리(`rules registries`)·스키마·렌더러·프리뷰 예제를 동시에 고쳐야 합니다(C7, P10).

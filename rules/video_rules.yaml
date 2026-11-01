@@ -1104,6 +1104,18 @@ labels:                    # 04 §6·§7
   capital_always_max_w: null  # 상시 표기 폭 상한(도). null = 폭 무관
 
 geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계(geo.prep)
+  # v7.4.0 전쟁사 W3(back_and_forth D-0600 §5) — 시대별 기반 지도. ancient = NE 지형(Terrarium DEM 음영, geo.prep 그대로)·현대 국경 off·현대 지명 off + 고대 층.
+  # 고대 자료 = tools/fetch_ancient_geo.py → projects/<pid>/ancient_geo/(저장소 미추적) + sources.json(우회 경로 기록, P6).
+  # pleiades.stoa.org 는 구현·감독 컨테이너 모두 막힘(R-0296) → GitHub 고정 커밋. 라이선스가 licenses_allowed 밖이면 받지 않고 skipped 로 기록
+  basemap_era:
+    ancient: [terrain, ancient_places, ancient_roads, ancient_coast]
+    modern: [terrain, borders, places]
+    licenses_allowed: ["CC BY 3.0", "CC BY 4.0"]   # AWMC geodata = ODbL(감독 가정 CC BY 와 다름) — decision_request 결정 전까지 받지 않는다
+    sources:
+      - {layer: places, site: "https://pleiades.stoa.org/downloads", repo: "https://github.com/isawnyu/pleiades.datasets", commit: c0534ffa6226a6d3dd6e1a59ef109b9359e1aabd,
+         path: data/gis/places.csv, license: "CC BY 3.0", attribution: "Pleiades(pleiades.stoa.org), CC BY 3.0"}
+      - {layer: roads, site: "https://awmc.unc.edu", repo: "https://github.com/AWMC/geodata", commit: 7ecf8bccea2efe1e1e9df2daf6001942de73fb87,
+         path: Cultural-Data/roads/roads.geojson, license: "ODbL 1.0", attribution: "Ancient World Mapping Center, ODbL"}
   land_miss_allow_px2: 16  # 국가 면적(deg²) × 티어 ppd² 가 이 값 미만이면 land-miss 를 small 로 허용(4×4 px). 이상 = drop
   land_fill_min_ratio: 0.5   # v4.1.0 D-0078 — 국가 원본 피처 합집합 영역 안 육지 화소 비율이 이 값 미만이면 land-miss(대표점 한 점이 아니라 면적, 키 충돌 덮어쓰기 검출)
   # v4.7.0 back_and_forth D-0107 D2(b) — 이 이름(부분 일치, 대소문자 무시)을 단 route 이벤트(label·{path:})·paths 키 = checks [boundary-as-route] hard(M8 재발 방지).
@@ -2039,7 +2051,7 @@ provenance:                # 15 §3 P5
 
 sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 계층(sketch/, 엔진 레지스트리 밖) 화면 수치 SSOT. 값 = 사용자 검토본(4d9dc65 projects/*_sketch 스크립트 리터럴) 그대로(D-0140 §7 — "더 좋아 보이게" 바꾸지 않는다). 설계 px(480p), 장치 px = output_profile k 배. 사실·연출 값(좌표·시각·발표 수치·문구)은 projects/<pid>/sketch.yaml(spec). 묶음은 S0 뼈대 — S1~S3 이식 때 같은 묶음 안에 키를 더한다
   camera:
-    push_in: {missile: 0.035, campaign: 0.03}   # 숏 안 느린 푸시인 비율(줌 범프 없음). 이동은 앞 숏의 푸시인 끝 상태에서 시작(멈칫 교훈, docs/handoff/22 §2.6)
+    push_in: {missile: 0.035, campaign: 0.03, war: 0.03}   # 숏 안 느린 푸시인 비율(줌 범프 없음). 이동은 앞 숏의 푸시인 끝 상태에서 시작(멈칫 교훈, docs/handoff/22 §2.6)
     hold_min_sec: 1.0                            # 푸시인 분모 하한 max(이 값, 다음 숏 시작 − 이동 끝)
     move_min_sec: 2.4                            # 큰 줌(4배 안팎) 이동 하한(docs/handoff/22 §2.6) — 검사·스킬 안내용
   fade:
@@ -2429,6 +2441,55 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     source_alpha: 0.85
     end: {x: 50, line_size: 10.5, note_y: 280}
     date_delay: 0.2             # 날짜가 바뀐 뒤 배지가 다시 미끄러져 들어오기까지
+  war:                     # v7.4.0 전쟁사 W3·W4(back_and_forth D-0600 §5·§6) — sketch/war 화면 수치(설계 px 480p). 값 = 구현 제안(사용자 판정 ① 전, campaign 값에서 출발)
+    terrain_dim: [0.02, 0.03, 0.05, 0.30]
+    river: {rgb: [0.42, 0.66, 0.86], w: 1.6, alpha: 0.8, label: {size: 11, font: serif, halo: 2.5, alpha: 0.8}}
+    route: {w: 2.2, alpha: 0.85, head: 9, head_wing: 0.55, label: {size: 11.5, font: sansb, halo: 3, dy: -10}}
+    unit:
+      in_sec: 0.6
+      edge_w: 1.1
+      edge_alpha: 0.9
+      fill_alpha: 0.82
+      min_px: [10, 4]            # 블록 화면 최소 [길이, 두께] — 작전 지도 축척에서도 보이게(블록 크기는 개략)
+      wedge_ratio: 0.9           # 기병 쐐기 높이 ÷ 폭
+      dot_gap_px: 5              # 코끼리 점열·경보병 점 간격
+      dot_r: 1.6
+      name: {size: 10.5, font: sansb, halo: 3, dy: 16}
+      app6_scale: 0.8            # 현대 세트 = sketch.campaign 부호를 이 배율로
+    place: {size: 11.5, font: sansm, halo: 3, alpha: 0.92, dot_r: 2.6, dx: 6, dy: 4, in_sec: 1.2}
+    toponymy: {size: 9.5, font: sans, halo: 2.5, dy: 17, alpha: 0.9}
+    place_now: {size: 9, font: sans, halo: 2.5, dy: 29, alpha: 0.75}
+    legend: {x: 18, y: 396, row_dy: 18, chip: [12, 8], chip_dy: -7, label_dx: 18, bg: [-8, -16, 170, 8], radius: 5, alpha: 0.78,
+             label: {size: 11, font: sansm, halo: 0}}
+    card:                       # 증거 층 카드(작품·사진·기록) — 지도 위 한쪽 자리, 문장 앵커마다 하나
+      w: 300
+      y: 66
+      x_left: 26
+      x_right_margin: 26
+      in_sec: 0.9
+      out_sec: 0.9
+      rise_px: 10
+      max_img_h: 250
+      dim_alpha: 0.35           # 카드가 떠 있을 때 지도 누름
+      art: {size: 10, font: sans, halo: 0, dy: 14, alpha: 0.92}   # 미술사 한 문장(레코드 art_history) — 캡션 바 아래
+      art_lines: 2
+      art_pad: 8
+      art_bg_alpha: 0.86
+    quote:                      # 사료 인용 카드(저자·작품·권·절)
+      w: 560
+      y: 300
+      pad: 16
+      in_sec: 1.0
+      out_sec: 1.0
+      bg_alpha: 0.86
+      bar_w: 3
+      text: {size: 15, font: serifb, halo: 0, dy: 26}
+      text_lines: 3
+      original: {size: 9.5, font: serif, halo: 0, dy: 18, alpha: 0.75}
+      locator: {size: 10, font: sansm, halo: 0, dy: 20, alpha: 0.9}   # 『』 글리프가 있는 글꼴
+    end: {x: 50, line_size: 10, note_y: 300}
+    date_delay: 0.2
+    source_alpha: 0.85
   checks:                  # 스케치 결정적 검사(sketch/common/checks.py, D-0140 §4) — 값 결정 D-0141(R-0174 실측)
     max_dlogw_per_frame: 0.07    # SK-C1 연속 프레임 |Δ ln w| — 하드 컷·대점프(검토본 최대 0.0623)
     max_d2logw_per_frame: 0.01   # SK-C1 |Δ² ln w|, |Δ² x|/w, |Δ² y|/w — 멈칫(0.03 대) 차단, 검토본 ≤ 0.004
