@@ -2378,6 +2378,17 @@ entries:
   status: guarded
   decision: D-0325(rules 의 요소 등장·퇴장 fade/popin 키 전부 ×1.5, 카메라·음악·배경 사진 crossfade 는 별도 판단 기록, 장치 = 최소 전환 시간 규칙 키 + 전 키 검사 테스트, 골든 재기준)
   source: 감독 세션(Fable) 사용자 대화 2026-10-31
+- id: UF-170
+  date: '2026-11-01'
+  project: iran_ceasefire_2026
+  at: "게이트 ① 원고 검토 자료(gate1_view.txt) 전달 직후 — 원고 전문의 문장 끝에 검증 라벨 접미 '[<논쟁>]' 이 보임"
+  quote: "[<논쟁>] 이런 문구는 자막이나 화면에서 빼"
+  quote_kind: verbatim
+  category: 검증 라벨(<논쟁>·<미검증>) — 자막·화면 어디에도 표기 금지(D85 재확인). 검토 자료(gate-view 원고 전문)에서도 문장 접미 라벨 제거, 상태는 출처 표 열로만
+  guards: []
+  status: open
+  decision: D-0454(이 영상 — 콘티 판·프리뷰·전편 checks [label-in-body] 0 증명 + gate-view 원고 전문 라벨 제거·시험. 장치 후보 = check label_in_body(D85)·rule script_schema.labels·tests/test_g5_labels_endcard.py + 새 gate-view 시험, 구현 세션이 id 확인 뒤 guarded 로)
+  source: 감독 세션(Fable) 사용자 대화 2026-11-01
 - id: UF-200
   date: '2026-10-31'
   project: showcase_econ
@@ -2459,15 +2470,4 @@ entries:
     ref: "back_and_forth/261101_091229_D0334_fable_user-iran-ceasefire-video-delegated.md#사용자 결정 — 새 영상 『미국·이란 휴전안』 — 별도 감독(Fable) 세션이 완성본까지 전달(게이트 위임)"
   status: guarded
   decision: D-0334(261101_091229_D0334_fable_user-iran-ceasefire-video-delegated.md)
-  source: 감독 세션(Fable) 사용자 대화 2026-11-01
-- id: UF-170
-  date: '2026-11-01'
-  project: iran_ceasefire_2026
-  at: "게이트 ① 원고 검토 자료(gate1_view.txt) 전달 직후 — 원고 전문의 문장 끝에 검증 라벨 접미 '[<논쟁>]' 이 보임"
-  quote: "[<논쟁>] 이런 문구는 자막이나 화면에서 빼"
-  quote_kind: verbatim
-  category: 검증 라벨(<논쟁>·<미검증>) — 자막·화면 어디에도 표기 금지(D85 재확인). 검토 자료(gate-view 원고 전문)에서도 문장 접미 라벨 제거, 상태는 출처 표 열로만
-  guards: []
-  status: open
-  decision: D-0454(이 영상 — 콘티 판·프리뷰·전편 checks [label-in-body] 0 증명 + gate-view 원고 전문 라벨 제거·시험. 장치 후보 = check label_in_body(D85)·rule script_schema.labels·tests/test_g5_labels_endcard.py + 새 gate-view 시험, 구현 세션이 id 확인 뒤 guarded 로)
   source: 감독 세션(Fable) 사용자 대화 2026-11-01
