@@ -22,7 +22,7 @@ import cairo
 
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import CARD, ELEM, FPS, ISLAND, MOTION, TIMELINE
+from engine.style import CARD, ELEM, FPS, ISLAND, MOTION, PALETTE, TIMELINE, border_rgb, island_rgb, stage_surface
 from engine.timebase import ease_out, window
 from engine.typography import rrect
 from rules import load_rules
@@ -79,16 +79,18 @@ def draw_frame(ctx: cairo.Context, box: Box, a: float, style: Optional[FrameStyl
         ctx.paint()
         return
     x, y, w, h = box
+    if style is None and stage_surface():   # v7.4.0 D-0328 §3 — 차트 = 무대: 테두리·바탕·그림자 없음(바탕 위에 바로)
+        return
     r = ISLAND.radius if style is None else style.radius
     for d_, al in ISLAND.shadow:
         rrect(ctx, x - d_, y - d_ + d_ / 2, w + d_ * 2, h + d_ * 2, r + d_)
         ctx.set_source_rgba(0, 0, 0, al * a)
         ctx.fill()
     rrect(ctx, x, y, w, h, r)
-    ctx.set_source_rgba(*(TIMELINE.bg_rgb if style is None else style.fill_rgb), ISLAND.fill_alpha * a)
+    ctx.set_source_rgba(*(island_rgb(TIMELINE.bg_rgb) if style is None else style.fill_rgb), ISLAND.fill_alpha * a)
     ctx.fill_preserve()
     if style is None:
-        ctx.set_source_rgba(1, 1, 1, ISLAND.edge_alpha * a)
+        ctx.set_source_rgba(*border_rgb((1, 1, 1)), (1.0 if PALETTE else ISLAND.edge_alpha) * a)
         ctx.set_line_width(ISLAND.edge_w)
     else:
         ctx.set_source_rgba(*style.edge_rgb, style.edge_alpha * a)
@@ -113,12 +115,15 @@ def draw_island(ctx: cairo.Context, R: RenderCtx, view: Optional[View], t: float
     ctx.save()
     ctx.push_group()
     draw_frame(ctx, (x, y, w, h), 1.0)
-    rrect(ctx, x, y, w, h, ISLAND.radius)
+    rrect(ctx, x, y, w, h, 0.0 if stage_surface() else ISLAND.radius)
     ctx.clip()
     ctx.translate(x, y)
     v = chart_view(chart, t, (x, y, w, h))
     st = chart["stage"]
+    flat = stage_surface()
     st.render_base(ctx, v)
+    if flat:   # 무대 표면: 축·레인 라벨을 층보다 먼저 — 열 확대 인셋(불투명)이 그 위를 덮는다(겹침 0, D-0328)
+        st.draw_labels(ctx, v, [], 1.0)
     zones = R.zones   # 카드 예약 영역을 상자 좌표로(마커 라벨 흐림 판정 — 화면 좌표 그대로면 어긋난다)
     R.zones = [replace(z, box=(z.box[0] - x, z.box[1] - y, z.box[2] - x, z.box[3] - y)) for z in zones]
     resolve: Callable[[Any], Any] = chart["resolve"]
@@ -129,7 +134,8 @@ def draw_island(ctx: cairo.Context, R: RenderCtx, view: Optional[View], t: float
                     resolve(ce).render(ctx, R, v, t, ce)
     finally:
         R.zones = zones
-    st.draw_labels(ctx, v, [], 1.0)
+    if not flat:
+        st.draw_labels(ctx, v, [], 1.0)
     ctx.pop_group_to_source()
     ctx.paint_with_alpha(a)
     ctx.restore()

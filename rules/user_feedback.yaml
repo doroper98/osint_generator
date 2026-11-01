@@ -2227,8 +2227,11 @@ entries:
   quote: 영상에 어떤 주제의 템플릿으로 만든 영상인지 알 수 있게 텍스트로 넣어줘.
   quote_kind: verbatim
   category: 화면 — 템플릿 표시 줄(타이틀 카드 부제·엔딩 카드 한 줄, 모서리 금지)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: template_label}
+  - {kind: rule, ref: layout_480p.end_card.template_line}
+  - {kind: test, ref: tests/test_earnings_template.py::CardTextTest::test_title_subtitle}
+  status: guarded
   decision: D-0302 ⑤(genres <genre>.template_label → 코드 조판, 없으면 [template-label-missing] hard — 장치는 구현 뒤 guards 에)
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
 - id: UF-148
@@ -2255,8 +2258,12 @@ entries:
   quote: "https://doroper98.github.io/agents_reviewer/samples/report_design_sheet_v8_6_0.html 여기에 나온 차트 문법들을 쓸 순 없을까? 너무 막대 차트가 성의가 없고 전형적이야. 직관적이면서도 비쥬얼하게 전달력을 갖출 수 있도록 해야해"
   quote_kind: verbatim
   category: 차트 표현 — agents_reviewer 디자인 시트 v8.6.0 어휘 흡수(속빈/채움 캡슐·잉크 농도 사다리·칸 질감·직접 라벨·dash 선 어휘·데이터 진입 모션)
-  guards: []
-  status: open
+  guards:
+  - {kind: rule, ref: stage_timeline.bars.ladder}
+  - {kind: rule, ref: stage_timeline.bars.hollow_w}
+  - {kind: test, ref: tests/test_econ_t3_guards.py::BarVocabularyTest::test_vocabulary_keys}
+  - {kind: test, ref: tests/anti_inertia/test_registry_complete.py::SeriesStyleRegistryTest::test_preview_fixture_for_every_style}
+  status: guarded
   decision: D-0308(어휘 6가지 → 규칙 키, 패턴 해칭 제외, 다섯 막 대입, 스케치 재작업 요소별 — 장치는 구현 뒤 guards 에)
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
 - id: UF-150
@@ -2279,8 +2286,11 @@ entries:
   quote: 글고 경제 컨셉의 영상에는 좀 차트들이 단편적인 정보만 제시하는 것보다 그 추이를 확인할 수 있으면서도 다차원적인 정보를 얻을 수 있는 형태의 차트가 많았으면 좋겠어. 하나의 차트에 하나의 정보만 제공하는게 아니고 꼭 이미지와 같은 컨셉으로 되어야 한다기보단 이렇게 최소한 몇가지의 정보를 한번에 담고 있는 그런 차트들이 있으면 좋겠다는 의미를 꼭 유념해
   quote_kind: verbatim
   category: 차트 설계 — 다차원(추이·구성·겹친 지표·사건·코드 계산 차이) 한 아일랜드에 층 ≥3, 산문 주석은 내레이션으로
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: chart_layers_min}
+  - {kind: rule, ref: qa_checks.chart_depth.layers_min}
+  - {kind: test, ref: tests/test_econ_t3_guards.py::ChartLayersMinTest::test_single_layer_econ_fails}
+  status: guarded
   decision: D-0309([chart-layers-min]·[secondary-axis-single]·쌓임 합 검증, 다섯 막에서 층이 하나씩 켜짐 — 장치는 구현 뒤 guards 에)
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
 - id: UF-152
@@ -2290,8 +2300,11 @@ entries:
   quote: 개인적으로 이런 형태의 차트도 좋아함. 내가 말한대로 다층적인 정보를 한번에 통섭적으로 보는걸 좋아한다는 뜻이야
   quote_kind: verbatim
   category: 차트 설계 — 같은 세계 안 다계열 겹침·다레인·색 계열·끝값 태그(통섭 보기), UF-151 보충
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: secondary_axis_single}
+  - {kind: rule, ref: qa_checks.chart_depth.secondary_per_lane_max}
+  - {kind: test, ref: tests/test_econ_t3_guards.py::SecondaryAxisTest::test_two_secondary_same_lane}
+  status: guarded
   decision: D-0309 §5(lane.series_max·레인 3·color_families·끝값 태그 열·dim_others, 보조 축 1 유지 — 장치는 구현 뒤 guards 에)
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
 - id: UF-153
@@ -2301,8 +2314,11 @@ entries:
   quote: 그리고 내가 알려준 경로(https://doroper98.github.io/agents_reviewer/samples/report_design_sheet_v8_6_0.html#s6-4 ) 의 이런 차트들도 적극적으로 고려해볼꺼지?
   quote_kind: verbatim
   category: 차트 종류 — bullet·덤벨·diverging·slope·bump 를 실적 템플릿 막에 배정(series 스타일, 독립 패널 금지)
-  guards: []
-  status: open
+  guards:
+  - {kind: rule, ref: registries.series_styles}
+  - {kind: test, ref: tests/anti_inertia/test_registry_complete.py::SeriesStyleRegistryTest::test_renderer_for_every_style}
+  - {kind: test, ref: tests/anti_inertia/test_registry_complete.py::SeriesStyleRegistryTest::test_preview_fixture_for_every_style}
+  status: guarded
   decision: D-0308 §6(배정 표·스케치 목록 갱신 — 장치는 T3 등록 때 guards 에)
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
 - id: UF-154
@@ -2312,8 +2328,13 @@ entries:
   quote: 꼭 저 트레이딩뷰 처럼 만들라는게 아니야. 너무 복잡하지 않지만, 그럼에도 불구하고 영상으로서 보는 사람이 이해하고 소화할 수 있는 수준을 높일 수 있도록 고민해서 만들라는 뜻이야
   quote_kind: verbatim
   category: 차트 설계 — 소화 가능한 깊이(층은 설명 문장과 함께, 동시 가시 상한, 소화 시간, 나누어 켜기)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: chart_overload}
+  - {kind: rule, ref: qa_checks.chart_depth.visible_series_max}
+  - {kind: rule, ref: qa_checks.chart_depth.layer_dwell_sec}
+  - {kind: test, ref: tests/test_econ_t3_guards.py::ChartOverloadTest::test_too_many_visible}
+  - {kind: test, ref: tests/test_econ_t3_guards.py::ChartOverloadTest::test_layers_too_fast}
+  status: guarded
   decision: D-0309 §6(layer_entry_requires_sentence·visible_series_max 4·layer_dwell_sec 4·[chart-overload] hard — 장치는 구현 뒤 guards 에)
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
 - id: UF-155
@@ -2323,8 +2344,14 @@ entries:
   quote: "막대 그래프를 바닥쪽에는 둥글게 하지 않고, 위쪽도 차트임을 고려해서 아주 약간의 둥글기만 적용해. 그리고 경제에 대해서는 영상의 컨셉을 흰색과 푸른색 계열로 적용해. 그리고 선과 글씨가 겹치는 부분은 적용하지 말고, 내가 혹시 폰트를 agent reviewer 의 르포 계열의 폰트를 적용하라고 해서 저렇게 어설픈 폰트들이 된건가? G마켓 Sans 왜 안쓰지? 색감은 위에 공유한 링크의 princess 나 cosmos 둘중 하나를 니가 보고 정해서 적용해. 배경은 지금 무슨 세로 무늬가 있는데, 그런거 말고, 저런 어설픈 배경을 넣느니 아예 안넣는게 나은것 같아."
   quote_kind: verbatim
   category: 경제 시각 테마 — 막대 바닥 각·위 3px, 팔레트 princess(흰·푸른·코랄), 겹침 0, 표준 글꼴(GmarketSans) 유지, 무늬 없는 배경(사진은 가운데 요소로만)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: grid_text_cross}
+  - {kind: check, ref: label_collision}
+  - {kind: rule, ref: stage_timeline.bars.top_radius}
+  - {kind: rule, ref: stage_timeline.grid.stop_at_source}
+  - {kind: test, ref: tests/test_econ_t3_guards.py::BarVocabularyTest::test_vocabulary_keys}
+  - {kind: test, ref: tests/test_econ_t3_guards.py::GridTextCrossTest::test_crossing_detected}
+  status: guarded
   decision: D-0310(themes.princess·bars.top_radius 3·stage_backdrop.econ_default flat·겹침 검사 예외 없음 — 장치는 구현 뒤 guards 에). 어설픈 글꼴·세로 무늬는 감독 목업의 산물(엔진 아님)임을 기록
   source: 감독 세션(Fable) 사용자 대화 2026-10-30
 - id: UF-156
@@ -2334,8 +2361,11 @@ entries:
   quote: "와 princess 컨셉 너무 구리다 갈아엎어."
   quote_kind: verbatim
   category: 경제 시각 테마 — princess(푸른 바탕 #015AA0 + 흰 글자 + 코랄) 기각, 테마 전면 교체
-  guards: []
-  status: open
+  guards:
+  - {kind: rule, ref: palettes.noturno}
+  - {kind: test, ref: tests/test_econ_t3_guards.py::PaletteTest::test_princess_deleted}
+  - {kind: test, ref: tests/test_econ_t3_guards.py::PaletteTest::test_earnings_default_is_noturno_stage}
+  status: guarded
   decision: D-0322(UF-155 "흰색과 푸른색 계열"을 감독이 '푸른 바탕 + 흰 글자'로 뒤집어 읽은 것이 원인. 교체 후보 A = 흰 종이 바탕 + 남색 잉크 사다리 + 강조 1색, B = 네이비 바탕 + 크림 글자(cosmos 계열). 실제 엔진 두 컷씩 렌더해 사용자가 고른 뒤 princess 는 삭제(P2))
   source: 감독 세션(Fable) 사용자 대화 2026-10-31
 - id: UF-157
@@ -2345,8 +2375,10 @@ entries:
   quote: "이 르포 형식과 지난번에 준 https://analysis-reports.pages.dev/analysis_20260817_204443_f8c2463154 여기를 참고해서 디자인적으로 유려한 그런 형태의 템플릿을 만드는게 우리의 목표야"
   quote_kind: verbatim
   category: 경제 템플릿 목표 — agents_reviewer 르포(reportage) 형식의 디자인 문법(테마·글꼴·차트·여백)을 영상 템플릿으로 옮긴 '유려한' 형태
-  guards: []
-  status: open
+  guards:
+  - {kind: rule, ref: island.stage_surface}
+  - {kind: test, ref: tests/test_econ_t3_guards.py::ReportageFeelOnlyTest::test_no_reportage_card_code}
+  status: guarded
   decision: D-0323(네 르포의 번들·테마 토큰·디자인 시트를 저장소 사본에서 추출해 영상 테마·차트 문법 명세로 옮긴다. 20261027 번들 테마 = reportage_noturno)
   source: 감독 세션(Fable) 사용자 대화 2026-10-31
 - id: UF-158
@@ -2417,8 +2449,14 @@ entries:
   quote: "내가 지난번에 ai slop 느껴지는 문구들 쓰지 말라고 했던 말 기억나지? 거기에 ~축에 겹칩니다. 이런말도 추가해. 이 이미지에서는 ~축에 겹칩니다. 이런 말 쓸 필요가 없는 씬이야. 그리고 막대에 테두리 없애고, 이런 막대기 진짜 너무 최악인데? 내가 르포를 전달해 준거는 그냥 참고만 하라는거지 그대로 조판하라는게 아니잖아. 거기에 있는 그래프나 차트를 그냥 영상에 그대로 따서 쓰라는게 아니야. 그냥 느낌만 이해하라는거였고, 니가 영상에 맞춰 바닥에서 새로 조판 해야 해. 완전 최악이야."
   quote_kind: verbatim
   category: 경제 템플릿 — ① 화면 조작 해설 문장("~축에 겹칩니다" 류) 금지어 추가 ② 막대 테두리 금지·상자+점 막대 폐기 ③ 르포는 느낌만 참고, 영상에 맞춰 바닥에서 새로 조판(르포 카드·캡션·출처 줄 이식 금지)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: forbidden}
+  - {kind: check, ref: bar_border}
+  - {kind: rule, ref: banned_phrases}
+  - {kind: test, ref: tests/test_script_lint.py::BannedExamplesTest::test_examples_all_caught}
+  - {kind: test, ref: tests/test_econ_t3_guards.py::BarBorderPixelTest::test_border_detected}
+  - {kind: test, ref: tests/test_econ_t3_guards.py::PaletteTest::test_loss_fill_is_a_only}
+  status: guarded
   decision: "D-0328(261031_110712_D0328_fable_uf202-retypeset-from-scratch.md) — banned_phrases 화면 조작 해설 패턴·예문 추가(이 커밋), D-0323 §2~§4 조판 이식 철회, 막대 재설계(속 채움·테두리 0), 바닥 조판 구상 1프레임 → 사용자 검토 → 진행. LLM-AP-022"
   source: 감독 세션(Fable) 사용자 대화 2026-10-31
 - id: UF-203
@@ -2429,8 +2467,10 @@ entries:
   quote_kind: verbatim
   category: 경제 템플릿 — 바닥 조판 방향 승인(무대 조판·테두리 0·단색 막대·끝값 핀·화면 조작 해설 없음). 손실 막대는 감독 추천 B(옅은 잉크, 한 단계 진하게)로 해석
   guards:
-  - kind: doc
-    ref: back_and_forth/261031_123650_D0330_fable_user-approves-stage-layout.md#결정(사용자) — 바닥 조판 방향 승인. 손실 막대 = B(잉크 사다리, 한 단계 진하게)
+  - {kind: rule, ref: island.stage_surface}
+  - {kind: check, ref: bar_border}
+  - {kind: test, ref: tests/test_econ_t3_guards.py::ReportageFeelOnlyTest::test_no_reportage_card_code}
+  - {kind: test, ref: tests/test_econ_t3_guards.py::PaletteTest::test_earnings_default_is_noturno_stage}
   status: guarded
   decision: D-0330(261031_123650_D0330_fable_user-approves-stage-layout.md)
   source: 감독 세션(Fable) 사용자 대화 2026-10-31
@@ -2442,8 +2482,8 @@ entries:
   quote_kind: verbatim
   category: 경제 템플릿 — 손실 막대 = A(하락색을 섞은 채도 낮은 면). 감독 해석(B) 정정
   guards:
-  - kind: doc
-    ref: back_and_forth/261031_123650_D0330_fable_user-approves-stage-layout.md#정정(사용자, UF-204) — 손실 막대 = A
+  - {kind: rule, ref: stage_timeline.bars.negative_fill}
+  - {kind: test, ref: tests/test_econ_t3_guards.py::PaletteTest::test_loss_fill_is_a_only}
   status: guarded
   decision: D-0330 §정정
   source: 감독 세션(Fable) 사용자 대화 2026-10-31
@@ -2468,8 +2508,8 @@ entries:
   quote_kind: verbatim
   category: 승인 — ① 쇼케이스 게이트 ② + econ A(감독 추천 수용) ② 경제 템플릿 요소 넷 ③ CLAUDE.md C0 표제 정정 ④ 중국 트랙 main 병합 · 지시 — 전쟁사 별도 트랙(감독+구현), 미술사 적극 연계(과거 전쟁 = 미술·기록, 현대 전쟁 = 사진·영상·기록) · 미국·이란 휴전 협상 분석 영상 별도 트랙(기존 D-0334 트랙과 범위 확인 중)
   guards:
-  - kind: doc
-    ref: "back_and_forth/261101_101033_D0337_fable_user-war-history-track-art-evidence.md#결정(사용자) — 전쟁사 트랙 착수"
+  - {kind: rule, ref: registries.series_styles}
+  - {kind: test, ref: tests/anti_inertia/test_registry_complete.py::SeriesStyleRegistryTest::test_preview_fixture_for_every_style}
   status: guarded
   decision: D-0335·D-0336·D-0337(261101_101033)
   source: 감독 세션(Fable) 사용자 대화 2026-11-01

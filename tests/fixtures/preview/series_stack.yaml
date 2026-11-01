@@ -1,0 +1,17 @@
+# 레지스트리 프리뷰 예제(v7.4.0 back_and_forth D-0336 §1·D-0339 T3, 15 P10) — 모델을 그대로 통과한다(P4). 값은 레코드에서만(연출은 숫자를 주지 않는다).
+# 출처 = artifacts econ-template-2026 t2_stage_v3(사용자 승인 컷, D-0330·D-0336). 시간축 무대 · 경제 장르(earnings, 팔레트 noturno·무대 표면).
+schema_version: 1
+key: series_stack
+source: D-0309 쌓임(부문 영업이익, series_id = 합계 레코드) — 손실 부문 = 채도 낮춘 면(UF-204 A)
+event:
+  type: series
+  t0: 0.5
+  t1: 20.0
+  lane: op
+  series_id: INTC_OP_Q
+  style: stack
+  col: gold
+  parts:
+    - {ids: [INTC_SEG_DCAI_OP_Q], label: DC}
+    - {ids: [INTC_SEG_CCG_OP_Q], label: PC}
+    - {ids: [INTC_SEG_FOUNDRY_OP_Q], label: 파운드리}

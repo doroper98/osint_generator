@@ -29,6 +29,7 @@ from engine.layers.article import draw_article
 from engine.layers.media import draw_clip, draw_cutout, draw_photo
 from engine.layers.post import draw_post
 from engine.layers.routes import draw_barrier, draw_route, draw_tanker_loop
+from engine.layers import series as series_layer
 from engine.layers.series import draw_series
 from engine.panels import checklist, dots, dual_line, fork, gantt, network, precedent, relation, statement, timeline, versus
 from engine.panels.base import make_panel_renderer
@@ -120,6 +121,28 @@ def key_of(e: dict) -> str:
             raise RegistryError(f"primitive 이벤트에 id 가 없다: {e!r}")
         return f"primitive:{pid}"
     return typ
+
+
+# v7.4.0 back_and_forth D-0336 §1·D-0339 T3(15 P10) — series 스타일·island 종류 → 렌더러. rules registries.series_styles·island_kinds 와
+# 양방향 일치(tests/anti_inertia/test_registry_complete SeriesStyleRegistryTest). draw_series 가 스타일로 나눠 부르는 함수를 그대로 적는다.
+# step·line 은 draw_series 본문이 그린다. detail_only(dumbbell·diverging·slope)와 range 인셋은 열 확대 인셋 렌더러.
+SERIES_STYLE_RENDERERS: dict[str, Callable[..., None]] = {
+    "step": draw_series,
+    "line": draw_series,
+    "band": series_layer._draw_band,
+    "projection": series_layer._draw_projection,
+    "bars": series_layer._draw_bars,
+    "stack": series_layer._draw_stack,
+    "range": series_layer._draw_range,
+    "dumbbell": series_layer._draw_column_detail,
+    "diverging": series_layer._draw_column_detail,
+    "slope": series_layer._draw_column_detail,
+}
+# island kind column_detail 은 engine.direction.build 가 같은 레인의 series detail 층으로 바꾼다(D-0318) — 렌더러 = 열 확대 인셋
+ISLAND_KIND_RENDERERS: dict[str, Callable[..., None]] = {
+    "chart": draw_island,
+    "column_detail": series_layer._draw_column_detail,
+}
 
 
 def resolve(e: dict | str) -> Entry:

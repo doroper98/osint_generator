@@ -652,6 +652,9 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     license_size: 7.8
     # v4.5.0 사용자 결정 D85(C9 개정, back_and_forth D-0096) — 검증 라벨은 본문(자막·패널·카드)에 그리지 않고 엔딩 카드 맨 마지막 줄 한 줄로만.
     # n = 영상에 들어간 문장 중 검증 라벨(script_schema.labels)이 붙은 문장 수. n = 0 이면 줄을 그리지 않는다. 문구는 사실만(`{n}` 자리만 코드가 채운다)
+    # v7.4.0 back_and_forth D-0278 §4.3(E5·E7) — 투자 고지. 장르 프로필 invest_notice: true 면 맨 마지막 줄(검증 안내와 같은 줄, 앞에 · 로 잇는다).
+    # 문구 고정(연출이 바꿀 수 없다). 그리지 않으면 checks [invest-notice-missing] hard
+    notice_invest: {size: 7.8, text: "정보 제공 목적이며 특정 종목의 매수·매도를 권하지 않습니다"}
     # v7.4.0 UF-147(D-0302 ⑤, 사용자 "어떤 주제의 템플릿으로 만든 영상인지 알 수 있게 텍스트로") — 장르 template_label 을 엔딩 카드 머리 줄
     # ("자료 및 출처" 와 같은 기준선, 오른쪽 정렬 — 모서리 아님, C0)과 타이틀 카드 부제 앞("<라벨> · <부제>")에 코드가 조판. 없으면 [template-label-missing] hard
     # (경제 템플릿 브랜치 e2c37d71 과 같은 값 — D-0312 ③ 으로 쇼케이스에 먼저 옮김. 검사 template_label 은 그 브랜치 merge 로 온다)
@@ -683,7 +686,7 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
                   # v7.4.0 back_and_forth D-0333 — 바 폭(− 좌우 pad_x)을 넘는 글자 금지(옛 넘침 허용 설계 폐기). 캡션 줄 = 줄임표(…),
                   # 출처 줄 = 두 줄 접기(권리 표기는 화면에서 자르지 않는다, C9) — 접힌 줄마다 바 높이 + source_line_px. 그래도 넘치면 [caption-overflow] hard
                   overflow: {caption: ellipsis, source: wrap, source_max_lines: 2, source_line_px: 12}}
-  marker: {label_size: 13, sub_size: 12, sub_dy: 16}
+  marker: {label_size: 13, sub_size: 12, sub_dy: 16, vline_dash: [3, 3], vline_w: 1.1, vline_alpha: 0.7}   # vline_* = v7.4.0 D-0309 §1-5 발표일 세로 점선(감독 제안)
   # v5.21.11 사용자 의견(2026-10-11 38·101·275초 "선 위의 글씨 시인성", D-0191 §1-3·D-0192) — 경로 선이 자기 라벨을 지나가지 않게
   # 선에서 수직으로 line_gap 띄운 자리를 곡선 위 place_fracs 순서·양쪽으로 시도. 후보 0 = 옛 자리(가운데 점 위 legacy_dy). 검사 route_label_cross·route_label_overlap hard
   route_label: {route_size: 12.5, barrier_size: 12.5, legacy_dy: 11, line_gap: 5, line_clear_px: 1.5, place_fracs: [0.5, 0.42, 0.58, 0.34, 0.66, 0.26, 0.74], screen_pad: 6, bottom_pad: 72}   # bottom_pad = 자막 구역(도시 이름과 같은 하단 여백)
@@ -1075,6 +1078,45 @@ colors:                    # 09 §7
       white: "#1f2125"      # 지도 위 마커 이름(흰 글자 → 짙은 글자)
       gold_text: "#68480f"  # 지도 위 마커 부제 글자
 
+# v7.4.0 back_and_forth D-0330·D-0336(사용자 승인 UF-203·UF-206) — 장르 화면 팔레트. 장르 프로필 palette 로 고른다(없으면 기존 색).
+# 고르면 렌더 전체 의미색이 바뀐다: text → 흰 글자(colors white), muted → muted, accent → gold(차트당 accent 1), up → green, down → ru,
+# bg → 무대 바탕, island → 아일랜드 바탕, border → 아일랜드 테두리. map_* 는 지도 테마 자리.
+# princess(D-0310)는 사용자 판정 UF-156("너무 구리다 갈아엎어")으로 삭제(P2, D-0336 T3) — 다시 들여오지 않는다(tests/test_palette_stage.py).
+# 르포는 느낌만(UF-202·LLM-AP-022): 색 토큰만 가져오고 카드·캡션 조판은 가져오지 않는다. 잉크 사다리 = text 위 알파(bars.ladder), 격자 ≤ grid_alpha, 0 기준선 zero_alpha
+palettes:
+  noturno:                   # 경제 장르 기본(genres/earnings.yaml — 사용자 승인 구상 프레임, D-0330)
+    surface: stage           # D-0328 — 차트 = 무대(테두리·바탕·머리 띠 없음, island.stage_surface)
+    bg: "#001621"
+    island: "#06222E"        # card
+    island_deep: "#000E16"   # card_deep — 열 확대 인셋 바탕(한 단 짙게)
+    border: "#1C3A45"
+    text: "#EFE3D4"
+    muted: "#8AA0A6"
+    accent: "#FF4103"
+    up: "#8AC0A0"
+    down: "#FF8A5C"
+    grid_alpha: 0.06
+    zero_alpha: 0.55
+    map_land: "#0A2A38"
+    map_water: "#000E16"
+    map_boundary: "#1C3A45"
+  navy:                      # 풀에만(D-0330 "navy 는 풀에만") — 장르 기본 아님
+    surface: stage           # D-0328 — 차트 = 무대(테두리·바탕·머리 띠 없음, island.stage_surface)
+    bg: "#0F0E49"
+    island: "#1A1860"
+    island_deep: "#0A0934"
+    border: "#2D2B79"
+    text: "#ECE6F5"
+    muted: "#B0AED4"
+    accent: "#D9ABE8"
+    up: "#A0C0B0"
+    down: "#F08AB0"
+    grid_alpha: 0.06
+    zero_alpha: 0.55
+    map_land: "#24226E"
+    map_water: "#0A0934"
+    map_boundary: "#2D2B79"
+
 fonts:                     # 09 §1
   sans: "IBM Plex Sans KR"
   serif: "Noto Serif CJK KR"
@@ -1188,6 +1230,12 @@ registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 �
   panel_kinds: [relation, statement, timeline, precedent, versus, dots, gantt, dual_line, fork, checklist, network]   # relation = v3 refusal 일반화, 뒤 6종 = v2 차트 이식(D-0032)
   panel_kinds_planned: []
   badge_kinds: [person, flag, emblem]
+  # v7.4.0 back_and_forth D-0336 §1·D-0339(T3, 15 P10) — series 스타일·island 종류. 여기 없는 값을 연출이 쓰면 오류(engine.events Literal 과 같음),
+  # 있는데 렌더러(engine.layers.series STYLE_RENDERERS · engine.island KIND_RENDERERS)나 프리뷰 예제(tests/fixtures/preview)가 없으면 오류.
+  # detail_only = 열 확대 인셋(island kind column_detail)에서만 쓰는 스타일(D-0318 §1-3 — 열 안 직접 그리기 폐기)
+  series_styles: [step, line, band, projection, bars, stack, range, dumbbell, diverging, slope]
+  series_styles_detail_only: [dumbbell, diverging, slope]
+  island_kinds: [chart, column_detail]
   accents: [gold, us, ru, teal, muted, green, amber]
   stages: [mercator, timeline, backdrop]   # backdrop = v5.1.0 D-0123(사진 배경 무대, engine/stage_backdrop.py). v4.1.0 D-0076 — 무대(engine.stage). 없는 무대 = 오류, 있는데 구현(STAGE_CLASSES)이 없음 = 오류(P10). timeline = v4.3.0 D-0084 작업 3
   stages_planned: [chart_wall, flow, structure, document]   # v4.2.0 D-0081 — 20 §2.1 무대 카탈로그(구현 전). 장르 프로필 proposed 만 참조 가능, 연출에서 쓰면 오류
@@ -1309,6 +1357,9 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     label_dy: 17           # 레인 영역 아래 끝 → 눈금 라벨 기준선
     label_margin_px: 24    # 화면 양 끝 이 안쪽만 라벨
     min_label_gap_px: 38   # 라벨 사이 최소 간격(좁으면 건너뜀)
+    # v7.4.0 D-0321 §4(UF-155 "선과 글씨 겹침 금지") — 세로 격자선은 레인 아래 출처 줄 띠(source_dy + 접힌 줄 수 상한 × source_step + 글자 높이) 위에서 끊는다.
+    # source_band = 끊음, through = 옛 동작(레인 끝까지). 격자선 ↔ 글자 상자 검사 [grid-text-cross] 는 T3 등록 때(지금 겹침 검사는 글자 ↔ 글자만)
+    stop_at_source: source_band
   lane_label:              # 레인 이름(왼쪽 고정, 단위 포함 — units_visible)
     x: 16
     dy: 20                 # 레인 위 끝 → 기준선(v4.4.0 D-0092 B: 17 → 20)
@@ -1377,6 +1428,65 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     pin_leader_w: 1.0
     pin_leader_alpha: 0.6
     change_regime_months: 2   # v4.4.0 D-0091 ② color_by change — 마지막 변화가 이 달 수 안이면 그 방향(hike·cut), 넘으면 hold(동결). FOMC 회의 간격(6~7주) — 연속 회의 인상·인하는 이어지고 동결 결정 뒤는 회색(6 → 2: fed_policy 검수 루브릭 5 지적, 2026 동결기가 인하 색)
+  bars:                    # v7.4.0 D-0278 §4.1·D-0308 §1(UF-149 어휘 — 감독 제안, 사용자 합격 값 아님) — series style bars·stack: 분기 열마다 0 에서 자라는 캡슐
+    w_ratio: 0.55          # 막대 폭 = 분기 폭 × 이 값(가운데 = 분기 가운데)
+    # v7.4.0 D-0310 §1-2(UF-155 "바닥쪽에는 둥글게 하지 않고, 위쪽도 … 아주 약간의 둥글기만") — 캡슐(폭/2) 폐기. 0 쪽은 각, 바깥 끝(양수 위·음수 아래) 모서리만 이 반지름(px)
+    top_radius: 3
+    hollow_w: 2            # 속빈(예상치·가이던스) 윤곽선 굵기(px) — 같은 모양(D-0310 §1-2)
+    ink: white             # 단일 잉크(색으로 카테고리를 나누지 않는다 — 시트 §6.2). 팔레트를 고르면 text 토큰
+    ladder: [0.42, 0.24, 0.13]   # accent 아닌 열은 최신부터 차례로 이 농도(넘으면 마지막 값)
+    stack_ladder: [0.92, 0.62, 0.40, 0.26]   # 쌓임 부문 농도(부문 순서, accent·손실 부문 제외). 첫 단 0.92 = 어두운 글자 대비 ≥ 4.5(D-0314 §1-4), 중간 단은 판 위 글자
+    stack_sep_w: 1         # 부문 사이 틈(px, 바탕색 — D-0310 감독 지시 "1px 바탕색 구분선")
+    negative_fill: muted_fill   # UF-204(사용자 "A") — 손실 = down 과 바탕을 neg_fill_mix 로 섞은 채도 낮은 면, 테두리 없음. 대안(잉크 사다리·손실 윤곽)은 삭제(P2, D-0336)
+    neg_fill_mix: 0.45          # 손실 면 = down × 이 값 + 바탕 × (1 − 이 값)
+    loss_color: ru         # 손실 면에 섞는 색 = down 의미색(neg_fill_mix)
+    label_contrast_min: 4.5   # D-0314 §1-4 — 부문 이름 글자색 = text·바탕 중 칠(아일랜드 위 합성색)과 대비가 큰 쪽. 둘 다 이 값 미만이면 오류(P6)
+    zero_alpha: 0.7        # 막대·쌓임 레인 0 기준선 — 음수 부문이 0 아래로 내려가므로 또렷하게(D-0309 §1-2 zero_alpha, 일반 레인 series.zero_alpha 보다 진하게)
+    zero_w: 1.2
+    lane_pad_top: 0.14     # 막대·쌓임 레인 위·아래 여백(레인 높이 비율) — 일반 레인(series.lane_pad_*)보다 작게: 플롯이 레인을 더 쓴다(감독 지시 R-0293 ①)
+    lane_pad_bottom: 0.14
+    value_size: 11         # 값 라벨(막대 끝에 직접 — 범례 없음). layout_480p.min_font_px 이상
+    value_font: sansb
+    value_gap: 5           # 막대 끝 → 라벨 기준선(px)
+    value_halo: 2.5
+    part_label_size: 9.5   # 쌓임 부문 이름(막대 안 직접 — 범례 없음). layout_480p.min_font_px
+    part_label_font: sansm
+    part_label_dx: 6       # 지시선 라벨: 막대 오른쪽 끝 → 글자(px)
+    part_label_min_h: 14   # 부문 높이가 이 이상(px)이면 막대마다 안에, 아니면 마지막 막대 오른쪽에 지시선과 함께(D-0310 감독 지시 ①)
+    leader_len: 10         # 지시선 길이(px)
+    total_dot_r: 3.0       # 합계 점·선(쌓임 위 회사 전체 — D-0309 §1-3)
+    total_line_w: 1.5
+    total_alpha: 0.92
+    # v7.4.0 D-0308 §2(UF-149 어휘 — 감독 제안, 사용자 합격 값 아님)·D-0315 §1-3 — 부문 비교(series style dumbbell·diverging). 그 분기 열 안에 부문을 나란히(시간축 세계 안 — 독립 패널 금지, UF-135)
+    pair_w_ratio: 0.9      # 부문 묶음 폭 = 분기 폭 × 이 값(가운데 = 분기 가운데)
+    pair_dot_r: 4.5        # 덤벨 원 반지름(px) — 속빈 원 = 전분기, 채움 원 = 이번 분기
+    pair_line_w: 2.0       # 덤벨 두 원 사이 선(px)
+    pair_line_alpha: 0.55
+    diverging_w_ratio: 0.62   # diverging 막대 폭 = 부문 칸 폭 × 이 값
+    # v7.4.0 D-0321 §2-1 — 가이던스 = 같은 폭 속 빈 막대(0 → 위 끝) + 아래 끝~위 끝 띠 + 시장 예상 속 빈 동그라미·가로 획(둥근 캡슐 금지)
+    guide_band_alpha: 0.45
+    guide_tick_ratio: 0.8     # 예상 가로 획 폭 = 막대 폭 × 이 값
+    guide_tick_w_ratio: 0.6   # 예상 가로 획 굵기 = 속빈 윤곽 굵기 × 이 값(하한 1px)
+    guide_edge_alpha: 0.95    # 가이던스 속빈 막대 윤곽·예상 동그라미 알파
+    sum_tol_pct: 0.5       # 부문 합 vs 합계(공시 원값) 허용 오차 % — 넘으면 렌더 전 오류(P6, D-0309)
+    # v7.4.0 — 아래는 engine/layers/series.py 리터럴을 옮긴 값(값 그대로, test_no_magic_numbers)
+    sep_rgb: [0.05, 0.06, 0.08]   # 쌓임 부문 틈·밝은 부문 위 글자·덤벨 원 속(아일랜드 바탕에 가까운 어두운 잉크, 팔레트 island 가 있으면 그 색)
+    hollow_alpha: 0.9         # 속빈 윤곽(예상치 막대·전분기 덤벨 원) 알파
+    solid_alpha_min: 0.5      # 칠 알파가 이 이상이면 글자도 칠 색, 아니면 잉크(흐린 칠 글자가 바탕에 묻히지 않게)
+    part_plate_h_ratio: 1.05  # 막대 안 부문 이름 바탕 판 높이 = 글자 크기 × 이 값 + 여백
+    total_dot_hot_scale: 1.3  # 강조(accent) 합계 점 반지름 배율
+    leader_bend_ratio: 0.6    # 지시선 꺾이는 곳 = leader_len × 이 값(앞은 수평, 뒤는 라벨 쪽으로 비스듬)
+    leader_alpha: 0.85        # 지시선 알파
+    leader_label_dx_ratio: 0.5   # 지시선 끝 → 이름 글자 = part_label_dx × 이 값
+  text_metrics:            # v7.4.0 — 글자 크기 비율로 쓰는 기준선 보정(series 레이어 라벨 공통, 값 그대로 옮김)
+    mid_drop: 0.35         # 점·칸 가운데에 글자를 세로 가운데로 = 기준선을 글자 크기 × 이 값만큼 아래로
+    cap_rise: 0.8          # 상자 위 끝에 글자 머리를 맞춤 = 기준선을 위 끝 + 글자 크기 × 이 값
+    ascent: 0.85           # 글자 바탕 판 위 끝 = 기준선 − 글자 크기 × 이 값
+  secondary:             # v7.4.0 D-0309 §1-4(감독 제안) — 같은 레인 안 보조 축 계열 하나(주가 일별 선). 가늘고 보조 색, 축은 왼쪽(주 축은 오른쪽)
+    line_w: 1.1
+    alpha: 0.8
+    dot_r: 1.3             # 일별 점(D-0308 §3 act4 "일별 점 선")
+    axis_label_margin_px: 6
   band:                    # v4.4.0 D-0090 작업 2 — series style band(두 레코드 사이 띠 = 목표 범위). 색은 이벤트 col
     fill_alpha: 0.28
     edge_alpha: 0.9
@@ -1393,6 +1503,10 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     dash: [2, 3]
     line_w: 1
     inset_px: 6
+    # v7.4.0 D-0319 ③ — 일별(daily) 계열은 날마다 점선·라벨을 찍지 않는다(하루 끊김 1px 남짓 — 라벨이 선보다 크고 서로 겹친다, UF-155).
+    # 선만 끊고 레인 출처 줄 끝에 한 줄. 날짜 목록은 provenance series_records.missing. 월별·분기 계열은 위 점선·라벨 그대로
+    daily_note_outlier: "급변일 {n}일 자료 없음(보도 미대조)"   # 레코드 missing 사유가 모두 '급변일' 로 시작할 때
+    daily_note: "{n}일 자료 없음"
   # v5.1.0 back_and_forth D-0121 §A(사용자 피드백 D105 — fed 시간축 가로축 스케일이 숏마다 바뀌어 불편) — 축 스케일(카메라 w, 일)을 장면 단위로 고정.
   # w 변화 = 시간축 숏(지도 무대 제외)의 연속한 두 숏 사이 w 가 다름(첫 숏 설정은 변화 아님). checks timeline_rescale(hard)
   # `[timeline-rescale] {at} w {a}→{b} ({이유})`: ① scene_fixed 인데 같은 장면 안 변화 ② 영상 전체 변화 수 > max ③ 비율 max/min < ratio_min. provenance timeline.w_changes[]
@@ -1625,6 +1739,73 @@ island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) �
   main_required: true
   main_kinds: [chart, primitive, photo, clip, article, panel]   # panel = D-0130 Q3 B(backdrop 패널 766×362 는 화면 대부분을 채우는 아일랜드)
   card_only_max_sec: 3.0   # 전환(앞 아일랜드 퇴장 ~ 다음 등장) 허용 폭
+  # v7.4.0 back_and_forth D-0328(UF-202 "르포는 느낌만 — 영상에 맞춰 바닥에서 새로 조판") — 팔레트 surface: stage 일 때 차트는 카드가 아니라 무대.
+  # 아일랜드 테두리·바탕·머리 띠 없음(바탕 위 바로), 레인 띠 칠 없음, 글자 위계 셋(큰 값·라벨·작은 출처 한 줄), 보조 축 숫자 없음(끝값 핀만). 감독 명세 값
+  stage_surface:
+    lane_label_size: 12      # 레인 이름(짧은 이름 + 단위 하나 — "인텔 영업이익 · 십억 달러") sans muted
+    lane_label_font: sansm
+    end_pin_size: 12         # 보조 계열 끝값 핀 글자(축 숫자 대신)
+    end_pin_font: sansb
+    end_pin_dx: 6            # 끝점 → 글자
+    end_pin_r: 2.5           # 끝점 반지름
+    plate_pad: 2             # 핀 글자 뒤 바탕색 판 여백 — 지나가는 선을 글자 밑에서 끊는다
+    plate_h_ratio: 1.1       # 핀 글자 판 높이 = 글자 크기 × 이 값 + 여백(판 위 끝 = stage_timeline.text_metrics.ascent)
+    source_lines: 1         # 출처는 한 줄(레코드 출처 머리 + 마지막 기준 시점). 길면 엔딩 카드(auto: series)가 전부 말한다
+  # v7.4.0 back_and_forth D-0318·D-0319 ④ — 열 확대 인셋(island kind column_detail). 차트 아일랜드 안 한 분기 열을 리더선으로 가리키는 둥근 사각.
+  # 같은 값·같은 레코드·같은 시점을 크게(지도 위성 인셋과 같은 지위 — 다른 시간축 아님, UF-135 아님). 축척(UF-138)은 아일랜드 그대로.
+  # 크기는 차트 아일랜드 뷰(view) 비율, 자리는 side_order 중 인셋 생애 내내 열을 가리지 않는 첫 자리(예측 — 위성 인셋 D-0300 과 같은 원칙). 감독 제안 값
+  column_detail:
+    w_ratio: 0.46            # 인셋 폭 = 뷰 폭 × 이 값
+    h_ratio: 1.0             # 인셋 높이 = 레인 플롯 높이 × 이 값(레인 이름 줄·출처 줄을 덮지 않는다)
+    margin_px: 10            # 뷰 가장자리 → 인셋
+    side_order: [left, right]
+    never_cover_focus_column: true   # 감독 지시(R-0303 검토) — 가리키는 열(최신·accent 분기)은 어느 프레임에서도 가리지 않는다. 그런 자리가 없으면 렌더 전 오류(P6). 앞 분기 추이 막대는 가려도 된다
+    radius: 8
+    fill_alpha: 1.0          # 바탕 = 쌓임 틈과 같은 어두운 잉크(stage_timeline.bars.sep_rgb 섬 합성), 불투명 — 뒤 막대·글자가 비치지 않게(겹침 0)
+    edge_alpha: 0.35
+    pad_px: 14
+    head_size: 13            # 머리 줄 "2026년 3분기 · 부문 매출(십억 달러)" — D-0318 §1 글자 ≥ 12
+    head_font: sansb
+    text_size: 12            # 값·이름 — D-0318 §1 글자 ≥ 12
+    text_font: sansm
+    value_font: sansb
+    dot_r: 6.0               # D-0318 §1 점 반지름 ≥ 5
+    line_w: 2.5
+    bar_w_ratio: 0.5         # diverging 막대 폭 = 부문 칸 폭 × 이 값
+    band_alpha: 0.16         # 아일랜드 해당 열 accent 띠
+    band_ink_alpha: 0.05     # 무대 표면(surface stage) 열 띠 = text 잉크 이 알파(격자선처럼 거의 안 보임 — accent 띠는 갈색 큰 막대로 읽힌다, 감독 판정 98c020b)
+    leader_w: 1.0
+    leader_alpha: 0.6
+    fade: [0.5, 0.4]         # 등장·퇴장(초) — D-0318 §1-2 0.4~0.6초
+    slide_px: 16             # 등장 때 열 쪽에서 미끄러져 나오는 거리
+    grow_sec: 0.6            # 등장 뒤 값(채움 원·막대)이 자라는 시간
+    guide_bar_ratio: 0.16    # 가이던스 확대 그림의 막대 폭 = 인셋 그림 폭 × 이 값(D-0321 §2-2)
+    label_gap_ratio: 1.1     # 세로로 민 라벨 최소 간격 = 글자 크기 × 이 값(D-0321 §3 잉크 사다리 규칙), 밀린 라벨은 가는 리더선(알파 leader_alpha)
+    # v7.4.0 — 아래는 engine/layers/series.py 리터럴을 옮긴 값(값 그대로, test_no_magic_numbers)
+    side_slack: 0.03         # 자리 판정 여유 — 인셋이 가리는 뷰 폭 비율 = w_ratio + 이 값(margin 근사)
+    min_alpha: 0.01          # 알파가 이 이하면 그리지 않는다
+    grow_delay_ratio: 0.5    # 값 자람 시작 = 등장 페이드 × 이 값 뒤
+    plot_top_gap: 16         # 머리 줄 → 그림 영역 위 끝(px)
+    plot_bottom_gap: 8       # 그림 영역 아래 끝 → 맨 아래 이름 줄 글자(px)
+    range_pad_below: 1.2     # 가이던스 확대 세로 범위 아래 여유 = (위 끝 − 아래 끝) × 이 값(막대가 인셋 아래로 이어지게)
+    range_pad_above: 0.35    # 가이던스 확대 세로 범위 위 여유 = (위 끝 − 아래 끝) × 이 값
+    guide_bar_x_ratio: 0.18  # 가이던스 확대 막대 왼쪽 끝 = 그림 왼쪽 + 그림 폭 × 이 값(왼쪽 = 눈금 숫자 자리)
+    tick_alpha: 0.5          # 확대 눈금 획 알파
+    tick_label_dx: 9         # 눈금 숫자 오른쪽 끝 → 막대 왼쪽 끝(px)
+    tick_label_alpha: 0.6    # 눈금 숫자 알파 배율
+    guide_line_scale: 1.5    # 확대 가이던스 윤곽 굵기 = bars.hollow_w × 이 값
+    label_dx: 14             # 확대 가이던스 막대 오른쪽 끝 → 라벨(px)
+    slope_pad_ratio: 0.12    # slope 세로 범위 위아래 여유 = 값 폭 × 이 값
+    slope_x0_ratio: 0.28     # slope 왼쪽(1년 전) 열 = 그림 왼쪽 + 폭 × 이 값
+    slope_x1_inset_ratio: 0.34   # slope 오른쪽(지금) 열 = 그림 오른쪽 − 폭 × 이 값
+    slope_head_alpha: 0.8    # slope 두 시점 머리 글자 알파 배율
+    slope_dot_ratio: 0.7     # slope 끝점 반지름 = dot_r × 이 값
+    hot_line_scale: 1.3      # 강조(accent) 선 굵기 = line_w × 이 값
+    dumbbell_pad_ratio: 0.15     # 덤벨 세로 범위 위아래 여유 = 값 폭 × 이 값
+    dumbbell_x_shift_ratio: 0.12   # 덤벨 원 = 칸 가운데에서 칸 폭 × 이 값만큼 왼쪽(오른쪽 = 값 글자 자리)
+    value_dx: 5              # 덤벨 원 가장자리 → 값 글자(px)
+    prior_value_alpha: 0.75  # 덤벨 전분기 값 글자 알파 배율
+    diverging_pad_ratio: 0.18    # diverging 세로 범위 여유 = 값 폭 × 이 값(음수 쪽은 음수가 있을 때만)
 
 genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(docs/handoff/20 §5.1·§5.2·§6·§7·§9, 15 P3). 워커가 장르 프로필 + 이 절로 프롬프트 끝 문단을 만든다(workers/prompt_loader.py)
   base_genre: geopolitics  # 기본 프롬프트(prompts/*.md)가 이미 전제한 장르 — 이 장르는 추가 문단 0(프롬프트 바이트 동일)
@@ -1633,6 +1814,28 @@ genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(
     attribute_causality: "인과는 단정하지 않고 귀속한다(\"연준은 ~라고 설명했습니다\", \"~라는 분석이 있습니다\"). 경제 인과는 논쟁 사안인 경우가 많다 — 균형 원칙을 그대로 적용한다."
     numbers_per_sentence_max: "한 문장에 숫자는 {n}개 이하. 나머지 숫자는 화면(시리즈·카드·패널)이 말한다."
     forecast_attribution: "전망은 누구의 전망인지 귀속한다(\"FOMC 참가자들의 전망 중앙값\"). 점도표는 약속이 아니라 참가자별 전망임을 한 번 말한다. 가격·금리 예측을 단정하지 않는다."
+    # v7.4.0 back_and_forth D-0278 §4.3(E5·E7 실적 발표) — 기업 장르 스위치 셋
+    company_metric_attribution: "회사가 산정한 지표(비GAAP 이익·조정 EPS·가이던스)는 회사 기준임을 밝힌다(\"회사 기준 조정 주당순이익은 …\"). 공시 숫자와 회사 산정 숫자를 섞지 않는다."
+    consensus_attribution: "예상치(컨센서스)는 집계 기관과 전한 매체를 함께 밝힌다(\"LSEG 집계 예상치는 …\"). 출처가 엇갈리면 양쪽을 다 말하거나 쓰지 않는다. 예상치를 지어내지 않는다."
+    price_window_attribution: "주가 반응은 어느 창의 값인지 밝힌다(\"시간외 거래에서\", \"다음 날 종가 기준\"). 아직 열리지 않은 장의 종가는 쓰지 않는다. 주가를 예측하거나 매수·매도를 권하지 않는다."
+  # v7.4.0 back_and_forth D-0278 §3 — 템플릿 고정 막(장르 이름 → 막 줄). 원고·연출 장르 문단 {{GENRE.acts}} 자리에 acts_head + 줄 목록. 없는 장르 = 빈 자리
+  acts_head: "막 구성(이 장르 템플릿의 고정 막 — 순서대로, 막마다 장면 하나 이상. order.yaml instructions 가 덮을 수 있다)"
+  acts:
+    earnings:
+      - "cold — 발표 당일 한 컷의 모순(예: 사상 최대 실적인데 주가 하락). 현장 사진 배경 + 주가 레인 핀. 8~12초"
+      - "act1 예상 vs 실제 — 분기 레인에서 그 분기 막대가 0에서 자라고 예상치 표식과 만난다. 차이(%)는 코드가 계산한 라벨. 25~35초"
+      - "act2 어디서 나왔나 — 같은 막대가 부문별 쌓임으로 갈라진다. 경영진 발언 인용·IR 자료 기사 카드. 25~35초"
+      - "act3 가이던스 — 다음 분기 열에 회사 가이던스 범위 띠와 예상치 표식. 정성 가이던스는 인용. 20~30초"
+      - "act4 주가 반응 — 같은 시간축의 주가 레인으로 이동: 발표 전 추세 → 발표일 핀 → 반응 라벨(시간외·종가 창 명시) · 이유를 전한 기사 카드. 20~30초"
+      - "act5 지경학 — 지도 보조 무대(전환 1회): 관세·수출통제·정부 지분·공장·사고, 다른 회사와의 고리. 30~45초"
+      - "ending — 한 문장 정리 + 엔딩 카드(출처·권리·투자 고지). 10초"
+  # v7.4.0 back_and_forth D-0304 ②(R-0291) — 장르별 데이터 보충 줄(공통 data_sources 뒤에 붙는다). 공통 둘째 줄("독점 데이터는 쓰지 않는다")은
+  # 거시 지표 기준이다 — earnings 는 사용자 결정 D-0302 ②(Yahoo 시세 = private_only_market_data 레코드)가 아래 줄로 범위를 정한다
+  data_sources_by_genre:
+    earnings:
+      - 실적 수치는 공시 원문(DART·EDGAR, 데이터 레코드 source_kind filing)의 값만 쓴다. 회사 산정 지표(비GAAP·조정 EPS)는 회사 기준임을 밝힌다.
+      - 예상치(컨센서스)는 보도 인용(press_cited) 레코드의 값만 — 집계 기관과 전한 매체를 귀속한다. 레코드가 없으면 예상치를 말하지 않는다.
+      - 주가는 시세 레코드(private_only_market_data, 일별 종가)의 값만 쓴다. 시간외 등락은 보도 인용으로만, 어느 창의 값인지 밝힌다.
   data_sources:            # 20 §5.1 — 리서치·원고 프롬프트의 데이터 원칙
     - 수치는 1차·공개 출처(중앙은행 공식 발표, 통계기관, FRED 같은 공개 데이터 저장소)에서만 가져온다.
     - 시장 사업자의 독점 데이터(선물 가격에서 추정한 금리 확률 등)는 쓰지 않는다. 필요하면 보도 인용(기사)으로 대신하고 누가 보도했는지 귀속한다.
@@ -1662,22 +1865,43 @@ genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(
       - "정책 금리 계단·목표 범위 띠는 color_by: change(인상·인하·동결 색을 코드가 레코드 변화로 정한다). 시장 금리·물가 선은 fixed."   # v4.4.0 D-0091 ②
 
 data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs/handoff/20 §5.1, schemas/data_models.py:SeriesRecord). 이 목록 밖 값 = 로드 오류(15 P6)
-  units: ["%", "%p", "bp", "억 달러", "지수", "명", "원", "달러/갤런", "mb/d", "kb/d", "건", "척", "ton"]   # 건·척 = v7.4.0 D-0229 §4.3(점 패널 "몇 척 중 몇 척", UF-113). mb/d·kb/d = v7.3.0 D232 U4(하루 백만·천 배럴, 정제 처리량·경유 수출). v5.3.1 달러/갤런 = 미국 경유 소매가(EIA GASDESW, valdai-2026). 화면 단위(20 §5.3 "단위를 화면에 표시")
+  units: ["%", "%p", "bp", "억 달러", "지수", "명", "원", "달러/갤런", "mb/d", "kb/d", "건", "척", "ton", "조 원", "십억 달러", "달러", "곳", "배"]   # 건·척 = v7.4.0 D-0229 §4.3(점 패널 "몇 척 중 몇 척", UF-113). mb/d·kb/d = v7.3.0 D232 U4(하루 백만·천 배럴, 정제 처리량·경유 수출). v5.3.1 달러/갤런 = 미국 경유 소매가(EIA GASDESW, valdai-2026). 화면 단위(20 §5.3 "단위를 화면에 표시")
   # v7.4.0 D-0241 §3(UF-122 "십자가 처럼 보이는 t를 쓰지 말고 ton으로") — 화면 무게 단위는 ton. 숫자 뒤 t 가 화면 문자열에 남으면 [unit-ton-glyph] hard
   unit_ton_pattern: '(?<![A-Za-z])(\d|[만천억백])\s?t(?![A-Za-z])'
-  licenses_allowed: [us_gov_public_domain, cc_by_4, press_cited]   # 재배포 가능한 공개 라이선스만(20 §5.1 "시리즈마다 이용 조건 확인"). press_cited = v7.3.0 D232 U4 — 보도 인용값(값 자체는 사실 인용, 값마다 cited 필수)
+  licenses_allowed: [us_gov_public_domain, cc_by_4, press_cited, public_filing, private_only_market_data]   # public_filing·private_only_market_data = v7.4.0 D-0278 §4.2(E3) — 공개 공시 기록(DART/EDGAR, 사실 데이터)·시세(재배포 제한 — 비공개 시청 D264, license_note 에 약관 메모). 재배포 가능한 공개 라이선스만(20 §5.1 "시리즈마다 이용 조건 확인"). press_cited = v7.3.0 D232 U4 — 보도 인용값(값 자체는 사실 인용, 값마다 cited 필수)
   unit_prefixes: ["$", "₩", "€", "¥"]                    # v4.3.0 D-0087 보정 1 — 값 앞 통화 기호도 단위 표시로 인정(dual_line y_prefix)
-  sources_allowed: [fred.stlouisfed.org, www.federalreserve.gov]   # source_url 도메인(tools/fetch_series.py 가 받는 곳). federalreserve.gov = v4.4.0 SEP 점도표(D-0090 작업 2)
-  frequencies: [monthly, release, daily]                    # 값 날짜 간격 — monthly = 매월 1일, 한 달씩. release = 발표 한 번(scatter, v4.4.0). daily = 일별 원자료(v7.4.0 D-0326 UF-200 — 목표 범위는 발효일 계단)
+  sources_allowed: [fred.stlouisfed.org, www.federalreserve.gov,
+                    dart.fss.or.kr, opendart.fss.or.kr, www.sec.gov, news.samsung.com, images.samsung.com, www.intc.com, d1io3yog0oux5.cloudfront.net,
+                    query1.finance.yahoo.com, query2.finance.yahoo.com, data.sec.gov]   # data.sec.gov = XBRL companyfacts(D-0303 이후 허용)   # 둘째·셋째 줄 = v7.4.0 D-0278 §4.2(E3 공시 원문·IR 자료·Yahoo chart 일별 시세). source_url 도메인(tools/fetch_series.py 가 받는 곳). federalreserve.gov = v4.4.0 SEP 점도표(D-0090 작업 2)
+  frequencies: [monthly, release, quarterly, daily]         # daily = 일별 원자료(v7.4.0 D-0326 UF-200 — 목표 범위는 발효일 계단·거래일 시세). quarterly = 분기 마지막 날(막대 중심은 분기 중앙), daily = 거래일(휴장일은 빈 날이 아니다) — v7.4.0 D-0278 §4.2. 값 날짜 간격 — monthly = 매월 1일, 한 달씩. release = 발표 한 번(scatter, v4.4.0)
   transforms:                                               # 코드가 하는 변환(명시된 것만). 레코드 transform.formula 는 이 문구와 같아야 한다
     raw: "원자료(변형 없음)"
     yoy_pct: "전년 동월 대비 % = (x_t / x_(t-12) - 1) * 100, 소수 둘째 자리 반올림"
     sep_dots: "SEP 그림 2 표(값별 참가자 수) → 열마다 참가자별 점(값을 인원수만큼 되풀이, 오름차순)"   # v4.4.0 D-0090 작업 2 — scatter(점도표)
     month_last: "일별 → 그 달의 마지막 관측값(값은 원자료 그대로, 날짜는 그 달 1일)"
+    filing: "공시 표의 값 그대로(단위 환산만 — rules data.filing_scales)"   # v7.4.0 D-0278 §4.2(E3) — source_kind filing. 값마다 filings{form·번호·제출일·항목·위치·url·원값·원단위}, 환산은 로더가 다시 계산해 대조
+    chart_close: "Yahoo chart API 일별 종가(indicators.quote close 값 그대로, 거래일만)"   # v7.4.0 D-0278 §4.2 — 주가 레인. raw/<id>.json 을 다시 읽어 대조
     press_cited: "보도 인용값(매체·날짜)"   # v7.3.0 D232 U4 — 1차 표를 열지 못한 값. 코드가 받지 않는다(source_kind press_cited, 값마다 cited)   # v4.4.0 D-0090 작업 2 — DFEDTARU·DFEDTARL(목표 범위 상·하한)
   # v7.3.0 사용자 결정 D232 U4 — 출처 종류. fetched = 코드가 source_url 에서 받은 값(sources_allowed 도메인), press_cited = 보도 인용값(IEA·Vortexa·Kpler·LSEG 등을
   # 언론·보고서가 인용한 값 — 레코드 values 마다 cited{outlet, date, url} 필수, transform press_cited, license press_cited). 추정치 없는 달은 missing(보간 금지 — 선을 끊는다)
-  source_kinds: [fetched, press_cited]
+  source_kinds: [fetched, press_cited, filing]             # filing = v7.4.0 D-0278 §4.2(E3) — 공시 원문 표의 값(값마다 filings, transform·license filing·public_filing)
+  # v7.4.0 D-0278 §4.2 — 공시 원단위 → 화면 단위(factor 곱, digits 자리 반올림). 이 표 밖 원단위 = 오류(P6)
+  filing_scales:
+    "백만 달러": {to: "십억 달러", factor: 0.001, digits: 1}
+    "억 원": {to: "조 원", factor: 0.0001, digits: 1}
+    "백만 원": {to: "조 원", factor: 0.000001, digits: 1}
+    "원(재무제표)": {to: "조 원", factor: 0.000000000001, digits: 1}   # OpenDART fnlttSinglAcntAll thstrm_amount(원 단위 금액)
+    "조 원": {to: "조 원", factor: 1, digits: 1}
+    "십억 달러": {to: "십억 달러", factor: 1, digits: 1}   # 보도자료 부문 표($8.1 — In Billions)
+    "USD": {to: "십억 달러", factor: 0.000000001, digits: 1}   # XBRL companyfacts 금액(달러 원값)
+    "USD/shares": {to: "달러", factor: 1, digits: 2}            # XBRL companyfacts 주당 값
+    "달러": {to: "달러", factor: 1, digits: 2}
+    "%": {to: "%", factor: 1, digits: 1}
+  # v7.4.0 감독 점검(T1 레코드, 2026-10-30) — 일별 시세(transform chart_close) 하루 변동 |종가/전일 종가 − 1| 이 이 % 이상이면
+  # 그 날짜에 보도 확인(cited: 매체·날짜·url)이 있어야 한다. 없으면 레코드 로드 오류 [price-outlier](G4 — 잘못된 틱을 그리지 않는다)
+  price_outlier_pct: 10
+  # v7.4.0 D-0319 ① — 일별 종가 null(Yahoo 응답 행은 있으나 close 없음)은 오류가 아니라 missing(이 사유)으로 적는다. 채우지 않는다(P6)
+  chart_null_note: "원 응답 null"
   series_dir: data/series                                   # <series_id>.yaml(레코드) + <series_id>.csv(값) + raw/<series_id>.csv(받은 그대로)
 
 primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/primitives/<id>.py) 레이아웃 토큰. registries.primitives 마다 한 블록(20 §4.2 "색·크기는 토큰만")
@@ -1993,7 +2217,7 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   map_contrast_shape: 3.0
   map_contrast_min_alpha: 0.8
   label_hidden_max_ratio: 0.5   # v3.6.0 D-0068 — 마커 라벨이 카드 영역 때문에 흐려진(알파 < 0.5) 시간 ÷ 그 마커 표시 시간. 초과 = overlap hard
-  planned: []             # v4.2.0 D-0081 — 예정 검사(장르 프로필 proposed 의 qa_extra 만 참조). v4.3.0: 정직성 4개가 실제 검사로 옮겨 비었다
+  planned: [price_window_label]   # v7.4.0 D-0339 T3 — bars_from_zero·estimate_actual_pair 는 실제 검사로 옮겼다. D-0278 §4.1 — T3 등록 전(genres/earnings.yaml proposed qa_extra). v4.2.0 D-0081 — 예정 검사(장르 프로필 proposed 의 qa_extra 만 참조). v4.3.0: 정직성 4개가 실제 검사로 옮겨 비었다
   # v4.3.0 D-0084 작업 5·D-0087 — 차트 정직성(engine/honesty.py, 20 §5.3). 요소의 축 종류(렌더러 모듈 AXIS) → 적용 검사.
   # 적용되지 않는 검사는 checks.json 메모 n/a(<축> 축)로 남는다(조용한 생략 아님)
   chart_targets:
@@ -2001,6 +2225,17 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
     date: [chart_honesty]                                                   # timeline·gantt 패널·시간축 무대(압축 표시)
     none: []                                                                # 값·날짜 축이 없는 패널
   series_max: 3            # 한 차트(레인·패널)의 계열 수 상한(20 §5.3)
+  # v7.4.0 back_and_forth D-0339(사용자 의견 UF-151·152·154·155·202 장치 — 값은 D-0309 §5·§6 감독 제안, 사용자 합격 값 아님)
+  chart_depth:
+    layers_min: 3              # [chart-layers-min] hard — 아래 장르 영상의 차트 아일랜드 중 하나는 층(계열·부문·보조 계열·예상·열 확대 인셋) ≥ 이 값(UF-151 "하나의 차트에 하나의 정보만 제공하는게 아니고")
+    layers_min_genres: [earnings]
+    visible_series_max: 4      # [chart-overload] hard — 한 순간 시간축 세계에 보이는 계열 수 상한(UF-154 "너무 복잡하지 않지만")
+    layer_dwell_sec: 4         # [chart-overload] hard — 새 층이 들어온 뒤 다음 새 층까지 최소 간격(초, 소화 시간)
+    secondary_per_lane_max: 1  # [secondary-axis-single] hard — 레인당 보조 축 계열 1(UF-152, D-0309 §5 보조 축 1 유지)
+    grid_text_pad_px: 1        # [grid-text-cross] hard — 세로 격자선이 글자 상자(레인 이름·축 값·출처 줄·끝값)를 지나가면 실패(UF-155 "선과 글씨가 겹치는 부분")
+    bar_edge_inset_px: 1       # [bar-border] hard — 막대 가장자리 안쪽 이 px 색이 가운데 색과 다르면 테두리(UF-202 "막대에 테두리 없애고")
+    bar_edge_tol: 0.06
+    sample_step_sec: 1.0       # 프레임을 그려 재는 검사의 표본 간격(초)
   visual_qa_loop_max: 2
   # v5.1.0 D-0127 §5 — 시각 검수 empty 판정 제외 구간(규약상 비어 보이는 순간). article_press_lead = 기사 프레스 사진(또는 블러 무대) 단독
   # layout_480p.article_card.press_lead_sec + 헤드라인 페이드 인 overlay_fade_sec. frames.json article 이벤트 phase "press_lead" 로 표시, 검수 워커가 그 컷의 empty 지적을 거부

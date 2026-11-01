@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING, Any, Optional
 
 import cairo
 
-from engine.style import BACKDROP, H_OUT, W_OUT
+from engine.style import BACKDROP, H_OUT, W_OUT, bg_rgb
 
 if TYPE_CHECKING:
     from engine.assets import Assets
@@ -48,7 +48,7 @@ class BackdropStage:
         return {}
 
     def render_base(self, ctx: cairo.Context, view: "View") -> None:
-        ctx.set_source_rgb(*BACKDROP.bg_rgb)
+        ctx.set_source_rgb(*bg_rgb(BACKDROP.bg_rgb))
         ctx.paint()
 
     def draw_labels(self, ctx: cairo.Context, view: "View", reserved: list, alpha: float = 1.0) -> None:

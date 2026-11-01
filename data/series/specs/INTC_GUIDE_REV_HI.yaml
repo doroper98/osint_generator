@@ -1,0 +1,16 @@
+series_id: INTC_GUIDE_REV_HI
+source: 인텔 실적 보도자료(SEC 8-K Ex.99.1, intc.com 사본) · 4분기 전망(회사 가이던스)
+unit: 십억 달러
+issued_on: '2026-10-29'
+revision_note: 회사 가이던스(전망) — 실적이 아니다
+values:
+- date: '2026-12-31'
+  form: 8-K Ex.99.1
+  number: 0000050863-26-000188
+  filed_on: '2026-10-29'
+  url: https://www.intc.com/filings-reports/all-sec-filings/content/0000050863-26-000188/q326earningsrelease.htm
+  table: 2
+  row: Revenue ($B)
+  col: 6
+  part: hi
+  raw_unit: 십억 달러
