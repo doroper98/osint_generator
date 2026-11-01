@@ -1249,7 +1249,7 @@ events:
     - date: '2026-10-11'
       label: 레자이 '불충분'
       col: ru
-      side: -2
+      side: -1
       t:
         sid: act2_8
         'off': 0.4
@@ -1328,7 +1328,7 @@ events:
     - date: '2026-10-11'
       label: 레자이 '불충분'
       col: ru
-      side: -2
+      side: -1
       t:
         sid: act5_0
         'off': 0.6
@@ -1444,7 +1444,7 @@ events:
   - clm_0046
   data:
     title: 전쟁 위험 보험료
-    subtitle: 보험 중개사(FT·Marsh) · 선가 대비, 10월 6~10%
+    subtitle: 보험 중개사(FT·Marsh) · 10월 6~10% 중 하단 표시
     provenance:
       verification: verified
       sources:
@@ -1457,17 +1457,11 @@ events:
     - 전쟁 전
     - 10월
     series:
-    - label: 하단
+    - label: 선가 대비(범위 하단)
       col: teal
       values:
       - 0.25
       - 6.0
-      decimals: 2
-    - label: 상단
-      col: ru
-      values:
-      - 0.25
-      - 10.0
       decimals: 2
     unit: '%'
 - type: panel
@@ -1527,9 +1521,9 @@ events:
       verification: verified
       sources:
       - clm_0050
-    y_min: 1500
-    y_max: 1900
-    y_step: 100
+    y_min: 0
+    y_max: 2000
+    y_step: 500
     y_prefix: ''
     x_labels:
     - 2월 4주
