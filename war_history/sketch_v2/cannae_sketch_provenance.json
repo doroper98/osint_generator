@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "kind": "war",
+  "spec_sha1": "19d5d89bf6d8d41928d570d0f5b1d2f5943aa2fe",
+  "rules_hash": "6b34ad5825df9b4332d071093310b3a67ffd53bf",
+  "data_files": [
+    {
+      "path": "media_src/cannae_coin.jpg",
+      "sha1": "cda3d61ad10f99720e56dcefba95b2954dacf989",
+      "source": "https://commons.wikimedia.org/wiki/File:Cartagine,_1_e_messo_e_doppio_siclo,_237-209_ac_ca.JPG",
+      "license": "CC BY 3.0"
+    },
+    {
+      "path": "media_src/cannae_bust.jpg",
+      "sha1": "3e2f5c1ce08a4d30fa6b1e3fbd880d819fadd7d6",
+      "source": "https://commons.wikimedia.org/wiki/File:Hannibal_Barca_bust_from_Capua_photo.jpg",
+      "license": "Public domain"
+    },
+    {
+      "path": "media_src/cannae_trumbull.jpg",
+      "sha1": "96d4193f2a9c754e6f69d4e3e89a364f62a9342c",
+      "source": "https://commons.wikimedia.org/wiki/File:The_Death_of_Paulus_Aemilius_at_the_Battle_of_Cannae_(Yale_University_Art_Gallery_scan).jpg",
+      "license": "Public domain"
+    },
+    {
+      "path": "media_src/cannae_closs.jpg",
+      "sha1": "b17482631b0533bdb668e68e6a94936486ed952c",
+      "source": "https://commons.wikimedia.org/wiki/File:Punti_storici_d%E2%80%99Italia_campo_della_battaglia_di_Canne.jpg",
+      "license": "Public domain"
+    },
+    {
+      "path": "ancient_geo/places.json",
+      "sha1": "5590ba720db736ea179133d9b43524b5d3ede5cf",
+      "source": "https://github.com/isawnyu/pleiades.datasets@c0534ffa6226a6d3dd6e1a59ef109b9359e1aabd data/gis/places.csv",
+      "license": "CC BY 3.0"
+    },
+    {
+      "path": "assets/emblems/registry.json#reconstructions/carthage_tanit",
+      "sha1": "0571eee9e210048f830283a0c98a8c14b96887ef",
+      "source": "타니트 기호를 새긴 석회암 비석(루브르 박물관 AO 5244, 기원전 3세기) — 원반·가로 막대·삼각형 몸의 기호를 기하로 다시 그림 · 근거 사진 File:Stèle avec le signe de Tanit (Louvre, AO 5244).jpg(Tangopaso(사진, PD-self))",
+      "license": "Public domain(근거 사진) · 재작도 = 코드 벡터"
+    },
+    {
+      "path": "spec factions.rome.emblem_absent_reason",
+      "sha1": "-",
+      "source": "군단 독수리는 마리우스(기원전 104년) 이후의 유일 표지(플리니우스 『박물지』 X.16) — 기원전 216년에 맞지 않아 쓰지 않는다. 기원전 3세기 말 로마 주화 도안 중 화면 허용 라이선스 사진을 찾지 못함(D-0606 A)",
+      "license": "-"
+    },
+    {
+      "path": "toponymy.yaml",
+      "sha1": "89c1ff6c35bb47ffede04f96ea07db3a1b4dd6d8",
+      "source": "toponymy.yaml 레코드 출처 칸",
+      "license": "사실 기록(출처 귀속)"
+    }
+  ],
+  "features_drawn": {
+    "theme:relief": 1,
+    "drainage": 1776,
+    "scale_bar": 1776,
+    "ancient_road": 441,
+    "place": 951,
+    "route": 421,
+    "lod:toponymy_one_line": 303,
+    "label_flip_left": 163,
+    "toponymy": 303,
+    "river": 1318,
+    "emblem:tanit": 335,
+    "faction_legend": 335,
+    "evidence:period_art": 516,
+    "quote": 129,
+    "glyph:heavy_cav": 1645,
+    "unit:heavy_cav": 1645,
+    "glyph:heavy_inf": 6906,
+    "unit:heavy_inf": 6906,
+    "glyph:light_inf": 109,
+    "unit:light_inf": 109,
+    "emblem_block:tanit": 8070,
+    "glyph:light_cav": 1127,
+    "unit:light_cav": 1127,
+    "glyph:skirmisher": 61,
+    "unit:skirmisher": 61
+  },
+  "approximations": [
+    "부대 위치·모양·이동: 사료 서술(spec sources)의 개략 — 크기·간격은 축척이 아니다",
+    "강 경로: 개략 선(spec rivers)",
+    "지명 좌표: Pleiades 대표 좌표(있는 것) · 그 밖 개략"
+  ],
+  "numbers_shown": [],
+  "numbers_computed": [],
+  "checks": {
+    "ran": [
+      "SK-H1",
+      "SK-H5",
+      "SK-C1",
+      "SK-W1",
+      "SK-R1",
+      "SK-W2",
+      "SK-W3",
+      "SK-W4",
+      "SK-E1",
+      "SK-C2",
+      "SK-W6",
+      "SK-W5"
+    ],
+    "hard": [],
+    "warnings": [
+      {
+        "id": "SK-C2",
+        "message": "라벨 예약 상자 겹침 376프레임(첫 t=9.08s, 끝 t=34.58s)"
+      }
+    ]
+  },
+  "render": {
+    "profile": "480p",
+    "frames": 1776,
+    "duration_sec": 74.0,
+    "elapsed_sec": 1352.2
+  }
+}

@@ -1,0 +1,143 @@
+# 전쟁사 화면 스케치 spec — 칸나이 전투(기원전 216, 제2차 포에니 전쟁). v7.4.0 전쟁사 W4(back_and_forth D-0600 §6)
+# 사실·연출 값만. 화면 수치는 rules/video_rules.yaml sketch.war. 실행: python -m sketch.war projects/cannae_sketch
+# 부대 배치·이동 = 폴리비오스 『역사』 III.113~117(Paton 영역 1922, archive.org polybiushistorie0000wrpa_v3i1) 서술을 옮긴 개략.
+#   로마군: 남쪽을 보고 섬, 오른쪽 날개 = 강가의 로마 기병, 가운데 보병(대열을 좁고 깊게), 왼쪽 날개 = 동맹 기병, 앞에 경보병(III.113)
+#   카르타고군: 북쪽을 보고 섬, 왼쪽 = 강가의 히스파니아·켈트 기병, 아프리카 중보병 절반, 히스파니아·켈트 보병(가운데를 앞으로 내민 초승달),
+#   아프리카 중보병 나머지 절반, 오른쪽 = 누미디아 기병(III.113). 기병 충돌 → 로마 기병 패주(III.115) → 로마 보병이 초승달을 밀어 오목해짐 →
+#   아프리카 보병이 양쪽에서 안으로 돌아섬 → 하스드루발 기병이 뒤를 침(III.115~116)
+# 전장 위치 = 강 북안(Smith 1856 'CANNAE' — 스윈번이 본 강 굽이 안쪽). 위치는 학설이 갈린다 → 화면에 '개략'. 크기·간격은 축척이 아니다
+schema_version: 1
+kind: war
+title: "칸나이 전투 — 기원전 216년"
+date: "-218~-216"
+duration_sec: 74.0
+sheet_times: [8.0, 18.0, 28.0, 34.5, 37.0, 42.0, 48.0, 54.0, 60.0, 66.0]
+
+sources:
+  - text: "부대 배치·이동: 폴리비오스 『역사』 III.113~117(W. R. Paton 영역, 1922) 서술의 개략"
+  - text: "전장 위치(강 북안)·강 굽이: W. Smith, Dictionary of Greek and Roman Geography(1856) — 개략 표기"
+  - text: "지명 좌표: Pleiades(CC BY 3.0) · 지형: Terrarium 고도 타일"
+  - text: "작품: CNG · Fratelli Alinari · 예일대학교 미술관 · G. A. Closs(모두 퍼블릭 도메인, Commons)"
+  - text: "가도: Ancient World Mapping Center (awmc.unc.edu), ODbL 1.0 — 헬레니즘 시대 이전 길만"
+  - text: "날짜: 로마력 8월 2일(겔리우스 V.17) — 실제 계절은 초여름일 수 있다(Smith 1856)"
+
+shots:
+  - {t0: 0.0, t1: 0.0, lon: 12.4, lat: 42.9, w: 10.5}
+  - {t0: 9.5, t1: 16.5, lon: 15.9, lat: 41.45, w: 3.2}
+  - {t0: 18.0, t1: 25.0, lon: 16.108, lat: 41.336, w: 0.085}
+  - {t0: 37.0, t1: 40.0, lon: 16.137, lat: 41.336, w: 0.1}   # 증거 카드(오른쪽) 구간 — 부대를 왼쪽으로 비킨다(D-0602 ①, 같은 좌표계 안 이동)
+
+dates:
+  - {t: 0.0, date: "-218~-216"}
+  - {t: 20.0, date: "-216.08.02"}
+
+factions:
+  carthage: {token: ru, name: "카르타고군(한니발)", emblem: carthage_tanit}
+  rome:
+    token: us
+    name: "로마군(집정관 파울루스·바로)"
+    emblem_absent_reason: "군단 독수리는 마리우스(기원전 104년) 이후의 유일 표지(플리니우스 『박물지』 X.16) — 기원전 216년에 맞지 않아 쓰지 않는다. 기원전 3세기 말 로마 주화 도안 중 화면 허용 라이선스 사진을 찾지 못함(D-0606 A)"
+legend_t: [24.0, 38.0]
+ancient_roads_t: [0.5, 19.0]
+
+places:
+  - {name: "로마", pleiades: "423025", t: 1.0}
+  - {name: "플라켄티아", now: "피아첸차", pleiades: "383741", t: 3.5}
+  - {name: "트라수메누스 호수", now: "트라시메노", pleiades: "413347", t: 6.0}
+  - {name: "카누시움", now: "카노사 디 풀리아", pleiades: "442525", t: 9.0, t_out: 15.0}
+  - {name: "칸나이", now: "칸네 델라 바타글리아(유적)", pleiades: "442523", toponymy: cannae, t: 9.0}
+
+rivers:
+  - name: "아우피두스 강(오판토)"
+    pts: [[16.02, 41.362], [16.06, 41.364], [16.083, 41.36], [16.088, 41.345], [16.087, 41.326], [16.095, 41.312], [16.13, 41.306], [16.17, 41.318], [16.21, 41.35]]
+    label_at: [16.075, 41.317]
+    t: 19.0
+
+routes:
+  - {name: "한니발의 진군", faction: carthage, pts: [[7.3, 45.1], [9.6, 45.0], [11.4, 43.9], [12.1, 43.2], [13.6, 42.4], [14.9, 41.7], [16.15, 41.30]], t0: 2.0, t1: 9.5, t_out: 19.0}
+
+units:
+  # 병종 분류(D-0605 ③, rules war_history.symbol_sets.ancient) — 근거: 폴리비오스 『역사』 III.113~114(배치·장비).
+  #  로마 군단 보병 = heavy_inf · 벨리테스(전열 앞 경보병, III.113) = light_inf · 로마·동맹 기병 = heavy_cav
+  #  리비아(아프리카) 보병(로마식 장비, III.114.1) = heavy_inf · 히스파니아·켈트 보병(장비 차이는 라벨, III.114.2~4) = heavy_inf
+  #  히스파니아·켈트 기병 = heavy_cav · 누미디아 기병 = light_cav · 발레아레스 투석병·창병(전열 앞 경보병, III.113) = skirmisher
+  # 로마군 — 남쪽(180°)을 본다
+  - {faction: rome, symbol: heavy_cav, name: "로마 기병", t_out: 32.5, keys: [{t: 24, lon: 16.0935, lat: 41.3395, heading: 180, length_km: 0.7, depth_km: 0.3}]}
+  - faction: rome
+    symbol: heavy_inf
+    name: "로마 중무장보병"
+    keys:
+      - {t: 24.5, lon: 16.1105, lat: 41.3395, heading: 180, length_km: 2.3, depth_km: 0.7}
+      - {t: 30.5, lon: 16.1105, lat: 41.3395, heading: 180, length_km: 2.3, depth_km: 0.7}
+      - {t: 34, lon: 16.1105, lat: 41.3352, heading: 180, length_km: 1.8, depth_km: 0.75}
+      - {t: 37, lon: 16.1105, lat: 41.3352, heading: 180, length_km: 1.4, depth_km: 0.8}
+  - {faction: rome, symbol: heavy_cav, name: "동맹 기병", t_out: 35.5, keys: [{t: 25, lon: 16.1285, lat: 41.3395, heading: 180, length_km: 0.8, depth_km: 0.3}]}
+  - {faction: rome, symbol: light_inf, t_out: 29, keys: [{t: 25, lon: 16.1105, lat: 41.3355, heading: 180, length_km: 2.5, depth_km: 0.1}]}
+  # 카르타고군 — 북쪽(0°)을 본다
+  - faction: carthage
+    symbol: heavy_cav
+    name: "히스파니아·켈트 기병"
+    keys:
+      - {t: 25.5, lon: 16.0935, lat: 41.3285, heading: 0, length_km: 0.8, depth_km: 0.35}
+      - {t: 29, lon: 16.0935, lat: 41.3285, heading: 0, length_km: 0.8, depth_km: 0.35}
+      - {t: 31, lon: 16.0935, lat: 41.3375, heading: 0, length_km: 0.8, depth_km: 0.35}
+      - {t: 33.5, lon: 16.1, lat: 41.3445, heading: 90, length_km: 0.8, depth_km: 0.35}
+      - {t: 36.5, lon: 16.1105, lat: 41.3445, heading: 180, length_km: 0.8, depth_km: 0.35}
+  - faction: carthage
+    symbol: heavy_inf
+    name: "아프리카 중무장보병"
+    keys:
+      - {t: 26, lon: 16.1, lat: 41.3285, heading: 0, length_km: 0.5, depth_km: 0.45}
+      - {t: 33.5, lon: 16.1, lat: 41.3285, heading: 0, length_km: 0.5, depth_km: 0.45}
+      - {t: 36, lon: 16.0975, lat: 41.3345, heading: 90, length_km: 0.6, depth_km: 0.35}
+  - faction: carthage
+    symbol: heavy_inf
+    keys:
+      - {t: 26.5, lon: 16.1035, lat: 41.3302, heading: 340, length_km: 0.7, depth_km: 0.3}
+      - {t: 30.5, lon: 16.1035, lat: 41.3302, heading: 340, length_km: 0.7, depth_km: 0.3}
+      - {t: 34, lon: 16.1035, lat: 41.3292, heading: 20, length_km: 0.7, depth_km: 0.3}
+  - faction: carthage
+    symbol: heavy_inf
+    name: "히스파니아·켈트 보병"
+    keys:
+      - {t: 26.5, lon: 16.1105, lat: 41.3318, heading: 0, length_km: 0.6, depth_km: 0.3}
+      - {t: 30.5, lon: 16.1105, lat: 41.3318, heading: 0, length_km: 0.6, depth_km: 0.3}
+      - {t: 34, lon: 16.1105, lat: 41.3262, heading: 0, length_km: 0.6, depth_km: 0.3}
+  - faction: carthage
+    symbol: heavy_inf
+    keys:
+      - {t: 26.5, lon: 16.1175, lat: 41.3302, heading: 20, length_km: 0.7, depth_km: 0.3}
+      - {t: 30.5, lon: 16.1175, lat: 41.3302, heading: 20, length_km: 0.7, depth_km: 0.3}
+      - {t: 34, lon: 16.1175, lat: 41.3292, heading: 340, length_km: 0.7, depth_km: 0.3}
+  - faction: carthage
+    symbol: heavy_inf
+    name: "아프리카 중무장보병"
+    keys:
+      - {t: 26, lon: 16.121, lat: 41.3285, heading: 0, length_km: 0.5, depth_km: 0.45}
+      - {t: 33.5, lon: 16.121, lat: 41.3285, heading: 0, length_km: 0.5, depth_km: 0.45}
+      - {t: 36, lon: 16.1235, lat: 41.3345, heading: 270, length_km: 0.6, depth_km: 0.35}
+  - {faction: carthage, symbol: light_cav, name: "누미디아 기병", keys: [{t: 27, lon: 16.1285, lat: 41.3285, heading: 0, length_km: 0.8, depth_km: 0.35}]}
+  - {faction: carthage, symbol: skirmisher, t_out: 29, keys: [{t: 27, lon: 16.1105, lat: 41.3335, heading: 0, length_km: 2.5, depth_km: 0.1}]}
+
+evidence:
+  - {mid: cannae_coin, t0: 39.5, t1: 45.0, side: right}
+  - {mid: cannae_bust, t0: 45.5, t1: 51.0, side: right}
+  - {mid: cannae_trumbull, t0: 51.5, t1: 57.0, side: right}
+  - {mid: cannae_closs, t0: 57.5, t1: 63.0, side: right}
+
+quotes:
+  - t0: 63.5
+    t1: 69.0
+    text: "칸나이에서 로마와 카르타고가 벌인 싸움은 이렇게 끝났다. 이긴 쪽도 진 쪽도 뚜렷한 용기를 보였다."
+    original: "Such was the outcome of the battle at Cannae between the Romans and Carthaginians, a battle in which both the victors and the vanquished displayed conspicuous bravery."
+    locator: "폴리비오스 『역사』 III.117"
+    translation: "W. R. Paton 영역(1922, 퍼블릭 도메인)에서 옮김"
+    translation_url: "https://archive.org/details/polybiushistorie0000wrpa_v3i1"
+    translation_license: "Public domain(1922년 출판, 미국)"
+
+notes:
+  source_lines:
+    - {text: "부대·경로·강: 폴리비오스 III.113~117·Smith(1856) 서술의 개략 — 크기·간격은 축척이 아님, 전장 위치는 학설이 갈림", t0: 0.0, t1: 69.0}
+  end_title: "칸나이 전투 — 자료"
+  end_note: "전쟁사 스케치 v1 · 자막·내레이션 없음 · 사용자 검토용"
+  end_sec: 5.0

@@ -1,0 +1,190 @@
+{
+ "schema_version": 1,
+ "assets": {
+  "inchon_lopez": {
+   "is_file_photo": false,
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "source_hash": "760de7f725e4606a3fe901418252db86",
+   "kind": "photo",
+   "title": "File:Lopez scaling seawall.jpg",
+   "license": "Public domain",
+   "author": "미 해병대 사진병(이름 미상) — 미 해군 역사유산사령부 NH 96876",
+   "credit_author": "U.S. Navy NHHC",
+   "date": "1950-09-15",
+   "url": "https://commons.wikimedia.org/wiki/File:Lopez_scaling_seawall.jpg",
+   "caption": "적색 해안 방파제를 사다리로 넘는 해병 제5연대",
+   "file_note": "1950. 09. 15",
+   "depicts": [
+    "적색 해안 방파제",
+    "해병 제5연대 1대대 A중대",
+    "발도메로 로페즈 중위"
+   ],
+   "main_subject": [
+    "방파제를 넘는 해병"
+   ],
+   "verified_by": {
+    "by": "구현 세션(Commons 파일 설명·라이선스 확인)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "적색 해안 상륙 2파(1950.9.15) — 사진 속 인물은 살아 있는 모습"
+   },
+   "tool": {
+    "name": "sketch.war.fetch",
+    "params": {
+     "commons_title": "File:Lopez scaling seawall.jpg",
+     "width": 1280
+    }
+   },
+   "file": "inchon_lopez.jpg",
+   "created": "1950.09.15",
+   "work_kind": "photo",
+   "holder": "미 해군 역사유산사령부(NHHC)",
+   "archive_id": "NHHC NH 96876",
+   "photo_license": "Public domain",
+   "license_tags": [
+    "PD US Marines"
+   ]
+  },
+  "inchon_lst": {
+   "is_file_photo": false,
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "source_hash": "775382bafe38d0a7c9e6f7100affa96a",
+   "kind": "photo",
+   "title": "File:Invasion of Ichon, Korea HD-SN-99-03065.jpg",
+   "license": "Public domain",
+   "author": "C. K. Rose(미 해군)",
+   "credit_author": "U.S. Navy · NARA",
+   "date": "1950-09-15",
+   "url": "https://commons.wikimedia.org/wiki/File:Invasion_of_Ichon,_Korea_HD-SN-99-03065.jpg",
+   "caption": "인천 해안에서 병력과 장비를 내리는 전차상륙함(LST) 넷",
+   "file_note": "1950. 09. 15",
+   "depicts": [
+    "전차상륙함 LST-611·745·715",
+    "인천 해안"
+   ],
+   "main_subject": [
+    "해안에 댄 전차상륙함"
+   ],
+   "verified_by": {
+    "by": "구현 세션(Commons 파일 설명·라이선스 확인)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "인천 상륙 당일 하역 — 갯벌·조수 제약을 보여 주는 장면"
+   },
+   "tool": {
+    "name": "sketch.war.fetch",
+    "params": {
+     "commons_title": "File:Invasion of Ichon, Korea HD-SN-99-03065.jpg",
+     "width": 1280
+    }
+   },
+   "file": "inchon_lst.jpg",
+   "created": "1950.09.15",
+   "work_kind": "photo",
+   "holder": "미국 국립문서기록관리청(NARA)",
+   "archive_id": "NARA 080-G-420027",
+   "photo_license": "Public domain",
+   "license_tags": [
+    "PD US Military"
+   ]
+  },
+  "inchon_map": {
+   "is_file_photo": false,
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "source_hash": "af477c7cfb6fe922211f07fa8a102837",
+   "kind": "document",
+   "title": "File:Inchon landing map.jpg",
+   "license": "Public domain",
+   "author": "미 해병대 역사과(Montross·Canzona)",
+   "credit_author": "USMC",
+   "date": "1955",
+   "url": "https://commons.wikimedia.org/wiki/File:Inchon_landing_map.jpg",
+   "caption": "미 해병대 공간사의 인천 상륙 경로 지도",
+   "file_note": "미 해병대 공간사 2권(1955)",
+   "depicts": [
+    "인천 상륙 경로",
+    "월미도",
+    "인천항"
+   ],
+   "main_subject": [
+    "상륙 경로 지도"
+   ],
+   "verified_by": {
+    "by": "구현 세션(Commons 파일 설명·라이선스 확인)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "상륙 경로 기록(공간사 지도) — 화면 경로는 이 지도를 대조한 개략"
+   },
+   "tool": {
+    "name": "sketch.war.fetch",
+    "params": {
+     "commons_title": "File:Inchon landing map.jpg",
+     "width": null
+    }
+   },
+   "file": "inchon_map.jpg",
+   "created": "1955",
+   "work_kind": "map",
+   "holder": "미 해병대 역사과",
+   "archive_id": "U.S. Marine Operations in Korea 1950-1953 vol. II",
+   "photo_license": "Public domain",
+   "license_tags": [
+    "PD US Marines"
+   ]
+  },
+  "inchon_film_lvt": {
+   "is_file_photo": true,
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "source_hash": "99d10364a2453ca919a0ea532e3df401",
+   "kind": "video",
+   "title": "OPERATION INCHON (DoD PIN 22337)",
+   "license": "CC0",
+   "photo_license": "CC0",
+   "license_tags": [
+    "CC0"
+   ],
+   "author": "미 국방부(Department of Defense)",
+   "credit_author": "미 국방부 · archive.org",
+   "date": "1952",
+   "url": "https://archive.org/details/gov.dod.dimoc.22337",
+   "caption": "해안으로 향하는 상륙 장갑차(LVT)",
+   "file_note": "자료 영상 · 1950년 8~9월 촬영 · 미 국방부 기록 영화 Operation Inchon(1952)",
+   "depicts": [
+    "상륙 장갑차(LVT)",
+    "상륙 병력"
+   ],
+   "main_subject": [
+    "상륙 장갑차"
+   ],
+   "verified_by": {
+    "by": "구현 세션(archive.org 메타데이터 licenseurl CC0 · 494~502초 프레임 확인, D-0607 §2)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "segment_checked": [
+     494.0,
+     502.0
+    ],
+    "relevance": "인천 상륙을 다룬 국방부 기록 영화(1950년 8~9월 유엔군 활동)의 상륙 장갑차 접근 장면 — 정확한 해안·날짜는 영상에 없어 자료 영상으로 표기"
+   },
+   "tool": {
+    "name": "sketch.war.clip",
+    "params": {
+     "source": "archive.org gov.dod.dimoc.22337 (gov.dod.dimoc.22337_512kb.mp4)",
+     "license_source": "archive.org metadata licenseurl http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   },
+   "file": "film/gov.dod.dimoc.22337_512kb.mp4",
+   "duration": 1078.53,
+   "segment": [
+    494.0,
+    502.0
+   ],
+   "created": "1950.08~1950.09",
+   "archive_id": "DoD DIMOC PIN 22337"
+  }
+ }
+}
