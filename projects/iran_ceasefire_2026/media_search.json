@@ -772,7 +772,7 @@
    "rejected": []
   },
   {
-   "sid": "act3_2",
+   "sid": "act3_1",
    "query": "Abbas Araghchi 2026 hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-11-01",
@@ -782,7 +782,7 @@
    "rejected": []
   },
   {
-   "sid": "act3_2",
+   "sid": "act3_1",
    "query": "Abbas Araghchi 2026",
    "pool": "commons_cc",
    "on": "2026-11-01",

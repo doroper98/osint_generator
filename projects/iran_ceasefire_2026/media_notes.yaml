@@ -1,4 +1,4 @@
-# iran_ceasefire_2026 미디어 사유(게이트 ① 미디어 계획 표) — 원고 v1(73문장) 문장 번호. D-0450 §5(Commons 탐색 의무, 등재 0 금지).
+# iran_ceasefire_2026 미디어 사유(게이트 ① 미디어 계획 표) — 원고 v1.1(69문장) 문장 번호. D-0450 §5(Commons 탐색 의무, 등재 0 금지).
 # 게이트 ① 은 원본 받기와 분리 — 고른 후보(파일명·라이선스·사유)를 적고, 원본 바이트는 승인 뒤 미디어 등록 단계에서 받는다(Wikimedia 429 지속, 중국 트랙 선례).
 # 사진 밀도 하한: rules media_beats.min_density_per_min × 예상 8분. 등재본 재사용(hormuz_strait_modis_2020·hormuz_transit·strikes_file·niovi) 포함.
 # 클립: D551 youtube 허용 — 공식 채널 후보는 미디어 등록 단계에서 받기 시도(봇 검사면 우회 없이 사진 액자).
@@ -47,13 +47,11 @@ sentences:
     photo: 고르지 않음 — 두 번째 봉쇄. act1_5 봉쇄 영상과 같은 대상 반복 안 함 → 지도 반다르아바스·해협 + 날짜 카드 7.14
   act1_11:
     photo: 고르지 않음 — 이란 7/18 발표 문장. 가리바바디 차관 초상 권리 미확인 → quote 카드(직함)
-  act3_2:
-    photo: 고르지 않음 — 아라그치 사진(File:Meeting with Foreign Minister of Iran Abbas Araghchi (1).jpg, Commons 통과)은 cold_1 뱃지 원본 후보로. 이 문장은 versus 패널
   act4_3:
     photo: 선택(영상) — 등재본 niovi(File:Oil tanker Niovi seized by Iran's Islamic Revolutionary Guard Corps Navy.webm, PD, 2023-05 자료 영상) — 혁명수비대 해군의 해협 유조선 단속 자료. 캡션 '자료 영상 · 2023' — 10/29 기뢰 사건 장면처럼 쓰지 않는다. 사건 선박 사진 없음(선박명 미공개)
   act4_5:
     photo: 보류 — File:MV Kokuka Courageous with hull damage and mine.png (Commons 통과, 2019 오만만 유조선 부착식 기뢰 피해 — 미 국방부 공개) — '부착식 기뢰' 자료로만, 캡션 '2019년 사건 · 자료'. 이번 피격 선박처럼 보일 위험 → 감독 판정(쓰지 않으면 카드)
-  act6_9:
-    photo: 고르지 않음 — 청해부대 사진 검색 안 함(문장은 '검토 중' 발언) → 기사 카드(파이낸셜뉴스 10/30)
   ending_2:
     photo: 고르지 않음 — 정리 문장, 카드(확인된 것/확인되지 않은 것)
+  act3_1:
+    photo: 고르지 않음 — 아라그치 사진(File:Meeting with Foreign Minister of Iran Abbas Araghchi (1).jpg, Commons 통과)은 cold_1 뱃지 원본 후보로. 이 문장은 versus 패널

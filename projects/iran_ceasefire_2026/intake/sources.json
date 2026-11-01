@@ -1548,6 +1548,51 @@
   },
   {
    "id": "src_art_0070",
+   "url": "https://english.alarabiya.net/News/middle-east/2023/09/19/Iranian-funds-successfully-transferred-in-US-Iran-prisoner-swap",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "Al Arabiya",
+   "headline_original": "Iranian funds successfully transferred in US-Iran prisoner swap",
+   "headline_ko": "미·이란 수감자 교환으로 이란 자금 이전 완료",
+   "published_at": "2023-09-19",
+   "key_facts": [
+    "About $6 billion in Iranian funds moved from restricted accounts in South Korea to Qatar, tied to the prisoner exchange",
+    "Funds available only for humanitarian trade"
+   ]
+  },
+  {
+   "id": "src_art_0071",
+   "url": "https://newarab.com/news/irans-frozen-funds-transferred-third-country-s-korea",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "The New Arab",
+   "headline_original": "Iran's frozen funds transferred to a third country, South Korea says",
+   "headline_ko": "한국 \"이란 동결 자금 제3국으로 이전\"",
+   "published_at": "2023-09-18",
+   "key_facts": [
+    "South Korea's foreign ministry: Iranian funds frozen in South Korea transferred to a third country"
+   ]
+  },
+  {
+   "id": "src_art_0072",
    "url": "https://www.koreadaily.com/article/20260618234341853",
    "retrieved_at": "2026-11-01",
    "lang": "ko",
@@ -1569,7 +1614,7 @@
    ]
   },
   {
-   "id": "src_art_0071",
+   "id": "src_art_0073",
    "url": "https://www.hankookilbo.com/news/article/A2026102720560003175",
    "retrieved_at": "2026-11-01",
    "lang": "ko",
@@ -1591,7 +1636,7 @@
    ]
   },
   {
-   "id": "src_art_0072",
+   "id": "src_art_0074",
    "url": "https://www.news1.kr/world/middleeast-africa/6333997",
    "retrieved_at": "2026-11-01",
    "lang": "ko",
@@ -1613,7 +1658,7 @@
    ]
   },
   {
-   "id": "src_art_0073",
+   "id": "src_art_0075",
    "url": "https://www.fnnews.com/news/202610281348448725",
    "retrieved_at": "2026-11-01",
    "lang": "ko",
@@ -1635,7 +1680,7 @@
    ]
   },
   {
-   "id": "src_art_0074",
+   "id": "src_art_0076",
    "url": "https://www.fnnews.com/news/202610301026101998",
    "retrieved_at": "2026-11-01",
    "lang": "ko",
@@ -1657,7 +1702,7 @@
    ]
   },
   {
-   "id": "src_art_0075",
+   "id": "src_art_0077",
    "url": "https://www.ytn.co.kr/_ln/0134_202610311418476896",
    "retrieved_at": "2026-11-01",
    "lang": "ko",
@@ -1679,7 +1724,7 @@
    ]
   },
   {
-   "id": "src_art_0076",
+   "id": "src_art_0078",
    "url": "https://www.cfr.org/articles/will-the-united-states-attack-iran-after-the-midterms",
    "retrieved_at": "2026-11-01",
    "lang": "en",

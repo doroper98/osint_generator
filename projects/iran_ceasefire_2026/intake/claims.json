@@ -1079,33 +1079,35 @@
    "text": "카타르에 묶인 이란 자금(약 60억 달러)은 2023년 한국에서 옮겨 간 원유 대금이다",
    "source_ids": [
     "src_art_0069",
-    "src_art_0070"
+    "src_art_0070",
+    "src_art_0071"
    ],
-   "status": "corroborated",
+   "status": "verified",
    "contested": false,
    "checks": [
     "quote_match:src_art_0069",
     "quote_match:src_art_0070",
-    "independent_origins:2",
+    "quote_match:src_art_0071",
+    "independent_origins:3",
     "supervisor_table:D-0451"
    ],
    "attributed_only": false,
    "claim_kind": "fact",
    "notes": "",
-   "event_date": "2023-09-01"
+   "event_date": "2023-09-18"
   },
   {
    "claim_id": "clm_0053",
    "text": "10월 27일 이란 해협청은 장금상선 선박에 11월 1일부터 법적 조치를 하겠다고 밝혔다",
    "source_ids": [
-    "src_art_0071",
-    "src_art_0072"
+    "src_art_0073",
+    "src_art_0074"
    ],
    "status": "corroborated",
    "contested": false,
    "checks": [
-    "quote_match:src_art_0071",
-    "quote_match:src_art_0072",
+    "quote_match:src_art_0073",
+    "quote_match:src_art_0074",
     "independent_origins:2",
     "supervisor_table:D-0451"
    ],
@@ -1118,12 +1120,12 @@
    "claim_id": "clm_0054",
    "text": "한국해운협회는 지목 선박이 외국 석유사 재용선이라고 반박했다",
    "source_ids": [
-    "src_art_0073"
+    "src_art_0075"
    ],
    "status": "corroborated",
    "contested": false,
    "checks": [
-    "quote_match:src_art_0073",
+    "quote_match:src_art_0075",
     "independent_origins:1",
     "supervisor_table:D-0451"
    ],
@@ -1136,14 +1138,14 @@
    "claim_id": "clm_0055",
    "text": "위성락 안보실장은 청해부대 강화·확대 방안을 검토하고 있다고 밝혔다(미결)",
    "source_ids": [
-    "src_art_0074",
-    "src_art_0075"
+    "src_art_0076",
+    "src_art_0077"
    ],
    "status": "corroborated",
    "contested": false,
    "checks": [
-    "quote_match:src_art_0074",
-    "quote_match:src_art_0075",
+    "quote_match:src_art_0076",
+    "quote_match:src_art_0077",
     "independent_origins:2",
     "supervisor_table:D-0451"
    ],
@@ -1196,12 +1198,12 @@
    "claim_id": "clm_0058",
    "text": "미국외교협회 분석: 11월 3일 뒤 트럼프의 정치적 제약이 풀린다",
    "source_ids": [
-    "src_art_0076"
+    "src_art_0078"
    ],
    "status": "corroborated",
    "contested": false,
    "checks": [
-    "quote_match:src_art_0076",
+    "quote_match:src_art_0078",
     "independent_origins:1",
     "supervisor_table:D-0451"
    ],
