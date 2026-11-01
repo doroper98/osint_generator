@@ -29,6 +29,7 @@ LINKED = ("assets", "globe_tex")          # 큰 생성 자산은 복사하지 �
 PROV_KEYS = {"numbers_shown", "numbers_computed", "approximations", "checks", "data_files"}
 SKILLS = ("missile-event-map", "campaign-front-map")
 SECTIONS = ("①", "②", "③", "④", "⑤", "⑥", "⑦")
+EXTRA_SECTIONS = {"campaign-front-map": ("⑧",)}   # v7.4.0 ⑧ 전쟁사 절차(sketch.war)
 PREP = "지형 자산 없음 — python -m geo.prep {p} && python -m geo.prep {p} --res 720p (phaseS0 run_log §0)"
 
 
@@ -165,7 +166,7 @@ class SkillFilesTest(unittest.TestCase):
             self.assertEqual(head["name"], name)
             self.assertGreater(len(head["description"]), 20)
             heads = [ln for ln in text.splitlines() if ln.startswith("## ")]
-            self.assertEqual([h[3] for h in heads], list(SECTIONS), name)       # ①~⑦ 순서
+            self.assertEqual([h[3] for h in heads], list(SECTIONS) + list(EXTRA_SECTIONS.get(name, ())), name)  # ①~⑦(+스킬별 추가) 순서
             self.assertIn("docs/handoff/22_SKETCH_TRACK.md", text)
             self.assertNotIn("```python", text)                                # 코드 없음(D131)
 

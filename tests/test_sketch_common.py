@@ -234,7 +234,7 @@ class ChecksFrameworkTest(unittest.TestCase):
 class SketchRulesTest(unittest.TestCase):
     def test_rules_load_and_fonts_known(self) -> None:
         sk = load_rules().sketch
-        self.assertEqual(set(sk.camera.push_in), {"missile", "campaign"})
+        self.assertEqual(set(sk.camera.push_in), {"missile", "campaign", "war"})
         unknown = sorted(sk.fonts_used() - set(FONT))
         self.assertEqual(unknown, [], "rules sketch 글꼴 이름은 engine.style.FONT 키")
 
