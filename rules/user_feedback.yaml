@@ -2541,3 +2541,17 @@ entries:
   status: guarded
   decision: D-0335·D-0336·D-0337(261101_101033)
   source: 감독 세션(Fable) 사용자 대화 2026-11-01
+- id: UF-207
+  date: '2026-11-01'
+  project: samsung_q3_2026
+  at: "경제 템플릿 구현 세션 3(종료된 세션)에 사용자가 직접 — 요소 넷 승인 뒤 콘티 판 전, 정지 컷만 보고 있던 단계"
+  quote: "샘플 영상을 줘야지"
+  quote_kind: verbatim
+  category: 작업 순서 — 요소·조판 승인 단계에서도 정지 컷만이 아니라 움직이는 샘플 영상을 함께 보낸다(UF-144 "샘플은 나오는 대로" 의 재발 — 정지 시트만 보내고 영상은 보내지 않음)
+  recurs_of: UF-144
+  guards:
+  - kind: doc
+    ref: "back_and_forth/FABLE_HANDOFF.md#감독 체크리스트 — 요소·조판 판정 요청에는 해당 컷의 짧은 렌더 mp4(실제 엔진) 를 함께 보낸다"
+  status: open
+  decision: 최종 감독 2026-11-01 16:55Z — 구현 세션 3 이 econ_t2 다섯 컷을 전편 렌더해 사용자에게 직접 전달(커밋 없음). 장치는 다음 영상 게이트 전(C12-2)
+  source: 구현 세션 3 통보(사용자 원문 인용) 2026-11-01 16:52Z
