@@ -21,9 +21,6 @@ places:
   fujairah:
   - 56.33
   - 25.12
-  sohar:
-  - 56.75
-  - 24.35
   beirut:
   - 35.5
   - 33.89
@@ -139,51 +136,6 @@ paths:
     - 34.8
   - - 129.31
     - 35.54
-  sohar_ulsan:
-  - - 56.75
-    - 24.35
-  - - 57.8
-    - 24.5
-  - - 59.0
-    - 23.95
-  - - 62.0
-    - 22.4
-  - - 65.0
-    - 18.6
-  - - 67.0
-    - 15.5
-  - - 74.0
-    - 9.0
-  - - 80.5
-    - 5.3
-  - - 88.0
-    - 5.8
-  - - 95.0
-    - 6.2
-  - - 98.6
-    - 4.9
-  - - 101.3
-    - 2.8
-  - - 103.9
-    - 1.3
-  - - 106.8
-    - 4.5
-  - - 110.5
-    - 10.0
-  - - 115.5
-    - 16.0
-  - - 121.0
-    - 20.8
-  - - 122.6
-    - 24.0
-  - - 124.2
-    - 28.8
-  - - 126.6
-    - 32.6
-  - - 129.0
-    - 34.8
-  - - 129.31
-    - 35.54
   yanbu_ulsan:
   - - 38.06
     - 24.09
@@ -246,14 +198,21 @@ paths:
     - 28.8
   - - 51.53
     - 25.29
+  tehran_doha:
+  - - 51.39
+    - 35.69
+  - - 51.1
+    - 30.5
+  - - 51.53
+    - 25.29
 shots:
 - at: 0
   mode: cut
   dur: 0
   camera:
-    lon: 52.0
+    lon: 60.0
     lat: 29.0
-    w: 40.0
+    w: 60.0
 - at:
     sid: cold_0
     'off': -0.6
@@ -261,8 +220,8 @@ shots:
   dur: 6.0
   camera:
     lon: 51.8
-    lat: 27.5
-    w: 20.0
+    lat: 28.5
+    w: 24.0
 - at:
     card: title
     'off': 2.9
@@ -279,8 +238,8 @@ shots:
   dur: 3.0
   camera:
     lon: 46.5
-    lat: 30.0
-    w: 28.0
+    lat: 29.5
+    w: 32.0
 - at:
     scene_start: act3
     'off': -1.0
@@ -296,9 +255,9 @@ shots:
   mode: move
   dur: 3.4
   camera:
-    lon: 56.6
-    lat: 26.0
-    w: 14.0
+    lon: 55.5
+    lat: 28.0
+    w: 22.0
 - at:
     scene_start: act5
     'off': -1.0
@@ -314,9 +273,9 @@ shots:
   mode: move
   dur: 3.4
   camera:
-    lon: 84.5
+    lon: 83.6
     lat: 22.0
-    w: 94.0
+    w: 104.0
 - at:
     scene_start: ending
     'off': -0.55
@@ -425,12 +384,12 @@ shots:
   mode: move
   dur: 3.4
   camera:
-    lon: 47.0
-    lat: 30.5
+    lon: 48.5
+    lat: 31.5
     place: null
     date: null
     lane: null
-    w: 34.0
+    w: 40.0
   under: false
   allow_sea: null
   scene: null
@@ -442,12 +401,12 @@ shots:
   mode: move
   dur: 3.0
   camera:
-    lon: 51.6
-    lat: 30.6
+    lon: 52.0
+    lat: 29.5
     place: null
     date: null
     lane: null
-    w: 16.0
+    w: 36.0
   under: false
   allow_sea: null
   scene: null
@@ -470,16 +429,33 @@ shots:
   scene: null
   stage: null
   reason: act5_7 신호 — 걸프에서 레바논까지
+- at:
+    sid: act5_8
+    'off': -0.3
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 55.0
+    lat: 29.0
+    place: null
+    date: null
+    lane: null
+    w: 44.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act5_8 중재국(카타르·파키스탄·오만)과 레바논 — 한 화면
 events:
 - type: marker
   start:
-    sid: cold_0
-    'off': 0.3
+    sid: cold_1
+    'off': 0.1
   end:
     scene_end: cold
   at_place: doha
   label: 도하
-  side: right
+  side: left
   hl: true
 - type: quote
   start:
@@ -508,15 +484,6 @@ events:
     'off': 0.5
   mid: iran_ceasefire_2026_art_0005
   theme: dark
-- type: article
-  start:
-    sid: cold_3
-    'off': 0.1
-  end:
-    card: title
-    edge: end
-  mid: iran_ceasefire_2026_art_0019
-  theme: dark
 - type: country
   start:
     sid: act1_0
@@ -527,49 +494,6 @@ events:
   - IR
   col: ru
   a: 0.07
-- type: badge
-  start:
-    sid: act1_1
-    'off': 0.6
-  end:
-    sid: act1_1
-    edge: end
-    'off': 0.6
-  lon: 31.8
-  lat: 33.9
-  kind: flag
-  flag: us
-  R: 17
-  label: 미국
-  accent: us
-- type: badge
-  start:
-    sid: act1_1
-    'off': 0.9
-  end:
-    sid: act1_1
-    edge: end
-    'off': 0.6
-  lon: 35.3
-  lat: 30.6
-  kind: flag
-  flag: il
-  R: 17
-  label: 이스라엘
-  accent: us
-- type: route
-  start:
-    sid: act1_1
-    'off': 1.2
-  end:
-    sid: act1_1
-    edge: end
-    'off': 0.6
-  pts:
-    path: israel_iran
-  grow: 2.0
-  col: us
-  ship: false
 - type: badge
   start:
     sid: act1_2
@@ -593,63 +517,38 @@ events:
     'off': 0.4
   end:
     sid: act1_4
-    'off': 0.0
+    'off': 0.3
+    edge: end
   pts:
     path: gulf_in
-  grow: 2.0
+  grow: 9.0
   col: gold
   ship: true
 - type: marker
   start:
     sid: act1_3
-    'off': 0.2
+    'off': 4.0
   end:
     sid: act1_4
-    'off': 0.0
+    'off': 0.3
+    edge: end
   at_place: hormuz
   label: 호르무즈 해협
-  side: right
+  side: top
   hl: true
-- type: barrier
-  start:
-    sid: act1_3
-    'off': 1.4
-  end:
-    sid: act1_4
-    'off': 0.0
-  p0:
-  - 56.2
-  - 26.95
-  p1:
-  - 56.5
-  - 26.2
-  label: 선박 위협
-- type: badge
-  start:
-    sid: act1_4
-    'off': 1.0
-  end:
-    sid: act1_5
-    edge: end
-    'off': 0.3
-  lon: 68.5
-  lat: 28.5
-  kind: flag
-  flag: pk
-  R: 17
-  label: 파키스탄
-  accent: green
 - type: marker
   start:
-    sid: act1_5
-    'off': 0.3
+    word:
+      sid: act1_5
+      text: 4월
+    'off': 0.1
   end:
     sid: act1_5
     edge: end
     'off': 0.5
   at_place: islamabad
   label: 이슬라마바드
-  side: left
+  side: right
 - type: badge
   start:
     word:
@@ -659,8 +558,8 @@ events:
     sid: act1_6
     edge: end
     'off': 0.4
-  lon: 63.0
-  lat: 20.5
+  lon: 47.0
+  lat: 33.5
   kind: person
   pid: trump
   flag: us
@@ -677,8 +576,8 @@ events:
     sid: act1_6
     edge: end
     'off': 0.4
-  lon: 55.0
-  lat: 32.5
+  lon: 58.5
+  lat: 33.5
   kind: person
   pid: pezeshkian
   flag: ir
@@ -718,18 +617,9 @@ events:
     'off': 0.2
   end:
     sid: act1_11
-    'off': 5.6
+    'off': 6.4
   mid: iran_ceasefire_2026_art_0043
   theme: dark
-- type: marker
-  start:
-    sid: act1_11
-    'off': 5.8
-  end:
-    scene_end: act1
-  at_place: beirut
-  label: 레바논
-  side: right
 - type: badge
   start:
     sid: act2_2
@@ -738,8 +628,8 @@ events:
     sid: act2_2
     'off': 0.4
     edge: end
-  lon: 54.0
-  lat: 33.0
+  lon: 50.0
+  lat: 31.0
   kind: person
   pid: araghchi
   flag: ir
@@ -789,21 +679,32 @@ events:
   pos: center
 - type: marker
   start:
+    sid: act3_1
+    'off': 0.5
+  end:
+    scene_end: act3
+  at_place: doha
+  label: 도하
+  side: left
+  hl: true
+- type: marker
+  start:
     sid: act2_4
     'off': 0.3
   end:
-    sid: act3_1
-    'off': 0.3
+    sid: act2_12
+    'off': 0.0
   at_place: doha
   label: 도하
-  side: right
+  side: left
   hl: true
 - type: marker
   start:
     sid: act2_4
     'off': 0.6
   end:
-    scene_end: act2
+    sid: act2_12
+    'off': 0.0
   at_place: tehran
   label: 테헤란
   side: right
@@ -815,7 +716,7 @@ events:
     scene_end: act2
   pts:
     path: doha_tehran
-  grow: 1.6
+  grow: 9.0
   col: teal
   ship: false
   dashed: true
@@ -872,8 +773,8 @@ events:
     sid: act2_8
     edge: end
     'off': 0.4
-  lon: 55.5
-  lat: 32.5
+  lon: 50.5
+  lat: 31.0
   kind: person
   pid: rezaei
   flag: ir
@@ -915,7 +816,7 @@ events:
       sid: act2_11
       text: 트럼프
     'off': -0.2
-  lon: 34.0
+  lon: 46.0
   lat: 33.0
   kind: person
   pid: vance
@@ -933,7 +834,7 @@ events:
     sid: act2_11
     edge: end
     'off': 0.4
-  lon: 34.0
+  lon: 46.0
   lat: 33.0
   kind: person
   pid: trump
@@ -1010,11 +911,21 @@ events:
           'off': 0.4
 - type: marker
   start:
-    sid: act4_0
-    'off': 0.2
+    sid: act4_4
+    'off': 0.1
+  end:
+    scene_end: act4
+  at_place: hormuz
+  label: 호르무즈 해협
+  side: left
+  hl: true
+- type: marker
+  start:
+    sid: act4_2
+    'off': 0.1
   end:
     sid: act4_3
-    'off': 1.8
+    'off': 0.0
   at_place: hormuz
   label: 호르무즈 해협
   side: left
@@ -1058,29 +969,14 @@ events:
   theme: dark
 - type: marker
   start:
-    sid: act5_2
-    'off': 0.2
+    sid: act5_1
+    'off': 0.4
   end:
     scene_end: act5
   at_place: hormuz
   label: 호르무즈 해협
   side: right
   hl: true
-- type: badge
-  start:
-    sid: act5_2
-    'off': 0.2
-  end:
-    sid: act5_3
-    edge: end
-    'off': 0.3
-  lon: 62.0
-  lat: 21.0
-  kind: flag
-  flag: us
-  R: 18
-  label: 미국
-  accent: us
 - type: country
   start:
     sid: act5_3
@@ -1138,51 +1034,6 @@ events:
     'off': 0.4
   mid: iran_ceasefire_2026_art_0056
   theme: dark
-- type: badge
-  start:
-    sid: act5_8
-    'off': 0.6
-  end:
-    sid: act5_8
-    edge: end
-    'off': 0.4
-  lon: 51.2
-  lat: 25.3
-  kind: flag
-  flag: qa
-  R: 16
-  label: 카타르
-  accent: teal
-- type: badge
-  start:
-    sid: act5_8
-    'off': 3.4
-  end:
-    sid: act5_8
-    edge: end
-    'off': 0.4
-  lon: 64.5
-  lat: 27.0
-  kind: flag
-  flag: pk
-  R: 16
-  label: 파키스탄
-  accent: teal
-- type: badge
-  start:
-    sid: act5_8
-    'off': 4.1
-  end:
-    sid: act5_8
-    edge: end
-    'off': 0.4
-  lon: 56.8
-  lat: 21.0
-  kind: flag
-  flag: om
-  R: 16
-  label: 오만
-  accent: teal
 - type: marker
   start:
     sid: act5_8
@@ -1224,18 +1075,10 @@ events:
     sid: act6_1
     'off': 0.4
   end:
-    sid: act6_2
-    edge: end
-    'off': 0.3
+    scene_end: act6
   pts:
     path: hz_ulsan
-  grow:
-    span:
-    - sid: act6_1
-      'off': 0.4
-    - sid: act6_1
-      edge: end
-      'off': -0.4
+  grow: 22.0
   col: gold
   ship: true
 - type: marker
@@ -1253,9 +1096,8 @@ events:
     sid: act6_2
     'off': 4.5
   end:
-    sid: act6_4
-    edge: end
-    'off': 0.3
+    sid: act6_3
+    'off': 0.0
   p0:
   - 56.1
   - 27.2
@@ -1282,7 +1124,7 @@ events:
     scene_end: act6
   pts:
     path: yanbu_ulsan
-  grow: 2.6
+  grow: 26.0
   col: teal
   ship: true
 - type: marker
@@ -1304,29 +1146,7 @@ events:
     scene_end: act6
   pts:
     path: fuj_ulsan
-  grow: 2.4
-  col: teal
-  ship: true
-- type: marker
-  start:
-    sid: act6_3
-    'off': 2.8
-  end:
-    sid: act6_4
-    edge: end
-    'off': 0.3
-  at_place: sohar
-  label: 소하르
-  side: bottom
-- type: route
-  start:
-    sid: act6_3
-    'off': 3.0
-  end:
-    scene_end: act6
-  pts:
-    path: sohar_ulsan
-  grow: 2.4
+  grow: 26.0
   col: teal
   ship: true
 - type: article
@@ -1344,12 +1164,12 @@ events:
     sid: act6_6
     'off': 0.4
   end:
-    sid: act6_6
+    sid: act6_8
+    'off': 0.3
     edge: end
-    'off': 0.6
   pts:
     path: korea_doha
-  grow: 2.4
+  grow: 17.0
   col: gold
   ship: false
   dashed: true
@@ -1375,36 +1195,6 @@ events:
     'off': 0.4
   mid: iran_ceasefire_2026_art_0071
   theme: dark
-- type: badge
-  start:
-    sid: ending_0
-    'off': 0.4
-  end:
-    sid: ending_0
-    edge: end
-    'off': 0.6
-  lon: 55.0
-  lat: 32.0
-  kind: flag
-  flag: ir
-  R: 18
-  label: 이란
-  accent: ru
-- type: badge
-  start:
-    sid: ending_0
-    'off': 0.8
-  end:
-    sid: ending_0
-    edge: end
-    'off': 0.6
-  lon: 66.0
-  lat: 14.0
-  kind: flag
-  flag: us
-  R: 18
-  label: 미국
-  accent: us
 - type: marker
   start:
     sid: ending_1
@@ -1428,11 +1218,10 @@ events:
 - type: photo
   start:
     sid: cold_0
-    'off': 0.8
+    'off': 0.3
   end:
     sid: cold_0
-    'off': 0.3
-    edge: end
+    'off': 3.6
   mid: iran_doha_skyline
   for: 도하
 - type: clip
@@ -1450,11 +1239,10 @@ events:
 - type: photo
   start:
     sid: act1_3
-    'off': 0.4
+    'off': 0.3
   end:
     sid: act1_3
-    'off': 0.3
-    edge: end
+    'off': 3.8
   mid: iran_hormuz_modis
   for: 호르무즈 해협
 - type: photo
@@ -1466,7 +1254,7 @@ events:
       sid: act1_5
       text: 4월
   mid: iran_islamabad_talks
-  for: 이슬라마바드 회담장
+  for: Islamabad Talks April 2026 현수막이 걸린 회담장 입구
 - type: clip
   start:
     sid: act1_5
@@ -1509,7 +1297,7 @@ events:
     'off': 0.3
     edge: end
   mid: iran_marines_boarding
-  for: 두 번째 봉쇄 검문
+  for: 검문 대상 유조선과 헬기
 - type: photo
   start:
     sid: act2_12
@@ -1548,7 +1336,7 @@ events:
     'off': 0.3
     edge: end
   mid: iran_uss_dextrous_mcm
-  for: 걸프 기뢰 대응 작전
+  for: 기뢰 대응 작전 중인 소해함
 - type: photo
   start:
     sid: ending_1
@@ -1735,6 +1523,80 @@ events:
       t:
         sid: act5_0
         'off': 0.6
+- type: marker
+  start:
+    sid: act1_0
+    'off': 0.2
+  end:
+    sid: act1_2
+    'off': 0.3
+    edge: end
+  at_place: tehran
+  label: 테헤란
+  side: right
+  hl: true
+- type: article
+  start:
+    sid: act4_6
+    'off': 0.2
+  end:
+    sid: act5_0
+    'off': 0.0
+  mid: iran_ceasefire_2026_art_0054
+  theme: dark
+- type: route
+  start:
+    sid: cold_0
+    'off': 0.2
+  end:
+    sid: cold_3
+    'off': 0.3
+    edge: end
+  pts:
+    path: tehran_doha
+  grow: 12.5
+  col: ru
+  ship: false
+  dashed: true
+- type: marker
+  start:
+    sid: act1_12
+    'off': 0.2
+  end:
+    sid: act1_12
+    'off': 0.5
+    edge: end
+  at_place: tehran
+  label: 테헤란
+  sub: 양해각서 만료 · 2026.08.17
+  side: right
+- type: badge
+  start:
+    sid: act5_1
+    'off': 0.3
+  end:
+    sid: act5_1
+    'off': 0.3
+    edge: end
+  lon: 50.0
+  lat: 31.0
+  kind: person
+  pid: araghchi
+  flag: ir
+  label: 아라그치
+  role: 이란 외무장관
+  accent: ru
+- type: marker
+  start:
+    sid: ending_0
+    'off': 0.3
+  end:
+    sid: ending_1
+    'off': 0.0
+  at_place: doha
+  label: 도하
+  side: left
+  hl: true
 sound:
   bgm: music.zabriskie_mario_bava
   intensity:
@@ -1784,4 +1646,6 @@ stage_config:
     theme_reason: 지정학 — 장르 기본 D154, 감독 결정 D550
 media_note: 'v2(구현 세션 손질, AI 초안 v1 바탕): 출처 없는 좌표(오만 연안·이란 남부·기뢰 남쪽 항로·이란 중심점)와 그 위 boom·경로, 봉쇄선 barrier(좌표 출처 없음), 밴스 서한 경로(출발점 무의미) 삭제(W1.1 M5·D-0450 §8). 실사 13(사진 10·영상 3 — media_beats 하한 13): 도하·에픽 퓨리
   영상·MODIS·이슬라마바드 회담장·4월 봉쇄 영상·뉴올리언스·7월 공습 영상·7/16 검문·테헤란·아라그치·해협 야간·덱스트러스·도하 2. versus 5행 대 5행(D-0453 §3, 미국 5행째 ''보도, 트럼프 부인''). 시간축 panel timeline 두 번(act2 도입·act5 재진입, 축 2026-09-15→11-15 같게, 핀 9 — 10/6~8·10/28~30
-  묶음). 유튜브 공식 클립은 봇 검사로 실패(우회 안 함, D551). 휘장 0(중부사령부 휘장 Commons Restrictions). UF-170 — 화면 라벨 0.'
+  묶음). 유튜브 공식 클립은 봇 검사로 실패(우회 안 함, D551). 휘장 0(중부사령부 휘장 Commons Restrictions). UF-170 — 화면 라벨 0. · v3(콘티 판 사전 검사 hard 46 정리): 국기 뱃지 정리(한국만), 사진↔마커 시간 분리, 경로 grow ≥ 속도 상한, act2_11·act4·act6 구도 넓힘, 사진 for
+  = 레지스트리 main_subject, 테헤란→도하 경로(cold_0 도착), 빈 지도 구간 마커·기사. · v4: 오프닝 첫 폭 60, ''선박 위협'' 경계선·소하르 마커 삭제(라벨 겹침), 기사 2(8/17 만료·해운협회 반박). · v5: 기사 이웃 연속 정리(8/17·해운협회 기사 대신 테헤란 마커 부제·도하 마커), act5_1 아라그치 뱃지,
+  도하 마커 왼쪽, 오프닝 중심 60E.'

@@ -50,6 +50,7 @@ entities:
     flag: ir
     role_default: 이란 최고지도자
     accent: ru
+    rights: people.khamenei   # v7.4.0 iran_ceasefire_2026 — 엔딩 크레딧 인물 행 이름(공용 초상 khamenei_mono_v01 = 알리 하메네이)
   # v4.0.0 — NB24(back_and_forth D-0072 작업 11): 라이브러리 인물 국기는 **library_manifest source 문구가 국가 직함·국가 기관을 적은 경우만**(추측 금지).
   #   근거 없는 17명은 비워 둔다 — 목록·근거는 docs/handoff/reports/phase11/nb24_flags.json.
   xi_jinping:

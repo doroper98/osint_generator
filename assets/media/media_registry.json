@@ -8213,7 +8213,7 @@
    "date": "2026-04-28",
    "url": "https://commons.wikimedia.org/wiki/File:USS_New_Orleans_Enforces_Maritime_Blockade_(9670518).jpg",
    "caption": "이란 해상 봉쇄 작전 중인 미 해군 상륙함 뉴올리언스",
-   "file_note": "2026. 04. 28",
+   "file_note": "자료사진 · 2026. 04",
    "depicts": [
     "미 해군 상륙수송함 USS 뉴올리언스",
     "아라비아해·오만만 해상"
@@ -8224,12 +8224,12 @@
    "background": [
     "바다·연무"
    ],
-   "is_file_photo": false,
+   "is_file_photo": true,
    "verified_by": {
     "by": "opus 구현 세션 — Commons API 메타(라이선스·작성자·촬영/공개일·VIRIN) 대조, 1280px 원본 육안 확인(주된 피사체 D-0327)",
     "on": "2026-11-01",
     "casualty_free": true,
-    "relevance": "act1_5·act1_10 봉쇄 문장 — 1차 봉쇄 기간(4/13~6/18) 촬영 미 국방부 공개 사진"
+    "relevance": "act1_7 6/18 봉쇄 해제 문장 — 1차 봉쇄 기간(4/28) 촬영 자료사진(D-0283 §1 자료사진 표기)"
    },
    "rights_status": "rights_clear",
    "retrieved_at": "2026-11-01",
