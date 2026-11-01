@@ -3792,6 +3792,7 @@ class WarEmblemNote(_Strict):
 class WarEmblemStyle(_Strict):
     legend_px: float = Field(gt=0)
     legend_dx: float
+    legend_dy: float   # 범례 글자 기준선 → 휘장 가운데
     block_px: float = Field(gt=0)
     block_dx: float
     block_dy: float

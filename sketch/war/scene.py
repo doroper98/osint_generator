@@ -446,7 +446,7 @@ class WarScene:
             ctx.set_source_rgba(*C[f.token], a)
             ctx.fill()
             if k in self.emblems:
-                draw_emblem(ctx, self.emblems[k].glyph, Lg.x + Lg.label_dx + EM.legend_px / 2 - 2, y - L.size * 0.35, EM.legend_px,
+                draw_emblem(ctx, self.emblems[k].glyph, Lg.x + Lg.label_dx + EM.legend_px / 2, y + EM.legend_dy, EM.legend_px,
                             WHITE, EM.alpha * a, load_rules().war_history.symbol_sets.glyph.halo_rgb, EM.halo_px)
                 self._note(f"emblem:{self.emblems[k].glyph}")
             text(ctx, f.name, Lg.x + Lg.label_dx + em_dx, y, L.size, L.font, WHITE, a, L.halo)

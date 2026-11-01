@@ -2851,7 +2851,7 @@ war_history:               # v7.4.0 전쟁사 트랙 W2(back_and_forth D-0600 §
     name_from: spec   # 현대 국기 대신 코드 조판 진영명 + 색 토큰(registries.accents). 휘장을 지어내지 않는다
     # v2(D-0605 ②·D-0606 A) — 진영 휘장 = 유물 근거 재작도만(assets/emblems/registry.json reconstructions, engine.glyphs.emblems).
     # 휘장 없는 진영은 spec emblem_absent_reason 필수(비대칭 사유 기록). 범례 칩 옆 + 블록 위 작게(픽토그램보다 작게). 설계 px 480p
-    emblem: {legend_px: 13, legend_dx: 16, block_px: 9, block_dx: 11, block_dy: -9, alpha: 0.95, halo_px: 1.0,
+    emblem: {legend_px: 13, legend_dx: 16, legend_dy: -4, block_px: 9, block_dx: 11, block_dy: -9, alpha: 0.95, halo_px: 1.0,
              note: {size: 8.5, font: sans, halo: 0, alpha: 0.75, dy: 13}}   # note = 범례 아래 "…재현" 라벨 줄(코드 조판)
   period_art:
     contemporary_gap_years: 150   # |제작 연대 − 사건 연대| ≤ 이 값 = 당대 묘사, 넘으면 후대의 묘사(제작 연대)
