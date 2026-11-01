@@ -90,3 +90,17 @@ class ScriptSchemaTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class RomanCalendarTest(unittest.TestCase):
+    """v7.4.0 D-0610 ④ — 로마력 날짜 'R' 표시: calendar roman, 뱃지 뒤 rules era_format.roman_suffix, 일까지 적은 날짜에만."""
+
+    def test_roman_suffix(self) -> None:
+        from schemas.era_date import badge_text, parse_era_date
+
+        d = parse_era_date("-216.08.02R")
+        self.assertEqual((d.calendar, d.historical_year, d.month, d.day), ("roman", 216, 8, 2))
+        self.assertTrue(badge_text("-216.08.02R").endswith("(로마력)"))
+        self.assertNotIn("로마력", badge_text("-216.08.02"))
+        with self.assertRaises(ValueError):
+            parse_era_date("-216R")

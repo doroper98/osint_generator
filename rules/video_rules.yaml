@@ -641,7 +641,7 @@ hud:                       # 09 §5 — 모서리에는 날짜만
     {font: mono, size: 15, x_right: 26, y: 40, underline_y: 48, underline_w: 1.4, slide_px: 6, slide_sec: 0.45,
      # v7.4.0 전쟁사 W1(D-0600 §3) — 기원전·대략·기간 표기(schemas/era_date.badge_text). 서기 네 자리 꼴('2026. 07. 07')은 옛 표기 그대로(골든 불변)
      era_format: {bce_prefix: "기원전 ", ce_prefix: "서기 ", circa_ce_prefix: "", day: "{y}년 {m}월 {d}일", month: "{y}년 {m}월", year: "{y}년",
-                  circa: "{c}세기경", period_years: "{y0}~{y1}년", period_sep: "~"}}
+                  circa: "{c}세기경", period_years: "{y0}~{y1}년", period_sep: "~", roman_suffix: "(로마력)"}}   # roman_suffix = '-216.08.02R' 로마력 날짜(D-0610 ④, 사료 마크로비우스 I.16.26 — 율리우스력 환산 아님)
   date_badge_over_clip_frame: true   # v7.4.0 D-0276 — 날짜 뱃지는 클립 액자 위(그 슬롯과의 [media-over-date] 만 예외)
 
 layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480. 다른 해상도는 k = H/480

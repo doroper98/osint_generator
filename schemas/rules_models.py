@@ -451,6 +451,7 @@ class EraFormat(_Strict):
     circa: str
     period_years: str
     period_sep: str
+    roman_suffix: str = Field(min_length=1)   # v7.4.0 D-0610 ④ — 로마력 날짜(EraDate 'R') 뒤에 붙는 표시(율리우스력 환산 아님)
 
 
 class DateBadge(_Strict):
