@@ -1,0 +1,78 @@
+{
+ "schema_version": 1,
+ "source": "rules/video_rules.yaml @ claude/war-history-2026 e029c8f7",
+ "war_history.symbol_sets.ancient": {
+  "units": [
+   "heavy_inf",
+   "light_inf",
+   "heavy_cav",
+   "light_cav",
+   "skirmisher",
+   "elephant"
+  ],
+  "shapes": {
+   "heavy_inf": "block",
+   "light_inf": "block",
+   "heavy_cav": "wedge",
+   "light_cav": "wedge",
+   "skirmisher": "dots",
+   "elephant": "big_dots"
+  },
+  "glyphs": {
+   "heavy_inf": "heavy_inf",
+   "light_inf": "light_inf",
+   "heavy_cav": "heavy_cav",
+   "light_cav": "light_cav",
+   "skirmisher": "skirmisher",
+   "elephant": "elephant"
+  },
+  "faction_tokens": 2
+ },
+ "war_history.symbol_sets.depth": {
+  "side_ratio": 0.12,
+  "side_min_px": 1.5,
+  "side_dark": 0.55,
+  "top_alpha": 1.0,
+  "shadow_alpha": 0.35,
+  "shadow_px": [
+   3.0,
+   3.0
+  ],
+  "rim_alpha": 0.5,
+  "rim_w": 0.9
+ },
+ "war_history.symbol_sets.rank_grid": {
+  "shapes": [
+   "block",
+   "wedge"
+  ],
+  "gap_px": 3.2,
+  "max_lines": 6,
+  "w": 0.6,
+  "alpha": 0.4,
+  "inset": 0.18
+ },
+ "war_history.symbol_sets.glyph": {
+  "size_px": 15.0,
+  "halo_px": 1.4,
+  "halo_rgb": [
+   0.05,
+   0.06,
+   0.08
+  ],
+  "alpha": 0.95,
+  "dy": -4.0
+ },
+ "sketch.war.terrain3d(v2 keys)": {
+  "unit_height_m": 110.0,
+  "shadow_offset_m": 70.0,
+  "dot_r_m": 28.0,
+  "rank": {
+   "gap_m": 70.0,
+   "post_h_m": 22.0,
+   "post_w_m": 12.0,
+   "max_posts": 600
+  },
+  "glyph_px": 30.0
+ }
+}
