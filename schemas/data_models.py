@@ -444,5 +444,4 @@ class ForceFiguresFile(_Strict):
 
 
 __all__ = ["AncientTextCitation", "EstimateBand", "ForceFigure", "ForceFiguresFile",
-           "MissingValue", "ScatterColumn", "SeriesRecord", "SeriesTransform", "ValueCitation"]
-__all__ = ["MissingValue", "ScatterColumn", "SeriesRecord", "SeriesTransform", "ValueCitation", "ValueFiling"]
+           "MissingValue", "ScatterColumn", "SeriesRecord", "SeriesTransform", "ValueCitation", "ValueFiling"]   # 병합(sweet-galileo ValueFiling + 전쟁사 force) 합침

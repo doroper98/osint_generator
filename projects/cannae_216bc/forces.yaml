@@ -1,0 +1,101 @@
+# 칸나이 병력·사상자 레코드(schemas.data_models.ForceFiguresFile) — 문장 sources 의 force:<id> 가 가리킨다([casualty-unsourced]).
+# 사료 값 = 영역본 문장 그대로(quote). 절 번호: Paton 영역은 본문에 절이 없어 그리스어 쪽 여백 번호로 맞췄다(OCR), Foster 는 라틴어 쪽 여백 번호.
+# band(범위 띠): 현대 학술 추정을 이 세션에서 열람하지 못했다(Wikipedia·학술 사이트 차단). 그래서 band = "고대 사료 간 범위"이고,
+# 출처 칸에 그렇게 적는다. 현대 추정으로 바꿀지는 감독 결정 요청(R). 로마군 병력은 사료 하나뿐이라(폴리비오스) 레코드를 만들지 않았다.
+schema_version: 1
+figures:
+  - id: rome_killed
+    side: 로마군(동맹군 포함)
+    metric: killed
+    source_kind: ancient_text
+    ancient_value: 70000
+    ancient:
+      author: Polybius
+      work: Histories
+      book: III
+      chapter: "117.4"
+      translation: W. R. Paton(1922, Loeb Classical Library)
+      translation_url: https://archive.org/details/polybiushistorie0000wrpa_v3i1
+      translation_license: 미국 퍼블릭 도메인(1922 미국 발행)
+      quote: "All the rest, numbering about seventy thousand, died bravely."
+    band:
+      low: 43500
+      high: 70000
+      source: "고대 사료 간 범위 — B. O. Foster(Loeb 리비우스 5권, 1929) XXII.49 각주 정리: 에우트로피우스 보병 4만·기병 3500, 아피아노스·플루타르코스 5만, 퀸틸리아누스 6만, 폴리비오스 7만. 리비우스 본문 XXII.49 는 보병 45500·기병 2700(현대 학술 추정 아님)"
+      source_url: https://archive.org/details/livy-in-fourteen-volumes.-vol.-5-loeb-233
+  - id: rome_killed_livy
+    side: 로마군(동맹군 포함)
+    metric: killed
+    source_kind: ancient_text
+    ancient_value: 48200
+    ancient:
+      author: Livy
+      work: History of Rome
+      book: XXII
+      chapter: "49"
+      translation: B. O. Foster(1929, Loeb Classical Library)
+      translation_url: https://archive.org/details/livy-in-fourteen-volumes.-vol.-5-loeb-233
+      translation_license: 미국 퍼블릭 도메인(1929 미국 발행 — 2025년부터)
+      quote: "It is said that forty-five thousand five hundred foot and two thousand seven hundred horse were slain, in an almost equal proportion of citizens and allies"
+    band:
+      low: 43500
+      high: 70000
+      source: "고대 사료 간 범위 — Foster(1929) XXII.49 각주 정리(위와 같음, 현대 학술 추정 아님)"
+      source_url: https://archive.org/details/livy-in-fourteen-volumes.-vol.-5-loeb-233
+  - id: carthage_strength
+    side: 카르타고군
+    metric: strength
+    source_kind: ancient_text
+    ancient_value: 50000
+    ancient:
+      author: Polybius
+      work: Histories
+      book: III
+      chapter: "114.5"
+      translation: W. R. Paton(1922, Loeb Classical Library)
+      translation_url: https://archive.org/details/polybiushistorie0000wrpa_v3i1
+      translation_license: 미국 퍼블릭 도메인(1922 미국 발행)
+      quote: "The Carthaginian cavalry numbered about ten thousand, and their infantry, including the Celts, did not much exceed forty thousand."
+    band:
+      low: 50000
+      high: 50000
+      source: "고대 사료 간 범위 — 리비우스 XXII.46(Foster 1929) '보병 4만, 기병 1만' 과 폴리비오스 III.114 가 같다(현대 학술 추정 아님)"
+      source_url: https://archive.org/details/livy-in-fourteen-volumes.-vol.-5-loeb-233
+  - id: carthage_killed
+    side: 카르타고군
+    metric: killed
+    source_kind: ancient_text
+    ancient_value: 5700
+    ancient:
+      author: Polybius
+      work: Histories
+      book: III
+      chapter: "117.6"
+      translation: W. R. Paton(1922, Loeb Classical Library)
+      translation_url: https://archive.org/details/polybiushistorie0000wrpa_v3i1
+      translation_license: 미국 퍼블릭 도메인(1922 미국 발행)
+      quote: "Of Hannibal's army there fell about four thousand Celts, fifteen hundred Spaniards and Africans and two hundred cavalry."
+    band:
+      low: 5700
+      high: 5700
+      source: "사료 하나(폴리비오스 III.117.6 — 켈트 4000·히스파니아와 아프리카 1500·기병 200의 합). 리비우스 XXII.43~51 발췌에는 카르타고 전사자 수가 없다. 현대 학술 추정 아님"
+      source_url: https://archive.org/details/polybiushistorie0000wrpa_v3i1
+  - id: rome_captured
+    side: 로마군(동맹군 포함)
+    metric: captured
+    source_kind: ancient_text
+    ancient_value: 10000
+    ancient:
+      author: Polybius
+      work: Histories
+      book: III
+      chapter: "117.3"
+      translation: W. R. Paton(1922, Loeb Classical Library)
+      translation_url: https://archive.org/details/polybiushistorie0000wrpa_v3i1
+      translation_license: 미국 퍼블릭 도메인(1922 미국 발행)
+      quote: "Of the infantry about ten thousand were captured fighting but not in the actual battle, while only perhaps three thousand escaped from the field to neighbouring towns."
+    band:
+      low: 4500
+      high: 10000
+      source: "고대 사료 간 범위 — 리비우스 XXII.49(Foster 1929) '포로 보병 3000·기병 1500' 과 폴리비오스 III.117.3 보병 약 1만(현대 학술 추정 아님)"
+      source_url: https://archive.org/details/livy-in-fourteen-volumes.-vol.-5-loeb-233
