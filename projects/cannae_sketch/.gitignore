@@ -1,0 +1,6 @@
+# 생성물(재생성: python -m geo.prep / python tools/fetch_ancient_geo.py / python -m sketch.war)
+assets/
+out/
+ancient_geo/
+media_src/
+__pycache__/

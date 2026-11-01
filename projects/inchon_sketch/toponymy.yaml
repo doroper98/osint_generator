@@ -1,0 +1,11 @@
+# 지명 유래 레코드(schemas.war_history.ToponymyFile) — 출처 없는 유래는 쓰지 않는다
+schema_version: 1
+entries:
+  - id: beach_codes
+    place: 적색 해안
+    name: "RED Beach"
+    language: 영어(작전 암호명)
+    meaning: "상륙 계획이 해안 구역마다 붙인 색 이름 — 녹색(월미도)·적색·청색"
+    source: "L. Montross·N. Canzona, U.S. Marine Operations in Korea 1950-1953 vol. II(1955) — 상륙군 계획 (1)~(4)"
+    source_url: "https://archive.org/details/montross-u-s-marine-operations-in-korea-vol-ll"
+    confidence: 통설

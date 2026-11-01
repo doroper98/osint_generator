@@ -1,6 +1,6 @@
 ---
 name: campaign-front-map
-description: 한 전역(戰役)의 전황 작전도를 사용자 검토용 화면 스케치로 만든다. 국가·제대별 부대 부호, 날짜별 전선, 진격 화살표, 포위망, 당시 지명을 spec YAML 만 써서 그린다. "전황", "작전도", "전선", "제대 배치", "포위", "전황 스케치" 같은 요청에 쓴다.
+description: 한 전역(戰役)의 전황 작전도를 사용자 검토용 화면 스케치로 만든다. 국가·제대별 부대 부호, 날짜별 전선, 진격 화살표, 포위망, 당시 지명을 spec YAML 만 써서 그린다. 고대~현대 전쟁사(기원전 날짜, 시대 부호 세트, 전술 무대, 미술·기록·사진 증거 카드)는 ⑧ 전쟁사 절차(python -m sketch.war)로 그린다. "전황", "작전도", "전선", "제대 배치", "포위", "전황 스케치", "전쟁사 스케치", "고대 전투", "칸나이", "상륙 작전" 같은 요청에 쓴다.
 ---
 
 # campaign-front-map — 전황 작전도 화면 스케치
@@ -98,3 +98,35 @@ python -m sketch.campaign projects/<pid> --res final             # 3. 전편(720
 - 현대 국경·행정구역선·현대 지명을 당시 지도에 그리지 않습니다.
 - 참고 작전도에 없는 전선을 지어 그리지 않습니다. 부대 위치는 대조한 지도 범위 안의 개략입니다.
 - 본편 요소가 아닙니다. 본편 등록 후보와 필요한 설계 결정은 `docs/handoff/22` §7 에 있습니다.
+
+## ⑧ 전쟁사 스케치 — 시대 부호 세트·EraDate·고대 기반 지도·전술 무대·증거 카드(v7.4.0 전쟁사 W4, back_and_forth D-0600)
+
+`python -m sketch.war` 를 부르는 절차입니다. 참고 작전도 정합(①~⑤)이 없어도 됩니다 — 전선 대신 **부대 키프레임**과 **증거 층**이 화면의 주 재료입니다.
+지도·전술 무대는 뼈대, 미술·기록·사진·영상이 살입니다(사용자 원문 UF-206). 규칙 정본은 `rules/video_rules.yaml war_history:`·`sketch.war:`, 판정은 `schemas/war_history.py`.
+
+**1. 폴더·지형** — `projects/<전역>_sketch/`(`labels.yaml`·`.gitignore` 는 `projects/cannae_sketch/` 에서 복사). `geo.yaml` 티어 둘:
+W = 작전 지도(넓게), K = 전술 무대(전장 수 km, ppd 높게 — 같은 좌표계 확대가 무대 전환, 새 캔버스 없음). `python -m geo.prep projects/<pid>`.
+
+**2. 날짜(EraDate)** — `date`·`dates[].date` 는 `rules script_schema.date_formats` 꼴: 서기 `1950.09.15`, 기원전 `-216.08.02`(역사 표기), 대략 `c.-220`, 기간 `-218~-216`.
+뱃지는 코드가 "기원전 216년 8월 2일" 처럼 조판합니다. 사료의 달력 차이(로마력 등)는 엔딩 자료 줄에 적습니다.
+
+**3. 시대 부호 세트** — 영상의 첫 날짜가 세트를 정합니다(≤1500 ancient · ~1850 early_modern · 그 뒤 modern, `rules war_history.symbol_set_by_year`).
+`units[].symbol` 은 그 세트의 부호만: 고대 `infantry_block`·`cavalry_wedge`·`elephant_dots`·`light_skirmish`, 현대 `app6_inf`·`app6_arm`·`app6_cav`. 섞으면 SK-W1 hard.
+부대는 `keys[]`(시각·중심·정면 방위·정면 폭·종심 km)로 움직이고, 키 사이는 부드럽게 옮겨집니다. 사료 서술을 spec 머리 주석에 권·절로 적고 화면에는 '개략'.
+
+**4. 고대 지명** — `python tools/fetch_ancient_geo.py projects/<pid> --bbox 경도0 위도0 경도1 위도1` → `ancient_geo/places.json`(Pleiades, CC BY 3.0).
+pleiades.stoa.org 가 막히면 GitHub 고정 커밋으로 우회하고 `ancient_geo/sources.json` 에 경로가 남습니다. spec `places[].pleiades` 에 id 를 적으면 좌표는 자료 값입니다.
+현대 지명은 `data/gazetteer.yaml`(Natural Earth) 값이나 측정 근거를 spec 주석에 적습니다.
+
+**5. 증거 층(UF-150·UF-206)** — 시대별 필수 층 `rules war_history.evidence.required_layers`(고대 period_art·site·toponymy / 현대 photo|clip·document·toponymy). 없으면 SK-W3 경고(본편은 hard).
+- 작품·기록·사진은 `projects/<pid>/media.json`(`schemas.media_models.MediaAsset`)에 적습니다. Commons PD·CC0·CC BY 만(`rules war_history.rights.allowed_licenses`). CC BY-SA 는 쓰지 않습니다.
+- 작품(`kind: period_art`)은 `created`(EraDate)·`work_kind`·`holder`·`art_history`(작가·연대·소장처·제작 의도 한 문장)·`art_history_source` 필수. 당대/후대 라벨은 코드가 붙입니다(차 ≤ `contemporary_gap_years`).
+- 인물 동정이 불확실하면 `identification: probable` — 캡션에 "추정" 표기를 코드가 붙입니다. 출처 없는 해석은 쓰지 않습니다.
+- 현대 사진·기록은 `archive_id`(예: NARA 080-G-…, NHHC NH …). 원본은 `python -m sketch.war.fetch projects/<pid>`(md5 → source_hash).
+- 지명 유래는 `toponymy.yaml`(언어·뜻·출처·확신도 통설/이설/미상). 출처 없는 유래는 쓰지 않습니다.
+- 사료 인용은 `quotes[]` — 화면은 우리 번역, `original`(영역본 문장 그대로)·`locator`(저자·권·절)·영역본 url·권리.
+
+**6. 실행** — `python -m sketch.war projects/<pid> --check`(hard 0) → `--frames …`(480p 정지 화면을 직접 본다) → 전편 `python -m sketch.war projects/<pid>`.
+검사표는 `sketch/war/checks.py` 머리말(SK-H1·H5·C1·W1~W4·R1·E1). 카메라 속도·경계(SK-C1)가 걸리면 숏을 나누거나 길게 잡습니다(큰 줌은 두 단계).
+
+**7. 전달물** — `out/sketch_war_*.png`·`sketch_war.mp4`·`sketch_war_sheet.jpg`·`sketch_provenance.json`, 쓰지 못한 층(SK-W3)과 그 이유, 사용자 판정 대기 목록.

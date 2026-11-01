@@ -1,0 +1,11 @@
+# 지명 유래 레코드(schemas.war_history.ToponymyFile) — 출처 없는 유래는 쓰지 않는다. 확신도 ∈ rules war_history.evidence.toponymy_confidence
+schema_version: 1
+entries:
+  - id: cannae
+    place: 칸나이
+    name: Cannae
+    language: 라틴어(그리스 사료 표기 Kannai·Kanna)
+    meaning: "그리스 사료는 칸나이(스트라본)·칸나(폴리비오스)로 적고, 오늘 이름은 칸네. 이름의 뜻은 전하지 않는다"
+    source: "W. Smith, Dictionary of Greek and Roman Geography vol. I(1856), 'CANNAE' 499쪽"
+    source_url: "https://archive.org/details/india.history.resource.89510"
+    confidence: 미상
