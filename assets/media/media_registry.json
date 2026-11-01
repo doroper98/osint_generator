@@ -8702,14 +8702,14 @@
    "background": [],
    "is_file_photo": false,
    "verified_by": {
-    "by": "opus 구현 세션 — Commons API 메타 대조, 12장 시트 육안 확인(사상자·인물 식별 없음)",
+    "by": "opus 구현 세션 — Commons API 메타 대조, 12장 시트 육안 확인(사상자·인물 식별 없음) · 2026-11-01 D-0462(UF-171) 구간 6.5→9.0초 연장, 6.5~10초 프레임 시트 육안 확인(적외선 타격 화면, 사상자·인물 식별 없음)",
     "on": "2026-11-01",
     "casualty_free": true,
     "segment_checked": [
      1.5,
-     6.5
+     9.0
     ],
-    "relevance": "act1_8 '7월 6일과 7일 … 미국은 이란 남부를 공습' — 같은 날 촬영 공개 영상(공용 strikes_file 과 같은 파일, 구간도 사용자 라운드 7 선택과 같다)"
+    "relevance": "act1_8 '7월 6일과 7일 … 미국은 이란 남부를 공습' — 같은 날 촬영 공개 영상(공용 strikes_file 과 같은 파일, 시작점은 사용자 라운드 7 선택과 같고 끝은 노출 하한 6초(D-0462)를 위해 9.0초로 늘렸다)"
    },
    "rights_status": "rights_clear",
    "retrieved_at": "2026-11-01",
@@ -8733,7 +8733,7 @@
    "duration": 24.6,
    "segment": [
     1.5,
-    6.5
+    9.0
    ]
   },
   "iran_tehran_2026": {
