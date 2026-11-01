@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "project_id": "samsung_q3_2026",
+  "title": "삼성전자 2026년 3분기 실적",
+  "category": "economy",
+  "created_at": "2026-11-01T03:49:43.545006Z",
+  "updated_at": "2026-11-01T03:58:34.768854Z",
+  "current_state": "script_approval",
+  "target_duration_min": 3,
+  "topic_summary": "삼성전자 2026년 3분기 확정 실적(10월 29일): 예상치·실제·부문·전망·주가 반응·지경학. 실적 발표 템플릿(earnings) 첫 사례",
+  "initial_links": [],
+  "paths": {
+    "sources": "intake/sources.json",
+    "claims": "intake/claims.json",
+    "screenshots": "intake/screenshots",
+    "script": "script.yaml",
+    "script_labels": "script_labels.json",
+    "plan": "plan.json",
+    "tts": "tts",
+    "assets": "assets",
+    "media": "media",
+    "direction": "direction.yaml",
+    "prev": "prev",
+    "prev_sheet": "prev/sheet.jpg",
+    "prev_provenance": "prev/provenance.json",
+    "out": "out",
+    "final": "out/final.mp4",
+    "provenance": "out/provenance.json"
+  },
+  "render_mode_status": {},
+  "gate_decisions": [],
+  "stage_records": [],
+  "final_outputs": {},
+  "state_history": [
+    {
+      "from_state": "created",
+      "to_state": "intake",
+      "transitioned_at": "2026-11-01T03:57:28.619165Z",
+      "reason": "소스 7건 등록(IR 발표 자료·인텔 8-K·디일렉 컨콜 전문·한국일보 2·글로벌이코노믹 2) — 구현 세션 대행 확인, 게이트 ① 출처 표로 사용자 확인"
+    },
+    {
+      "from_state": "intake",
+      "to_state": "source_verify",
+      "transitioned_at": "2026-11-01T03:57:28.636093Z",
+      "reason": "intake 완료"
+    },
+    {
+      "from_state": "source_verify",
+      "to_state": "research",
+      "transitioned_at": "2026-11-01T03:57:28.659658Z",
+      "reason": "코드 판정(source_verify.apply_draft) — verified 9·corroborated 1·unverified 11, drops 0"
+    },
+    {
+      "from_state": "research",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-11-01T03:57:28.675263Z",
+      "reason": "데이터 레코드 SSNLF_* 등재본(T1) — 새 조사 없음"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-11-01T03:58:34.768819Z",
+      "reason": "원고 v1(린트 오류 0, 경고 7) — 게이트 ① 사용자"
+    }
+  ],
+  "rollbacks": [],
+  "reopens": []
+}

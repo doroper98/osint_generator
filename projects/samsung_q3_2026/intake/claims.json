@@ -1,0 +1,384 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "claim_id": "clm_0001",
+      "text": "삼성전자는 2026년 3분기 영업이익이 글로벌 테크기업 최초로 분기 100조원을 넘었다고 밝혔다",
+      "source_ids": [
+        "src_doc_0001"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "independent_origins:1",
+        "primary:src_doc_0001",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0002",
+      "text": "삼성전자는 2026년 3분기까지 4분기 연속 역대 최대 매출과 영업이익을 동시에 경신했다",
+      "source_ids": [
+        "src_doc_0001",
+        "src_art_0001"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "quote_match:src_art_0001",
+        "independent_origins:2",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0003",
+      "text": "삼성전자는 3분기 메모리에서 HBM4 판매를 대폭 확대했다고 밝혔다",
+      "source_ids": [
+        "src_doc_0001"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "independent_origins:1",
+        "primary:src_doc_0001",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0004",
+      "text": "삼성전자 3분기 HBM4 매출은 전분기 대비 3배 이상 증가했다(컨퍼런스콜 발언)",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0005",
+      "text": "삼성전자 3분기 D램 평균판매가격은 전분기 대비 약 20% 상승했다(컨퍼런스콜 발언)",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0006",
+      "text": "삼성전자는 2027년 HBM 공급 물량이 협상 완료로 이미 완판됐다고 말했다(컨퍼런스콜)",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0007",
+      "text": "삼성전자는 2027년 메모리 공급 부족이 올해보다 심화될 것으로 전망했다",
+      "source_ids": [
+        "src_doc_0001"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "independent_origins:1",
+        "primary:src_doc_0001",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0008",
+      "text": "삼성전자는 메모리의 타이트한 수급이 2028년에도 이어질 것으로 전망했다(컨퍼런스콜)",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0009",
+      "text": "삼성전자는 4분기 D램 비트 출하량이 전분기 대비 10% 중후반 증가할 것으로 예상했다(컨퍼런스콜)",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0010",
+      "text": "삼성전자는 2027년 DX부문의 원가 상승에 따른 수익성 부담이 이어질 것으로 전망했다(컨퍼런스콜)",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0011",
+      "text": "달러·유로 등 주요 환율 하락이 삼성전자 3분기 영업이익에 전분기 대비 약 10조원의 부정적 효과를 냈다(컨퍼런스콜)",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0012",
+      "text": "삼성전자 미국 테일러 1공장은 클린룸 가동과 장비 반입을 시작했다(컨퍼런스콜)",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0013",
+      "text": "삼성전자는 2027년 미국 테일러 첫 번째 팹 가동으로 글로벌 공급 역량을 강화하겠다고 밝혔다",
+      "source_ids": [
+        "src_doc_0001"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "independent_origins:1",
+        "primary:src_doc_0001",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0014",
+      "text": "삼성전자 3분기 현금배당은 총 30조원(보통주·우선주 주당 4,601원)이다",
+      "source_ids": [
+        "src_doc_0001"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "independent_origins:1",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0015",
+      "text": "삼성전자의 2026년 주주환원 잔여재원은 55~75조원 수준이다",
+      "source_ids": [
+        "src_doc_0001",
+        "src_art_0002"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "quote_match:src_art_0002",
+        "independent_origins:2",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0016",
+      "text": "삼성전자는 2027년 1월 말 이사회에서 잔여 재원의 최종 주주환원 규모와 실행 방안을 확정해 발표한다",
+      "source_ids": [
+        "src_doc_0001"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "independent_origins:1",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0017",
+      "text": "10월 29일 삼성전자 주가 하락 배경으로 추가 주주환원책에 대한 실망감이 꼽혔다(보도 분석)",
+      "source_ids": [
+        "src_art_0002",
+        "src_art_0005"
+      ],
+      "status": "corroborated",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0005",
+        "independent_origins:2"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0018",
+      "text": "삼성전자 3분기 실적 발표에서 시장이 주목한 추가 자사주 매입·소각 계획은 구체화되지 않았다",
+      "source_ids": [
+        "src_art_0002"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0002",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0019",
+      "text": "인텔은 3분기 실적 자료에서 업계 전반의 기판·메모리 부족을 공급망 위험으로 적었다",
+      "source_ids": [
+        "src_doc_0002"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_doc_0002",
+        "independent_origins:1",
+        "primary:src_doc_0002",
+        "official:src_doc_0002"
+      ],
+      "attributed_only": false,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0020",
+      "text": "삼성전자 DX부문은 3분기 부품 원가 상승 등으로 수익성 확보에 어려움을 겪었다",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0021",
+      "text": "삼성전자 보통주는 10월 29일 전 거래일 대비 4.13% 내린 23만2,000원에 마감했다",
+      "source_ids": [
+        "src_art_0002",
+        "src_art_0003"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0003",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    }
+  ]
+}

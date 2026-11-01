@@ -1,0 +1,27 @@
+# 『삼성전자 2026년 3분기 실적』 주문 (v7.4.0, back_and_forth D-0278 §3·§7, D-0342 T5). 실적 발표 템플릿(earnings) 첫 사례.
+schema_version: 1
+tempo: breath
+topic: 삼성전자 2026년 3분기 확정 실적(10월 29일) — 예상치·실제·부문·전망·주가 반응·지경학
+genre: earnings
+invariant_layer: docs/handoff/20 §1.1
+length: 내용이 정한다   # D-0278 §3 제안 2.5~3.5분
+instructions:
+  - "막 구성 = 장르 earnings 고정 막(rules genre_prompt.acts.earnings): cold → TITLE → act1 예상 vs 실제 → act2 부문 → act3 전망 → act4 주가 → act5 지경학 → ending."
+  - "차트는 하나의 시간축 세계(C0·UF-135): 분기 실적 막대와 주가 선은 같은 시간축 위 두 레인. 차트 아일랜드 하나에 층 3 이상([chart-layers-min]), 새 층 간격 4초 이상([chart-overload]). 무대 조판 정본 D-0330(손실 막대 A, noturno), 열 확대 인셋(가이던스·slope·덤벨·diverging, D-0336)."
+  - "삼성전자는 4분기 숫자 가이던스를 내지 않았다 — act3 는 회사 전망 문장(인용)과 비트 출하 전망으로. 가이던스 띠를 지어내지 않는다."
+  - "act5 는 mercator 보조 무대 전환 1회: 한국 생산 거점 → 미국 텍사스 테일러, 환율, 메모리 부족 고리(인텔 실적 자료)."
+  - 투자 권유 표현 금지, 엔딩 카드 투자 고지 줄. 화면 조작 해설 문구 금지(UF-202).
+data:
+  series: [SSNLF_OP_Q, SSNLF_OP_Q_EST, SSNLF_REV_Q, SSNLF_SEG_DS_Q, SSNLF_SEG_DX_Q, SSNLF_SEG_DS_REV_Q, SSNLF_SEG_DX_REV_Q, SSNLF_SEG_SDC_REV_Q, SSNLF_SEG_HARMAN_REV_Q, SSNLF_PX_D]
+  documents: [src_doc_0001]
+  notes:
+    - 실적 수치는 IR 발표 자료(별첨 2) 레코드 값 그대로. 예상치는 에프앤가이드 집계(글로벌이코노믹 10월 8일 보도, 잠정 실적 전).
+    - 주가는 Yahoo 일별 종가 레코드(private_only_market_data, D264 비공개 시청).
+media:
+  wanted: [삼성전자 사업장 사진(Commons PD·CC 우선), 기사 카드(한국일보 2건·글로벌이코노믹), 테일러 팹 사진(권리 확인 시)]
+  rights: 비공개 시청 전제(D264) — 권리는 기록만.
+decisions:
+  topic: {value: 삼성전자 3분기 실적, by: user, ref: "D274 · D-0278"}
+  genre_status: {value: proposed, by: default, ref: "genres/earnings.yaml — approved 전환은 사용자 결정"}
+  bgm: {value: music.zabriskie_patriarch, by: default, ref: showcase_econ credits 선례}
+  resolution: {value: 720p, by: user, ref: 사용자 결정 2026-10-04}
