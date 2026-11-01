@@ -14,7 +14,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | endcard_roll | warning | v4.7.0(D-0106): 엔딩 카드 크레딧이 한도를 넘어 롤(속도 ≤ end_card.scroll_max_px_per_sec) `[endcard-roll]`. 상한 초과는 offscreen `[endcard-overflow]` hard |
 | media_upscaled | warning | 사진·영상·컷아웃 원본 픽셀 폭 < 출력 프로파일의 장치 폭(설계 폭 × k) — 추측 보간 금지, 알리기만(v3.6.0 D-0067 요건 3) |
 | labels | hard | 샘플 시각마다 도시 라벨 수 ≤ labels_per_frame_max |
-| date | hard | 문장 date 형식(YYYY / YYYY.MM / YYYY.MM.DD) — 날짜 배지는 이 값으로만 그린다 |
+| date | hard | 문장 date 형식(rules script_schema.date_formats — 파서 schemas/era_date, 기원전·대략·기간 포함) — 날짜 배지는 이 값으로만 그린다 |
 | subtitles | hard | 자막 줄 수 ≤ subtitle_lines_max(렌더러와 같은 wrap) |
 | rights | hard | 권리 점검(load_project 의 check_credits·validate_media)이 통과했으면 0 |
 | forbidden | hard | 도장·비네팅·모서리 브랜드: 레지스트리 밖 이벤트 타입 0, vignette 끔, 모서리 요소 = 날짜뿐. v4.5.0(D85): 프리뷰 컷에 그린 글자 중 검증 라벨 문구(`script_schema.labels`) 0 `[label-in-body]` |
@@ -114,7 +114,8 @@ from engine.projection import View
 from engine.style import ELEM, FONT, FPS, H_OUT, ISLAND, MOTION, TIMELINE, W_OUT
 from engine.typography import FontMissingError, family_found, fc_match, require_family
 from rules import load_rules
-from script.schema import DATE_RE
+from schemas.era_date import day_date, is_era_date, parse_era_date
+from schemas.era_date import media_shot_date as _media_shot_date
 
 R_ = load_rules()
 QA = R_.qa_checks
@@ -2284,7 +2285,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "media_upscaled": lambda: check_media_upscaled(P),
         "endcard_roll": lambda: check_endcard_roll(P),
         "labels": lambda: check_labels(P, times),
-        "date": lambda: [f"{s.sid} 날짜 형식 {s.date!r}" for s in P.plan.sentences if not DATE_RE.match(s.date)],
+        "date": lambda: [f"{s.sid} 날짜 형식 {s.date!r}" for s in P.plan.sentences if not is_era_date(s.date)],
         "subtitles": lambda: check_subtitles(P),
         "rights": lambda: [],   # load_project 가 권리 점검(check_credits·validate_media)에서 실패하면 여기까지 오지 않는다
         "forbidden": lambda: check_forbidden(P, provenance) + check_label_glyphs(drawn),
@@ -2638,30 +2639,18 @@ def plot_height(P) -> "tuple[float, float] | None":  # noqa: ANN001, N803
     return (plot, frame[3]) if frame is not None else None
 
 
-MEDIA_DATE_RE = re.compile(r"(\d{4})\.\s?(\d{1,2})\.\s?(\d{1,2})")   # 화면 출처 줄 날짜("2026. 07. 07")
-ISO_DATE_RE = re.compile(r"(\d{4})-(\d{2})-(\d{2})")
-
-
 def media_shot_date(a) -> "date | None":  # noqa: ANN001 — MediaAsset
-    """사진·영상 촬영일 — 화면 출처 줄(file_note)의 연·월·일, 없으면 레지스트리 date 의 ISO 날짜. 일 단위로 못 읽으면 None(판정 안 함)."""
-    from datetime import date  # noqa: PLC0415
-
-    for rx, s in ((MEDIA_DATE_RE, a.file_note or ""), (ISO_DATE_RE, a.date or "")):
-        m = rx.search(s)
-        if m:
-            return date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
-    return None
+    """사진·영상 촬영일 — 화면 출처 줄(file_note)의 연·월·일, 없으면 레지스트리 date 의 ISO 날짜. 일 단위로 못 읽으면 None(판정 안 함).
+    파서는 schemas.era_date 하나(v7.4.0 전쟁사 W1)."""
+    return _media_shot_date(a.file_note or "", a.date or "")
 
 
 def sentence_date_at(P, t: float) -> "date | None":  # noqa: ANN001, N803
-    """시각 t 에 걸린(또는 직전) 문장의 날짜(YYYY.MM.DD 만 — 월·연 단위 문장은 None)."""
-    from datetime import date  # noqa: PLC0415
-
+    """시각 t 에 걸린(또는 직전) 문장의 날짜(서기 일 단위만 — 월·연·대략·기간·기원전 문장은 None)."""
     sent = [s for s in P.plan.sentences if s.t0 <= t + 0.05]
     if not sent:
         return None
-    m = re.fullmatch(r"(\d{4})\.(\d{2})\.(\d{2})", sent[-1].date)
-    return date(int(m.group(1)), int(m.group(2)), int(m.group(3))) if m else None
+    return day_date(sent[-1].date)
 
 
 def check_clip_date_mismatch(P) -> list[str]:  # noqa: ANN001, N803
@@ -2995,10 +2984,11 @@ def check_photo_age(P) -> list[str]:  # noqa: ANN001, N803
             continue
         shot = media_shot_date(assets[e["mid"]])
         sents = [s for s in P.plan.sentences if s.t0 <= e["t0"] + 1.0] or P.plan.sentences[:1]
-        m = re.match(r"(\d{4})(?:\.(\d{1,2}))?", str(getattr(sents[-1], "date", "") or ""))
-        if shot is None or not m:
+        raw = str(getattr(sents[-1], "date", "") or "")
+        if shot is None or not is_era_date(raw):
             continue
-        yrs = (int(m.group(1)) - shot.year) + ((int(m.group(2) or shot.month) - shot.month) / 12)
+        sd = parse_era_date(raw)
+        yrs = (sd.astronomical_year - shot.year) + (((sd.month or shot.month) - shot.month) / 12)
         if yrs > mx:
             out.append(f"[photo-age] 사진 {e['mid']} 촬영 {shot} — 문장보다 {yrs:.1f}년 앞(> {mx}) — 더 최근 사진을 찾거나 연출 age_reason 에 이유를 적는다(UF-201)")
     return out

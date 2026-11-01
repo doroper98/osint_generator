@@ -87,6 +87,7 @@ def _rules_placeholders(rules: VideoRules) -> dict[str, str]:
         "{{RULES.reference_clip.director}}": _bullets([_clip_ranges(ln, rules) for ln in rules.reference_clip.director]),   # v7.4.0 D-0274 §2⑤
         "{{RULES.reference_clip.script}}": _bullets([_clip_ranges(ln, rules) for ln in rules.reference_clip.script]),
         "{{RULES.backdrop_island}}": _backdrop_island(rules),   # v5.1.0 D-0123·D-0126·D-0121 §C — backdrop 무대·아일랜드·기사 프레스 v2
+        "{{RULES.date_formats}}": ", ".join(rules.script_schema.date_formats),   # v7.4.0 전쟁사 W1 — 파서 schemas/era_date 와 같은 목록(-YYYY = 기원전 역사 표기)
         "{{RULES.attribution_markers}}": ", ".join(f'"{m}"' for m in rules.script_schema.attribution_markers),   # v4.10.0 D-0116 — 린트·검증 판정과 같은 목록
     }
 

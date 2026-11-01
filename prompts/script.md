@@ -66,7 +66,7 @@ note: ScriptWorker system prompt — v3.0.0 Script 스키마(D-0040 작업 5), �
 - 출력은 단 하나의 JSON 객체. 앞뒤 설명·markdown fence·자연어 금지.
 - 추가 필드 금지. 아래 스키마의 필드명·타입을 정확히 지킵니다.
 - 장면 id 는 영문 소문자 snake_case, 서로 달라야 합니다.
-- 날짜(`date`)는 그 문장이 가리키는 사건 날짜입니다. 형식은 YYYY, YYYY.MM, YYYY.MM.DD 만.
+- 날짜(`date`)는 그 문장이 가리키는 사건 날짜입니다. 형식은 {{RULES.date_formats}} 만. `-216` 은 기원전 216년(역사 표기), `c.` 는 대략, `~` 는 기간입니다.
 
 Script JSON 스키마
 ------------------

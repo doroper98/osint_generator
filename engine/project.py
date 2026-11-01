@@ -23,6 +23,7 @@ import numpy as np
 from engine.assets import Assets, load_labels
 from engine.camera import CamKey, build_camera, cam
 from engine.context import RenderCtx
+from engine.hud import configure_badge_texts
 from engine.credits import check_credits, load_credits, required_refs
 from engine.direction import Direction, DirectionError, boundary_routes, geo_unsourced, load_direction_doc, shot_stages
 from engine.direction import ISLAND_STAGE, is_island_shot, island_keys
@@ -391,6 +392,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     proj = proj.resolve()
     plan = load_plan(proj)
     tb = Timebase(plan)
+    configure_badge_texts([s.date for s in plan.sentences])   # v7.4.0 전쟁사 W1 — 기원전 뱃지 예약 상자 폭
     AN = load_rules().animatic  # noqa: N806
     if catalog:
         if animatic:

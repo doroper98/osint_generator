@@ -39,6 +39,7 @@ import cairo
 from pydantic import BaseModel, ConfigDict
 
 from rules import load_rules
+from schemas.era_date import EraDate, is_era_date, parse_era_date
 from script.schema import Scene, Script
 
 Severity = Literal["error", "warning"]
@@ -380,15 +381,13 @@ def ends_present(text: str) -> bool:
     return True
 
 
-def badge_day(d: str) -> "datetime.date":
-    """날짜 배지 문자열(YYYY / YYYY.MM / YYYY.MM.DD) → 날짜(빠진 월·일 = 1)."""
-    import datetime  # noqa: PLC0415
-
-    p = [int(x) for x in d.split(".")]
-    return datetime.date(p[0], p[1] if len(p) > 1 else 1, p[2] if len(p) > 2 else 1)
+def badge_day(d: str) -> "EraDate":
+    """날짜 배지 문자열(rules script_schema.date_formats) → EraDate(정렬·간격은 연속 일수, 빠진 월·일 = 1, 기간은 시작점).
+    v7.4.0 전쟁사 W1 — 기원전 날짜는 datetime.date 로 못 담으므로 파서는 schemas.era_date 하나."""
+    return parse_era_date(d)
 
 
-def scene_day(sc: "Scene") -> "datetime.date":
+def scene_day(sc: "Scene") -> "EraDate":
     """장면 대표 날짜 — 문장 날짜 중앙값(짝수면 앞쪽 가운데)."""
     ds = sorted(badge_day(s.date) for s in sc.sentences)
     return ds[(len(ds) - 1) // 2]
@@ -405,10 +404,10 @@ def transition_points(script: Script) -> list[tuple[int, list[str], str]]:
         if pa.stage and pb.stage and pa.stage != pb.stage:
             kind.append("stage")
             why.append(f"무대 {pa.stage}→{pb.stage}")
-        days = abs((scene_day(pb) - scene_day(pa)).days)
+        days = abs(scene_day(pa).days_to(scene_day(pb)))
         if days >= jd:
             kind.append("date_jump")
-            why.append(f"장면 날짜 {scene_day(pa)}→{scene_day(pb)}({days}일)")
+            why.append(f"장면 날짜 {scene_day(pa).iso()}→{scene_day(pb).iso()}({days}일)")
         if kind:
             out.append((i, kind, ", ".join(why)))
     return out
@@ -428,10 +427,10 @@ def transition_issues(script: Script) -> list[LintIssue]:
     for sc in script.scenes:
         mid = scene_day(sc)
         for k, s in enumerate(sc.sentences):
-            gap = abs((badge_day(s.date) - mid).days)
+            gap = abs(mid.days_to(badge_day(s.date)))
             if gap >= T.in_scene_jump_days and s.role != "background":
                 out.append(LintIssue(kind="transition-in-scene", severity="warning", sid=f"{sc.id}_{k}", text=s.text,
-                                     detail=f"장면 {sc.id} 날짜 {mid} 와 {gap}일 떨어진 문장 — 회고·배경이면 role: background, 아니면 장면을 나누고 bridge 로(D-0230 §2)"))
+                                     detail=f"장면 {sc.id} 날짜 {mid.iso()} 와 {gap}일 떨어진 문장 — 회고·배경이면 role: background, 아니면 장면을 나누고 bridge 로(D-0230 §2)"))
     return out
 
 
@@ -590,7 +589,8 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
             spoken_ref = next((n for n in r.source_note.spoken_names if n in s.text), None)
             if spoken_ref:   # v5.6.0 — 참조 출처는 화면 아래 링크로(rules source_note), 내레이션에서 말하지 않는다
                 add("reference-in-narration", "error", f"'{spoken_ref}' — 참조 출처는 내레이션에서 말하지 않는다(화면 출처 표기 source_note)")
-            if s.date[:4].isdigit() and script.date[:4].isdigit() and int(s.date[:4]) < int(script.date[:4]) and ends_present(s.text):
+            if is_era_date(script.date) and badge_day(s.date).astronomical_year < badge_day(script.date).astronomical_year \
+                    and ends_present(s.text):
                 add("tense-present", "warning", f"{s.date} 의 일인데 현재형으로 끝남 — 과거의 사건·상태는 과거형으로(script_grammar)")
             total += 1
             flow += starts_with_connective(s.text, sg.connectives)

@@ -440,6 +440,19 @@ class MediaRules(_Strict):
     file_clip_date_gap_days: int = Field(default=30, gt=0)   # v7.4.0 D-0283 §1 — [clip-date-mismatch] 촬영일 ↔ 문장 날짜 차 상한(자료 표기 없을 때)
 
 
+class EraFormat(_Strict):
+    """v7.4.0 전쟁사 W1(D-0600 §3) — 기원전·대략·기간 날짜의 뱃지 표기(서기 네 자리 꼴은 옛 표기 그대로). 자리표시 {y}·{m}·{d}·{c}·{y0}·{y1}."""
+    bce_prefix: str
+    ce_prefix: str
+    circa_ce_prefix: str
+    day: str
+    month: str
+    year: str
+    circa: str
+    period_years: str
+    period_sep: str
+
+
 class DateBadge(_Strict):
     font: str
     size: float
@@ -449,6 +462,7 @@ class DateBadge(_Strict):
     underline_w: float
     slide_px: float
     slide_sec: float
+    era_format: EraFormat
 
 
 class HudRules(_Strict):

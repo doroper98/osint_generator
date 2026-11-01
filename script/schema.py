@@ -6,12 +6,12 @@
 
 from __future__ import annotations
 
-import re
 from typing import Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-DATE_RE = re.compile(r"^\d{4}(\.\d{2}(\.\d{2})?)?$")  # rules script_schema.date_formats
+from schemas.era_date import is_era_date, validate_era_str  # noqa: F401 — 날짜 파서는 EraDate 하나(rules script_schema.date_formats)
+
 
 
 from script.tts.prosody import FinalFallRecord  # noqa: E402 — v5.20.0 plan row prosody 기록 모델
@@ -63,9 +63,7 @@ class Sentence(_Strict):
     @field_validator("date")
     @classmethod
     def _date(cls, v: str) -> str:
-        if not DATE_RE.match(v):
-            raise ValueError(f"날짜 형식 YYYY / YYYY.MM / YYYY.MM.DD 만 허용: {v!r}")
-        return v
+        return validate_era_str(v)
 
     @model_validator(mode="after")
     def _emphasis_substring(self) -> "Sentence":

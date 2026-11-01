@@ -23,7 +23,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from engine.style import C, PRIMITIVES
 from engine.timebase import ease_out, window
 from engine.typography import rrect, text
-from script.schema import DATE_RE
+from schemas.era_date import validate_era_str
 
 L = PRIMITIVES["site_diagram"]
 COLOR_KEYS: tuple[str, ...] = ("confrontation", "explosion_opposition", "emphasis", "neutral")
@@ -69,9 +69,7 @@ class SiteDiagram(BaseModel):
     @field_validator("date")
     @classmethod
     def _date(cls, v: str) -> str:
-        if not DATE_RE.match(v):
-            raise ValueError(f"날짜 형식 YYYY / YYYY.MM / YYYY.MM.DD 만 허용: {v!r}")
-        return v
+        return validate_era_str(v)
 
     @field_validator("marks")
     @classmethod

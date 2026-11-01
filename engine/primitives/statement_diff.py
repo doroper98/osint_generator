@@ -22,7 +22,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 from engine.style import C, CARD, CARD_BG, PRIMITIVES, QUOTE_MAX_CHARS, W_OUT
 from engine.timebase import ease_out, window
 from engine.typography import rrect, text, tw
-from script.schema import DATE_RE
+from schemas.era_date import validate_era_str
 
 L = PRIMITIVES["statement_diff"]
 COLOR_KEYS: tuple[str, ...] = ("added", "removed")
@@ -62,9 +62,7 @@ class StatementDiff(BaseModel):
     @field_validator("date")
     @classmethod
     def _date(cls, v: str) -> str:
-        if not DATE_RE.match(v):
-            raise ValueError(f"date 형식 {v!r} — YYYY | YYYY.MM | YYYY.MM.DD")
-        return v
+        return validate_era_str(v)
 
     @model_validator(mode="after")
     def _changed(self) -> "StatementDiff":

@@ -22,7 +22,7 @@ note: ResearchWorker system prompt (17 §5.1, v3.2.0 D-0051 작업 7 — 출력 
   양측이 claim 목록에 없으면 그 사실을 만들지 않는다 — 한쪽 입장만으로 서술하지 않는다(18 §3-5).
 - `confidence`: 인용한 claim 이 verified·corroborated 뿐이면 high, unverified 가 섞이면 low, 그 밖 medium.
   unverified claim 은 원고에서 "~라고 주장했습니다/올렸습니다"로 귀속될 내용이다. 사실 문장(`text`)도 누가 말했는지 드러나게 쓴다.
-- `date` 는 사건일(YYYY, YYYY.MM, YYYY.MM.DD). 게시일과 다를 수 있다.
+- `date` 는 사건일({{RULES.date_formats}}, `-216` = 기원전 216년). 게시일과 다를 수 있다.
 
 균형 원칙
 ---------

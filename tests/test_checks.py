@@ -36,7 +36,7 @@ def _P(events: list[dict] | None = None, keys: list[CamKey] | None = None, sente
 class ChecksTest(unittest.TestCase):
     def test_date_format(self) -> None:
         P = _P(sentences=[_sent("a_0", "a", 1.0, date="2026/09")])  # noqa: N806
-        self.assertEqual(len([s for s in P.plan.sentences if not checks.DATE_RE.match(s.date)]), 1)
+        self.assertEqual(len([s for s in P.plan.sentences if not checks.is_era_date(s.date)]), 1)
 
     def test_subtitle_lines(self) -> None:
         P = _P(sentences=[_sent("a_0", "a", 1.0, text="아주 긴 자막 " * 30)])  # noqa: N806

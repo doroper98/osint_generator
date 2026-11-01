@@ -9,16 +9,33 @@ from engine.style import C, DATE_BADGE, W_OUT
 from rules import load_rules
 from engine.timebase import smooth
 from engine.typography import text
+from schemas.era_date import badge_text
 
 Box = tuple[float, float, float, float]
 TRANSITION = load_rules().transition   # v7.4.0 D-0229 §2.2(UF-105)
+_BADGE_EXTRA_W: list[float] = [0.0]   # 이 영상의 뱃지 문구 중 옛 폭('YYYY. MM. DD')을 넘는 몫 — engine.project.load_project 가 정한다
+
+
+def badge_width_est(txt: str) -> float:
+    """뱃지 문구의 설계 폭 추정 — 한글·전각은 rules era_format 기준 글자 폭 1em, 그 밖은 옛 상자와 같은 비(12자 = 8em)."""
+    B = DATE_BADGE  # noqa: N806
+    legacy_chars = len("YYYY. MM. DD")
+    return sum(B.size if ord(ch) >= 0x1100 else B.size * 8 / legacy_chars for ch in txt)
+
+
+def configure_badge_texts(dates: list[str]) -> None:
+    """이 영상 문장 날짜들로 뱃지 예약 상자 폭을 정한다(v7.4.0 전쟁사 W1 — '기원전 216년 8월 2일' 은 옛 상자보다 넓다).
+    서기 네 자리 꼴만이면 옛 상자 그대로(골든 불변)."""
+    B = DATE_BADGE  # noqa: N806
+    widest = max((badge_width_est(badge_text(d)) for d in dates), default=0.0)
+    _BADGE_EXTRA_W[0] = max(0.0, widest - B.size * 8)
 
 
 def date_box() -> Box:
-    """날짜 배지가 차지하는 화면 상자(x0, y0, x1, y1) — 가장 긴 날짜('YYYY. MM. DD')를 덮는 폭. 예약 영역 판정의 유일한 정의
-    (미디어 배치 슬롯 후보·checks overlap 이 같이 쓴다, v3.6.0 NB23)."""
+    """날짜 배지가 차지하는 화면 상자(x0, y0, x1, y1) — 가장 긴 날짜('YYYY. MM. DD', 기원전 표기면 그 문구)를 덮는 폭.
+    예약 영역 판정의 유일한 정의(미디어 배치 슬롯 후보·checks overlap 이 같이 쓴다, v3.6.0 NB23)."""
     B = DATE_BADGE  # noqa: N806
-    return (W_OUT - B.x_right - B.size * 8, 0, W_OUT, B.underline_y + 2)
+    return (W_OUT - B.x_right - B.size * 8 - _BADGE_EXTRA_W[0], 0, W_OUT, B.underline_y + 2)
 
 
 def draw_date(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803
@@ -40,13 +57,13 @@ def draw_date(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803
     B = DATE_BADGE  # noqa: N806
     if old is not None and t - t_ch < TRANSITION.date_badge_xfade_sec:   # 시점 전환(UF-105) — 즉시 교체 대신 xfade, 옛 날짜는 제자리에서 사라진다
         x = smooth((t - t_ch) / TRANSITION.date_badge_xfade_sec)
-        text(ctx, old.replace(".", ". ") if len(old) > 4 else old, W_OUT - B.x_right, B.y, B.size, B.font, (1, 1, 1), 0.95 * (1 - x), 3, "r")
+        text(ctx, badge_text(old), W_OUT - B.x_right, B.y, B.size, B.font, (1, 1, 1), 0.95 * (1 - x), 3, "r")
         k = 1.0
         a = 0.95 * x
     else:
         k = smooth((t - t_ch) / B.slide_sec)
         a = 0.95 * k
-    txt = d.replace(".", ". ") if len(d) > 4 else d
+    txt = badge_text(d)   # 서기 네 자리 꼴은 옛 표기 그대로, 기원전·대략·기간은 rules hud.date_badge.era_format
     w = text(ctx, txt, W_OUT - B.x_right, B.y - (1 - k) * B.slide_px, B.size, B.font, (1, 1, 1), a, 3, "r")
     ctx.set_source_rgba(*C["gold"], 0.9 * a)
     ctx.rectangle(W_OUT - B.x_right - w * k, B.underline_y, w * k, B.underline_w)

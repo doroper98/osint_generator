@@ -18,6 +18,7 @@ import cairo
 from engine.context import RenderCtx
 from engine.credits import credit_sections
 from engine.style import C, ELEM, END_CARD, H_OUT, MOTION, TITLE_CARD, W_OUT
+from schemas.era_date import badge_text
 from engine.timebase import ease_io, ease_out, smooth, window
 from engine.typography import _M, adv, text, wrap
 
@@ -272,7 +273,7 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
     ctx.set_source_rgba(1, 1, 1, 0.08 * fa)
     ctx.rectangle(64, RULE_Y, W_OUT - 128, 0.8)
     ctx.fill()
-    text(ctx, plan.date.replace(".", ". ") + " 기준", 64, H_OUT - 26, 7.8, "monom", C["muted"], fa, 0, "l", spacing=0.6, role="end_card")
+    text(ctx, badge_text(plan.date) + " 기준", 64, H_OUT - 26, 7.8, "monom", C["muted"], fa, 0, "l", spacing=0.6, role="end_card")
     text(ctx, ENDCARD_NOTE, W_OUT - 64, H_OUT - 26, 7.8, "sans", C["muted"], fa, 0, "r", role="end_card")
     nl = notice_line(R)
     if nl:   # v7.4.0 D-0229 §2.10 — 표기 전용 줄(구분선 바로 위, 전체 폭, 가장 작은 글씨)
@@ -308,6 +309,6 @@ def draw_fullcards(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa:
             ctx.fill()
             text(ctx, title_subtitle(R), W_OUT / 2, 290, TITLE_CARD.subtitle_size, "serifb", (0.92, 0.9, 0.88),
                  a * smooth((lt - 0.8) / MOTION["title_text_in_sec"]), 0, "c")
-            text(ctx, plan.date.replace(".", ". "), W_OUT / 2, 322, 12, "mono", C["gold"], a * smooth((lt - 1.1) / MOTION["title_text_in_sec"]), 0, "c")
+            text(ctx, badge_text(plan.date), W_OUT / 2, 322, 12, "mono", C["gold"], a * smooth((lt - 1.1) / MOTION["title_text_in_sec"]), 0, "c")
         else:
             draw_endcard(ctx, R, t, c, a)
