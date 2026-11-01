@@ -909,54 +909,11 @@
    "sid": "act2_2",
    "scene": "act2",
    "date": "2026.09.24",
-   "text": "먼저 미국이 레바논을 포함한 모든 전선에서 교전을 멈추고, 봉쇄와 원유 제재, 동결 자산을 푼다는 내용입니다.",
-   "tts": "먼저 미국이 레바논을 포함한 모든 전선에서 교전을 멈추고, 봉쇄와 워뉴 제재, 동결 자산을 푼다는 내용입니다.",
+   "text": "미국이 레바논을 포함한 전 전선의 교전을 멈추고 봉쇄와 원유 제재, 동결 자산을 풀면, 엿새째 해협을 열고 이레째 협상한다는 안입니다.",
+   "tts": "미국이 레바논을 포함한 전 전선의 교전을 멈추고 봉쇄와 워뉴 제재, 동결 자산을 풀면, 엿새째 해협을 열고 이레째 협상한다는 안입니다.",
    "segments": [
     [
-     "먼저 미국이 레바논을 포함한 모든 전선에서 교전을 멈추고, 봉쇄와 원유 제재, 동결 자산을 푼다는 내용입니다.",
-     0
-    ]
-   ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_2_d136845da7.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_2_d136845da7.npy",
-   "dur": 7.854399092970522,
-   "t0": 125.31648526077103,
-   "t1": 133.17088435374154,
-   "trim_offset": 0.401678,
-   "chunks": [
-    "먼저 미국이 레바논을 포함한 모든 전선에서 교전을 멈추고, 봉쇄와 워뉴 제재, 동결 자산을 푼다는 내용입니다."
-   ],
-   "alignment": {
-    "source": "mms_forced_alignment",
-    "score_mean": 0.9338,
-    "elapsed_ms": 1337,
-    "realigned_from": null
-   },
-   "prosody": {
-    "final_fall": {
-     "applied": true,
-     "reason": null,
-     "region_sec": [
-      7.78,
-      8.535
-     ],
-     "semitones": 4.0,
-     "f0_start_hz": 84.2,
-     "f0_end_hz": 70.76,
-     "octave_fixed_n": 27
-    }
-   },
-   "role": null
-  },
-  {
-   "sid": "act2_3",
-   "scene": "act2",
-   "date": "2026.09.24",
-   "text": "그 뒤 엿새째 해협을 다시 열고, 이레째 포괄 협상을 시작한다는 것입니다.",
-   "tts": "그 뒤 엿새째 해협을 다시 열고, 이레째 포괄 협상을 시작한다는 것입니다.",
-   "segments": [
-    [
-     "그 뒤 ",
+     "미국이 레바논을 포함한 전 전선의 교전을 멈추고 봉쇄와 원유 제재, 동결 자산을 풀면, ",
      0
     ],
     [
@@ -964,23 +921,23 @@
      1
     ],
     [
-     " 해협을 다시 열고, 이레째 포괄 협상을 시작한다는 것입니다.",
+     " 해협을 열고 이레째 협상한다는 안입니다.",
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_3_ace79a02ec.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_3_ace79a02ec.npy",
-   "dur": 4.5961224489795915,
-   "t0": 134.07088435374155,
-   "t1": 138.66700680272115,
-   "trim_offset": 0.480794,
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_2_64d1e678dd.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_2_64d1e678dd.npy",
+   "dur": 9.498526077097505,
+   "t0": 125.31648526077103,
+   "t1": 134.81501133786853,
+   "trim_offset": 0.408571,
    "chunks": [
-    "그 뒤 엿새째 해협을 다시 열고, 이레째 포괄 협상을 시작한다는 것입니다."
+    "미국이 레바논을 포함한 전 전선의 교전을 멈추고 봉쇄와 워뉴 제재, 동결 자산을 풀면, 엿새째 해협을 열고 이레째 협상한다는 안입니다."
    ],
    "alignment": {
     "source": "mms_forced_alignment",
-    "score_mean": 0.8992,
-    "elapsed_ms": 977,
+    "score_mean": 0.9024,
+    "elapsed_ms": 11537,
     "realigned_from": null
    },
    "prosody": {
@@ -988,19 +945,19 @@
      "applied": true,
      "reason": null,
      "region_sec": [
-      4.64,
-      5.05
+      9.385,
+      10.13
      ],
      "semitones": 4.0,
-     "f0_start_hz": 94.53,
-     "f0_end_hz": 66.88,
-     "octave_fixed_n": 3
+     "f0_start_hz": 85.76,
+     "f0_end_hz": 109.99,
+     "octave_fixed_n": 10
     }
    },
    "role": null
   },
   {
-   "sid": "act2_4",
+   "sid": "act2_3",
    "scene": "act2",
    "date": "2026.09.26",
    "text": "하지만 9월 26일, 트럼프 대통령은 \"그 합의는 받아들일 수 없다\"고 말했습니다.",
@@ -1011,11 +968,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_4_3381f84e5e.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_4_3381f84e5e.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_3_3381f84e5e.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_3_3381f84e5e.npy",
    "dur": 4.886462585034014,
-   "t0": 139.56700680272115,
-   "t1": 144.45346938775518,
+   "t0": 135.71501133786853,
+   "t1": 140.60147392290256,
    "trim_offset": 0.467959,
    "chunks": [
     "하지만 구월 이십육일, 트럼프 대통령은 그 합의는 받아들일 수 없다고 말했습니다."
@@ -1023,7 +980,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.877,
-    "elapsed_ms": 1388,
+    "elapsed_ms": 1145,
     "realigned_from": null
    },
    "prosody": {
@@ -1043,7 +1000,7 @@
    "role": null
   },
   {
-   "sid": "act2_5",
+   "sid": "act2_4",
    "scene": "act2",
    "date": "2026.09.30",
    "text": "한편 9월 30일, 이란 정부는 카타르를 거쳐 미국의 역제안을 받았다고 밝혔지만 내용은 공개하지 않았습니다.",
@@ -1062,11 +1019,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_5_2787ec690b.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_5_2787ec690b.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_4_2787ec690b.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_4_2787ec690b.npy",
    "dur": 7.2535827664399095,
-   "t0": 145.35346938775518,
-   "t1": 152.6070521541951,
+   "t0": 141.50147392290256,
+   "t1": 148.75505668934247,
    "trim_offset": 0.501111,
    "chunks": [
     "한편 구월 삼십일, 이란 정부는 카타르를 거쳐 미국의 역제안을 받았다고 밝혔지만 내용은 공개하지 않았습니다."
@@ -1074,7 +1031,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8745,
-    "elapsed_ms": 1305,
+    "elapsed_ms": 1283,
     "realigned_from": null
    },
    "prosody": {
@@ -1094,7 +1051,7 @@
    "role": null
   },
   {
-   "sid": "act2_6",
+   "sid": "act2_5",
    "scene": "act2",
    "date": "2026.10.06",
    "text": "이어서 10월 6일, 밴스 부통령은 한 인터뷰에서 이란이 농축 능력을 \"의미 있게\" 줄여야 한다고 말했습니다.",
@@ -1113,11 +1070,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_6_0b7289c1da.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_6_0b7289c1da.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_5_0b7289c1da.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_5_0b7289c1da.npy",
    "dur": 6.677641723356009,
-   "t0": 153.5070521541951,
-   "t1": 160.1846938775511,
+   "t0": 149.65505668934247,
+   "t1": 156.33269841269848,
    "trim_offset": 0.362381,
    "chunks": [
     "이어서 시월 육일, 밴스 부통령은 한 인터뷰에서 이란이 농축 능력을 의미 있게 줄여야 한다고 말했습니다."
@@ -1125,7 +1082,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9424,
-    "elapsed_ms": 1145,
+    "elapsed_ms": 1122,
     "realigned_from": null
    },
    "prosody": {
@@ -1145,7 +1102,7 @@
    "role": null
   },
   {
-   "sid": "act2_7",
+   "sid": "act2_6",
    "scene": "act2",
    "date": "2026.10.07",
    "text": "이에 대해 이란의 한 관리는 농축 권리 인정은 넘을 수 없는 선이라고 말했습니다.",
@@ -1156,11 +1113,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_7_40ed06e1ae.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_7_40ed06e1ae.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_6_40ed06e1ae.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_6_40ed06e1ae.npy",
    "dur": 4.874263038548753,
-   "t0": 161.0846938775511,
-   "t1": 165.95895691609985,
+   "t0": 157.23269841269848,
+   "t1": 162.10696145124723,
    "trim_offset": 0.419569,
    "chunks": [
     "이에 대해 이란의 한 관리는 농축 권리 인정은 넘을 수 없는 선이라고 말했습니다."
@@ -1168,7 +1125,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9177,
-    "elapsed_ms": 1033,
+    "elapsed_ms": 1020,
     "realigned_from": null
    },
    "prosody": {
@@ -1188,7 +1145,7 @@
    "role": null
   },
   {
-   "sid": "act2_8",
+   "sid": "act2_7",
    "scene": "act2",
    "date": "2026.10.08",
    "text": "이어서 10월 8일, 트럼프 대통령은 중간선거 전에는 이란을 공격하지 않겠다면서도 봉쇄는 유지한다고 밝혔습니다.",
@@ -1199,11 +1156,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_8_60b12d4008.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_8_60b12d4008.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_7_60b12d4008.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_7_60b12d4008.npy",
    "dur": 7.357120181405896,
-   "t0": 166.85895691609986,
-   "t1": 174.21607709750575,
+   "t0": 163.00696145124724,
+   "t1": 170.36408163265313,
    "trim_offset": 0.407846,
    "chunks": [
     "이어서 시월 팔일, 트럼프 대통령은 중간선거 전에는 이란을 공격하지 않겠다면서도 봉쇄는 유지한다고 밝혔습니다."
@@ -1211,7 +1168,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.913,
-    "elapsed_ms": 1761,
+    "elapsed_ms": 1287,
     "realigned_from": null
    },
    "prosody": {
@@ -1231,7 +1188,7 @@
    "role": null
   },
   {
-   "sid": "act2_9",
+   "sid": "act2_8",
    "scene": "act2",
    "date": "2026.10.11",
    "text": "그러자 10월 11일, 레자이 최고국가안보회의 사무총장은 미국이 일부 조건만 받아들였다며 답변이 불충분하다고 말했습니다.",
@@ -1242,11 +1199,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_9_df19b88339.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_9_df19b88339.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_8_df19b88339.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_8_df19b88339.npy",
    "dur": 8.12607709750567,
-   "t0": 175.11607709750575,
-   "t1": 183.2421541950114,
+   "t0": 171.26408163265313,
+   "t1": 179.3901587301588,
    "trim_offset": 0.401542,
    "chunks": [
     "그러자 시월 십일일, 레자이 최고국가안보회의 사무총장은 미국이 일부 조건만 받아들였다며 답변이 불충분하다고 말했습니다."
@@ -1254,7 +1211,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8933,
-    "elapsed_ms": 1413,
+    "elapsed_ms": 1327,
     "realigned_from": null
    },
    "prosody": {
@@ -1274,7 +1231,7 @@
    "role": null
   },
   {
-   "sid": "act2_10",
+   "sid": "act2_9",
    "scene": "act2",
    "date": "2026.10.25",
    "text": "이어서 10월 25일, 카타르가 하루 단위 신뢰 구축 단계를 담은 초안을 건넸다고 한 관리가 전했습니다.",
@@ -1285,11 +1242,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_10_2cb3026387.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_10_2cb3026387.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_9_2cb3026387.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_9_2cb3026387.npy",
    "dur": 6.589954648526077,
-   "t0": 184.14215419501141,
-   "t1": 190.7321088435375,
+   "t0": 180.2901587301588,
+   "t1": 186.88011337868488,
    "trim_offset": 0.471134,
    "chunks": [
     "이어서 시월 이십오일, 카타르가 하루 단위 신뢰 구축 단계를 담은 초안을 건넸다고 한 관리가 전했습니다."
@@ -1297,7 +1254,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8392,
-    "elapsed_ms": 1279,
+    "elapsed_ms": 1111,
     "realigned_from": null
    },
    "prosody": {
@@ -1317,7 +1274,7 @@
    "role": null
   },
   {
-   "sid": "act2_11",
+   "sid": "act2_10",
    "scene": "act2",
    "date": "2026.10.28",
    "text": "하지만 이란 고위 관리는 이것이 제안이 아니라 받아들일 수 없는 아이디어라고 말했습니다.",
@@ -1328,11 +1285,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_11_009ad565c7.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_11_009ad565c7.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_10_009ad565c7.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_10_009ad565c7.npy",
    "dur": 5.385260770975057,
-   "t0": 191.6321088435375,
-   "t1": 197.01736961451257,
+   "t0": 187.7801133786849,
+   "t1": 193.16537414965995,
    "trim_offset": 0.388934,
    "chunks": [
     "하지만 이란 고위 관리는 이것이 제안이 아니라 받아들일 수 없는 아이디어라고 말했습니다."
@@ -1340,7 +1297,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.947,
-    "elapsed_ms": 1202,
+    "elapsed_ms": 1154,
     "realigned_from": null
    },
    "prosody": {
@@ -1360,7 +1317,7 @@
    "role": null
   },
   {
-   "sid": "act2_12",
+   "sid": "act2_11",
    "scene": "act2",
    "date": "2026.10.28",
    "text": "10월 28일에는 밴스 부통령이 레자이 사무총장에게 보낸 서한이 알려졌고, 트럼프 대통령은 의료 물품 지원 건이라고 말했습니다.",
@@ -1379,11 +1336,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_12_274bf5fdbd.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_12_274bf5fdbd.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_11_274bf5fdbd.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_11_274bf5fdbd.npy",
    "dur": 8.502607709750567,
-   "t0": 197.91736961451258,
-   "t1": 206.41997732426316,
+   "t0": 194.06537414965996,
+   "t1": 202.56798185941054,
    "trim_offset": 0.510431,
    "chunks": [
     "시월 이십팔일에는 밴스 부통령이 레자이 사무총장에게 보낸 서한이 알려졌고, 트럼프 대통령은 의료 물품 지원 건이라고 말했습니다."
@@ -1391,7 +1348,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9207,
-    "elapsed_ms": 1503,
+    "elapsed_ms": 1621,
     "realigned_from": null
    },
    "prosody": {
@@ -1411,7 +1368,7 @@
    "role": null
   },
   {
-   "sid": "act2_13",
+   "sid": "act2_12",
    "scene": "act2",
    "date": "2026.10.30",
    "text": "그리고 10월 30일, 카타르 대표단은 테헤란에서 12시간 넘게 협의했습니다.",
@@ -1422,11 +1379,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_13_18b79b2e69.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_13_18b79b2e69.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_12_18b79b2e69.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_12_18b79b2e69.npy",
    "dur": 4.801383219954649,
-   "t0": 207.31997732426316,
-   "t1": 212.12136054421782,
+   "t0": 203.46798185941054,
+   "t1": 208.2693650793652,
    "trim_offset": 0.492404,
    "chunks": [
     "그리고 시월 삼십일, 카타르 대표단은 테헤란에서 열두 시간 넘게 협의했습니다."
@@ -1434,7 +1391,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8066,
-    "elapsed_ms": 1108,
+    "elapsed_ms": 1086,
     "realigned_from": null
    },
    "prosody": {
@@ -1449,49 +1406,6 @@
      "f0_start_hz": 86.6,
      "f0_end_hz": 71.57,
      "octave_fixed_n": 1
-    }
-   },
-   "role": null
-  },
-  {
-   "sid": "act2_14",
-   "scene": "act2",
-   "date": "2026.10.31",
-   "text": "이튿날 협의 자리는 도하로 옮겨졌습니다.",
-   "tts": "이튿날 협의 자리는 도하로 옮겨졌습니다.",
-   "segments": [
-    [
-     "이튿날 협의 자리는 도하로 옮겨졌습니다.",
-     0
-    ]
-   ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_14_149a82d3f2.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act2_14_149a82d3f2.npy",
-   "dur": 2.2205668934240363,
-   "t0": 213.02136054421783,
-   "t1": 215.24192743764186,
-   "trim_offset": 0.49415,
-   "chunks": [
-    "이튿날 협의 자리는 도하로 옮겨졌습니다."
-   ],
-   "alignment": {
-    "source": "mms_forced_alignment",
-    "score_mean": 0.9006,
-    "elapsed_ms": 774,
-    "realigned_from": null
-   },
-   "prosody": {
-    "final_fall": {
-     "applied": true,
-     "reason": null,
-     "region_sec": [
-      2.265,
-      2.88
-     ],
-     "semitones": 4.0,
-     "f0_start_hz": 122.75,
-     "f0_end_hz": 68.95,
-     "octave_fixed_n": 4
     }
    },
    "role": "outro"
@@ -1511,8 +1425,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act3_0_35f97ac049.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act3_0_35f97ac049.npy",
    "dur": 2.8073242630385487,
-   "t0": 217.14192743764187,
-   "t1": 219.9492517006804,
+   "t0": 210.1693650793652,
+   "t1": 212.97668934240374,
    "trim_offset": 0.540907,
    "chunks": [
     "도하 협의의 바탕에는 양측이 밝힌 조건이 있습니다."
@@ -1554,8 +1468,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act3_1_c5b1ee68a8.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act3_1_c5b1ee68a8.npy",
    "dur": 8.472108843537415,
-   "t0": 220.8492517006804,
-   "t1": 229.32136054421784,
+   "t0": 213.87668934240375,
+   "t1": 222.34879818594118,
    "trim_offset": 0.436825,
    "chunks": [
     "아라그치 외무장관은 시월 삼십일일 봉쇄 해제와 워뉴 제재 면제 복원, 양해각서 뒤 부과된 제재 해제를 조건으로 밝혔습니다."
@@ -1605,8 +1519,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act3_2_fb1bcabcec.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act3_2_fb1bcabcec.npy",
    "dur": 7.624875283446712,
-   "t0": 230.22136054421784,
-   "t1": 237.84623582766454,
+   "t0": 223.24879818594118,
+   "t1": 230.87367346938788,
    "trim_offset": 0.517778,
    "chunks": [
     "또한 카타르에 묶인 자금을 포함한 동결 자금 전액, 역내 미군 축소, 오만과 합의한 항로 인정도 함께 밝혔습니다."
@@ -1656,8 +1570,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act3_3_d2f752f000.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act3_3_d2f752f000.npy",
    "dur": 4.0495238095238095,
-   "t0": 238.74623582766455,
-   "t1": 242.79575963718835,
+   "t0": 231.7736734693879,
+   "t1": 235.8231972789117,
    "trim_offset": 0.503741,
    "chunks": [
     "한편 미국 관리들은 핵 문제를 다루지 않는 합의는 없다고 말했습니다."
@@ -1699,8 +1613,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act3_4_3696eb8456.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act3_4_3696eb8456.npy",
    "dur": 6.522176870748299,
-   "t0": 243.69575963718836,
-   "t1": 250.21793650793666,
+   "t0": 236.7231972789117,
+   "t1": 243.24537414966,
    "trim_offset": 0.436463,
    "chunks": [
     "그리고 레자이 사무총장은 미국이 해협을 이란과 오만이 함께 관리하는 안을 거부했다고 전했습니다."
@@ -1750,8 +1664,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act3_5_4c8b698e7a.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act3_5_4c8b698e7a.npy",
    "dur": 6.854897959183673,
-   "t0": 251.11793650793666,
-   "t1": 257.9728344671203,
+   "t0": 244.14537414966,
+   "t1": 251.00027210884366,
    "trim_offset": 0.498458,
    "chunks": [
     "이란은 봉쇄와 제재가 먼저라는 입장이라, 협상 소식통들은 이행 순서가 주된 걸림돌이라고 말했습니다."
@@ -1801,8 +1715,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act4_0_9216c0bce7.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act4_0_9216c0bce7.npy",
    "dur": 2.465487528344671,
-   "t0": 261.3728344671203,
-   "t1": 263.838321995465,
+   "t0": 254.40027210884367,
+   "t1": 256.8657596371883,
    "trim_offset": 0.49254,
    "chunks": [
     "조건의 한가운데에는 호르무즈 해협이 있습니다."
@@ -1844,8 +1758,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act4_1_014f6acbc8.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act4_1_014f6acbc8.npy",
    "dur": 4.246145124716553,
-   "t0": 264.73832199546496,
-   "t1": 268.98446712018153,
+   "t0": 257.7657596371883,
+   "t1": 262.0119047619049,
    "trim_offset": 0.552426,
    "chunks": [
     "전쟁 전에는 세계 석유 소비의 약 이십 퍼센트가 이 해협을 지났습니다."
@@ -1887,8 +1801,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act4_2_fa8430cf45.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act4_2_fa8430cf45.npy",
    "dur": 6.023854875283447,
-   "t0": 269.8844671201815,
-   "t1": 275.908321995465,
+   "t0": 262.91190476190485,
+   "t1": 268.9357596371883,
    "trim_offset": 0.483719,
    "chunks": [
     "하지만 시월 말 영국 해사무역기구는 통항이 전쟁 전보다 약 칠십 퍼센트 적다고 밝혔습니다."
@@ -1938,8 +1852,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act4_3_bcdb16cfaf.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act4_3_bcdb16cfaf.npy",
    "dur": 9.220816326530612,
-   "t0": 276.80832199546495,
-   "t1": 286.02913832199556,
+   "t0": 269.8357596371883,
+   "t1": 279.0565759637189,
    "trim_offset": 0.33195,
    "chunks": [
     "그리고 시월 이십구일, 이란 혁명수비대는 허가받지 않은 남쪽 항로에서 유조선 세 척이 기뢰에 맞았다고 발표했고, 이란군은 한 척을 더했습니다."
@@ -1981,8 +1895,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act4_4_04f8ca803c.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act4_4_04f8ca803c.npy",
    "dur": 7.293764172335601,
-   "t0": 286.92913832199554,
-   "t1": 294.22290249433115,
+   "t0": 279.9565759637189,
+   "t1": 287.2503401360545,
    "trim_offset": 0.421497,
    "chunks": [
     "이에 대해 미 중부사령부는 거짓이라며, 국제적으로 인정된 주요 통항로의 기뢰는 모두 제거했다고 반박했습니다."
@@ -2024,8 +1938,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act4_5_f7fff43961.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act4_5_f7fff43961.npy",
    "dur": 6.624240362811792,
-   "t0": 295.12290249433113,
-   "t1": 301.74714285714293,
+   "t0": 288.15034013605447,
+   "t1": 294.77458049886627,
    "trim_offset": 0.6222,
    "chunks": [
     "다만 이란은 배의 이름을 밝히지 않았고, 해상 보안 소식통들은 한 척이 부착식 기뢰에 맞았다고 전했습니다."
@@ -2067,8 +1981,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act4_6_96e04f3ad0.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act4_6_96e04f3ad0.npy",
    "dur": 7.9727891156462585,
-   "t0": 302.6471428571429,
-   "t1": 310.6199319727892,
+   "t0": 295.67458049886625,
+   "t1": 303.6473696145125,
    "trim_offset": 0.517914,
    "chunks": [
     "그사이 브렌트유 십이월물은 시월 삼십일 배럴당 백십칠 점 육사 딸러로, 전쟁 직전의 약 칠십이 딸러보다 크게 올랐습니다."
@@ -2099,67 +2013,27 @@
    "sid": "act5_0",
    "scene": "act5",
    "date": "2026.10.31",
-   "text": "그렇다면 휴전은 다시 성사될 수 있을까요.",
-   "tts": "그렇다면 휴전은 다시 성사될 수 있을까요.",
+   "text": "휴전이 다시 성사될지는 예측 대신, 양측이 이미 밝힌 조건으로 나눠 보겠습니다.",
+   "tts": "휴전이 다시 성사될지는 예측 대신, 양측이 이미 밝힌 조건으로 나눠 보겠습니다.",
    "segments": [
     [
-     "그렇다면 휴전은 다시 성사될 수 있을까요.",
+     "휴전이 다시 성사될지는 예측 대신, 양측이 이미 밝힌 조건으로 나눠 보겠습니다.",
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_0_827bac8494.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_0_827bac8494.npy",
-   "dur": 2.144285714285714,
-   "t0": 314.01993197278915,
-   "t1": 316.1642176870749,
-   "trim_offset": 0.482902,
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_0_70a2a7f53c.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_0_70a2a7f53c.npy",
+   "dur": 4.956167800453515,
+   "t0": 307.0473696145125,
+   "t1": 312.003537414966,
+   "trim_offset": 0.489388,
    "chunks": [
-    "그렇다면 휴전은 다시 성사될 수 있을까요."
+    "휴전이 다시 성사될지는 예측 대신, 양측이 이미 밝힌 조건으로 나눠 보겠습니다."
    ],
    "alignment": {
     "source": "mms_forced_alignment",
-    "score_mean": 0.9686,
-    "elapsed_ms": 716,
-    "realigned_from": null
-   },
-   "prosody": {
-    "final_fall": {
-     "applied": false,
-     "reason": "'니다' 로 끝나지 않는다",
-     "region_sec": null,
-     "semitones": null,
-     "f0_start_hz": null,
-     "f0_end_hz": null,
-     "octave_fixed_n": null
-    }
-   },
-   "role": "bridge"
-  },
-  {
-   "sid": "act5_1",
-   "scene": "act5",
-   "date": "2026.10.31",
-   "text": "예측 대신, 양측이 이미 밝힌 조건으로 나눠 보겠습니다.",
-   "tts": "예측 대신, 양측이 이미 밝힌 조건으로 나눠 보겠습니다.",
-   "segments": [
-    [
-     "예측 대신, 양측이 이미 밝힌 조건으로 나눠 보겠습니다.",
-     0
-    ]
-   ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_1_db9c34bfa1.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_1_db9c34bfa1.npy",
-   "dur": 3.5952380952380953,
-   "t0": 317.06421768707486,
-   "t1": 320.65945578231293,
-   "trim_offset": 0.371814,
-   "chunks": [
-    "예측 대신, 양측이 이미 밝힌 조건으로 나눠 보겠습니다."
-   ],
-   "alignment": {
-    "source": "mms_forced_alignment",
-    "score_mean": 0.8985,
-    "elapsed_ms": 841,
+    "score_mean": 0.8798,
+    "elapsed_ms": 1033,
     "realigned_from": null
    },
    "prosody": {
@@ -2167,19 +2041,19 @@
      "applied": true,
      "reason": null,
      "region_sec": [
-      3.48,
-      3.99
+      4.975,
+      5.63
      ],
      "semitones": 4.0,
-     "f0_start_hz": 67.52,
-     "f0_end_hz": 69.62,
-     "octave_fixed_n": 0
+     "f0_start_hz": 96.67,
+     "f0_end_hz": 71.71,
+     "octave_fixed_n": 35
     }
    },
-   "role": "intro"
+   "role": "bridge"
   },
   {
-   "sid": "act5_2",
+   "sid": "act5_1",
    "scene": "act5",
    "date": "2026.10.31",
    "text": "먼저 봉쇄 해제와 동결 자금, 제재 면제가 움직이면, 이란은 이틀 안에 해협을 여는 안에 이르렀다고 밝혔습니다.",
@@ -2198,11 +2072,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_2_c7d3acc7d7.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_2_c7d3acc7d7.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_1_c7d3acc7d7.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_1_c7d3acc7d7.npy",
    "dur": 7.139047619047619,
-   "t0": 321.5594557823129,
-   "t1": 328.69850340136054,
+   "t0": 312.90353741496597,
+   "t1": 320.0425850340136,
    "trim_offset": 0.550975,
    "chunks": [
     "먼저 봉쇄 해제와 동결 자금, 제재 면제가 움직이면, 이란은 이틀 안에 해협을 여는 안에 이르렀다고 밝혔습니다."
@@ -2210,7 +2084,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9146,
-    "elapsed_ms": 1433,
+    "elapsed_ms": 1293,
     "realigned_from": null
    },
    "prosody": {
@@ -2227,10 +2101,10 @@
      "octave_fixed_n": 34
     }
    },
-   "role": null
+   "role": "intro"
   },
   {
-   "sid": "act5_3",
+   "sid": "act5_2",
    "scene": "act5",
    "date": "2026.10.31",
    "text": "한편 핵 문제가 빠지면 합의는 없다고 미국 관리들은 말했습니다.",
@@ -2249,11 +2123,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_3_b1fce12dba.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_3_b1fce12dba.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_2_b1fce12dba.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_2_b1fce12dba.npy",
    "dur": 3.7629478458049888,
-   "t0": 329.5985034013605,
-   "t1": 333.3614512471655,
+   "t0": 320.9425850340136,
+   "t1": 324.7055328798186,
    "trim_offset": 0.582381,
    "chunks": [
     "한편 핵 문제가 빠지면 합의는 없다고 미국 관리들은 말했습니다."
@@ -2261,7 +2135,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.935,
-    "elapsed_ms": 937,
+    "elapsed_ms": 858,
     "realigned_from": null
    },
    "prosody": {
@@ -2281,7 +2155,7 @@
    "role": null
   },
   {
-   "sid": "act5_4",
+   "sid": "act5_3",
    "scene": "act5",
    "date": "2026.10.28",
    "text": "다만 미국이 걸프 국가들에 중간선거 뒤 짧고 강한 작전에 대비하라고 알렸다고 미국 언론이 전했습니다.",
@@ -2292,11 +2166,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_4_dd2405e784.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_4_dd2405e784.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_3_dd2405e784.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_3_dd2405e784.npy",
    "dur": 6.779342403628118,
-   "t0": 334.2614512471655,
-   "t1": 341.0407936507936,
+   "t0": 325.60553287981855,
+   "t1": 332.38487528344666,
    "trim_offset": 0.506939,
    "chunks": [
     "다만 미국이 걸프 국가들에 중간선거 뒤 짧고 강한 작전에 대비하라고 알렸다고 미국 언론이 전했습니다."
@@ -2304,7 +2178,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9162,
-    "elapsed_ms": 1281,
+    "elapsed_ms": 1255,
     "realigned_from": null
    },
    "prosody": {
@@ -2324,7 +2198,7 @@
    "role": null
   },
   {
-   "sid": "act5_5",
+   "sid": "act5_4",
    "scene": "act5",
    "date": "2026.10.31",
    "text": "이에 모즈타바 하메네이 최고지도자는 공격받으면 지리적 제한 없는 대응을 하겠다고 경고했습니다.",
@@ -2335,11 +2209,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_5_6eecb7bfea.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_5_6eecb7bfea.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_4_6eecb7bfea.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_4_6eecb7bfea.npy",
    "dur": 5.749637188208617,
-   "t0": 341.9407936507936,
-   "t1": 347.6904308390022,
+   "t0": 333.28487528344664,
+   "t1": 339.03451247165526,
    "trim_offset": 0.459025,
    "chunks": [
     "이에 모즈타바 하메네이 최고지도자는 공격받으면 지리적 제한 없는 대응을 하겠다고 경고했습니다."
@@ -2347,7 +2221,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9492,
-    "elapsed_ms": 1108,
+    "elapsed_ms": 1077,
     "realigned_from": null
    },
    "prosody": {
@@ -2367,7 +2241,7 @@
    "role": null
   },
   {
-   "sid": "act5_6",
+   "sid": "act5_5",
    "scene": "act5",
    "date": "2026.10.31",
    "text": "그래서 지켜볼 신호는 다섯 가지입니다.",
@@ -2386,11 +2260,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_6_36bb4f09b8.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_6_36bb4f09b8.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_5_36bb4f09b8.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_5_36bb4f09b8.npy",
    "dur": 1.9704308390022676,
-   "t0": 348.5904308390022,
-   "t1": 350.56086167800447,
+   "t0": 339.93451247165524,
+   "t1": 341.90494331065753,
    "trim_offset": 0.460136,
    "chunks": [
     "그래서 지켜볼 신호는 다섯 가지입니다."
@@ -2398,7 +2272,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9439,
-    "elapsed_ms": 637,
+    "elapsed_ms": 608,
     "realigned_from": null
    },
    "prosody": {
@@ -2418,7 +2292,7 @@
    "role": null
   },
   {
-   "sid": "act5_7",
+   "sid": "act5_6",
    "scene": "act5",
    "date": "2026.10.31",
    "text": "첫째는 해협을 지나는 배의 수, 둘째는 전쟁 위험 보험료입니다.",
@@ -2429,11 +2303,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_7_6cba58e74b.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_7_6cba58e74b.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_6_6cba58e74b.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_6_6cba58e74b.npy",
    "dur": 3.9450340136054423,
-   "t0": 351.46086167800445,
-   "t1": 355.4058956916099,
+   "t0": 342.8049433106575,
+   "t1": 346.74997732426294,
    "trim_offset": 0.564036,
    "chunks": [
     "첫째는 해협을 지나는 배의 수, 둘째는 전쟁 위험 보험료입니다."
@@ -2441,7 +2315,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8192,
-    "elapsed_ms": 971,
+    "elapsed_ms": 905,
     "realigned_from": null
    },
    "prosody": {
@@ -2461,7 +2335,7 @@
    "role": null
   },
   {
-   "sid": "act5_8",
+   "sid": "act5_7",
    "scene": "act5",
    "date": "2026.10.14",
    "text": "보험 중개사들에 따르면 이 보험료는 전쟁 전 선가의 0.25%에서 10월에는 6~10%로 올랐습니다.",
@@ -2472,11 +2346,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_8_a2bf80e669.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_8_a2bf80e669.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_7_a2bf80e669.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_7_a2bf80e669.npy",
    "dur": 7.716145124716554,
-   "t0": 356.30589569160986,
-   "t1": 364.0220408163264,
+   "t0": 347.6499773242629,
+   "t1": 355.36612244897947,
    "trim_offset": 0.471497,
    "chunks": [
     "보험 중개사들에 따르면 이 보험료는 전쟁 전 선가의 영 점 이오 퍼센트에서 시월에는 육에서 십 퍼센트로 올랐습니다."
@@ -2484,7 +2358,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8725,
-    "elapsed_ms": 1396,
+    "elapsed_ms": 1567,
     "realigned_from": null
    },
    "prosody": {
@@ -2504,7 +2378,7 @@
    "role": null
   },
   {
-   "sid": "act5_9",
+   "sid": "act5_8",
    "scene": "act5",
    "date": "2026.10.31",
    "text": "셋째는 카타르에 묶인 자금, 넷째는 카타르와 파키스탄, 오만의 중재 일정, 다섯째는 레바논 전선입니다.",
@@ -2515,11 +2389,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_9_8cb4c08027.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_9_8cb4c08027.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_8_8cb4c08027.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_8_8cb4c08027.npy",
    "dur": 7.342675736961451,
-   "t0": 364.9220408163264,
-   "t1": 372.2647165532878,
+   "t0": 356.26612244897944,
+   "t1": 363.6087981859409,
    "trim_offset": 0.404172,
    "chunks": [
     "셋째는 카타르에 묶인 자금, 넷째는 카타르와 파키스탄, 오만의 중재 일정, 다섯째는 레바논 전선입니다."
@@ -2527,7 +2401,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9048,
-    "elapsed_ms": 1294,
+    "elapsed_ms": 1394,
     "realigned_from": null
    },
    "prosody": {
@@ -2547,7 +2421,7 @@
    "role": null
   },
   {
-   "sid": "act5_10",
+   "sid": "act5_9",
    "scene": "act5",
    "date": "2026.04.02",
    "text": "다만 해협이 다시 열려도 해운 시장이 정상으로 돌아오는 데는 최장 2년이 걸릴 수 있다고 한국해양진흥공사는 밝혔습니다.",
@@ -2558,11 +2432,11 @@
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_10_101db499a3.mp3",
-   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_10_101db499a3.npy",
+   "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_9_101db499a3.mp3",
+   "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act5_9_101db499a3.npy",
    "dur": 7.857551020408163,
-   "t0": 373.1647165532878,
-   "t1": 381.02226757369596,
+   "t0": 364.50879818594086,
+   "t1": 372.366349206349,
    "trim_offset": 0.446054,
    "chunks": [
     "다만 해협이 다시 열려도 해운 시장이 정상으로 돌아오는 데는 최장 이 년이 걸릴 수 있다고 한국해양진흥공사는 밝혔습니다."
@@ -2570,7 +2444,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9489,
-    "elapsed_ms": 1522,
+    "elapsed_ms": 1310,
     "realigned_from": null
    },
    "prosody": {
@@ -2604,8 +2478,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_0_61de196ed1.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_0_61de196ed1.npy",
    "dur": 1.9555102040816326,
-   "t0": 384.42226757369593,
-   "t1": 386.37777777777757,
+   "t0": 375.766349206349,
+   "t1": 377.7218594104306,
    "trim_offset": 0.488209,
    "chunks": [
     "이 신호들은 한국과도 바로 이어집니다."
@@ -2647,8 +2521,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_1_385c128fb4.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_1_385c128fb4.npy",
    "dur": 6.77156462585034,
-   "t0": 387.27777777777754,
-   "t1": 394.04934240362786,
+   "t0": 378.6218594104306,
+   "t1": 385.3934240362809,
    "trim_offset": 0.348776,
    "chunks": [
     "한국해양진흥공사에 따르면, 지난해 한국 워뉴 수입의 육십구 점 육 퍼센트가 호르무즈 해협을 지났습니다."
@@ -2698,8 +2572,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_2_08298202ff.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_2_08298202ff.npy",
    "dur": 9.190861678004536,
-   "t0": 394.94934240362784,
-   "t1": 404.14020408163236,
+   "t0": 386.2934240362809,
+   "t1": 395.4842857142854,
    "trim_offset": 0.471293,
    "chunks": [
     "그런데 울산세관 집계로는 울산에 들어온 워뉴 가운데 해협 안쪽에서 실은 비중이 일월 칠십구 점 오 퍼센트에서 구월 영 퍼센트가 됐습니다."
@@ -2741,8 +2615,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_3_284e225dee.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_3_284e225dee.npy",
    "dur": 6.711269841269841,
-   "t0": 405.04020408163234,
-   "t1": 411.75147392290216,
+   "t0": 396.3842857142854,
+   "t1": 403.0955555555552,
    "trim_offset": 0.30127,
    "chunks": [
     "대신 해협 밖 얀부, 푸자이라, 소하르 같은 중동 항구에서 실은 비중이 칠십 점 육 퍼센트로 늘었습니다."
@@ -2784,8 +2658,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_4_9a0bee877c.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_4_9a0bee877c.npy",
    "dur": 5.067619047619048,
-   "t0": 412.65147392290214,
-   "t1": 417.7190929705212,
+   "t0": 403.9955555555552,
+   "t1": 409.0631746031743,
    "trim_offset": 0.508594,
    "chunks": [
     "다만 해협 밖에서 실은 워뉴에도 걸프 워뉴를 옮겨 실은 물량이 섞였을 수 있습니다."
@@ -2827,8 +2701,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_5_9f1b79696d.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_5_9f1b79696d.npy",
    "dur": 8.556190476190476,
-   "t0": 418.6190929705212,
-   "t1": 427.17528344671166,
+   "t0": 409.96317460317425,
+   "t1": 418.5193650793647,
    "trim_offset": 0.399955,
    "chunks": [
     "한편 휘발유 전국 평균 가격은 전쟁 전 리터당 천육백구십일 점 삼 원에서 시월 넷째 주 천팔백오십오 점 칠 원이 됐습니다."
@@ -2878,8 +2752,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_6_3a6dfa3d80.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_6_3a6dfa3d80.npy",
    "dur": 6.32827664399093,
-   "t0": 428.07528344671164,
-   "t1": 434.40356009070257,
+   "t0": 419.4193650793647,
+   "t1": 425.7476417233556,
    "trim_offset": 0.413265,
    "chunks": [
     "또한 카타르에 묶인 이란 자금 약 육십억 딸러는 이천이십삼 년 한국에서 옮겨 간 워뉴 대금입니다."
@@ -2929,8 +2803,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_7_72ff0cc972.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_7_72ff0cc972.npy",
    "dur": 7.162562358276644,
-   "t0": 435.30356009070255,
-   "t1": 442.4661224489792,
+   "t0": 426.6476417233556,
+   "t1": 433.81020408163226,
    "trim_offset": 0.509206,
    "chunks": [
     "그리고 시월 이십칠일, 이란은 한국 해운사 장금상선의 배들에 십일월 일일부터 법적 조치를 하겠다고 밝혔습니다."
@@ -2972,8 +2846,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_8_4745cdd84c.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/act6_8_4745cdd84c.npy",
    "dur": 5.011632653061224,
-   "t0": 443.3661224489792,
-   "t1": 448.3777551020404,
+   "t0": 434.71020408163224,
+   "t1": 439.72183673469345,
    "trim_offset": 0.48542,
    "chunks": [
     "이에 대해 한국해운협회는 지목된 배가 외국 석유사가 빌려 쓰는 배라고 반박했습니다."
@@ -3015,8 +2889,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/ending_0_5ec660fb30.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/ending_0_5ec660fb30.npy",
    "dur": 8.827233560090702,
-   "t0": 451.7777551020404,
-   "t1": 460.60498866213106,
+   "t0": 443.12183673469343,
+   "t1": 451.9490702947841,
    "trim_offset": 0.540839,
    "chunks": [
     "다시 십일월 일일 지금으로 돌아오면, 이란은 칠 일안에 이어 이틀안을 밝혔고 미국은 서한을 보냈지만, 양측은 아직 만나지 않았습니다."
@@ -3058,8 +2932,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/ending_1_b4f46c802b.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/ending_1_b4f46c802b.npy",
    "dur": 4.013174603174603,
-   "t0": 461.50498866213104,
-   "t1": 465.51816326530565,
+   "t0": 452.8490702947841,
+   "t1": 456.8622448979587,
    "trim_offset": 0.529977,
    "chunks": [
     "확인된 것은 이란 대표단의 도하 방문과 양측이 밝힌 조건입니다."
@@ -3101,8 +2975,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/ending_2_673ede20f3.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/ending_2_673ede20f3.npy",
    "dur": 6.694580498866213,
-   "t0": 466.4181632653056,
-   "t1": 473.11274376417185,
+   "t0": 457.7622448979587,
+   "t1": 464.4568253968249,
    "trim_offset": 0.508118,
    "chunks": [
     "반면 해협의 기뢰 피격은 양측이 서로 다르게 발표했고, 카타르 초안의 세부는 익명 관리가 전한 내용입니다."
@@ -3144,8 +3018,8 @@
    "mp3": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/ending_3_66c55c894f.mp3",
    "npy": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts/ending_3_66c55c894f.npy",
    "dur": 4.074036281179138,
-   "t0": 474.01274376417183,
-   "t1": 478.08678004535096,
+   "t0": 465.3568253968249,
+   "t1": 469.430861678004,
    "trim_offset": 0.471202,
    "chunks": [
     "그리고 무엇을 먼저 풀지에 대한 답은 아직 어느 쪽도 내놓지 않았습니다."
@@ -3181,21 +3055,21 @@
   },
   {
    "kind": "end",
-   "t0": 480.18678004535093,
-   "t1": 491.18678004535093
+   "t0": 471.530861678004,
+   "t1": 482.530861678004
   }
  ],
  "scene_start": {
   "cold": 1.2,
   "act1": 28.821723356009066,
   "act2": 113.43335600907034,
-  "act3": 217.14192743764187,
-  "act4": 259.8728344671203,
-  "act5": 312.51993197278915,
-  "act6": 382.92226757369593,
-  "ending": 450.2777551020404
+  "act3": 210.1693650793652,
+  "act4": 252.90027210884367,
+  "act5": 305.5473696145125,
+  "act6": 374.266349206349,
+  "ending": 441.62183673469343
  },
- "total": 491.68678004535093,
+ "total": 483.030861678004,
  "voice": "supertonic-3 M3 ×0.95",
  "title": "휴전안의 한 달 — 미국과 이란, 무엇이 먼저 풀려야 하나",
  "subtitle": "7일안, 이틀안, 밴스의 서한, 그리고 11월 3일",
@@ -3221,7 +3095,7 @@
   },
   {
    "sid": "act4_0",
-   "pause_t0": 259.872834,
+   "pause_t0": 252.900272,
    "pause_sec": 1.5,
    "kind": [
     "stage"
@@ -3229,7 +3103,7 @@
   },
   {
    "sid": "act5_0",
-   "pause_t0": 312.519932,
+   "pause_t0": 305.54737,
    "pause_sec": 1.5,
    "kind": [
     "stage"
@@ -3237,7 +3111,7 @@
   },
   {
    "sid": "act6_0",
-   "pause_t0": 382.922268,
+   "pause_t0": 374.266349,
    "pause_sec": 1.5,
    "kind": [
     "stage"
@@ -3245,7 +3119,7 @@
   },
   {
    "sid": "ending_0",
-   "pause_t0": 450.277755,
+   "pause_t0": 441.621837,
    "pause_sec": 1.5,
    "kind": []
   }

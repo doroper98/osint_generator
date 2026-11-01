@@ -1,4 +1,4 @@
-# iran_ceasefire_2026 미디어 사유(게이트 ① 미디어 계획 표) — 원고 v1.1(69문장) 문장 번호. D-0450 §5(Commons 탐색 의무, 등재 0 금지).
+# iran_ceasefire_2026 미디어 사유(게이트 ① 미디어 계획 표) — 원고 v1.2(66문장) 문장 번호. D-0450 §5(Commons 탐색 의무, 등재 0 금지).
 # 게이트 ① 은 원본 받기와 분리 — 고른 후보(파일명·라이선스·사유)를 적고, 원본 바이트는 승인 뒤 미디어 등록 단계에서 받는다(Wikimedia 429 지속, 중국 트랙 선례).
 # 사진 밀도 하한: rules media_beats.min_density_per_min × 예상 8분. 등재본 재사용(hormuz_strait_modis_2020·hormuz_transit·strikes_file·niovi) 포함.
 # 클립: D551 youtube 허용 — 공식 채널 후보는 미디어 등록 단계에서 받기 시도(봇 검사면 우회 없이 사진 액자).
@@ -25,16 +25,16 @@ sentences:
     photo: 선택(영상) — File:U S Forces Complete New Round of Retaliatory Strikes Against Iran (1013909).webm (미 국방부 PD) = 등재본 strikes_file 과 같은 계열(2026-07-07 촬영) — 등재본 우선. broll 구석 자리(D-0332)
   act2_1:
     photo: 고르지 않음 — 유엔총회장 통과 후보는 레이건(1986)·다카이치·칼라스 연설 사진뿐 — 아라그치 9/24 회견이 아니다(주된 피사체 불일치, UF-201). 지도 뉴욕은 W 밖 → 기사 카드(알자지라 9/25) + 아라그치 뱃지
-  act2_6:
+  act2_5:
     photo: 고르지 않음 — 밴스 공식 초상(File:March 2026 Official Vice Presidential Portrait of JD Vance.jpg, 백악관 PD) → 인물 뱃지
-  act2_9:
+  act2_8:
     photo: 고르지 않음 — 레자이 초상(File:Mohsen Rezaei in August 2026 (cropped).jpg, CC BY 4.0) → 인물 뱃지
-  act2_13:
+  act2_12:
     photo: 고르지 않음 — 테헤란 전경 통과 후보 없음(CC BY-SA 탈락). 카타르 총리 초상(PD 2024) 은 대표단장(총리 보좌관)이 아니라 쓰지 않는다. 지도 테헤란 marker + 기사 카드(CNBC 10/31)
   act4_1:
     photo: 선택 — 등재본 hormuz_transit(미 해군 PD, 2023 자료사진). 통과 후보 'Estimated oil tanker transit times…png' 는 도표 — 쓰지 않는다
   act4_4:
-    photo: 선택 — File:US Navy 030319-N-5319A-002 The mine countermeasure ship USS Dextrous (MCM 13) takes part in mine counter measure operations in the Arabian Gulf.jpg (미 해군 PD, 2003 자료사진) — 걸프 소해 작전 자료(중부사령부 '기뢰 제거' 문장). CENTCOM 사령관 사진은 인물·시기 미확인 → 쓰지 않는다
+    photo: 선택 — (D-0453 §2 중부사령부 문장에) File:US Navy 030319-N-5319A-002 The mine countermeasure ship USS Dextrous (MCM 13) takes part in mine counter measure operations in the Arabian Gulf.jpg (미 해군 PD, 2003 자료사진) — 걸프 소해 작전 자료(중부사령부 '기뢰 제거' 문장). CENTCOM 사령관 사진은 인물·시기 미확인 → 쓰지 않는다
   act6_2:
     photo: 고르지 않음 — 울산 정유·울산항 검색 통과 0(Ulsan refinery·Ulsan port oil tanker). 지도 울산 marker + 비중 패널
   act6_5:
@@ -50,7 +50,7 @@ sentences:
   act4_3:
     photo: 선택(영상) — 등재본 niovi(File:Oil tanker Niovi seized by Iran's Islamic Revolutionary Guard Corps Navy.webm, PD, 2023-05 자료 영상) — 혁명수비대 해군의 해협 유조선 단속 자료. 캡션 '자료 영상 · 2023' — 10/29 기뢰 사건 장면처럼 쓰지 않는다. 사건 선박 사진 없음(선박명 미공개)
   act4_5:
-    photo: 보류 — File:MV Kokuka Courageous with hull damage and mine.png (Commons 통과, 2019 오만만 유조선 부착식 기뢰 피해 — 미 국방부 공개) — '부착식 기뢰' 자료로만, 캡션 '2019년 사건 · 자료'. 이번 피격 선박처럼 보일 위험 → 감독 판정(쓰지 않으면 카드)
+    photo: 고르지 않음 — Kokuka Courageous(2019 오만만 부착식 기뢰 피해, PD)는 사건이 달라 미검증 주장 옆에서 증거처럼 읽힌다 → 감독 판정 D-0453 §2 쓰지 않는다. 지도 카메라 + quote 두 줄
   ending_2:
     photo: 고르지 않음 — 정리 문장, 카드(확인된 것/확인되지 않은 것)
   act3_1:
