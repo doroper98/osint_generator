@@ -10,14 +10,15 @@ schema_version: 1
 kind: war
 title: "인천 상륙과 서울 수복 — 1950년 9월"
 date: "1950.09.15"
-duration_sec: 71.0
-sheet_times: [7.0, 20.0, 24.5, 30.0, 39.0, 45.0, 51.0, 57.0, 63.0]
+duration_sec: 77.0
+sheet_times: [7.0, 20.0, 24.5, 30.0, 39.0, 45.0, 51.0, 57.0, 63.0, 69.0]
 
 sources:
   - text: "부대·상륙 순서: Montross·Canzona, U.S. Marine Operations in Korea vol. II(1955) — 개략"
   - text: "해안 위치: 공간사 상륙 경로 지도 대조 개략 · 월미도: 고도 타일 봉우리 측정 · 인천·서울: Natural Earth"
   - text: "사진: 미 해군 역사유산사령부 NH 96876 · NARA 080-G-420027(퍼블릭 도메인)"
   - text: "지도 기록: 미 해병대 공간사 2권(1955, 퍼블릭 도메인) · 지형은 현대 고도 타일(매립지 포함)"
+  - text: "자료 영상: 미 국방부 기록 영화 Operation Inchon(1952, PIN 22337) · archive.org CC0"
 
 shots:
   - {t0: 0.0, t1: 0.0, lon: 127.3, lat: 36.6, w: 6.0}
@@ -72,13 +73,14 @@ units:
       - {t: 34.0, lon: 126.665, lat: 37.462, heading: 80, length_km: 0.6, depth_km: 0.3}
 
 evidence:
-  - {mid: inchon_lopez, t0: 42.0, t1: 48.0, side: left}
-  - {mid: inchon_lst, t0: 48.5, t1: 54.0, side: left}
-  - {mid: inchon_map, t0: 54.5, t1: 60.0, side: left}
+  - {mid: inchon_film_lvt, t0: 42.0, t1: 48.0, side: left}   # v2(D-0607 §2) 기록 영상 clip 층 — DoD CC0, 494~502초
+  - {mid: inchon_lopez, t0: 48.5, t1: 54.0, side: left}
+  - {mid: inchon_lst, t0: 54.5, t1: 60.0, side: left}
+  - {mid: inchon_map, t0: 60.5, t1: 66.0, side: left}
 
 quotes:
-  - t0: 60.5
-    t1: 66.0
+  - t0: 66.5
+    t1: 72.0
     text: "시간과 조수가 힘을 합쳐 바다에서 오는 적으로부터 인천을 지키는 듯했다."
     original: "Time and tide seemed to have combined forces to protect Inchon from seaborne foes."
     locator: "미 해병대 공간사 2권 42쪽"
@@ -88,7 +90,7 @@ quotes:
 
 notes:
   source_lines:
-    - {text: "부대·경로·해안: 미 해병대 공간사(1955) 서술의 개략 — 지형은 현대 고도 타일(매립지 포함)", t0: 0.0, t1: 66.0}
+    - {text: "부대·경로·해안: 미 해병대 공간사(1955) 서술의 개략 — 지형은 현대 고도 타일(매립지 포함)", t0: 0.0, t1: 72.0}
   end_title: "인천 상륙과 서울 수복 — 자료"
-  end_note: "전쟁사 스케치 v1 · 자막·내레이션 없음 · 사용자 검토용"
+  end_note: "전쟁사 스케치 v2 · 자막·내레이션 없음 · 사용자 검토용"
   end_sec: 5.0

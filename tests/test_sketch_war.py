@@ -59,7 +59,7 @@ class EvidenceTest(unittest.TestCase):
 
     def test_inchon_records(self) -> None:
         m = MediaRegistryFile.model_validate(json.loads((REPO / "projects/inchon_sketch/media.json").read_text(encoding="utf-8"))).assets
-        self.assertEqual({a.kind for a in m.values()}, {"photo", "document"})
+        self.assertEqual({a.kind for a in m.values()}, {"photo", "document", "video"})   # v2 — 기록 영상 clip 층(D-0607 §2)
         self.assertTrue(all(a.archive_id for a in m.values()))
 
 

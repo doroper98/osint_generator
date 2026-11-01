@@ -73,7 +73,7 @@ def data_files(spec: WarSpec, project: Path) -> list[DataFile]:
 
 def main(argv: list[str] | None = None) -> int:
     ap = base_parser("python -m sketch.war", "전쟁사 화면 스케치 — 시대 부호 세트·EraDate 뱃지·고대 기반 지도·전술 무대·증거 카드")
-    ap.add_argument("--theme", default=None, help="지도 테마 덮어쓰기(구상 컷 — 예 relief, rules geo.themes.proposed). spec 은 그대로")
+    ap.add_argument("--theme", default=None, help="지도 테마 덮어쓰기(기본 = rules sketch.war.default_theme). spec 은 그대로")
     ap.add_argument("--stem", default=STEM, help="산출 파일 이름 앞부분")
     args = ap.parse_args(argv)
     project: Path = args.project
@@ -91,7 +91,10 @@ def main(argv: list[str] | None = None) -> int:
     assert spec is not None
     from sketch.war.scene import WarScene  # noqa: PLC0415 — 검사만 할 때는 지형 자산을 읽지 않는다
 
-    scene = WarScene(spec, project, args.res, theme=args.theme)
+    from sketch.common.draw import SK  # noqa: PLC0415
+
+    theme = args.theme or SK.war.default_theme   # D-0607 ③ — 전쟁사 기본 relief(rules sketch.war.default_theme)
+    scene = WarScene(spec, project, args.res, theme=theme)
     out = project / OUT_DIR
     prov = base_provenance(spec.kind, project / SPEC_FILE)
     times = parse_frames(args.frames)

@@ -3509,6 +3509,7 @@ class SketchWarUnit(_Strict):
     fill_alpha: float
     min_px: tuple[float, float]
     wedge_ratio: float
+    turn_first_deg: float = Field(ge=0)
     dot_gap_px: float
     dot_r: float
     name: SketchWarText
@@ -3541,6 +3542,7 @@ class SketchWarLegend(_Strict):
 
 class SketchWarCard(_Strict):
     w: float
+    clip_px_w: float = Field(gt=0)
     y: float
     x_left: float
     x_right_margin: float
@@ -3662,6 +3664,12 @@ class SketchWarTerrain3d(_Strict):
     halo: str
 
 
+class SketchWarLod(_Strict):
+    unit_name_max_w: float = Field(gt=0)
+    toponymy_one_line_w: float = Field(gt=0)
+    fade_ratio: float = Field(gt=0, le=1)
+
+
 class SketchWar(_Strict):
     """v7.4.0 전쟁사 W3·W4 — sketch/war 화면 수치."""
 
@@ -3672,6 +3680,8 @@ class SketchWar(_Strict):
     unit: SketchWarUnit
     place: SketchWarPlace
     toponymy: SketchWarText
+    lod: SketchWarLod
+    default_theme: str
     toponymy_wrap: SketchWarWrap
     lift: SketchWarLift
     theme_overlays: dict[str, list[str]]

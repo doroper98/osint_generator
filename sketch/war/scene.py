@@ -127,7 +127,7 @@ class WarScene:
         self.res_boxes: list[tuple[float, list]] = []
         self.card_boxes: list[tuple[float, list]] = []   # 프레임마다 보이는 카드 상자(SK-W6 — 카드가 라벨·부대를 덮는가)
         self.overflow: list[tuple[float, str]] = []      # 핀이 화면 안인데 글자가 화면 밖(SK-W5)
-        self.drawn: dict[str, int] = {}
+        self.drawn: dict[str, int] = {f"theme:{theme or 'dark'}": 1}   # provenance 에 이번 렌더 테마(D-0607 ③)
 
     def _overlays(self) -> list[str]:
         """테마별 지도 안 요소(rules sketch.war.theme_overlays) — dark(v1) = 없음, relief(구상) = 수계·축척 막대."""
@@ -336,7 +336,10 @@ class WarScene:
             if p.toponymy:
                 Wr = W.toponymy_wrap
                 line = f"{self.topo[p.toponymy].name} — {self.topo[p.toponymy].line()}"
-                lines = wrap(ctx, line, Tp.size, Tp.font, Wr.max_w, Wr.max_lines)
+                one = view.w > W.lod.toponymy_one_line_w   # 물러난 숏 = 핀 아래 한 줄(D-0602 ②)
+                lines = wrap(ctx, line, Tp.size, Tp.font, Wr.max_w, 1 if one else Wr.max_lines)
+                if one:
+                    self._note("lod:toponymy_one_line")
                 for i, ln in enumerate(lines):
                     text(ctx, ln, x + P.dx, y + Tp.dy + i * Wr.dy, Tp.size, Tp.font, C["gold"], Tp.alpha * a, Tp.halo)
                     wd = max(wd, tw(ctx, ln, Tp.size, Tp.font))
@@ -358,13 +361,43 @@ class WarScene:
             self._img[mid] = (*surf_from_pil(im), im.width, im.height)
         return self._img[mid]
 
+    def _clip(self, mid: str) -> tuple:
+        """기록 영상 구간(segment) 프레임 — ffmpeg 로 한 번 풀어 둔다(원본은 media_src 에 그대로 보존, v2 D-0607 §2 인천 필름 clip 층).
+        반환 (프레임 배열 [n, h, w, 3], 원본 fps). 결정적: 구간·폭은 레코드·규칙 값."""
+        key = f"clip:{mid}"
+        if key not in self._img:
+            import subprocess  # noqa: PLC0415
+
+            a = self.media[mid]
+            src = self.project / MEDIA_DIR / a.file
+            s0, s1 = a.segment
+            w = int(W.card.clip_px_w)
+            probe = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height,r_frame_rate",
+                                    "-of", "csv=p=0", str(src)], capture_output=True, text=True, check=True).stdout.strip().split(",")
+            sw, sh = int(probe[0]), int(probe[1])
+            num, den = (int(x) for x in probe[2].split("/"))
+            fps = num / den
+            h = int(round(w * sh / sw / 2)) * 2
+            raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{s0}", "-t", f"{s1 - s0}", "-i", str(src), "-vf", f"scale={w}:{h}",
+                                  "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
+            frames = np.frombuffer(raw, np.uint8).reshape(-1, h, w, 3)
+            if not len(frames):
+                raise SceneError(f"{mid}: 영상 구간 {a.segment} 에서 프레임을 풀지 못했다 — {src}")
+            self._img[key] = (frames, fps)
+        return self._img[key]
+
     def _evidence(self, ctx: cairo.Context, e: Evidence, t: float) -> "tuple | None":
         Cd = W.card
         a = window(t, e.t0, e.t1, Cd.in_sec, Cd.out_sec)
         if a <= F.min_alpha:
             return None
         m = self.media[e.mid]
-        surf, _buf, iw, ih = self._image(e.mid)
+        if m.kind == "video":   # 기록 영상 카드 — 카드가 뜬 뒤 흐른 시간만큼 구간 안에서 재생(끝에 닿으면 마지막 프레임 유지)
+            frames, fps = self._clip(e.mid)
+            fr = frames[min(len(frames) - 1, max(0, int((t - e.t0) * fps)))]
+            surf, _buf, iw, ih = (*surf_from_pil(Image.fromarray(fr)), fr.shape[1], fr.shape[0])
+        else:
+            surf, _buf, iw, ih = self._image(e.mid)
         w = Cd.w
         h = min(Cd.max_img_h, w * ih / iw)
         w_img = h * iw / ih
@@ -381,7 +414,7 @@ class WarScene:
         ctx.set_source_surface(surf, 0, 0)
         ctx.paint_with_alpha(a)
         ctx.restore()
-        media_tag(ctx, x, y, WH.media_tags.get(m.kind, "PHOTO"), a)
+        media_tag(ctx, x, y, WH.media_tags.get(m.kind, "VIDEO" if m.kind == "video" else "PHOTO"), a)
         media_caption(ctx, x, y + h, w, cap, credit, a)
         if m.art_history:
             Ar = Cd.art

@@ -2731,12 +2731,17 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
       fill_alpha: 0.82
       min_px: [10, 4]            # 블록 화면 최소 [길이, 두께] — 작전 지도 축척에서도 보이게(블록 크기는 개략)
       wedge_ratio: 0.9           # 기병 쐐기 높이 ÷ 폭
+      turn_first_deg: 30         # v2 보정(D-0602 ⑤) — 키 사이 방위 변화가 이 값을 넘으면 앞 절반은 방위만, 뒤 절반에 폭·종심(쐐기 늘어짐 방지)
       dot_gap_px: 5              # 코끼리 점열·경보병 점 간격
       dot_r: 1.6
       name: {size: 10.5, font: sansb, halo: 3, dy: 16}
       app6_scale: 0.8            # 현대 세트 = sketch.campaign 부호를 이 배율로
     place: {size: 11.5, font: sansm, halo: 3, alpha: 0.92, dot_r: 2.6, dx: 6, dy: 4, in_sec: 1.2}
     toponymy: {size: 9.5, font: sans, halo: 2.5, dy: 17, alpha: 0.9}
+    # v2 보정(D-0602 ②·D-0607 §2) — 라벨 LOD: 카메라가 물러나면(화면 폭 w 도 > 값) 부대 이름은 흐려져 접히고 지명 유래 줄은 한 줄로.
+    # 접힌 수는 provenance features_drawn(lod:*)에 남는다(조용한 드롭 아님). fade = 문턱 × 이 비율 구간에서 서서히(튀지 않음)
+    lod: {unit_name_max_w: 0.3, toponymy_one_line_w: 0.3, fade_ratio: 0.25}
+    default_theme: relief      # D-0607 ③ 사용자 판정(UF-253) — 전쟁사 스케치 기본 지도 = relief. --theme 로 바꾸면 사유는 R 에
     toponymy_wrap: {max_w: 280, max_lines: 2, dy: 12}   # v2(D-0602 ③) — 지명 유래 줄 폭 상한·줄바꿈. 넘치거나 화면 밖 = SK-W5 hard
     lift: {rgb: [0.07, 0.08, 0.07], from_ppd: 1500, span_ppd: 2500, themes: [dark]}
     theme_overlays: {dark: [], relief: [drainage, scale_bar]}   # 구상 컷 A(D-0604) — 테마별 지도 안 요소. dark(v1) 는 그대로
@@ -2775,6 +2780,7 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
              label: {size: 11, font: sansm, halo: 0}}
     card:                       # 증거 층 카드(작품·사진·기록) — 지도 위 한쪽 자리, 문장 앵커마다 하나
       w: 300
+      clip_px_w: 320            # 기록 영상 카드 — 구간 프레임을 이 폭으로 풀어 둔다(archive.org 512kb 파생본 원폭 320 — 키워 지어내지 않는다)
       y: 66
       x_left: 26
       x_right_margin: 26

@@ -33,6 +33,11 @@ BLACK = (0.0, 0.0, 0.0)
 RIGHT_ANGLE = 90
 
 
+def lod_alpha(w: float, max_w: float) -> float:
+    """라벨 LOD — 화면 폭 w(도) 가 문턱을 넘으면 문턱 × fade_ratio 구간에서 1 → 0(튀지 않게)."""
+    return 1.0 - smooth(clamp01((w - max_w) / (max_w * SK.war.lod.fade_ratio)))
+
+
 def key_at(u: WarUnit, t: float) -> UnitKey:
     """시각 t 의 부대 상태 — 앞뒤 키 사이 smooth 보간(첫 키 전 = 첫 키, 마지막 키 뒤 = 마지막 키)."""
     ks = u.keys
@@ -40,10 +45,12 @@ def key_at(u: WarUnit, t: float) -> UnitKey:
         return ks[0]
     for a, b in zip(ks, ks[1:]):
         if t < b.t:
-            k = smooth(clamp01((t - a.t) / (b.t - a.t)))
+            raw = clamp01((t - a.t) / (b.t - a.t))
+            k = smooth(raw)
             dh = (b.heading - a.heading + 180) % 360 - 180
+            ks = smooth(clamp01(raw * 2 - 1)) if abs(dh) > U.turn_first_deg else k   # 큰 회전 = 방위 먼저, 크기는 뒤 절반(D-0602 ⑤)
             return UnitKey(t=t, lon=a.lon + (b.lon - a.lon) * k, lat=a.lat + (b.lat - a.lat) * k, heading=a.heading + dh * k,
-                           length_km=a.length_km + (b.length_km - a.length_km) * k, depth_km=a.depth_km + (b.depth_km - a.depth_km) * k)
+                           length_km=a.length_km + (b.length_km - a.length_km) * ks, depth_km=a.depth_km + (b.depth_km - a.depth_km) * ks)
     return ks[-1]
 
 
@@ -106,11 +113,15 @@ class WarUnitLayer:
                 draw_emblem(ctx, em, x + EB.block_dx, y + WS.glyph.dy + EB.block_dy, EB.block_px, WHITE, EB.alpha * a,
                             WS.glyph.halo_rgb, EB.halo_px)
                 self.drawn[f"emblem_block:{em}"] = self.drawn.get(f"emblem_block:{em}", 0) + 1
-            if u.name:
+            lod = lod_alpha(view.w, SK.war.lod.unit_name_max_w)   # 카메라가 물러나면 이름을 접는다(D-0602 ②)
+            show_name = bool(u.name) and lod * a > F.min_alpha
+            if show_name:
                 N = U.name
-                text(ctx, u.name, x, y + N.dy, N.size, N.font, WHITE, a, N.halo, "c")
-            if a > F.min_alpha:   # 부대 상자(이름 포함) — SK-C2 겹침·SK-W6 카드 덮임 입력
-                half = max(U.min_px[0], tw(ctx, u.name, U.name.size, U.name.font) if u.name else 0) / 2
+                text(ctx, u.name, x, y + N.dy, N.size, N.font, WHITE, a * lod, N.halo, "c")
+            elif u.name:
+                self.drawn["lod:unit_name"] = self.drawn.get("lod:unit_name", 0) + 1
+            if a > F.min_alpha:   # 부대 상자(보이는 이름 포함) — SK-C2 겹침·SK-W6 카드 덮임 입력
+                half = max(U.min_px[0], tw(ctx, u.name, U.name.size, U.name.font) if show_name else 0) / 2
                 res.append((x - half, y - U.name.dy, x + half, y + U.name.dy))
             self.drawn[f"unit:{u.symbol}"] = self.drawn.get(f"unit:{u.symbol}", 0) + 1
 

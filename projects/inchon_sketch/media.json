@@ -134,6 +134,57 @@
    "license_tags": [
     "PD US Marines"
    ]
+  },
+  "inchon_film_lvt": {
+   "is_file_photo": true,
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "source_hash": "99d10364a2453ca919a0ea532e3df401",
+   "kind": "video",
+   "title": "OPERATION INCHON (DoD PIN 22337)",
+   "license": "CC0",
+   "photo_license": "CC0",
+   "license_tags": [
+    "CC0"
+   ],
+   "author": "미 국방부(Department of Defense)",
+   "credit_author": "미 국방부 · archive.org",
+   "date": "1952",
+   "url": "https://archive.org/details/gov.dod.dimoc.22337",
+   "caption": "해안으로 향하는 상륙 장갑차(LVT)",
+   "file_note": "자료 영상 · 1950년 8~9월 촬영 · 미 국방부 기록 영화 Operation Inchon(1952)",
+   "depicts": [
+    "상륙 장갑차(LVT)",
+    "상륙 병력"
+   ],
+   "main_subject": [
+    "상륙 장갑차"
+   ],
+   "verified_by": {
+    "by": "구현 세션(archive.org 메타데이터 licenseurl CC0 · 494~502초 프레임 확인, D-0607 §2)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "segment_checked": [
+     494.0,
+     502.0
+    ],
+    "relevance": "인천 상륙을 다룬 국방부 기록 영화(1950년 8~9월 유엔군 활동)의 상륙 장갑차 접근 장면 — 정확한 해안·날짜는 영상에 없어 자료 영상으로 표기"
+   },
+   "tool": {
+    "name": "sketch.war.clip",
+    "params": {
+     "source": "archive.org gov.dod.dimoc.22337 (gov.dod.dimoc.22337_512kb.mp4)",
+     "license_source": "archive.org metadata licenseurl http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   },
+   "file": "film/gov.dod.dimoc.22337_512kb.mp4",
+   "duration": 1078.53,
+   "segment": [
+    494.0,
+    502.0
+   ],
+   "created": "1950.08~1950.09",
+   "archive_id": "DoD DIMOC PIN 22337"
   }
  }
 }
