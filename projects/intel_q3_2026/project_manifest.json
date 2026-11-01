@@ -4,8 +4,8 @@
   "title": "인텔 2026년 3분기 실적",
   "category": "economy",
   "created_at": "2026-11-01T04:55:15.630743Z",
-  "updated_at": "2026-11-01T05:07:48.534570Z",
-  "current_state": "script_draft",
+  "updated_at": "2026-11-01T05:08:43.061041Z",
+  "current_state": "script_approval",
   "target_duration_min": 3,
   "topic_summary": "인텔 2026년 3분기 실적(10월 29일 장 마감 뒤): 예상치·실제·부문·4분기 가이던스·주가 반응(시간외·10월 30일 종가)·지경학. 실적 발표 템플릿(earnings) 둘째 사례",
   "initial_links": [],
@@ -55,6 +55,12 @@
       "to_state": "script_draft",
       "transitioned_at": "2026-11-01T05:07:48.534557Z",
       "reason": "데이터 레코드 INTC_* 등재본(T1) + INTC_PX_D 10월 30일 종가 갱신(c922f202)"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-11-01T05:08:43.061003Z",
+      "reason": "원고 v1(린트 오류 0) — 게이트 ① 사용자(삼성 다음 순서)"
     }
   ],
   "rollbacks": [],
