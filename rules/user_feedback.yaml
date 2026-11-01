@@ -2546,4 +2546,15 @@ entries:
   status: open
   decision: "D-0605(back_and_forth) — 구상 컷 v2 로 반영 → 사용자 판정 → 등록 때 장치(글리프 레지스트리·휘장 레코드 검사) guards 에"
   source: "위임 감독 세션(Fable, 전쟁사 트랙) 사용자 대화 2026-11-01"
+- id: UF-253
+  date: '2026-11-01'
+  project: war_history_track
+  at: "구상 컷 v2(병종 픽토그램·입체 블록·3D 박스·갤러리) + 결정 다섯(판정 ①·CC BY-SA·기본 테마·terrain3d 등록·v2 의견)을 묻는 보고에 대한 답"
+  quote: "좋네."
+  quote_kind: verbatim
+  category: "전쟁사 — 구상 컷 v2 승인. 감독 해석(D-0607 §1): 판정 ① 통과·CC BY-SA 불허 유지·기본 테마 relief(전쟁사만)·terrain3d 등록·v2 값 승격 — 사용자가 다르게 말하면 되돌림"
+  guards: []
+  status: open
+  decision: "D-0607(back_and_forth) — 등록 때 장치(레지스트리·골든) guards 에"
+  source: "위임 감독 세션(Fable, 전쟁사 트랙) 사용자 대화 2026-11-01"
 
