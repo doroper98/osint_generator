@@ -1,0 +1,33 @@
+Wikimedia Commons file information pages (verbatim extmetadata fields: ImageDescription, Artist, DateTimeOriginal, Credit, LicenseShortName), retrieved 2026-11-01.
+
+[cannae_coin] File:Cartagine, 1 e messo e doppio siclo, 237-209 ac ca.JPG
+URL: https://commons.wikimedia.org/wiki/File:Cartagine,_1_e_messo_e_doppio_siclo,_237-209_ac_ca.JPG
+Description: A Carthaginian shekel coin depicting a wreathed head on the obverse and a man riding a war elephant on the reverse, in the Altes Museum Berlin
+Artist: Sailko
+Date: 2014-03-07 12:27:23
+Credit: Own work
+License: CC BY 3.0
+
+[cannae_bust] File:Hannibal Barca bust from Capua photo.jpg
+URL: https://commons.wikimedia.org/wiki/File:Hannibal_Barca_bust_from_Capua_photo.jpg
+Description: A glass plate photograph of the marble bust of Hannibal Barca. The bust of the Carthaginian general was discovered in the Italian city of Capua in 1667. The Roman era bust was made between the 1st century BC and 4 century AD (I sec.a.C.- IV sec. d.C.). It is preserved in the National Archaeological Museum of Naples. The photograph was taken by Fratelli Alinari in the National Archaeological Museum, Naples, Italy, circa 1900.
+Artist: Fratelli Alinari
+Date: circa 1900date QS:P,+1900-00-00T00:00:00Z/9,P1480,Q5727902
+Credit: Reddit - https://www.reddit.com/r/europe/comments/d0szfs/a_marble_bust_of_hannibal_𐤇𐤍𐤁𐤏𐤋_originally_found/ . The original photograph source = alinari.it
+License: Public domain
+
+[cannae_trumbull] File:The Death of Paulus Aemilius at the Battle of Cannae (Yale University Art Gallery scan).jpg
+URL: https://commons.wikimedia.org/wiki/File:The_Death_of_Paulus_Aemilius_at_the_Battle_of_Cannae_(Yale_University_Art_Gallery_scan).jpg
+Description: The Death of Paulus Aemilius at the Battle of CannaePhoto credit: Yale University Art Gallery
+Artist: John Trumbull
+Date: 1773date QS:P571,+1773-00-00T00:00:00Z/9
+Credit: Yale University Art Gallery - The Death of Paulus Aemilius at the Battle of Cannae
+License: Public domain
+
+[cannae_closs] File:Punti storici d’Italia campo della battaglia di Canne.jpg
+URL: https://commons.wikimedia.org/wiki/File:Punti_storici_d%E2%80%99Italia_campo_della_battaglia_di_Canne.jpg
+Description: Punti storici d’Italia: campo della battaglia di Canne.
+Artist: Gustav Adolf Closs
+Date: 1885
+Credit: L’illustrazione popolare, Fratelli Treves Editori - Milano, 1885.
+License: Public domain

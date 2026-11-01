@@ -15,7 +15,7 @@ instructions:
   - "부대 이동·배치는 개략(사료 서술 범위 안). 지어낸 대사·심리 묘사 금지. 한니발의 의도는 사료가 말한 만큼만."
 data:
   series: []
-  documents: [src_doc_0001, src_doc_0002]
+  documents: [src_doc_0001, src_doc_0002, src_doc_0003, src_doc_0004, src_doc_0005, src_doc_0006, src_doc_0007, src_doc_0008, src_doc_0009, src_doc_0010, src_doc_0011]   # 폴리비오스 III 장 단위 5 + 리비우스 XXII 장 단위 5(검증 입력 상한 12000자) + Commons 작품 정보 1
   notes:
     - "현대 학술 추정(범위 띠)은 출처가 확인되는 것만 forces.yaml band 에. 확인 못 하면 사료 값만 말하고 범위 띠 문장은 쓰지 않는다."
 media:
