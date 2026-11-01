@@ -4,8 +4,8 @@
   "title": "쇼케이스 — 지도 위의 경유",
   "category": "geopolitics",
   "created_at": "2026-10-28T04:39:21.156475Z",
-  "updated_at": "2026-10-30T19:53:21.684028Z",
-  "current_state": "preview_approval",
+  "updated_at": "2026-11-01T08:44:06.803878Z",
+  "current_state": "render",
   "target_duration_min": 3,
   "topic_summary": "요소·목소리·글꼴 쇼케이스(지경학). 『경유의 길』(diesel_road_2026 v2) 축약 재구성 + 호르무즈·DMZ 자료 장. 새 수치·새 사실 없음(D-0251)",
   "initial_links": [],
@@ -44,6 +44,26 @@
         "media_plan_errors": "0",
         "script_sha1": "9e9ee0b613bf8165f7b63b77bfbe9c6eae01c77d",
         "media_plan": "사진 0/4 · 기사 후보 27문장 · 286초(chars)"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "user",
+      "at": "2026-11-01T08:44:06.803778Z",
+      "comment": "사용자 원문(2026-11-01, UF-206): \"1~4까지 승인.\" — 게이트 ② 승인. showcase_econ = A(사진 배경 + 아일랜드). D-0335·D-0340·D-0344. 대상 artifacts/showcase-v7.4.0 47427cc(gate2_nocard v5) + 72d8446(v6, econ 병합 뒤 사용자 의견 장치 적용 — 끝값 판 불투명·실효금리 계단 지연, before/after d0340/)",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/showcase_geo/prev/sheet.jpg",
+        "cuts": "16",
+        "provenance": "/home/user/osint_generator/projects/showcase_geo/prev/provenance.json",
+        "drops": "0",
+        "media_used": "quote 0 · article 3 · real 9",
+        "quote_candidates": "0",
+        "animatic": "out/animatic.mp4 · 240.934초 · direction f7c5531961f8301714f10f9cb135976d3b0c9531 · script 9e9ee0b613",
+        "user_feedback": "사용자 의견 166건 모두 장치 있음(최근 UF-206)",
+        "asset_library": "공용 자산 미승격 0"
       },
       "chosen_version": null
     }
@@ -150,6 +170,12 @@
       "to_state": "preview_approval",
       "transitioned_at": "2026-10-30T19:53:21.683977Z",
       "reason": "게이트 ② 자료 R-0290·R-0291 연출 지문 고정(D-0317 ①) — 단계 실행 없이 상태만"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-11-01T08:44:06.803835Z",
+      "reason": "preview_approval 승인 — user"
     }
   ],
   "rollbacks": [],
