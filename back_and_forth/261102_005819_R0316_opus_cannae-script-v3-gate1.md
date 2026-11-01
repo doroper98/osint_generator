@@ -97,7 +97,7 @@ rome_strength 의 band 출처 칸:
 
 ## 5. 타깃 시험 결과
 
-(추가 커밋으로 붙입니다)
+골든 frozen·delta + tests/anti_inertia + war·sketch·era_date·verify_supplement·checks·script(-n 3, v3 코드 합류 2f94487c): **230 passed, 9 subtests passed, 실패 0**(20분 58초).
 
 ## 6. 남은 일
 
