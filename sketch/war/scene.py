@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import json
+import math
 from pathlib import Path
 
 import cairo
@@ -25,6 +26,7 @@ from rules import load_rules
 from schemas.era_date import badge_text, parse_era_date
 from schemas.media_models import MediaAsset, MediaRegistryFile
 from schemas.war_history import ToponymyEntry, load_toponymy, period_art_label, probable_caption
+from sketch.common import geodesy as GEO
 from sketch.common.camera import CameraPath
 from sketch.common.draw import SK, WHITE
 from sketch.common.render import BGRA
@@ -39,6 +41,7 @@ MEDIA_FILE = "media.json"
 MEDIA_DIR = "media_src"
 PLACES_FILE = "ancient_geo/places.json"
 ROADS_FILE = "ancient_geo/roads.json"
+DRAINAGE_FILE = "drainage.json"
 BGRX = "BGRX"
 
 
@@ -83,11 +86,11 @@ def wrap(ctx: cairo.Context, s: str, size: float, font: str, maxw: float, max_li
 
 
 class WarScene:
-    def __init__(self, spec: WarSpec, project: Path, res: str) -> None:
-        self.spec, self.project = spec, project
+    def __init__(self, spec: WarSpec, project: Path, res: str, theme: "str | None" = None) -> None:
+        self.spec, self.project, self.theme = spec, project, theme
         self.out: Output = output_profile(res)
         default = output_profile(None).name
-        assets = Assets(project, load_labels(project / LABELS_FILE), None if self.out.name == default else self.out.name)
+        assets = Assets(project, load_labels(project / LABELS_FILE), None if self.out.name == default else self.out.name, theme=theme)
         self.stage = MercatorStage(assets, out=self.out)
         cam = SK.camera
         self.camera = CameraPath(tuple(spec.shots), spec.duration_sec, cam.push_in[spec.kind], cam.hold_min_sec)
@@ -99,10 +102,16 @@ class WarScene:
         tf = load_toponymy(project)
         self.topo: dict[str, ToponymyEntry] = tf.by_id() if tf is not None else {}
         self._img: dict[str, tuple] = {}
+        dp = project / DRAINAGE_FILE   # 구상 컷 A(D-0604) — 고도 타일 수계(tools/dem_drainage.py), 테마 overlays 에 drainage 가 있을 때만
+        self.drainage = json.loads(dp.read_text(encoding="utf-8")) if "drainage" in self._overlays() and dp.is_file() else []
         self.res_boxes: list[tuple[float, list]] = []
         self.card_boxes: list[tuple[float, list]] = []   # 프레임마다 보이는 카드 상자(SK-W6 — 카드가 라벨·부대를 덮는가)
         self.overflow: list[tuple[float, str]] = []      # 핀이 화면 안인데 글자가 화면 밖(SK-W5)
         self.drawn: dict[str, int] = {}
+
+    def _overlays(self) -> list[str]:
+        """테마별 지도 안 요소(rules sketch.war.theme_overlays) — dark(v1) = 없음, relief(구상) = 수계·축척 막대."""
+        return list(W.theme_overlays.get(self.theme or "dark", []))
 
     def features_drawn(self) -> dict[str, int]:
         out = dict(self.drawn)
@@ -132,13 +141,14 @@ class WarScene:
         ctx.set_source_rgba(*W.terrain_dim)
         ctx.paint()
         Lf = W.lift
-        lift = smooth((W_OUT / view.w - Lf.from_ppd) / Lf.span_ppd)
+        lift = smooth((W_OUT / view.w - Lf.from_ppd) / Lf.span_ppd) if (self.theme or "dark") in Lf.themes else 0
         if lift > F.min_alpha:   # 전술 축척 바탕(D-0602 ④) — 평탄한 평야도 무대로 보이게
             ctx.set_operator(cairo.OPERATOR_ADD)
             ctx.set_source_rgba(*Lf.rgb, lift)
             ctx.paint()
             ctx.set_operator(cairo.OPERATOR_OVER)
         res: list = []
+        self._drainage(ctx, view)
         self._roads(ctx, view, t)
         self._rivers(ctx, view, t)
         self._routes(ctx, view, t)
@@ -158,6 +168,8 @@ class WarScene:
             self._quote(ctx, q, t)
         self.res_boxes.append((t, list(res)))
         self._legend(ctx, t)
+        if "scale_bar" in self._overlays():
+            self._scale_bar(ctx, view)
         self._source(ctx, t)
         self._date(ctx, t)
         self._end(ctx, t)
@@ -169,6 +181,44 @@ class WarScene:
         return bytes(buf)
 
     # ---------------------------------------------------------------- 지도 층
+    def _drainage(self, ctx: cairo.Context, view: View) -> None:
+        if not self.drainage:
+            return
+        Dr = W.drainage
+        for ln in self.drainage:
+            pts = [view.to_screen(lon, ym(lat)) for lon, lat in ln]
+            ctx.move_to(*pts[0])
+            for p in pts[1:]:
+                ctx.line_to(*p)
+        ctx.set_source_rgba(*Dr.rgb, Dr.alpha)
+        ctx.set_line_width(Dr.w)
+        ctx.stroke()
+        self._note("drainage")
+
+    def _scale_bar(self, ctx: cairo.Context, view: View) -> None:
+        """지도 안 축척 막대(모서리 요소 아님, C0) — 길이는 카메라 축척에서 계산(출처 없는 숫자 아님): 화면 중앙 위도의 km/px × 막대 px,
+        rules sketch.war.scale_bar.nice 의 가수 × 10^k 중 target_px 이하 최대."""
+        Sb = W.scale_bar
+        lat = math.degrees(math.atan(math.sinh(math.radians(view.y1 - view.h / 2))))
+        km_per_px = view.w * GEO.KM_PER_DEG * math.cos(math.radians(lat)) / W_OUT
+        best = None
+        for e in range(Sb.exp_range[0], Sb.exp_range[1] + 1):
+            for mnt in Sb.nice:
+                km = mnt * Sb.base ** e
+                if km / km_per_px <= Sb.target_px and (best is None or km > best):
+                    best = km
+        if best is None:
+            return
+        px = best / km_per_px
+        x, y = Sb.x, Sb.y
+        ctx.rectangle(x, y, px, Sb.h)
+        ctx.set_source_rgba(*Sb.rgb, Sb.alpha)
+        ctx.fill()
+        lab = (f"{best:g} km") if best >= 1 else f"{best * GEO.M_PER_KM:g} m"
+        L = Sb.label
+        text(ctx, lab, x + px + L.dx, y + L.dy, L.size, L.font, WHITE, L.alpha, L.halo)
+        self._note("scale_bar")
+
     def _roads(self, ctx: cairo.Context, view: View, t: float) -> None:
         if not self.roads:
             return

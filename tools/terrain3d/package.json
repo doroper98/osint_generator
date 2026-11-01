@@ -1,0 +1,9 @@
+{
+  "name": "osint-terrain3d",
+  "private": true,
+  "description": "v7.4.0 전쟁사 구상 컷 B(back_and_forth D-0604 §1-B) — 고도 높이맵 3D 궤도 렌더(headless Chromium + three.js). 렌더 진입은 python -m sketch.war.terrain3d",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "three": "0.170.0"
+  }
+}

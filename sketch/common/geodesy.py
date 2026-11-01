@@ -68,6 +68,7 @@ def horizon_altitude(d_km: float) -> float:
 
 # ---------------------------------------------------------------- 배열판(3D 지구본, D-0143) — 원본: 4d9dc65 globe3d.py dest_v·to_local·Tex.sample
 KM_PER_DEG: float = EARTH_KM * math.pi / 180
+M_PER_KM: float = 1000.0   # v7.4.0 전쟁사 축척 막대 m 표기
 
 
 def dest_arr(lon: float, lat: float, brg: np.ndarray, km: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
