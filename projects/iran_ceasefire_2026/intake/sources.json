@@ -1744,6 +1744,50 @@
    "key_facts": [
     "After November 3 the political constraints on Trump will ease"
    ]
+  },
+  {
+   "id": "src_art_0079",
+   "url": "https://www.axios.com/2026/09/28/trump-iran-war-sanctions-blockade-nuclear",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Axios",
+   "headline_original": "Trump open to Iran sanctions relief for nuclear steps, officials say",
+   "headline_ko": "미 관리 \"트럼프, 핵 진전 대가로 제재 완화 용의\"",
+   "published_at": "2026-09-28",
+   "key_facts": [
+    "US officials: Trump willing to give sanctions relief and frozen funds for concrete nuclear steps"
+   ]
+  },
+  {
+   "id": "src_art_0080",
+   "url": "https://www.cnbc.com/2026/09/30/us-iran-war-trump-hormuz.html#hoax",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL) — 9/30 CNBC 같은 기사(트럼프 부인 대목)",
+   "type": "article",
+   "publisher": "CNBC",
+   "headline_original": "Trump calls report on Iran sanctions relief a 'HOAX'",
+   "headline_ko": "트럼프, 이란 제재 완화 보도에 \"거짓\"",
+   "published_at": "2026-09-30",
+   "key_facts": [
+    "Trump called the Axios report a 'HOAX'"
+   ]
   }
  ]
 }

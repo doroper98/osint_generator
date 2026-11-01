@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "project_id": "iran_ceasefire_2026",
+  "task_id": "director-iran_ceasefire_2026",
+  "worker": "director",
+  "status": "failed",
+  "started_at": "2026-11-01T04:14:16.428160Z",
+  "completed_at": "2026-11-01T04:29:13.929343Z",
+  "outputs": [
+    "llm_calls/llm_20261101_041416_4de2.json"
+  ],
+  "warnings": [],
+  "errors": [
+    "check_parsed: 크레딧·권리 점검 실패:\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0005\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0015\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0019\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0022\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0038\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0043\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0047\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0056\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0057\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0064\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0071\n엔딩 크레딧 누락: media.iran_doha_skyline_09\n엔딩 크레딧 누락: media.iran_hormuz_night_iss\n엔딩 크레딧 누락: media.iran_islamabad_talks\n엔딩 크레딧 누락: media.iran_tehran_2026\n엔딩 크레딧 누락: media.iran_uss_new_orleans_blockade"
+  ],
+  "scene_refs": [],
+  "source_refs": [],
+  "asset_refs": [],
+  "qa_status": "fail",
+  "risk_flags": [],
+  "worker_provenance": {
+    "prompt_name": "director",
+    "prompt_sha1": "ce635c44904768fcfcd179248e84dc8f350f8a11",
+    "rules_hash": "ff03b89e072c961b37dc6d2c842f504976796e6d",
+    "genre": null,
+    "genre_declared": null
+  }
+}

@@ -1196,6 +1196,42 @@
   },
   {
    "claim_id": "clm_0058",
+   "text": "미 관리들은 트럼프가 구체적 핵 조치의 대가로 제재 완화·동결 자금을 줄 용의가 있다고 전했고, 트럼프는 이 보도를 거짓이라고 했다",
+   "source_ids": [
+    "src_art_0079",
+    "src_art_0080"
+   ],
+   "status": "disputed",
+   "contested": true,
+   "checks": [
+    "quote_match:src_art_0079",
+    "quote_match:src_art_0080",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-09-28",
+   "sides": [
+    {
+     "party": "미 관리(액시오스)",
+     "text": "핵 조치 대가로 제재 완화·동결 자금",
+     "source_ids": [
+      "src_art_0079"
+     ]
+    },
+    {
+     "party": "트럼프",
+     "text": "보도는 거짓",
+     "source_ids": [
+      "src_art_0080"
+     ]
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0059",
    "text": "미국외교협회 분석: 11월 3일 뒤 트럼프의 정치적 제약이 풀린다",
    "source_ids": [
     "src_art_0078"

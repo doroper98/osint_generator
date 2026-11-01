@@ -4,8 +4,8 @@
   "title": "휴전안 — 미국과 이란, 무엇이 먼저 풀려야 하나",
   "category": "geopolitics",
   "created_at": "2026-11-01T00:29:59.874133Z",
-  "updated_at": "2026-11-01T02:47:53.925637Z",
-  "current_state": "direction",
+  "updated_at": "2026-11-01T04:41:22.597372Z",
+  "current_state": "preview_qa",
   "target_duration_min": 18,
   "topic_summary": "2026년 미국·이란 전쟁의 휴전안 정리(9월 말 이란 7일안~10/31 도하)와 휴전 가능성의 조건부 시나리오·신호",
   "initial_links": [],
@@ -87,6 +87,109 @@
       "errors": [],
       "drops": 0,
       "log": "logs/stages/03_assets_final.json"
+    },
+    {
+      "state": "direction",
+      "stage": "director",
+      "ok": false,
+      "at": "2026-11-01T03:30:53.137718Z",
+      "artifacts": {},
+      "errors": [
+        "director 입력 오류: FileNotFoundError: [Errno 2] No such file or directory: '/home/user/osint_generator/projects/iran_ceasefire_2026/labels.yaml'"
+      ],
+      "drops": 0,
+      "log": "logs/stages/04_director.json"
+    },
+    {
+      "state": "direction",
+      "stage": "director",
+      "ok": false,
+      "at": "2026-11-01T03:59:08.312114Z",
+      "artifacts": {
+        "out0": "llm_calls/llm_20261101_034750_a7c8.json"
+      },
+      "errors": [
+        "check_parsed: 이벤트 검증 실패(렌더 시작 전):\n[39] panel: 1 validation error for PanelDualLine\n  Value error, dual_line unit '달러' 는 rules data.units 에 없다 [type=value_error, input_value={'type': 'panel', 't0': 2...17.64], 'decimals': 2}]}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error\n[44] panel: 1 validation error for PanelChecklist\nitems\n  List should have at most 4 items after validation, not 5 [type=too_long, input_value=['해협 통항 선박 ...', '레바논 전선'], input_type=list]\n    For further information visit https://errors.pydantic.dev/2.13/v/too_long"
+      ],
+      "drops": 0,
+      "log": "logs/stages/05_director.json"
+    },
+    {
+      "state": "direction",
+      "stage": "director",
+      "ok": false,
+      "at": "2026-11-01T04:29:13.953771Z",
+      "artifacts": {
+        "out0": "llm_calls/llm_20261101_041416_4de2.json"
+      },
+      "errors": [
+        "check_parsed: 크레딧·권리 점검 실패:\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0005\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0015\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0019\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0022\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0038\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0043\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0047\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0056\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0057\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0064\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0071\n엔딩 크레딧 누락: media.iran_doha_skyline_09\n엔딩 크레딧 누락: media.iran_hormuz_night_iss\n엔딩 크레딧 누락: media.iran_islamabad_talks\n엔딩 크레딧 누락: media.iran_tehran_2026\n엔딩 크레딧 누락: media.iran_uss_new_orleans_blockade"
+      ],
+      "drops": 0,
+      "log": "logs/stages/06_director.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-11-01T04:32:50.532537Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/iran_ceasefire_2026/script.yaml",
+        "label_counts": "{\"verified\": 12, \"corroborated\": 46, \"unverified\": 3, \"disputed\": 5}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/07_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": false,
+      "at": "2026-11-01T04:34:37.373735Z",
+      "artifacts": {},
+      "errors": [
+        "크레딧·권리 점검 실패:\n엔딩 크레딧 누락: media.iran_araghchi_moscow\n엔딩 크레딧 누락: media.iran_blockade_apr_video\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0005\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0015\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0019\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0022\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0038\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0043\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0047\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0056\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0057\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0064\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0071\n엔딩 크레딧 누락: media.iran_doha_skyline\n엔딩 크레딧 누락: media.iran_doha_skyline_09\n엔딩 크레딧 누락: media.iran_epic_fury_video\n엔딩 크레딧 누락: media.iran_hormuz_modis\n엔딩 크레딧 누락: media.iran_hormuz_night_iss\n엔딩 크레딧 누락: media.iran_islamabad_talks\n엔딩 크레딧 누락: media.iran_marines_boarding\n엔딩 크레딧 누락: media.iran_strikes_jul_video\n엔딩 크레딧 누락: media.iran_tehran_2026\n엔딩 크레딧 누락: media.iran_uss_dextrous_mcm\n엔딩 크레딧 누락: media.iran_uss_new_orleans_blockade"
+      ],
+      "drops": 0,
+      "log": "logs/stages/08_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-11-01T04:36:19.735623Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/iran_ceasefire_2026/script.yaml",
+        "label_counts": "{\"verified\": 12, \"corroborated\": 46, \"unverified\": 3, \"disputed\": 5}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/09_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-11-01T04:38:49.785726Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/iran_ceasefire_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 10, \"events\": 86, \"frames\": 11592}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/10_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": true,
+      "at": "2026-11-01T04:41:22.595328Z",
+      "artifacts": {
+        "camera_suggest": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/camera_suggest.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/11_camera_suggest.json"
     }
   ],
   "final_outputs": {},
@@ -138,6 +241,12 @@
       "to_state": "direction",
       "transitioned_at": "2026-11-01T02:47:53.925526Z",
       "reason": "engine assets, assets_final ok"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-11-01T04:41:22.597305Z",
+      "reason": "engine direction_validate, validate, camera_suggest ok"
     }
   ],
   "rollbacks": [],

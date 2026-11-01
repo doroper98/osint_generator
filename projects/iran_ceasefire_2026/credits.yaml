@@ -4,6 +4,78 @@ sections:
 - title: 보도 출처
   column: 0
   auto: press
+- title: 기사 카드
+  column: 0
+  items:
+  - main: 헤드라인 번역·요지 자체 조판(위 보도)
+    license: 기사 화면 캡처·로고 없음
+    rights:
+    - media.iran_ceasefire_2026_art_0005
+    - media.iran_ceasefire_2026_art_0015
+    - media.iran_ceasefire_2026_art_0019
+    - media.iran_ceasefire_2026_art_0022
+    - media.iran_ceasefire_2026_art_0038
+    - media.iran_ceasefire_2026_art_0043
+    - media.iran_ceasefire_2026_art_0047
+    - media.iran_ceasefire_2026_art_0056
+    - media.iran_ceasefire_2026_art_0057
+    - media.iran_ceasefire_2026_art_0064
+    - media.iran_ceasefire_2026_art_0071
+- title: 사진·영상
+  column: 0
+  items:
+  - main: 카타르 도하 웨스트베이 스카이라인 (2023. 01. 15)
+    license: Zairon (CC BY 4.0) · CC BY 4.0
+    rights:
+    - media.iran_doha_skyline
+  - main: 미 국방부 공개 영상 · '에픽 퓨리' 작전 타격 (2026. 03. 01)
+    license: 미 국방부 · Public domain
+    rights:
+    - media.iran_epic_fury_video
+  - main: 호르무즈 해협 위성 사진 (2020. 12. 04)
+    license: NASA · Public domain
+    rights:
+    - media.iran_hormuz_modis
+  - main: 이슬라마바드 회담장 입구(2026년 4월) (2026. 04. 11)
+    license: 메흐르통신 Hamed Malekpour (CC BY 4.0) · CC BY 4.0
+    rights:
+    - media.iran_islamabad_talks
+  - main: 미 해군 헬기의 이란 봉쇄 작전 감시(4월) (2026. 04. 25)
+    license: 미 해군 중부사령부 · Public domain
+    rights:
+    - media.iran_blockade_apr_video
+  - main: 이란 해상 봉쇄 작전 중인 미 해군 상륙함 뉴올리언스 (2026. 04. 28)
+    license: 미 국방부 · Public domain
+    rights:
+    - media.iran_uss_new_orleans_blockade
+  - main: 미 중부사령부 공개 영상 · 이란 군사 목표 보복 타격 (2026. 07. 07)
+    license: 미 중부사령부 · Public domain
+    rights:
+    - media.iran_strikes_jul_video
+  - main: 봉쇄 검문 — 유조선에 내리는 미 해병대 헬기 (2026. 07. 16)
+    license: 미 해군 중부사령부 · Public domain
+    rights:
+    - media.iran_marines_boarding
+  - main: 테헤란 도심(밀라드 타워) (2026. 07. 21)
+    license: Sajjadmrt (CC0) · CC0
+    rights:
+    - media.iran_tehran_2026
+  - main: 취재진 앞의 아라그치 이란 외무장관(모스크바) (2026. 04. 27)
+    license: kremlin.ru (CC BY 4.0) · CC BY 4.0
+    rights:
+    - media.iran_araghchi_moscow
+  - main: 국제우주정거장에서 본 호르무즈 해협과 오만만(야간) (2016. 01. 23)
+    license: NASA · Public domain
+    rights:
+    - media.iran_hormuz_night_iss
+  - main: 걸프에서 기뢰 대응 작전 중인 미 해군 소해함 (2003. 03. 19)
+    license: 미 해군 · Public domain
+    rights:
+    - media.iran_uss_dextrous_mcm
+  - main: 카타르 도하 웨스트베이 (2023. 01. 16)
+    license: Zairon (CC BY 4.0) · CC BY 4.0
+    rights:
+    - media.iran_doha_skyline_09
 - title: 글꼴
   column: 1
   auto: fonts
