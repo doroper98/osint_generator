@@ -1,0 +1,266 @@
+{
+  "schema_version": 1,
+  "labels": {
+    "cold_open_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0003",
+        "clm_0004"
+      ]
+    },
+    "cold_open_1": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0006"
+      ]
+    },
+    "senate_decision_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0002"
+      ]
+    },
+    "senate_decision_1": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0002"
+      ]
+    },
+    "senate_decision_2": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0002"
+      ]
+    },
+    "senate_decision_3": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0005"
+      ]
+    },
+    "senate_decision_4": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0003"
+      ]
+    },
+    "senate_decision_5": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0004"
+      ]
+    },
+    "senate_decision_6": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0006"
+      ]
+    },
+    "two_camps_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0006"
+      ]
+    },
+    "two_camps_1": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0007"
+      ]
+    },
+    "two_camps_2": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0006"
+      ]
+    },
+    "two_camps_3": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0007"
+      ]
+    },
+    "two_camps_4": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0008"
+      ]
+    },
+    "two_camps_5": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0009"
+      ]
+    },
+    "two_camps_6": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0009"
+      ]
+    },
+    "two_camps_7": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0010"
+      ]
+    },
+    "battle_lines_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0010"
+      ]
+    },
+    "battle_lines_1": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0010"
+      ]
+    },
+    "battle_lines_2": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0011"
+      ]
+    },
+    "battle_lines_3": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0012"
+      ]
+    },
+    "battle_lines_4": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0013"
+      ]
+    },
+    "battle_lines_5": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0014"
+      ]
+    },
+    "battle_lines_6": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0015"
+      ]
+    },
+    "battle_lines_7": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0016"
+      ]
+    },
+    "battle_lines_8": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0012",
+        "clm_0014"
+      ]
+    },
+    "wind_and_cavalry_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0017"
+      ]
+    },
+    "wind_and_cavalry_1": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0017"
+      ]
+    },
+    "wind_and_cavalry_2": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0017"
+      ]
+    },
+    "wind_and_cavalry_3": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0018"
+      ]
+    },
+    "wind_and_cavalry_4": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0018"
+      ]
+    },
+    "wind_and_cavalry_5": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0017",
+        "clm_0018"
+      ]
+    },
+    "ending_0": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0002",
+        "clm_0006"
+      ]
+    },
+    "ending_1": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0003",
+        "clm_0004",
+        "clm_0008"
+      ]
+    },
+    "ending_2": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0017",
+        "clm_0018"
+      ]
+    },
+    "ending_3": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0008",
+        "clm_0017",
+        "clm_0018"
+      ]
+    }
+  }
+}

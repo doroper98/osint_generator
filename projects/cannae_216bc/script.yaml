@@ -1,0 +1,264 @@
+schema_version: 1
+title: 칸나이 — 기원전 216년
+subtitle: 폴리비오스와 리비우스가 기록한 로마의 결정과 칸나이의 전열
+date: 2026.11.01
+scenes:
+- id: cold_open
+  sentences:
+  - date: '-216'
+    text: 기원전 216년, 로마는 전례 없는 규모의 군대를 전장에 세우기로 했습니다.
+    tts: 기원전 이백십육년, 로마는 전례 없는 규모의 군대를 전장에 세우기로 했습니다.
+    emphasis:
+    - 전례 없는
+    sources:
+    - clm_0003
+    - clm_0004
+  - date: '-216'
+    text: 그리고 그 군대는 카르타고군을 따라 칸나이까지 왔습니다.
+    emphasis:
+    - 칸나이
+    sources:
+    - clm_0006
+  stage: 칸나이
+  kind: cold
+- id: senate_decision
+  sentences:
+  - date: '-216'
+    text: 시점을 전투에 앞선 로마 원로원으로 옮깁니다.
+    emphasis: []
+    sources:
+    - clm_0002
+    role: bridge
+  - date: '-216'
+    text: 전투에 앞서 결정을 내린 곳은 원로원이었습니다.
+    emphasis:
+    - 원로원
+    sources:
+    - clm_0002
+    role: intro
+  - date: '-216'
+    text: 폴리비오스는 『역사』 3권에서 로마 원로원이 한니발과 싸우기로 결정했다고 기록했습니다.
+    tts: 폴리비오스는 역사 삼권에서 로마 원로원이 한니발과 싸우기로 결정했다고 기록했습니다.
+    emphasis:
+    - 싸우기로 결정
+    sources:
+    - clm_0002
+  - date: '-216'
+    text: 이어서 집정관 아이밀리우스가 군에 도착해 병사들에게 그 결정을 전했습니다.
+    emphasis:
+    - 아이밀리우스
+    sources:
+    - clm_0005
+  - date: '-216'
+    text: 게다가 로마는 8개 군단을 전장에 투입하기로 했습니다.
+    tts: 게다가 로마는 여덟 개 군단을 전장에 투입하기로 했습니다.
+    emphasis:
+    - 8개 군단
+    sources:
+    - clm_0003
+  - date: '-216'
+    text: 특히 폴리비오스는 이것이 로마에서 전례가 없던 일이었다고 기록했습니다.
+    emphasis:
+    - 전례가 없던 일
+    sources:
+    - clm_0004
+  - date: '-216'
+    text: 그렇다면 이 대군은 칸나이에서 어떻게 진을 쳤을까요?
+    emphasis: []
+    sources:
+    - clm_0006
+    role: outro
+  stage: 로마
+  kind: act
+- id: two_camps
+  sentences:
+  - date: '-216'
+    text: 무대를 로마에서 칸나이로 옮깁니다.
+    emphasis: []
+    sources:
+    - clm_0006
+    role: bridge
+  - date: '-216'
+    text: 그곳의 로마군은 하나의 진영에 머물지 않았습니다.
+    emphasis: []
+    sources:
+    - clm_0007
+    role: intro
+  - date: '-216'
+    text: 리비우스는 『로마사』 22권에서 집정관들이 카르타고군을 따라 칸나이까지 왔다고 기록했습니다.
+    tts: 리비우스는 로마사 이십이권에서 집정관들이 카르타고군을 따라 칸나이까지 왔다고 기록했습니다.
+    emphasis: []
+    sources:
+    - clm_0006
+  - date: '-216'
+    text: 이어서 로마군은 병력을 나눠 두 개의 진영을 세웠습니다.
+    emphasis:
+    - 두 개의 진영
+    sources:
+    - clm_0007
+  - date: '-216'
+    text: 그런데 진영 안에서는 병사들의 다툼과 두 집정관의 불화가 벌어졌습니다.
+    emphasis:
+    - 불화
+    sources:
+    - clm_0008
+  - date: '-216'
+    text: 한편 한니발은 누미디아 기병을 강 건너로 보냈습니다.
+    emphasis:
+    - 누미디아 기병
+    sources:
+    - clm_0009
+  - date: '-216'
+    text: 그리고 이들은 로마 소진영에서 물을 긷던 병사들을 공격했습니다.
+    emphasis:
+    - 물을 긷던 병사들
+    sources:
+    - clm_0009
+  - date: '-216'
+    text: 그렇다면 먼저 출전 신호를 올린 쪽은 누구였을까요?
+    emphasis: []
+    sources:
+    - clm_0010
+    role: outro
+  stage: 칸나이
+  kind: act
+- id: battle_lines
+  sentences:
+  - date: '-216'
+    text: 그날 로마군의 지휘권은 집정관 바로에게 있었습니다.
+    emphasis:
+    - 바로
+    sources:
+    - clm_0010
+    role: intro
+  - date: '-216'
+    text: 리비우스는 바로가 동료 집정관과 상의하지 않고 출전 신호를 올렸다고 기록했습니다.
+    emphasis:
+    - 상의하지 않고
+    sources:
+    - clm_0010
+    role: intro
+  - date: '-216'
+    text: 이어서 바로는 병력을 정렬시켜 강을 건넜습니다.
+    emphasis: []
+    sources:
+    - clm_0011
+  - date: '-216'
+    text: 전열의 왼쪽 날개인 좌익은 테렌티우스 바로가, 오른쪽 날개인 우익은 아이밀리우스가 맡았습니다.
+    emphasis:
+    - 좌익
+    - 우익
+    sources:
+    - clm_0012
+  - date: '-216'
+    text: 또한 중앙은 게미누스 세르빌리우스가 맡았습니다.
+    emphasis:
+    - 중앙
+    sources:
+    - clm_0013
+  - date: '-216'
+    text: 이에 맞선 카르타고군 전열은 보병 4만, 기병 1만이었습니다.
+    tts: 이에 맞선 카르타고군 전열은 보병 사만, 기병 만이었습니다.
+    emphasis:
+    - 보병 4만
+    - 기병 1만
+    sources:
+    - clm_0014
+  - date: '-216'
+    text: 그리고 카르타고군 좌익은 하스드루발이, 우익은 마하르발이 지휘했습니다.
+    emphasis:
+    - 하스드루발
+    - 마하르발
+    sources:
+    - clm_0015
+  - date: '-216'
+    text: 특히 중앙은 한니발이 동생 마고와 함께 지휘했습니다.
+    emphasis:
+    - 한니발
+    sources:
+    - clm_0016
+  - date: '-216'
+    text: 이렇게 두 군대의 전열이 마주 섰습니다.
+    emphasis: []
+    sources:
+    - clm_0012
+    - clm_0014
+    role: outro
+  stage: 칸나이
+  kind: act
+- id: wind_and_cavalry
+  sentences:
+  - date: '-216'
+    text: 전투가 시작되자 로마군에게 먼저 닥친 것은 바람이었습니다.
+    emphasis:
+    - 바람
+    sources:
+    - clm_0017
+    role: intro
+  - date: '-216'
+    text: 그 바람은 볼투르누스라고 불렸습니다.
+    emphasis:
+    - 볼투르누스
+    sources:
+    - clm_0017
+    role: intro
+  - date: '-216'
+    text: 이 바람은 로마군 얼굴로 먼지를 몰아 시야를 가렸습니다.
+    emphasis:
+    - 먼지
+    sources:
+    - clm_0017
+  - date: '-216'
+    text: 이어서 양군의 기병이 맞붙었습니다.
+    emphasis: []
+    sources:
+    - clm_0018
+  - date: '-216'
+    text: 그 결과 기병전에서 패한 로마 기병은 등을 돌려 달아났습니다.
+    emphasis:
+    - 등을 돌려
+    sources:
+    - clm_0018
+  - date: '-216'
+    text: 로마의 출전은 먼지 바람과 기병의 패주 속에 첫 균열을 드러냈습니다.
+    emphasis: []
+    sources:
+    - clm_0017
+    - clm_0018
+    role: outro
+  stage: 칸나이
+  kind: act
+- id: ending
+  sentences:
+  - date: '-216'
+    text: 기원전 216년, 한니발과 로마가 맞붙은 칸나이.
+    tts: 기원전 이백십육년, 한니발과 로마가 맞붙은 칸나이.
+    emphasis: []
+    sources:
+    - clm_0002
+    - clm_0006
+  - date: '-216'
+    text: 그날 로마는 전례 없는 8개 군단을 세웠지만, 진영 안에서는 두 집정관이 불화했습니다.
+    tts: 그날 로마는 전례 없는 여덟 개 군단을 세웠지만, 진영 안에서는 두 집정관이 불화했습니다.
+    emphasis:
+    - 8개 군단
+    sources:
+    - clm_0003
+    - clm_0004
+    - clm_0008
+  - date: '-216'
+    text: 그리고 먼지 바람 속에서 로마 기병은 등을 돌려 달아났습니다.
+    emphasis: []
+    sources:
+    - clm_0017
+    - clm_0018
+  - date: '-216'
+    text: 지휘의 불화와 볼투르누스, 기병의 패주가 맞물리며 로마의 전열은 흔들리고 있었습니다.
+    emphasis:
+    - 흔들리고 있었습니다
+    sources:
+    - clm_0008
+    - clm_0017
+    - clm_0018
+  stage: 칸나이
+  kind: ending
