@@ -1,0 +1,320 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "claim_id": "clm_0001",
+      "text": "인텔 2026년 3분기 매출은 165억 달러로 전년 대비 21% 증가했다",
+      "source_ids": [
+        "src_doc_0001",
+        "src_art_0001"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "quote_match:src_art_0001",
+        "independent_origins:1",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0002",
+      "text": "인텔 3분기 비GAAP(회사 산정) 주당순이익은 0.52달러, GAAP 주당순이익은 0.60달러다",
+      "source_ids": [
+        "src_doc_0001"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "independent_origins:1",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0003",
+      "text": "인텔 3분기 조정 주당순이익 0.52달러는 컨센서스 0.40달러를 웃돌았다(보도)",
+      "source_ids": [
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0001",
+        "independent_origins:0"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0004",
+      "text": "인텔은 4분기 매출을 150억~160억 달러, 비GAAP 주당순이익을 0.25달러로 전망했다",
+      "source_ids": [
+        "src_doc_0001"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "quote_match:src_doc_0001",
+        "independent_origins:1",
+        "primary:src_doc_0001",
+        "primary:src_doc_0001",
+        "official:src_doc_0001",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0005",
+      "text": "LSEG 집계 월가 4분기 전망치는 매출 171억 달러, 주당순이익 0.43달러였다(보도)",
+      "source_ids": [
+        "src_art_0002",
+        "src_art_0003"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0003",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0006",
+      "text": "인텔 데이터센터·AI(DCAI) 부문 3분기 매출은 73억 달러로 전년 대비 78% 늘었다",
+      "source_ids": [
+        "src_doc_0001",
+        "src_art_0003"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "quote_match:src_art_0003",
+        "independent_origins:2",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0007",
+      "text": "인텔 PC용(CCPG) 부문 3분기 매출은 81억 달러로 전년 대비 5% 줄었다",
+      "source_ids": [
+        "src_doc_0001",
+        "src_art_0003"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "quote_match:src_art_0003",
+        "independent_origins:2",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0008",
+      "text": "인텔 파운드리 3분기 매출은 67억 달러로 전년 대비 58% 늘었다",
+      "source_ids": [
+        "src_doc_0001"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "independent_origins:1",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0009",
+      "text": "진스너 인텔 CFO는 PC 둔화가 최소 내년 상반기까지 이어진다고 봤다",
+      "source_ids": [
+        "src_doc_0001"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "independent_origins:1",
+        "primary:src_doc_0001",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0010",
+      "text": "인텔 주가는 실적 발표 직후 시간외 거래에서 약 21% 급락했다(CNBC 보도 인용)",
+      "source_ids": [
+        "src_art_0001",
+        "src_art_0003"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0001",
+        "quote_match:src_art_0003",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0011",
+      "text": "인텔 주가는 10월 30일 정규장에서 전 거래일 대비 28.58% 내렸다(CNBC 보도 인용)",
+      "source_ids": [
+        "src_art_0002"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-30",
+      "checks": [
+        "quote_match:src_art_0002",
+        "independent_origins:0"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0012",
+      "text": "인텔 이스라엘 공장에서 10월 초 폭발 사고로 작업자 2명이 숨지고 공장 가동이 멈췄다(보도)",
+      "source_ids": [
+        "src_art_0002"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0002",
+        "independent_origins:0"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0013",
+      "text": "인텔은 공장 사고로 두 분기 동안 약 6억 달러의 매출 차질을 예상했다(CNBC 보도 인용)",
+      "source_ids": [
+        "src_art_0002",
+        "src_art_0001"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0002",
+        "quote_match:src_art_0001",
+        "independent_origins:0"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0014",
+      "text": "메모리 제조사의 HBM·서버용 D램 집중으로 PC용 메모리 공급이 부족해져 PC 시장이 침체했다(보도 분석)",
+      "source_ids": [
+        "src_art_0003"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0003",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0015",
+      "text": "인텔은 3분기 실적 자료에서 업계 전반의 기판·메모리 부족을 공급망 위험으로 적었다",
+      "source_ids": [
+        "src_doc_0001"
+      ],
+      "status": "verified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_doc_0001",
+        "independent_origins:1",
+        "primary:src_doc_0001",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0016",
+      "text": "미국 정부는 인텔 지분 약 10%를 보유하고 있다(보도)",
+      "source_ids": [
+        "src_art_0002"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0002",
+        "independent_origins:0"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0017",
+      "text": "삼성전자 DX부문은 3분기 부품 원가 상승 영향으로 8,000억 원 영업손실을 냈다(보도)",
+      "source_ids": [
+        "src_art_0003"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0003",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    }
+  ]
+}

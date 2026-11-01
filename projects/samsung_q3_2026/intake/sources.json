@@ -164,6 +164,29 @@
       "key_facts": [
         "Q3 2026 earnings release"
       ]
+    },
+    {
+      "id": "src_doc_0003",
+      "url": "https://news.samsung.com/kr/%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90-2026%EB%85%84-3%EB%B6%84%EA%B8%B0-%EC%8B%A4%EC%A0%81-%EB%B0%9C%ED%91%9C",
+      "retrieved_at": "2026-11-01",
+      "lang": "ko",
+      "verification": {
+        "status": "verified",
+        "checks": [
+          "claims:7"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(구현 세션 대행 — 발행처·제목·게시일을 원문 첫머리와 대조. 게이트 ① 에서 사용자가 출처 표로 확인)",
+      "confirmed_at": "2026-11-01T04:53:49.722291Z",
+      "note": "",
+      "type": "document",
+      "issuer": "삼성전자 뉴스룸",
+      "title": "삼성전자, 2026년 3분기 실적 발표",
+      "published_at": "2026-10-29",
+      "key_facts": [
+        "3분기 실적 보도자료(회사 공식)"
+      ]
     }
   ]
 }

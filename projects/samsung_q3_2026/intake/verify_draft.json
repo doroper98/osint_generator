@@ -30,6 +30,11 @@
           "source_id": "src_art_0001",
           "quote": "4분기 연속 역대 최대 매출과 영업이익을 동시에 경신했다",
           "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0003",
+          "quote": "4분기 연속 최대 매출과 영업이익을 동시에 경신",
+          "stance": "supports"
         }
       ],
       "event_date": "2026-10-29",
@@ -45,6 +50,11 @@
           "source_id": "src_doc_0001",
           "quote": "업계 최고의 제품 경쟁력을 갖춘 HBM4 판매 대폭 확대",
           "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0003",
+          "quote": "HBM4 판매를 대폭 확대했으며",
+          "stance": "supports"
         }
       ],
       "event_date": "2026-10-29",
@@ -52,7 +62,8 @@
       "sides": null,
       "claim_kind": "statement",
       "speaker_source_ids": [
-        "src_doc_0001"
+        "src_doc_0001",
+        "src_doc_0003"
       ]
     },
     {
@@ -107,6 +118,11 @@
           "source_id": "src_doc_0001",
           "quote": "공급 부족 현상은 올해 대비 오히려 심화될 것으로 전망",
           "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0003",
+          "quote": "수요가 공급을 크게 상회할 것으로 예상되며",
+          "stance": "supports"
         }
       ],
       "event_date": "2026-10-29",
@@ -114,7 +130,8 @@
       "sides": null,
       "claim_kind": "statement",
       "speaker_source_ids": [
-        "src_doc_0001"
+        "src_doc_0001",
+        "src_doc_0003"
       ]
     },
     {
@@ -169,6 +186,11 @@
           "source_id": "src_art_0001",
           "quote": "환율은 달러와 유로 등 주요 환율 하락의 영향으로 부품 사업을 중심으로 전사 영업이익에 전분기 대비 약 10조원 수준의 부정적인 효과가 있었다",
           "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0003",
+          "quote": "환영향은 달러, 유로 등 주요 환율의 하락에 따라 부품 사업을 중심으로 전사 영업이익에 전분기 대비 약 10조원 수준의 부정적 효과가 발생했다",
+          "stance": "supports"
         }
       ],
       "event_date": "2026-10-29",
@@ -199,6 +221,11 @@
           "source_id": "src_doc_0001",
           "quote": "美 Taylor 첫 번째 Fab 가동을 통해 글로벌 공급 역량 강화",
           "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0003",
+          "quote": "미국 테일러 팹(Fab)과 2나노 AI/HPC 양산 본격화로 성장을 가속화할 방침이다",
+          "stance": "supports"
         }
       ],
       "event_date": "2026-10-29",
@@ -206,7 +233,8 @@
       "sides": null,
       "claim_kind": "statement",
       "speaker_source_ids": [
-        "src_doc_0001"
+        "src_doc_0001",
+        "src_doc_0003"
       ]
     },
     {
@@ -215,6 +243,11 @@
         {
           "source_id": "src_doc_0001",
           "quote": "3분기 현금배당은 총 30조원(주당 보통주 4,601원, 우선주 4,601원)",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0003",
+          "quote": "3분기 현금배당은 주당 보통주 4,601원, 우선주 4,601원으로 총 30조원이다",
           "stance": "supports"
         }
       ],
@@ -317,6 +350,11 @@
         {
           "source_id": "src_art_0001",
           "quote": "디바이스경험(DX) 부문은 부품 원가 상승 등으로 수익성 확보에 어려움을 겪었다",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0003",
+          "quote": "부품 원가 상승 등 어려운 경영환경이 지속되고",
           "stance": "supports"
         }
       ],

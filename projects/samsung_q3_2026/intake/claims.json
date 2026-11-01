@@ -25,7 +25,8 @@
       "text": "삼성전자는 2026년 3분기까지 4분기 연속 역대 최대 매출과 영업이익을 동시에 경신했다",
       "source_ids": [
         "src_doc_0001",
-        "src_art_0001"
+        "src_art_0001",
+        "src_doc_0003"
       ],
       "status": "verified",
       "contested": false,
@@ -33,8 +34,10 @@
       "checks": [
         "quote_match:src_doc_0001",
         "quote_match:src_art_0001",
-        "independent_origins:2",
-        "official:src_doc_0001"
+        "quote_match:src_doc_0003",
+        "independent_origins:3",
+        "official:src_doc_0001",
+        "official:src_doc_0003"
       ],
       "attributed_only": false,
       "claim_kind": "fact",
@@ -44,16 +47,20 @@
       "claim_id": "clm_0003",
       "text": "삼성전자는 3분기 메모리에서 HBM4 판매를 대폭 확대했다고 밝혔다",
       "source_ids": [
-        "src_doc_0001"
+        "src_doc_0001",
+        "src_doc_0003"
       ],
       "status": "verified",
       "contested": false,
       "event_date": "2026-10-29",
       "checks": [
         "quote_match:src_doc_0001",
-        "independent_origins:1",
+        "quote_match:src_doc_0003",
+        "independent_origins:2",
         "primary:src_doc_0001",
-        "official:src_doc_0001"
+        "primary:src_doc_0003",
+        "official:src_doc_0001",
+        "official:src_doc_0003"
       ],
       "attributed_only": false,
       "claim_kind": "statement",
@@ -114,16 +121,20 @@
       "claim_id": "clm_0007",
       "text": "삼성전자는 2027년 메모리 공급 부족이 올해보다 심화될 것으로 전망했다",
       "source_ids": [
-        "src_doc_0001"
+        "src_doc_0001",
+        "src_doc_0003"
       ],
       "status": "verified",
       "contested": false,
       "event_date": "2026-10-29",
       "checks": [
         "quote_match:src_doc_0001",
-        "independent_origins:1",
+        "quote_match:src_doc_0003",
+        "independent_origins:2",
         "primary:src_doc_0001",
-        "official:src_doc_0001"
+        "primary:src_doc_0003",
+        "official:src_doc_0001",
+        "official:src_doc_0003"
       ],
       "attributed_only": false,
       "claim_kind": "statement",
@@ -184,14 +195,17 @@
       "claim_id": "clm_0011",
       "text": "달러·유로 등 주요 환율 하락이 삼성전자 3분기 영업이익에 전분기 대비 약 10조원의 부정적 효과를 냈다(컨퍼런스콜)",
       "source_ids": [
-        "src_art_0001"
+        "src_art_0001",
+        "src_doc_0003"
       ],
-      "status": "unverified",
+      "status": "verified",
       "contested": false,
       "event_date": "2026-10-29",
       "checks": [
         "quote_match:src_art_0001",
-        "independent_origins:1"
+        "quote_match:src_doc_0003",
+        "independent_origins:2",
+        "official:src_doc_0003"
       ],
       "attributed_only": false,
       "claim_kind": "fact",
@@ -218,16 +232,20 @@
       "claim_id": "clm_0013",
       "text": "삼성전자는 2027년 미국 테일러 첫 번째 팹 가동으로 글로벌 공급 역량을 강화하겠다고 밝혔다",
       "source_ids": [
-        "src_doc_0001"
+        "src_doc_0001",
+        "src_doc_0003"
       ],
       "status": "verified",
       "contested": false,
       "event_date": "2026-10-29",
       "checks": [
         "quote_match:src_doc_0001",
-        "independent_origins:1",
+        "quote_match:src_doc_0003",
+        "independent_origins:2",
         "primary:src_doc_0001",
-        "official:src_doc_0001"
+        "primary:src_doc_0003",
+        "official:src_doc_0001",
+        "official:src_doc_0003"
       ],
       "attributed_only": false,
       "claim_kind": "statement",
@@ -237,15 +255,18 @@
       "claim_id": "clm_0014",
       "text": "삼성전자 3분기 현금배당은 총 30조원(보통주·우선주 주당 4,601원)이다",
       "source_ids": [
-        "src_doc_0001"
+        "src_doc_0001",
+        "src_doc_0003"
       ],
       "status": "verified",
       "contested": false,
       "event_date": "2026-10-29",
       "checks": [
         "quote_match:src_doc_0001",
-        "independent_origins:1",
-        "official:src_doc_0001"
+        "quote_match:src_doc_0003",
+        "independent_origins:2",
+        "official:src_doc_0001",
+        "official:src_doc_0003"
       ],
       "attributed_only": false,
       "claim_kind": "fact",
@@ -348,14 +369,17 @@
       "claim_id": "clm_0020",
       "text": "삼성전자 DX부문은 3분기 부품 원가 상승 등으로 수익성 확보에 어려움을 겪었다",
       "source_ids": [
-        "src_art_0001"
+        "src_art_0001",
+        "src_doc_0003"
       ],
-      "status": "unverified",
+      "status": "verified",
       "contested": false,
       "event_date": "2026-10-29",
       "checks": [
         "quote_match:src_art_0001",
-        "independent_origins:1"
+        "quote_match:src_doc_0003",
+        "independent_origins:2",
+        "official:src_doc_0003"
       ],
       "attributed_only": false,
       "claim_kind": "fact",
