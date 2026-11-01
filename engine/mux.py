@@ -94,6 +94,14 @@ def build_description(plan: Plan, d: Description, music: list[str] | None = None
     return "\n".join(parts)
 
 
+def description_needed(proj: Path) -> dict:
+    """설명문을 쓸 프로젝트인가 — description.yaml 이 있거나 오케스트레이터 프로젝트(project_manifest.json)면 쓴다(없으면 load 가 오류).
+    둘 다 없는 스케치·렌더 전용 프로젝트(econ_t2_* 등, 배포 경로 없음)는 건너뛰고 그 사실을 provenance description 에 남긴다(P6 — 조용한 드롭 아님)."""
+    if (proj / "description.yaml").exists() or (proj / "project_manifest.json").exists():
+        return {"written": True}
+    return {"written": False, "reason": "description.yaml·project_manifest.json 없음(스케치·렌더 전용 프로젝트) — 설명문을 만들지 않았다"}
+
+
 def load_description(proj: Path) -> Description:
     return Description.model_validate(yaml.safe_load((proj / "description.yaml").read_text(encoding="utf-8")))
 
@@ -357,17 +365,21 @@ def main(argv: list[str] | None = None) -> int:
                                                                   P.R.cache.get("series_records"), P.R.cache.get("press_by_scene"))) + "\n",
                                           encoding="utf-8")
         req = P.R.cache.get("credit_refs") or set()
-        desc = build_description(P.plan, load_description(proj), sorted(r for r in req if r.startswith("music.")))
-        dcred = description_credits(P.R.assets.rights, req)   # D-0030 — 카드에 안 넣는 종류(폰트)는 설명문에
-        if dcred:
-            desc += "\n\n" + DESCRIPTION_CREDITS_HEADING + "\n" + "\n".join(dcred)
-        dsrc = description_sources(P.R.cache.get("cited_sources"))   # v3.2.0 18 §6 — 원문 링크 전부(없으면 사유)
-        if dsrc:
-            desc += "\n\n" + DESCRIPTION_SOURCES_HEADING + "\n" + "\n".join(dsrc)
-        dpress = description_press_photos(req, P.R.assets.media)   # v5.21.0 D-0177 §3 — 보도 인용(B) 사진 출처 줄
-        if dpress:
-            desc += "\n\n" + DESCRIPTION_PRESS_HEADING + "\n" + "\n".join(dpress)
-        (outd / "description.txt").write_text(desc, encoding="utf-8")
+        desc_rec = description_needed(proj)   # 스케치·렌더 전용 프로젝트(설명문·매니페스트 없음)는 설명문을 건너뛰고 기록한다
+        if desc_rec["written"]:
+            desc = build_description(P.plan, load_description(proj), sorted(r for r in req if r.startswith("music.")))
+            dcred = description_credits(P.R.assets.rights, req)   # D-0030 — 카드에 안 넣는 종류(폰트)는 설명문에
+            if dcred:
+                desc += "\n\n" + DESCRIPTION_CREDITS_HEADING + "\n" + "\n".join(dcred)
+            dsrc = description_sources(P.R.cache.get("cited_sources"))   # v3.2.0 18 §6 — 원문 링크 전부(없으면 사유)
+            if dsrc:
+                desc += "\n\n" + DESCRIPTION_SOURCES_HEADING + "\n" + "\n".join(dsrc)
+            dpress = description_press_photos(req, P.R.assets.media)   # v5.21.0 D-0177 §3 — 보도 인용(B) 사진 출처 줄
+            if dpress:
+                desc += "\n\n" + DESCRIPTION_PRESS_HEADING + "\n" + "\n".join(dpress)
+            (outd / "description.txt").write_text(desc, encoding="utf-8")
+        elif (outd / "description.txt").exists():
+            (outd / "description.txt").unlink()   # 지난 실행의 설명문이 이번 영상 것처럼 남지 않게
         prov = project_provenance(P, {"plan": True, "geo": True, "preview": (proj / "prev" / "provenance.json").exists(),
                                       "render": True, "mix": True, "mux": True, "ai_direction": False, "visual_qa": False})
         from engine.checks import check_audio  # noqa: PLC0415 — v3.4.0 오디오 QA(검사기 하나)
@@ -387,6 +399,9 @@ def main(argv: list[str] | None = None) -> int:
             if pc["from_current_direction"] is not True:
                 warns = [*warns, f"[preview-stale] 프리뷰 검사 연출 지문이 현재 연출과 다르거나 없음 ({pc['direction_sha1']}) — "
                                  "전편 provenance checks 는 그 프리뷰 기준"]
+        prov["description"] = desc_rec
+        if not desc_rec["written"]:
+            warns = [*warns, f"[description-skipped] {desc_rec['reason']}"]
         (outd / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
         if issues:
             raise ProjectError("오디오 QA hard 실패:\n" + "\n".join(issues))
@@ -396,7 +411,8 @@ def main(argv: list[str] | None = None) -> int:
             print(rx, file=sys.stderr)
         res = StageResult(ok=True, stage="mux", provenance=prov, warnings=warns,
                           artifacts={"final": str(final), "srt": str(outd / "final.srt"),
-                                     "description": str(outd / "description.txt"), "credits": str(outd / "credits.txt"), "provenance": str(outd / "provenance.json")})
+                                     **({"description": str(outd / "description.txt")} if desc_rec["written"] else {}),
+                                     "credits": str(outd / "credits.txt"), "provenance": str(outd / "provenance.json")})
     except (ProjectError, RightsError, AnimaticDeliverError, KeyError, ValueError, OSError, subprocess.CalledProcessError) as ex:
         res = StageResult(ok=False, stage="mux", errors=[str(ex)])
     print(json.dumps(res.model_dump(), ensure_ascii=False))

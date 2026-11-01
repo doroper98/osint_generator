@@ -42,6 +42,7 @@ from typing import TYPE_CHECKING, Any, Literal, Optional, Union
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
+from audio.registry import NoMusicDecision
 from engine.camera import CamKey, cam
 from engine.shots import ShotStage
 from engine.timebase import Timebase
@@ -167,7 +168,7 @@ class Sound(_Strict):
     intensity: list[tuple[Union[float, dict[str, Any]], float]]
     cues: list[SoundCue] = Field(default_factory=list)
     # v5.22.2 UF-16·30·93(D-0205 §3) — 음악 없음(bgm null)은 결정 번호가 있어야 한다(검사 bgm_decision hard). 배경음악 누락이 세 번 되풀이됐다
-    no_music_decision: Optional[str] = Field(default=None, pattern=r"^D-?\d{2,4}")
+    no_music_decision: NoMusicDecision = None   # 정의는 audio.registry 한 곳(audio.mix.Sound 와 공유)
 
     @field_validator("bgm")
     @classmethod
