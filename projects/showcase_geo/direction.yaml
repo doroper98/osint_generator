@@ -1069,9 +1069,9 @@ events:
   start:   # v7.4.0 D-0346 — 지뢰 경고 표지판 사진을 act4_1 +2.5 까지 늘려(UF-171) 라벨이 사진 밑에 1.5초 깔렸다([label-under-media]). 사진이 빠지는 때로(옛 +0.3)
     sid: act4_1
     'off': 2.2
-  end:
+  end:   # 단면 카드(site_diagram, act4_2 −0.3)가 뜨기 전에 끝낸다 — 늦춘 시작으로 카드 뒤 비율 62%([label-hidden-by-card]). 같은 라벨은 act4_3 마커가 다시 띄운다(옛 act4_2 끝)
     sid: act4_2
-    edge: end
+    'off': -0.3
   at_place: dmz_dmz_site
   label: 서부전선 비무장지대
   side: right
