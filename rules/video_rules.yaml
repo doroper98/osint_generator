@@ -536,7 +536,7 @@ media:                     # v2.5.5 D-0037(D38) — 14 §10.1 밀도 경고. v3 
 media_beats:               # 14 §10
   kinds: [photo, clip, cutout, article, post]   # 레지스트리 kind period_art·document(v7.4.0 전쟁사 W2)는 photo 비트로 보인다(engine.layers.media EVENT_KINDS)
   photo_show_sec: [4, 8]
-  clip_show_sec: {main: [5, 20], broll: [3, 6]}   # v7.4.0 D-0274 §2②·D-0276 — 역할별(clip.role). main = 주 요소(액자 clip_frame, 원음), broll = 현장 보조(구석 슬롯, 내레이션 아래)
+  clip_show_sec: {main: [5, 20], broll: [3, 9]}   # v7.4.0 D-0462(UF-171) — broll 상한 6 → 9: 완전 노출 qa_checks.element_hold 6초 + 등장·퇴장(transition.element.clip)   # v7.4.0 D-0274 §2②·D-0276 — 역할별(clip.role). main = 주 요소(액자 clip_frame, 원음), broll = 현장 보조(구석 슬롯, 내레이션 아래)
   file_photo_label_required: true         # "자료사진 · 연월"
   caption_credit_required: true
   ai_generated_forbidden: true            # G4-10, 14 §2.2
@@ -2218,6 +2218,13 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # v5.21.10 사용자 의견(2026-10-11 "기사 화면이 나왔는데 0.5초도 안 돼서 사라진다", D-0191 §1-2) — 기사(프레스 단독·페이드 뺀 글자 구간)·인용(페이드 뺀 구간)
   # 완전 노출 하한. 문장이 짧으면 연출이 다음 문장까지 늘리거나 앞당긴다. 검사 card_exposure hard
   card_full_exposure_min_sec: 2.5
+  # v7.4.0 back_and_forth D-0462(사용자 의견 UF-171 "뱃지나 사진이나 기사 조판이나 너무 빨리 사라져… 최소한 처음에 나오는 아라그치 뱃지 정도의 유지시간",
+  # UF-172 "사진 템플릿이 … 제목에 묻혀 사라졌어") — 요소 종류별 완전 노출(페이드 뺀 구간) 하한. 기준 = cold_1 아라그치 인용(초상) 완전 노출 4.21초 이상,
+  # 값 = 감독 제안 6초(D-0462 §2-1). 미만 = [element-hold] hard. 짧게 보이느니 빼고 media_notes 에 사유
+  element_hold: {min_full_sec: 6.0, types: [badge, photo, clip, cutout, article, quote]}
+  # UF-172 — 앞 요소(cover_types)가 완전 노출 min_full_sec 를 채우기 전에 뒤 요소가 덮으면 [media-overlap] hard.
+  # 전면(full_types — 기사·인용은 화면 전체를 어둡게 덮는다)은 무조건 덮고, 상자(box_types)는 상자가 겹칠 때만 덮는다(상자 높이 = 폭 × box_aspect)
+  media_overlap: {cover_types: [photo, clip, cutout, quote, article], full_types: [article, quote, backdrop], box_types: [photo, clip, cutout], box_aspect: 0.75}
   # v7.4.0 back_and_forth D-0306 §1.2(UF-148) — 화면 글자가 자막을 되풀이하면 [text-restates-narration] hard. 어절 겹침 비율 상한·대상 최소 어절(짧은 이름표 제외). 감독 제안 값
   restate_overlap_max: 0.6
   restate_min_words: 4
@@ -2234,7 +2241,7 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   regression_refs:
     hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
     fed_timeline_demo: "시간축 엔진 검증용 데모(배포 영상 아님) — 미디어 없는 순수 차트 픽스처"
-  regression_ref_checks: [media_density, chart_only_run, plot_height, axis_empty_band, text_restates_narration, photo_subject_unmatched, photo_subject_background, chart_overload]   # text_restates_narration = v7.4.0 D-0316 ② 조사 떼기 뒤 골든 핀 '9월 8일 파병 반대 집회' 60%(골든 연출 불변)   # chart_overload = v7.4.0 D-0344 — fed 데모 두 층 0.30초 동시(데모 연출 불변, 기록만)
+  regression_ref_checks: [media_density, chart_only_run, plot_height, axis_empty_band, text_restates_narration, photo_subject_unmatched, photo_subject_background, chart_overload, element_hold, media_overlap]   # element_hold·media_overlap = v7.4.0 D-0462(UF-171·172) 골든 연출 불변(회귀 기준). text_restates_narration = v7.4.0 D-0316 ② 조사 떼기 뒤 골든 핀 '9월 8일 파병 반대 집회' 60%(골든 연출 불변)   # chart_overload = v7.4.0 D-0344 — fed 데모 두 층 0.30초 동시(데모 연출 불변, 기록만)
   # v7.4.0 D-0229 §2.6(UF-113 "몇 척중 몇척은 제재 대상임을 그래픽으로") — 문장에 "N 척 중·가운데 M" 문형이 있는데 그 문장 구간에 dots·versus 패널·series 가 없으면 warning ratio_graphic
   ratio_patterns:
     - '(\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|스무|스물)\s*(척|곳|건|명|개|대|기)\s*(중|가운데)'
