@@ -807,6 +807,10 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
         front[i1:] = best
         R.cache["series_front"][e["key"]] = front
     pins_on_series(events, st, R.cache["series_range"], R.cache["series_range2"])
+    from engine.layers.series import axis_unit  # noqa: PLC0415
+
+    st.axes = {e["lane"]: (R.cache["series_range"][e["lane"]], axis_unit(e)) for e in reversed(ser)   # v7.4.0 D-0339(UF-155) — 레인의 첫 주 축 계열
+               if not e.get("detail") and not e.get("secondary") and e["lane"] in R.cache["series_range"]}
 
 
 def series_value_at(evs: list[dict], d: date) -> float:

@@ -2601,38 +2601,27 @@ def _series_view(P, world, t: float) -> "View | None":  # noqa: ANN001, N803
 
 def chart_text_boxes(stage, v: View, events: list[dict], t: float, rng: dict, dx: float = 0.0,  # noqa: ANN001
                      dy: float = 0.0) -> list[tuple[str, tuple]]:
-    """시간축 세계의 글자 상자(화면 설계 px) — 레인 이름·레인 출처 줄·축 값(그리는 함수와 같은 자리). dx·dy = 아일랜드 상자 원점."""
+    """시간축 세계의 글자 상자(화면 설계 px) — 레인 이름·레인 출처 줄·축 값(그리는 함수와 같은 자리). dx·dy = 아일랜드 상자 원점.
+    레인 이름·축 값 = engine.layers.series.world_text_boxes(격자선 그리기와 같은 함수 — v7.4.0 D-0339 무대 표면 글자 크기·막대 축 숫자만)."""
     import cairo  # noqa: PLC0415
 
-    from engine.layers.series import axis_label_values, fmt_value, lane_name, source_line_boxes, value_y  # noqa: PLC0415
+    from engine.layers.series import axis_unit, source_line_boxes, world_text_boxes  # noqa: PLC0415
     from engine.typography import tw  # noqa: PLC0415
 
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
-    L, S = TIMELINE.lane_label, TIMELINE.series  # noqa: N806
-    out: list[tuple[str, tuple]] = []
-    for i, ln in enumerate(stage.lanes):
-        top, _ = stage.lane_screen(v, i)
-        x0 = v.ox + L.x
-        out.append((f"레인 이름 {ln.id}", (x0 + dx, top + L.dy - L.size + dy, x0 + tw(ctx, lane_name(ln), L.size, L.font) + dx, top + L.dy + dy)))
+    S = TIMELINE.series  # noqa: N806
+    sh = lambda b: (b[0] + dx, b[1] + dy, b[2] + dx, b[3] + dy)  # noqa: E731
+    out: list[tuple[str, tuple]] = [(n, sh(b)) for n, b in world_text_boxes(stage, v, {})]
+    axes: dict = {}
     for e in events:
         if e.get("type") != "series" or not e["t0"] <= t <= e["t1"] or e.get("slot", 0):
             continue
         for k, (s, sx, by) in enumerate(source_line_boxes(ctx, v, stage, e)):   # v7.4.0 D-0265 — 접힌 줄마다(그리기와 같은 자리)
             out.append((f"출처 줄 {e['lane']}" + (f" {k + 1}" if k else ""), (sx + dx, by - S.source_size + dy, sx + tw(ctx, s, S.source_size, S.source_font) + dx, by + dy)))
-        r = rng.get(e["lane"])
-        if r is None:
-            continue
-        from data.series import load_series  # noqa: PLC0415
-
-        unit = load_series(e["series_id"]).unit
-        for val in axis_label_values(v, stage, e["lane"], r):   # v7.4.0 D-0263·D-0268 — 라벨을 단 축 값만(그리기와 같은 값)
-            _, sy = v.to_screen(0.0, value_y(stage, e["lane"], r, val))
-            s = fmt_value(val, unit)
-            x1 = v.right - S.axis_label_margin_px
-            out.append((f"축 값 {e['lane']} {s}", (x1 - tw(ctx, s, S.axis_label_size, S.axis_label_font) + dx,
-                                                  sy + S.axis_label_dy - S.axis_label_size + dy, x1 + dx, sy + S.axis_label_dy + dy)))
+        if e["lane"] in rng and not e.get("detail") and not e.get("secondary"):
+            axes.setdefault(e["lane"], (rng[e["lane"]], axis_unit(e)))
+    out += [(n, sh(b)) for n, b in world_text_boxes(stage, v, axes) if n.startswith("축 값")]
     return out
-
 
 FLAT_LANE_STEP_SEC = 0.5   # 카메라가 보여 준 날짜 구간 표본 간격
 
@@ -3495,34 +3484,28 @@ def _chart_sample_times(events: list[dict]) -> list[float]:
     return sorted(ts)
 
 
-def grid_text_crossings(stage, v: View, events: list[dict], t: float, rng: dict, boxes: list[tuple[str, tuple]]) -> list[str]:  # noqa: ANN001
-    """세로 격자선(그리는 함수와 같은 자리 — 레인마다 위 끝 ~ 출처 줄 띠 위) ↔ 글자 상자 교차."""
-    from engine.stage_timeline import grid_source_band  # noqa: PLC0415
-
+def grid_text_crossings(segs: list[tuple[float, float, float]], t: float, boxes: list[tuple[str, tuple]]) -> list[str]:
+    """그린 세로 격자선 조각 (x, 위, 아래) ↔ 글자 상자 교차(± grid_text_pad_px)."""
     pad = QA.chart_depth.grid_text_pad_px
     out = []
-    band = grid_source_band()
-    for d, _kind in stage.ticks(v):
-        x = v.to_screen(stage.x_of(d), 0.0)[0]
-        if not v.ox <= x <= v.right:
-            continue
-        for i in range(stage.n):
-            top, bot = stage.lane_screen(v, i)
-            for name, b in boxes:
-                if b[0] - pad < x < b[2] + pad and b[1] < bot - band and b[3] > top:
-                    out.append(f"[grid-text-cross] t={t:.2f} 격자선 x={x:.1f}({d}) ↔ {name} {tuple(round(q, 1) for q in b)} — 선은 글자 앞에서 끊는다(UF-155)")
+    for x, ya, yb in segs:
+        for name, b in boxes:
+            if b[0] - pad < x < b[2] + pad and b[1] - pad < yb and b[3] + pad > ya:
+                out.append(f"[grid-text-cross] t={t:.2f} 격자선 x={x:.1f} ↔ {name} {tuple(round(q, 1) for q in b)} — 선은 글자 앞에서 끊는다(UF-155)")
     return out
 
 
 def check_grid_text_cross(P) -> list[str]:  # noqa: ANN001, N803
-    """[grid-text-cross] hard(UF-155 "선과 글씨가 겹치는 부분은 적용하지 말고", D-0321 §4) — 표본 시각마다 세로 격자선이 시간축 세계의
-    글자 상자(레인 이름·축 값·출처 줄 — chart_text_boxes, 끝값 라벨 — 실제로 그린 place_end_label 기록)를 지나가면 실패."""
+    """[grid-text-cross] hard(UF-155 "선과 글씨가 겹치는 부분은 적용하지 말고", D-0321 §4) — 표본 시각마다 프레임을 그려, 실제로 그린 세로 격자선
+    조각(engine.stage_timeline.DRAWN_GRID)이 시간축 세계의 글자 상자(레인 이름·축 값·출처 줄 — chart_text_boxes, 끝값 라벨 — place_end_label 기록)를
+    지나가면 실패. 렌더러의 끊기(grid_segments)를 빼거나 새 글자를 끊기 밖에 두면 잡힌다."""
     world = chart_world(P)
     if world is None:
         return []
     stage, _cams, events = world
     rng = P.R.cache.get("series_range") or {}
     from engine.render import render_frame  # noqa: PLC0415
+    from engine.stage_timeline import DRAWN_GRID  # noqa: PLC0415
 
     out: list[str] = []
     for t in _chart_sample_times(events):
@@ -3530,12 +3513,11 @@ def check_grid_text_cross(P) -> list[str]:  # noqa: ANN001, N803
         if v is None:
             continue
         P.R.cache.pop("series_end_labels", None)
+        DRAWN_GRID.clear()
         render_frame(P, min(P.n_frames - 1, max(0, int(t * FPS))))
         ends = [(f"끝값 라벨({ln})", p[2]) for ln, placed in ((P.R.cache.get("series_end_labels") or {}).get("lanes") or {}).items() for p in placed]
-        boxes = chart_text_boxes(stage, v, _visible(events, t), t, rng) + ends
-        out += grid_text_crossings(stage, v, events, t, rng, boxes)
+        out += grid_text_crossings(list(DRAWN_GRID), t, chart_text_boxes(stage, v, _visible(events, t), t, rng) + ends)
     return list(dict.fromkeys(out))
-
 
 def bar_border_hits(img: "np.ndarray", rects: list[tuple[float, float, float, float]], t: float) -> list[str]:
     """막대 상자(장치 px)마다 가운데 색 ↔ 좌우 가장자리 안쪽 inset px 색 — 차이 > bar_edge_tol 이면 테두리(UF-202)."""

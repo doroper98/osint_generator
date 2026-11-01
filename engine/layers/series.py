@@ -1530,6 +1530,36 @@ def _draw_axis(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
                  C["muted"], a, S.axis_label_halo, "r")
 
 
+def axis_unit(e: dict) -> str:
+    """축 값 라벨에 붙이는 단위(_draw_axis 와 같은 값) — 막대·쌓임·가이던스는 숫자만(단위는 레인 이름, D-0308 ③)."""
+    return "" if e["style"] in ("bars", "stack", "range") else load_series(e["series_id"]).unit
+
+
+def world_text_boxes(stage: "TimelineStage", v: "View", axes: dict) -> list[tuple[str, tuple[float, float, float, float]]]:
+    """시간축 세계의 고정 글자 상자(화면 설계 px) — 레인 이름(그리는 자리·글자 크기 그대로, 무대 표면 포함) · 축 값(axes = 레인 → (범위, 단위)).
+    격자선 그리기(stage_timeline.grid_segments)와 검사(checks.chart_text_boxes)가 같이 쓴다(v7.4.0 D-0339, UF-155)."""
+    from engine.style import ISLAND, stage_surface  # noqa: PLC0415
+
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    L, S = TIMELINE.lane_label, TIMELINE.series  # noqa: N806
+    flat = stage.island and stage_surface()
+    size, font = (ISLAND.stage_surface.lane_label_size, ISLAND.stage_surface.lane_label_font) if flat else (L.size, L.font)
+    out: list[tuple[str, tuple[float, float, float, float]]] = []
+    for i, ln in enumerate(stage.lanes):
+        top, _ = stage.lane_screen(v, i)
+        base = top + (size + 2 if flat else L.dy)   # stage_timeline.draw_labels 와 같은 기준선
+        x0 = v.ox + L.x
+        out.append((f"레인 이름 {ln.id}", (x0, base - size, x0 + tw(ctx, lane_name(ln), size, font), base)))
+    for lane, (rng, unit) in axes.items():
+        for val in axis_label_values(v, stage, lane, rng):
+            _, sy = v.to_screen(0.0, value_y(stage, lane, rng, val))
+            s_ = fmt_value(val, unit)
+            x1 = v.right - S.axis_label_margin_px
+            out.append((f"축 값 {lane} {s_}", (x1 - tw(ctx, s_, S.axis_label_size, S.axis_label_font), sy + S.axis_label_dy - S.axis_label_size,
+                                              x1, sy + S.axis_label_dy)))
+    return out
+
+
 def plot_right(ctx: cairo.Context, view: "View", stage: "TimelineStage", lane: str, rng: tuple[float, float], unit: str) -> float:
     """자료를 그리는 영역의 오른쪽 끝(화면 x) — 그 오른쪽은 축 값 라벨 예약 열(v7.4.0 감독 지시: 선이 "3.5%" 를 가로질렀다).
     열 폭 = 가장 긴 눈금 라벨 + 양옆 axis_label_margin_px. 시간 축척(x_of)은 그대로 — 열 안의 선·띠·점만 잘린다(UF-138 w 고정)."""

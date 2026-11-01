@@ -137,24 +137,20 @@ class BarBorderPixelTest(unittest.TestCase):
 
 
 class GridTextCrossTest(unittest.TestCase):
-    """UF-155 "선과 글씨가 겹치는 부분은 적용하지 말고" — 세로 격자선(레인 위 끝 ~ 출처 띠 위) ↔ 글자 상자."""
-
-    def _world(self):  # noqa: ANN202
-        from types import SimpleNamespace as NS  # noqa: PLC0415
-
-        stage = NS(n=1, ticks=lambda v: [("2026-01-01", "year")], x_of=lambda d: 100.0, lane_screen=lambda v, i: (50.0, 250.0))
-        view = NS(ox=0.0, right=854.0, to_screen=lambda x, y: (x, y))
-        return stage, view
+    """UF-155 "선과 글씨가 겹치는 부분은 적용하지 말고" — 그린 세로 격자선 조각 ↔ 글자 상자, 렌더러는 글자 앞에서 끊는다."""
 
     def test_crossing_detected(self) -> None:
-        stage, v = self._world()
-        out = checks.grid_text_crossings(stage, v, [], 1.0, {}, [("레인 이름", (90.0, 55.0, 160.0, 70.0))])
+        out = checks.grid_text_crossings([(100.0, 50.0, 250.0)], 1.0, [("레인 이름", (90.0, 55.0, 160.0, 70.0))])
         self.assertTrue(out and "[grid-text-cross]" in out[0])
 
-    def test_clear_text_passes(self) -> None:
-        stage, v = self._world()
-        self.assertEqual(checks.grid_text_crossings(stage, v, [], 1.0, {}, [("레인 이름", (110.0, 55.0, 160.0, 70.0))]), [])
+    def test_renderer_cuts_at_text(self) -> None:
+        from engine.stage_timeline import grid_segments  # noqa: PLC0415
 
+        box = ("레인 이름", (90.0, 55.0, 160.0, 70.0))
+        segs = [(100.0, a, b) for a, b in grid_segments(100.0, 50.0, 250.0, [box[1]])]
+        self.assertEqual(len(segs), 2)
+        self.assertEqual(checks.grid_text_crossings(segs, 1.0, [box]), [])
+        self.assertEqual(grid_segments(10.0, 50.0, 250.0, [box[1]]), [(50.0, 250.0)])   # 글자 밖 x 는 그대로
 
 class RegisteredHardTest(unittest.TestCase):
     def test_new_checks_hard(self) -> None:

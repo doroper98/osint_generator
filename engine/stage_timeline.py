@@ -32,6 +32,24 @@ DateLike = Union[str, date]
 MONTHS = 12
 
 
+# v7.4.0 D-0339(UF-155) — 이 프레임에 그린 세로 격자선 조각 (x, 위 y, 아래 y)(무대 좌표 = 글자 상자와 같은 좌표). checks.check_grid_text_cross 가 비우고 그린 뒤 잰다
+DRAWN_GRID: list[tuple[float, float, float]] = []
+
+
+def grid_segments(x: float, y0: float, y1: float, boxes: list[tuple[float, float, float, float]]) -> list[tuple[float, float]]:
+    """세로 격자선 [y0, y1] 에서 x 를 가로로 품은 글자 상자(± rules qa_checks.chart_depth.grid_text_pad_px)의 세로 구간을 뺀 조각들."""
+    from rules import load_rules  # noqa: PLC0415
+
+    pad = load_rules().qa_checks.chart_depth.grid_text_pad_px
+    cuts = sorted((b[1] - pad, b[3] + pad) for b in boxes if b[0] - pad < x < b[2] + pad and b[1] < y1 and b[3] > y0)
+    out, y = [], y0
+    for a, b in cuts:
+        if a > y:
+            out.append((y, min(a, y1)))
+        y = max(y, b)
+    if y < y1:
+        out.append((y, y1))
+    return out
 def grid_source_band() -> float:
     """레인 아래 끝에서 세로 격자선을 끊는 높이(px) — 출처 줄 띠: source_dy + (접힌 줄 수 상한 − 1) × source_step + 글자 높이 + 2.
     rules stage_timeline.grid.stop_at_source through 면 0(옛 동작)."""
@@ -126,6 +144,7 @@ class TimelineStage:
         self.y_px_per_unit: float = TIMELINE.lane_h
         self.area_top: float = TIMELINE.area_top         # 레인 영역(뷰포트 설계 px) — 아일랜드면 fit_island 가 상자 안으로 다시 잡는다
         self.area_bottom: float = TIMELINE.area_bottom
+        self.axes: dict = {}                             # v7.4.0 D-0339(UF-155) — 레인 → (값 범위, 축 값 단위). load_project 가 채운다 — 격자선이 축 값 글자를 피한다
         self.island = False                              # v5.1.0 D-0126 Q1 A — 차트 아일랜드 뷰포트(바탕은 아일랜드 상자가 칠한다)
         self.frame: "Optional[tuple[float, float, float, float]]" = None   # v7.4.0 D-0257(UF-137) — 주 무대 틀(화면 안쪽 안전 영역)
         self._bounds = (0.0, 0.0, self.x_of(self.cfg.end), float(self.n))
@@ -303,12 +322,17 @@ class TimelineStage:
             ctx.set_source_rgba(*C["white"], T.lane_line_alpha)
             ctx.set_line_width(T.lane_line_w)
             ctx.stroke()
+        from engine.layers.series import world_text_boxes  # noqa: PLC0415
+
+        keep = [b for _, b in world_text_boxes(self, view, self.axes)]
         for d, kind in self.ticks(view):
             x, _ = view.to_screen(self.x_of(d), 0.0)
             for i in range(self.n):   # 레인마다 — 출처 줄 띠 위에서 끊는다(v7.4.0 D-0321 §4, rules stage_timeline.grid.stop_at_source)
                 ltop, lbot = self.lane_screen(view, i)
-                ctx.move_to(x, ltop)
-                ctx.line_to(x, lbot - grid_source_band())
+                for ya, yb in grid_segments(x, ltop, lbot - grid_source_band(), keep):   # v7.4.0 D-0339(UF-155) — 글자 상자 앞에서 끊는다
+                    ctx.move_to(x, ya)
+                    ctx.line_to(x, yb)
+                    DRAWN_GRID.append((x, ya, yb))
             from engine.style import PALETTE  # noqa: PLC0415
 
             gmax = PALETTE.get("grid_alpha", 1.0)   # v7.4.0 D-0322 정정 — 팔레트 격자 알파 상한(르포 ≤ 0.06)
