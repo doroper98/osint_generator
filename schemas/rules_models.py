@@ -3391,7 +3391,7 @@ class WarFactionBadge(_Strict):
 class WarPeriodArtLabels(_Strict):
     contemporary: str = Field(min_length=1)
     later: str = Field(min_length=1)
-    probable_prefix: str = Field(min_length=1)
+    probable_template: str = Field(min_length=1)
     sep: str = Field(min_length=1)
 
 

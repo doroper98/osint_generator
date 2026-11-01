@@ -59,7 +59,7 @@ def date_at(spec: WarSpec, t: float) -> str:
 
 def card_texts(a: MediaAsset, event_date: str) -> tuple[str, str]:
     """(캡션, 출처 줄) — 작품이면 출처 줄 앞에 당대/후대 라벨(engine.media_registry.media_credit 와 같은 함수 계열)."""
-    cap = probable_caption(a.caption, a.identification)
+    cap = probable_caption(a.caption, a.identification, a.identified_as)
     base = a.credit_line(CREDIT_FMT[a.kind])
     if a.kind != "period_art":
         return cap, base

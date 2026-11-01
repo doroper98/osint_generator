@@ -107,7 +107,8 @@ class MediaAsset(_Strict):
     # v7.4.0 전쟁사 W2(back_and_forth D-0600 §2·§4, D-0337 UF-206) — 작품·기록·사진 레코드(전부 optional, 기존 레코드 무수정 통과).
     # created = 제작·촬영 연대(EraDate, 문자열 '-216'·'c.-220'·'1950.09.15' 도 받는다) → 당대/후대 라벨(schemas.war_history.period_art_label)
     created: Optional[EraDate] = None
-    identification: Optional[Identification] = None   # 인물 동정 확신도 — probable·disputed 면 캡션에 "…로 추정되는"(코드)
+    identification: Optional[Identification] = None   # 인물 동정 확신도 — probable·disputed 면 캡션을 "<identified_as>로 추정되는 <caption>"(코드)
+    identified_as: Optional[str] = Field(default=None, min_length=1)   # 작품이 그렸다고 전하는 인물(동정 대상)
     art_history: Optional[str] = Field(default=None, min_length=1)          # 작가·연대·소장처·왜 그렇게 그렸는지 한 문장
     art_history_source: Optional[str] = Field(default=None, min_length=1)   # 그 문장의 출처(소장처 해설·도록·논문)
     archive_id: Optional[str] = Field(default=None, min_length=1)           # 기록 보관소 식별 번호(예: NARA 111-SC-…)
@@ -124,6 +125,8 @@ class MediaAsset(_Strict):
 
     def _war_history_errors(self) -> list[str]:
         """작품·기록 레코드의 필수 칸과 권리(rules war_history.rights.allowed_licenses)."""
+        if self.identification in ("probable", "disputed") and not self.identified_as:
+            return [f"identification {self.identification} 이면 identified_as(전하는 인물)가 필요하다 — 캡션 추정 표기"]
         if self.kind not in ("period_art", "document"):
             return []
         from rules import load_rules  # noqa: PLC0415

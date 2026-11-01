@@ -67,8 +67,13 @@ class LabelTest(unittest.TestCase):
         self.assertEqual(period_art_label(parse_era_date("-100~400"), ev), "후대의 묘사(기원전 100년~서기 400년)")
 
     def test_probable_caption(self) -> None:
-        self.assertEqual(probable_caption("한니발 흉상", "probable"), "…로 추정되는 한니발 흉상")
+        self.assertEqual(probable_caption("대리석 흉상", "probable", "한니발"), "한니발로 추정되는 대리석 흉상")
+        self.assertEqual(probable_caption("초상", "disputed", "스키피오"), "스키피오로 추정되는 초상")
+        self.assertEqual(probable_caption("흉상", "probable", "카이사르 아우구스투스"), "카이사르 아우구스투스로 추정되는 흉상")
+        self.assertEqual(probable_caption("흉상", "probable", "한신"), "한신으로 추정되는 흉상")
         self.assertEqual(probable_caption("한니발 흉상", "certain"), "한니발 흉상")
+        with self.assertRaises(ValidationError):
+            MediaAsset.model_validate(art(identification="probable"))
 
 
 class EraTest(unittest.TestCase):

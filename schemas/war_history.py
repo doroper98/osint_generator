@@ -98,10 +98,23 @@ def _created_str(d: EraDate) -> str:
     return one(d)
 
 
-def probable_caption(caption: str, identification: Optional[str]) -> str:
-    """동정이 불확실(probable·disputed)하면 캡션 앞에 '…로 추정되는' 을 코드가 붙인다."""
-    if identification in ("probable", "disputed"):
-        return _rules().period_art.labels.probable_prefix + caption
+HANGUL_BASE, JONG_N, RIEUL = 0xAC00, 28, 8
+
+
+def _ro(word: str) -> str:
+    """조사 로/으로 — 받침 없음·ㄹ 받침이면 '로', 그 밖 받침이면 '으로'."""
+    ch = word[-1] if word else ""
+    if not ("가" <= ch <= "힣"):
+        return "로"
+    jong = (ord(ch) - HANGUL_BASE) % JONG_N
+    return "로" if jong in (0, RIEUL) else "으로"
+
+
+def probable_caption(caption: str, identification: Optional[str], subject: Optional[str] = None) -> str:
+    """동정이 불확실(probable·disputed)하면 '<인물>로 추정되는 <캡션>'(rules war_history.period_art.labels.probable_template)."""
+    if identification in ("probable", "disputed") and subject:
+        return (_rules().period_art.labels.probable_template.replace("{subject}", subject).replace("{ro}", _ro(subject))
+                .replace("{caption}", caption))
     return caption
 
 

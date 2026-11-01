@@ -2517,7 +2517,7 @@ war_history:               # v7.4.0 전쟁사 트랙 W2(back_and_forth D-0600 §
     labels:                       # 캡션 바 라벨 줄 문구(코드 조판). {created} = 제작 연대 뱃지 문구(schemas.era_date.badge_text)
       contemporary: "당대 묘사"
       later: "후대의 묘사({created})"
-      probable_prefix: "…로 추정되는 "   # identification probable·disputed 면 캡션 앞에 붙인다(예: "한니발로 추정되는 흉상")
+      probable_template: "{subject}{ro} 추정되는 {caption}"   # identification probable·disputed 면 캡션을 이 꼴로(예: "한니발로 추정되는 대리석 흉상"). {ro} = 로/으로(받침)
       sep: " · "
   evidence:
     # 증거 층(UF-150 필수) — 시대별 필수 층. 한 층은 대안(|)의 하나 이상이 영상에 쓰여야 한다([evidence-layer-missing] hard)

@@ -54,7 +54,7 @@ def media_caption_text(asset: MediaAsset) -> str:
     """화면 캡션 — 작품 동정이 불확실하면 '…로 추정되는' 을 앞에(schemas.war_history.probable_caption)."""
     from schemas.war_history import probable_caption  # noqa: PLC0415
 
-    return probable_caption(asset.caption, getattr(asset, "identification", None))
+    return probable_caption(asset.caption, getattr(asset, "identification", None), getattr(asset, "identified_as", None))
 
 
 def era_label(asset: MediaAsset, e: dict | None) -> str | None:
