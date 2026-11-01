@@ -3855,7 +3855,16 @@ class WarEvidence(_Strict):
 
 class WarCasualty(_Strict):
     band_required: bool
+    band_labels: dict[Literal["ancient_range", "modern_estimate"], str]
     trigger_words: list[str] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def _labels(self) -> "WarCasualty":
+        if set(self.band_labels) != {"ancient_range", "modern_estimate"}:
+            raise ValueError("war_history.casualty.band_labels 는 ancient_range·modern_estimate 둘 다")
+        if "현대" in self.band_labels["ancient_range"]:
+            raise ValueError("ancient_range 라벨에 '현대' 를 쓰지 않는다(D-0610 ①)")
+        return self
 
 
 class WarRights(_Strict):

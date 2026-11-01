@@ -148,3 +148,29 @@ class EmblemReconstructionTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class BandKindTest(unittest.TestCase):
+    """D-0610 ① — 띠 종류(kind) 필수, ancient_range 라벨에 '현대' 없음, 한 값은 범위 꼴이 아니다."""
+
+    def test_kind_required_and_labels(self) -> None:
+        from schemas.data_models import EstimateBand
+        from schemas.war_history import band_label
+
+        with self.assertRaises(ValidationError):
+            EstimateBand(low=1, high=2, source="s")
+        a = EstimateBand(kind="ancient_range", low=43500, high=70000, low_label="에우트로피우스", high_label="폴리비오스", source="s")
+        self.assertEqual(band_label(a), "사료마다 다르다 — 에우트로피우스 43,500~폴리비오스 70,000")
+        self.assertNotIn("현대", band_label(a))
+        one = EstimateBand(kind="ancient_range", low=86000, high=86000, low_label="폴리비오스", high_label="폴리비오스", source="s")
+        self.assertNotIn("~", band_label(one))
+        self.assertIn("현대 추정", band_label(EstimateBand(kind="modern_estimate", low=1, high=2, source="s")))
+
+    def test_cannae_forces_all_ancient_range(self) -> None:
+        import yaml
+
+        from schemas.data_models import ForceFiguresFile
+
+        f = ForceFiguresFile.model_validate(yaml.safe_load((REPO / "projects/cannae_216bc/forces.yaml").read_text(encoding="utf-8")))
+        self.assertIn("rome_strength", f.by_id())
+        self.assertTrue(all(x.band.kind == "ancient_range" for x in f.figures))

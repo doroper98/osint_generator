@@ -21,7 +21,7 @@ ORDER = {"topic": "칸나이 전투", "genre": "war_history", "instructions": ["
 FORCES = {"figures": [{"id": "roman_dead", "side": "로마군", "metric": "killed", "source_kind": "ancient_text",
                        "ancient": {"author": "Polybius", "work": "Histories", "book": "III", "chapter": "117", "translation": "Paton",
                                    "translation_url": "https://example.org/p", "translation_license": "Public domain"},
-                       "band": {"low": 45000, "high": 70000, "source": "Goldsworthy(2001)"}}]}
+                       "band": {"kind": "modern_estimate", "low": 45000, "high": 70000, "source": "Goldsworthy(2001)"}}]}
 
 
 def _project(root: Path, *, cite: bool, order: bool = True) -> None:

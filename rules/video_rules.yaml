@@ -2886,7 +2886,10 @@ war_history:               # v7.4.0 전쟁사 트랙 W2(back_and_forth D-0600 §
       modern: "당시 사진·필름·보도 영상·공문서 스캔·당시 지도 원본 + 기록(부대 일지·명령서·결의문)"
     toponymy_confidence: [통설, 이설, 미상]
   casualty:
-    band_required: true           # 병력·사상자 = 사료 귀속(ancient_text) + 현대 추정 범위 띠(학술 출처)
+    band_required: true           # 병력·사상자 = 사료 귀속(ancient_text) + 범위 띠. 현대 추정(modern_estimate)을 열람할 수 없으면 사료 간 범위(ancient_range) 허용 — provenance 에 kind 기록(D-0610 ①)
+    band_labels:                  # 띠 라벨 문구(코드가 kind 로 고른다). ancient_range 에 "현대 추정" 이라는 말을 쓰지 않는다
+      ancient_range: "사료마다 다르다 — {low_label} {low}~{high_label} {high}"
+      modern_estimate: "현대 추정 {low}~{high}"
     trigger_words: [병력, 전사, 사망, 사상자, 포로, 전사자, 군사]   # 이 낱말 + 숫자가 든 문장은 force 레코드를 sources 에 인용([casualty-unsourced] hard)
   media_tags: {period_art: ARTWORK, document: DOCUMENT}   # 사진 비트 왼쪽 위 태그(사진은 PHOTO 그대로)
   rights:
