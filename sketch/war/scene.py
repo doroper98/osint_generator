@@ -91,7 +91,7 @@ class WarScene:
         self.out: Output = output_profile(res)
         default = output_profile(None).name
         assets = Assets(project, load_labels(project / LABELS_FILE), None if self.out.name == default else self.out.name, theme=theme)
-        self.stage = MercatorStage(assets, out=self.out)
+        self.stage = MercatorStage(assets, out=self.out, proposed_theme=theme if theme in load_rules().geo.themes.proposed else None)
         cam = SK.camera
         self.camera = CameraPath(tuple(spec.shots), spec.duration_sec, cam.push_in[spec.kind], cam.hold_min_sec)
         self.units = WarUnitLayer(spec)

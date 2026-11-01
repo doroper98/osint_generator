@@ -15,6 +15,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import subprocess
 from pathlib import Path
 
@@ -30,6 +31,7 @@ from engine.style import C, DATE_BADGE, output_profile
 from engine.typography import text
 from geo.prep import CACHE, load_conf
 from geo.prep_tiers import TILE, TierSpec, mosaic
+from rules import load_rules
 from schemas.era_date import badge_text
 from sketch.common.draw import SK
 from sketch.common.geodesy import dest
@@ -78,7 +80,7 @@ def build(project: Path, spec: WarSpec, t: float, theme: str, out: Path) -> dict
     # 텍스처 — 같은 영역의 테마 바탕(현대 국경·지명 없음)
     prof = output_profile(T3.texture_res)
     assets = Assets(project, load_labels(project / LABELS_FILE), prof.name, theme=theme)
-    stage = MercatorStage(assets, out=prof)
+    stage = MercatorStage(assets, out=prof, proposed_theme=theme if theme in load_rules().geo.themes.proposed else None)
     view = View(stage, np.array([lon_c, ym(lat_c), W_]))
     stage.base_image(view, prof).convert("RGB").save(out / "texture.png")
     lat_n = math.degrees(math.atan(math.sinh(math.radians(view.y1))))
@@ -132,13 +134,16 @@ def build(project: Path, spec: WarSpec, t: float, theme: str, out: Path) -> dict
         if lon_w <= lon <= lon_e and lat_s <= lat <= lat_n:
             places.append({"name": p.name, "c": rel(lon, lat)})
     rivers = [{"pts": [rel(lo, la) for lo, la in r.pts]} for r in spec.rivers]
-    radius = T3.camera.radius_factor * max(size_m) / 2
+    # 궤도 중심·반경 = 전장(그 시각 부대 면 전체) — 반경 = 전장 폭 × radius_factor(D-0604 §1-B)
+    allp = np.array([q for u_ in units for q in u_["poly"]]) if units else np.array([[0.0, 0.0]])
+    target = [round(float(v), 2) for v in (allp.min(axis=0) + allp.max(axis=0)) / 2]
+    radius = T3.camera.radius_factor * float(max(allp.max(axis=0) - allp.min(axis=0)))
     fps = T3.fps
     nfr = int(round(T3.orbit_sec * fps))
     step = 360.0 / (T3.camera.period_sec * fps)
     frames = [{"az": round(T3.camera.start_az_deg + i * step, 4)} for i in range(nfr)]
     scene = {"width": T3.width, "height": T3.height, "size_m": size_m, "center": [0, 0], "exaggeration": T3.exaggeration,
-             "camera": {"fov": T3.camera.fov_deg, "elev_deg": T3.camera.elev_deg, "radius_m": radius},
+             "camera": {"fov": T3.camera.fov_deg, "elev_deg": T3.camera.elev_deg, "radius_m": radius, "target": target},
              "light": T3.light.model_dump(), "sky": T3.sky, "fog": [radius * T3.fog[0], radius * T3.fog[1]],
              "lift_m": T3.lift_m, "label_lift_m": T3.label_lift_m, "unit_opacity": T3.unit_opacity,
              "river": {"w_m": T3.river_w_m, "color": hexs(SK.war.river.rgb)}, "text": T3.text.model_dump(), "halo": T3.halo,
@@ -178,8 +183,7 @@ def main(argv: list[str] | None = None) -> int:
     out = a.project / "out" / "terrain3d"
     info = build(a.project, spec, a.t, theme, out)
     subprocess.run(["node", str(TOOL / "render.js"), str(out)], check=True, cwd=TOOL,
-                   env={"NODE_PATH": subprocess.run(["npm", "root", "-g"], capture_output=True, text=True).stdout.strip(),
-                        "PATH": __import__("os").environ["PATH"]})
+                   env={**os.environ, "NODE_PATH": subprocess.run(["npm", "root", "-g"], capture_output=True, text=True).stdout.strip()})
     frames = sorted((out / "frames").glob("f_*.png"))
     scale = T3.width / output_profile(None).width
     for f in frames:

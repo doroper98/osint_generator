@@ -1452,12 +1452,21 @@ class GeoTheme(_Strict):
     map: MapTheme
 
 
+class DrainageRules(_Strict):
+    z: Optional[int] = None          # None = 티어 z
+    downsample: int = Field(ge=1)
+    sea_level_m: float
+    min_cells: int = Field(ge=2)
+    step: int = Field(ge=1)
+
+
 class GeoThemes(_Strict):
     """v5.13.0 D-0153 Q0-2 — 지도 테마 시안. 기본 테마 자산 = assets/, 그 밖 = assets/theme_<이름>/."""
 
     default: str
     dark: GeoTheme
     light: GeoTheme
+    proposed: dict[str, GeoTheme] = Field(default_factory=dict)   # v7.4.0 D-0604 — 구상 테마(relief). 본편 무대 목록(names) 밖, 자산·스케치에서만
 
     @model_validator(mode="after")
     def _default(self) -> "GeoThemes":
@@ -1470,8 +1479,10 @@ class GeoThemes(_Strict):
         return ["dark", "light"]
 
     def get(self, name: str) -> GeoTheme:
+        if name in self.proposed:
+            return self.proposed[name]
         if name not in self.names():
-            raise ValueError(f"지도 테마 {name!r} 없음 — rules geo.themes: {self.names()}")
+            raise ValueError(f"지도 테마 {name!r} 없음 — rules geo.themes: {self.names()} · proposed {sorted(self.proposed)}")
         return getattr(self, name)
 
 
@@ -1484,7 +1495,8 @@ class GeoRules(_Strict):
     map_layers_default: list[Literal["roads", "rivers"]]   # v7.4.0 D-0231 — stage_config.mercator.map_layers 기본값
     country_polygons: str = "data/geo_flat/ne_110m_countries.json"   # v7.4.0 D-0241 §2 — 국가 폴리곤 자료(flag_territory·sea_only_frame)
     river_major_scalerank_max: int = Field(ge=0)      # v7.4.0 D-0229 §2.1-2 — NE 강 scalerank 이 값 이하 = 큰 강(geo.prep_geometry.load_rivers)
-    basemap_era: Optional["BasemapEra"] = None         # v7.4.0 전쟁사 W3(D-0600 §5) — 시대별 기반 지도 층·고대 지리 자료 출처
+    basemap_era: Optional["BasemapEra"] = None
+    drainage: Optional["DrainageRules"] = None   # v7.4.0 D-0604 구상 컷 A         # v7.4.0 전쟁사 W3(D-0600 §5) — 시대별 기반 지도 층·고대 지리 자료 출처
 
 
 class AncientSource(_Strict):
@@ -3342,6 +3354,69 @@ class SketchWarLift(_Strict):
     rgb: tuple[float, float, float]
     from_ppd: float
     span_ppd: float = Field(gt=0)
+    themes: list[str] = Field(default_factory=lambda: ["dark"])
+
+
+class SketchWarLine(_Strict):
+    rgb: tuple[float, float, float]
+    w: float
+    alpha: float
+
+
+class SketchWarScaleBar(_Strict):
+    x: float
+    y: float
+    h: float
+    target_px: float
+    nice: list[float] = Field(min_length=1)
+    base: float
+    exp_range: tuple[int, int]
+    rgb: tuple[float, float, float]
+    alpha: float
+    label: SketchWarText
+
+
+class T3Camera(_Strict):
+    fov_deg: float
+    elev_deg: float
+    radius_factor: float
+    period_sec: float = Field(gt=0)
+    start_az_deg: float
+
+
+class T3Light(_Strict):
+    ambient: float
+    sun: float
+    az: float
+    el: float
+
+
+class T3Text(_Strict):
+    unit: float
+    place: float
+
+
+class SketchWarTerrain3d(_Strict):
+    theme: str
+    dem_tier: str
+    texture_res: str
+    region_w_deg: float = Field(gt=0)
+    grid: int = Field(ge=8)
+    exaggeration: float
+    width: int
+    height: int
+    fps: int
+    orbit_sec: float = Field(gt=0)
+    camera: T3Camera
+    light: T3Light
+    sky: str
+    fog: tuple[float, float]
+    lift_m: float
+    label_lift_m: float
+    unit_opacity: float
+    river_w_m: float
+    text: T3Text
+    halo: str
 
 
 class SketchWar(_Strict):
@@ -3356,6 +3431,10 @@ class SketchWar(_Strict):
     toponymy: SketchWarText
     toponymy_wrap: SketchWarWrap
     lift: SketchWarLift
+    theme_overlays: dict[str, list[str]]
+    drainage: SketchWarLine
+    scale_bar: SketchWarScaleBar
+    terrain3d: SketchWarTerrain3d
     place_now: SketchWarText
     legend: SketchWarLegend
     card: SketchWarCard

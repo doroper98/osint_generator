@@ -50,10 +50,11 @@ for (const u of S.units) {
   const g = new THREE.ShapeGeometry(shape); g.rotateX(-Math.PI / 2);
   const p = g.attributes.position;
   for (let k = 0; k < p.count; k++) p.setY(k, hAt(p.getX(k), p.getZ(k)) + S.lift_m);
-  scene.add(new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: u.color, transparent: true, opacity: S.unit_opacity, side: THREE.DoubleSide })));
+  const um = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: u.color, transparent: true, opacity: S.unit_opacity, side: THREE.DoubleSide, depthTest: false }));
+  um.renderOrder = 2; scene.add(um);   // 지표 위 면 — 지형 기복에 묻히지 않게 깊이 검사 없이 지형 뒤에 그린다
   const e = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(u.poly.map(([x, z]) => new THREE.Vector3(x, hAt(x, z) + S.lift_m * 1.5, z))),
-    new THREE.LineBasicMaterial({ color: 0xffffff }));
-  scene.add(e);
+    new THREE.LineBasicMaterial({ color: 0xffffff, depthTest: false }));
+  e.renderOrder = 3; scene.add(e);
 }
 const ov = document.getElementById('ov'); ov.width = W; ov.height = Ht;
 const ctx = ov.getContext('2d');
@@ -65,7 +66,7 @@ function label(txt, x, y, size, color, weight) {
 }
 window.__draw = (fr) => {
   const a = fr.az * Math.PI / 180, e = S.camera.elev_deg * Math.PI / 180;
-  const R = S.camera.radius_m, c = S.center;
+  const R = S.camera.radius_m, c = S.camera.target;
   cam.position.set(c[0] + Math.sin(a) * Math.cos(e) * R, hAt(c[0], c[1]) + Math.sin(e) * R, c[1] - Math.cos(a) * Math.cos(e) * R);
   cam.lookAt(c[0], hAt(c[0], c[1]), c[1]);
   renderer.render(scene, cam);
