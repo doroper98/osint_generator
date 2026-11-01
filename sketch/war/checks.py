@@ -22,7 +22,7 @@ from pydantic import ValidationError
 
 from engine.style import FPS
 from schemas.era_date import parse_era_date
-from schemas.war_history import asset_layer, era_of, evidence_missing, period_art_label, symbol_set_mixed
+from schemas.war_history import asset_layers, era_of, evidence_missing, period_art_label, symbol_set_mixed
 from sketch.common.camera import CameraPath, bounds_stage
 from sketch.common.checks import CheckReport, check_camera, check_end_card, check_label_overlap
 from sketch.common.draw import SK
@@ -44,7 +44,7 @@ def display_strings(spec: WarSpec) -> list[tuple[str, str]]:
 
 
 def used_layers(spec: WarSpec, media: dict) -> set[str]:
-    used = {lay for e in spec.evidence if e.mid in media if (lay := asset_layer(media[e.mid])) is not None}
+    used = {lay for e in spec.evidence if e.mid in media for lay in asset_layers(media[e.mid])}
     if any(p.toponymy for p in spec.places):
         used.add("toponymy")
     return used
@@ -112,6 +112,16 @@ def check_spec(report: CheckReport, spec: WarSpec, project: Path) -> None:
             report.add("SK-W4", f"지명 {p.name}: Pleiades id {p.pleiades} 가 ancient_geo/places.json 에 없다 — python tools/fetch_ancient_geo.py")
         if p.toponymy and p.toponymy not in tids:
             report.add("SK-W4", f"지명 {p.name}: 유래 레코드 {p.toponymy!r} 가 toponymy.yaml 에 없다")
+    report.ran_check("SK-R1")
+    if spec.ancient_roads_t:
+        import json  # noqa: PLC0415
+
+        sp = project / "ancient_geo" / "sources.json"
+        row = next((r for r in json.loads(sp.read_text(encoding="utf-8"))["layers"] if r["layer"] == "roads"), None) if sp.is_file() else None
+        if row is None or row.get("status") != "ok":
+            report.add("SK-R1", "ancient_roads_t 인데 ancient_geo/roads.json 이 받아지지 않았다 — python tools/fetch_ancient_geo.py … --date")
+        elif not any(row["attribution"] in s.text for s in spec.sources):
+            report.add("SK-R1", f"AWMC 가도를 그리는데 엔딩 자료에 고지 {row['attribution']!r} 가 없다(D-0601 ① b)")
     E, Ln = SK.war.end, SK.text.end_line
     check_end_card(report, [s.text for s in spec.sources], E.x, Ln.y0, Ln.dy, E.line_size, Ln.font, E.note_y)
 

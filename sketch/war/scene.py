@@ -38,6 +38,7 @@ LABELS_FILE = "labels.yaml"
 MEDIA_FILE = "media.json"
 MEDIA_DIR = "media_src"
 PLACES_FILE = "ancient_geo/places.json"
+ROADS_FILE = "ancient_geo/roads.json"
 BGRX = "BGRX"
 
 
@@ -93,6 +94,8 @@ class WarScene:
         self.units = WarUnitLayer(spec)
         self.media = load_media(project)
         self.places = load_places(project)
+        rp = project / ROADS_FILE
+        self.roads = json.loads(rp.read_text(encoding="utf-8")) if spec.ancient_roads_t and rp.is_file() else []
         tf = load_toponymy(project)
         self.topo: dict[str, ToponymyEntry] = tf.by_id() if tf is not None else {}
         self._img: dict[str, tuple] = {}
@@ -127,6 +130,7 @@ class WarScene:
         ctx.set_source_rgba(*W.terrain_dim)
         ctx.paint()
         res: list = []
+        self._roads(ctx, view, t)
         self._rivers(ctx, view, t)
         self._routes(ctx, view, t)
         self.units.draw(ctx, view, t, res)
@@ -152,6 +156,26 @@ class WarScene:
         return bytes(buf)
 
     # ---------------------------------------------------------------- 지도 층
+    def _roads(self, ctx: cairo.Context, view: View, t: float) -> None:
+        if not self.roads:
+            return
+        t0, t1 = self.spec.ancient_roads_t
+        a = window(t, t0, t1, W.place.in_sec, W.place.in_sec)
+        if a <= F.min_alpha:
+            return
+        Rd = W.ancient_road
+        ctx.set_dash(list(Rd.dash))
+        for ln in self.roads:
+            pts = [view.to_screen(lon, ym(lat)) for lon, lat in ln]
+            ctx.move_to(*pts[0])
+            for p in pts[1:]:
+                ctx.line_to(*p)
+        ctx.set_source_rgba(*Rd.rgb, Rd.alpha * a)
+        ctx.set_line_width(Rd.w)
+        ctx.stroke()
+        ctx.set_dash([])
+        self._note("ancient_road")
+
     def _rivers(self, ctx: cairo.Context, view: View, t: float) -> None:
         R = W.river
         for r in self.spec.rivers:

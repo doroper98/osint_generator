@@ -65,3 +65,12 @@ class EvidenceTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AncientGeoUntrackedTest(unittest.TestCase):
+    def test_extracted_geodata_not_tracked(self) -> None:
+        """D-0601 ① c — 고대 지리 추출 자료(AWMC ODbL·Pleiades)는 저장소에 올리지 않는다(프로젝트 ancient_geo/·캐시 .cache/)."""
+        import subprocess
+
+        files = subprocess.run(["git", "ls-files"], cwd=REPO, capture_output=True, text=True, check=True).stdout.splitlines()
+        self.assertEqual([f for f in files if "/ancient_geo/" in f or f.startswith(".cache/") or "Cultural-Data/" in f], [])

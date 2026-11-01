@@ -10,14 +10,15 @@ schema_version: 1
 kind: war
 title: "칸나이 전투 — 기원전 216년"
 date: "-218~-216"
-duration_sec: 68.0
-sheet_times: [8.0, 18.0, 28.0, 34.5, 37.0, 42.0, 48.0, 54.0, 60.0]
+duration_sec: 74.0
+sheet_times: [8.0, 18.0, 28.0, 34.5, 37.0, 42.0, 48.0, 54.0, 60.0, 66.0]
 
 sources:
   - text: "부대 배치·이동: 폴리비오스 『역사』 III.113~117(W. R. Paton 영역, 1922) 서술의 개략"
   - text: "전장 위치(강 북안)·강 굽이: W. Smith, Dictionary of Greek and Roman Geography(1856) — 개략 표기"
   - text: "지명 좌표: Pleiades(CC BY 3.0) · 지형: Terrarium 고도 타일"
-  - text: "작품: CNG · Fratelli Alinari · 예일대학교 미술관(모두 퍼블릭 도메인, Wikimedia Commons)"
+  - text: "작품: CNG · Fratelli Alinari · 예일대학교 미술관 · G. A. Closs(모두 퍼블릭 도메인, Commons)"
+  - text: "가도: Ancient World Mapping Center (awmc.unc.edu), ODbL 1.0 — 헬레니즘 시대 이전 길만"
   - text: "날짜: 로마력 8월 2일(겔리우스 V.17) — 실제 계절은 초여름일 수 있다(Smith 1856)"
 
 shots:
@@ -34,13 +35,14 @@ factions:
   carthage: {token: ru, name: "카르타고군(한니발)"}
   rome: {token: us, name: "로마군(집정관 파울루스·바로)"}
 legend_t: [24.0, 38.0]
+ancient_roads_t: [0.5, 19.0]
 
 places:
   - {name: "로마", pleiades: "423025", t: 1.0}
   - {name: "플라켄티아", now: "피아첸차", pleiades: "383741", t: 3.5}
   - {name: "트라수메누스 호수", now: "트라시메노", pleiades: "413347", t: 6.0}
   - {name: "카누시움", now: "카노사 디 풀리아", pleiades: "442525", t: 9.0}
-  - {name: "칸나이", now: "칸네", pleiades: "442523", toponymy: cannae, t: 9.0}
+  - {name: "칸나이", now: "칸네 델라 바타글리아(유적)", pleiades: "442523", toponymy: cannae, t: 9.0}
 
 rivers:
   - name: "아우피두스 강(오판토)"
@@ -114,10 +116,11 @@ evidence:
   - {mid: cannae_coin, t0: 39.5, t1: 45.0, side: right}
   - {mid: cannae_bust, t0: 45.5, t1: 51.0, side: left}
   - {mid: cannae_trumbull, t0: 51.5, t1: 57.0, side: right}
+  - {mid: cannae_closs, t0: 57.5, t1: 63.0, side: left}
 
 quotes:
-  - t0: 57.5
-    t1: 63.0
+  - t0: 63.5
+    t1: 69.0
     text: "칸나이에서 로마와 카르타고가 벌인 싸움은 이렇게 끝났다. 이긴 쪽도 진 쪽도 뚜렷한 용기를 보였다."
     original: "Such was the outcome of the battle at Cannae between the Romans and Carthaginians, a battle in which both the victors and the vanquished displayed conspicuous bravery."
     locator: "폴리비오스 『역사』 III.117"
@@ -127,7 +130,7 @@ quotes:
 
 notes:
   source_lines:
-    - {text: "부대·경로·강: 폴리비오스 III.113~117·Smith(1856) 서술의 개략 — 크기·간격은 축척이 아님, 전장 위치는 학설이 갈림", t0: 0.0, t1: 63.0}
+    - {text: "부대·경로·강: 폴리비오스 III.113~117·Smith(1856) 서술의 개략 — 크기·간격은 축척이 아님, 전장 위치는 학설이 갈림", t0: 0.0, t1: 69.0}
   end_title: "칸나이 전투 — 자료"
   end_note: "전쟁사 스케치 v1 · 자막·내레이션 없음 · 사용자 검토용"
   end_sec: 5.0

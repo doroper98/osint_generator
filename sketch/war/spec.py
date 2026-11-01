@@ -138,6 +138,7 @@ class WarSpec(SketchSpec):
     evidence: list[Evidence] = Field(default_factory=list)
     quotes: list[Quote] = Field(default_factory=list)
     legend_t: tuple[float, float] = (0.0, 0.0)
+    ancient_roads_t: Optional[tuple[float, float]] = None   # AWMC 가도(ancient_geo/roads.json, 영상 시대에 쓰이던 길만) 보이는 구간
     notes: Notes
     sheet_times: list[float] = Field(min_length=1)
 

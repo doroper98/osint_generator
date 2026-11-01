@@ -2989,13 +2989,12 @@ def check_war_history(P) -> dict[str, list[str]]:  # noqa: ANN001, N803
     out: dict[str, list[str]] = {k: [] for k in keys}
     if (cache.get("genre") or {}).get("name") != WAR_GENRE:
         return out
-    from schemas.war_history import asset_layer, evidence_missing, period_art_label_missing  # noqa: PLC0415
+    from schemas.war_history import asset_layers, evidence_missing, period_art_label_missing  # noqa: PLC0415
     from schemas.war_history import symbol_set_mixed, video_era  # noqa: PLC0415
 
     assets = P.R.assets.media_assets
     era = video_era([s.date for s in P.plan.sentences])
-    used = {lay for e in P.events if e["type"] in ("photo", "clip") and e.get("mid") in assets
-            if (lay := asset_layer(assets[e["mid"]])) is not None}
+    used = {lay for e in P.events if e["type"] in ("photo", "clip") and e.get("mid") in assets for lay in asset_layers(assets[e["mid"]])}
     if any(e["type"] == "marker" and e.get("toponymy") for e in P.events):
         used.add("toponymy")
     out["evidence_layer"] = evidence_missing(era, used)

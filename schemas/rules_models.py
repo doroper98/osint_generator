@@ -1495,6 +1495,8 @@ class AncientSource(_Strict):
     repo: str                            # https://github.com/<owner>/<repo>
     commit: str = Field(min_length=7)
     path: str                            # 저장소 안 파일
+    license_path: str                    # 저장소 안 라이선스 파일(sha1 을 sources.json 에 기록 — D-0601 ① a)
+    period_field: Optional[str] = None   # 시대 부호 속성(AWMC timeperiod — basemap_era.periods)
     license: str
     attribution: str
 
@@ -1503,6 +1505,7 @@ class BasemapEra(_Strict):
     ancient: list[str] = Field(min_length=1)    # 고대 기반 지도 층(이름만 — 렌더러가 읽는다)
     modern: list[str] = Field(min_length=1)
     licenses_allowed: list[str] = Field(min_length=1)
+    periods: dict[str, tuple[int, int]] = Field(default_factory=dict)   # 시대 부호 → [시작, 끝] 역사 연도(기원전 음수)
     sources: list[AncientSource] = Field(min_length=1)
 
 
@@ -3241,6 +3244,13 @@ class SketchWarRiver(_Strict):
     label: SketchWarText
 
 
+class SketchWarRoad(_Strict):
+    rgb: tuple[float, float, float]
+    w: float
+    alpha: float
+    dash: tuple[float, float]
+
+
 class SketchWarRoute(_Strict):
     w: float
     alpha: float
@@ -3327,6 +3337,7 @@ class SketchWar(_Strict):
 
     terrain_dim: Color4
     river: SketchWarRiver
+    ancient_road: SketchWarRoad
     route: SketchWarRoute
     unit: SketchWarUnit
     place: SketchWarPlace

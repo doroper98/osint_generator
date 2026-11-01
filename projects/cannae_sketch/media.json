@@ -133,6 +133,49 @@
    "identification": "certain",
    "art_history": "미국 화가 존 트럼불이 1773년에 그린 역사화로, 예일대학교 미술관이 소장한다(1832.100).",
    "art_history_source": "Commons 파일 정보(작가·연대·소장처, Yale University Art Gallery 스캔)"
+  },
+  "cannae_closs": {
+   "is_file_photo": false,
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "source_hash": "cd516e88fbef1d16b28cdd8bdd37074a",
+   "kind": "period_art",
+   "title": "File:Punti storici d’Italia campo della battaglia di Canne.jpg",
+   "license": "Public domain",
+   "author": "Gustav Adolf Closs",
+   "credit_author": "G. A. Closs",
+   "date": "1885",
+   "url": "https://commons.wikimedia.org/wiki/File:Punti_storici_d%E2%80%99Italia_campo_della_battaglia_di_Canne.jpg",
+   "caption": "칸나이 전투가 벌어진 들판",
+   "file_note": "화보 삽화 · 『L'illustrazione popolare』(1885)",
+   "depicts": [
+    "칸나이 전투 들판",
+    "아우피두스 강가 평원"
+   ],
+   "main_subject": [
+    "강가 평원 풍경"
+   ],
+   "verified_by": {
+    "by": "구현 세션(Commons 파일 설명·라이선스 확인)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "현장 사진(PD·CC BY) 부재 — 현장을 그린 후대 작품으로 유적 층(D-0601 ② A)"
+   },
+   "tool": {
+    "name": "sketch.war.fetch",
+    "params": {
+     "commons_title": "File:Punti storici d’Italia campo della battaglia di Canne.jpg",
+     "width": 1280
+    }
+   },
+   "file": "cannae_closs.jpg",
+   "created": "1885",
+   "work_kind": "print",
+   "holder": "『L'illustrazione popolare』 지면(Fratelli Treves, 밀라노)",
+   "identification": "certain",
+   "art_history": "구스타프 아돌프 클로스가 1885년 밀라노 화보 잡지의 '이탈리아 역사의 장소' 꼭지에 그린 칸나이 전투 들판 풍경이다.",
+   "art_history_source": "Commons 파일 정보(제목 'Punti storici d’Italia', 출전 L’illustrazione popolare, Fratelli Treves 1885)",
+   "site_report": "W. Smith, Dictionary of Greek and Roman Geography vol. I(1856) 'CANNAE' 499~500쪽 — 유적은 카노사에서 약 8마일 떨어진 작은 언덕 위에 남아 있다"
   }
  }
 }

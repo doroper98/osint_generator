@@ -10,7 +10,7 @@ from pydantic import ValidationError
 from schemas.data_models import ForceFigure, ForceFiguresFile
 from schemas.era_date import parse_era_date
 from schemas.media_models import MediaAsset
-from schemas.war_history import (ToponymyEntry, ToponymyFile, asset_layer, casualty_unsourced, era_of, evidence_missing,
+from schemas.war_history import (ToponymyEntry, ToponymyFile, asset_layers, casualty_unsourced, era_of, evidence_missing,
                                  period_art_label, period_art_label_missing, probable_caption, symbol_set_mixed, video_era)
 
 
@@ -33,7 +33,8 @@ class RecordTest(unittest.TestCase):
     def test_period_art_record(self) -> None:
         a = MediaAsset.model_validate(art())
         self.assertEqual(a.created.precision, "circa")
-        self.assertEqual(asset_layer(a), "period_art")
+        self.assertEqual(asset_layers(a), {"period_art"})
+        self.assertEqual(asset_layers(MediaAsset.model_validate(art(site_report="Smith 1856"))), {"period_art", "site"})
 
     def test_period_art_required_fields(self) -> None:
         for f in ("created", "work_kind", "holder", "art_history", "art_history_source"):
@@ -48,12 +49,12 @@ class RecordTest(unittest.TestCase):
         doc = art(kind="document", work_kind="document", art_history=None, art_history_source=None)
         with self.assertRaises(ValidationError):
             MediaAsset.model_validate(doc)
-        self.assertEqual(asset_layer(MediaAsset.model_validate({**doc, "archive_id": "UN S/RES/82"})), "document")
+        self.assertEqual(asset_layers(MediaAsset.model_validate({**doc, "archive_id": "UN S/RES/82"})), {"document"})
 
     def test_site_photo_layer(self) -> None:
         p = art(kind="photo", created=None, work_kind=None, holder=None, art_history=None, art_history_source=None,
                 site_report="Cannae 발굴 보고(출처)")
-        self.assertEqual(asset_layer(MediaAsset.model_validate(p)), "site")
+        self.assertEqual(asset_layers(MediaAsset.model_validate(p)), {"site"})
 
 
 class LabelTest(unittest.TestCase):

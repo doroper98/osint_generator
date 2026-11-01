@@ -1110,12 +1110,15 @@ geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계
   basemap_era:
     ancient: [terrain, ancient_places, ancient_roads, ancient_coast]
     modern: [terrain, borders, places]
-    licenses_allowed: ["CC BY 3.0", "CC BY 4.0"]   # AWMC geodata = ODbL(감독 가정 CC BY 와 다름) — decision_request 결정 전까지 받지 않는다
+    licenses_allowed: ["CC BY 3.0", "CC BY 4.0", "ODbL 1.0"]   # ODbL = AWMC(D-0601 ① A, DECISIONS D702 — 기반 지도 자료 범주, 렌더 화면 = Produced Work 출처 고지, 추출 자료 저장소 미추적)
+    # AWMC 가도의 시대 부호(Barrington Atlas 시대 구분, 연도 = 역사 표기 기원전 음수) — 영상 날짜 시대에 쓰이던 길만 그린다. 부호 없는 길은 빼고 개수를 기록한다
+    periods: {A: [-750, -550], C: [-550, -330], H: [-330, -30], R: [-30, 300], L: [300, 640]}
     sources:
       - {layer: places, site: "https://pleiades.stoa.org/downloads", repo: "https://github.com/isawnyu/pleiades.datasets", commit: c0534ffa6226a6d3dd6e1a59ef109b9359e1aabd,
-         path: data/gis/places.csv, license: "CC BY 3.0", attribution: "Pleiades(pleiades.stoa.org), CC BY 3.0"}
+         path: data/gis/places.csv, license_path: LICENSE, license: "CC BY 3.0", attribution: "Pleiades(pleiades.stoa.org), CC BY 3.0"}
       - {layer: roads, site: "https://awmc.unc.edu", repo: "https://github.com/AWMC/geodata", commit: 7ecf8bccea2efe1e1e9df2daf6001942de73fb87,
-         path: Cultural-Data/roads/roads.geojson, license: "ODbL 1.0", attribution: "Ancient World Mapping Center, ODbL"}
+         path: Cultural-Data/roads/roads.geojson, license_path: LICENSE.txt, license: "ODbL 1.0", attribution: "Ancient World Mapping Center (awmc.unc.edu), ODbL 1.0",
+         period_field: timeperiod}
   land_miss_allow_px2: 16  # 국가 면적(deg²) × 티어 ppd² 가 이 값 미만이면 land-miss 를 small 로 허용(4×4 px). 이상 = drop
   land_fill_min_ratio: 0.5   # v4.1.0 D-0078 — 국가 원본 피처 합집합 영역 안 육지 화소 비율이 이 값 미만이면 land-miss(대표점 한 점이 아니라 면적, 키 충돌 덮어쓰기 검출)
   # v4.7.0 back_and_forth D-0107 D2(b) — 이 이름(부분 일치, 대소문자 무시)을 단 route 이벤트(label·{path:})·paths 키 = checks [boundary-as-route] hard(M8 재발 방지).
@@ -2444,6 +2447,7 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
   war:                     # v7.4.0 전쟁사 W3·W4(back_and_forth D-0600 §5·§6) — sketch/war 화면 수치(설계 px 480p). 값 = 구현 제안(사용자 판정 ① 전, campaign 값에서 출발)
     terrain_dim: [0.02, 0.03, 0.05, 0.30]
     river: {rgb: [0.42, 0.66, 0.86], w: 1.6, alpha: 0.8, label: {size: 11, font: serif, halo: 2.5, alpha: 0.8}}
+    ancient_road: {rgb: [0.86, 0.78, 0.6], w: 1.0, alpha: 0.55, dash: [4, 3]}   # AWMC 가도(D-0601 ①) — 옅은 점선
     route: {w: 2.2, alpha: 0.85, head: 9, head_wing: 0.55, label: {size: 11.5, font: sansb, halo: 3, dy: -10}}
     unit:
       in_sec: 0.6
@@ -2487,7 +2491,7 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
       text_lines: 3
       original: {size: 9.5, font: serif, halo: 0, dy: 18, alpha: 0.75}
       locator: {size: 10, font: sansm, halo: 0, dy: 20, alpha: 0.9}   # 『』 글리프가 있는 글꼴
-    end: {x: 50, line_size: 10, note_y: 300}
+    end: {x: 50, line_size: 10, note_y: 330}   # 엔딩 자료 6줄까지(작품·가도 출처가 늘었다)
     date_delay: 0.2
     source_alpha: 0.85
   checks:                  # 스케치 결정적 검사(sketch/common/checks.py, D-0140 §4) — 값 결정 D-0141(R-0174 실측)

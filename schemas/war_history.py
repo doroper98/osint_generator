@@ -164,17 +164,15 @@ def load_toponymy(proj: Path) -> Optional[ToponymyFile]:
 
 
 # ── 증거 층 ──
-def asset_layer(a) -> Optional[str]:  # noqa: ANN001 — schemas.media_models.MediaAsset
-    """미디어 레지스트리 항목 → 증거 층 이름(period_art·document·site·photo·clip). 기사·컷아웃·인셋은 증거 층이 아니다."""
-    if a.kind == "period_art":
-        return "period_art"
-    if a.kind == "document":
-        return "document"
-    if a.kind == "photo":
-        return "site" if getattr(a, "site_report", None) else "photo"
-    if a.kind == "video":
-        return "clip"
-    return None
+def asset_layers(a) -> set[str]:  # noqa: ANN001 — schemas.media_models.MediaAsset
+    """미디어 레지스트리 항목 → 증거 층 이름들(period_art·document·site·photo·clip). 기사·컷아웃·인셋은 증거 층이 아니다.
+    site_report(현장 서술 출처)가 있으면 site 층도 채운다 — 현장 사진이든, 현장을 그린 후대 작품이든(D-0601 ② A)."""
+    base = {"period_art": "period_art", "document": "document", "photo": "photo", "video": "clip"}.get(a.kind)
+    out = {base} if base else set()
+    if base and getattr(a, "site_report", None):
+        out.add("site")
+        out.discard("photo")   # 현장 사진은 photo 가 아니라 site 로 센다(옛 판정 그대로)
+    return out
 
 
 def evidence_missing(era: Era, used: set[str]) -> list[str]:
@@ -229,5 +227,5 @@ def casualty_unsourced(sentences: Iterable, forces) -> list[str]:  # noqa: ANN00
     return out
 
 
-__all__ = ["Era", "ToponymyEntry", "ToponymyFile", "asset_layer", "casualty_unsourced", "era_of", "evidence_missing",
+__all__ = ["Era", "ToponymyEntry", "ToponymyFile", "asset_layers", "casualty_unsourced", "era_of", "evidence_missing",
            "load_toponymy", "period_art_label", "period_art_label_missing", "probable_caption", "symbol_set_mixed", "video_era"]
