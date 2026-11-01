@@ -1,7 +1,7 @@
 series_id: INTC_PX_D
 source: Yahoo Finance chart API · 나스닥 INTC 일별 종가
-source_url: https://query1.finance.yahoo.com/v8/finance/chart/INTC?period1=1751328000&period2=1793404799&interval=1d
-retrieved_at: '2026-10-30'
+source_url: https://query1.finance.yahoo.com/v8/finance/chart/INTC?period1=1751328000&period2=1793491199&interval=1d
+retrieved_at: '2026-11-01'
 transform:
   op: chart_close
   formula: Yahoo chart API 일별 종가(indicators.quote close 값 그대로, 거래일만)
@@ -87,3 +87,8 @@ cited:
   url: https://www.g-enews.com/article/Securities/2026/09/202609220533183947e250e8e188_1
   note: '원문: 인텔 역시 차세대 반도체 모멘텀에 힘입어 12.14% 급등했으며, 퀄컴 또한 9.29% 상승률을 기록하는 등 반도체 밸류체인
     전반에 강력한 매수세가 확산됐다.'
+- date: '2026-10-30'
+  outlet: 글로벌이코노믹(CNBC 인용)
+  pub_date: '2026-10-31'
+  url: https://www.g-enews.com/article/Securities/2026/10/202610310601297925e250e8e188_1
+  note: '원문: 이날 뉴욕 주식시장에서 인텔 주가는 전 거래일 대비 28.58% 곤두박질쳤다.'
