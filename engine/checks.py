@@ -14,6 +14,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | endcard_roll | warning | v4.7.0(D-0106): 엔딩 카드 크레딧이 한도를 넘어 롤(속도 ≤ end_card.scroll_max_px_per_sec) `[endcard-roll]`. 상한 초과는 offscreen `[endcard-overflow]` hard |
 | media_upscaled | warning | 사진·영상·컷아웃 원본 픽셀 폭 < 출력 프로파일의 장치 폭(설계 폭 × k) — 추측 보간 금지, 알리기만(v3.6.0 D-0067 요건 3) |
 | labels | hard | 샘플 시각마다 도시 라벨 수 ≤ labels_per_frame_max |
+| license_mismatch | hard | v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장르. 영상이 쓰는 미디어 레코드의 photo_license(없으면 license)가 Commons 라이선스 분류(license_tags)와 맞는가. 유물 나이 PD(rules war_history.rights.work_age_tags)는 사진 권리가 아니다 |
 | evidence_layer · period_art_label · casualty_unsourced · symbol_set | hard | v7.4.0 전쟁사 W2(D-0600 §4, UF-150) — 장르 war_history 만. 시대별 필수 증거 층·작품 당대/후대 라벨·병력/사상자 force 인용·한 영상 한 부호 세트(schemas.war_history) |
 | date | hard | 문장 date 형식(rules script_schema.date_formats — 파서 schemas/era_date, 기원전·대략·기간 포함) — 날짜 배지는 이 값으로만 그린다 |
 | subtitles | hard | 자막 줄 수 ≤ subtitle_lines_max(렌더러와 같은 wrap) |
@@ -132,7 +133,8 @@ QA = R_.qa_checks
 SG = R_.shot_grammar
 SAMPLE_SEC = 1.0          # 뱃지·라벨 샘플 간격
 SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여백 — 이만큼 잘리는 것은 허용
-HARD = ("evidence_layer", "period_art_label", "casualty_unsourced", "symbol_set",   # v7.4.0 전쟁사 W2(D-0600 §4) — 장르 war_history 만
+HARD = ("license_mismatch",   # v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장르: 레코드 사진 라이선스 ↔ Commons 라이선스 분류
+        "evidence_layer", "period_art_label", "casualty_unsourced", "symbol_set",   # v7.4.0 전쟁사 W2(D-0600 §4) — 장르 war_history 만
         "map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
@@ -2404,6 +2406,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "period_art_label": lambda: check_war_history(P)["period_art_label"],     # [period-art-label-missing]
         "casualty_unsourced": lambda: check_war_history(P)["casualty_unsourced"], # [casualty-unsourced]
         "symbol_set": lambda: check_war_history(P)["symbol_set"],                 # [symbol-set-mixed]
+        "license_mismatch": lambda: check_license_mismatch(P),                    # v7.4.0 D-0606 §2 [license-mismatch]
         "series_date_convention": lambda: check_series_date_convention(P),   # v7.4.0 D-0326(warning)
         "chart_world_split": lambda: check_chart_world_split(P),   # v7.4.0 D-0251 §6.2-2(hard, UF-135 ②)
         "series_label_overlap": lambda: check_series_label_overlap(P),   # v7.4.0 D-0256(hard)
@@ -3038,6 +3041,20 @@ def check_photo_subject_unmatched(P) -> list[str]:  # noqa: ANN001, N803
 
 
 WAR_GENRE = "war_history"
+
+
+def check_license_mismatch(P) -> list[str]:  # noqa: ANN001, N803
+    """[license-mismatch] hard(v7.4.0 D-0606 §2, RIGHTS-AP-001) — 영상 photo·clip 비트가 쓰는 레코드 중 Commons 라이선스 분류(license_tags)가
+    기록된 것은 사진 라이선스와 대조한다(장르 무관). 분류 기록은 tools/commons_fetch.py get·sketch.war.fetch 가 한다."""
+    from schemas.war_history import license_mismatch  # noqa: PLC0415
+
+    assets = P.R.assets.media_assets
+    out: list[str] = []
+    for mid in sorted({e["mid"] for e in P.events if e["type"] in ("photo", "clip") and e.get("mid") in assets}):
+        a = assets[mid]
+        if a.license_tags is not None:
+            out += [f"{mid}: {m}" for m in license_mismatch(a.photo_license or a.license, a.license_tags)]
+    return out
 
 
 def check_war_history(P) -> dict[str, list[str]]:  # noqa: ANN001, N803

@@ -47,6 +47,34 @@ def _art(**kw: object) -> dict:
     return base
 
 
+class PhotoLicenseFromTagsTest(unittest.TestCase):
+    def test_auto_photo_license(self) -> None:
+        from schemas.war_history import photo_license_from_tags as f
+
+        self.assertEqual(f(["CC-BY-3.0"]), "CC BY 3.0")
+        self.assertEqual(f(CNG), "CC BY-SA 2.5")                  # 유물 PD 가 아니라 사진 라이선스 → 화면 불가 값
+        self.assertEqual(f(["CC-PD-Mark", "PD-old-70-expired"]), "Public domain")
+        self.assertEqual(f(["CC-BY-4.0", "GFDL"]), "CC BY 4.0")
+        self.assertIsNone(f(["Self-published work"]))
+
+
+class EngineCheckTest(unittest.TestCase):
+    def test_engine_license_mismatch_all_genres(self) -> None:
+        from types import SimpleNamespace as NS
+
+        from engine.checks import HARD, check_license_mismatch
+
+        self.assertIn("license_mismatch", HARD)
+        bad = NS(license="Public domain", photo_license=None, license_tags=CNG)
+        ok = NS(license="CC BY 3.0", photo_license="CC BY 3.0", license_tags=["CC-BY-3.0"])
+        none = NS(license="Public domain", photo_license=None, license_tags=None)   # 분류 미기록 레코드(옛 트랙) = 대조 안 함
+        P = NS(R=NS(assets=NS(media_assets={"bad": bad, "ok": ok, "none": none})),  # noqa: N806
+               events=[{"type": "photo", "mid": "bad"}, {"type": "clip", "mid": "ok"}, {"type": "photo", "mid": "none"}])
+        out = check_license_mismatch(P)
+        self.assertEqual(len(out), 1)
+        self.assertTrue(out[0].startswith("bad: [license-mismatch]"))
+
+
 class MediaAssetLicenseTest(unittest.TestCase):
     def test_record_with_cng_tags_fails(self) -> None:
         with self.assertRaises(ValidationError) as cm:
