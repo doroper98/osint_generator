@@ -2467,10 +2467,7 @@ entries:
   quote: "[<논쟁>] 이런 문구는 자막이나 화면에서 빼"
   quote_kind: verbatim
   category: 검증 라벨(<논쟁>·<미검증>) — 자막·화면 어디에도 표기 금지(D85 재확인). 검토 자료(gate-view 원고 전문)에서도 문장 접미 라벨 제거, 상태는 출처 표 열로만
-  guards:
-  - {kind: check, ref: label_in_body}
-  - {kind: rule, ref: script_schema.labels}
-  - {kind: test, ref: tests/test_g5_labels_endcard.py}
+  guards: []
   status: open
-  decision: D-0454(이 영상 — 콘티 판·프리뷰·전편 checks [label-in-body] 0 증명 + gate-view 원고 전문 라벨 제거·시험, 구현 세션이 장치 id 확인 뒤 guarded 로)
+  decision: D-0454(이 영상 — 콘티 판·프리뷰·전편 checks [label-in-body] 0 증명 + gate-view 원고 전문 라벨 제거·시험. 장치 후보 = check label_in_body(D85)·rule script_schema.labels·tests/test_g5_labels_endcard.py + 새 gate-view 시험, 구현 세션이 id 확인 뒤 guarded 로)
   source: 감독 세션(Fable) 사용자 대화 2026-11-01
