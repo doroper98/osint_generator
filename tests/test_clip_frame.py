@@ -25,7 +25,7 @@ class ClipFrameTest(unittest.TestCase):
         s = R.placement.slots["clip_frame"]
         self.assertEqual((s.box, s.frame, s.kinds), ((68.0, 38.0, 717.0), True, ["clip"]))
         self.assertAlmostEqual(s.box[2] / 854, 0.84, places=2)   # 화면 폭 84 %(D-0276 A)
-        self.assertEqual(R.media_beats.clip_show_sec, {"main": (5.0, 20.0), "broll": (3.0, 6.0)})
+        self.assertEqual(R.media_beats.clip_show_sec, {"main": (5.0, 20.0), "broll": (3.0, 9.0)})
         self.assertTrue(R.layout_480p.subtitle.over_clip_frame and R.hud.date_badge_over_clip_frame)
 
     def test_main_clip_goes_to_frame(self) -> None:
@@ -48,7 +48,7 @@ class ClipFrameTest(unittest.TestCase):
         ev = [_clip(role="broll", t1=14.0, place="map_left")]
         resolve_places(ev, lambda t: None, stage_name="mercator")
         self.assertEqual(checks.check_clip_frame(NS(events=ev)), [])
-        ev[0]["t1"] = 20.0   # broll 3~6초 초과
+        ev[0]["t1"] = 20.0   # broll 3~9초 초과
         self.assertTrue(checks.check_clip_frame(NS(events=ev)))
 
 
