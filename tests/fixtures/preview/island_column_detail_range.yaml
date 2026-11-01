@@ -1,0 +1,16 @@
+# 레지스트리 프리뷰 예제(v7.4.0 back_and_forth D-0336 §1·D-0339 T3, 15 P10) — 모델을 그대로 통과한다(P4). 값은 레코드에서만(연출은 숫자를 주지 않는다).
+# 출처 = artifacts econ-template-2026 t2_stage_v3(사용자 승인 컷, D-0330·D-0336). 시간축 무대 · 경제 장르(earnings, 팔레트 noturno·무대 표면).
+schema_version: 1
+key: island_column_detail_range
+source: t2_stage_v3/guidance (가이던스 열 확대 — 머리 줄·캡션 없이 키운 열 + 직접 라벨, D-0328 §3)
+event:
+  type: island
+  kind: column_detail
+  t0: 0.5
+  t1: 20.0
+  lane: rev
+  style: range
+  series_id: INTC_GUIDE_REV_LO
+  upper_id: INTC_GUIDE_REV_HI
+  estimate_id: INTC_REV_Q_EST
+  title: "4분기 매출 전망 · 십억 달러"

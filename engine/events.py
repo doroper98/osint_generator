@@ -106,7 +106,9 @@ class StackPart(BaseModel):
 
 # v7.4.0 D-0309·D-0315 §1-3 — 부문(parts)을 읽는 스타일. stack = 쌓임(series_id = 합계), dumbbell = 그 분기 열 안 부문별 전분기 → 이번 분기,
 # diverging = 그 분기 열 안 부문별 전년 동기 대비 ±%(코드 계산, 0 기준). dumbbell·diverging 의 series_id = 열 날짜 기준 레코드(무대 안 마지막 분기)
-PART_STYLES = ("stack", "dumbbell", "diverging", "slope")   # dumbbell·diverging·slope = 열 확대 인셋 전용(island column_detail, D-0318 §1-3)
+# 열 확대 인셋 전용 스타일 = rules registries.series_styles_detail_only(v7.4.0 D-0336 T3 — 레지스트리 한 곳, P10)
+DETAIL_STYLES: tuple[str, ...] = tuple(load_rules().registries.series_styles_detail_only)
+PART_STYLES = ("stack", *DETAIL_STYLES)   # dumbbell·diverging·slope = 열 확대 인셋 전용(island column_detail, D-0318 §1-3)
 
 
 class SeriesEvent(_Event):
@@ -144,9 +146,9 @@ class SeriesEvent(_Event):
             raise ValueError("series band: upper_id 가 series_id 와 같다")
         if (self.style in PART_STYLES) != bool(self.parts):
             raise ValueError(f"series: style {'·'.join(PART_STYLES)} 은 parts(부문)가 필요하고, 다른 스타일은 parts 를 쓰지 않는다")
-        if self.style in ("dumbbell", "diverging", "slope") and not self.detail:
+        if self.style in DETAIL_STYLES and not self.detail:
             raise ValueError(f"series style {self.style} 은 열 확대 인셋 전용 — island kind column_detail 로 쓴다(D-0318 §1-3)")
-        if self.detail and (self.style not in ("dumbbell", "diverging", "slope", "range") or self.title is None):
+        if self.detail and (self.style not in (*DETAIL_STYLES, "range") or self.title is None):
             raise ValueError("series detail(열 확대 인셋)은 style dumbbell·diverging·slope·range + title")
         if self.secondary and self.style not in ("line", "step"):
             raise ValueError("series secondary(보조 축)는 line·step 만 — 막대·쌓임은 주 축")
@@ -465,7 +467,7 @@ class IslandEvent(_Event):
             return self
         if any(v is None for v in detail):
             raise ValueError("island column_detail 은 lane·style·series_id·title 이 필요하다")
-        if (self.style in ("dumbbell", "diverging", "slope")) != bool(self.parts):
+        if (self.style in DETAIL_STYLES) != bool(self.parts):
             raise ValueError("column_detail dumbbell·diverging·slope 는 parts 가 필요하고, range 는 parts 를 쓰지 않는다")
         if (self.style == "range") != (self.upper_id is not None):
             raise ValueError("column_detail range 는 upper_id(위 끝)가 필요하고, 다른 스타일은 쓰지 않는다")

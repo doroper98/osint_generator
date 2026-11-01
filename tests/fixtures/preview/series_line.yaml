@@ -1,0 +1,6 @@
+# 레지스트리 프리뷰 예제(v7.4.0 back_and_forth D-0336 §1·D-0339 T3, 15 P10) — 모델을 그대로 통과한다(P4). 값은 레코드에서만(연출은 숫자를 주지 않는다).
+# 출처 = artifacts econ-template-2026 t2_stage_v3(사용자 승인 컷, D-0330·D-0336). 시간축 무대 · 경제 장르(earnings, 팔레트 noturno·무대 표면).
+schema_version: 1
+key: series_line
+source: t2_stage_v3/stage (보조 계열 일별 주가 — 가는 선 + 시작·끝값 핀, 보조 축 숫자 없음)
+event: {type: series, t0: 0.5, t1: 20.0, lane: op, series_id: INTC_PX_D, style: line, col: muted, secondary: true}

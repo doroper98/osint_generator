@@ -26,6 +26,7 @@ from engine.context import RenderCtx
 from engine.credits import check_credits, load_credits, required_refs
 from engine.direction import Direction, DirectionError, boundary_routes, geo_unsourced, load_direction_doc, shot_stages
 from engine.direction import ISLAND_STAGE, is_island_shot, island_keys
+from engine.events import DETAIL_STYLES
 from engine.direction import build as build_direction
 from geo.gazetteer import check_doc as gazetteer_check
 from engine.entities import check_event_refs, load_entities
@@ -717,7 +718,7 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
                 from engine.layers.series import stack_columns  # noqa: PLC0415
 
                 stack_columns(e)   # v7.4.0 D-0309 — 부문 합 = 합계(공시 원값 ±sum_tol_pct), 빈 부문 날짜 = 렌더 전 오류(P6)
-            if e["style"] in ("dumbbell", "diverging", "slope"):
+            if e["style"] in DETAIL_STYLES:
                 from engine.layers.series import pair_extent  # noqa: PLC0415
 
                 pair_extent(e)   # v7.4.0 D-0315 §1-3 — 두 시점 부문 값이 다 있어야(빈 값 = 렌더 전 오류, P6). diverging 기준 ≤ 0 도 오류

@@ -40,8 +40,13 @@ NICE_TRIES = 4      # 가수 목록을 몇 자릿수 위까지 훑는가
 DEC_LAST_DAY = 31   # 12월 마지막 날(전망 열 = 그 해 연말)
 SOURCE_SEP = " · "  # 출처 줄 조각 구분(source_line·lane_source 가 쓰는 것과 같다)
 TAG_PAD = 3         # 전망 띠 태그 줄 사이·레인 위 끝 여백(설계 px, D-0266 C)
-SEP_RGB = (0.05, 0.06, 0.08)   # 쌓임 부문 틈·밝은 부문 위 글자(아일랜드 바탕에 가까운 어두운 잉크)
+SEP_RGB = TIMELINE.bars.sep_rgb   # 쌓임 부문 틈·밝은 부문 위 글자(아일랜드 바탕에 가까운 어두운 잉크)
+TM = TIMELINE.text_metrics   # 라벨 기준선 보정(글자 크기 비율)
 AXIS = "value"   # D-0087 — 값 축(정직성 검사 4개 전부, rules qa_checks.chart_targets)
+
+
+# v7.4.0 D-0339(UF-202) — 이 프레임에 그린 막대(bars) 상자(장치 px). checks.check_bar_border 가 프레임마다 비우고 그린 뒤 가장자리 색을 잰다
+DRAWN_BARS: list[tuple[float, float, float, float]] = []
 
 
 def loss_rgb() -> tuple[float, float, float]:
@@ -50,7 +55,7 @@ def loss_rgb() -> tuple[float, float, float]:
 
     B = TIMELINE.bars  # noqa: N806
     g = bg_rgb(TIMELINE.bg_rgb)
-    d, m = (C[B.loss_color], B.neg_fill_mix) if B.negative_fill == "muted_fill" else (bar_ink(), B.ladder[min(B.neg_ink_step, len(B.ladder) - 1)])   # ink_light = 사다리 neg_ink_step 단(D-0330)
+    d, m = C[B.loss_color], B.neg_fill_mix   # UF-204 A 하나(muted_fill) — 잉크 사다리 대안 삭제(P2, D-0336)
     return tuple(a * m + b * (1 - m) for a, b in zip(d, g))  # type: ignore[return-value]
 
 
@@ -524,10 +529,8 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
         ctx.clip()
         if e["style"] == "stack":
             _draw_stack(ctx, view, stage, e, rng, col, a, shown, pr)
-        elif e["style"] == "range":
+        else:   # range(가이던스) — dumbbell·diverging·slope 는 열 확대 인셋 전용(detail, D-0318 §1-3 — 열 안 직접 그리기 삭제 P2)
             _draw_range(ctx, view, stage, e, rng, a, shown, t)
-        else:
-            _draw_pairs(ctx, view, stage, e, rng, col, a, shown)
         ctx.restore()
         _draw_axis(ctx, view, stage, e, rng, "", a, R, t)   # D-0308 감독 지시 ③ — 막대·쌓임 축은 숫자만(단위는 레인 이름)
         _draw_source(ctx, view, stage, e, a)
@@ -619,7 +622,7 @@ def _draw_end_pin(ctx: cairo.Context, view: "View", last: "tuple[float, float, f
     x = sx + SS.end_pin_dx if sx + SS.end_pin_dx + lw <= right else sx - SS.end_pin_dx - lw
     by = sy - SS.end_pin_dx
     pad = SS.plate_pad   # D-0328 감독 지시 (a) — 글자 뒤 선(0 기준선·격자·계열)을 끊는다: 바탕색 판(UF-155 선·글씨 겹침 0)
-    ctx.rectangle(x - pad, by - SS.end_pin_size * 0.85 - pad, lw + 2 * pad, SS.end_pin_size * 1.1 + 2 * pad)
+    ctx.rectangle(x - pad, by - SS.end_pin_size * TM.ascent - pad, lw + 2 * pad, SS.end_pin_size * SS.plate_h_ratio + 2 * pad)
     ctx.set_source_rgba(*bg_rgb(TIMELINE.bg_rgb), a)
     ctx.fill()
     text(ctx, s, x, by, SS.end_pin_size, SS.end_pin_font, C["white"], a, 0, "l")
@@ -843,6 +846,7 @@ def _draw_bars(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
     rects = bar_rects(stage, e, rng, rec)
     ink = bar_ink()
     acc = accent_of(e)
+    est_dates = {d for d, _ in load_series(e["estimate_id"]).values} if e.get("estimate_id") else set()
     for n, (_d, v, x0, x1, y0, yv) in enumerate(rects):
         rank = len(rects) - 1 - n
         k = _grow(front, x0, x1)
@@ -857,6 +861,9 @@ def _draw_bars(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
         else:
             ctx.set_source_rgba(*(col if hot else ink), (1.0 if hot else ladder_alpha(rank, B.ladder)) * a)
         ctx.fill()
+        if k >= 1.0 and a >= 1.0 and _d not in est_dates:   # [bar-border] 검사용 — 다 자란 막대의 장치 px 상자(예상 속빈 막대가 겹친 열은 뺀다)
+            (dx0, dy0), (dx1, dy1) = ctx.user_to_device(sx0, min(sy0, sy1)), ctx.user_to_device(sx1, max(sy0, sy1))
+            DRAWN_BARS.append((min(dx0, dx1), min(dy0, dy1), max(dx0, dx1), max(dy0, dy1)))
         if k >= 1.0:
             s = fmt_value(v, "")
             lw = tw(ctx, s, B.value_size, B.value_font)
@@ -882,7 +889,7 @@ def _draw_estimate(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: 
         sx1, sy1 = view.to_screen(x1, value_y(stage, e["lane"], rng, v))
         w2 = B.hollow_w
         _bar_path(ctx, sx0 + w2 / 2, sx1 - w2 / 2, sy0, sy1 + (w2 / 2 if v >= 0 else -w2 / 2), B.top_radius)
-        ctx.set_source_rgba(*ink, 0.9 * a)
+        ctx.set_source_rgba(*ink, B.hollow_alpha * a)
         ctx.set_line_width(w2)
         ctx.stroke()
         hit = act.get(d)
@@ -901,15 +908,15 @@ def _draw_estimate(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: 
         text(ctx, s, (sx0 + sx1) / 2 - lw / 2, by, B.part_label_size, B.part_label_font, ink, a, B.value_halo, "l")
 
 
-def _seg_style(e: dict, i: int, v: float, col: tuple[float, float, float]) -> tuple[tuple[float, float, float], float, bool]:
-    """쌓임 부문 칠 (rgb, 알파, 손실 윤곽 — 지금은 늘 False) — accent 부문 = col 솔리드, 손실(음수) = 채도 낮춘 면(loss_rgb, D-0328),
+def _seg_style(e: dict, i: int, v: float, col: tuple[float, float, float]) -> tuple[tuple[float, float, float], float]:
+    """쌓임 부문 칠 (rgb, 알파) — accent 부문 = col 솔리드, 손실(음수) = 채도 낮춘 면(loss_rgb, D-0328),
     나머지 = 잉크 사다리(부문 순서)."""
     B = TIMELINE.bars  # noqa: N806
     if accent_of(e) == e["parts"][i]["label"]:
-        return col, 1.0, False
+        return col, 1.0
     if v < 0:
-        return loss_rgb(), 1.0, False   # D-0328 — 손실 = 채도 낮춘 면, 테두리 없음
-    return bar_ink(), B.stack_ladder[min(i, len(B.stack_ladder) - 1)], False
+        return loss_rgb(), 1.0   # D-0328 — 손실 = 채도 낮춘 면, 테두리 없음
+    return bar_ink(), B.stack_ladder[min(i, len(B.stack_ladder) - 1)]
 
 
 def label_rgb(fill: tuple[float, float, float], al: float, under: tuple[float, float, float]) -> tuple[tuple[float, float, float], bool]:
@@ -981,16 +988,10 @@ def _draw_stack(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dic
             ctx.clip()
             for i, s0, s1, v in segs:
                 if (v > 0) == (ye < sy0):
-                    rgb, al, loss = _seg_style(e, i, v, col)
+                    rgb, al = _seg_style(e, i, v, col)
                     ctx.rectangle(sx0, min(s0, s1), sx1 - sx0, abs(s1 - s0))
                     ctx.set_source_rgba(*rgb, al * a)
                     ctx.fill()
-                    if loss:   # 손실 윤곽(clip 안 — 바깥 끝 둥근 모서리를 따른다)
-                        w2 = B.neg_outline_w
-                        ctx.rectangle(sx0 + w2 / 2, min(s0, s1) + w2 / 2, sx1 - sx0 - w2, abs(s1 - s0) - w2)
-                        ctx.set_source_rgba(*C[B.loss_color], a)
-                        ctx.set_line_width(w2)
-                        ctx.stroke()
                     if B.stack_sep_w > 0:   # 부문 경계 1px 바탕색(바깥 끝 쪽)
                         ctx.rectangle(sx0, s1 - B.stack_sep_w / 2, sx1 - sx0, B.stack_sep_w)
                         ctx.set_source_rgba(*sep, a)
@@ -1005,18 +1006,18 @@ def _draw_stack(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dic
         for i, s0, s1, v in (segs if part_named else []):   # 부문 이름(직접 라벨)
             lab = e["parts"][i]["label"]
             lw = tw(ctx, lab, B.part_label_size, B.part_label_font)
-            rgb, al, _loss = _seg_style(e, i, v, col)
+            rgb, al = _seg_style(e, i, v, col)
             fg, plate = label_rgb(rgb, al, sep)
             if abs(s1 - s0) >= B.part_label_min_h and lw <= (sx1 - sx0) - 4:
-                lx, by = (sx0 + sx1) / 2 - lw / 2, (s0 + s1) / 2 + B.part_label_size * 0.35
+                lx, by = (sx0 + sx1) / 2 - lw / 2, (s0 + s1) / 2 + B.part_label_size * TM.mid_drop
                 if plate:   # 중간 농도 칠 — 바탕색 판(끝값 판과 같은 여백·알파 1)
                     pad = TIMELINE.series.end_label_plate.pad_px / 2
-                    ctx.rectangle(lx - pad, by - B.part_label_size * 0.85 - pad / 2, lw + 2 * pad, B.part_label_size * 1.05 + pad)
+                    ctx.rectangle(lx - pad, by - B.part_label_size * TM.ascent - pad / 2, lw + 2 * pad, B.part_label_size * B.part_plate_h_ratio + pad)
                     ctx.set_source_rgba(*sep, a)
                     ctx.fill()
                 text(ctx, lab, lx, by, B.part_label_size, B.part_label_font, fg, a, 0, "l")
             elif latest:
-                leaders.append((sx1, (s0 + s1) / 2, lab, rgb if al >= 0.5 else (C[B.loss_color] if _loss else ink)))
+                leaders.append((sx1, (s0 + s1) / 2, lab, rgb if al >= B.solid_alpha_min else ink))
     _draw_leaders(ctx, leaders, a)
     if not e.get("total", True):
         return
@@ -1030,7 +1031,7 @@ def _draw_stack(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dic
     for x, y, v, latest, ly in tots:   # 합계 점·값 — accent total 이면 전부, latest 면 최신만
         hot = acc == "total" or (acc == "latest" and latest)
         rgb = col if hot else ink
-        ctx.arc(x, y, B.total_dot_r * (1.3 if hot else 1.0), 0, 2 * math.pi)
+        ctx.arc(x, y, B.total_dot_r * (B.total_dot_hot_scale if hot else 1.0), 0, 2 * math.pi)
         ctx.set_source_rgba(*rgb, a)
         ctx.fill_preserve()
         ctx.set_source_rgba(*sep, a)
@@ -1041,87 +1042,15 @@ def _draw_stack(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dic
         text(ctx, s, x - lw / 2, ly, B.value_size, B.value_font, rgb, a, B.value_halo, "l")
 
 
-def _pair_fill(e: dict, lab: str, worse: bool, col: tuple[float, float, float]) -> tuple[tuple[float, float, float], float, bool]:
-    """덤벨 채움 원·diverging 막대 칠 (rgb, 알파, 손실 윤곽 — 지금은 늘 False) — accent 부문 = col 솔리드,
+def _pair_fill(e: dict, lab: str, worse: bool, col: tuple[float, float, float]) -> tuple[tuple[float, float, float], float]:
+    """덤벨 채움 원·diverging 막대 칠 (rgb, 알파) — accent 부문 = col 솔리드,
     감소 = 채도 낮춘 면(loss_rgb, D-0328 — 강조색과 구별), 나머지 = 잉크 stack_ladder 첫 단."""
     B = TIMELINE.bars  # noqa: N806
     if accent_of(e) == lab:
-        return col, 1.0, False
+        return col, 1.0
     if worse:
-        return loss_rgb(), 1.0, False   # D-0328 — 감소 = 채도 낮춘 면, 테두리 없음
-    return bar_ink(), B.stack_ladder[0], False
-
-
-def _draw_pairs(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float],
-                col: tuple[float, float, float], a: float, front: float) -> None:
-    """부문 비교(v7.4.0 D-0308 §2·D-0315 §1-3) — 열 분기 안에 부문을 나란히(시간축 세계 안, 독립 패널 금지 UF-135).
-    dumbbell: 속빈 원 = 전분기, 채움 원 = 이번 분기, 사이 선. 이름·두 값은 열 오른쪽 지시선 라벨("DC 6.3→7.3").
-    diverging: 0 기준 위아래 막대(전년 동기 대비 %, 코드 계산), 값 라벨은 막대 바깥 끝, 이름은 그 바깥.
-    accent 는 부문 하나(없으면 none). 감소 = 흐린 채움 + down 윤곽. 앞끝(front)이 묶음을 지나는 동안 자란다."""
-    B = TIMELINE.bars  # noqa: N806
-    ink = bar_ink()
-    _d0, d1, items = pair_items(e)
-    qa, qb = quarter_span(stage, d1)
-    half = (qb - qa) * B.pair_w_ratio / 2
-    gx0, gx1 = (qa + qb) / 2 - half, (qa + qb) / 2 + half
-    k = _grow(front, gx0, gx1)
-    if k <= 0:
-        return
-    slot = (gx1 - gx0) / len(items)
-    yv = lambda v: view.to_screen(0.0, value_y(stage, e["lane"], rng, v))[1]  # noqa: E731
-    leaders: list[tuple[float, float, str, tuple[float, float, float]]] = []
-    for i, (lab, v0, v1) in enumerate(items):
-        xc = view.to_screen(gx0 + slot * (i + 0.5), 0.0)[0]
-        if e["style"] == "dumbbell":
-            y0, y1 = yv(v0), yv(v0 + (v1 - v0) * k)
-            rgb, al, loss = _pair_fill(e, lab, v1 < v0, col)
-            ctx.move_to(xc, y0)
-            ctx.line_to(xc, y1)
-            ctx.set_source_rgba(*ink, B.pair_line_alpha * a)
-            ctx.set_line_width(B.pair_line_w)
-            ctx.stroke()
-            ctx.arc(xc, y0, B.pair_dot_r - B.hollow_w / 2, 0, 2 * math.pi)   # 속빈 원 = 전분기(예상·이전 = 속빈, D-0308 §1-1)
-            ctx.set_source_rgba(*island_rgb(SEP_RGB), a)
-            ctx.fill_preserve()
-            ctx.set_source_rgba(*ink, 0.9 * a)
-            ctx.set_line_width(B.hollow_w)
-            ctx.stroke()
-            ctx.arc(xc, y1, B.pair_dot_r, 0, 2 * math.pi)
-            ctx.set_source_rgba(*island_rgb(SEP_RGB), a)   # 흐린 채움이 선·바탕을 비치지 않게 바탕을 먼저
-            ctx.fill_preserve()
-            ctx.set_source_rgba(*rgb, al * a)
-            ctx.fill_preserve()
-            if loss:
-                ctx.set_source_rgba(*C[B.loss_color], a)
-                ctx.set_line_width(B.neg_outline_w)
-                ctx.stroke()
-            ctx.new_path()
-            if k >= 1.0:
-                fg = rgb if al >= 0.5 else ink   # 감소 글자는 잉크 — down 글자색은 강조(코랄)와 한눈에 같다(D-0314 §1-1)
-                leaders.append((view.to_screen(gx1, 0.0)[0], y1, f"{lab} {fmt_value(v0, '')}→{fmt_value(v1, '')}", fg))
-            continue
-        p = yoy_pct(v0, v1)
-        hw = slot * B.diverging_w_ratio / 2 * view.s
-        yz, ye = yv(0.0), yv(p * k)
-        rgb, al, loss = _pair_fill(e, lab, p < 0, col)
-        _bar_path(ctx, xc - hw, xc + hw, yz, ye, B.top_radius)
-        ctx.set_source_rgba(*rgb, al * a)
-        ctx.fill()
-        if loss:
-            w2 = B.neg_outline_w
-            _bar_path(ctx, xc - hw + w2 / 2, xc + hw - w2 / 2, yz, ye - w2 / 2 if p >= 0 else ye + w2 / 2, B.top_radius)
-            ctx.set_source_rgba(*C[B.loss_color], a)
-            ctx.set_line_width(w2)
-            ctx.stroke()
-        if k < 1.0:
-            continue
-        fg = rgb if al >= 0.5 else ink
-        s = f"{p:+.0f}%"
-        vb = ye - B.value_gap if p >= 0 else ye + B.value_gap + B.value_size   # 값 = 막대 바깥 끝 바로 옆
-        nb = vb - B.value_size - 2 if p >= 0 else vb + B.part_label_size + 2   # 이름 = 그 바깥
-        for w, by, size, font, fc in ((s, vb, B.value_size, B.value_font, fg), (lab, nb, B.part_label_size, B.part_label_font, ink)):
-            text(ctx, w, xc - tw(ctx, w, size, font) / 2, by, size, font, fc, a, B.value_halo, "l")
-    _draw_leaders(ctx, leaders, a)
+        return loss_rgb(), 1.0   # D-0328 — 감소 = 채도 낮춘 면, 테두리 없음
+    return bar_ink(), B.stack_ladder[0]
 
 
 def _guide_bar(ctx: cairo.Context, x0: float, x1: float, yv: "object", lo: float, hi: float, est: float | None, a: float,
@@ -1150,10 +1079,10 @@ def _guide_bar(ctx: cairo.Context, x0: float, x1: float, yv: "object", lo: float
         ctx.set_source_rgba(*ink, B.guide_band_alpha * a)
         ctx.fill()
         _bar_path(ctx, x0 + w2 / 2, x1 - w2 / 2, yv(0.0), yhi + w2 / 2, B.top_radius)
-        ctx.set_source_rgba(*ink, 0.95 * a)
+        ctx.set_source_rgba(*ink, B.guide_edge_alpha * a)
         ctx.set_line_width(w2)
         ctx.stroke()
-    ctx.set_source_rgba(*ink, 0.95 * a)
+    ctx.set_source_rgba(*ink, B.guide_edge_alpha * a)
     ye = None
     if est is not None:
         ye = yv(est)
@@ -1163,7 +1092,7 @@ def _guide_bar(ctx: cairo.Context, x0: float, x1: float, yv: "object", lo: float
         ctx.line_to(xc - dot_r, ye)
         ctx.move_to(xc + dot_r, ye)
         ctx.line_to(xc + hw, ye)
-        ctx.set_line_width(max(1.0, w2 * 0.6))
+        ctx.set_line_width(max(1.0, w2 * B.guide_tick_w_ratio))
         ctx.stroke()
         ctx.new_sub_path()
         ctx.arc(xc, ye, dot_r - w2 / 2, 0, 2 * math.pi)
@@ -1192,10 +1121,10 @@ def _draw_range(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dic
         if k <= 0:
             continue
         sx0, sx1 = view.to_screen(x0, 0.0)[0], view.to_screen(x1, 0.0)[0]
-        ym, ye = _guide_bar(ctx, sx0, sx1, yv, lo, hi, est.get(d), k * a, B.hollow_w, B.pair_dot_r)
+        y_mid, ye = _guide_bar(ctx, sx0, sx1, yv, lo, hi, est.get(d), k * a, B.hollow_w, B.pair_dot_r)
         if k < 1.0 or hidden:
             continue
-        leaders.append((sx1, ym, f"가이던스 {fmt_value(lo, '')}~{fmt_value(hi, '')}", ink))
+        leaders.append((sx1, y_mid, f"가이던스 {fmt_value(lo, '')}~{fmt_value(hi, '')}", ink))
         if ye is not None:
             leaders.append((sx1, ye, f"예상 {fmt_value(est[d], '')}", ink))
     _draw_leaders(ctx, leaders, a)
@@ -1229,7 +1158,7 @@ def detail_rect(view: "View", side: str, ytop: float, ybot: float) -> tuple[floa
 def detail_side_ok(side: str, fa: float, fb: float) -> bool:
     """뷰 폭 비율 [fa, fb] 의 열을 그 자리의 인셋이 가리지 않는가(margin 은 비율로 근사하지 않고 w_ratio 만 — 보수적으로 여유를 둔다)."""
     CD = load_rules().island.column_detail  # noqa: N806
-    lo, hi = (0.0, CD.w_ratio + 0.03) if side == "left" else (1 - CD.w_ratio - 0.03, 1.0)
+    lo, hi = (0.0, CD.w_ratio + CD.side_slack) if side == "left" else (1 - CD.w_ratio - CD.side_slack, 1.0)
     return fb <= lo or fa >= hi
 
 
@@ -1261,7 +1190,7 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
     col = C[e.get("col", "gold")]
     cin, cout = bool(e.get("detail_cont_in")), bool(e.get("detail_cont_out"))   # 앞·뒤 문장과 이어진 같은 인셋(accent 만 옮김)
     al = window(t, e["t0"], e["t1"], 0.0 if cin else CD.fade[0], 0.0 if cout else CD.fade[1]) * a
-    if al <= 0.01:
+    if al <= CD.min_alpha:
         return
     d1, span = detail_column(e)
     qa, qb = quarter_span(stage, d1)
@@ -1281,7 +1210,7 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
     x, y, w, h = detail_rect(view, side, ytop, ybot)
     u = 1.0 if cin else ease_out(min(1.0, max(0.0, (t - e["t0"]) / max(CD.fade[0], 1e-6))))
     x += (1 - u) * CD.slide_px * (1 if side == "left" else -1) * (1 if (cx0 + cx1) / 2 > x + w / 2 else -1)
-    k = 1.0 if cin else ease_out(min(1.0, max(0.0, (t - e["t0"] - CD.fade[0] * 0.5) / max(CD.grow_sec, 1e-6))))
+    k = 1.0 if cin else ease_out(min(1.0, max(0.0, (t - e["t0"] - CD.fade[0] * CD.grow_delay_ratio) / max(CD.grow_sec, 1e-6))))
     ex = x + w - CD.radius if side == "left" else x + CD.radius   # 리더선: 열의 인셋 쪽 변 → 인셋 위 변, 수평. 높이 = 레인 위 끝(값 라벨보다 위 — 가로지르지 않는다)
     ly = y + 0.5
     ctx.move_to(cx0 if side == "left" else cx1, ly)
@@ -1306,12 +1235,12 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
         ctx.stroke()
     p = CD.pad_px
     if flat:   # D-0328 §3·D-0330 — 머리 줄 없이 짧은 이름 하나(연출 title — 기간·단위를 그 안에 짧게), 라벨 위계(sans muted)
-        text(ctx, e["title"], x + p, y + p + CD.text_size * 0.8, CD.text_size, CD.text_font, C["muted"], al, 0, "l")
+        text(ctx, e["title"], x + p, y + p + CD.text_size * TM.cap_rise, CD.text_size, CD.text_font, C["muted"], al, 0, "l")
     else:
         head = f"{e['title']}({detail_unit(e)})" if e["style"] == "slope" else f"{span} · {e['title']}({detail_unit(e)})"   # slope 는 두 시점을 열 머리에(되풀이 글자 금지)
-        text(ctx, head, x + p, y + p + CD.head_size * 0.8, CD.head_size, CD.head_font, ink, al, 0, "l")
+        text(ctx, head, x + p, y + p + CD.head_size * TM.cap_rise, CD.head_size, CD.head_font, ink, al, 0, "l")
     ax0, ax1 = x + p, x + w - p
-    ay0, ay1 = y + p + CD.head_size + 16, y + h - p - CD.text_size - 8   # 맨 아래 줄 = 부문 이름
+    ay0, ay1 = y + p + CD.head_size + CD.plot_top_gap, y + h - p - CD.text_size - CD.plot_bottom_gap   # 맨 아래 줄 = 부문 이름
     ny = y + h - p   # 이름 기준선
     ts, vf, tf = CD.text_size, CD.value_font, CD.text_font
 
@@ -1323,9 +1252,9 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
         est = dict(load_series(e["estimate_id"]).values).get(d1) if e.get("estimate_id") else None
         top_v = max(hi, est if est is not None else hi)
         span_v = top_v - lo
-        a_lo, a_hi = lo - span_v * 1.2, top_v + span_v * 0.35
+        a_lo, a_hi = lo - span_v * CD.range_pad_below, top_v + span_v * CD.range_pad_above
         bw = (ax1 - ax0) * CD.guide_bar_ratio
-        bx0 = ax0 + (ax1 - ax0) * 0.18
+        bx0 = ax0 + (ax1 - ax0) * CD.guide_bar_x_ratio
         ctx.save()
         ctx.rectangle(x, ay0 - 6, w, ay1 - ay0 + 12)
         ctx.clip()
@@ -1333,21 +1262,21 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
             ty = mapy(tv, a_lo, a_hi)
             ctx.move_to(bx0 - 6, ty)
             ctx.line_to(bx0 - 2, ty)
-            ctx.set_source_rgba(*ink, 0.5 * al)
+            ctx.set_source_rgba(*ink, CD.tick_alpha * al)
             ctx.set_line_width(1.0)
             ctx.stroke()
             s_ = fmt_value(float(tv), "")
-            text(ctx, s_, bx0 - 9 - tw(ctx, s_, ts, tf), ty + ts * 0.35, ts, tf, ink, al * 0.6, 0, "l")
-        ym, ye = _guide_bar(ctx, bx0, bx0 + bw, lambda v: mapy(v, a_lo, a_hi), lo, hi, est, al, B.hollow_w * 1.5, CD.dot_r)
+            text(ctx, s_, bx0 - CD.tick_label_dx - tw(ctx, s_, ts, tf), ty + ts * TM.mid_drop, ts, tf, ink, al * CD.tick_label_alpha, 0, "l")
+        y_mid, ye = _guide_bar(ctx, bx0, bx0 + bw, lambda v: mapy(v, a_lo, a_hi), lo, hi, est, al, B.hollow_w * CD.guide_line_scale, CD.dot_r)
         ctx.restore()
-        rows = [(ym, f"가이던스 {fmt_value(lo, '')}~{fmt_value(hi, '')}", ink)] + ([(ye, f"시장 예상 {fmt_value(est, '')}", ink)] if ye is not None else [])
-        lys = _push_apart([r[0] + ts * 0.35 for r in rows], ts * CD.label_gap_ratio + 2)
-        lx = bx0 + bw + 14
+        rows = [(y_mid, f"가이던스 {fmt_value(lo, '')}~{fmt_value(hi, '')}", ink)] + ([(ye, f"시장 예상 {fmt_value(est, '')}", ink)] if ye is not None else [])
+        lys = _push_apart([r[0] + ts * TM.mid_drop for r in rows], ts * CD.label_gap_ratio + 2)
+        lx = bx0 + bw + CD.label_dx
         for (yy, s_, rgb), ly in zip(rows, lys):
-            if abs(ly - ts * 0.35 - yy) > 2:   # 밀려난 라벨은 가는 리더선으로 자기 자리에
+            if abs(ly - ts * TM.mid_drop - yy) > 2:   # 밀려난 라벨은 가는 리더선으로 자기 자리에
                 ctx.move_to(bx0 + bw + 2, yy)
-                ctx.line_to(lx - 3, ly - ts * 0.35)
-                ctx.set_source_rgba(*ink, 0.6 * al)
+                ctx.line_to(lx - 3, ly - ts * TM.mid_drop)
+                ctx.set_source_rgba(*ink, CD.leader_alpha * al)
                 ctx.set_line_width(1.0)
                 ctx.stroke()
             text(ctx, s_, lx, ly, ts, vf, rgb, al, 0, "l")
@@ -1366,13 +1295,13 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
             acc = max(ups)[1] if ups else "none"
         vs = [v for _l, a_, b in sh for v in (a_, b)]
         a_lo, a_hi = min(vs), max(vs)
-        pd_ = (a_hi - a_lo) * 0.12 or 1.0
+        pd_ = (a_hi - a_lo) * CD.slope_pad_ratio or 1.0
         a_lo, a_hi = a_lo - pd_, a_hi + pd_
-        xa, xb = ax0 + (ax1 - ax0) * 0.28, ax1 - (ax1 - ax0) * 0.34
+        xa, xb = ax0 + (ax1 - ax0) * CD.slope_x0_ratio, ax1 - (ax1 - ax0) * CD.slope_x1_inset_ratio
         q0 = span.split(" → ")
-        text(ctx, q0[0], xa - tw(ctx, q0[0], ts, tf) / 2, ay0 - 4, ts, tf, ink, al * 0.8, 0, "l")
+        text(ctx, q0[0], xa - tw(ctx, q0[0], ts, tf) / 2, ay0 - 4, ts, tf, ink, al * CD.slope_head_alpha, 0, "l")
         rlab = q0[1] if len(q0) > 1 else ""
-        text(ctx, rlab, xb - tw(ctx, rlab, ts, tf) / 2, ay0 - 4, ts, tf, ink, al * 0.8, 0, "l")
+        text(ctx, rlab, xb - tw(ctx, rlab, ts, tf) / 2, ay0 - 4, ts, tf, ink, al * CD.slope_head_alpha, 0, "l")
         lrows, rrows = [], []
         for i, (lab, v0, v1) in enumerate(sh):
             hot = lab == acc
@@ -1381,10 +1310,10 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
             ctx.move_to(xa, y0)
             ctx.line_to(xa + (xb - xa) * k, y1)
             ctx.set_source_rgba(*rgb, (1.0 if hot else B.stack_ladder[min(i, len(B.stack_ladder) - 1)]) * al)
-            ctx.set_line_width(CD.line_w * (1.3 if hot else 1.0))
+            ctx.set_line_width(CD.line_w * (CD.hot_line_scale if hot else 1.0))
             ctx.stroke()
             for xx, yy in ((xa, y0), (xa + (xb - xa) * k, y1)):
-                ctx.arc(xx, yy, CD.dot_r * 0.7, 0, 2 * math.pi)
+                ctx.arc(xx, yy, CD.dot_r * CD.slope_dot_ratio, 0, 2 * math.pi)
                 ctx.set_source_rgba(*rgb, al)
                 ctx.fill()
             lrows.append((y0, f"{v0:.1f}", rgb))   # 공시 자릿수 그대로(조 원 소수 첫째)
@@ -1392,12 +1321,12 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
         if k >= 1.0:   # D-0321 §3 — 라벨은 글자 크기 × label_gap_ratio 간격으로 밀고, 밀린 라벨은 가는 리더선으로 자기 점에
             lead = CD.dot_r + 12
             for rows, px, right in ((lrows, xa, True), (rrows, xb, False)):
-                lys = _push_apart([r[0] + ts * 0.35 for r in rows], ts * CD.label_gap_ratio, y + h - p)
+                lys = _push_apart([r[0] + ts * TM.mid_drop for r in rows], ts * CD.label_gap_ratio, y + h - p)
                 xx = px - lead if right else px + lead
                 for (yy, s, rgb), ly in zip(rows, lys):
                     ctx.move_to(px + (-CD.dot_r - 1 if right else CD.dot_r + 1), yy)
-                    ctx.line_to(xx + (2 if right else -2), ly - ts * 0.35)
-                    ctx.set_source_rgba(*rgb, 0.6 * al)
+                    ctx.line_to(xx + (2 if right else -2), ly - ts * TM.mid_drop)
+                    ctx.set_source_rgba(*rgb, CD.leader_alpha * al)
                     ctx.set_line_width(1.0)
                     ctx.stroke()
                     text(ctx, s, xx - (tw(ctx, s, ts, vf) if right else 0), ly, ts, vf, rgb, al, 0, "l")
@@ -1405,12 +1334,12 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
     if e["style"] == "dumbbell":
         vs = [v for _l, a_, b in items for v in (a_, b)]
         a_lo, a_hi = min(vs), max(vs)
-        pd_ = (a_hi - a_lo) * 0.15 or 1.0
+        pd_ = (a_hi - a_lo) * CD.dumbbell_pad_ratio or 1.0
         a_lo, a_hi = a_lo - pd_, a_hi + pd_
         for i, (lab, v0, v1) in enumerate(items):
-            xc = ax0 + slot * (i + 0.5) - slot * 0.12
+            xc = ax0 + slot * (i + 0.5) - slot * CD.dumbbell_x_shift_ratio
             y0, y1 = mapy(v0, a_lo, a_hi), mapy(v0 + (v1 - v0) * k, a_lo, a_hi)
-            rgb, fa, loss = _pair_fill(e, lab, v1 < v0, col) if acc != "none" or v1 < v0 else (ink, B.stack_ladder[0], False)
+            rgb, fa = _pair_fill(e, lab, v1 < v0, col) if acc != "none" or v1 < v0 else (ink, B.stack_ladder[0])
             ctx.move_to(xc, y0)
             ctx.line_to(xc, y1)
             ctx.set_source_rgba(*ink, B.pair_line_alpha * al)
@@ -1419,7 +1348,7 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
             ctx.arc(xc, y0, CD.dot_r - B.hollow_w / 2, 0, 2 * math.pi)   # 속빈 원 = 전분기
             ctx.set_source_rgba(*sep, al)
             ctx.fill_preserve()
-            ctx.set_source_rgba(*ink, 0.9 * al)
+            ctx.set_source_rgba(*ink, B.hollow_alpha * al)
             ctx.set_line_width(B.hollow_w)
             ctx.stroke()
             ctx.arc(xc, y1, CD.dot_r, 0, 2 * math.pi)
@@ -1427,20 +1356,16 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
             ctx.fill_preserve()
             ctx.set_source_rgba(*rgb, fa * al)
             ctx.fill_preserve()
-            if loss:
-                ctx.set_source_rgba(*C[B.loss_color], al)
-                ctx.set_line_width(B.neg_outline_w)
-                ctx.stroke()
             ctx.new_path()
-            fg = ink if v1 < v0 else (rgb if fa >= 0.5 else ink)   # 감소 항목의 글자는 잉크(면만 흐리게 — 글자가 바탕에 묻히지 않게, D-0330)
-            text(ctx, fmt_value(v0, ""), xc + CD.dot_r + 5, y0 + ts * 0.35, ts, tf, ink, al * 0.75, 0, "l")
+            fg = ink if v1 < v0 else (rgb if fa >= B.solid_alpha_min else ink)   # 감소 항목의 글자는 잉크(면만 흐리게 — 글자가 바탕에 묻히지 않게, D-0330)
+            text(ctx, fmt_value(v0, ""), xc + CD.dot_r + CD.value_dx, y0 + ts * TM.mid_drop, ts, tf, ink, al * CD.prior_value_alpha, 0, "l")
             if k >= 1.0:
-                text(ctx, fmt_value(v1, ""), xc + CD.dot_r + 5, y1 + ts * 0.35, ts, vf, fg, al, 0, "l")
+                text(ctx, fmt_value(v1, ""), xc + CD.dot_r + CD.value_dx, y1 + ts * TM.mid_drop, ts, vf, fg, al, 0, "l")
             text(ctx, lab, xc - tw(ctx, lab, ts, tf) / 2, ny, ts, tf, fg, al, 0, "l")
         return
     pcts = [yoy_pct(a_, b) for _l, a_, b in items]   # diverging
     a_lo, a_hi = min(0.0, *pcts), max(0.0, *pcts)
-    pd_ = (a_hi - a_lo) * 0.18 or 1.0
+    pd_ = (a_hi - a_lo) * CD.diverging_pad_ratio or 1.0
     a_lo, a_hi = a_lo - (pd_ if a_lo < 0 else 0), a_hi + pd_
     yz = mapy(0.0, a_lo, a_hi)
     ctx.move_to(ax0, yz)
@@ -1452,17 +1377,11 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
         xc = ax0 + slot * (i + 0.5)
         hw = slot * CD.bar_w_ratio / 2
         ye = mapy(pc * k, a_lo, a_hi)
-        rgb, fa, loss = _pair_fill(e, lab, pc < 0, col) if acc != "none" or pc < 0 else (ink, B.stack_ladder[0], False)
+        rgb, fa = _pair_fill(e, lab, pc < 0, col) if acc != "none" or pc < 0 else (ink, B.stack_ladder[0])
         _bar_path(ctx, xc - hw, xc + hw, yz, ye, B.top_radius)
         ctx.set_source_rgba(*rgb, fa * al)
         ctx.fill()
-        if loss:
-            w2 = B.neg_outline_w
-            _bar_path(ctx, xc - hw + w2 / 2, xc + hw - w2 / 2, yz, ye + (w2 / 2 if pc < 0 else -w2 / 2), B.top_radius)
-            ctx.set_source_rgba(*C[B.loss_color], al)
-            ctx.set_line_width(w2)
-            ctx.stroke()
-        fg = ink if pc < 0 else (rgb if fa >= 0.5 else ink)   # 감소 항목의 글자는 잉크(D-0330)
+        fg = ink if pc < 0 else (rgb if fa >= B.solid_alpha_min else ink)   # 감소 항목의 글자는 잉크(D-0330)
         if k >= 1.0:
             s = f"{pc:+.0f}%"
             by = ye - 6 if pc >= 0 else ye + 6 + ts
@@ -1479,12 +1398,12 @@ def _draw_leaders(ctx: cairo.Context, leaders: list[tuple[float, float, str, tup
         ly = max([y] + [p + gap for p in placed])
         placed.append(ly)
         ctx.move_to(x + 1, y)
-        ctx.line_to(x + B.leader_len * 0.6, y)
+        ctx.line_to(x + B.leader_len * B.leader_bend_ratio, y)
         ctx.line_to(x + B.leader_len, ly)
-        ctx.set_source_rgba(*rgb, 0.85 * a)
+        ctx.set_source_rgba(*rgb, B.leader_alpha * a)
         ctx.set_line_width(1.0)
         ctx.stroke()
-        text(ctx, lab, x + B.leader_len + B.part_label_dx * 0.5, ly + B.part_label_size * 0.35, B.part_label_size,
+        text(ctx, lab, x + B.leader_len + B.part_label_dx * B.leader_label_dx_ratio, ly + B.part_label_size * TM.mid_drop, B.part_label_size,
              B.part_label_font, rgb, a, 2.0, "l")
 
 
