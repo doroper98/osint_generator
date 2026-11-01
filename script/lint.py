@@ -414,6 +414,36 @@ def transition_points(script: Script) -> list[tuple[int, list[str], str]]:
     return out
 
 
+def repeat_issues(script: Script) -> list[LintIssue]:
+    """v7.4.0 D-0608(D-0609 §1-2) — 흐름 반복 경고 둘.
+    [connective-repeat] 같은 연결어로 시작하는 문장이 연달아 connective_repeat_max 를 넘는다(그 줄의 마지막 문장에 한 번).
+    [attribution-repeat] 귀속 표지(script_schema.attribution_markers) 문장이 1분 창(글자 수 추정, script.media_table.CHARS_PER_MIN)에
+    attribution_repeat_max_per_min 을 넘는다(가장 붐비는 창 하나만)."""
+    from script.media_table import CHARS_PER_MIN  # noqa: PLC0415 — media_table 이 lint 를 쓰지 않아 순환 없음
+
+    r = load_rules()
+    sg, markers = r.script_grammar, r.script_schema.attribution_markers
+    flat = [(f"{sc.id}_{k}", s) for sc in script.scenes for k, s in enumerate(sc.sentences)]
+    out: list[LintIssue] = []
+    run, prev = 0, None
+    for sid, s in flat:
+        head = next((c for c in sorted(sg.connectives, key=len, reverse=True) if starts_with_connective(s.text, [c])), None)
+        run = run + 1 if head is not None and head == prev else (1 if head is not None else 0)
+        prev = head
+        if head is not None and run == sg.connective_repeat_max + 1:
+            out.append(LintIssue(kind="connective-repeat", severity="warning", sid=sid, text=s.text,
+                                 detail=f"'{head}' 로 시작하는 문장이 {run}번 연달아 — 같은 연결어는 {sg.connective_repeat_max}번까지(script_grammar)"))
+    t, starts = 0.0, []
+    for sid, s in flat:
+        starts.append((t, sid, any(m.lower() in s.text.lower() for m in markers)))
+        t += len(s.tts or s.text) / CHARS_PER_MIN * 60
+    worst = max(((sum(1 for u, _, a in starts if a and t0 <= u < t0 + 60), sid) for t0, sid, _ in starts), default=(0, "-"))
+    if worst[0] > sg.attribution_repeat_max_per_min:
+        out.append(LintIssue(kind="attribution-repeat", severity="warning", sid=worst[1], text="",
+                             detail=f"귀속 문장이 1분 안에 {worst[0]}개 > {sg.attribution_repeat_max_per_min} — 귀속을 묶거나 평서로(script_grammar)"))
+    return out
+
+
 def transition_issues(script: Script) -> list[LintIssue]:
     """[transition-bridge] 오류 — 전환 경계의 앞 장면 마지막·뒤 장면 첫 문장에 role: bridge 가 없다(UF-105, D-0230).
     [transition-in-scene] 경고 — 장면 안 문장 날짜가 장면 중앙값과 in_scene_jump_days 이상(role: background 제외)."""
@@ -597,6 +627,7 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
             total += 1
             flow += starts_with_connective(s.text, sg.connectives)
     out += transition_issues(script)   # v7.4.0 D-0229 §2.2(UF-105)·D-0230
+    out += repeat_issues(script)       # v7.4.0 D-0608(D-0609 §1-2) — [connective-repeat]·[attribution-repeat] 경고
     out += vocab_issues(script)        # v7.4.0 D-0229 §2.8(UF-108·114)
     out += act_frame_issues(script)    # v7.4.0 D-0229 §2.9(UF-104·115)
     out += tensification_issues(script)   # v7.4.0 D-0246(UF-127)

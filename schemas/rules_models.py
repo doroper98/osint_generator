@@ -67,6 +67,8 @@ class ScriptGrammar(_Strict):
     connectives: list[str] = Field(min_length=1)
     connective_min_ratio: float = Field(ge=0, le=1)
     connective_max_ratio: float = Field(ge=0, le=1)
+    connective_repeat_max: int = Field(ge=1)               # v7.4.0 D-0608 — 같은 연결어로 연달아 시작하는 문장 수 상한(넘으면 [connective-repeat] 경고)
+    attribution_repeat_max_per_min: int = Field(ge=1)      # v7.4.0 D-0608 — 1분 창 귀속 문장 수 상한(넘으면 [attribution-repeat] 경고)
     uncertain_patterns: list[str] = Field(min_length=1)
     lint_waivable: list[str] = Field(min_length=1)   # v5.17.0 D-0168 — 프로젝트 면제 목록에 올릴 수 있는 린트 kind(문체·흐름만)
 
