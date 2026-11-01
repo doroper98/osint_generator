@@ -2460,3 +2460,16 @@ entries:
   status: guarded
   decision: D-0334(261101_091229_D0334_fable_user-iran-ceasefire-video-delegated.md)
   source: 감독 세션(Fable) 사용자 대화 2026-11-01
+- id: UF-206
+  date: '2026-11-01'
+  project: showcase_2026
+  at: "최종 감독 승계 보고(결정 대기 5건 목록) 뒤 사용자 답"
+  quote: "1~4까지 승인. 전쟁사는 별도 트랙으로 감독과 구현 세션 띄워서 진행하고, 전쟁사 세션에서는 아주아주 적극적으로 미술사와 연관시키고 미술 작품이나 인물 사진, 전쟁사적 기록과 사진을 캐입시키게 만들어. 즉 과거 전쟁은 미술과 기록, 현대 전쟁은 사진과 영상과 기록을 적극적으로 보여주는거야. 그리고 또다른 별도 감독/구현 세션 띄워서 미국과 이란 휴전 협상이 어떻게 되어 가는지, 협상인의 내용은 무엇인지 각 이해관계자들의 입장은 어떤지 분석하는 영상 제작 착수해"
+  quote_kind: verbatim
+  category: 승인 — ① 쇼케이스 게이트 ② + econ A(감독 추천 수용) ② 경제 템플릿 요소 넷 ③ CLAUDE.md C0 표제 정정 ④ 중국 트랙 main 병합 · 지시 — 전쟁사 별도 트랙(감독+구현), 미술사 적극 연계(과거 전쟁 = 미술·기록, 현대 전쟁 = 사진·영상·기록) · 미국·이란 휴전 협상 분석 영상 별도 트랙(기존 D-0334 트랙과 범위 확인 중)
+  guards:
+  - kind: doc
+    ref: "back_and_forth/261101_101033_D0337_fable_user-war-history-track-art-evidence.md#결정(사용자) — 전쟁사 트랙 착수"
+  status: guarded
+  decision: D-0335·D-0336·D-0337(261101_101033)
+  source: 감독 세션(Fable) 사용자 대화 2026-11-01
