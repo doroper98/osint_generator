@@ -1,0 +1,24 @@
+{
+ "schema_version": 1,
+ "resolution": {
+  "profile": "720p",
+  "width": 1280,
+  "height": 720,
+  "fps": 24,
+  "k": 1.5,
+  "pad_x": -0.5,
+  "crf": 19,
+  "preset": "faster"
+ },
+ "jobs": 4,
+ "frames": 5782,
+ "sec": 973.1,
+ "peak_child_rss_mb": 662,
+ "map_contrast_fix": {
+  "3월 2일 IRGC 봉쇄 선언": 4.01,
+  "가장 좁은 곳 약 39km": 4.08,
+  "모스크바": 3.98,
+  "신고: 니가타": 3.65,
+  "이란 원유 수출 거점": 4.11
+ }
+}

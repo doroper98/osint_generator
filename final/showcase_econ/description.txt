@@ -1,0 +1,38 @@
+쇼케이스 — 금리 선 위의 1년 · 연준의 인하·동결·인상을 한 시간축 위에서
+
+이 영상은 저장소가 지금 그릴 수 있는 경제 데이터 화면 요소·목소리·글꼴을 한 편에 담은 데모입니다. 2025년 10월부터 2026년 9월까지 미국 연준의 금리 결정을 하나의 시간축 위에 놓고 따라갑니다. 수치는 연준·노동통계국 공개 자료(FRED)와 연준 경제전망요약(SEP)이며 기준 시점을 화면에 적었습니다. 새 사실과 새 수치는 없습니다. 투자 권유가 아닌 정보 제공 목적의 영상입니다.
+
+챕터
+0:00 9월 16일, 첫 인상
+0:28 타이틀
+0:34 내리던 금리, 멈춘 금리
+1:20 갈라진 표와 인상
+2:15 점도표
+2:42 정리
+
+투자 권유가 아닌 정보 제공 목적의 영상입니다.
+
+크레딧 (영상 밖 표기 — 폰트 등)
+GmarketSans · Gmarket · G마켓 무료 폰트 · https://corp.gmarket.com/fonts/
+IBM Plex Mono · IBM · SIL OFL 1.1 · https://github.com/google/fonts/tree/main/ofl/ibmplexmono
+IBM Plex Sans KR · IBM · SIL OFL 1.1 · https://github.com/google/fonts/tree/main/ofl/ibmplexsanskr
+Noto Serif CJK KR · Google · Adobe · SIL OFL 1.1 · https://github.com/notofonts/noto-cjk
+
+출처 원문 (보도 · 자료 · X 게시물)
+연준 FOMC “성명 2026.9.16” — https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm
+연준 FOMC “성명 2025.10.29” — https://www.federalreserve.gov/newsevents/pressreleases/monetary20251029a.htm
+연준 FOMC “성명 2025.12.10” — https://www.federalreserve.gov/newsevents/pressreleases/monetary20251210a.htm
+연준 FOMC “성명 2026.1.28” — https://www.federalreserve.gov/newsevents/pressreleases/monetary20260128a.htm
+연준 FOMC “성명 2026.3.18” — https://www.federalreserve.gov/newsevents/pressreleases/monetary20260318a.htm
+연준 FOMC “성명 2026.4.29” — https://www.federalreserve.gov/newsevents/pressreleases/monetary20260429a.htm
+연준 FOMC “성명 2026.6.17” — https://www.federalreserve.gov/newsevents/pressreleases/monetary20260617a.htm
+연준 FOMC “성명 2026.7.29” — https://www.federalreserve.gov/newsevents/pressreleases/monetary20260729a.htm
+연준 “의장 기자회견 모두발언 2026.9.16” — https://www.federalreserve.gov/mediacenter/files/FOMCpresconf20260916.pdf
+CNN (7.29) — https://www.cnn.com/2026/07/29/business/live-news/federal-reserve-interest-rate-07-29-26
+Fox Business (7.29) — https://www.foxbusiness.com/economy/federal-reserve-interest-rate-decision-july-29-2026
+CNN (9.16) — https://www.cnn.com/2026/09/16/business/live-news/federal-reserve-interest-rate-september
+Fox Business (9.16) — https://www.foxbusiness.com/economy/federal-reserve-interest-rate-decision-september-16-2026
+NBC News (9.16) — https://www.nbcnews.com/business/economy/fed-raises-rates-defying-trump-rcna598148
+ABC News (9.16) — https://abcnews.com/Business/federal-reserve-expected-raise-interest-rates-time-2023/story?id=136457761
+연준 FOMC “의장 기자회견 녹취록 9.16” — https://www.federalreserve.gov/mediacenter/files/FOMCpresconf20260916.pdf
+연준 FOMC “의장 기자회견 녹취록 7.29” — https://www.federalreserve.gov/mediacenter/files/FOMCpresconf20260729.pdf

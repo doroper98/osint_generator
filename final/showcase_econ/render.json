@@ -1,0 +1,18 @@
+{
+ "schema_version": 1,
+ "resolution": {
+  "profile": "720p",
+  "width": 1280,
+  "height": 720,
+  "fps": 24,
+  "k": 1.5,
+  "pad_x": -0.5,
+  "crf": 19,
+  "preset": "faster"
+ },
+ "jobs": 4,
+ "frames": 4419,
+ "sec": 1069.8,
+ "peak_child_rss_mb": 511,
+ "map_contrast_fix": {}
+}

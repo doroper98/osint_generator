@@ -1,0 +1,56 @@
+쇼케이스 — 지도 위의 경유 · 『경유의 길』 축약과 호르무즈·DMZ 자료 장
+
+이 영상은 저장소가 지금 그릴 수 있는 화면 요소·목소리·글꼴을 한 편에 담은 데모입니다. 내용은 사용자 합격 영상 『경유의 길』(2026년 10월)의 축약이며, 호르무즈 해협과 비무장지대 지뢰 사건의 기존 원고 문장을 자료 장으로 붙였습니다. 새 사실과 새 수치는 없습니다. 모든 문장은 원 프로젝트의 출처·검증 기록을 그대로 따릅니다.
+
+챕터
+0:00 10월 15일 새벽, 랴잔
+0:17 타이틀
+0:23 러시아 정유소 타격과 경유 부족
+1:16 극동과 울산발 유조선
+1:54 자료 장 — 걸프와 호르무즈
+2:43 자료 장 — 비무장지대 현장
+3:05 워싱턴의 경유 거래와 깨진 휴전
+3:35 정리
+
+요소 확인용 데모입니다. 투자·정책 판단의 근거로 쓰지 않습니다.
+
+크레딧 (영상 밖 표기 — 폰트 등)
+GmarketSans · Gmarket · G마켓 무료 폰트 · https://corp.gmarket.com/fonts/
+IBM Plex Mono · IBM · SIL OFL 1.1 · https://github.com/google/fonts/tree/main/ofl/ibmplexmono
+IBM Plex Sans KR · IBM · SIL OFL 1.1 · https://github.com/google/fonts/tree/main/ofl/ibmplexsanskr
+Noto Serif CJK KR · Google · Adobe · SIL OFL 1.1 · https://github.com/notofonts/noto-cjk
+
+출처 원문 (보도 · 자료 · X 게시물)
+Kyiv Independent (10.6) — https://kyivindependent.com/south-korea-shipping-fuel-to-russia-via-sanctioned-vessels-media-reports/
+UNITED24 Media (10.6) — https://united24media.com/world/south-korea-shipped-176000-tons-of-fuel-to-russia-as-sanctioned-tankers-hid-their-destinations-23164
+Ukrainian News (10.6) — https://ukranews.com/en/news/1179375-south-korea-shipped-176-000-metric-tons-of-fuel-to-russia-some-of-it-was-transported-by-tankers
+IEA (9.17) — https://www.iea.org/commentaries/russian-refining-sector-struggles-amid-intensifying-ukrainian-attacks
+Ukrainska Pravda (7.8) — https://www.pravda.com.ua/eng/news/2026/07/08/8043114/
+MEES (8.28) — https://www.mees.com/2026/8/28/opec/hormuz-diesel-exports-edge-up/f93abdc0-a2e0-11f1-9f49-8fbe141c14eb
+Reuters (The Express Tribune 전재) (10.15) — https://tribune.com.pk/story/2635072/irans-precision-strikes-picked-apart-gulf-infrastructure-blunting-us-war-plans
+OFAC “General License 135(러시아산 경유)” — https://ofac.treasury.gov/media/937216/download
+Al Jazeera (10.11) — https://www.aljazeera.com/amp/news/2026/10/11/trump-says-ukraine-russia-agree-to-energy-ceasefire-2
+Associated Press (NY1 전재) (10.15) — https://ny1.com/nyc/all-boroughs/ap-top-news/2026/10/15/ukraine-resumes-attacks-on-russian-oil-refineries-officials-say-after-brief-truce
+미 재무부 “로스네프트·루코일 제재 발표” — https://content.govdelivery.com/accounts/USTREAS/bulletins/3f8422d
+OFAC (Hellenic Shipping News 전재) “General License 134” — https://www.hellenicshippingnews.com/us-issues-general-license-134-gl-134-on-russian-oil-cargoes/
+IEA “Oil Market Report 2026-10” — https://www.iea.org/reports/oil-market-report-october-2026
+The Insider (9.1) — https://theins.press/en/news/286687
+EastRussia (7.15) — https://www.eastrussia.ru/news/situatsiya-s-benzinom-i-dizelem-na-dalnem-vostoke-postepenno-stabiliziruetsya/
+Carnegie Endowment (6.1) — https://carnegieendowment.org/russia-eurasia/politika/2026/06/russia-new-refinery-strike
+Interfax (6.24) — https://interfax.com/newsroom/top-stories/118175/
+NBC News (10.11) — https://www.nbcnews.com/world/ukraine/trump-russia-ukraine-agree-energy-ceasefire-zelenskyy-diesel-rcna602766
+Reuters (9.4) — 원문 URL 미확보 — 매체·날짜만(D-0052 D51, R-0036 종결)
+The Korea Herald (9.7) — 원문 URL 미확보 — 매체·날짜만(D-0052 D51, R-0036 종결)
+UPI(기고) (9.8) — 원문 URL 미확보 — 매체·날짜만(D-0052 D51, R-0036 종결)
+Foreign Policy (9.10) — 원문 URL 미확보 — 매체·날짜만(D-0052 D51, R-0036 종결)
+국제해사기구(IMO) (6.11) — 원문 URL 미확보 — 매체·날짜만(D-0052 D51, R-0036 종결)
+위키백과 “2026 Strait of Hormuz campaign” — 원문 URL 미확보
+한국일보 (9.21) — https://www.hankookilbo.com/news/article/A2026092114160002483
+시사저널 (9.28) — https://www.sisajournal.com/news/articleView.html?idxno=388510
+한국일보 (9.28) — https://www.hankookilbo.com/news/article/A2026092818320004124
+경향신문 (9.28) — https://www.khan.co.kr/article/202609282151001/
+시사저널 (9.29) — https://www.sisajournal.com/news/articleView.html?idxno=388651
+Korea JoongAng Daily (9.29) — https://www.koreajoongangdaily.com/korea/military-effectively-concludes-that-north-korean-mine-caused-series-of-blasts-in-dmz/12895478
+ThePrint (9.27) — https://theprint.in/world/south-korean-military-un-command-launch-investigation-into-dmz-explosion/3054876/
+Al Jazeera (9.21) — https://www.aljazeera.com/news/2026/9/21/three-south-korean-officers-wounded-in-border-explosion
+LB.ua (9.21) — https://lb.ua/world/2026/09/21/767664_buferniy_zoni_mizh_pivdennoyu.html
