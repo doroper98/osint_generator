@@ -332,7 +332,7 @@ class WarScene:
             ctx.fill()
             text(ctx, p.name, x + P.dx, y + P.dy, P.size, P.font, WHITE, P.alpha * a, P.halo)
             wd = tw(ctx, p.name, P.size, P.font)
-            bottom = y + Nw.dy
+            bottom = y + P.dy   # 이름 줄 바닥 — 현재 이름 줄은 있을 때만 아래에서 예약한다(없는 줄을 예약하지 않는다, v2 SK-C2)
             if p.toponymy:
                 Wr = W.toponymy_wrap
                 line = f"{self.topo[p.toponymy].name} — {self.topo[p.toponymy].line()}"
@@ -350,7 +350,7 @@ class WarScene:
                 text(ctx, p.now, x + P.dx, y + now_dy, Nw.size, Nw.font, C["muted"], Nw.alpha * a, Nw.halo)
             if x + P.dx + wd > W_OUT:
                 self.overflow.append((t, p.name))
-            res.append((x, y - P.size, x + P.dx + wd, y + now_dy))
+            res.append((x, y - P.size, x + P.dx + wd, y + now_dy if p.now else bottom))
             self._note("place")
 
     # ---------------------------------------------------------------- 증거 층

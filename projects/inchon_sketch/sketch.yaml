@@ -24,7 +24,7 @@ shots:
   - {t0: 0.0, t1: 0.0, lon: 127.3, lat: 36.6, w: 6.0}
   - {t0: 9.0, t1: 15.5, lon: 126.75, lat: 37.42, w: 1.2}
   - {t0: 16.5, t1: 23.0, lon: 126.622, lat: 37.468, w: 0.12}
-  - {t0: 32.0, t1: 38.5, lon: 126.8, lat: 37.52, w: 0.5}
+  - {t0: 32.0, t1: 38.5, lon: 126.83, lat: 37.52, w: 0.5}   # v2 — 서울 글자가 오른쪽 끝을 넘지 않게(SK-W5)
 
 dates:
   - {t: 0.0, date: "1950.09.15"}
@@ -36,25 +36,25 @@ factions:
 legend_t: [18.0, 40.0]
 
 places:
-  - {name: "인천", lon: 126.6403, lat: 37.4781, t: 1.5, t_out: 33.0}
+  - {name: "인천", lon: 126.6403, lat: 37.4781, t: 1.5, t_out: 24.8}   # v2 — 적색 해안 지명 유래 줄과 겹침(SK-C2) 방지, 해안 이름이 인천 안 자리를 말한다
   - {name: "서울", lon: 126.9978, lat: 37.5683, t: 1.5}
   - {name: "월미도", lon: 126.6025, lat: 37.4725, t: 18.0, t_out: 33.0}
   - {name: "적색 해안", lon: 126.6165, lat: 37.4805, toponymy: beach_codes, t: 26.0, t_out: 33.0}
-  - {name: "청색 해안", lon: 126.644, lat: 37.4575, t: 26.5, t_out: 33.0}
+  - {name: "청색 해안", lon: 126.644, lat: 37.4575, t: 26.5, t_out: 31.5}   # v2 — 1연대가 내륙으로 지날 때 상자 겹침 방지
 
 routes:
   - {name: "상륙 함대(서해)", faction: un, pts: [[124.9, 36.4], [125.8, 36.9], [126.3, 37.25], [126.58, 37.46]], t0: 2.0, t1: 8.0, t_out: 18.0}
   - {name: "서울로", faction: un, pts: [[126.648, 37.474], [126.72, 37.52], [126.82, 37.55], [126.92, 37.556], [126.985, 37.562]], t0: 36.0, t1: 41.0}
 
 units:
-  - {faction: nk, symbol: app6_inf, name: "북한군 수비대", t_out: 25.5, keys: [{t: 19.5, lon: 126.6065, lat: 37.4695, heading: 270, length_km: 0.5, depth_km: 0.3}]}
+  - {faction: nk, symbol: app6_inf, name: "북한군 수비대", t_out: 25.5, keys: [{t: 19.5, lon: 126.608, lat: 37.4665, heading: 270, length_km: 0.5, depth_km: 0.3}]}
   - faction: un
     symbol: app6_inf
     name: "5연대 3대대 · 06:33"
     t_out: 33.0
     keys:
       - {t: 21.0, lon: 126.578, lat: 37.462, heading: 60, length_km: 0.5, depth_km: 0.3}
-      - {t: 24.5, lon: 126.5975, lat: 37.4705, heading: 60, length_km: 0.5, depth_km: 0.3}
+      - {t: 24.5, lon: 126.5975, lat: 37.4682, heading: 60, length_km: 0.5, depth_km: 0.3}   # v2 — 월미도 지명 상자와 겹치지 않게 섬 남쪽(개략)
   - faction: un
     symbol: app6_inf
     name: "5연대 · 17:30"
