@@ -999,6 +999,24 @@
       "attributed_only": false,
       "claim_kind": "fact",
       "notes": ""
+    },
+    {
+      "claim_id": "clm_0051",
+      "text": "1856년 『그리스·로마 지리 사전』은 칸나이 전투 무렵 로마력이 크게 앞서 있었을 것이라고 적었다",
+      "source_ids": [
+        "src_doc_0013"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0013",
+        "independent_origins:1",
+        "official:src_doc_0013",
+        "supplement:supp_v3b"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
     }
   ]
 }

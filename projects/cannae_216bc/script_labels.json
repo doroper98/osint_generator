@@ -19,10 +19,17 @@
       "status": "verified",
       "label": null,
       "claim_ids": [
-        "clm_0003"
+        "clm_0051"
       ]
     },
     "cold_open_3": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0003"
+      ]
+    },
+    "cold_open_4": {
       "status": "verified",
       "label": null,
       "claim_ids": [
@@ -30,7 +37,7 @@
         "clm_0004"
       ]
     },
-    "cold_open_4": {
+    "cold_open_5": {
       "status": "verified",
       "label": null,
       "claim_ids": [

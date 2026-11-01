@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "text": "1856년 『그리스·로마 지리 사전』은 칸나이 전투 무렵 로마력이 크게 앞서 있었을 것이라고 적었다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0013",
+          "quote": "it is probable that the Roman calendar was at this time much in advance of the",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    }
+  ],
+  "summary": "칸나이 원고 v3 보충 2 — 로마력 주의 한 문장(D-0609 보충 15:13Z, Smith 1856 각주)"
+}
