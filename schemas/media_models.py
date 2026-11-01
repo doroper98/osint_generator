@@ -117,6 +117,11 @@ class MediaAsset(_Strict):
     inventory_no: Optional[str] = Field(default=None, min_length=1)         # 소장 번호
     material: Optional[str] = Field(default=None, min_length=1)             # 재질(예: 은, 대리석)
     site_report: Optional[str] = Field(default=None, min_length=1)          # 유적·출토품 사진이면 발굴·보고 출처(증거 층 site)
+    # v7.4.0 D-0606 §2(RIGHTS-AP-001) — 사진 라이선스 ≠ 유물 라이선스. 화면 허용 판정은 photo_license 로만.
+    # license_tags = Commons 파일 페이지 라이선스 분류(python -m sketch.war.fetch 가 자동 기록) — photo_license 와 다르면 [license-mismatch]
+    photo_license: Optional[str] = Field(default=None, min_length=1)
+    work_license: Optional[str] = Field(default=None, min_length=1)
+    license_tags: Optional[list[str]] = None
 
     @field_validator("created", mode="before")
     @classmethod
@@ -127,6 +132,12 @@ class MediaAsset(_Strict):
         """작품·기록 레코드의 필수 칸과 권리(rules war_history.rights.allowed_licenses)."""
         if self.identification in ("probable", "disputed") and not self.identified_as:
             return [f"identification {self.identification} 이면 identified_as(전하는 인물)가 필요하다 — 캡션 추정 표기"]
+        from schemas.war_history import license_mismatch  # noqa: PLC0415
+
+        if self.license_tags is not None:   # 어느 종류든 Commons 분류가 기록돼 있으면 대조(D-0606 §2)
+            mis = license_mismatch(self.photo_license or self.license, self.license_tags)
+            if mis:
+                return mis
         if self.kind not in ("period_art", "document"):
             return []
         from rules import load_rules  # noqa: PLC0415
@@ -137,8 +148,14 @@ class MediaAsset(_Strict):
         errs += [f"{self.kind} 레코드 필수 칸 없음: {f}" for f in need if getattr(self, f) is None]
         if self.kind == "document" and not (self.archive_id or self.inventory_no):
             errs.append("document 는 archive_id 또는 inventory_no(식별 번호) 필수")
-        if self.license not in wh.rights.allowed_licenses:
-            errs.append(f"{self.kind} 라이선스 {self.license!r} 가 화면 허용 목록 밖(rules war_history.rights.allowed_licenses — CC BY-SA 는 참고 정합만)")
+        if self.photo_license is None or self.license_tags is None:
+            errs.append(f"{self.kind} 레코드는 photo_license(사진)·license_tags(Commons 분류, python -m sketch.war.fetch 자동 기록) 필수 — 유물 PD 를 사진 권리로 착각하지 않게(D-0606 §2)")
+        elif self.license != self.photo_license:
+            errs.append(f"license {self.license!r} ≠ photo_license {self.photo_license!r} — 화면 크레딧 라이선스 = 사진 라이선스")
+        if self.kind == "period_art" and self.work_license is None:
+            errs.append("period_art 레코드는 work_license(유물·작품 자체의 권리, 예: Public domain(PD-old)) 필수")
+        if (self.photo_license or self.license) not in wh.rights.allowed_licenses:
+            errs.append(f"{self.kind} 사진 라이선스 {(self.photo_license or self.license)!r} 가 화면 허용 목록 밖(rules war_history.rights.allowed_licenses — CC BY-SA 는 참고 정합만)")
         return errs
 
     @model_validator(mode="after")

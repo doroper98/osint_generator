@@ -13,6 +13,7 @@ import cairo
 import numpy as np
 
 from engine.glyphs.arms import draw_glyph
+from engine.glyphs.emblems import draw_emblem
 from engine.projection import View
 from engine.stage import ym
 from engine.style import C
@@ -26,6 +27,7 @@ from sketch.war.spec import UnitKey, WarSpec, WarUnit
 
 U, F = SK.war.unit, SK.fade
 WS = load_rules().war_history.symbol_sets   # 모양·글리프·입체·대열 격자(D-0605 ①③)
+EMB = load_rules().war_history.faction_badge.emblem   # 진영 휘장 크기·자리(D-0606 A)
 APP6 = {"app6_inf": "inf", "app6_arm": "arm", "app6_cav": "cav"}
 BLACK = (0.0, 0.0, 0.0)
 RIGHT_ANGLE = 90
@@ -70,8 +72,9 @@ def _grow(pts: np.ndarray, heading_px: np.ndarray) -> np.ndarray:
 
 
 class WarUnitLayer:
-    def __init__(self, spec: WarSpec) -> None:
+    def __init__(self, spec: WarSpec, emblems: "dict[str, str] | None" = None) -> None:
         self.spec = spec
+        self.emblems = emblems or {}   # 진영 id → 휘장 재작도 글리프(engine.glyphs.emblems) — 블록 위 작게(D-0606 A)
         self.drawn: dict[str, int] = {}
 
     def draw(self, ctx: cairo.Context, view: View, t: float, res: list) -> None:
@@ -97,6 +100,12 @@ class WarUnitLayer:
                 G = WS.glyph  # noqa: N806
                 draw_glyph(ctx, glyph, x, y + G.dy, G.size_px, WHITE, G.alpha * a, G.halo_rgb, G.halo_px)
                 self.drawn[f"glyph:{glyph}"] = self.drawn.get(f"glyph:{glyph}", 0) + 1
+            em = self.emblems.get(u.faction)
+            if em and shape != "app6":   # 진영 휘장 — 픽토그램 오른쪽 위 작게(rules faction_badge.emblem.block_*)
+                EB = EMB  # noqa: N806
+                draw_emblem(ctx, em, x + EB.block_dx, y + WS.glyph.dy + EB.block_dy, EB.block_px, WHITE, EB.alpha * a,
+                            WS.glyph.halo_rgb, EB.halo_px)
+                self.drawn[f"emblem_block:{em}"] = self.drawn.get(f"emblem_block:{em}", 0) + 1
             if u.name:
                 N = U.name
                 text(ctx, u.name, x, y + N.dy, N.size, N.font, WHITE, a, N.halo, "c")

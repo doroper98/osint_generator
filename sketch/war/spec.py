@@ -35,6 +35,8 @@ class EraMark(_Strict):
 class Faction(_Strict):
     token: str               # 색 토큰(rules war_history.faction_badge.tokens)
     name: str                # 코드 조판 진영명(휘장을 지어내지 않는다)
+    emblem: Optional[str] = None                 # v2(D-0606 A) — assets/emblems/registry.json reconstructions 키(유물 근거 재작도만)
+    emblem_absent_reason: Optional[str] = None   # 다른 진영에 휘장이 있는데 이 진영에 없으면 사유 필수(비대칭 기록)
 
 
 class UnitKey(_Strict):
@@ -148,6 +150,10 @@ class WarSpec(SketchSpec):
         bad = sorted({u.faction for u in self.units} - fs) + sorted({r.faction for r in self.routes} - fs)
         if bad:
             raise ValueError(f"factions 에 없는 진영 {bad}")
+        if any(f.emblem for f in self.factions.values()):   # 비대칭 = 사유 기록(D-0606 A)
+            miss = sorted(k for k, f in self.factions.items() if not f.emblem and not f.emblem_absent_reason)
+            if miss:
+                raise ValueError(f"휘장 없는 진영 {miss}: emblem_absent_reason(사유) 필수 — 다른 진영에 휘장이 있다")
         ts = [d.t for d in self.dates]
         if ts != sorted(ts) or ts[0] != 0:
             raise ValueError("dates 는 t = 0 부터 오름차순")

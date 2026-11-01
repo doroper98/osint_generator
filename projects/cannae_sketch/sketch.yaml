@@ -32,8 +32,11 @@ dates:
   - {t: 20.0, date: "-216.08.02"}
 
 factions:
-  carthage: {token: ru, name: "카르타고군(한니발)"}
-  rome: {token: us, name: "로마군(집정관 파울루스·바로)"}
+  carthage: {token: ru, name: "카르타고군(한니발)", emblem: carthage_tanit}
+  rome:
+    token: us
+    name: "로마군(집정관 파울루스·바로)"
+    emblem_absent_reason: "군단 독수리는 마리우스(기원전 104년) 이후의 유일 표지(플리니우스 『박물지』 X.16) — 기원전 216년에 맞지 않아 쓰지 않는다. 기원전 3세기 말 로마 주화 도안 중 화면 허용 라이선스 사진을 찾지 못함(D-0606 A)"
 legend_t: [24.0, 38.0]
 ancient_roads_t: [0.5, 19.0]
 
@@ -62,7 +65,7 @@ units:
   - {faction: rome, symbol: heavy_cav, name: "로마 기병", t_out: 32.5, keys: [{t: 24, lon: 16.0935, lat: 41.3395, heading: 180, length_km: 0.7, depth_km: 0.3}]}
   - faction: rome
     symbol: heavy_inf
-    name: "로마 보병"
+    name: "로마 중무장보병"
     keys:
       - {t: 24.5, lon: 16.1105, lat: 41.3395, heading: 180, length_km: 2.3, depth_km: 0.7}
       - {t: 30.5, lon: 16.1105, lat: 41.3395, heading: 180, length_km: 2.3, depth_km: 0.7}

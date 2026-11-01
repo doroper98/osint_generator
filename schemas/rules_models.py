@@ -3781,9 +3781,30 @@ class WarSymbolYears(_Strict):
     early_modern_max: int
 
 
+class WarEmblemNote(_Strict):
+    size: float
+    font: str
+    halo: float
+    alpha: float
+    dy: float
+
+
+class WarEmblemStyle(_Strict):
+    legend_px: float = Field(gt=0)
+    legend_dx: float
+    block_px: float = Field(gt=0)
+    block_dx: float
+    block_dy: float
+    alpha: float = Field(gt=0, le=1)
+    halo_px: float = Field(ge=0)
+    note: WarEmblemNote
+
+
 class WarFactionBadge(_Strict):
     tokens: list[str] = Field(min_length=2)
     name_from: Literal["spec"]
+    emblem: WarEmblemStyle
+
 
 
 class WarPeriodArtLabels(_Strict):
@@ -3812,6 +3833,8 @@ class WarCasualty(_Strict):
 
 class WarRights(_Strict):
     allowed_licenses: list[str] = Field(min_length=1)
+    work_age_tags: list[str] = Field(min_length=1)     # v2(D-0606 §2) 유물 나이 PD 분류 접두어
+    disallowed_tags: list[str] = Field(min_length=1)   # 화면 불허 사진 라이선스 분류 접두어
 
 
 class WarHistoryRules(_Strict):

@@ -156,6 +156,18 @@ def info(title: str, width: int | None = None) -> dict:
     return _ii(page)
 
 
+LICENSE_CAT_HINTS: tuple[str, ...] = ("CC-", "CC0", "GFDL", "PD", "Public domain")   # 라이선스 분류 이름 표지(정규화는 schemas.war_history)
+
+
+def license_tags(title: str) -> list[str]:
+    """v7.4.0 D-0606 §2 — 파일 페이지의 라이선스 분류(Category:) 이름. 사진 라이선스와 유물 PD 를 가르는 원자료(손으로 적은 값과 대조)."""
+    page = next(iter(api({"action": "query", "titles": title, "prop": "categories", "cllimit": "200"})["query"]["pages"].values()))
+    if "missing" in page:
+        raise CommonsError(f"Commons 파일 없음: {title}")
+    cats = [c["title"].split(":", 1)[1] for c in page.get("categories", [])]
+    return sorted(c for c in cats if c.startswith(LICENSE_CAT_HINTS))
+
+
 def search(query: str, limit: int = 7, width: int = 960) -> list[dict]:
     """후보 검색(07 §3.2). 라이선스 허용·제한 여부를 붙여 돌려준다 — 고르는 것은 사람/연출."""
     params = {"action": "query", "generator": "search", "gsrsearch": query, "gsrnamespace": "6", "gsrlimit": str(limit),
@@ -351,8 +363,9 @@ def main(argv: list[str] | None = None) -> int:
         if a.cmd == "search":
             for c in search(a.query, a.limit):
                 print(json.dumps({k: c[k] for k in ("title", "lic", "restrictions", "allowed", "artist")}, ensure_ascii=False))
-        elif a.cmd == "get":
-            print(json.dumps(rights_entry(fetch(a.title, a.dest, a.width or None, a.allow_restricted)), ensure_ascii=False))
+        elif a.cmd == "get":   # v7.4.0 D-0606 — 라이선스 분류도 함께 기록(license_tags)
+            print(json.dumps({**rights_entry(fetch(a.title, a.dest, a.width or None, a.allow_restricted)),
+                              "license_tags": license_tags(a.title)}, ensure_ascii=False))
         elif a.cmd == "bundles":
             print(f"bundles {record_bundles(a.proj / 'assets' / 'rights_registry.json')}")
         else:

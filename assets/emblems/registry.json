@@ -141,5 +141,19 @@
    "user_exception": "U20261004",
    "exception_scope": "나토(북대서양조약기구)가 발언·행위 주체인 문장의 식별 표시 전용, 무가공, 엔딩 크레딧 표기"
   }
+ },
+ "reconstructions": {
+  "carthage_tanit": {
+   "glyph": "tanit",
+   "faction": "카르타고",
+   "basis": "타니트 기호를 새긴 석회암 비석(루브르 박물관 AO 5244, 기원전 3세기) — 원반·가로 막대·삼각형 몸의 기호를 기하로 다시 그림",
+   "basis_title": "File:Stèle avec le signe de Tanit (Louvre, AO 5244).jpg",
+   "basis_url": "https://commons.wikimedia.org/wiki/File:St%C3%A8le_avec_le_signe_de_Tanit_(Louvre,_AO_5244).jpg",
+   "basis_license": "Public domain",
+   "basis_author": "Tangopaso(사진, PD-self)",
+   "basis_created": "-300~-201",
+   "reconstruction": true,
+   "caption_label": "비석 기호 재현(루브르 AO 5244)"
+  }
  }
 }

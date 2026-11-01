@@ -96,9 +96,33 @@ class EmblemEntry(_Strict):
         return self
 
 
+class EmblemReconstruction(_Strict):
+    """v7.4.0 전쟁사 D-0605 ②·D-0606 A — 유물 근거 진영 휘장 재작도(코드 벡터). 지어내지 않는다: 근거 유물·근거 사진 권리·재현 표기 필수."""
+
+    glyph: str = Field(min_length=1)            # engine.glyphs.emblems.EMBLEMS 이름(시험이 레지스트리 대조)
+    faction: str = Field(min_length=1)          # 진영(예: 카르타고)
+    basis: str = Field(min_length=1)            # 어느 유물·사료에서 왔는지 한 줄
+    basis_title: str = Field(min_length=1)      # 근거 사진 Commons File: 제목
+    basis_url: str = Field(min_length=1)
+    basis_license: str = Field(min_length=1)    # 근거 사진의 사진 라이선스(유물 아님)
+    basis_author: str = Field(min_length=1)
+    basis_created: str = Field(min_length=1)    # 유물 연대(EraDate 꼴)
+    reconstruction: Literal[True]
+    caption_label: str = Field(min_length=1)    # 화면 라벨(코드 조판) — 예: "비석 기호 재현(루브르 AO 5244)"
+
+    @model_validator(mode="after")
+    def _allowed(self) -> "EmblemReconstruction":
+        if not license_allowed(self.basis_license):
+            raise ValueError(f"재작도 근거 사진 라이선스 {self.basis_license!r} 불허(PD·CC0·CC BY 만)")
+        if "재현" not in self.caption_label:
+            raise ValueError(f"caption_label 에 '재현' 표기 필수: {self.caption_label!r}")
+        return self
+
+
 class EmblemRegistry(_Strict):
     schema_version: int = 1
     emblems: dict[str, EmblemEntry]
+    reconstructions: dict[str, EmblemReconstruction] = Field(default_factory=dict)   # v7.4.0 D-0606 — 고대 진영 휘장 재작도
 
     @model_validator(mode="after")
     def _exceptions_known(self) -> "EmblemRegistry":

@@ -2846,7 +2846,13 @@ war_history:               # v7.4.0 전쟁사 트랙 W2(back_and_forth D-0600 §
       inset: 0.18               # 블록 가장자리에서 들인 비율
     glyph: {size_px: 15, halo_px: 1.4, halo_rgb: [0.05, 0.06, 0.08], alpha: 0.95, dy: -4}   # 병종 픽토그램(블록 가운데에서 dy 위 — 이름 줄과 안 겹치게, 단색 흰 + 어두운 테두리)
   symbol_set_by_year: {ancient_max: 1500, early_modern_max: 1850}   # ≤1500 ancient, 1501~1850 early_modern, ≥1851 modern(역사 표기 연도, 기원전은 ancient)
-  faction_badge: {tokens: [ru, us], name_from: spec}   # 현대 국기 대신 코드 조판 진영명 + 색 토큰(registries.accents). 휘장을 지어내지 않는다
+  faction_badge:
+    tokens: [ru, us]
+    name_from: spec   # 현대 국기 대신 코드 조판 진영명 + 색 토큰(registries.accents). 휘장을 지어내지 않는다
+    # v2(D-0605 ②·D-0606 A) — 진영 휘장 = 유물 근거 재작도만(assets/emblems/registry.json reconstructions, engine.glyphs.emblems).
+    # 휘장 없는 진영은 spec emblem_absent_reason 필수(비대칭 사유 기록). 범례 칩 옆 + 블록 위 작게(픽토그램보다 작게). 설계 px 480p
+    emblem: {legend_px: 13, legend_dx: 16, block_px: 9, block_dx: 11, block_dy: -9, alpha: 0.95, halo_px: 1.0,
+             note: {size: 8.5, font: sans, halo: 0, alpha: 0.75, dy: 13}}   # note = 범례 아래 "…재현" 라벨 줄(코드 조판)
   period_art:
     contemporary_gap_years: 150   # |제작 연대 − 사건 연대| ≤ 이 값 = 당대 묘사, 넘으면 후대의 묘사(제작 연대)
     art_history_line: true        # 작품마다 작가·연대·소장처·제작 의도 한 문장(레코드 art_history + art_history_source)
@@ -2872,3 +2878,7 @@ war_history:               # v7.4.0 전쟁사 트랙 W2(back_and_forth D-0600 §
   media_tags: {period_art: ARTWORK, document: DOCUMENT}   # 사진 비트 왼쪽 위 태그(사진은 PHOTO 그대로)
   rights:
     allowed_licenses: [Public domain, Public Domain Mark, PD-Art, United States Government Work, CC0, CC BY 2.0, CC BY 2.5, CC BY 3.0, CC BY 4.0]   # 화면에 쓰는 작품·사진·기록(D-0600 §2-5). CC BY-SA 는 참고 작전도 정합(저장 안 함)에만
+    # v2(D-0606 §2, RIGHTS-AP-001) — 사진 라이선스 ≠ 유물 라이선스. 레코드 photo_license(화면 판정) 와 Commons 파일 페이지 라이선스 분류(license_tags,
+    # sketch.war.fetch 가 자동 기록)를 대조해 다르면 [license-mismatch] hard. work_age_tags = 유물(작품)의 나이로 붙는 PD 분류(사진 라이선스 아님)
+    work_age_tags: [PD-old, PD Old, PD-Art, CC-PD-Mark, PD-US-expired, PD France]
+    disallowed_tags: [CC-BY-SA, GFDL, CC-BY-NC, CC-BY-ND]

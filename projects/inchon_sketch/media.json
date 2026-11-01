@@ -40,7 +40,11 @@
    "created": "1950.09.15",
    "work_kind": "photo",
    "holder": "미 해군 역사유산사령부(NHHC)",
-   "archive_id": "NHHC NH 96876"
+   "archive_id": "NHHC NH 96876",
+   "photo_license": "Public domain",
+   "license_tags": [
+    "PD US Marines"
+   ]
   },
   "inchon_lst": {
    "is_file_photo": false,
@@ -80,7 +84,11 @@
    "created": "1950.09.15",
    "work_kind": "photo",
    "holder": "미국 국립문서기록관리청(NARA)",
-   "archive_id": "NARA 080-G-420027"
+   "archive_id": "NARA 080-G-420027",
+   "photo_license": "Public domain",
+   "license_tags": [
+    "PD US Military"
+   ]
   },
   "inchon_map": {
    "is_file_photo": false,
@@ -121,7 +129,11 @@
    "created": "1955",
    "work_kind": "map",
    "holder": "미 해병대 역사과",
-   "archive_id": "U.S. Marine Operations in Korea 1950-1953 vol. II"
+   "archive_id": "U.S. Marine Operations in Korea 1950-1953 vol. II",
+   "photo_license": "Public domain",
+   "license_tags": [
+    "PD US Marines"
+   ]
   }
  }
 }

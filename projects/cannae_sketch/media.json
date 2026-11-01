@@ -7,44 +7,48 @@
    "retrieved_at": "2026-11-01",
    "source_hash": "71fb5b28fe05f2d05791448f895cab07",
    "kind": "period_art",
-   "title": "File:Carthage, quarter shekel, 237-209 BC, SNG BM Spain 102.jpg",
-   "license": "Public domain",
-   "author": "Classical Numismatic Group, Inc.(CNG)",
-   "credit_author": "CNG",
-   "date": "2011-09-14",
-   "url": "https://commons.wikimedia.org/wiki/File:Carthage,_quarter_shekel,_237-209_BC,_SNG_BM_Spain_102.jpg",
-   "caption": "걸어가는 코끼리를 새긴 카르타고 은화",
-   "file_note": "4분의 1 셰켈 은화 · 히스파니아 주조",
+   "title": "File:Cartagine, 1 e messo e doppio siclo, 237-209 ac ca.JPG",
+   "license": "CC BY 3.0",
+   "author": "Sailko",
+   "credit_author": "Sailko",
+   "date": "2014-03-07",
+   "url": "https://commons.wikimedia.org/wiki/File:Cartagine,_1_e_messo_e_doppio_siclo,_237-209_ac_ca.JPG",
+   "caption": "전투 코끼리를 탄 기수를 새긴 카르타고 은화",
+   "file_note": "셰켈 은화 · 히스파니아 주조 · 베를린 알테스 무제움",
    "depicts": [
     "카르타고 은화",
-    "코끼리",
-    "곤봉을 멘 남성 두상"
+    "전투 코끼리와 기수",
+    "월계관을 쓴 두상"
    ],
    "main_subject": [
-    "은화 양면"
+    "은화"
    ],
    "verified_by": {
-    "by": "구현 세션(Commons 파일 설명·라이선스 확인)",
+    "by": "구현 세션(Commons 파일 설명·라이선스 분류 확인, D-0606)",
     "on": "2026-11-01",
     "casualty_free": true,
-    "relevance": "한니발 집안(바르카 가문)이 다스리던 히스파니아의 주화 — 전투 코끼리 도안"
+    "relevance": "한니발 집안(바르카 가문)이 다스리던 히스파니아의 주화 — 전투 코끼리 도안. 앞 사진(CNG, CC BY-SA 2.5/GFDL)을 권리 문제로 교체"
    },
    "tool": {
     "name": "sketch.war.fetch",
     "params": {
-     "commons_title": "File:Carthage, quarter shekel, 237-209 BC, SNG BM Spain 102.jpg",
+     "commons_title": "File:Cartagine, 1 e messo e doppio siclo, 237-209 ac ca.JPG",
      "width": null
     }
    },
    "file": "cannae_coin.jpg",
    "created": "-237~-209",
    "work_kind": "coin",
-   "holder": "CNG 경매 출품(현 소장 미상)",
-   "inventory_no": "CNG CoinID 191596",
+   "holder": "알테스 무제움(베를린) 전시",
    "material": "은",
    "identification": "certain",
-   "art_history": "바르카 가문이 히스파니아를 다스리던 기원전 237~209년경 찍은 은화로, 앞면에 곤봉을 멘 남성 두상, 뒷면에 걸어가는 코끼리를 새겼다.",
-   "art_history_source": "CNG 경매 설명(CoinID 191596) — Commons 파일 설명에 옮겨 실림"
+   "art_history": "바르카 가문이 히스파니아를 다스리던 기원전 237~209년경 찍은 셰켈 은화로, 앞면에 월계관을 쓴 두상, 뒷면에 전투 코끼리를 탄 기수를 새겼다.",
+   "art_history_source": "Commons 파일 설명(촬영 Sailko, 알테스 무제움 전시품)",
+   "photo_license": "CC BY 3.0",
+   "work_license": "Public domain(유물, PD-old)",
+   "license_tags": [
+    "CC-BY-3.0"
+   ]
   },
   "cannae_bust": {
    "is_file_photo": false,
@@ -88,7 +92,15 @@
    "identification": "probable",
    "art_history": "1667년 카푸아에서 발견된 로마 시대(기원전 1세기~서기 4세기) 대리석 흉상으로, 한니발로 전해진다.",
    "art_history_source": "Commons 파일 설명(Fratelli Alinari 유리 건판 사진, 나폴리 국립고고학박물관 소장품)",
-   "identified_as": "한니발"
+   "identified_as": "한니발",
+   "photo_license": "Public domain",
+   "work_license": "Public domain(유물, PD-old)",
+   "license_tags": [
+    "CC-PD-Mark",
+    "PD Old (assumed) expired",
+    "PD-old missing SDC copyright status",
+    "PD-old-100-expired"
+   ]
   },
   "cannae_trumbull": {
    "is_file_photo": false,
@@ -132,7 +144,16 @@
    "material": "캔버스에 유채",
    "identification": "certain",
    "art_history": "미국 화가 존 트럼불이 1773년에 그린 역사화로, 예일대학교 미술관이 소장한다(1832.100).",
-   "art_history_source": "Commons 파일 정보(작가·연대·소장처, Yale University Art Gallery 스캔)"
+   "art_history_source": "Commons 파일 정보(작가·연대·소장처, Yale University Art Gallery 스캔)",
+   "photo_license": "Public domain",
+   "work_license": "Public domain(PD-Art, PD-old)",
+   "license_tags": [
+    "CC-PD-Mark",
+    "PD-Art (PD-old-auto-expired)",
+    "PD-Art missing SDC copyright status",
+    "PD-old missing SDC copyright status",
+    "PD-old-100-expired"
+   ]
   },
   "cannae_closs": {
    "is_file_photo": false,
@@ -175,7 +196,14 @@
    "identification": "certain",
    "art_history": "구스타프 아돌프 클로스가 1885년 밀라노 화보 잡지의 '이탈리아 역사의 장소' 꼭지에 그린 칸나이 전투 들판 풍경이다.",
    "art_history_source": "Commons 파일 정보(제목 'Punti storici d’Italia', 출전 L’illustrazione popolare, Fratelli Treves 1885)",
-   "site_report": "W. Smith, Dictionary of Greek and Roman Geography vol. I(1856) 'CANNAE' 499~500쪽 — 유적은 카노사에서 약 8마일 떨어진 작은 언덕 위에 남아 있다"
+   "site_report": "W. Smith, Dictionary of Greek and Roman Geography vol. I(1856) 'CANNAE' 499~500쪽 — 유적은 카노사에서 약 8마일 떨어진 작은 언덕 위에 남아 있다",
+   "photo_license": "Public domain",
+   "work_license": "Public domain(PD-old)",
+   "license_tags": [
+    "CC-PD-Mark",
+    "PD-old missing SDC copyright status",
+    "PD-old-70-expired"
+   ]
   }
  }
 }

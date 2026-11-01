@@ -229,3 +229,48 @@ def casualty_unsourced(sentences: Iterable, forces) -> list[str]:  # noqa: ANN00
 
 __all__ = ["Era", "ToponymyEntry", "ToponymyFile", "asset_layers", "casualty_unsourced", "era_of", "evidence_missing",
            "load_toponymy", "period_art_label", "period_art_label_missing", "probable_caption", "symbol_set_mixed", "video_era"]
+
+
+# ── 사진 라이선스 대조(v7.4.0 D-0606 §2, RIGHTS-AP-001) ──
+_PD_RECORD = {"public domain", "public domain mark", "pd-art", "united states government work"}
+
+
+def _norm_record(lic: str) -> str:
+    s = lic.strip().lower()
+    return "public domain" if s in _PD_RECORD else s
+
+
+def norm_license_tag(tag: str) -> "str | None":
+    """Commons 라이선스 분류 이름 → 비교 꼴(cc by 2.0 · cc by-sa 2.5 · cc0 · gfdl · public domain). 라이선스 분류가 아니면 None."""
+    t = tag.strip()
+    lo = t.lower()
+    if lo.startswith("cc-by-sa-"):
+        return "cc by-sa " + lo[9:]
+    if lo.startswith(("cc-by-nc", "cc-by-nd")):
+        return lo
+    if lo.startswith("cc-by-"):
+        return "cc by " + lo[6:]
+    if lo in ("cc-zero", "cc0"):
+        return "cc0"
+    if lo.startswith("gfdl"):
+        return "gfdl"
+    if lo.startswith(("pd-", "pd ", "public domain", "cc-pd-mark")) or lo == "pd":
+        return "public domain"
+    return None
+
+
+def license_mismatch(photo_license: str, tags: list[str]) -> list[str]:
+    """[license-mismatch] hard — 레코드 사진 라이선스와 Commons 파일 페이지 라이선스 분류(유물 나이 PD 제외)가 맞는가. 문구 목록(빈 = 통과)."""
+    R = _rules().rights  # noqa: N806
+    work_age = tuple(x.lower() for x in R.work_age_tags)
+    bad = tuple(x.lower() for x in R.disallowed_tags)
+    photo = [t for t in tags if not t.lower().startswith(work_age) and norm_license_tag(t)]
+    errs = []
+    disallowed = [t for t in photo if t.lower().startswith(bad)]
+    allowed = [t for t in photo if not t.lower().startswith(bad)]
+    if disallowed and not allowed:
+        errs.append(f"[license-mismatch] 사진 라이선스 분류가 {disallowed} 뿐 — 유물 PD({[t for t in tags if t.lower().startswith(work_age)]})는 사진의 권리가 아니다(화면 불허)")
+    norms = {norm_license_tag(t) for t in tags} - {None}
+    if _norm_record(photo_license) not in norms:
+        errs.append(f"[license-mismatch] 레코드 사진 라이선스 {photo_license!r} 가 Commons 분류 {sorted(norms)} 에 없다 — 손으로 적은 값과 파일 페이지가 다르다")
+    return errs

@@ -16,7 +16,8 @@ from schemas.war_history import (ToponymyEntry, ToponymyFile, asset_layers, casu
 
 def art(**kw: object) -> dict:
     base = {
-        "kind": "period_art", "title": "File:Carthaginian shekel elephant.jpg", "license": "CC BY 3.0", "author": "Classical Numismatic Group",
+        "kind": "period_art", "title": "File:Carthaginian shekel elephant.jpg", "license": "CC BY 3.0", "photo_license": "CC BY 3.0", "work_license": "Public domain(PD-old)",
+        "license_tags": ["CC-BY-3.0"], "author": "Classical Numismatic Group",
         "credit_author": "CNG", "date": "2010-01-01", "url": "https://commons.wikimedia.org/wiki/File:x.jpg",
         "caption": "코끼리를 새긴 카르타고 은화", "file_note": "은화 · 기원전 3세기", "depicts": ["코끼리", "카르타고 은화"],
         "is_file_photo": False, "verified_by": {"by": "t", "on": "2026-11-01", "casualty_free": True, "relevance": "t"},
@@ -26,6 +27,8 @@ def art(**kw: object) -> dict:
         "art_history_source": "CNG 경매 해설",
     }
     base.update(kw)
+    if "license" in kw and "photo_license" not in kw:   # 화면 크레딧 = 사진 라이선스(D-0606 §2)
+        base["photo_license"] = kw["license"]
     return base
 
 

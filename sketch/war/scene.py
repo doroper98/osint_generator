@@ -31,6 +31,7 @@ from sketch.common.camera import CameraPath
 from sketch.common.draw import SK, WHITE
 from sketch.common.render import BGRA
 from sketch.war.spec import Evidence, Quote, WarSpec
+from engine.glyphs.emblems import draw_emblem
 from sketch.war.units import WarUnitLayer
 
 W, F, T = SK.war, SK.fade, SK.text
@@ -85,6 +86,24 @@ def wrap(ctx: cairo.Context, s: str, size: float, font: str, maxw: float, max_li
     return lines
 
 
+class SceneError(ValueError):
+    pass
+
+
+def faction_emblems(spec: WarSpec) -> dict:
+    """진영 id → EmblemReconstruction(assets/emblems/registry.json reconstructions). spec 이 가리킨 키가 없으면 오류 — 조용히 빼지 않는다(P6)."""
+    from engine.entities import load_emblem_registry  # noqa: PLC0415
+
+    want = {k: f.emblem for k, f in spec.factions.items() if f.emblem}
+    if not want:
+        return {}
+    rec = load_emblem_registry().reconstructions
+    miss = sorted(v for v in want.values() if v not in rec)
+    if miss:
+        raise SceneError(f"휘장 재작도 레코드 없음 {miss} — assets/emblems/registry.json reconstructions(유물 근거만, D-0606)")
+    return {k: rec[v] for k, v in want.items()}
+
+
 class WarScene:
     def __init__(self, spec: WarSpec, project: Path, res: str, theme: "str | None" = None) -> None:
         self.spec, self.project, self.theme = spec, project, theme
@@ -94,7 +113,8 @@ class WarScene:
         self.stage = MercatorStage(assets, out=self.out, proposed_theme=theme if theme in load_rules().geo.themes.proposed else None)
         cam = SK.camera
         self.camera = CameraPath(tuple(spec.shots), spec.duration_sec, cam.push_in[spec.kind], cam.hold_min_sec)
-        self.units = WarUnitLayer(spec)
+        self.emblems = faction_emblems(spec)   # v2(D-0606 A) — 진영 → 재작도 레코드(없는 키 = 오류, P6)
+        self.units = WarUnitLayer(spec, {k: r.glyph for k, r in self.emblems.items()})
         self.media = load_media(project)
         self.places = load_places(project)
         rp = project / ROADS_FILE
@@ -410,18 +430,29 @@ class WarScene:
         if a <= F.min_alpha:
             return
         Lg = W.legend
-        fs = list(self.spec.factions.values())
+        EM = load_rules().war_history.faction_badge.emblem  # noqa: N806
+        fs = list(self.spec.factions.items())
+        notes = [f"{f.name.split('(')[0]} 휘장 — {self.emblems[k].caption_label}" for k, f in fs if k in self.emblems]
+        em_dx = EM.legend_dx if self.emblems else 0   # 휘장 칸(어느 진영이든 있으면 모든 줄을 같은 만큼 민다)
         bx, by, bw, bh = Lg.bg
-        rrect(ctx, Lg.x + bx, Lg.y + by, bw, len(fs) * Lg.row_dy + bh, Lg.radius)
+        w_note = max((tw(ctx, n, EM.note.size, EM.note.font) for n in notes), default=0) - bx * 2   # 라벨 줄이 상자 밖으로 나가지 않게
+        rrect(ctx, Lg.x + bx, Lg.y + by, max(bw + em_dx, w_note), len(fs) * Lg.row_dy + bh + len(notes) * EM.note.dy, Lg.radius)
         ctx.set_source_rgba(*CARD_BG[:3], Lg.alpha * a)
         ctx.fill()
-        for i, f in enumerate(fs):
+        L = Lg.label
+        for i, (k, f) in enumerate(fs):
             y = Lg.y + i * Lg.row_dy
             ctx.rectangle(Lg.x, y + Lg.chip_dy, *Lg.chip)
             ctx.set_source_rgba(*C[f.token], a)
             ctx.fill()
-            L = Lg.label
-            text(ctx, f.name, Lg.x + Lg.label_dx, y, L.size, L.font, WHITE, a, L.halo)
+            if k in self.emblems:
+                draw_emblem(ctx, self.emblems[k].glyph, Lg.x + Lg.label_dx + EM.legend_px / 2 - 2, y - L.size * 0.35, EM.legend_px,
+                            WHITE, EM.alpha * a, load_rules().war_history.symbol_sets.glyph.halo_rgb, EM.halo_px)
+                self._note(f"emblem:{self.emblems[k].glyph}")
+            text(ctx, f.name, Lg.x + Lg.label_dx + em_dx, y, L.size, L.font, WHITE, a, L.halo)
+        N = EM.note  # noqa: N806
+        for j, ln in enumerate(notes):   # "…재현" 라벨(코드 조판, D-0606) — 근거 유물 표기
+            text(ctx, ln, Lg.x, Lg.y + (len(fs) - 1) * Lg.row_dy + (j + 1) * N.dy, N.size, N.font, WHITE, N.alpha * a, N.halo, role="source")
         self._note("faction_legend")
 
     def _source(self, ctx: cairo.Context, t: float) -> None:

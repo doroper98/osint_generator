@@ -156,7 +156,12 @@ def draw_glyph(ctx: cairo.Context, name: str, x: float, y: float, size: float, r
     """(x, y) 가운데에 높이 size px 글리프. 바깥 테두리(halo) → 본색 순. cut = 본색 위를 테두리 색으로 뚫는다(방패 돌기·귀)."""
     if name not in GLYPHS:
         raise GlyphError(f"병종 글리프 없음: {name!r} — engine.glyphs.arms.GLYPHS {sorted(GLYPHS)}")
-    prims = GLYPHS[name]()
+    draw_prims(ctx, GLYPHS[name](), x, y, size, rgb, alpha, halo_rgb, halo_w, halo_a)
+
+
+def draw_prims(ctx: cairo.Context, prims: list[Prim], x: float, y: float, size: float, rgb: tuple, alpha: float,
+               halo_rgb: tuple, halo_w: float, halo_a: float = 0.85) -> None:
+    """글리프 단위 도형 목록을 (x, y) 가운데 높이 size px 로 — 병종(arms)·진영 휘장 재작도(emblems) 공용."""
     s = size / 2
     ctx.save()
     ctx.translate(x, y)

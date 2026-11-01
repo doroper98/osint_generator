@@ -38,7 +38,7 @@ class SpecTest(unittest.TestCase):
         self.assertTrue(symbol_set_mixed(era_of(s.dates[0].date), [u.symbol for u in s.units] + ["app6_inf"]))
 
     def test_keyframes_smooth_and_held(self) -> None:
-        u = next(u for u in spec("cannae_sketch").units if u.name == "로마 보병")
+        u = next(u for u in spec("cannae_sketch").units if u.name == "로마 중무장보병")
         a, b = u.keys[1], u.keys[2]
         mid = key_at(u, (a.t + b.t) / 2)
         self.assertTrue(min(a.lat, b.lat) < mid.lat < max(a.lat, b.lat))

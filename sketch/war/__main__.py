@@ -21,6 +21,8 @@ from sketch.common.cli import base_parser, parse_frames
 from sketch.common.render import base_provenance, render_video, sha1_file, write_frames, write_provenance
 from sketch.common.spec import SPEC_FILE, DataFile, RenderRecord, load_spec
 from sketch.war.checks import check_render, check_spec
+
+REPO = Path(__file__).resolve().parents[2]
 from sketch.war.spec import WarSpec
 
 FAIL = 1
@@ -54,6 +56,15 @@ def data_files(spec: WarSpec, project: Path) -> list[DataFile]:
         row = next(r for r in src["layers"] if r["layer"] == "places")
         out.append(DataFile(path="ancient_geo/places.json", sha1=sha1_file(pl), source=f"{row['repo']}@{row['commit']} {row['path']}",
                             license=row["license"]))
+    from sketch.war.scene import faction_emblems  # noqa: PLC0415
+
+    for k, r in faction_emblems(spec).items():   # v2(D-0606 A) — 진영 휘장 재작도의 근거 유물·사진 권리
+        reg = REPO / "assets" / "emblems" / "registry.json"
+        out.append(DataFile(path=f"assets/emblems/registry.json#reconstructions/{spec.factions[k].emblem}", sha1=sha1_file(reg),
+                            source=f"{r.basis} · 근거 사진 {r.basis_title}({r.basis_author})", license=f"{r.basis_license}(근거 사진) · 재작도 = 코드 벡터"))
+    for k, f in spec.factions.items():
+        if f.emblem_absent_reason:
+            out.append(DataFile(path=f"spec factions.{k}.emblem_absent_reason", sha1="-", source=f.emblem_absent_reason, license="-"))
     tp = project / "toponymy.yaml"
     if tp.is_file():
         out.append(DataFile(path="toponymy.yaml", sha1=sha1_file(tp), source="toponymy.yaml 레코드 출처 칸", license="사실 기록(출처 귀속)"))
