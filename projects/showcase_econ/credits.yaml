@@ -27,15 +27,15 @@ sections:
       - main: 워시 연준 의장 기자회견 영상 (2026.9.16 결정 발표 · 7.29 표결 발표 · 7.29 회견장)
         license: 미 연준 이사회 · Public Domain
         rights: [media.fed_clip_0916_decision, media.fed_clip_0729_vote, media.fed_clip_0729_room_a]
-      - main: 워시 연준 의장 기자회견 (2026.7.29 · 9.16)
+      - main: 워시 연준 의장 기자회견 (2026.9.16)   # v7.4.0 D-0346·D-0348 — 7.29 회견 사진(fed_presser_0729) 연출에서 뺌
         license: 미 연준 이사회 Flickr · Public Domain Mark
-        rights: [media.fed_presser_0916, media.fed_presser_0916_b, media.fed_presser_0729]
+        rights: [media.fed_presser_0916, media.fed_presser_0916_b]
       - main: 에클스 빌딩 외관·이사회실·아트리움 (자료사진 · 배경)
         license: 미 연준 이사회 Flickr · US Gov Work·Public Domain Mark
         rights: [media.fed_eccles_ext, media.fed_boardroom, media.fed_eccles_atrium]
-      - main: 파월 연준 의장 기자회견 (2026.4.29) · FOMC 회의 (자료사진 · 2016.4) · 에클스 빌딩 (자료사진 · 2011.3)
+      - main: FOMC 회의 (자료사진 · 2016.4) · 에클스 빌딩 (자료사진 · 2011.3)   # v7.4.0 D-0346·D-0348 — 파월 회견 사진(econ_powell_presser_552) 연출에서 뺌
         license: 미 연준 이사회 · Wikimedia Commons · Public Domain
-        rights: [media.econ_powell_presser_552, media.econ_fomc_room_2016, media.econ_eccles_ext_a]
+        rights: [media.econ_fomc_room_2016, media.econ_eccles_ext_a]
       - main: 워시 연준 의장 취임 선서·임명장 서명 (2026.5.22)
         license: 백악관 · Wikimedia Commons · Public Domain
         rights: [media.econ_warsh_swearing_5, media.econ_warsh_swearing_1]

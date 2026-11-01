@@ -14,3 +14,9 @@ sentences:
     photo: 등재본 영상 사용 — strikes_file '미 중부사령부 공개 영상 · 이란 군사 목표 타격'(미 국방부, Public domain, hormuz_korea strikes 와 같은 파일의 자료 영상 항목 — 7.7 촬영, D-0283 §1). 사진 대신 영상 액자(사용 구간은 레지스트리 segment). 원음 — Commons 원본 webm 전 구간 무음(max −91 dB) — 소리 있는 공개 판 시도 2026-10-30 — DVIDS 원본(레지스트리 source_variants dvids, cloudfront) = 프록시 403(allowed_domains 밖), CENTCOM·C-SPAN 게시본은 allowed_domains 안에 없음 → 무음 그대로, 효과음 합성 없음(D-0284 ②)
   ending_0:
     photo: 고르지 않음 — 맺음 요약 문장. diesel ending_0 판정 그대로 — 앞 장면의 지도 마커(랴잔·울산·호르무즈·워싱턴)를 다시 불러 모은다
+# v7.4.0 D-0346·D-0347(UF-171·172) — 최소 유지 시간 재작업으로 연출에서 뺀 미디어(요소 수 축소). 연출 drops 와 같은 사유
+drop:
+- mid: niovi
+  reason: "D-0346·D-0347 — 완전 노출 3.75초(< qa_checks.element_hold.min_full_sec) + 기사 카드 art_0020 에 2.69초 덮임([media-overlap]). act3_4 는 지도 봉쇄선·휘장 배지가 맡는다"
+- mid: dmz_fence
+  reason: "D-0346·D-0347 — 완전 노출 0초(문장 4.4초에 +3.4 시작). act4 사진 둘 중 하나 — 지뢰 경고 표지판 사진·철책 단면(site_diagram)이 맡는다"

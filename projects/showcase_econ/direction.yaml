@@ -216,12 +216,12 @@ events:
 - type: clip
   start:
     sid: act2_0
-    'off': 0.2
+    'off': 0.0 # v7.4.0 D-0346·D-0348(UF-171 [element-hold]) — 완전 노출 ≥ qa_checks.element_hold.min_full_sec(옛 [0.2, 3.4], broll 상한 9 — 25bc3915)
   end:
     sid: act2_0
     'off':
-    - 0.2
-    - 3.4
+    - 0.0
+    - 7.3
   mid: fed_clip_0729_room_a
   role: broll
   place: backdrop_right_low
@@ -336,11 +336,10 @@ events:
 - type: photo
   start:
     sid: act1_6
-    'off': 0.4
+    'off': 0.3 # v7.4.0 D-0346·D-0348(UF-171 [element-hold]) — 완전 노출 ≥ qa_checks.element_hold.min_full_sec(옛 act1_6 +0.4 ~ 끝 +0.8)
   end:
-    sid: act1_6
-    edge: end
-    'off': 0.8
+    sid: act1_7
+    'off': 4.2
   mid: econ_warsh_swearing_5
   for: 케빈 워시 연준 의장 취임 선서   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: backdrop_right_low
@@ -369,17 +368,6 @@ events:
   sub: 3.5~3.75% · 9대 3
   side: left
   hl: true
-- type: photo
-  start:
-    sid: act2_1
-    'off': 0.4
-  end:
-    sid: act2_1
-    edge: end
-    'off': 0.6
-  mid: fed_presser_0729
-  for: 케빈 워시 연준 의장 기자회견   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
-  place: backdrop_right_low
 - type: article
   start:
     sid: act2_2
@@ -405,10 +393,10 @@ events:
   start:
     sid: act2_4
     'off': 0.3
-  end:
-    sid: act2_4
+  end: # v7.4.0 D-0346·D-0348(UF-171 [element-hold]) — 완전 노출 ≥ qa_checks.element_hold.min_full_sec(옛 act2_4 끝 +0.9) — act2_5 는 같은 결정의 성명
+    sid: act2_5
     edge: end
-    'off': 0.9
+    'off': 0.4
   mid: cnn_0916
   theme: dark
 - type: marker
@@ -427,10 +415,9 @@ events:
   start:
     sid: act3_0
     'off': 0.4
-  end:
-    sid: act3_0
-    edge: end
-    'off': 0.4
+  end: # v7.4.0 D-0346·D-0348(UF-171 [element-hold]) — 완전 노출 ≥ qa_checks.element_hold.min_full_sec(옛 act3_0 끝 +0.4) — act3_1 은 같은 날 점도표
+    sid: act3_1
+    'off': 2.0
   mid: fed_presser_0916_b
   for: 케빈 워시 연준 의장 기자회견   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: backdrop_right_low
@@ -459,13 +446,13 @@ events:
   side: left
   hl: true
 - type: photo
-  start:
-    sid: act3_3
-    'off': 0.4
-  end:
-    sid: act3_3
+  start: # v7.4.0 D-0346·D-0348(UF-171 [element-hold]) — 완전 노출 ≥ qa_checks.element_hold.min_full_sec(옛 act3_3 +0.4 ~ 끝 +0.4)
+    sid: act3_2
     edge: end
-    'off': 0.4
+    'off': 0.0
+  end:
+    scene_start: ending
+    'off': -0.1
   mid: fed_eccles_ext
   for: 연준   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: backdrop_right_low
@@ -498,23 +485,11 @@ events:
   hl: true
 - type: photo
   start:
-    sid: act1_4
-    'off': 0.6
-  end:
-    sid: act1_4
-    edge: end
-    'off': 0.5
-  mid: econ_powell_presser_552
-  for: FOMC 회의   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
-  place: backdrop_right_low
-- type: photo
-  start:
     sid: act2_6
-    'off': 0.8
+    'off': 0.3 # v7.4.0 D-0346·D-0348(UF-171 [element-hold]) — 완전 노출 ≥ qa_checks.element_hold.min_full_sec(옛 act2_6 +0.8 ~ 끝 +0.6)
   end:
-    sid: act2_6
-    edge: end
-    'off': 0.6
+    sid: act2_7
+    'off': 2.9
   mid: econ_walmart_2508
   for: 소비자물가   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: backdrop_right_low
@@ -541,6 +516,10 @@ sound:
   cues: []
   no_music_decision: null
 drops:
+- record: photo econ_powell_presser_552 act1_4
+  reason: "D-0346·D-0348 — 최소 유지 시간 미달(완전 노출 2.69초). act1 사진 셋(이사회실·파월·워시) 중 하나 — act1_4(동결 4회)는 금리 선이 맡는다(요소 수 축소)"
+- record: photo fed_presser_0729 act2_1
+  reason: "D-0346·D-0348 — 최소 유지 시간 미달(완전 노출 1.82초). act2 첫머리 7.29 회의 매체 셋(회의실 영상·회견 사진·표결 영상) 중 하나 — 회견 장면은 표결 영상이 맡는다(요소 수 축소)"
 - record: CPIAUCSL
   reason: 아일랜드 높이 298 에 레인 셋이면 금리 값 영역이 약 25px 이라 동결기가 평평해 보인다(UF-140) — 금리 + 기록 두 레인(D-0267 §1). 물가 3.4% 는 act2_6 카드가 말하고, 물가 시계열은 geo 편 dual_line 이 보여 준다
 - record: DFEDTARU
