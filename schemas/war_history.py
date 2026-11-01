@@ -301,3 +301,14 @@ def photo_license_from_tags(tags: list[str]) -> "str | None":
     if any(t.lower().startswith(work_age) for t in tags):
         return "Public domain"
     return None
+
+
+THREE_D_WORKS = ("coin", "sculpture", "relief", "pottery")   # 입체 유물 — 사진가 권리가 따로 있다(PD-Art 는 2D 복제에만, RIGHTS-AP-001)
+
+
+def photo_pd_basis_needed(work_kind: "str | None", tags: "list[str] | None") -> bool:
+    """입체 유물 사진인데 Commons 분류가 유물 나이 PD 뿐(사진 라이선스 분류 없음)이면 True — 사진 자체의 PD 근거를 레코드에 적어야 한다(D710 보강)."""
+    if work_kind not in THREE_D_WORKS or not tags:
+        return False
+    work_age = tuple(x.lower() for x in _rules().rights.work_age_tags)
+    return not [t for t in tags if not t.lower().startswith(work_age) and norm_license_tag(t)]

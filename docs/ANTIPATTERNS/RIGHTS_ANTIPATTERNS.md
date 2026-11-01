@@ -33,6 +33,7 @@ last_review: 2026-11-01
     불허(`disallowed_tags`: CC-BY-SA·GFDL·NC·ND)뿐이거나, 레코드 `photo_license` 가 분류에 없으면 `[license-mismatch]` → MediaAsset 검증 실패(hard).
   - period_art·document 레코드는 `photo_license`·`license_tags` 필수, period_art 는 `work_license` 필수(`license` = `photo_license`).
   - 시험: `tests/test_war_rights.py`.
-- **한계**: 유물 나이 PD 분류만 있고 사진 분류가 없는 입체 유물 사진(예: 1900년 촬영 사진처럼 사진 자체가 오래된 경우)은 통과한다.
-  그런 레코드는 사진 연대를 `date` 에 적고 검수 때 사진 자체의 PD 근거를 확인한다.
+- **한계와 보강(D710)**: 유물 나이 PD 분류만 있고 사진 분류가 없는 입체 유물 사진(예: 1900년 촬영 사진처럼 사진 자체가 오래된 경우)은
+  분류만으로 가를 수 없다. 그런 레코드(work_kind coin·sculpture·relief·pottery)는 `photo_pd_basis`(사진 자체의 PD 근거: 촬영자·발행 연도·조항)가
+  없으면 검증 실패다(`schemas.war_history.photo_pd_basis_needed`).
 - **관련**: back_and_forth R-0303 §0, D-0606 §2. 교체: CNG 사진 → Sailko 사진(CC BY 3.0, 알테스 무제움).

@@ -122,6 +122,7 @@ class MediaAsset(_Strict):
     photo_license: Optional[str] = Field(default=None, min_length=1)
     work_license: Optional[str] = Field(default=None, min_length=1)
     license_tags: Optional[list[str]] = None
+    photo_pd_basis: Optional[str] = Field(default=None, min_length=1)   # 입체 유물 사진 + 분류가 유물 나이 PD 뿐이면 필수 — 사진 자체의 PD 근거(촬영자·발행 연도·조항)
 
     @field_validator("created", mode="before")
     @classmethod
@@ -152,6 +153,10 @@ class MediaAsset(_Strict):
             errs.append(f"{self.kind} 레코드는 photo_license(사진)·license_tags(Commons 분류, python -m sketch.war.fetch 자동 기록) 필수 — 유물 PD 를 사진 권리로 착각하지 않게(D-0606 §2)")
         elif self.license != self.photo_license:
             errs.append(f"license {self.license!r} ≠ photo_license {self.photo_license!r} — 화면 크레딧 라이선스 = 사진 라이선스")
+        from schemas.war_history import photo_pd_basis_needed  # noqa: PLC0415
+
+        if photo_pd_basis_needed(self.work_kind, self.license_tags) and not self.photo_pd_basis:
+            errs.append(f"입체 유물({self.work_kind}) 사진인데 Commons 분류가 유물 나이 PD 뿐 {self.license_tags} — photo_pd_basis(사진 자체의 PD 근거: 촬영자·발행 연도·조항) 필수(RIGHTS-AP-001, D710)")
         if self.kind == "period_art" and self.work_license is None:
             errs.append("period_art 레코드는 work_license(유물·작품 자체의 권리, 예: Public domain(PD-old)) 필수")
         if (self.photo_license or self.license) not in wh.rights.allowed_licenses:

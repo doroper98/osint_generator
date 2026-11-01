@@ -86,7 +86,10 @@ class MediaAssetLicenseTest(unittest.TestCase):
             MediaAsset.model_validate(_art(license_tags=None))
         with self.assertRaises(ValidationError):
             MediaAsset.model_validate(_art(license_tags=["PD-old-100-expired"], work_license=None))
-        MediaAsset.model_validate(_art(license_tags=["PD-old-100-expired", "CC-PD-Mark"]))
+        with self.assertRaises(ValidationError):   # 입체 유물(coin) + 유물 나이 PD 뿐 = 사진 자체 PD 근거 필수(D710)
+            MediaAsset.model_validate(_art(license_tags=["PD-old-100-expired", "CC-PD-Mark"]))
+        MediaAsset.model_validate(_art(license_tags=["PD-old-100-expired", "CC-PD-Mark"], photo_pd_basis="1900년 촬영·발행 사진 PD-old"))
+        MediaAsset.model_validate(_art(license_tags=["PD-old-100-expired"], work_kind="painting"))   # 2D 복제 = PD-Art 성립
 
     def test_project_records_pass(self) -> None:
         for pid in ("cannae_sketch", "inchon_sketch"):
