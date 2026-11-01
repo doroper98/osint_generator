@@ -1695,6 +1695,20 @@ class AudioRules(_Strict):
     sfx: SfxRules
 
 
+class ElementHoldRules(_Strict):
+    """v7.4.0 D-0462(UF-171) — 요소 완전 노출(페이드 뺀 구간) 하한."""
+    min_full_sec: float = Field(gt=0)
+    types: list[str]
+
+
+class MediaOverlapRules(_Strict):
+    """v7.4.0 D-0462(UF-172) — 앞 요소가 완전 노출 하한 전에 뒤 요소에 덮이면 실패."""
+    cover_types: list[str]
+    full_types: list[str]
+    box_types: list[str]
+    box_aspect: float = Field(gt=0)
+
+
 class RouteMissingRules(_Strict):
     """v5.21.14 D-0195·D-0197 — 문장에 이동·공격 동사 + 그 문장이 부르는 마커가 있으면 그 마커에 닿는 경로가 문장 구간에 있어야 한다."""
 
@@ -1789,6 +1803,8 @@ class QAChecks(_Strict):
     frame_missing: "FrameMissingRules"   # v5.21.14 D-0199 — 문장이 부르는 지명이 화면 밖
     battle_geo: "BattleGeoRules"         # v5.22.0 D-0200 UF-08 — 전황 문장에 지명·경로 없음(warning)
     card_full_exposure_min_sec: float = Field(gt=0)   # v5.21.10 D-0191 §1-2 — 기사·인용 카드 완전 불투명 구간 하한(hard card_exposure)
+    element_hold: "ElementHoldRules"     # v7.4.0 D-0462(UF-171) — 요소 종류별 완전 노출 하한(hard element_hold)
+    media_overlap: "MediaOverlapRules"   # v7.4.0 D-0462(UF-172) — 앞 요소가 하한 전에 덮임(hard media_overlap)
     restate_overlap_max: float = Field(default=0.6, gt=0, le=1)   # v7.4.0 D-0306 §1.2 — [text-restates-narration] 어절 겹침 상한
     restate_min_words: int = Field(default=4, ge=1)   # 이 어절 미만 화면 글자(이름표)는 보지 않는다
     restate_particles: list[str] = Field(default_factory=list)   # v7.4.0 D-0316 ② — 어절 끝 조사(떼고 비교)

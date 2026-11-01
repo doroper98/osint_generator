@@ -91,6 +91,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | estimate_actual_pair | hard | 예상·실제 단위·주기 다름 또는 겹치는 분기 열 없음 `[estimate-actual-pair]`(v7.4.0 D-0339 T3) |
 | grid_text_cross | hard | 세로 격자선이 시간축 세계 글자 상자를 지난다 `[grid-text-cross]`(v7.4.0 D-0339, UF-155) |
 | bar_border | hard | 그린 막대 가장자리 안쪽 색 ≠ 가운데 색(테두리) `[bar-border]`(v7.4.0 D-0339, UF-202) |
+| element_hold | hard | rules qa_checks.element_hold.types 요소의 완전 노출(페이드 뺀 구간) < min_full_sec `[element-hold]`(v7.4.0 D-0462, UF-171) |
+| media_overlap | hard | 앞 요소(media_overlap.cover_types)가 완전 노출 element_hold.min_full_sec 전에 전면(full_types) 또는 겹치는 상자(box_types)에 덮임 `[media-overlap]`(v7.4.0 D-0462, UF-172) |
 | badge_covered | hard | 지도 층 배지 계획 구간 중 안 보인 비율(전면 덮개로 늦춰짐·덮개 아래·상자 가림) > rules badge.covered_max_ratio `[badge-covered]`(v7.4.0 D-0329) |
 | flight_unsourced | hard | flight 에 claim 없음·원고가 인용하지 않은 claim `[flight-unsourced]` — 비행은 출처 있는 특정 타격에만(v7.4.0 D-0316) |
 | scene_visual_void | hard | 요소(rules qa_checks.visual_void_types) 없이 지도·배경만 보이는 구간 ≥ qa_checks.visual_void_max_sec(콜드 오픈·전면 카드·카메라 move 제외) `[scene-visual-void]`(v7.4.0 D-0312, provenance visual_void) |
@@ -133,7 +135,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border")   # chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap")   # chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -1870,6 +1872,82 @@ def check_card_exposure(P) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
+def element_full_span(e: dict) -> tuple[float, float]:
+    """v7.4.0 D-0462(UF-171) — 요소가 완전히 보이는 구간(페이드 뺀 구간). 그리기와 같은 등장·퇴장 값을 쓴다."""
+    from engine.layers.article import article_full_span  # noqa: PLC0415
+    from engine.layers.badges import BADGE  # noqa: PLC0415
+    from engine.quote import quote_full_span  # noqa: PLC0415
+    from engine.style import ELEM  # noqa: PLC0415
+
+    ty = e["type"]
+    if ty == "article":
+        return article_full_span(e)
+    if ty == "quote":
+        return quote_full_span(e)
+    if ty == "badge":
+        return e["t0"] + BADGE.fade_in_sec, e["t1"] - BADGE.fade_out_sec
+    fi, fo = ELEM[ty] if ty in ELEM else (0.0, 0.0)
+    return e["t0"] + fi, e["t1"] - fo
+
+
+def _elem_name(e: dict) -> str:
+    return str(e.get("mid") or e.get("pid") or e.get("speaker") or e.get("label") or "")
+
+
+def check_element_hold(P) -> list[str]:  # noqa: ANN001, N803
+    """[element-hold] hard(v7.4.0 back_and_forth D-0462, 사용자 의견 UF-171 "뜨자마자 사라지는것들이 너무 많아") — rules qa_checks.element_hold.types
+    요소의 완전 노출(페이드 뺀 구간)이 min_full_sec 미만이면 요소마다 한 줄. 콘티 판·프리뷰·전편 같은 키(C12-3)."""
+    EH = QA.element_hold  # noqa: N806
+    out = []
+    for e in sorted(P.events, key=lambda e: e["t0"]):
+        if e["type"] not in EH.types:
+            continue
+        a, b = element_full_span(e)
+        if b - a < EH.min_full_sec:
+            out.append(f"[element-hold] {e['type']} {_elem_name(e)!r} 완전 노출 {max(0.0, b - a):.2f}초 < {EH.min_full_sec:g} "
+                       f"(t0 {e['t0']:.2f} ~ t1 {e['t1']:.2f}) — 끝을 다음 문장까지 늘리거나 시작을 앞당기고, 자리가 없으면 빼고 media_notes 에 사유(UF-171)")
+    return out
+
+
+def _box(e: dict, aspect: float) -> "tuple[float, float, float, float] | None":
+    if not all(k in e for k in ("x", "y", "w")):
+        return None
+    return float(e["x"]), float(e["y"]), float(e["x"]) + float(e["w"]), float(e["y"]) + float(e["w"]) * aspect
+
+
+def check_media_overlap(P) -> list[str]:  # noqa: ANN001, N803
+    """[media-overlap] hard(v7.4.0 back_and_forth D-0462, 사용자 의견 UF-172 "사진 템플릿이 … 제목에 묻혀 사라졌어") — 앞 요소(cover_types)가
+    완전 노출 qa_checks.element_hold.min_full_sec 를 채우기 전에 뒤 요소가 덮으면 실패. 전면(full_types)은 늘 덮고, 상자(box_types)는 상자가 겹칠 때만."""
+    MO, EH = QA.media_overlap, QA.element_hold  # noqa: N806
+    evs = sorted((e for e in P.events if e["type"] in set(MO.cover_types) | set(MO.full_types) | set(MO.box_types)), key=lambda e: e["t0"])
+    out = []
+    for i, a in enumerate(evs):
+        if a["type"] in MO.full_types:   # 전면 카드가 떠 있는 동안 시작한 요소는 그 아래에 깔린다(UF-172 act1_7 사진)
+            for b in evs[i + 1:]:
+                if b["type"] in MO.cover_types and b["t0"] < a["t1"] - 1e-6:
+                    out.append(f"[media-overlap] {b['type']} {_elem_name(b)!r}({b['t0']:.2f}~) 가 {a['type']} {_elem_name(a)!r}"
+                               f"({a['t0']:.2f}~{a['t1']:.2f}) 이 떠 있는 동안 시작해 덮인다 — 전면 카드가 끝난 뒤로 옮기거나 앞으로 당긴다(UF-172)")
+        if a["type"] not in MO.cover_types:
+            continue
+        fa0, fa1 = element_full_span(a)
+        for b in evs[i + 1:]:
+            if b is a or b["t0"] >= fa1:
+                continue
+            if b["type"] in MO.full_types:
+                pass
+            elif b["type"] in MO.box_types and a["type"] in MO.box_types:
+                ba, bb = _box(a, MO.box_aspect), _box(b, MO.box_aspect)
+                if ba is None or bb is None or not (ba[0] < bb[2] and bb[0] < ba[2] and ba[1] < bb[3] and bb[1] < ba[3]):
+                    continue
+            else:
+                continue
+            seen = b["t0"] - fa0
+            if seen < EH.min_full_sec:
+                out.append(f"[media-overlap] {a['type']} {_elem_name(a)!r}({a['t0']:.2f}~) 이 완전 노출 {max(0.0, seen):.2f}초 만에 "
+                           f"{b['type']} {_elem_name(b)!r}({b['t0']:.2f}~)에 덮인다(< {EH.min_full_sec:g}) — 앞 요소를 먼저 끝내거나 뒤 요소를 늦춘다(UF-172)")
+    return out
+
+
 def check_article_backdrop(P) -> list[str]:  # noqa: ANN001, N803
     """한 영상 안 기사 카드 무대 하나(v5.21.12 D-0193) — 기사 카드 theme(dark·light)가 둘 이상이면 hard.
     사진 없는 카드의 블러 무대 밝기는 그리기가 press_fallback.max_luma 로 묶는다(fallback_gain)."""
@@ -2392,6 +2470,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "estimate_actual_pair": lambda: estimate_actual_pair(P.events),   # v7.4.0 D-0339 T3(hard, D-0315 ②)
         "grid_text_cross": lambda: check_grid_text_cross(P),   # v7.4.0 D-0339(hard, UF-155)
         "bar_border": lambda: check_bar_border(P),   # v7.4.0 D-0339(hard, UF-202)
+        "element_hold": lambda: check_element_hold(P),     # v7.4.0 D-0462(hard, UF-171)
+        "media_overlap": lambda: check_media_overlap(P),   # v7.4.0 D-0462(hard, UF-172)
         "label_under_media": lambda: check_label_under_media(P),   # v7.4.0 R-0294 판정(hard)
         "band_line_outside": lambda: check_band_line_outside(P),   # v7.4.0 D-0326(hard, UF-200)
         "photo_subject_background": lambda: check_photo_subject_background(P),   # v7.4.0 D-0327(hard, UF-201)
