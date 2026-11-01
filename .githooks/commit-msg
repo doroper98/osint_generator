@@ -15,9 +15,9 @@ fi
 msg_file="$1"
 first_line="$(head -n 1 "$msg_file")"
 
-# merge / fixup / revert / squash 자동 메시지는 통과
+# fixup / revert / squash 자동 메시지는 통과. merge 커밋은 통과시키지 않는다(v7.4.0 감독 지적 — 병합도 `vX.Y.Z: merge <무엇> — 요지`,
+# `git merge --no-ff -m` / `git pull --no-rebase -m` 으로 적는다. 자동 "Merge branch …" 첫 줄 = 오류)
 case "$first_line" in
-  "Merge "*|"merge "*) exit 0 ;;
   "Revert "*|"revert "*) exit 0 ;;
   "fixup!"*|"squash!"*|"amend!"*) exit 0 ;;
 esac
