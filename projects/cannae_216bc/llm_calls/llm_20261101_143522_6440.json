@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "call_id": "llm_20261101_143522_6440",
+  "task_id": "research-cannae_216bc",
+  "worker": "research",
+  "backend": "claude",
+  "model": "claude-opus-5-5",
+  "mode": "response",
+  "system_prompt_hash": "sha256:fcfeadd52ae32943d22bd6584b148972f0109966935eada7c7afa6760724d721",
+  "user_prompt_path": "llm_calls/llm_20261101_143522_6440.prompt.txt",
+  "raw_response_path": "llm_calls/llm_20261101_143522_6440.raw.txt",
+  "parsed_status": "ok",
+  "started_at": "2026-11-01T14:35:22.987615Z",
+  "completed_at": "2026-11-01T14:36:19.724367Z",
+  "exit_code": 0,
+  "retry_index": 0,
+  "error_message": null
+}

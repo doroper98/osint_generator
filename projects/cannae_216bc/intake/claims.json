@@ -1,0 +1,813 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "claim_id": "clm_0001",
+      "text": "한니발이 로마군의 보급 물자가 모여 있던 칸나이 성채를 장악했다",
+      "source_ids": [
+        "src_doc_0001"
+      ],
+      "status": "unverified",
+      "contested": true,
+      "checks": [
+        "quote_match:src_doc_0001",
+        "independent_origins:0",
+        "attributed:src_doc_0001"
+      ],
+      "attributed_only": true,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0002",
+      "text": "로마 원로원이 8개 군단을 전장에 투입하기로 결정했다",
+      "source_ids": [
+        "src_doc_0001"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0001",
+        "quote_match:src_doc_0001",
+        "independent_origins:1",
+        "official:src_doc_0001",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0003",
+      "text": "로마군은 동맹군 포함 보병 약 8만 명, 기병 6천여 명이었다",
+      "source_ids": [
+        "src_doc_0003"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0003",
+        "independent_origins:1",
+        "official:src_doc_0003"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0004",
+      "text": "카르타고군 기병은 약 1만 명이었다",
+      "source_ids": [
+        "src_doc_0003",
+        "src_doc_0007"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0003",
+        "quote_match:src_doc_0007",
+        "independent_origins:2",
+        "official:src_doc_0003",
+        "official:src_doc_0007"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0005",
+      "text": "카르타고군 보병은 약 4만 명이었다",
+      "source_ids": [
+        "src_doc_0003",
+        "src_doc_0007"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0003",
+        "quote_match:src_doc_0007",
+        "independent_origins:2",
+        "official:src_doc_0003",
+        "official:src_doc_0007"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0006",
+      "text": "로마군은 남쪽을, 카르타고군은 북쪽을 향해 진을 쳤다",
+      "source_ids": [
+        "src_doc_0003",
+        "src_doc_0007"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0003",
+        "quote_match:src_doc_0007",
+        "independent_origins:2",
+        "official:src_doc_0003",
+        "official:src_doc_0007"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0007",
+      "text": "로마 기병은 강 쪽 우익에 배치됐다",
+      "source_ids": [
+        "src_doc_0003",
+        "src_doc_0007"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0003",
+        "quote_match:src_doc_0007",
+        "independent_origins:2",
+        "official:src_doc_0003",
+        "official:src_doc_0007"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0008",
+      "text": "로마군 우익은 아이밀리우스, 좌익은 테렌티우스(바로)가 지휘했다",
+      "source_ids": [
+        "src_doc_0003",
+        "src_doc_0007"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0003",
+        "quote_match:src_doc_0007",
+        "independent_origins:2",
+        "official:src_doc_0003",
+        "official:src_doc_0007"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0009",
+      "text": "그나이우스 세르빌리우스가 로마군 중앙을 맡았다",
+      "source_ids": [
+        "src_doc_0003",
+        "src_doc_0007"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0003",
+        "quote_match:src_doc_0007",
+        "independent_origins:2",
+        "official:src_doc_0003",
+        "official:src_doc_0007"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0010",
+      "text": "카르타고군 좌익은 하스드루발이 지휘했다",
+      "source_ids": [
+        "src_doc_0003",
+        "src_doc_0007"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0003",
+        "quote_match:src_doc_0007",
+        "independent_origins:2",
+        "official:src_doc_0003",
+        "official:src_doc_0007"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0011",
+      "text": "카르타고군 우익은 한노가 지휘했다",
+      "source_ids": [
+        "src_doc_0003",
+        "src_doc_0007"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "폴리비오스",
+          "text": "우익 지휘관은 한노",
+          "source_ids": [
+            "src_doc_0003"
+          ]
+        },
+        {
+          "party": "리비우스",
+          "text": "우익 지휘관은 마하르발",
+          "source_ids": [
+            "src_doc_0007"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_doc_0003",
+        "quote_match:src_doc_0007",
+        "independent_origins:1",
+        "official:src_doc_0003"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0012",
+      "text": "한니발이 동생 마고와 함께 카르타고군 중앙을 지휘했다",
+      "source_ids": [
+        "src_doc_0003",
+        "src_doc_0007"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0003",
+        "quote_match:src_doc_0007",
+        "independent_origins:2",
+        "official:src_doc_0003",
+        "official:src_doc_0007"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0013",
+      "text": "한니발은 중앙의 히스파니아·켈트 보병을 앞으로 내밀어 초승달 모양 진형을 만들었다",
+      "source_ids": [
+        "src_doc_0003"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0003",
+        "independent_origins:1",
+        "official:src_doc_0003"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0014",
+      "text": "카르타고군 아프리카 보병은 앞선 전투에서 노획한 로마 무기로 무장했다",
+      "source_ids": [
+        "src_doc_0003",
+        "src_doc_0007"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0003",
+        "quote_match:src_doc_0007",
+        "independent_origins:2",
+        "official:src_doc_0003",
+        "official:src_doc_0007"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0015",
+      "text": "바람(볼투르누스)이 로마군 쪽으로 불어 먼지가 로마군 시야를 가렸다",
+      "source_ids": [
+        "src_doc_0007"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0007",
+        "independent_origins:1",
+        "official:src_doc_0007"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0016",
+      "text": "강가 기병전에서 양측 기병이 말에서 내려 백병전을 벌였다",
+      "source_ids": [
+        "src_doc_0004",
+        "src_doc_0007"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0004",
+        "quote_match:src_doc_0007",
+        "independent_origins:2",
+        "official:src_doc_0004",
+        "official:src_doc_0007"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0017",
+      "text": "로마군 우익 기병이 히스파니아·켈트 기병에게 패했다",
+      "source_ids": [
+        "src_doc_0004",
+        "src_doc_0007"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0004",
+        "quote_match:src_doc_0007",
+        "independent_origins:2",
+        "official:src_doc_0004",
+        "official:src_doc_0007"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0018",
+      "text": "중앙으로 밀고 들어간 로마 보병이 양 측면의 아프리카 보병에게 포위됐다",
+      "source_ids": [
+        "src_doc_0004",
+        "src_doc_0007"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0004",
+        "quote_match:src_doc_0007",
+        "independent_origins:2",
+        "official:src_doc_0004",
+        "official:src_doc_0007"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0019",
+      "text": "로마 동맹군 기병이 하스드루발의 돌격을 앞두고 무너져 달아났다",
+      "source_ids": [
+        "src_doc_0004"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0004",
+        "independent_origins:1",
+        "official:src_doc_0004"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0020",
+      "text": "하스드루발이 기병으로 로마 군단의 후방을 공격했다",
+      "source_ids": [
+        "src_doc_0004"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0004",
+        "independent_origins:1",
+        "official:src_doc_0004"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0021",
+      "text": "약 500명의 누미디아 기병이 거짓 투항한 뒤 로마군 후방을 공격했다",
+      "source_ids": [
+        "src_doc_0008"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0008",
+        "independent_origins:1",
+        "official:src_doc_0008"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0022",
+      "text": "집정관 루키우스 아이밀리우스 파울루스가 전투에서 전사했다",
+      "source_ids": [
+        "src_doc_0004",
+        "src_doc_0009"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0004",
+        "quote_match:src_doc_0009",
+        "independent_origins:2",
+        "official:src_doc_0004",
+        "official:src_doc_0009"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0023",
+      "text": "아이밀리우스는 전투 초반 투석에 맞아 중상을 입었다",
+      "source_ids": [
+        "src_doc_0008"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0008",
+        "independent_origins:1",
+        "official:src_doc_0008"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0024",
+      "text": "집정관 테렌티우스(바로)가 베누시아로 도주했다",
+      "source_ids": [
+        "src_doc_0004",
+        "src_doc_0005",
+        "src_doc_0009"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0004",
+        "quote_match:src_doc_0005",
+        "quote_match:src_doc_0009",
+        "independent_origins:2",
+        "official:src_doc_0004",
+        "official:src_doc_0005",
+        "official:src_doc_0009"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0025",
+      "text": "테렌티우스와 함께 베누시아로 도주한 기병은 70명이었다",
+      "source_ids": [
+        "src_doc_0005",
+        "src_doc_0009"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "폴리비오스",
+          "text": "기병 70명",
+          "source_ids": [
+            "src_doc_0005"
+          ]
+        },
+        {
+          "party": "리비우스",
+          "text": "기병 약 50명",
+          "source_ids": [
+            "src_doc_0009"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_doc_0005",
+        "quote_match:src_doc_0009",
+        "independent_origins:1",
+        "official:src_doc_0005"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0026",
+      "text": "칸나이 전투에서 로마군 약 7만 명이 전사했다",
+      "source_ids": [
+        "src_doc_0005",
+        "src_doc_0009"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "폴리비오스",
+          "text": "약 7만 명 전사",
+          "source_ids": [
+            "src_doc_0005"
+          ]
+        },
+        {
+          "party": "리비우스",
+          "text": "보병 45,500명·기병 2,700명 전사(전해지는 수치)",
+          "source_ids": [
+            "src_doc_0009"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_doc_0005",
+        "quote_match:src_doc_0009",
+        "independent_origins:1",
+        "official:src_doc_0005"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0027",
+      "text": "리비우스가 로마군 보병 45,500명이 전사했다고 전해진다고 기록했다",
+      "source_ids": [
+        "src_doc_0009"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0009",
+        "independent_origins:1",
+        "attributed:src_doc_0009",
+        "official:src_doc_0009"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0028",
+      "text": "로마군 보병 약 1만 명이 포로가 됐다",
+      "source_ids": [
+        "src_doc_0005",
+        "src_doc_0009"
+      ],
+      "status": "disputed",
+      "contested": true,
+      "sides": [
+        {
+          "party": "폴리비오스",
+          "text": "보병 약 1만 명 포로",
+          "source_ids": [
+            "src_doc_0005"
+          ]
+        },
+        {
+          "party": "리비우스",
+          "text": "보병 3천·기병 1,500명 포로(전해지는 수치)",
+          "source_ids": [
+            "src_doc_0009"
+          ]
+        }
+      ],
+      "checks": [
+        "quote_match:src_doc_0005",
+        "quote_match:src_doc_0009",
+        "independent_origins:1",
+        "official:src_doc_0005"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0029",
+      "text": "아이밀리우스가 보병 1만 명을 로마 진영에 남겨 카르타고 진영을 공격하게 했다",
+      "source_ids": [
+        "src_doc_0005"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0005",
+        "independent_origins:1",
+        "official:src_doc_0005"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0030",
+      "text": "한니발군 손실은 켈트인 약 4천, 히스파니아·아프리카인 1,500, 기병 200명이었다",
+      "source_ids": [
+        "src_doc_0005"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0005",
+        "independent_origins:1",
+        "official:src_doc_0005"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0031",
+      "text": "리비우스가 한니발이 기병을 하마시킨 집정관 명령을 듣고 탄식했다고 전해진다고 기록했다",
+      "source_ids": [
+        "src_doc_0008"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0008",
+        "independent_origins:1",
+        "attributed:src_doc_0008",
+        "official:src_doc_0008"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0032",
+      "text": "폴리비오스가 아이밀리우스가 연설에서 이전 패전 때는 두 집정관이 합동으로 싸운 적이 없다고 말했다고 기록했다",
+      "source_ids": [
+        "src_doc_0001"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0001",
+        "independent_origins:1",
+        "attributed:src_doc_0001",
+        "official:src_doc_0001"
+      ],
+      "attributed_only": true,
+      "claim_kind": "statement",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0033",
+      "text": "아이밀리우스는 기병이 우세한 적과 평탄한 지형에서 싸우는 데 반대했다",
+      "source_ids": [
+        "src_doc_0002"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0002",
+        "independent_origins:1",
+        "official:src_doc_0002"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0034",
+      "text": "한니발이 누미디아 기병을 보내 작은 로마 진영의 물 긷는 병사들을 공격했다",
+      "source_ids": [
+        "src_doc_0002",
+        "src_doc_0006"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0002",
+        "quote_match:src_doc_0006",
+        "independent_origins:2",
+        "official:src_doc_0002",
+        "official:src_doc_0006"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0035",
+      "text": "전투 당일 지휘 당번이던 테렌티우스(바로)가 군을 출진시켰다",
+      "source_ids": [
+        "src_doc_0003",
+        "src_doc_0006"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0003",
+        "quote_match:src_doc_0006",
+        "independent_origins:2",
+        "official:src_doc_0003",
+        "official:src_doc_0006"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0036",
+      "text": "바로는 동료 집정관 파울루스와 상의 없이 출진 신호를 올렸다",
+      "source_ids": [
+        "src_doc_0006"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0006",
+        "independent_origins:1",
+        "official:src_doc_0006"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0037",
+      "text": "전투 후 타렌툼이 곧바로 카르타고에 항복했다",
+      "source_ids": [
+        "src_doc_0005"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0005",
+        "independent_origins:1",
+        "official:src_doc_0005"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0038",
+      "text": "전투 며칠 뒤 갈리아 키살피나로 파견된 로마 지휘관이 켈트인 매복에 걸려 전멸했다",
+      "source_ids": [
+        "src_doc_0005"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0005",
+        "independent_origins:1",
+        "official:src_doc_0005"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0039",
+      "text": "한니발 대리석 흉상은 1667년 카푸아에서 발견됐다",
+      "source_ids": [
+        "src_doc_0011"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0011",
+        "independent_origins:1",
+        "official:src_doc_0011"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0040",
+      "text": "회화 「칸나이 전투에서 파울루스 아이밀리우스의 죽음」의 작가는 존 트럼불이다",
+      "source_ids": [
+        "src_doc_0011"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0011",
+        "independent_origins:1",
+        "official:src_doc_0011"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    }
+  ]
+}

@@ -1,0 +1,564 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "id": "f_senate_8legions",
+      "text": "폴리비오스는 로마 원로원이 8개 군단을 전장에 투입하기로 결정했다고 기록했습니다.",
+      "date": "-216",
+      "place": "로마",
+      "actors": [
+        "로마 원로원"
+      ],
+      "numbers": [
+        "8개 군단"
+      ],
+      "source_ids": [
+        "clm_0002"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_aemilius_caution",
+      "text": "폴리비오스에 따르면 집정관 아이밀리우스는 기병이 우세한 적과 평탄한 지형에서 싸우는 데 반대했습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "루키우스 아이밀리우스 파울루스"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0033"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_aemilius_speech",
+      "text": "폴리비오스는 아이밀리우스가 연설에서, 이전 패전 때는 두 집정관이 합동으로 싸운 적이 없었다고 말했다고 기록했습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "루키우스 아이밀리우스 파울루스",
+        "폴리비오스"
+      ],
+      "numbers": [
+        "두 집정관"
+      ],
+      "source_ids": [
+        "clm_0032"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_water_raid",
+      "text": "폴리비오스와 리비우스는 한니발이 누미디아 기병을 보내 작은 로마 진영의 물 긷는 병사들을 공격했다고 기록했습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "한니발",
+        "누미디아 기병"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0034"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_varro_sortie",
+      "text": "전투 당일 지휘 당번이던 집정관 테렌티우스 바로가 군을 출진시켰고, 리비우스는 바로가 동료 집정관 파울루스와 상의 없이 출진 신호를 올렸다고 기록했습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "가이우스 테렌티우스 바로",
+        "루키우스 아이밀리우스 파울루스"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0035",
+        "clm_0036"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_roman_strength",
+      "text": "폴리비오스는 로마군이 동맹군을 포함해 보병 약 8만 명, 기병 6천여 명이었다고 기록했습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "로마군"
+      ],
+      "numbers": [
+        "약 8만 명",
+        "6천여 명"
+      ],
+      "source_ids": [
+        "clm_0003"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_carthage_strength",
+      "text": "폴리비오스와 리비우스에 따르면 카르타고군은 보병 약 4만 명, 기병 약 1만 명이었습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "카르타고군"
+      ],
+      "numbers": [
+        "약 4만 명",
+        "약 1만 명"
+      ],
+      "source_ids": [
+        "clm_0005",
+        "clm_0004"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_deployment",
+      "text": "로마군은 남쪽을, 카르타고군은 북쪽을 향해 진을 쳤고, 로마 기병은 강 쪽 우익에 배치됐습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "로마군",
+        "카르타고군"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0006",
+        "clm_0007"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_roman_commanders",
+      "text": "로마군 우익은 아이밀리우스가, 좌익은 테렌티우스 바로가, 중앙은 그나이우스 세르빌리우스가 지휘했습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "루키우스 아이밀리우스 파울루스",
+        "가이우스 테렌티우스 바로",
+        "그나이우스 세르빌리우스"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0008",
+        "clm_0009"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_carthage_commanders",
+      "text": "카르타고군 좌익은 하스드루발이 지휘했고, 중앙은 한니발이 동생 마고와 함께 맡았습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "하스드루발",
+        "한니발",
+        "마고"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0010",
+        "clm_0012"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_right_wing_dispute",
+      "text": "카르타고군 우익 지휘관을 폴리비오스는 한노로, 리비우스는 마하르발로 기록해 두 사료가 엇갈립니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "한노",
+        "마하르발",
+        "폴리비오스",
+        "리비우스"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0011"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "폴리비오스: 우익 지휘관은 한노",
+        "리비우스: 우익 지휘관은 마하르발"
+      ]
+    },
+    {
+      "id": "f_crescent",
+      "text": "폴리비오스에 따르면 한니발은 중앙의 히스파니아·켈트 보병을 앞으로 내밀어 초승달 모양 진형을 만들었습니다. 초승달 진형은 중앙을 적 쪽으로 볼록하게 내민 배치입니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "한니발",
+        "히스파니아·켈트 보병"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0013"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_african_arms",
+      "text": "카르타고군 아프리카 보병은 앞선 전투에서 노획한 로마 무기로 무장했습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "아프리카 보병"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0014"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_wind",
+      "text": "리비우스는 볼투르누스라는 바람이 로마군 쪽으로 불어 먼지가 로마군의 시야를 가렸다고 기록했습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "로마군",
+        "리비우스"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0015"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_cavalry_clash",
+      "text": "강가 기병전에서 양측 기병은 말에서 내려 백병전을 벌였고, 로마군 우익 기병은 히스파니아·켈트 기병에게 패했습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "로마 기병",
+        "히스파니아·켈트 기병"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0016",
+        "clm_0017"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_hannibal_remark",
+      "text": "리비우스는 한니발이 기병을 말에서 내리게 한 집정관의 명령을 듣고 탄식했다고 전해진다고 기록했습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "한니발",
+        "리비우스"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0031"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_encirclement",
+      "text": "중앙으로 밀고 들어간 로마 보병은 양 측면의 아프리카 보병에게 포위됐습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "로마 보병",
+        "아프리카 보병"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0018"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_rear_attack",
+      "text": "폴리비오스에 따르면 로마 동맹군 기병은 하스드루발의 돌격을 앞두고 무너져 달아났고, 하스드루발은 기병으로 로마 군단의 후방을 공격했습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "하스드루발",
+        "로마 동맹군 기병"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0019",
+        "clm_0020"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_numidian_feint",
+      "text": "리비우스는 누미디아 기병 약 500명이 거짓 투항한 뒤 로마군 후방을 공격했다고 기록했습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "누미디아 기병",
+        "리비우스"
+      ],
+      "numbers": [
+        "약 500명"
+      ],
+      "source_ids": [
+        "clm_0021"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_aemilius_death",
+      "text": "집정관 루키우스 아이밀리우스 파울루스는 리비우스에 따르면 전투 초반 투석에 맞아 중상을 입었고, 끝내 전투에서 전사했습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "루키우스 아이밀리우스 파울루스"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0023",
+        "clm_0022"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_varro_flight",
+      "text": "집정관 테렌티우스 바로는 베누시아로 도주했습니다.",
+      "date": "-216",
+      "place": "베누시아",
+      "actors": [
+        "가이우스 테렌티우스 바로"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0024"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_varro_escort_dispute",
+      "text": "바로와 함께 베누시아로 달아난 기병 수를 폴리비오스는 70명, 리비우스는 약 50명으로 기록했습니다.",
+      "date": "-216",
+      "place": "베누시아",
+      "actors": [
+        "가이우스 테렌티우스 바로",
+        "폴리비오스",
+        "리비우스"
+      ],
+      "numbers": [
+        "70명",
+        "약 50명"
+      ],
+      "source_ids": [
+        "clm_0025"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "폴리비오스: 기병 70명",
+        "리비우스: 기병 약 50명"
+      ]
+    },
+    {
+      "id": "f_roman_dead_dispute",
+      "text": "로마군 전사자를 폴리비오스는 약 7만 명으로 기록했고, 리비우스는 보병 45,500명과 기병 2,700명이 전사했다고 전해진다고 기록했습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "로마군",
+        "폴리비오스",
+        "리비우스"
+      ],
+      "numbers": [
+        "약 7만 명",
+        "45,500명",
+        "2,700명"
+      ],
+      "source_ids": [
+        "clm_0026",
+        "clm_0027"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "폴리비오스: 약 7만 명 전사",
+        "리비우스: 보병 45,500명·기병 2,700명 전사(전해지는 수치)"
+      ]
+    },
+    {
+      "id": "f_prisoners_dispute",
+      "text": "로마군 포로를 폴리비오스는 보병 약 1만 명으로, 리비우스는 보병 3천 명과 기병 1,500명으로 전해진다고 기록했습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "로마군",
+        "폴리비오스",
+        "리비우스"
+      ],
+      "numbers": [
+        "약 1만 명",
+        "3천 명",
+        "1,500명"
+      ],
+      "source_ids": [
+        "clm_0028"
+      ],
+      "confidence": "medium",
+      "contested": true,
+      "sides": [
+        "폴리비오스: 보병 약 1만 명 포로",
+        "리비우스: 보병 3천·기병 1,500명 포로(전해지는 수치)"
+      ]
+    },
+    {
+      "id": "f_camp_detachment",
+      "text": "폴리비오스는 아이밀리우스가 보병 1만 명을 로마 진영에 남겨 카르타고 진영을 공격하게 했다고 기록했습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "루키우스 아이밀리우스 파울루스"
+      ],
+      "numbers": [
+        "1만 명"
+      ],
+      "source_ids": [
+        "clm_0029"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_carthage_losses",
+      "text": "폴리비오스는 한니발군의 손실을 켈트인 약 4천 명, 히스파니아·아프리카인 1,500명, 기병 200명으로 기록했습니다.",
+      "date": "-216",
+      "place": "칸나이",
+      "actors": [
+        "카르타고군",
+        "폴리비오스"
+      ],
+      "numbers": [
+        "약 4천 명",
+        "1,500명",
+        "200명"
+      ],
+      "source_ids": [
+        "clm_0030"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_tarentum",
+      "text": "폴리비오스에 따르면 전투 직후 타렌툼이 곧바로 카르타고에 항복했습니다.",
+      "date": "-216",
+      "place": "타렌툼",
+      "actors": [
+        "타렌툼",
+        "카르타고"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0037"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_gaul_ambush",
+      "text": "폴리비오스는 전투 며칠 뒤 갈리아 키살피나로 파견된 로마 지휘관이 켈트인의 매복에 걸려 전멸했다고 기록했습니다.",
+      "date": "-216",
+      "place": "갈리아 키살피나",
+      "actors": [
+        "로마군",
+        "켈트인"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0038"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_bust_capua",
+      "text": "한니발의 대리석 흉상은 1667년 카푸아에서 발견됐습니다.",
+      "date": "1667",
+      "place": "카푸아",
+      "actors": [
+        "한니발"
+      ],
+      "numbers": [
+        "1667년"
+      ],
+      "source_ids": [
+        "clm_0039"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    },
+    {
+      "id": "f_trumbull_painting",
+      "text": "회화 「칸나이 전투에서 파울루스 아이밀리우스의 죽음」은 존 트럼불이 그린 후대의 묘사입니다.",
+      "date": "1773",
+      "place": "",
+      "actors": [
+        "존 트럼불"
+      ],
+      "numbers": [],
+      "source_ids": [
+        "clm_0040"
+      ],
+      "confidence": "high",
+      "contested": false,
+      "sides": null
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "project_id": "cannae_216bc",
+  "task_id": "intake-plan-cannae_216bc",
+  "worker": "intake_planner",
+  "status": "completed",
+  "started_at": "2026-11-01T14:29:04.056114Z",
+  "completed_at": "2026-11-01T14:29:58.236311Z",
+  "outputs": [
+    "01_intake/intake_plan.json",
+    "llm_calls/llm_20261101_142904_d0d5.json"
+  ],
+  "warnings": [],
+  "errors": [],
+  "scene_refs": [],
+  "source_refs": [],
+  "asset_refs": [],
+  "qa_status": "pass",
+  "risk_flags": [],
+  "worker_provenance": {
+    "prompt_name": "intake_planner",
+    "prompt_sha1": "a6d7952653d4b5e4a6c185a5a9e25d4494d0d81e",
+    "rules_hash": "6b34ad5825df9b4332d071093310b3a67ffd53bf",
+    "genre": "war_history",
+    "genre_declared": true
+  }
+}

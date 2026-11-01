@@ -1,0 +1,776 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "text": "한니발이 로마군의 보급 물자가 모여 있던 칸나이 성채를 장악했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0001",
+          "quote": "he seized on the citadel of a town called",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "로마 원로원이 8개 군단을 전장에 투입하기로 결정했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0001",
+          "quote": "They decided to bring eight legions into the",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0001",
+          "quote": "a thing which had never been done before by",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "로마군은 동맹군 포함 보병 약 8만 명, 기병 6천여 명이었다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0003",
+          "quote": "eighty thousand foot and rather more than six",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "카르타고군 기병은 약 1만 명이었다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0003",
+          "quote": "The Carthaginian cavalry numbered about ten",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0007",
+          "quote": "in line was forty thousand, of the cavalry ten thousand.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "카르타고군 보병은 약 4만 명이었다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0003",
+          "quote": "did not much exceed forty thousand. The Roman",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0007",
+          "quote": "in line was forty thousand, of the cavalry ten thousand.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "로마군은 남쪽을, 카르타고군은 북쪽을 향해 진을 쳤다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0003",
+          "quote": "whole army facing south",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0007",
+          "quote": "Romans looking south, the Phoenicians north. A",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "로마 기병은 강 쪽 우익에 배치됐다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0003",
+          "quote": "cavalry close to the river on the right wing and the",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0007",
+          "quote": "right wing—the one nearer the river—they placed",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "로마군 우익은 아이밀리우스, 좌익은 테렌티우스(바로)가 지휘했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0003",
+          "quote": "right wing was under the command of Aemilius,",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0007",
+          "quote": "of the left, Aemilius of the right; and Geminus",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "그나이우스 세르빌리우스가 로마군 중앙을 맡았다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0003",
+          "quote": "Atilius and Gnaeus Servilius. Hasdrubal com-",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0007",
+          "quote": "Servilius was entrusted with the centre.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "카르타고군 좌익은 하스드루발이 지휘했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0003",
+          "quote": "manded the Carthaginian left, Hanno the right, and",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0007",
+          "quote": "drubal on the left, Maharbal on the right; Hannibal",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "카르타고군 우익은 한노가 지휘했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0003",
+          "quote": "manded the Carthaginian left, Hanno the right, and",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0007",
+          "quote": "drubal on the left, Maharbal on the right; Hannibal",
+          "stance": "contradicts"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "폴리비오스",
+          "text": "우익 지휘관은 한노",
+          "source_ids": [
+            "src_doc_0003"
+          ]
+        },
+        {
+          "party": "리비우스",
+          "text": "우익 지휘관은 마하르발",
+          "source_ids": [
+            "src_doc_0007"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "한니발이 동생 마고와 함께 카르타고군 중앙을 지휘했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0003",
+          "quote": "Hannibal himself with his brother Mago the centre.",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0007",
+          "quote": "himself, with his brother Mago, had the centre.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "한니발은 중앙의 히스파니아·켈트 보병을 앞으로 내밀어 초승달 모양 진형을 만들었다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0003",
+          "quote": "a crescent-shaped formation, the line of the flanking",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "카르타고군 아프리카 보병은 앞선 전투에서 노획한 로마 무기로 무장했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0003",
+          "quote": "choicest of the arms captured in the previous battles.",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0007",
+          "quote": "captured partly at the Trebia but mostly at Lake",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "바람(볼투르누스)이 로마군 쪽으로 불어 먼지가 로마군 시야를 가렸다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0007",
+          "quote": "Volturnus—beginning to blow against the Romans",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "강가 기병전에서 양측 기병이 말에서 내려 백병전을 벌였다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0004",
+          "quote": "having once met they dismounted and fought man",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0007",
+          "quote": "foot now, for the most part",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "로마군 우익 기병이 히스파니아·켈트 기병에게 패했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0004",
+          "quote": "to man. The Carthaginians finally got the upper",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0007",
+          "quote": "Roman cavalry turned and fled.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "중앙으로 밀고 들어간 로마 보병이 양 측면의 아프리카 보병에게 포위됐다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0004",
+          "quote": "of the Celts, were caught between the two divisions",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0007",
+          "quote": "in between, they enveloped them, and presently,",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "로마 동맹군 기병이 하스드루발의 돌격을 앞두고 무너져 달아났다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0004",
+          "quote": "they were going to be charged by him, broke and",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "하스드루발이 기병으로 로마 군단의 후방을 공격했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0004",
+          "quote": "Africans. Attacking the Roman legions in the rear",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "약 500명의 누미디아 기병이 거짓 투항한 뒤 로마군 후방을 공격했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0008",
+          "quote": "concealed under their corslets, pretended to desert.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "집정관 루키우스 아이밀리우스 파울루스가 전투에서 전사했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0004",
+          "quote": "Lucius Aemilius fell in the thick of the fight after",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0009",
+          "quote": "whelmed the consul, without knowing who he was,",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "아이밀리우스는 전투 초반 투석에 맞아 중상을 입었다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0008",
+          "quote": "sling at the very outset of the battle",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "집정관 테렌티우스(바로)가 베누시아로 도주했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0004",
+          "quote": "to Venusia, among them being the Consul Gaius",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0005",
+          "quote": "Venusia with Terentius",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0009",
+          "quote": "but fled to Venusia with some fifty horsemen.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "테렌티우스와 함께 베누시아로 도주한 기병은 70명이었다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0005",
+          "quote": "For of the six thousand cavalry, seventy escaped to",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0009",
+          "quote": "but fled to Venusia with some fifty horsemen.",
+          "stance": "contradicts"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "폴리비오스",
+          "text": "기병 70명",
+          "source_ids": [
+            "src_doc_0005"
+          ]
+        },
+        {
+          "party": "리비우스",
+          "text": "기병 약 50명",
+          "source_ids": [
+            "src_doc_0009"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "칸나이 전투에서 로마군 약 7만 명이 전사했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0005",
+          "quote": "about seventy thousand, died bravely.",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0009",
+          "quote": "It is said that forty-five thousand five hundred",
+          "stance": "contradicts"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "폴리비오스",
+          "text": "약 7만 명 전사",
+          "source_ids": [
+            "src_doc_0005"
+          ]
+        },
+        {
+          "party": "리비우스",
+          "text": "보병 45,500명·기병 2,700명 전사(전해지는 수치)",
+          "source_ids": [
+            "src_doc_0009"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "리비우스가 로마군 보병 45,500명이 전사했다고 전해진다고 기록했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0009",
+          "quote": "It is said that forty-five thousand five hundred",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "로마군 보병 약 1만 명이 포로가 됐다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0005",
+          "quote": "Of the infantry about ten thousand were",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0009",
+          "quote": "The prisoners taken in this battle are said",
+          "stance": "contradicts"
+        }
+      ],
+      "event_date": null,
+      "contested": true,
+      "sides": [
+        {
+          "party": "폴리비오스",
+          "text": "보병 약 1만 명 포로",
+          "source_ids": [
+            "src_doc_0005"
+          ]
+        },
+        {
+          "party": "리비우스",
+          "text": "보병 3천·기병 1,500명 포로(전해지는 수치)",
+          "source_ids": [
+            "src_doc_0009"
+          ]
+        }
+      ],
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "아이밀리우스가 보병 1만 명을 로마 진영에 남겨 카르타고 진영을 공격하게 했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0005",
+          "quote": "left a force of ten thousand foot in his own camp",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "한니발군 손실은 켈트인 약 4천, 히스파니아·아프리카인 1,500, 기병 200명이었다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0005",
+          "quote": "Celts, fifteen hundred Spaniards and Africans and",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "리비우스가 한니발이 기병을 하마시킨 집정관 명령을 듣고 탄식했다고 전해진다고 기록했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0008",
+          "quote": "his troopers to dismount, is said to have exclaimed",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "폴리비오스가 아이밀리우스가 연설에서 이전 패전 때는 두 집정관이 합동으로 싸운 적이 없다고 말했다고 기록했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0001",
+          "quote": "said, “ the two Consuls never gave battle with their",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "statement",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "아이밀리우스는 기병이 우세한 적과 평탄한 지형에서 싸우는 데 반대했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0002",
+          "quote": "the district round was flat and treeless, was opposed",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "한니발이 누미디아 기병을 보내 작은 로마 진영의 물 긷는 병사들을 공격했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0002",
+          "quote": "ments, but sent out the Numidians to intercept the",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0006",
+          "quote": "the river to attack the men from the smaller Roman",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "전투 당일 지휘 당번이던 테렌티우스(바로)가 군을 출진시켰다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0003",
+          "quote": "command, and just after sunrise he began to move",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0006",
+          "quote": "had made commander for that day, hung out the",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "바로는 동료 집정관 파울루스와 상의 없이 출진 신호를 올렸다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0006",
+          "quote": "signal, without saying a word of the matter to his",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "전투 후 타렌툼이 곧바로 카르타고에 항복했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0005",
+          "quote": "Tarentum immediately surrender",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "전투 며칠 뒤 갈리아 키살피나로 파견된 로마 지휘관이 켈트인 매복에 걸려 전멸했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0005",
+          "quote": "surprised by the Celts in an ambush and he and his",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "한니발 대리석 흉상은 1667년 카푸아에서 발견됐다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0011",
+          "quote": "The bust of the Carthaginian general was discovered in the Italian city of Capua in 1667.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "회화 「칸나이 전투에서 파울루스 아이밀리우스의 죽음」의 작가는 존 트럼불이다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0011",
+          "quote": "Artist: John Trumbull",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    }
+  ],
+  "summary": "진형(로마 남향·카르타고 북향), 지휘관 배치, 카르타고군 병력(보병 약 4만·기병 약 1만), 로마 기병 패주와 보병 포위, 아이밀리우스 전사, 바로의 베누시아 도주는 폴리비오스와 리비우스가 일치한다. 로마군 전사자(약 7만 대 45,500+2,700)·포로 수·바로 동행 기병 수(70 대 약 50)·카르타고 우익 지휘관(한노 대 마하르발)은 두 고대 저자가 서로 다르며, 리비우스 수치는 '전해진다'는 귀속 서술이다. 누미디아 500명 위장 투항, 볼투르누스 바람, 한니발의 탄식은 리비우스에만 있다."
+}
