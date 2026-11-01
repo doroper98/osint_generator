@@ -127,6 +127,7 @@ CARD_BG: tuple[float, float, float, float] = tuple(_RULES.colors.card_bg)   # ty
 # v4.2.0 D-0081 작업 4 — 프리미티브 레이아웃 토큰(rules primitives.<id>). 프리미티브 모듈은 이 값과 PrimitiveStyle 만 쓴다(20 §4.2)
 PRIMITIVES: dict[str, object] = {k: v for k, v in _RULES.primitives if v is not None}
 ANIMATIC = _RULES.animatic   # v4.9.0 D-0108 — 콘티 판(engine/layers/animatic.py 만 읽는다)
+CATALOG = _RULES.catalog   # v7.4.0 D-0251 — 카탈로그 판(engine/layers/catalog.py·engine/render.py 만 읽는다)
 ISLAND = _RULES.island   # v5.1.0 D-0123 §1·D-0126 — 아일랜드 공통 규칙
 CASCADE = _RULES.cascade     # v5.2.0 — 겹침 카드(v5.3.0 D-0139 채택)
 QUOTE = _RULES.quote_center  # v5.4.0 — 인물 발언 인용(정규)

@@ -1,0 +1,1835 @@
+{
+ "sentences": [
+  {
+   "sid": "cold_0",
+   "scene": "cold",
+   "date": "2026.10.15",
+   "text": "전장과는 조금 떨어져 있는 조용하던 10월 15일 새벽, 모스크바에서 남동쪽으로 약 200km 떨어진 도시 랴잔의 정유소에 불길이 올랐습니다.",
+   "tts": "전장과는 조금 떨어져 있는 조용하던 시월 십오일 새벽, 모스크바에서 남동쪽으로 약 이백 킬로미터 떨어진 도시 랴잔의 정유소에 불길이 올랐습니다.",
+   "segments": [
+    [
+     "전장과는 조금 떨어져 있는 조용하던 10월 15일 새벽, 모스크바에서 남동쪽으로 약 200km 떨어진 도시 ",
+     0
+    ],
+    [
+     "랴잔",
+     1
+    ],
+    [
+     "의 정유소에 불길이 올랐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/cold_0_4bc9140ec7.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/cold_0_4bc9140ec7.npy",
+   "dur": 9.679455782312925,
+   "t0": 1.2,
+   "t1": 10.879455782312924,
+   "trim_offset": 0.494785,
+   "chunks": [
+    "전장과는 조금 떨어져 있는 조용하던 시월 십오일 새벽, 모스크바에서 남동쪽으로 약 이백 킬로미터 떨어진 도시 랴잔의 정유소에 불길이 올랐습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8715,
+    "elapsed_ms": 65511,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      9.635,
+      10.375
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.61,
+     "f0_end_hz": 88.86,
+     "octave_fixed_n": 7
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "cold_1",
+   "scene": "cold",
+   "date": "2026.10.06",
+   "text": "그리고 이 전쟁이 만든 경유 부족은 한국의 울산항까지 닿아 있었습니다.",
+   "tts": "그리고 이 전쟁이 만든 경유 부족은 한국의 울산항까지 닿아 있었습니다.",
+   "segments": [
+    [
+     "그리고 이 전쟁이 만든 경유 부족은 한국의 ",
+     0
+    ],
+    [
+     "울산항",
+     1
+    ],
+    [
+     "까지 닿아 있었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/cold_1_f2d4ffe179.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/cold_1_f2d4ffe179.npy",
+   "dur": 4.313650793650794,
+   "t0": 11.779455782312924,
+   "t1": 16.093106575963716,
+   "trim_offset": 0.508367,
+   "chunks": [
+    "그리고 이 전쟁이 만든 경유 부족은 한국의 울산항까지 닿아 있었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.91,
+    "elapsed_ms": 17706,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.345,
+      4.795
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 90.27,
+     "f0_end_hz": 65.67,
+     "octave_fixed_n": 0
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_0",
+   "scene": "act1",
+   "date": "2026.09",
+   "text": "이야기의 시작은 올해 봄부터 이어진 러시아 정유소 타격입니다.",
+   "tts": "이야기의 시작은 올해 봄부터 이어진 러시아 정유소 타격입니다.",
+   "segments": [
+    [
+     "이야기의 시작은 올해 봄부터 이어진 러시아 정유소 타격입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act1_0_d7f6ddecf9.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act1_0_d7f6ddecf9.npy",
+   "dur": 3.764172335600907,
+   "t0": 24.693106575963714,
+   "t1": 28.45727891156462,
+   "trim_offset": 0.477256,
+   "chunks": [
+    "이야기의 시작은 올해 봄부터 이어진 러시아 정유소 타격입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8928,
+    "elapsed_ms": 1166,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.81,
+      4.215
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 82.77,
+     "f0_end_hz": 76.09,
+     "octave_fixed_n": 12
+    }
+   },
+   "role": "bridge"
+  },
+  {
+   "sid": "act1_1",
+   "scene": "act1",
+   "date": "2026.09",
+   "text": "우크라이나의 드론은 왜 유전이 아니라 정유소를 노렸을까요.",
+   "tts": "우크라이나의 드론은 왜 유전이 아니라 정유소를 노렸을까요.",
+   "segments": [
+    [
+     "우크라이나의 드론은 왜 유전이 아니라 정유소를 노렸을까요.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act1_1_7608cc4b8c.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act1_1_7608cc4b8c.npy",
+   "dur": 3.5795238095238093,
+   "t0": 29.35727891156462,
+   "t1": 32.936802721088426,
+   "trim_offset": 0.541043,
+   "chunks": [
+    "우크라이나의 드론은 왜 유전이 아니라 정유소를 노렸을까요."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8923,
+    "elapsed_ms": 1065,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": false,
+     "reason": "'니다' 로 끝나지 않는다",
+     "region_sec": null,
+     "semitones": null,
+     "f0_start_hz": null,
+     "f0_end_hz": null,
+     "octave_fixed_n": null
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act1_2",
+   "scene": "act1",
+   "date": "2026.09.17",
+   "text": "올해 첫 여덟 달 동안 우크라이나는 사흘에 한 번꼴로 러시아 정유소를 타격했습니다.",
+   "tts": "올해 첫 여덟 달 동안 우크라이나는 사흘에 한 번꼴로 러시아 정유소를 타격했습니다.",
+   "segments": [
+    [
+     "올해 첫 여덟 달 동안 우크라이나는 ",
+     0
+    ],
+    [
+     "사흘에 한 번",
+     1
+    ],
+    [
+     "꼴로 러시아 정유소를 타격했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act1_2_1c8f1ec809.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act1_2_1c8f1ec809.npy",
+   "dur": 5.090430839002267,
+   "t0": 33.836802721088425,
+   "t1": 38.92723356009069,
+   "trim_offset": 0.514535,
+   "chunks": [
+    "올해 첫 여덟 달 동안 우크라이나는 사흘에 한 번꼴로 러시아 정유소를 타격했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8573,
+    "elapsed_ms": 1302,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.14,
+      5.955
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 109.9,
+     "f0_end_hz": 75.72,
+     "octave_fixed_n": 21
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_3",
+   "scene": "act1",
+   "date": "2026.09.17",
+   "text": "또한 표적은 원유를 캐는 유전이 아니라, 원유를 경유와 휘발유로 바꾸는 정유소였습니다.",
+   "tts": "또한 표적은 워뉴를 캐는 유전이 아니라, 워뉴를 경유와 휘발유로 바꾸는 정유소였습니다.",
+   "segments": [
+    [
+     "또한 표적은 원유를 캐는 유전이 아니라, 원유를 경유와 휘발유로 바꾸는 정유소였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act1_3_1740549b74.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act1_3_1740549b74.npy",
+   "dur": 5.6210204081632655,
+   "t0": 39.82723356009069,
+   "t1": 45.44825396825396,
+   "trim_offset": 0.44424,
+   "chunks": [
+    "또한 표적은 워뉴를 캐는 유전이 아니라, 워뉴를 경유와 휘발유로 바꾸는 정유소였습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9406,
+    "elapsed_ms": 1272,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.57,
+      6.42
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 83.14,
+     "f0_end_hz": 71.55,
+     "octave_fixed_n": 8
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_4",
+   "scene": "act1",
+   "date": "2026.09.11",
+   "text": "즉 원유는 계속 팔려 나갔지만, 러시아 안에서 쓸 경유와 휘발유를 만드는 공장이 타격을 받은 것입니다.",
+   "tts": "즉 워뉴는 계속 팔려 나갔지만, 러시아 안에서 쓸 경유와 휘발유를 만드는 공장이 타격을 받은 것입니다.",
+   "segments": [
+    [
+     "즉 원유는 계속 팔려 나갔지만, 러시아 안에서 쓸 경유와 휘발유를 만드는 공장이 타격을 받은 것입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act1_4_cdcee3d7c1.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act1_4_cdcee3d7c1.npy",
+   "dur": 6.499274376417233,
+   "t0": 46.34825396825396,
+   "t1": 52.84752834467119,
+   "trim_offset": 0.622449,
+   "chunks": [
+    "즉 워뉴는 계속 팔려 나갔지만, 러시아 안에서 쓸 경유와 휘발유를 만드는 공장이 타격을 받은 것입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9603,
+    "elapsed_ms": 1436,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.685,
+      7.45
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.51,
+     "f0_end_hz": 70.81,
+     "octave_fixed_n": 43
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_5",
+   "scene": "act1",
+   "date": "2026.06",
+   "text": "그 결과 러시아의 정제 처리량은 크게 줄었습니다.",
+   "tts": "그 결과 러시아의 정제 처리량은 크게 줄었습니다.",
+   "segments": [
+    [
+     "그 결과 러시아의 정제 처리량은 크게 줄었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act1_5_13e254face.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act1_5_13e254face.npy",
+   "dur": 2.7314285714285713,
+   "t0": 53.74752834467119,
+   "t1": 56.47895691609976,
+   "trim_offset": 0.562086,
+   "chunks": [
+    "그 결과 러시아의 정제 처리량은 크게 줄었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9587,
+    "elapsed_ms": 957,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.815,
+      3.42
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 87.13,
+     "f0_end_hz": 70.17,
+     "octave_fixed_n": 11
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_6",
+   "scene": "act1",
+   "date": "2026.06",
+   "text": "6월 러시아의 정제 처리량은 하루 380만 배럴로, 20여 년 만에 가장 적었습니다.",
+   "tts": "유월 러시아의 정제 처리량은 하루 삼백팔십만 배럴로, 이십여 년 만에 가장 적었습니다.",
+   "segments": [
+    [
+     "6월 러시아의 정제 처리량은 하루 380만 배럴로, 20여 년 만에 가장 적었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act1_6_f05ff1ec00.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act1_6_f05ff1ec00.npy",
+   "dur": 5.5226530612244895,
+   "t0": 57.37895691609976,
+   "t1": 62.90160997732425,
+   "trim_offset": 0.464059,
+   "chunks": [
+    "유월 러시아의 정제 처리량은 하루 삼백팔십만 배럴로, 이십여 년 만에 가장 적었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8068,
+    "elapsed_ms": 1479,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.525,
+      6.185
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 115.81,
+     "f0_end_hz": 75.07,
+     "octave_fixed_n": 38
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_7",
+   "scene": "act1",
+   "date": "2026.07.08",
+   "text": "그러자 러시아는 7월 8일부터 정유사까지 포함한 경유 수출 전면 금지에 들어갔습니다.",
+   "tts": "그러자 러시아는 칠월 팔일부터 정유사까지 포함한 경유 수출 전면 금지에 들어갔습니다.",
+   "segments": [
+    [
+     "그러자 러시아는 7월 8일부터 정유사까지 포함한 경유 수출 전면 금지에 들어갔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act1_7_e5a5acf5af.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act1_7_e5a5acf5af.npy",
+   "dur": 5.4178231292517,
+   "t0": 63.80160997732425,
+   "t1": 69.21943310657595,
+   "trim_offset": 0.497619,
+   "chunks": [
+    "그러자 러시아는 칠월 팔일부터 정유사까지 포함한 경유 수출 전면 금지에 들어갔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9107,
+    "elapsed_ms": 1222,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.46,
+      6.245
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 104.94,
+     "f0_end_hz": 70.94,
+     "octave_fixed_n": 15
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_8",
+   "scene": "act1",
+   "date": "2026.09",
+   "text": "그리고 가장 먼저 탈이 난 곳은 정유소가 드문 동쪽 끝이었습니다.",
+   "tts": "그리고 가장 먼저 탈이 난 곳은 정유소가 드문 동쪽 끝이었습니다.",
+   "segments": [
+    [
+     "그리고 가장 먼저 탈이 난 곳은 정유소가 드문 동쪽 끝이었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act1_8_e5092bb383.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act1_8_e5092bb383.npy",
+   "dur": 4.011519274376417,
+   "t0": 70.11943310657595,
+   "t1": 74.13095238095237,
+   "trim_offset": 0.517732,
+   "chunks": [
+    "그리고 가장 먼저 탈이 난 곳은 정유소가 드문 동쪽 끝이었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9358,
+    "elapsed_ms": 1049,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.995,
+      4.435
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 91.2,
+     "f0_end_hz": 65.55,
+     "octave_fixed_n": 11
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "act2_0",
+   "scene": "act2",
+   "date": "2026.08",
+   "text": "이제 무대를 러시아의 동쪽 끝, 극동으로 옮깁니다.",
+   "tts": "이제 무대를 러시아의 동쪽 끝, 극동으로 옮깁니다.",
+   "segments": [
+    [
+     "이제 무대를 러시아의 동쪽 끝, 극동으로 옮깁니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act2_0_d761c1168c.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act2_0_d761c1168c.npy",
+   "dur": 3.207891156462585,
+   "t0": 77.53095238095237,
+   "t1": 80.73884353741495,
+   "trim_offset": 0.567937,
+   "chunks": [
+    "이제 무대를 러시아의 동쪽 끝, 극동으로 옮깁니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8535,
+    "elapsed_ms": 934,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.265,
+      4.0
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.18,
+     "f0_end_hz": 69.69,
+     "octave_fixed_n": 29
+    }
+   },
+   "role": "bridge"
+  },
+  {
+   "sid": "act2_1",
+   "scene": "act2",
+   "date": "2026.08",
+   "text": "극동의 연료 사정은 처음부터 넉넉하지 않았습니다.",
+   "tts": "극동의 연료 사정은 처음부터 넉넉하지 않았습니다.",
+   "segments": [
+    [
+     "극동의 연료 사정은 처음부터 넉넉하지 않았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act2_1_4f56a6f466.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act2_1_4f56a6f466.npy",
+   "dur": 2.8147392290249433,
+   "t0": 81.63884353741496,
+   "t1": 84.4535827664399,
+   "trim_offset": 0.565125,
+   "chunks": [
+    "극동의 연료 사정은 처음부터 넉넉하지 않았습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9244,
+    "elapsed_ms": 1125,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.915,
+      3.36
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.08,
+     "f0_end_hz": 65.0,
+     "octave_fixed_n": 2
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act2_2",
+   "scene": "act2",
+   "date": "2026.10.06",
+   "text": "7~8월 한국 항구에서 연료 17만 6천 t 이상이 실렸고, 대부분 경유였습니다.",
+   "tts": "칠에서 팔월 한국 항구에서 연료 십칠만 육천 톤 이상이 실렸고, 대부분 경유였습니다.",
+   "segments": [
+    [
+     "7~8월 한국 항구에서 연료 ",
+     0
+    ],
+    [
+     "17만 6천 t",
+     1
+    ],
+    [
+     " 이상이 실렸고, 대부분 경유였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act2_2_5992f2bb72.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act2_2_5992f2bb72.npy",
+   "dur": 5.50453514739229,
+   "t0": 85.3535827664399,
+   "t1": 90.85811791383219,
+   "trim_offset": 0.575986,
+   "chunks": [
+    "칠에서 팔월 한국 항구에서 연료 십칠만 육천 톤 이상이 실렸고, 대부분 경유였습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7922,
+    "elapsed_ms": 1215,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.595,
+      6.2
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 107.82,
+     "f0_end_hz": 67.25,
+     "octave_fixed_n": 42
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_3",
+   "scene": "act2",
+   "date": "2026.10.06",
+   "text": "유조선 일곱 척이 러시아 극동으로 열네 번 오갔습니다.",
+   "tts": "유조선 일곱 척이 러시아 극동으로 열네 번 오갔습니다.",
+   "segments": [
+    [
+     "유조선 일곱 척이 러시아 극동으로 열네 번 오갔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act2_3_a1590af7e7.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act2_3_a1590af7e7.npy",
+   "dur": 3.084716553287982,
+   "t0": 91.7581179138322,
+   "t1": 94.84283446712017,
+   "trim_offset": 0.565193,
+   "chunks": [
+    "유조선 일곱 척이 러시아 극동으로 열네 번 오갔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9508,
+    "elapsed_ms": 915,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.16,
+      3.68
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.74,
+     "f0_end_hz": 64.67,
+     "octave_fixed_n": 3
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_4",
+   "scene": "act2",
+   "date": "2026.08",
+   "text": "제재 유조선 레일라호는 7월과 8월 두 차례 울산을 떠나 블라디보스토크로 갔습니다.",
+   "tts": "제재 유조선 레일라호는 칠월과 팔월 두 차례 울산을 떠나 블라디보스토크로 갔습니다.",
+   "segments": [
+    [
+     "제재 유조선 레일라호는 7월과 8월 두 차례 울산을 떠나 블라디보스토크로 갔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act2_4_309a78f05a.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act2_4_309a78f05a.npy",
+   "dur": 5.441065759637188,
+   "t0": 95.74283446712018,
+   "t1": 101.18390022675736,
+   "trim_offset": 0.524399,
+   "chunks": [
+    "제재 유조선 레일라호는 칠월과 팔월 두 차례 울산을 떠나 블라디보스토크로 갔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8858,
+    "elapsed_ms": 1273,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.425,
+      6.185
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 99.06,
+     "f0_end_hz": 70.03,
+     "octave_fixed_n": 28
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_5",
+   "scene": "act2",
+   "date": "2026.08.10",
+   "text": "그런데 두 번째 항해에서 레일라호는 목적지를 일본 니가타로 신고했습니다.",
+   "tts": "그런데 두 번째 항해에서 레일라호는 목적지를 일본 니가타로 신고했습니다.",
+   "segments": [
+    [
+     "그런데 두 번째 항해에서 레일라호는 목적지를 일본 ",
+     0
+    ],
+    [
+     "니가타",
+     1
+    ],
+    [
+     "로 신고했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act2_5_55eeb8899d.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act2_5_55eeb8899d.npy",
+   "dur": 4.466689342403628,
+   "t0": 102.08390022675736,
+   "t1": 106.55058956916099,
+   "trim_offset": 0.47127,
+   "chunks": [
+    "그런데 두 번째 항해에서 레일라호는 목적지를 일본 니가타로 신고했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9503,
+    "elapsed_ms": 1270,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.445,
+      4.96
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.03,
+     "f0_end_hz": 68.21,
+     "octave_fixed_n": 21
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_6",
+   "scene": "act2",
+   "date": "2026.10.06",
+   "text": "정유소가 모자란 극동의 빈자리에, 한국 항구에서 실린 경유가 들어간 셈입니다.",
+   "tts": "정유소가 모자란 극동의 빈자리에, 한국 항구에서 실린 경유가 들어간 셈입니다.",
+   "segments": [
+    [
+     "정유소가 모자란 극동의 빈자리에, 한국 항구에서 실린 경유가 들어간 셈입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act2_6_a173458334.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act2_6_a173458334.npy",
+   "dur": 5.186213151927437,
+   "t0": 107.450589569161,
+   "t1": 112.63680272108843,
+   "trim_offset": 0.538866,
+   "chunks": [
+    "정유소가 모자란 극동의 빈자리에, 한국 항구에서 실린 경유가 들어간 셈입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9422,
+    "elapsed_ms": 1300,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.22,
+      5.78
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.61,
+     "f0_end_hz": 66.27,
+     "octave_fixed_n": 28
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "act3_0",
+   "scene": "act3",
+   "date": "2026.03",
+   "text": "이번에는 시점을 올해 2월 말, 무대를 페르시아만으로 옮깁니다.",
+   "tts": "이번에는 시점을 올해 이월 말, 무대를 페르시아만으로 옮깁니다.",
+   "segments": [
+    [
+     "이번에는 시점을 올해 2월 말, 무대를 페르시아만으로 옮깁니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act3_0_eb978c36ab.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act3_0_eb978c36ab.npy",
+   "dur": 3.8773469387755104,
+   "t0": 116.03680272108843,
+   "t1": 119.91414965986395,
+   "trim_offset": 0.603741,
+   "chunks": [
+    "이번에는 시점을 올해 이월 말, 무대를 페르시아만으로 옮깁니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9228,
+    "elapsed_ms": 1001,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.99,
+      4.825
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.01,
+     "f0_end_hz": 72.12,
+     "octave_fixed_n": 2
+    }
+   },
+   "role": "bridge"
+  },
+  {
+   "sid": "act3_1",
+   "scene": "act3",
+   "date": "2026.03",
+   "text": "같은 경유를 두고, 그곳에서는 또 다른 전쟁이 벌어지고 있었습니다.",
+   "tts": "같은 경유를 두고, 그곳에서는 또 다른 전쟁이 벌어지고 있었습니다.",
+   "segments": [
+    [
+     "같은 경유를 두고, 그곳에서는 또 다른 전쟁이 벌어지고 있었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act3_1_0dfbc8744b.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act3_1_0dfbc8744b.npy",
+   "dur": 3.8563945578231293,
+   "t0": 120.81414965986396,
+   "t1": 124.67054421768708,
+   "trim_offset": 0.601542,
+   "chunks": [
+    "같은 경유를 두고, 그곳에서는 또 다른 전쟁이 벌어지고 있었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9622,
+    "elapsed_ms": 973,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.01,
+      4.78
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.38,
+     "f0_end_hz": 73.97,
+     "octave_fixed_n": 13
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act3_2",
+   "scene": "act3",
+   "date": "2025",
+   "text": "호르무즈 해협은 페르시아만에서 먼바다로 나가는 유일한 바닷길입니다.",
+   "tts": "호르무즈 해협은 페르시아만에서 먼바다로 나가는 유일한 바닷길입니다.",
+   "segments": [
+    [
+     "호르무즈 해협은 페르시아만에서 먼바다로 나가는 ",
+     0
+    ],
+    [
+     "유일한 바닷길",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act3_2_ab7af5b46a.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act3_2_ab7af5b46a.npy",
+   "dur": 4.078662131519274,
+   "t0": 125.57054421768709,
+   "t1": 129.64920634920637,
+   "trim_offset": 0.533311,
+   "chunks": [
+    "호르무즈 해협은 페르시아만에서 먼바다로 나가는 유일한 바닷길입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.913,
+    "elapsed_ms": 1231,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.135,
+      4.735
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.84,
+     "f0_end_hz": 69.54,
+     "octave_fixed_n": 24
+    }
+   },
+   "role": "background"
+  },
+  {
+   "sid": "act3_3",
+   "scene": "act3",
+   "date": "2026.02.28",
+   "text": "올해 2월 28일, 미국과 이스라엘이 이란을 공습했습니다.",
+   "tts": "올해 이월 이십팔일, 미국과 이스라엘이 이란을 공습했습니다.",
+   "segments": [
+    [
+     "올해 2월 28일, 미국과 이스라엘이 이란을 공습했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act3_3_896f1a630c.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act3_3_896f1a630c.npy",
+   "dur": 3.7839455782312927,
+   "t0": 130.54920634920637,
+   "t1": 134.33315192743765,
+   "trim_offset": 0.494422,
+   "chunks": [
+    "올해 이월 이십팔일, 미국과 이스라엘이 이란을 공습했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7101,
+    "elapsed_ms": 1037,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.81,
+      4.58
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.07,
+     "f0_end_hz": 71.44,
+     "octave_fixed_n": 0
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_4",
+   "scene": "act3",
+   "date": "2026.03.02",
+   "text": "이란은 곧바로 호르무즈 해협을 닫았습니다.",
+   "tts": "이란은 곧바로 호르무즈 해협을 닫았습니다.",
+   "segments": [
+    [
+     "이란은 곧바로 호르무즈 ",
+     0
+    ],
+    [
+     "해협을 닫았습니다",
+     1
+    ],
+    [
+     ".",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act3_4_381c033509.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act3_4_381c033509.npy",
+   "dur": 2.3146485260770975,
+   "t0": 135.23315192743766,
+   "t1": 137.54780045351475,
+   "trim_offset": 0.320907,
+   "chunks": [
+    "이란은 곧바로 호르무즈 해협을 닫았습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8909,
+    "elapsed_ms": 841,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.14,
+      2.81
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 104.92,
+     "f0_end_hz": 68.81,
+     "octave_fixed_n": 53
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_5",
+   "scene": "act3",
+   "date": "2026.03.18",
+   "text": "그 뒤 걸프의 에너지 시설이 차례로 표적이 됐습니다.",
+   "tts": "그 뒤 걸프의 에너지 시설이 차례로 표적이 됐습니다.",
+   "segments": [
+    [
+     "그 뒤 걸프의 에너지 시설이 차례로 표적이 됐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act3_5_0152d5f708.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act3_5_0152d5f708.npy",
+   "dur": 3.03140589569161,
+   "t0": 138.44780045351476,
+   "t1": 141.47920634920638,
+   "trim_offset": 0.401565,
+   "chunks": [
+    "그 뒤 걸프의 에너지 시설이 차례로 표적이 됐습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8711,
+    "elapsed_ms": 935,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.99,
+      3.395
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 94.01,
+     "f0_end_hz": 67.37,
+     "octave_fixed_n": 0
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_6",
+   "scene": "act3",
+   "date": "2026.03.21",
+   "text": "3월 21일, 한국은 영국, 프랑스, 일본 등 일곱 나라의 공동성명에 이름을 올렸습니다.",
+   "tts": "삼월 이십일일, 한국은 영국, 프랑스, 일본 등 일곱 나라의 공동성명에 이름을 올렸습니다.",
+   "segments": [
+    [
+     "3월 21일, 한국은 영국, 프랑스, 일본 등 일곱 나라의 공동성명에 이름을 올렸습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act3_6_dadfb496aa.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act3_6_dadfb496aa.npy",
+   "dur": 6.24,
+   "t0": 142.37920634920638,
+   "t1": 148.6192063492064,
+   "trim_offset": 0.393016,
+   "chunks": [
+    "삼월 이십일일, 한국은 영국, 프랑스, 일본 등 일곱 나라의 공동성명에 이름을 올렸습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8814,
+    "elapsed_ms": 1541,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.17,
+      6.81
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.42,
+     "f0_end_hz": 72.11,
+     "octave_fixed_n": 7
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_7",
+   "scene": "act3",
+   "date": "2026.08",
+   "text": "7월 호르무즈를 지난 경유는 하루 16만 5천 배럴로, 분쟁 전 약 80만 배럴의 일부였습니다.",
+   "tts": "칠월 호르무즈를 지난 경유는 하루 십육만 오천 배럴로, 분쟁 전 약 팔십만 배럴의 일부였습니다.",
+   "segments": [
+    [
+     "7월 호르무즈를 지난 경유는 하루 16만 5천 배럴로, 분쟁 전 약 80만 배럴의 일부였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act3_7_5c13be24ee.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act3_7_5c13be24ee.npy",
+   "dur": 6.058027210884354,
+   "t0": 149.5192063492064,
+   "t1": 155.57723356009075,
+   "trim_offset": 0.471723,
+   "chunks": [
+    "칠월 호르무즈를 지난 경유는 하루 십육만 오천 배럴로, 분쟁 전 약 팔십만 배럴의 일부였습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8345,
+    "elapsed_ms": 1408,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.055,
+      6.61
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.53,
+     "f0_end_hz": 82.71,
+     "octave_fixed_n": 26
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_8",
+   "scene": "act3",
+   "date": "2026.10.14",
+   "text": "그 결과 3분기 세계 경유 공급은 1년 전보다 하루 170만 배럴 줄었습니다.",
+   "tts": "그 결과 삼분기 세계 경유 공급은 일 년 전보다 하루 백칠십만 배럴 줄었습니다.",
+   "segments": [
+    [
+     "그 결과 3분기 세계 경유 공급은 1년 전보다 하루 170만 배럴 줄었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act3_8_3a23d23010.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act3_8_3a23d23010.npy",
+   "dur": 4.923718820861678,
+   "t0": 156.47723356009075,
+   "t1": 161.40095238095242,
+   "trim_offset": 0.462472,
+   "chunks": [
+    "그 결과 삼분기 세계 경유 공급은 일 년 전보다 하루 백칠십만 배럴 줄었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8678,
+    "elapsed_ms": 1247,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.895,
+      5.52
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 87.75,
+     "f0_end_hz": 70.0,
+     "octave_fixed_n": 35
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "act4_0",
+   "scene": "act4",
+   "date": "2026.09.21",
+   "text": "이제 자료 장으로, 지난 9월 한반도의 비무장지대로 무대를 옮깁니다.",
+   "tts": "이제 자료 장으로, 지난 구월 한반도의 비무장지대로 무대를 옮깁니다.",
+   "segments": [
+    [
+     "이제 자료 장으로, 지난 9월 한반도의 비무장지대로 무대를 옮깁니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act4_0_502508e1e5.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act4_0_502508e1e5.npy",
+   "dur": 4.587573696145125,
+   "t0": 164.80095238095242,
+   "t1": 169.38852607709754,
+   "trim_offset": 0.466259,
+   "chunks": [
+    "이제 자료 장으로, 지난 구월 한반도의 비무장지대로 무대를 옮깁니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9548,
+    "elapsed_ms": 1096,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.525,
+      5.32
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 98.28,
+     "f0_end_hz": 72.97,
+     "octave_fixed_n": 11
+    }
+   },
+   "role": "bridge"
+  },
+  {
+   "sid": "act4_1",
+   "scene": "act4",
+   "date": "2026.09.21",
+   "text": "9월 21일 오전, 서부전선 비무장지대에서 폭발이 일어났습니다.",
+   "tts": "구월 이십일일 오전, 서부전선 비무장지대에서 폭발이 일어났습니다.",
+   "segments": [
+    [
+     "9월 21일 오전, 서부전선 비무장지대에서 폭발이 일어났습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act4_1_0e3922fd5c.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act4_1_0e3922fd5c.npy",
+   "dur": 4.410362811791384,
+   "t0": 170.28852607709754,
+   "t1": 174.69888888888892,
+   "trim_offset": 0.425397,
+   "chunks": [
+    "구월 이십일일 오전, 서부전선 비무장지대에서 폭발이 일어났습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8269,
+    "elapsed_ms": 1124,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.285,
+      5.18
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 83.94,
+     "f0_end_hz": 111.15,
+     "octave_fixed_n": 10
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act4_2",
+   "scene": "act4",
+   "date": "2026.09.21",
+   "text": "군사분계선에서 남쪽으로 약 10m 떨어진 곳이었습니다.",
+   "tts": "군사 분계선에서 남쪽으로 약 십 미터 떨어진 곳이었습니다.",
+   "segments": [
+    [
+     "군사분계선에서 남쪽으로 ",
+     0
+    ],
+    [
+     "약 10m",
+     1
+    ],
+    [
+     " 떨어진 곳이었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act4_2_a38af0fcb4.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act4_2_a38af0fcb4.npy",
+   "dur": 3.6929931972789114,
+   "t0": 175.59888888888892,
+   "t1": 179.29188208616785,
+   "trim_offset": 0.495125,
+   "chunks": [
+    "군사 분계선에서 남쪽으로 약 십 미터 떨어진 곳이었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.847,
+    "elapsed_ms": 955,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.74,
+      4.24
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 100.65,
+     "f0_end_hz": 66.49,
+     "octave_fixed_n": 28
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_3",
+   "scene": "act4",
+   "date": "2026.09.29",
+   "text": "지뢰를 누가, 언제 묻었는지는 아직 규명되지 않았습니다.",
+   "tts": "지뢰를 누가, 언제 묻었는지는 아직 규명되지 않았습니다.",
+   "segments": [
+    [
+     "지뢰를 ",
+     0
+    ],
+    [
+     "누가, 언제",
+     1
+    ],
+    [
+     " 묻었는지는 아직 규명되지 않았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act4_3_dfc8264c62.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act4_3_dfc8264c62.npy",
+   "dur": 3.2992743764172334,
+   "t0": 180.19188208616785,
+   "t1": 183.49115646258508,
+   "trim_offset": 0.438866,
+   "chunks": [
+    "지뢰를 누가, 언제 묻었는지는 아직 규명되지 않았습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9306,
+    "elapsed_ms": 851,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.265,
+      3.71
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 106.7,
+     "f0_end_hz": 83.92,
+     "octave_fixed_n": 1
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "act5_0",
+   "scene": "act5",
+   "date": "2026.10.09",
+   "text": "마지막으로 시점을 지난주로, 무대를 워싱턴으로 옮깁니다.",
+   "tts": "마지막으로 시점을 지난주로, 무대를 워싱턴으로 옮깁니다.",
+   "segments": [
+    [
+     "마지막으로 시점을 지난주로, 무대를 워싱턴으로 옮깁니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act5_0_f2f247540b.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act5_0_f2f247540b.npy",
+   "dur": 3.749863945578231,
+   "t0": 186.8911564625851,
+   "t1": 190.6410204081633,
+   "trim_offset": 0.530454,
+   "chunks": [
+    "마지막으로 시점을 지난주로, 무대를 워싱턴으로 옮깁니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9555,
+    "elapsed_ms": 1085,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.745,
+      4.65
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 97.57,
+     "f0_end_hz": 76.53,
+     "octave_fixed_n": 13
+    }
+   },
+   "role": "bridge"
+  },
+  {
+   "sid": "act5_1",
+   "scene": "act5",
+   "date": "2026.10.09",
+   "text": "미국은 지난해 러시아 석유회사들을 제재한 나라입니다.",
+   "tts": "미국은 지난해 러시아 석유회사들을 제재한 나라입니다.",
+   "segments": [
+    [
+     "미국은 지난해 러시아 석유회사들을 제재한 나라입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act5_1_0ef67f6afa.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act5_1_0ef67f6afa.npy",
+   "dur": 3.054557823129252,
+   "t0": 191.54102040816332,
+   "t1": 194.59557823129256,
+   "trim_offset": 0.495737,
+   "chunks": [
+    "미국은 지난해 러시아 석유회사들을 제재한 나라입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8969,
+    "elapsed_ms": 1115,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.065,
+      3.87
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 90.03,
+     "f0_end_hz": 71.52,
+     "octave_fixed_n": 1
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act5_2",
+   "scene": "act5",
+   "date": "2026.10.09",
+   "text": "그런데 올해 미국의 선택은 거꾸로 움직였습니다.",
+   "tts": "그런데 올해 미국의 선택은 거꾸로 움직였습니다.",
+   "segments": [
+    [
+     "그런데 올해 미국의 선택은 거꾸로 움직였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act5_2_5c13c2bc38.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act5_2_5c13c2bc38.npy",
+   "dur": 2.804784580498866,
+   "t0": 195.49557823129257,
+   "t1": 198.30036281179144,
+   "trim_offset": 0.554195,
+   "chunks": [
+    "그런데 올해 미국의 선택은 거꾸로 움직였습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8504,
+    "elapsed_ms": 879,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.87,
+      3.54
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 91.49,
+     "f0_end_hz": 120.88,
+     "octave_fixed_n": 10
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act5_3",
+   "scene": "act5",
+   "date": "2026.10.09",
+   "text": "이어서 재무부는 러시아산 경유의 판매와 운송, 수입을 허용하는 일반허가 135호를 내놨습니다.",
+   "tts": "이어서 재무부는 러시아산 경유의 판매와 운송, 수입을 허용하는 일반허가 백삼십오 호를 내놨습니다.",
+   "segments": [
+    [
+     "이어서 재무부는 러시아산 경유의 판매와 운송, 수입을 허용하는 ",
+     0
+    ],
+    [
+     "일반허가 135호",
+     1
+    ],
+    [
+     "를 내놨습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act5_3_1f485dae7c.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act5_3_1f485dae7c.npy",
+   "dur": 6.441473922902494,
+   "t0": 199.20036281179145,
+   "t1": 205.64183673469395,
+   "trim_offset": 0.500476,
+   "chunks": [
+    "이어서 재무부는 러시아산 경유의 판매와 운송, 수입을 허용하는 일반허가 백삼십오 호를 내놨습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8441,
+    "elapsed_ms": 1369,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.5,
+      7.04
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 110.24,
+     "f0_end_hz": 75.23,
+     "octave_fixed_n": 36
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act5_4",
+   "scene": "act5",
+   "date": "2026.10.11",
+   "text": "이어서 10월 11일, 트럼프 대통령은 즉시 에너지 휴전이 발효된다고 밝혔습니다.",
+   "tts": "이어서 시월 십일일, 트럼프 대통령은 즉시 에너지 휴전이 발효된다고 밝혔습니다.",
+   "segments": [
+    [
+     "이어서 10월 11일, 트럼프 대통령은 즉시 ",
+     0
+    ],
+    [
+     "에너지 휴전",
+     1
+    ],
+    [
+     "이 발효된다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act5_4_0ac3b61e2e.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act5_4_0ac3b61e2e.npy",
+   "dur": 4.83843537414966,
+   "t0": 206.54183673469396,
+   "t1": 211.38027210884363,
+   "trim_offset": 0.564127,
+   "chunks": [
+    "이어서 시월 십일일, 트럼프 대통령은 즉시 에너지 휴전이 발효된다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8879,
+    "elapsed_ms": 1035,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.93,
+      5.71
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.96,
+     "f0_end_hz": 75.59,
+     "octave_fixed_n": 44
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act5_5",
+   "scene": "act5",
+   "date": "2026.10.15",
+   "text": "휴전은 나흘 만에 끝났습니다.",
+   "tts": "휴전은 나흘 만에 끝났습니다.",
+   "segments": [
+    [
+     "휴전은 나흘 만에 끝났습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/act5_5_a9dfc5cf6f.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/act5_5_a9dfc5cf6f.npy",
+   "dur": 1.6256916099773242,
+   "t0": 212.28027210884363,
+   "t1": 213.90596371882097,
+   "trim_offset": 0.342222,
+   "chunks": [
+    "휴전은 나흘 만에 끝났습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8691,
+    "elapsed_ms": 849,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      1.475,
+      1.905
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.42,
+     "f0_end_hz": 65.9,
+     "octave_fixed_n": 0
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "ending_0",
+   "scene": "ending",
+   "date": "2026.10.17",
+   "text": "사흘에 한 번 타격당한 러시아의 정유소, 울산을 떠난 유조선, 불붙은 걸프의 수출항, 그리고 워싱턴의 경유 거래.",
+   "tts": "사흘에 한 번 타격당한 러시아의 정유소, 울산을 떠난 유조선, 불붙은 걸프의 수출항, 그리고 워싱턴의 경유 거래.",
+   "segments": [
+    [
+     "사흘에 한 번 타격당한 러시아의 정유소, 울산을 떠난 유조선, 불붙은 걸프의 수출항, 그리고 워싱턴의 경유 거래.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/ending_0_7782ceb28a.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/ending_0_7782ceb28a.npy",
+   "dur": 7.5285487528344675,
+   "t0": 215.80596371882098,
+   "t1": 223.33451247165544,
+   "trim_offset": 0.484649,
+   "chunks": [
+    "사흘에 한 번 타격당한 러시아의 정유소, 울산을 떠난 유조선, 불붙은 걸프의 수출항, 그리고 워싱턴의 경유 거래."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.898,
+    "elapsed_ms": 1448,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": false,
+     "reason": "'니다' 로 끝나지 않는다",
+     "region_sec": null,
+     "semitones": null,
+     "f0_start_hz": null,
+     "f0_end_hz": null,
+     "octave_fixed_n": null
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "ending_1",
+   "scene": "ending",
+   "date": "2026.10.17",
+   "text": "네 장면은 모두 모자란 경유 한 가지로 이어져 있습니다.",
+   "tts": "네 장면은 모두 모자란 경유 한 가지로 이어져 있습니다.",
+   "segments": [
+    [
+     "네 장면은 모두 모자란 경유 한 가지로 이어져 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/showcase_geo/tts/ending_1_f763bff5a3.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_geo/tts/ending_1_f763bff5a3.npy",
+   "dur": 3.099795918367347,
+   "t0": 224.23451247165545,
+   "t1": 227.33430839002278,
+   "trim_offset": 0.60102,
+   "chunks": [
+    "네 장면은 모두 모자란 경유 한 가지로 이어져 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9621,
+    "elapsed_ms": 947,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.22,
+      3.895
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 105.34,
+     "f0_end_hz": 71.82,
+     "octave_fixed_n": 3
+    }
+   },
+   "role": null
+  }
+ ],
+ "cards": [
+  {
+   "kind": "title",
+   "t0": 17.193106575963714,
+   "t1": 22.793106575963712
+  },
+  {
+   "kind": "end",
+   "t0": 229.43430839002278,
+   "t1": 240.43430839002278
+  }
+ ],
+ "scene_start": {
+  "cold": 1.2,
+  "act1": 23.193106575963714,
+  "act2": 76.03095238095237,
+  "act3": 114.53680272108843,
+  "act4": 163.30095238095242,
+  "act5": 185.3911564625851,
+  "ending": 215.80596371882098
+ },
+ "total": 240.93430839002278,
+ "voice": "supertonic-3 M3 ×0.95",
+ "title": "쇼케이스 — 지도 위의 경유",
+ "subtitle": "『경유의 길』 축약과 호르무즈·DMZ 자료 장 — 화면 요소·목소리·글꼴 확인용",
+ "date": "2026.10.28",
+ "tts_resynthesized": [],
+ "lint_waived": null,
+ "transitions": [
+  {
+   "sid": "act1_0",
+   "pause_t0": 23.193107,
+   "pause_sec": 1.5,
+   "kind": [
+    "date_jump"
+   ]
+  },
+  {
+   "sid": "act2_0",
+   "pause_t0": 76.030952,
+   "pause_sec": 1.5,
+   "kind": [
+    "stage"
+   ]
+  },
+  {
+   "sid": "act3_0",
+   "pause_t0": 114.536803,
+   "pause_sec": 1.5,
+   "kind": [
+    "date_jump",
+    "stage"
+   ]
+  },
+  {
+   "sid": "act4_0",
+   "pause_t0": 163.300952,
+   "pause_sec": 1.5,
+   "kind": [
+    "date_jump",
+    "stage"
+   ]
+  },
+  {
+   "sid": "act5_0",
+   "pause_t0": 185.391156,
+   "pause_sec": 1.5,
+   "kind": [
+    "stage"
+   ]
+  }
+ ]
+}

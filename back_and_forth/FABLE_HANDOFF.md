@@ -1,5 +1,17 @@
 # 감독(Fable 역할) 세션 인수인계 — 2026-10-11 (v5.21.0)
 
+## 0-2. 2026-10-30 — 병행 트랙: 『중국의 기술 수출통제 확대(2026.10)』(사용자 결정 D-0282)
+- **상태(2026-10-30 16:00Z)**: 전편 전달 완료 — `artifacts/china-export-controls-v7.4.0` 95148beb `final/final_deliver.mp4`(md5 02ccbde3, 397.1초, 28.9 MB), DECISIONS D500~D510, 게이트 ①·② 감독 승인(D-0282 위임, 사용자 결정 D-0289). 구현 세션 `session_017Yuw8kwTv8PML5DnvDiExD`. 남은 것: 전체 pytest 결과·UF-160~162 장치 3건(D-0289 §장치).
+- 사용자 지시로 **별도 감독(Fable) 세션**이 이 영상을 묻지 않고 완성본까지 만든다. 브랜치 `claude/china-export-controls-2026`. 감독 세션 `session_017Yuw8hTb2zPgG7PvjAbjyu`(Fable 5.1, 2026-10-30 15:31 KST 기동, DECISIONS D500, 기동 지시 D-0283). 쇼케이스 트랙(0-1)과 독립 — 이 세션(sweet-galileo)은 쇼케이스·E7 만.
+
+## 0-1. 2026-10-28 갱신 — E0 쇼케이스 트랙(감독 세션 `session_017Yuw8kbxf9Vxri6LoH5Je4`, Fable 5.1)
+- **현재 트랙**: E0 쇼케이스 데모 2편 + 카탈로그 층(back_and_forth D-0251 §1·§5·§6·§7). 브랜치 `claude/sweet-galileo-7yok3b`(main 8d93103 위), 버전 v7.4.0.
+- **구현 세션**: `session_017Yuw8k4hDAiSpVRGtFv4Lu`(Opus 5.5, env_01SnvGMv3UmrvejEraZxEACo, 2026-10-28 04:06Z 생성). 옛 구현 세션 `session_012yN5MN9eH1tBnNrQ1D8sBG` 은 diesel v2 종결·disconnected.
+- **구현 세션 2(재기동, 2026-10-29 12:39Z)**: `session_017Yuw8mVchPLgYxtnfEwjjh`(Opus 5.5, 같은 env). 구현 세션 1 은 2026-10-28 09:39Z 계정 5시간 한도로 failed·disconnected(마지막 커밋 51cc7fa — 틀·UF-137 guarded까지). 남은 것: econ 콘티 판 v2 → geo 콘티 판 → 골든 25/25 → A/B → 게이트 ② → final·catalog·결합본.
+- **구현 세션 3(재기동, 2026-10-30 03:33Z)**: `session_017Yuw8mZjzL9rxkApRyBCoR`(Opus 5.5, 같은 env). 세션 2 는 2026-10-30 01:18Z 계정 5시간 한도로 failed(마지막 커밋 7b6b997 — D-0274 §1·§2 완료, 연준 클립 넷 등재). 남은 것: preview_v9 확인 → 렌더 작업 수(클립 npy) → econ 원고 발언 자리 2곳 → 게이트 ① 재승인 → 연출 → 콘티 판 v3 → geo 콘티 판 v2(strikes 액자) → 게이트 ② → final·catalog·결합본.
+- **사용자 결정 이 기간**: D264(비공개 시청·권리는 기록만) · D265(보완 방향·쇼케이스) · D266~D268(연준 탈락·호르무즈 미흡·diesel 기준 작품, C0 개정). 원장 UF-132~136.
+- **사용자에게 갈 것(순서)**: ① showcase_geo 원고(gate-view) ② showcase_econ 원고 ③ 콘티 판 2편 ④ 게이트 ② 프리뷰 시트 + A/B 시트(D108 보정) + 카탈로그 요소 표 ⑤ final·catalog·결합본. 사용자 2026-10-28 원문 "영상은 어딨어" — 착수 지시를 기다리다 늦었다. 다음부터 계획 승인 = 착수.
+
 ## 0. 2026-10-19 갱신 — 승계 규칙(사용자 결정 D256)과 현재 상태
 - **승계 규칙**: 감독 세션의 컨텍스트 사용량이 95% 에 이르거나 사용 한도가 차단되면, 감독은 `create_session(model: claude-opus-5-5, title "감독(fable) 승계 — diesel_road_2026 v2", prompt: 이 문서 §0 를 읽고 이어받으라)` 로 **별도 감독 세션**을 연다. 역할 이름은 그대로 `fable`. 구현 세션(아래)은 바꾸지 않는다. 새 감독은 이 문서 → `back_and_forth/README.md` → `CLAUDE.md` → `docs/handoff/15` → DECISIONS D238~ 순으로 읽는다.
 - **현재 트랙**: diesel_road_2026 v2(브랜치 `claude/diesel-road-v2`, 버전 v7.4.0). 구현 세션 = cloud session `session_012yN5MN9eH1tBnNrQ1D8sBG`(Opus). 아티팩트 `artifacts/diesel_road_2026-v7.4.0`(교체본 2 대기). main 병합 보류 중(D-0245 §1).
@@ -50,3 +62,5 @@ D169 믹스 OK·시안 C / D171 정렬 모델 CC BY-NC 유지 / D172 통신사 �
 ## 6. 사용자 소통
 - 한국어, 공손·명료, 한 문장 60자 이내, 문단 3~4문장, 말미 "기억해야 할 핵심 요약" 1~3줄.
 - 사용자가 결정할 것만 묻는다. 파일은 SendUserFile(scratch 경로 가능). 영상은 30 MB 이하로 재인코딩(`-c:a copy` 로 음성은 원본 유지).
+- **보고문을 보내기 전에 금지 문구 패턴으로 자기 점검**(UF-145, 사용자 원문 2026-10-30 "니가 작성하는 문구에 이런내용이 없도록 강하게 쪼여"): `rules banned_phrases.patterns`(수렴 은유·승부 은유·"남는다/올라온다" 마무리·청구서 의인화 등)를 사용자에게 가는 모든 글·원고·화면 문자열에 적용한다. 도구 `tools/slop_check.py`(D-0281) 가 생기기 전에는 python 한 줄로 돌린다.
+- **샘플·시트·콘티 판은 만들어지는 즉시 사용자에게 보낸다**(UF-144, 사용자 원문 2026-10-30 "만들어진 샘플들은 바로바로 보여줘"): 구현 R 이 artifacts 를 가리키면 그 자리에서 받아 SendUserFile — 다른 산출물과 묶어 기다리지 않는다.

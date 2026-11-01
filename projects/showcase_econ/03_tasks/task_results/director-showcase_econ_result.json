@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "project_id": "showcase_econ",
+  "task_id": "director-showcase_econ",
+  "worker": "director",
+  "status": "completed",
+  "started_at": "2026-10-29T15:52:18.961031Z",
+  "completed_at": "2026-10-29T15:58:14.853609Z",
+  "outputs": [
+    "direction.yaml",
+    "llm_calls/llm_20261029_155218_c0f3.json"
+  ],
+  "warnings": [],
+  "errors": [],
+  "scene_refs": [],
+  "source_refs": [],
+  "asset_refs": [],
+  "qa_status": "pass",
+  "risk_flags": [],
+  "worker_provenance": {
+    "prompt_name": "director",
+    "prompt_sha1": "4f002b0c8dff94791ff0629f67ad03afae952f3f",
+    "rules_hash": "e6de7328ab674ce8927acb2050b49133f952ac3f",
+    "genre": "macro_monetary",
+    "genre_declared": true
+  }
+}

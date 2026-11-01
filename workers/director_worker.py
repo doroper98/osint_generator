@@ -37,6 +37,7 @@ from workers.direction_io import (
     quote_candidates_text,
     next_version,
     plan_table,
+    require_visual_media,
 )
 from workers.prompt_loader import load_prompt, prompt_sha1
 
@@ -56,6 +57,7 @@ class DirectorWorker(BaseLLMWorker):
 
     def build_user_prompt(self, args: argparse.Namespace, task: TaskQueueItem) -> str:
         pdir = self.project_dir(args)
+        require_visual_media(pdir)   # v7.4.0 D-0261 [media-none] hard(UF-139) — 실사 0 이면 연출 착수 거부
         return (load_prompt("director_user", self.rules)
                 .replace("{script_yaml}", (pdir / "script.yaml").read_text(encoding="utf-8"))
                 .replace("{plan_table}", plan_table(load_plan(pdir)))

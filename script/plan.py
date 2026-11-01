@@ -97,7 +97,8 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None) -> Plan:
 
     order = load_order(proj)
     gap = load_rules().tempo.sentence_gap_sec if order is not None and order.tempo == "breath" else None   # v7.4.0 D-0229 §2.9
-    cards, scene_start, total = layout(rows, transitions, gap)
+    holds: list = []
+    cards, scene_start, total = layout(rows, transitions, gap, holds)
     if warnings is not None:
         warnings.extend(tempo_density(rows))
     kinds = {rows[i]["sid"]: k for i, k, _ in transition_points(script)}   # v7.4.0 D-0229 §2.2 — 전환 종류(무대·날짜)
@@ -109,7 +110,7 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None) -> Plan:
                 voice=(supertonic.voice_label(st_cfg) if st_cfg else
                        elevenlabs.voice_label()),
                 title=script.title, subtitle=script.subtitle, date=script.date, tts_resynthesized=resynth,
-                lint_waived=waived or None, transitions=transitions)
+                lint_waived=waived or None, transitions=transitions, holds=holds)
 
 
 def final_fall_audio(mp3: Path, pron_text: str, sid: str, cfg):  # noqa: ANN001, ANN201 — (np.ndarray, FinalFallRecord)

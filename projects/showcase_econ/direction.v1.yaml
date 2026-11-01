@@ -1,0 +1,398 @@
+# direction.yaml — AI 연출(DirectorWorker, v3.1.0, 17 §5.3). 사람 검토 전 초안 — 승인 게이트 ②에서 판정.
+version: 1
+genre: macro_monetary
+stage: timeline
+media_note: 사진·영상 0건 — 레지스트리에 사진·영상 없음. 인용 0건 — 인용 후보 없음. 기사 3건(cnn_0916·cnn_0729·fox_0916) — 60초 창당 2개 상한 때문에 act3·ending 후보는 쓰지 않음
+story_geo_exempt: null
+opening_exempt: null
+stage_reason: 미디어 레지스트리에 권리 기록 사진(photo)이 없어 backdrop 배경을 깔 수 없고, 원고가 '한 줄의 시간축' 한 세계(D-0251 §6.1)로 쓰였으므로 시간축을 주 무대로 한다
+stage_config:
+  timeline:
+    start: '2019-01-01'
+    end: '2026-12-31'
+    lanes:
+    - id: policy_rate
+      label: 연방기금금리 (목표 범위·실효)
+      kind: step
+      unit: '%'
+    - id: inflation
+      label: 소비자물가 상승률 (전년 동월 대비)
+      kind: line
+      unit: '%'
+    - id: events
+      label: 사건
+      kind: pins
+places: {}
+paths: {}
+shots:
+- at: 0.0
+  mode: cut
+  dur: 0.0
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: '2023-08-01'
+    lane: null
+    w: 2400.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: act1_0
+    'off': -0.6
+  mode: move
+  dur: 6.0
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: '2026-03-15'
+    lane: null
+    w: 420.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+- at:
+    sid: act2_0
+    'off': -0.6
+  mode: move
+  dur: 3.4
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: '2026-05-20'
+    lane: null
+    w: 420.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+- at:
+    scene_start: ending
+    'off': -0.8
+  mode: move
+  dur: 3.4
+  camera:
+    lon: null
+    lat: null
+    place: null
+    date: '2026-02-01'
+    lane: null
+    w: 660.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
+events:
+- type: series
+  start: 0.3
+  end:
+    total: true
+  lane: policy_rate
+  series_id: DFEDTARL
+  upper_id: DFEDTARU
+  style: band
+  color_by: change
+  col: gold
+- type: series
+  start: 0.3
+  end:
+    total: true
+  lane: policy_rate
+  series_id: FEDFUNDS
+  style: step
+  col: amber
+- type: series
+  start: 0.3
+  end:
+    total: true
+  lane: inflation
+  series_id: CPIAUCSL
+  style: line
+  col: teal
+- type: marker
+  start:
+    sid: cold_0
+    'off': 0.3
+  end:
+    sid: cold_1
+    'off': 0.1
+  date: '2026-09-16'
+  lane: events
+  label: 9월 16일 금리 인상
+  sub: 0.25%p 인상 · 3.75~4%
+  side: left
+  hl: true
+- type: article
+  start:
+    sid: cold_1
+    'off': -0.2
+  end:
+    card: title
+    edge: end
+  mid: cnn_0916
+  theme: dark
+- type: marker
+  start:
+    sid: act1_2
+    'off': 0.3
+  end:
+    scene_end: act1
+  date: '2025-10-29'
+  lane: events
+  label: 10월 29일 인하
+  sub: 0.25%p 인하 · 3.75~4%
+  side: right
+  hl: true
+- type: marker
+  start:
+    sid: act1_3
+    'off': 0.3
+  end:
+    scene_end: act1
+  date: '2025-12-10'
+  lane: events
+  label: 12월 10일 인하
+  sub: 3.5~3.75%
+  side: right
+  hl: true
+- type: card
+  start:
+    sid: act1_4
+    'off': 0.2
+  end:
+    sid: act1_4
+    edge: end
+    'off': 0.6
+  tag: 2026년 1~6월
+  lines:
+  - 네 번의 회의
+  - 금리는 그대로
+  accent: muted
+  claims:
+  - clm_0010
+  - clm_0011
+  - clm_0012
+  - clm_0013
+- type: marker
+  start:
+    word:
+      sid: act1_5
+      text: 2월 28일
+  end:
+    scene_end: act1
+  date: '2026-02-28'
+  lane: events
+  label: 이란 전쟁 시작
+  sub: 2월 28일 · 미국·이스라엘 공격
+  side: right
+  hl: false
+- type: marker
+  start:
+    sid: act1_6
+    'off': 0.2
+  end:
+    scene_end: act1
+  date: '2026-05-15'
+  lane: events
+  label: 워시 의장 취임
+  sub: 2026년 5월
+  side: right
+  hl: false
+- type: badge
+  start:
+    sid: act1_6
+    'off': 0.3
+  end:
+    sid: act1_7
+    'off': 1.0
+  place: timeline_badge
+  kind: person
+  pid: warsh
+  flag: us
+  label: 케빈 워시
+  role: 연준 의장
+  accent: gold
+- type: marker
+  start:
+    word:
+      sid: act1_7
+      text: 7월
+  end:
+    scene_end: act1
+  date: '2026-07-29'
+  lane: events
+  label: 7월 회의
+  sub: 갈림길
+  side: right
+  hl: true
+- type: marker
+  start:
+    sid: act2_1
+    'off': 0.3
+  end:
+    scene_end: act2
+  date: '2026-07-29'
+  lane: events
+  label: 7월 29일 동결
+  sub: 3.5~3.75% · 9대 3
+  side: left
+  hl: true
+- type: article
+  start:
+    sid: act2_2
+    'off': -0.8
+  end:
+    sid: act2_3
+    'off': 0.7
+  mid: cnn_0729
+  theme: dark
+- type: card
+  start:
+    sid: act2_3
+    'off': 0.9
+  end:
+    sid: act2_3
+    edge: end
+    'off': 0.6
+  tag: 7월 29일 표결 · 9대 3
+  lines:
+  - 반대 3명 — 해맥·카시카리·로건
+  - 0.25%p 인상을 원함
+  accent: amber
+- type: marker
+  start:
+    sid: act2_4
+    'off': 0.3
+  end:
+    scene_end: act3
+  date: '2026-09-16'
+  lane: events
+  label: 9월 16일 인상
+  sub: 12대 0 만장일치 · 3.75~4%
+  side: left
+  hl: true
+- type: article
+  start:
+    sid: act2_5
+    'off': -0.4
+  end:
+    sid: act2_6
+    'off': 0.2
+  mid: fox_0916
+  theme: dark
+- type: marker
+  start:
+    sid: act2_6
+    'off': 0.4
+  end:
+    scene_end: act2
+  date: '2026-08-01'
+  lane: inflation
+  label: 8월 소비자물가
+  sub: 1년 전보다 3.4%
+  side: left
+  hl: true
+- type: card
+  start:
+    sid: act2_6
+    'off': 0.6
+  end:
+    sid: act2_6
+    edge: end
+    'off': 0.6
+  tag: 8월 소비자물가 · 전년 동월 대비
+  bigs:
+  - - 3.4%
+    - 1년 전보다 오른 폭
+  accent: teal
+  src: 미 노동통계국(BLS) CPI-U · FRED
+- type: primitive
+  id: dot_plot
+  start:
+    sid: act3_1
+    'off': -0.3
+  end:
+    sid: act3_2
+    edge: end
+    'off': 0.8
+  place: card_right
+  record: SEP_20260916
+  tag: 경제전망요약 점도표 · 2026년 9월 16일
+- type: marker
+  start:
+    sid: act3_3
+    'off': 0.4
+  end:
+    scene_end: act3
+  date: '2026-10-27'
+  lane: events
+  label: 다음 회의
+  sub: 10월 27~28일
+  side: left
+  hl: true
+- type: marker
+  start:
+    sid: ending_0
+    'off': 0.3
+  end:
+    total: true
+  date: '2025-10-29'
+  lane: events
+  label: 3.75~4%
+  sub: 2025년 10월 29일
+  side: right
+  hl: true
+- type: marker
+  start:
+    word:
+      sid: ending_0
+      text: 다시
+  end:
+    total: true
+  date: '2026-09-16'
+  lane: events
+  label: 다시 3.75~4%
+  sub: 2026년 9월 16일
+  side: left
+  hl: true
+- type: card
+  start:
+    sid: ending_0
+    'off': 0.5
+  end:
+    sid: ending_0
+    edge: end
+    'off': 1.0
+  tag: 1년 사이 금리 목표 범위
+  lines:
+  - 3.75~4%에서 내려갔다가
+  - 다시 3.75~4%
+  accent: gold
+sound:
+  bgm: music.zabriskie_patriarch
+  intensity:
+  - - 0.0
+    - 0.55
+  - - scene_start: act1
+    - 0.5
+  - - scene_start: act2
+    - 0.62
+  - - scene_start: act3
+    - 0.56
+  - - scene_start: ending
+    - 0.5
+  - - total: true
+      'off': 0.5
+    - 0.0
+  cues: []
+  no_music_decision: null
+drops: []

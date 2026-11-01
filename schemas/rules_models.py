@@ -25,6 +25,7 @@ class BannedPhrases(_Strict):
     patterns: list[str]
     candidates: list[str]
     defect_classes: list[str]
+    examples: list[str] = []   # v7.4.0 UF-145 — 사용자가 든 금지 예문(patterns 가 전부 잡아야 한다 — 테스트)
 
 
 class OpeningRules(_Strict):
@@ -256,6 +257,7 @@ class PlacementSlot(_Strict):
     beside_panel: Optional[BesidePanel] = None
     screen: Optional[list[tuple[float, float]]] = None   # v4.8.0 D-0104 D2(c) — 패널 위 화면 고정 점들(동시 n 번째 = n 번째 점)
     stages: Optional[list[str]] = None   # v5.2.0 D-0132 — 이 주 무대에서만 쓰는 슬롯(없으면 무대 무관). 다른 무대 = 배치 오류(P10)
+    frame: bool = False   # v7.4.0 D-0274 §2① — 클립 액자(캡션 줄은 상자 안 위쪽 띠, 상자 = 16:9 본체만)
 
     @model_validator(mode="after")
     def _one(self) -> "PlacementSlot":
@@ -352,7 +354,7 @@ class PacingRules(_Strict):
 class MediaBeats(_Strict):
     kinds: list[str]
     photo_show_sec: Range2
-    clip_show_sec: Range2
+    clip_show_sec: dict[Literal["main", "broll"], Range2]   # v7.4.0 D-0274 §2② — clip.role 별
     file_photo_label_required: bool
     caption_credit_required: bool
     ai_generated_forbidden: bool
@@ -362,6 +364,8 @@ class MediaBeats(_Strict):
     caption_bar_px: float                    # 사진·영상 캡션 바 높이(14 §4.1) — 배치 점검용
     registry: str                            # v2.5.5 — 미디어 레지스트리 경로(저장소 기준)
     sources_order: list["PhotoSourcePool"] = Field(min_length=1)   # v5.19.0 D-0163 §2 — 사진 소싱 풀 순서(media_fetch search)
+    min_density_per_min: float = Field(gt=0)   # v7.4.0 D-0261(UF-139) — [media-density] hard: (photo+clip+cutout 이벤트) ÷ 영상 분 하한, 사유 통과 없음
+    density_exempt_projects: dict[str, str] = Field(default_factory=dict)   # 회귀 기준 프로젝트(폴더 이름) → 사유. 범위는 시험이 강제(골든·엔진 데모만)
     sources_excluded_licenses: list[str] = Field(default_factory=list)   # 라이선스 이름 조각(NC·ND) — 있으면 탈락
     sources_excluded_mimes: list[str] = Field(default_factory=list)      # v5.21.0 — 문서·도식 mime(pdf·svg) — 통과 수 밖
     inset_preferred_license: str = ""   # v7.4.0 D-0240 후속 — 위성 인셋 기본 라이선스 접두(그 밖은 fallback_reason 필수)
@@ -434,6 +438,7 @@ class HudRules(_Strict):
     allowed_corner_elements: list[str]
     forbidden_components: list[str]
     date_badge: DateBadge
+    date_badge_over_clip_frame: bool = False   # v7.4.0 D-0276 — 클립 액자 위에 날짜 뱃지(그 슬롯과의 교차만 예외)
 
 
 class LayoutBase(_Strict):
@@ -449,6 +454,7 @@ class SubtitleLayout(_Strict):
     halo: float
     halo_alpha: float
     emphasis_color: str
+    over_clip_frame: bool = False   # v7.4.0 D-0276 — 클립 액자 위에 자막(그 슬롯과의 교차만 예외)
 
 
 class TitleCardLayout(_Strict):
@@ -1585,6 +1591,16 @@ class BgmFloor(_Strict):
     n_fft: int = Field(gt=0)
 
 
+class AudioClip(_Strict):
+    """v7.4.0 D-0274 §2③·D-0276 — 클립 원음 트랙 이득(dB)."""
+
+    main_gain_db: float = Field(le=0)
+    broll_gain_db: float = Field(le=0)
+    narration_duck_db: float = Field(le=0)
+    bed_duck_db: float = Field(le=0)
+    duck_fade_sec: float = Field(gt=0)
+
+
 class AudioRules(_Strict):
     bed_gain: float
     bgm_floor: BgmFloor
@@ -1604,6 +1620,7 @@ class AudioRules(_Strict):
     loop_xfade_sec: float
     fade_in_sec: float
     fade_out_sec: float
+    clip: AudioClip
     fx_duck: float
     crossfade_sec: float = Field(gt=0)
     qa: AudioQARules
@@ -1647,10 +1664,63 @@ class CardOverPanel(_Strict):
     panel_pad_px: float = Field(ge=0)
     cover_types: list[str] = Field(min_length=1)               # 모든 패널 위 덮개(D-0249)
     cover_types_on_data_panels: list[str] = Field(default_factory=list)   # 데이터 패널(series record) 위에서만 더 세는 덮개
+    timeline_frame_cover_types: list[str] = Field(default_factory=list)   # v7.4.0 D-0259 — 시간축 틀 안 시리즈 레인 위에서 세는 덮개(사건 레인 허용)
+
+
+class ChartOnlyRun(_Strict):
+    """v7.4.0 D-0251 §6.2-3·D-0252(UF-135 ① "너무 차트만") — 차트·카드만 보이는 구간 상한. 모든 무대·장르, 콘티 판·프리뷰·전편 같은 키.
+    차트 요소 = chart_types(+ island kind chart_island_kinds, primitive id chart_primitives). neutral_types 는 판정에 넣지 않는다.
+    그 밖 등록 요소와 map_stages 무대가 패널 덮개 없이 보이는 순간 = 비차트(지도는 장소다). 타이틀·엔딩 카드 구간 제외."""
+
+    max_sec: float = Field(gt=0)
+    step_sec: float = Field(gt=0)
+    chart_types: list[str] = Field(min_length=1)
+    chart_island_kinds: list[str] = Field(default_factory=list)
+    chart_primitives: list[str] = Field(default_factory=list)
+    neutral_types: list[str] = Field(default_factory=list)
+    exempt_projects: dict[str, str] = Field(default_factory=dict)   # v7.4.0 D-0271 — 회귀 기준 프로젝트(폴더 이름) → 사유. hard 만 면제(기록은 남김), 범위는 시험이 고정
+    map_stages: list[str] = Field(min_length=1)
+
+
+class ElementGap(_Strict):
+    """v7.4.0 UF-160(D-0289 "1:30~1:50 즘 까지 거의 아무것도 안뜨고 자막과 나레이션만") — 화면 요소 공백 구간 상한. 모든 무대, 콘티 판·프리뷰·전편 같은 키.
+    요소 = element_types 이벤트가 떠 있는 동안 + appear_types(지도 위 점·선·나라)가 나타난 뒤 appear_hold_sec 동안. 타이틀·엔딩 카드 구간 제외."""
+
+    max_sec: float = Field(gt=0)
+    step_sec: float = Field(gt=0)
+    appear_hold_sec: float = Field(ge=0)
+    element_types: list[str] = Field(min_length=1)
+    appear_types: list[str] = Field(default_factory=list)
+    exempt_projects: dict[str, str] = Field(default_factory=dict)   # 회귀 기준(폴더 이름) → 사유. hard 만 면제, 범위는 시험이 고정
+    director_line: str                                # 연출·수정 프롬프트 한 줄({max_sec} 자리)
+
+
+class LabelBannedTerms(_Strict):
+    """v7.4.0 UF-161(D-0289 "경로 개략, 좌표 비공개 라는 문구는 빼") — 지도 라벨(마커·경로·나라 이름표)에 쓰지 않는 고지 낱말.
+    고지는 엔딩 카드 표기 행(end_card.notice_*)으로만."""
+
+    terms: list[str] = Field(min_length=1)
+    event_types: list[str] = Field(min_length=1)
+    fields: list[str] = Field(min_length=1)
+    director_line: str                                # {terms} 자리
+
+
+class BadgeHold(_Strict):
+    """v7.4.0 UF-162(D-0289 "시진핑과 트럼프 뱃지가 나오는데 너무 빨리 사라져") — 인물 뱃지 최소 노출. 같은 순간(handoff_sec 안)
+    사진·영상이 이어 뜨면(같은 장면을 실사로 넘김) 예외."""
+
+    min_hold_sec: float = Field(gt=0)
+    handoff_sec: float = Field(ge=0)
+    handoff_types: list[str] = Field(default_factory=list)
+    director_line: str                                # {min_hold_sec} 자리
 
 
 class QAChecks(_Strict):
     overlap_core_elements: int
+    chart_only_run: ChartOnlyRun                      # v7.4.0 D-0252 — [chart-only-run] hard
+    element_gap: Optional[ElementGap] = None          # v7.4.0 UF-160 — [element-gap] hard
+    label_banned_terms: Optional[LabelBannedTerms] = None   # v7.4.0 UF-161 — [label-banned-terms] hard
+    badge_hold: Optional[BadgeHold] = None            # v7.4.0 UF-162 — [badge-hold] hard
     card_over_panel: Optional[CardOverPanel] = None   # v7.4.0 D-0248(UF-129)
     outlet_min_overlap_sec: float = 0.5               # v7.4.0 D-0250(UF-130)
     outlet_names: dict[str, OutletNames] = Field(default_factory=dict)
@@ -1810,6 +1880,48 @@ class AnimaticRules(_Strict):
     cost_target_sec_per_300s: float = Field(gt=0)   # 5분 영상 콘티 판 목표 시간(4코어, run_log 실측과 비교)
 
 
+class CatalogLines(_Strict):
+    """카탈로그 라벨 줄 틀 — {자리}는 코드가 채운다(.replace, C2). 값의 출처는 config tts·rules fonts·registries(P5)."""
+
+    stage: str = Field(min_length=1)        # {stage} {theme}
+    elements: str = Field(min_length=1)     # {items}
+    fonts: str = Field(min_length=1)        # {items}
+    voice: str = Field(min_length=1)        # {backend} {style} {speed} {suffix} {span} {semitones}
+    voice_flat: str = Field(min_length=1)   # 끝 억양 꺼짐(final_fall.enabled false) — {backend} {style} {speed}
+
+
+class CatalogLabel(_Strict):
+    """카탈로그 라벨(480p 설계 px) — 왼쪽 위. 날짜 뱃지·자막과 교차하면 checks [catalog-label-overlap] hard(카탈로그 산출물만)."""
+
+    font: str
+    size: float = Field(gt=0)
+    pos: tuple[float, float]                # 글자 블록 좌상단
+    max_w: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+    color: Color4
+    plate: Color4                           # 바탕판
+    pad: float = Field(ge=0)
+    line_gap: float = Field(gt=0)
+    max_lines: int = Field(ge=3)            # 무대 1 + 요소 ≥ 1 + 음성 1
+    font_keys: list[str] = Field(min_length=1)   # 글꼴 줄에 쓰는 rules fonts 키(순서 = 표기 순서)
+    sep: str
+    indent: str
+    more: str = Field(min_length=1)         # 넘친 요소 수 {n}
+    no_theme: str = Field(min_length=1)     # 지도 무대가 없을 때 테마 자리
+    lines: CatalogLines
+
+
+class CatalogRules(_Strict):
+    """v7.4.0 back_and_forth D-0251 §1.1 — 카탈로그 판(`engine.render --catalog`). 전편 레이어 전부 + 라벨 층. final.mp4 에는 들어가지 않는다."""
+
+    profile: str                            # config engine.output 프로파일 이름 또는 별칭(trial·final)
+    output: str                             # out/ 아래 파일 이름(영상 + 음성)
+    preset: str                             # x264 preset(카탈로그 인코딩만)
+    mp4_comment: str = Field(min_length=1)  # mp4 메타데이터 표식 — deliver(engine.mux)가 보면 거부
+    sample_every_sec: float = Field(gt=0)   # 요소 표(out/catalog_frames.json) 표본 간격
+    label: CatalogLabel
+
+
 class PreviewRules(_Strict):
     """v3.3.0 F6 — auto 프리뷰 샘플."""
 
@@ -1899,11 +2011,19 @@ class TimelineSeries(_Strict):
     axis_label_size: float
     axis_label_font: str
     axis_label_halo: float
+    axis_label_min_gap_px: float = Field(gt=0)   # v7.4.0 D-0268 §2 — 축 값 라벨 사이 화면 간격 하한. 미만이면 중간 라벨 생략(눈금선만)
     source_dy: float
     source_step: float
     source_size: float
     source_font: str
     source_halo: float
+    end_label_min_gap_px: float = Field(gt=0)   # v7.4.0 D-0256 — 같은 레인 끝값 라벨 세로 최소 간격(기준선 사이)
+    end_label_plate: "EndLabelPlate"   # v7.4.0 D-0277 §2 — 끝값 라벨 뒤 판(바탕 bg_rgb)
+    pin_label_rows: int = Field(ge=1)              # v7.4.0 D-0274 §1② — 값 레인 위 핀 라벨 단 수(선 위·아래 각)
+    pin_label_first_dy_px: float = Field(gt=0)     # 점 → 가장 가까운 단 라벨 상자 가장자리
+    pin_label_row_gap_px: float = Field(gt=0)      # 한 줄 라벨 단 간격(글자 + 여백)
+    pin_leader_w: float = Field(gt=0)
+    pin_leader_alpha: float = Field(gt=0, le=1)
     change_regime_months: int = Field(ge=1)   # v4.4.0 D-0091 ②
 
 
@@ -1929,6 +2049,41 @@ class TimelineBand(_Strict):
     sep: str = Field(min_length=1)
 
 
+class EndLabelPlate(_Strict):
+    """v7.4.0 back_and_forth D-0277 §2 — 끝값 라벨 뒤 판. 색 = stage_timeline.bg_rgb, 글자 상자 + pad_px."""
+
+    alpha: float = Field(gt=0, le=1)
+    pad_px: float = Field(ge=0)
+    descent: float = Field(ge=0, lt=1)   # 글자 내림 ÷ 글자 크기
+
+
+class TimelineLaneRange(_Strict):
+    """v7.4.0 back_and_forth D-0263(사용자 의견 UF-140 "변동이 크지 않은 데이터… 가로로 펼쳐진 직선으로밖에 안보인다") — 시간축 레인 값 범위.
+    fit = [min − pad, max + pad](무대 기간 안 레코드 전체, 영상당 한 번), 최소 폭 하한(단위별), 끝 값 반올림(end_round, D-0277 §3 정정). 막대는 0 기준(chart_honesty) 그대로."""
+
+    mode: Literal["fit", "zero"]
+    pad_ratio: float = Field(ge=0, lt=0.5)
+    nice_mantissas: list[float] = Field(min_length=1)
+    ticks_max: int = Field(ge=0)              # 위·아래 끝 사이 중간 눈금 최대 수
+    end_round: Literal["step", "half_step"] = "step"   # v7.4.0 D-0277 §3 정정 — 끝 값 내림·올림 단위(간격 / 간격의 절반)
+    min_span: dict[str, float]                # 단위 → 최소 폭(없는 단위 = 데이터 폭)
+    flat_lane_min_ratio: float = Field(gt=0, lt=1)   # [flat-lane] hard — 그려진 세로 폭 ÷ 레인 값 영역 높이 하한
+    empty_band_max_ratio: float = Field(gt=0, lt=0.5)   # v7.4.0 D-0277 §3 [axis-empty-band] hard — 데이터 극값 밖 빈 띠(한쪽) ÷ 축 범위 상한
+    axis_range_note: str = Field(pattern=r"\{lo\}.*\{hi\}")   # 0 이 아닌 곳에서 시작하면 출처 줄 끝에 붙는 표기
+
+
+class TimelineProjection(_Strict):
+    """v7.4.0 back_and_forth D-0260 §2·D-0264 — 시간축 레인 위 전망 점(series style projection, scatter 레코드)."""
+
+    column_date: Literal["year_end"]
+    longer_run_gap_days: int = Field(gt=0)
+    column_stagger_sec: float = Field(ge=0)
+    band_alpha: float = Field(ge=0, le=1)
+    median_alpha: float = Field(gt=0, le=1)
+    label_dy: float = Field(gt=0)
+    hold_clip: Literal["hard", "off"] = "hard"   # v7.4.0 D-0277 §1 — 카메라가 머무는 창에서 전망 열 반쯤 잘림·마지막 실측 점 없음 = [chart-edge-bleed]
+
+
 class TimelineAxisScale(_Strict):
     """v5.1.0 D-0121 §A(사용자 피드백 D105) — 시간축 축 스케일(카메라 w) 고정. checks timeline_rescale(hard)·provenance timeline.w_changes[].
     grammar 의 {max}·{ratio} 는 같은 블록 값(프롬프트 {{RULES.stage_timeline.axis_scale}})."""
@@ -1937,6 +2092,20 @@ class TimelineAxisScale(_Strict):
     w_change_ratio_min: float = Field(gt=1)
     scene_fixed: bool
     grammar: str = Field(pattern=r"\{max\}")
+
+
+class TimelineFrame(_Strict):
+    """v7.4.0 back_and_forth D-0257(UF-137) — 시간축 주 무대 틀: 화면 안쪽 안전 영역 [x, y, 폭, 높이](설계 px). 레인·눈금·글자는 이 안에만.
+    상자 모양(그림자·바탕·테두리·모서리)과 레인 영역 패딩은 차트 아일랜드와 같은 값(rules island·island.chart)."""
+
+    box: tuple[float, float, float, float]
+
+    @model_validator(mode="after")
+    def _inside(self) -> "TimelineFrame":
+        x, y, w, h = self.box
+        if x <= 0 or y <= 0 or w <= 0 or h <= 0:
+            raise ValueError("stage_timeline.frame.box 는 화면 가장자리에서 떨어진 양의 상자")
+        return self
 
 
 class StageTimelineRules(_Strict):
@@ -1957,6 +2126,22 @@ class StageTimelineRules(_Strict):
     band: TimelineBand             # v4.4.0 — D-0090 작업 2
     missing_mark: TimelineMissingMark
     axis_scale: TimelineAxisScale  # v5.1.0 — D-0121 §A
+    lane_range: TimelineLaneRange  # v7.4.0 — D-0263(UF-140)
+    projection: TimelineProjection  # v7.4.0 — D-0260 §2·D-0264
+    frame: TimelineFrame           # v7.4.0 — D-0257(UF-137)
+
+
+class ChartWorldRules(_Strict):
+    """v7.4.0 D-0251 §6.2-4 — 차트 연속 세계 연출 문법(연출·수정 프롬프트 {{RULES.chart_world}})."""
+
+    grammar: list[str] = Field(min_length=1)
+
+
+class ReferenceClipRules(_Strict):
+    """v7.4.0 D-0274 §2⑤ — 레퍼런스 영상 문법(연출·원고 프롬프트)."""
+
+    director: list[str] = Field(min_length=1)
+    script: list[str] = Field(min_length=1)
 
 
 class StageBackdropRules(_Strict):
@@ -1985,6 +2170,8 @@ class IslandChart(_Strict):
     pad_top: float = Field(ge=0)
     pad_bottom: float = Field(ge=0)
     label_flip_pad: float = Field(ge=0)   # v5.2.0 D-0133 §1 — 아일랜드 마커 라벨 ↔ 상자 가장자리 여백(넘으면 반대쪽, 그래도 넘으면 클램프)
+    lane_h_max: float = Field(gt=0)   # v7.4.0 D-0269 — 아일랜드 시간축 레인 높이 상한(fit_island 만, 레인 둘 이상일 때만 — D-0274)
+    plot_min_ratio: float = Field(gt=0, le=1)   # v7.4.0 D-0274 §1① — [plot-height] 플롯 세로 합 ÷ 액자 안쪽 높이 하한
 
 
 class CascadeFrontRules(_Strict):
@@ -2200,14 +2387,10 @@ class IslandRules(_Strict):
     panel_box: tuple[float, float, float, float]
     chart: IslandChart
     main_required: bool                  # v5.2.0 D-0129 §B — backdrop 무대에 주 아일랜드 상시(checks backdrop_main_missing)
+    source_wrap_lines_max: int = Field(ge=1)   # v7.4.0 D-0265 §3 — 시간축 레인 출처 줄이 틀·상자 폭을 넘으면 " · " 경계에서 접는 최대 줄 수
     main_kinds: list[Literal["chart", "primitive", "photo", "clip", "article", "panel"]] = Field(min_length=1)
     card_only_max_sec: float = Field(gt=0)   # 주 아일랜드 없는 구간 상한(전환 허용)
 
-    @model_validator(mode="after")
-    def _same_h(self) -> "IslandRules":
-        if len({b[3] for b in self.boxes.values()}) != 1:
-            raise ValueError("island.boxes 높이는 모두 같아야 한다(차트 레인 영역 한 벌, D-0126 Q2)")
-        return self
 
 
 class GenrePromptRules(_Strict):
@@ -3048,6 +3231,7 @@ class VideoRules(_Strict):
     audio: AudioRules
     preview: PreviewRules          # v3.3.0 — D-0056 F6
     animatic: AnimaticRules        # v4.9.0 — D-0108 콘티 판
+    catalog: CatalogRules          # v7.4.0 — D-0251 카탈로그 판
     golden: GoldenRules            # v3.6.0 — D-0066 작업 4
     camera: CameraRules            # v3.3.0 — D-0056 작업 2
     stage: StageRules              # v4.1.0 — D-0076 작업 5
@@ -3055,6 +3239,8 @@ class VideoRules(_Strict):
     primitives: PrimitivesRules = Field(default_factory=PrimitivesRules)   # v4.2.0 D-0081
     stage_timeline: StageTimelineRules   # v4.3.0 — D-0084 작업 3·D-0085
     stage_backdrop: StageBackdropRules   # v5.1.0 — D-0121 §B·D-0123
+    chart_world: ChartWorldRules   # v7.4.0 — D-0251 §6.2-4
+    reference_clip: ReferenceClipRules   # v7.4.0 — D-0274 §2⑤
     island: IslandRules                  # v5.1.0 — D-0123 §1·D-0126
     cascade: CascadeRules                # v5.2.0 — 겹침 카드(사용자 재구성 2026-10-01, v5.3.0 D-0139 채택)
     quote_center: QuoteCenterRules       # v5.3.1 — 인물 발언 중앙 인용(시안, valdai-2026 한정)

@@ -57,7 +57,9 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     OP = R.out  # noqa: N806
     t = i / FPS
     view = View(R.stage, P.cams[i])
-    L = P.layers   # noqa: N806 — 전편 FULL_LAYERS · 콘티 판 ANIMATIC_LAYERS(v4.9.0 D-0108, 진입 = load_project)
+    L = P.layers   # noqa: N806 — 전편 FULL_LAYERS · 콘티 판 ANIMATIC_LAYERS(v4.9.0 D-0108) · 카탈로그 판 CATALOG_LAYERS(D-0251), 진입 = load_project
+    if L.frame_start is not None:   # 카탈로그 판 — 이 프레임에 그린 글꼴 기록 시작(D-0251)
+        L.frame_start(R, t)
     R.reserved.clear()
     from engine import typography as _tyf  # noqa: PLC0415 — v5.21.2 D-0186 국소 대비 보정(지도 테마의 label_contrast_fix)
     fix = getattr(getattr(R.stage, "theme", None), "label_contrast_fix", None)
@@ -75,6 +77,11 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     capture = R.cache.get("route_label_capture") is not None   # v5.22.7 D210 — 이름표 자리 고르기의 예약 상자 붙잡기: 배경(예약 없음)은 그리지 않는다
     if not capture:
         R.stage.render_base(ctx, view)           # 무대 배경: 지형 래스터 + 국경(v4.1.0 D-0076 — MercatorStage = v3 순서 그대로)
+    frame = getattr(R.stage, "frame", None)
+    if frame is not None:   # v7.4.0 D-0257(UF-137) — 시간축 세계는 틀 안에서만(틀 밖 클립). 패널·카드·자막 등 화면 층은 틀 밖 그대로
+        ctx.save()
+        ctx.rectangle(*frame)
+        ctx.clip()
     if getattr(R.stage, "border_glow", False) and not capture:   # v5.4.0 국경선 글로우(정규 — 지도 기본, stage_config.mercator.border_glow: false 로 끔)
         from engine.layers.borders import draw_border_glow  # noqa: PLC0415
 
@@ -97,6 +104,8 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     flush_route_labels(ctx, R, view, act, t)   # 그린 라벨 상자는 R.reserved 로 — 배경 지명이 피한다
     if panel_a < 0.99:
         R.stage.draw_labels(ctx, view, R.reserved, 1 - panel_a)
+    if frame is not None:
+        ctx.restore()
     from engine import typography as _ty  # noqa: PLC0415
 
     _ty.flush_contrast_fix(ctx)   # v5.21.2 D-0186 §2-1 — 지도 층 완성 뒤·검사 스냅숏 전에 required 글자 국소 대비 보정
@@ -141,7 +150,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     if fa > 0.001:
         ctx.set_source_rgba(0, 0, 0, fa)
         ctx.paint()
-    if L.overlay is not None:   # 콘티 판 표식 띠 — 페이드 뒤 맨 위(D-0108)
+    if L.overlay is not None:   # 콘티 판 표식 띠(D-0108)·카탈로그 판 라벨(D-0251) — 페이드 뒤 맨 위
         L.overlay(ctx, R, t)
     surf.flush()
     return surf, buf
@@ -289,22 +298,45 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
 
 def prev_dir(P: Project) -> Path:  # noqa: N803
     """프리뷰 폴더 — 기본 프로파일은 prev/(검수 루프·게이트가 읽는 자리), 그 밖은 prev_<프로파일>/(480p 결과를 덮지 않는다).
-    콘티 판은 prev_animatic/(v4.9.0 D-0108 — 게이트가 읽는 prev/ 를 덮지 않는다)."""
+    콘티 판은 prev_animatic/(v4.9.0 D-0108 — 게이트가 읽는 prev/ 를 덮지 않는다), 카탈로그 판은 prev_catalog/(D-0251)."""
     if getattr(P, "animatic", False):
         return P.root / "prev_animatic"
+    if getattr(P, "catalog", False):
+        return P.root / "prev_catalog"
     return P.root / ("prev" if P.R.out == output_profile() else f"prev_{P.R.out.name}")
+
+
+def sample_drawn(P: Project, times: list[float], labels: list[str]) -> list[tuple[str, float, str | None, str]]:  # noqa: N803
+    """표본 시각 프레임을 그려(저장 없이) 컷마다 그린 글자를 모은다 — 프리뷰가 run_checks 에 넘기는 drawn 과 같은 모양.
+    v7.4.0 — 카탈로그 판은 전편 검사를 돌면서 drawn 을 빈 목록으로 넘겨, series 영상은 [source-missing] 이 늘 실패하고
+    [glyph_size] 는 빈 채로 통과했다(showcase_econ 에서 드러남)."""
+    from engine import typography  # noqa: PLC0415
+
+    drawn: list[tuple[str, float, str | None, str]] = []
+    for tt, lab in zip(times, labels):
+        typography.GLYPH_LOG = []
+        try:
+            render_frame(P, min(P.n_frames - 1, int(tt * FPS)))
+        finally:
+            glog, typography.GLYPH_LOG = typography.GLYPH_LOG, None
+        drawn += [(lab, size, role, txt) for size, role, txt in glog]
+    return drawn
 
 
 def render_chunk(P: Project, st: int, en: int, out: Path) -> None:  # noqa: N803
     OP = P.R.out  # noqa: N806
-    preset = load_rules().animatic.preset if P.animatic else OP.preset   # 콘티 판 인코딩만(D-0108)
+    preset = load_rules().animatic.preset if P.animatic else load_rules().catalog.preset if P.catalog else OP.preset   # 콘티·카탈로그 판 인코딩만
     ff = subprocess.Popen(["ffmpeg", "-y", "-v", "error", "-f", "rawvideo", "-pix_fmt", "bgr0", "-s", f"{OP.width}x{OP.height}",
                            "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", preset, "-crf", str(OP.crf),
                            "-pix_fmt", "yuv420p", "-g", "48", str(out)], stdin=subprocess.PIPE)
     assert ff.stdin is not None
     t0 = time.time()
+    every = round(load_rules().catalog.sample_every_sec * FPS)
+    rows: list[dict] = []
     for i in range(st, en):
         _, b = render_frame(P, i)
+        if P.catalog and i % every == 0:   # v7.4.0 D-0251 — 요소 표 표본(라벨과 같은 값)
+            rows.append(P.R.cache["catalog"]["last"])
         ff.stdin.write(b)
         if (i - st) % 480 == 0:
             log(f"frame {i}/{en} {time.time() - t0:.0f}s")
@@ -313,6 +345,8 @@ def render_chunk(P: Project, st: int, en: int, out: Path) -> None:  # noqa: N803
         raise RuntimeError(f"ffmpeg 실패: {out}")
     from engine import typography as _tyc  # noqa: PLC0415 — v5.21.4 D-0190 §3-1: 이 청크의 국소 대비 보정(이름 → 보정 전 최저 대비)
     contrast_fix_path(out).write_text(json.dumps(_tyc.CONTRAST_FIXED, ensure_ascii=False), encoding="utf-8")
+    if P.catalog:
+        out.with_suffix(".catalog.json").write_text(json.dumps(rows, ensure_ascii=False), encoding="utf-8")
 
 
 def contrast_fix_path(part: Path) -> Path:
@@ -347,17 +381,25 @@ def mem_available_mb() -> int | None:
     return None
 
 
-def plan_jobs(requested: int | None, out: "object", cpu: int | None = None, mem_mb: int | None = None) -> tuple[int, str]:
+def clip_mem_mb(P: Project) -> int:  # noqa: N803
+    """이 영상이 여는 클립 npy 크기 합(MB, v7.4.0 R-0281) — 로드된 클립(load_project 가 이벤트의 클립을 연다)의 바이트 합."""
+    return sum(int(a.nbytes) for a in P.R.assets.clips.values()) // (1 << 20)
+
+
+def plan_jobs(requested: int | None, out: "object", cpu: int | None = None, mem_mb: int | None = None,
+              clip_mb: int = 0) -> tuple[int, str]:
     """청크 병렬 수(v3.6.0 D-0066 작업 6) — 요청(CLI --jobs) → config engine.render.jobs → os.cpu_count() 순,
-    그 뒤 사용 가능 메모리 ÷ 프로파일 mem_per_job_mb 로 줄인다(최소 1). (수, 사유)."""
+    그 뒤 사용 가능 메모리 ÷ (프로파일 mem_per_job_mb + 그 영상 클립 npy 합)으로 줄인다(최소 1). (수, 사유).
+    클립 합(v7.4.0 R-0281): 청크 프로세스마다 클립 npy 를 mmap 으로 연다 — 페이지가 공유되더라도 청크가 클립 구간을
+    읽는 동안 상주하므로 보수적으로 작업 하나에 더한다(720p 액자 클립 15초 하나 300 MB대)."""
     from orchestrator.config import load_config  # noqa: PLC0415
 
     cfg = load_config().engine.render.jobs
     j, why = (requested, "--jobs") if requested is not None else (cfg, "config") if cfg is not None else (cpu or os.cpu_count() or 1, "cpu")
     mem = mem_available_mb() if mem_mb is None else mem_mb
-    per = out.mem_per_job_mb  # type: ignore[attr-defined]
+    per = out.mem_per_job_mb + clip_mb  # type: ignore[attr-defined]
     if mem is not None and j * per > mem:
-        j, why = max(1, mem // per), f"{why}→mem({mem}MB/{per}MB)"
+        j, why = max(1, mem // per), f"{why}→mem({mem}MB/{per}MB" + (f", 클립 {clip_mb}MB" if clip_mb else "") + ")"
     return j, why
 
 
@@ -366,8 +408,8 @@ def render_full(P: Project, jobs: int) -> Path:  # noqa: N803
     (조각·목록 이름도 animatic_ 접두 — 전편 산출물을 덮지 않는다, D-0108). 콘티 판 mp4 에는 표식 메타데이터(rules animatic.mp4_comment)."""
     outdir = P.root / "out"
     outdir.mkdir(exist_ok=True)
-    pre = "animatic_" if P.animatic else ""
-    flag = ["--animatic"] if P.animatic else ["--res", P.R.out.name]
+    pre = "animatic_" if P.animatic else "catalog_" if P.catalog else ""
+    flag = ["--animatic"] if P.animatic else ["--catalog"] if P.catalog else ["--res", P.R.out.name]
     parts, procs = [], []
     t0 = time.time()
     for k, (s, e) in enumerate(chunk_ranges(P.n_frames, jobs)):
@@ -386,8 +428,9 @@ def render_full(P: Project, jobs: int) -> Path:  # noqa: N803
         raise RuntimeError(f"렌더 조각 실패: {fails} (out/{pre}partNN.log)")
     lst = outdir / f"{pre}parts.txt"
     lst.write_text("".join(f"file '{p}'\n" for p in parts), encoding="utf-8")
-    final = outdir / ("animatic_noaudio.mp4" if P.animatic else "video_noaudio.mp4")
-    meta = ["-metadata", f"comment={load_rules().animatic.mp4_comment}"] if P.animatic else []
+    final = outdir / f"{pre or 'video_'}noaudio.mp4"
+    tag = load_rules().animatic.mp4_comment if P.animatic else load_rules().catalog.mp4_comment if P.catalog else None
+    meta = ["-metadata", f"comment={tag}"] if tag else []
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", *meta, str(final)],
                    check=True)
     log(f"render: {P.n_frames} frames, {len(parts)} chunks, {time.time() - t0:.0f}s")
@@ -467,6 +510,65 @@ def render_animatic(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
     return final, prov
 
 
+CATALOG_STAGES = {"plan": True, "geo": True, "preview": False, "render": False, "mix": True, "mux": False,
+                  "ai_direction": False, "visual_qa": False}   # 카탈로그 판 — 전편 render·deliver 는 돌지 않았다(P5)
+
+
+def render_catalog(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
+    """카탈로그 판(v7.4.0 back_and_forth D-0251 §1.1) → out/catalog.mp4 + catalog_checks.json + catalog_provenance.json + catalog_frames.json.
+    전편과 같은 checks(+ [catalog-label-overlap]) → 조각 렌더(라벨 층) → 기존 out/mix.f32 2패스 loudnorm → 표식 메타데이터.
+    catalog_frames.json = 표본 시각마다 라벨과 같은 값(요소·글꼴) — tools/catalog_table.py 가 요소 표(md)를 만든다(손으로 쓰지 않는다, P12)."""
+    from audio.qa import loudnorm_two_pass, mix_inputs  # noqa: PLC0415
+    from engine.checks import run_checks  # noqa: PLC0415
+    from engine.mux import AAC_BITRATE, SR, project_provenance  # noqa: PLC0415
+
+    CT = load_rules().catalog  # noqa: N806
+    outd = P.root / "out"
+    mix = outd / "mix.f32"
+    if not mix.exists():
+        raise ProjectError(f"out/mix.f32 없음 — 카탈로그 판도 음성·음악을 입힌다: `python -m audio.mix {P.root}` 먼저")
+    t0 = time.time()
+    prov = project_provenance(P, CATALOG_STAGES)
+    times = auto_preview_times(P)
+    P.R.cache["glyph_miss"] = glyph_sweep(P)
+    labels = [f"t={t:.2f}" for t in times]
+    checks = run_checks(P, times, prov, sample_drawn(P, times, labels), labels)   # 전편 검사 = 컷에 그린 글자로(출처 줄·글자 크기)
+    (outd / "catalog_checks.json").write_text(json.dumps(checks, ensure_ascii=False, indent=1), encoding="utf-8")
+    if not checks["passed"]:
+        errs = [f"checks hard {i['id']}: {d}" for i in checks["items"] if i["severity"] == "hard" for d in i["details"]]
+        raise ProjectError("카탈로그 판 checks hard 실패(렌더 전):\n" + "\n".join(errs[:50]))
+    video = render_full(P, jobs)
+    rows = [r for k in range(len(chunk_ranges(P.n_frames, jobs)))
+            for r in json.loads((outd / f"catalog_part{k:02d}.catalog.json").read_text(encoding="utf-8"))]
+    (outd / "catalog_frames.json").write_text(json.dumps({"schema_version": 1, "sample_every_sec": CT.sample_every_sec,
+                                                          "frames": [{**r, "t": round(r["t"], 3)} for r in rows]},
+                                                         ensure_ascii=False, indent=1), encoding="utf-8")
+    t1 = time.time()
+    final = outd / CT.output
+    af, loud = loudnorm_two_pass(mix, P.plan.total)
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(video), *mix_inputs(mix, P.plan.total),
+                    "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", af, "-ar", str(SR), "-c:a", "aac", "-b:a", AAC_BITRATE,
+                    "-t", f"{P.plan.total:.3f}", "-movflags", "+faststart", "-metadata", f"comment={CT.mp4_comment}", str(final)],
+                   check=True)
+    rj = json.loads((outd / "catalog_render.json").read_text(encoding="utf-8"))
+    used_el = sorted({x for r in rows for x in r["elements"]})
+    used_fn = sorted({x for r in rows for x in r["fonts"]}, key=list(CT.label.font_keys).index)
+    prov["catalog"] = True
+    prov["catalog_run"] = {"output": f"out/{CT.output}", "profile": P.R.out.name, "fps": FPS, "preset": CT.preset,
+                           "frames_table": "out/catalog_frames.json", "samples": len(rows), "elements": used_el, "fonts": used_fn,
+                           "voice": P.R.cache["catalog"]["voice"],
+                           "truncated": [{"t": round(r["t"], 3), "names": r["truncated"]} for r in rows if r.get("truncated")],   # D-0252
+                           "direction_sha1": hashlib.sha1((P.root / "direction.yaml").read_bytes()).hexdigest(),
+                           "sec": {"render": rj["sec"], "total": round(time.time() - t0, 1), "mux": round(time.time() - t1, 1)},
+                           "jobs": rj["jobs"], "frames": rj["frames"], "loudnorm": {"passes": 2, **loud}, "bytes": final.stat().st_size}
+    prov["checks"] = {"hard": checks["hard"], "warnings": checks["warnings"], "passed": checks["passed"], "profile": checks["profile"]}
+    from engine.provenance import feedback_guards  # noqa: PLC0415
+
+    prov["user_feedback_guards"] = feedback_guards(checks)
+    (outd / "catalog_provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
+    return final, prov
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="engine.render")
     ap.add_argument("proj", type=Path)
@@ -476,15 +578,18 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--res", default=None, help="출력 프로파일(config engine.output.profiles 이름 또는 trial·final)")
     ap.add_argument("--animatic", action="store_true",
                     help="콘티 판(v4.9.0 D-0108) → out/animatic.mp4 — 막지도·자리표시·표식 띠, 480p 고정. --preview 와 함께면 prev_animatic/")
+    ap.add_argument("--catalog", action="store_true",
+                    help="카탈로그 판(v7.4.0 D-0251) → out/catalog.mp4 — 전편 레이어 + 왼쪽 위 요소·글꼴·음성 라벨, rules catalog.profile 고정, 배포 금지")
     args = ap.parse_args(argv)
     stage = "preview" if args.preview else "render"
     try:
-        if args.animatic and args.res is not None:
-            raise ProjectError("--animatic 은 rules animatic.profile 고정 — --res 와 함께 쓰지 않는다")
+        if (args.animatic or args.catalog) and args.res is not None:
+            raise ProjectError("--animatic·--catalog 은 rules 프로파일 고정 — --res 와 함께 쓰지 않는다")
         res = args.res
         if res is None and args.preview == "golden":
             res = "trial"   # v5.5.1 — 골든 기준선(md5)은 트라이얼 프로파일로 찍혔다. 기본 해상도(720p)가 바뀌어도 골든 비교는 그대로
-        P = load_project(args.proj, out=None if args.animatic else output_profile(res), animatic=args.animatic)  # noqa: N806
+        P = load_project(args.proj, out=None if args.animatic or args.catalog else output_profile(res), animatic=args.animatic,  # noqa: N806
+                         catalog=args.catalog)
         if args.chunk:
             render_chunk(P, int(args.chunk[0]), int(args.chunk[1]), Path(args.chunk[2]))
             return 0
@@ -502,14 +607,21 @@ def main(argv: list[str] | None = None) -> int:
                 res = StageResult(ok=False, stage=stage, artifacts=arts, warnings=P.warnings, errors=errs[:50])
                 print(json.dumps(res.model_dump(), ensure_ascii=False))
                 return 1
+        elif args.catalog:
+            jobs, why = plan_jobs(args.jobs, P.R.out, clip_mb=clip_mem_mb(P))
+            log(f"jobs {jobs} ({why}) catalog")
+            final, _ = render_catalog(P, jobs)
+            outd = P.root / "out"
+            arts = {"catalog": str(final), "provenance": str(outd / "catalog_provenance.json"), "checks": str(outd / "catalog_checks.json"),
+                    "frames": str(outd / "catalog_frames.json")}
         elif args.animatic:
-            jobs, why = plan_jobs(args.jobs, P.R.out)
+            jobs, why = plan_jobs(args.jobs, P.R.out, clip_mb=clip_mem_mb(P))
             log(f"jobs {jobs} ({why}) animatic")
             final, _ = render_animatic(P, jobs)
             outd = P.root / "out"
             arts = {"animatic": str(final), "provenance": str(outd / "animatic_provenance.json"), "checks": str(outd / "animatic_checks.json")}
         else:
-            jobs, why = plan_jobs(args.jobs, P.R.out)
+            jobs, why = plan_jobs(args.jobs, P.R.out, clip_mb=clip_mem_mb(P))
             log(f"jobs {jobs} ({why})")
             arts = {"video_noaudio": str(render_full(P, jobs))}
         res = StageResult(ok=True, stage=stage, artifacts=arts, warnings=P.warnings)

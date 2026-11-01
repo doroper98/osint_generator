@@ -49,7 +49,9 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | badge_clipped | hard | 지도 뱃지 원이 안전 영역(인셋과 같은 여백 — 화면 가장자리·자막 띠 위·날짜 배지 상자 밖) 밖 `[badge-clipped]` — 또는 위 가장자리 보정(edge_nudge)에 기대 붙음 — place_badge 뒤(v7.4.0 D-0244) |
 | series_unused | hard | 주문 order.yaml data.series 의 시리즈를 그리는 패널이 없다 `[series-unused]` — direction drops(record·사유)만 예외(v7.4.0 D-0245·UF-126) |
 | panel_dropped | hard | 이전 승인 연출(track_v*/direction.yaml)의 데이터 패널 레코드가 새 연출에 없다 `[panel-dropped]` — drops 사유만 예외(v7.4.0 D-0245·UF-126) |
-| card_over_panel | hard | 패널이 페이드 뺀 구간에 떠 있는 동안 덮개(rules cover_types; 데이터 패널은 + cover_types_on_data_panels 사진·영상·컷아웃·뱃지)가 패널 상자를 덮는다(D-0249) `[card-over-panel]`(rules qa_checks.card_over_panel, v7.4.0 D-0248·UF-129) |
+| card_over_panel | hard | 패널이 페이드 뺀 구간에 떠 있는 동안 덮개(rules cover_types; 데이터 패널은 + cover_types_on_data_panels 사진·영상·컷아웃·뱃지)가 패널 상자를 덮는다(D-0249). 시간축 주 무대는 틀 안 시리즈 레인 상자도 데이터 패널로 센다(timeline_frame_cover_types, D-0259) `[card-over-panel]`(rules qa_checks.card_over_panel, v7.4.0 D-0248·UF-129) |
+| media_density | hard | (photo+clip+cutout 이벤트) ÷ 영상 분 < rules media_beats.min_density_per_min(사유 통과 없음, 회귀 기준만 density_exempt_projects) `[media-density]`(v7.4.0 D-0261·UF-139) |
+| flat_lane | hard | 시간축 레인: 카메라가 보여 준 날짜 구간 안 선·계단의 세로 폭 ÷ 레인 값 범위 < rules stage_timeline.lane_range.flat_lane_min_ratio `[flat-lane]`(v7.4.0 D-0263·UF-140) |
 | article_outlet | hard | 기사 카드가 떠 있는 문장(겹침 ≥ outlet_min_overlap_sec)에 매체 이름이 나오는데 카드 매체(url 도메인·credit_author → rules qa_checks.outlet_names)가 다르다 `[article-outlet-mismatch]`(v7.4.0 D-0250·UF-130) |
 | media_unused | hard | 프로젝트가 등재한 권리 통과 사진({pid}_ 접두 kind photo)이 연출 어디에도 없음 `[media-unused]` — media_notes drop 사유만 예외(v7.4.0 UF-118·D-0238) |
 | badge_orphan | warning | 국기 뱃지가 카드·인용·마커에 붙지 않고 홀로 뜸 `[badge-orphan]`(v7.4.0 D-0240 §4) |
@@ -71,6 +73,10 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | backdrop_main_missing | hard | v5.2.0(D-0129 §B): backdrop 무대에서 주 아일랜드(island.main_kinds)가 하나도 보이지 않는 구간 > island.card_only_max_sec `[backdrop-main-missing] t0-t1 {n}s`(타이틀·엔딩 카드·기사 구간 제외, provenance backdrop.main_missing[]) `engine.island` |
 | card_island | warning | v5.2.0(D-0129 §C): 카드·게시물 카드 제자리 상자와 같은 순간 보이는 아일랜드 상자 교차 > 0 `[card-island]`(provenance island.card_overlap[]) `engine.island` |
 | island_label_clip | hard | v5.2.0(D-0133 §2): 차트 아일랜드 안 마커 라벨 글자 상자가 반전·클램프(island.chart.label_flip_pad, `markers.island_label`) 뒤에도 아일랜드 상자 밖 `[island-label-clip]`(provenance island.label_clip[]) `engine.island.label_check` |
+| axis_empty_band | hard | 시간축 레인 축 범위 중 데이터 극값(실측 + 전망 점) 밖 빈 띠(한쪽) > rules stage_timeline.lane_range.empty_band_max_ratio `[axis-empty-band]`(v7.4.0 D-0277 §3·UF-142) |
+| clip_frame | hard | 레퍼런스 영상(clip.role main)이 액자 슬롯 clip_frame 밖, 또는 보이는 길이가 rules media_beats.clip_show_sec[role] 밖 `[clip-frame]`(v7.4.0 D-0274 §2·UF-141) |
+| plot_height | hard | 시간축 주 무대 틀·차트 아일랜드: 값 레인 세로 합 < 액자 안쪽 높이 × rules island.chart.plot_min_ratio `[plot-height]`(v7.4.0 D-0274 §1①·UF-142) |
+| island_pin_collision | hard | v7.4.0(D-0267 §2 → D-0274 §1②): 값 레인 위 핀 라벨(engine.pin_labels 단 배정) ↔ 핀 라벨·점·계열 선·띠·축 값·끝값·플롯 경계 교차 `[island-pin-collision]` |
 | island_label_overlap | warning | v5.2.0(D-0133 §3): 차트 아일랜드 안 마커 라벨 글자 상자 ∩ 같은 순간 시리즈 출처 줄 글자 상자 > 0 `[island-label-overlap]`(provenance island.label_overlap[]) — 고치는 것은 연출 회차 |
 | cascade | hard | v5.2.0 겹침 카드(v5.3.0 D-0139 채택): `[cascade-width]`·`[cascade-back]`·`[cascade-date]`·`[cascade-overflow]`, 문장 지명(마커·at_place·경로·봉쇄선 이름표)이 카드 밑 `[cascade-label-under]`(D-0137 §2) |
 | cascade_label_hidden | warning | v5.3.0(D-0139 §3): 배경 지명(gazetteer·해역)이 겹침 카드 회피로 안 그려지거나 깔림 `[cascade-label-hidden]`(provenance cascade.hidden_labels[]) |
@@ -92,7 +98,7 @@ import numpy as np
 from engine.layers.media import KEN_BURNS_MAX
 from engine.media_plan import article_candidate_usage, density_report, placement_warnings
 from engine.projection import View
-from engine.style import FONT, FPS, H_OUT, W_OUT
+from engine.style import FONT, FPS, H_OUT, ISLAND, TIMELINE, W_OUT
 from engine.typography import FontMissingError, family_found, fc_match, require_family
 from rules import load_rules
 from script.schema import DATE_RE
@@ -105,7 +111,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "element_gap", "label_banned_terms", "badge_hold")   # element_gap·label_banned_terms·badge_hold v7.4.0 UF-160~162, cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -430,7 +436,7 @@ def check_label_collision(P) -> list[str]:  # noqa: ANN001, N803
     """v5.6.0(사용자 지적 2026-10-04 — 수바우키 장면 지명 글자가 서로 겹침, 나토 휘장이 발트해 마커의 날짜를 가림, RENDER-AP-009) —
     같은 순간 보이는 지도 뱃지·마커(점·라벨·부제)·경로/봉쇄선 이름표(RENDER-AP-012) 상자끼리 SUB_TOL_PX 넘게 교차하면 hard. 쌍마다 첫 시각 한 줄."""
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
-    evs = [e for e in P.events if e["type"] in ("badge", "marker") and not e.get("over_panel")]
+    evs = [e for e in P.events if e["type"] in ("badge", "marker") and not e.get("over_panel") and not own_pin_label(e)]   # 아일랜드 핀 = island label_check
     seen: set[tuple[int, int]] = set()
     out: list[str] = []
     lo = min((e["t0"] for e in evs), default=0.0)
@@ -478,8 +484,8 @@ def _place_label_boxes(ctx: cairo.Context, P, v: View, t: float) -> list[tuple[s
 
     out: list[tuple[str, tuple]] = []
     for e in P.events:
-        if e["type"] not in ("marker", "route", "barrier") or not e.get("label") or not e["t0"] <= t <= e["t1"]:
-            continue
+        if e["type"] not in ("marker", "route", "barrier") or not e.get("label") or not e["t0"] <= t <= e["t1"] or own_pin_label(e):
+            continue   # 아일랜드 안 핀은 주 무대 지명과 겹침을 따지지 않는다(아일랜드 라벨은 island label_check)
         if e["type"] == "marker":
             if window(t, e["t0"], e["t1"], 0.35, 0.5) <= 0.01 or t - e["t0"] < 0.2:   # 라벨은 0.2초 뒤부터(draw_marker)
                 continue
@@ -509,7 +515,7 @@ def _label_reserved(P, ctx: cairo.Context, v: View, act: list[dict], t: float) -
     for e in act:
         if e["type"] == "badge" and not e.get("over_panel") and not e.get("in_island") and (r := place_over(P, ctx, e, t)) is not None:
             reserved.append(r[1])
-        elif e["type"] == "marker" and not e.get("in_island") and e["t0"] <= t <= e["t1"]:
+        elif e["type"] == "marker" and not own_pin_label(e) and e["t0"] <= t <= e["t1"]:
             x, y = v.to_screen(*e["world"])
             reserved.append(marker_box(ctx, e, x, y))
         elif e["type"] == "cascade":
@@ -702,7 +708,7 @@ def route_label_report(P) -> dict[str, list[str]]:  # noqa: ANN001, N803
                                           "라벨을 줄이거나 겹치는 요소의 시간·자리를 바꾼다")
             lines = route_lines(v, P.events, t)
             for e in P.events:
-                if e["type"] != "marker" or e.get("in_island") or not e.get("label") or e.get("route_cross_exempt") or not e["t0"] + 0.3 <= t <= e["t1"] - 0.3:
+                if e["type"] != "marker" or own_pin_label(e) or not e.get("label") or e.get("route_cross_exempt") or not e["t0"] + 0.3 <= t <= e["t1"] - 0.3:
                     continue
                 x, y = v.to_screen(*e["world"])
                 if not (-80 <= x <= W_OUT + 80 and -40 <= y <= H_OUT + 40):
@@ -829,6 +835,21 @@ def check_island_label_clip(P) -> list[str]:  # noqa: ANN001, N803
     return label_clip_details(((P.R.cache.get("island_check") or {}).get("label_clip")) or [])
 
 
+def own_pin_label(e: dict) -> bool:
+    """자기 라벨 배치·검사 경로가 따로 있는 마커 — 차트 아일랜드 안(island label_check) 또는 값 레인 위 핀(engine.pin_labels, D-0274).
+    지도 무대 기준 라벨 상자 검사(offscreen·label_collision 등)가 재지 않는다."""
+    return bool(e.get("in_island")) or e.get("pin_value") is not None
+
+
+def check_island_pin_collision(P) -> list[str]:  # noqa: ANN001, N803
+    """[island-pin-collision] hard(v7.4.0 back_and_forth D-0267 §2 → D-0274 §1②, UF-143) — 값 레인 위 핀 라벨이 다른 핀 라벨·점, 계열 선·띠·전망 점,
+    축 값 라벨, 끝값 라벨, 플롯 경계와 교차. 단은 load_project 가 engine.pin_labels.assign_pin_rows 로 골랐다(주 무대 틀·차트 아일랜드 같은 키).
+    표본·자리는 렌더와 같다(engine.pin_labels.pin_label_check)."""
+    rows = ((getattr(P.R, "cache", None) or {}).get("pin_labels") or {}).get("collisions") or []
+    return [f"[island-pin-collision] 핀 {r['a']!r} 라벨 ↔ {r['b']} t={r['t0']:.2f}~{r['t1']:.2f} — 선 위·아래 두 단 어디에도 자리가 없다면"
+            " 연출이 핀 수명을 줄여 순차로 띄운다(D-0274)" for r in rows]
+
+
 def check_island_label_overlap(P) -> list[str]:  # noqa: ANN001, N803
     """아일랜드 마커 라벨 ↔ 시리즈 출처 줄(v5.2.0 D-0133 §3) — warning."""
     from engine.island import label_overlap_details  # noqa: PLC0415
@@ -859,7 +880,7 @@ def offscreen_hits(P) -> list[tuple[dict, float, float, tuple]]:  # noqa: ANN001
     out: list[tuple[dict, float, float, tuple]] = []
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
     for e in P.events:
-        if e["type"] not in ("badge", "marker"):
+        if e["type"] not in ("badge", "marker") or own_pin_label(e):   # 아일랜드 안 핀은 아일랜드 뷰로 그린다 — 주 무대 좌표로 재지 않는다(island label_check)
             continue
         t = e["t0"] + 0.5
         while t < e["t1"] - 0.5:
@@ -1501,7 +1522,87 @@ def check_card_over_panel(P) -> list[str]:  # noqa: ANN001, N803
         return None   # 기사·인용·사진·영상·컷아웃·뱃지 = 화면 덮개로 본다(시간 겹침, D-0249)
 
     return [f"[card-over-panel] {e['type']} {e.get('tag') or e.get('mid') or e.get('title') or ''!s} t={t:.1f} — 패널 {p.get('kind')} {p.get('title')!r} 위. "
-            "패널 앞에 끝내거나 뒤에 시작한다(UF-129)" for e, p, t in cards_over_panel(P.events, boxes)]
+            "패널 앞에 끝내거나 뒤에 시작한다(UF-129)" for e, p, t in cards_over_panel(P.events, boxes)] + [
+        f"[card-over-panel] {e['type']} {e.get('tag') or e.get('label') or e.get('mid') or e.get('title') or ''!s} t={t:.1f} — 시간축 틀 안 시리즈 레인 "
+        f"{lane} 위({ov:.1f}초). 사건 레인·틀 밖 자리로 옮기거나 뺀다(UF-129, D-0259)" for e, lane, t, ov in timeline_lanes_covered(P)]
+
+
+TIMELINE_COVER_STEP_SEC = 0.1   # 시간축 틀 덮개 표본 간격(label_hidden 과 같은 값)
+
+
+def timeline_cover_box(P, ctx: cairo.Context, e: dict, t: float) -> "list[tuple] | None":  # noqa: ANN001, N803
+    """시간축 주 무대에서 덮개의 제자리 화면 상자(설계 px). None = 화면 덮개로 본다(컷아웃 — D-0249 와 같은 보수값)."""
+    from engine.cascade import cascade_boxes  # noqa: PLC0415
+    from engine.media_plan import media_box  # noqa: PLC0415
+    from engine.reserved import card_box  # noqa: PLC0415
+
+    if e["type"] in ("card", "primitive"):
+        return [tuple(card_box(ctx, e))]
+    if e["type"] == "cascade":
+        return [tuple(b) for b in cascade_boxes(t, e)]
+    if e["type"] in ("photo", "clip") and "x" in e and e.get("mid") in P.R.assets.media_assets:
+        return [tuple(media_box(e, P.R.assets.media_assets))]
+    if e["type"] == "badge":
+        r = place_over(P, ctx, e, t)
+        return [] if r is None else [r[1]]
+    return None
+
+
+def series_lane_rects(P, t: float) -> list[tuple[str, tuple]]:  # noqa: ANN001, N803
+    """시각 t 에 레코드가 그려지는 시리즈 레인의 화면 상자 — x = 틀 좌우, y = 레인 띠(시간축 주 무대에 틀이 있을 때만)."""
+    st = P.R.stage
+    if st.name == "timeline":
+        if getattr(st, "frame", None) is None:
+            return []
+        lanes = list(dict.fromkeys(e["lane"] for e in P.events if e.get("type") == "series" and e.get("lane") and e["t0"] <= t <= e["t1"]))
+        if not lanes:
+            return []
+        fx, _, fw, _ = st.frame
+        v = View(st, P.cams[min(P.n_frames - 1, max(0, int(t * FPS)))])
+        return [(ln, (fx, st.lane_screen(v, st.lane_index(ln))[0], fx + fw, st.lane_screen(v, st.lane_index(ln))[1])) for ln in lanes]
+    chart = (getattr(P.R, "cache", None) or {}).get("island_chart")   # v7.4.0 — 차트 아일랜드도 같은 장치(C12 §3, UF-129)
+    isl = next((e for e in P.events if e.get("type") == "island" and e.get("kind") == "chart" and e["t0"] <= t <= e["t1"]), None)
+    if not chart or isl is None:
+        return []
+    from engine.island import chart_view, island_box  # noqa: PLC0415
+
+    bx, by, bw, bh = island_box(isl)
+    cst = chart["stage"]
+    v = chart_view(chart, t, (bx, by, bw, bh))
+    lanes = list(dict.fromkeys(e["lane"] for e in chart["events"] if e.get("type") == "series" and e.get("lane") and e["t0"] <= t <= e["t1"]))
+    out = []
+    for ln in lanes:
+        top, bot = cst.lane_screen(v, cst.lane_index(ln))
+        out.append((ln, (bx, by + top, bx + bw, by + bot)))
+    return out
+
+
+def timeline_lanes_covered(P, boxes: "Callable[[dict, float], list[tuple] | None] | None" = None) -> list[tuple[dict, str, float, float]]:  # noqa: ANN001, N803
+    """(덮개, 시리즈 레인, 처음 겹친 시각, 겹친 시간) — v7.4.0 D-0259(UF-129 미보호 경로). 덮개 = rules
+    qa_checks.card_over_panel.timeline_frame_cover_types, 시간 겹침 > min_overlap_sec 이면 보고. 사건 레인(레코드 없음)은 허용.
+    boxes(e, t) = 덮개 제자리 상자(기본 timeline_cover_box)."""
+    cfg = R_.qa_checks.card_over_panel
+    if cfg is None or not cfg.timeline_frame_cover_types or chart_world(P) is None:
+        return []
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    pad = cfg.panel_pad_px
+    out = []
+    for e in P.events:
+        if e["type"] not in cfg.timeline_frame_cover_types:
+            continue
+        hits: dict[str, list[float]] = {}
+        t = e["t0"]
+        while t <= e["t1"]:
+            bx = boxes(e, t) if boxes else timeline_cover_box(P, ctx, e, t)
+            for ln, (x0, y0, x1, y1) in series_lane_rects(P, t):
+                if bx is None or any(a < x1 + pad and c > x0 - pad and b < y1 + pad and d > y0 - pad for a, b, c, d in bx):
+                    hits.setdefault(ln, []).append(t)
+            t += TIMELINE_COVER_STEP_SEC
+        for ln, ts in hits.items():
+            ov = len(ts) * TIMELINE_COVER_STEP_SEC
+            if ov > cfg.min_overlap_sec:
+                out.append((e, ln, ts[0], ov))
+    return out
 
 
 # v7.4.0 D-0250(UF-130 "기사 조판과 자막 나래이션이 다름") — 기사 카드 매체 ↔ 그 구간 문장의 매체 이름
@@ -1681,7 +1782,7 @@ def _story_markers(P, s) -> tuple[list[dict], bool]:  # noqa: ANN001, N803
     """문장 s 가 이름으로 부르는(라벨이 원고에 있는) 지도 마커들과, 문장에 이동·공격 동사가 있는지."""
     RM = QA.route_missing  # noqa: N806
     verb = any(v in s.text for v in RM.move_verbs + RM.attack_verbs)
-    ms = [e for e in P.events if e["type"] == "marker" and e.get("label") and "world" in e and not e.get("in_island")
+    ms = [e for e in P.events if e["type"] == "marker" and e.get("label") and "world" in e and not own_pin_label(e)
           and e["t0"] < s.t1 and e["t1"] > s.t0 and e["label"].replace(" ", "") in s.text.replace(" ", "")]
     return ms, verb
 
@@ -2104,6 +2205,21 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "panel_dropped": lambda: check_panel_dropped(P),   # v7.4.0 D-0245(UF-126, hard)
         "card_over_panel": lambda: check_card_over_panel(P),   # v7.4.0 D-0248(UF-129, hard)
         "article_outlet": lambda: check_article_outlet(P),   # v7.4.0 D-0250(UF-130, hard)
+        "catalog_label_overlap": lambda: check_catalog_label_overlap(P),   # v7.4.0 D-0251 §1.1(hard, 카탈로그 판만)
+        "chart_only_run": lambda: [f"[chart-only-run] {a:.1f}~{b:.1f}초 ({b - a:.1f}초) 차트·카드만 보인다 — 상한 {QA.chart_only_run.max_sec:g}초. "
+                                   "사건 핀·인물·사진·기사·인용·지도 중 하나를 넣는다(UF-135)" for a, b in chart_only_runs(P)
+                                   if b - a > QA.chart_only_run.max_sec and P.root.name not in QA.chart_only_run.exempt_projects],   # v7.4.0 D-0252(hard). D-0271 회귀 기준 면제
+        "chart_world_split": lambda: check_chart_world_split(P),   # v7.4.0 D-0251 §6.2-2(hard, UF-135 ②)
+        "series_label_overlap": lambda: check_series_label_overlap(P),   # v7.4.0 D-0256(hard)
+        "chart_edge_bleed": lambda: check_chart_edge_bleed(P),   # v7.4.0 D-0257(hard, UF-137)
+        "media_density": lambda: check_media_density(P),   # v7.4.0 D-0261(hard, UF-139)
+        "element_gap": lambda: check_element_gap(P),   # v7.4.0 UF-160(hard)
+        "label_banned_terms": lambda: check_label_banned_terms(P),   # v7.4.0 UF-161(hard)
+        "badge_hold": lambda: check_badge_hold(P),   # v7.4.0 UF-162(hard)
+        "plot_height": lambda: check_plot_height(P),
+        "axis_empty_band": lambda: check_axis_empty_band(P),   # v7.4.0 D-0277 §3(hard, UF-142)
+        "clip_frame": lambda: check_clip_frame(P),   # v7.4.0 D-0274 §2①②(hard, UF-141)
+        "flat_lane": lambda: check_flat_lane(P),   # v7.4.0 D-0263(hard, UF-140)
         "press_credit": lambda: check_press_credit(P, times, drawn),   # v7.4.0 D-0240 §3(hard)
         "static_camera": lambda: check_static_camera(P),   # v7.4.0 D-0241 §1(hard, UF-120)
         "route_speed": lambda: check_route_speed(P),   # v7.4.0 D-0241 §4(hard, UF-123)
@@ -2128,6 +2244,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "backdrop_main_missing": lambda: check_main_missing(P),
         "card_island": lambda: check_card_island(P),
         "island_label_clip": lambda: check_island_label_clip(P),
+        "island_pin_collision": lambda: check_island_pin_collision(P),   # v7.4.0 D-0267(hard)
         "island_label_overlap": lambda: check_island_label_overlap(P),
         "cascade": lambda: check_cascade(P),
         "cascade_label_hidden": lambda: check_cascade_label_hidden(P),
@@ -2154,8 +2271,571 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
               for k in sorted(skip)]
     hard = sum(i["count"] for i in items if i["severity"] == "hard")
     return {"schema_version": 1, "hard": hard, "warnings": sum(i["count"] for i in items if i["severity"] == "warning"),
-            "passed": hard == 0, "profile": "animatic" if getattr(P, "animatic", False) else "full", "skipped": sorted(skip),
+            "passed": hard == 0, "profile": "animatic" if getattr(P, "animatic", False) else "catalog" if getattr(P, "catalog", False) else "full", "skipped": sorted(skip),
             "thresholds": QA.model_dump(), "items": items}
+
+
+def chart_only_runs(P) -> list[tuple[float, float]]:  # noqa: ANN001, N803
+    """차트·카드만 보이는 연속 구간(v7.4.0 D-0252, rules qa_checks.chart_only_run) — step_sec 표본. 타이틀·엔딩 카드 구간은 끊는다.
+    provenance chart_only_runs 와 검사 [chart-only-run] 이 같은 값을 쓴다(P5)."""
+    C = QA.chart_only_run  # noqa: N806
+    shots = sorted((s for s in (getattr(P, "shots", None) or []) if not s.island), key=lambda s: s.t)
+
+    def stage_at(t: float) -> str:
+        return next((s.stage for s in reversed(shots) if s.t <= t), P.R.stage.name)
+
+    def kind(e: dict) -> str:   # chart · neutral · other
+        typ = e["type"]
+        if typ == "island":
+            return "chart" if e.get("kind") in C.chart_island_kinds else "neutral"
+        if typ in C.chart_types or (typ == "primitive" and e.get("id") in C.chart_primitives):
+            return "chart"
+        return "neutral" if typ in C.neutral_types else "other"
+
+    runs: list[tuple[float, float]] = []
+    start: float | None = None
+    n = int(P.plan.total / C.step_sec) + 1
+    for i in range(n):
+        t = i * C.step_sec
+        act = [e for e in P.events if e["t0"] <= t <= e["t1"]]
+        ks = {kind(e) for e in act}
+        covered = any(e["type"] == "panel" for e in act)
+        only = (not P.R.tb.in_fullcard(t) and "chart" in ks and "other" not in ks
+                and not (stage_at(t) in C.map_stages and not covered))
+        if only and start is None:
+            start = t
+        elif not only and start is not None:
+            runs.append((round(start, 2), round(t, 2)))
+            start = None
+    if start is not None:
+        runs.append((round(start, 2), round(P.plan.total, 2)))
+    return runs
+
+
+def check_chart_world_split(P) -> list[str]:  # noqa: ANN001, N803
+    """[chart-world-split] hard(v7.4.0 D-0251 §6.2-2, UF-135 ② "같은 축척 혹은 같은 차트 안에서 움직이거나 보여주는게 아니니까") —
+    island 이벤트가 2개 이상인 영상에서 같은 단위의 series 가 서로 다른 레인(= 다른 y 축척)에 그려지면 실패. 레인 범위는 무대가 정한다
+    (engine.layers.series.lane_range — 사용자 값 아님). 같은 단위는 한 레인(한 축척) 위에서 카메라가 움직여 보여 준다."""
+    if sum(1 for e in P.events if e["type"] == "island") < 2:
+        return []
+    from data.series import load_series  # noqa: PLC0415
+    from engine.layers.series import record_ids  # noqa: PLC0415
+
+    lanes: dict[str, set[str]] = {}
+    for e in P.events:
+        if e["type"] == "series":
+            for sid in record_ids(e):
+                lanes.setdefault(load_series(sid).unit, set()).add(e["lane"])
+    rng = P.R.cache.get("series_range") or {}
+    out = []
+    for unit, ls in sorted(lanes.items()):
+        scales = {ln: tuple(round(v, 6) for v in rng[ln]) for ln in sorted(ls) if ln in rng}
+        if len(set(scales.values())) > 1:
+            out.append(f"[chart-world-split] 단위 {unit!r} 시계열이 레인 {sorted(ls)} 에 다른 축척 {scales} 로 그려진다 — "
+                       "같은 단위는 한 레인(한 축척)에 두고 카메라가 그 안에서 움직인다(UF-135)")
+    return out
+
+
+def unplated_end_labels(t: float, lane: str, placed: list) -> list[str]:
+    """판 없이 그린 끝값 라벨(v7.4.0 back_and_forth D-0277 §2) — 강조 띠·채움 위에서 대비가 죽는다. 기록 (기준선, 값, 글자 상자, 판 사각형|None)."""
+    return [f"[series-label-overlap] t={t:.2f} 레인 {lane} 끝값 라벨 {tuple(round(v, 1) for v in p[2])} 판 없음 — 띠·강조 채움 위 대비"
+            " (rules stage_timeline.series.end_label_plate, D-0277 §2)" for p in placed if len(p) < 4 or p[3] is None]
+
+
+def check_series_label_overlap(P) -> list[str]:  # noqa: ANN001, N803
+    """[series-label-overlap] hard(v7.4.0 back_and_forth D-0256) — 같은 레인에 series 둘 이상이 떠 있는 순간, 실제로 그린 끝값 라벨
+    글자 상자(engine.layers.series.place_end_label 기록)가 서로 교차하면 실패. 그런 구간만 1초 간격으로 프레임을 그려 잰다."""
+    ser = [e for e in P.events if e.get("type") == "series" and e.get("style") != "projection"]
+    if not ser:
+        return []
+    from engine.layers.series import axis_label_boxes  # noqa: PLC0415
+    from engine.render import render_frame  # noqa: PLC0415
+
+    world = chart_world(P)
+    times: set[float] = set()
+    for a in ser:   # v7.4.0 — 끝값 라벨 ↔ 축 눈금 라벨(감독 지적 preview_v8)도 보므로 시리즈 하나여도 1초 간격
+        times |= {round(a["t0"] + k, 2) for k in range(int(max(0.0, a["t1"] - a["t0"])) + 1)}
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    rng = P.R.cache.get("series_range") or {}
+    out: list[str] = []
+    for t in sorted(times):
+        P.R.cache.pop("series_end_labels", None)   # 이 프레임에 그린 라벨만
+        render_frame(P, min(P.n_frames - 1, max(0, int(t * FPS))))
+        reg = P.R.cache.get("series_end_labels") or {}
+        for lane, placed in (reg.get("lanes") or {}).items():
+            boxes = [p[2] for p in placed]
+            out += unplated_end_labels(t, lane, placed)   # v7.4.0 D-0277 §2 — 끝값 라벨 ↔ 띠·강조 채움: 판이 곧 장치
+            for i, a in enumerate(boxes):
+                for b in boxes[i + 1:]:
+                    if a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]:
+                        out.append(f"[series-label-overlap] t={t:.2f} 레인 {lane} 끝값 라벨 {tuple(round(v, 1) for v in a)} ↔ "
+                                   f"{tuple(round(v, 1) for v in b)} — rules stage_timeline.series.end_label_min_gap_px")
+            v = _series_view(P, world, t)
+            if v is None or lane not in rng:
+                continue
+            unit = next(load_series_unit(e) for e in ser if e["lane"] == lane)
+            for a in boxes:
+                for b in axis_label_boxes(ctx, v, world[0], lane, rng[lane], unit, boxes):   # 그리기와 같이 겹치는 눈금 라벨은 생략된다
+                    if a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]:
+                        out.append(f"[series-label-overlap] t={t:.2f} 레인 {lane} 끝값 라벨 {tuple(round(x, 1) for x in a)} ↔ 축 눈금 라벨 "
+                                   f"{tuple(round(x, 1) for x in b)} — 끝값 라벨이 비키지 못했다")
+    return list(dict.fromkeys(out))
+
+
+def load_series_unit(e: dict) -> str:
+    from data.series import load_series  # noqa: PLC0415
+
+    return load_series(e["series_id"]).unit
+
+
+def _series_view(P, world, t: float) -> "View | None":  # noqa: ANN001, N803
+    """끝값 라벨을 그린 좌표계의 뷰 — 시간축 주 무대(틀 원점 포함) 또는 차트 아일랜드(상자 원점 0, 그리기가 상자로 옮긴 좌표)."""
+    if world is None:
+        return None
+    st = P.R.stage
+    if st.name == "timeline":
+        return View(st, P.cams[min(P.n_frames - 1, max(0, int(t * FPS)))])
+    chart = P.R.cache.get("island_chart")
+    isl = next((e for e in P.events if e.get("type") == "island" and e.get("kind") == "chart" and e["t0"] <= t <= e["t1"]), None)
+    if not chart or isl is None:
+        return None
+    from engine.island import chart_view, island_box  # noqa: PLC0415
+
+    return chart_view(chart, t, island_box(isl))
+
+
+def chart_text_boxes(stage, v: View, events: list[dict], t: float, rng: dict, dx: float = 0.0,  # noqa: ANN001
+                     dy: float = 0.0) -> list[tuple[str, tuple]]:
+    """시간축 세계의 글자 상자(화면 설계 px) — 레인 이름·레인 출처 줄·축 값(그리는 함수와 같은 자리). dx·dy = 아일랜드 상자 원점."""
+    import cairo  # noqa: PLC0415
+
+    from engine.layers.series import axis_label_values, fmt_value, lane_name, source_line_boxes, value_y  # noqa: PLC0415
+    from engine.typography import tw  # noqa: PLC0415
+
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    L, S = TIMELINE.lane_label, TIMELINE.series  # noqa: N806
+    out: list[tuple[str, tuple]] = []
+    for i, ln in enumerate(stage.lanes):
+        top, _ = stage.lane_screen(v, i)
+        x0 = v.ox + L.x
+        out.append((f"레인 이름 {ln.id}", (x0 + dx, top + L.dy - L.size + dy, x0 + tw(ctx, lane_name(ln), L.size, L.font) + dx, top + L.dy + dy)))
+    for e in events:
+        if e.get("type") != "series" or not e["t0"] <= t <= e["t1"] or e.get("slot", 0):
+            continue
+        for k, (s, sx, by) in enumerate(source_line_boxes(ctx, v, stage, e)):   # v7.4.0 D-0265 — 접힌 줄마다(그리기와 같은 자리)
+            out.append((f"출처 줄 {e['lane']}" + (f" {k + 1}" if k else ""), (sx + dx, by - S.source_size + dy, sx + tw(ctx, s, S.source_size, S.source_font) + dx, by + dy)))
+        r = rng.get(e["lane"])
+        if r is None:
+            continue
+        from data.series import load_series  # noqa: PLC0415
+
+        unit = load_series(e["series_id"]).unit
+        for val in axis_label_values(v, stage, e["lane"], r):   # v7.4.0 D-0263·D-0268 — 라벨을 단 축 값만(그리기와 같은 값)
+            _, sy = v.to_screen(0.0, value_y(stage, e["lane"], r, val))
+            s = fmt_value(val, unit)
+            x1 = v.right - S.axis_label_margin_px
+            out.append((f"축 값 {e['lane']} {s}", (x1 - tw(ctx, s, S.axis_label_size, S.axis_label_font) + dx,
+                                                  sy + S.axis_label_dy - S.axis_label_size + dy, x1 + dx, sy + S.axis_label_dy + dy)))
+    return out
+
+
+FLAT_LANE_STEP_SEC = 0.5   # 카메라가 보여 준 날짜 구간 표본 간격
+
+
+def chart_world(P) -> "tuple[object, object, list[dict]] | None":  # noqa: ANN001, N803
+    """시간축 세계 (무대, 카메라 배열, 시간축 이벤트) — 시간축 주 무대, 아니면 차트 아일랜드(v7.4.0 — 같은 장치를 두 경로에, C12 §3)."""
+    st = P.R.stage
+    if st.name == "timeline":
+        return st, P.cams, P.events
+    chart = (getattr(P.R, "cache", None) or {}).get("island_chart")
+    if chart:
+        return chart["stage"], chart["cams"], chart["events"]
+    return None
+
+
+def visited_dates(st, P, cams=None) -> "tuple[date, date] | None":  # noqa: ANN001, N803
+    """영상 동안 카메라가 화면에 보여 준 날짜 구간 — 프레임 표본의 보이는 x 범위 합(cams 없으면 주 무대 카메라)."""
+    from datetime import timedelta  # noqa: PLC0415
+
+    cams = P.cams if cams is None else cams
+    if cams is None:
+        return None
+    xs0, xs1 = math.inf, -math.inf
+    for i in range(0, len(cams), max(1, int(FLAT_LANE_STEP_SEC * FPS))):
+        v = View(st, cams[i])
+        xs0, xs1 = min(xs0, v.x0), max(xs1, v.x0 + v.w)
+    if xs0 == math.inf:
+        return None
+    to_d = lambda x: st.cfg.start + timedelta(days=round(st.date_of(max(0.0, x))))  # noqa: E731
+    return to_d(xs0), to_d(xs1)
+
+
+def flat_lanes(P) -> list[tuple[str, float, tuple[float, float]]]:  # noqa: ANN001, N803
+    """(레인, 그려진 세로 폭 ÷ 레인 값 범위, 보인 값 범위) — 카메라가 보여 준 날짜 구간 안의 그 레인 레코드 값으로 잰다(v7.4.0 D-0263)."""
+    from data.series import load_series  # noqa: PLC0415
+    from engine.layers.series import record_ids  # noqa: PLC0415
+
+    from engine.layers.series import record_points  # noqa: PLC0415
+
+    world = chart_world(P)
+    rng = P.R.cache.get("series_range") or {}
+    if world is None or not rng:
+        return []
+    st, cams, events = world
+    span = visited_dates(st, P, cams)
+    out = []
+    for lane, (lo, hi) in rng.items():
+        vs = [v for e in events if e.get("type") == "series" and e.get("lane") == lane for sid in record_ids(e)
+              for d, v in record_points(load_series(sid)) if span is None or span[0] <= d <= span[1]]   # 전망 점(scatter)도 그려진 데이터
+        if not vs or hi <= lo:
+            continue
+        out.append((lane, (max(vs) - min(vs)) / (hi - lo), (min(vs), max(vs))))
+    return out
+
+
+def plot_height(P) -> "tuple[float, float] | None":  # noqa: ANN001, N803
+    """(플롯 세로 합 px, 액자 안쪽 높이 px) — 시간축 주 무대 틀 또는 차트 아일랜드 상자. series 없으면 None(P5).
+    플롯 = 값 레인 띠 세로 합(레인 수 × 세로 척도). provenance plot_height 와 검사 [plot-height] 가 같은 값을 쓴다."""
+    cw = chart_world(P)
+    if cw is None or not any(e["type"] == "series" for e in cw[2]):
+        return None
+    st = cw[0]
+    plot = st.n * st.y_px_per_unit
+    if getattr(st, "island", False):
+        from engine.island import island_box  # noqa: PLC0415
+
+        hs = [island_box(e)[3] for e in P.events if e["type"] == "island" and e.get("kind") == "chart"]
+        return (plot, max(hs)) if hs else None
+    frame = getattr(st, "frame", None)
+    return (plot, frame[3]) if frame is not None else None
+
+
+def check_clip_frame(P) -> list[str]:  # noqa: ANN001, N803
+    """[clip-frame] hard(v7.4.0 back_and_forth D-0274 §2①②, 사용자 의견 UF-141 "영상도 메인 요소야 … 보충물로서 쓰지 말고") —
+    main 클립(clip.role 기본)이 액자 슬롯 clip_frame 밖이거나, 보이는 길이가 역할 범위(rules media_beats.clip_show_sec)를 벗어나면 실패."""
+    rng = R_.media_beats.clip_show_sec
+    out = []
+    for e in P.events:
+        if e["type"] != "clip":
+            continue
+        role = e.get("role", "main")
+        if role == "main" and e.get("frame") != "clip_frame":
+            out.append(f"[clip-frame] 클립 {e['mid']} t={e['t0']:.2f} 이 구석 상자 — 레퍼런스 영상(role main)은 액자 clip_frame 만."
+                       " 현장 보조면 role: broll(UF-141)")
+        lo, hi = rng[role]
+        if not lo <= e["t1"] - e["t0"] <= hi:
+            out.append(f"[clip-frame] 클립 {e['mid']} t={e['t0']:.2f} 길이 {e['t1'] - e['t0']:.1f}초 — {role} 범위 {lo:g}~{hi:g}초(D-0276)")
+    return out
+
+
+def check_axis_empty_band(P) -> list[str]:  # noqa: ANN001, N803
+    """[axis-empty-band] hard(v7.4.0 back_and_forth D-0277 §3, 사용자 의견 UF-142 "세로축을 늘리란 말이야") — 축 범위 중 데이터 극값
+    (무대 기간 안 실측 + 전망 점) 밖 빈 띠가 한쪽이라도 rules stage_timeline.lane_range.empty_band_max_ratio 를 넘으면 실패.
+    플롯은 커졌는데 데이터가 그 안 일부만 쓰는 반쪽 확대(econ 3~5% 의 위 0.5%p)를 잡는다."""
+    from engine.layers.series import empty_bands  # noqa: PLC0415
+
+    world = chart_world(P)
+    rng = P.R.cache.get("series_range") or {}
+    if world is None or not rng:
+        return []
+    st, _, events = world
+    mx = TIMELINE.lane_range.empty_band_max_ratio
+    out = []
+    for lane, r in rng.items():
+        if TIMELINE.lane_range.mode == "zero":
+            continue
+        lo_r, hi_r = empty_bands(events, lane, r, st)
+        for side, v in (("아래", lo_r), ("위", hi_r)):
+            if v > mx + 1e-9:
+                out.append(f"[axis-empty-band] 레인 {lane}: 축 {r[0]:g}~{r[1]:g} 중 {side} 빈 띠 {v:.0%} > {mx:.0%} — 범위를 데이터 극값의"
+                           " 눈금 내림·올림으로(D-0277 §3, UF-142)")
+    return out
+
+
+def check_plot_height(P) -> list[str]:  # noqa: ANN001, N803
+    """[plot-height] hard(v7.4.0 back_and_forth D-0274 §1①, 사용자 의견 UF-142 "그 두 개를 그냥 합쳐서 세로축을 늘리란 말이야") —
+    플롯 세로 합 < 액자 안쪽 높이 × rules island.chart.plot_min_ratio. 레인을 쌓아 차트가 눌리면 실패(UF-137·140 부류)."""
+    ph = plot_height(P)
+    mn = ISLAND.chart.plot_min_ratio
+    if ph is None or ph[0] >= ph[1] * mn:
+        return []
+    return [f"[plot-height] 플롯 세로 {ph[0]:.0f}px = 액자 안쪽 {ph[1]:.0f}px 의 {ph[0] / ph[1]:.0%} < {mn:.0%} — 레인을 줄여(사건은 선 위 핀)"
+            " 값 레인이 액자 세로를 쓰게 한다(UF-142)"]
+
+
+def check_flat_lane(P) -> list[str]:  # noqa: ANN001, N803
+    """[flat-lane] hard(v7.4.0 back_and_forth D-0263, 사용자 의견 UF-140 "변동이 크지 않은 데이터… 가로로 펼쳐진 직선으로밖에 안보인다") —
+    화면에 보인 구간의 선·계단 세로 폭이 레인 값 범위 × rules stage_timeline.lane_range.flat_lane_min_ratio 미만. 경고로 낮추지 않는다."""
+    mn = TIMELINE.lane_range.flat_lane_min_ratio
+    return [f"[flat-lane] 레인 {lane}: 화면에 보인 값 {a:g}~{b:g} 가 레인 범위의 {r:.0%} < {mn:.0%} — 무대 기간(stage_config.timeline start·end)을"
+            " 보이는 구간에 맞추거나(값 범위는 무대 기간 데이터로 정해진다) 그 레인을 뺀다(UF-140)" for lane, r, (a, b) in flat_lanes(P) if r < mn]
+
+
+MEDIA_DENSITY_TYPES = ("photo", "clip", "cutout", "backdrop")   # v7.4.0 D-0261 — 실사 이벤트(기사·인셋·뱃지는 세지 않는다). D-0265 §5 — 배경 사진(backdrop)도 실사, 이벤트마다 1장
+
+
+def media_density(events: list[dict], total_sec: float) -> tuple[int, float]:
+    """(실사 이벤트 수, 분당 개수) — provenance 와 검사 [media-density] 가 같은 값을 쓴다(P5)."""
+    n = sum(1 for e in events if e.get("type") in MEDIA_DENSITY_TYPES)
+    return n, n / max(total_sec / 60.0, 1e-9)
+
+
+def check_media_density(P) -> list[str]:  # noqa: ANN001, N803
+    """[media-density] hard(v7.4.0 back_and_forth D-0261, 사용자 의견 UF-139 "레퍼런스 사진이나 영상 풍부하게") — 사진·영상·컷아웃 이벤트가
+    분당 rules media_beats.min_density_per_min 미만이면 실패. 사유로 통과 없음. 회귀 기준(density_exempt_projects)만 제외."""
+    MB = R_.media_beats  # noqa: N806
+    if P.root.name in MB.density_exempt_projects:
+        return []
+    n, d = media_density(P.events, P.plan.total)
+    if d >= MB.min_density_per_min:
+        return []
+    need = math.ceil(MB.min_density_per_min * P.plan.total / 60.0)
+    return [f"[media-density] 사진·영상·컷아웃 {n}개 / {P.plan.total / 60:.1f}분 = 분당 {d:.2f} < {MB.min_density_per_min:g} — {need}개 이상 필요. "
+            "tools/media_fetch.py search 로 찾아 등재하고 연출에 넣는다(UF-139, 사유로 통과 없음)"]
+
+
+def element_gaps(P) -> list[tuple[float, float]]:  # noqa: ANN001, N803
+    """화면 요소 공백 구간(v7.4.0 UF-160, rules qa_checks.element_gap) — step_sec 표본. 타이틀·엔딩 카드 구간은 끊는다.
+    요소 = element_types 가 떠 있음 또는 appear_types 가 나타난 뒤 appear_hold_sec 안."""
+    C = QA.element_gap  # noqa: N806
+    if C is None:
+        return []
+    fg = [(e["t0"], e["t1"]) for e in P.events if e["type"] in C.element_types]
+    fg += [(e["t0"], min(e["t1"], e["t0"] + C.appear_hold_sec)) for e in P.events if e["type"] in C.appear_types]
+    runs: list[tuple[float, float]] = []
+    start: float | None = None
+    for i in range(int(P.plan.total / C.step_sec) + 1):
+        t = i * C.step_sec
+        busy = P.R.tb.in_fullcard(t) or any(a <= t <= b for a, b in fg)
+        if not busy and start is None:
+            start = t
+        elif busy and start is not None:
+            runs.append((round(start, 2), round(t, 2)))
+            start = None
+    if start is not None:
+        runs.append((round(start, 2), round(P.plan.total, 2)))
+    return runs
+
+
+def check_element_gap(P) -> list[str]:  # noqa: ANN001, N803
+    """[element-gap] hard(v7.4.0 UF-160 "거의 아무것도 안뜨고 자막과 나레이션만 나오는 구간") — 화면 요소 공백이 max_sec 초과면 실패.
+    회귀 기준(exempt_projects)만 hard 를 뺀다."""
+    C = QA.element_gap  # noqa: N806
+    if C is None or P.root.name in C.exempt_projects:
+        return []
+    return [f"[element-gap] {a:.1f}~{b:.1f}초 ({b - a:.1f}초) 지도·자막만 보인다 — 상한 {C.max_sec:g}초. 사진·기사·인용·패널·뱃지나 새 지도 요소를 넣는다(UF-160)"
+            for a, b in element_gaps(P) if b - a > C.max_sec]
+
+
+def check_label_banned_terms(P) -> list[str]:  # noqa: ANN001, N803
+    """[label-banned-terms] hard(v7.4.0 UF-161 "경로 개략, 좌표 비공개 라는 문구는 빼") — 지도 라벨에 고지 낱말이 있으면 실패. 고지는 엔딩 표기 행으로."""
+    C = QA.label_banned_terms  # noqa: N806
+    if C is None:
+        return []
+    out = []
+    for e in P.events:
+        if e["type"] not in C.event_types:
+            continue
+        for f in C.fields:
+            v = e.get(f)
+            hit = [w for w in C.terms if isinstance(v, str) and w in v]
+            if hit:
+                out.append(f"[label-banned-terms] {e['type']} t={e['t0']:.1f} {f}={v!r} — 고지 낱말 {hit} 는 지도 라벨에 쓰지 않는다(엔딩 카드 표기 행으로, UF-161)")
+    return out
+
+
+def check_badge_hold(P) -> list[str]:  # noqa: ANN001, N803
+    """[badge-hold] hard(v7.4.0 UF-162 "뱃지가 나오는데 너무 빨리 사라져") — 뱃지 노출 < min_hold_sec 면 실패.
+    뱃지 끝 ±handoff_sec 안에 사진·영상(handoff_types)이 시작하면(같은 장면을 실사로 넘김) 예외."""
+    C = QA.badge_hold  # noqa: N806
+    if C is None:
+        return []
+    starts = [e["t0"] for e in P.events if e["type"] in C.handoff_types]
+    out = []
+    for b in (e for e in P.events if e["type"] == "badge"):
+        dur = b["t1"] - b["t0"]
+        if dur >= C.min_hold_sec or any(abs(s - b["t1"]) <= C.handoff_sec for s in starts):
+            continue
+        out.append(f"[badge-hold] 뱃지 {b.get('label') or b.get('pid')!r} t={b['t0']:.1f} 노출 {dur:.1f}초 < {C.min_hold_sec:g}초 — "
+                   "다음 문장 끝이나 장면 끝까지 띄운다(UF-162)")
+    return out
+
+
+def check_chart_edge_bleed(P) -> list[str]:  # noqa: ANN001, N803
+    """[chart-edge-bleed] hard(v7.4.0 back_and_forth D-0257, 사용자 의견 UF-137 "금리 차트가 화면 좌우에 다 꽉차서") — 시간축 세계(주 무대
+    timeline·차트 아일랜드)의 레인 이름·출처 줄·축 값 글자 상자가 그 틀(주 무대 = rules stage_timeline.frame, 아일랜드 = 상자) 밖에 닿으면 실패.
+    시간축 주 무대에 틀이 없으면(화면 가득) 그 자체로 실패. 문장마다 가운데 시각에 잰다."""
+    out: list[str] = []
+    st = P.R.stage
+    chart = P.R.cache.get("island_chart")
+    rng = P.R.cache.get("series_range") or {}
+    if st.name == "timeline":
+        if getattr(st, "frame", None) is None:
+            return ["[chart-edge-bleed] 시간축 주 무대에 틀(rules stage_timeline.frame)이 없다 — 레인이 화면 가장자리까지 찬다(UF-137)"]
+        fx, fy, fw, fh = st.frame
+        for s in P.plan.sentences:
+            t = (s.t0 + s.t1) / 2
+            v = View(st, P.cams[min(P.n_frames - 1, max(0, int(t * FPS)))])
+            for name, b in chart_text_boxes(st, v, P.events, t, rng):
+                if b[0] < fx or b[2] > fx + fw or b[1] < fy or b[3] > fy + fh:
+                    out.append(f"[chart-edge-bleed] t={t:.2f} {name} 상자 {tuple(round(x, 1) for x in b)} 가 틀 {st.frame} 밖에 닿는다")
+        # v7.4.0 D-0259 — 덮개(카드·프리미티브·사진·뱃지 등) 상자가 틀 테두리에 걸치면(일부만 안) 실패. 완전히 밖이면 틀과 무관
+        cfg = R_.qa_checks.card_over_panel
+        ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+        for e in P.events:
+            if cfg is None or e["type"] not in cfg.timeline_frame_cover_types:
+                continue
+            t = (e["t0"] + e["t1"]) / 2
+            for b in timeline_cover_box(P, ctx, e, t) or []:
+                inside = b[0] < fx + fw and b[2] > fx and b[1] < fy + fh and b[3] > fy
+                within = b[0] >= fx and b[2] <= fx + fw and b[1] >= fy and b[3] <= fy + fh
+                if inside and not within:
+                    out.append(f"[chart-edge-bleed] t={t:.2f} {e['type']} {e.get('tag') or e.get('label') or e.get('mid') or ''!s} 상자 "
+                               f"{tuple(round(x, 1) for x in b)} 가 틀 {st.frame} 테두리에 걸친다 — 틀 안에 담거나 밖에 둔다(D-0259)")
+    elif chart is not None:
+        from engine.island import chart_view, island_box  # noqa: PLC0415
+
+        cst = chart["stage"]
+        for e in P.events:
+            if e.get("type") != "island" or e.get("kind") != "chart":
+                continue
+            bx, by_, bw, bh = island_box(e)
+            for s in P.plan.sentences:
+                t = (s.t0 + s.t1) / 2
+                if not e["t0"] <= t <= e["t1"]:
+                    continue
+                v = chart_view(chart, t, (bx, by_, bw, bh))
+                for name, b in chart_text_boxes(cst, v, chart["events"], t, rng, bx, by_):
+                    if b[0] < bx or b[2] > bx + bw or b[1] < by_ or b[3] > by_ + bh:
+                        out.append(f"[chart-edge-bleed] t={t:.2f} 아일랜드 {name} 상자 {tuple(round(x, 1) for x in b)} 가 상자 밖에 닿는다")
+    out += projection_hold_issues(P)   # v7.4.0 D-0277 §1
+    return list(dict.fromkeys(out))
+
+
+PROJ_HOLD_MIN_SEC = 0.5   # v7.4.0 D-0277 §1 — 카메라가 이만큼 멈춰 있으면 "머무는 창"(이동 보간 중 통과는 허용)
+
+
+def camera_holds(cams: np.ndarray) -> list[int]:
+    """카메라가 PROJ_HOLD_MIN_SEC 이상 멈춘 구간마다 가운데 프레임 번호."""
+    if cams is None or len(cams) < 2:
+        return []
+    still = np.r_[False, np.all(np.abs(np.diff(cams, axis=0)) < 1e-6, axis=1)]
+    out, i, n = [], 0, len(cams)
+    while i < n:
+        if not still[i]:
+            i += 1
+            continue
+        j = i
+        while j < n and still[j]:
+            j += 1
+        if j - i + 1 >= PROJ_HOLD_MIN_SEC * FPS:
+            out.append((i - 1 + j) // 2)
+        i = j
+    return out
+
+
+def projection_hold_views(P) -> list[tuple[float, object, list[dict]]]:  # noqa: ANN001, N803
+    """(시각, 그 프레임의 시간축 뷰, 시간축 이벤트) — 카메라가 머무는 창마다(주 무대 timeline 또는 그 시각 차트 아일랜드)."""
+    st = P.R.stage
+    if st.name == "timeline":
+        return [(i / FPS, View(st, P.cams[i]), P.events) for i in camera_holds(P.cams)]
+    chart = (getattr(P.R, "cache", None) or {}).get("island_chart")
+    if not chart:
+        return []
+    from engine.island import chart_view, island_box  # noqa: PLC0415
+
+    isl = [e for e in P.events if e.get("type") == "island" and e.get("kind") == "chart"]
+    out = []
+    for i in camera_holds(chart["cams"]):
+        t = i / FPS
+        e = next((x for x in isl if x["t0"] <= t <= x["t1"]), None)
+        if e is not None:
+            out.append((t, chart_view(chart, t, island_box(e)), chart["events"]))
+    return out
+
+
+def projection_column_issues(ctx: cairo.Context, st, v, t: float, events: list[dict], rng: dict) -> list[str]:  # noqa: ANN001
+    """한 머무는 창의 전망 열 판정(v7.4.0 back_and_forth D-0277 §1) — ① 열(점 묶음)이 플롯 가장자리에 점 반지름 이상 잘리면 실패
+    ② 전망 열이 하나라도 보이는데 같은 레인 마지막 실측 점이 플롯 밖이면 실패(선 → 점 연속, C0 chart_world)."""
+    from data.series import load_series  # noqa: PLC0415
+    from engine.layers.series import _dot_rules, projection_dots, record_ids, record_points  # noqa: PLC0415
+    from engine.pin_labels import plot_bounds  # noqa: PLC0415
+
+    out = []
+    r = _dot_rules().dot_r
+    stag = TIMELINE.projection.column_stagger_sec
+    for e in events:
+        if e.get("type") != "series" or e.get("style") != "projection" or not e["t0"] <= t <= e["t1"] or e["lane"] not in rng:
+            continue
+        rec = load_series(e["series_id"])
+        L, _, R, _ = plot_bounds(ctx, v, st, e["lane"], rng[e["lane"]], rec.unit)
+        seen = False
+        for i, label, x, pts, _ in projection_dots(st, e, rec, rng[e["lane"]]):
+            if t < e["t0"] + i * stag:
+                continue
+            sx, _ = v.to_screen(x, 0.0)
+            c0, c1 = sx + min(dx for dx, _ in pts) - r, sx + max(dx for dx, _ in pts) + r
+            if c1 <= L or c0 >= R:
+                continue
+            seen = True
+            cut = max(0.0, L - c0) + max(0.0, c1 - R)
+            if cut >= r:
+                out.append(f"[chart-edge-bleed] t={t:.2f} 전망 열 {label} 이 플롯 가장자리에 {cut:.0f}px 잘린 채 카메라가 머문다 — 완전히 안 또는"
+                           " 완전히 밖으로(D-0277 §1)")
+        if not seen:
+            continue
+        last = max((d for o in events if o.get("type") == "series" and o.get("lane") == e["lane"] and o.get("style") != "projection"
+                    for sid in record_ids(o) for d, _ in record_points(load_series(sid))), default=None)
+        if last is not None:
+            ax, _ = v.to_screen(st.x_of(last), 0.0)
+            if not L <= ax <= R:
+                out.append(f"[chart-edge-bleed] t={t:.2f} 전망 열이 보이는 머무는 창에 마지막 실측 점({last})이 없다 — 선 → 점 연속이 끊긴다(D-0277 §1, C0)")
+    return out
+
+
+def projection_hold_issues(P) -> list[str]:  # noqa: ANN001, N803
+    """[chart-edge-bleed] 전망 열 홀드 판정(v7.4.0 D-0277 §1, rules stage_timeline.projection.hold_clip)."""
+    if TIMELINE.projection.hold_clip != "hard":
+        return []
+    rng = P.R.cache.get("series_range") or {}
+    world = chart_world(P)
+    if world is None or not rng:
+        return []
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    st = world[0]
+    return [s for t, v, ev in projection_hold_views(P) for s in projection_column_issues(ctx, st, v, t, ev, rng)]
+
+
+def catalog_label_times(P) -> list[float]:  # noqa: ANN001, N803
+    """라벨 비교차 표본 — 문장마다 시작·가운데·끝(자막이 바뀌는 순간과 가장 긴 자막을 덮는다)."""
+    return sorted({round(t, 3) for s in P.plan.sentences for t in (s.t0 + 0.05, (s.t0 + s.t1) / 2, s.t1 - 0.05) if s.t1 > s.t0})
+
+
+def check_catalog_label_overlap(P) -> list[str]:  # noqa: ANN001, N803
+    """[catalog-label-overlap] hard(v7.4.0 D-0251 §1.1) — 카탈로그 판 라벨 상자(그리기와 같은 label_box)가 날짜 뱃지 상자·자막 글자 상자와 교차.
+    카탈로그 판만(전편·콘티 판은 라벨이 없다 → 빈 목록). 표본 시각마다 실제 프레임을 그려 그 프레임의 라벨 줄로 잰다."""
+    if not getattr(P, "catalog", False):
+        return []
+    import cairo  # noqa: PLC0415
+
+    from engine.hud import date_box  # noqa: PLC0415
+    from engine.layers.catalog import label_box  # noqa: PLC0415
+    from engine.render import render_frame  # noqa: PLC0415
+    from engine.subtitles import subtitle_boxes  # noqa: PLC0415
+
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    out: list[str] = []
+    for t in catalog_label_times(P):
+        render_frame(P, min(P.n_frames - 1, max(0, int(t * FPS))))
+        lines = P.R.cache["catalog"]["last"]["lines"]
+        if not lines:   # 전면 카드 구간 — 라벨을 그리지 않는다
+            continue
+        lb = label_box(lines)
+        others = [("날짜 뱃지", date_box())] + [("자막", b) for b in subtitle_boxes(ctx, P.R.tb, t)]
+        for name, b in others:
+            if lb[0] < b[2] and b[0] < lb[2] and lb[1] < b[3] and b[1] < lb[3]:
+                out.append(f"[catalog-label-overlap] t={t:.2f} 라벨 {tuple(round(v, 1) for v in lb)} ↔ {name} {tuple(round(v, 1) for v in b)}")
+    return out
 
 
 HONESTY = ("chart_honesty", "series_limit_3", "units_visible", "as_of_visible")   # engine.honesty.judge 가 내는 id

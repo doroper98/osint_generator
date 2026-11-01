@@ -101,7 +101,7 @@ class SeriesEvent(_Event):
     type: Literal["series"]
     lane: str
     series_id: str
-    style: Literal["step", "line", "band"]
+    style: Literal["step", "line", "band", "projection"]   # projection = v7.4.0 D-0260 §2 — scatter 레코드(전망 점, rules stage_timeline.projection)
     color_by: Literal["fixed", "change"] = "fixed"   # v4.4.0 D-0091 ② — change: 레코드 값 변화로 달마다 장르 색 의미 hike·cut·hold(코드 계산)
     upper_id: Optional[str] = None   # v4.4.0 D-0090 작업 2 — band: series_id = 아래 끝 레코드, upper_id = 위 끝 레코드(목표 범위 띠)
     grow: bool = True
@@ -373,6 +373,8 @@ class PhotoEvent(_Event):
 class ClipEvent(_Event):
     type: Literal["clip"]
     mid: str
+    role: Literal["main", "broll"] = "main"   # v7.4.0 D-0274 §2① — main = 주 요소(액자 clip_frame·원음), broll = 현장 보조(구석 슬롯)
+    audio: Optional[Literal["main", "broll"]] = None   # v7.4.0 D-0276 — 원음 이득을 배치 role 과 따로: None=role 과 같게, broll=현장음(발언이 아닌 전투·현장 영상을 액자(main)로 크게 보이되 소리는 낮게, geo strikes)
     x: Optional[float] = None
     y: Optional[float] = None
     w: Optional[float] = None

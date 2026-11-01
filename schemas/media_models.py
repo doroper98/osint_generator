@@ -92,7 +92,8 @@ class MediaAsset(_Strict):
     photo_url: Optional[str] = None       # 받은 사진 원본 URL(url = 기사 페이지)
     user_exception: Optional[str] = Field(default=None, pattern=r"^(D\d+|U\d{8})$")
     exception: Optional[str] = None       # 예외 문구(결정 번호·근거·"공개 배포 전 재확인")
-    # v7.3.0 사용자 결정 D234 — 비공개 시청 한정 자산(상업 위성 타일). rules media_beats.inset_licenses 의 private_only 라이선스면 필수
+    # v7.3.0 사용자 결정 D234 — 비공개 시청 한정 자산(상업 위성 타일). rules media_beats.inset_licenses 의 private_only 라이선스면 필수.
+    # v7.4.0 사용자 결정 D264 — 저작권 있는 공개 영상(회견·인터뷰·방송) 클립도 scope private_only + rights_status restricted 로 기록만(막는 검사 없음)
     scope: Optional[Literal["private_only"]] = None
 
     @model_validator(mode="after")
@@ -145,8 +146,11 @@ class MediaAsset(_Strict):
                 return [f"위성 인셋 라이선스가 허용 목록 밖: {self.license!r} (rules media_beats.inset_licenses)"]
             if allowed[self.license].private_only != (self.scope == "private_only"):
                 errs.append(f"라이선스 {self.license!r} 의 private_only={allowed[self.license].private_only} 인데 scope={self.scope!r} (사용자 결정 D234)")
+        elif self.kind == "video" and self.scope == "private_only":   # v7.4.0 사용자 결정 D264 — 비공개 시청 전제, 저작권 있는 공개 영상은 권리를 기록만
+            if self.rights_status != "restricted":
+                errs.append(f"비공개 시청 한정 영상(scope private_only)은 rights_status restricted 로 적는다(권리 확인 자산이 아니다, D264): {self.rights_status}")
         elif self.scope is not None:
-            errs.append("scope private_only 는 위성 인셋(kind inset)만 — 그 밖 자산은 비공개 예외가 없다(D234)")
+            errs.append("scope private_only 는 위성 인셋·영상(kind inset·video)만 — 그 밖 자산은 비공개 예외가 없다(D234·D264)")
         return errs
 
     def _press_quote_errors(self) -> list[str]:

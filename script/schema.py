@@ -37,6 +37,16 @@ class MediaCue(_Strict):
         return self
 
 
+class ClipHold(_Strict):
+    """발언 자리(v7.4.0 back_and_forth D-0274 §2③·D-0276, 사용자 의견 UF-141) — 이 문장 뒤 내레이션 없이 클립 원음만 sec 초.
+    subtitle = 화면 자막(발언 원문의 한국어 번역, 줄 단위 ≤ 2). sources = 원문·시각·녹취록 쪽을 담은 claims id(G4 인용 검증)."""
+
+    mid: str = Field(min_length=1)
+    sec: float = Field(gt=0)
+    subtitle: list[str] = Field(min_length=1, max_length=2)
+    sources: list[str] = Field(min_length=1)
+
+
 class Sentence(_Strict):
     date: str
     text: str
@@ -48,6 +58,7 @@ class Sentence(_Strict):
     # bridge = 시점(시간·무대) 전환 고지 문장(앞에 rules transition.bridge_pause_sec 호흡). 린트 [transition-bridge]·[act-frame].
     # background = 회고·배경 문장(장면 날짜와 멀어도 [transition-in-scene] 경고 없음, D-0230 §2)
     role: Optional[Literal["intro", "outro", "bridge", "background"]] = None
+    hold_after: Optional[ClipHold] = None   # v7.4.0 D-0274 §2③ optional — 이 문장 뒤 발언 자리(클립 원음만)
 
     @field_validator("date")
     @classmethod
@@ -125,6 +136,17 @@ class PlanSentence(_Strict):
     role: Optional[Literal["intro", "outro", "bridge", "background"]] = None   # v7.4.0 optional(D-0229 §2.2) — 원고 Sentence.role 그대로
 
 
+class PlanHold(_Strict):
+    """발언 자리 한 곳(v7.4.0 D-0274 §2③) — 문장 sid 뒤 [t0, t1] 내레이션 없음, 클립 원음 + 번역 자막. 연출 앵커 {hold: sid}."""
+
+    sid: str
+    mid: str
+    t0: float
+    t1: float
+    subtitle: list[str]
+    sources: list[str]
+
+
 class Card(_Strict):
     kind: Literal["title", "end"]
     t0: float
@@ -152,6 +174,7 @@ class Plan(_Strict):
     tts_resynthesized: list[str] = Field(default_factory=list)  # v2.3.0 optional — 정렬이 없어 다시 합성한 문장 id(D34)
     lint_waived: Optional[list[dict[str, str]]] = None  # v5.17.0 optional(D-0168) — 면제로 통과한 린트 [{kind, sid, decided_by}]
     transitions: list[PlanTransition] = Field(default_factory=list)   # v7.4.0 optional(D-0229 §2.2) — provenance transitions[]
+    holds: list[PlanHold] = Field(default_factory=list)   # v7.4.0 optional(D-0274 §2③) — 발언 자리
 
 
 class Fact(_Strict):

@@ -1,0 +1,16 @@
+# showcase_geo 미디어 사유(게이트 ① 미디어 계획 표) — 원고 v1 문장 번호. 사진은 새로 찾지 않는다(D-0251 §1.4 "새 자산은 없어야 정상").
+# 사유는 원 프로젝트 판정(diesel_road_2026 media_notes.yaml·hormuz_korea 등재본)을 옮겼다. 쓰는 실사는 미디어 레지스트리 등재본만.
+schema_version: 1
+sentences:
+  act1_0:
+    photo: 고르지 않음 — 막 도입 문장(호흡). diesel act1_0 판정 그대로(통과 후보는 무관한 젤렌스키 연설 사진뿐). 지도 country 강조·날짜 배지만
+  act1_1:
+    photo: 고르지 않음 — 질문형 도입 문장. diesel act1_1 판정 그대로(드론 시찰 사진은 '정유소를 노린 드론'과 오해 소지). 지도 flight(drone)로
+  act1_2:
+    photo: 고르지 않음 — 수치 문장(사흘에 한 번). diesel act1_3 판정 그대로(통과 후보는 NASA FIRMS 지도, 사진 아님). 지도 위 타격 마커 누적 + 키리시 위성 인셋(등재본 inset_kirishi_esri)
+  act1_4:
+    photo: 등재본 사용 — diesel_road_2026_moscow_fire_0618 'Fire at the Moscow Oil Refinery on June 18, 2026'(Rotafinus, CC0) 자료사진. 문장은 일반 서술이고 사진은 모스크바 정유소 6월 화재 → 캡션에 장소·날짜, 자료사진 표기(diesel act1_7 판정)
+  act3_3:
+    photo: 등재본 영상 사용 — strikes '미 중부사령부 공개 영상 · 이란 군사 목표 타격'(미 국방부, Public domain, hormuz_korea 사용분). 사진 대신 영상(사용 구간은 레지스트리 segment)
+  ending_0:
+    photo: 고르지 않음 — 맺음 요약 문장. diesel ending_0 판정 그대로 — 앞 장면의 지도 마커(랴잔·울산·호르무즈·워싱턴)를 다시 불러 모은다

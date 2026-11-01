@@ -166,6 +166,10 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
         if bs is not None:
             prov["audio"]["bed_bass"] = {"applied": bs.applied.model_dump(), "ratio_db": {"before": bs.before.ratio_db, "after": bs.after.ratio_db},
                                          "rise_db": bs.rise_db, "swell_at": bs.swell_at, "bands_hz": {"bass": list(bs.bass_band_hz), "mid": list(bs.mid_band_hz)}}
+    ca = P.root / "out" / "clip_audio.json"   # v7.4.0 D-0274 §2③ — 믹서가 클립 원음을 섞었을 때만(전편·콘티 판·카탈로그 판 모두 mix.f32 를 쓴다)
+    if (stages.get("mix") or getattr(P, "animatic", False) or getattr(P, "catalog", False)) and ca.exists() \
+            and any(e["type"] == "clip" for e in P.events):
+        prov["audio"]["clip_audio"] = json.loads(ca.read_text(encoding="utf-8"))["clips"]
     if P.R.credits is not None and any(c.kind == "end" for c in P.plan.cards):   # v4.7.0 D-0106 1-C — 엔딩 카드 롤(없으면 기록 없음)
         from engine.fullcards import credit_place, endcard_roll, notice_reserve, project_credit_sections, version_stamp  # noqa: PLC0415
 
@@ -196,7 +200,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     if ic is not None and (ic["card_overlap"] or prov.get("islands")):   # v5.2.0 D-0129 §C — checks [card-island] 와 같은 값
         prov["island"] = {**(prov.get("island") or {}), "card_overlap": ic["card_overlap"]}
         if "label_clip" in ic:   # v5.2.0 D-0133 §2·§3 — checks [island-label-clip]·[island-label-overlap] 와 같은 값, label_flip = 반전·클램프가 실제로 돈 라벨
-            prov["island"].update({k: ic[k] for k in ("label_clip", "label_overlap", "label_flip")})
+            prov["island"].update({k: ic[k] for k in ("label_clip", "label_overlap", "label_flip") if k in ic})
     cas = [e for e in P.events if e["type"] == "cascade"]
     if cas:   # v5.3.0 D-0139 §3·§6 — 겹침 카드(없으면 기록 없음, P5). status = rules cascade.status, hidden_labels = checks [cascade-label-hidden] 와 같은 값
         from engine.checks import cascade_label_report  # noqa: PLC0415
@@ -228,6 +232,31 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
         prov["pacing"] = {"window_sec": pc["window_sec"], "min_changes": pc["min_changes"], "static_windows": pc["static_windows"],
                           "creep": {"ranges": pc["creep"], "w_ratio": pc["creep_w_ratio"]} if pc["creep"] else None}
     prov["animatic"] = bool(getattr(P, "animatic", False))   # v4.9.0 D-0108 — 콘티 판 여부(전편 false, 콘티 판 true + animatic_run)
+    prov["catalog"] = bool(getattr(P, "catalog", False))     # v7.4.0 D-0251 — 카탈로그 판 여부(전편 false, 카탈로그 판 true + catalog_run)
+    from engine.checks import chart_only_runs  # noqa: PLC0415
+
+    prov["chart_only_runs"] = [list(r) for r in chart_only_runs(P)]   # v7.4.0 D-0252 — 차트·카드만 보인 구간(검사 [chart-only-run] 과 같은 값)
+    prov["chart_only_exempt"] = P.root.name in load_rules().qa_checks.chart_only_run.exempt_projects   # v7.4.0 D-0271 ② — 면제 프로젝트도 구간은 기록(hard 만 면제)
+    from engine.checks import flat_lanes, media_density  # noqa: PLC0415
+    from rules import load_rules as _load_rules  # noqa: PLC0415
+    _R = _load_rules()
+
+    md_n, md_v = media_density(P.events, P.plan.total)   # v7.4.0 D-0262 ② — 면제 프로젝트도 검사는 돌고 기록(hard 만 면제)
+    prov["media_density"] = {"count": md_n, "value": round(md_v, 3), "min": _R.media_beats.min_density_per_min,
+                             "exempt": P.root.name in _R.media_beats.density_exempt_projects}
+
+    if P.R.cache.get("series_range"):   # v7.4.0 D-0263 — 레인 값 범위·화면에 보인 세로 폭 비율(검사 [flat-lane] 과 같은 값). series 없으면 기록 없음(P5)
+        fl = {lane: round(r, 3) for lane, r, _ in flat_lanes(P)}
+        prov["lane_range"] = {lane: {"range": list(rng), "visible_ratio": fl.get(lane)} for lane, rng in P.R.cache["series_range"].items()}
+        from engine.checks import plot_height  # noqa: PLC0415
+
+        ph = plot_height(P)   # v7.4.0 D-0274 §1① — 검사 [plot-height] 와 같은 값
+        if ph is not None:
+            prov["plot_height"] = {"plot_px": round(ph[0], 1), "inner_px": round(ph[1], 1), "ratio": round(ph[0] / ph[1], 3),
+                                   "min": _R.island.chart.plot_min_ratio}
+    pl = P.R.cache.get("pin_labels")
+    if pl is not None:   # v7.4.0 D-0274 §1② — 값 레인 위 핀 라벨 단(+1·+2 선 위, −1·−2 아래, None = 점만)·교차(검사 [island-pin-collision] 과 같은 값)
+        prov["pin_labels"] = {"rows": pl["rows"], "dropped": pl["dropped"], "collisions": len(pl["collisions"])}
     prov["stage"] = P.R.cache.get("stage")   # v4.1.0 D-0076 작업 7 — 무대(name·declared·shots_declared·instances)
     from engine.typography import CONTRAST_FIXED as lcf  # noqa: PLC0415 — 프리뷰(같은 프로세스)
     rjf = P.root / "out" / "render.json"
@@ -280,16 +309,18 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
 
 
 class AnimaticDeliverError(RuntimeError):
-    """deliver 가 콘티 판을 받았다(v4.9.0 D-0108 — 배포 사고 방지, 15 P6)."""
+    """deliver 가 콘티 판(또는 카탈로그 판, v7.4.0 D-0251)을 받았다(v4.9.0 D-0108 — 배포 사고 방지, 15 P6)."""
 
 
 def refuse_animatic(video: Path) -> None:
-    """영상 mp4 메타데이터 comment 가 콘티 판 표식(rules animatic.mp4_comment)이면 오류. 콘티 판을 video_noaudio.mp4 로 복사해도 잡는다."""
-    tag = load_rules().animatic.mp4_comment
+    """영상 mp4 메타데이터 comment 가 콘티 판·카탈로그 판 표식(rules animatic.mp4_comment·catalog.mp4_comment)이면 오류.
+    검토용 판을 video_noaudio.mp4 로 복사해도 잡는다."""
+    rules = load_rules()
     r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format_tags=comment", "-of", "default=nw=1:nk=1", str(video)],
                        capture_output=True, text=True, check=True)
-    if r.stdout.strip() == tag:
-        raise AnimaticDeliverError(f"{video.name} 은 콘티 판(animatic)이다 — 배포(deliver) 금지. 전편은 `python -m engine.render <proj> --jobs N`")
+    for name, block in (("콘티 판(animatic)", rules.animatic), ("카탈로그 판(catalog)", rules.catalog)):   # 표식 목록(D-0252 — 비교 한 곳)
+        if r.stdout.strip() == block.mp4_comment:
+            raise AnimaticDeliverError(f"{video.name} 은 {name}이다 — 배포(deliver) 금지. 전편은 `python -m engine.render <proj> --jobs N`")
 
 
 def main(argv: list[str] | None = None) -> int:

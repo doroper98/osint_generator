@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "project_id": "showcase_geo",
+  "task_id": "revise_direction-showcase_geo",
+  "worker": "revise_direction",
+  "status": "failed",
+  "started_at": "2026-10-28T07:18:12.894740Z",
+  "completed_at": "2026-10-28T07:24:51.620910Z",
+  "outputs": [
+    "llm_calls/llm_20261028_071812_981c.json"
+  ],
+  "warnings": [],
+  "errors": [
+    "check_parsed: 지적받지 않은 부분을 바꿨다(17 §5.5):\n지적 없이 변경: flight|drone||{\"off\": -0.4, \"word\": {\"sid\": \"cold_0\", \"text\": \"랴잔\"}}"
+  ],
+  "scene_refs": [],
+  "source_refs": [],
+  "asset_refs": [],
+  "qa_status": "fail",
+  "risk_flags": [],
+  "worker_provenance": {
+    "prompt_name": "revise_direction",
+    "prompt_sha1": "680ee999e42d5e64b22bd152d80cc41209ef5600",
+    "rules_hash": "9d0e5ead25b51c6bb14491c45981a353e9b91556",
+    "genre": null,
+    "genre_declared": null
+  }
+}

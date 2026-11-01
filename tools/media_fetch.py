@@ -118,6 +118,8 @@ def fetch_source(a: MediaAsset, media: Path, restore_from: Path | None = None, t
     if a.url and FLICKR_PAGE_RE.match(a.url):   # v4.4.0 — 기관 공식 Flickr(Commons 가 아님)
         fetch_flickr(a, dest)
         return dest
+    if a.kind == "video" and prm.get("fetch") == "yt-dlp":   # v7.4.0 — Commons 밖 1차 출처 영상(연준·C-SPAN 등), config media.video_fetch
+        return fetch_video(str(prm["url"]), dest)
     kw = {} if tries is None else {"tries": tries}
     ii = commons_fetch.info(a.title, prm.get("thumb_w"))   # 표준 폭만(07 §3.2)
     if not commons_fetch.license_allowed(ii["lic"]) or ii["restrictions"]:
@@ -128,6 +130,38 @@ def fetch_source(a: MediaAsset, media: Path, restore_from: Path | None = None, t
         dest.write_bytes(data)
     else:
         commons_fetch.download(ii, dest)
+    return dest
+
+
+def video_fetch_command(url: str, dest: Path) -> list[str]:
+    """yt-dlp 명령(v7.4.0 UF-141 준비). 허용 도메인·고정 버전 검사 뒤 만든다. 형식·해상도는 config media.video_fetch.
+    쿠키·클라이언트 위장·추출기 인자 같은 봇 검사 우회 옵션은 넣지 않는다 — 막히면 그대로 실패한다."""
+    from urllib.parse import urlparse  # noqa: PLC0415
+
+    from orchestrator.config import load_config  # noqa: PLC0415
+
+    vf = load_config().media.video_fetch
+    if vf is None:
+        raise MediaFetchError("config media.video_fetch 없음 — 영상 받기 설정(허용 도메인·해상도·yt-dlp 버전)을 먼저")
+    host = (urlparse(url).hostname or "").lower()
+    if not any(host == d or host.endswith("." + d) for d in vf.allowed_domains):
+        raise MediaFetchError(f"허용 도메인 밖 영상 주소: {host} — config media.video_fetch.allowed_domains {vf.allowed_domains}")
+    try:
+        got = subprocess.run(["yt-dlp", "--version"], capture_output=True, text=True, check=True).stdout.strip()
+    except (FileNotFoundError, subprocess.CalledProcessError) as ex:
+        raise MediaFetchError(f"yt-dlp 실행 불가: {ex}") from ex
+    if got != vf.yt_dlp_version:
+        raise MediaFetchError(f"yt-dlp 버전 {got} ≠ 고정 {vf.yt_dlp_version} — `pip install yt-dlp=={vf.yt_dlp_version}`")
+    fmt = vf.format.replace("{h}", str(vf.max_height))
+    return ["yt-dlp", "--no-playlist", "--no-progress", "-f", fmt, "--merge-output-format", "mp4", "-o", str(dest), url]
+
+
+def fetch_video(url: str, dest: Path) -> Path:
+    """1차 출처 영상 원본 받기(yt-dlp). 실패하면 오류(조용한 대체 없음, 15 P6)."""
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    r = subprocess.run(video_fetch_command(url, dest), capture_output=True, text=True)
+    if r.returncode != 0 or not dest.exists():
+        raise MediaFetchError(f"영상 받기 실패 {url}: {(r.stderr or r.stdout)[-800:]}")
     return dest
 
 
@@ -166,6 +200,17 @@ def process_clip(src: Path, out: Path, a: MediaAsset, offset_sec: float = 0.0, s
          "-vf", f"scale={w}:{h},fps={prm['fps']}", "-f", "rawvideo", "-pix_fmt", prm["pix_fmt"], "-"],
         capture_output=True, check=True).stdout
     np.save(out, np.frombuffer(raw, np.uint8).reshape(-1, h, w, 3))
+
+
+def process_clip_audio(src: Path, out: Path, a: MediaAsset, offset_sec: float = 0.0) -> None:
+    """클립 원음(v7.4.0 back_and_forth D-0274 §2③) — 영상과 같은 segment 를 44.1kHz 스테레오 16bit wav 로. 음성 트랙이 없으면 오류(P6)."""
+    from audio.mix import SR  # noqa: PLC0415
+
+    t0, t1 = (x + offset_sec for x in a.segment)
+    r = subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{t0}", "-t", f"{t1 - t0}", "-i", str(src), "-vn", "-ac", "2",
+                        "-ar", str(SR), "-c:a", "pcm_s16le", str(out)], capture_output=True, text=True)
+    if r.returncode != 0 or not out.exists() or out.stat().st_size < 1000:
+        raise MediaFetchError(f"클립 원음 추출 실패 {a.title}: {r.stderr[-400:]}")
 
 
 def thumbsheet(src: Path, out: Path, mid: str, segment: tuple[float, float] | None = None) -> list[float]:
@@ -290,6 +335,9 @@ def run(proj: Path, only: list[str] | None = None, sheets: bool = True, registry
                 name_ = f"{a.file}_480.npy" if res is None else f"res_{res}/{a.file}.npy"
                 process_clip(src, media / name_, a, var.offset_sec if var is not None else 0.0, clip_scale)
                 files = [name_]
+                if res is None:   # v7.4.0 D-0274 §2③ — 같은 segment 의 원음(믹서 클립 트랙)
+                    process_clip_audio(src, media / f"{a.file}_clip.wav", a, var.offset_sec if var is not None else 0.0)
+                    files.append(f"{a.file}_clip.wav")
                 if sheets and res is None:
                     thumbsheet(src, media / f"thumbsheet_{mid}.jpg", mid, a.segment)
                     files.append(f"thumbsheet_{mid}.jpg")

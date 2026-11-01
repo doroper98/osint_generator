@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "call_id": "llm_20261028_063216_83a1",
+  "task_id": "director-showcase_geo",
+  "worker": "director",
+  "backend": "claude",
+  "model": "claude-opus-5-5",
+  "mode": "response",
+  "system_prompt_hash": "sha256:fb3ef8bc2cf18d79d215bb05d616d78392fa410882f2aa52cc0e42982ec392f2",
+  "user_prompt_path": "llm_calls/llm_20261028_063216_83a1.prompt.txt",
+  "raw_response_path": "llm_calls/llm_20261028_063216_83a1.raw.txt",
+  "parsed_status": "ok",
+  "started_at": "2026-10-28T06:32:16.929399Z",
+  "completed_at": "2026-10-28T06:42:47.949765Z",
+  "exit_code": 0,
+  "retry_index": 0,
+  "error_message": null
+}

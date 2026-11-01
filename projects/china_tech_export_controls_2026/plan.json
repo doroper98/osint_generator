@@ -1,0 +1,2642 @@
+{
+ "sentences": [
+  {
+   "sid": "cold_0",
+   "scene": "cold",
+   "date": "2026.10.19",
+   "text": "11월 18일부터 중국산 터널굴착기를 일부 나라로 수출하려면 중국 상무부의 허가를 받아야 합니다.",
+   "tts": "십일월 십팔일부터 중국산 터널굴착기를 일부 나라로 수출하려면 중국 상무부의 허가를 받아야 합니다.",
+   "segments": [
+    [
+     "11월 18일부터 중국산 ",
+     0
+    ],
+    [
+     "터널굴착기",
+     1
+    ],
+    [
+     "를 일부 나라로 수출하려면 중국 상무부의 허가를 받아야 합니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/cold_0_c5cb2b373d.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/cold_0_c5cb2b373d.npy",
+   "dur": 6.667891156462585,
+   "t0": 1.2,
+   "t1": 7.867891156462585,
+   "trim_offset": 0.610816,
+   "chunks": [
+    "십일월 십팔일부터 중국산 터널굴착기를 일부 나라로 수출하려면 중국 상무부의 허가를 받아야 합니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9101,
+    "elapsed_ms": 20383,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.805,
+      7.405
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 81.12,
+     "f0_end_hz": 128.35,
+     "octave_fixed_n": 28
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "cold_1",
+   "scene": "cold",
+   "date": "2026.10.19",
+   "text": "다만 대상은 중국과 분쟁이 있는 민감 국가와 지역이고, 그 명단은 공개되지 않았습니다.",
+   "tts": "다만 대상은 중국과 분쟁이 있는 민감 국가와 지역이고, 그 명단은 공개되지 않았습니다.",
+   "segments": [
+    [
+     "다만 대상은 중국과 분쟁이 있는 ",
+     0
+    ],
+    [
+     "민감 국가",
+     1
+    ],
+    [
+     "와 지역이고, 그 명단은 공개되지 않았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/cold_1_c04bafe5e3.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/cold_1_c04bafe5e3.npy",
+   "dur": 5.566167800453515,
+   "t0": 8.767891156462586,
+   "t1": 14.3340589569161,
+   "trim_offset": 0.532449,
+   "chunks": [
+    "다만 대상은 중국과 분쟁이 있는 민감 국가와 지역이고, 그 명단은 공개되지 않았습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9721,
+    "elapsed_ms": 1020,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.62,
+      6.34
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 98.52,
+     "f0_end_hz": 67.38,
+     "octave_fixed_n": 27
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "cold_2",
+   "scene": "cold",
+   "date": "2026.10.21",
+   "text": "그런데 국내 시공사 동아지질은 국내 현장에도 중국산 터널굴착기가 여러 대 돌고 있다고 밝혔습니다.",
+   "tts": "그런데 국내 시공사 동아지질은 국내 현장에도 중국산 터널굴착기가 여러 대 돌고 있다고 밝혔습니다.",
+   "segments": [
+    [
+     "그런데 국내 시공사 동아지질은 국내 현장에도 중국산 터널굴착기가 여러 대 돌고 있다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/cold_2_3ceded4925.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/cold_2_3ceded4925.npy",
+   "dur": 6.399297052154195,
+   "t0": 15.234058956916101,
+   "t1": 21.633356009070297,
+   "trim_offset": 0.430816,
+   "chunks": [
+    "그런데 국내 시공사 동아지질은 국내 현장에도 중국산 터널굴착기가 여러 대 돌고 있다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9322,
+    "elapsed_ms": 1273,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.415,
+      7.16
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 110.56,
+     "f0_end_hz": 80.94,
+     "octave_fixed_n": 30
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "cold_3",
+   "scene": "cold",
+   "date": "2026.10.19",
+   "text": "그리고 이 공고는 열흘 남짓 사이 중국이 내놓은 다섯 건의 통제 조치 가운데 하나입니다.",
+   "tts": "그리고 이 공고는 열흘 남짓 사이 중국이 내놓은 다섯 건의 통제 조치 가운데 하나입니다.",
+   "segments": [
+    [
+     "그리고 이 공고는 열흘 남짓 사이 중국이 내놓은 ",
+     0
+    ],
+    [
+     "다섯 건",
+     1
+    ],
+    [
+     "의 통제 조치 가운데 하나입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/cold_3_b9dd9c5420.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/cold_3_b9dd9c5420.npy",
+   "dur": 5.614013605442177,
+   "t0": 22.533356009070296,
+   "t1": 28.147369614512474,
+   "trim_offset": 0.460816,
+   "chunks": [
+    "그리고 이 공고는 열흘 남짓 사이 중국이 내놓은 다섯 건의 통제 조치 가운데 하나입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9102,
+    "elapsed_ms": 923,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.615,
+      6.275
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 109.3,
+     "f0_end_hz": 71.0,
+     "octave_fixed_n": 29
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_0",
+   "scene": "act1",
+   "date": "2026.10.16",
+   "text": "다섯 건 가운데 둘은 의견을 묻는 초안이고, 셋은 다음 달 시행이 정해진 공고입니다.",
+   "tts": "다섯 건 가운데 둘은 의견을 묻는 초안이고, 셋은 다음 달 시행이 정해진 공고입니다.",
+   "segments": [
+    [
+     "다섯 건 가운데 둘은 의견을 묻는 초안이고, 셋은 다음 달 시행이 정해진 공고입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_0_1e68326cde.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_0_1e68326cde.npy",
+   "dur": 5.327959183673469,
+   "t0": 35.24736961451247,
+   "t1": 40.57532879818594,
+   "trim_offset": 0.489456,
+   "chunks": [
+    "다섯 건 가운데 둘은 의견을 묻는 초안이고, 셋은 다음 달 시행이 정해진 공고입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9585,
+    "elapsed_ms": 1081,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.32,
+      5.9
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 99.89,
+     "f0_end_hz": 64.67,
+     "octave_fixed_n": 34
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act1_1",
+   "scene": "act1",
+   "date": "2026.10.16",
+   "text": "먼저 10월 16일부터 날짜 순서대로 보겠습니다.",
+   "tts": "먼저 시월 십육일부터 날짜 순서대로 보겠습니다.",
+   "segments": [
+    [
+     "먼저 10월 16일부터 날짜 순서대로 보겠습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_1_f1b5c8d8ab.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_1_f1b5c8d8ab.npy",
+   "dur": 2.9030612244897958,
+   "t0": 41.47532879818594,
+   "t1": 44.37839002267574,
+   "trim_offset": 0.536145,
+   "chunks": [
+    "먼저 시월 십육일부터 날짜 순서대로 보겠습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8628,
+    "elapsed_ms": 744,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.92,
+      3.42
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 102.17,
+     "f0_end_hz": 66.08,
+     "octave_fixed_n": 18
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act1_2",
+   "scene": "act1",
+   "date": "2026.10.16",
+   "text": "10월 16일, 중국 상무부와 과학기술부는 수출을 금지하거나 제한하는 기술 목록의 개정 초안을 냈습니다.",
+   "tts": "시월 십육일, 중국 상무부와 과학기술부는 수출을 금지하거나 제한하는 기술 목록의 개정 초안을 냈습니다.",
+   "segments": [
+    [
+     "10월 16일, 중국 상무부와 과학기술부는 수출을 금지하거나 제한하는 ",
+     0
+    ],
+    [
+     "기술 목록",
+     1
+    ],
+    [
+     "의 개정 초안을 냈습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_2_5d4f291b40.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_2_5d4f291b40.npy",
+   "dur": 7.008344671201814,
+   "t0": 45.27839002267574,
+   "t1": 52.28673469387755,
+   "trim_offset": 0.544059,
+   "chunks": [
+    "시월 십육일, 중국 상무부와 과학기술부는 수출을 금지하거나 제한하는 기술 목록의 개정 초안을 냈습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9248,
+    "elapsed_ms": 1256,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.085,
+      7.435
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 105.98,
+     "f0_end_hz": 59.79,
+     "octave_fixed_n": 0
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_3",
+   "scene": "act1",
+   "date": "2026.10.16",
+   "text": "새로 넣는 기술은 인공지능, 생물의약, 태양광 세 분야의 40개입니다.",
+   "tts": "새로 넣는 기술은 인공지능, 생물의약, 태양광 세 분야의 사십 개입니다.",
+   "segments": [
+    [
+     "새로 넣는 기술은 인공지능, 생물의약, 태양광 세 분야의 ",
+     0
+    ],
+    [
+     "40개",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_3_b46cf35a5a.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_3_b46cf35a5a.npy",
+   "dur": 4.668616780045351,
+   "t0": 53.18673469387755,
+   "t1": 57.855351473922894,
+   "trim_offset": 0.529546,
+   "chunks": [
+    "새로 넣는 기술은 인공지능, 생물의약, 태양광 세 분야의 사십 개입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8563,
+    "elapsed_ms": 908,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.77,
+      5.08
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 83.98,
+     "f0_end_hz": 97.66,
+     "octave_fixed_n": 1
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_4",
+   "scene": "act1",
+   "date": "2026.10.16",
+   "text": "보도 집계로는 인공지능이 23개, 태양광이 12개, 생물의약이 5개입니다.",
+   "tts": "보도 집계로는 인공지능이 스물세 개, 태양광이 열두 개, 생물의약이 다섯 개입니다.",
+   "segments": [
+    [
+     "보도 집계로는 인공지능이 23개, 태양광이 12개, 생물의약이 5개입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_4_8b2605a2c8.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_4_8b2605a2c8.npy",
+   "dur": 5.188480725623583,
+   "t0": 58.75535147392289,
+   "t1": 63.94383219954648,
+   "trim_offset": 0.558753,
+   "chunks": [
+    "보도 집계로는 인공지능이 스물세 개, 태양광이 열두 개, 생물의약이 다섯 개입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9026,
+    "elapsed_ms": 923,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.355,
+      6.035
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 83.61,
+     "f0_end_hz": 76.3,
+     "octave_fixed_n": 23
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_5",
+   "scene": "act1",
+   "date": "2026.10.16",
+   "text": "또한 40개 가운데 14개는 수출 금지 후보, 26개는 수출 제한 후보입니다.",
+   "tts": "또한 사십 개 가운데 열네 개는 수출 금지 후보, 스물여섯 개는 수출 제한 후보입니다.",
+   "segments": [
+    [
+     "또한 40개 가운데 14개는 ",
+     0
+    ],
+    [
+     "수출 금지",
+     1
+    ],
+    [
+     " 후보, 26개는 수출 제한 후보입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_5_4723fd8435.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_5_4723fd8435.npy",
+   "dur": 5.349591836734694,
+   "t0": 64.84383219954648,
+   "t1": 70.19342403628117,
+   "trim_offset": 0.482993,
+   "chunks": [
+    "또한 사십 개 가운데 열네 개는 수출 금지 후보, 스물여섯 개는 수출 제한 후보입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.864,
+    "elapsed_ms": 930,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.35,
+      5.99
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 84.94,
+     "f0_end_hz": 66.38,
+     "octave_fixed_n": 10
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_6",
+   "scene": "act1",
+   "date": "2026.10.16",
+   "text": "특히 상무부가 든 금지 예시에는 인공지능으로 악성코드를 만들고 변형하는 기술이 있습니다.",
+   "tts": "특히 상무부가 든 금지 예시에는 인공지능으로 악성코드를 만들고 변형하는 기술이 있습니다.",
+   "segments": [
+    [
+     "특히 상무부가 든 금지 예시에는 인공지능으로 ",
+     0
+    ],
+    [
+     "악성코드",
+     1
+    ],
+    [
+     "를 만들고 변형하는 기술이 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_6_963226ca2b.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_6_963226ca2b.npy",
+   "dur": 5.5055555555555555,
+   "t0": 71.09342403628118,
+   "t1": 76.59897959183674,
+   "trim_offset": 0.40381,
+   "chunks": [
+    "특히 상무부가 든 금지 예시에는 인공지능으로 악성코드를 만들고 변형하는 기술이 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9462,
+    "elapsed_ms": 1154,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.475,
+      6.04
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 103.12,
+     "f0_end_hz": 94.26,
+     "octave_fixed_n": 14
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_7",
+   "scene": "act1",
+   "date": "2026.10.16",
+   "text": "그리고 자체 지식재산권을 가진 세포·유전자 치료 공정 플랫폼과 페로브스카이트·탠덤 전지 모듈 생산기술도 금지 예시입니다.",
+   "tts": "그리고 자체 지식재산권을 가진 세포 유전자 치료 공정 플랫폼과 페로브스카이트 탠덤 전지 모듈 생산기술도 금지 예시입니다.",
+   "segments": [
+    [
+     "그리고 자체 지식재산권을 가진 세포·유전자 치료 공정 플랫폼과 ",
+     0
+    ],
+    [
+     "페로브스카이트",
+     1
+    ],
+    [
+     "·탠덤 전지 모듈 생산기술도 금지 예시입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_7_d615057dd3.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_7_d615057dd3.npy",
+   "dur": 8.23702947845805,
+   "t0": 77.49897959183674,
+   "t1": 85.7360090702948,
+   "trim_offset": 0.401791,
+   "chunks": [
+    "그리고 자체 지식재산권을 가진 세포 유전자 치료 공정 플랫폼과 페로브스카이트 탠덤 전지 모듈 생산기술도 금지 예시입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9518,
+    "elapsed_ms": 1403,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.15,
+      8.7
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 97.59,
+     "f0_end_hz": 68.7,
+     "octave_fixed_n": 21
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_8",
+   "scene": "act1",
+   "date": "2026.10.16",
+   "text": "다만 상무부는 오픈소스나 논문으로 이미 공개된 기술은 대상에서 뺀다고 밝혔습니다.",
+   "tts": "다만 상무부는 오픈소스나 논문으로 이미 공개된 기술은 대상에서 뺀다고 밝혔습니다.",
+   "segments": [
+    [
+     "다만 상무부는 오픈소스나 논문으로 ",
+     0
+    ],
+    [
+     "이미 공개된 기술",
+     1
+    ],
+    [
+     "은 대상에서 뺀다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_8_6c2bf8432e.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_8_6c2bf8432e.npy",
+   "dur": 5.395668934240363,
+   "t0": 86.6360090702948,
+   "t1": 92.03167800453517,
+   "trim_offset": 0.470544,
+   "chunks": [
+    "다만 상무부는 오픈소스나 논문으로 이미 공개된 기술은 대상에서 뺀다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9609,
+    "elapsed_ms": 971,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.43,
+      6.07
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.93,
+     "f0_end_hz": 70.43,
+     "octave_fixed_n": 19
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_9",
+   "scene": "act1",
+   "date": "2026.10.16",
+   "text": "또한 대형 모델을 해외에 앱이나 웹으로 서비스하는 것은 범위 밖이고, 해외 현지 설치는 범위 안이라고 밝혔습니다.",
+   "tts": "또한 대형 모델을 해외에 앱이나 웹으로 서비스하는 것은 범위 밖이고, 해외 현지 설치는 범위 안이라고 밝혔습니다.",
+   "segments": [
+    [
+     "또한 대형 모델을 해외에 앱이나 웹으로 서비스하는 것은 범위 밖이고, 해외 현지 설치는 범위 안이라고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_9_ec2fa62eb5.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_9_ec2fa62eb5.npy",
+   "dur": 7.12546485260771,
+   "t0": 92.93167800453517,
+   "t1": 100.05714285714288,
+   "trim_offset": 0.506032,
+   "chunks": [
+    "또한 대형 모델을 해외에 앱이나 웹으로 서비스하는 것은 범위 밖이고, 해외 현지 설치는 범위 안이라고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8747,
+    "elapsed_ms": 1151,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.185,
+      7.745
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 96.21,
+     "f0_end_hz": 65.04,
+     "octave_fixed_n": 28
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_10",
+   "scene": "act1",
+   "date": "2026.10.16",
+   "text": "동시에 목록이 확정되기 전이라도, 이 기술들을 수출하려면 먼저 상무부 시스템에 등록해야 합니다.",
+   "tts": "동시에 목록이 확정되기 전이라도, 이 기술들을 수출하려면 먼저 상무부 시스템에 등록해야 합니다.",
+   "segments": [
+    [
+     "동시에 목록이 확정되기 전이라도, 이 기술들을 수출하려면 먼저 상무부 시스템에 ",
+     0
+    ],
+    [
+     "등록",
+     1
+    ],
+    [
+     "해야 합니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_10_e264cd3788.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_10_e264cd3788.npy",
+   "dur": 6.189523809523809,
+   "t0": 100.95714285714288,
+   "t1": 107.14666666666669,
+   "trim_offset": 0.485329,
+   "chunks": [
+    "동시에 목록이 확정되기 전이라도, 이 기술들을 수출하려면 먼저 상무부 시스템에 등록해야 합니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9466,
+    "elapsed_ms": 1027,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.235,
+      6.675
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 80.15,
+     "f0_end_hz": 103.63,
+     "octave_fixed_n": 0
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_11",
+   "scene": "act1",
+   "date": "2026.10.19",
+   "text": "이어서 사흘 뒤인 10월 19일에는 공고 세 건이 한꺼번에 나왔습니다.",
+   "tts": "이어서 사흘 뒤인 시월 십구일에는 공고 세 건이 한꺼번에 나왔습니다.",
+   "segments": [
+    [
+     "이어서 사흘 뒤인 10월 19일에는 공고 세 건이 한꺼번에 나왔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_11_c6e4d715e5.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_11_c6e4d715e5.npy",
+   "dur": 4.081383219954649,
+   "t0": 108.0466666666667,
+   "t1": 112.12804988662134,
+   "trim_offset": 0.501859,
+   "chunks": [
+    "이어서 사흘 뒤인 시월 십구일에는 공고 세 건이 한꺼번에 나왔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9112,
+    "elapsed_ms": 1061,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.12,
+      4.74
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.72,
+     "f0_end_hz": 69.88,
+     "octave_fixed_n": 23
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_12",
+   "scene": "act1",
+   "date": "2026.10.19",
+   "text": "드론 공고는 고성능 기종과 부품, 소프트웨어, 비행 제어 기술 등 13개 부류를 허가 대상으로 정했습니다.",
+   "tts": "드론 공고는 고성능 기종과 부품, 소프트웨어, 비행 제어 기술 등 열세 개 부류를 허가 대상으로 정했습니다.",
+   "segments": [
+    [
+     "드론 공고는 고성능 기종과 부품, 소프트웨어, 비행 제어 기술 등 13개 부류를 허가 대상으로 정했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_12_80f205d205.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_12_80f205d205.npy",
+   "dur": 6.836371882086167,
+   "t0": 113.02804988662135,
+   "t1": 119.86442176870752,
+   "trim_offset": 0.355079,
+   "chunks": [
+    "드론 공고는 고성능 기종과 부품, 소프트웨어, 비행 제어 기술 등 열세 개 부류를 허가 대상으로 정했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9147,
+    "elapsed_ms": 1224,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.785,
+      7.215
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.78,
+     "f0_end_hz": 67.93,
+     "octave_fixed_n": 9
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_13",
+   "scene": "act1",
+   "date": "2026.10.19",
+   "text": "반면 일부 민수용 기종은 등록만으로 수출할 수 있도록 절차를 줄였습니다.",
+   "tts": "반면 일부 민수용 기종은 등록만으로 수출할 수 있도록 절차를 줄였습니다.",
+   "segments": [
+    [
+     "반면 일부 민수용 기종은 등록만으로 수출할 수 있도록 절차를 줄였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_13_dc5d83a9ed.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_13_dc5d83a9ed.npy",
+   "dur": 4.462063492063492,
+   "t0": 120.76442176870752,
+   "t1": 125.22648526077101,
+   "trim_offset": 0.49449,
+   "chunks": [
+    "반면 일부 민수용 기종은 등록만으로 수출할 수 있도록 절차를 줄였습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9535,
+    "elapsed_ms": 938,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.485,
+      5.145
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 84.68,
+     "f0_end_hz": 88.85,
+     "octave_fixed_n": 28
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_14",
+   "scene": "act1",
+   "date": "2026.10.19",
+   "text": "터널굴착기 공고는 완제품과 커터헤드 같은 핵심 부품, 재제조 기술, 일부 보행식 굴착기까지 묶었습니다.",
+   "tts": "터널굴착기 공고는 완제품과 커터헤드 같은 핵심 부품, 재제조 기술, 일부 보행식 굴착기까지 묶었습니다.",
+   "segments": [
+    [
+     "터널굴착기 공고는 완제품과 커터헤드 같은 ",
+     0
+    ],
+    [
+     "핵심 부품",
+     1
+    ],
+    [
+     ", 재제조 기술, 일부 보행식 굴착기까지 묶었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_14_860cf04fad.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_14_860cf04fad.npy",
+   "dur": 7.059478458049886,
+   "t0": 126.12648526077102,
+   "t1": 133.18596371882091,
+   "trim_offset": 0.448662,
+   "chunks": [
+    "터널굴착기 공고는 완제품과 커터헤드 같은 핵심 부품, 재제조 기술, 일부 보행식 굴착기까지 묶었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9412,
+    "elapsed_ms": 1314,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.015,
+      7.595
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 97.96,
+     "f0_end_hz": 60.91,
+     "octave_fixed_n": 9
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_15",
+   "scene": "act1",
+   "date": "2026.10.19",
+   "text": "한편 같은 날 준설선 관련 통제도 조정됐고, 세 공고는 모두 11월 18일에 시행됩니다.",
+   "tts": "한편 같은 날 준설선 관련 통제도 조정됐고, 세 공고는 모두 십일월 십팔일에 시행됩니다.",
+   "segments": [
+    [
+     "한편 같은 날 준설선 관련 통제도 조정됐고, 세 공고는 모두 11월 18일에 시행됩니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_15_84d2b22fd7.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_15_84d2b22fd7.npy",
+   "dur": 6.102176870748299,
+   "t0": 134.08596371882092,
+   "t1": 140.18814058956923,
+   "trim_offset": 0.361814,
+   "chunks": [
+    "한편 같은 날 준설선 관련 통제도 조정됐고, 세 공고는 모두 십일월 십팔일에 시행됩니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8841,
+    "elapsed_ms": 1143,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.965,
+      6.425
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 97.82,
+     "f0_end_hz": 66.54,
+     "octave_fixed_n": 0
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_16",
+   "scene": "act1",
+   "date": "2026.10.26",
+   "text": "그리고 10월 26일, 상무부는 중국 영업비밀 보호 특별규정 초안을 공개했습니다.",
+   "tts": "그리고 시월 이십육일, 상무부는 중국 영업비밀 보호 특별규정 초안을 공개했습니다.",
+   "segments": [
+    [
+     "그리고 10월 26일, 상무부는 중국 ",
+     0
+    ],
+    [
+     "영업비밀",
+     1
+    ],
+    [
+     " 보호 특별규정 초안을 공개했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_16_7a863087c0.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_16_7a863087c0.npy",
+   "dur": 5.013242630385488,
+   "t0": 141.08814058956924,
+   "t1": 146.10138321995473,
+   "trim_offset": 0.492449,
+   "chunks": [
+    "그리고 시월 이십육일, 상무부는 중국 영업비밀 보호 특별규정 초안을 공개했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8342,
+    "elapsed_ms": 1158,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.035,
+      5.73
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 97.08,
+     "f0_end_hz": 68.53,
+     "octave_fixed_n": 8
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_17",
+   "scene": "act1",
+   "date": "2026.10.26",
+   "text": "외국 실체가 중국 영업비밀을 침해해 국가 안보와 발전 이익을 해치면, 수출입과 투자, 입국까지 제한할 수 있다는 내용입니다.",
+   "tts": "외국 실체가 중국 영업비밀을 침해해 국가 안보와 발전 이익을 해치면, 수출입과 투자, 입국까지 제한할 수 있다는 내용입니다.",
+   "segments": [
+    [
+     "외국 실체가 중국 영업비밀을 침해해 국가 안보와 발전 이익을 해치면, 수출입과 투자, 입국까지 제한할 수 있다는 내용입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_17_f1b610172a.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act1_17_f1b610172a.npy",
+   "dur": 8.3002947845805,
+   "t0": 147.00138321995473,
+   "t1": 155.30167800453523,
+   "trim_offset": 0.552834,
+   "chunks": [
+    "외국 실체가 중국 영업비밀을 침해해 국가 안보와 발전 이익을 해치면, 수출입과 투자, 입국까지 제한할 수 있다는 내용입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9337,
+    "elapsed_ms": 1712,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.395,
+      8.855
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 82.27,
+     "f0_end_hz": 66.6,
+     "octave_fixed_n": 46
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "act2_0",
+   "scene": "act2",
+   "date": "2026.10.26",
+   "text": "이제 이번 공고들을 1년 전 희토류 통제와 견주어 보겠습니다.",
+   "tts": "이제 이번 공고들을 일 년 전 희토류 통제와 견주어 보겠습니다.",
+   "segments": [
+    [
+     "이제 이번 공고들을 1년 전 희토류 통제와 견주어 보겠습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_0_946848829e.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_0_946848829e.npy",
+   "dur": 3.6921541950113377,
+   "t0": 158.70167800453524,
+   "t1": 162.39383219954658,
+   "trim_offset": 0.45966,
+   "chunks": [
+    "이제 이번 공고들을 일 년 전 희토류 통제와 견주어 보겠습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8887,
+    "elapsed_ms": 1023,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.66,
+      4.32
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 112.71,
+     "f0_end_hz": 79.22,
+     "octave_fixed_n": 25
+    }
+   },
+   "role": "bridge"
+  },
+  {
+   "sid": "act2_1",
+   "scene": "act2",
+   "date": "2026.10.26",
+   "text": "이야기의 출발점은 지난해 가을의 희토류 통제였습니다.",
+   "tts": "이야기의 출발점은 지난해 가을의 희토류 통제였습니다.",
+   "segments": [
+    [
+     "이야기의 출발점은 지난해 가을의 희토류 통제였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_1_89d3c45b6d.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_1_89d3c45b6d.npy",
+   "dur": 3.212879818594104,
+   "t0": 163.29383219954659,
+   "t1": 166.5067120181407,
+   "trim_offset": 0.546939,
+   "chunks": [
+    "이야기의 출발점은 지난해 가을의 희토류 통제였습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.857,
+    "elapsed_ms": 814,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.255,
+      3.965
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 90.0,
+     "f0_end_hz": 73.75,
+     "octave_fixed_n": 21
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act2_2",
+   "scene": "act2",
+   "date": "2025.10.09",
+   "text": "중국은 지난해 10월 9일 희토류와 관련 기술의 수출통제를 넓혔습니다.",
+   "tts": "중국은 지난해 시월 구일 희토류와 관련 기술의 수출통제를 넓혔습니다.",
+   "segments": [
+    [
+     "중국은 지난해 10월 9일 ",
+     0
+    ],
+    [
+     "희토류",
+     1
+    ],
+    [
+     "와 관련 기술의 수출통제를 넓혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_2_c270cd7527.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_2_c270cd7527.npy",
+   "dur": 4.559297052154195,
+   "t0": 167.4067120181407,
+   "t1": 171.9660090702949,
+   "trim_offset": 0.378299,
+   "chunks": [
+    "중국은 지난해 시월 구일 희토류와 관련 기술의 수출통제를 넓혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8908,
+    "elapsed_ms": 884,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.48,
+      5.265
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.96,
+     "f0_end_hz": 70.85,
+     "octave_fixed_n": 23
+    }
+   },
+   "role": "background"
+  },
+  {
+   "sid": "act2_3",
+   "scene": "act2",
+   "date": "2025.10.30",
+   "text": "이후 같은 달 30일 부산에서 트럼프 대통령과 시진핑 주석이 만난 뒤, 중국은 이 통제를 1년 동안 미뤘습니다.",
+   "tts": "이후 같은달 삼십일 부산에서 트럼프 대통령과 시진핑 주석이 만난 뒤, 중국은 이 통제를 일 년 동안 미뤘습니다.",
+   "segments": [
+    [
+     "이후 같은 달 30일 ",
+     0
+    ],
+    [
+     "부산",
+     1
+    ],
+    [
+     "에서 트럼프 대통령과 시진핑 주석이 만난 뒤, 중국은 이 통제를 1년 동안 미뤘습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_3_bb84765e2e.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_3_bb84765e2e.npy",
+   "dur": 7.331632653061225,
+   "t0": 172.8660090702949,
+   "t1": 180.19764172335613,
+   "trim_offset": 0.508435,
+   "chunks": [
+    "이후 같은달 삼십일 부산에서 트럼프 대통령과 시진핑 주석이 만난 뒤, 중국은 이 통제를 일 년 동안 미뤘습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9016,
+    "elapsed_ms": 1272,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.34,
+      7.75
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 91.97,
+     "f0_end_hz": 63.01,
+     "octave_fixed_n": 0
+    }
+   },
+   "role": "background"
+  },
+  {
+   "sid": "act2_4",
+   "scene": "act2",
+   "date": "2026.09.24",
+   "text": "한편 미국 재무장관은 9월, 미중 휴전을 내년 1월 10일까지 연장한다고 밝혔습니다.",
+   "tts": "한편 미국 재무장관은 구월, 미중 휴전을 내년 일월 십일까지 연장한다고 밝혔습니다.",
+   "segments": [
+    [
+     "한편 미국 재무장관은 9월, 미중 휴전을 ",
+     0
+    ],
+    [
+     "내년 1월 10일",
+     1
+    ],
+    [
+     "까지 연장한다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_4_ec02d7469d.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_4_ec02d7469d.npy",
+   "dur": 5.898526077097506,
+   "t0": 181.09764172335613,
+   "t1": 186.99616780045363,
+   "trim_offset": 0.342857,
+   "chunks": [
+    "한편 미국 재무장관은 구월, 미중 휴전을 내년 일월 십일까지 연장한다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9255,
+    "elapsed_ms": 1133,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.765,
+      6.225
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 82.87,
+     "f0_end_hz": 63.63,
+     "octave_fixed_n": 2
+    }
+   },
+   "role": "background"
+  },
+  {
+   "sid": "act2_5",
+   "scene": "act2",
+   "date": "2026.10.16",
+   "text": "희토류 통제가 한 가지 소재와 그 가공 기술을 묶었다면, 이번 초안은 인공지능과 생물의약, 태양광 같은 새 산업의 기술로 범위를 넓혔습니다.",
+   "tts": "희토류 통제가 한 가지 소재와 그 가공 기술을 묶었다면, 이번 초안은 인공지능과 생물의약, 태양광 같은 새 산업의 기술로 범위를 넓혔습니다.",
+   "segments": [
+    [
+     "희토류 통제가 한 가지 소재와 그 가공 기술을 묶었다면, 이번 초안은 인공지능과 생물의약, 태양광 같은 ",
+     0
+    ],
+    [
+     "새 산업의 기술",
+     1
+    ],
+    [
+     "로 범위를 넓혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_5_ba2a08eb20.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_5_ba2a08eb20.npy",
+   "dur": 9.879002267573696,
+   "t0": 187.89616780045364,
+   "t1": 197.77517006802734,
+   "trim_offset": 0.337664,
+   "chunks": [
+    "희토류 통제가 한 가지 소재와 그 가공 기술을 묶었다면, 이번 초안은 인공지능과 생물의약, 태양광 같은 새 산업의 기술로 범위를 넓혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9248,
+    "elapsed_ms": 1801,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      9.77,
+      10.455
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.46,
+     "f0_end_hz": 70.27,
+     "octave_fixed_n": 17
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_6",
+   "scene": "act2",
+   "date": "2026.10.16",
+   "text": "다만 상무부는 관리 기준에 못 미치는 태양광 기술은 계속 자유롭게 수출할 수 있다고 밝혔습니다.",
+   "tts": "다만 상무부는 관리 기준에 못 미치는 태양광 기술은 계속 자유롭게 수출할 수 있다고 밝혔습니다.",
+   "segments": [
+    [
+     "다만 상무부는 관리 기준에 못 미치는 태양광 기술은 계속 자유롭게 수출할 수 있다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_6_266cbfb74f.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_6_266cbfb74f.npy",
+   "dur": 6.118639455782313,
+   "t0": 198.67517006802734,
+   "t1": 204.79380952380964,
+   "trim_offset": 0.459501,
+   "chunks": [
+    "다만 상무부는 관리 기준에 못 미치는 태양광 기술은 계속 자유롭게 수출할 수 있다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9429,
+    "elapsed_ms": 1127,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.1,
+      6.64
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.44,
+     "f0_end_hz": 69.58,
+     "octave_fixed_n": 27
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_7",
+   "scene": "act2",
+   "date": "2026.10.16",
+   "text": "또한 상무부 대변인은 이번 개정이 정례 작업이며, 특정 국가나 지역, 실체를 대상으로 하지 않는다고 말했습니다.",
+   "tts": "또한 상무부 대변인은 이번 개정이 정례 작업이며, 특정 국가나 지역, 실체를 대상으로 하지 않는다고 말했습니다.",
+   "segments": [
+    [
+     "또한 상무부 대변인은 이번 개정이 정례 작업이며, 특정 국가나 지역, 실체를 대상으로 하지 않는다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_7_a9cb42a233.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_7_a9cb42a233.npy",
+   "dur": 7.050702947845805,
+   "t0": 205.69380952380965,
+   "t1": 212.74451247165544,
+   "trim_offset": 0.575805,
+   "chunks": [
+    "또한 상무부 대변인은 이번 개정이 정례 작업이며, 특정 국가나 지역, 실체를 대상으로 하지 않는다고 말했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9581,
+    "elapsed_ms": 1346,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.155,
+      7.845
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 96.62,
+     "f0_end_hz": 85.93,
+     "octave_fixed_n": 32
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_8",
+   "scene": "act2",
+   "date": "2026.10.19",
+   "text": "터널굴착기 통제에 대해서도 대변인은 규정에 맞는 신청은 승인하겠다고 밝혔습니다.",
+   "tts": "터널굴착기 통제에 대해서도 대변인은 규정에 맞는 신청은 승인하겠다고 밝혔습니다.",
+   "segments": [
+    [
+     "터널굴착기 통제에 대해서도 대변인은 규정에 맞는 신청은 승인하겠다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_8_ec7b69d443.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_8_ec7b69d443.npy",
+   "dur": 5.216893424036281,
+   "t0": 213.64451247165545,
+   "t1": 218.86140589569172,
+   "trim_offset": 0.471247,
+   "chunks": [
+    "터널굴착기 통제에 대해서도 대변인은 규정에 맞는 신청은 승인하겠다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9136,
+    "elapsed_ms": 1296,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.215,
+      5.975
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 87.32,
+     "f0_end_hz": 70.45,
+     "octave_fixed_n": 23
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_9",
+   "scene": "act2",
+   "date": "2026.10.28",
+   "text": "이에 대해 인도 싱크탱크 옵서버연구재단의 마노즈 조시는, 중국이 기술로 만든 제품은 팔면서 기술 우위는 지키려 한다고 밝혔습니다.",
+   "tts": "이에 대해 인도 싱크탱크 옵서버연구재단의 마노즈 조시는, 중국이 기술로 만든 제품은 팔면서 기술 우위는 지키려 한다고 밝혔습니다.",
+   "segments": [
+    [
+     "이에 대해 인도 싱크탱크 옵서버연구재단의 마노즈 조시는, 중국이 기술로 만든 제품은 팔면서 ",
+     0
+    ],
+    [
+     "기술 우위",
+     1
+    ],
+    [
+     "는 지키려 한다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_9_fba1a05ecd.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_9_fba1a05ecd.npy",
+   "dur": 8.750997732426304,
+   "t0": 219.76140589569172,
+   "t1": 228.51240362811802,
+   "trim_offset": 0.458345,
+   "chunks": [
+    "이에 대해 인도 싱크탱크 옵서버연구재단의 마노즈 조시는, 중국이 기술로 만든 제품은 팔면서 기술 우위는 지키려 한다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9385,
+    "elapsed_ms": 1357,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.745,
+      9.48
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 104.43,
+     "f0_end_hz": 71.48,
+     "octave_fixed_n": 6
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_10",
+   "scene": "act2",
+   "date": "2026.10.26",
+   "text": "한편 해외 분석가들 일부는 터널굴착기 통제를 인도의 인프라 사업과 연결해 읽습니다.",
+   "tts": "한편 해외 분석가들 일부는 터널굴착기 통제를 인도의 인프라 사업과 연결해 읽습니다.",
+   "segments": [
+    [
+     "한편 해외 분석가들 일부는 터널굴착기 통제를 인도의 인프라 사업과 연결해 읽습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_10_d059c06120.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_10_d059c06120.npy",
+   "dur": 5.568503401360545,
+   "t0": 229.41240362811803,
+   "t1": 234.98090702947857,
+   "trim_offset": 0.402472,
+   "chunks": [
+    "한편 해외 분석가들 일부는 터널굴착기 통제를 인도의 인프라 사업과 연결해 읽습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8998,
+    "elapsed_ms": 1155,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.455,
+      5.925
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 95.66,
+     "f0_end_hz": 80.94,
+     "octave_fixed_n": 2
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_11",
+   "scene": "act2",
+   "date": "2026.10.17",
+   "text": "그러나 중국 관영 매체 글로벌 타임스는 논평에서 이번 조치가 국제 관행에 맞는다고 주장했습니다.",
+   "tts": "그러나 중국 관영 매체 글로벌 타임스는 논평에서 이번 조치가 국제 관행에 맞는다고 주장했습니다.",
+   "segments": [
+    [
+     "그러나 중국 관영 매체 글로벌 타임스는 논평에서 이번 조치가 국제 관행에 맞는다고 주장했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_11_da54de51ba.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_11_da54de51ba.npy",
+   "dur": 6.453424036281179,
+   "t0": 235.88090702947858,
+   "t1": 242.33433106575976,
+   "trim_offset": 0.4461,
+   "chunks": [
+    "그러나 중국 관영 매체 글로벌 타임스는 논평에서 이번 조치가 국제 관행에 맞는다고 주장했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9616,
+    "elapsed_ms": 1107,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.405,
+      7.065
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 98.88,
+     "f0_end_hz": 63.36,
+     "octave_fixed_n": 17
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_12",
+   "scene": "act2",
+   "date": "2026.10.19",
+   "text": "즉 장비는 허가나 등록을 거쳐 수출하고, 핵심 생산 기술은 금지와 제한 목록으로 관리하는 구조입니다.",
+   "tts": "즉 장비는 허가나 등록을 거쳐 수출하고, 핵심 생산 기술은 금지와 제한 목록으로 관리하는 구조입니다.",
+   "segments": [
+    [
+     "즉 장비는 허가나 등록을 거쳐 수출하고, 핵심 생산 기술은 금지와 제한 목록으로 관리하는 구조입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_12_10a6434095.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act2_12_10a6434095.npy",
+   "dur": 6.429909297052154,
+   "t0": 243.23433106575976,
+   "t1": 249.6642403628119,
+   "trim_offset": 0.492449,
+   "chunks": [
+    "즉 장비는 허가나 등록을 거쳐 수출하고, 핵심 생산 기술은 금지와 제한 목록으로 관리하는 구조입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.954,
+    "elapsed_ms": 1150,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.43,
+      6.845
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 91.64,
+     "f0_end_hz": 65.73,
+     "octave_fixed_n": 2
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "act3_0",
+   "scene": "act3",
+   "date": "2026.10.21",
+   "text": "이제 한국의 공사 현장과 공장으로 가 보겠습니다.",
+   "tts": "이제 한국의 공사 현장과 공장으로 가 보겠습니다.",
+   "segments": [
+    [
+     "이제 한국의 공사 현장과 공장으로 가 보겠습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_0_b89fe2ef08.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_0_b89fe2ef08.npy",
+   "dur": 2.9449433106575964,
+   "t0": 253.06424036281192,
+   "t1": 256.0091836734695,
+   "trim_offset": 0.496032,
+   "chunks": [
+    "이제 한국의 공사 현장과 공장으로 가 보겠습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9627,
+    "elapsed_ms": 805,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.98,
+      3.405
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 105.06,
+     "f0_end_hz": 61.34,
+     "octave_fixed_n": 2
+    }
+   },
+   "role": "bridge"
+  },
+  {
+   "sid": "act3_1",
+   "scene": "act3",
+   "date": "2026.10.21",
+   "text": "한국과 닿는 곳은 지하 공사 장비와 차세대 태양전지입니다.",
+   "tts": "한국과 닿는 곳은 지하 공사 장비와 차세대 태양전지입니다.",
+   "segments": [
+    [
+     "한국과 닿는 곳은 지하 공사 장비와 차세대 태양전지입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_1_6399300858.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_1_6399300858.npy",
+   "dur": 3.761020408163265,
+   "t0": 256.9091836734695,
+   "t1": 260.6702040816328,
+   "trim_offset": 0.510975,
+   "chunks": [
+    "한국과 닿는 곳은 지하 공사 장비와 차세대 태양전지입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9323,
+    "elapsed_ms": 967,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.835,
+      4.34
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.84,
+     "f0_end_hz": 70.46,
+     "octave_fixed_n": 10
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act3_2",
+   "scene": "act3",
+   "date": "2025.12.11",
+   "text": "지난해 11월 중국철건중공은 경기도 전력구 공사에 쓸 이수식 터널굴착기 두 대를 한국으로 보냈습니다.",
+   "tts": "지난해 십일월 중국철건중공은 경기도 전력구 공사에 쓸 이수식 터널굴착기 두 대를 한국으로 보냈습니다.",
+   "segments": [
+    [
+     "지난해 11월 중국철건중공은 ",
+     0
+    ],
+    [
+     "경기도 전력구",
+     1
+    ],
+    [
+     " 공사에 쓸 이수식 터널굴착기 두 대를 한국으로 보냈습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_2_a10b1f0716.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_2_a10b1f0716.npy",
+   "dur": 6.676009070294785,
+   "t0": 261.57020408163277,
+   "t1": 268.2462131519276,
+   "trim_offset": 0.570771,
+   "chunks": [
+    "지난해 십일월 중국철건중공은 경기도 전력구 공사에 쓸 이수식 터널굴착기 두 대를 한국으로 보냈습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9106,
+    "elapsed_ms": 1287,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.78,
+      7.24
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.24,
+     "f0_end_hz": 69.78,
+     "octave_fixed_n": 8
+    }
+   },
+   "role": "background"
+  },
+  {
+   "sid": "act3_3",
+   "scene": "act3",
+   "date": "2023.02.13",
+   "text": "2023년 당시 국내 터널굴착기 시장은 독일 헤렌크네히트와 중국 업체의 양강 구도였고, 헤렌크네히트도 중국 공장에서 장비를 만들었습니다.",
+   "tts": "이천이십삼 년 당시 국내 터널굴착기 시장은 독일 헤렌크네히트와 중국 업체의 양강 구도였고, 헤렌크네히트도 중국 공장에서 장비를 만들었습니다.",
+   "segments": [
+    [
+     "2023년 당시 국내 터널굴착기 시장은 독일 헤렌크네히트와 중국 업체의 ",
+     0
+    ],
+    [
+     "양강 구도",
+     1
+    ],
+    [
+     "였고, 헤렌크네히트도 중국 공장에서 장비를 만들었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_3_0c792ab391.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_3_0c792ab391.npy",
+   "dur": 10.00734693877551,
+   "t0": 269.14621315192755,
+   "t1": 279.1535600907031,
+   "trim_offset": 0.401202,
+   "chunks": [
+    "이천이십삼 년 당시 국내 터널굴착기 시장은 독일 헤렌크네히트와 중국 업체의 양강 구도였고, 헤렌크네히트도 중국 공장에서 장비를 만들었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8856,
+    "elapsed_ms": 1642,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      9.91,
+      10.63
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 95.92,
+     "f0_end_hz": 69.99,
+     "octave_fixed_n": 10
+    }
+   },
+   "role": "background"
+  },
+  {
+   "sid": "act3_4",
+   "scene": "act3",
+   "date": "2026.10.21",
+   "text": "동아지질은 자체 개발한 굴착기의 중국산 부품이 10% 미만이라, 독일과 일본 장비로 대체할 수 있다고 밝혔습니다.",
+   "tts": "동아지질은 자체 개발한 굴착기의 중국산 부품이 십 퍼센트 미만이라, 독일과 일본 장비로 대체할 수 있다고 밝혔습니다.",
+   "segments": [
+    [
+     "동아지질은 자체 개발한 굴착기의 중국산 부품이 ",
+     0
+    ],
+    [
+     "10% 미만",
+     1
+    ],
+    [
+     "이라, 독일과 일본 장비로 대체할 수 있다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_4_9ac5bc0418.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_4_9ac5bc0418.npy",
+   "dur": 7.89281179138322,
+   "t0": 280.05356009070306,
+   "t1": 287.9463718820863,
+   "trim_offset": 0.492404,
+   "chunks": [
+    "동아지질은 자체 개발한 굴착기의 중국산 부품이 십 퍼센트 미만이라, 독일과 일본 장비로 대체할 수 있다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8888,
+    "elapsed_ms": 1577,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.945,
+      8.38
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 124.59,
+     "f0_end_hz": 60.39,
+     "octave_fixed_n": 1
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_5",
+   "scene": "act3",
+   "date": "2026.10.21",
+   "text": "다만 새 장비 반입이나 부품 공급이 늦어지면 일부 현장 공정에 영향이 생길 수 있다고 말했습니다.",
+   "tts": "다만 새 장비 반입이나 부품 공급이 늦어지면 일부 현장 공정에 영향이 생길 수 있다고 말했습니다.",
+   "segments": [
+    [
+     "다만 새 장비 반입이나 부품 공급이 늦어지면 일부 현장 공정에 영향이 생길 수 있다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_5_3dabadfbe6.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_5_3dabadfbe6.npy",
+   "dur": 6.028163265306122,
+   "t0": 288.84637188208626,
+   "t1": 294.8745351473924,
+   "trim_offset": 0.519841,
+   "chunks": [
+    "다만 새 장비 반입이나 부품 공급이 늦어지면 일부 현장 공정에 영향이 생길 수 있다고 말했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9584,
+    "elapsed_ms": 1348,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.09,
+      6.865
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.35,
+     "f0_end_hz": 66.44,
+     "octave_fixed_n": 43
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_6",
+   "scene": "act3",
+   "date": "2026.10.19",
+   "text": "그런데 민감 국가 명단이 공개되지 않아, 한국이 허가와 등록 가운데 어느 쪽인지는 알 수 없습니다.",
+   "tts": "그런데 민감 국가 명단이 공개되지 않아, 한국이 허가와 등록 가운데 어느 쪽인지는 알 수 없습니다.",
+   "segments": [
+    [
+     "그런데 민감 국가 명단이 공개되지 않아, 한국이 ",
+     0
+    ],
+    [
+     "허가와 등록",
+     1
+    ],
+    [
+     " 가운데 어느 쪽인지는 알 수 없습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_6_d7785b0221.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_6_d7785b0221.npy",
+   "dur": 6.111133786848073,
+   "t0": 295.7745351473924,
+   "t1": 301.88566893424047,
+   "trim_offset": 0.567256,
+   "chunks": [
+    "그런데 민감 국가 명단이 공개되지 않아, 한국이 허가와 등록 가운데 어느 쪽인지는 알 수 없습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9461,
+    "elapsed_ms": 1327,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.195,
+      6.65
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 95.2,
+     "f0_end_hz": 125.43,
+     "octave_fixed_n": 8
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_7",
+   "scene": "act3",
+   "date": "2026.10.20",
+   "text": "한편 태양광에서는 페로브스카이트·탠덤 전지 생산기술이 금지 후보에 올랐습니다.",
+   "tts": "한편 태양광에서는 페로브스카이트 탠덤 전지 생산기술이 금지 후보에 올랐습니다.",
+   "segments": [
+    [
+     "한편 태양광에서는 페로브스카이트·탠덤 전지 생산기술이 금지 후보에 올랐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_7_10bcde3e21.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_7_10bcde3e21.npy",
+   "dur": 4.971360544217687,
+   "t0": 302.78566893424045,
+   "t1": 307.75702947845815,
+   "trim_offset": 0.483696,
+   "chunks": [
+    "한편 태양광에서는 페로브스카이트 탠덤 전지 생산기술이 금지 후보에 올랐습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9634,
+    "elapsed_ms": 980,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.945,
+      5.625
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 100.51,
+     "f0_end_hz": 68.9,
+     "octave_fixed_n": 28
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_8",
+   "scene": "act3",
+   "date": "2026.10.20",
+   "text": "한화큐셀은 진천에 이 차세대 전지의 시험 생산 라인을 두고 있습니다.",
+   "tts": "한화큐셀은 진천에 이 차세대 전지의 시험 생산 라인을 두고 있습니다.",
+   "segments": [
+    [
+     "한화큐셀은 ",
+     0
+    ],
+    [
+     "진천",
+     1
+    ],
+    [
+     "에 이 차세대 전지의 시험 생산 라인을 두고 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_8_181c607a0e.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_8_181c607a0e.npy",
+   "dur": 4.45952380952381,
+   "t0": 308.6570294784581,
+   "t1": 313.11655328798196,
+   "trim_offset": 0.406463,
+   "chunks": [
+    "한화큐셀은 진천에 이 차세대 전지의 시험 생산 라인을 두고 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9217,
+    "elapsed_ms": 1028,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.38,
+      5.055
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.94,
+     "f0_end_hz": 73.05,
+     "octave_fixed_n": 9
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_9",
+   "scene": "act3",
+   "date": "2026.10.20",
+   "text": "다만 국내 태양광 업계는 직접 타격이 매우 제한적일 것으로 내다봤습니다.",
+   "tts": "다만 국내 태양광 업계는 직접 타격이 매우 제한적일 것으로 내다봤습니다.",
+   "segments": [
+    [
+     "다만 국내 태양광 업계는 직접 타격이 매우 제한적일 것으로 내다봤습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_9_36a8d41914.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_9_36a8d41914.npy",
+   "dur": 4.5626303854875285,
+   "t0": 314.01655328798194,
+   "t1": 318.57918367346946,
+   "trim_offset": 0.515782,
+   "chunks": [
+    "다만 국내 태양광 업계는 직접 타격이 매우 제한적일 것으로 내다봤습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.962,
+    "elapsed_ms": 1271,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.575,
+      5.31
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.38,
+     "f0_end_hz": 70.07,
+     "octave_fixed_n": 30
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_10",
+   "scene": "act3",
+   "date": "2026.10.21",
+   "text": "결국 터널굴착기 허가 대상과 태양전지 기술의 최종 목록이 정해져야, 한국에 닿는 범위도 드러납니다.",
+   "tts": "결국 터널굴착기 허가 대상과 태양전지 기술의 최종 목록이 정해져야, 한국에 닿는 범위도 드러납니다.",
+   "segments": [
+    [
+     "결국 터널굴착기 허가 대상과 태양전지 기술의 최종 목록이 정해져야, 한국에 닿는 범위도 드러납니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_10_010738a468.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act3_10_010738a468.npy",
+   "dur": 6.5968027210884355,
+   "t0": 319.47918367346944,
+   "t1": 326.07598639455784,
+   "trim_offset": 0.547211,
+   "chunks": [
+    "결국 터널굴착기 허가 대상과 태양전지 기술의 최종 목록이 정해져야, 한국에 닿는 범위도 드러납니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9254,
+    "elapsed_ms": 1220,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.63,
+      7.46
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.24,
+     "f0_end_hz": 84.83,
+     "octave_fixed_n": 31
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "act4_0",
+   "scene": "act4",
+   "date": "2026.11.15",
+   "text": "다시 시간 순서로 돌아가, 남은 날짜를 짚어 보겠습니다.",
+   "tts": "다시 시간 순서로 돌아가, 남은 날짜를 짚어 보겠습니다.",
+   "segments": [
+    [
+     "다시 시간 순서로 돌아가, 남은 날짜를 짚어 보겠습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act4_0_50847317e5.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act4_0_50847317e5.npy",
+   "dur": 3.467324263038549,
+   "t0": 329.4759863945578,
+   "t1": 332.9433106575964,
+   "trim_offset": 0.476259,
+   "chunks": [
+    "다시 시간 순서로 돌아가, 남은 날짜를 짚어 보겠습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.971,
+    "elapsed_ms": 927,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.455,
+      4.215
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 91.52,
+     "f0_end_hz": 70.47,
+     "octave_fixed_n": 1
+    }
+   },
+   "role": "bridge"
+  },
+  {
+   "sid": "act4_1",
+   "scene": "act4",
+   "date": "2026.11.15",
+   "text": "올해 남은 두 달과 내년 초에 마감과 시행 날짜가 이어집니다.",
+   "tts": "올해 남은 두 달과 내년 초에 마감과 시행 날짜가 이어집니다.",
+   "segments": [
+    [
+     "올해 남은 두 달과 내년 초에 마감과 시행 날짜가 이어집니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act4_1_179e60cd6a.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act4_1_179e60cd6a.npy",
+   "dur": 3.766984126984127,
+   "t0": 333.84331065759636,
+   "t1": 337.6102947845805,
+   "trim_offset": 0.588163,
+   "chunks": [
+    "올해 남은 두 달과 내년 초에 마감과 시행 날짜가 이어집니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9203,
+    "elapsed_ms": 853,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.815,
+      4.61
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.79,
+     "f0_end_hz": 72.52,
+     "octave_fixed_n": 34
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act4_2",
+   "scene": "act4",
+   "date": "2026.11.15",
+   "text": "먼저 11월 15일, 기술 목록 초안의 의견 수렴이 끝납니다.",
+   "tts": "먼저 십일월 십오일, 기술 목록 초안의 의견 수렴이 끝납니다.",
+   "segments": [
+    [
+     "먼저 11월 15일, 기술 목록 초안의 의견 수렴이 끝납니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act4_2_f2f55b6d1f.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act4_2_f2f55b6d1f.npy",
+   "dur": 4.122426303854875,
+   "t0": 338.5102947845805,
+   "t1": 342.63272108843535,
+   "trim_offset": 0.537098,
+   "chunks": [
+    "먼저 십일월 십오일, 기술 목록 초안의 의견 수렴이 끝납니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8634,
+    "elapsed_ms": 1027,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.115,
+      4.75
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 111.38,
+     "f0_end_hz": 69.0,
+     "octave_fixed_n": 27
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_3",
+   "scene": "act4",
+   "date": "2026.11.15",
+   "text": "이후 정식 목록과 시행일은 따로 공고됩니다.",
+   "tts": "이후 정식 목록과 시행일은 따로 공고됩니다.",
+   "segments": [
+    [
+     "이후 정식 목록과 시행일은 따로 공고됩니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act4_3_d3e7b9288d.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act4_3_d3e7b9288d.npy",
+   "dur": 2.6342857142857143,
+   "t0": 343.5327210884353,
+   "t1": 346.16700680272106,
+   "trim_offset": 0.424354,
+   "chunks": [
+    "이후 정식 목록과 시행일은 따로 공고됩니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9619,
+    "elapsed_ms": 815,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.505,
+      3.2
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.1,
+     "f0_end_hz": 69.68,
+     "octave_fixed_n": 4
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_4",
+   "scene": "act4",
+   "date": "2026.11.18",
+   "text": "이어서 11월 18일에는 드론과 터널굴착기, 준설선 공고가 시행됩니다.",
+   "tts": "이어서 십일월 십팔일에는 드론과 터널굴착기, 준설선 공고가 시행됩니다.",
+   "segments": [
+    [
+     "이어서 11월 18일에는 드론과 터널굴착기, 준설선 공고가 시행됩니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act4_4_557d373f7e.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act4_4_557d373f7e.npy",
+   "dur": 4.848548752834467,
+   "t0": 347.06700680272104,
+   "t1": 351.9155555555555,
+   "trim_offset": 0.460068,
+   "chunks": [
+    "이어서 십일월 십팔일에는 드론과 터널굴착기, 준설선 공고가 시행됩니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.819,
+    "elapsed_ms": 1004,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.825,
+      5.215
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 87.59,
+     "f0_end_hz": 67.95,
+     "octave_fixed_n": 0
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_5",
+   "scene": "act4",
+   "date": "2026.11.24",
+   "text": "그 뒤 11월 24일에는 영업비밀 특별규정 초안의 의견 수렴이 마감됩니다.",
+   "tts": "그 뒤 십일월 이십사일에는 영업비밀 특별규정 초안의 의견 수렴이 마감됩니다.",
+   "segments": [
+    [
+     "그 뒤 11월 24일에는 영업비밀 특별규정 초안의 의견 수렴이 마감됩니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act4_5_601226d9d2.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act4_5_601226d9d2.npy",
+   "dur": 4.793469387755102,
+   "t0": 352.8155555555555,
+   "t1": 357.6090249433106,
+   "trim_offset": 0.466508,
+   "chunks": [
+    "그 뒤 십일월 이십사일에는 영업비밀 특별규정 초안의 의견 수렴이 마감됩니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8428,
+    "elapsed_ms": 972,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.705,
+      5.505
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.59,
+     "f0_end_hz": 72.45,
+     "octave_fixed_n": 24
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_6",
+   "scene": "act4",
+   "date": "2027.01.10",
+   "text": "그리고 미국이 밝힌 휴전 만료일은 내년 1월 10일입니다.",
+   "tts": "그리고 미국이 밝힌 휴전 만료일은 내년 일월 십일입니다.",
+   "segments": [
+    [
+     "그리고 미국이 밝힌 휴전 만료일은 내년 1월 10일입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act4_6_eed76b8062.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act4_6_eed76b8062.npy",
+   "dur": 3.2449206349206348,
+   "t0": 358.5090249433106,
+   "t1": 361.7539455782312,
+   "trim_offset": 0.541293,
+   "chunks": [
+    "그리고 미국이 밝힌 휴전 만료일은 내년 일월 십일입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.904,
+    "elapsed_ms": 1004,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.29,
+      4.03
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.47,
+     "f0_end_hz": 67.72,
+     "octave_fixed_n": 6
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_7",
+   "scene": "act4",
+   "date": "2026.10.30",
+   "text": "상무부는 아직 민감 국가 명단과 최종 기술 목록을 내놓지 않았습니다.",
+   "tts": "상무부는 아직 민감 국가 명단과 최종 기술 목록을 내놓지 않았습니다.",
+   "segments": [
+    [
+     "상무부는 아직 민감 국가 명단과 최종 기술 목록을 내놓지 않았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act4_7_c8ded20396.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/act4_7_c8ded20396.npy",
+   "dur": 4.439024943310658,
+   "t0": 362.6539455782312,
+   "t1": 367.0929705215418,
+   "trim_offset": 0.54288,
+   "chunks": [
+    "상무부는 아직 민감 국가 명단과 최종 기술 목록을 내놓지 않았습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9583,
+    "elapsed_ms": 1003,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.455,
+      5.28
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 104.09,
+     "f0_end_hz": 66.04,
+     "octave_fixed_n": 3
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "ending_0",
+   "scene": "ending",
+   "date": "2026.10.30",
+   "text": "결국 중국은 열흘 남짓 사이 기술 목록과 장비 허가, 영업비밀 제재라는 세 가지 도구를 내놓았습니다.",
+   "tts": "결국 중국은 열흘 남짓 사이 기술 목록과 장비 허가, 영업비밀 제재라는 세 가지 도구를 내놓았습니다.",
+   "segments": [
+    [
+     "결국 중국은 열흘 남짓 사이 기술 목록과 장비 허가, 영업비밀 제재라는 세 가지 도구를 내놓았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/ending_0_b2064b3f29.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/ending_0_b2064b3f29.npy",
+   "dur": 6.551428571428572,
+   "t0": 368.9929705215418,
+   "t1": 375.54439909297037,
+   "trim_offset": 0.488617,
+   "chunks": [
+    "결국 중국은 열흘 남짓 사이 기술 목록과 장비 허가, 영업비밀 제재라는 세 가지 도구를 내놓았습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9444,
+    "elapsed_ms": 1316,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.57,
+      7.155
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 108.62,
+     "f0_end_hz": 70.73,
+     "octave_fixed_n": 36
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "ending_1",
+   "scene": "ending",
+   "date": "2026.10.30",
+   "text": "다만 완제품은 허가나 등록을 거쳐 팔 수 있고, 목록에 오른 생산 기술은 수출 자체가 금지되거나 제한됩니다.",
+   "tts": "다만 완제품은 허가나 등록을 거쳐 팔 수 있고, 목록에 오른 생산 기술은 수출 자체가 금지되거나 제한됩니다.",
+   "segments": [
+    [
+     "다만 완제품은 허가나 등록을 거쳐 팔 수 있고, 목록에 오른 생산 기술은 수출 자체가 금지되거나 제한됩니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/ending_1_8cdb080890.mp3",
+   "npy": "/home/user/osint_generator/projects/china_tech_export_controls_2026/tts/ending_1_8cdb080890.npy",
+   "dur": 7.036621315192744,
+   "t0": 376.44439909297034,
+   "t1": 383.4810204081631,
+   "trim_offset": 0.489456,
+   "chunks": [
+    "다만 완제품은 허가나 등록을 거쳐 팔 수 있고, 목록에 오른 생산 기술은 수출 자체가 금지되거나 제한됩니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.955,
+    "elapsed_ms": 1471,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.935,
+      7.69
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 101.69,
+     "f0_end_hz": 66.89,
+     "octave_fixed_n": 40
+    }
+   },
+   "role": null
+  }
+ ],
+ "cards": [
+  {
+   "kind": "title",
+   "t0": 29.247369614512472,
+   "t1": 34.84736961451247
+  },
+  {
+   "kind": "end",
+   "t0": 385.58102040816306,
+   "t1": 396.58102040816306
+  }
+ ],
+ "scene_start": {
+  "cold": 1.2,
+  "act1": 35.24736961451247,
+  "act2": 157.20167800453524,
+  "act3": 251.56424036281192,
+  "act4": 327.9759863945578,
+  "ending": 368.9929705215418
+ },
+ "total": 397.08102040816306,
+ "voice": "supertonic-3 M3 ×0.95",
+ "title": "제품은 팔고, 능력은 안 판다",
+ "subtitle": "중국 기술 수출통제 열흘, 그리고 한국",
+ "date": "2026.10.30",
+ "tts_resynthesized": [],
+ "lint_waived": null,
+ "transitions": [
+  {
+   "sid": "act2_0",
+   "pause_t0": 157.201678,
+   "pause_sec": 1.5,
+   "kind": [
+    "stage"
+   ]
+  },
+  {
+   "sid": "act3_0",
+   "pause_t0": 251.56424,
+   "pause_sec": 1.5,
+   "kind": [
+    "stage"
+   ]
+  },
+  {
+   "sid": "act4_0",
+   "pause_t0": 327.975986,
+   "pause_sec": 1.5,
+   "kind": [
+    "stage"
+   ]
+  }
+ ],
+ "holds": []
+}

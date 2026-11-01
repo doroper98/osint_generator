@@ -26,7 +26,7 @@ def _shot(t: float, w: float, stage: str = "timeline") -> ShotStage:
 
 class AxisScaleTest(unittest.TestCase):
     def test_rule_values(self) -> None:
-        self.assertEqual((AX.w_changes_per_video_max, AX.w_change_ratio_min, AX.scene_fixed), (3, 1.5, True))
+        self.assertEqual((AX.w_changes_per_video_max, AX.w_change_ratio_min, AX.scene_fixed), (0, 1.5, True))   # v7.4.0 D-0261(UF-138) 3 → 0
 
     def test_change_inside_scene_is_hard(self) -> None:
         ch = timeline_w_changes([_shot(0, 400), _shot(5, 120)], SENT)
@@ -39,16 +39,21 @@ class AxisScaleTest(unittest.TestCase):
         self.assertEqual(timeline_w_changes([_shot(0, 400), _shot(5, 400), _shot(30, 400)], SENT), [])
 
     def test_count_over_max(self) -> None:
-        ws = [(0, 60), (19, 400), (39, 120), (59, 400), (79, 60)]   # 장면 경계(선행 1.5초 안) 변화 4회
+        ws = [(0, 60), (19, 400), (39, 120), (59, 400), (79, 60)]   # 장면 경계(선행 1.5초 안) 변화 4회 — 상한 0 이라 4건 모두
         out = timeline_rescale(timeline_w_changes([_shot(t, w) for t, w in ws], SENT))
+        self.assertEqual(len(out), 4)
+        self.assertIn(f"영상 4번째 > {AX.w_changes_per_video_max}", out[3])
+
+    def test_single_change_is_hard(self) -> None:
+        """v7.4.0 D-0261(사용자 의견 UF-138 "차트 액스축 스케일 고정시키라고 했지") — 장면 경계의 큰 배율 변화 한 번도 hard."""
+        out = timeline_rescale(timeline_w_changes([_shot(0, 200), _shot(19, 400)], SENT))
         self.assertEqual(len(out), 1)
-        self.assertIn(f"영상 4번째 > {AX.w_changes_per_video_max}", out[0])
+        self.assertIn("영상 1번째 > 0", out[0])
 
     def test_ratio_below_min(self) -> None:
         out = timeline_rescale(timeline_w_changes([_shot(0, 200), _shot(19, 260)], SENT))
         self.assertEqual(len(out), 1)
         self.assertIn("비율 1.3 < 1.5", out[0])
-        self.assertEqual(timeline_rescale(timeline_w_changes([_shot(0, 200), _shot(19, 400)], SENT)), [])
 
     def test_map_stage_excluded(self) -> None:
         self.assertEqual(timeline_w_changes([_shot(0, 90, "mercator"), _shot(5, 12, "mercator"), _shot(9, 3, "mercator")], SENT), [])
@@ -62,7 +67,7 @@ class AxisScaleTest(unittest.TestCase):
     def test_prompts_carry_rule_values(self) -> None:
         for name in ("director", "revise_direction"):
             txt = load_prompt(name, load_rules())
-            self.assertIn(f"영상 전체 {AX.w_changes_per_video_max}회 이하", txt, name)
+            self.assertIn(f"영상 안 w 변화는 {AX.w_changes_per_video_max}회", txt, name)
             self.assertIn(f"{AX.w_change_ratio_min:g}배 이상", txt, name)
             self.assertNotIn("{{RULES.stage_timeline.axis_scale}}", txt)
         self.assertTrue(any("축 스케일" in g for g in load_rules().direction_grammar))

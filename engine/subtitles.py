@@ -51,7 +51,22 @@ def subtitle_boxes(ctx: cairo.Context, tb: object, t: float) -> list[tuple[float
                 by = base_y + li * SUBTITLE.line_gap
                 out.append((W_OUT / 2 - w / 2, by - size * 0.86, W_OUT / 2 + w / 2, by + size * 0.22))   # 글자 상자(후광 제외)
             return out
-    return []
+    h = tb.hold_at(t) if hasattr(tb, "hold_at") else None   # v7.4.0 D-0274 §2③ — 발언 자리 번역 자막
+    if h is None:
+        return []
+    out = []
+    lines = hold_lines(ctx, h)
+    base_y = SUBTITLE.last_line_y - (len(lines) - 1) * SUBTITLE.line_gap
+    for li, ln in enumerate(lines):
+        w = tw(ctx, ln, SUBTITLE.size, "sansm")
+        by = base_y + li * SUBTITLE.line_gap
+        out.append((W_OUT / 2 - w / 2, by - SUBTITLE.size * 0.86, W_OUT / 2 + w / 2, by + SUBTITLE.size * 0.22))
+    return out
+
+
+def hold_lines(ctx: cairo.Context, h: object) -> list[str]:
+    """발언 자리 자막 줄 — 원고가 준 줄(≤ 2)을 자막 폭으로 접는다(린트와 같은 폭)."""
+    return [ln for s in h.subtitle for ln in wrap(ctx, s, SUBTITLE_WRAP_PX, SUBTITLE.size, "sansm")]  # type: ignore[attr-defined]
 
 
 def _ctx_w(ctx: cairo.Context, s: str, size: float) -> float:
@@ -85,3 +100,11 @@ def draw_subtitle(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: 
                          C[SUBTITLE.emphasis_color] if f else (1, 1, 1), a, SUBTITLE.halo, "l", halo_a=SUBTITLE.halo_alpha)
                     xx += _ctx_w(ctx, run, size)
             return
+    h = tb.hold_at(t)   # v7.4.0 D-0274 §2③ — 발언 자리: 원음 위 번역 자막(강조 없음)
+    if h is not None:
+        a = min(smooth((t - h.t0 + 0.05) / 0.18), smooth((h.t1 + 0.25 - t) / 0.2))
+        lines = hold_lines(ctx, h)
+        base_y = SUBTITLE.last_line_y - (len(lines) - 1) * SUBTITLE.line_gap
+        for li, ln in enumerate(lines):
+            text(ctx, ln, W_OUT / 2 - _ctx_w(ctx, ln, SUBTITLE.size) / 2, base_y + li * SUBTITLE.line_gap, SUBTITLE.size, "sansm",
+                 (1, 1, 1), a, SUBTITLE.halo, "l", halo_a=SUBTITLE.halo_alpha)

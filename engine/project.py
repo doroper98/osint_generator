@@ -12,6 +12,7 @@ import re
 
 import json
 from dataclasses import dataclass, field
+from datetime import date
 from pathlib import Path
 from typing import Optional
 
@@ -247,6 +248,10 @@ class Project:
     def animatic(self) -> bool:
         return self.layers.name == "animatic"
 
+    @property
+    def catalog(self) -> bool:
+        return self.layers.name == "catalog"
+
 
 def _media_extent(e: dict, w: float, media_assets: dict) -> tuple[float, float]:
     """폭 w 일 때 미디어 상자 (높이, 글자까지 포함한 폭) — 패널 옆 슬롯(engine.placement beside_panel)용."""
@@ -379,15 +384,23 @@ def music_ids(sound: Optional[dict]) -> set[str]:
 
 
 def load_project(proj: Path, direction: Optional[Direction] = None, out: Optional[Output] = None,
-                 animatic: bool = False) -> Project:
+                 animatic: bool = False, catalog: bool = False) -> Project:
     """렌더 입력 한 벌. direction 을 주면 direction.yaml 대신 그것으로(연출 워커의 저장 전 점검 — 렌더와 같은 경로, 15 P8).
     out = 출력 프로파일(v3.6.0, None = config engine.output.default). 설계 좌표·연출·검사는 프로파일과 무관하다.
     animatic = 콘티 판(v4.9.0 back_and_forth D-0108) — **플래그 분기는 여기 한 곳**: 프로파일 rules animatic.profile, 지도 = 전편과 같은
-    본 MercatorStage(v7.4.0 D-0241 §2·UF-121 — 막지도 삭제), 레이어 = ANIMATIC_LAYERS(자리표시), 이미지·영상 파일·초상 실측·권리 점검(check_credits) 건너뜀."""
+    본 MercatorStage(v7.4.0 D-0241 §2·UF-121 — 막지도 삭제), 레이어 = ANIMATIC_LAYERS(자리표시), 이미지·영상 파일·초상 실측·권리 점검(check_credits) 건너뜀.
+    catalog = 카탈로그 판(v7.4.0 back_and_forth D-0251 §1.1) — 전편과 같은 점검·자산·렌더러 + 라벨 층(CATALOG_LAYERS), 프로파일 rules catalog.profile."""
     proj = proj.resolve()
     plan = load_plan(proj)
     tb = Timebase(plan)
     AN = load_rules().animatic  # noqa: N806
+    if catalog:
+        if animatic:
+            raise ProjectError("콘티 판과 카탈로그 판은 함께 만들지 않는다(--animatic · --catalog 중 하나)")
+        CT = load_rules().catalog  # noqa: N806
+        if out is not None and out.name != output_profile(CT.profile).name:
+            raise ProjectError(f"카탈로그 판은 {CT.profile} 고정(rules catalog.profile) — --res {out.name} 와 함께 쓰지 않는다")
+        out = output_profile(CT.profile)
     if animatic:
         if out is not None and out.name != AN.profile:
             raise ProjectError(f"콘티 판은 {AN.profile} 고정(rules animatic.profile) — --res {out.name} 와 함께 쓰지 않는다")
@@ -429,6 +442,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         R.stage = stages.get(doc.main_stage())
     except ValueError as ex:
         raise ProjectError(f"무대 설정 오류: {ex}") from ex
+    if R.stage.name == "timeline":   # v7.4.0 D-0257(UF-137) — 시간축 주 무대는 화면 안쪽 틀 안에(차트 아일랜드와 같은 패딩, rules island.chart)
+        R.stage.fit_frame(tuple(TIMELINE.frame.box), ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)
     keys, raw_events, sound = load_direction(proj, tb, R.stage, doc)
     try:
         shots = shot_stages(doc, tb, stages.get)
@@ -461,7 +476,10 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
             keys = [cam(0.0, *R.stage.to_world(), R.stage.fixed_w, 0.0, "cut")]
         if any(is_island_shot(doc, s_, "backdrop") for s_ in doc.shots):
             chart_stage = stages.get(ISLAND_STAGE)
-            box_h = next(iter(ISLAND.boxes.values()))[3]   # 상자 높이는 모두 같다(rules 검증)
+            hs = {ISLAND.boxes[e.get("box") or "center"][3] for e in raw_events if e.get("type") == "island" and e.get("kind") == "chart"}
+            if len(hs) > 1:   # v7.4.0 D-0268 — 차트 시간축 무대는 영상당 하나 → 차트 아일랜드 상자 높이도 하나(left_tall 등 높이가 다른 상자)
+                raise ProjectError(f"차트 아일랜드 상자 높이가 섞였다 {sorted(hs)} — 한 영상의 차트 아일랜드는 같은 높이 상자만(레인 영역 한 벌)")
+            box_h = hs.pop() if hs else next(iter(ISLAND.boxes.values()))[3]
             chart_stage.fit_island(box_h, ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)   # Q2 A — 레인 자동 맞춤
             R.cache["island"] = {"lane_h_effective": round(chart_stage.y_px_per_unit, 3), "lane_h": TIMELINE.lane_h,
                                  "lanes": chart_stage.n}
@@ -536,6 +554,21 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     if island_errs:
         raise ProjectError("아일랜드 점검 실패(P6·P10):\n" + "\n".join(island_errs))
     prepare_series(R, events, chart_cams, n, chart_stage or R.stage)   # v4.3.0 D-0084 작업 4 — 레코드 로드·레인 범위·grow 앞끝(카메라 경로)
+    from engine.pin_labels import PinScene, assign_pin_rows, pin_label_check  # noqa: PLC0415
+
+    scene = None   # v7.4.0 D-0274 §1② — 값 레인 위 핀 라벨 단 배정(주 무대 틀·차트 아일랜드 같은 규칙, C12-3)
+    if chart_stage is not None:
+        from engine.island import island_view_at  # noqa: PLC0415
+
+        scene = PinScene(chart_stage, R.cache["island_chart"]["events"], R.cache["series_range"], R.cache["series_front"],
+                         island_view_at(events, R.cache["island_chart"]))
+    elif R.stage.name == "timeline":
+        scene = PinScene(R.stage, events, R.cache["series_range"], R.cache["series_front"],
+                         lambda t: View(R.stage, cams[min(n - 1, max(0, int(t * FPS)))]))
+    if scene is not None and scene.pins:
+        dropped = assign_pin_rows(scene)
+        R.cache["pin_labels"] = {"rows": {p["label"]: p["pin_row"] for p in scene.pins}, "dropped": dropped,
+                                 "collisions": pin_label_check(scene)}
     if chart_stage is not None and R.cache.get("island_check") is not None:   # v5.2.0 D-0133 §2·§3 — 마커 라벨 ↔ 상자·출처 줄(시리즈 slot 뒤)
         from engine.island import label_check  # noqa: PLC0415
 
@@ -555,6 +588,13 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         from engine.layers.animatic import ANIMATIC_LAYERS  # noqa: PLC0415
 
         P = Project(proj, plan, R, keys, events, cams, n, warns, shots, ANIMATIC_LAYERS)  # noqa: N806
+    elif catalog:   # v7.4.0 D-0251 — 라벨 층 입력(이벤트·숏·음성 줄)은 렌더 전에 한 번
+        from engine.layers.catalog import CATALOG_LAYERS, elements, voice_line  # noqa: PLC0415
+
+        R.cache["catalog"] = {"events": events, "shots": shots, "voice": voice_line()}
+        for e in events:   # 레지스트리 밖 이름은 렌더 전 오류(P10)
+            elements([e], e["t0"])
+        P = Project(proj, plan, R, keys, events, cams, n, warns, shots, CATALOG_LAYERS)  # noqa: N806
     else:
         P = Project(proj, plan, R, keys, events, cams, n, warns, shots)  # noqa: N806
     from engine.source_note import add_footnote_notes  # noqa: PLC0415
@@ -643,16 +683,31 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
                 load_series(sid)
             if e["style"] == "band":
                 band_pairs(e)   # 두 레코드 날짜 일치·위 ≥ 아래(v4.4.0) — 어긋나면 렌더 전 오류(P6)
+            if (e["style"] == "projection") != (load_series(e["series_id"]).kind == "scatter"):   # v7.4.0 D-0260 §2
+                raise ValueError("style projection 은 scatter 레코드(전망 점)에만, scatter 레코드는 style projection 으로만")
             kind = st.lanes[st.lane_index(e["lane"])].kind  # type: ignore[attr-defined]
         except (SeriesError, ValueError) as ex:
             raise ProjectError(f"series {e['series_id']} @ {e['lane']}: {ex}") from ex
-        if kind == "pins":
-            raise ProjectError(f"series {e['series_id']}: 레인 {e['lane']!r} 은 pins(핀 = marker) — step|line 레인에만")
         e["key"], e["slot"] = i, slots.get(e["lane"], 0)
         e["axis"] = e["slot"] == 0
         slots[e["lane"]] = e["slot"] + 1
     for lane in slots:
-        R.cache["series_range"][lane] = lane_range(events, lane)
+        R.cache["series_range"][lane] = lane_range(events, lane, st)   # v7.4.0 D-0263 — 무대 기간 안 데이터 맞춤
+    from engine.layers.series import axis_range_note, lane_source_join  # noqa: PLC0415
+
+    for lane in slots:   # v7.4.0 D-0256 — 레인당 출처 한 줄(레코드 출처를 " · " 로, 같은 출처는 한 번)
+        joined = lane_source_join([e for e in ser if e["lane"] == lane])   # v7.4.0 D-0266 B — 같은 매체 한 번, 전망 출처는 띠 태그(C)
+        note = axis_range_note(R.cache["series_range"][lane], load_series(next(e for e in ser if e["lane"] == lane)["series_id"]).unit)
+        if note:   # v7.4.0 D-0263 §2② — 0 이 아닌 곳에서 시작하는 축은 출처 줄 끝에 범위 표기
+            joined = f"{joined} · {note}"
+        for e in ser:
+            if e["lane"] == lane:
+                e["lane_source"] = joined
+                e["lane_n"] = slots[lane]   # 레인 안 series 수 — 둘 이상이면 띠 끝값 라벨을 찍지 않는다(D-0256)
+        lane_ser = [x for x in ser if x["lane"] == lane]
+        drawer = next((x for x in reversed(lane_ser) if x["style"] != "projection"), lane_ser[-1])
+        for e in lane_ser:   # v7.4.0 — 축은 레인의 마지막(전망 점 제외 — 늦게 나와 그 전엔 축이 없다) series 가 그린다: 끝값 라벨이 다 놓인 뒤 → 겹치는 눈금 라벨 생략
+            e["axis"] = e is drawer
     S = TIMELINE.series  # noqa: N806
     for e in ser:
         if not e["grow"]:
@@ -669,6 +724,47 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
             front[i] = best
         front[i1:] = best
         R.cache["series_front"][e["key"]] = front
+    pins_on_series(events, st, R.cache["series_range"])
+
+
+def series_value_at(evs: list[dict], d: date) -> float:
+    """그 날짜의 레인 값(v7.4.0 D-0274 §1① — 핀을 선 위 점으로). 계단·선(전망 점 제외)이 있으면 그 계열의 그 달 값(그 날짜 이전 마지막 값),
+    띠만 있으면 띠 가운데. 날짜가 자료 밖이면 오류(점을 지어내지 않는다, P6)."""
+    from data.series import load_series  # noqa: PLC0415
+    from engine.layers.series import band_pairs  # noqa: PLC0415
+
+    line = next((e for e in evs if e["style"] not in ("band", "projection")), None)
+    if line is not None:
+        vals = [(dd, v) for dd, v in load_series(line["series_id"]).values if dd <= d]
+        if vals:
+            return vals[-1][1]
+    band = next((e for e in evs if e["style"] == "band"), None)
+    if band is not None:
+        pr = [(dd, lo, hi) for dd, lo, hi in band_pairs(band) if dd <= d]
+        if pr:
+            return (pr[-1][1] + pr[-1][2]) / 2
+    raise ProjectError(f"핀 날짜 {d} 에 레인 값이 없다 — 계열 자료 시작 전(핀은 선 위 점, D-0274)")
+
+
+def pins_on_series(events: list[dict], st: object, ranges: dict[str, tuple[float, float]]) -> None:
+    """사건 핀(date 앵커 marker)을 값 레인 위의 점으로(v7.4.0 back_and_forth D-0274 §1①, UF-142 "두 개를 그냥 합쳐서 세로축을 늘리란 말이야").
+    월드 y = 그 날짜 계열 값(series.value_y). 계열 없는 레인의 핀은 오류 — 사건 레인(pins)은 없다."""
+    from data.series import load_series  # noqa: PLC0415
+    from engine.layers.series import value_y  # noqa: PLC0415
+
+    by_lane: dict[str, list[dict]] = {}
+    for e in events:
+        if e["type"] == "series":
+            by_lane.setdefault(e["lane"], []).append(e)
+    for e in events:
+        if e["type"] != "marker" or e.get("date") is None or e.get("lane") is None:
+            continue
+        if e["lane"] not in by_lane:
+            raise ProjectError(f"marker {e.get('label')!r} @ {e['date']}: 레인 {e['lane']!r} 에 계열이 없다 — 핀은 값 레인 위 점(D-0274)")
+        d = date.fromisoformat(str(e["date"]))
+        e["pin_value"] = series_value_at(by_lane[e["lane"]], d)
+        e["pin_unit"] = load_series(by_lane[e["lane"]][0]["series_id"]).unit   # 렌더 시 플롯 경계(축 값 라벨 열) 계산용
+        e["world"] = (st.x_of(e["date"]), value_y(st, e["lane"], ranges[e["lane"]], e["pin_value"]))  # type: ignore[attr-defined]
 
 
 def head_tops(R: RenderCtx, events: list[dict]) -> list[dict]:  # noqa: N803

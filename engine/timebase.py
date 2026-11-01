@@ -118,6 +118,16 @@ class Timebase:
         start = float(al["character_start_times_seconds"][i]) - (x.trim_offset or 0.0)
         return "aligned", x.t0 + min(max(start, 0.0), x.dur), ""
 
+    def hold(self, sid: str):  # noqa: ANN201 — PlanHold
+        """문장 sid 뒤 발언 자리(v7.4.0 D-0274 §2③, plan.holds). 없으면 KeyError(앵커 오류)."""
+        h = next((x for x in getattr(self.plan, "holds", None) or [] if x.sid == sid), None)
+        if h is None:
+            raise KeyError(f"발언 자리 없음: {sid} — 원고 sentences[].hold_after")
+        return h
+
+    def hold_at(self, t: float):  # noqa: ANN201 — PlanHold | None
+        return next((x for x in getattr(self.plan, "holds", None) or [] if x.t0 - 0.05 <= t <= x.t1 + 0.25), None)
+
     def card(self, kind: str):  # noqa: ANN201 — Card
         return next(c for c in self.plan.cards if c.kind == kind)
 

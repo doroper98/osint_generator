@@ -256,20 +256,30 @@ LABEL_STEP_FRAMES = 2   # 표본 간격(프레임) — 카메라가 움직이는
 
 def _source_rects(ctx: cairo.Context, chart: dict, v: View, t: float) -> list[tuple[str, Box]]:
     """같은 순간 차트 아일랜드의 시리즈 출처 줄 글자 상자(x0, y0, x1, y1) — layers.series._draw_source 와 같은 자리."""
-    from engine.layers.series import source_line  # noqa: PLC0415
+    from engine.layers.series import lane_source_text  # noqa: PLC0415
     from engine.typography import tw  # noqa: PLC0415
 
     L, S = TIMELINE.lane_label, TIMELINE.series  # noqa: N806
     st = chart["stage"]
     out: list[tuple[str, Box]] = []
     for e in chart["events"]:
-        if e["type"] != "series" or not e["t0"] <= t <= e["t1"]:
+        if e["type"] != "series" or not e["t0"] <= t <= e["t1"] or e.get("slot", 0):   # v7.4.0 D-0256 — 레인당 출처 한 줄
             continue
         _, bot = st.lane_screen(v, st.lane_index(e["lane"]))
-        by = bot - S.source_dy - S.source_step * e.get("slot", 0)
-        s = source_line(e)
+        by = bot - S.source_dy
+        s = lane_source_text(e)
         out.append((e["lane"], (L.x, by - S.source_size, L.x + tw(ctx, s, S.source_size, S.source_font), by + S.source_size * 0.25)))
     return out
+
+
+def island_view_at(events: list[dict], chart: dict) -> "Callable[[float], Optional[View]]":
+    """시각 → 차트 아일랜드 뷰(그 순간 보이는 차트 아일랜드 상자). 아일랜드가 없으면 None — engine.pin_labels 입력."""
+    isl = [e for e in events if e["type"] == "island" and e.get("kind") == "chart"]
+
+    def at(t: float) -> Optional[View]:
+        box_e = next((i for i in isl if i["t0"] <= t <= i["t1"]), None)
+        return None if box_e is None or island_alpha(t, box_e) <= 0.01 else chart_view(chart, t, island_box(box_e))
+    return at
 
 
 def label_check(events: list[dict], chart: dict) -> dict:
@@ -292,9 +302,10 @@ def label_check(events: list[dict], chart: dict) -> dict:
             rows.append({**key, **(first or {}), "t0": round(t, 2), "t1": round(t, 2)})
 
     for e in chart["events"]:
-        if e["type"] != "marker" or not e.get("label"):
+        if e["type"] != "marker" or not e.get("label") or e.get("pin_value") is not None:   # 값 레인 위 핀 = engine.pin_labels(D-0274)
             continue
         f0, f1 = int(e["t0"] * FPS), int(e["t1"] * FPS)
+        f0 = -(-f0 // LABEL_STEP_FRAMES) * LABEL_STEP_FRAMES   # v7.4.0 — 공통 표본 격자(핀↔핀 대조는 같은 프레임끼리만 만난다)
         for f in range(f0, f1 + 1, LABEL_STEP_FRAMES):
             t = f / FPS
             box_e = next((i for i in isl if i["t0"] <= t <= i["t1"]), None)
@@ -330,4 +341,4 @@ def label_overlap_details(rows: list[dict]) -> list[str]:
 
 
 __all__ = ["FrameStyle", "card_overlap", "card_overlap_details", "chart_view", "draw_frame", "draw_island", "island_alpha", "island_box", "island_boxes", "island_overlap", "island_slide", "is_main", "label_check",
-           "label_clip_details", "label_overlap_details", "main_missing", "main_missing_details"]
+           "label_clip_details", "label_overlap_details", "main_missing", "main_missing_details", "island_view_at"]

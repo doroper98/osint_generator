@@ -159,7 +159,11 @@ def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
 
     a = window(t, e["t0"], e["t1"], 0.35, 0.45)
     x0, y0, x1, y1 = media_box(e, R.assets.media_assets)
-    box(ctx, x0, y0, x1 - x0, y1 - y0, [label("clip", R.assets.media_assets[e["mid"]].caption)], a)
+    tail = f" · {round(e['t1'] - e['t0'])}초 · 원음"   # v7.4.0 D-0274 §2④ — 콘티 판도 원음을 재생한다(소리만, mix.f32) — 상자에 길이·원음 표기
+    cap = " ".join(R.assets.media_assets[e["mid"]].caption.split())
+    room = PH.max_chars - len(tail)
+    cap = cap if len(cap) <= room else cap[:room - 1] + "…"
+    box(ctx, x0, y0, x1 - x0, y1 - y0, [label("clip", cap + tail)], a)
 
 
 def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803

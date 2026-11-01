@@ -46,6 +46,8 @@ def validate_media(e: dict, assets: dict | None = None):  # noqa: ANN201 — sch
         raise RightsError(f"미디어 종류 불일치: 이벤트 {typ} ↔ 레지스트리 {mid}.kind={a.kind}")
     if getattr(a, "press_of", None) is not None:   # v5.21.0 D-0177 — 보도 인용(B) 사진은 독립 비트·배경 금지(기사 카드 프레스 칸에서만)
         raise RightsError(f"기사 {a.press_of} 의 보도 인용 사진({a.agency})은 기사 카드 프레스 칸(article press)에서만 — 독립 사진·배경 금지(사용자 결정 D172)")
+    if a.rights_status == "restricted" and a.kind == "video" and a.scope == "private_only":   # v7.4.0 사용자 결정 D264 — 비공개 시청 한정 클립
+        return a                                                                                 # (provenance private_only_assets 에 남는다)
     if a.rights_status != "rights_clear":
         raise RightsError(f"권리 미확인 미디어({a.rights_status}): {mid} — 렌더 금지(C9, <미검증> 라벨로 대신할 수 없다)")
     return a
@@ -136,13 +138,17 @@ def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
     img = Image.fromarray(rgb).resize(size, Image.BILINEAR).convert("RGBA")
     surf, buf = surf_from_pil(img)
     R.cache["clip_buf"] = buf  # 표면이 칠해질 때까지 버퍼를 붙잡아 둔다
-    media_frame(ctx, x, y, w, h + BAR, a)
+    bar = 0 if e.get("frame") else BAR   # v7.4.0 D-0274 §2① — 액자(clip_frame): 캡션 줄은 상자 안 위쪽 띠(아래는 자막 자리)
+    media_frame(ctx, x, y, w, h + bar, a)
     set_raster(ctx, surf, OP.k, x, y)
     ctx.paint_with_alpha(a)
-    ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + BAR - 1)
+    ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + bar - 1)
     ctx.set_source_rgba(1, 1, 1, 0.22 * a)
     ctx.set_line_width(1)
     ctx.stroke()
+    if e.get("frame"):
+        media_caption(ctx, x, y, w, m.caption, credit_line(m), a)
+        return
     media_tag(ctx, x, y, "VIDEO", a)
     media_caption(ctx, x, y + h, w, m.caption, credit_line(m), a)
 

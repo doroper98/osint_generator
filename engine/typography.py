@@ -57,6 +57,7 @@ CONTRAST_FIXED: dict[str, float] = {}
 CONTRAST_PENDING: list[tuple] = []   # 이번 프레임의 required 글자(장치 상자·행렬·검사 기록 항목·다시 그릴 인자) — flush_contrast_fix 가 비운다
 _FIXING = False
 GLYPH_LOG: list[tuple[float, str | None, str]] | None = None   # 켜면(list) text() 가 (크기, 역할, 문자열) 을 남긴다 — checks glyph_size(v3.6.0 D-0069)
+FONT_LOG: set[str] | None = None   # 켜면(set) 실제로 글자를 그린 글꼴 이름(engine.style.FONT 키)을 모은다 — 카탈로그 판 라벨(v7.4.0 D-0251)
 DISP_LATIN: list[str] | None = None   # v7.4.0 D-0229 §2.4(UF-111) — 켜면 display 글꼴로 그린 문자열 중 라틴 소문자가 남은 것(checks unit_glyph_font)
 GLYPH_MISS: list[tuple[str, str, str]] | None = None   # v4.4.0 — 켜면 text() 가 **그 글꼴**에 없는 글자를 (글꼴 이름, 글자, 문자열)로 남긴다(checks glyphs)
 
@@ -214,6 +215,8 @@ def text(ctx: cairo.Context, s: str, x: float, y: float, size: float, name: str 
     elif anchor == "r":
         x -= w
     font(ctx, name, size)
+    if FONT_LOG is not None:
+        FONT_LOG.add(name)
     ctx.new_path()
     if spacing:
         xx = x

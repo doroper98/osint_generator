@@ -186,6 +186,24 @@ class TTSConfig(BaseModel):
     alignment: AlignmentConfig | None = None     # v5.16.0 D-0164 §5 — 없으면 강제 정렬이 오류(P6)
 
 
+class VideoFetchConfig(BaseModel):
+    """영상 받기(v7.4.0 back_and_forth 감독 지시 — UF-141 준비, tools/media_fetch 영상 확장). yt-dlp 는 버전을 고정하고(설치본과 다르면 오류),
+    허용 도메인 밖 주소는 받지 않는다. 봇 검사 우회(쿠키·클라이언트 위장·추출기 인자)는 쓰지 않는다 — 막히면 오류로 끝낸다."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    yt_dlp_version: str = Field(min_length=1)
+    allowed_domains: list[str] = Field(min_length=1)   # 호스트가 이 도메인이거나 그 하위 도메인
+    max_height: int = Field(gt=0)
+    format: str = Field(min_length=1)                   # yt-dlp -f 형식 문자열({h} = max_height)
+
+
+class MediaConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    video_fetch: VideoFetchConfig | None = None   # 없으면 영상 받기가 오류(P6)
+
+
 class CommonsConfig(BaseModel):
     """위키미디어 공용 요청 설정 (v2.5.5, D-0031 NB4) — tools/commons_fetch·media_fetch·fetch_data 가 공유.
     14 §10.4: 요청 간격 15초, 429 는 60초부터 지수 대기(최대 600초, Retry-After 우선), 시도 상한."""
@@ -228,6 +246,7 @@ class AppConfig(BaseModel):
     tts: TTSConfig = Field(default_factory=TTSConfig)
     llm: LLMConfig = Field(default_factory=LLMConfig)
     commons: CommonsConfig = Field(default_factory=CommonsConfig)
+    media: MediaConfig = Field(default_factory=MediaConfig)
     review_gates: ReviewGatesConfig = Field(default_factory=ReviewGatesConfig)
 
 

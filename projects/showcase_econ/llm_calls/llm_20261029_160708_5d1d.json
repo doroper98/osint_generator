@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "call_id": "llm_20261029_160708_5d1d",
+  "task_id": "revise_direction-showcase_econ",
+  "worker": "revise_direction",
+  "backend": "claude",
+  "model": "claude-opus-5-5",
+  "mode": "response",
+  "system_prompt_hash": "sha256:10dfddcae679e2d8d95e65835a009f156c7e6dd0d35b3c2eca2bc19b25d80dbb",
+  "user_prompt_path": "llm_calls/llm_20261029_160708_5d1d.prompt.txt",
+  "raw_response_path": "llm_calls/llm_20261029_160708_5d1d.raw.txt",
+  "parsed_status": "validation_failed",
+  "started_at": "2026-10-29T16:07:08.587650Z",
+  "completed_at": "2026-10-29T16:10:50.526818Z",
+  "exit_code": 0,
+  "retry_index": 0,
+  "error_message": "check_parsed: 지적받지 않은 부분을 바꿨다(17 §5.5):\n지적 없이 변경: backdrop|||{\"scene_start\": \"cold\"}\n지적 없이 삭제: backdrop|||{\"scene_start\": \"act1\"}\n지적 없이 변경: backdrop|||{\"scene_start\": \"act2\"}\n지적 없이 변경: backdrop|||{\"scene_start\": \"act3\"}\n지적 없이 변경: island|chart||{\"off\": -0.4, \"sid\": \"cold_0\"}\n지적 없이 변경: series|||{\"off\": -0.2, \"sid\": \"cold_0\"}"
+}

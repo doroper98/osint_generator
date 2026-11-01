@@ -26,6 +26,39 @@ banned_phrases:            # 03 §2 — 정규식, 자막 텍스트에 적용. �
     - '지켜봐야\s?(하겠|할|겠)'                # v5.6.0 사용자 결정(2026-10-04) — 마무리 관전 권유 금지("끓어오르고 있습니다"처럼 단정, LLM-AP-016)
     - '귀추가 주목'                           # v5.6.0 — 같음
     - '(제도|법|규정|제재|조치|정책)[가이은는의]?\s?.{0,6}(겨누|겨냥하|노리)'   # v7.4.0 D-0241 §5(UF-124 "겨누는것, 겨누지 않는것 이라는 용어말고 제재대상 비제재대상") — 제도·법 주어의 의인화 동사
+    - '(한\s?곳|한\s?점|한\s?지점)(으로|에|을)\s?(모인|모여|모였|향한|향해|겨눈)'   # v7.4.0 UF-145 수렴 은유 변형("한 점에 모여")
+    - '(할|이|가|은|는)\s?남는다\s*[.!]?\s*$'   # v7.4.0 UF-145 "~의 N할이 남는다"·"~가 남는다"
+    - '(이|가|은|는)\s?올라온다\s*[.!]?\s*$'   # v7.4.0 UF-145 "~가 올라온다"
+    - '(줄|장)의\s?청구서'   # v7.4.0 UF-145 "N줄의 청구서"
+    - '청구서(를|가|는|이)\s?(내밀|말하|날아|보낸|쓴|적)'   # v7.4.0 UF-145 청구서 의인화
+    - '말하는\s?것,?\s?(그리고|과)\s?말하지\s?않는'   # v7.4.0 UF-145 "말하는 것, 그리고 말하지 않는 것"
+    - '이유(도|는|가)\s?거기'   # v7.4.0 UF-145 "이유도 거기 있다"
+    - '그대로\s?적힌다'   # v7.4.0 UF-145 "계약서에 그대로 적힌다"
+    - '누가\s?.{0,14}(받아\s?주느냐|받아주느냐|사\s?주느냐|쥐느냐|가져가느냐)'   # v7.4.0 UF-145 "누가 대량으로 받아 주느냐"
+    - '(이|가)\s?아니라\s?.{0,10}에서\s?(난다|갈린다|결정된다|판가름)'   # v7.4.0 UF-145 "화면이 아니라 공정에서 난다"
+    - '방향을\s?(정할|가른다|가를|정했다|정한)'   # v7.4.0 UF-145 "방향을 정한다" 변형
+    - '(승부|게임|싸움)(는|가|이)\s?.{0,8}(난다|갈린다|끝났다)'   # v7.4.0 UF-145 승부 은유
+    - '눌려\s?있는\s?(지점|곳|자리)'   # v7.4.0 UF-145 "세 겹의 문제가 눌려 있는 지점"
+  # v7.4.0 UF-145(사용자 원문 2026-10-30 "니가 작성하는 문구에 이런내용이 없도록 강하게 쪼여") — 사용자가 든 예문. 테스트가 patterns 로 모두 잡히는지 강제(tests/test_script_lint.py::BannedExamplesTest).
+  # 린트 범위는 원고 자막 + 화면 문자열 전부(description·카드·패널·핀 라벨·엔딩 카드·카탈로그 표·gate-view) + 감독 보고문(tools/slop_check.py) — D-0281
+  examples:
+    - '세 가지 화살이 한곳으로 모인다.'
+    - '유가와 환율이 한 점에 모여 있다.'
+    - '이 발표가 시장을 한번에 흔들었다.'
+    - '세 겹의 문제가 눌려 있는 지점이다.'
+    - '앞으로 관세가 투자의 방향을 정한다.'
+    - '결국 같은 자리로 돌아온다.'
+    - '공급망으로 읽으면 이렇다.'
+    - '그래서 이 카테고리 승부는 이제 화면이 아니라 공정에서 난다.'
+    - '한국 부품 장비 회사에 이 발표가 진짜 뉴스인 이유도 거기 있다.'
+    - '저 수준의 공정을 누가 대량으로 받아 주느냐가 다음 계약서에 그대로 적힌다.'
+    - '삼성이 서 있는 자리는 다르다.'
+    - '수치만 보면 호재로 읽힌다.'
+    - '연준이 말하는 것, 그리고 말하지 않는 것.'
+    - '매출의 3할이 남는다.'
+    - '그래도 질문이 남는다.'
+    - '다음 변수가 올라온다.'
+    - '관세가 말하고 있는 세 줄의 청구서.'
   candidates:              # 03 §2.1 추가 후보 — 사람 승인 후 patterns로 승격
     - '결국 .{0,12}의 문제다'
     - '의 시대가 열렸다'
@@ -315,7 +348,7 @@ direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문�
   - 청와대·대통령실(한국)이 발언·행위 주체인 문장에는 휘장 뱃지(kind emblem, img cheongwadae)를 건다. 대통령 개인이 주체면 초상 뱃지, 둘 다면 초상을 우선한다(v4.8.0 D-0109, 사용자 결정 D98).
   - 주제가 지리·이동·위치가 아니면(정책·금리·기업·법정·발언 중심) 지도 무대를 쓰지 않는다 — backdrop 무대 + 아일랜드(차트·개념도·사진·기사·패널)로 구성한다. 지도가 중심이면 mercator(v5.1.0 D-0123 §2). 장르 기본 무대와 다르게 고르면 stage_reason 에 이유를 적는다.
   - 보도를 인용하는 카드(출처가 매체 — 통신사·신문·방송)는 카드가 아니라 기사(article) 이벤트로 건다 — 프레스 규약 v2(가운데·세리프 헤드라인). backdrop 무대에서는 주 아일랜드가 항상 하나 보이고 카드만 있는 구간은 짧게 둔다(아래 사진 배경 무대 절, v5.2.0 D-0129, 검사 [backdrop-main-missing] hard).
-  - 시간축 무대는 축 스케일(w)을 장면 단위로 고정한다 — 확대·축소는 영상당 몇 번뿐이고 그 밖은 중심 이동(pan)만(v5.1.0 D-0121 §A, 검사 [timeline-rescale] hard, 수치는 아래 축 스케일 절).
+  - 시간축 무대는 축 스케일(w)을 영상 전체에서 하나로 고정한다 — 확대·축소 없이 날짜 이동(pan)만(v7.4.0 D-0261·UF-138, 검사 [timeline-rescale] hard, 수치는 아래 축 스케일 절).
   - 지도 고정 구간에서 날짜가 있는 사건이 셋 이상 이어지면(협상 경과·발표 순서) 카드를 늘어놓지 않고 **겹침 카드(cascade) 하나**로 건다 — 지금 문장의 사건만 앞에 크게, 언급이 지나간 사건은 뒤로 물러나 겹친다. 사건마다 국기·날짜·제목 한 줄, 부제는 선택. 같은 순간 cascade 는 하나, 카드와 같이 두지 않는다(v5.3.0 D-0139, 사용자 결정 D116·D117, 검사 [cascade-*] hard).
   - '인물의 **직접 인용**(원문 기사에서 따옴표로 확인된 발언 = 입력의 "인용 후보" 목록, v5.6.0)은 카드가 아니라 **인용(quote)** 으로 건다 — 원문(영어 등)은 뜻을 바꾸지 않고 한국어로 옮긴다 — 초상(pid, 없으면 flag) + 화면 가운데 따옴표 인용문 + 아래 작은 이름·직함·매체·날짜. 기자의 요약·간접 화법("~라고 말했다"를 줄인 문구)에는 따옴표를 쓰지 않는다 — 카드(quote: false). A 의 인용과 그에 맞서는 B 의 인용을 함께 보일 때는 같은 순간 A = pos upper(왼쪽 위), B = pos lower(오른쪽 아래). 인용 중에는 같은 인물의 지도 뱃지를 겹쳐 두지 않는다(v5.4.0, 사용자 결정 2026-10-02, 검사 [quote-overflow]·[subtitle-overlap] hard).'
   - '가격·추이·통계 문장에는 알맞은 차트를 건다 — 시간에 따른 변화 = 선 차트(panel dual_line, 출처 있는 실측값, 촘촘한 날짜 라벨은 x_label_rotate), 전체 대비 비율 = 도트(panel dots), 단일 지표 = 큰 숫자 카드(bigs). 값은 출처가 있는 것만, 주장 수치는 주장 주체를 패널 문구에 적는다(v5.4.0, 사용자 지시 2026-10-02, 검사 정직성 4종 hard).'
@@ -447,7 +480,7 @@ media:                     # v2.5.5 D-0037(D38) — 14 §10.1 밀도 경고. v3 
 media_beats:               # 14 §10
   kinds: [photo, clip, cutout, article, post]
   photo_show_sec: [4, 8]
-  clip_show_sec: [3, 6]
+  clip_show_sec: {main: [5, 20], broll: [3, 6]}   # v7.4.0 D-0274 §2②·D-0276 — 역할별(clip.role). main = 주 요소(액자 clip_frame, 원음), broll = 현장 보조(구석 슬롯, 내레이션 아래)
   file_photo_label_required: true         # "자료사진 · 연월"
   caption_credit_required: true
   ai_generated_forbidden: true            # G4-10, 14 §2.2
@@ -458,6 +491,13 @@ media_beats:               # 14 §10
     cutout: "{file_note} · {credit_author}"
     inset: "{file_note} · {credit_author}"   # v7.3.0 D-0206 — 위성 인셋 출처 줄(예: "위성 · 2026. 10 · NASA GIBS/HLS")
   registry: assets/media/media_registry.json
+  # v7.4.0 back_and_forth D-0261(사용자 의견 UF-139 "그래프만 주구장창 보여줄꺼면 내가 영상을 왜만들고 왜보냐… 레퍼런스 사진이나 영상 풍부하게",
+  # UF-119 재발) — 검사 [media-density] hard: (photo + clip + cutout 이벤트 수) ÷ 영상 분 < 이 값이면 실패. 사유로 통과 없음. 등재 실사 0 이면
+  # 연출 착수 거부 [media-none](workers.direction_io.require_visual_media). 값 1.5 = 감독 제안(D-0261 §2①)
+  min_density_per_min: 1.5   # D-0265 §5 — backdrop 무대의 배경 사진(backdrop 이벤트)도 이벤트마다 사진 1장으로 센다(배경도 실사)
+  density_exempt_projects:   # 회귀 기준만(새 영상 아님). 범위 = tests/test_media_density.py 가 이 두 개로 고정
+    hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
+    fed_timeline_demo: "시간축 엔진 검증용 데모(배포 영상 아님) — 미디어 없는 순수 차트 픽스처"
   # v7.3.0 사용자 결정 D232 U1·D234 — 위성 인셋(kind inset) 라이선스 허용 목록(한 곳). 목록 밖 = 레지스트리 로드 오류(RightsError).
   # private_only: true = 비공개 시청 한정(사용자 결정 D234) — 레지스트리 항목에 scope: private_only 필수, provenance private_only_assets 에 기록.
   # 공개 전환 시 private_only 인셋은 NASA GIBS/Sentinel 타일로 교체할 의무가 있다(교체 전 공개 금지).
@@ -518,6 +558,10 @@ placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `pl
     # 자막 구역(y 410) 위·left 상자 오른쪽 끝 564 밖. 폭 236 → 16:9 + 캡션 바 42 = y 212~387. stages = 이 무대에서만(다른 무대 = 배치 오류, P10).
     # 사용자 합격 값 아님(480p 시감 뒤 조정 가능)
     backdrop_right_low: {kinds: [photo, clip], box: [594, 212, 236], stages: [backdrop]}
+    # v7.4.0 back_and_forth D-0274 §2①·D-0276 A(사용자 의견 UF-141 "영상이 나올 때는 한쪽 구석에 몰아서 … 보여주지 말고 … 액자 형식으로 … 꽉 채워서") —
+    # 레퍼런스 영상(clip.role main, 기본)의 유일한 자리: 화면 폭 84 %·16:9·가운데 [68, 38, 785, 441]. 배경(블러 사진·지도)은 그대로, 캡션 줄은 액자 안 위쪽 띠.
+    # 날짜 뱃지·자막은 액자 위에 그린다(예외 키 layout_480p.subtitle.over_clip_frame·hud.date_badge_over_clip_frame — 이 슬롯에만). 검사 [clip-frame] hard
+    clip_frame: {kinds: [clip], box: [68, 38, 717], frame: true, stages: [backdrop, mercator, timeline]}
     # v4.8.0 D-0104 D2(c) — 패널 위 인물 뱃지(화면 고정, 패널 층 위에 그린다). 동시에 떠 있는 n 번째 뱃지 = n 번째 점. 모자라면 오류.
     # y 300: solo R 56 상자(머리 2.2R 위 ~ 이름·역할 46px 아래) = y 177~402 — 자막 구역(y≥410) 밖. 왼쪽 먼저(카드 자리 x≥594 를 피함)
     panel_badge:     {kinds: [badge], screen: [[96, 300], [758, 300]]}
@@ -531,12 +575,14 @@ hud:                       # 09 §5 — 모서리에는 날짜만
   allowed_corner_elements: [date_badge]
   forbidden_components: [brand_mark, section_number, section_title, stamp, vignette, scrubber, chapter_number]
   date_badge: {font: mono, size: 15, x_right: 26, y: 40, underline_y: 48, underline_w: 1.4, slide_px: 6, slide_sec: 0.45}
+  date_badge_over_clip_frame: true   # v7.4.0 D-0276 — 날짜 뱃지는 클립 액자 위(그 슬롯과의 [media-over-date] 만 예외)
 
 layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480. 다른 해상도는 k = H/480
   base: {w: 854, h: 480, fps: 24}
   # v4.8.0 back_and_forth D-0113(D-0101 §3 A) — 화면 글자 크기 전수 표 1·2 적용: 본문 ≥ 12·메타 ≥ 9, 자막 21, 연동 기하(line_gap·src_gap·caption_bar_px·caption_dy·credit_dy·tag_h·tag_dy·sub_dy·body_line)
   # v4.11.0 back_and_forth D-0118 §3(사용자 위임 D103, G7 480p 판정 대신) — 2차 표: 자막 21 → 22, card.line_size 15 → 16. 그 밖 무변경(표 3 유지)
-  subtitle: {size: 22, last_line_y: 452, line_gap: 26, halo: 5.0, halo_alpha: 0.92, emphasis_color: gold}   # v4.5.0 D85 — 검증 라벨 접두(label_style) 폐지
+  subtitle: {size: 22, last_line_y: 452, line_gap: 26, halo: 5.0, halo_alpha: 0.92, emphasis_color: gold,
+             over_clip_frame: true}   # v7.4.0 D-0276 — 자막은 클립 액자(clip_frame) 위에 그린다(그 슬롯과의 [media-over-subtitle] 만 예외)   # v4.5.0 D85 — 검증 라벨 접두(label_style) 폐지
   min_font_px: 9.5         # 화면 높이 2% 규칙(엔딩 카드 예외)
   title_card: {dur_sec: 5.6, title_size: 46, subtitle_size: 18, rule_w: 220, max_w_ratio: 0.9, title_min_size: 30}   # v5.21.3 — 제목 폭 > W × max_w_ratio 일 때만 줄임, title_min_size 미만이면 오류
   end_card:
@@ -1105,6 +1151,10 @@ audio:                     # 10
   loop_xfade_sec: 4.0       # BGM 반복 교차 페이드
   fade_in_sec: 1.2
   fade_out_sec: 4.0
+  # v7.4.0 back_and_forth D-0274 §2③·D-0276(사용자 의견 UF-141 "영상에 대한 목소리도 들리도록 해") — 클립 원음 트랙(audio.mix). 원음은 가공 단계에서
+  # 레지스트리 segment 그대로 media/<file>_clip.wav(44.1kHz 스테레오)로 뽑고, 피크를 narration_peak 에 맞춘 뒤 이 이득. main(발언·현장, 액자) 구간은
+  # 음악 베드를 bed_duck_db 만큼 낮춘다(bed_gain 0.43 불변). 내레이션이 겹치는 동안 클립은 narration_duck_db 만큼 더 낮춘다(broll 은 내레이션 아래).
+  clip: {main_gain_db: 0, broll_gain_db: -18, narration_duck_db: -18, bed_duck_db: -18, duck_fade_sec: 0.3}
   fx_duck: 0.25             # 효과음 덕킹 깊이
   qa:                       # v3.4.0 D-0060 작업 6 — 오디오 QA(audio/qa.py, 검사기 하나). 13 Phase 8·10 §7-5
     i_tol_lu: 1.0                          # 최종 통합 음량 = loudnorm.I ± 이 값
@@ -1158,6 +1208,11 @@ audio:                     # 10
     scene_start: {lead_sec: 0.05, whoosh_dur_sec: 0.9, whoosh_v: 0.55}                  # sfx_policy: 장면 시작 휙(첫 장면 제외)
 
 stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시간축 무대(engine/stage_timeline.py)·시리즈 레이어(engine/layers/series.py). 설계 px(480p)
+  # v7.4.0 back_and_forth D-0257(사용자 의견 UF-137 "금리 차트가 화면 좌우에 다 꽉차서 만드는 UI는 UX 측면에서 최악") — 시간축 주 무대는 화면을 채우지 않고
+  # 안쪽 틀 안에 담는다. 세계는 하나 그대로(카메라가 그 안을 움직인다), 틀 밖은 그리지 않는다(클립). 상자 모양·레인 패딩 = 차트 아일랜드(island·island.chart).
+  # 틀 = 날짜 뱃지(위 56) 아래·자막(2줄 위 끝 약 407) 위·좌우 60(D-0258). 레인 영역 = 틀 안 [island.chart.pad_top, 높이 − pad_bottom], 세로 척도 = min(lane_h, 영역 ÷ 레인 수). 검사 [chart-edge-bleed] hard
+  frame:
+    box: [60, 60, 734, 330]   # D-0258 — 좌우 여백 60(24 는 가장자리에 붙어 읽힌다, 감독 720p 실측)
   lane_h: 96               # 레인 한 칸 높이 = 무대 세로 척도 y_px_per_unit(D-0085 A). 카메라 w 는 시간 폭만
   area_top: 60             # 레인 영역 위 끝(날짜 배지 아래)
   area_bottom: 380         # 레인 영역 아래 끝(날짜 눈금 라벨·자막 위). 레인 총높이가 작으면 이 안 가운데
@@ -1224,11 +1279,27 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     axis_label_size: 11    # v4.4.0 D-0092 B: 10 → 11
     axis_label_font: mono
     axis_label_halo: 2.5
+    axis_label_min_gap_px: 13   # v7.4.0 D-0268 §2 — 축 값 라벨 사이 하한(글자 11 × 1.2). 미만이면 중간 라벨 생략·눈금선만
     source_dy: 7           # 레인 아래 끝 → 출처·기준 시점 줄 기준선(위로). 같은 레인 n 번째 series 는 source_step 씩 위
     source_step: 12
     source_size: 11        # v4.4.0 D-0092 B: 10 → 11
     source_font: sansm
     source_halo: 2.5
+    # v7.4.0 back_and_forth D-0256 — 한 레인에 레코드 둘 이상(띠+계단 등)일 때: 끝값 라벨은 값 순서로 세로 분산(기준선 사이 이 값 이상), 띠(band)는 다른 계열과 한 레인이면 끝값 라벨을 찍지 않는다
+    # (상·하한은 띠 자체가 보여 준다), 출처 줄은 레인당 한 줄(레코드 출처를 " · " 로 잇는다). 검사 [series-label-overlap] hard
+    end_label_min_gap_px: 14   # value_size 12 + 2
+    # v7.4.0 back_and_forth D-0277 §2 — 끝값 라벨 뒤 작은 판(바탕 = stage_timeline.bg_rgb). 강조 띠(9.16 목표 범위 등) 위에서 대비가 죽던 것(preview_v9 94초 "3.63 %").
+    # 모든 레인 끝값 라벨에 같은 규칙. 판 없는 끝값 라벨 = [series-label-overlap] hard(판이 곧 장치). alpha 0.72 = 감독 제안 값(사용자 합격 값 아님)
+    end_label_plate: {alpha: 0.72, pad_px: 4, descent: 0.22}   # descent = 글자 내림 ÷ 글자 크기(자막 글자 상자와 같은 값) — 판 아래 끝
+    # v7.4.0 back_and_forth D-0274 §1②·D-0276(UF-143 "차트에 글씨가 너무 겹치네") — 값 레인 위 사건 핀 라벨: 점 가운데 정렬, 선 위 1·2단 → 선 아래 1·2단 순으로
+    # 코드가 고른다(다른 핀 라벨·점, 계열 선·띠, 축 값 라벨, 끝값 라벨과 교차 0, 상자는 플롯 안 x 클램프). 넷 다 막히면 점만(provenance pin_labels.dropped).
+    # 점 ↔ 라벨 상자 가장자리 = first_dy, 단 간격 = row_gap(한 줄 라벨 13 + 여백 3 — 부제 있는 두 줄 라벨은 같은 여백 3 을 두고 상자 높이만큼).
+    # 리더선 = 점 → 라벨 상자 가장자리 세로선. 교차는 [island-pin-collision] hard(주 무대 틀도 같은 키, C12-3)
+    pin_label_rows: 2
+    pin_label_first_dy_px: 18
+    pin_label_row_gap_px: 16
+    pin_leader_w: 1.0
+    pin_leader_alpha: 0.6
     change_regime_months: 2   # v4.4.0 D-0091 ② color_by change — 마지막 변화가 이 달 수 안이면 그 방향(hike·cut), 넘으면 hold(동결). FOMC 회의 간격(6~7주) — 연속 회의 인상·인하는 이어지고 동결 결정 뒤는 회색(6 → 2: fed_policy 검수 루브릭 5 지적, 2026 동결기가 인하 색)
   band:                    # v4.4.0 D-0090 작업 2 — series style band(두 레코드 사이 띠 = 목표 범위). 색은 이벤트 col
     fill_alpha: 0.28
@@ -1249,11 +1320,59 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
   # v5.1.0 back_and_forth D-0121 §A(사용자 피드백 D105 — fed 시간축 가로축 스케일이 숏마다 바뀌어 불편) — 축 스케일(카메라 w, 일)을 장면 단위로 고정.
   # w 변화 = 시간축 숏(지도 무대 제외)의 연속한 두 숏 사이 w 가 다름(첫 숏 설정은 변화 아님). checks timeline_rescale(hard)
   # `[timeline-rescale] {at} w {a}→{b} ({이유})`: ① scene_fixed 인데 같은 장면 안 변화 ② 영상 전체 변화 수 > max ③ 비율 max/min < ratio_min. provenance timeline.w_changes[]
+  # v7.4.0 back_and_forth D-0263(사용자 의견 UF-140 "금리 같이 변동이 크지 않은 데이터나 차트의 가로축을 그렇개 늘려버리면 그냥 가로로 펼쳐진 직선으로밖에
+  # 안보인다") — 레인 값 범위를 데이터에 맞춘다. 범위 = 무대 기간(stage_config.timeline start~end) 안 그 레인 레코드 전체의 [최소 − pad, 최대 + pad], pad = 폭 × pad_ratio,
+  # 폭이 min_span(단위별) 보다 작으면 가운데 기준으로 넓힌다(0.25%p 를 절벽처럼 과장하지 않는 하한), 양 끝은 nice_mantissas × 10^k 눈금으로 반올림.
+  # 데이터가 모두 0 이상이면 아래 끝은 0 아래로 내려가지 않는다. 0 이 아닌 곳에서 시작하면 출처 줄 끝에 axis_range_note(정직성 표기, units_visible 이 확인).
+  # 검사 [flat-lane] hard: 그려진 선·계단의 세로 폭 < 레인 값 영역 × flat_lane_min_ratio. 막대(E4)·패널은 대상 아님(0 기준 그대로). 가로축(w)은 고정 — 세로 범위로 살린다
+  lane_range:
+    mode: fit
+    pad_ratio: 0.08              # v7.4.0 D-0270 — 0.12 → 0.08
+    nice_mantissas: [1, 2, 2.5, 5]
+    ticks_max: 3                 # v7.4.0 D-0268 — 2 → 3(중간 눈금 최대 3, 간격 0.5)
+    end_round: half_step         # v7.4.0 D-0277 §3 정정 — 끝 값은 눈금 간격의 절반 단위로 내림·올림(간격 단위 올림이 econ 3~5% 위 0.5%p 빈 띠를 만들었다 → 3~4.75%). 중간 눈금은 간격의 배수 그대로
+    min_span: {"%": 1.0, "%p": 1.0, "bp": 50}   # 감독 제안 값(D-0263 §2①) — 사용자 합격 값 아님
+    flat_lane_min_ratio: 0.35
+    empty_band_max_ratio: 0.15   # v7.4.0 D-0277 §3 [axis-empty-band] hard — 데이터 극값 밖 빈 띠(한쪽) ÷ 축 범위 상한. 감독 제안 값(사용자 합격 값 아님)
+    axis_range_note: "축 범위 {lo}~{hi}"
+  # v7.4.0 back_and_forth D-0260 §2·D-0264 — 전망 점: series style projection + scatter 레코드(예: SEP 점도표)를 같은 레인·같은 축척 위의 점으로.
+  # 열 x = 그 해 12월 31일(column_date year_end), 장기(Longer run) = 마지막 연도 열 + longer_run_gap_days. 점 크기·간격·중앙값 선·열 이름·고정 문구는
+  # primitive.dot_plot 값 재사용(dot_r·dot_gap·median_w·median_half·col_size·note). 색 = 장르 color_semantics.forecast(D-0264 — 기존 토큰 amber).
+  # 열마다 column_stagger_sec 간격으로 자란다(한꺼번에 금지). 레코드 as_of 다음 달 1일부터 무대 끝까지 전망 음영 띠(band_alpha). 데이터 요소라 [card-over-panel] 덮개가 아니다
+  projection:
+    column_date: year_end
+    longer_run_gap_days: 365
+    column_stagger_sec: 0.6      # 제안 값(D-0264 범위 밖 — 사용자 합격 값 아님)
+    band_alpha: 0.10
+    median_alpha: 0.95
+    label_dy: 14                 # 열 이름 기준선 = 가장 낮은 점 아래 이 값(설계 px). 제안 값
+    hold_clip: hard              # v7.4.0 D-0277 §1 — 카메라가 머무는 창(이동 끝·홀드)에서 전망 열은 플롯 안에 완전히 들거나 완전히 나간다(점 반지름 이상 잘림 = hard). 전망 열이 보이는 홀드 창에는 마지막 실측 점도 보인다(선 → 점 연속). 이동 중 통과는 허용. 검사 [chart-edge-bleed]
   axis_scale:
-    w_changes_per_video_max: 3     # 오프닝 뒤 작업 척도·중간 1회·엔딩 조망
+    w_changes_per_video_max: 0     # v7.4.0 D-0261(사용자 의견 UF-138 "차트 액스축 스케일 고정시키라고 했지", UF-39 재발) — 영상 안 w 는 첫 숏의 하나. 옛 3(오프닝·중간·엔딩 조망)은 폐기
     w_change_ratio_min: 1.5        # 이 미만의 w 변화는 '흔들림'
     scene_fixed: true              # 장면 안에서 w 변경 금지 — move 는 중심 이동(pan)만
-    grammar: "시간축 무대는 축 스케일(카메라 w, 화면이 덮는 일수)을 장면 단위로 고정한다. 확대·축소는 영상 전체 {max}회 이하(오프닝 뒤 작업 척도·중간 1회·엔딩 조망), 한 번에 {ratio}배 이상만 바꾼다. 장면 안에서는 w 를 그대로 두고 중심 이동(pan)만 한다. 지도의 '문장마다 줌 금지'(G4-16)와 같은 원리다. 검사 [timeline-rescale] hard."
+    grammar: "시간축 무대는 축 스케일(카메라 w, 화면이 덮는 일수)을 영상 전체에서 하나로 고정한다 — 첫 숏의 w 를 끝까지 쓰고, 영상 안 w 변화는 {max}회다. 카메라는 날짜 이동(pan)만 한다. 오프닝 다년 조망·엔딩 조망도 하지 않는다(같은 w 로 옆으로 움직인다). 사건을 '확대'하고 싶으면 w 가 아니라 핀·카드·사진이 커지는 것으로 보여 준다. (참고: 변화가 허용되는 다른 영상에서도 한 번에 {ratio}배 이상만.) 지도의 '문장마다 줌 금지'(G4-16)와 같은 원리다. 검사 [timeline-rescale] hard."
+
+chart_world:               # v7.4.0 back_and_forth D-0251 §6.1·§6.2-4(사용자 의견 UF-135 "같은 축척 혹은 같은 차트 안에서 움직이거나 보여주는게 아니니까") — 연출·수정 프롬프트 {{RULES.chart_world}}
+  # {자리}는 같은 규칙 값으로 로더가 채운다(15 P3·C2 .replace). 검사 [chart-world-split]·[chart-only-run](qa_checks.chart_only_run) 과 같은 원칙
+  grammar:
+    - "경제·데이터 영상의 차트는 하나의 시간축 세계다. 카메라가 그 안에서 이동한다. 축척이 다른 독립 차트를 번갈아 띄우지 않는다."
+    - "같은 단위의 시계열은 한 레인(한 축척)에 둔다. 차트 아일랜드가 둘 이상인 영상에서 같은 단위를 다른 레인에 그리면 검사 [chart-world-split] hard."
+    - "차트·카드만 보이는 구간은 {max_sec}초 이하 — 그 안에 사건 핀(marker)·인물 뱃지·사진·기사·인용·지도 중 하나를 넣는다(검사 [chart-only-run] hard, 모든 무대)."
+    - "전망(연준 점도표처럼 열이 연도인 scatter 레코드)은 패널·프리미티브로 띄우지 않고 같은 레인 위 series style projection 으로 찍는다 — 열은 그 해 연말, 같은 축척. 무대 end 를 장기 열까지 넓히고 카메라는 w 그대로 오른쪽으로 이동한다(v7.4.0 D-0260 §2)."
+    - "사건 핀(date 앵커 marker)은 값 레인 위의 점이다 — lane 은 그 날짜 값을 가진 계열 레인. 사건 레인(kind pins)은 없다(쓰면 거부). 값 레인이 액자 세로를 쓰게 레인을 쌓지 않는다(검사 [plot-height] hard). 핀 라벨 자리(선 위·아래 두 단)는 코드가 고른다 — 같은 순간 핀이 몰려 자리가 없으면 핀 수명을 줄여 하나씩 띄운다(검사 [island-pin-collision] hard, v7.4.0 D-0274)."
+
+# v7.4.0 back_and_forth D-0274 §2⑤·D-0276(사용자 의견 UF-141 "영상도 메인 요소야 … 영상에 대한 목소리도 들리도록 해") — 레퍼런스 영상 문법.
+# 연출 프롬프트 {{RULES.reference_clip.director}}·원고 프롬프트 {{RULES.reference_clip.script}}. {main}·{broll} = media_beats.clip_show_sec(로더가 채운다)
+reference_clip:
+  director:
+    - "레퍼런스 영상(clip)은 주 요소다. role main(기본)은 코드가 화면 가운데 액자(폭 84 %, 16:9, 블러 배경 위)에 둔다 — place·x·y·w 를 주지 않는다. 길이 {main}초. 그 구간에 카드·차트 아일랜드·사진을 겹치지 않는다(검사 [clip-frame] hard)."
+    - "현장 보조 화면(짧은 b-roll)만 role: broll — 구석 슬롯, {broll}초, 원음은 내레이션 아래 낮게."
+    - "발언 클립(인물이 말하는 장면)은 원고의 발언 자리에 붙인다 — start {hold: <앞 문장 sid>}, end {hold: <같은 sid>, edge: end}. 그 구간은 내레이션 없이 원음과 번역 자막만 나온다."
+    - "전투·현장 영상(말이 없는 장면)을 액자(role main)로 크게 보이되 소리는 현장음이라 낮추려면 audio: broll 을 더한다 — 배치는 액자, 원음만 broll 이득. 내레이션은 그 위로 이어진다(발언 자리 아님)."
+  script:
+    - "발언 클립을 쓸 때는 그 앞 문장에 hold_after {mid, sec, subtitle, sources} 를 단다 — sec = 레지스트리 구간 길이({main}초 안), subtitle = 발언의 한국어 번역 한두 줄, sources = 인용 원문(영문)·시각·녹취록 쪽을 담은 claims id. 원문에 없는 말을 번역에 넣지 않는다."
+    - "발언 자리 앞 문장은 누가 어디서 말하는지 밝히고, 발언 내용을 미리 되풀이하지 않는다."
 
 stage_backdrop:            # v5.1.0 back_and_forth D-0121 §B·D-0123 §1(사용자 결정 D106·D108) — 사진 배경 무대(engine/stage_backdrop.py)·backdrop 이벤트(engine/layers/backdrop.py). 설계 px(480p)
   # 사진 = 미디어 레지스트리 kind photo·rights_clear 만(C9·G4-10 — AI 생성·출처 불명 금지). 배경은 장식이라 캡션 바 없음, 크레딧은 credits.yaml media 참조.
@@ -1398,18 +1517,23 @@ island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) �
   edge_w: 1.0
   shadow: [[6, 0.12], [3, 0.2]]   # [번짐 px, 알파] — 기사 카드 그림자와 같은 값
   max_concurrent: 2        # 같은 순간 아일랜드 수 상한(checks island_overlap)
-  boxes:                   # [x, y, 폭, 높이] — 가운데 = 폭 78 %·높이 62 %(D-0121 §B), left·right = 오른쪽·왼쪽 카드 열(card_right x ≥ 594)을 비운다. 높이는 모두 같다(차트 레인 영역 한 벌)
+  source_wrap_lines_max: 2   # v7.4.0 back_and_forth D-0265 §3 — 레인 출처 줄이 아일랜드 상자·시간축 틀 폭(축 값 자리 제외)을 넘으면 " · " 경계에서 두 줄로 접는다(정보 손실 없음). 그래도 넘치면 [chart-edge-bleed]
+  boxes:                   # [x, y, 폭, 높이] — 가운데 = 폭 78 %·높이 62 %(D-0121 §B), left·right = 오른쪽·왼쪽 카드 열(card_right x ≥ 594)을 비운다. 한 영상의 차트 아일랜드는 같은 높이 상자만(레인 영역 한 벌 — engine.project 검사, v7.4.0 D-0268)
     center: [94, 56, 666, 298]
     left: [24, 56, 540, 298]
+    left_tall: [24, 52, 540, 344]   # v7.4.0 back_and_forth D-0268 — 레인 둘이면 금리 값 영역 ≈ 65px(left 는 46px). 위 52 = 날짜 뱃지 밑줄 아래, 아래 396 = 자막 2줄 위. 오른쪽 끝 564 = 카드·사진 열(x ≥ 594) 밖
     right: [290, 56, 540, 298]
   panel_box: [44, 40, 766, 362]   # backdrop 무대 위 패널 상자(패널 본문 x 80~774·제목 기준선 74 를 담고 자막 구역 410 위) — 패널 덮개(panel.cover_alpha) 대신(Q4 A)
-  chart:                   # 차트 아일랜드 안 레인 영역(Q2 A): [pad_top, 상자 높이 − pad_bottom], 세로 척도 = min(stage_timeline.lane_h, 영역 ÷ 레인 수)
+  chart:                   # 차트 아일랜드 안 레인 영역(Q2 A): [pad_top, 상자 높이 − pad_bottom], 세로 척도 = min(lane_h_max, 영역 ÷ 레인 수) — v7.4.0 D-0269 전에는 stage_timeline.lane_h
     pad_top: 34            # 압축 라벨(wave.label_dy −7) 자리
     pad_bottom: 40         # 날짜 눈금 라벨(grid.label_dy 17) 자리
     # v5.2.0 back_and_forth D-0133 §1 — 차트 아일랜드 안 마커 라벨(글자 상자)이 상자 가장자리 − label_flip_pad 를 넘으면 점 반대쪽(오른쪽 → 왼쪽)에 붙이고,
     # 그래도 넘치면 상자 안으로 클램프. 아일랜드 마커에만(지도·시간축 무대 마커 경로 무변경). 기본 = 점 ↔ 라벨 여백(markers._SIDE dx 12)과 같은 값.
     # 그 뒤에도 상자 밖 = checks island_label_clip hard `[island-label-clip]`, 라벨 ↔ 같은 순간 시리즈 출처 줄 교차 = island_label_overlap warning `[island-label-overlap]`
     label_flip_pad: 12
+    lane_h_max: 135   # v7.4.0 back_and_forth D-0269 — 아일랜드 레인 높이 상한(세로 척도 = min(이 값, 영역 ÷ 레인 수)) — 레인 둘 이상일 때만. 레인 하나면 영역 전체(D-0274 §1①, UF-142 "세로축을 늘리란 말이야")
+    # v7.4.0 back_and_forth D-0274 §1①·D-0276 — 플롯(값 레인 띠) 세로 합 ≥ 액자 안쪽 높이 × 이 값. 레인을 쌓아 금리 차트가 눌리면 [plot-height] hard(UF-137·140·142 부류)
+    plot_min_ratio: 0.7
   # v5.2.0 back_and_forth D-0129 §B(사용자 판정 D113 "차트 없이 블러 배경 + 오른쪽 카드만 나오는 화면이 너무 오래 간다") — 주 아일랜드 상시.
   # checks backdrop_main_missing hard: backdrop 무대에서 main_kinds(chart = island kind chart, 그 밖 = 이벤트 type)가 하나도 보이지 않는 구간 > card_only_max_sec
   # → `[backdrop-main-missing] t0-t1 {n}s`(타이틀·엔딩 카드·기사 구간 제외, provenance backdrop.main_missing[]). 코드는 카드를 기사로 바꾸지 않는다(P8) — 검사 + 문법 + 재연출
@@ -1443,7 +1567,7 @@ genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(
       - "내용물은 아일랜드로 띄운다 — 차트·개념도·사진·영상·기사·패널·게시물. 같은 순간 아일랜드는 2개 이하, 서로 겹치지 않는다."
     timeline:
       - "이동: 왼쪽 → 오른쪽 시간 순이 기본이다. 되돌아갈 때는 이유가 있을 때만, 그 숏의 reason 에 이유를 적는다."
-      - "확대: 축 스케일(w)은 장면 단위로 고정한다 — 확대·축소는 영상당 몇 번뿐(축 스케일 절, 검사 [timeline-rescale]). 사건 핀으로는 중심 이동(pan)으로 가고, 핀의 근거는 카드·기사·사진으로 띄운다(v5.1.0 D-0121 §A — 옛 '핀마다 확대'를 대체)."
+      - "확대: 축 스케일(w)은 영상 전체에서 하나로 고정한다 — 확대·축소 없음(축 스케일 절, 검사 [timeline-rescale], v7.4.0 D-0261·UF-138). 사건 핀으로는 중심 이동(pan)으로 가고, 핀의 근거는 카드·기사·사진으로 띄운다(v5.1.0 D-0121 §A — 옛 '핀마다 확대'를 대체)."
       - "암전 컷: 수십 년 점프, 보조 무대로 넘어갈 때만."
       - "공통: 장면당 이동 1회, 숏 6초 이상, 도착 뒤 드리프트, 요소는 하나씩."
       - "무대는 하나의 연속된 좌표계다. 장면마다 새 캔버스를 띄우지 않는다(슬라이드 금지). 차트는 시간축 레인 위 series 로, 무대로 말할 수 없는 정보만 패널·카드로."
@@ -1453,7 +1577,7 @@ genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(
       - "정책 금리 계단·목표 범위 띠는 color_by: change(인상·인하·동결 색을 코드가 레코드 변화로 정한다). 시장 금리·물가 선은 fixed."   # v4.4.0 D-0091 ②
 
 data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs/handoff/20 §5.1, schemas/data_models.py:SeriesRecord). 이 목록 밖 값 = 로드 오류(15 P6)
-  units: ["%", "%p", "bp", "억 달러", "지수", "명", "원", "달러/갤런", "mb/d", "kb/d", "건", "척", "ton"]   # 건·척 = v7.4.0 D-0229 §4.3(점 패널 "몇 척 중 몇 척", UF-113). mb/d·kb/d = v7.3.0 D232 U4(하루 백만·천 배럴, 정제 처리량·경유 수출). v5.3.1 달러/갤런 = 미국 경유 소매가(EIA GASDESW, valdai-2026). 화면 단위(20 §5.3 "단위를 화면에 표시")
+  units: ["%", "%p", "bp", "억 달러", "지수", "명", "원", "달러/갤런", "mb/d", "kb/d", "건", "척", "ton", "개"]   # 개 = v7.4.0 감독 결정 D508(china_tech_export_controls_2026 dots 패널 "기술 40개 중 14개"). 건·척 = v7.4.0 D-0229 §4.3(점 패널 "몇 척 중 몇 척", UF-113). mb/d·kb/d = v7.3.0 D232 U4(하루 백만·천 배럴, 정제 처리량·경유 수출). v5.3.1 달러/갤런 = 미국 경유 소매가(EIA GASDESW, valdai-2026). 화면 단위(20 §5.3 "단위를 화면에 표시")
   # v7.4.0 D-0241 §3(UF-122 "십자가 처럼 보이는 t를 쓰지 말고 ton으로") — 화면 무게 단위는 ton. 숫자 뒤 t 가 화면 문자열에 남으면 [unit-ton-glyph] hard
   unit_ton_pattern: '(?<![A-Za-z])(\d|[만천억백])\s?t(?![A-Za-z])'
   licenses_allowed: [us_gov_public_domain, cc_by_4, press_cited]   # 재배포 가능한 공개 라이선스만(20 §5.1 "시리즈마다 이용 조건 확인"). press_cited = v7.3.0 D232 U4 — 보도 인용값(값 자체는 사실 인용, 값마다 cited 필수)
@@ -1640,6 +1764,36 @@ animatic:                  # v4.9.0 back_and_forth D-0108(사용자 결정 D97) 
   checks_skip: [glyphs, glyph_size, rights, media_upscaled, chart_honesty, series_limit_3, units_visible, as_of_visible, labels]
   cost_target_sec_per_300s: 180   # 5분 영상 콘티 판 = 4코어 3분 이내("저렴"의 정의, 실측은 reports/phaseG8/run_log.md)
 
+catalog:                   # v7.4.0 back_and_forth D-0251 §1.1 — 카탈로그 판(catalog ← 그리스어 katalogos "목록으로 세어 적음"). `engine.render --catalog`
+  # 전편 레이어 전부 + 왼쪽 위 라벨 층(지금 화면의 레지스트리 요소·실제로 그린 글꼴·표준 음성). 별도 산출물 — final.mp4 에 넣지 않는다(mux 가 표식을 보면 거부)
+  profile: final             # config engine.output 프로파일 또는 별칭
+  output: catalog.mp4        # out/catalog.mp4 (out/catalog_noaudio.mp4 + out/mix.f32). out/video_noaudio.mp4·final.mp4 는 건드리지 않는다
+  preset: veryfast
+  mp4_comment: "catalog — 카탈로그 판 · 검토용 · 배포 금지"
+  sample_every_sec: 1.0      # out/catalog_frames.json 표본 간격(요소 표 tools/catalog_table.py 입력)
+  label:                     # 480p 설계 px. 날짜 뱃지·자막과 교차하면 checks [catalog-label-overlap] hard
+    font: monom
+    size: 9.5                # layout_480p.min_font_px 와 같다
+    pos: [10, 8]             # 글자 블록 좌상단
+    max_w: 420
+    alpha: 0.92
+    color: [1.0, 1.0, 1.0, 1.0]
+    plate: [0.0, 0.0, 0.0, 0.55]
+    pad: 4
+    line_gap: 12
+    max_lines: 9               # D-0252 — 요소 줄은 자르지 않는다. 넘칠 때만 … +N, provenance catalog_run.truncated
+    font_keys: [sans, serif, display, mono]
+    sep: " · "
+    indent: "  "
+    more: "… +{n}"
+    no_theme: "-"
+    lines:
+      stage: "무대 {stage} · 테마 {theme}"
+      elements: "요소 {items}"
+      fonts: "글꼴 {items}"
+      voice: "음성 {backend} {style} ×{speed} · 끝 '{suffix}' {span}자 −{semitones}반음"
+      voice_flat: "음성 {backend} {style} ×{speed}"
+
 qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # v7.4.0 D-0248(사용자 의견 UF-129 "그래프 넣는 씬에서 오른쪽 상단 아일랜드가 그래프를 가리지 않도록 해") — 패널(모든 kind)이 페이드 뺀 구간에 떠 있는 동안
   # 덮개 요소의 제자리 상자가 패널 상자(+panel_pad_px)와 겹치고 시간 겹침 > min_overlap_sec 이면 [card-over-panel] hard.
@@ -1672,8 +1826,48 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
     ft: {names: [파이낸셜타임스, Financial Times], domains: [ft.com]}
     bbc: {names: [BBC, 비비씨], domains: [bbc.com, bbc.co.uk]}
     cnn: {names: [CNN, 씨엔엔], domains: [cnn.com]}
+  # v7.4.0 back_and_forth D-0251 §6.2-3·D-0252(사용자 의견 UF-135 ① "너무 차트만 나오기도 하고") — 차트·카드만 보이는 구간이 max_sec 를 넘으면 [chart-only-run] hard.
+  # 모든 무대·장르, 콘티 판·프리뷰·전편 같은 키(C12-3). 지도 = 비차트(장소), timeline 무대의 시간축 = 차트. provenance chart_only_runs
+  chart_only_run:
+    max_sec: 12
+    step_sec: 0.1
+    chart_types: [panel, series, card]
+    chart_island_kinds: [chart]
+    chart_primitives: [dot_plot, statement_diff]
+    neutral_types: [dip, island]   # island 는 kind 로만 판정(chart → 차트). 그 밖 아일랜드는 안의 사진·영상 이벤트가 따로 센다
+    exempt_projects:   # v7.4.0 D-0271 — 회귀 기준만(새 영상·쇼케이스 면제 없음). 검사는 돌고 provenance chart_only_runs·chart_only_exempt 기록, hard 만 면제. 범위 = tests/test_chart_world.py 가 이 하나로 고정
+      hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
+    map_stages: [mercator]
+  # v7.4.0 사용자 의견 UF-160(D-0289 "1:30~1:50 즘 까지 거의 아무것도 안뜨고 자막과 나레이션만 나오는 구간") — 화면 요소 없이 지도·자막만 이어지는 구간이
+  # max_sec 를 넘으면 [element-gap] hard. 지도 위 점·선·나라(appear_types)는 나타난 뒤 appear_hold_sec 동안만 요소로 센다(떠 있기만 한 마커는 '아무것도 안 뜸').
+  # 값 근거: 콘티 판 v2 act1_8~10 공백 21.7초 = 실패, 전달본 최장 16.2초 = 통과(구현 실측 2026-10-30). 모든 무대, 콘티 판·프리뷰·전편 같은 키(C12-3)
+  element_gap:
+    max_sec: 18
+    step_sec: 0.1
+    appear_hold_sec: 4
+    element_types: [photo, clip, cutout, article, quote, panel, card, badge, island, backdrop, inset, cascade, primitive, series]
+    appear_types: [marker, route, country]
+    exempt_projects:   # 회귀 기준만(새 영상 면제 없음). 범위 = tests/test_feedback_guards_uf160_162.py 가 고정
+      hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
+    director_line: "화면 요소(사진·기사·인용·패널·뱃지 등) 없이 지도·자막만 이어지는 구간은 {max_sec}초 이하 — 넘으면 사진 한 장이나 새 지도 요소를 넣는다(검사 [element-gap] hard, UF-160)."
+  # v7.4.0 사용자 의견 UF-161(D-0289 "경로 개략, 좌표 비공개 라는 문구는 빼") — 지도 라벨에 고지 낱말 금지. 고지는 엔딩 카드 표기 행(end_card.notice_*)으로만. [label-banned-terms] hard
+  label_banned_terms:
+    terms: [개략, 비공개]
+    event_types: [marker, route, country, label, arrow]
+    fields: [label, sub, name, text, title]
+    director_line: "지도 라벨(마커·경로·나라 이름표)에 고지 낱말({terms})을 쓰지 않는다 — 개략 표현·좌표 비공개 같은 고지는 엔딩 카드 표기 행으로(검사 [label-banned-terms] hard, UF-161)."
+  # v7.4.0 사용자 의견 UF-162(D-0289 "시진핑과 트럼프 뱃지가 나오는데 너무 빨리 사라져") — 인물 뱃지 노출 하한. 문장 끝에서 끊지 말고 다음 문장 끝·장면 끝까지.
+  # 같은 인물 장면을 사진·영상으로 넘기는 경우(뱃지 끝 ±handoff_sec 안에 handoff_types 시작)만 예외. 값 근거: v2 act4_6 약 4초 = 실패, 전달본 4.7초(김해 회담 사진으로 넘김)·8.7초 = 통과
+  badge_hold:
+    min_hold_sec: 6
+    handoff_sec: 0.5
+    handoff_types: [photo, clip, cutout]
+    director_line: "인물 뱃지는 {min_hold_sec}초 이상 띄운다 — 문장 끝에서 끊지 말고 다음 문장 끝이나 장면 끝까지. 같은 장면 사진·영상으로 곧바로 넘길 때만 예외(검사 [badge-hold] hard, UF-162)."
   card_over_panel: {min_overlap_sec: 0.3, panel_pad_px: 4, cover_types: [card, cascade, article, quote, primitive],
-                    cover_types_on_data_panels: [photo, clip, cutout, badge]}
+                    cover_types_on_data_panels: [photo, clip, cutout, badge],
+                    # v7.4.0 back_and_forth D-0259(UF-129 미보호 경로) — 시간축 주 무대: 틀 안 시리즈 레인(레코드가 그려지는 레인) 상자를
+                    # 데이터 패널로 센다(사건 레인은 v7.4.0 D-0274 에서 삭제 — 핀은 값 레인 위). 기사·인용은 프레스 v2 화면 전체 규약이라 세지 않는다
+                    timeline_frame_cover_types: [card, cascade, primitive, photo, clip, cutout, badge]}
   # v5.21.10 사용자 의견(2026-10-11 "기사 화면이 나왔는데 0.5초도 안 돼서 사라진다", D-0191 §1-2) — 기사(프레스 단독·페이드 뺀 글자 구간)·인용(페이드 뺀 구간)
   # 완전 노출 하한. 문장이 짧으면 연출이 다음 문장까지 늘리거나 앞당긴다. 검사 card_exposure hard
   card_full_exposure_min_sec: 2.5

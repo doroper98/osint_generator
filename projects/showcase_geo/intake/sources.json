@@ -1,0 +1,778 @@
+{
+ "schema_version": 1,
+ "sources": [
+  {
+   "id": "src_art_0001",
+   "url": "https://kyivindependent.com/south-korea-shipping-fuel-to-russia-via-sanctioned-vessels-media-reports/",
+   "retrieved_at": "2026-10-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:6"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0225 — 사용자 위임 D232, URL·매체·게시일 대조)",
+   "confirmed_at": "2026-10-17T13:47:17.830915Z",
+   "note": "가디언 2026-10-06 분석 보도의 2차 보도(가디언 원문 URL 확인 불가 — 컨테이너·검색에서 theguardian.com 차단)",
+   "type": "article",
+   "publisher": "Kyiv Independent",
+   "headline_original": "South Korea shipped fuel to Russia via sanctioned vessels, media reports",
+   "headline_ko": "한국, 제재 선박으로 러시아에 연료 운송 — 언론 보도",
+   "published_at": "2026-10-06",
+   "key_facts": [
+    "A Guardian analysis of port records and ship-tracking data found more than 176,000 tonnes of fuel, mostly diesel, were loaded at South Korean ports in July and August 2026",
+    "Seven tankers made 14 voyages to Russia's Far East",
+    "Three of the tankers are under UK and EU sanctions",
+    "One sanctioned tanker received its cargo through a ship-to-ship transfer in South Korean waters",
+    "The shipments do not appear to violate South Korean law, since Seoul's Russia sanctions mainly cover industrial equipment, electronics and vehicles"
+   ]
+  },
+  {
+   "id": "src_art_0002",
+   "url": "https://united24media.com/world/south-korea-shipped-176000-tons-of-fuel-to-russia-as-sanctioned-tankers-hid-their-destinations-23164",
+   "retrieved_at": "2026-10-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:10"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0225 — 사용자 위임 D232, URL·매체·게시일 대조)",
+   "confirmed_at": "2026-10-17T13:47:18.433271Z",
+   "note": "가디언 보도 인용 2차 보도",
+   "type": "article",
+   "publisher": "UNITED24 Media",
+   "headline_original": "South Korea Shipped 176,000 Tons of Fuel to Russia as Sanctioned Tankers Hid Their Destinations",
+   "headline_ko": "한국, 연료 17만 6천 t 러시아로… 제재 유조선들은 목적지를 숨겼다",
+   "published_at": "2026-10-06",
+   "key_facts": [
+    "Per the Guardian, the sanctioned tanker Layla made two trips from Ulsan to Vladivostok delivering about 57,000 tonnes of diesel, and on the second trip listed Niigata, Japan as its destination",
+    "The tanker Astoria loaded nearly 11,000 tonnes in Ulsan on August 1, listed Japan, then went to Vladivostok",
+    "The tanker Chongchon took about 26,000 tonnes from the tanker Celeste I in a ship-to-ship transfer near Yeosu, listed Singapore, then headed to Vladivostok",
+    "Russia imported 368,000 tonnes of petroleum products by sea in August; South Korea supplied about 112,000 tonnes, or 31%, per Kpler data",
+    "It remains unclear who owned and sold the fuel"
+   ]
+  },
+  {
+   "id": "src_art_0003",
+   "url": "https://ukranews.com/en/news/1179375-south-korea-shipped-176-000-metric-tons-of-fuel-to-russia-some-of-it-was-transported-by-tankers",
+   "retrieved_at": "2026-10-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:7"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0225 — 사용자 위임 D232, URL·매체·게시일 대조)",
+   "confirmed_at": "2026-10-17T13:47:19.049353Z",
+   "note": "가디언 보도 인용 2차 보도",
+   "type": "article",
+   "publisher": "Ukrainian News",
+   "headline_original": "South Korea shipped 176,000 metric tons of fuel to Russia, some of it was transported by tankers subject to sanctions",
+   "headline_ko": "한국, 연료 17만 6천 t 러시아로 운송… 일부는 제재 대상 유조선이 날라",
+   "published_at": "2026-10-06",
+   "key_facts": [
+    "Kpler data showed that buyers included Rosneft, Russia's state-controlled oil company, which is sanctioned by the UK, US, EU and Australia",
+    "Another buyer was NNK, whose owner Eduard Khudainatov and NNK-Oil are under UK sanctions",
+    "CREA analyst Isaac Levi called the shipments shocking"
+   ]
+  },
+  {
+   "id": "src_art_0005",
+   "url": "https://www.iea.org/commentaries/russian-refining-sector-struggles-amid-intensifying-ukrainian-attacks",
+   "retrieved_at": "2026-10-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:5"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0225 — 사용자 위임 D232, URL·매체·게시일 대조)",
+   "confirmed_at": "2026-10-17T13:47:20.371521Z",
+   "note": "IEA 커멘터리(David Martin·Talya Vatman)",
+   "type": "article",
+   "publisher": "IEA",
+   "headline_original": "Russian refining sector struggles amid intensifying Ukrainian attacks",
+   "headline_ko": "우크라이나 공격 격화 속 고전하는 러시아 정유 부문",
+   "published_at": "2026-09-17",
+   "key_facts": [
+    "Ukrainian forces successfully struck Russian refineries once every 3 days on average in the first 8 months of 2026",
+    "In June, Russian refinery throughput fell to 3.8 mb/d, its lowest level in more than 20 years and roughly 30% below a year earlier",
+    "Diesel production is estimated to have fallen by nearly 30%, prompting the government to restrict fuel exports",
+    "Strikes increasingly hit secondary units such as fluid catalytic crackers, reformers and hydrotreaters",
+    "Serious damage to complex units can require 6-8 months to repair"
+   ]
+  },
+  {
+   "id": "src_art_0009",
+   "url": "https://www.pravda.com.ua/eng/news/2026/07/08/8043114/",
+   "retrieved_at": "2026-10-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0225 — 사용자 위임 D232, URL·매체·게시일 대조)",
+   "confirmed_at": "2026-10-17T13:47:22.872125Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Ukrainska Pravda",
+   "headline_original": "Russia bans diesel exports and starts fuel imports",
+   "headline_ko": "러시아, 경유 수출 금지하고 연료 수입 시작",
+   "published_at": "2026-07-08",
+   "key_facts": [
+    "Russia imposed a full ban on diesel exports that also applies to producers, effective July 8, 2026",
+    "Russia started importing fuel"
+   ]
+  },
+  {
+   "id": "src_art_0019",
+   "url": "https://www.mees.com/2026/8/28/opec/hormuz-diesel-exports-edge-up/f93abdc0-a2e0-11f1-9f49-8fbe141c14eb",
+   "retrieved_at": "2026-10-17",
+   "lang": "en",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0225 — 사용자 위임 D232, URL·매체·게시일 대조)",
+   "confirmed_at": "2026-10-17T13:47:29.684452Z",
+   "note": "헤드라인은 URL 슬러그 기준",
+   "type": "article",
+   "publisher": "MEES",
+   "headline_original": "Hormuz Diesel Exports Edge Up",
+   "headline_ko": "호르무즈 통과 경유 수출 소폭 증가",
+   "published_at": "2026-08-28",
+   "key_facts": [
+    "Middle East diesel exports through the Strait of Hormuz rose to a four-month high of 165,000 b/d in July, per Kpler data",
+    "That is a fraction of the roughly 800,000 b/d seen before the conflict"
+   ]
+  },
+  {
+   "id": "src_art_0020",
+   "url": "https://tribune.com.pk/story/2635072/irans-precision-strikes-picked-apart-gulf-infrastructure-blunting-us-war-plans",
+   "retrieved_at": "2026-10-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:6"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0225 — 사용자 위임 D232, URL·매체·게시일 대조)",
+   "confirmed_at": "2026-10-17T13:47:30.415250Z",
+   "note": "로이터 비주얼 조사 전재본. 지시서 날짜 10-16 은 전재·현지 시각 차이 — 원 게시 10-15",
+   "type": "article",
+   "publisher": "Reuters (The Express Tribune 전재)",
+   "headline_original": "Iran's precision strikes picked apart Gulf infrastructure, blunting US war plans",
+   "headline_ko": "이란의 정밀 타격, 걸프 기반시설을 하나씩 무너뜨리며 미국의 전쟁 계획을 무디게 했다",
+   "published_at": "2026-10-15",
+   "key_facts": [
+    "Reuters counted at least 135 drone and missile attacks on at least 84 infrastructure sites in the Gulf since the war began on February 28",
+    "Iranian drones and missiles targeted the port of Fujairah at least 19 times",
+    "Reuters counted at least 34 official government statements after attacks that attributed the damage to intercepted munitions or falling debris",
+    "Reuters found the precision of the strikes ruled out falling debris and that damage was the aim",
+    "Strikes damaged two cold boxes at Qatar's Ras Laffan LNG facility and disabled a pumping station along a Saudi pipeline"
+   ]
+  },
+  {
+   "id": "src_doc_0002",
+   "url": "https://ofac.treasury.gov/media/937216/download",
+   "retrieved_at": "2026-10-17",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0225 — 사용자 위임 D232, URL·매체·게시일 대조)",
+   "confirmed_at": "2026-10-17T13:47:34.574242Z",
+   "note": "1차 문서(제목은 보도 기준 요약)",
+   "type": "document",
+   "issuer": "OFAC",
+   "title": "General License 135(러시아산 경유)",
+   "published_at": "2026-10-09",
+   "key_facts": [
+    "OFAC General License 135 authorizes transactions involving the sale, delivery and import of Russian-origin diesel fuel",
+    "The authorization runs through 12:01 a.m. eastern daylight time, April 7, 2027"
+   ]
+  },
+  {
+   "id": "src_art_0030",
+   "url": "https://www.aljazeera.com/amp/news/2026/10/11/trump-says-ukraine-russia-agree-to-energy-ceasefire-2",
+   "retrieved_at": "2026-10-17",
+   "lang": "en",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:4"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0225 — 사용자 위임 D232, URL·매체·게시일 대조)",
+   "confirmed_at": "2026-10-17T13:47:37.924838Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "Trump says Ukraine, Russia agree to energy ceasefire",
+   "headline_ko": "트럼프 \"우크라이나·러시아, 에너지 휴전 합의\"",
+   "published_at": "2026-10-11",
+   "key_facts": [
+    "Trump wrote that effective immediately there is an energy ceasefire in the war between Russia and Ukraine and both parties have agreed",
+    "Moscow had not commented on the announcement",
+    "Zelensky said if Russians agree to an energy ceasefire, Ukraine will agree"
+   ]
+  },
+  {
+   "id": "src_art_0032",
+   "url": "https://ny1.com/nyc/all-boroughs/ap-top-news/2026/10/15/ukraine-resumes-attacks-on-russian-oil-refineries-officials-say-after-brief-truce",
+   "retrieved_at": "2026-10-17",
+   "lang": "en",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:5"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0225 — 사용자 위임 D232, URL·매체·게시일 대조)",
+   "confirmed_at": "2026-10-17T13:47:39.161917Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Associated Press (NY1 전재)",
+   "headline_original": "Ukraine resumes attacks on Russian oil refineries, officials say, after brief truce",
+   "headline_ko": "짧은 휴전 뒤 우크라이나, 러시아 정유소 공격 재개",
+   "published_at": "2026-10-15",
+   "key_facts": [
+    "Ukraine hit Rosneft's Ryazan refinery overnight, ending a brief energy truce",
+    "Russia's Defense Ministry said drone fragments sparked a fire",
+    "A Ukrainian official said Russian strikes that week violated the energy truce",
+    "Zelensky said: We're done"
+   ]
+  },
+  {
+   "id": "src_doc_0003",
+   "url": "https://content.govdelivery.com/accounts/USTREAS/bulletins/3f8422d",
+   "retrieved_at": "2026-10-17",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0225 — 사용자 위임 D232, URL·매체·게시일 대조)",
+   "confirmed_at": "2026-10-17T13:53:12.189438Z",
+   "note": "",
+   "type": "document",
+   "issuer": "미 재무부",
+   "title": "로스네프트·루코일 제재 발표",
+   "published_at": "2025-10-22",
+   "key_facts": [
+    "On October 22, 2025, the US Treasury (OFAC) designated Rosneft and Lukoil, Russia's largest oil companies, as sanctioned (SDN) under E.O. 14024",
+    "Treasury tied the move to Russia's lack of serious commitment to a peace process"
+   ]
+  },
+  {
+   "id": "src_doc_0004",
+   "url": "https://www.hellenicshippingnews.com/us-issues-general-license-134-gl-134-on-russian-oil-cargoes/",
+   "retrieved_at": "2026-10-17",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:3"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0225 — 사용자 위임 D232, URL·매체·게시일 대조)",
+   "confirmed_at": "2026-10-17T13:53:12.908179Z",
+   "note": "pub-date 는 OFAC 발급일(3/12) — 전재 기사 게시일은 미확인",
+   "type": "document",
+   "issuer": "OFAC (Hellenic Shipping News 전재)",
+   "title": "General License 134",
+   "published_at": "2026-03-12",
+   "key_facts": [
+    "On March 12, 2026, OFAC issued General License 134 authorizing the sale and delivery of Russian-origin crude oil and petroleum products already loaded on vessels, including cargoes of sanctioned entities",
+    "Treasury Secretary Bessent called it a narrowly tailored, short term measure to allow oil already in transit to reach market"
+   ]
+  },
+  {
+   "id": "src_doc_0006",
+   "url": "https://www.iea.org/reports/oil-market-report-october-2026",
+   "retrieved_at": "2026-10-17",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:5"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0225 — 사용자 위임 D232, URL·매체·게시일 대조)",
+   "confirmed_at": "2026-10-17T13:53:14.311964Z",
+   "note": " | D-0232 §4: v7.4.0 에서 덧붙인 key_facts 5개(3분기 −1.7mb/d·정제마진 95달러·2027년까지 등)는 IEA 사이트 차단으로 검색 요약에서 옮김(원문 미열람) — 그 근거 claim(clm_0141~0143)은 unverified",
+   "type": "document",
+   "issuer": "IEA",
+   "title": "Oil Market Report 2026-10",
+   "published_at": "2026-10-14",
+   "key_facts": [
+    "Global diesel exports in September 2026 were 700 kb/d lower year on year, as a 1.3 mb/d loss from Russia and the Middle East was only partly offset by other sources",
+    "Middle East export disruptions plus lower Russian and some Asian supply cut global diesel/gasoil availability by 1.5 mb/d y-o-y in 2Q26 and 1.7 mb/d in 3Q26",
+    "Combined Middle East and Russia diesel export losses were 1.3 mb/d in September",
+    "Diesel refining margins hit record highs of almost $95/bbl in September",
+    "Restricted middle distillate supply is \"likely to persist well into 2027\"",
+    "Russia's easing of diesel export curbs unlikely to materially alter global gasoil balance because Russian refining capacity is the constraint"
+   ]
+  },
+  {
+   "id": "src_art_0035",
+   "url": "https://theins.press/en/news/286687",
+   "retrieved_at": "2026-10-18",
+   "lang": "en",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "fable(D-0226 감독 검색 — 구현 환경에서 원문 접근 불가, URL·매체·게시일은 감독 확인)",
+   "confirmed_at": "2026-10-17T15:10:46.114017Z",
+   "note": "D-0226 ② 감독 제공 출처",
+   "type": "article",
+   "publisher": "The Insider",
+   "headline_original": "Russia's Far East depends on fuel deliveries from other regions",
+   "headline_ko": "러시아 극동, 현지 정제로 연료 수요 다 못 채워",
+   "published_at": "2026-09-01",
+   "key_facts": [
+    "Local refining covers 55-60% of gasoline demand and 60-65% of diesel demand in Russia's Far East"
+   ]
+  },
+  {
+   "id": "src_art_0037",
+   "url": "https://www.eastrussia.ru/news/situatsiya-s-benzinom-i-dizelem-na-dalnem-vostoke-postepenno-stabiliziruetsya/",
+   "retrieved_at": "2026-10-18",
+   "lang": "ru",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "fable(D-0226 감독 검색 — 구현 환경에서 원문 접근 불가, URL·매체·게시일은 감독 확인)",
+   "confirmed_at": "2026-10-17T15:10:46.114017Z",
+   "note": "D-0226 ② 감독 제공 출처",
+   "type": "article",
+   "publisher": "EastRussia",
+   "headline_original": "Situation with gasoline and diesel in the Far East is gradually stabilizing",
+   "headline_ko": "극동 휘발유·경유 상황 점차 안정",
+   "published_at": "2026-07-15",
+   "key_facts": [
+    "Fuel shortages in the Far East began after refinery strikes in May and stabilized by mid-summer"
+   ]
+  },
+  {
+   "id": "src_art_0040",
+   "url": "https://carnegieendowment.org/russia-eurasia/politika/2026/06/russia-new-refinery-strike",
+   "retrieved_at": "2026-10-18",
+   "lang": "en",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+   "confirmed_at": "2026-10-18T01:30:00Z",
+   "note": "게시일 일자 미확인(2026년 6월); 원문 대조 전(검색 요약)",
+   "type": "article",
+   "publisher": "Carnegie Endowment",
+   "headline_original": "Russian Oil Sector Battered but Not Broken by Ukrainian Air Attacks",
+   "published_at": "2026-06-01",
+   "key_facts": [
+    "After Kyiv shifted from export infrastructure to refineries, oil became harder to refine inside Russia and crude exports rose",
+    "drones are unlikely to destroy whole refineries but can damage compressors and control units that take months rather than weeks to repair"
+   ]
+  },
+  {
+   "id": "src_art_0042",
+   "url": "https://interfax.com/newsroom/top-stories/118175/",
+   "retrieved_at": "2026-10-18",
+   "lang": "en",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+   "confirmed_at": "2026-10-18T01:30:00Z",
+   "note": "게시일 미확인 — 검색 시점(약 116일 전) 기준 추정; 원문 대조 전(검색 요약)",
+   "type": "article",
+   "publisher": "Interfax",
+   "headline_original": "Unloading of petroleum products in Far East proceeding without restrictions, Russian Railways ready for increase in fuel shipments",
+   "published_at": "2026-06-24",
+   "key_facts": [
+    "Far Eastern Railway official: Primorye is the main point for unloading petroleum products",
+    "'There are only two refineries in the Far Eastern Federal District'"
+   ]
+  },
+  {
+   "id": "src_art_0050",
+   "url": "https://www.nbcnews.com/world/ukraine/trump-russia-ukraine-agree-energy-ceasefire-zelenskyy-diesel-rcna602766",
+   "retrieved_at": "2026-10-18",
+   "lang": "en",
+   "verification": {
+    "status": "unverified",
+    "checks": [
+     "claims:3"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0229 — 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 세션 프록시가 뉴스 호스트 차단 403)",
+   "confirmed_at": "2026-10-18T01:30:00Z",
+   "note": "원문 대조 전(검색 요약)",
+   "type": "article",
+   "publisher": "NBC News",
+   "headline_original": "Trump claims 'energy ceasefire,' but Ukraine says Russia keeps striking its energy facilities",
+   "published_at": "2026-10-11",
+   "key_facts": [
+    "Trump post (same text carried by Fox, CBS, Time): \"Effective immediately, there is an ENERGY CEASEFIRE\" ... \"Both parties have agreed\" ... \"Do not break it!\"",
+    "Zelenskyy said the announcement \"was news for me\" and reported Russian strikes on energy infrastructure incl. a power plant in Kharkiv",
+    "Kremlin spokesman Dmitry Peskov: \"contacts are ongoing\"",
+    "Ceasefire followed an Oct. 9 deal in which Trump announced Russia agreed to supply global markets with more than 4.8 million tons of diesel",
+    "Average US diesel price Monday $6.26/gallon, nearly 80% higher than at the start of the year (AAA)"
+   ]
+  },
+  {
+   "id": "src_hz_art_0001",
+   "retrieved_at": "2026-09-28",
+   "lang": "ko",
+   "confirmed_by": "v3 사용자 합격본 이관(docs/handoff/KICKOFF_PROMPT.md §5, D-0052 D51)",
+   "confirmed_at": "2026-09-28T00:00:00Z",
+   "note": "v3 이관 — 사용자 합격본. 근거는 크레딧 매체 단위, 문장별 대응 기록 없음",
+   "type": "article",
+   "publisher": "Reuters",
+   "headline_original": "Reuters 2026-09-04 기사(원문 제목 미확보 — 번역 헤드라인만)",
+   "headline_ko": "한국, 호르무즈 군사 선택지 검토… 대통령실 “결정된 것은 없다”",
+   "published_at": "2026-09-04",
+   "key_facts": [
+    "대통령실: 호르무즈 파병은 결정된 것이 없다",
+    "2025년 수입 중 호르무즈 경유 비중 원유 61% · 나프타 54%(대통령실 인용 수치)"
+   ],
+   "source_ref": "credits.yaml 보도 · 자료 — Reuters (9.4)",
+   "pending_source": "원문 URL 미확보 — 매체·날짜만(D-0052 D51, R-0036 종결)"
+  },
+  {
+   "id": "src_hz_art_0002",
+   "retrieved_at": "2026-09-28",
+   "lang": "ko",
+   "confirmed_by": "v3 사용자 합격본 이관(docs/handoff/KICKOFF_PROMPT.md §5, D-0052 D51)",
+   "confirmed_at": "2026-09-28T00:00:00Z",
+   "note": "v3 이관 — 사용자 합격본. 근거는 크레딧 매체 단위, 문장별 대응 기록 없음",
+   "type": "article",
+   "publisher": "The Korea Herald",
+   "headline_original": "The Korea Herald 2026-09-07 기사(원문 제목 미확보 — 번역 헤드라인만)",
+   "headline_ko": "정부, 전투 격화·반대 여론 확산에 호르무즈 파병 계획 재조정",
+   "published_at": "2026-09-07",
+   "key_facts": [
+    "정부가 호르무즈 파병 계획을 재조정했다"
+   ],
+   "source_ref": "credits.yaml 보도 · 자료 — The Korea Herald (9.7)",
+   "pending_source": "원문 URL 미확보 — 매체·날짜만(D-0052 D51, R-0036 종결)"
+  },
+  {
+   "id": "src_hz_art_0003",
+   "retrieved_at": "2026-09-28",
+   "lang": "ko",
+   "confirmed_by": "v3 사용자 합격본 이관(docs/handoff/KICKOFF_PROMPT.md §5, D-0052 D51)",
+   "confirmed_at": "2026-09-28T00:00:00Z",
+   "note": "v3 이관 — 사용자 합격본. 근거는 크레딧 매체 단위, 문장별 대응 기록 없음",
+   "type": "article",
+   "publisher": "UPI(기고)",
+   "headline_original": "UPI 기고 2026-09-08(원문 제목 미확보)",
+   "published_at": "2026-09-08",
+   "key_facts": [
+    "파병 지지론: 호르무즈는 곧 한국의 경제 안보"
+   ],
+   "source_ref": "credits.yaml 보도 · 자료 — UPI 기고 (9.8)",
+   "pending_source": "원문 URL 미확보 — 매체·날짜만(D-0052 D51, R-0036 종결)"
+  },
+  {
+   "id": "src_hz_art_0004",
+   "retrieved_at": "2026-09-28",
+   "lang": "ko",
+   "confirmed_by": "v3 사용자 합격본 이관(docs/handoff/KICKOFF_PROMPT.md §5, D-0052 D51)",
+   "confirmed_at": "2026-09-28T00:00:00Z",
+   "note": "v3 이관 — 사용자 합격본. 근거는 크레딧 매체 단위, 문장별 대응 기록 없음",
+   "type": "article",
+   "publisher": "Foreign Policy",
+   "headline_original": "Foreign Policy 2026-09-10 기사(원문 제목 미확보)",
+   "published_at": "2026-09-10",
+   "key_facts": [
+    "파병 반대론: 비전투 부대도 표적이 될 수 있다"
+   ],
+   "source_ref": "credits.yaml 보도 · 자료 — Foreign Policy (9.10)",
+   "pending_source": "원문 URL 미확보 — 매체·날짜만(D-0052 D51, R-0036 종결)"
+  },
+  {
+   "id": "src_hz_art_0005",
+   "retrieved_at": "2026-09-28",
+   "lang": "ko",
+   "confirmed_by": "v3 사용자 합격본 이관(docs/handoff/KICKOFF_PROMPT.md §5, D-0052 D51)",
+   "confirmed_at": "2026-09-28T00:00:00Z",
+   "note": "v3 이관 — 사용자 합격본. 근거는 크레딧 매체 단위, 문장별 대응 기록 없음",
+   "type": "article",
+   "publisher": "국제해사기구(IMO)",
+   "headline_original": "국제해사기구 집계(6월 11일 기준, 원문 제목 미확보)",
+   "published_at": "2026-06-11",
+   "key_facts": [
+    "6월 11일까지 선박 공격 46건, 선원 사망 14명"
+   ],
+   "source_ref": "credits.yaml 보도 · 자료 — 국제해사기구 (6.11 기준)",
+   "pending_source": "원문 URL 미확보 — 매체·날짜만(D-0052 D51, R-0036 종결)"
+  },
+  {
+   "id": "src_hz_doc_0001",
+   "retrieved_at": "2026-09-28",
+   "lang": "en",
+   "confirmed_by": "v3 사용자 합격본 이관(docs/handoff/KICKOFF_PROMPT.md §5, D-0052 D51)",
+   "confirmed_at": "2026-09-28T00:00:00Z",
+   "note": "v3 이관 — 사용자 합격본. 근거는 크레딧 매체 단위, 문장별 대응 기록 없음 · 게시일 없는 문서라 DocumentSource",
+   "type": "document",
+   "issuer": "위키백과",
+   "title": "2026 Strait of Hormuz campaign",
+   "key_facts": [
+    "2026 호르무즈 해협 전역 개요(영문 위키백과 문서)"
+   ]
+  },
+  {
+   "id": "src_dmz_art_0001",
+   "url": "https://www.hankookilbo.com/news/article/A2026092114160002483",
+   "retrieved_at": "2026-09-29",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:3"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+   "confirmed_at": "2026-09-29T08:47:23.597415Z",
+   "note": "",
+   "type": "article",
+   "publisher": "한국일보",
+   "headline_original": "육군 25사단 DMZ서 지뢰 추정 폭발… 발목 절단 간부 포함 3명 부상-정치ㅣ한국일보",
+   "published_at": "2026-09-21",
+   "key_facts": [
+    "육군 25사단 DMZ서 지뢰 추정 폭발… 발목 절단 간부 포함 3명 부상-정치ㅣ한국일보"
+   ]
+  },
+  {
+   "id": "src_dmz_art_0005",
+   "url": "https://www.sisajournal.com/news/articleView.html?idxno=388510",
+   "retrieved_at": "2026-09-29",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:14"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+   "confirmed_at": "2026-09-29T08:47:25.309591Z",
+   "note": "",
+   "type": "article",
+   "publisher": "시사저널",
+   "headline_original": "“DMZ 폭발, 北지뢰 가능성 매우 높아”…합참이 제시한 4가지 근거 - 시사저널",
+   "published_at": "2026-09-28",
+   "key_facts": [
+    "“DMZ 폭발, 北지뢰 가능성 매우 높아”…합참이 제시한 4가지 근거 - 시사저널"
+   ]
+  },
+  {
+   "id": "src_dmz_art_0006",
+   "url": "https://www.hankookilbo.com/news/article/A2026092818320004124",
+   "retrieved_at": "2026-09-29",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:5"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+   "confirmed_at": "2026-09-29T08:47:25.776904Z",
+   "note": "",
+   "type": "article",
+   "publisher": "한국일보",
+   "headline_original": "軍 \"DMZ 폭발 원인, 북 지뢰 가능성 매우 높아\"… 최종 판정 시 상응한 조치-정치ㅣ한국일보",
+   "published_at": "2026-09-28",
+   "key_facts": [
+    "軍 \"DMZ 폭발 원인, 북 지뢰 가능성 매우 높아\"… 최종 판정 시 상응한 조치-정치ㅣ한국일보"
+   ]
+  },
+  {
+   "id": "src_dmz_art_0007",
+   "url": "https://www.khan.co.kr/article/202609282151001/",
+   "retrieved_at": "2026-09-29",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:11"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+   "confirmed_at": "2026-09-29T08:47:26.242142Z",
+   "note": "",
+   "type": "article",
+   "publisher": "경향신문",
+   "headline_original": "군 “북한군 수지 반보병지뢰 발견 진술…최종 판정 시 상응 조치”",
+   "published_at": "2026-09-28",
+   "key_facts": [
+    "군 “북한군 수지 반보병지뢰 발견 진술…최종 판정 시 상응 조치”"
+   ]
+  },
+  {
+   "id": "src_dmz_art_0010",
+   "url": "https://www.sisajournal.com/news/articleView.html?idxno=388651",
+   "retrieved_at": "2026-09-29",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:5"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+   "confirmed_at": "2026-09-29T08:47:27.390128Z",
+   "note": "",
+   "type": "article",
+   "publisher": "시사저널",
+   "headline_original": "강신철 “DMZ 폭발, 북한군 지뢰 확실…명백한 정전협정 위반” - 시사저널",
+   "published_at": "2026-09-29",
+   "key_facts": [
+    "강신철 “DMZ 폭발, 북한군 지뢰 확실…명백한 정전협정 위반” - 시사저널"
+   ]
+  },
+  {
+   "id": "src_dmz_art_0015",
+   "url": "https://www.koreajoongangdaily.com/korea/military-effectively-concludes-that-north-korean-mine-caused-series-of-blasts-in-dmz/12895478",
+   "retrieved_at": "2026-09-29",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:13"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+   "confirmed_at": "2026-09-29T08:47:29.346975Z",
+   "note": "매체명 표기 정리(원 표기 koreajoongangdaily)",
+   "type": "article",
+   "publisher": "Korea JoongAng Daily",
+   "headline_original": "Military effectively concludes that North Korean mine caused series of blasts in DMZ",
+   "published_at": "2026-09-29",
+   "key_facts": [
+    "Military effectively concludes that North Korean mine caused series of blasts in DMZ"
+   ]
+  },
+  {
+   "id": "src_dmz_art_0019",
+   "url": "https://theprint.in/world/south-korean-military-un-command-launch-investigation-into-dmz-explosion/3054876/",
+   "retrieved_at": "2026-09-29",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:3"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+   "confirmed_at": "2026-09-29T08:47:31.041051Z",
+   "note": "",
+   "type": "article",
+   "publisher": "ThePrint",
+   "headline_original": "South Korean military, UN command launch investigation into DMZ explosion",
+   "published_at": "2026-09-27",
+   "key_facts": [
+    "South Korean military, UN command launch investigation into DMZ explosion"
+   ]
+  },
+  {
+   "id": "src_dmz_art_0027",
+   "url": "https://www.aljazeera.com/news/2026/9/21/three-south-korean-officers-wounded-in-border-explosion",
+   "retrieved_at": "2026-09-29",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+   "confirmed_at": "2026-09-29T08:47:34.733496Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "Three South Korean military officers wounded in explosion near border",
+   "published_at": "2026-09-21",
+   "key_facts": [
+    "Three South Korean military officers wounded in explosion near border"
+   ]
+  },
+  {
+   "id": "src_dmz_art_0034",
+   "url": "https://lb.ua/world/2026/09/21/767664_buferniy_zoni_mizh_pivdennoyu.html",
+   "retrieved_at": "2026-09-29",
+   "lang": "uk",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "claude(사용자 요청 대행 — URL·매체·게시일 확인)",
+   "confirmed_at": "2026-09-29T08:47:37.679836Z",
+   "note": "",
+   "type": "article",
+   "publisher": "LB.ua",
+   "headline_original": "У буферній зоні між Південною Кореєю та КНДР стався вибух. Поранені люди",
+   "published_at": "2026-09-21",
+   "key_facts": [
+    "У буферній зоні між Південною Кореєю та КНДР стався вибух. Поранені люди"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "call_id": "llm_20261028_060725_264e",
+  "task_id": "director-showcase_geo",
+  "worker": "director",
+  "backend": "claude",
+  "model": "claude-opus-5-5",
+  "mode": "response",
+  "system_prompt_hash": "sha256:37bf4bc250bb17d182c3797867805a735739bc2c31de7eedabf9e998f17d8c95",
+  "user_prompt_path": "llm_calls/llm_20261028_060725_264e.prompt.txt",
+  "raw_response_path": "llm_calls/llm_20261028_060725_264e.raw.txt",
+  "parsed_status": "validation_failed",
+  "started_at": "2026-10-28T06:07:25.941111Z",
+  "completed_at": "2026-10-28T06:17:49.895704Z",
+  "exit_code": 0,
+  "retry_index": 0,
+  "error_message": "check_parsed: 렌더 전 점검 실패:\n자산 없음: /home/user/osint_generator/projects/showcase_geo/assets/flags/ca_1x1.png (키 flag11:ca)\n자산 없음: /home/user/osint_generator/projects/showcase_geo/assets/flags/de_1x1.png (키 flag11:de)\n자산 없음: /home/user/osint_generator/projects/showcase_geo/assets/flags/fr_1x1.png (키 flag11:fr)\n자산 없음: /home/user/osint_generator/projects/showcase_geo/assets/flags/gb_1x1.png (키 flag11:gb)\n자산 없음: /home/user/osint_generator/projects/showcase_geo/assets/flags/it_1x1.png (키 flag11:it)\n자산 없음: /home/user/osint_generator/projects/showcase_geo/assets/flags/jp_1x1.png (키 flag11:jp)\n자산 없음: /home/user/osint_generator/projects/showcase_geo/assets/flags/kr_1x1.png (키 flag11:kr)\n자산 없음: /home/user/osint_generator/projects/showcase_geo/assets/flags/nl_1x1.png (키 flag11:nl)\n자산 없음: /home/user/osint_generator/projects/showcase_geo/assets/flags/ru_1x1.png (키 flag11:ru)\n자산 없음: /home/user/osint_generator/projects/showcase_geo/assets/flags/ua_1x1.png (키 flag11:ua)\n자산 없음: /home/user/osint_generator/projects/showcase_geo/assets/flags/us_1x1.png (키 flag11:us)"
+}

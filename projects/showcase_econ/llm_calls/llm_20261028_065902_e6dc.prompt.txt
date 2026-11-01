@@ -1,0 +1,413 @@
+당신은 OSINT 지정학 해설 영상의 연출가입니다. 지금은 **수정 회차**입니다.
+
+역할
+----
+직전 연출(direction)과 시각 검수 판정(qa_verdict)·결정적 검사(checks)를 받아, 지적된 문제만 고친 연출 전체를 다시 냅니다.
+
+규칙
+----
+- **지적받지 않은 부분은 바꾸지 않는다.** 이벤트 순서·문구·시각을 그대로 둔다(회귀 방지 — 코드가 검사한다).
+- **앞 회차에서 지적받아 옮긴 것을 원래 자리·값으로 되돌리지 않는다.** 앞 회차 수정이 새 지적을 낳았으면 세 번째 방법을 찾는다
+  (예: 슬롯 A가 가려서 B로 옮겼는데 B도 지적받았다 → A로 돌아가지 말고 시각을 엇갈리게 하거나 다른 슬롯).
+- 시각 지적은 문장 시각표·카드 시각을 보고 고친다. 전면 카드(타이틀·엔딩)는 장면 **안**에 있을 수 있다 —
+  카드 밑에 남는 요소는 `end: {card: title}` 처럼 카드 앵커로 끝낸다.
+- 고친 것마다 changelog 에 `issue_ref`(검수 issue 의 frame 또는 fix.event_ref, checks 항목 id)와 `change`(무엇을 어떻게)를 쓴다.
+- 연출 문법·금지 사항은 첫 연출과 같다: 장면당 카메라 이동 1회 이하, 먼 거리는 dip, 모서리엔 날짜만, 도장·비네팅 금지,
+  시각은 앵커로만, 배치는 슬롯으로, 원고에 없는 사실을 화면에 새로 쓰지 않는다.
+camera_moves_per_scene_max: 1
+shot_min_hold_sec: 6.0
+move_dur_sec:
+- 2.6
+- 3.4
+move_lead_sec:
+- 0.6
+- 1.2
+dip_total_sec: 1.0
+dip_max_per_sec: 90.0
+dip_alpha_peak: 0.93
+zoom_bump: false
+drift:
+  amount: 0.03
+  tau_sec: 9.0
+ending_pullback:
+  w_from: 88.0
+  w_to: 96.0
+  dur_sec: 9.0
+auto_transition:
+  dip_if_dist_over_w: 2.5
+  dip_if_w_ratio_over: 6.0
+scene_attach_lead_sec: 1.5
+w_guide:
+  continental_route:
+  - 88.0
+  - 96.0
+  ocean:
+  - 60.0
+  - 72.0
+  region:
+  - 20.0
+  - 30.0
+  strait:
+  - 12.0
+  - 16.0
+  country:
+  - 6.0
+  - 8.0
+  metro:
+  - 3.0
+  - 5.0
+  city: 2.5
+camera_speed:
+  max_pan_w_per_sec: 0.5
+  max_zoom_per_sec: 1.3
+  opening_max_pan_w_per_sec: 0.15
+  opening_max_zoom_per_sec: 0.3
+  stages:
+    mercator:
+    - pan
+    - zoom
+    timeline:
+    - zoom
+max_consecutive_move_sentences: 3
+move_ease: quintic
+move_path: fixed_point
+
+연출 문법 (규칙 파일)
+---------------------
+- 인물이 발언 주체인 문장("~는 ~라고 말했습니다")에는 그 인물의 초상 뱃지(엔티티 레지스트리에 초상이 있을 때) 또는 그 발언을 전한 기사 카드(미디어 레지스트리 기사)를 건다. 텍스트 카드만으로 대신하지 않는다.
+- 원고 문장에 media 큐가 있으면 그 미디어를 우선 쓴다.
+- 이동·공격 문장(보냈·배치·수송·공격·발사 등)의 목적지·표적 마커에는 그 마커로 가는 경로(route)를 같은 문장에 건다 — 다른 경로만 보이면 오해를 부른다. 문장이 부르는 나라·지점은 그 문장 동안 화면 안에(카메라 w·중심), 이동·공격 대상이 화면 밖이면 hard(v5.21.14 사용자 의견, 검사 [route-missing]·[frame-missing]).
+- 인용(quote) 문구는 그 인용이 걸린 문장의 화면 원고에 있는 말을 그대로 쓴다 — 내레이션이 말하지 않는 문구·원고와 다른 번역은 인용으로 걸지 않는다. 원고가 보도를 전하면 따옴표 없는 카드로(v5.21.13 사용자 의견, 검사 [quote-in-script] hard).
+- 한 영상 안 기사 카드(article) theme 은 하나로 통일한다(dark 권장) — 카드마다 dark·light 를 섞지 않는다(v5.21.12 사용자 의견, 검사 [article-backdrop] hard).
+- 마커 라벨·부제는 그 마커를 지나는 경로 선의 반대쪽 side 로 둔다 — 경로 선이 글자를 지나가면 안 된다(v5.21.11 사용자 의견, 검사 [route-label-cross] hard). 경로 이름표 자리는 엔진이 선에서 띄워 고른다 — 이름표를 짧게 쓴다.
+- 기사 카드(article)·인용(quote)은 글자가 다 보이는 시간이 2.5초 이상이어야 한다(기사는 프레스 단독 1초 + 페이드 0.5초씩을 빼고, 즉 t0~t1 4.5초 이상) — 문장이 짧으면 end 를 다음 문장까지 늘리거나 start 를 앞당긴다(v5.21.10 사용자 의견, 검사 [card-exposure] hard).
+- 오프닝 기사 카드(article)가 제목 카드 직전까지 떠 있으면 그 카드 end 를 제목 카드 끝({card: title, edge: end})까지 늘려 제목을 기사 위에 띄운다 — 카드를 끄고 지도를 잠깐 보인 뒤 제목으로 넘어가지 않는다. 기사 글자는 엔진이 흐리게 남긴다. 오프닝 기사 카드가 없으면 지도 위에 제목. 제목 뒤에 남을 채움·뱃지는 제목 카드 전에 끝낸다(v6.0.2 사용자 의견, 검사 [title-backdrop] hard).
+- 카메라 키(w·중심)는 무대 경계 안에서 고른다 — 지도는 w ≤ 지오 역량의 최대 w, 중심 ± w/2 가 W 티어 안. 시간축은 w ≤ start~end 일수. 경계 밖 키는 렌더가 잘라 화면이 경계에 멈췄다가 이동 중간에 한 프레임 만에 꺾인다(v7.1.0 사용자 의견 UF-99, 검사 [camera-bounds] hard).
+- 경계선(군사분계선·국경·NLL 등)을 route 로 그리지 않는다 — 지도 경계선이 이미 있다(v4.7.0 D-0107, 검사 [boundary-as-route] hard).
+- 화면에 조약·협정·작전 같은 고유 명칭이 나오는데 내레이션이 그 뜻을 풀지 않으면, 연도 카드(precedent) 패널의 footnote(1~2줄·근거 claim 필수)로 짧게 설명한다 — 자막 구역 위, 카드 아래(v5.6.0 사용자 요청 2026-10-05 "해결 조약 풋노트", 검사 [panel-footnote]).
+- 연도 단위 경과(수십~수백 년)는 연도 카드(precedent, 4장 이하)로, 월 눈금 타임라인(timeline)은 36개월 이하만(v5.6.0 RENDER-AP-011, 검사 [timeline-span]).
+- 문장의 주제가 되는 경로·지역은 그 문장 카메라 프레임 안에 둔다. 한 장면에서 주제 지역이 크게 바뀌면 문장 경계에 카메라 이동 1회(v5.6.0 RENDER-AP-012, 검사 [route-frame]).
+- 오프닝은 넓은 지도(나라와 주변국이 함께 보이는 폭)에서 시작해 대상 지역으로 천천히(4초 이상) 들어간다 — 지리를 모르는 시청자도 "유럽의 어디쯤"인지 먼저 잡는다(v5.6.0 사용자 요청, rules opening, 검사 [opening-establish]).
+- 고립·봉쇄·우회를 말할 때는 막힌 길과 실제로 쓰는 길을 함께 그린다 — 육로(막힘)와 항로(예 — 러시아 본토 → 발트해 공해 상공 → 칼리닌그라드, 리투아니아·폴란드 영공 우회)를 각각 경로로. 항로는 점선 route(ship false)에 "항로" 이름표(v5.6.0 사용자 요청 2026-10-05).
+- 무기체계 이름이 나오는 문장에는 그 무기의 실사 사진(권리 기록된 자료사진 — Commons PD·CC, 정부 공개 자료)을 우선 띄운다. 큰 숫자 카드만으로 끝내지 않는다(v5.6.0 사용자 요청, rules weapon_photo, 검사 [weapon-photo] warning).
+- 국기 뱃지는 그 나라 땅·바다·화면 가장자리에 둔다 — 다른 나라 땅 위에 두면 시청자가 그 땅을 그 나라 것으로 오해한다(예 — 리투아니아 위 러시아 국기). 슬롯 자리가 남의 땅에 걸리면 슬롯을 바꾼다(v5.6.0 사용자 지적, 검사 [flag-territory]).
+- 기사 조판(article)·실사(photo·clip·cutout)는 입력의 미디어 레지스트리 후보에서 고른다. 인용·기사·실사 중 0건으로 두는 항목이 있으면 direction.yaml media_note 에 이유를 한 줄 적는다 — 게이트 ② 미디어 요약에 보인다(막지 않는다, v5.6.0 사용자 결정 2026-10-05, PIPELINE-AP-019).
+- 양측 비교(versus) 패널이 떠 있는 동안에는 인물 뱃지를 띄우지 않는다 — 발언자는 기둥 제목이 밝힌다. 뱃지가 한 자리에 번갈아 뜨면 누구 의견인지 헷갈리고 기둥 글자를 가린다. 인물 소개는 패널 앞 문장에서 끝낸다(v5.6.0 사용자 지적, 검사 [badge-over-panel]).
+- 위치가 공개되지 않은 사건 지점은 marker sub 에 '좌표 비공개'(또는 '근사 위치')를 쓴다 — 지도 좌표는 근거가 있을 때만 사건 지점으로 보인다(v4.7.0 D-0107).
+- 청와대·대통령실(한국)이 발언·행위 주체인 문장에는 휘장 뱃지(kind emblem, img cheongwadae)를 건다. 대통령 개인이 주체면 초상 뱃지, 둘 다면 초상을 우선한다(v4.8.0 D-0109, 사용자 결정 D98).
+- 주제가 지리·이동·위치가 아니면(정책·금리·기업·법정·발언 중심) 지도 무대를 쓰지 않는다 — backdrop 무대 + 아일랜드(차트·개념도·사진·기사·패널)로 구성한다. 지도가 중심이면 mercator(v5.1.0 D-0123 §2). 장르 기본 무대와 다르게 고르면 stage_reason 에 이유를 적는다.
+- 보도를 인용하는 카드(출처가 매체 — 통신사·신문·방송)는 카드가 아니라 기사(article) 이벤트로 건다 — 프레스 규약 v2(가운데·세리프 헤드라인). backdrop 무대에서는 주 아일랜드가 항상 하나 보이고 카드만 있는 구간은 짧게 둔다(아래 사진 배경 무대 절, v5.2.0 D-0129, 검사 [backdrop-main-missing] hard).
+- 시간축 무대는 축 스케일(w)을 장면 단위로 고정한다 — 확대·축소는 영상당 몇 번뿐이고 그 밖은 중심 이동(pan)만(v5.1.0 D-0121 §A, 검사 [timeline-rescale] hard, 수치는 아래 축 스케일 절).
+- 지도 고정 구간에서 날짜가 있는 사건이 셋 이상 이어지면(협상 경과·발표 순서) 카드를 늘어놓지 않고 **겹침 카드(cascade) 하나**로 건다 — 지금 문장의 사건만 앞에 크게, 언급이 지나간 사건은 뒤로 물러나 겹친다. 사건마다 국기·날짜·제목 한 줄, 부제는 선택. 같은 순간 cascade 는 하나, 카드와 같이 두지 않는다(v5.3.0 D-0139, 사용자 결정 D116·D117, 검사 [cascade-*] hard).
+- 인물의 **직접 인용**(원문 기사에서 따옴표로 확인된 발언 = 입력의 "인용 후보" 목록, v5.6.0)은 카드가 아니라 **인용(quote)** 으로 건다 — 원문(영어 등)은 뜻을 바꾸지 않고 한국어로 옮긴다 — 초상(pid, 없으면 flag) + 화면 가운데 따옴표 인용문 + 아래 작은 이름·직함·매체·날짜. 기자의 요약·간접 화법("~라고 말했다"를 줄인 문구)에는 따옴표를 쓰지 않는다 — 카드(quote: false). A 의 인용과 그에 맞서는 B 의 인용을 함께 보일 때는 같은 순간 A = pos upper(왼쪽 위), B = pos lower(오른쪽 아래). 인용 중에는 같은 인물의 지도 뱃지를 겹쳐 두지 않는다(v5.4.0, 사용자 결정 2026-10-02, 검사 [quote-overflow]·[subtitle-overlap] hard).
+- 가격·추이·통계 문장에는 알맞은 차트를 건다 — 시간에 따른 변화 = 선 차트(panel dual_line, 출처 있는 실측값, 촘촘한 날짜 라벨은 x_label_rotate), 전체 대비 비율 = 도트(panel dots), 단일 지표 = 큰 숫자 카드(bigs). 값은 출처가 있는 것만, 주장 수치는 주장 주체를 패널 문구에 적는다(v5.4.0, 사용자 지시 2026-10-02, 검사 정직성 4종 hard).
+- 주문(order.yaml) data.series 에 있는 시리즈는 반드시 데이터 패널(dual_line 등 series[].record)로 그린다. 이전 승인 연출(track_v*)의 데이터 패널도 그대로 이어 간다. 일부러 빼려면 direction drops 에 {record, reason} 을 적는다(사용자 의견 UF-126, 검사 [series-unused]·[panel-dropped] hard).
+- 패널(그래프·도표)이 떠 있는 동안에는 오른쪽 상단 카드·계단식 카드·기사·사진·인용·뱃지를 두지 않는다 — 패널 앞에 끝내거나 뒤에 시작한다. 같은 수치는 패널 점·자막이 맡는다(사용자 의견 UF-129, 검사 [card-over-panel] hard).
+
+변화 사다리 (규칙 파일 — 정적 구간)
+---------------------------------
+같은 뷰가 45초를 넘으면 뷰를 바꾸지 말고 문장의 내용을 따라 ① 마커·라벨 등장 ② 관계선 하나 ③ 뱃지·카드 ④ 강조 ⑤ 그래도 없으면 숏 이동 순으로 변화를 준다. 이유 없는 카메라 이동 금지. 검사 [static-window]: 지도 무대의 어떤 45초 창이든 변화(marker, route, badge, panel, card, photo, clip, cutout, article, post, country, boom, flight, camera)가 3개 미만이면 경고한다. 표시된 창에는 엔진이 느린 푸시인(창 길이에 걸쳐 w × 0.96)을 건다 — 연출이 줌을 넣지 않는다.
+
+시간축 축 스케일 (규칙 파일)
+--------------------------
+시간축 무대는 축 스케일(카메라 w, 화면이 덮는 일수)을 장면 단위로 고정한다. 확대·축소는 영상 전체 3회 이하(오프닝 뒤 작업 척도·중간 1회·엔딩 조망), 한 번에 1.5배 이상만 바꾼다. 장면 안에서는 w 를 그대로 두고 중심 이동(pan)만 한다. 지도의 '문장마다 줌 금지'(G4-16)와 같은 원리다. 검사 [timeline-rescale] hard.
+
+사진 배경 무대·아일랜드·기사 (규칙 파일 — 지도가 중심이 아닌 주제)
+----------------------------------------------------------------
+- 사진 배경 무대: 최상위 `stage: backdrop`. 주 무대 카메라 숏은 `{"at": 0, "mode": "cut", "dur": 0, "camera": {}}` 하나(이동 없음).
+- 배경 사진: 장면마다 `{"type": "backdrop", "start": {"scene_start": 장면}, "end": {"scene_end": 장면}, "img": 사진 id}`. img 는 사용자 메시지 미디어 목록의 사진(photo) id 만. 연속 같은 사진 금지, 영상 전체 서로 다른 사진 3~6장. 블러·어둡게·crossfade 1.2초는 코드가 한다(검사 [backdrop-repeat]·[backdrop-rights] hard).
+- 차트 아일랜드: `{"type": "island", "kind": "chart", "box": center, left, right 중 하나, start, end}` — 시간축 차트가 이 상자 안에 뜬다. 차트 카메라는 `"stage": "timeline"` 숏(camera {date, lane?, w}) — 시간축 축 스케일 규칙을 그대로 따른다. series·date 마커는 차트 아일랜드가 떠 있는 동안에만 쓴다. 같은 순간 차트 아일랜드는 하나 — 차트가 필요한 구간 전체에 하나를 길게 두는 것이 기본이고, 둘을 이을 때는 앞 것의 end 뒤에 다음 것의 start 를 둔다(시각이 겹치면 오류). 오른쪽 카드와 함께면 box left.
+- 아일랜드(차트·사진·영상·프리미티브·패널)는 같은 순간 2개 이하, 서로 겹치지 않는다(검사 [island-overlap] hard). 뱃지는 화면 슬롯(map_*)에, 프리미티브(statement_diff·dot_plot 등)·카드는 카드 슬롯에 둔다 — backdrop 무대에서 date·lane 앵커는 series·marker 만(그 밖은 오류).
+- 주 아일랜드 상시(v5.2.0): backdrop 무대에서는 주 아일랜드(chart·primitive·photo·clip·article·panel)가 항상 하나 보인다. 카드만 있는 구간(블러 배경 + 카드)은 3초 이하 — 넘으면 검사 [backdrop-main-missing] hard(타이틀·엔딩 카드·기사 구간 제외). 차트 아일랜드는 오프닝 첫 문장부터 띄운다. 보도를 인용하는 카드(출처가 매체)는 카드가 아니라 article 이벤트로 — 프레스 규약 v2(가운데·세리프 헤드라인)로 조판한다. 카드는 아일랜드 상자와 겹치지 않는 자리에(겹치면 [card-island] warning).
+- 차트 아일랜드 안 마커 라벨은 아일랜드 안에서만 보인다 — 오른쪽 끝 마커는 라벨이 점 왼쪽에 붙는다(코드가 정한다). 그래도 상자 밖이면 검사 [island-label-clip] hard, 라벨이 같은 레인 출처 줄과 겹치면 [island-label-overlap] warning — 마커 날짜·레인이나 카메라(date·w)를 바꿔 푼다.
+- 사진·영상을 left 차트 아일랜드와 같은 순간에 띄울 때는 `"place": "backdrop_right_low"`(backdrop 무대 전용 사진 자리 — 오른쪽 카드 자리 아래·자막 위·left 상자 밖, v5.2.0 D-0132). map_right_low·panel_gap·timeline_photo 는 left 상자와 겹친다([island-overlap] hard).
+- 기사: `{"type": "article", "mid": 기사 id, "theme": dark|light(기본 dark), "press": 공식 사진 id(선택)}` — 화면 전체. 프레스 사진 1초 → 덮개 + 세리프 헤드라인(원문 언어)·부제(번역)·출처 줄. press 는 미디어 목록의 권리 기록 사진만, 없으면 쓰지 않는다(코드가 지금 화면을 흐려 깐다).
+
+차트는 하나의 세계 (규칙 파일 — 경제·데이터 영상)
+-------------------------------------------------
+- 경제·데이터 영상의 차트는 하나의 시간축 세계다. 카메라가 그 안에서 이동한다. 축척이 다른 독립 차트를 번갈아 띄우지 않는다.
+- 같은 단위의 시계열은 한 레인(한 축척)에 둔다. 차트 아일랜드가 둘 이상인 영상에서 같은 단위를 다른 레인에 그리면 검사 [chart-world-split] hard.
+- 차트·카드만 보이는 구간은 12초 이하 — 그 안에 사건 핀(marker)·인물 뱃지·사진·기사·인용·지도 중 하나를 넣는다(검사 [chart-only-run] hard, 모든 무대).
+
+배치 슬롯 — 슬롯마다 받는 이벤트 종류(kinds)가 정해져 있다. 영상·사진을 점 슬롯에 두면 거부된다.
+- map_left — clip, photo (화면 상자)
+- panel_center — clip, photo (화면 상자)
+- map_right_low — photo, clip (화면 상자)
+- panel_gap — photo, clip (화면 상자)
+- map_center — badge, cutout, marker (화면 점 → 경위도)
+- map_upper_left — badge, cutout, marker (화면 점 → 경위도)
+- map_upper_right — badge, cutout, marker (화면 점 → 경위도)
+- map_lower_left — badge, cutout, marker (화면 점 → 경위도)
+- map_lower_right — badge, cutout, marker (화면 점 → 경위도)
+- card_right — card, primitive (카드 위치)
+- timeline_badge — badge (화면 점 → 경위도)
+- timeline_photo — photo, clip (화면 상자)
+- backdrop_right_low — photo, clip (화면 상자) — backdrop 무대 전용(다른 무대에서 쓰면 오류)
+- panel_badge — badge (패널 위 화면 고정 자리 — 패널이 떠 있는 동안 시작하는 지도 슬롯(map_*) 뱃지는 엔진이 이 자리로 옮긴다)
+- clip_panel_side — clip, photo (패널 위 미디어 — 엔진이 그 순간 패널 글자·자막·날짜를 피하는 빈 귀퉁이를 고른다(자리가 없으면 오류))
+
+엄격한 출력 규칙
+----------------
+- 출력은 JSON 객체 하나: `{"schema_version": 1, "changelog": [{"issue_ref": …, "change": …}], "direction": {…연출 전체…}}`. fence·설명 금지.
+- **changelog 를 먼저, direction 을 마지막에** 쓴다. direction 이 끝나면 최상위 객체도 끝난다(괄호 짝 확인).
+
+예시 (형식 참고 — direction 은 실제로는 전체 연출)
+------------------------------------------------
+```json
+{"schema_version": 1,
+ "changelog": [{"issue_ref": "badge:부산에서 출항", "change": "카드에 가리지 않게 배치 슬롯 map_upper_left 로 옮김"}],
+ "direction": {"version": 1, "places": {}, "paths": {},
+               "shots": [{"at": 0, "mode": "cut", "dur": 0, "camera": {"lon": 127.35, "lat": 36.35, "w": 6.4}}],
+               "events": [{"type": "badge", "start": {"sid": "review_0", "off": 0.3}, "end": {"scene_end": "review"},
+                           "place": "map_upper_left", "kind": "flag", "flag": "kr", "R": 18, "label": "부산에서 출항", "accent": "gold"}]}}
+```
+
+장르 규칙 — 이 영상은 지정학이 아니다 (장르 macro_monetary, 프로필 proposed)
+------------------------------------------------------------------
+위의 지도 문법(경도·위도·지도 슬롯·dip 거리 기준)은 이 영상의 주 무대에 쓰지 않는다. 고칠 때도 무대는 backdrop (보조: timeline) 이다.
+`genre`·`stage`·`stage_config` 는 지적이 없으면 그대로 둔다.
+
+무대 문법(20 §6)
+- 배경: 권리 기록 있는 실사진(미디어 레지스트리 photo)을 블러로 깐다. 장면(주제)이 바뀔 때만 바꾸고 연속 같은 사진은 금지, 영상 전체 서로 다른 사진 3~6장. 전환은 crossfade 만(줌 범프 금지). 사진이 없으면 지어내지 않는다.
+- 카메라: 빈 카메라 {}(이동 없음). 움직임은 배경의 느린 확대와 아일랜드 등장·전환이 만든다.
+- 내용물은 아일랜드로 띄운다 — 차트·개념도·사진·영상·기사·패널·게시물. 같은 순간 아일랜드는 2개 이하, 서로 겹치지 않는다.
+
+색 의미(장르 프로필)
+- hike: #ff7a59
+- cut: #5aa9ff
+- hold: #a9b0bd
+- target_band: rgba(232,184,96,0.15)
+- added: green
+- removed: ru
+
+
+---
+
+직전 연출 (direction, JSON)
+--------------------------
+{"version":1,"genre":"macro_monetary","stage":"timeline","media_note":"사진·영상 0건 — 레지스트리에 사진·영상 없음. 인용 0건 — 인용 후보 없음. 기사 3건(cnn_0916·cnn_0729·fox_0916) — 60초 창당 2개 상한 때문에 act3·ending 후보는 쓰지 않음","story_geo_exempt":null,"opening_exempt":null,"stage_reason":"미디어 레지스트리에 권리 기록 사진(photo)이 없어 backdrop 배경을 깔 수 없고, 원고가 '한 줄의 시간축' 한 세계(D-0251 §6.1)로 쓰였으므로 시간축을 주 무대로 한다","stage_config":{"timeline":{"start":"2019-01-01","end":"2026-12-31","lanes":[{"id":"policy_rate","label":"연방기금금리 (목표 범위·실효)","kind":"step","unit":"%"},{"id":"inflation","label":"소비자물가 상승률 (전년 동월 대비)","kind":"line","unit":"%"},{"id":"events","label":"사건","kind":"pins"}]}},"places":{},"paths":{},"shots":[{"at":0.0,"mode":"cut","dur":0.0,"camera":{"lon":null,"lat":null,"place":null,"date":"2023-08-01","lane":null,"w":2400.0},"under":false,"allow_sea":null,"scene":null,"stage":null,"reason":null},{"at":{"sid":"act1_0","off":-0.6},"mode":"move","dur":6.0,"camera":{"lon":null,"lat":null,"place":null,"date":"2026-03-15","lane":null,"w":420.0},"under":false,"allow_sea":null,"scene":null,"stage":null,"reason":null},{"at":{"sid":"act2_0","off":-0.6},"mode":"move","dur":4.0,"camera":{"lon":null,"lat":null,"place":null,"date":"2026-05-20","lane":null,"w":420.0},"under":false,"allow_sea":null,"scene":null,"stage":null,"reason":null},{"at":{"scene_start":"ending","off":-0.8},"mode":"move","dur":3.4,"camera":{"lon":null,"lat":null,"place":null,"date":"2026-02-01","lane":null,"w":660.0},"under":false,"allow_sea":null,"scene":null,"stage":null,"reason":"엔딩 조망 — 원고가 '1년 사이'를 말하므로 2025년 10월 인하부터 2026년 9월 재인상까지 한 화면에 되돌아본다"}],"events":[{"type":"series","start":0.3,"end":{"total":true},"lane":"policy_rate","series_id":"DFEDTARL","upper_id":"DFEDTARU","style":"band","color_by":"change","col":"gold"},{"type":"series","start":0.3,"end":{"total":true},"lane":"policy_rate","series_id":"FEDFUNDS","style":"step","col":"amber"},{"type":"series","start":0.3,"end":{"total":true},"lane":"inflation","series_id":"CPIAUCSL","style":"line","col":"teal"},{"type":"marker","start":{"sid":"cold_0","off":0.3},"end":{"sid":"cold_1","off":0.1},"date":"2026-09-16","lane":"events","label":"9월 16일 금리 인상","sub":"0.25%p 인상 · 3.75~4%","side":"left","hl":true},{"type":"article","start":{"sid":"cold_1","off":-0.2},"end":{"card":"title","edge":"end"},"mid":"cnn_0916","theme":"dark"},{"type":"marker","start":{"sid":"act1_2","off":0.3},"end":{"sid":"act1_3","off":0.0},"date":"2025-10-29","lane":"events","label":"10월 29일 인하","sub":"0.25%p 인하 · 3.75~4%","side":"right","hl":true},{"type":"marker","start":{"sid":"act1_3","off":0.3},"end":{"sid":"act1_5","off":0.0},"date":"2025-12-10","lane":"events","label":"12월 10일 인하","sub":"3.5~3.75%","side":"right","hl":true},{"type":"card","start":{"sid":"act1_4","off":0.2},"end":{"sid":"act1_4","edge":"end","off":0.6},"tag":"2026년 1~6월","lines":["네 번의 회의","금리는 그대로"],"accent":"muted","claims":["clm_0010","clm_0011","clm_0012","clm_0013"]},{"type":"marker","start":{"word":{"sid":"act1_5","text":"2월 28일"}},"end":{"sid":"act1_6","off":0.0},"date":"2026-02-28","lane":"events","label":"이란 전쟁 시작","sub":"2월 28일 · 미국·이스라엘 공격","side":"right","hl":false},{"type":"marker","start":{"sid":"act1_6","off":0.2},"end":{"scene_end":"act1"},"date":"2026-05-15","lane":"events","label":"워시 의장 취임","sub":"2026년 5월","side":"left","hl":false},{"type":"badge","start":{"sid":"act1_6","off":0.3},"end":{"sid":"act1_7","off":1.0},"place":"timeline_badge","kind":"person","pid":"warsh","flag":"us","label":"케빈 워시","role":"연준 의장","accent":"gold"},{"type":"marker","start":{"word":{"sid":"act1_7","text":"7월"}},"end":{"scene_end":"act1"},"date":"2026-07-29","lane":"events","label":"7월 회의","sub":"갈림길","side":"right","hl":true},{"type":"marker","start":{"sid":"act2_1","off":0.3},"end":{"scene_end":"act2"},"date":"2026-07-29","lane":"events","label":"7월 29일 동결","sub":"3.5~3.75% · 9대 3","side":"left","hl":true},{"type":"article","start":{"sid":"act2_2","off":-0.8},"end":{"sid":"act2_3","off":0.7},"mid":"cnn_0729","theme":"dark"},{"type":"card","start":{"sid":"act2_3","off":0.9},"end":{"sid":"act2_3","edge":"end","off":0.6},"tag":"7월 29일 표결 · 9대 3","lines":["반대 3명 — 해맥·카시카리·로건","0.25%p 인상을 원함"],"accent":"amber"},{"type":"marker","start":{"sid":"act2_4","off":0.3},"end":{"scene_end":"act3"},"date":"2026-09-16","lane":"events","label":"9월 16일 인상","sub":"12대 0 만장일치 · 3.75~4%","side":"left","hl":true},{"type":"article","start":{"sid":"act2_5","off":-0.4},"end":{"sid":"act2_6","off":0.2},"mid":"fox_0916","theme":"dark"},{"type":"marker","start":{"sid":"act2_6","off":0.4},"end":{"scene_end":"act2"},"date":"2026-08-01","lane":"inflation","label":"8월 소비자물가","sub":"1년 전보다 3.4%","side":"left","hl":true},{"type":"card","start":{"sid":"act2_6","off":0.6},"end":{"sid":"act2_6","edge":"end","off":0.6},"tag":"8월 소비자물가 · 전년 동월 대비","bigs":[["3.4%","1년 전보다 오른 폭"]],"accent":"teal","src":"미 노동통계국(BLS) CPI-U · FRED"},{"type":"primitive","id":"dot_plot","start":{"sid":"act3_1","off":-0.3},"end":{"sid":"act3_2","edge":"end","off":0.8},"place":"card_right","record":"SEP_20260916","tag":"경제전망요약 점도표 · 2026년 9월 16일"},{"type":"marker","start":{"sid":"act3_3","off":0.4},"end":{"scene_end":"act3"},"date":"2026-10-27","lane":"events","label":"다음 회의","sub":"10월 27~28일","side":"left","hl":true},{"type":"marker","start":{"sid":"ending_0","off":0.3},"end":{"total":true},"date":"2025-10-29","lane":"events","label":"3.75~4%","sub":"2025년 10월 29일","side":"right","hl":true},{"type":"marker","start":{"word":{"sid":"ending_0","text":"다시"}},"end":{"total":true},"date":"2026-09-16","lane":"events","label":"다시 3.75~4%","sub":"2026년 9월 16일","side":"left","hl":true},{"type":"card","start":{"sid":"ending_0","off":0.5},"end":{"sid":"ending_0","edge":"end","off":1.0},"tag":"1년 사이 금리 목표 범위","lines":["3.75~4%에서 내려갔다가","다시 3.75~4%"],"accent":"gold"}],"sound":{"bgm":"music.zabriskie_patriarch","intensity":[[0.0,0.55],[{"scene_start":"act1"},0.5],[{"scene_start":"act2"},0.62],[{"scene_start":"act3"},0.56],[{"scene_start":"ending"},0.5],[{"total":true,"off":0.5},0.0]],"cues":[],"no_music_decision":null},"drops":[{"record":"DFEDTARU","reason":"목표 범위 상단은 policy_rate 레인의 band 시리즈(DFEDTARL, upper_id DFEDTARU)로 이미 그린다. 별도 패널로 다시 그리면 같은 단위가 다른 축척으로 갈라진다(chart-world-split)"},{"record":"SEP_20260916","reason":"act3_1~act3_2 의 dot_plot 프리미티브(record SEP_20260916)가 이 레코드를 이미 그린다. 점도표는 선 차트 패널 형식에 맞지 않는다"}]}
+
+시각 검수 판정 (qa_verdict)
+--------------------------
+(검수 판정 없음 — checks 오류만 고친다)
+
+결정적 검사 (checks 요약)
+------------------------
+hard 3 · warning 5
+- overlap (hard): 0
+- offscreen (hard): 0
+- glyphs (hard): 0
+- glyph_size (hard): 0
+- shots (warning): 0
+- media_beats (warning): 4 — ["[media-density-total] 과소 — 0개 / 154초 = inf초당 1개 > 60초 (14 §10.1, ['article'] 제외)", "[article-unused] cold_0 1.2초 기사 카드 후보 ['fox_0916', 'nbc_0916', 'abc_0916'] — 0~60초 구간 1/2개. 쓰거나 media_notes.yaml sentences.cold_0.article 에 사유", "[article-unused] ending_0 132.6초 기사 카드 후보 ['fox_0729', 'fox_0916', 'nbc_0916', 'abc_0916'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유"]
+- media_upscaled (warning): 0
+- endcard_roll (warning): 1 — ['[endcard-roll] 크레딧이 넘쳐 롤 72px · 11.1 px/s(상한 60)']
+- labels (hard): 0
+- date (hard): 0
+- subtitles (hard): 0
+- rights (hard): 0
+- forbidden (hard): 0
+- stage_continuity (hard): 0
+- camera_continuity (hard): 0
+- card_exposure (hard): 0
+- route_label_cross (hard): 0
+- route_label_overlap (hard): 0
+- article_backdrop (hard): 0
+- quote_in_script (hard): 0
+- route_missing (hard): 0
+- route_missing_other (hard): 0
+- frame_missing (hard): 0
+- frame_missing_target (hard): 0
+- battle_geo (warning): 0
+- bgm_decision (hard): 0
+- endcard_black (hard): 0
+- camera_per_sentence (hard): 0
+- label_jump (hard): 0
+- camera_speed (hard): 0
+- camera_bounds (hard): 0
+- title_backdrop (hard): 0
+- cutaway_churn (hard): 0
+- transition_camera (hard): 0
+- unit_glyph_font (hard): 0
+- media_unused (hard): 0
+- inset_clipped (hard): 0
+- badge_clipped (hard): 0
+- series_unused (hard): 0
+- panel_dropped (hard): 0
+- card_over_panel (hard): 0
+- article_outlet (hard): 0
+- catalog_label_overlap (hard): 0
+- chart_only_run (hard): 0
+- chart_world_split (hard): 0
+- press_credit (hard): 0
+- static_camera (hard): 0
+- route_speed (hard): 0
+- sea_only_frame (hard): 0
+- unit_ton_glyph (hard): 0
+- ratio_graphic (warning): 0
+- inset_overlap (warning): 0
+- article_press_missing (warning): 0
+- badge_orphan (warning): 0
+- tempo_density (warning): 0
+- portrait_unused (warning): 0
+- genre_elements (hard): 0
+- boundary_as_route (hard): 0
+- geo_unsourced (warning): 0
+- geo_mismatch (hard): 0
+- static_window (warning): 0
+- timeline_rescale (hard): 0
+- backdrop_rights (hard): 0
+- backdrop_repeat (hard): 0
+- stage_choice (warning): 0
+- island_overlap (hard): 0
+- backdrop_main_missing (hard): 0
+- card_island (warning): 0
+- island_label_clip (hard): 0
+- island_label_overlap (warning): 0
+- cascade (hard): 0
+- cascade_label_hidden (warning): 0
+- subtitle_overlap (hard): 0
+- label_collision (hard): 3 — ["[label-collision] marker '7월 29일 동결' ↔ marker '9월 16일 인상' t=86.50 — 지도 글자·뱃지가 겹침. side·place·sub 길이를 바꾸거나 한쪽을 먼저 끝낸다", "[label-collision] marker '9월 16일 인상' ↔ route/barrier '7월 29일 동결' t=105.50 — 지도 글자·뱃지가 겹침. side·place·sub 길이를 바꾸거나 한쪽을 먼저 끝낸다", "[label-collision] marker '9월 16일 인상' ↔ marker '다음 회의' t=127.00 — 지도 글자·뱃지가 겹침. side·place·sub 길이를 바꾸거나 한쪽을 먼저 끝낸다"]
+- timeline_span (hard): 0
+- route_frame (hard): 0
+- panel_overflow (hard): 0
+- flag_territory (hard): 0
+- badge_over_panel (hard): 0
+- opening_establish (hard): 0
+- weapon_photo (warning): 0
+- map_contrast (hard): 0
+- map_contrast_shape (warning): 0
+- chart_honesty (hard): 0
+- series_limit_3 (hard): 0
+- units_visible (hard): 0
+- as_of_visible (hard): 0
+
+문장 시각표 (sid · 장면 · 시작~끝 초 · 문장)
+-------------------------------------------
+cold_0       cold          1.20~   9.04  9월 16일, 미국 연준이 기준금리 목표 범위를 0.25%p 올려 3.75~4%로 정했습니다.
+cold_1       cold          9.94~  12.39  2023년 이후 첫 금리 인상이었습니다.
+act1_0       act1         20.99~  26.12  시간을 1년 전으로 돌려, 연준의 금리를 한 줄의 시간축 위에서 따라가 보겠습니다.
+act1_1       act1         27.02~  28.98  그때 연준은 금리를 내리고 있었습니다.
+act1_2       act1         29.88~  37.43  2025년 10월 29일, 연준은 목표 범위를 0.25%p 내려 3.75~4%로 정했습니다.
+act1_3       act1         38.33~  43.25  이어서 12월 10일에는 다시 내려 3.5~3.75%가 됐습니다.
+act1_4       act1         44.15~  48.44  그 뒤 올해 1월부터 6월까지 네 번의 회의에서 금리는 그대로였습니다.
+act1_5       act1         49.34~  54.82  한편 그 사이 2월 28일, 미국과 이스라엘의 공격으로 이란 전쟁이 시작됐습니다.
+act1_6       act1         55.72~  58.70  이어서 5월에는 워시가 연준 의장에 취임했습니다.
+act1_7       act1         59.60~  64.48  이렇게 반년 넘게 멈춰 있던 금리 선 위에서, 7월 회의가 갈림길이 됐습니다.
+act2_0       act2         67.88~  70.52  이제 시점을 7월 29일 회의로 옮깁니다.
+act2_1       act2         71.42~  75.54  이날 연준은 금리를 3.5~3.75%로 동결했습니다.
+act2_2       act2         76.44~  78.59  그런데 결정은 9대 3으로 갈렸습니다.
+act2_3       act2         79.49~  84.94  해맥·카시카리·로건 세 사람은 0.25%p 인상을 원하며 반대했습니다.
+act2_4       act2         85.84~  90.28  그리고 9월 16일, 연준은 12대 0 만장일치로 금리를 올렸습니다.
+act2_5       act2         91.18~  94.39  연준 성명은 인플레이션이 여전히 높다고 밝혔습니다.
+act2_6       act2         95.29~  99.34  특히 8월 소비자물가는 1년 전보다 3.4% 올랐습니다.
+act2_7       act2        100.24~ 104.03  1년 전 내리던 금리는 이렇게 다시 오르는 쪽으로 돌아섰습니다.
+act3_0       act3        107.43~ 112.63  그렇다면 다시 9월 16일, 연준 위원들은 앞으로의 금리를 어떻게 보고 있었을까요.
+act3_1       act3        113.53~ 119.23  같은 날 나온 경제전망요약에는 위원들의 금리 전망을 점으로 찍은 점도표가 실렸습니다.
+act3_2       act3        120.13~ 124.99  전망 중앙값은 연내 0.25%p 추가 인상 한 번을 가리켰습니다.
+act3_3       act3        125.89~ 130.69  그래서 금리 선의 다음 칸은 10월 27~28일 회의에서 그려집니다.
+ending_0     ending      132.59~ 140.65  1년 사이 연준의 금리 목표 범위는 3.75~4%에서 내려갔다가, 다시 3.75~4%가 됐습니다.
+
+전면 카드 시각
+-------------
+card:title    13.49~  19.09  (앵커 {card: title} — 이 구간엔 지도 요소가 카드 밑에 비친다)
+card:end     142.75~ 153.75  (앵커 {card: end} — 이 구간엔 지도 요소가 카드 밑에 비친다)
+
+이 루프의 앞 회차 (판 → 지적 → 바꾼 것)
+-------------------------------------
+- direction.v1: checks hard 9
+    → 바꾼 것 transition_camera:act2_0: act2_0 시점 전환 숏(date 2026-05-20, w 420)의 이동 시간 dur 를 3.4초에서 4.0초로 늘림. 시작 앵커 {sid: act2_0, off: -0.6}와 목표 카메라는 그대로 둠
+    → 바꾼 것 series_unused:DFEDTARU: drops 에 DFEDTARU 를 추가함. 사유: 목표 범위 상단은 policy_rate 레인의 band 시리즈(DFEDTARL, upper_id DFEDTARU)로 이미 그려지며, 별도 패널로 다시 그리면 같은 단위가 두 축척으로 갈라짐(chart-
+    → 바꾼 것 series_unused:SEP_20260916: drops 에 SEP_20260916 을 추가함. 사유: act3_1~act3_2 의 dot_plot 프리미티브(record SEP_20260916)가 이 레코드를 이미 그리며, 점도표는 선 차트 패널 형식에 맞지 않음
+    → 바꾼 것 label_collision:10월 29일 인하↔12월 10일 인하 t=39.00: marker '10월 29일 인하'의 end 를 scene_end act1 에서 {sid: act1_3, off: 0.0} 로 앞당김. 12월 10일 마커가 뜰 때 앞 마커 라벨이 사라짐
+    → 바꾼 것 label_collision:12월 10일 인하↔이란 전쟁 시작: marker '12월 10일 인하'의 end 를 scene_end act1 에서 {sid: act1_5, off: 0.0} 로 앞당김. 같은 쪽(right) 라벨이 다음 사건 핀과 겹치지 않게 함
+    → 바꾼 것 label_collision:이란 전쟁 시작↔워시 의장 취임 t=56.50: marker '이란 전쟁 시작'의 end 를 scene_end act1 에서 {sid: act1_6, off: 0.0} 로 앞당김
+    → 바꾼 것 label_collision:워시 의장 취임↔badge 케빈 워시 t=56.50: marker '워시 의장 취임'의 side 를 right 에서 left 로 바꿈. 라벨이 점 왼쪽(이란 마커는 이미 끝남)에 붙어 timeline_badge 뱃지와 7월 회의 라벨(right)을 피함
+    → 바꾼 것 shots:timeline_backtrack t=131.79: 엔딩 숏에 reason 을 적음: 엔딩 조망으로 1년 전(2025-10)부터 다음 회의까지를 한 화면에 되돌아보며, 원고가 '1년 사이'를 말함
+- direction.v2: checks hard 3
+
+이벤트 필드 (타입별 — 필수는 *)
+------------------------------
+- country: codes*: list[str]; col*: str; a*: float
+- ships: box*: tuple[float, float, float, float]; n*: int; seed*: int
+- route: pts*: list[tuple[float, float]]; grow*: float; col*: str; ship: bool; dashed: bool; glow_only: bool; label: str; declared: Optional[DeclaredLeg]
+    · DeclaredLeg = {label*: str; bend_index*: int; place: Union[str, tuple[float, float], None]}
+- tanker_loop: pts*: list[tuple[float, float]]
+- barrier: p0*: tuple[float, float]; p1*: tuple[float, float]; label*: str
+- boom: lon*: float; lat*: float
+- flight: kind*: Literal['drone', 'missile', 'jet']; origin*: FlightOrigin; lon*: float (표적 경도); lat*: float (표적 위도); col: str; impact: bool; inset: Optional[FlightInset]
+    · FlightOrigin = {lon*: float; lat*: float}
+    · FlightInset = {mid*: str; side: Literal['right', 'left', 'up', 'down', 'up_left', 'up_right', 'down_left', 'down_right']; hold_until: Optional[float]; place: Optional[str]; fallback_reason: Optional[str]}
+- cutout: mid*: str; lon*: float; lat*: float; w*: float
+- marker: lon: Optional[float]; lat: Optional[float]; date: Optional[str]; lane: Optional[str]; label*: str (이동·공격 문장(보냈·배치·공격·발사 등)의 목적지·표적이면 이 마커에 닿는 route 도 같은 문장에 건다(검사 route_missing)); sub: str; side: Literal['right', 'left', 'top', 'bottom']; hl: bool; icon: Literal['dot', 'boom']
+- series: lane*: str; series_id*: str; style*: Literal['step', 'line', 'band']; color_by: Literal['fixed', 'change']; upper_id: Optional[str]; grow: bool; col: str; key: Optional[int]; axis: Optional[bool]; slot: Optional[int]
+- badge: lon: Optional[float]; lat: Optional[float]; date: Optional[str]; lane: Optional[str]; kind*: Literal['person', 'flag', 'emblem']; pid: Optional[str] (kind person 이면 필수); flag: Optional[str] (kind person·flag 이면 필수 — person 은 초상 바탕 국기 ISO 2자); img: Optional[str] (kind emblem 이면 필수); R: Optional[float]; label: str; role: Optional[str]; accent: str; side: Optional[Literal['right']]; over_panel: Optional[bool]; screen: Optional[tuple[float, float]]
+- backdrop: img*: str
+- island: kind*: Literal['chart']; box: str
+- dip: under: bool
+- photo: mid*: str; x: Optional[float]; y: Optional[float]; w: Optional[float]
+- clip: mid*: str; x: Optional[float]; y: Optional[float]; w: Optional[float]
+- card: tag*: str; lines: list[str]; bigs: list[tuple[str, str]]; accent*: str; src: Optional[str]; quote: bool; y: Optional[float]
+- cascade: items*: list[CascadeItem]
+    · CascadeItem = {at*: float; flag*: str; date*: str; title*: str; line: Optional[str]; accent: str}
+- quote: pid: Optional[str]; flag*: str; speaker*: str; role: Optional[str]; text*: str (따옴표(“”"「」)를 넣지 않는다 — 코드가 그린다. 이 인용이 걸린 문장의 화면 원고에 있는 문구를 그대로(원고에 없는 말·다른 번역 금지, 검사 quote_in_script)); src: Optional[str]; date: Optional[str]; accent: str; pos: Literal['center', 'upper', 'lower']
+- article: mid*: str; theme: Optional[Literal['dark', 'light']]; press: Optional[str]
+- post: src*: str; hl: Optional[str]; quote: bool; at: Literal['card', 'panel']
+- panel:relation (패널 — 아래 필드는 data 아래): title*: str; chart: Optional[ChartAxisMeta]; subtitle: Optional[str]; nodes*: list[RelationNode]; edges*: list[RelationEdge]; state_changes: list[RelationStateChange]; edge_label: Optional[str]; quotes: list[RelationQuote]
+    · ChartAxisMeta = {kind: Optional[str]; baseline: Optional[float]; axes: Optional[Literal[1, 2]]; axis_labels: Optional[list[str]]; axis_colors: Optional[list[Annotated[str, AfterValidator(func=<function _color at 0x7f2f0a3b1ee0>)]]]; log_scale: Optional[bool]; log_label: Optional[bool]; unit_label: Optional[str]}
+    · RelationNode = {id*: str; group*: Literal['source', 'target']; kind*: Literal['person', 'flag', 'emblem']; pid: Optional[str]; flag: Optional[str]; img: Optional[str]; label*: str; role: Optional[str]; accent: str}
+    · RelationEdge = {src*: str; dst*: str; style*: str}
+    · RelationStateChange = {src*: str; dst*: str; at*: float; style*: str; label: str}
+    · RelationQuote = {text*: str; t0*: float; t1*: float; at*: Literal['bottom', 'source']}
+- panel:statement (패널 — 아래 필드는 data 아래): title*: str; chart: Optional[ChartAxisMeta]; subtitle: Optional[str]; signers*: list[FlagLabel]; joiner*: StatementJoiner
+    · ChartAxisMeta = {kind: Optional[str]; baseline: Optional[float]; axes: Optional[Literal[1, 2]]; axis_labels: Optional[list[str]]; axis_colors: Optional[list[Annotated[str, AfterValidator(func=<function _color at 0x7f2f0a3b1ee0>)]]]; log_scale: Optional[bool]; log_label: Optional[bool]; unit_label: Optional[str]}
+    · FlagLabel = {flag*: str; label*: str}
+    · StatementJoiner = {flag*: str; label*: str; role*: str; t_join*: float}
+- panel:timeline (패널 — 아래 필드는 data 아래): title*: str; chart: Optional[ChartAxisMeta]; subtitle: Optional[str]; start*: str; end*: str; band: Optional[TimelineBand]; events*: list[TimelineItem]
+    · ChartAxisMeta = {kind: Optional[str]; baseline: Optional[float]; axes: Optional[Literal[1, 2]]; axis_labels: Optional[list[str]]; axis_colors: Optional[list[Annotated[str, AfterValidator(func=<function _color at 0x7f2f0a3b1ee0>)]]]; log_scale: Optional[bool]; log_label: Optional[bool]; unit_label: Optional[str]}
+    · TimelineBand = {start*: str; end*: str; label*: str; col*: str; t_show*: float}
+    · TimelineItem = {date*: str; label*: str; col*: str; side: Optional[Literal[-3, -2, -1, 1, 2, 3]]; t*: float; dim: bool}
+- panel:precedent (패널 — 아래 필드는 data 아래): title*: str; chart: Optional[ChartAxisMeta]; subtitle: Optional[str]; cards*: list[PrecedentCard]; footnote: Optional[PrecedentFootnote]
+    · ChartAxisMeta = {kind: Optional[str]; baseline: Optional[float]; axes: Optional[Literal[1, 2]]; axis_labels: Optional[list[str]]; axis_colors: Optional[list[Annotated[str, AfterValidator(func=<function _color at 0x7f2f0a3b1ee0>)]]]; log_scale: Optional[bool]; log_label: Optional[bool]; unit_label: Optional[str]}
+    · PrecedentCard = {year*: str; title*: str; lines*: list[str]; t0*: float; hl: bool; person: Optional[PrecedentPerson]}
+    · PrecedentPerson = {pid*: str; flag*: str; caption*: str}
+    · PrecedentFootnote = {lines*: list[str]; t0*: float; sources*: list[str]}
+- panel:versus (패널 — 아래 필드는 data 아래): title*: str; chart: Optional[ChartAxisMeta]; sides*: list[VersusSide]
+    · ChartAxisMeta = {kind: Optional[str]; baseline: Optional[float]; axes: Optional[Literal[1, 2]]; axis_labels: Optional[list[str]]; axis_colors: Optional[list[Annotated[str, AfterValidator(func=<function _color at 0x7f2f0a3b1ee0>)]]]; log_scale: Optional[bool]; log_label: Optional[bool]; unit_label: Optional[str]}
+    · VersusSide = {title*: str; items*: list[VersusItem]; src*: str}
+    · VersusItem = {text*: str; t*: float}
+- panel:dots (패널 — 아래 필드는 data 아래): title*: str; chart: Optional[ChartAxisMeta]; subtitle: Optional[str]; provenance*: ChartProvenance; highlight*: int; total: Optional[int]; accent: str; big*: str; unit: str; caption*: str; detail: str; note_label: str; note_value: str; note_caption: str
+    · ChartAxisMeta = {kind: Optional[str]; baseline: Optional[float]; axes: Optional[Literal[1, 2]]; axis_labels: Optional[list[str]]; axis_colors: Optional[list[Annotated[str, AfterValidator(func=<function _color at 0x7f2f0a3b1ee0>)]]]; log_scale: Optional[bool]; log_label: Optional[bool]; unit_label: Optional[str]}
+    · ChartProvenance = {verification*: Literal['verified', 'estimated']; sources: list[str]; claim_status: Optional[Literal['verified', 'corroborated', 'unverified', 'disputed']]}
+- panel:gantt (패널 — 아래 필드는 data 아래): title*: str; chart: Optional[ChartAxisMeta]; subtitle: Optional[str]; provenance*: ChartProvenance; axis_start*: str; axis_end*: str; tasks*: list[GanttTask]; today: Optional[GanttToday]
+    · ChartAxisMeta = {kind: Optional[str]; baseline: Optional[float]; axes: Optional[Literal[1, 2]]; axis_labels: Optional[list[str]]; axis_colors: Optional[list[Annotated[str, AfterValidator(func=<function _color at 0x7f2f0a3b1ee0>)]]]; log_scale: Optional[bool]; log_label: Optional[bool]; unit_label: Optional[str]}
+    · ChartProvenance = {verification*: Literal['verified', 'estimated']; sources: list[str]; claim_status: Optional[Literal['verified', 'corroborated', 'unverified', 'disputed']]}
+    · GanttTask = {label*: str; note: str; start*: str; end*: str; col*: str}
+    · GanttToday = {date*: str; label*: str}
+- panel:dual_line (패널 — 아래 필드는 data 아래): title*: str; chart: Optional[ChartAxisMeta]; subtitle: Optional[str]; provenance*: ChartProvenance; y_min*: float; y_max*: float; y_step*: float; y_prefix: str; unit: Optional[str]; x_labels*: list[str]; x_label_rotate: bool; series*: list[DualSeries]
+    · ChartAxisMeta = {kind: Optional[str]; baseline: Optional[float]; axes: Optional[Literal[1, 2]]; axis_labels: Optional[list[str]]; axis_colors: Optional[list[Annotated[str, AfterValidator(func=<function _color at 0x7f2f0a3b1ee0>)]]]; log_scale: Optional[bool]; log_label: Optional[bool]; unit_label: Optional[str]}
+    · ChartProvenance = {verification*: Literal['verified', 'estimated']; sources: list[str]; claim_status: Optional[Literal['verified', 'corroborated', 'unverified', 'disputed']]}
+    · DualSeries = {label*: str; col*: str; values*: list[Optional[float]]; decimals: int; record: Optional[str]; open_idx: list[int]}
+- panel:fork (패널 — 아래 필드는 data 아래): title*: str; chart: Optional[ChartAxisMeta]; subtitle: Optional[str]; origin*: str; branches*: list[ForkBranch]; provenance: Optional[ChartProvenance]
+    · ChartAxisMeta = {kind: Optional[str]; baseline: Optional[float]; axes: Optional[Literal[1, 2]]; axis_labels: Optional[list[str]]; axis_colors: Optional[list[Annotated[str, AfterValidator(func=<function _color at 0x7f2f0a3b1ee0>)]]]; log_scale: Optional[bool]; log_label: Optional[bool]; unit_label: Optional[str]}
+    · ForkBranch = {head*: str; body: str; col*: str}
+    · ChartProvenance = {verification*: Literal['verified', 'estimated']; sources: list[str]; claim_status: Optional[Literal['verified', 'corroborated', 'unverified', 'disputed']]}
+- panel:checklist (패널 — 아래 필드는 data 아래): title*: str; chart: Optional[ChartAxisMeta]; subtitle: Optional[str]; items*: list[str]; footer: str; provenance: Optional[ChartProvenance]
+    · ChartAxisMeta = {kind: Optional[str]; baseline: Optional[float]; axes: Optional[Literal[1, 2]]; axis_labels: Optional[list[str]]; axis_colors: Optional[list[Annotated[str, AfterValidator(func=<function _color at 0x7f2f0a3b1ee0>)]]]; log_scale: Optional[bool]; log_label: Optional[bool]; unit_label: Optional[str]}
+    · ChartProvenance = {verification*: Literal['verified', 'estimated']; sources: list[str]; claim_status: Optional[Literal['verified', 'corroborated', 'unverified', 'disputed']]}
+- panel:network (패널 — 아래 필드는 data 아래): title*: str; chart: Optional[ChartAxisMeta]; subtitle: Optional[str]; provenance*: ChartProvenance; nodes*: list[NetworkNode]; edges*: list[NetworkEdge]; mentions: list[NetworkMention]
+    · ChartAxisMeta = {kind: Optional[str]; baseline: Optional[float]; axes: Optional[Literal[1, 2]]; axis_labels: Optional[list[str]]; axis_colors: Optional[list[Annotated[str, AfterValidator(func=<function _color at 0x7f2f0a3b1ee0>)]]]; log_scale: Optional[bool]; log_label: Optional[bool]; unit_label: Optional[str]}
+    · ChartProvenance = {verification*: Literal['verified', 'estimated']; sources: list[str]; claim_status: Optional[Literal['verified', 'corroborated', 'unverified', 'disputed']]}
+    · NetworkNode = {id*: str; col*: Literal['left', 'center', 'right']; kind*: Literal['person', 'flag', 'emblem']; pid: Optional[str]; flag: Optional[str]; img: Optional[str]; label*: str; role: Optional[str]; accent: str; big: bool}
+    · NetworkEdge = {src*: str; dst*: str; type*: str; label: str}
+    · NetworkMention = {node*: str; at*: float}
+- primitive: id*: str
+- primitive:statement_diff: id*: Literal['statement_diff']; tag*: str; before_label*: str; after_label*: str; before*: str (원문 ≤ 160자, 바뀐 문장만); after*: str (원문 ≤ 160자, 바뀐 문장만); source*: str; date*: str (YYYY | YYYY.MM | YYYY.MM.DD(점, 하이픈 금지)); y: Optional[float]
+- primitive:dot_plot: id*: Literal['dot_plot']; record*: str (레코드 id 그대로 — series: 접두 없이(예: SEP_20260916)); tag*: str; columns: Optional[list[str]]; y: Optional[float]
+- primitive:site_diagram: id*: Literal['site_diagram']; header*: str; north*: str; south*: str; nll*: str; mdl*: str; sll*: str; width_note*: str; distance*: str; distance_src*: str; marks: list[engine.primitives.site_diagram.Mark]; footnote*: str; source*: str; date*: str
+    · Mark = {kind*: Literal['burst', 'mine', 'note']; label*: str; t*: float}
+- 공통: start*·end* 앵커. claims: list[str](원고에 없는 사실 — 지명·날짜·주장 — 을 화면에 더하면 그 근거 claim id, 출처 줄에 들어간다). 사진·영상·뱃지·컷아웃·마커·카드는 place(배치 슬롯) 가능. 하위 필드의 시각(at·t0·t1·t·t_show·t_join 등 float 초)에도 숫자 대신 앵커를 쓴다
+
+지시
+----
+지적된 문제만 고친 연출 전체와 changelog 를 JSON 으로 출력하십시오.

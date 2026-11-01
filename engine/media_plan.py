@@ -32,7 +32,7 @@ def media_box(e: dict, assets: dict) -> tuple[float, float, float, float]:
     """사진·영상 상자(캡션 바 포함). 높이 비율은 레지스트리 가공 파라미터(크롭·스케일)에서."""
     prm = assets[e["mid"]].tool.params
     w_, h_ = prm.get("crop") or prm.get("scale")
-    h = e["w"] * h_ / w_ + MB.caption_bar_px
+    h = e["w"] * h_ / w_ + (0 if e.get("frame") else MB.caption_bar_px)   # 액자(clip_frame)는 캡션 줄이 상자 안
     return e["x"], e["y"], e["x"] + e["w"], e["y"] + h
 
 
@@ -67,9 +67,10 @@ def placement_warnings(events: list[dict], assets: dict, step: float = 0.25) -> 
             continue
         box = media_box(e, assets)
         where = f"{e['type']} {e['mid']} t0={e['t0']:.2f}"
-        if box[3] > SUB_Y:
+        framed = e.get("frame") == "clip_frame"   # v7.4.0 D-0276 — 이 슬롯만 자막·날짜 뱃지 위 예외(규칙 키)
+        if box[3] > SUB_Y and not (framed and _R.layout_480p.subtitle.over_clip_frame):
             out.append(f"[media-over-subtitle] {where} 아래 끝 {box[3]:.0f} > 자막 영역 {SUB_Y} (14 §5-4)")
-        if _hit(box, date_box):
+        if _hit(box, date_box) and not (framed and _R.hud.date_badge_over_clip_frame):
             out.append(f"[media-over-date] {where} 모서리 날짜와 겹침 (14 §5-4)")
         n = max(1, int((e["t1"] - e["t0"]) / step))
         hits = {z.ref for k in range(n + 1) for z in card_zones(ctx, events, e["t0"] + k * (e["t1"] - e["t0"]) / n)
