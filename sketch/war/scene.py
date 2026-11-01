@@ -110,7 +110,7 @@ class WarScene:
         self.out: Output = output_profile(res)
         default = output_profile(None).name
         assets = Assets(project, load_labels(project / LABELS_FILE), None if self.out.name == default else self.out.name, theme=theme)
-        self.stage = MercatorStage(assets, out=self.out, proposed_theme=theme if theme in load_rules().geo.themes.proposed else None)
+        self.stage = MercatorStage(assets, out=self.out, config={"theme": theme})
         cam = SK.camera
         self.camera = CameraPath(tuple(spec.shots), spec.duration_sec, cam.push_in[spec.kind], cam.hold_min_sec)
         self.emblems = faction_emblems(spec)   # v2(D-0606 A) — 진영 → 재작도 레코드(없는 키 = 오류, P6)

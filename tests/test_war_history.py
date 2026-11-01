@@ -153,7 +153,7 @@ class GenreTest(unittest.TestCase):
         from workers.prompt_loader import load_prompt
 
         g = load_genre("war_history")
-        self.assertEqual((g.status, g.stage.primary, g.stage.mercator["theme"], g.photo_age_check), ("proposed", "mercator", "dark", False))
+        self.assertEqual((g.status, g.stage.primary, g.stage.mercator["theme"], g.photo_age_check), ("proposed", "mercator", "relief", False))
         t = load_prompt("script", load_rules(), g)
         nar = load_rules().genre_prompt.narration
         for k in ("etymology_once", "past_tense", "art_history_line", "source_quote", "evidence_first"):

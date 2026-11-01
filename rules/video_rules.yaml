@@ -1083,6 +1083,19 @@ colors:                    # 09 §7
       water: "#005eae"
       white: "#1f2125"      # 지도 위 마커 이름(흰 글자 → 짙은 글자)
       gold_text: "#68480f"  # 지도 위 마커 부제 글자
+    # v7.4.0 D-0608 §1-3 — relief(밝은 모래 저지) = light 와 같은 토큰(밝은 바탕 위 짙은 글자). 실제 바탕 대비는 렌더 때 qa map_contrast_text 가 재고
+    # label_contrast_fix 가 지명만 국소 보정한다(light 와 같은 장치). 없으면 공통값(흰 글자)이 모래 위에 올라 읽히지 않는다
+    relief:
+      ru: "#be0013"
+      us: "#005abc"
+      gold: "#7c5612"
+      teal: "#1a6673"
+      green: "#2f6a2a"
+      muted: "#555e6e"
+      amber: "#885000"
+      water: "#005eae"
+      white: "#1f2125"
+      gold_text: "#68480f"
 
 # v7.4.0 back_and_forth D-0330·D-0336(사용자 승인 UF-203·UF-206) — 장르 화면 팔레트. 장르 프로필 palette 로 고른다(없으면 기존 색).
 # 고르면 렌더 전체 의미색이 바뀐다: text → 흰 글자(colors white), muted → muted, accent → gold(차트당 accent 1), up → green, down → ru,
@@ -1238,34 +1251,33 @@ geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계
         label_contrast_fix: {halo: 4.2, halo_a: 1.0}   # v5.21.2 D-0186 §2-1 — 실제 바탕 대비가 qa_checks.map_contrast_text 미만인 지명만 이 halo 로 다시 그린다(국소, 전역 값 무변경)
         # v5.18.0 D-0161 §2(가이드 23 §14 "밝고 얇은 coast/water 스타일") — 국경 = 두 나라 공유 변만, 해안 = 나머지(물빛·가늘게)
         coast: {rgb: [0.42, 0.55, 0.66], width: 0.45, alpha: 0.85}
-    # v7.4.0 전쟁사 구상 컷 A(back_and_forth D-0604 §1-A, 사용자 UF-250) — 밝은 릴리프 테마. 구상(proposed): geo.prep --theme relief·sketch.war --theme 만,
-    # 본편 무대 테마 목록(names)에는 없다(P10 — 채택은 사용자 판정 뒤 등록). 값 = 감독 제안 방향(모래 저지 → 갈색 고지, 음영 대비 높게, 짙은 청 바다)의 구현 제안
-    proposed:
-      relief:
-        terrain:
-          land_stops: [[0, "#e6d6b0"], [150, "#dcc69a"], [500, "#c9ab7a"], [1200, "#a98a5f"], [3000, "#7d6748"]]
-          sea_stops: [[0, "#2f6f96"], [60, "#245d82"], [400, "#1a4a6c"], [2000, "#113753"], [6000, "#0a2438"]]
-          exaggeration: [3.2, 2.6]
-          sun: [315, 40]
-          land_shade: {base: 0.92, gain: 1.35, lo: 0.42, hi: 1.28}
-          sea_shade: null
-          sea_tint: null
-          coast_glow: {rgb: "#cfe6ef", strength: 0.12, blur_px: [2, 5]}
-        map:
-          border: {rgb: [0.3, 0.26, 0.2], width: 0.6, alpha: 0.7}
-          admin: {rgb: [0.45, 0.4, 0.33], width: 0.35, dash: [], alpha: 0.4}
-          sea_label: "#dbeef7"
-          country_label: [0.22, 0.18, 0.13]
-          admin_label: [0.35, 0.3, 0.24]
-          city_dot: {fill: [0.16, 0.14, 0.11], edge: [1.0, 1.0, 1.0], edge_alpha: 0.7}
-          city_label: [0.1, 0.08, 0.06]
-          halo: [0.97, 0.94, 0.86]
-          roads:
-            motorway: {rgb: [0.4, 0.34, 0.27], width: 0.5, alpha: 0.6}
-            trunk: {rgb: [0.45, 0.39, 0.31], width: 0.42, alpha: 0.55}
-            primary: {rgb: [0.5, 0.44, 0.36], width: 0.33, alpha: 0.5}
-          rivers: {rgb: [0.24, 0.47, 0.66], width_major: 0.6, width_minor: 0.4, alpha_major: 0.9, alpha_minor: 0.7}
-          label_contrast_fix: {halo: 4.2, halo_a: 1.0}
+    # v7.4.0 전쟁사 릴리프 테마(back_and_forth D-0604 §1-A 구상 → D-0608 §1-3 정식, 사용자 UF-250). 구상 칸(proposed)은 삭제(P2) — 본편 연출 stage_config.mercator.theme·
+    # geo.prep --theme·sketch.war --theme 이 같은 이름 목록(GeoThemes.names)을 쓴다. 값 = 모래 저지 → 갈색 고지, 음영 대비 높게, 짙은 청 바다
+    relief:
+      terrain:
+        land_stops: [[0, "#e6d6b0"], [150, "#dcc69a"], [500, "#c9ab7a"], [1200, "#a98a5f"], [3000, "#7d6748"]]
+        sea_stops: [[0, "#2f6f96"], [60, "#245d82"], [400, "#1a4a6c"], [2000, "#113753"], [6000, "#0a2438"]]
+        exaggeration: [3.2, 2.6]
+        sun: [315, 40]
+        land_shade: {base: 0.92, gain: 1.35, lo: 0.42, hi: 1.28}
+        sea_shade: null
+        sea_tint: null
+        coast_glow: {rgb: "#cfe6ef", strength: 0.12, blur_px: [2, 5]}
+      map:
+        border: {rgb: [0.3, 0.26, 0.2], width: 0.6, alpha: 0.7}
+        admin: {rgb: [0.45, 0.4, 0.33], width: 0.35, dash: [], alpha: 0.4}
+        sea_label: "#dbeef7"
+        country_label: [0.22, 0.18, 0.13]
+        admin_label: [0.35, 0.3, 0.24]
+        city_dot: {fill: [0.16, 0.14, 0.11], edge: [1.0, 1.0, 1.0], edge_alpha: 0.7}
+        city_label: [0.1, 0.08, 0.06]
+        halo: [0.97, 0.94, 0.86]
+        roads:
+          motorway: {rgb: [0.4, 0.34, 0.27], width: 0.5, alpha: 0.6}
+          trunk: {rgb: [0.45, 0.39, 0.31], width: 0.42, alpha: 0.55}
+          primary: {rgb: [0.5, 0.44, 0.36], width: 0.33, alpha: 0.5}
+        rivers: {rgb: [0.24, 0.47, 0.66], width_major: 0.6, width_minor: 0.4, alpha_major: 0.9, alpha_minor: 0.7}
+        label_contrast_fix: {halo: 6.0, halo_a: 1.0}   # D-0608 §1-3 — 갈색 고지 위 지명(호르무즈 골든 relief: 4.2 로 7건 < 4.5) → 넓힘. 문턱 미만 글자만 국소
   # v7.4.0 전쟁사 구상 컷 A — tools/dem_drainage.py(고도 타일 D8 흐름 누적 → 수계 선). 평탄지는 흐름이 끊긴다(자료 그대로)
   drainage: {z: null, downsample: 2, sea_level_m: 0.5, min_cells: 400, step: 3}
 

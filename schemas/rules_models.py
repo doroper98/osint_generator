@@ -1483,12 +1483,13 @@ class DrainageRules(_Strict):
 
 
 class GeoThemes(_Strict):
-    """v5.13.0 D-0153 Q0-2 — 지도 테마 시안. 기본 테마 자산 = assets/, 그 밖 = assets/theme_<이름>/."""
+    """v5.13.0 D-0153 Q0-2 — 지도 테마. 기본 테마 자산 = assets/, 그 밖 = assets/theme_<이름>/.
+    v7.4.0 D-0608 §1-3 — relief(전쟁사 릴리프, 사용자 UF-250) 정식. 구상 칸 proposed 는 삭제(P2)."""
 
     default: str
     dark: GeoTheme
     light: GeoTheme
-    proposed: dict[str, GeoTheme] = Field(default_factory=dict)   # v7.4.0 D-0604 — 구상 테마(relief). 본편 무대 목록(names) 밖, 자산·스케치에서만
+    relief: GeoTheme
 
     @model_validator(mode="after")
     def _default(self) -> "GeoThemes":
@@ -1498,13 +1499,11 @@ class GeoThemes(_Strict):
 
     @staticmethod
     def names() -> list[str]:
-        return ["dark", "light"]
+        return ["dark", "light", "relief"]
 
     def get(self, name: str) -> GeoTheme:
-        if name in self.proposed:
-            return self.proposed[name]
         if name not in self.names():
-            raise ValueError(f"지도 테마 {name!r} 없음 — rules geo.themes: {self.names()} · proposed {sorted(self.proposed)}")
+            raise ValueError(f"지도 테마 {name!r} 없음 — rules geo.themes: {self.names()}")
         return getattr(self, name)
 
 

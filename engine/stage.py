@@ -186,12 +186,8 @@ class MercatorStage:
     anchor_keys = ("lon", "lat")
 
     def __init__(self, assets: "Optional[Assets]" = None, *, tiers: Optional[dict] = None, out: Optional[Output] = None,
-                 config: Optional[dict] = None, proposed_theme: Optional[str] = None) -> None:
+                 config: Optional[dict] = None) -> None:
         self.theme_name = mercator_theme(config)
-        if proposed_theme is not None:   # v7.4.0 D-0604 구상 컷 — 스케치만(연출 stage_config 는 여전히 names 만, P10). 없는 구상 테마 = 오류
-            if proposed_theme not in load_rules().geo.themes.proposed:
-                raise StageError(f"구상 테마 {proposed_theme!r} 없음 — rules geo.themes.proposed {sorted(load_rules().geo.themes.proposed)}")
-            self.theme_name = proposed_theme
         self.map_layers = map_layers(config)   # v7.4.0 D-0231 — 도로·강 켜기(골든 hormuz = [])
         self.map_layers_reason = (config or {}).get("map_layers_reason")
         from engine.style import BORDER_GLOW  # noqa: PLC0415 — style → stage 순환 회피

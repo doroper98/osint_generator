@@ -125,7 +125,7 @@ def build(project: Path, spec: WarSpec, t: float, theme: str, out: Path) -> dict
     # 텍스처 — 같은 영역의 테마 바탕(현대 국경·지명 없음)
     prof = output_profile(T3.texture_res)
     assets = Assets(project, load_labels(project / LABELS_FILE), prof.name, theme=theme)
-    stage = MercatorStage(assets, out=prof, proposed_theme=theme if theme in load_rules().geo.themes.proposed else None)
+    stage = MercatorStage(assets, out=prof, config={"theme": theme})
     view = View(stage, np.array([lon_c, ym(lat_c), W_]))
     stage.base_image(view, prof).convert("RGB").save(out / "texture.png")
     lat_n = math.degrees(math.atan(math.sinh(math.radians(view.y1))))

@@ -1,0 +1,117 @@
+{
+ "schema_version": 1,
+ "role": "Phase D-0608 §1-3(v7.4.0) 기준선 — relief 지도 테마 정식(사용자 UF-250·UF-253). 골든 원고·연출을 relief 로 그린 판. relief label_contrast_fix halo 6.0(4.2 로는 갈색 고지 위 지명 7건 < 4.5)",
+ "command": "geo.prep --theme relief → engine.render --preview golden (tests/anti_inertia/test_relief_e2e.py relief_project 사본)",
+ "stamp_box": [
+  797.0,
+  462.2,
+  842.0,
+  471.95
+ ],
+ "stamp_box_basis": "v99.99.99 — 오른쪽 끝 고정(W − x_from_right), 폭 = adv('v99.99.99') 45px; v5.10.0 에서 두 자리 MINOR 로 넓힘(D-0148)",
+ "mask_pad_px": 2,
+ "map_contrast_hard": 0,
+ "cuts": [
+  {
+   "png": "p_0006.95.png",
+   "md5": "d565fc7edf54522d41e684d4015aa98c"
+  },
+  {
+   "png": "p_0020.21.png",
+   "md5": "1c6bdf5c1fee77e89f8cc1a2b0c94dd7"
+  },
+  {
+   "png": "p_0026.71.png",
+   "md5": "e4f3532b81efc222277d91ba89979930"
+  },
+  {
+   "png": "p_0035.36.png",
+   "md5": "18354f7ce61fb80328faa4fdabc05a36"
+  },
+  {
+   "png": "p_0041.39.png",
+   "md5": "7b5804349e02b92d0b3c89134aa9a669"
+  },
+  {
+   "png": "p_0050.86.png",
+   "md5": "cc000a2a2c626abab857e1ad2fbbefec"
+  },
+  {
+   "png": "p_0055.70.png",
+   "md5": "c6a9dd4cad4293ea30d3b425b52640ba"
+  },
+  {
+   "png": "p_0059.02.png",
+   "md5": "5fd987e7234abba4554b710fe7d25ac8"
+  },
+  {
+   "png": "p_0072.76.png",
+   "md5": "fa568e283ee8afa24368a8be1cd45c29"
+  },
+  {
+   "png": "p_0076.30.png",
+   "md5": "2af5c3f87d83ba1f05a9db23526f0422"
+  },
+  {
+   "png": "p_0091.50.png",
+   "md5": "4857bdb12d252c263aaefe7e3b7b2b33"
+  },
+  {
+   "png": "p_0108.92.png",
+   "md5": "927d17d31d733ac2a3e11800f577624b"
+  },
+  {
+   "png": "p_0120.37.png",
+   "md5": "f9aaf97727f684b50b3b8dd2a464f2a7"
+  },
+  {
+   "png": "p_0138.26.png",
+   "md5": "f6234e37c896a1ebef722e372ebd25be"
+  },
+  {
+   "png": "p_0145.33.png",
+   "md5": "53828c62ce7a967606128178b6514444"
+  },
+  {
+   "png": "p_0150.26.png",
+   "md5": "4c5f179c7524f91bb106e668c37838c8"
+  },
+  {
+   "png": "p_0170.97.png",
+   "md5": "f8a80447ab67af02c3439c8b5ab61d8d"
+  },
+  {
+   "png": "p_0183.72.png",
+   "md5": "5ecdc3f7b85eee8c0a174027ac475ab5"
+  },
+  {
+   "png": "p_0189.96.png",
+   "md5": "8f05276aaa67d572c8c2dd540d247208"
+  },
+  {
+   "png": "p_0195.53.png",
+   "md5": "d078f5a35498c9023a6209628a7b5970"
+  },
+  {
+   "png": "p_0211.08.png",
+   "md5": "8b06655e2b7c53c3e569e4261cccd0c4"
+  },
+  {
+   "png": "p_0218.12.png",
+   "md5": "ddda2945c924c4c04cca69ccd1a518ad"
+  },
+  {
+   "png": "p_0229.62.png",
+   "md5": "9f57aecf90d6dbefd78d305520ccae6b"
+  },
+  {
+   "png": "p_0245.60.png",
+   "md5": "9759106c47f90f4079ca534aaa544b47"
+  },
+  {
+   "png": "p_0256.66.png",
+   "mask": true,
+   "md5_masked": "d5a37ba088723e66941add25e4c3de68"
+  }
+ ]
+}
