@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "src_doc_0001",
+      "url": "https://archive.org/details/polybiushistorie0000wrpa_v3i1",
+      "retrieved_at": "2026-11-01",
+      "lang": "en",
+      "note": "칸나이 전투 서술(배치·장비·전개·결과). 사료 귀속 locator = 권·장·절. 영역본 1922 미국 발행 PD",
+      "type": "document",
+      "issuer": "Polybius (tr. W. R. Paton, Loeb Classical Library 1922, US public domain)",
+      "title": "Polybius, The Histories III.107-118 (tr. W. R. Paton, Loeb 1922)",
+      "published_at": "1922-01-01",
+      "key_facts": [
+        "Polybius, The Histories III.107-118 (tr. W. R. Paton, Loeb 1922)"
+      ]
+    },
+    {
+      "id": "src_doc_0002",
+      "url": "https://archive.org/details/livy-in-fourteen-volumes.-vol.-5-loeb-233",
+      "retrieved_at": "2026-11-01",
+      "lang": "en",
+      "note": "칸나이 전투 리비우스 서술(바로·파울루스 대립, 전개, 파울루스 전사, 마하르발). 1929 미국 발행 — 2025년부터 미국 PD",
+      "type": "document",
+      "issuer": "Livy (tr. B. O. Foster, Loeb Classical Library 1929, US public domain since 2025)",
+      "title": "Livy, History of Rome XXII.43-51 (tr. B. O. Foster, Loeb 1929)",
+      "published_at": "1929-01-01",
+      "key_facts": [
+        "Livy, History of Rome XXII.43-51 (tr. B. O. Foster, Loeb 1929)"
+      ]
+    }
+  ]
+}
