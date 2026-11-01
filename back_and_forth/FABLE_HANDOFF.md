@@ -34,6 +34,14 @@
 ### 새 감독이 처음 할 일(순서)
 (1) 이 블록·README·CLAUDE.md·15·DECISIONS D299~ 읽기 (2) `git fetch` 로 sweet-galileo·econ-template-2026·artifacts 두 브랜치 확인 (3) 세션 3·세션 2 에 send_message("감독 승계, 이후 R·결정 요청은 이 세션으로") (4) 자기 점검 send_later 걸기 (5) 사용자에게 한 줄 보고(대기 중인 결정 1·2 를 다시 묻지 말고 목록만).
 
+## 0-6. 2026-11-01 — 병행 트랙: 전쟁사(E9) 『칸나이』→『인천 상륙·서울 수복』(사용자 결정 D-0337, UF-206)
+- 위임 감독(Fable 5.1) `session_017Yuw8i7EwyZ4z45Xtcvjkg`(2026-11-01 01:10Z, 최종 감독 `session_017Yuw8jLMWscY9bdVXTvddr` 이 D-0337 요지로 기동). 구현 세션 `session_017Yuw8iLVvjENvvmSwCZqkR`(Opus 5.5, env_01SnvGMv3UmrvejEraZxEACo, 2026-11-01 01:18Z, B 형 기동 프롬프트 = D-0600 요지). 브랜치 `claude/war-history-2026`(sweet-galileo 919b16f7 에서 분기), artifacts `artifacts/war-history-v7.4.0`.
+- 번호: 감독 D 파일 **D-0600~0699**(넘으면 D-0900~), DECISIONS 행 **D700~**, UF **UF-250~299**. 착수 지침 D-0600(d099af2). 둘째 사례 = 인천 상륙·서울 수복 1950.9(감독 결정 D700).
+- **게이트 위임 없음**(D-0282 방식 아님). 사용자 판정 자리 넷: ① W4 스케치 컷(칸나이·인천 각 2~3컷) ② 칸나이 원고 gate-view ③ 콘티 판 ④ 게이트 ② 프리뷰 시트 — 위임 감독이 SendUserFile 로 보내고 최종 감독에게 send_message. 사용자 답은 어느 세션으로 와도 유효. 그 밖은 위임 감독 전결(README §6.4·§7), 사용자 의견은 UF-250~ 로 즉시 기록.
+- 순서 D-0307 §5: W1 EraDate → W2 규칙·장르·부호·증거 층 → W3 고대 지도·tactical → W4 스케치 → 사용자 ① → W5 시트 → W6 칸나이 W0(② ③ ④) → W7 인천(별도 D). 화면 재료 원칙 = D-0600 §2(미술·기록·사진·영상이 살, 당대/후대 라벨, 미술사 한 문장, PD-Art·CC0·CC BY 만).
+- 네트워크(감독 컨테이너 실측 2026-11-01): commons·upload 열림, en.wikipedia·pleiades 막힘 → 우회 경로 D-0600 §5(GitHub 공개 데이터 → Wikidata/Commons → 수동 입력 + 기록).
+- 승계: 위임 감독 컨텍스트 90% 에 이르면 최종 감독에게 알리고 이 절을 갱신한 뒤 §0 규칙대로 새 감독 세션을 연다. 구현 세션이 죽으면(5시간 한도) OPUS_RESTART_PROMPT B 형으로 재기동(지침 파일 = 그때의 최신 D-06xx).
+
 ## 0-5. 2026-11-01 — 병행 트랙: 『미국·이란 휴전안 — 정리와 가능성 타진』(사용자 결정 D-0334, UF-205)
 - 위임 감독(Fable 5.1) `session_017Yuw8hAgYiuiC4hYCHXB27`(2026-11-01 00:13Z, 옛 감독이 D-0334 요지로 기동). D-0282 방식 — 게이트 ①·② 위임, 질문 없이 완성본(final_deliver.mp4 ≤30MB + srt·description·credits·provenance·유튜브 문안)을 사용자에게 직접 전달. 브랜치 `claude/iran-ceasefire-2026`(sweet-galileo 41e00a99 에서 분기), artifacts `artifacts/iran-ceasefire-v7.4.0`. 번호 D-0450~(넘으면 D-0800~)·DECISIONS D550~·UF-170~199. 종료 보고는 최종 감독 `session_017Yuw8jLMWscY9bdVXTvddr` 로.
 
