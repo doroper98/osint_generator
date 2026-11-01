@@ -4,3 +4,5 @@ out/
 ancient_geo/
 media_src/
 __pycache__/
+drainage.json
+drainage_sources.json
