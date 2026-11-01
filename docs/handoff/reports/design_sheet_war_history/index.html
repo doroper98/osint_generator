@@ -1,0 +1,97 @@
+<!DOCTYPE html><html lang='ko'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>디자인 시트 — war_history v7.4.0</title><style>
+:root{--bg:#f6f4ef;--ink:#1f1d1a;--sub:#6b665e;--line:#ddd7cc;--acc:#8a5a2b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);
+font-family:"Pretendard","Noto Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;line-height:1.55}
+main{max-width:960px;margin:0 auto;padding:20px 16px 60px}h1{font-size:1.45rem;margin:.2em 0}
+h2{font-size:1.1rem;margin:2em 0 .6em;border-bottom:2px solid var(--acc);padding-bottom:.2em}
+.meta{color:var(--sub);font-size:.85rem}table{width:100%;border-collapse:collapse;font-size:.82rem}
+td,th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top;word-break:break-all}
+th{color:var(--sub);font-weight:600}code{font-size:.78rem;background:#ece8df;padding:1px 4px;border-radius:3px}
+.cuts{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+figure{margin:0;background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+figure img{width:100%;display:block}figcaption{padding:8px 10px;font-size:.82rem}
+.keys{color:var(--sub);font-size:.74rem}.wide img{width:100%;border:1px solid var(--line);border-radius:6px;background:#fff}
+.err{color:#9b2c2c}
+</style></head><body><main>
+<h1>디자인 시트 — 전쟁사(war_history)</h1>
+<p class='meta'>v7.4.0 · rules/video_rules.yaml 에서 생성(tools/design_sheet.py). 컷은 실제 엔진 렌더(480p 시험 판).</p>
+<p class='meta'>근세(early_modern) 부호 세트는 견본 컷이 없다 — 근세 전쟁사 프로젝트가 아직 없다. 값은 5절 표에 있다.</p>
+<h2>1. 견본 컷</h2><div class='cuts'>
+<figure><img src='cannae_operational.jpg' alt='작전 지도 — 진군로·기간 날짜(-218~-216)' loading='lazy'><figcaption>작전 지도 — 진군로·기간 날짜(-218~-216)<br><span class='keys'>cannae_sketch t=8s · relief · <code>sketch.war.default_theme</code> · <code>hud.date_badge.era_format.period_years</code></span></figcaption></figure>
+<figure><img src='cannae_tactical.jpg' alt='전술 무대 — 고대 부호 세트·입체·픽토그램·휘장 범례·로마력 날짜' loading='lazy'><figcaption>전술 무대 — 고대 부호 세트·입체·픽토그램·휘장 범례·로마력 날짜<br><span class='keys'>cannae_sketch t=30s · relief · <code>war_history.symbol_sets.ancient.shapes</code> · <code>war_history.symbol_sets.depth.side_ratio</code> · <code>war_history.symbol_sets.glyph.size_px</code> · <code>war_history.faction_badge.emblem.legend_px</code> · <code>hud.date_badge.era_format.roman_suffix</code></span></figcaption></figure>
+<figure><img src='cannae_encircle_relief.jpg' alt='포위 — relief 테마' loading='lazy'><figcaption>포위 — relief 테마<br><span class='keys'>cannae_sketch t=36.5s · relief · <code>sketch.war.default_theme</code> · <code>war_history.symbol_sets.rank_grid.gap_px</code></span></figcaption></figure>
+<figure><img src='cannae_encircle_dark.jpg' alt='포위 — dark 테마(같은 시각 비교)' loading='lazy'><figcaption>포위 — dark 테마(같은 시각 비교)<br><span class='keys'>cannae_sketch t=36.5s · dark · <code>sketch.war.default_theme</code></span></figcaption></figure>
+<figure><img src='cannae_art_coin.jpg' alt='증거 층 — 당대 작품(주화 사진, 자르지 않음)' loading='lazy'><figcaption>증거 층 — 당대 작품(주화 사진, 자르지 않음)<br><span class='keys'>cannae_sketch t=42s · relief · <code>war_history.period_art.labels.contemporary</code> · <code>war_history.evidence.required_layers.ancient</code></span></figcaption></figure>
+<figure><img src='cannae_art_bust.jpg' alt='증거 층 — 후대 작품(흉상)' loading='lazy'><figcaption>증거 층 — 후대 작품(흉상)<br><span class='keys'>cannae_sketch t=48s · relief · <code>war_history.period_art.labels.later</code> · <code>war_history.period_art.contemporary_gap_years</code></span></figcaption></figure>
+<figure><img src='cannae_quote.jpg' alt='증거 층 — 사료 인용(저자·권·절, PD 영역본)' loading='lazy'><figcaption>증거 층 — 사료 인용(저자·권·절, PD 영역본)<br><span class='keys'>cannae_sketch t=66s · relief · <code>war_history.evidence.required_layers.ancient</code></span></figcaption></figure>
+<figure><img src='inchon_modern.jpg' alt='현대 부호 세트(APP-6)' loading='lazy'><figcaption>현대 부호 세트(APP-6)<br><span class='keys'>inchon_sketch t=30s · relief · <code>war_history.symbol_sets.modern.shapes</code> · <code>war_history.symbol_set_by_year.early_modern_max</code></span></figcaption></figure>
+<figure><img src='inchon_clip.jpg' alt='증거 층 — 기록 영화(자료 영상)' loading='lazy'><figcaption>증거 층 — 기록 영화(자료 영상)<br><span class='keys'>inchon_sketch t=45s · relief · <code>war_history.evidence.required_layers.modern</code></span></figcaption></figure>
+<figure><img src='inchon_document.jpg' alt='증거 층 — 당시 지도·문서' loading='lazy'><figcaption>증거 층 — 당시 지도·문서<br><span class='keys'>inchon_sketch t=63s · relief · <code>war_history.evidence.required_layers.modern</code></span></figcaption></figure>
+<figure><img src='terrain3d_still.jpg' alt='terrain3d' loading='lazy'><figcaption>terrain3d 정지 컷 — 칸나이 t=36.5s<br><span class='keys'><code>sketch.war.terrain3d.*</code> · 무대 등록 전(stages_planned)</span></figcaption></figure>
+</div>
+<h2>2. 병종 픽토그램</h2><div class='wide'><img src='glyphs.png' alt='glyphs'></div><p class='meta'>engine.glyphs.arms — 왼쪽부터 규칙 war_history.symbol_sets.*.glyphs 값 순서. 읽기 위해 규칙 크기의 4배.</p>
+<h2>3. 진영 휘장(재현)</h2><div class='wide'><img src='emblems.png' alt='emblems'></div><table><tr><th>키</th><th>진영</th><th>근거 유물</th><th>근거 사진</th><th>화면 라벨</th></tr>
+<tr><td><code>carthage_tanit</code></td><td>카르타고</td><td>타니트 기호를 새긴 석회암 비석(루브르 박물관 AO 5244, 기원전 3세기) — 원반·가로 막대·삼각형 몸의 기호를 기하로 다시 그림</td><td>File:Stèle avec le signe de Tanit (Louvre, AO 5244).jpg — Tangopaso(사진, PD-self), Public domain</td><td>비석 기호 재현(루브르 AO 5244)</td></tr>
+</table>
+<h2>4. 날짜 표기(EraDate)</h2><table><tr><th>원고 날짜</th><th>화면 뱃지</th></tr>
+<tr><td><code>-216.08.02R</code></td><td>기원전 216년 8월 2일(로마력)</td></tr>
+<tr><td><code>-216</code></td><td>기원전 216년</td></tr>
+<tr><td><code>-218~-216</code></td><td>기원전 218~216년</td></tr>
+<tr><td><code>c.-250</code></td><td>기원전 3세기경</td></tr>
+<tr><td><code>1950.09.15</code></td><td>1950. 09. 15</td></tr>
+<tr><td><code>1950.09</code></td><td>1950. 09</td></tr>
+</table><h2>5. 규칙 값</h2><table><tr><th>묶음</th><th>규칙 키</th><th>값</th></tr>
+<tr><td>부호 세트</td><td><code>war_history.symbol_sets.ancient.units</code></td><td data-key='war_history.symbol_sets.ancient.units'>[&quot;heavy_inf&quot;, &quot;light_inf&quot;, &quot;heavy_cav&quot;, &quot;light_cav&quot;, &quot;skirmisher&quot;, &quot;elephant&quot;]</td></tr>
+<tr><td>부호 세트</td><td><code>war_history.symbol_sets.ancient.shapes</code></td><td data-key='war_history.symbol_sets.ancient.shapes'>{&quot;heavy_inf&quot;: &quot;block&quot;, &quot;light_inf&quot;: &quot;block&quot;, &quot;heavy_cav&quot;: &quot;wedge&quot;, &quot;light_cav&quot;: &quot;wedge&quot;, &quot;skirmisher&quot;: &quot;dots&quot;, &quot;elephant&quot;: &quot;big_dots&quot;}</td></tr>
+<tr><td>부호 세트</td><td><code>war_history.symbol_sets.ancient.glyphs</code></td><td data-key='war_history.symbol_sets.ancient.glyphs'>{&quot;heavy_inf&quot;: &quot;heavy_inf&quot;, &quot;light_inf&quot;: &quot;light_inf&quot;, &quot;heavy_cav&quot;: &quot;heavy_cav&quot;, &quot;light_cav&quot;: &quot;light_cav&quot;, &quot;skirmisher&quot;: &quot;skirmisher&quot;, &quot;elephant&quot;: &quot;elephant&quot;}</td></tr>
+<tr><td>부호 세트</td><td><code>war_history.symbol_sets.early_modern.units</code></td><td data-key='war_history.symbol_sets.early_modern.units'>[&quot;regiment_block&quot;, &quot;artillery_triangle&quot;, &quot;cavalry_wedge&quot;]</td></tr>
+<tr><td>부호 세트</td><td><code>war_history.symbol_sets.early_modern.shapes</code></td><td data-key='war_history.symbol_sets.early_modern.shapes'>{&quot;regiment_block&quot;: &quot;block&quot;, &quot;artillery_triangle&quot;: &quot;triangle&quot;, &quot;cavalry_wedge&quot;: &quot;wedge&quot;}</td></tr>
+<tr><td>부호 세트</td><td><code>war_history.symbol_sets.modern.units</code></td><td data-key='war_history.symbol_sets.modern.units'>[&quot;app6_inf&quot;, &quot;app6_arm&quot;, &quot;app6_cav&quot;]</td></tr>
+<tr><td>부호 세트</td><td><code>war_history.symbol_sets.modern.shapes</code></td><td data-key='war_history.symbol_sets.modern.shapes'>{&quot;app6_inf&quot;: &quot;app6&quot;, &quot;app6_arm&quot;: &quot;app6&quot;, &quot;app6_cav&quot;: &quot;app6&quot;}</td></tr>
+<tr><td>부호 세트</td><td><code>war_history.symbol_set_by_year.ancient_max</code></td><td data-key='war_history.symbol_set_by_year.ancient_max'>1500</td></tr>
+<tr><td>부호 세트</td><td><code>war_history.symbol_set_by_year.early_modern_max</code></td><td data-key='war_history.symbol_set_by_year.early_modern_max'>1850</td></tr>
+<tr><td>입체</td><td><code>war_history.symbol_sets.depth.side_ratio</code></td><td data-key='war_history.symbol_sets.depth.side_ratio'>0.12</td></tr>
+<tr><td>입체</td><td><code>war_history.symbol_sets.depth.side_dark</code></td><td data-key='war_history.symbol_sets.depth.side_dark'>0.55</td></tr>
+<tr><td>입체</td><td><code>war_history.symbol_sets.depth.shadow_alpha</code></td><td data-key='war_history.symbol_sets.depth.shadow_alpha'>0.35</td></tr>
+<tr><td>입체</td><td><code>war_history.symbol_sets.depth.shadow_px</code></td><td data-key='war_history.symbol_sets.depth.shadow_px'>[3.0, 3.0]</td></tr>
+<tr><td>입체</td><td><code>war_history.symbol_sets.depth.rim_alpha</code></td><td data-key='war_history.symbol_sets.depth.rim_alpha'>0.5</td></tr>
+<tr><td>입체</td><td><code>war_history.symbol_sets.rank_grid.shapes</code></td><td data-key='war_history.symbol_sets.rank_grid.shapes'>[&quot;block&quot;, &quot;wedge&quot;]</td></tr>
+<tr><td>입체</td><td><code>war_history.symbol_sets.rank_grid.gap_px</code></td><td data-key='war_history.symbol_sets.rank_grid.gap_px'>3.2</td></tr>
+<tr><td>픽토그램</td><td><code>war_history.symbol_sets.glyph.size_px</code></td><td data-key='war_history.symbol_sets.glyph.size_px'>15.0</td></tr>
+<tr><td>픽토그램</td><td><code>war_history.symbol_sets.glyph.halo_px</code></td><td data-key='war_history.symbol_sets.glyph.halo_px'>1.4</td></tr>
+<tr><td>픽토그램</td><td><code>war_history.symbol_sets.glyph.alpha</code></td><td data-key='war_history.symbol_sets.glyph.alpha'>0.95</td></tr>
+<tr><td>휘장</td><td><code>war_history.faction_badge.emblem.legend_px</code></td><td data-key='war_history.faction_badge.emblem.legend_px'>13.0</td></tr>
+<tr><td>휘장</td><td><code>war_history.faction_badge.emblem.block_px</code></td><td data-key='war_history.faction_badge.emblem.block_px'>9.0</td></tr>
+<tr><td>휘장</td><td><code>war_history.faction_badge.emblem.alpha</code></td><td data-key='war_history.faction_badge.emblem.alpha'>0.95</td></tr>
+<tr><td>휘장</td><td><code>war_history.faction_badge.emblem.badge_frac</code></td><td data-key='war_history.faction_badge.emblem.badge_frac'>1.3</td></tr>
+<tr><td>휘장</td><td><code>war_history.faction_badge.emblem.badge_ink</code></td><td data-key='war_history.faction_badge.emblem.badge_ink'>[0.13, 0.12, 0.11]</td></tr>
+<tr><td>날짜 표기</td><td><code>hud.date_badge.era_format.bce_prefix</code></td><td data-key='hud.date_badge.era_format.bce_prefix'>기원전 </td></tr>
+<tr><td>날짜 표기</td><td><code>hud.date_badge.era_format.day</code></td><td data-key='hud.date_badge.era_format.day'>{y}년 {m}월 {d}일</td></tr>
+<tr><td>날짜 표기</td><td><code>hud.date_badge.era_format.circa</code></td><td data-key='hud.date_badge.era_format.circa'>{c}세기경</td></tr>
+<tr><td>날짜 표기</td><td><code>hud.date_badge.era_format.period_years</code></td><td data-key='hud.date_badge.era_format.period_years'>{y0}~{y1}년</td></tr>
+<tr><td>날짜 표기</td><td><code>hud.date_badge.era_format.roman_suffix</code></td><td data-key='hud.date_badge.era_format.roman_suffix'>(로마력)</td></tr>
+<tr><td>증거 층</td><td><code>war_history.evidence.required_layers.ancient</code></td><td data-key='war_history.evidence.required_layers.ancient'>[&quot;period_art&quot;, &quot;site&quot;, &quot;toponymy&quot;]</td></tr>
+<tr><td>증거 층</td><td><code>war_history.evidence.required_layers.early_modern</code></td><td data-key='war_history.evidence.required_layers.early_modern'>[&quot;period_art&quot;, &quot;site|document&quot;, &quot;toponymy&quot;]</td></tr>
+<tr><td>증거 층</td><td><code>war_history.evidence.required_layers.modern</code></td><td data-key='war_history.evidence.required_layers.modern'>[&quot;photo|clip&quot;, &quot;document&quot;, &quot;toponymy&quot;]</td></tr>
+<tr><td>증거 층</td><td><code>war_history.period_art.contemporary_gap_years</code></td><td data-key='war_history.period_art.contemporary_gap_years'>150</td></tr>
+<tr><td>증거 층</td><td><code>war_history.period_art.labels.contemporary</code></td><td data-key='war_history.period_art.labels.contemporary'>당대 묘사</td></tr>
+<tr><td>증거 층</td><td><code>war_history.period_art.labels.later</code></td><td data-key='war_history.period_art.labels.later'>후대의 묘사({created})</td></tr>
+<tr><td>증거 층</td><td><code>war_history.evidence.toponymy_confidence</code></td><td data-key='war_history.evidence.toponymy_confidence'>[&quot;통설&quot;, &quot;이설&quot;, &quot;미상&quot;]</td></tr>
+<tr><td>사상자</td><td><code>war_history.casualty.band_required</code></td><td data-key='war_history.casualty.band_required'>true</td></tr>
+<tr><td>사상자</td><td><code>war_history.casualty.band_labels.ancient_range</code></td><td data-key='war_history.casualty.band_labels.ancient_range'>사료마다 다르다 — {low_label} {low}~{high_label} {high}</td></tr>
+<tr><td>사상자</td><td><code>war_history.casualty.band_labels.modern_estimate</code></td><td data-key='war_history.casualty.band_labels.modern_estimate'>현대 추정 {low}~{high}</td></tr>
+<tr><td>권리</td><td><code>war_history.rights.allowed_licenses</code></td><td data-key='war_history.rights.allowed_licenses'>[&quot;Public domain&quot;, &quot;Public Domain Mark&quot;, &quot;PD-Art&quot;, &quot;United States Government Work&quot;, &quot;CC0&quot;, &quot;CC BY 2.0&quot;, &quot;CC BY 2.5&quot;, &quot;CC BY 3.0&quot;, &quot;CC BY 4.0&quot;]</td></tr>
+<tr><td>권리</td><td><code>war_history.rights.disallowed_tags</code></td><td data-key='war_history.rights.disallowed_tags'>[&quot;CC-BY-SA&quot;, &quot;GFDL&quot;, &quot;CC-BY-NC&quot;, &quot;CC-BY-ND&quot;]</td></tr>
+<tr><td>지도 테마</td><td><code>sketch.war.default_theme</code></td><td data-key='sketch.war.default_theme'>relief</td></tr>
+<tr><td>지도 테마</td><td><code>geo.themes.relief.map.label_contrast_fix</code></td><td data-key='geo.themes.relief.map.label_contrast_fix'>{&quot;halo&quot;: 6.0, &quot;halo_a&quot;: 1.0}</td></tr>
+<tr><td>terrain3d</td><td><code>sketch.war.terrain3d.exaggeration</code></td><td data-key='sketch.war.terrain3d.exaggeration'>4.0</td></tr>
+<tr><td>terrain3d</td><td><code>sketch.war.terrain3d.camera.elev_deg</code></td><td data-key='sketch.war.terrain3d.camera.elev_deg'>40.0</td></tr>
+<tr><td>terrain3d</td><td><code>sketch.war.terrain3d.camera.radius_factor</code></td><td data-key='sketch.war.terrain3d.camera.radius_factor'>1.6</td></tr>
+<tr><td>terrain3d</td><td><code>sketch.war.terrain3d.camera.period_sec</code></td><td data-key='sketch.war.terrain3d.camera.period_sec'>60.0</td></tr>
+</table><h2>6. 반례 — 검증기가 막는 것</h2><table><tr><th>틀린 입력</th><th>오류</th></tr>
+<tr><td>부호 세트에 없는 픽토그램</td><td class='err'>모델: Value error, marker glyph &#x27;musketeer&#x27; 는 rules war_history.symbol_sets 픽토그램 [&#x27;elephant&#x27;, &#x27;heavy_cav&#x27;, &#x27;heavy_inf&#x27;, &#x27;light_cav&#x27;, &#x27;light_inf&#x27;, &#x27;skirmisher&#x27;] 밖이다</td></tr>
+<tr><td>픽토그램과 폭발 아이콘을 함께</td><td class='err'>모델: Value error, marker glyph 는 icon dot(기본) 자리에 그린다 — icon boom 과 함께 쓰지 않는다</td></tr>
+<tr><td>범위 띠 종류 없음</td><td class='err'>kind: Field required</td></tr>
+<tr><td>범위 띠 low &gt; high</td><td class='err'>모델: Value error, 추정 범위 low 9.0 &gt; high 2.0</td></tr>
+<tr><td>로마력 표지를 연도만 있는 날짜에</td><td class='err'>로마력 표시(R)는 일까지 적은 날짜에만: &#x27;-216&#x27;R</td></tr>
+</table></main></body></html>

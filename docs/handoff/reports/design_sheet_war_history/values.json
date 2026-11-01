@@ -1,0 +1,460 @@
+{
+ "schema_version": 1,
+ "genre": "war_history",
+ "version": "7.4.0",
+ "rows": [
+  {
+   "group": "부호 세트",
+   "key": "war_history.symbol_sets.ancient.units",
+   "value": [
+    "heavy_inf",
+    "light_inf",
+    "heavy_cav",
+    "light_cav",
+    "skirmisher",
+    "elephant"
+   ]
+  },
+  {
+   "group": "부호 세트",
+   "key": "war_history.symbol_sets.ancient.shapes",
+   "value": {
+    "heavy_inf": "block",
+    "light_inf": "block",
+    "heavy_cav": "wedge",
+    "light_cav": "wedge",
+    "skirmisher": "dots",
+    "elephant": "big_dots"
+   }
+  },
+  {
+   "group": "부호 세트",
+   "key": "war_history.symbol_sets.ancient.glyphs",
+   "value": {
+    "heavy_inf": "heavy_inf",
+    "light_inf": "light_inf",
+    "heavy_cav": "heavy_cav",
+    "light_cav": "light_cav",
+    "skirmisher": "skirmisher",
+    "elephant": "elephant"
+   }
+  },
+  {
+   "group": "부호 세트",
+   "key": "war_history.symbol_sets.early_modern.units",
+   "value": [
+    "regiment_block",
+    "artillery_triangle",
+    "cavalry_wedge"
+   ]
+  },
+  {
+   "group": "부호 세트",
+   "key": "war_history.symbol_sets.early_modern.shapes",
+   "value": {
+    "regiment_block": "block",
+    "artillery_triangle": "triangle",
+    "cavalry_wedge": "wedge"
+   }
+  },
+  {
+   "group": "부호 세트",
+   "key": "war_history.symbol_sets.modern.units",
+   "value": [
+    "app6_inf",
+    "app6_arm",
+    "app6_cav"
+   ]
+  },
+  {
+   "group": "부호 세트",
+   "key": "war_history.symbol_sets.modern.shapes",
+   "value": {
+    "app6_inf": "app6",
+    "app6_arm": "app6",
+    "app6_cav": "app6"
+   }
+  },
+  {
+   "group": "부호 세트",
+   "key": "war_history.symbol_set_by_year.ancient_max",
+   "value": 1500
+  },
+  {
+   "group": "부호 세트",
+   "key": "war_history.symbol_set_by_year.early_modern_max",
+   "value": 1850
+  },
+  {
+   "group": "입체",
+   "key": "war_history.symbol_sets.depth.side_ratio",
+   "value": 0.12
+  },
+  {
+   "group": "입체",
+   "key": "war_history.symbol_sets.depth.side_dark",
+   "value": 0.55
+  },
+  {
+   "group": "입체",
+   "key": "war_history.symbol_sets.depth.shadow_alpha",
+   "value": 0.35
+  },
+  {
+   "group": "입체",
+   "key": "war_history.symbol_sets.depth.shadow_px",
+   "value": [
+    3.0,
+    3.0
+   ]
+  },
+  {
+   "group": "입체",
+   "key": "war_history.symbol_sets.depth.rim_alpha",
+   "value": 0.5
+  },
+  {
+   "group": "입체",
+   "key": "war_history.symbol_sets.rank_grid.shapes",
+   "value": [
+    "block",
+    "wedge"
+   ]
+  },
+  {
+   "group": "입체",
+   "key": "war_history.symbol_sets.rank_grid.gap_px",
+   "value": 3.2
+  },
+  {
+   "group": "픽토그램",
+   "key": "war_history.symbol_sets.glyph.size_px",
+   "value": 15.0
+  },
+  {
+   "group": "픽토그램",
+   "key": "war_history.symbol_sets.glyph.halo_px",
+   "value": 1.4
+  },
+  {
+   "group": "픽토그램",
+   "key": "war_history.symbol_sets.glyph.alpha",
+   "value": 0.95
+  },
+  {
+   "group": "휘장",
+   "key": "war_history.faction_badge.emblem.legend_px",
+   "value": 13.0
+  },
+  {
+   "group": "휘장",
+   "key": "war_history.faction_badge.emblem.block_px",
+   "value": 9.0
+  },
+  {
+   "group": "휘장",
+   "key": "war_history.faction_badge.emblem.alpha",
+   "value": 0.95
+  },
+  {
+   "group": "휘장",
+   "key": "war_history.faction_badge.emblem.badge_frac",
+   "value": 1.3
+  },
+  {
+   "group": "휘장",
+   "key": "war_history.faction_badge.emblem.badge_ink",
+   "value": [
+    0.13,
+    0.12,
+    0.11
+   ]
+  },
+  {
+   "group": "날짜 표기",
+   "key": "hud.date_badge.era_format.bce_prefix",
+   "value": "기원전 "
+  },
+  {
+   "group": "날짜 표기",
+   "key": "hud.date_badge.era_format.day",
+   "value": "{y}년 {m}월 {d}일"
+  },
+  {
+   "group": "날짜 표기",
+   "key": "hud.date_badge.era_format.circa",
+   "value": "{c}세기경"
+  },
+  {
+   "group": "날짜 표기",
+   "key": "hud.date_badge.era_format.period_years",
+   "value": "{y0}~{y1}년"
+  },
+  {
+   "group": "날짜 표기",
+   "key": "hud.date_badge.era_format.roman_suffix",
+   "value": "(로마력)"
+  },
+  {
+   "group": "증거 층",
+   "key": "war_history.evidence.required_layers.ancient",
+   "value": [
+    "period_art",
+    "site",
+    "toponymy"
+   ]
+  },
+  {
+   "group": "증거 층",
+   "key": "war_history.evidence.required_layers.early_modern",
+   "value": [
+    "period_art",
+    "site|document",
+    "toponymy"
+   ]
+  },
+  {
+   "group": "증거 층",
+   "key": "war_history.evidence.required_layers.modern",
+   "value": [
+    "photo|clip",
+    "document",
+    "toponymy"
+   ]
+  },
+  {
+   "group": "증거 층",
+   "key": "war_history.period_art.contemporary_gap_years",
+   "value": 150
+  },
+  {
+   "group": "증거 층",
+   "key": "war_history.period_art.labels.contemporary",
+   "value": "당대 묘사"
+  },
+  {
+   "group": "증거 층",
+   "key": "war_history.period_art.labels.later",
+   "value": "후대의 묘사({created})"
+  },
+  {
+   "group": "증거 층",
+   "key": "war_history.evidence.toponymy_confidence",
+   "value": [
+    "통설",
+    "이설",
+    "미상"
+   ]
+  },
+  {
+   "group": "사상자",
+   "key": "war_history.casualty.band_required",
+   "value": true
+  },
+  {
+   "group": "사상자",
+   "key": "war_history.casualty.band_labels.ancient_range",
+   "value": "사료마다 다르다 — {low_label} {low}~{high_label} {high}"
+  },
+  {
+   "group": "사상자",
+   "key": "war_history.casualty.band_labels.modern_estimate",
+   "value": "현대 추정 {low}~{high}"
+  },
+  {
+   "group": "권리",
+   "key": "war_history.rights.allowed_licenses",
+   "value": [
+    "Public domain",
+    "Public Domain Mark",
+    "PD-Art",
+    "United States Government Work",
+    "CC0",
+    "CC BY 2.0",
+    "CC BY 2.5",
+    "CC BY 3.0",
+    "CC BY 4.0"
+   ]
+  },
+  {
+   "group": "권리",
+   "key": "war_history.rights.disallowed_tags",
+   "value": [
+    "CC-BY-SA",
+    "GFDL",
+    "CC-BY-NC",
+    "CC-BY-ND"
+   ]
+  },
+  {
+   "group": "지도 테마",
+   "key": "sketch.war.default_theme",
+   "value": "relief"
+  },
+  {
+   "group": "지도 테마",
+   "key": "geo.themes.relief.map.label_contrast_fix",
+   "value": {
+    "halo": 6.0,
+    "halo_a": 1.0
+   }
+  },
+  {
+   "group": "terrain3d",
+   "key": "sketch.war.terrain3d.exaggeration",
+   "value": 4.0
+  },
+  {
+   "group": "terrain3d",
+   "key": "sketch.war.terrain3d.camera.elev_deg",
+   "value": 40.0
+  },
+  {
+   "group": "terrain3d",
+   "key": "sketch.war.terrain3d.camera.radius_factor",
+   "value": 1.6
+  },
+  {
+   "group": "terrain3d",
+   "key": "sketch.war.terrain3d.camera.period_sec",
+   "value": 60.0
+  }
+ ],
+ "eras": [
+  {
+   "input": "-216.08.02R",
+   "badge": "기원전 216년 8월 2일(로마력)"
+  },
+  {
+   "input": "-216",
+   "badge": "기원전 216년"
+  },
+  {
+   "input": "-218~-216",
+   "badge": "기원전 218~216년"
+  },
+  {
+   "input": "c.-250",
+   "badge": "기원전 3세기경"
+  },
+  {
+   "input": "1950.09.15",
+   "badge": "1950. 09. 15"
+  },
+  {
+   "input": "1950.09",
+   "badge": "1950. 09"
+  }
+ ],
+ "cuts": [
+  {
+   "id": "cannae_operational",
+   "file": "cannae_operational.jpg",
+   "project": "projects/cannae_sketch",
+   "t": 8.0,
+   "theme": "relief",
+   "rule_keys": [
+    "sketch.war.default_theme",
+    "hud.date_badge.era_format.period_years"
+   ]
+  },
+  {
+   "id": "cannae_tactical",
+   "file": "cannae_tactical.jpg",
+   "project": "projects/cannae_sketch",
+   "t": 30.0,
+   "theme": "relief",
+   "rule_keys": [
+    "war_history.symbol_sets.ancient.shapes",
+    "war_history.symbol_sets.depth.side_ratio",
+    "war_history.symbol_sets.glyph.size_px",
+    "war_history.faction_badge.emblem.legend_px",
+    "hud.date_badge.era_format.roman_suffix"
+   ]
+  },
+  {
+   "id": "cannae_encircle_relief",
+   "file": "cannae_encircle_relief.jpg",
+   "project": "projects/cannae_sketch",
+   "t": 36.5,
+   "theme": "relief",
+   "rule_keys": [
+    "sketch.war.default_theme",
+    "war_history.symbol_sets.rank_grid.gap_px"
+   ]
+  },
+  {
+   "id": "cannae_encircle_dark",
+   "file": "cannae_encircle_dark.jpg",
+   "project": "projects/cannae_sketch",
+   "t": 36.5,
+   "theme": "dark",
+   "rule_keys": [
+    "sketch.war.default_theme"
+   ]
+  },
+  {
+   "id": "cannae_art_coin",
+   "file": "cannae_art_coin.jpg",
+   "project": "projects/cannae_sketch",
+   "t": 42.0,
+   "theme": "relief",
+   "rule_keys": [
+    "war_history.period_art.labels.contemporary",
+    "war_history.evidence.required_layers.ancient"
+   ]
+  },
+  {
+   "id": "cannae_art_bust",
+   "file": "cannae_art_bust.jpg",
+   "project": "projects/cannae_sketch",
+   "t": 48.0,
+   "theme": "relief",
+   "rule_keys": [
+    "war_history.period_art.labels.later",
+    "war_history.period_art.contemporary_gap_years"
+   ]
+  },
+  {
+   "id": "cannae_quote",
+   "file": "cannae_quote.jpg",
+   "project": "projects/cannae_sketch",
+   "t": 66.0,
+   "theme": "relief",
+   "rule_keys": [
+    "war_history.evidence.required_layers.ancient"
+   ]
+  },
+  {
+   "id": "inchon_modern",
+   "file": "inchon_modern.jpg",
+   "project": "projects/inchon_sketch",
+   "t": 30.0,
+   "theme": "relief",
+   "rule_keys": [
+    "war_history.symbol_sets.modern.shapes",
+    "war_history.symbol_set_by_year.early_modern_max"
+   ]
+  },
+  {
+   "id": "inchon_clip",
+   "file": "inchon_clip.jpg",
+   "project": "projects/inchon_sketch",
+   "t": 45.0,
+   "theme": "relief",
+   "rule_keys": [
+    "war_history.evidence.required_layers.modern"
+   ]
+  },
+  {
+   "id": "inchon_document",
+   "file": "inchon_document.jpg",
+   "project": "projects/inchon_sketch",
+   "t": 63.0,
+   "theme": "relief",
+   "rule_keys": [
+    "war_history.evidence.required_layers.modern"
+   ]
+  }
+ ]
+}
