@@ -166,10 +166,34 @@ def fetch_video(url: str, dest: Path) -> Path:
 
 
 # ------------------------------------------------------------------ 2·3. 검증·가공
-def process_photo(src: Path, out: Path, prm: dict) -> None:
+PHOTO_FITS = ("cover", "contain")   # v7.4.0 D-0608 §1-3 — cover = 틀을 채우게 자름(옛 동작), contain = 작품 비율 보존(자르지 않음, 남는 자리 = matte 색)
+ART_KINDS = ("period_art", "document")   # 작품·사료 사본 = contain 만(가장자리 도안·글자를 자르지 않는다)
+
+
+def photo_fit(kind: str, prm: dict) -> str:
+    """가공 방식. 작품·사료(ART_KINDS)는 fit contain + matte 필수, 사진은 fit 없으면 cover(옛 레코드 그대로). 그 밖 값 = 오류(P6)."""
+    fit = prm.get("fit", "contain" if kind in ART_KINDS else "cover")
+    if fit not in PHOTO_FITS:
+        raise MediaFetchError(f"tool.params.fit {fit!r} 은 {PHOTO_FITS} 중 하나")
+    if kind in ART_KINDS and (fit != "contain" or "fit" not in prm):
+        raise MediaFetchError(f"{kind} 레코드는 tool.params.fit: contain 을 적는다(작품 비율 보존 — 자르지 않음)")
+    if fit == "contain" and not (isinstance(prm.get("matte"), list) and len(prm["matte"]) == 3):
+        raise MediaFetchError("fit contain 은 tool.params.matte [r, g, b](0~255, 남는 자리 색)를 적는다")
+    return fit
+
+
+def process_photo(src: Path, out: Path, prm: dict, fit: str = "cover") -> None:
     tw, th = prm["crop"]
     im = Image.open(src).convert("RGB")
     w, h = im.size
+    if fit == "contain":   # v7.4.0 D-0608 §1-3 — 비율 보존: 틀 안에 전부 넣고 남는 자리는 matte
+        s = min(tw / w, th / h)
+        im = im.resize((max(1, round(w * s)), max(1, round(h * s))), Image.LANCZOS)
+        im = ImageEnhance.Contrast(ImageEnhance.Color(im).enhance(prm["color"])).enhance(prm["contrast"])
+        canvas = Image.new("RGB", (tw, th), tuple(int(c) for c in prm["matte"]))
+        canvas.paste(im, ((tw - im.width) // 2, (th - im.height) // 2))
+        canvas.save(out, quality=prm["jpeg_quality"])
+        return
     s = max(tw / w, th / h)
     im = im.resize((int(w * s) + 1, int(h * s) + 1), Image.LANCZOS)
     x0, y0 = (im.width - tw) // 2, (im.height - th) // 2
@@ -312,11 +336,11 @@ def run(proj: Path, only: list[str] | None = None, sheets: bool = True, registry
                 if h != a.source_hash:
                     raise MediaFetchError(f"원본 md5 {h} ≠ 레지스트리 source_hash {a.source_hash} — 원본이 바뀌었다(사람 확인)")
             prm = a.tool.params
-            if a.kind == "photo":
+            if a.kind in ("photo", *ART_KINDS):   # v7.4.0 D-0608 §1-3 — 작품·사료 사본도 사진 비트(contain)
                 if a.file is None:
                     raise MediaFetchError("file 없음")
                 Image.open(src).verify()
-                process_photo(src, media / a.file, prm)
+                process_photo(src, media / a.file, prm, photo_fit(a.kind, prm))
                 files = [a.file]
             elif a.kind == "cutout":
                 Image.open(src).verify()
