@@ -32,6 +32,9 @@
 ### 새 감독이 처음 할 일(순서)
 (1) 이 블록·README·CLAUDE.md·15·DECISIONS D299~ 읽기 (2) `git fetch` 로 sweet-galileo·econ-template-2026·artifacts 두 브랜치 확인 (3) 세션 3·세션 2 에 send_message("감독 승계, 이후 R·결정 요청은 이 세션으로") (4) 자기 점검 send_later 걸기 (5) 사용자에게 한 줄 보고(대기 중인 결정 1·2 를 다시 묻지 말고 목록만).
 
+## 0-5. 2026-11-01 — 병행 트랙: 『미국·이란 휴전안 — 정리와 가능성 타진』(사용자 결정 D-0334, UF-205)
+- 위임 감독(Fable 5.1) `session_017Yuw8hAgYiuiC4hYCHXB27`(2026-11-01 00:13Z, 옛 감독이 D-0334 요지로 기동). D-0282 방식 — 게이트 ①·② 위임, 질문 없이 완성본(final_deliver.mp4 ≤30MB + srt·description·credits·provenance·유튜브 문안)을 사용자에게 직접 전달. 브랜치 `claude/iran-ceasefire-2026`(sweet-galileo 41e00a99 에서 분기), artifacts `artifacts/iran-ceasefire-v7.4.0`. 번호 D-0450~(넘으면 D-0800~)·DECISIONS D550~·UF-170~199. 종료 보고는 최종 감독 `session_017Yuw8jLMWscY9bdVXTvddr` 로.
+
 ## 0-2. 2026-10-30 — 병행 트랙: 『중국의 기술 수출통제 확대(2026.10)』(사용자 결정 D-0282)
 - **완성 확정(2026-10-31, 사용자 판정 95점 — UF-158·D-0324·D302)**. main 병합은 별도 지시 대기.
 - **종결(2026-10-30 15:52Z)**: 완성본 전달 — artifacts/china-export-controls-v7.4.0 95148beb `china_tech_export_controls_2026/final/final_deliver.mp4`(720p·397.08초·md5 02ccbde3·hard 0). 원고 56문장, 게이트 ①·② 위임 승인, 콘티 판 v2 사용자 "아주 만족" + UF-160~162 반영. 교정 사실: 드론 공고 10/19 제49호(감독 메모의 10/14 는 오류), 공고 5건(10/16~10/26). 후속 후보: mercator 주 무대 + 시간축 아일랜드(D504 C안). 브랜치 claude/china-export-controls-2026 — main 병합은 사용자 결정.
