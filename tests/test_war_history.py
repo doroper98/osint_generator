@@ -87,7 +87,7 @@ class EraTest(unittest.TestCase):
         self.assertEqual(video_era(["1950.09.28", "-216"]), "ancient")
 
     def test_symbol_set_mixed(self) -> None:
-        self.assertEqual(symbol_set_mixed("ancient", ["infantry_block", "cavalry_wedge"]), [])
+        self.assertEqual(symbol_set_mixed("ancient", ["heavy_inf", "light_cav", "elephant"]), [])
         bad = symbol_set_mixed("ancient", ["app6_inf"])
         self.assertTrue(bad and bad[0].startswith("[symbol-set-mixed]"))
 

@@ -54,21 +54,25 @@ routes:
   - {name: "한니발의 진군", faction: carthage, pts: [[7.3, 45.1], [9.6, 45.0], [11.4, 43.9], [12.1, 43.2], [13.6, 42.4], [14.9, 41.7], [16.15, 41.30]], t0: 2.0, t1: 9.5, t_out: 19.0}
 
 units:
+  # 병종 분류(D-0605 ③, rules war_history.symbol_sets.ancient) — 근거: 폴리비오스 『역사』 III.113~114(배치·장비).
+  #  로마 군단 보병 = heavy_inf · 벨리테스(전열 앞 경보병, III.113) = light_inf · 로마·동맹 기병 = heavy_cav
+  #  리비아(아프리카) 보병(로마식 장비, III.114.1) = heavy_inf · 히스파니아·켈트 보병(장비 차이는 라벨, III.114.2~4) = heavy_inf
+  #  히스파니아·켈트 기병 = heavy_cav · 누미디아 기병 = light_cav · 발레아레스 투석병·창병(전열 앞 경보병, III.113) = skirmisher
   # 로마군 — 남쪽(180°)을 본다
-  - {faction: rome, symbol: cavalry_wedge, name: "로마 기병", t_out: 32.5, keys: [{t: 24, lon: 16.0935, lat: 41.3395, heading: 180, length_km: 0.7, depth_km: 0.3}]}
+  - {faction: rome, symbol: heavy_cav, name: "로마 기병", t_out: 32.5, keys: [{t: 24, lon: 16.0935, lat: 41.3395, heading: 180, length_km: 0.7, depth_km: 0.3}]}
   - faction: rome
-    symbol: infantry_block
+    symbol: heavy_inf
     name: "로마 보병"
     keys:
       - {t: 24.5, lon: 16.1105, lat: 41.3395, heading: 180, length_km: 2.3, depth_km: 0.7}
       - {t: 30.5, lon: 16.1105, lat: 41.3395, heading: 180, length_km: 2.3, depth_km: 0.7}
       - {t: 34, lon: 16.1105, lat: 41.3352, heading: 180, length_km: 1.8, depth_km: 0.75}
       - {t: 37, lon: 16.1105, lat: 41.3352, heading: 180, length_km: 1.4, depth_km: 0.8}
-  - {faction: rome, symbol: cavalry_wedge, name: "동맹 기병", t_out: 35.5, keys: [{t: 25, lon: 16.1285, lat: 41.3395, heading: 180, length_km: 0.8, depth_km: 0.3}]}
-  - {faction: rome, symbol: light_skirmish, t_out: 29, keys: [{t: 25, lon: 16.1105, lat: 41.3355, heading: 180, length_km: 2.5, depth_km: 0.1}]}
+  - {faction: rome, symbol: heavy_cav, name: "동맹 기병", t_out: 35.5, keys: [{t: 25, lon: 16.1285, lat: 41.3395, heading: 180, length_km: 0.8, depth_km: 0.3}]}
+  - {faction: rome, symbol: light_inf, t_out: 29, keys: [{t: 25, lon: 16.1105, lat: 41.3355, heading: 180, length_km: 2.5, depth_km: 0.1}]}
   # 카르타고군 — 북쪽(0°)을 본다
   - faction: carthage
-    symbol: cavalry_wedge
+    symbol: heavy_cav
     name: "히스파니아·켈트 기병"
     keys:
       - {t: 25.5, lon: 16.0935, lat: 41.3285, heading: 0, length_km: 0.8, depth_km: 0.35}
@@ -77,40 +81,40 @@ units:
       - {t: 33.5, lon: 16.1, lat: 41.3445, heading: 90, length_km: 0.8, depth_km: 0.35}
       - {t: 36.5, lon: 16.1105, lat: 41.3445, heading: 180, length_km: 0.8, depth_km: 0.35}
   - faction: carthage
-    symbol: infantry_block
-    name: "아프리카 보병"
+    symbol: heavy_inf
+    name: "아프리카 중무장보병"
     keys:
       - {t: 26, lon: 16.1, lat: 41.3285, heading: 0, length_km: 0.5, depth_km: 0.45}
       - {t: 33.5, lon: 16.1, lat: 41.3285, heading: 0, length_km: 0.5, depth_km: 0.45}
       - {t: 36, lon: 16.0975, lat: 41.3345, heading: 90, length_km: 0.6, depth_km: 0.35}
   - faction: carthage
-    symbol: infantry_block
+    symbol: heavy_inf
     keys:
       - {t: 26.5, lon: 16.1035, lat: 41.3302, heading: 340, length_km: 0.7, depth_km: 0.3}
       - {t: 30.5, lon: 16.1035, lat: 41.3302, heading: 340, length_km: 0.7, depth_km: 0.3}
       - {t: 34, lon: 16.1035, lat: 41.3292, heading: 20, length_km: 0.7, depth_km: 0.3}
   - faction: carthage
-    symbol: infantry_block
+    symbol: heavy_inf
     name: "히스파니아·켈트 보병"
     keys:
       - {t: 26.5, lon: 16.1105, lat: 41.3318, heading: 0, length_km: 0.6, depth_km: 0.3}
       - {t: 30.5, lon: 16.1105, lat: 41.3318, heading: 0, length_km: 0.6, depth_km: 0.3}
       - {t: 34, lon: 16.1105, lat: 41.3262, heading: 0, length_km: 0.6, depth_km: 0.3}
   - faction: carthage
-    symbol: infantry_block
+    symbol: heavy_inf
     keys:
       - {t: 26.5, lon: 16.1175, lat: 41.3302, heading: 20, length_km: 0.7, depth_km: 0.3}
       - {t: 30.5, lon: 16.1175, lat: 41.3302, heading: 20, length_km: 0.7, depth_km: 0.3}
       - {t: 34, lon: 16.1175, lat: 41.3292, heading: 340, length_km: 0.7, depth_km: 0.3}
   - faction: carthage
-    symbol: infantry_block
-    name: "아프리카 보병"
+    symbol: heavy_inf
+    name: "아프리카 중무장보병"
     keys:
       - {t: 26, lon: 16.121, lat: 41.3285, heading: 0, length_km: 0.5, depth_km: 0.45}
       - {t: 33.5, lon: 16.121, lat: 41.3285, heading: 0, length_km: 0.5, depth_km: 0.45}
       - {t: 36, lon: 16.1235, lat: 41.3345, heading: 270, length_km: 0.6, depth_km: 0.35}
-  - {faction: carthage, symbol: cavalry_wedge, name: "누미디아 기병", keys: [{t: 27, lon: 16.1285, lat: 41.3285, heading: 0, length_km: 0.8, depth_km: 0.35}]}
-  - {faction: carthage, symbol: light_skirmish, t_out: 29, keys: [{t: 27, lon: 16.1105, lat: 41.3335, heading: 0, length_km: 2.5, depth_km: 0.1}]}
+  - {faction: carthage, symbol: light_cav, name: "누미디아 기병", keys: [{t: 27, lon: 16.1285, lat: 41.3285, heading: 0, length_km: 0.8, depth_km: 0.35}]}
+  - {faction: carthage, symbol: skirmisher, t_out: 29, keys: [{t: 27, lon: 16.1105, lat: 41.3335, heading: 0, length_km: 2.5, depth_km: 0.1}]}
 
 evidence:
   - {mid: cannae_coin, t0: 39.5, t1: 45.0, side: right}

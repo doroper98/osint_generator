@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- v7.4.0 전쟁사 구상 컷 B — 높이맵 메시(텍스처 = 릴리프 음영) + 지형 위 부대 면·강 띠·지명 빌보드. 수치는 /scene/scene.json(rules sketch.war.terrain3d) -->
+<!-- v7.4.0 전쟁사 구상 컷 B — 높이맵 메시(텍스처 = 릴리프 음영) + 부대 박스(v2 입체·대열 기둥·병종 빌보드)·강 띠·지명 빌보드. 수치는 /scene/scene.json(rules sketch.war.terrain3d) -->
 <html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000;overflow:hidden}canvas{display:block}#ov{position:absolute;left:0;top:0}</style></head>
 <body><canvas id="ov"></canvas>
 <script type="importmap">{"imports":{"three":"/three/build/three.module.js"}}</script>
@@ -45,16 +45,59 @@ for (const r of S.rivers) {
   const g = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), pts.length * 8, S.river.w_m, 6, false);
   scene.add(new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: S.river.color })));
 }
-for (const u of S.units) {
-  const shape = new THREE.Shape(u.poly.map(([x, z]) => new THREE.Vector2(x, -z)));
+// v2(D-0605 ①③) — 부대 = 높이 있는 박스(2D 와 같은 윤곽) · 윗면 밝게(진영색)·옆면 어둡게(진영색 × side_dark) · 바닥 그림자(해 반대쪽)
+// · 윗면 대열 기둥(InstancedMesh, 고정 간격 — 병력 비례 아님) · 점열 = 낮은 기둥들. 무작위 없음
+const sunDir = new THREE.Vector3(Math.sin(az), 0, -Math.cos(az)).normalize();
+const shadowOff = sunDir.clone().multiplyScalar(-S.shadow_offset_m);
+const postGeo = new THREE.BoxGeometry(S.rank.post_w_m, S.rank.post_h_m, S.rank.post_w_m);
+function groundShape(poly, dx, dz) {
+  const shape = new THREE.Shape(poly.map(([x, z]) => new THREE.Vector2(x + dx, -(z + dz))));
   const g = new THREE.ShapeGeometry(shape); g.rotateX(-Math.PI / 2);
   const p = g.attributes.position;
   for (let k = 0; k < p.count; k++) p.setY(k, hAt(p.getX(k), p.getZ(k)) + S.lift_m);
-  const um = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: u.color, transparent: true, opacity: S.unit_opacity, side: THREE.DoubleSide, depthTest: false }));
-  um.renderOrder = 2; scene.add(um);   // 지표 위 면 — 지형 기복에 묻히지 않게 깊이 검사 없이 지형 뒤에 그린다
-  const e = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(u.poly.map(([x, z]) => new THREE.Vector3(x, hAt(x, z) + S.lift_m * 1.5, z))),
-    new THREE.LineBasicMaterial({ color: 0xffffff, depthTest: false }));
-  e.renderOrder = 3; scene.add(e);
+  return g;
+}
+function box(poly, base, h, top, side) {
+  const shape = new THREE.Shape(poly.map(([x, z]) => new THREE.Vector2(x, -z)));
+  const g = new THREE.ExtrudeGeometry(shape, { depth: h, bevelEnabled: false });
+  g.rotateX(-Math.PI / 2); g.translate(0, base, 0);
+  return new THREE.Mesh(g, [new THREE.MeshLambertMaterial({ color: top }), new THREE.MeshLambertMaterial({ color: side })]);
+}
+const tops = [];   // 빌보드·라벨 위치(윗면 가운데)
+for (const u of S.units) {
+  const hs = u.poly.map(([x, z]) => hAt(x, z));
+  const base = Math.min(...hs) - S.lift_m, rise = Math.max(...hs) - base;   // 바닥은 지표 아래에서 — 비탈에서도 뜨지 않는다
+  const sh = new THREE.Mesh(groundShape(u.poly, shadowOff.x, shadowOff.z),
+    new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: S.shadow_alpha, depthWrite: false }));
+  sh.renderOrder = 1; scene.add(sh);
+  let topY;
+  if (u.dots) {
+    const h = S.unit_height_m * 0.5;
+    for (const [x, z] of u.dots) {
+      const g = new THREE.CylinderGeometry(u.dot_r, u.dot_r, h + rise, 16);
+      const m = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ color: u.color }));
+      m.position.set(x, base + (h + rise) / 2, z); scene.add(m);
+    }
+    topY = base + rise + h;
+  } else {
+    const h = S.unit_height_m + rise;
+    scene.add(box(u.poly, base, h, u.color, u.side));
+    topY = base + h;
+    const edge = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(u.poly.map(([x, z]) => new THREE.Vector3(x, topY + 0.5, z))),
+      new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: S.rim_alpha }));
+    scene.add(edge);
+    if (u.posts && u.posts.length) {
+      const im = new THREE.InstancedMesh(postGeo, new THREE.MeshLambertMaterial({ color: u.side }), u.posts.length);
+      const mt = new THREE.Matrix4();
+      u.posts.forEach(([x, z], i) => { mt.makeTranslation(x, topY + S.rank.post_h_m / 2, z); im.setMatrixAt(i, mt); });
+      scene.add(im);
+    }
+  }
+  tops.push({ u, y: topY });
+}
+const glyphImg = {};
+for (const u of S.units) if (u.glyph && !glyphImg[u.glyph]) {
+  const im = new Image(); im.src = '/scene/' + u.glyph; await im.decode(); glyphImg[u.glyph] = im;
 }
 const ov = document.getElementById('ov'); ov.width = W; ov.height = Ht;
 const ctx = ov.getContext('2d');
@@ -71,12 +114,17 @@ window.__draw = (fr) => {
   cam.lookAt(c[0], hAt(c[0], c[1]), c[1]);
   renderer.render(scene, cam);
   ctx.clearRect(0, 0, W, Ht);
-  const items = [...S.units.filter(u => u.name).map(u => ({ t: u.name, p: u.c, s: S.text.unit, col: '#ffffff', w: 600 })),
-                 ...S.places.map(p => ({ t: p.name, p: p.c, s: S.text.place, col: '#ffffff', w: 500 }))];
-  for (const it of items) {
-    const v = new THREE.Vector3(it.p[0], hAt(it.p[0], it.p[1]) + S.label_lift_m, it.p[1]).project(cam);
+  for (const { u, y } of tops) {   // 병종 빌보드(윗면 위) + 부대 이름(그 아래)
+    const v = new THREE.Vector3(u.c[0], y + S.label_lift_m * 0.5, u.c[1]).project(cam);
     if (v.z > 1) continue;
-    label(it.t, (v.x + 1) / 2 * W, (1 - v.y) / 2 * Ht, it.s, it.col, it.w);
+    const sx = (v.x + 1) / 2 * W, sy = (1 - v.y) / 2 * Ht;
+    if (u.glyph) { const im = glyphImg[u.glyph], gh = S.glyph_px, gw = gh * im.width / im.height; ctx.drawImage(im, sx - gw / 2, sy - gh, gw, gh); }
+    if (u.name) label(u.name, sx, sy + S.text.unit, S.text.unit, '#ffffff', 600);
+  }
+  for (const p of S.places) {
+    const v = new THREE.Vector3(p.c[0], hAt(p.c[0], p.c[1]) + S.label_lift_m, p.c[1]).project(cam);
+    if (v.z > 1) continue;
+    label(p.name, (v.x + 1) / 2 * W, (1 - v.y) / 2 * Ht, S.text.place, '#ffffff', 500);
   }
 };
 window.__ready = true;

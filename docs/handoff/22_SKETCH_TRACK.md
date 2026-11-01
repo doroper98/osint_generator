@@ -223,6 +223,9 @@ python -m sketch.campaign projects/uranus_sketch --res final
   EraDate 뱃지, Pleiades 고대 지명(`tools/fetch_ancient_geo.py`), 지명 유래, 증거 카드(작품·사진·기록 — `media.json` MediaAsset, 당대/후대 라벨·미술사 한 문장), 사료 인용.
 - 검사 추가: SK-W1 부호 세트(hard)·SK-W2 작품 라벨(hard)·SK-W3 증거 층(warning — 본편은 hard)·SK-W4 지명 자료(hard). 화면 수치 = `rules sketch.war`.
 - 사례: `projects/cannae_sketch`(기원전 216)·`projects/inchon_sketch`(1950.9). 절차 = `.claude/skills/campaign-front-map/SKILL.md` ⑧.
+- v2(D-0605, UF-252): 고대 세트 = 병종 분류(`heavy_inf`·`light_inf`·`heavy_cav`·`light_cav`·`skirmisher`·`elephant`). 지도 모양·병종 픽토그램은
+  `rules war_history.symbol_sets` shapes·glyphs, 그림은 `engine/glyphs/arms.py`(코드 벡터, 갤러리 `tools/element_gallery.py --arms`).
+  입체감 = 단면·바닥 그림자·위 모서리 선(`symbol_sets.depth`), 대열 격자 = 고정 간격(`rank_grid`, 병력 비례 아님). 3D(`sketch.war.terrain3d`)는 같은 윤곽의 박스·대열 기둥·병종 빌보드.
 
 ## 7. 남은 과제 = 본편 등록 후보
 

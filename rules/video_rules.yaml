@@ -2516,6 +2516,12 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
       lift_m: 4
       label_lift_m: 90
       unit_opacity: 0.88
+      # v2(D-0605 ①③) — 부대 = 높이 있는 박스(고대 부호 윤곽 그대로: 블록·쐐기·점열) + 바닥 그림자 + 윗면 대열 기둥(고정 간격, 병력 비례 아님) + 병종 빌보드
+      unit_height_m: 110         # 박스 높이(개략 표현 — 실제 대열 높이가 아니다)
+      shadow_offset_m: 70        # 바닥 그림자 = 해 반대쪽으로 이만큼
+      dot_r_m: 28                # 점열(투석병·코끼리 = ×2) 기둥 반지름
+      rank: {gap_m: 70, post_h_m: 22, post_w_m: 12, max_posts: 600}
+      glyph_px: 30               # 병종 빌보드 높이(화면 px, 1280×720)
       river_w_m: 14
       text: {unit: 19, place: 20}
       halo: "rgba(10,12,16,0.85)"   # v2(D-0602 ④) — 전술 축척(화면 ppd ≥ from)에서 평탄한 땅이 검게 묻히지 않게 바탕을 더한다(OPERATOR_ADD)
@@ -2567,9 +2573,40 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
 war_history:               # v7.4.0 전쟁사 트랙 W2(back_and_forth D-0600 §2·§4, D-0337 사용자 결정 UF-206, D-0307 §2·§3, UF-150). 값 = 감독 제안(사용자 합격 값 아님, D701)
   # 시대 부호 세트 — 영상 날짜(원고 문장 날짜의 첫 해)가 세트를 정하고 한 영상에 한 세트([symbol-set-mixed] hard)
   symbol_sets:
-    ancient:      {units: [infantry_block, cavalry_wedge, elephant_dots, light_skirmish], faction_tokens: 2}   # 보병 직사각 블록·기병 쐐기·코끼리 점열·경보병
-    early_modern: {units: [regiment_block, artillery_triangle, cavalry_wedge], faction_tokens: 2}
-    modern:       {units: [app6_inf, app6_arm, app6_cav], faction_tokens: 2}   # APP-6 약식 = sketch.campaign 부호(echelon·arm)
+    # v2(D-0605 ③, UF-252) — 고대 세트 = 병종 분류. shapes = 지도 위 모양(block 사각·wedge 쐐기·triangle·dots 점열·big_dots·app6),
+    # glyphs = 병종 픽토그램 이름(engine.glyphs.arms.GLYPHS, 레지스트리 — 없는 이름 = 오류 P10). 분류 근거(사료 절)는 spec 주석에
+    ancient:
+      units: [heavy_inf, light_inf, heavy_cav, light_cav, skirmisher, elephant]   # 중무장보병·경무장보병·중기병·경기병·투석·투창병·코끼리
+      shapes: {heavy_inf: block, light_inf: block, heavy_cav: wedge, light_cav: wedge, skirmisher: dots, elephant: big_dots}
+      glyphs: {heavy_inf: heavy_inf, light_inf: light_inf, heavy_cav: heavy_cav, light_cav: light_cav, skirmisher: skirmisher, elephant: elephant}
+      faction_tokens: 2
+    early_modern:
+      units: [regiment_block, artillery_triangle, cavalry_wedge]
+      shapes: {regiment_block: block, artillery_triangle: triangle, cavalry_wedge: wedge}
+      faction_tokens: 2
+    modern:
+      units: [app6_inf, app6_arm, app6_cav]   # APP-6 약식 = sketch.campaign 부호(echelon·arm)
+      shapes: {app6_inf: app6, app6_arm: app6, app6_cav: app6}
+      faction_tokens: 2
+    # 입체감(D-0605 ①) — 2D 블록 = 아래·오른쪽 단면 + 바닥 그림자 + 위 모서리 밝은 선. 설계 px 480p. 값 = 감독 제안
+    depth:
+      side_ratio: 0.12          # 단면 두께 = 블록 화면 높이(정면 폭·종심 중 짧은 쪽) × 이 값
+      side_min_px: 1.5          # 단면 두께 하한(작전 지도 축척 블록)
+      side_dark: 0.55           # 단면 색 = 진영색 × 이 값
+      top_alpha: 1.0            # 윗면 불투명(단면이 비치지 않게)
+      shadow_alpha: 0.35
+      shadow_px: [3, 3]         # 바닥 그림자 오프셋(오른쪽·아래)
+      rim_alpha: 0.5            # 위 모서리(빛 쪽 = 왼쪽·위를 보는 변) 밝은 선
+      rim_w: 0.9
+    # 대열 격자(D-0605 ① 권고) — 블록당 고정 밀도. 병력 수에 비례하지 않는다(숫자를 암시하지 않는다, 수치 정직성 G4)
+    rank_grid:
+      shapes: [block, wedge]
+      gap_px: 3.2               # 줄 간격(화면 px 고정 — 블록 크기가 커져도 줄 수 = 크기 ÷ 간격, 병력과 무관)
+      max_lines: 6
+      w: 0.6
+      alpha: 0.4
+      inset: 0.18               # 블록 가장자리에서 들인 비율
+    glyph: {size_px: 15, halo_px: 1.4, halo_rgb: [0.05, 0.06, 0.08], alpha: 0.95, dy: -4}   # 병종 픽토그램(블록 가운데에서 dy 위 — 이름 줄과 안 겹치게, 단색 흰 + 어두운 테두리)
   symbol_set_by_year: {ancient_max: 1500, early_modern_max: 1850}   # ≤1500 ancient, 1501~1850 early_modern, ≥1851 modern(역사 표기 연도, 기원전은 ancient)
   faction_badge: {tokens: [ru, us], name_from: spec}   # 현대 국기 대신 코드 조판 진영명 + 색 토큰(registries.accents). 휘장을 지어내지 않는다
   period_art:

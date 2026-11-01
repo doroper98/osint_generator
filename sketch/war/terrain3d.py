@@ -37,7 +37,8 @@ from sketch.common.draw import SK
 from sketch.common.geodesy import dest
 from sketch.war.scene import LABELS_FILE, date_at, load_places
 from sketch.war.spec import WarSpec
-from sketch.war.units import key_at
+from engine.glyphs.arms import draw_glyph
+from sketch.war.units import WS, key_at
 
 REPO = Path(__file__).resolve().parents[2]
 TOOL = REPO / "tools" / "terrain3d"
@@ -68,6 +69,50 @@ def unit_poly(k) -> list[tuple[float, float]]:  # noqa: ANN001 — UnitKey
         lon, lat = dest(k.lon, k.lat, side if s_lat > 0 else side + 180, k.length_km / 2)
         out.append(dest(lon, lat, k.heading if s_dep > 0 else k.heading + 180, k.depth_km / 2))
     return out
+
+
+def shape_poly(shape: str, rect: list[list[float]]) -> list[list[float]]:
+    """2D 와 같은 윤곽(sketch.war.units) — rect = 뒤-왼, 뒤-오른, 앞-오른, 앞-왼(지역 m)."""
+    r = np.array(rect)
+    if shape == "wedge":
+        tip = (r[2] + r[3]) / 2
+        out = [r[0], r[1], r[1] + (tip - r[1]) * SK.war.unit.wedge_ratio, tip]
+    elif shape == "triangle":
+        out = [r[0], r[1], (r[2] + r[3]) / 2]
+    else:
+        out = list(r)
+    return [[round(float(a), 2), round(float(b), 2)] for a, b in out]
+
+
+def rank_posts(poly: list[list[float]], gap: float, limit: int) -> list[list[float]]:
+    """윗면 대열 기둥 — 고정 간격 격자 중 윤곽 안 점(병력 비례 아님). 결정적(격자 순서)."""
+    P = np.array(poly)  # noqa: N806
+    c = P.mean(axis=0)
+    Q = c + (P - c) * 0.85  # noqa: N806 — 가장자리에서 들인 윤곽
+    lo, hi = P.min(axis=0), P.max(axis=0)
+
+    def inside(x: float, z: float) -> bool:   # 짝홀 규칙
+        hit = False
+        for (x1, z1), (x2, z2) in zip(Q, np.roll(Q, -1, axis=0)):
+            if (z1 > z) != (z2 > z) and x < x1 + (z - z1) * (x2 - x1) / (z2 - z1):
+                hit = not hit
+        return hit
+
+    inside_pts = [(x, z) for z in np.arange(lo[1] + gap / 2, hi[1], gap) for x in np.arange(lo[0] + gap / 2, hi[0], gap) if inside(x, z)]
+    return [[round(float(a), 2), round(float(b), 2)] for a, b in inside_pts[:limit]]
+
+
+def glyph_png(name: str, px: int, out: Path) -> str:
+    """병종 빌보드 그림(투명 바탕, 흰 글리프 + 어두운 테두리) — 2D 와 같은 engine.glyphs.arms."""
+    G = WS.glyph  # noqa: N806
+    pad = 4
+    surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, px + 2 * pad, px + 2 * pad)
+    ctx = cairo.Context(surf)
+    k = px / G.size_px
+    draw_glyph(ctx, name, px / 2 + pad, px / 2 + pad, px, (1, 1, 1), G.alpha, G.halo_rgb, G.halo_px * k)
+    f = f"glyph_{name}.png"
+    surf.write_to_png(str(out / f))
+    return f
 
 
 def build(project: Path, spec: WarSpec, t: float, theme: str, out: Path) -> dict:
@@ -119,12 +164,33 @@ def build(project: Path, spec: WarSpec, t: float, theme: str, out: Path) -> dict
         return [round(x - ctr[0], 2), round(z - ctr[1], 2)]
 
     units = []
+    glyph_files: dict[str, str] = {}
     for u in spec.units:
         if u.keys[0].t > t or (u.t_out is not None and t >= u.t_out):
             continue
         k = key_at(u, t)
-        units.append({"poly": [rel(lo, la) for lo, la in unit_poly(k)], "c": rel(k.lon, k.lat), "name": u.name,
-                      "color": hexs(C[spec.factions[u.faction].token])})
+        shape = WS.shape_of(u.symbol)
+        rect = [rel(lo, la) for lo, la in unit_poly(k)]
+        col = C[spec.factions[u.faction].token]
+        rec = {"shape": shape, "c": rel(k.lon, k.lat), "name": u.name, "color": hexs(col),
+               "side": hexs(tuple(v * WS.depth.side_dark for v in col))}
+        if shape in ("dots", "big_dots"):
+            r = np.array(rect)
+            p0, p1 = (r[0] + r[3]) / 2, (r[1] + r[2]) / 2
+            rad = T3.dot_r_m * (2 if shape == "big_dots" else 1)
+            n = max(2, int(np.linalg.norm(p1 - p0) / (rad * 3)))
+            rec["dots"] = [[round(float(v), 2) for v in p0 + (p1 - p0) * i / n] for i in range(n + 1)]
+            rec["dot_r"] = rad
+            rec["poly"] = rect
+        else:
+            rec["poly"] = shape_poly(shape, rect)
+            if shape in WS.rank_grid.shapes:
+                rec["posts"] = rank_posts(rec["poly"], T3.rank.gap_m, T3.rank.max_posts)
+        g = WS.glyph_of(u.symbol)
+        if g:
+            glyph_files.setdefault(g, glyph_png(g, int(T3.glyph_px * 2), out))
+            rec["glyph"] = glyph_files[g]
+        units.append(rec)
     places_db = load_places(project)
     places = []
     for p in spec.places:
@@ -146,11 +212,13 @@ def build(project: Path, spec: WarSpec, t: float, theme: str, out: Path) -> dict
              "camera": {"fov": T3.camera.fov_deg, "elev_deg": T3.camera.elev_deg, "radius_m": radius, "target": target},
              "light": T3.light.model_dump(), "sky": T3.sky, "fog": [radius * T3.fog[0], radius * T3.fog[1]],
              "lift_m": T3.lift_m, "label_lift_m": T3.label_lift_m, "unit_opacity": T3.unit_opacity,
+             "unit_height_m": T3.unit_height_m, "shadow_offset_m": T3.shadow_offset_m, "shadow_alpha": WS.depth.shadow_alpha,
+             "rank": T3.rank.model_dump(), "glyph_px": T3.glyph_px, "rim_alpha": WS.depth.rim_alpha,
              "river": {"w_m": T3.river_w_m, "color": hexs(SK.war.river.rgb)}, "text": T3.text.model_dump(), "halo": T3.halo,
              "units": units, "places": places, "rivers": rivers, "frames": frames}
     (out / "scene.json").write_text(json.dumps(scene, ensure_ascii=False), encoding="utf-8")
     return {"region": [lon_w, lat_s, lon_e, lat_n], "size_m": size_m, "radius_m": radius, "frames": nfr,
-            "units": len(units), "places": len(places), "dem": f"Terrarium z{TS.z}", "theme": theme}
+            "units": len(units), "glyphs": sorted(glyph_files), "posts": sum(len(u_.get("posts", [])) for u_ in units), "places": len(places), "dem": f"Terrarium z{TS.z}", "theme": theme}
 
 
 def badge(frame: Path, date: str, scale: float) -> None:

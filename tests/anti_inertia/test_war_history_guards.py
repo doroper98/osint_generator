@@ -43,7 +43,7 @@ def _P(root: Path, events: list[dict], genre: str = "war_history") -> NS:  # noq
 
 
 FULL = [{"type": "photo", "mid": "art", "t0": 1.0}, {"type": "photo", "mid": "site", "t0": 5.0},
-        {"type": "marker", "toponymy": "cannae", "t0": 0.5}, {"type": "marker", "symbol": "infantry_block", "t0": 0.5}]
+        {"type": "marker", "toponymy": "cannae", "t0": 0.5}, {"type": "marker", "symbol": "heavy_inf", "t0": 0.5}]
 
 
 class WarHistoryGuardsTest(unittest.TestCase):

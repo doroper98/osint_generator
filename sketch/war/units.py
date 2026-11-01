@@ -12,18 +12,22 @@ import math
 import cairo
 import numpy as np
 
+from engine.glyphs.arms import draw_glyph
 from engine.projection import View
 from engine.stage import ym
 from engine.style import C
 from engine.timebase import clamp01, smooth
 from engine.typography import text, tw
+from rules import load_rules
 from sketch.campaign.units import unit_symbol
 from sketch.common.draw import SK, WHITE
 from sketch.common.geodesy import dest
 from sketch.war.spec import UnitKey, WarSpec, WarUnit
 
 U, F = SK.war.unit, SK.fade
+WS = load_rules().war_history.symbol_sets   # 모양·글리프·입체·대열 격자(D-0605 ①③)
 APP6 = {"app6_inf": "inf", "app6_arm": "arm", "app6_cav": "cav"}
+BLACK = (0.0, 0.0, 0.0)
 RIGHT_ANGLE = 90
 
 
@@ -83,10 +87,16 @@ class WarUnitLayer:
             x, y = view.to_screen(k.lon, ym(k.lat))
             fx, fy = view.to_screen(*(lambda p: (p[0], ym(p[1])))(dest(k.lon, k.lat, k.heading, k.depth_km)))
             hv = np.array([fx - x, fy - y])
-            if u.symbol in APP6:
+            shape = WS.shape_of(u.symbol)
+            if shape == "app6":
                 unit_symbol(ctx, x, y, col, "", APP6[u.symbol], a, U.app6_scale)
             else:
-                self._ancient(ctx, view, k, u.symbol, col, a, hv)
+                self._ancient(ctx, view, k, shape, col, a, hv)
+            glyph = WS.glyph_of(u.symbol)
+            if glyph:
+                G = WS.glyph  # noqa: N806
+                draw_glyph(ctx, glyph, x, y + G.dy, G.size_px, WHITE, G.alpha * a, G.halo_rgb, G.halo_px)
+                self.drawn[f"glyph:{glyph}"] = self.drawn.get(f"glyph:{glyph}", 0) + 1
             if u.name:
                 N = U.name
                 text(ctx, u.name, x, y + N.dy, N.size, N.font, WHITE, a, N.halo, "c")
@@ -95,38 +105,85 @@ class WarUnitLayer:
                 res.append((x - half, y - U.name.dy, x + half, y + U.name.dy))
             self.drawn[f"unit:{u.symbol}"] = self.drawn.get(f"unit:{u.symbol}", 0) + 1
 
-    def _ancient(self, ctx: cairo.Context, view: View, k: UnitKey, symbol: str, col: tuple, a: float, hv: np.ndarray) -> None:
+    def _ancient(self, ctx: cairo.Context, view: View, k: UnitKey, shape: str, col: tuple, a: float, hv: np.ndarray) -> None:
         pts = _grow(_corners(view, k), hv)
-        ctx.set_line_width(U.edge_w)
-        if symbol in ("infantry_block", "regiment_block"):
-            ctx.move_to(*pts[0])
-            for p in pts[1:]:
-                ctx.line_to(*p)
-            ctx.close_path()
-        elif symbol == "cavalry_wedge":   # 쐐기 — 뒤쪽 두 꼭짓점 + 정면 가운데
-            tip = (pts[2] + pts[3]) / 2
-            ctx.move_to(*pts[0])
-            ctx.line_to(*pts[1])
-            ctx.line_to(*(pts[1] + (tip - pts[1]) * U.wedge_ratio))
-            ctx.line_to(*tip)
-            ctx.close_path()
-        elif symbol == "artillery_triangle":
-            ctx.move_to(*pts[0])
-            ctx.line_to(*pts[1])
-            ctx.line_to(*((pts[2] + pts[3]) / 2))
-            ctx.close_path()
-        else:   # elephant_dots · light_skirmish — 정면 선을 따라 점열
+        along = hv / (np.linalg.norm(hv) or 1)
+        lateral = np.array([-along[1], along[0]])
+        rel = pts - pts.mean(axis=0)
+        L, D = np.abs(rel @ lateral).max() * 2, np.abs(rel @ along).max() * 2   # noqa: N806 — 화면 정면 폭·종심
+        Dp = WS.depth  # noqa: N806
+        th = max(Dp.side_min_px, Dp.side_ratio * min(L, D))
+        off = np.array([0.5, 1.0]) * th   # 단면 = 아래·오른쪽(빛 = 왼쪽 위)
+        if shape in ("dots", "big_dots"):   # 투석·투창병 · 코끼리 — 정면 선을 따라 점열(점마다 그림자)
             p0, p1 = (pts[0] + pts[3]) / 2, (pts[1] + pts[2]) / 2
             n = max(2, int(np.linalg.norm(p1 - p0) / U.dot_gap_px))
-            r = U.dot_r * (2 if symbol == "elephant_dots" else 1)
-            for i in range(n + 1):
-                q = p0 + (p1 - p0) * i / n
-                ctx.new_sub_path()
-                ctx.arc(q[0], q[1], r, 0, 2 * math.pi)
-            ctx.set_source_rgba(*col, a)
-            ctx.fill()
+            r = U.dot_r * (2 if shape == "big_dots" else 1)
+            qs = [p0 + (p1 - p0) * i / n for i in range(n + 1)]
+            for colr, alpha, sh in ((BLACK, Dp.shadow_alpha, np.array(Dp.shadow_px) * r / U.dot_r / 2), (col, 1.0, np.zeros(2))):
+                for q in qs:
+                    ctx.new_sub_path()
+                    ctx.arc(q[0] + sh[0], q[1] + sh[1], r, 0, 2 * math.pi)
+                ctx.set_source_rgba(*colr, alpha * a)
+                ctx.fill()
             return
-        ctx.set_source_rgba(*col, U.fill_alpha * a)
-        ctx.fill_preserve()
-        ctx.set_source_rgba(*WHITE, U.edge_alpha * a)
+        if shape == "wedge":   # 쐐기 — 뒤쪽 두 꼭짓점 + 정면 가운데
+            tip = (pts[2] + pts[3]) / 2
+            poly = np.array([pts[0], pts[1], pts[1] + (tip - pts[1]) * U.wedge_ratio, tip])
+        elif shape == "triangle":
+            poly = np.array([pts[0], pts[1], (pts[2] + pts[3]) / 2])
+        else:
+            poly = pts
+        c = poly.mean(axis=0)
+        edges = [(poly[i], poly[(i + 1) % len(poly)]) for i in range(len(poly))]
+
+        def outward(p: np.ndarray, q: np.ndarray) -> np.ndarray:
+            e = q - p
+            nrm = np.array([e[1], -e[0]])
+            return nrm if nrm @ ((p + q) / 2 - c) > 0 else -nrm
+
+        def path(pp: np.ndarray) -> None:
+            ctx.move_to(*pp[0])
+            for q in pp[1:]:
+                ctx.line_to(*q)
+            ctx.close_path()
+
+        path(poly + off + np.array(Dp.shadow_px))   # 바닥 그림자
+        ctx.set_source_rgba(*BLACK, Dp.shadow_alpha * a)
+        ctx.fill()
+        side = tuple(v * Dp.side_dark for v in col)
+        for p, q in edges:   # 보이는 단면(바깥 법선이 단면 방향과 같은 변)
+            if outward(p, q) @ off > 0:
+                path(np.array([p, q, q + off, p + off]))
+                ctx.set_source_rgba(*side, a)
+                ctx.fill()
+        path(poly)   # 윗면
+        ctx.set_source_rgba(*col, Dp.top_alpha * a)
+        ctx.fill()
+        RG = WS.rank_grid  # noqa: N806
+        if shape in RG.shapes:   # 대열 격자 — 고정 간격(병력 비례 아님)
+            ctx.save()
+            path(poly)
+            ctx.clip()
+            ax, span, other = (along, D, L) if shape == "block" else (lateral, L, D)   # 보병 = 정면과 나란한 줄, 기병 = 진행 방향 줄
+            perp = np.array([-ax[1], ax[0]])
+            n = min(RG.max_lines, int(span * (1 - 2 * RG.inset) / RG.gap_px))
+            for i in range(n):
+                f = (i + 0.5) / n - 0.5 if n > 0 else 0
+                m = c + ax * f * span * (1 - 2 * RG.inset)
+                ctx.move_to(*(m - perp * other / 2 * (1 - RG.inset)))
+                ctx.line_to(*(m + perp * other / 2 * (1 - RG.inset)))
+            ctx.set_line_width(RG.w)
+            ctx.set_source_rgba(*side, RG.alpha * a)
+            ctx.stroke()
+            ctx.restore()
+        path(poly)   # 윤곽 = 어두운 단면색
+        ctx.set_line_width(U.edge_w)
+        ctx.set_source_rgba(*side, U.edge_alpha * a)
+        ctx.stroke()
+        for p, q in edges:   # 위 모서리(빛을 받는 변) 밝은 선
+            if outward(p, q) @ off < 0:
+                ctx.move_to(*p)
+                ctx.line_to(*q)
+        ctx.set_line_width(Dp.rim_w)
+        ctx.set_source_rgba(*WHITE, Dp.rim_alpha * a)
         ctx.stroke()

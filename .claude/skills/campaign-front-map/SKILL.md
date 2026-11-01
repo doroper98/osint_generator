@@ -111,7 +111,7 @@ W = 작전 지도(넓게), K = 전술 무대(전장 수 km, ppd 높게 — 같�
 뱃지는 코드가 "기원전 216년 8월 2일" 처럼 조판합니다. 사료의 달력 차이(로마력 등)는 엔딩 자료 줄에 적습니다.
 
 **3. 시대 부호 세트** — 영상의 첫 날짜가 세트를 정합니다(≤1500 ancient · ~1850 early_modern · 그 뒤 modern, `rules war_history.symbol_set_by_year`).
-`units[].symbol` 은 그 세트의 부호만: 고대 `infantry_block`·`cavalry_wedge`·`elephant_dots`·`light_skirmish`, 현대 `app6_inf`·`app6_arm`·`app6_cav`. 섞으면 SK-W1 hard.
+`units[].symbol` 은 그 세트의 부호만: 고대 = 병종 `heavy_inf`(중무장보병)·`light_inf`(경무장보병)·`heavy_cav`(중기병)·`light_cav`(경기병)·`skirmisher`(투석·투창병)·`elephant`(코끼리) — 지도 모양(블록·쐐기·점열)과 병종 픽토그램은 규칙이 정한다(`war_history.symbol_sets` shapes·glyphs). 분류 근거(사료 절)는 spec 주석에 적는다. 근세 `regiment_block`·`artillery_triangle`·`cavalry_wedge`, 현대 `app6_inf`·`app6_arm`·`app6_cav`. 섞으면 SK-W1 hard.
 부대는 `keys[]`(시각·중심·정면 방위·정면 폭·종심 km)로 움직이고, 키 사이는 부드럽게 옮겨집니다. 사료 서술을 spec 머리 주석에 권·절로 적고 화면에는 '개략'.
 
 **4. 고대 지명** — `python tools/fetch_ancient_geo.py projects/<pid> --bbox 경도0 위도0 경도1 위도1` → `ancient_geo/places.json`(Pleiades, CC BY 3.0).

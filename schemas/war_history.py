@@ -53,7 +53,7 @@ def video_era(dates: Iterable[str]) -> Era:
 
 def symbol_set_mixed(era: Era, unit_kinds: Iterable[str]) -> list[str]:
     """[symbol-set-mixed] hard — 영상 시대의 부호 세트 밖 부대 부호. 문구 목록(빈 목록 = 통과)."""
-    sets = _rules().symbol_sets
+    sets = _rules().symbol_sets.by_era()
     own = set(sets[era].units)
     out = []
     for k in unit_kinds:

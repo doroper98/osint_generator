@@ -3396,6 +3396,13 @@ class T3Text(_Strict):
     place: float
 
 
+class T3Rank(_Strict):
+    gap_m: float = Field(gt=0)
+    post_h_m: float = Field(gt=0)
+    post_w_m: float = Field(gt=0)
+    max_posts: int = Field(ge=1)
+
+
 class SketchWarTerrain3d(_Strict):
     theme: str
     dem_tier: str
@@ -3414,6 +3421,11 @@ class SketchWarTerrain3d(_Strict):
     lift_m: float
     label_lift_m: float
     unit_opacity: float
+    unit_height_m: float = Field(gt=0)
+    shadow_offset_m: float = Field(ge=0)
+    dot_r_m: float = Field(gt=0)
+    rank: T3Rank
+    glyph_px: float = Field(gt=0)
     river_w_m: float
     text: T3Text
     halo: str
@@ -3477,9 +3489,76 @@ class SketchRules(_Strict):
         walk(self)
         return out
 
+WarShape = Literal["block", "wedge", "triangle", "dots", "big_dots", "app6"]
+
+
 class WarSymbolSet(_Strict):
     units: list[str] = Field(min_length=1)
+    shapes: dict[str, WarShape]                        # v2(D-0605 ③) 부호 → 지도 위 모양
+    glyphs: dict[str, str] = Field(default_factory=dict)   # 부호 → 병종 픽토그램(engine.glyphs.arms.GLYPHS — 시험이 레지스트리 대조)
     faction_tokens: int = Field(ge=2)
+
+    @model_validator(mode="after")
+    def _keys(self) -> "WarSymbolSet":
+        if set(self.shapes) != set(self.units):
+            raise ValueError(f"symbol_sets shapes 키 = units 전부: {sorted(set(self.units) ^ set(self.shapes))}")
+        if not set(self.glyphs) <= set(self.units):
+            raise ValueError(f"symbol_sets glyphs 키는 units 안: {sorted(set(self.glyphs) - set(self.units))}")
+        return self
+
+
+class WarDepth(_Strict):
+    side_ratio: float = Field(gt=0, lt=1)
+    side_min_px: float = Field(ge=0)
+    side_dark: float = Field(gt=0, lt=1)
+    top_alpha: float = Field(gt=0, le=1)
+    shadow_alpha: float = Field(ge=0, le=1)
+    shadow_px: tuple[float, float]
+    rim_alpha: float = Field(ge=0, le=1)
+    rim_w: float = Field(gt=0)
+
+
+class WarRankGrid(_Strict):
+    shapes: list[WarShape]
+    gap_px: float = Field(gt=0)
+    max_lines: int = Field(ge=1)
+    w: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+    inset: float = Field(ge=0, lt=0.5)
+
+
+class WarGlyph(_Strict):
+    size_px: float = Field(gt=0)
+    halo_px: float = Field(ge=0)
+    halo_rgb: tuple[float, float, float]
+    alpha: float = Field(gt=0, le=1)
+    dy: float = 0.0
+
+
+class WarSymbolSets(_Strict):
+    """시대 세트 셋 + 공통 표현 값(D-0605 ①③)."""
+
+    ancient: WarSymbolSet
+    early_modern: WarSymbolSet
+    modern: WarSymbolSet
+    depth: WarDepth
+    rank_grid: WarRankGrid
+    glyph: WarGlyph
+
+    def by_era(self) -> dict[str, WarSymbolSet]:
+        return {"ancient": self.ancient, "early_modern": self.early_modern, "modern": self.modern}
+
+    def shape_of(self, symbol: str) -> WarShape:
+        for s in self.by_era().values():
+            if symbol in s.shapes:
+                return s.shapes[symbol]
+        raise KeyError(f"부호 {symbol!r} — rules war_history.symbol_sets 어느 세트에도 없다")
+
+    def glyph_of(self, symbol: str) -> "str | None":
+        for s in self.by_era().values():
+            if symbol in s.units:
+                return s.glyphs.get(symbol)
+        raise KeyError(f"부호 {symbol!r} — rules war_history.symbol_sets 어느 세트에도 없다")
 
 
 class WarSymbolYears(_Strict):
@@ -3523,7 +3602,7 @@ class WarRights(_Strict):
 class WarHistoryRules(_Strict):
     """v7.4.0 전쟁사 트랙 W2(back_and_forth D-0600 §2·§4) — 시대 부호 세트·당대/후대 라벨·증거 층·수치 정직성·권리. 판정 함수 = schemas.war_history."""
 
-    symbol_sets: dict[Literal["ancient", "early_modern", "modern"], WarSymbolSet]
+    symbol_sets: WarSymbolSets
     symbol_set_by_year: WarSymbolYears
     faction_badge: WarFactionBadge
     period_art: WarPeriodArt
@@ -3535,9 +3614,6 @@ class WarHistoryRules(_Strict):
     @model_validator(mode="after")
     def _eras(self) -> "WarHistoryRules":
         eras = {"ancient", "early_modern", "modern"}
-        for k in ("symbol_sets",):
-            if set(getattr(self, k)) != eras:
-                raise ValueError(f"war_history.{k} 는 세 시대 전부: {sorted(getattr(self, k))}")
         if set(self.evidence.required_layers) != eras or set(self.evidence.by_era) != eras:
             raise ValueError("war_history.evidence.required_layers·by_era 는 세 시대 전부")
         if self.symbol_set_by_year.ancient_max >= self.symbol_set_by_year.early_modern_max:

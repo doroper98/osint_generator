@@ -1,6 +1,7 @@
 """요소 갤러리 (v4.2.0, docs/handoff/20 §12 G2, back_and_forth D-0081 작업 6) — 등록 요소 전부를 실제 엔진으로 한 장씩 + 컨택트 시트.
 
     python tools/element_gallery.py --proj projects/hormuz_korea --out docs/handoff/reports/phaseG2/gallery
+    python tools/element_gallery.py --arms <out.png>      # 병종 픽토그램 1장(v7.4.0 D-0605 ③)
 
 대상 = rules registries 의 등록 요소 전부: event_types(운반 타입 panel·primitive·badge 포함) · panel_kinds · badge_kinds · primitives.
 예제 = prompts/examples/{events,panels,badges}/<이름>.yaml 의 event, 프리미티브는 모듈 PREVIEW_FIXTURE.
@@ -118,7 +119,48 @@ def shot_time(ev: dict, opts: dict) -> float:
     return ev["t1"] - 1.0 if ev["t1"] - ev["t0"] > LONG_SHOW_SEC else (ev["t0"] + ev["t1"]) / 2
 
 
+def arms_sheet(out: Path) -> dict:
+    """병종 픽토그램 갤러리 1장(v7.4.0 D-0605 ③) — engine.glyphs.arms.GLYPHS 전부 × 규칙 크기·2배·5배, 진영색 두 개 위.
+    규칙 war_history.symbol_sets.*.glyphs 가 가리키는 이름이 GLYPHS 에 없으면 오류(P10)."""
+    import cairo  # noqa: PLC0415
+
+    from engine.glyphs.arms import GLYPHS, draw_glyph  # noqa: PLC0415
+    from engine.style import C  # noqa: PLC0415
+    from engine.typography import text  # noqa: PLC0415
+
+    ws = load_rules().war_history.symbol_sets
+    used = {g for s in ws.by_era().values() for g in s.glyphs.values()}
+    missing = sorted(used - set(GLYPHS))
+    if missing:
+        raise GalleryError(f"규칙 glyphs 이름이 engine.glyphs.arms.GLYPHS 에 없다: {missing}")
+    G = ws.glyph  # noqa: N806
+    names = list(GLYPHS)
+    cw, ch = 200, 260
+    surf = cairo.ImageSurface(cairo.FORMAT_RGB24, cw * len(names), ch)
+    ctx = cairo.Context(surf)
+    ctx.set_source_rgb(0.1, 0.11, 0.13)
+    ctx.paint()
+    for i, n in enumerate(names):
+        x0 = i * cw
+        for j, tok in enumerate(("ru", "us")):   # 진영색(war_history.faction_badge.tokens 예)
+            ctx.rectangle(x0 + 10, 10 + j * 110, cw - 20, 100)
+            ctx.set_source_rgb(*C[tok])
+            ctx.fill()
+            draw_glyph(ctx, n, x0 + 70, 60 + j * 110, G.size_px * 5, (1, 1, 1), G.alpha, G.halo_rgb, G.halo_px * 3)
+            draw_glyph(ctx, n, x0 + 140, 60 + j * 110, G.size_px * 2, (1, 1, 1), G.alpha, G.halo_rgb, G.halo_px * 1.5)
+            draw_glyph(ctx, n, x0 + 175, 60 + j * 110, G.size_px, (1, 1, 1), G.alpha, G.halo_rgb, G.halo_px)
+        text(ctx, n, x0 + cw / 2, ch - 18, 15, "sansb", (1, 1, 1), 1.0, 0, "c")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    surf.write_to_png(str(out))
+    return {"schema_version": 1, "glyphs": names, "rule_size_px": G.size_px, "sizes": ["×5", "×2", "×1"], "png": out.name}
+
+
 def main(argv: list[str] | None = None) -> int:
+    if argv is None:
+        argv = sys.argv[1:]
+    if argv and argv[0] == "--arms":   # 병종 픽토그램 갤러리만(프로젝트 불필요)
+        print(json.dumps(arms_sheet(Path(argv[1])), ensure_ascii=False))
+        return 0
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--proj", type=Path, required=True)
     ap.add_argument("--out", type=Path, required=True, help="PNG 폴더. 컨택트 시트는 그 부모의 gallery.jpg")
