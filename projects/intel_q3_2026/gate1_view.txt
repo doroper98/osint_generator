@@ -98,7 +98,7 @@
 
 미디어 계획 표 — 사진 0/3장(분당 1, 221초 추정) · 기사 카드 후보 0문장(60초당 2개까지 쓴다)
   문장         인용 출처              기사(등록/미등록)        사진 찾음/통과/선택      사유
-  cold_0       clm_0001               - / 미등록 1                0/0/- (발표)             (사유 없음)
+  cold_0       clm_0001               - / 미등록 1                6/1/- (발표)             후보 보류 — File:Intel headquarters in Santa Clara.jpg 를 미디어 단계에서 레지스트리에 권리 기록과 함께 등록·선택한다
   cold_1       clm_0011               - / 미등록 1                0/0/-                  
   act1_0       clm_0003               - / 미등록 1                0/0/-                  
   act1_1       clm_0001               - / 미등록 1                0/0/-                  
@@ -117,11 +117,11 @@
   act3_4       clm_0009               -                        0/0/-                  
   act3_5       clm_0004,clm_0005      - / 미등록 2                0/0/-                  
   act4_0       (출처 없음)                -                        0/0/-                  
-  act4_1       (출처 없음)                -                        0/0/- (발표)             (사유 없음)
-  act4_2       clm_0010               - / 미등록 2                0/0/- (발표)             (사유 없음)
+  act4_1       (출처 없음)                -                        6/6/- (발표)             고르지 않음 — 통과 후보 6건은 NASA 아르테미스 II 승무원 나스닥 행사 사진이라 이 문장(인텔 종가)의 피사체가 아니다. act4_2 의 나스닥 타임스스퀘어 후보를 쓴다
+  act4_2       clm_0010               - / 미등록 2                6/2/- (발표)             후보 보류 — File:NASDAQ Times Square - panoramio.jpg(나스닥 전광판 외관)를 미디어 단계에서 등록·선택한다
   act4_3       (출처 없음)                -                        0/0/-                  
   act4_4       clm_0011               - / 미등록 1                0/0/-                  
-  act5_0       clm_0013               - / 미등록 2                0/0/-                  
+  act5_0       clm_0013               - / 미등록 2                1/1/-                  후보 보류 — File:Intel factory, Kiryat Gat industry zone.jpg(이스라엘 공장 외관)를 미디어 단계에서 등록해 지도 무대 핀과 함께 쓴다(사고 장면 사진이 아니다 — 자막·캡션에 사고 현장이라고 쓰지 않는다)
   act5_1       clm_0012               - / 미등록 1                0/0/-                  
   act5_2       clm_0013               - / 미등록 2                0/0/-                  
   act5_3       clm_0015               -                        0/0/-                  
@@ -130,8 +130,6 @@
   act5_6       clm_0017               - / 미등록 1                0/0/-                  
   act5_7       clm_0014,clm_0015      - / 미등록 1                0/0/-                  
   ending_0     clm_0003,clm_0005      - / 미등록 3                0/0/-                  
-  ending_1     clm_0004               -                        0/0/- (발표)             (사유 없음)
-  오류 [photo-reason] cold_0: 사진 후보 문장(발표) — 검색 기록·사유 없음. `tools/media_fetch.py search --log /home/user/osint_generator/projects/intel_q3_2026 --sid cold_0 "검색어"` 또는 media_notes.yaml sentences.cold_0.photo
-  오류 [photo-reason] act4_1: 사진 후보 문장(발표) — 검색 기록·사유 없음. `tools/media_fetch.py search --log /home/user/osint_generator/projects/intel_q3_2026 --sid act4_1 "검색어"` 또는 media_notes.yaml sentences.act4_1.photo
-  오류 [photo-reason] act4_2: 사진 후보 문장(발표) — 검색 기록·사유 없음. `tools/media_fetch.py search --log /home/user/osint_generator/projects/intel_q3_2026 --sid act4_2 "검색어"` 또는 media_notes.yaml sentences.act4_2.photo
-  오류 [photo-reason] ending_1: 사진 후보 문장(발표) — 검색 기록·사유 없음. `tools/media_fetch.py search --log /home/user/osint_generator/projects/intel_q3_2026 --sid ending_1 "검색어"` 또는 media_notes.yaml sentences.ending_1.photo
+  ending_1     clm_0004               -                        6/1/- (발표)             후보 보류 — File:Robert Noyce Building in Santa Clara.jpg(인텔 본사 건물)는 cold_0 후보와 같은 장소라 한 장만 쓴다. 미디어 단계에서 둘 중 해상도 높은 쪽을 고른다
+  영상 전체 사진 사유: 실적 발표 영상이라 현장 사진 트리거가 적다. Commons 통과 후보 중 피사체가 맞는 것(인텔 본사·로버트 노이스 빌딩·키르야트가트 공장·나스닥 타임스스퀘어)을 미디어 단계에서 등록한다.
+  표 판정 — 통과
