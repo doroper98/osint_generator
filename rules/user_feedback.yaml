@@ -2495,4 +2495,15 @@ entries:
   status: open
   decision: "D-0604(back_and_forth) — 장치는 등록 뒤 guards 에"
   source: "위임 감독 세션(Fable, 전쟁사 트랙) 사용자 대화 2026-11-01"
+- id: UF-252
+  date: '2026-11-01'
+  project: war_history_track
+  at: "구상 컷 A(릴리프 칸나이 t=36.5)·B(terrain3d 정지 컷·8초 궤도) 검토 — 부대 블록이 납작한 단색 면"
+  quote: "전형은 약간의 입체감이 있으면 좋겠는데? 그리고 긱 군의 휘장 같은게 있지 않아? 휘장이나 혹은 기병이면 기병 창병이면 창병 중무장보병 경무장보병 같은 이미지가 있으면 더 좋구"
+  quote_kind: verbatim
+  category: "전쟁사 부호 세트 — ① 대형(전형) 블록에 입체감(두께·그림자, 3D 는 높이 있는 박스) ② 각 군 휘장(사료·유물 근거만, 재현 표기) ③ 병종 픽토그램(중무장보병·경무장보병·중기병·경기병·투석병·코끼리)"
+  guards: []
+  status: open
+  decision: "D-0605(back_and_forth) — 구상 컷 v2 로 반영 → 사용자 판정 → 등록 때 장치(글리프 레지스트리·휘장 레코드 검사) guards 에"
+  source: "위임 감독 세션(Fable, 전쟁사 트랙) 사용자 대화 2026-11-01"
 
