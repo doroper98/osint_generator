@@ -393,10 +393,15 @@ class AncientTextCitation(_Strict):
 
 
 class EstimateBand(_Strict):
-    """현대 학술 추정 범위(띠) — 최솟값·최댓값과 학술 출처."""
+    """범위 띠 — 최솟값·최댓값과 출처. kind 가 띠의 종류를 밝힌다(v7.4.0 D-0610 ①):
+    modern_estimate = 현대 학술 추정, ancient_range = 고대 사료 간 범위(현대 추정을 열람할 수 없을 때 — "현대 추정" 이라 부르지 않는다).
+    화면·내레이션 라벨 문구는 rules war_history.casualty.band_labels[kind] 에서 코드가 고른다."""
 
+    kind: Literal["ancient_range", "modern_estimate"]
     low: float
     high: float
+    low_label: Optional[str] = None    # 낮은 끝을 적은 사료·학자(예: 에우트로피우스)
+    high_label: Optional[str] = None   # 높은 끝(예: 폴리비오스)
     source: str = Field(min_length=1)
     source_url: Optional[str] = None
 

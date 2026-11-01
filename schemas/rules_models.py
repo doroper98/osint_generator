@@ -451,6 +451,7 @@ class EraFormat(_Strict):
     circa: str
     period_years: str
     period_sep: str
+    roman_suffix: str = Field(min_length=1)   # v7.4.0 D-0610 ④ — 로마력 날짜(EraDate 'R') 뒤에 붙는 표시(율리우스력 환산 아님)
 
 
 class DateBadge(_Strict):
@@ -3465,6 +3466,7 @@ class SketchChecks(_Strict):
     georef_city_deg: float = Field(ge=0)
     horizon_tol_km: float = Field(ge=0)
     label_overlap_px: float = Field(ge=0)
+    c2_exclude_unnamed_units: bool = False   # v7.4.0 D-0610 ③ — 상자 꼬리표 'unnamed_unit' 끼리의 겹침 제외
     approx_word: str = Field(min_length=1)
     approx_note_end_gap_sec: float = Field(ge=0)
     pocket_sliver_ratio: float = Field(ge=0, lt=1)
@@ -3855,7 +3857,16 @@ class WarEvidence(_Strict):
 
 class WarCasualty(_Strict):
     band_required: bool
+    band_labels: dict[Literal["ancient_range", "modern_estimate"], str]
     trigger_words: list[str] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def _labels(self) -> "WarCasualty":
+        if set(self.band_labels) != {"ancient_range", "modern_estimate"}:
+            raise ValueError("war_history.casualty.band_labels 는 ancient_range·modern_estimate 둘 다")
+        if "현대" in self.band_labels["ancient_range"]:
+            raise ValueError("ancient_range 라벨에 '현대' 를 쓰지 않는다(D-0610 ①)")
+        return self
 
 
 class WarRights(_Strict):

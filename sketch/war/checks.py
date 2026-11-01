@@ -128,7 +128,9 @@ def check_spec(report: CheckReport, spec: WarSpec, project: Path) -> None:
 
 def check_render(report: CheckReport, boxes: list[tuple[float, list]], cards: list[tuple[float, list]] | None = None,
                  overflow: list[tuple[float, str]] | None = None) -> None:
-    check_label_overlap(report, boxes, SK.checks)
+    excluded: list[float] = []
+    check_label_overlap(report, boxes, SK.checks, excluded)
+    report.c2_excluded_frames = len(excluded)   # provenance approximations 에 남긴다(D-0610 ③)
     from rules import load_rules  # noqa: PLC0415
 
     lum = load_rules().qa_checks.label_under_media   # 본편 [label-under-media] 와 같은 규칙 키(D-0602 ① — 한 트랙만 보호 = 미보호)

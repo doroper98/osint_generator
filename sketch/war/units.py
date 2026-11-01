@@ -21,6 +21,7 @@ from engine.timebase import clamp01, smooth
 from engine.typography import text, tw
 from rules import load_rules
 from sketch.campaign.units import unit_symbol
+from sketch.common.checks import UNNAMED_UNIT
 from sketch.common.draw import SK, WHITE
 from sketch.common.geodesy import dest
 from sketch.war.spec import UnitKey, WarSpec, WarUnit
@@ -122,7 +123,7 @@ class WarUnitLayer:
                 self.drawn["lod:unit_name"] = self.drawn.get("lod:unit_name", 0) + 1
             if a > F.min_alpha:   # 부대 상자(보이는 이름 포함) — SK-C2 겹침·SK-W6 카드 덮임 입력
                 half = max(U.min_px[0], tw(ctx, u.name, U.name.size, U.name.font) if show_name else 0) / 2
-                res.append((x - half, y - U.name.dy, x + half, y + U.name.dy))
+                res.append((x - half, y - U.name.dy, x + half, y + U.name.dy, "" if show_name else UNNAMED_UNIT))   # 꼬리표 = SK-C2 제외 판정(D-0610 ③)
             self.drawn[f"unit:{u.symbol}"] = self.drawn.get(f"unit:{u.symbol}", 0) + 1
 
     def _ancient(self, ctx: cairo.Context, view: View, k: UnitKey, shape: str, col: tuple, a: float, hv: np.ndarray) -> None:

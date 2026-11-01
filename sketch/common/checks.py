@@ -48,6 +48,7 @@ class CheckReport:
     hard: list[CheckFinding] = field(default_factory=list)
     warnings: list[CheckFinding] = field(default_factory=list)
     ran: list[str] = field(default_factory=list)       # 실제로 돈 검사 ID(P5 — 돌지 않은 검사는 기록하지 않는다)
+    c2_excluded_frames: int = 0                         # v7.4.0 D-0610 ③ — SK-C2 에서 뺀 '이름 없는 블록끼리' 프레임 수
 
     def ran_check(self, cid: str) -> None:
         if cid not in CHECK_IDS:
@@ -196,21 +197,32 @@ def check_end_card(report: CheckReport, lines: list[str], x: float, y0: float, d
 
 
 # ---------------------------------------------------------------- SK-C2 라벨 겹침(warning)
-def check_label_overlap(report: CheckReport, frames: list[tuple[float, list]], th: SketchChecks) -> int:
-    """SK-C2 — 같은 프레임 새 라벨 예약 상자끼리 겹침(AABB, 겹친 폭·높이 둘 다 > label_overlap_px). 겹친 프레임 수를 돌려준다."""
+UNNAMED_UNIT = "unnamed_unit"   # 상자 꼬리표(다섯째 칸) — 이름 없는 부대 블록(v7.4.0 D-0610 ③)
+
+
+def check_label_overlap(report: CheckReport, frames: list[tuple[float, list]], th: SketchChecks, excluded: "list | None" = None) -> int:
+    """SK-C2 — 같은 프레임 새 라벨 예약 상자끼리 겹침(AABB, 겹친 폭·높이 둘 다 > label_overlap_px). 겹친 프레임 수를 돌려준다.
+    rules sketch.checks.c2_exclude_unnamed_units 면 꼬리표 unnamed_unit 끼리의 겹침은 세지 않고, 그런 프레임 시각을 excluded 에 담는다."""
     report.ran_check("SK-C2")
     hit: list[float] = []
     for t, boxes in frames:
-        found = False
+        found = skipped = False
         for i in range(len(boxes)):
             for j in range(i + 1, len(boxes)):
                 a, b = boxes[i], boxes[j]
+                if th.c2_exclude_unnamed_units and len(a) > 4 and len(b) > 4 and a[4] == b[4] == UNNAMED_UNIT:
+                    ow = min(a[2], b[2]) - max(a[0], b[0])
+                    oh = min(a[3], b[3]) - max(a[1], b[1])
+                    skipped = skipped or (ow > th.label_overlap_px and oh > th.label_overlap_px)
+                    continue
                 ow = min(a[2], b[2]) - max(a[0], b[0])
                 oh = min(a[3], b[3]) - max(a[1], b[1])
                 if ow > th.label_overlap_px and oh > th.label_overlap_px:
                     found = True
         if found:
             hit.append(t)
+        elif skipped and excluded is not None:
+            excluded.append(t)
     if hit:
         report.add("SK-C2", f"라벨 예약 상자 겹침 {len(hit)}프레임(첫 t={hit[0]:.2f}s, 끝 t={hit[-1]:.2f}s)")
     return len(hit)

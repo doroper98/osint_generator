@@ -17,9 +17,9 @@ sources:
   - text: "부대 배치·이동: 폴리비오스 『역사』 III.113~117(W. R. Paton 영역, 1922) 서술의 개략"
   - text: "전장 위치(강 북안)·강 굽이: W. Smith, Dictionary of Greek and Roman Geography(1856) — 개략 표기"
   - text: "지명 좌표: Pleiades(CC BY 3.0) · 지형: Terrarium 고도 타일"
-  - text: "작품: CNG · Fratelli Alinari · 예일대학교 미술관 · G. A. Closs(모두 퍼블릭 도메인, Commons)"
+  - text: "작품: Sailko(CC BY 3.0) · Fratelli Alinari · 예일대학교 미술관 · G. A. Closs(퍼블릭 도메인) — Commons"
   - text: "가도: Ancient World Mapping Center (awmc.unc.edu), ODbL 1.0 — 헬레니즘 시대 이전 길만"
-  - text: "날짜: 로마력 8월 2일(겔리우스 V.17) — 실제 계절은 초여름일 수 있다(Smith 1856)"
+  - text: "날짜: 로마력 8월 2일(마크로비우스 『사투르날리아』 I.16.26이 인용한 클라우디우스 콰드리가리우스) — 로마력은 실제 계절과 어긋났을 수 있다(Smith 1856)"
 
 shots:
   - {t0: 0.0, t1: 0.0, lon: 12.4, lat: 42.9, w: 10.5}
@@ -29,7 +29,7 @@ shots:
 
 dates:
   - {t: 0.0, date: "-218~-216"}
-  - {t: 20.0, date: "-216.08.02"}
+  - {t: 20.0, date: "-216.08.02R"}   # 로마력(마크로비우스 I.16.26 — 클라우디우스 콰드리가리우스), D-0610 ④
 
 factions:
   carthage: {token: ru, name: "카르타고군(한니발)", emblem: carthage_tanit}

@@ -641,7 +641,7 @@ hud:                       # 09 §5 — 모서리에는 날짜만
     {font: mono, size: 15, x_right: 26, y: 40, underline_y: 48, underline_w: 1.4, slide_px: 6, slide_sec: 0.45,
      # v7.4.0 전쟁사 W1(D-0600 §3) — 기원전·대략·기간 표기(schemas/era_date.badge_text). 서기 네 자리 꼴('2026. 07. 07')은 옛 표기 그대로(골든 불변)
      era_format: {bce_prefix: "기원전 ", ce_prefix: "서기 ", circa_ce_prefix: "", day: "{y}년 {m}월 {d}일", month: "{y}년 {m}월", year: "{y}년",
-                  circa: "{c}세기경", period_years: "{y0}~{y1}년", period_sep: "~"}}
+                  circa: "{c}세기경", period_years: "{y0}~{y1}년", period_sep: "~", roman_suffix: "(로마력)"}}   # roman_suffix = '-216.08.02R' 로마력 날짜(D-0610 ④, 사료 마크로비우스 I.16.26 — 율리우스력 환산 아님)
   date_badge_over_clip_frame: true   # v7.4.0 D-0276 — 날짜 뱃지는 클립 액자 위(그 슬롯과의 [media-over-date] 만 예외)
 
 layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480. 다른 해상도는 k = H/480
@@ -2816,6 +2816,7 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     georef_city_deg: 0.07        # SK-G1 도시 검산 — spec fronts.city_check 도시와 가장 가까운 참고 SVG 원 기호(정합 변환) 거리 상한(천왕성 스탈린그라드 0.0645 = 지도 기호 배치 차·칼라치 0.0348, D-0147 A)
     horizon_tol_km: 0.5          # SK-H6 패널 값(정수 km 반올림) 허용 폭
     label_overlap_px: 0          # SK-C2 새 라벨 예약 상자 겹침(warning)
+    c2_exclude_unnamed_units: true   # v7.4.0 D-0610 ③ — 이름 없는 부대 블록끼리 맞닿은 것은 SK-C2 에서 뺀다(진형이 붙은 것은 사실, 결함 아님). 제외 프레임 수는 provenance approximations 에. SK-W6 입력은 그대로
     seam_px: 12.5                # 2D → 3D 이음새 회귀 임계(설계 px) — 첫 3D 프레임과 2D 마지막 프레임의 발사점·착탄점 화면 좌표 차. 검토본 실측 11.7 + 여유(D-0144: 메르카토르 대 방위 등거리 본질 차, 근본 해결은 본편 globe 무대의 투영 혼합)
     pocket_sliver_ratio: 1.0e-3    # SK-G2 — make_valid 뒤 가장 큰 다각형 밖 조각 면적 ÷ 전체 ≤ 이 값이면 통과 + warning(검토본 시가 점 맞물림 조각 2.6e-5·5.2e-5, D-0146)
     approx_note_end_gap_sec: 1.0   # SK-H5(전황) — '개략' 출처 줄이 엔딩 카드 시작보다 이만큼 먼저 끝나도 된다(검토본 52.0 / 엔딩 53.0)
@@ -2886,7 +2887,10 @@ war_history:               # v7.4.0 전쟁사 트랙 W2(back_and_forth D-0600 §
       modern: "당시 사진·필름·보도 영상·공문서 스캔·당시 지도 원본 + 기록(부대 일지·명령서·결의문)"
     toponymy_confidence: [통설, 이설, 미상]
   casualty:
-    band_required: true           # 병력·사상자 = 사료 귀속(ancient_text) + 현대 추정 범위 띠(학술 출처)
+    band_required: true           # 병력·사상자 = 사료 귀속(ancient_text) + 범위 띠. 현대 추정(modern_estimate)을 열람할 수 없으면 사료 간 범위(ancient_range) 허용 — provenance 에 kind 기록(D-0610 ①)
+    band_labels:                  # 띠 라벨 문구(코드가 kind 로 고른다). ancient_range 에 "현대 추정" 이라는 말을 쓰지 않는다
+      ancient_range: "사료마다 다르다 — {low_label} {low}~{high_label} {high}"
+      modern_estimate: "현대 추정 {low}~{high}"
     trigger_words: [병력, 전사, 사망, 사상자, 포로, 전사자, 군사]   # 이 낱말 + 숫자가 든 문장은 force 레코드를 sources 에 인용([casualty-unsourced] hard)
   media_tags: {period_art: ARTWORK, document: DOCUMENT}   # 사진 비트 왼쪽 위 태그(사진은 PHOTO 그대로)
   rights:

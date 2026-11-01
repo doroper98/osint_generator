@@ -135,7 +135,13 @@ def _astro(minus: Optional[str], digits: str) -> int:
     return 1 - y if minus else y
 
 
+ROMAN_SUFFIX = "R"   # v7.4.0 D-0610 ④ — '-216.08.02R' = 로마력(율리우스력 환산이 아님). 뱃지에 rules era_format.roman_suffix
+
+
 def _single(s: str) -> EraDate:
+    roman = s.endswith(ROMAN_SUFFIX)
+    if roman:
+        s = s[: -len(ROMAN_SUFFIX)]
     m = _SINGLE_RE.match(s)
     if not m:
         raise EraDateError(f"날짜 형식이 아니다: {s!r}")
@@ -148,7 +154,9 @@ def _single(s: str) -> EraDate:
         if not 1 <= dy <= _days_in_month(astro, mo):
             raise EraDateError(f"일이 범위 밖: {s!r}")
     prec: Precision = "day" if dy is not None else "month" if mo is not None else "year"
-    return EraDate(astronomical_year=astro, month=mo, day=dy, precision=prec, calendar=_calendar_for(astro))
+    if roman and dy is None:
+        raise EraDateError(f"로마력 표시(R)는 일까지 적은 날짜에만: {s!r}R")
+    return EraDate(astronomical_year=astro, month=mo, day=dy, precision=prec, calendar="roman" if roman else _calendar_for(astro))
 
 
 def _days_in_month(astro: int, mo: int) -> int:
@@ -253,4 +261,5 @@ def badge_text(s: str, fmt=None) -> str:  # noqa: ANN001 — rules EraFormat
         start = EraDate(astronomical_year=d.astronomical_year, month=d.month, day=d.day,
                         precision="day" if d.day else "month" if d.month else "year")
         return _point_text(start, a, fmt) + fmt.period_sep + _point_text(e, b, fmt)
-    return _point_text(d, s.strip(), fmt)
+    out = _point_text(d, s.strip().removesuffix(ROMAN_SUFFIX), fmt)
+    return out + fmt.roman_suffix if d.calendar == "roman" else out

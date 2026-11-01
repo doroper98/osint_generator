@@ -84,5 +84,21 @@ class RankPostsTest(unittest.TestCase):
         self.assertEqual(shape_poly("block", rect), [[float(a), float(b)] for a, b in rect])
 
 
+class C2ExcludeTest(unittest.TestCase):
+    """D-0610 ③ — 이름 없는 부대 블록끼리 맞닿음은 SK-C2 에서 빼고 제외 프레임을 센다. 이름 있는 라벨과의 겹침은 그대로 센다."""
+
+    def test_unnamed_pairs_excluded(self) -> None:
+        from sketch.common.checks import UNNAMED_UNIT, CheckReport, check_label_overlap
+        from sketch.common.draw import SK
+
+        self.assertTrue(SK.checks.c2_exclude_unnamed_units)
+        a, b = (0, 0, 10, 10, UNNAMED_UNIT), (5, 5, 15, 15, UNNAMED_UNIT)
+        lab = (5, 5, 15, 15, "")
+        ex: list = []
+        rep = CheckReport()
+        self.assertEqual(check_label_overlap(rep, [(0.0, [a, b]), (0.1, [a, lab])], SK.checks, ex), 1)
+        self.assertEqual(ex, [0.0])
+
+
 if __name__ == "__main__":
     unittest.main()

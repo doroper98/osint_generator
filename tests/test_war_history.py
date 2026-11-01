@@ -124,7 +124,7 @@ class CasualtyTest(unittest.TestCase):
              "ancient": {"author": "Polybius", "work": "Histories", "book": "III", "chapter": "117", "translation": "W. R. Paton(1922)",
                          "translation_url": "https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Polybius/3*.html",
                          "translation_license": "Public domain"},
-             "band": {"low": 45000, "high": 70000, "source": "Goldsworthy, Cannae(2001)"}}
+             "band": {"kind": "modern_estimate", "low": 45000, "high": 70000, "source": "Goldsworthy, Cannae(2001)"}}
         d.update(kw)
         return d
 

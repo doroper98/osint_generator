@@ -312,3 +312,12 @@ def photo_pd_basis_needed(work_kind: "str | None", tags: "list[str] | None") -> 
         return False
     work_age = tuple(x.lower() for x in _rules().rights.work_age_tags)
     return not [t for t in tags if not t.lower().startswith(work_age) and norm_license_tag(t)]
+
+
+def band_label(band) -> str:  # noqa: ANN001 — schemas.data_models.EstimateBand
+    """범위 띠 라벨 문구 — rules war_history.casualty.band_labels[kind](D-0610 ①). 숫자는 천 단위 쉼표."""
+    t = _rules().casualty.band_labels[band.kind]
+    if band.low == band.high:   # 한 값(사료 하나·사료 일치) — 범위 꼴 대신 한 값
+        t = t.split("~")[0]
+    return (t.replace("{low_label}", band.low_label or "").replace("{high_label}", band.high_label or "")
+             .replace("{low}", f"{band.low:,.0f}").replace("{high}", f"{band.high:,.0f}").replace("  ", " ").strip())

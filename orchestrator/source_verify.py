@@ -248,5 +248,30 @@ def apply_draft(pdir: Path, draft: VerifyDraft, sources: SourcesFile, bodies: di
     return StageResult(ok=True, stage="source_verify", artifacts={"claims": str(p)}, warnings=[f"status {counts}"] + warns)
 
 
-__all__ = ["apply_draft", "claims_path", "is_official", "judge", "load_claims", "origin", "run_verify", "source_verification",
+SUPPLEMENT_STATES = ("research", "script_draft", "script_approval")   # v7.4.0 D-0609 ④ — 원고 단계에서 증거 층 주장을 덧붙일 때
+
+
+def apply_supplement(pdir: Path, draft: VerifyDraft, label: str) -> StageResult:
+    """보충 검증(v7.4.0 D-0609 ④·D-0610 ④) — 기존 claims 는 그대로 두고 새 후보만 judge()(같은 코드 판정)로 붙인다.
+    id 는 기존 최댓값 다음부터. 근거 하나라도 폐기되면 아무것도 쓰지 않는다(P6). 붙인 claim 의 checks 에 'supplement:<label>' 을 남긴다."""
+    sources, bodies = verify_inputs(pdir)
+    old = load_claims(pdir)
+    if old is None:
+        return StageResult(ok=False, stage="source_verify", errors=["claims.json 없음 — 보충은 기존 검증 뒤에만"])
+    new, drops = judge(draft, sources, bodies)
+    if drops:
+        return StageResult(ok=False, stage="source_verify", errors=[f"보충 근거 폐기 {len(drops)}건 — 쓰지 않음"], drops=[{"reason": d} for d in drops])
+    base = max(int(c.claim_id.split("_")[1]) for c in old.claims)
+    added = []
+    for k, c in enumerate(new.claims, 1):
+        added.append(c.model_copy(update={"claim_id": f"clm_{base + k:04d}", "checks": [*c.checks, f"supplement:{label}"]}))
+    merged = old.model_copy(update={"claims": [*old.claims, *added]})
+    p = claims_path(pdir)
+    p.write_text(merged.model_dump_json(indent=2, exclude_none=True), encoding="utf-8")
+    save_sources(pdir, source_verification(sources, merged))
+    return StageResult(ok=True, stage="source_verify", artifacts={"claims": str(p)},
+                       warnings=[f"보충 {len(added)}건: " + ", ".join(f"{c.claim_id}={c.status}" for c in added)])
+
+
+__all__ = ["apply_draft", "apply_supplement", "claims_path", "is_official", "judge", "load_claims", "origin", "run_verify", "source_verification",
            "verify_inputs"]

@@ -112,6 +112,8 @@ def main(argv: list[str] | None = None) -> int:
     prov.features_drawn = scene.features_drawn()
     prov.approximations = ["부대 위치·모양·이동: 사료 서술(spec sources)의 개략 — 크기·간격은 축척이 아니다",
                            "강 경로: 개략 선(spec rivers)", "지명 좌표: Pleiades 대표 좌표(있는 것) · 그 밖 개략"]
+    if report.c2_excluded_frames:   # D-0610 ③ — 이름 없는 블록끼리 맞닿은 프레임(진형 사실) SK-C2 제외 수
+        prov.approximations.append(f"SK-C2 제외: 이름 없는 부대 블록끼리 맞닿은 프레임 {report.c2_excluded_frames}(rules sketch.checks.c2_exclude_unnamed_units)")
     prov.checks = report.record()
     print(write_provenance(prov, out))
     if report.hard:
