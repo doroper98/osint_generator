@@ -2447,3 +2447,16 @@ entries:
   status: guarded
   decision: D-0330 §정정
   source: 감독 세션(Fable) 사용자 대화 2026-10-31
+- id: UF-205
+  date: '2026-11-01'
+  project: iran_ceasefire_2026
+  at: "감독 승계 직후 — 미국·이란 휴전안 조사 보고(2026-10-31) 뒤 새 영상 지시"
+  quote: "그리고 새로운 감독 세션을 띄워서 휴전안에 대해 정리하는, 그리고 휴전가능성이 있는지 타진해보는 영상 제작을 시작해 완성본으로 바로 받을 수 있도록 하고"
+  quote_kind: verbatim
+  category: 새 영상 지시 — 미국·이란 휴전안 정리 + 휴전 가능성 타진, 별도 감독(Fable) 세션이 완성본까지 전달(게이트 위임, D-0282 방식)
+  guards:
+  - kind: doc
+    ref: "back_and_forth/261101_091229_D0334_fable_user-iran-ceasefire-video-delegated.md#사용자 결정 — 새 영상 『미국·이란 휴전안』 — 별도 감독(Fable) 세션이 완성본까지 전달(게이트 위임)"
+  status: guarded
+  decision: D-0334(261101_091229_D0334_fable_user-iran-ceasefire-video-delegated.md)
+  source: 감독 세션(Fable) 사용자 대화 2026-11-01
