@@ -436,6 +436,7 @@ class FlickrRules(_Strict):
 class MediaRules(_Strict):
     density: MediaDensity
     flickr: Optional[FlickrRules] = None   # v4.4.0
+    photo_age_max_years: int = Field(default=15, gt=0)   # v7.4.0 D-0327 — [photo-age] warning
     file_clip_date_gap_days: int = Field(default=30, gt=0)   # v7.4.0 D-0283 §1 — [clip-date-mismatch] 촬영일 ↔ 문장 날짜 차 상한(자료 표기 없을 때)
 
 
@@ -573,6 +574,15 @@ class CardLayout(_Strict):
     src_gap: float        # 출처 줄이 더하는 높이(옛 18)
 
 
+class CaptionOverflow(_Strict):
+    """v7.4.0 D-0333 — 캡션 바 폭 안 맞춤. 캡션 줄 = 줄임표, 출처 줄 = 접기(권리 표기 보존). 구현된 방식만 받는다(P10)."""
+
+    caption: Literal["ellipsis"]
+    source: Literal["wrap"]
+    source_max_lines: int = Field(ge=1, le=3)
+    source_line_px: float = Field(gt=0)
+
+
 class MediaCaptionLayout(_Strict):
     """v4.8.0 D-0101 §3 — 사진·영상 캡션 바·PHOTO/VIDEO 태그·컷아웃 캡션(옛 engine/layers/media.py 리터럴). 바 높이 = media_beats.caption_bar_px."""
 
@@ -586,6 +596,7 @@ class MediaCaptionLayout(_Strict):
     tag_dy: float
     cutout_caption_size: float
     cutout_credit_size: float
+    overflow: CaptionOverflow   # v7.4.0 D-0333
 
 
 class MarkerLayout(_Strict):
@@ -803,6 +814,9 @@ class BadgeLayout(_Strict):
     R_flag: Range2
     R_other: float
     flag_requires_anchor: bool = False   # v7.4.0 D-0240 §4 — 국기 뱃지는 카드·인용·마커에 붙을 때만([badge-orphan])
+    covered_max_ratio: float = Field(default=0.5, gt=0, le=1)   # v7.4.0 D-0329 ② — [badge-covered] hard
+    covered_box_ratio: float = Field(default=0.5, gt=0, le=1)
+    covered_step_sec: float = Field(default=0.1, gt=0)
     anchor_marker_deg: float = Field(default=3.0, gt=0)
     resize_sec: float
     fade_in_sec: float
@@ -1714,6 +1728,15 @@ class CardOverPanel(_Strict):
     timeline_frame_cover_types: list[str] = Field(default_factory=list)   # v7.4.0 D-0259 — 시간축 틀 안 시리즈 레인 위에서 세는 덮개(사건 레인 허용)
 
 
+class LabelUnderMedia(_Strict):
+    """v7.4.0 R-0294 판정 — 지도 마커 라벨이 사진·영상 상자에 깔리는 시간 상한([label-under-media] hard)."""
+
+    max_sec: float = Field(ge=0)
+    step_sec: float = Field(gt=0, le=0.5)
+    min_alpha: float = Field(gt=0, le=1)
+    media_types: list[Literal["photo", "clip"]] = Field(min_length=1)
+
+
 class ChartOnlyRun(_Strict):
     """v7.4.0 D-0251 §6.2-3·D-0252(UF-135 ① "너무 차트만") — 차트·카드만 보이는 구간 상한. 모든 무대·장르, 콘티 판·프리뷰·전편 같은 키.
     차트 요소 = chart_types(+ island kind chart_island_kinds, primitive id chart_primitives). neutral_types 는 판정에 넣지 않는다.
@@ -1732,6 +1755,7 @@ class QAChecks(_Strict):
     overlap_core_elements: int
     chart_only_run: ChartOnlyRun                      # v7.4.0 D-0252 — [chart-only-run] hard
     card_over_panel: Optional[CardOverPanel] = None   # v7.4.0 D-0248(UF-129)
+    label_under_media: Optional[LabelUnderMedia] = None   # v7.4.0 R-0294 판정
     outlet_min_overlap_sec: float = 0.5               # v7.4.0 D-0250(UF-130)
     outlet_names: dict[str, OutletNames] = Field(default_factory=dict)
     offscreen_clip: int
@@ -2016,6 +2040,8 @@ class TimelineSeries(_Strict):
     min_alpha: float
     playhead: float = Field(gt=0, le=1)
     grow_in_sec: float = Field(gt=0)
+    daily_adjacent_days: int = Field(default=7, ge=1)   # v7.4.0 D-0326 — regimes 일별 이웃 간격
+    within_band_tolerance_days: int = Field(default=0, ge=0)   # v7.4.0 D-0326(UF-200) — [band-line-outside] 일별 선 변경일 허용
     clip_below_px: float
     value_dx: float
     value_dy: float
@@ -2551,7 +2577,7 @@ class DataRules(_Strict):
     unit_ton_pattern: str = ""   # v7.4.0 D-0241 §3(UF-122) — 화면 문자열에 남으면 [unit-ton-glyph] hard(빈 값 = 검사 안 함)
     unit_prefixes: list[str] = Field(min_length=1)   # v4.3.0 D-0087 보정 1
     sources_allowed: list[str] = Field(min_length=1)
-    frequencies: list[Literal["monthly", "release", "quarterly", "daily"]] = Field(min_length=1)   # release = v4.4.0 scatter · quarterly·daily = v7.4.0 D-0278 §4.2
+    frequencies: list[Literal["monthly", "release", "quarterly", "daily"]] = Field(min_length=1)   # release = v4.4.0 scatter · quarterly·daily = v7.4.0 D-0278 §4.2 · daily 계단 = D-0326
     transforms: dict[str, str] = Field(min_length=1)
     source_kinds: list[Literal["fetched", "press_cited", "filing"]] = Field(min_length=1)   # v7.3.0 D232 U4 · filing = v7.4.0 D-0278 §4.2(E3)
     filing_scales: dict[str, FilingScale] = Field(default_factory=dict)   # v7.4.0 D-0278 §4.2 — 공시 원단위 → 화면 단위

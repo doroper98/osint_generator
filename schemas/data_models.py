@@ -161,6 +161,11 @@ class SeriesRecord(_Strict):
     cited: list[ValueCitation] = Field(default_factory=list)         # v7.3.0 press_cited 전용 — 값 날짜마다 하나
     filings: list[ValueFiling] = Field(default_factory=list)         # v7.4.0 filing 전용 — 값 날짜마다 하나
     issued_on: Optional[date] = None                                 # v7.4.0 — 미래 기간 값(가이던스·예상치)의 발표일. as_of = 이 날의 달
+    # v7.4.0 back_and_forth D-0326(UF-200 "왜 상한과 하한의 밴드와 금리 기준 선(노란색)이 다른 구간이 있지?") —
+    # within = 이 시리즈 값이 그날의 [아래 끝, 위 끝] 띠 안에 있어야 하는 관계(checks [band-line-outside] hard). grain = 출처 줄에 적는 입자 문구
+    # (같은 레인에 frequency 가 다른 시리즈가 있으면 출처 줄에 둘 다 — checks [series-date-convention] warning)
+    within: list[str] = Field(default_factory=list, max_length=2)
+    grain: Optional[str] = Field(default=None, min_length=2)
 
     @field_validator("series_id")
     @classmethod
@@ -276,7 +281,8 @@ class SeriesRecord(_Strict):
             self._quarterly(ds)
         if self.frequency == "daily":   # 휴장일은 빈 날이 아니다. missing = 받은 값을 쓰지 않기로 한 거래일(급변일 보도 미확인 등) — 사유 필수
             miss = {m.date for m in self.missing}
-            bad = [d for d in [*ds, *miss] if d.weekday() >= 5]
+            # 주말 금지는 거래일 시세(chart_close)만 — FRED 목표 범위 일별(D-0326, raw)은 달력일이다(병합 D-0339 조정)
+            bad = [d for d in [*ds, *miss] if d.weekday() >= 5] if self.transform.op == "chart_close" else []
             if bad:
                 raise ValueError(f"daily 값·missing 은 거래일(주말 없음): {bad[:3]}")
             if miss & set(ds) or [d for d in miss if not ds[0] < d < ds[-1]]:

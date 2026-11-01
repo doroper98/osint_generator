@@ -69,6 +69,10 @@ class MediaAsset(_Strict):
     caption: str = Field(min_length=1)             # 화면 캡션(사진·영상) / 라벨(컷아웃) / 매체명(기사)
     file_note: str = Field(min_length=1)           # 화면 날짜 표기(예: 자료사진 · 2023. 05) / 기사 날짜
     depicts: list[str] = Field(min_length=1)       # 사건·장소·인물·장비
+    # v7.4.0 back_and_forth D-0327(사용자 의견 UF-201 "블라디보스토크항의 이미지로 이런 통통배(터그선)이미지가 크게 박힌 이미지를 쓰는게 맞아?") —
+    # 실제 프레임을 보고 나눈 주된 피사체(1~2개)와 배경. 연출 photo 의 for 가 main_subject 에 있어야 한다(checks [photo-subject-background]·[photo-subject-unmatched])
+    main_subject: list[str] = Field(default_factory=list, max_length=3)
+    background: list[str] = Field(default_factory=list)
     is_file_photo: bool                            # 해당 사건 당일 자료가 아님 → file_note 가 "자료사진/자료 영상"으로 시작
     verified_by: MediaVerification
     rights_status: RightsStatus

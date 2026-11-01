@@ -427,7 +427,7 @@ shot_grammar:              # 05 §2
   # 상한 0.5 를 맞추려면 약 10초). 보간을 바꾸는 길은 지도 골든에도 닿아 별도 단계.
   camera_speed: {max_pan_w_per_sec: 0.5, max_zoom_per_sec: 1.3, opening_max_pan_w_per_sec: 0.15, opening_max_zoom_per_sec: 0.3,
                  stages: {mercator: [pan, zoom], timeline: [zoom]}}
-  max_consecutive_move_sentences: 3   # v5.22.4 UF-19(C0 되돌리면 안 되는 것 "문장마다 카메라 이동") — 연속 3문장이 모두 이동을 시작하면 camera_per_sentence hard
+  max_consecutive_move_sentences: 3   # v5.22.4 UF-19(C0 다시 들여오면 안 되는 것 "문장마다 카메라 이동") — 연속 3문장이 모두 이동을 시작하면 camera_per_sentence hard
   move_lead_sec: [0.6, 1.2]
   dip_total_sec: 1.0
   dip_max_per_sec: 90      # 90초당 1회 이하
@@ -502,6 +502,9 @@ camera:                    # v3.3.0 D-0056 — 카메라 자동화 보조(05 §7
 media:                     # v2.5.5 D-0037(D38) — 14 §10.1 밀도 경고. v3 실측: 292.4초 7개 = 41.8초당 1개, 60초 창 최대 3개(56.8초) → 40초 창 최대 2개
   # v7.4.0 back_and_forth D-0283 §1 — 사진·영상 촬영일과 붙은 문장 날짜가 이 일수 이상 차이 나는데 자료사진·자료 영상 표기(is_file_photo)가 없으면 [clip-date-mismatch] hard. 30 = 감독 제안 값
   file_clip_date_gap_days: 30
+  # v7.4.0 back_and_forth D-0327(UF-201) — [photo-age] warning: 문장 날짜 − 사진 촬영일이 이 햇수를 넘으면 연출 photo age_reason 이 있어야 한다.
+  # 장르 프로필 photo_age_check: false(역사 장르)면 보지 않는다. 값 = 감독 제안(사용자 합격 값 아님)
+  photo_age_max_years: 15
   density:
     per_item_sec: [40, 60]
     per_scene_max: 1
@@ -615,7 +618,7 @@ placement:                 # v3.1.0 D-0047 작업 5 — 배치 슬롯(17 §2 `pl
     # v5.2.0 back_and_forth D-0132(A) — backdrop 무대 전용 사진 자리(left 차트 아일랜드 x 24~564 와 함께). 카드 예약 구역(x ≥ 594, y 70~200) 아래·
     # 자막 구역(y 410) 위·left 상자 오른쪽 끝 564 밖. 폭 236 → 16:9 + 캡션 바 42 = y 212~387. stages = 이 무대에서만(다른 무대 = 배치 오류, P10).
     # 사용자 합격 값 아님(480p 시감 뒤 조정 가능)
-    backdrop_right_low: {kinds: [photo, clip], box: [594, 212, 236], stages: [backdrop]}
+    backdrop_right_low: {kinds: [photo, clip], box: [594, 200, 236], stages: [backdrop]}   # v7.4.0 D-0333 — 출처 줄 두 줄(바 +12)에도 자막 위 8px 여백(옛 y 212)
     # v7.4.0 back_and_forth D-0274 §2①·D-0276 A(사용자 의견 UF-141 "영상이 나올 때는 한쪽 구석에 몰아서 … 보여주지 말고 … 액자 형식으로 … 꽉 채워서") —
     # 레퍼런스 영상(clip.role main, 기본)의 유일한 자리: 화면 폭 84 %·16:9·가운데 [68, 38, 785, 441]. 배경(블러 사진·지도)은 그대로, 캡션 줄은 액자 안 위쪽 띠.
     # 날짜 뱃지·자막은 액자 위에 그린다(예외 키 layout_480p.subtitle.over_clip_frame·hud.date_badge_over_clip_frame — 이 슬롯에만). 검사 [clip-frame] hard
@@ -679,7 +682,10 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
          cap_size: 12, line_gap: 24, src_gap: 20}    # v4.8.0 D-0101 §3 — cap_size·line_gap·src_gap = 옛 engine/cards.py 리터럴
   # v4.8.0 D-0101 §3 — 옛 리터럴(engine/layers/media.py·markers.py·routes.py)을 값 그대로 옮김. 크기 값은 §3 결정(decision_request)으로
   media_caption: {pad_x: 10, caption_size: 12, caption_dy: 18, credit_size: 9, credit_dy: 34, tag_size: 9, tag_h: 16, tag_dy: 12,
-                  cutout_caption_size: 12, cutout_credit_size: 9}
+                  cutout_caption_size: 12, cutout_credit_size: 9,
+                  # v7.4.0 back_and_forth D-0333 — 바 폭(− 좌우 pad_x)을 넘는 글자 금지(옛 넘침 허용 설계 폐기). 캡션 줄 = 줄임표(…),
+                  # 출처 줄 = 두 줄 접기(권리 표기는 화면에서 자르지 않는다, C9) — 접힌 줄마다 바 높이 + source_line_px. 그래도 넘치면 [caption-overflow] hard
+                  overflow: {caption: ellipsis, source: wrap, source_max_lines: 2, source_line_px: 12}}
   marker: {label_size: 13, sub_size: 12, sub_dy: 16, vline_dash: [3, 3], vline_w: 1.1, vline_alpha: 0.7}   # vline_* = v7.4.0 D-0309 §1-5 발표일 세로 점선(감독 제안)
   # v5.21.11 사용자 의견(2026-10-11 38·101·275초 "선 위의 글씨 시인성", D-0191 §1-3·D-0192) — 경로 선이 자기 라벨을 지나가지 않게
   # 선에서 수직으로 line_gap 띄운 자리를 곡선 위 place_fracs 순서·양쪽으로 시도. 후보 0 = 옛 자리(가운데 점 위 legacy_dy). 검사 route_label_cross·route_label_overlap hard
@@ -748,6 +754,12 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
     # 붙을 때만. 아니면 [badge-orphan] warning. 빈 지도 구간은 country 강조 + 지명 라벨로
     flag_requires_anchor: true
     anchor_marker_deg: 3.0
+    # v7.4.0 back_and_forth D-0329 ②(세션 3 발견 — showcase_geo 트럼프 배지가 같은 시각 기사 카드 전면 사진에 거의 내내 덮였다. 덮인 배지 = 조용한 드롭, P6) —
+    # 지도 층 배지 계획 구간(at_word 그대로) 중 안 보인 비율(전면 덮개 기사·인용에 밀려 늦춰진 시간 + 사진·영상·카드 상자에 상자 절반 이상 가린 시간)이
+    # 이 값을 넘으면 [badge-covered] hard. 엔진은 전면 덮개가 떠 있으면 배지를 덮개 끝으로 미루고 provenance reserve.badge_delays 에 남긴다. 값 = 감독 제안(D-0329)
+    covered_max_ratio: 0.5
+    covered_box_ratio: 0.5     # 배지 상자의 이 비율 이상이 다른 상자에 가리면 그 순간은 덮임
+    covered_step_sec: 0.1
     resize_sec: 0.6
     fade_in_sec: 0.01             # draw_badge window(옛 리터럴)
     fade_out_sec: 0.7   # UF-159 ×1.5(0.45)
@@ -1383,6 +1395,8 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     min_alpha: 0.01        # 이보다 흐리면 그리지 않는다(다른 레이어의 등장 문턱과 같은 값)
     playhead: 0.8          # grow 앞끝 = 화면 왼쪽 + 화면 폭 × 이 값(누적 최대). 화면 오른쪽 끝이 무대 끝에 가까워지면 1 로 늘어난다
     grow_in_sec: 1.6       # 등장 직후 화면 왼쪽에서 앞끝까지 쓸어 나가는 시간
+    daily_adjacent_days: 7   # v7.4.0 D-0326 — 일별 레코드(발효일 계단)의 색 의미 키: 이 일수 안 이웃 관측끼리만 값 변화를 비교(끊긴 뒤는 새로 시작)
+    within_band_tolerance_days: 0   # v7.4.0 D-0326(UF-200) — 일별 선의 [band-line-outside] 에서 띠 변경일 ± 이 일수는 보지 않는다(월별 선은 변경 달 전체). 감독 제안
     clip_below_px: 30
     value_dx: 7
     value_dy: -6
@@ -1830,7 +1844,7 @@ data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs
   sources_allowed: [fred.stlouisfed.org, www.federalreserve.gov,
                     dart.fss.or.kr, opendart.fss.or.kr, www.sec.gov, news.samsung.com, images.samsung.com, www.intc.com, d1io3yog0oux5.cloudfront.net,
                     query1.finance.yahoo.com, query2.finance.yahoo.com, data.sec.gov]   # data.sec.gov = XBRL companyfacts(D-0303 이후 허용)   # 둘째·셋째 줄 = v7.4.0 D-0278 §4.2(E3 공시 원문·IR 자료·Yahoo chart 일별 시세). source_url 도메인(tools/fetch_series.py 가 받는 곳). federalreserve.gov = v4.4.0 SEP 점도표(D-0090 작업 2)
-  frequencies: [monthly, release, quarterly, daily]         # quarterly = 분기 마지막 날(막대 중심은 분기 중앙), daily = 거래일(휴장일은 빈 날이 아니다) — v7.4.0 D-0278 §4.2. 값 날짜 간격 — monthly = 매월 1일, 한 달씩. release = 발표 한 번(scatter, v4.4.0)
+  frequencies: [monthly, release, quarterly, daily]         # daily = 일별 원자료(v7.4.0 D-0326 UF-200 — 목표 범위는 발효일 계단·거래일 시세). quarterly = 분기 마지막 날(막대 중심은 분기 중앙), daily = 거래일(휴장일은 빈 날이 아니다) — v7.4.0 D-0278 §4.2. 값 날짜 간격 — monthly = 매월 1일, 한 달씩. release = 발표 한 번(scatter, v4.4.0)
   transforms:                                               # 코드가 하는 변환(명시된 것만). 레코드 transform.formula 는 이 문구와 같아야 한다
     raw: "원자료(변형 없음)"
     yoy_pct: "전년 동월 대비 % = (x_t / x_(t-12) - 1) * 100, 소수 둘째 자리 반올림"
@@ -2103,6 +2117,9 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
     neutral_types: [dip, island]   # island 는 kind 로만 판정(chart → 차트). 그 밖 아일랜드는 안의 사진·영상 이벤트가 따로 센다
     # 회귀 기준 면제 = qa_checks.regression_refs(v7.4.0 D-0311 — 옛 exempt_projects 삭제, D-0271 원칙 그대로)
     map_stages: [mercator]
+  # v7.4.0 R-0294 감독 판정(겹침 0 원칙) — 지도 마커 라벨(+부제)이 사진·영상 상자 아래로 깔리는 시간.
+  # 둘 다 알파 min_alpha 이상인 표본만 센다(서로 페이드 중 겹침은 허용). 마커·미디어 쌍마다 max_sec 초과 = [label-under-media] hard
+  label_under_media: {max_sec: 0.2, step_sec: 0.1, min_alpha: 0.5, media_types: [photo, clip]}
   card_over_panel: {min_overlap_sec: 0.3, panel_pad_px: 4, cover_types: [cascade, article, quote, primitive],
                     cover_types_on_data_panels: [photo, clip, cutout, badge],
                     # v7.4.0 back_and_forth D-0259(UF-129 미보호 경로) — 시간축 주 무대: 틀 안 시리즈 레인(레코드가 그려지는 레인) 상자를
@@ -2127,7 +2144,7 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   regression_refs:
     hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
     fed_timeline_demo: "시간축 엔진 검증용 데모(배포 영상 아님) — 미디어 없는 순수 차트 픽스처"
-  regression_ref_checks: [media_density, chart_only_run, plot_height, axis_empty_band, text_restates_narration]   # text_restates_narration = v7.4.0 D-0316 ② 조사 떼기 뒤 골든 핀 '9월 8일 파병 반대 집회' 60%(골든 연출 불변)
+  regression_ref_checks: [media_density, chart_only_run, plot_height, axis_empty_band, text_restates_narration, photo_subject_unmatched, photo_subject_background]   # text_restates_narration = v7.4.0 D-0316 ② 조사 떼기 뒤 골든 핀 '9월 8일 파병 반대 집회' 60%(골든 연출 불변)
   # v7.4.0 D-0229 §2.6(UF-113 "몇 척중 몇척은 제재 대상임을 그래픽으로") — 문장에 "N 척 중·가운데 M" 문형이 있는데 그 문장 구간에 dots·versus 패널·series 가 없으면 warning ratio_graphic
   ratio_patterns:
     - '(\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|스무|스물)\s*(척|곳|건|명|개|대|기)\s*(중|가운데)'

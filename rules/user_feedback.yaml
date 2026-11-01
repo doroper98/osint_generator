@@ -2388,8 +2388,13 @@ entries:
   quote: "fed 금리 관련해서 왜 상한과 하한의 밴드와 금리 기준 선(노란색)이 다른 구간이 있지? 그리고 기준금리가 계속 유지 되는 구간임에도 노란색에 픽셀 수준에서 높이가 다른 부분이 있는거야?"
   quote_kind: verbatim
   category: 데이터 정직성·차트 문법 — 같은 레인의 band(일별 목표 범위를 월초에 찍은 월 표본)와 step 선(월평균 실효금리)의 날짜 규약이 달라 인하 달에 선이 밴드 밖으로 나간다 · 월평균 1bp 차이(3.64→3.63)가 2px 단차로 보인다
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: band_line_outside}
+  - {kind: check, ref: series_date_convention}
+  - {kind: rule, ref: stage_timeline.series.within_band_tolerance_days}
+  - {kind: test, ref: tests/test_v740_band_line_d0326.py::CheckTest::test_outside_in_quiet_month_fails_change_month_passes}
+  - {kind: test, ref: tests/test_v740_band_line_d0326.py::DataTest::test_band_daily_effective_dates}
+  status: guarded
   decision: D-0326(261031_110136_D0326_fable_uf200-fed-band-vs-line.md — band 는 일별 원자료 그대로 발효일에 계단, 선은 월평균 유지·출처 줄에 "월평균" 명시 · 장치 [band-line-outside] hard · 1bp 단차는 실제 값이라 유지 — 사용자 판단 요청)
   source: 감독 세션(Fable) 사용자 대화 2026-10-31
 - id: UF-201
@@ -2399,8 +2404,13 @@ entries:
   quote: "블라디보스토크항의 이미지로 이런 통통배(터그선)이미지가 크게 박힌 이미지를 쓰는게 맞아?"
   quote_kind: verbatim
   category: 사진 선택 — 자료사진의 주된 피사체가 문장의 대상(항구·유조선)과 다르면 쓰지 않는다(배경에만 있는 대상은 불일치) · 34년 전 자료사진의 현재 사건 사용
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: photo_subject_background}
+  - {kind: check, ref: photo_subject_unmatched}
+  - {kind: rule, ref: media.photo_age_max_years}
+  - {kind: test, ref: tests/test_v740_photo_subject_d0327.py::CheckTest::test_background_only_is_hard}
+  - {kind: test, ref: tests/test_v740_photo_subject_d0327.py::RegistryTest::test_showcase_photos_have_subjects}
+  status: guarded
   decision: "D-0327(261031_110350_D0327_fable_uf201-vladivostok-photo-subject.md) — 교체(블라디보스토크 항·유류 터미널이 주된 피사체인 권리 기록 사진, 없으면 사진 없이 지도 카메라 + 위성 인셋) · 장치 = 레지스트리 main_subject/background 분리 + checks [photo-subject-background] hard · photo_age_max_years warning"
   source: 감독 세션(Fable) 사용자 대화 2026-10-31
 - id: UF-202
@@ -2414,3 +2424,55 @@ entries:
   status: open
   decision: "D-0328(261031_110712_D0328_fable_uf202-retypeset-from-scratch.md) — banned_phrases 화면 조작 해설 패턴·예문 추가(이 커밋), D-0323 §2~§4 조판 이식 철회, 막대 재설계(속 채움·테두리 0), 바닥 조판 구상 1프레임 → 사용자 검토 → 진행. LLM-AP-022"
   source: 감독 세션(Fable) 사용자 대화 2026-10-31
+- id: UF-203
+  date: '2026-10-31'
+  project: samsung_q3_2026
+  at: "D-0328 바닥 조판 구상 1프레임 두 판(손실 막대 A 하락색 섞은 면 / B 옅은 잉크 면) 판정 요청 — 감독 질문 '이 조판 방향으로 가도 되는지 · 손실 막대는 A인지 B인지'"
+  quote: "응"
+  quote_kind: verbatim
+  category: 경제 템플릿 — 바닥 조판 방향 승인(무대 조판·테두리 0·단색 막대·끝값 핀·화면 조작 해설 없음). 손실 막대는 감독 추천 B(옅은 잉크, 한 단계 진하게)로 해석
+  guards:
+  - kind: doc
+    ref: back_and_forth/261031_123650_D0330_fable_user-approves-stage-layout.md#결정(사용자) — 바닥 조판 방향 승인. 손실 막대 = B(잉크 사다리, 한 단계 진하게)
+  status: guarded
+  decision: D-0330(261031_123650_D0330_fable_user-approves-stage-layout.md)
+  source: 감독 세션(Fable) 사용자 대화 2026-10-31
+- id: UF-204
+  date: '2026-10-31'
+  project: samsung_q3_2026
+  at: "D-0330 — 감독이 '응'을 손실 막대 B(옅은 잉크) 수용으로 해석해 보고한 뒤"
+  quote: "A"
+  quote_kind: verbatim
+  category: 경제 템플릿 — 손실 막대 = A(하락색을 섞은 채도 낮은 면). 감독 해석(B) 정정
+  guards:
+  - kind: doc
+    ref: back_and_forth/261031_123650_D0330_fable_user-approves-stage-layout.md#정정(사용자, UF-204) — 손실 막대 = A
+  status: guarded
+  decision: D-0330 §정정
+  source: 감독 세션(Fable) 사용자 대화 2026-10-31
+- id: UF-205
+  date: '2026-11-01'
+  project: iran_ceasefire_2026
+  at: "감독 승계 직후 — 미국·이란 휴전안 조사 보고(2026-10-31) 뒤 새 영상 지시"
+  quote: "그리고 새로운 감독 세션을 띄워서 휴전안에 대해 정리하는, 그리고 휴전가능성이 있는지 타진해보는 영상 제작을 시작해 완성본으로 바로 받을 수 있도록 하고"
+  quote_kind: verbatim
+  category: 새 영상 지시 — 미국·이란 휴전안 정리 + 휴전 가능성 타진, 별도 감독(Fable) 세션이 완성본까지 전달(게이트 위임, D-0282 방식)
+  guards:
+  - kind: doc
+    ref: "back_and_forth/261101_091229_D0334_fable_user-iran-ceasefire-video-delegated.md#사용자 결정 — 새 영상 『미국·이란 휴전안』 — 별도 감독(Fable) 세션이 완성본까지 전달(게이트 위임)"
+  status: guarded
+  decision: D-0334(261101_091229_D0334_fable_user-iran-ceasefire-video-delegated.md)
+  source: 감독 세션(Fable) 사용자 대화 2026-11-01
+- id: UF-206
+  date: '2026-11-01'
+  project: showcase_2026
+  at: "최종 감독 승계 보고(결정 대기 5건 목록) 뒤 사용자 답"
+  quote: "1~4까지 승인. 전쟁사는 별도 트랙으로 감독과 구현 세션 띄워서 진행하고, 전쟁사 세션에서는 아주아주 적극적으로 미술사와 연관시키고 미술 작품이나 인물 사진, 전쟁사적 기록과 사진을 캐입시키게 만들어. 즉 과거 전쟁은 미술과 기록, 현대 전쟁은 사진과 영상과 기록을 적극적으로 보여주는거야. 그리고 또다른 별도 감독/구현 세션 띄워서 미국과 이란 휴전 협상이 어떻게 되어 가는지, 협상인의 내용은 무엇인지 각 이해관계자들의 입장은 어떤지 분석하는 영상 제작 착수해"
+  quote_kind: verbatim
+  category: 승인 — ① 쇼케이스 게이트 ② + econ A(감독 추천 수용) ② 경제 템플릿 요소 넷 ③ CLAUDE.md C0 표제 정정 ④ 중국 트랙 main 병합 · 지시 — 전쟁사 별도 트랙(감독+구현), 미술사 적극 연계(과거 전쟁 = 미술·기록, 현대 전쟁 = 사진·영상·기록) · 미국·이란 휴전 협상 분석 영상 별도 트랙(기존 D-0334 트랙과 범위 확인 중)
+  guards:
+  - kind: doc
+    ref: "back_and_forth/261101_101033_D0337_fable_user-war-history-track-art-evidence.md#결정(사용자) — 전쟁사 트랙 착수"
+  status: guarded
+  decision: D-0335·D-0336·D-0337(261101_101033)
+  source: 감독 세션(Fable) 사용자 대화 2026-11-01

@@ -78,6 +78,13 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | axis_empty_band | hard | 시간축 레인 축 범위 중 데이터 극값(실측 + 전망 점) 밖 빈 띠(한쪽) > rules stage_timeline.lane_range.empty_band_max_ratio `[axis-empty-band]`(v7.4.0 D-0277 §3·UF-142) |
 | clip_date_mismatch | hard | 사진·영상 촬영일 ↔ 붙은 문장 날짜 차 ≥ rules media.file_clip_date_gap_days 인데 자료 표기(is_file_photo) 없음 `[clip-date-mismatch]`(v7.4.0 D-0283 §1) |
 | text_restates_narration | hard | 화면 글자(패널·캐스케이드·핀·아일랜드)가 그 순간 원고 문장 어절을 rules qa_checks.restate_overlap_max 이상 되풀이 `[text-restates-narration]`(v7.4.0 D-0306·UF-148) |
+| photo_subject_background · photo_subject_unmatched | hard · hard | photo for(문장 대상)가 레지스트리 배경에만 있음 · for 없음/어디에도 없음 `[photo-subject-background]`·`[photo-subject-unmatched]`(v7.4.0 D-0327·UF-201) |
+| photo_age | warning | 문장 날짜 − 사진 촬영일 > rules media.photo_age_max_years 인데 age_reason 없음 `[photo-age]`(v7.4.0 D-0327, 장르 photo_age_check) |
+| band_line_outside | hard | 레코드 within([아래, 위]) 관계를 선언한 선 값이 같은 레인 band 밖(띠 변경 달·변경일 ± rules stage_timeline.series.within_band_tolerance_days 제외) `[band-line-outside]`(v7.4.0 D-0326·UF-200) |
+| series_date_convention | warning | 같은 레인에 frequency 가 다른 시리즈인데 레코드 grain 없음 `[series-date-convention]`(v7.4.0 D-0326) |
+| caption_overflow | hard | 사진·영상 캡션 바 글자가 바 폭(− 좌우 pad_x)을 넘는다 — 캡션 줄 줄임표·출처 줄 접기(rules layout_480p.media_caption.overflow) 뒤에도 `[caption-overflow]`(v7.4.0 D-0333) |
+| label_under_media | hard | 지도 마커 라벨(+부제) 상자가 사진·영상 상자 아래에 깔린 시간(둘 다 알파 ≥ min_alpha) > rules qa_checks.label_under_media.max_sec `[label-under-media]`(v7.4.0 R-0294 판정) |
+| badge_covered | hard | 지도 층 배지 계획 구간 중 안 보인 비율(전면 덮개로 늦춰짐·덮개 아래·상자 가림) > rules badge.covered_max_ratio `[badge-covered]`(v7.4.0 D-0329) |
 | flight_unsourced | hard | flight 에 claim 없음·원고가 인용하지 않은 claim `[flight-unsourced]` — 비행은 출처 있는 특정 타격에만(v7.4.0 D-0316) |
 | scene_visual_void | hard | 요소(rules qa_checks.visual_void_types) 없이 지도·배경만 보이는 구간 ≥ qa_checks.visual_void_max_sec(콜드 오픈·전면 카드·카메라 move 제외) `[scene-visual-void]`(v7.4.0 D-0312, provenance visual_void) |
 | inset_jump | hard | 위성 인셋 원 중심 프레임 간 이동 > rules flight.inset.jump_px_max `[inset-jump]`(v7.4.0 D-0300·UF-146) |
@@ -119,10 +126,10 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "template_label", "invest_notice", "scene_visual_void", "flight_unsourced")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
-        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
+        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
 
 def missing_fonts() -> list[str]:
@@ -970,6 +977,67 @@ def check_label_hidden(P) -> list[str]:  # noqa: ANN001, N803
         if r > QA.label_hidden_max_ratio:
             out.append(f"[label-hidden-by-card] 마커 {e['label']!r} t0={e['t0']:.2f} 라벨이 카드 {refs} 뒤에서 표시 시간의 {r:.0%} 흐려짐"
                        f" > {QA.label_hidden_max_ratio:.0%} — 마커나 카드 자리를 옮겨라(카메라 구도·카드 y·place)")
+    return out
+
+
+def label_under_media(P) -> list[tuple[dict, str, float, float]]:  # noqa: ANN001, N803
+    """(마커, 덮은 미디어 mid, 처음 시각, 깔린 초) — v7.4.0 R-0294 판정. 마커 라벨(부제 포함) 상자와 사진·영상 상자(캡션 바 포함)가
+    둘 다 알파 rules min_alpha 이상으로 겹친 표본 × step_sec. 지도가 가려진 순간(_covered)·화면 밖 마커는 세지 않는다."""
+    from engine.layers.markers import marker_box  # noqa: PLC0415
+    from engine.media_plan import media_box  # noqa: PLC0415
+    from engine.timebase import window  # noqa: PLC0415
+
+    cfg = QA.label_under_media
+    if cfg is None:
+        return []
+    assets = P.R.assets.media_assets
+    media = [(m, tuple(media_box(m, assets))) for m in P.events if m["type"] in cfg.media_types and "x" in m and m.get("mid") in assets]
+    if not media:
+        return []
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    out = []
+    for e in P.events:
+        if e["type"] != "marker" or "world" not in e:
+            continue
+        hits: dict[str, list[float]] = {}
+        t = e["t0"] + cfg.step_sec / 2
+        while t < e["t1"]:
+            live = [(m, b) for m, b in media if window(t, m["t0"], m["t1"], *ELEM[m["type"]]) >= cfg.min_alpha]
+            if live and window(t, e["t0"], e["t1"], *ELEM["marker"]) >= cfg.min_alpha and not _covered(P, t):
+                v = View(P.R.stage, P.cams[min(P.n_frames - 1, int(t * FPS))])
+                x, y = v.to_screen(*e["world"])
+                if -80 <= x <= W_OUT + 80 and -40 <= y <= H_OUT + 40:
+                    box = marker_box(ctx, e, x, y, with_sub=True)
+                    for m, b in live:
+                        if _box_hit(box, b):
+                            hits.setdefault(m["mid"], []).append(t)
+            t += cfg.step_sec
+        out += [(e, mid, ts[0], len(ts) * cfg.step_sec) for mid, ts in hits.items() if len(ts) * cfg.step_sec > cfg.max_sec + 1e-9]
+    return out
+
+
+def check_label_under_media(P) -> list[str]:  # noqa: ANN001, N803
+    """[label-under-media] hard(v7.4.0 R-0294 감독 판정 — 겹침 0 원칙) — 지도 마커 라벨이 사진·영상 아래에 깔린다."""
+    return [f"[label-under-media] 마커 {e['label']!r} 라벨이 {mid} 상자 아래 {sec:.1f}초 깔림(t={t:.1f}, > {QA.label_under_media.max_sec:g}초) — "
+            "사진 자리(place)를 라벨과 겹치지 않는 슬롯으로 옮기거나 마커 시각을 사진 밖으로 옮긴다" for e, mid, t, sec in label_under_media(P)]
+
+
+def check_caption_overflow(P) -> list[str]:  # noqa: ANN001, N803
+    """[caption-overflow] hard(v7.4.0 back_and_forth D-0333 — 넘침 허용 설계 폐기) — 렌더와 같은 caption_layout 으로 재서
+    캡션 줄(줄임표 뒤)·출처 줄(접기 뒤, 줄 수 ≤ source_max_lines)이 바 폭 안에 다 들어가는지."""
+    from engine.layers.media import caption_layout  # noqa: PLC0415
+    from engine.media_registry import credit_line  # noqa: PLC0415
+
+    assets = P.R.assets.media_assets
+    out = []
+    for e in P.events:
+        if e["type"] not in ("photo", "clip") or "w" not in e or e.get("mid") not in assets:
+            continue
+        m = assets[e["mid"]]
+        _, src, ok = caption_layout(m.caption, credit_line(m), e["w"])
+        if not ok:
+            out.append(f"[caption-overflow] {e['type']} {e['mid']} t0={e['t0']:.1f} 폭 {e['w']:g} — 캡션·출처 줄이 바 밖으로 넘친다"
+                       f"(출처 {len(src)}줄, 상한 {R_.layout_480p.media_caption.overflow.source_max_lines}줄, 또는 낱말 하나가 바보다 길다). 더 넓은 자리로 옮긴다")
     return out
 
 
@@ -2308,6 +2376,14 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
                                    if b - a > QA.chart_only_run.max_sec],   # v7.4.0 D-0252(hard). 회귀 기준 면제 = waive_regression(D-0311)
         "scene_visual_void": lambda: check_scene_visual_void(P, provenance),   # v7.4.0 D-0312 §1-1(hard)
         "flight_unsourced": lambda: check_flight_unsourced(P),   # v7.4.0 D-0316 ①(hard)
+        "badge_covered": lambda: check_badge_covered(P),   # v7.4.0 D-0329 ②(hard)
+        "caption_overflow": lambda: check_caption_overflow(P),   # v7.4.0 D-0333(hard)
+        "label_under_media": lambda: check_label_under_media(P),   # v7.4.0 R-0294 판정(hard)
+        "band_line_outside": lambda: check_band_line_outside(P),   # v7.4.0 D-0326(hard, UF-200)
+        "photo_subject_background": lambda: check_photo_subject_background(P),   # v7.4.0 D-0327(hard, UF-201)
+        "photo_subject_unmatched": lambda: check_photo_subject_unmatched(P),     # v7.4.0 D-0327(hard)
+        "photo_age": lambda: check_photo_age(P),                                 # v7.4.0 D-0327(warning)
+        "series_date_convention": lambda: check_series_date_convention(P),   # v7.4.0 D-0326(warning)
         "chart_world_split": lambda: check_chart_world_split(P),   # v7.4.0 D-0251 §6.2-2(hard, UF-135 ②)
         "series_label_overlap": lambda: check_series_label_overlap(P),   # v7.4.0 D-0256(hard)
         "chart_edge_bleed": lambda: check_chart_edge_bleed(P),   # v7.4.0 D-0257(hard, UF-137)
@@ -2849,6 +2925,193 @@ def check_scene_visual_void(P, provenance: dict | None = None) -> list[str]:  # 
     mx = QA.visual_void_max_sec
     return [f"[scene-visual-void] {a:.1f}~{b:.1f}초 ({b - a:.1f}초) 지도·배경만 보인다 — 상한 {mx:g}초. 그 문장이 말하는 대상의 마커·사진·기사·패널로"
             " 채운다(D-0312, 연출 revise_direction)" for a, b in vs if b - a >= mx]
+
+
+def _chart_window(P) -> "tuple | None":  # noqa: ANN001, N803
+    """시간축 무대(주 무대 또는 차트 아일랜드)의 (start, end) 날짜 — 없으면 None(레코드 전 구간)."""
+    st = P.R.stage if getattr(P.R.stage, "name", "") == "timeline" else (P.R.cache.get("island_chart") or {}).get("stage")
+    cfg = getattr(st, "cfg", None)
+    return (cfg.start, cfg.end) if cfg is not None else None
+
+
+def band_line_outside(P) -> list[tuple[str, str, object, float, float, float]]:  # noqa: ANN001, N803
+    """v7.4.0 back_and_forth D-0326(UF-200) — 레코드 within 관계([아래, 위] 띠)를 선언한 선(step·line)이 같은 레인 band 밖인 날.
+    월별 값(달 1일 = 그 달 전체)은 그 달에 띠가 바뀌면 보지 않는다(월평균은 두 수준 사이에 선다). 일별 값은 띠 변경일 ±
+    rules stage_timeline.series.within_band_tolerance_days 를 보지 않는다. 화면 기간(시간축 무대 start~end) 안만. → [(레인, 시리즈, 날짜, 값, 아래, 위)]"""
+    import bisect  # noqa: PLC0415
+    from datetime import date  # noqa: PLC0415
+
+    from data.series import load_series  # noqa: PLC0415
+
+    tol = R_.stage_timeline.series.within_band_tolerance_days
+    win = _chart_window(P)
+    bands = {(e["lane"], e["series_id"], e.get("upper_id")) for e in P.events if e["type"] == "series" and e.get("style") == "band"}
+    out = []
+    for e in P.events:
+        if e["type"] != "series" or e.get("style") not in ("step", "line"):
+            continue
+        rec = load_series(e["series_id"])
+        if len(rec.within) != 2 or (e["lane"], *rec.within) not in bands:
+            continue
+        lo, hi = load_series(rec.within[0]), load_series(rec.within[1])
+        days = [d for d, _ in lo.values]
+        lov, hiv = dict(lo.values), dict(hi.values)
+        changes = [d for a, d in zip(days, days[1:]) if lov[d] != lov[a] or hiv[d] != hiv[a]]
+
+        def band_at(d):  # noqa: ANN001, ANN202
+            i = bisect.bisect_right(days, d) - 1
+            return None if i < 0 else (lov[days[i]], hiv[days[i]])
+
+        for d, v in rec.values:
+            if win is not None and not win[0] <= d <= win[1]:
+                continue
+            if rec.frequency == "monthly":
+                nxt = date(d.year + d.month // 12, d.month % 12 + 1, 1)
+                if any(d <= c < nxt for c in changes):
+                    continue
+                span = [d]
+            else:
+                if any(abs((d - c).days) <= tol for c in changes):
+                    continue
+                span = [d]
+            for dd in span:
+                b = band_at(dd)
+                if b is not None and not b[0] - 1e-9 <= v <= b[1] + 1e-9:
+                    out.append((e["lane"], rec.series_id, dd, v, b[0], b[1]))
+    return out
+
+
+def check_band_line_outside(P) -> list[str]:  # noqa: ANN001, N803
+    """[band-line-outside] hard(v7.4.0 back_and_forth D-0326, UF-200) — within 띠 밖에 선 값이 있는 날(띠 변경 달·변경일 근처 제외)."""
+    return [f"[band-line-outside] 레인 {ln} {sid} {d} 값 {v:g} 가 띠 {a:g}~{b:g} 밖 — 날짜 규약(일별 발효일·월평균)을 맞추거나 within 관계를 고친다(UF-200)"
+            for ln, sid, d, v, a, b in band_line_outside(P)]
+
+
+def check_series_date_convention(P) -> list[str]:  # noqa: ANN001, N803
+    """[series-date-convention] warning(v7.4.0 D-0326) — 같은 레인에 frequency 가 다른 시리즈가 있는데 레코드 grain(출처 줄 입자 문구)이 빠졌다."""
+    from data.series import load_series  # noqa: PLC0415
+    from engine.layers.series import record_ids  # noqa: PLC0415
+
+    lanes: dict[str, list] = {}
+    for e in P.events:
+        if e["type"] == "series" and e.get("style") != "projection":
+            lanes.setdefault(e["lane"], []).extend(load_series(s) for s in record_ids(e))
+    out = []
+    for ln, recs in lanes.items():
+        if len({r.frequency for r in recs}) > 1:
+            miss = sorted({r.series_id for r in recs if not r.grain})
+            if miss:
+                out.append(f"[series-date-convention] 레인 {ln}: 입자가 다른 시리즈({'·'.join(sorted({r.frequency for r in recs}))})인데 grain 없음 {miss} — 출처 줄에 입자를 적는다(UF-200)")
+    return out
+
+
+def _subject_hit(term: str, items: list[str]) -> bool:
+    t = term.strip()
+    return any(t and (t in x or x in t) for x in items)
+
+
+def photo_subject_issues(P) -> list[tuple[str, dict]]:  # noqa: ANN001, N803
+    """v7.4.0 back_and_forth D-0327(UF-201) — photo 이벤트 for(문장 대상)를 레지스트리 main_subject·background 와 대조.
+    → [("background"|"unmatched", 이벤트)]. for 없음 = unmatched(연출이 고른 이유를 적는다, P8)."""
+    assets = P.R.assets.media_assets
+    out = []
+    for e in P.events:
+        if e["type"] != "photo":
+            continue
+        a = assets.get(e.get("mid"))
+        term = e.get("for_") or e.get("for")
+        main, bg = (list(getattr(a, "main_subject", []) or []), list(getattr(a, "background", []) or [])) if a is not None else ([], [])
+        if term and _subject_hit(term, main):
+            continue
+        out.append(("background" if term and _subject_hit(term, bg) else "unmatched", e))
+    return out
+
+
+def check_photo_subject_background(P) -> list[str]:  # noqa: ANN001, N803
+    """[photo-subject-background] hard(v7.4.0 D-0327, UF-201) — 문장 대상(for)이 사진의 배경에만 있다(주된 피사체는 다른 것 — 예인선 사진을 항구로)."""
+    return [f"[photo-subject-background] 사진 {e['mid']} t={e['t0']:.1f} — for {(e.get('for_') or e.get('for'))!r} 는 배경에만 있다. 그것이 주된 피사체인 사진으로 바꾼다(UF-201)"
+            for k, e in photo_subject_issues(P) if k == "background"]
+
+
+def check_photo_subject_unmatched(P) -> list[str]:  # noqa: ANN001, N803
+    """[photo-subject-unmatched] hard(v7.4.0 D-0327) — photo 에 for 가 없거나, 레지스트리 main_subject·background 어디에도 없다."""
+    return [f"[photo-subject-unmatched] 사진 {e['mid']} t={e['t0']:.1f} — for {(e.get('for_') or e.get('for'))!r} 가 레지스트리 main_subject·background 에 없다"
+            " (연출 photo 에 for 를 적고, 레지스트리 main_subject 를 실제 프레임을 보고 적는다)" for k, e in photo_subject_issues(P) if k == "unmatched"]
+
+
+def check_photo_age(P) -> list[str]:  # noqa: ANN001, N803
+    """[photo-age] warning(v7.4.0 D-0327) — 문장 날짜 − 사진 촬영일 > rules media.photo_age_max_years 인데 연출 age_reason 이 없다. 장르 photo_age_check false 면 안 본다."""
+    from genres.load import load_genre  # noqa: PLC0415
+
+    g = (P.R.cache.get("genre") or {}).get("name")
+    if g and not load_genre(g).photo_age_check:
+        return []
+    mx = R_.media.photo_age_max_years
+    assets = P.R.assets.media_assets
+    out = []
+    for e in P.events:
+        if e["type"] != "photo" or e.get("age_reason") or e.get("mid") not in assets:
+            continue
+        shot = media_shot_date(assets[e["mid"]])
+        sents = [s for s in P.plan.sentences if s.t0 <= e["t0"] + 1.0] or P.plan.sentences[:1]
+        m = re.match(r"(\d{4})(?:\.(\d{1,2}))?", str(getattr(sents[-1], "date", "") or ""))
+        if shot is None or not m:
+            continue
+        yrs = (int(m.group(1)) - shot.year) + ((int(m.group(2) or shot.month) - shot.month) / 12)
+        if yrs > mx:
+            out.append(f"[photo-age] 사진 {e['mid']} 촬영 {shot} — 문장보다 {yrs:.1f}년 앞(> {mx}) — 더 최근 사진을 찾거나 연출 age_reason 에 이유를 적는다(UF-201)")
+    return out
+
+
+def badge_covered_ratios(P) -> list[tuple[dict, float]]:  # noqa: ANN001, N803
+    """지도 층 배지마다 (이벤트, 계획 구간 중 안 보인 비율) — v7.4.0 back_and_forth D-0329 ②. 안 보임 = 전면 덮개(기사·인용) 때문에 늦춰진 시간,
+    그 시각 전면 덮개 아래, 또는 사진·영상·겹침 카드·게시물·프리미티브 상자에 배지 상자의 rules badge.covered_box_ratio 이상이 가림."""
+    from engine.cascade import cascade_boxes  # noqa: PLC0415
+    from engine.media_plan import media_box  # noqa: PLC0415
+    from engine.reserved import FULL_COVER_TYPES, card_box  # noqa: PLC0415
+
+    B = R_.layout_480p.badge  # noqa: N806
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    assets = P.R.assets.media_assets
+    out = []
+    for e in P.events:
+        if e["type"] != "badge" or e.get("over_panel"):
+            continue
+        a0, a1 = e.get("t0_planned", e["t0"]), e["t1"]
+        n, hid = 0, 0
+        t = a0
+        while t <= a1:
+            n += 1
+            if t < e["t0"] or any(c["type"] in FULL_COVER_TYPES and c["t0"] <= t <= c["t1"] for c in P.events):
+                hid += 1
+            else:
+                r = place_over(P, ctx, e, t)
+                if r is not None:
+                    bx = r[1]
+                    area = max(1e-6, (bx[2] - bx[0]) * (bx[3] - bx[1]))
+                    covers = []
+                    for c in P.events:
+                        if not c["t0"] <= t <= c["t1"]:
+                            continue
+                        if c["type"] in ("photo", "clip") and "x" in c and c.get("mid") in assets:
+                            covers.append(tuple(media_box(c, assets)))
+                        elif c["type"] == "cascade":
+                            covers += [tuple(b) for b in cascade_boxes(t, c)]
+                        elif c["type"] in ("post", "primitive"):
+                            covers.append(tuple(card_box(ctx, c)))
+                    ov = max((max(0.0, min(bx[2], cb[2]) - max(bx[0], cb[0])) * max(0.0, min(bx[3], cb[3]) - max(bx[1], cb[1])) for cb in covers), default=0.0)
+                    if ov / area >= B.covered_box_ratio:
+                        hid += 1
+            t += B.covered_step_sec
+        out.append((e, hid / max(1, n)))
+    return out
+
+
+def check_badge_covered(P) -> list[str]:  # noqa: ANN001, N803
+    """[badge-covered] hard(v7.4.0 back_and_forth D-0329 ② — 덮인 배지는 없는 요소, P6) — 계획 구간 중 안 보인 비율 > rules badge.covered_max_ratio."""
+    mx = R_.layout_480p.badge.covered_max_ratio
+    return [f"[badge-covered] 배지 {e.get('label')!r} 계획 {e.get('t0_planned', e['t0']):.1f}~{e['t1']:.1f}초 중 {r:.0%} 안 보인다(> {mx:.0%}) — "
+            "전면 덮개(기사·인용)·사진·영상과 겹치지 않는 시각으로 옮긴다(D-0329)" for e, r in badge_covered_ratios(P) if r > mx]
 
 
 def regression_ref(P) -> "str | None":  # noqa: ANN001, N803

@@ -32,9 +32,8 @@ from engine.entities import check_event_refs, load_entities
 from engine.panels import network, relation, timeline
 from engine.credits import RightsError
 from engine.layers.article import ArticleOverflowError, article_layout, validate_press
-from engine.layers.media import caption_width, validate_media
+from engine.layers.media import validate_media
 from engine.layers.backdrop import backdrop_report, validate_backdrop
-from engine.media_registry import credit_line
 from engine.media_plan import article_candidate_usage, density_report, media_box, placement_warnings
 from engine.pacing import change_times, creep_ranges, map_segments, static_windows
 from engine.layers.badges import assign_person_sizes, drop_person_R, portrait_head_top
@@ -255,10 +254,8 @@ class Project:
 
 
 def _media_extent(e: dict, w: float, media_assets: dict) -> tuple[float, float]:
-    """폭 w 일 때 미디어 상자 (높이, 글자까지 포함한 폭) — 패널 옆 슬롯(engine.placement beside_panel)용."""
-    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
-    m = media_assets[e["mid"]]
-    return media_box(dict(e, x=0, y=0, w=w), media_assets)[3], max(w, caption_width(ctx, m.caption, credit_line(m)))
+    """폭 w 일 때 미디어 상자 (높이, 폭) — 패널 옆 슬롯(engine.placement beside_panel)용. v7.4.0 D-0333 — 캡션 글자는 바 폭 안(줄임표·접기)이라 폭 = w."""
+    return media_box(dict(e, x=0, y=0, w=w), media_assets)[3], w
 
 
 def sentence_labels(proj: Path) -> dict[str, str]:
@@ -526,6 +523,9 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         R.cache["island_check"] = {
             "main_missing": main_missing(events, plan.total, [(c.t0 - 0.3, c.t1 + 0.3) for c in plan.cards], R.stage.name),
             "card_overlap": card_overlap(events, island_boxes(events, R.assets.media_assets, R.stage.name))}
+    from engine.reserved import delay_covered_badges  # noqa: PLC0415
+
+    R.cache["badge_delays"] = delay_covered_badges(events)   # v7.4.0 D-0329 ② — 전면 덮개 아래 배지는 덮개 끝으로(provenance reserve.badge_delays)
     ent_errs = check_event_refs(events, load_entities())  # 07 §6 — 미등재 인물·국기·휘장은 렌더 전 오류(P10)
     if ent_errs:
         raise RegistryError("엔티티 레지스트리 점검 실패:\n" + "\n".join(ent_errs))
