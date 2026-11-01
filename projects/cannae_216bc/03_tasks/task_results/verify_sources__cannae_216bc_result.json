@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "project_id": "cannae_216bc",
+  "task_id": "verify_sources__cannae_216bc",
+  "worker": "verify_sources",
+  "status": "completed",
+  "started_at": "2026-11-01T14:20:10.632299Z",
+  "completed_at": "2026-11-01T14:21:03.528256Z",
+  "outputs": [
+    "intake/verify_draft.json",
+    "llm_calls/llm_20261101_142010_26d7.json"
+  ],
+  "warnings": [],
+  "errors": [],
+  "scene_refs": [],
+  "source_refs": [],
+  "asset_refs": [],
+  "qa_status": "pass",
+  "risk_flags": [],
+  "worker_provenance": {
+    "prompt_name": "verify_sources",
+    "prompt_sha1": "099a5cc95652d35e4d0277b506707c069a42e01a",
+    "rules_hash": "6b34ad5825df9b4332d071093310b3a67ffd53bf",
+    "genre": "war_history",
+    "genre_declared": true
+  }
+}

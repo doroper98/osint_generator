@@ -1,0 +1,296 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "text": "폴리비오스에 따르면 한니발이 로마군이 곡물과 보급품을 모아 둔 칸나에의 성채를 장악했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0001",
+          "quote": "he seized on the citadel of a town called",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "폴리비오스에 따르면 로마 원로원이 한니발과 전투를 벌이기로 결정했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0001",
+          "quote": "The Senate decided to give the",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "폴리비오스에 따르면 로마가 8개 군단을 전장에 투입하기로 결정했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0001",
+          "quote": "They decided to bring eight legions into the",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0001",
+          "quote": "into action not four legions but eight.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "폴리비오스에 따르면 8개 군단 동원은 로마에서 전례가 없던 일이었다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0001",
+          "quote": "a thing which had never been done before by the",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "폴리비오스에 따르면 아이밀리우스가 군에 도착해 병사들에게 원로원의 결정을 전달했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0001",
+          "quote": "soldiers and conveyed to them the decision of the",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "리비우스에 따르면 로마 집정관들이 칸나에까지 카르타고군을 따라왔다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0002",
+          "quote": "until they came to Cannae, where, having the enemy",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "리비우스에 따르면 로마군이 칸나에에서 병력을 나눠 두 개의 진영을 세웠다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0002",
+          "quote": "and fortified two camps, at about the same",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "리비우스에 따르면 로마 진영 안에서 병사들 사이 다툼과 집정관 간 불화가 벌어졌다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0002",
+          "quote": "scene of strife amongst the soldiers and dissension",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "리비우스에 따르면 한니발이 누미디아 기병을 강 건너로 보내 로마 소(小)진영의 물 긷는 병사들을 공격했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0002",
+          "quote": "the river to attack the men from the smaller Roman",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "리비우스에 따르면 그날 지휘권을 가진 바로가 동료 집정관과 상의 없이 출전 신호를 올렸다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0002",
+          "quote": "The next morning, therefore, Varro, whom the lot",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0002",
+          "quote": "signal, without saying a word of the matter to his",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "리비우스에 따르면 바로가 병력을 정렬시켜 강을 건넜다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0002",
+          "quote": "colleague, and, making his troops fall in, led them",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "리비우스에 따르면 테렌티우스(바로)가 로마군 좌익을, 아이밀리우스가 우익을 지휘했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0002",
+          "quote": "The consuls had charge of the wings, Terentius",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0002",
+          "quote": "of the left, Aemilius of the right; and Geminus",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "리비우스에 따르면 게미누스 세르빌리우스가 로마군 중앙을 맡았다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0002",
+          "quote": "Servilius was entrusted with the centre.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "리비우스에 따르면 카르타고군 전열의 보병은 4만, 기병은 1만이었다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0002",
+          "quote": "in line was forty thousand, of the cavalry ten thousand.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "리비우스에 따르면 카르타고군 좌익은 하스드루발, 우익은 마하르발이 지휘했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0002",
+          "quote": "drubal on the left, Maharbal on the right; Hannibal",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "리비우스에 따르면 한니발이 동생 마고와 함께 카르타고군 중앙을 지휘했다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0002",
+          "quote": "himself, with his brother Mago, had the centre.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "리비우스에 따르면 볼투르누스 바람이 로마군 얼굴로 먼지를 몰아 시야를 가렸다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0002",
+          "quote": "carried clouds of dust right into their faces and",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "리비우스에 따르면 기병전에서 패한 로마 기병이 등을 돌려 달아났다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0002",
+          "quote": "Roman cavalry turned and fled.",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0002",
+          "quote": "pulsique Romani equites terga vertunt.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    }
+  ],
+  "summary": "칸나에 전역의 서술은 폴리비오스(원로원 결정·8개 군단 동원·칸나에 성채 장악)와 리비우스(진영 배치·바로의 도하·양군 전열·볼투르누스 바람·로마 기병 패주)가 각자 다른 국면을 다루며, 겹치는 부분(칸나에라는 장소)은 서로 어긋나지 않는다. 대부분의 주장은 한 고대 저자의 서술에만 근거하므로 교차 확인은 제한적이고, 카르타고군 병력 수 등은 리비우스 한쪽의 기록이다. 직전에 폐기된 라틴어 인용(줄바꿈 하이픈으로 끊긴 'me-diam')은 원문 그대로인 영어 번역 문장으로 대체했다."
+}
