@@ -47,6 +47,7 @@ AXIS = "value"   # D-0087 — 값 축(정직성 검사 4개 전부, rules qa_che
 
 # v7.4.0 D-0339(UF-202) — 이 프레임에 그린 막대(bars) 상자(장치 px). checks.check_bar_border 가 프레임마다 비우고 그린 뒤 가장자리 색을 잰다
 DRAWN_BARS: list[tuple[float, float, float, float]] = []
+DRAWN_INSETS: list[tuple[float, float, float, float]] = []   # 같은 프레임의 열 확대 인셋 상자(장치 px) — 막대 위에 그려진다
 
 
 def loss_rgb() -> tuple[float, float, float]:
@@ -1224,6 +1225,8 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
     from engine.style import stage_surface  # noqa: PLC0415
 
     flat = stage_surface()
+    (ix0, iy0), (ix1, iy1) = ctx.user_to_device(x, y), ctx.user_to_device(x + w, y + h)   # [bar-border] — 인셋에 가린 막대는 재지 않는다
+    DRAWN_INSETS.append((min(ix0, ix1), min(iy0, iy1), max(ix0, ix1), max(iy0, iy1)))
     rrect(ctx, x, y, w, h, 0.0 if flat else CD.radius)   # 무대 표면 = 모서리 0·테두리 0(D-0328 §3·D-0330)
     ctx.set_source_rgba(*sep, CD.fill_alpha * al)
     if flat:

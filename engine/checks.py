@@ -3519,12 +3519,16 @@ def check_grid_text_cross(P) -> list[str]:  # noqa: ANN001, N803
         out += grid_text_crossings(list(DRAWN_GRID), t, chart_text_boxes(stage, v, _visible(events, t), t, rng) + ends)
     return list(dict.fromkeys(out))
 
-def bar_border_hits(img: "np.ndarray", rects: list[tuple[float, float, float, float]], t: float) -> list[str]:
-    """막대 상자(장치 px)마다 가운데 색 ↔ 좌우 가장자리 안쪽 inset px 색 — 차이 > bar_edge_tol 이면 테두리(UF-202)."""
+def bar_border_hits(img: "np.ndarray", rects: list[tuple[float, float, float, float]], t: float,
+                    covers: list[tuple[float, float, float, float]] | None = None) -> list[str]:
+    """막대 상자(장치 px)마다 가운데 색 ↔ 좌우 가장자리 안쪽 inset px 색 — 차이 > bar_edge_tol 이면 테두리(UF-202).
+    covers(그 위에 그려진 열 확대 인셋 상자)와 겹치는 막대는 재지 않는다(가린 면은 막대 색이 아니다)."""
     D = QA.chart_depth  # noqa: N806
     out = []
     h, w = img.shape[:2]
     for x0, y0, x1, y1 in rects:
+        if any(x0 < c[2] and c[0] < x1 and y0 < c[3] and c[1] < y1 for c in covers or []):
+            continue
         k = D.bar_edge_inset_px
         if x1 - x0 < 2 * k + 2 or y1 - y0 < 2 * k + 2:
             continue
@@ -3544,17 +3548,18 @@ def check_bar_border(P) -> list[str]:  # noqa: ANN001, N803
     world = chart_world(P)
     if world is None or not any(e["style"] == "bars" for e in _series_main(world[2])):
         return []
-    from engine.layers.series import DRAWN_BARS  # noqa: PLC0415
+    from engine.layers.series import DRAWN_BARS, DRAWN_INSETS  # noqa: PLC0415
     from engine.render import render_frame  # noqa: PLC0415
 
     out: list[str] = []
     for t in _chart_sample_times([e for e in world[2] if e.get("style") == "bars"]):
         DRAWN_BARS.clear()
+        DRAWN_INSETS.clear()
         surf, _ = render_frame(P, min(P.n_frames - 1, max(0, int(t * FPS))))
         surf.flush()
         buf = np.ndarray((surf.get_height(), surf.get_stride() // 4, 4), np.uint8, surf.get_data())
         img = buf[:, :surf.get_width(), [2, 1, 0, 3]]   # cairo ARGB32(리틀 엔디언 BGRA) → RGBA
-        out += bar_border_hits(img, list(DRAWN_BARS), t)
+        out += bar_border_hits(img, list(DRAWN_BARS), t, list(DRAWN_INSETS))
     return list(dict.fromkeys(out))
 
 __all__ = ["FontMissingError", "HARD", "HONESTY", "WARN", "check_audio", "frames_info", "profile_skips", "run_checks"]

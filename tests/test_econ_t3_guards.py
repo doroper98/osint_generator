@@ -132,6 +132,10 @@ class BarBorderPixelTest(unittest.TestCase):
     def test_border_detected(self) -> None:
         self.assertTrue(checks.bar_border_hits(self._img(True), [(10, 10, 30, 30)], 1.0))
 
+    def test_covered_by_inset_skipped(self) -> None:
+        """열 확대 인셋이 덮은 막대는 막대 색이 아니므로 재지 않는다(가림 ≠ 테두리)."""
+        self.assertEqual(checks.bar_border_hits(self._img(True), [(10, 10, 30, 30)], 1.0, [(0, 0, 20, 40)]), [])
+
     def test_solid_passes(self) -> None:
         self.assertEqual(checks.bar_border_hits(self._img(False), [(10, 10, 30, 30)], 1.0), [])
 
