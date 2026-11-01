@@ -1,0 +1,604 @@
+{
+ "schema_version": 1,
+ "searches": [
+  {
+   "sid": "cold_0",
+   "query": "Doha skyline hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "cold_0",
+   "query": "Doha skyline",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:Doha Skyline 01.jpg",
+    "File:Doha Skyline 09.jpg",
+    "File:Doha Skyline 10.jpg",
+    "File:Doha Skyline 13.jpg",
+    "File:Doha Skyline 14.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "cold_1",
+   "query": "Abbas Araghchi hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "cold_1",
+   "query": "Abbas Araghchi",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:Meeting Dr. Seyed Abbas Araghchi (01911589) (51160900217).jpg",
+    "File:Meeting Dr. Seyed Abbas Araghchi (01911590) (51162671880).jpg",
+    "File:Meeting Dr. Seyed Abbas Araghchi (01911591) (51161804258).jpg",
+    "File:Meeting Dr. Seyed Abbas Araghchi (01911592) (51161561281).jpg",
+    "File:Meeting Dr. Seyed Abbas Araghchi (01911595) (51162348604).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "cold_2",
+   "query": "Marco Rubio official portrait hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "cold_2",
+   "query": "Marco Rubio official portrait",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:Official portrait of Secretary Marco Rubio, January 2025.jpg",
+    "File:Official portrait of Secretary Marco Rubio.jpg",
+    "File:Official portrait of Secretary Marco Rubio (3x4 cropped).jpg",
+    "File:Official portrait of Secretary Marco Rubio (cropped)(2).jpg",
+    "File:Official portrait of the United States Secretary of State Marco Rubio, January 2025 (cropped).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_0",
+   "query": "Operation Epic Fury strike Iran 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:Epic Fury Strike compilation (997841).webm",
+    "File:Epic Fury Strike compilation (997847).webm",
+    "File:Epic Fury Strike compilation (997855).webm",
+    "File:U S Forces Conduct Precision Strikes During Operation Epic Fury (1001951).webm",
+    "File:U S Forces Conduct Precision Strikes During Operation Epic Fury (1001960).webm"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_0",
+   "query": "Operation Epic Fury strike Iran 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:Epic Fury Strike compilation (997841).webm",
+    "File:Epic Fury Strike compilation (997847).webm",
+    "File:Epic Fury Strike compilation (997855).webm",
+    "File:U S Forces Conduct Precision Strikes During Operation Epic Fury (1001960).webm",
+    "File:U S Forces Conduct Precision Strikes During Operation Epic Fury (999233).webm"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_2",
+   "query": "Strait of Hormuz satellite hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 1,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_2",
+   "query": "Strait of Hormuz satellite",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 4,
+   "top": [
+    "File:ISS-46 Gulf of Oman with Strait of Hormuz at night.jpg",
+    "File:STS004-37-716 - Strait of Hormuz.jpg",
+    "File:Strait of Hormuz (MODIS 2020-12-04).jpg",
+    "File:Strait of Hormuz and Musandam Peninsula (MODIS 2018-12-10).jpg"
+   ],
+   "rejected": [
+    "Attribution"
+   ]
+  },
+  {
+   "sid": "act1_3",
+   "query": "Shehbaz Sharif hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_3",
+   "query": "Shehbaz Sharif",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 4,
+   "top": [
+    "File:Ayatollah Ali Khamenei met with Pakistani Prime Minister Shehbaz Sharif 1404-3-9.jpg",
+    "File:CM Punjab Shehbaz Sharif (35871869445).jpg",
+    "File:Shehbaz Sharif in 2024.jpg",
+    "File:Shehbaz Sharif meets Putin (2024-07-03) (2) (cropped).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act1_4",
+   "query": "Islamabad talks April 2026 Vance hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_4",
+   "query": "Islamabad talks April 2026 Vance",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:Sidelines of Islamabad Talks 11.jpg",
+    "File:Sidelines of Islamabad Talks 13.jpg",
+    "File:Sidelines of Islamabad Talks 6.jpg",
+    "File:Sidelines of Islamabad Talks 7.jpg",
+    "File:Sidelines of Islamabad Talks 8.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_5",
+   "query": "US Navy blockade Iran 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:Michael Murphy Conducts Blockade Operations (9725690).jpg",
+    "File:USS New Orleans Enforces Maritime Blockade (9670518).jpg",
+    "File:USS Pinckney conducts Blockade Operations (9637702).jpg",
+    "File:USS Rafael Peralta Enforces Maritime Blockade (9670492).jpg",
+    "File:U S Forces Enforce Blockade Against Iran (1006058).webm"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_5",
+   "query": "US Navy blockade Iran 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:U S Forces Enforce Blockade Against Iran (1006029).webm",
+    "File:U S Forces Enforce Blockade Against Iran (1006041).webm",
+    "File:U S Forces Enforce Blockade Against Iran (1006042).webm",
+    "File:U S Forces Enforce Blockade Against Iran (1006057).webm",
+    "File:U S Forces Enforce Blockade Against Iran (1006058).webm"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_6",
+   "query": "Masoud Pezeshkian hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_6",
+   "query": "Masoud Pezeshkian",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 4,
+   "top": [
+    "File:Masoud Pezeshkian, 2024-6-12 (cropped).jpg",
+    "File:Masoud Pezeshkian 2024 (A) (cropped).jpg",
+    "File:Masoud Pezeshkian 20250202.jpg",
+    "File:Masoud Pezeshkian and Mohammed Shia' Al Sudani in 2025.jpg"
+   ],
+   "rejected": [
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act1_9",
+   "query": "U.S. Forces retaliatory strikes Iran July 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 1,
+   "passed": 1,
+   "top": [
+    "File:U S Forces Complete New Round of Retaliatory Strikes Against Iran (1013909).webm"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_9",
+   "query": "U.S. Forces retaliatory strikes Iran July 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 4,
+   "passed": 1,
+   "top": [
+    "File:U S Forces Complete New Round of Retaliatory Strikes Against Iran (1013909).webm"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_0",
+   "query": "Araghchi United Nations General Assembly 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_0",
+   "query": "Araghchi United Nations General Assembly 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 2,
+   "passed": 1,
+   "top": [
+    "File:Participation of Kaja Kallas, in the UNGA (P-070483-00-30).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_7",
+   "query": "JD Vance official portrait hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_7",
+   "query": "JD Vance official portrait",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 3,
+   "top": [
+    "File:January 2025 Official Vice Presidential Portrait of JD Vance (3x4 cropped).jpg",
+    "File:March 2026 Official Vice Presidential Portrait of JD Vance.jpg",
+    "File:March 2026 Official Vice Presidential Portrait of JD Vance (cropped).jpg"
+   ],
+   "rejected": [
+    "Public domain 제한"
+   ]
+  },
+  {
+   "sid": "act2_10",
+   "query": "Mohsen Rezaei hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_10",
+   "query": "Mohsen Rezaei",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 4,
+   "top": [
+    "File:Mahmoud Zarrabi speaking about Mohsen Rezaei - Mehr News Agency.webm",
+    "File:Mohsen Rezaee in 2020.jpg",
+    "File:Mohsen Rezaei in August 2026.jpg",
+    "File:Mohsen Rezaei in August 2026 (cropped).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0"
+   ]
+  },
+  {
+   "sid": "act2_11",
+   "query": "Sheikh Mohammed bin Abdulrahman Al Thani hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_11",
+   "query": "Sheikh Mohammed bin Abdulrahman Al Thani",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 4,
+   "top": [
+    "File:Mohammed bin Abdulrahman Al-Thani of Qatar on 25 January 2024 - 2 (cropped).jpg",
+    "File:Mohammed bin Abdulrahman al-Thani (cropped).jpg",
+    "File:Qatari Foreign Minister Sheikh Mohammed bin Abdulrahman Al Thani - 2017.jpg",
+    "File:Sheikh Mohammed bin Abdulrahman Al-Thani und Lyse Doucet MSC 2019.jpg"
+   ],
+   "rejected": [
+    "GODL-India"
+   ]
+  },
+  {
+   "sid": "act2_15",
+   "query": "Tehran skyline hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_15",
+   "query": "Tehran skyline",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act4_1",
+   "query": "oil tanker Persian Gulf hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_1",
+   "query": "oil tanker Persian Gulf",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 1,
+   "top": [
+    "File:Estimated oil tanker transit times between the Persian Gulf and the United States (32706711250).png"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act4_4",
+   "query": "mine countermeasures ship Arabian Gulf hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_4",
+   "query": "mine countermeasures ship Arabian Gulf",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:US Navy 030319-N-5319A-002 The mine countermeasure ship USS Dextrous (MCM 13) takes part in mine counter measure operations in the Arabian Gulf.jpg",
+    "File:US Navy 110816-N-YX920-055 The Royal Navy mine countermeasures ship HMS Ramsey (M110) transits the Arabian Gulf during a bilateral training exercis.jpg",
+    "File:US Navy 110816-N-YX920-249 The Royal Navy mine countermeasures ship HMS Quorn (M41) transits the Arabian Gulf during a bilateral training exercise.jpg",
+    "File:US Navy 110816-N-YX920-369 The Royal Navy mine countermeasures ship HMS Ramsey (M110) transits the Arabian Gulf during a bilateral training exercis.jpg",
+    "File:US Navy 110816-N-YX920-379 The Royal Navy mine countermeasures ship HMS Quorn (M41) transits the Arabian Gulf during a bilateral training exercise.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act4_3",
+   "query": "CENTCOM commander 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:CENTCOM Commander Meets with U S Troops in Israel (9783204).jpg",
+    "File:CENTCOM Commander Meets with U S Troops in Israel (9783205).jpg",
+    "File:CENTCOM Commander Meets with U S Troops in Israel (9783206).jpg",
+    "File:CENTCOM Commander Visits Lebanon (9783207).jpg",
+    "File:CENTCOM Commander Visits Lebanon (9783208).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act4_3",
+   "query": "CENTCOM commander 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:CENTCOM Commander Visits Lebanon (9783207).jpg",
+    "File:CENTCOM Commander Visits Lebanon (9783208).jpg",
+    "File:CENTCOM commander visits Bahrain (9627263).jpg",
+    "File:CENTCOM commander visits Bahrain (9627269).jpg",
+    "File:CENTCOM commander visits Bahrain (9627273).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act6_1",
+   "query": "Ulsan refinery hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act6_1",
+   "query": "Ulsan refinery",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 2,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act6_3",
+   "query": "gas station prices Korea 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act6_3",
+   "query": "gas station prices Korea 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 3,
+   "top": [
+    "File:Hiller XHOE-1 Hornet - DPLA - cd5d7372b219be9958abee336fece0c3 (page 1).jpg",
+    "File:Hiller XHOE-1 Hornet - DPLA - cd5d7372b219be9958abee336fece0c3 (page 2).jpg",
+    "File:Hiller XHOE-1 Hornet - DPLA - cd5d7372b219be9958abee336fece0c3 (page 3).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_5",
+   "query": "naval blockade Iran 2026 US Navy hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:Michael Murphy Conducts Blockade Operations (9725690).jpg",
+    "File:USS New Orleans Enforces Maritime Blockade (9670518).jpg",
+    "File:USS Pinckney conducts Blockade Operations (9637702).jpg",
+    "File:USS Rafael Peralta Enforces Maritime Blockade (9670492).jpg",
+    "File:U S Forces Enforce Blockade Against Iran (1006058).webm"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_5",
+   "query": "naval blockade Iran 2026 US Navy",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:U S Forces Enforce Blockade Against Iran (1006029).webm",
+    "File:U S Forces Enforce Blockade Against Iran (1006041).webm",
+    "File:U S Forces Enforce Blockade Against Iran (1006042).webm",
+    "File:U S Forces Enforce Blockade Against Iran (1006057).webm",
+    "File:U S Forces Enforce Blockade Against Iran (1006058).webm"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_8",
+   "query": "U.S. Forces Complete New Round of Retaliatory Strikes hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 4,
+   "passed": 1,
+   "top": [
+    "File:U S Forces Complete New Round of Retaliatory Strikes Against Iran (1013909).webm"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_8",
+   "query": "U.S. Forces Complete New Round of Retaliatory Strikes",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 1,
+   "top": [
+    "File:U S Forces Complete New Round of Retaliatory Strikes Against Iran (1013909).webm"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  }
+ ]
+}

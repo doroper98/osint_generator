@@ -1,0 +1,40 @@
+# 『휴전안』 엔딩 크레딧 (v7.4.0, D-0450). 보도 출처 = 장면별 인용 매체(auto: press, D243). 기사 카드·사진 행은 연출 뒤 실제로 쓴 미디어만 남긴다.
+schema_version: 1
+sections:
+- title: 보도 출처
+  column: 0
+  auto: press
+- title: 글꼴
+  column: 1
+  auto: fonts
+- title: 지도
+  column: 1
+  auto: map
+- title: 국기
+  column: 1
+  items:
+  - main: 국기
+    license: flag-icons · MIT
+    rights:
+    - flags.flag_icons
+- title: 인물 사진
+  column: 1
+  auto: people
+- title: 음악
+  column: 1
+  items:
+  - music: music.zabriskie_mario_bava
+- title: 음성
+  column: 1
+  items:
+  - main: 내레이션
+    license: AI 음성 합성
+    rights:
+    - narration.tts
+- title: 표기
+  column: 1
+  slot: notice
+  items:
+  - main: 호르무즈 통항·기뢰 주장은 양측 발표로 독립 확인되지 않음
+    license: 카타르 초안 세부·공격 준비 보도는 익명 관리 인용 · 해석은 각 기관 견해
+    rights: []

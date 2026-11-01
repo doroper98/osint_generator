@@ -1,0 +1,1213 @@
+{
+ "schema_version": 1,
+ "claims": [
+  {
+   "claim_id": "clm_0001",
+   "text": "10월 31일 이란 대표단이 카타르 도하에 갔다",
+   "source_ids": [
+    "src_art_0001",
+    "src_art_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_art_0002",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-10-31"
+  },
+  {
+   "claim_id": "clm_0002",
+   "text": "아라그치 외무장관은 미국의 대화 시도를 긍정적 조치라고 했고, 현 단계에서 미국과 만날 필요는 없다고 말했다",
+   "source_ids": [
+    "src_art_0001"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0001",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-31",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0001",
+     "text": "a positive step"
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0003",
+   "text": "루비오 국무장관은 트럼프 대통령이 새 공격을 아직 결정하지 않았고 외교적 해결을 선호한다고 말했다",
+   "source_ids": [
+    "src_art_0005",
+    "src_art_0006"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0005",
+    "quote_match:src_art_0006",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-31"
+  },
+  {
+   "claim_id": "clm_0004",
+   "text": "미국 중간선거는 2026년 11월 3일이다",
+   "source_ids": [
+    "src_art_0019",
+    "src_art_0020"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0019",
+    "quote_match:src_art_0020",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0005",
+   "text": "2026년 2월 28일 미국과 이스라엘이 이란 합동 공습을 시작했다",
+   "source_ids": [
+    "src_art_0028",
+    "src_art_0007"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0028",
+    "quote_match:src_art_0007",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-02-28"
+  },
+  {
+   "claim_id": "clm_0006",
+   "text": "2월 28일 공습으로 알리 하메네이 최고지도자가 숨졌다",
+   "source_ids": [
+    "src_art_0030",
+    "src_art_0007"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0030",
+    "quote_match:src_art_0007",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-02-28"
+  },
+  {
+   "claim_id": "clm_0007",
+   "text": "3월 2일 혁명수비대는 해협을 닫고 통과 선박을 공격하겠다고 밝혔다",
+   "source_ids": [
+    "src_art_0029"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0029",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-03-02"
+  },
+  {
+   "claim_id": "clm_0008",
+   "text": "3월 8~9일 전문가회의가 모즈타바 하메네이를 새 최고지도자로 뽑았다",
+   "source_ids": [
+    "src_art_0031",
+    "src_art_0030"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0031",
+    "quote_match:src_art_0030",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-03-09"
+  },
+  {
+   "claim_id": "clm_0009",
+   "text": "4월 7일 트럼프가 파키스탄 중재 2주 휴전을 발표했고 4월 8일 발효됐다",
+   "source_ids": [
+    "src_art_0032",
+    "src_art_0033"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0032",
+    "quote_match:src_art_0033",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-04-08"
+  },
+  {
+   "claim_id": "clm_0010",
+   "text": "4월 11~12일 이슬라마바드 회담이 합의 없이 끝났다",
+   "source_ids": [
+    "src_art_0034",
+    "src_art_0033"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0034",
+    "quote_match:src_art_0033",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-04-12"
+  },
+  {
+   "claim_id": "clm_0011",
+   "text": "4월 13일 미 중부사령부가 이란 항만 봉쇄를 시작했다",
+   "source_ids": [
+    "src_art_0035",
+    "src_art_0038"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0035",
+    "quote_match:src_art_0038",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-04-13"
+  },
+  {
+   "claim_id": "clm_0012",
+   "text": "6월 17일 트럼프와 페제시키안이 14개 항 양해각서에 전자 서명했다(60일 안 최종 합의)",
+   "source_ids": [
+    "src_art_0036",
+    "src_art_0037"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0036",
+    "quote_match:src_art_0037",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-06-17"
+  },
+  {
+   "claim_id": "clm_0013",
+   "text": "6월 18일 미 해군이 봉쇄를 풀었다",
+   "source_ids": [
+    "src_art_0038",
+    "src_art_0045"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0038",
+    "quote_match:src_art_0045",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-06-18"
+  },
+  {
+   "claim_id": "clm_0014",
+   "text": "7월 6~7일 혁명수비대가 오만 연안에서 상선 세 척을 공격했고, 미국은 이란 남부를 공습하고 원유 제재를 복원했다",
+   "source_ids": [
+    "src_art_0040",
+    "src_art_0041"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0040",
+    "quote_match:src_art_0041",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-07-07"
+  },
+  {
+   "claim_id": "clm_0015",
+   "text": "7월 8일 트럼프는 휴전은 끝났다고 말했다",
+   "source_ids": [
+    "src_art_0042"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0042",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-07-08",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0042",
+     "text": "the Cease Fire is OVER"
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0016",
+   "text": "7월 14일 미국이 이란 항만 봉쇄를 다시 시작했다",
+   "source_ids": [
+    "src_art_0045",
+    "src_art_0044"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0045",
+    "quote_match:src_art_0044",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-07-14"
+  },
+  {
+   "claim_id": "clm_0017",
+   "text": "양해각서 붕괴 책임은 양측이 서로를 든다",
+   "source_ids": [
+    "src_art_0040",
+    "src_art_0043",
+    "src_art_0039"
+   ],
+   "status": "disputed",
+   "contested": true,
+   "checks": [
+    "quote_match:src_art_0040",
+    "quote_match:src_art_0043",
+    "quote_match:src_art_0039",
+    "independent_origins:3",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-07-18",
+   "sides": [
+    {
+     "party": "미국",
+     "text": "혁명수비대의 상선 공격(7/6~7)을 위반으로 들고 휴전 종료",
+     "source_ids": [
+      "src_art_0040",
+      "src_art_0042"
+     ]
+    },
+    {
+     "party": "이란",
+     "text": "미국의 공습이 양해각서 1조 위반(7/18 가리바바디), 이스라엘의 레바논 공격도 위반으로 간주(6/16 아라그치)",
+     "source_ids": [
+      "src_art_0043",
+      "src_art_0039"
+     ]
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0018",
+   "text": "7월 18일 이란은 미국의 공습을 1조 위반으로 들며 양해각서 이행 중단을 선언했다",
+   "source_ids": [
+    "src_art_0043"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0043",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-07-18"
+  },
+  {
+   "claim_id": "clm_0019",
+   "text": "6월 16일 아라그치는 이스라엘의 레바논 공격을 양해각서 위반으로 간주하겠다고 경고했다",
+   "source_ids": [
+    "src_art_0039"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0039",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-06-16"
+  },
+  {
+   "claim_id": "clm_0020",
+   "text": "8월 17일 양해각서 60일 시한이 만료됐고 연장되지 않았다",
+   "source_ids": [
+    "src_art_0044",
+    "src_art_0045"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0044",
+    "quote_match:src_art_0045",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-08-17"
+  },
+  {
+   "claim_id": "clm_0021",
+   "text": "9월 24일 아라그치가 뉴욕 유엔총회에서 7일안을 내놨다 — 레바논 포함 전 전선 7일 교전 중지·봉쇄 해제·원유 제재 해제·동결 자산 해제 → 6일째 해협 개방·7일째 포괄 협상",
+   "source_ids": [
+    "src_art_0023",
+    "src_art_0024"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0023",
+    "quote_match:src_art_0024",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-09-24"
+  },
+  {
+   "claim_id": "clm_0022",
+   "text": "9월 26일 트럼프는 그 합의는 받아들일 수 없다고 말했다",
+   "source_ids": [
+    "src_art_0025",
+    "src_art_0026"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0025",
+    "quote_match:src_art_0026",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-09-26",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0025",
+     "text": "would not be acceptable"
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0023",
+   "text": "9월 30일 이란 정부는 카타르를 거쳐 미국 역제안을 받았다고 밝혔고 내용은 공개하지 않았다",
+   "source_ids": [
+    "src_art_0027"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0027",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-09-30"
+  },
+  {
+   "claim_id": "clm_0024",
+   "text": "밴스 부통령은 인터뷰에서 이란이 농축 능력을 의미 있게 줄여야 한다고, 60% 농축 연료가 왜 필요하냐고 말했다",
+   "source_ids": [
+    "src_art_0021",
+    "src_art_0022"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0021",
+    "quote_match:src_art_0022",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-06",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0021",
+     "text": "meaningful"
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0025",
+   "text": "이란 관리는 농축 권리 인정은 넘을 수 없는 선이라고 말했다",
+   "source_ids": [
+    "src_art_0022"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0022",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-07"
+  },
+  {
+   "claim_id": "clm_0026",
+   "text": "10월 8일 트럼프는 11월 3일 중간선거 전에는 이란을 공격하지 않겠다고 했고 봉쇄는 유지한다고 했다",
+   "source_ids": [
+    "src_art_0019",
+    "src_art_0020"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0019",
+    "quote_match:src_art_0020",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-08"
+  },
+  {
+   "claim_id": "clm_0027",
+   "text": "10월 11일 레자이는 미국 답변이 불충분하다고, 일부 조건은 받아들였지만 나머지는 풀리지 않았다고 말했다",
+   "source_ids": [
+    "src_art_0017",
+    "src_art_0018"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0017",
+    "quote_match:src_art_0018",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-11"
+  },
+  {
+   "claim_id": "clm_0028",
+   "text": "레자이에 따르면 미국은 해협의 이란·오만 공동 관리를 거부했다",
+   "source_ids": [
+    "src_art_0017"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0017",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-11"
+  },
+  {
+   "claim_id": "clm_0029",
+   "text": "10월 25일 카타르가 하루 단위 신뢰 구축 단계를 담은 7일 초안을 이란에 건넸다는 보도(익명 관리)",
+   "source_ids": [
+    "src_art_0015",
+    "src_art_0016"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0015",
+    "quote_match:src_art_0016",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "존재 high, 세부 low(D-0451 §2.2)",
+   "event_date": "2026-10-25"
+  },
+  {
+   "claim_id": "clm_0030",
+   "text": "이란 고위 관리는 카타르가 제안이 아니라 받아들일 수 없는 아이디어를 전했다고 말했다",
+   "source_ids": [
+    "src_art_0014",
+    "src_art_0016"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0014",
+    "quote_match:src_art_0016",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-28",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0014",
+     "text": "unacceptable ideas and not an offer"
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0031",
+   "text": "밴스 부통령이 레자이 사무총장에게 서한을 보냈다는 보도(내용 미공개), 트럼프는 의료 물품 지원 관련이라고 말했다",
+   "source_ids": [
+    "src_art_0010",
+    "src_art_0011"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0010",
+    "quote_match:src_art_0011",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-28"
+  },
+  {
+   "claim_id": "clm_0032",
+   "text": "레자이는 서한을 읽었지만 답하지 않았고 미국 어조가 바뀐 것은 좋은 신호라고 말했다",
+   "source_ids": [
+    "src_art_0009"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0009",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-31"
+  },
+  {
+   "claim_id": "clm_0033",
+   "text": "10월 30일 카타르 대표단이 테헤란에서 열두 시간 넘게 협의했다",
+   "source_ids": [
+    "src_art_0002",
+    "src_art_0003",
+    "src_art_0004"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0002",
+    "quote_match:src_art_0003",
+    "quote_match:src_art_0004",
+    "independent_origins:3",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-10-30"
+  },
+  {
+   "claim_id": "clm_0034",
+   "text": "10월 31일 아라그치가 밝힌 조건 — 양해각서 뒤 부과된 제재 해제·역내 미군 축소·원유 제재 면제 복원·카타르 보관분 포함 동결 자금 전액 해제·오만과 합의한 항로 인정",
+   "source_ids": [
+    "src_art_0001"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0001",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-31"
+  },
+  {
+   "claim_id": "clm_0035",
+   "text": "아라그치: 카타르가 이행 기간을 닷새로 줄이자고 했고 이란은 이틀로 줄이는 안에 이르렀다",
+   "source_ids": [
+    "src_art_0001"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0001",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-31"
+  },
+  {
+   "claim_id": "clm_0036",
+   "text": "미국 쪽은 핵 문제를 다루지 않는 합의는 없다는 전제(밴스 서한 — 액시오스)",
+   "source_ids": [
+    "src_art_0012"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0012",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-28"
+  },
+  {
+   "claim_id": "clm_0037",
+   "text": "쟁점은 이행 순서 — 이란은 봉쇄 해제·제재 먼저, 미국은 핵 문제 먼저",
+   "source_ids": [
+    "src_art_0027",
+    "src_art_0004",
+    "src_art_0014"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0027",
+    "quote_match:src_art_0004",
+    "quote_match:src_art_0014",
+    "independent_origins:3",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-09-30"
+  },
+  {
+   "claim_id": "clm_0038",
+   "text": "미국이 걸프 국가들에 중간선거 뒤 짧고 강한 작전에 대비하라고 알렸다는 보도(익명)",
+   "source_ids": [
+    "src_art_0013"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0013",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-28"
+  },
+  {
+   "claim_id": "clm_0039",
+   "text": "모즈타바 하메네이는 공격받으면 즉각적이고 지리적 제한 없는 대응을 하라고 했다",
+   "source_ids": [
+    "src_art_0007",
+    "src_art_0008"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0007",
+    "quote_match:src_art_0008",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-31",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0008",
+     "text": "geographically unrestricted"
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0040",
+   "text": "전쟁 전(2024년) 호르무즈를 지나는 석유는 하루 약 2,000만 배럴, 세계 석유 소비의 약 20%",
+   "source_ids": [
+    "src_art_0053"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0053",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0041",
+   "text": "UKMTO 주간 집계(10/28 주): 통항은 전쟁 전보다 약 70% 적다(미국 제공 수치는 독립 검증 불가)",
+   "source_ids": [
+    "src_art_0051",
+    "src_art_0052"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0051",
+    "quote_match:src_art_0052",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-28"
+  },
+  {
+   "claim_id": "clm_0042",
+   "text": "호르무즈 기뢰 주장 — 양측 발표가 다르고 독립 확인 없음",
+   "source_ids": [
+    "src_art_0047",
+    "src_art_0048",
+    "src_art_0049",
+    "src_art_0046"
+   ],
+   "status": "disputed",
+   "contested": true,
+   "checks": [
+    "quote_match:src_art_0047",
+    "quote_match:src_art_0048",
+    "quote_match:src_art_0049",
+    "quote_match:src_art_0046",
+    "independent_origins:4",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-29",
+   "sides": [
+    {
+     "party": "이란",
+     "text": "혁명수비대 해군: 허가받지 않은 남쪽 항로에서 유조선 세 척 기뢰 접촉, 육군: 한 척 추가",
+     "source_ids": [
+      "src_art_0048",
+      "src_art_0049"
+     ]
+    },
+    {
+     "party": "미 중부사령부",
+     "text": "거짓, 국제적으로 인정된 주요 통항로 기뢰 제거 완료",
+     "source_ids": [
+      "src_art_0046",
+      "src_art_0047"
+     ]
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0043",
+   "text": "이란은 기뢰에 맞았다는 선박의 이름을 밝히지 않았다",
+   "source_ids": [
+    "src_art_0047",
+    "src_art_0049"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0047",
+    "quote_match:src_art_0049",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-10-30"
+  },
+  {
+   "claim_id": "clm_0044",
+   "text": "로이터 해상 보안 소식통: 파나마 선적 루이즈 원호는 부착식 기뢰 피해",
+   "source_ids": [
+    "src_art_0050"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0050",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-30"
+  },
+  {
+   "claim_id": "clm_0045",
+   "text": "브렌트유 12월물 10월 30일 배럴당 117.64달러 마감, 전쟁 직전(2/27) 약 72달러",
+   "source_ids": [
+    "src_art_0054",
+    "src_art_0055"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0054",
+    "quote_match:src_art_0055",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-10-30"
+  },
+  {
+   "claim_id": "clm_0046",
+   "text": "전쟁 위험 보험료: 전쟁 전 선가의 약 0.25% → 10월 6~10%(보험 중개사)",
+   "source_ids": [
+    "src_art_0056"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0056",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-14"
+  },
+  {
+   "claim_id": "clm_0047",
+   "text": "한국해양진흥공사: 통항 재개 뒤 해운 시장 정상화 최장 2년",
+   "source_ids": [
+    "src_art_0057"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0057",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-04-02"
+  },
+  {
+   "claim_id": "clm_0048",
+   "text": "한국해양진흥공사: 2025년 한국 원유 수입의 69.6%가 호르무즈 경유",
+   "source_ids": [
+    "src_art_0058",
+    "src_art_0059"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0058",
+    "quote_match:src_art_0059",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-03-04"
+  },
+  {
+   "claim_id": "clm_0049",
+   "text": "울산세관: 울산 원유 반입 중 호르무즈 안쪽 선적 비중 1월 79.5% → 9월 0%, 해협 밖 중동 항 70.6%",
+   "source_ids": [
+    "src_art_0060",
+    "src_art_0061",
+    "src_art_0062"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0060",
+    "quote_match:src_art_0061",
+    "quote_match:src_art_0062",
+    "independent_origins:3",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "해협 밖 선적도 걸프 원유 환적분 가능(울산매일)",
+   "event_date": "2026-10-13"
+  },
+  {
+   "claim_id": "clm_0050",
+   "text": "휘발유 전국 평균 전쟁 전 1,691.3원 → 10월 4주 1,855.7원(오피넷)",
+   "source_ids": [
+    "src_art_0063",
+    "src_art_0064",
+    "src_art_0065"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0063",
+    "quote_match:src_art_0064",
+    "quote_match:src_art_0065",
+    "independent_origins:3",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-10-31"
+  },
+  {
+   "claim_id": "clm_0051",
+   "text": "3월 12일 정부가 비축유 2,246만 배럴 방출과 석유 최고가격제를 발표했다",
+   "source_ids": [
+    "src_art_0066",
+    "src_art_0067",
+    "src_art_0068"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0066",
+    "quote_match:src_art_0067",
+    "quote_match:src_art_0068",
+    "independent_origins:3",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-03-12"
+  },
+  {
+   "claim_id": "clm_0052",
+   "text": "카타르에 묶인 이란 자금(약 60억 달러)은 2023년 한국에서 옮겨 간 원유 대금이다",
+   "source_ids": [
+    "src_art_0069",
+    "src_art_0070"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0069",
+    "quote_match:src_art_0070",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2023-09-01"
+  },
+  {
+   "claim_id": "clm_0053",
+   "text": "10월 27일 이란 해협청은 장금상선 선박에 11월 1일부터 법적 조치를 하겠다고 밝혔다",
+   "source_ids": [
+    "src_art_0071",
+    "src_art_0072"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0071",
+    "quote_match:src_art_0072",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-27"
+  },
+  {
+   "claim_id": "clm_0054",
+   "text": "한국해운협회는 지목 선박이 외국 석유사 재용선이라고 반박했다",
+   "source_ids": [
+    "src_art_0073"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0073",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-28"
+  },
+  {
+   "claim_id": "clm_0055",
+   "text": "위성락 안보실장은 청해부대 강화·확대 방안을 검토하고 있다고 밝혔다(미결)",
+   "source_ids": [
+    "src_art_0074",
+    "src_art_0075"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0074",
+    "quote_match:src_art_0075",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-10-30"
+  },
+  {
+   "claim_id": "clm_0056",
+   "text": "10월 31일까지 미국·이란 어느 쪽도 휴전안 수용을 발표하지 않았고 직접 회동도 없었다",
+   "source_ids": [
+    "src_art_0001",
+    "src_art_0016"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_art_0016",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-10-31"
+  },
+  {
+   "claim_id": "clm_0057",
+   "text": "10월 호르무즈 선박 공격은 30건 이상으로 개전 뒤 가장 많았다",
+   "source_ids": [
+    "src_art_0052",
+    "src_art_0051"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0052",
+    "quote_match:src_art_0051",
+    "independent_origins:2",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-10-31"
+  },
+  {
+   "claim_id": "clm_0058",
+   "text": "미국외교협회 분석: 11월 3일 뒤 트럼프의 정치적 제약이 풀린다",
+   "source_ids": [
+    "src_art_0076"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0076",
+    "independent_origins:1",
+    "supervisor_table:D-0451"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  }
+ ]
+}
