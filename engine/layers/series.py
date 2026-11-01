@@ -589,7 +589,7 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
             if not _hits(box, _lane_name_box(ctx, view, stage, e["lane"])):   # 레인 이름을 덮지 않는다(끝점은 그대로)
                 plate = draw_end_label_plate(ctx, box, a)   # v7.4.0 D-0277 §2 — 강조 띠 위 대비
                 text(ctx, s, box[0], by, S.value_size, S.value_font, tip, a, S.value_halo, "l")
-                R.cache["series_end_labels"]["lanes"][e["lane"]].append((by, last[2], box, plate, covered))
+                R.cache["series_end_labels"]["lanes"][e["lane"]].append((by, last[2], box, plate, covered, S.end_label_plate.alpha * a))   # 끝 = 그린 판 알파(D-0344 [grid-text-cross] 가림)
     if sec:
         from engine.style import stage_surface  # noqa: PLC0415
 

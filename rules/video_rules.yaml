@@ -1417,7 +1417,7 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     end_label_min_gap_px: 14   # value_size 12 + 2
     # v7.4.0 back_and_forth D-0277 §2 — 끝값 라벨 뒤 작은 판(바탕 = stage_timeline.bg_rgb). 강조 띠(9.16 목표 범위 등) 위에서 대비가 죽던 것(preview_v9 94초 "3.63 %").
     # 모든 레인 끝값 라벨에 같은 규칙. 판 없는 끝값 라벨 = [series-label-overlap] hard(판이 곧 장치). alpha 0.72 = 감독 제안 값(사용자 합격 값 아님)
-    end_label_plate: {alpha: 0.72, pad_px: 4, descent: 0.22}   # descent = 글자 내림 ÷ 글자 크기(자막 글자 상자와 같은 값) — 판 아래 끝
+    end_label_plate: {alpha: 1.0, pad_px: 4, descent: 0.22}   # alpha v7.4.0 D-0344(UF-155) — 불투명 판이 세로 격자선을 판 가장자리에서 끊는다(옛 0.72)   # descent = 글자 내림 ÷ 글자 크기(자막 글자 상자와 같은 값) — 판 아래 끝
     # v7.4.0 back_and_forth D-0274 §1②·D-0276(UF-143 "차트에 글씨가 너무 겹치네") — 값 레인 위 사건 핀 라벨: 점 가운데 정렬, 선 위 1·2단 → 선 아래 1·2단 순으로
     # 코드가 고른다(다른 핀 라벨·점, 계열 선·띠, 축 값 라벨, 끝값 라벨과 교차 0, 상자는 플롯 안 x 클램프). 넷 다 막히면 점만(provenance pin_labels.dropped).
     # 점 ↔ 라벨 상자 가장자리 = first_dy, 단 간격 = row_gap(한 줄 라벨 13 + 여백 3 — 부제 있는 두 줄 라벨은 같은 여백 3 을 두고 상자 높이만큼).
@@ -2173,7 +2173,7 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   regression_refs:
     hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
     fed_timeline_demo: "시간축 엔진 검증용 데모(배포 영상 아님) — 미디어 없는 순수 차트 픽스처"
-  regression_ref_checks: [media_density, chart_only_run, plot_height, axis_empty_band, text_restates_narration, photo_subject_unmatched, photo_subject_background]   # text_restates_narration = v7.4.0 D-0316 ② 조사 떼기 뒤 골든 핀 '9월 8일 파병 반대 집회' 60%(골든 연출 불변)
+  regression_ref_checks: [media_density, chart_only_run, plot_height, axis_empty_band, text_restates_narration, photo_subject_unmatched, photo_subject_background, chart_overload]   # text_restates_narration = v7.4.0 D-0316 ② 조사 떼기 뒤 골든 핀 '9월 8일 파병 반대 집회' 60%(골든 연출 불변)   # chart_overload = v7.4.0 D-0344 — fed 데모 두 층 0.30초 동시(데모 연출 불변, 기록만)
   # v7.4.0 D-0229 §2.6(UF-113 "몇 척중 몇척은 제재 대상임을 그래픽으로") — 문장에 "N 척 중·가운데 M" 문형이 있는데 그 문장 구간에 dots·versus 패널·series 가 없으면 warning ratio_graphic
   ratio_patterns:
     - '(\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|스무|스물)\s*(척|곳|건|명|개|대|기)\s*(중|가운데)'
@@ -2226,6 +2226,9 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
     none: []                                                                # 값·날짜 축이 없는 패널
   series_max: 3            # 한 차트(레인·패널)의 계열 수 상한(20 §5.3)
   # v7.4.0 back_and_forth D-0339(사용자 의견 UF-151·152·154·155·202 장치 — 값은 D-0309 §5·§6 감독 제안, 사용자 합격 값 아님)
+  # v7.4.0 back_and_forth D-0344(UF-155) — [grid-text-cross] 가림 조건: 글자 아래 실제로 그린 판(렌더러가 기록한 알파·상자)이 이 알파 이상이면
+  # 그 판 안의 격자 조각은 가려진 것으로 센다(라벨 종류로 건너뛰는 예외가 아니라 그린 판의 측정값). 감독 제안 값
+  grid_text_cross: {occluder_alpha_min: 0.98}
   chart_depth:
     layers_min: 3              # [chart-layers-min] hard — 아래 장르 영상의 차트 아일랜드 중 하나는 층(계열·부문·보조 계열·예상·열 확대 인셋) ≥ 이 값(UF-151 "하나의 차트에 하나의 정보만 제공하는게 아니고")
     layers_min_genres: [earnings]

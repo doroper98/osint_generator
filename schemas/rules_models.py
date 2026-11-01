@@ -1756,6 +1756,12 @@ class ChartOnlyRun(_Strict):
     map_stages: list[str] = Field(min_length=1)
 
 
+class GridTextCross(_Strict):
+    """v7.4.0 D-0344 — [grid-text-cross] 가림 조건(그린 판의 알파 ≥ occluder_alpha_min 이면 그 판 안 격자 조각은 가려짐)."""
+
+    occluder_alpha_min: float = Field(gt=0, le=1)
+
+
 class ChartDepth(_Strict):
     """v7.4.0 back_and_forth D-0339(UF-151·152·154·155·202 장치, 값 = D-0309 §5·§6 감독 제안) — qa_checks.chart_depth."""
 
@@ -1811,6 +1817,7 @@ class QAChecks(_Strict):
     planned: list[str] = Field(default_factory=list)   # v4.2.0 D-0081 — 예정 검사 id(장르 프로필 proposed qa_extra 만)
     chart_targets: dict[Literal["value", "date", "none"], list[Literal["chart_honesty", "series_limit_3", "units_visible", "as_of_visible"]]]   # v4.3.0 D-0087
     series_max: int = Field(ge=1)   # v4.3.0 — 20 §5.3 계열 수 상한
+    grid_text_cross: Optional[GridTextCross] = None   # v7.4.0 D-0344(UF-155)
     chart_depth: "ChartDepth"   # v7.4.0 D-0339 — 차트 깊이·과밀·보조 축·격자↔글자·막대 테두리(UF-151·152·154·155·202)
     visual_qa_loop_max: int
     empty_exempt: list[Literal["article_press_lead"]] = Field(default_factory=list)   # v5.1.0 D-0127 §5 — 검수 empty 제외 구간

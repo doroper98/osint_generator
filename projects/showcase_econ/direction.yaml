@@ -239,9 +239,9 @@ events:
   color_by: change
   col: gold
 - type: series
-  start:
-    sid: cold_0
-    'off': -0.2
+  start:   # v7.4.0 D-0344(UF-154 [chart-overload]) — 띠(cold_0)와 같은 순간 → '연준의 금리를 한 줄의 시간축 위에서' 문장(act1_0)에, 띠보다 34초 뒤. 원고에 실효금리를 부르는 문장이 없어 원고는 그대로(게이트 ① 불변)
+    sid: act1_0
+    'off': 0.3
   end:
     scene_end: ending
     'off': 0.5

@@ -3484,13 +3484,20 @@ def _chart_sample_times(events: list[dict]) -> list[float]:
     return sorted(ts)
 
 
-def grid_text_crossings(segs: list[tuple[float, float, float]], t: float, boxes: list[tuple[str, tuple]]) -> list[str]:
-    """그린 세로 격자선 조각 (x, 위, 아래) ↔ 글자 상자 교차(± grid_text_pad_px)."""
+def grid_text_crossings(segs: list[tuple[float, float, float]], t: float, boxes: list[tuple[str, tuple]],
+                        occluders: list[tuple[float, tuple]] | None = None) -> list[str]:
+    """그린 세로 격자선 조각 (x, 위, 아래) ↔ 글자 상자 교차(± grid_text_pad_px). occluders = 그 위에 실제로 그린 판 (알파, 상자) —
+    알파 ≥ rules qa_checks.grid_text_cross.occluder_alpha_min 인 판이 교차 구간(조각 ∩ 글자 상자)을 다 덮으면 가려진 것(v7.4.0 D-0344, UF-155)."""
     pad = QA.chart_depth.grid_text_pad_px
+    amin = QA.grid_text_cross.occluder_alpha_min if QA.grid_text_cross is not None else math.inf
+    occ = [o for al, o in occluders or [] if al >= amin]
     out = []
     for x, ya, yb in segs:
         for name, b in boxes:
             if b[0] - pad < x < b[2] + pad and b[1] - pad < yb and b[3] + pad > ya:
+                lo, hi = max(ya, b[1] - pad), min(yb, b[3] + pad)
+                if any(o[0] <= x <= o[2] and o[1] <= lo and o[3] >= hi for o in occ):
+                    continue
                 out.append(f"[grid-text-cross] t={t:.2f} 격자선 x={x:.1f} ↔ {name} {tuple(round(q, 1) for q in b)} — 선은 글자 앞에서 끊는다(UF-155)")
     return out
 
@@ -3515,8 +3522,10 @@ def check_grid_text_cross(P) -> list[str]:  # noqa: ANN001, N803
         P.R.cache.pop("series_end_labels", None)
         DRAWN_GRID.clear()
         render_frame(P, min(P.n_frames - 1, max(0, int(t * FPS))))
-        ends = [(f"끝값 라벨({ln})", p[2]) for ln, placed in ((P.R.cache.get("series_end_labels") or {}).get("lanes") or {}).items() for p in placed]
-        out += grid_text_crossings(list(DRAWN_GRID), t, chart_text_boxes(stage, v, _visible(events, t), t, rng) + ends)
+        placed = [(ln, p) for ln, ps in ((P.R.cache.get("series_end_labels") or {}).get("lanes") or {}).items() for p in ps]
+        ends = [(f"끝값 라벨({ln})", p[2]) for ln, p in placed]
+        plates = [(p[5], p[3]) for _, p in placed if len(p) > 5 and p[3] is not None]   # v7.4.0 D-0344 — 그린 판 (알파, 상자)
+        out += grid_text_crossings(list(DRAWN_GRID), t, chart_text_boxes(stage, v, _visible(events, t), t, rng) + ends, plates)
     return list(dict.fromkeys(out))
 
 def bar_border_hits(img: "np.ndarray", rects: list[tuple[float, float, float, float]], t: float,
