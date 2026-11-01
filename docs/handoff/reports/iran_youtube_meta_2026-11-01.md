@@ -1,7 +1,7 @@
 ---
 title: 유튜브 업로드 문안 — 『휴전안의 한 달 — 미국과 이란, 무엇이 먼저 풀려야 하나』
 last_synced_with: v7.4.0
-source: artifacts/iran-ceasefire-v7.4.0 424fb28 final/(final_deliver.mp4 md5 fd89a455 · description.txt · credits.txt · final.srt 66 큐) · projects/iran_ceasefire_2026 script.yaml(66문장)·intake/sources.json(80) — 챕터·크레딧은 전달본과 대조 완료
+source: artifacts/iran-ceasefire-v7.4.0 a3ffa45 final_v2/(final_deliver.mp4 md5 d1c655d4 — 교체본, UF-171·172 반영; 첫 전달본 424fb28 fd89a455 는 사용자 탈락 · description.txt · credits.txt · final.srt 66 큐) · projects/iran_ceasefire_2026 script.yaml(66문장)·intake/sources.json(80) — 챕터·크레딧은 전달본과 대조 완료
 ---
 
 # 1. 제목(3안 — 1안 권장)
