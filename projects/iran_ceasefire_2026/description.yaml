@@ -1,0 +1,32 @@
+# 『휴전안의 한 달』 유튜브 설명문 — 감독 초안 docs/handoff/reports/iran_youtube_meta_2026-11-01.md §3 요약.
+# chapters.at: 장면 id 또는 TITLE. 시각은 engine.mux 가 plan.json 으로 계산.
+schema_version: 1
+headline: 휴전안의 한 달 — 미국과 이란, 무엇이 먼저 풀려야 하나
+summary: 2026년 10월 31일, 이란 대표단이 카타르 도하에 도착했습니다. 9월 24일 이란의 7일안부터 도하 협의까지 휴전안의 한 달, 양측이 밝힌 조건, 호르무즈 해협의 지금, 한국과 닿는 접점을 출처와 기준 시점과 함께 지도와 시간축 위에 정리했습니다. 휴전 가능성은 예측하지 않고 양측의 조건과 지켜볼 신호 다섯을 나란히 두었습니다.
+chapters:
+- at: cold
+  label: 10월 31일 도하
+- at: TITLE
+  label: 타이틀
+- at: act1
+  label: 여덟 달 — 2월 28일부터 8월 17일까지
+- at: act2
+  label: 휴전안의 한 달 — 7일안에서 도하 협의까지
+- at: act3
+  label: 양측 조건
+- at: act4
+  label: 호르무즈 지금
+- at: act5
+  label: 가능성 — 조건과 신호 다섯
+- at: act6
+  label: 한국
+- at: ending
+  label: 정리
+footer:
+- '유의: 카타르 초안의 세부와 미국의 역제안 내용은 익명 관리가 전한 보도에 근거합니다. 밴스 부통령의 서한 내용은 공개되지 않았으며 보도마다 다릅니다.'
+- '유의: 10월 29일 기뢰 피격 주장과 미 중부사령부의 반박은 어느 쪽도 독립적으로 확인되지 않았습니다. 통항 감소 수치(영국 해사무역기구)는 미국 제공 수치를 포함합니다.'
+- '유의: 전쟁 위험 보험료 그래프는 10월 범위(6~10%) 가운데 하단만 선으로 표시했습니다.'
+- '자료: Al Jazeera · CNBC · The National · Asharq Al-Awsat · France 24/AFP · SCMP · Xinhua · Axios · Haaretz · Reuters · Iran International · IRNA · CNN · The Washington Post · NPR · Euronews · Middle East Eye · Britannica · The New Arab · Gulf News · U.S. EIA · Insurance Business · 한국해양진흥공사 · 울산세관 · 오피넷 · 연합뉴스 · 서울경제 · 한국일보 · 뉴스1 · 파이낸셜뉴스 · 세계일보 (전체 목록과 링크는 고정 댓글·credits)'
+- '사진·영상: 미 국방부·미 중부사령부·미 해군·NASA(Public domain), Zairon·Mehr News·Kayra·kremlin.ru(CC BY 4.0), Sajjadmrt(CC0)'
+- '지도: Natural Earth · AWS Terrain Tiles · 국기: flag-icons(MIT)'
+- '{music} · 내레이션: AI 음성 합성 · 사실 장면에 AI 생성 이미지는 쓰지 않았습니다'
