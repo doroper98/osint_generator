@@ -100,6 +100,8 @@ class WarScene:
         self.topo: dict[str, ToponymyEntry] = tf.by_id() if tf is not None else {}
         self._img: dict[str, tuple] = {}
         self.res_boxes: list[tuple[float, list]] = []
+        self.card_boxes: list[tuple[float, list]] = []   # 프레임마다 보이는 카드 상자(SK-W6 — 카드가 라벨·부대를 덮는가)
+        self.overflow: list[tuple[float, str]] = []      # 핀이 화면 안인데 글자가 화면 밖(SK-W5)
         self.drawn: dict[str, int] = {}
 
     def features_drawn(self) -> dict[str, int]:
@@ -129,6 +131,13 @@ class WarScene:
         ctx.scale(OP.k, OP.k)
         ctx.set_source_rgba(*W.terrain_dim)
         ctx.paint()
+        Lf = W.lift
+        lift = smooth((W_OUT / view.w - Lf.from_ppd) / Lf.span_ppd)
+        if lift > F.min_alpha:   # 전술 축척 바탕(D-0602 ④) — 평탄한 평야도 무대로 보이게
+            ctx.set_operator(cairo.OPERATOR_ADD)
+            ctx.set_source_rgba(*Lf.rgb, lift)
+            ctx.paint()
+            ctx.set_operator(cairo.OPERATOR_OVER)
         res: list = []
         self._roads(ctx, view, t)
         self._rivers(ctx, view, t)
@@ -139,8 +148,12 @@ class WarScene:
         if dim > F.min_alpha:
             ctx.set_source_rgba(0, 0, 0, W.card.dim_alpha * dim)
             ctx.paint()
+        cards: list = []
         for e in sp.evidence:
-            self._evidence(ctx, e, t)
+            box = self._evidence(ctx, e, t)
+            if box is not None:
+                cards.append(box)
+        self.card_boxes.append((t, cards))
         for q in sp.quotes:
             self._quote(ctx, q, t)
         self.res_boxes.append((t, list(res)))
@@ -249,14 +262,22 @@ class WarScene:
             ctx.fill()
             text(ctx, p.name, x + P.dx, y + P.dy, P.size, P.font, WHITE, P.alpha * a, P.halo)
             wd = tw(ctx, p.name, P.size, P.font)
+            bottom = y + Nw.dy
             if p.toponymy:
+                Wr = W.toponymy_wrap
                 line = f"{self.topo[p.toponymy].name} — {self.topo[p.toponymy].line()}"
-                text(ctx, line, x + P.dx, y + Tp.dy, Tp.size, Tp.font, C["gold"], Tp.alpha * a, Tp.halo)
-                wd = max(wd, tw(ctx, line, Tp.size, Tp.font))
+                lines = wrap(ctx, line, Tp.size, Tp.font, Wr.max_w, Wr.max_lines)
+                for i, ln in enumerate(lines):
+                    text(ctx, ln, x + P.dx, y + Tp.dy + i * Wr.dy, Tp.size, Tp.font, C["gold"], Tp.alpha * a, Tp.halo)
+                    wd = max(wd, tw(ctx, ln, Tp.size, Tp.font))
+                bottom = max(bottom, y + Tp.dy + (len(lines) - 1) * Wr.dy)
                 self._note("toponymy")
+            now_dy = Nw.dy + (bottom - y - Tp.dy if p.toponymy else 0)
             if p.now:
-                text(ctx, p.now, x + P.dx, y + Nw.dy, Nw.size, Nw.font, C["muted"], Nw.alpha * a, Nw.halo)
-            res.append((x, y - P.size, x + P.dx + wd, y + Nw.dy))
+                text(ctx, p.now, x + P.dx, y + now_dy, Nw.size, Nw.font, C["muted"], Nw.alpha * a, Nw.halo)
+            if x + P.dx + wd > W_OUT:
+                self.overflow.append((t, p.name))
+            res.append((x, y - P.size, x + P.dx + wd, y + now_dy))
             self._note("place")
 
     # ---------------------------------------------------------------- 증거 층
@@ -267,11 +288,11 @@ class WarScene:
             self._img[mid] = (*surf_from_pil(im), im.width, im.height)
         return self._img[mid]
 
-    def _evidence(self, ctx: cairo.Context, e: Evidence, t: float) -> None:
+    def _evidence(self, ctx: cairo.Context, e: Evidence, t: float) -> "tuple | None":
         Cd = W.card
         a = window(t, e.t0, e.t1, Cd.in_sec, Cd.out_sec)
         if a <= F.min_alpha:
-            return
+            return None
         m = self.media[e.mid]
         surf, _buf, iw, ih = self._image(e.mid)
         w = Cd.w
@@ -302,6 +323,8 @@ class WarScene:
             for i, ln in enumerate(lines):
                 text(ctx, ln, x + Cd.art_pad, y0 + Ar.dy * (i + 1), Ar.size, Ar.font, WHITE, Ar.alpha * a, Ar.halo)
         self._note(f"evidence:{m.kind}")
+        bottom = y + h + bar + ((Cd.art_pad + len(lines) * Cd.art.dy) if m.art_history else 0)
+        return (x, y, x + w, bottom, a)
 
     def _quote(self, ctx: cairo.Context, q: Quote, t: float) -> None:
         Q = W.quote

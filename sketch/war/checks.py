@@ -126,5 +126,24 @@ def check_spec(report: CheckReport, spec: WarSpec, project: Path) -> None:
     check_end_card(report, [s.text for s in spec.sources], E.x, Ln.y0, Ln.dy, E.line_size, Ln.font, E.note_y)
 
 
-def check_render(report: CheckReport, boxes: list[tuple[float, list]]) -> None:
+def check_render(report: CheckReport, boxes: list[tuple[float, list]], cards: list[tuple[float, list]] | None = None,
+                 overflow: list[tuple[float, str]] | None = None) -> None:
     check_label_overlap(report, boxes, SK.checks)
+    from rules import load_rules  # noqa: PLC0415
+
+    lum = load_rules().qa_checks.label_under_media   # 본편 [label-under-media] 와 같은 규칙 키(D-0602 ① — 한 트랙만 보호 = 미보호)
+    report.ran_check("SK-W6")
+    covered: dict[int, float] = {}
+    if cards:
+        step = (cards[1][0] - cards[0][0]) if len(cards) > 1 else 0
+        for (t, bs), (_, cs) in zip(boxes, cards):
+            for i, b in enumerate(bs):
+                if any(c[4] >= lum.min_alpha and b[0] < c[2] and c[0] < b[2] and b[1] < c[3] and c[1] < b[3] for c in cs):
+                    covered[i] = covered.get(i, 0) + step
+        worst = max(covered.values(), default=0)
+        if worst > lum.max_sec:
+            report.add("SK-W6", f"[label-under-media] 증거 카드가 부대·지명 상자를 {worst:.1f}s 덮는다(> rules qa_checks.label_under_media.max_sec "
+                                f"{lum.max_sec}) — 카메라를 카드 반대쪽으로 비키거나 카드 자리를 옮긴다")
+    report.ran_check("SK-W5")
+    if overflow:
+        report.add("SK-W5", f"핀이 화면 안인데 글자가 화면 밖 {len(overflow)}프레임(첫 t={overflow[0][0]:.2f}s {overflow[0][1]}) — 줄을 줄이거나 카메라·핀 위치")

@@ -3332,6 +3332,18 @@ class SketchWarEnd(_Strict):
     note_y: float
 
 
+class SketchWarWrap(_Strict):
+    max_w: float = Field(gt=0)
+    max_lines: int = Field(ge=1)
+    dy: float
+
+
+class SketchWarLift(_Strict):
+    rgb: tuple[float, float, float]
+    from_ppd: float
+    span_ppd: float = Field(gt=0)
+
+
 class SketchWar(_Strict):
     """v7.4.0 전쟁사 W3·W4 — sketch/war 화면 수치."""
 
@@ -3342,6 +3354,8 @@ class SketchWar(_Strict):
     unit: SketchWarUnit
     place: SketchWarPlace
     toponymy: SketchWarText
+    toponymy_wrap: SketchWarWrap
+    lift: SketchWarLift
     place_now: SketchWarText
     legend: SketchWarLegend
     card: SketchWarCard

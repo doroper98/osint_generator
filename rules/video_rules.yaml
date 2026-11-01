@@ -2462,6 +2462,8 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
       app6_scale: 0.8            # 현대 세트 = sketch.campaign 부호를 이 배율로
     place: {size: 11.5, font: sansm, halo: 3, alpha: 0.92, dot_r: 2.6, dx: 6, dy: 4, in_sec: 1.2}
     toponymy: {size: 9.5, font: sans, halo: 2.5, dy: 17, alpha: 0.9}
+    toponymy_wrap: {max_w: 280, max_lines: 2, dy: 12}   # v2(D-0602 ③) — 지명 유래 줄 폭 상한·줄바꿈. 넘치거나 화면 밖 = SK-W5 hard
+    lift: {rgb: [0.07, 0.08, 0.07], from_ppd: 1500, span_ppd: 2500}   # v2(D-0602 ④) — 전술 축척(화면 ppd ≥ from)에서 평탄한 땅이 검게 묻히지 않게 바탕을 더한다(OPERATOR_ADD)
     place_now: {size: 9, font: sans, halo: 2.5, dy: 29, alpha: 0.75}
     legend: {x: 18, y: 396, row_dy: 18, chip: [12, 8], chip_dy: -7, label_dx: 18, bg: [-8, -16, 170, 8], radius: 5, alpha: 0.78,
              label: {size: 11, font: sansm, halo: 0}}

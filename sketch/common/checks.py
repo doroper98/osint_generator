@@ -28,7 +28,7 @@ CHECK_IDS: dict[str, str] = {   # ID → 등급(D-0140 §4 표)
     "SK-H1": "hard", "SK-H2": "hard", "SK-H3": "hard", "SK-H4": "hard", "SK-H5": "hard", "SK-H6": "hard",
     "SK-C1": "hard", "SK-C2": "warning", "SK-R1": "hard",
     "SK-G1": "hard", "SK-G2": "hard", "SK-G3": "hard",
-    "SK-W1": "hard", "SK-W2": "hard", "SK-W3": "warning", "SK-W4": "hard",   # v7.4.0 전쟁사 W4(sketch/war — 부호 세트·당대/후대 라벨·증거 층·지명 자료)
+    "SK-W1": "hard", "SK-W2": "hard", "SK-W3": "warning", "SK-W4": "hard", "SK-W5": "hard", "SK-W6": "hard",   # v7.4.0 전쟁사 W4(sketch/war — 부호 세트·당대/후대 라벨·증거 층·지명 자료)
     "SK-E1": "hard",     # 엔딩 자료 상자(D-0150)
     "SK-SPEC": "hard",   # spec 스키마 위반 중 SK 번호가 없는 것(형식·참조 오류)
 }

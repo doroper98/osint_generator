@@ -25,7 +25,7 @@ shots:
   - {t0: 0.0, t1: 0.0, lon: 12.4, lat: 42.9, w: 10.5}
   - {t0: 9.5, t1: 16.5, lon: 15.9, lat: 41.45, w: 3.2}
   - {t0: 18.0, t1: 25.0, lon: 16.108, lat: 41.336, w: 0.085}
-  - {t0: 37.5, t1: 39.5, lon: 16.11, lat: 41.336, w: 0.1}
+  - {t0: 37.0, t1: 40.0, lon: 16.137, lat: 41.336, w: 0.1}   # 증거 카드(오른쪽) 구간 — 부대를 왼쪽으로 비킨다(D-0602 ①, 같은 좌표계 안 이동)
 
 dates:
   - {t: 0.0, date: "-218~-216"}
@@ -41,7 +41,7 @@ places:
   - {name: "로마", pleiades: "423025", t: 1.0}
   - {name: "플라켄티아", now: "피아첸차", pleiades: "383741", t: 3.5}
   - {name: "트라수메누스 호수", now: "트라시메노", pleiades: "413347", t: 6.0}
-  - {name: "카누시움", now: "카노사 디 풀리아", pleiades: "442525", t: 9.0}
+  - {name: "카누시움", now: "카노사 디 풀리아", pleiades: "442525", t: 9.0, t_out: 15.0}
   - {name: "칸나이", now: "칸네 델라 바타글리아(유적)", pleiades: "442523", toponymy: cannae, t: 9.0}
 
 rivers:
@@ -75,7 +75,7 @@ units:
       - {t: 29, lon: 16.0935, lat: 41.3285, heading: 0, length_km: 0.8, depth_km: 0.35}
       - {t: 31, lon: 16.0935, lat: 41.3375, heading: 0, length_km: 0.8, depth_km: 0.35}
       - {t: 33.5, lon: 16.1, lat: 41.3445, heading: 90, length_km: 0.8, depth_km: 0.35}
-      - {t: 36.5, lon: 16.1105, lat: 41.3445, heading: 180, length_km: 1.6, depth_km: 0.3}
+      - {t: 36.5, lon: 16.1105, lat: 41.3445, heading: 180, length_km: 0.8, depth_km: 0.35}
   - faction: carthage
     symbol: infantry_block
     name: "아프리카 보병"
@@ -114,9 +114,9 @@ units:
 
 evidence:
   - {mid: cannae_coin, t0: 39.5, t1: 45.0, side: right}
-  - {mid: cannae_bust, t0: 45.5, t1: 51.0, side: left}
+  - {mid: cannae_bust, t0: 45.5, t1: 51.0, side: right}
   - {mid: cannae_trumbull, t0: 51.5, t1: 57.0, side: right}
-  - {mid: cannae_closs, t0: 57.5, t1: 63.0, side: left}
+  - {mid: cannae_closs, t0: 57.5, t1: 63.0, side: right}
 
 quotes:
   - t0: 63.5

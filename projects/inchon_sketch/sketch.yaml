@@ -35,11 +35,11 @@ factions:
 legend_t: [18.0, 40.0]
 
 places:
-  - {name: "인천", lon: 126.6403, lat: 37.4781, t: 1.5, t_out: 41.0}
+  - {name: "인천", lon: 126.6403, lat: 37.4781, t: 1.5, t_out: 33.0}
   - {name: "서울", lon: 126.9978, lat: 37.5683, t: 1.5}
-  - {name: "월미도", lon: 126.6025, lat: 37.4725, t: 18.0, t_out: 41.0}
-  - {name: "적색 해안", lon: 126.6165, lat: 37.4805, toponymy: beach_codes, t: 26.0, t_out: 41.0}
-  - {name: "청색 해안", lon: 126.644, lat: 37.4575, t: 26.5, t_out: 41.0}
+  - {name: "월미도", lon: 126.6025, lat: 37.4725, t: 18.0, t_out: 33.0}
+  - {name: "적색 해안", lon: 126.6165, lat: 37.4805, toponymy: beach_codes, t: 26.0, t_out: 33.0}
+  - {name: "청색 해안", lon: 126.644, lat: 37.4575, t: 26.5, t_out: 33.0}
 
 routes:
   - {name: "상륙 함대(서해)", faction: un, pts: [[124.9, 36.4], [125.8, 36.9], [126.3, 37.25], [126.58, 37.46]], t0: 2.0, t1: 8.0, t_out: 18.0}
@@ -50,14 +50,14 @@ units:
   - faction: un
     symbol: app6_inf
     name: "5연대 3대대 · 06:33"
-    t_out: 41.0
+    t_out: 33.0
     keys:
       - {t: 21.0, lon: 126.578, lat: 37.462, heading: 60, length_km: 0.5, depth_km: 0.3}
       - {t: 24.5, lon: 126.5975, lat: 37.4705, heading: 60, length_km: 0.5, depth_km: 0.3}
   - faction: un
     symbol: app6_inf
     name: "5연대 · 17:30"
-    t_out: 41.0
+    t_out: 33.0
     keys:
       - {t: 26.5, lon: 126.598, lat: 37.489, heading: 120, length_km: 0.6, depth_km: 0.3}
       - {t: 30.0, lon: 126.6135, lat: 37.4865, heading: 120, length_km: 0.6, depth_km: 0.3}
@@ -65,7 +65,7 @@ units:
   - faction: un
     symbol: app6_inf
     name: "1연대 · 17:30"
-    t_out: 41.0
+    t_out: 33.0
     keys:
       - {t: 27.0, lon: 126.622, lat: 37.438, heading: 50, length_km: 0.6, depth_km: 0.3}
       - {t: 30.5, lon: 126.6395, lat: 37.4525, heading: 50, length_km: 0.6, depth_km: 0.3}
@@ -73,7 +73,7 @@ units:
 
 evidence:
   - {mid: inchon_lopez, t0: 42.0, t1: 48.0, side: left}
-  - {mid: inchon_lst, t0: 48.5, t1: 54.0, side: right}
+  - {mid: inchon_lst, t0: 48.5, t1: 54.0, side: left}
   - {mid: inchon_map, t0: 54.5, t1: 60.0, side: left}
 
 quotes:
