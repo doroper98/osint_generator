@@ -9,7 +9,7 @@
   ending     문장  6  예상   53.6초
   합계 64문장 · 예상 476.2초 (글자 수 추정 320자/분)
 
-원고 전문(자막) · [검증 라벨]
+원고 전문(자막)
   cold_open_0  기원전 216년, 로마 원로원은 8개 군단을 전장에 보내기로 했습니다.
   cold_open_1  로마의 연대기 작가 클라우디우스 콰드리가리우스는 이 패전을 로마력 8월 2일의 일로 적었습니다.
   cold_open_2  다만 1856년 지리 사전은 그 무렵 로마력이 실제 날짜보다 크게 앞서 있었을 것이라고 적었습니다.
@@ -34,7 +34,7 @@
   deployment_4 그리고 중앙은 그나이우스 세르빌리우스가 맡았습니다.
   deployment_5 이에 맞서 카르타고군 좌익은 하스드루발이 지휘했습니다.
   deployment_6 카르타고군 중앙은 한니발이 동생 마고와 함께 맡았습니다.
-  deployment_7 우익 장수는 폴리비오스가 한노로, 리비우스가 마하르발로 전했습니다.  [<논쟁>]
+  deployment_7 우익 장수는 폴리비오스가 한노로, 리비우스가 마하르발로 전했습니다.
   deployment_8 타니트 기호를 새긴 기원전 3세기 석회암 비석이 루브르 박물관에 남았습니다.
   deployment_9 이 영상의 카르타고 표지는 그 기호를 본뜬 재현입니다.
   deployment_10 한니발은 중앙의 히스파니아·켈트 보병을 앞으로 내밀었습니다.
@@ -55,13 +55,13 @@
   encirclement_10 결국 아이밀리우스는 이 전투에서 전사했습니다.
   encirclement_11 1773년 존 트럼불은 이 장면을 「칸나이 전투에서 파울루스 아이밀리우스의 죽음」으로 그렸고, 그림은 예일대학교 미술관에 소장됐습니다.
   encirclement_12 반면 집정관 바로는 베누시아로 달아났습니다.
-  encirclement_13 함께 달아난 기병을 폴리비오스는 70명, 리비우스는 약 50명으로 전했습니다.  [<논쟁>]
+  encirclement_13 함께 달아난 기병을 폴리비오스는 70명, 리비우스는 약 50명으로 전했습니다.
   encirclement_14 이처럼 포위된 로마군은 전장에서 무너졌습니다.
   aftermath_0  칸나이의 하루는 그렇게 끝났습니다.
   aftermath_1  아이밀리우스는 보병 1만 명을 진영에 남겨 카르타고 진영을 치게 했습니다.
-  aftermath_2  두 사료는 패배의 규모를 서로 다른 숫자로 전했습니다.  [<논쟁>]
-  aftermath_3  로마군 전사자를 폴리비오스는 약 7만 명으로, 리비우스는 보병 45,500명과 기병 2,700명으로 전했습니다.  [<논쟁>]
-  aftermath_4  포로를 폴리비오스는 보병 약 1만 명, 리비우스는 보병 3천 명과 기병 1,500명으로 전했습니다.  [<논쟁>]
+  aftermath_2  두 사료는 패배의 규모를 서로 다른 숫자로 전했습니다.
+  aftermath_3  로마군 전사자를 폴리비오스는 약 7만 명으로, 리비우스는 보병 45,500명과 기병 2,700명으로 전했습니다.
+  aftermath_4  포로를 폴리비오스는 보병 약 1만 명, 리비우스는 보병 3천 명과 기병 1,500명으로 전했습니다.
   aftermath_5  폴리비오스가 전한 한니발군의 손실은 켈트인 약 4천 명, 히스파니아·아프리카인 1,500명, 기병 200명이었습니다.
   aftermath_6  폴리비오스는 이 전투에서 이긴 쪽도 진 쪽도 뚜렷한 용기를 보였다고 적었습니다.
   aftermath_7  리비우스는 기병대장 마하르발이 한니발에게, 이기는 법은 알아도 승리를 쓰는 법은 모른다고 말했다고 전했습니다.
@@ -76,70 +76,70 @@
   ending_5     1885년 구스타프 아돌프 클로스는 그 들판을 후대의 판화로 남겼습니다.
 
 출처 표
-  cold_open_0  clm_0002
-  cold_open_1  clm_0048
-  cold_open_2  clm_0051
-  cold_open_3  clm_0003, force:rome_strength
-  cold_open_4  clm_0005, clm_0004, force:carthage_strength
-  cold_open_5  clm_0018
-  prelude_0    clm_0033
-  prelude_1    clm_0035, clm_0032
-  prelude_2    clm_0033
-  prelude_3    clm_0033
-  prelude_4    clm_0032
-  prelude_5    clm_0034
-  prelude_6    clm_0039, clm_0042
-  prelude_7    clm_0041
-  prelude_8    clm_0035
-  prelude_9    clm_0036
-  prelude_10   clm_0007
-  deployment_0 clm_0006
-  deployment_1 clm_0006
-  deployment_2 clm_0007
-  deployment_3 clm_0008
-  deployment_4 clm_0009
-  deployment_5 clm_0010
-  deployment_6 clm_0012
-  deployment_7 clm_0011
-  deployment_8 clm_0045
-  deployment_9 clm_0045
-  deployment_10 clm_0013
-  deployment_11 clm_0013
-  deployment_12 clm_0014
-  deployment_13 clm_0015
-  deployment_14 clm_0006, clm_0016
-  encirclement_0 clm_0016
-  encirclement_1 clm_0016
-  encirclement_2 clm_0017
-  encirclement_3 clm_0031
-  encirclement_4 clm_0023
-  encirclement_5 clm_0018
-  encirclement_6 clm_0018
-  encirclement_7 clm_0019
-  encirclement_8 clm_0020
-  encirclement_9 clm_0021
-  encirclement_10 clm_0022
-  encirclement_11 clm_0040, clm_0043
-  encirclement_12 clm_0024
-  encirclement_13 clm_0025
-  encirclement_14 clm_0018
-  aftermath_0  clm_0018
-  aftermath_1  clm_0029
-  aftermath_2  clm_0026, clm_0027
-  aftermath_3  clm_0026, clm_0027, force:rome_killed, force:rome_killed_livy
-  aftermath_4  clm_0028, force:rome_captured
-  aftermath_5  clm_0030, force:carthage_killed
-  aftermath_6  clm_0046
-  aftermath_7  clm_0047
-  aftermath_8  clm_0037
-  aftermath_9  clm_0038
-  aftermath_10 clm_0037, clm_0038
-  ending_0     clm_0002, clm_0018
-  ending_1     clm_0013, clm_0018, clm_0020
-  ending_2     clm_0022, clm_0024
-  ending_3     clm_0049
-  ending_4     clm_0050
-  ending_5     clm_0044
+  cold_open_0  clm_0002  · 검증: verified
+  cold_open_1  clm_0048  · 검증: verified
+  cold_open_2  clm_0051  · 검증: verified
+  cold_open_3  clm_0003, force:rome_strength  · 검증: verified
+  cold_open_4  clm_0005, clm_0004, force:carthage_strength  · 검증: verified
+  cold_open_5  clm_0018  · 검증: verified
+  prelude_0    clm_0033  · 검증: verified
+  prelude_1    clm_0035, clm_0032  · 검증: verified
+  prelude_2    clm_0033  · 검증: verified
+  prelude_3    clm_0033  · 검증: verified
+  prelude_4    clm_0032  · 검증: verified
+  prelude_5    clm_0034  · 검증: verified
+  prelude_6    clm_0039, clm_0042  · 검증: verified
+  prelude_7    clm_0041  · 검증: verified
+  prelude_8    clm_0035  · 검증: verified
+  prelude_9    clm_0036  · 검증: verified
+  prelude_10   clm_0007  · 검증: verified
+  deployment_0 clm_0006  · 검증: verified
+  deployment_1 clm_0006  · 검증: verified
+  deployment_2 clm_0007  · 검증: verified
+  deployment_3 clm_0008  · 검증: verified
+  deployment_4 clm_0009  · 검증: verified
+  deployment_5 clm_0010  · 검증: verified
+  deployment_6 clm_0012  · 검증: verified
+  deployment_7 clm_0011  · 검증: disputed
+  deployment_8 clm_0045  · 검증: verified
+  deployment_9 clm_0045  · 검증: verified
+  deployment_10 clm_0013  · 검증: verified
+  deployment_11 clm_0013  · 검증: verified
+  deployment_12 clm_0014  · 검증: verified
+  deployment_13 clm_0015  · 검증: verified
+  deployment_14 clm_0006, clm_0016  · 검증: verified
+  encirclement_0 clm_0016  · 검증: verified
+  encirclement_1 clm_0016  · 검증: verified
+  encirclement_2 clm_0017  · 검증: verified
+  encirclement_3 clm_0031  · 검증: verified
+  encirclement_4 clm_0023  · 검증: verified
+  encirclement_5 clm_0018  · 검증: verified
+  encirclement_6 clm_0018  · 검증: verified
+  encirclement_7 clm_0019  · 검증: verified
+  encirclement_8 clm_0020  · 검증: verified
+  encirclement_9 clm_0021  · 검증: verified
+  encirclement_10 clm_0022  · 검증: verified
+  encirclement_11 clm_0040, clm_0043  · 검증: verified
+  encirclement_12 clm_0024  · 검증: verified
+  encirclement_13 clm_0025  · 검증: disputed
+  encirclement_14 clm_0018  · 검증: verified
+  aftermath_0  clm_0018  · 검증: verified
+  aftermath_1  clm_0029  · 검증: verified
+  aftermath_2  clm_0026, clm_0027  · 검증: disputed
+  aftermath_3  clm_0026, clm_0027, force:rome_killed, force:rome_killed_livy  · 검증: disputed
+  aftermath_4  clm_0028, force:rome_captured  · 검증: disputed
+  aftermath_5  clm_0030, force:carthage_killed  · 검증: verified
+  aftermath_6  clm_0046  · 검증: verified
+  aftermath_7  clm_0047  · 검증: verified
+  aftermath_8  clm_0037  · 검증: verified
+  aftermath_9  clm_0038  · 검증: verified
+  aftermath_10 clm_0037, clm_0038  · 검증: verified
+  ending_0     clm_0002, clm_0018  · 검증: verified
+  ending_1     clm_0013, clm_0018, clm_0020  · 검증: verified
+  ending_2     clm_0022, clm_0024  · 검증: verified
+  ending_3     clm_0049  · 검증: verified
+  ending_4     clm_0050  · 검증: verified
+  ending_5     clm_0044  · 검증: verified
 
 린트 — 오류 0 · 경고 0
 

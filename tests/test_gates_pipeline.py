@@ -235,6 +235,18 @@ class GateViewTest(_Proj):
         self.assertIn("open_0", text)
         self.assertEqual(shown["lint_errors"], "0")   # v5.5.0 — 규약에 맞춘 사본
 
+    @unittest.skipUnless(fonts_ready(), NO_FONTS_REASON)
+    def test_script_gate_view_no_status_labels(self) -> None:
+        """v7.4.0 D-0454(UF-170) — 원고 전문 블록에 검증 라벨(`script_schema.labels` 값)을 붙이지 않는다. 상태는 출처 표 열로만."""
+        from orchestrator.gate_view import gate_view  # noqa: PLC0415
+        from rules import load_rules  # noqa: PLC0415
+
+        text, _ = gate_view(self.root / "p", "script_approval")
+        body = text.split("원고 전문(자막)", 1)[1].split("출처 표", 1)[0]
+        for lab in (v for v in load_rules().script_schema.labels.values() if v):
+            self.assertNotIn(lab, body)
+        self.assertNotIn("[검증 라벨]", text)
+
     def test_preview_gate_view_reads_prev(self) -> None:
         from orchestrator.gate_view import gate_view  # noqa: PLC0415
         prev = self.root / "p" / "prev"
