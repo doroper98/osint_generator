@@ -24,6 +24,7 @@ from engine.assets import Assets, load_labels
 from engine.camera import CamKey, build_camera, cam
 from engine.context import RenderCtx
 from engine.hud import configure_badge_texts
+from engine.media_registry import configure_sentence_dates
 from engine.credits import check_credits, load_credits, required_refs
 from engine.direction import Direction, DirectionError, boundary_routes, geo_unsourced, load_direction_doc, shot_stages
 from engine.direction import ISLAND_STAGE, is_island_shot, island_keys
@@ -382,6 +383,23 @@ def music_ids(sound: Optional[dict]) -> set[str]:
     return {b} if isinstance(b, str) else {g["id"] for g in b}
 
 
+def _attach_toponymy(proj: Path, events: list[dict]) -> None:
+    """marker `toponymy: <id>` → `sub` = 레코드 한 줄(schemas.war_history.ToponymyEntry.line). 레코드가 없거나 sub 와 겹치면 오류(P6)."""
+    want = [e for e in events if e["type"] == "marker" and e.get("toponymy")]
+    if not want:
+        return
+    from schemas.war_history import load_toponymy  # noqa: PLC0415
+
+    tf = load_toponymy(proj)
+    ids = tf.by_id() if tf is not None else {}
+    for e in want:
+        if e["toponymy"] not in ids:
+            raise ProjectError(f"marker {e['label']!r} toponymy {e['toponymy']!r} — {proj / 'toponymy.yaml'} 에 없다(출처 없는 유래는 쓰지 않는다)")
+        if e.get("sub"):
+            raise ProjectError(f"marker {e['label']!r}: toponymy 와 sub 를 함께 쓰지 않는다(아래 줄은 지명 유래 레코드가 정한다)")
+        e["sub"] = ids[e["toponymy"]].line()
+
+
 def load_project(proj: Path, direction: Optional[Direction] = None, out: Optional[Output] = None,
                  animatic: bool = False, catalog: bool = False) -> Project:
     """렌더 입력 한 벌. direction 을 주면 direction.yaml 대신 그것으로(연출 워커의 저장 전 점검 — 렌더와 같은 경로, 15 P8).
@@ -393,6 +411,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     plan = load_plan(proj)
     tb = Timebase(plan)
     configure_badge_texts([s.date for s in plan.sentences])   # v7.4.0 전쟁사 W1 — 기원전 뱃지 예약 상자 폭
+    configure_sentence_dates(lambda t: tb.sent[sid].date if (sid := tb.cur_sentence(t)) is not None else None)   # v7.4.0 전쟁사 W2 — 작품 당대/후대 라벨
     AN = load_rules().animatic  # noqa: N806
     if catalog:
         if animatic:
@@ -503,6 +522,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     if bad:
         raise ProjectError(f"series 이벤트의 {sorted(set(bad))} 는 코드가 채운다 — 연출에 쓰지 않는다(P8)")
     events = validate_events(raw_events)
+    _attach_toponymy(proj, events)   # v7.4.0 전쟁사 W2 — marker toponymy → 핀 아래 한 줄(지명 유래, 증거 층)
     R.cache["badge"] = {"R_ignored": drop_person_R(events),   # v4.8.0 D-0111 A — 인물 뱃지 연출 R 은 버리고 기록(provenance badge.R_ignored)
                         "head_top": [] if animatic else head_tops(R, events)}   # v4.8.0 D-0112 A — 초상 실측 머리 높이(콘티 판은 초상을 열지 않는다 → 상한)
     assign_person_sizes(events)   # v4.8.0 D-0101 §1 — 인물 뱃지 적응 크기(보이는 인물 수 n(t), 코드가 센다 P8)

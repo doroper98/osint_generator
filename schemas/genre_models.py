@@ -96,6 +96,13 @@ class GenreNarration(_Strict):
     attribute_causality: bool = False            # v4.4.0 — 인과 귀속(20 §7)
     numbers_per_sentence_max: Optional[int] = Field(default=None, ge=1)   # v4.4.0 — 문장당 숫자 상한(20 §7)
     forecast_attribution: bool = False           # v4.4.0 — 전망 귀속·점도표는 약속 아님(20 §5.2)
+    # v7.4.0 전쟁사 W2(back_and_forth D-0600 §2·§4, D-0307 §4) — 문장은 rules genre_prompt.narration 같은 키
+    etymology_once: bool = False                 # 지명 유래는 첫 등장 때 한 문장(출처·확신도 있는 것만)
+    past_tense: bool = False                     # 과거 시제 서술
+    fact_sentences_per_min_max: Optional[int] = Field(default=None, ge=1)   # 분당 사실 문장 상한
+    art_history_line: bool = False               # 작품마다 미술사 한 문장(레코드 art_history)을 내레이션 또는 캡션 둘째 줄로
+    source_quote: bool = False                   # 사료 인용은 quote(저자·권·절)
+    evidence_first: bool = False                 # 미술·기록·사진·영상이 주된 화면 재료(UF-206) — 문장마다 지도와 번갈아
     avoid: list[str] = Field(default_factory=list)
 
 

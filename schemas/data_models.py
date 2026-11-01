@@ -259,4 +259,73 @@ class SeriesRecord(_Strict):
         return f"{y}년 {m}월 기준"
 
 
-__all__ = ["MissingValue", "ScatterColumn", "SeriesRecord", "SeriesTransform", "ValueCitation"]
+# ── v7.4.0 전쟁사 W2(back_and_forth D-0600 §2-6·§4) — 병력·사상자 수치: 사료 귀속 + 현대 추정 범위 띠 ──
+class AncientTextCitation(_Strict):
+    """사료 귀속 locator — 저자·작품·권·절 + 퍼블릭 도메인(또는 CC) 영역본 url·라이선스."""
+
+    author: str = Field(min_length=1)          # 예: Polybius
+    work: str = Field(min_length=1)            # 예: Histories
+    book: str = Field(min_length=1)            # 예: III
+    chapter: str = Field(min_length=1)         # 예: 117
+    translation: str = Field(min_length=1)     # 예: W. R. Paton(1922, Loeb)
+    translation_url: str = Field(min_length=1)
+    translation_license: str = Field(min_length=1)
+    quote: Optional[str] = None                # 화면·내레이션 인용문(영역본 문장 그대로 또는 그 번역)
+
+    def locator(self) -> str:
+        return f"{self.author}, {self.work} {self.book}.{self.chapter}"
+
+
+class EstimateBand(_Strict):
+    """현대 학술 추정 범위(띠) — 최솟값·최댓값과 학술 출처."""
+
+    low: float
+    high: float
+    source: str = Field(min_length=1)
+    source_url: Optional[str] = None
+
+    @model_validator(mode="after")
+    def _order(self) -> "EstimateBand":
+        if self.low > self.high:
+            raise ValueError(f"추정 범위 low {self.low} > high {self.high}")
+        return self
+
+
+class ForceFigure(_Strict):
+    """병력·사상자 수치 한 건. 사료 값(ancient_value)은 사료 귀속, 현대 추정은 band(rules war_history.casualty.band_required)."""
+
+    id: str = Field(min_length=1)
+    side: str = Field(min_length=1)            # 진영(예: 로마군)
+    metric: Literal["strength", "killed", "captured", "casualties"]
+    source_kind: Literal["ancient_text", "archival"]   # archival = 현대 전쟁 공문서·부대 기록(현대 사례)
+    ancient_value: Optional[float] = None      # 사료가 적은 값(없으면 None)
+    ancient: Optional[AncientTextCitation] = None
+    archival_source: Optional[str] = None      # archival 이면 문서·기관·식별 번호
+    band: Optional[EstimateBand] = None
+
+    @model_validator(mode="after")
+    def _sourced(self) -> "ForceFigure":
+        errs = []
+        if self.source_kind == "ancient_text" and self.ancient is None:
+            errs.append("source_kind ancient_text 는 ancient(저자·권·절·영역본) 필수")
+        if self.source_kind == "archival" and not self.archival_source:
+            errs.append("source_kind archival 은 archival_source 필수")
+        if load_rules().war_history.casualty.band_required and self.band is None:
+            errs.append("현대 추정 범위 띠(band) 필수(rules war_history.casualty.band_required)")
+        if errs:
+            raise ValueError(f"[casualty-unsourced] {self.id}: " + "; ".join(errs))
+        return self
+
+
+class ForceFiguresFile(_Strict):
+    """`projects/<pid>/forces.yaml`. 문장 sources 의 `force:<id>` 가 가리킨다."""
+
+    schema_version: Literal[1] = 1
+    figures: list[ForceFigure] = Field(min_length=1)
+
+    def by_id(self) -> dict[str, ForceFigure]:
+        return {f.id: f for f in self.figures}
+
+
+__all__ = ["AncientTextCitation", "EstimateBand", "ForceFigure", "ForceFiguresFile",
+           "MissingValue", "ScatterColumn", "SeriesRecord", "SeriesTransform", "ValueCitation"]

@@ -534,7 +534,7 @@ media:                     # v2.5.5 D-0037(D38) — 14 §10.1 밀도 경고. v3 
     size_suffix: b         # 받을 크기(_b = 긴 변 1024)
 
 media_beats:               # 14 §10
-  kinds: [photo, clip, cutout, article, post]
+  kinds: [photo, clip, cutout, article, post]   # 레지스트리 kind period_art·document(v7.4.0 전쟁사 W2)는 photo 비트로 보인다(engine.layers.media EVENT_KINDS)
   photo_show_sec: [4, 8]
   clip_show_sec: {main: [5, 20], broll: [3, 6]}   # v7.4.0 D-0274 §2②·D-0276 — 역할별(clip.role). main = 주 요소(액자 clip_frame, 원음), broll = 현장 보조(구석 슬롯, 내레이션 아래)
   file_photo_label_required: true         # "자료사진 · 연월"
@@ -545,6 +545,8 @@ media_beats:               # 14 §10
     photo: "{file_note} · {credit_author} · {license}"
     video: "{file_note} · {credit_author} · {license}"
     cutout: "{file_note} · {credit_author}"
+    period_art: "{file_note} · {credit_author} · {license}"   # v7.4.0 전쟁사 W2 — 작품(file_note = 작품 연대·소장처). 당대/후대 라벨은 코드가 앞에(engine.media_registry.media_credit)
+    document: "{file_note} · {credit_author} · {license}"     # v7.4.0 전쟁사 W2 — 공문서·사료 스캔
     inset: "{file_note} · {credit_author}"   # v7.3.0 D-0206 — 위성 인셋 출처 줄(예: "위성 · 2026. 10 · NASA GIBS/HLS")
   registry: assets/media/media_registry.json
   # v7.4.0 back_and_forth D-0261(사용자 의견 UF-139 "그래프만 주구장창 보여줄꺼면 내가 영상을 왜만들고 왜보냐… 레퍼런스 사진이나 영상 풍부하게",
@@ -1194,7 +1196,7 @@ registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 �
   badge_kinds: [person, flag, emblem]
   accents: [gold, us, ru, teal, muted, green, amber]
   stages: [mercator, timeline, backdrop]   # backdrop = v5.1.0 D-0123(사진 배경 무대, engine/stage_backdrop.py). v4.1.0 D-0076 — 무대(engine.stage). 없는 무대 = 오류, 있는데 구현(STAGE_CLASSES)이 없음 = 오류(P10). timeline = v4.3.0 D-0084 작업 3
-  stages_planned: [chart_wall, flow, structure, document]   # v4.2.0 D-0081 — 20 §2.1 무대 카탈로그(구현 전). 장르 프로필 proposed 만 참조 가능, 연출에서 쓰면 오류
+  stages_planned: [chart_wall, flow, structure, document, tactical]   # tactical = v7.4.0 전쟁사 W2(D-0600 §5, 전장 수 km 축척 부대 블록 무대 — W3 구현 전).  v4.2.0 D-0081 — 20 §2.1 무대 카탈로그(구현 전). 장르 프로필 proposed 만 참조 가능, 연출에서 쓰면 오류
   primitives: [statement_diff, dot_plot, site_diagram]   # site_diagram = v4.4.0 dmz_mine_2026 사용자 요청(현장 개념도, 벡터).  dot_plot = v4.4.0 D-0090 작업 3(사용자 승인 대기 — provenance elements.approval pending). v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
   primitives_planned:     # v4.2.0 D-0082 쟁점 1 A — 구현 전 프리미티브. 장르 프로필 proposed 의 new 만 참조 가능, 연출에서 쓰면 오류
     - rate_step_line      # 20 §3 macro_monetary — v4.3.0: series 이벤트(style: step)가 대신한다. 만들지 않는다(사용자 결정 전이라 목록에서 지우지 않음, D-0084 작업 4·D-0090)
@@ -1637,6 +1639,12 @@ genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(
     attribute_causality: "인과는 단정하지 않고 귀속한다(\"연준은 ~라고 설명했습니다\", \"~라는 분석이 있습니다\"). 경제 인과는 논쟁 사안인 경우가 많다 — 균형 원칙을 그대로 적용한다."
     numbers_per_sentence_max: "한 문장에 숫자는 {n}개 이하. 나머지 숫자는 화면(시리즈·카드·패널)이 말한다."
     forecast_attribution: "전망은 누구의 전망인지 귀속한다(\"FOMC 참가자들의 전망 중앙값\"). 점도표는 약속이 아니라 참가자별 전망임을 한 번 말한다. 가격·금리 예측을 단정하지 않는다."
+    etymology_once: "지명의 유래는 그 지명이 처음 나올 때 한 문장으로 말한다(언어·뜻). 지명 유래 레코드(toponymy.yaml)에 출처·확신도가 있는 것만 쓰고, 통설이 아니면 '~라는 설이 있습니다' 로 말한다. 출처 없는 유래는 쓰지 않는다."
+    past_tense: "지나간 전쟁은 과거 시제로 서술한다(\"~했습니다\"). 오늘의 유적·소장품을 말할 때만 현재형을 쓴다."
+    fact_sentences_per_min_max: "사실 문장은 1분에 {n}개 이하. 나머지 시간은 작품·사진·지도가 말하게 둔다."
+    art_history_line: "작품(미술·조각·주화·사본)을 보일 때마다 작가·제작 연대·소장처·왜 그렇게 만들었는지(주문자·정치적 의도·전통)를 한 문장으로 말하거나 캡션 둘째 줄로 쓴다. 문장은 미디어 레지스트리 art_history 그대로(출처 art_history_source), 지어내지 않는다. 그 시점을 그린 작품인지 후대의 묘사인지는 코드가 캡션에 붙인다."
+    source_quote: "사료 인용은 인물 발언 인용(quote)처럼 저자·작품·권·절을 밝힌다(예: 폴리비오스 『역사』 3권 117절). 영역본 문장 그대로 또는 그 번역만 쓴다. 병력·사상자 수치는 force:<id> 레코드(사료 값 + 현대 추정 범위)를 sources 에 인용한다."
+    evidence_first: "지도는 뼈대, 미술·기록·사진·영상이 살이다. 고대·근세는 그 시대 미술과 사료, 현대는 당시 사진·필름·공문서를 주된 화면 재료로 쓴다. 문장마다 지도 이동과 작품·사진·기록이 번갈아 나오고, 한 번에 여럿을 띄우지 않는다."
   data_sources:            # 20 §5.1 — 리서치·원고 프롬프트의 데이터 원칙
     - 수치는 1차·공개 출처(중앙은행 공식 발표, 통계기관, FRED 같은 공개 데이터 저장소)에서만 가져온다.
     - 시장 사업자의 독점 데이터(선물 가격에서 추정한 금리 확률 등)는 쓰지 않는다. 필요하면 보도 인용(기사)으로 대신하고 누가 보도했는지 귀속한다.
@@ -1650,6 +1658,10 @@ genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(
     - 전문 용어가 정의 없이 쏟아지는가
     - 투자 권유로 읽히는 표현이 있는가
   stage_grammar:           # 20 §6 — 무대별 카메라·연출 문법. 주 무대 줄이 연출·수정·검수 프롬프트에 들어간다(키 ∈ registries.stages)
+    mercator:              # v7.4.0 전쟁사 W2 — 지도 무대가 주 무대인 비기본 장르(전쟁사)의 문법. 기본 장르(지정학)는 기본 프롬프트가 이미 전제(추가 문단 0)
+      - "작전 지도: 같은 좌표계 위에서 카메라가 사건을 따라간다(diesel_road v2 의 카메라 밀도). 장면당 이동 1회, 도착 뒤 드리프트."
+      - "전장 축척으로 들어갈 때는 같은 좌표계를 확대한다(카메라 연속) — 새 캔버스를 띄우지 않는다."
+      - "이야기 안에 박힌 패널 자리에 작품·사진·기록이 선다. 문장 앵커마다 하나씩, 한꺼번에 띄우지 않는다."
     backdrop:              # v5.1.0 D-0123 §1(사용자 확인 D108)
       - "배경: 권리 기록 있는 실사진(미디어 레지스트리 photo)을 블러로 깐다. 장면(주제)이 바뀔 때만 바꾸고 연속 같은 사진은 금지, 영상 전체 서로 다른 사진 3~6장. 전환은 crossfade 만(줌 범프 금지). 사진이 없으면 지어내지 않는다."
       - "카메라: 빈 카메라 {}(이동 없음). 움직임은 배경의 느린 확대와 아일랜드 등장·전환이 만든다."
@@ -2429,3 +2441,37 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     pocket_sliver_ratio: 1.0e-3    # SK-G2 — make_valid 뒤 가장 큰 다각형 밖 조각 면적 ÷ 전체 ≤ 이 값이면 통과 + warning(검토본 시가 점 맞물림 조각 2.6e-5·5.2e-5, D-0146)
     approx_note_end_gap_sec: 1.0   # SK-H5(전황) — '개략' 출처 줄이 엔딩 카드 시작보다 이만큼 먼저 끝나도 된다(검토본 52.0 / 엔딩 53.0)
     approx_word: "개략"          # SK-H5 approx 층이 설명되는 동안 출처 줄·엔딩 자료 카드에 있어야 하는 낱말
+
+war_history:               # v7.4.0 전쟁사 트랙 W2(back_and_forth D-0600 §2·§4, D-0337 사용자 결정 UF-206, D-0307 §2·§3, UF-150). 값 = 감독 제안(사용자 합격 값 아님, D701)
+  # 시대 부호 세트 — 영상 날짜(원고 문장 날짜의 첫 해)가 세트를 정하고 한 영상에 한 세트([symbol-set-mixed] hard)
+  symbol_sets:
+    ancient:      {units: [infantry_block, cavalry_wedge, elephant_dots, light_skirmish], faction_tokens: 2}   # 보병 직사각 블록·기병 쐐기·코끼리 점열·경보병
+    early_modern: {units: [regiment_block, artillery_triangle, cavalry_wedge], faction_tokens: 2}
+    modern:       {units: [app6_inf, app6_arm, app6_cav], faction_tokens: 2}   # APP-6 약식 = sketch.campaign 부호(echelon·arm)
+  symbol_set_by_year: {ancient_max: 1500, early_modern_max: 1850}   # ≤1500 ancient, 1501~1850 early_modern, ≥1851 modern(역사 표기 연도, 기원전은 ancient)
+  faction_badge: {tokens: [ru, us], name_from: spec}   # 현대 국기 대신 코드 조판 진영명 + 색 토큰(registries.accents). 휘장을 지어내지 않는다
+  period_art:
+    contemporary_gap_years: 150   # |제작 연대 − 사건 연대| ≤ 이 값 = 당대 묘사, 넘으면 후대의 묘사(제작 연대)
+    art_history_line: true        # 작품마다 작가·연대·소장처·제작 의도 한 문장(레코드 art_history + art_history_source)
+    labels:                       # 캡션 바 라벨 줄 문구(코드 조판). {created} = 제작 연대 뱃지 문구(schemas.era_date.badge_text)
+      contemporary: "당대 묘사"
+      later: "후대의 묘사({created})"
+      probable_prefix: "…로 추정되는 "   # identification probable·disputed 면 캡션 앞에 붙인다(예: "한니발로 추정되는 흉상")
+      sep: " · "
+  evidence:
+    # 증거 층(UF-150 필수) — 시대별 필수 층. 한 층은 대안(|)의 하나 이상이 영상에 쓰여야 한다([evidence-layer-missing] hard)
+    required_layers:
+      ancient:      [period_art, site, toponymy]
+      early_modern: [period_art, "site|document", toponymy]
+      modern:       ["photo|clip", document, toponymy]
+    by_era:       # 화면 재료(D-0337 §1) — 장르 프롬프트 줄
+      ancient: "회화·조각·모자이크·도기·주화·부조·사본 삽화 + 사료 인용(저자·권·절, PD 영역본)"
+      early_modern: "회화·판화·사본 삽화·당시 지도 + 사료·명령서 인용"
+      modern: "당시 사진·필름·보도 영상·공문서 스캔·당시 지도 원본 + 기록(부대 일지·명령서·결의문)"
+    toponymy_confidence: [통설, 이설, 미상]
+  casualty:
+    band_required: true           # 병력·사상자 = 사료 귀속(ancient_text) + 현대 추정 범위 띠(학술 출처)
+    trigger_words: [병력, 전사, 사망, 사상자, 포로, 전사자, 군사]   # 이 낱말 + 숫자가 든 문장은 force 레코드를 sources 에 인용([casualty-unsourced] hard)
+  media_tags: {period_art: ARTWORK, document: DOCUMENT}   # 사진 비트 왼쪽 위 태그(사진은 PHOTO 그대로)
+  rights:
+    allowed_licenses: [Public domain, Public Domain Mark, PD-Art, United States Government Work, CC0, CC BY 2.0, CC BY 2.5, CC BY 3.0, CC BY 4.0]   # 화면에 쓰는 작품·사진·기록(D-0600 §2-5). CC BY-SA 는 참고 작전도 정합(저장 안 함)에만

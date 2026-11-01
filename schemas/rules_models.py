@@ -3237,6 +3237,74 @@ class SketchRules(_Strict):
         walk(self)
         return out
 
+class WarSymbolSet(_Strict):
+    units: list[str] = Field(min_length=1)
+    faction_tokens: int = Field(ge=2)
+
+
+class WarSymbolYears(_Strict):
+    ancient_max: int
+    early_modern_max: int
+
+
+class WarFactionBadge(_Strict):
+    tokens: list[str] = Field(min_length=2)
+    name_from: Literal["spec"]
+
+
+class WarPeriodArtLabels(_Strict):
+    contemporary: str = Field(min_length=1)
+    later: str = Field(min_length=1)
+    probable_prefix: str = Field(min_length=1)
+    sep: str = Field(min_length=1)
+
+
+class WarPeriodArt(_Strict):
+    contemporary_gap_years: int = Field(gt=0)
+    art_history_line: bool
+    labels: WarPeriodArtLabels
+
+
+class WarEvidence(_Strict):
+    required_layers: dict[Literal["ancient", "early_modern", "modern"], list[str]]
+    by_era: dict[Literal["ancient", "early_modern", "modern"], str]
+    toponymy_confidence: list[str] = Field(min_length=1)
+
+
+class WarCasualty(_Strict):
+    band_required: bool
+    trigger_words: list[str] = Field(min_length=1)
+
+
+class WarRights(_Strict):
+    allowed_licenses: list[str] = Field(min_length=1)
+
+
+class WarHistoryRules(_Strict):
+    """v7.4.0 전쟁사 트랙 W2(back_and_forth D-0600 §2·§4) — 시대 부호 세트·당대/후대 라벨·증거 층·수치 정직성·권리. 판정 함수 = schemas.war_history."""
+
+    symbol_sets: dict[Literal["ancient", "early_modern", "modern"], WarSymbolSet]
+    symbol_set_by_year: WarSymbolYears
+    faction_badge: WarFactionBadge
+    period_art: WarPeriodArt
+    evidence: WarEvidence
+    casualty: WarCasualty
+    media_tags: dict[Literal["period_art", "document"], str]
+    rights: WarRights
+
+    @model_validator(mode="after")
+    def _eras(self) -> "WarHistoryRules":
+        eras = {"ancient", "early_modern", "modern"}
+        for k in ("symbol_sets",):
+            if set(getattr(self, k)) != eras:
+                raise ValueError(f"war_history.{k} 는 세 시대 전부: {sorted(getattr(self, k))}")
+        if set(self.evidence.required_layers) != eras or set(self.evidence.by_era) != eras:
+            raise ValueError("war_history.evidence.required_layers·by_era 는 세 시대 전부")
+        if self.symbol_set_by_year.ancient_max >= self.symbol_set_by_year.early_modern_max:
+            raise ValueError("war_history.symbol_set_by_year: ancient_max < early_modern_max")
+        return self
+
+
 class VideoRules(_Strict):
     """`rules/video_rules.yaml` 최상위 모델."""
 
@@ -3295,6 +3363,7 @@ class VideoRules(_Strict):
     genre_prompt: GenrePromptRules  # v4.4.0 — D-0090 작업 1
     bundle: BundleRules            # v3.5.0 — D-0063 작업 4
     provenance: ProvenanceRules
+    war_history: WarHistoryRules         # v7.4.0 — 전쟁사 트랙 W2(D-0600)
     sketch: SketchRules                  # v5.7.0 — 스케치 계층 화면 수치(D-0140 D130)
 
     @model_validator(mode="after")

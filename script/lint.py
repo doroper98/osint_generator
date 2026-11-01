@@ -40,6 +40,7 @@ from pydantic import BaseModel, ConfigDict
 
 from rules import load_rules
 from schemas.era_date import EraDate, is_era_date, parse_era_date
+from schemas.war_history import FORCE_PREFIX
 from script.schema import Scene, Script
 
 Severity = Literal["error", "warning"]
@@ -552,7 +553,8 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
                 elif refs:
                     for msg in check_series_sentence(s.text, s.date, refs):
                         add("series-value-mismatch", "error", msg)
-                unknown = [c for c in s.sources if not is_series_ref(c) and (claims is None or c not in claims)]
+                unknown = [c for c in s.sources if not is_series_ref(c) and not c.startswith(FORCE_PREFIX)   # force:<id> = 병력·사상자 레코드(v7.4.0 전쟁사 W2, 검사는 war_history_issues)
+                           and (claims is None or c not in claims)]
                 if unknown:
                     add("source-unknown", "error", f"claims.json 밖 id {unknown}" if claims is not None else
                         f"claims.json 이 없다 — sources {unknown} 를 확인할 수 없다(18 §3-6)")
@@ -609,6 +611,25 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
     return LintReport(issues=out)
 
 
+def war_history_issues(proj: Path, script: Script) -> list[LintIssue]:
+    """v7.4.0 전쟁사 W2(D-0600 §2-6) — 장르 war_history 원고의 [casualty-unsourced] 오류(병력·사상자 수치 = force 레코드 인용).
+    엔진 검사 casualty_unsourced 와 같은 함수(schemas.war_history.casualty_unsourced)."""
+    from types import SimpleNamespace  # noqa: PLC0415
+
+    import yaml  # noqa: PLC0415
+
+    from genres.load import project_genre  # noqa: PLC0415
+    from schemas.data_models import ForceFiguresFile  # noqa: PLC0415
+    from schemas.war_history import casualty_unsourced  # noqa: PLC0415
+
+    if project_genre(proj)[0].genre != "war_history":
+        return []
+    fp = proj / "forces.yaml"
+    forces = ForceFiguresFile.model_validate(yaml.safe_load(fp.read_text(encoding="utf-8"))) if fp.exists() else None
+    rows = [SimpleNamespace(sid=f"{sc.id}_{k}", text=s.text, sources=s.sources) for sc in script.scenes for k, s in enumerate(sc.sentences)]
+    return [LintIssue(kind="casualty-unsourced", severity="error", sid=m.split()[1], text="", detail=m) for m in casualty_unsourced(rows, forces)]
+
+
 def main(argv: list[str] | None = None) -> int:
     import yaml  # noqa: PLC0415
     from pydantic import ValidationError  # noqa: PLC0415
@@ -631,6 +652,7 @@ def main(argv: list[str] | None = None) -> int:
         from script.slop import project_slop  # noqa: PLC0415 — v7.4.0 D-0281(UF-145) 원고 밖 화면 문자열·검토 문서도 같은 패턴, 면제 없음
 
         rep.issues += [LintIssue(kind="slop", severity="error", sid=where, detail=pat, text=txt) for where, txt, pat in project_slop(path.parent)]
+        rep.issues += war_history_issues(path.parent, script)   # v7.4.0 전쟁사 W2 — [casualty-unsourced](면제 없음)
         labels = check_project_labels(path.parent, script)   # 도시어가 있으면 라벨 재계산·대조(D-0043 §3)
         arts = {"script": str(path)}
         if labels is not None:

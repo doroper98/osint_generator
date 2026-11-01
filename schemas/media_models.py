@@ -10,9 +10,14 @@ from __future__ import annotations
 
 from typing import Literal, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, RootModel, model_validator
+from pydantic import BaseModel, ConfigDict, Field, RootModel, field_validator, model_validator
 
-MediaKind = Literal["photo", "video", "cutout", "article", "inset"]   # video = clip 이벤트, inset = flight.inset 위성 타일(v7.3.0 D-0206)
+from schemas.era_date import EraDate, parse_era_date
+
+MediaKind = Literal["photo", "video", "cutout", "article", "inset", "period_art", "document"]   # video = clip 이벤트, inset = flight.inset 위성 타일(v7.3.0 D-0206).
+# period_art(당대·후대 미술 작품)·document(공문서·사료 사본 스캔) = v7.4.0 전쟁사 W2(D-0600 §4) — photo 비트로 보인다(engine.layers.media EVENT_KINDS)
+WorkKind = Literal["painting", "sculpture", "mosaic", "pottery", "coin", "relief", "manuscript", "photo", "film", "document", "map"]
+Identification = Literal["certain", "probable", "disputed"]
 RightsStatus = Literal["rights_clear", "restricted", "unverified"]
 FILE_PHOTO_PREFIXES: tuple[str, ...] = ("자료사진", "자료 영상")   # 14 §2.3 저널리즘 표기
 
@@ -99,10 +104,43 @@ class MediaAsset(_Strict):
     # v7.3.0 사용자 결정 D234 — 비공개 시청 한정 자산(상업 위성 타일). rules media_beats.inset_licenses 의 private_only 라이선스면 필수.
     # v7.4.0 사용자 결정 D264 — 저작권 있는 공개 영상(회견·인터뷰·방송) 클립도 scope private_only + rights_status restricted 로 기록만(막는 검사 없음)
     scope: Optional[Literal["private_only"]] = None
+    # v7.4.0 전쟁사 W2(back_and_forth D-0600 §2·§4, D-0337 UF-206) — 작품·기록·사진 레코드(전부 optional, 기존 레코드 무수정 통과).
+    # created = 제작·촬영 연대(EraDate, 문자열 '-216'·'c.-220'·'1950.09.15' 도 받는다) → 당대/후대 라벨(schemas.war_history.period_art_label)
+    created: Optional[EraDate] = None
+    identification: Optional[Identification] = None   # 인물 동정 확신도 — probable·disputed 면 캡션에 "…로 추정되는"(코드)
+    art_history: Optional[str] = Field(default=None, min_length=1)          # 작가·연대·소장처·왜 그렇게 그렸는지 한 문장
+    art_history_source: Optional[str] = Field(default=None, min_length=1)   # 그 문장의 출처(소장처 해설·도록·논문)
+    archive_id: Optional[str] = Field(default=None, min_length=1)           # 기록 보관소 식별 번호(예: NARA 111-SC-…)
+    work_kind: Optional[WorkKind] = None
+    holder: Optional[str] = Field(default=None, min_length=1)               # 소장처
+    inventory_no: Optional[str] = Field(default=None, min_length=1)         # 소장 번호
+    material: Optional[str] = Field(default=None, min_length=1)             # 재질(예: 은, 대리석)
+    site_report: Optional[str] = Field(default=None, min_length=1)          # 유적·출토품 사진이면 발굴·보고 출처(증거 층 site)
+
+    @field_validator("created", mode="before")
+    @classmethod
+    def _created(cls, v: object) -> object:
+        return parse_era_date(v) if isinstance(v, (str, int)) else v
+
+    def _war_history_errors(self) -> list[str]:
+        """작품·기록 레코드의 필수 칸과 권리(rules war_history.rights.allowed_licenses)."""
+        if self.kind not in ("period_art", "document"):
+            return []
+        from rules import load_rules  # noqa: PLC0415
+
+        wh = load_rules().war_history
+        errs: list[str] = []
+        need = ["created", "work_kind", "holder"] + (["art_history", "art_history_source"] if self.kind == "period_art" else [])
+        errs += [f"{self.kind} 레코드 필수 칸 없음: {f}" for f in need if getattr(self, f) is None]
+        if self.kind == "document" and not (self.archive_id or self.inventory_no):
+            errs.append("document 는 archive_id 또는 inventory_no(식별 번호) 필수")
+        if self.license not in wh.rights.allowed_licenses:
+            errs.append(f"{self.kind} 라이선스 {self.license!r} 가 화면 허용 목록 밖(rules war_history.rights.allowed_licenses — CC BY-SA 는 참고 정합만)")
+        return errs
 
     @model_validator(mode="after")
     def _by_kind(self) -> "MediaAsset":
-        errs: list[str] = []
+        errs: list[str] = self._war_history_errors()
         if not self.url and not self.source_ref:
             errs.append("url 과 source_ref 중 하나는 있어야 한다(D-0037)")
         if not self.url and not self.pending_source:

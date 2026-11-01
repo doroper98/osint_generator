@@ -1,0 +1,35 @@
+# 장르 프로필 — 전쟁사 (v7.4.0 전쟁사 트랙 W2, back_and_forth D-0600 §4 · D-0337(사용자 결정 UF-206) · D-0307)
+# 고대~현대 전쟁사. 지도·전술 무대는 뼈대, 미술·기록·사진·영상이 살(UF-206 "아주아주 적극적으로 미술사와 연관").
+# 시대 부호 세트·당대/후대 라벨·증거 층·병력/사상자 출처는 rules war_history: 한 곳(판정 schemas.war_history).
+# status proposed: 사용자 승인 전. tactical 무대는 W3 구현 전(registries.stages_planned).
+schema_version: 1
+genre: war_history
+status: proposed
+template_label: "전쟁사"
+photo_age_check: false           # 역사 장르 — 사진 연도 경고 끔(D-0327). 자료사진 표기·[clip-date-mismatch] 는 그대로
+stage:
+  primary: mercator
+  secondary: [tactical]          # 전장 수 km 축척 부대 블록 무대(W3 — stages_planned)
+  mercator: {theme: dark}        # D154·D155 — 군사 작전·전황 = dark
+color_semantics:                 # 색 토큰(registries.accents). 진영 배지는 rules war_history.faction_badge.tokens
+  faction_a: ru                  # 한 진영(예: 카르타고·북한군)
+  faction_b: us                  # 다른 진영(예: 로마·유엔군)
+  emphasis: gold                 # 강조·핵심 지점·자막 강조
+  secondary_text: muted
+  estimate: amber                # 추정 범위 띠·추정 태그
+primitives:
+  reuse: [marker, route, barrier, country, badge, panel, dip, photo, clip, cutout, article, person, flag, quote, timeline, versus]
+badges:
+  people: rights_check           # 인물 = 작품 초상(흉상·주화·회화)·사진. 동정 불확실하면 "…로 추정되는"(코드)
+  institutions: rights_check
+narration:
+  define_terms_once: true
+  etymology_once: true
+  past_tense: true
+  fact_sentences_per_min_max: 6
+  art_history_line: true
+  source_quote: true
+  evidence_first: true
+media:
+  preferred: [period_art, photo, clip, document, site]   # site = 유적·출토품 사진(레지스트리 photo + site_report)
+qa_extra: [evidence_layer, period_art_label, casualty_unsourced, symbol_set]

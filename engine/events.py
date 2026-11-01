@@ -68,7 +68,7 @@ class MarkerEvent(_Event):
     """지점 마커. 지도 앵커 lon·lat, 또는 시간축 핀 앵커 date(YYYY-MM-DD)·lane(레인 id) — 둘 중 하나(v4.3.0 D-0084 작업 4·D-0085).
     어느 무대 앵커인지는 attach_world 가 무대에 물어 검사한다(다른 무대의 키 = 오류)."""
 
-    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane", "route_cross_exempt")   # 쓰지 않은 무대의 앵커 쌍은 dict 에 남기지 않는다(지도 이벤트 dict = v4.2.0 과 같음)
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane", "route_cross_exempt", "toponymy")   # 쓰지 않은 무대의 앵커 쌍은 dict 에 남기지 않는다(지도 이벤트 dict = v4.2.0 과 같음)
 
     type: Literal["marker"]
     lon: Optional[float] = None
@@ -81,6 +81,7 @@ class MarkerEvent(_Event):
     hl: bool = False
     icon: Literal["dot", "boom"] = "dot"
     route_cross_exempt: Optional[RouteCrossExempt] = None   # v5.21.11 D-0203 — 골든 기준 프로젝트만(테스트가 강제)
+    toponymy: Optional[str] = Field(default=None, min_length=1, description="지명 유래 레코드 id(projects/<pid>/toponymy.yaml) — 핀 라벨 아래 한 줄을 코드가 조판(v7.4.0 전쟁사 W2, 증거 층 toponymy). sub 와 함께 쓰지 않는다")
 
     @model_validator(mode="after")
     def _anchor(self) -> "MarkerEvent":

@@ -267,3 +267,13 @@ last_review: 2026-09-29
 - `schemas/data_models.py:SeriesRecord` — `source_kind: fetched|press_cited`, `cited[]`(`ValueCitation{date, outlet, pub_date, url, note, open}`). press_cited 는 값마다 cited·transform/license `press_cited`(보간 금지 — 빈 달은 missing).
 - `engine/events.py:DualSeries` — `values` 에 null 허용(선을 끊는다), `record`(레코드 대조), `open_idx`(상·하한 표기 값 = 빈 점).
 - 모두 optional 추가라 `schema_version` 은 그대로(C3).
+
+## 12. v7.4.0 추가 계약 (전쟁사 트랙 W1·W2, back_and_forth D-0600)
+
+| 모델 | 파일 | 요지 |
+|---|---|---|
+| `EraDate` | `schemas/era_date.py` | 천문 연도·정밀도(day·month·year·circa·period)·달력 표기. 문자열 꼴 = `rules script_schema.date_formats`(`-216` = 기원전 216년). 문장 날짜 파서는 이것 하나(`tests/anti_inertia/test_era_date_single_parser.py`) |
+| `MediaAsset` 추가 필드 | `schemas/media_models.py` | kind `period_art`·`document`, optional `created`(EraDate)·`identification`·`art_history`·`art_history_source`·`archive_id`·`work_kind`·`holder`·`inventory_no`·`material`·`site_report`. 작품·기록은 필수 칸 + 라이선스 `rules war_history.rights` |
+| `ForceFigure`·`AncientTextCitation`·`EstimateBand` | `schemas/data_models.py` | `projects/<pid>/forces.yaml` — 병력·사상자: 사료 귀속(저자·작품·권·절·영역본) + 현대 추정 범위 띠. 문장 sources `force:<id>` |
+| `ToponymyEntry`·`ToponymyFile` | `schemas/war_history.py` | `projects/<pid>/toponymy.yaml` — 지명 유래(언어·뜻·출처·확신도). marker `toponymy: <id>` |
+| `WarSpec` | `sketch/war/spec.py` | 전쟁사 스케치 spec(시대 부호 세트 부대 키프레임·지명·증거 카드·사료 인용) |

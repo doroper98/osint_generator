@@ -16,7 +16,7 @@ from PIL import Image
 from engine.assets import set_raster, surf_from_pil
 from engine.context import RenderCtx
 from engine.credits import RightsError
-from engine.media_registry import credit_line, load_media_registry
+from engine.media_registry import credit_line, load_media_registry, media_caption_text, media_credit
 from engine.projection import View
 from engine.style import C, ELEM, FPS, MOTION
 from rules import load_rules
@@ -25,10 +25,13 @@ from engine.typography import rrect, text, tw
 
 
 MC = load_rules().layout_480p.media_caption   # v4.8.0 D-0101 §3 — 사진·영상 캡션 바·태그·컷아웃 캡션 글자(옛 리터럴)
-BAR = load_rules().media_beats.caption_bar_px   # 캡션 바 높이(media_plan 상자 계산과 같은 값)
+BAR = load_rules().media_beats.caption_bar_px
+_WH = load_rules().war_history   # 캡션 바 높이(media_plan 상자 계산과 같은 값)
 
 EVENT_KIND: dict[str, str] = {"photo": "photo", "clip": "video", "cutout": "cutout", "article": "article",
                               "inset": "inset"}   # 이벤트 → 레지스트리 kind. inset = flight.inset(v7.3.0 D-0206, 이벤트 타입 아님)
+# v7.4.0 전쟁사 W2(D-0600 §4) — 작품·기록 스캔은 사진 비트로 보인다(새 이벤트 종류 없음, 캡션 바 라벨 줄만 다름)
+EVENT_KINDS: dict[str, tuple[str, ...]] = {**{k: (v,) for k, v in EVENT_KIND.items()}, "photo": ("photo", "period_art", "document")}
 
 
 def validate_media(e: dict, assets: dict | None = None):  # noqa: ANN201 — schemas.media_models.MediaAsset
@@ -42,7 +45,7 @@ def validate_media(e: dict, assets: dict | None = None):  # noqa: ANN201 — sch
     if mid not in reg:
         raise RightsError(f"미디어 레지스트리에 없음: mid={mid} ({where})")
     a = reg[mid]
-    if EVENT_KIND.get(typ) != a.kind:
+    if a.kind not in EVENT_KINDS.get(typ, ()):
         raise RightsError(f"미디어 종류 불일치: 이벤트 {typ} ↔ 레지스트리 {mid}.kind={a.kind}")
     if getattr(a, "press_of", None) is not None:   # v5.21.0 D-0177 — 보도 인용(B) 사진은 독립 비트·배경 금지(기사 카드 프레스 칸에서만)
         raise RightsError(f"기사 {a.press_of} 의 보도 인용 사진({a.agency})은 기사 카드 프레스 칸(article press)에서만 — 독립 사진·배경 금지(사용자 결정 D172)")
@@ -149,7 +152,7 @@ def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     lt = t - e["t0"]
     x, y, w = e["x"], e["y"] + (1 - ease_out(lt / MOTION["photo_rise_sec"])) * 12, e["w"]
     h = w * 0.625
-    bar = caption_bar_h(m.caption, credit_line(m), w)   # v7.4.0 D-0333 — 출처 줄 접힘만큼 바가 길다
+    bar = caption_bar_h(media_caption_text(m), media_credit(m, e), w)   # v7.4.0 D-0333 — 출처 줄 접힘만큼 바가 길다
     media_frame(ctx, x, y, w, h + bar, a)
     k = 1.0 + (KEN_BURNS_MAX - 1.0) * clamp01(lt / (e["t1"] - e["t0"]))  # Ken Burns
     ctx.save()
@@ -162,8 +165,8 @@ def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     ctx.set_source_rgba(1, 1, 1, 0.22 * a)
     ctx.set_line_width(1)
     ctx.stroke()
-    media_tag(ctx, x, y, "PHOTO", a)
-    media_caption(ctx, x, y + h, w, m.caption, credit_line(m), a)
+    media_tag(ctx, x, y, _WH.media_tags.get(m.kind, "PHOTO"), a)   # v7.4.0 전쟁사 W2 — 작품·기록 스캔 태그(rules war_history.media_tags)
+    media_caption(ctx, x, y + h, w, media_caption_text(m), media_credit(m, e), a)
 
 
 def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
@@ -182,7 +185,7 @@ def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
     img = Image.fromarray(rgb).resize(size, Image.BILINEAR).convert("RGBA")
     surf, buf = surf_from_pil(img)
     R.cache["clip_buf"] = buf  # 표면이 칠해질 때까지 버퍼를 붙잡아 둔다
-    bar = 0 if e.get("frame") else caption_bar_h(m.caption, credit_line(m), w)   # v7.4.0 D-0333 접힘 · v7.4.0 D-0274 §2① — 액자(clip_frame): 캡션 줄은 상자 안 위쪽 띠(아래는 자막 자리)
+    bar = 0 if e.get("frame") else caption_bar_h(media_caption_text(m), media_credit(m, e), w)   # v7.4.0 D-0333 접힘 · v7.4.0 D-0274 §2① — 액자(clip_frame): 캡션 줄은 상자 안 위쪽 띠(아래는 자막 자리)
     media_frame(ctx, x, y, w, h + bar, a)
     set_raster(ctx, surf, OP.k, x, y)
     ctx.paint_with_alpha(a)
@@ -191,10 +194,10 @@ def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
     ctx.set_line_width(1)
     ctx.stroke()
     if e.get("frame"):
-        media_caption(ctx, x, y, w, m.caption, credit_line(m), a)
+        media_caption(ctx, x, y, w, media_caption_text(m), media_credit(m, e), a)
         return
     media_tag(ctx, x, y, "VIDEO", a)
-    media_caption(ctx, x, y + h, w, m.caption, credit_line(m), a)
+    media_caption(ctx, x, y + h, w, media_caption_text(m), media_credit(m, e), a)
 
 
 def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803

@@ -14,6 +14,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | endcard_roll | warning | v4.7.0(D-0106): 엔딩 카드 크레딧이 한도를 넘어 롤(속도 ≤ end_card.scroll_max_px_per_sec) `[endcard-roll]`. 상한 초과는 offscreen `[endcard-overflow]` hard |
 | media_upscaled | warning | 사진·영상·컷아웃 원본 픽셀 폭 < 출력 프로파일의 장치 폭(설계 폭 × k) — 추측 보간 금지, 알리기만(v3.6.0 D-0067 요건 3) |
 | labels | hard | 샘플 시각마다 도시 라벨 수 ≤ labels_per_frame_max |
+| evidence_layer · period_art_label · casualty_unsourced · symbol_set | hard | v7.4.0 전쟁사 W2(D-0600 §4, UF-150) — 장르 war_history 만. 시대별 필수 증거 층·작품 당대/후대 라벨·병력/사상자 force 인용·한 영상 한 부호 세트(schemas.war_history) |
 | date | hard | 문장 date 형식(rules script_schema.date_formats — 파서 schemas/era_date, 기원전·대략·기간 포함) — 날짜 배지는 이 값으로만 그린다 |
 | subtitles | hard | 자막 줄 수 ≤ subtitle_lines_max(렌더러와 같은 wrap) |
 | rights | hard | 권리 점검(load_project 의 check_credits·validate_media)이 통과했으면 0 |
@@ -122,7 +123,8 @@ QA = R_.qa_checks
 SG = R_.shot_grammar
 SAMPLE_SEC = 1.0          # 뱃지·라벨 샘플 간격
 SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여백 — 이만큼 잘리는 것은 허용
-HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
+HARD = ("evidence_layer", "period_art_label", "casualty_unsourced", "symbol_set",   # v7.4.0 전쟁사 W2(D-0600 §4) — 장르 war_history 만
+        "map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
         "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow")   # cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
@@ -1020,7 +1022,7 @@ def check_caption_overflow(P) -> list[str]:  # noqa: ANN001, N803
     """[caption-overflow] hard(v7.4.0 back_and_forth D-0333 — 넘침 허용 설계 폐기) — 렌더와 같은 caption_layout 으로 재서
     캡션 줄(줄임표 뒤)·출처 줄(접기 뒤, 줄 수 ≤ source_max_lines)이 바 폭 안에 다 들어가는지."""
     from engine.layers.media import caption_layout  # noqa: PLC0415
-    from engine.media_registry import credit_line  # noqa: PLC0415
+    from engine.media_registry import media_caption_text, media_credit  # noqa: PLC0415
 
     assets = P.R.assets.media_assets
     out = []
@@ -1028,7 +1030,7 @@ def check_caption_overflow(P) -> list[str]:  # noqa: ANN001, N803
         if e["type"] not in ("photo", "clip") or "w" not in e or e.get("mid") not in assets:
             continue
         m = assets[e["mid"]]
-        _, src, ok = caption_layout(m.caption, credit_line(m), e["w"])
+        _, src, ok = caption_layout(media_caption_text(m), media_credit(m, e), e["w"])
         if not ok:
             out.append(f"[caption-overflow] {e['type']} {e['mid']} t0={e['t0']:.1f} 폭 {e['w']:g} — 캡션·출처 줄이 바 밖으로 넘친다"
                        f"(출처 {len(src)}줄, 상한 {R_.layout_480p.media_caption.overflow.source_max_lines}줄, 또는 낱말 하나가 바보다 길다). 더 넓은 자리로 옮긴다")
@@ -2331,6 +2333,10 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "photo_subject_background": lambda: check_photo_subject_background(P),   # v7.4.0 D-0327(hard, UF-201)
         "photo_subject_unmatched": lambda: check_photo_subject_unmatched(P),     # v7.4.0 D-0327(hard)
         "photo_age": lambda: check_photo_age(P),                                 # v7.4.0 D-0327(warning)
+        "evidence_layer": lambda: check_war_history(P)["evidence_layer"],         # v7.4.0 전쟁사 W2 — [evidence-layer-missing](UF-150)
+        "period_art_label": lambda: check_war_history(P)["period_art_label"],     # [period-art-label-missing]
+        "casualty_unsourced": lambda: check_war_history(P)["casualty_unsourced"], # [casualty-unsourced]
+        "symbol_set": lambda: check_war_history(P)["symbol_set"],                 # [symbol-set-mixed]
         "series_date_convention": lambda: check_series_date_convention(P),   # v7.4.0 D-0326(warning)
         "chart_world_split": lambda: check_chart_world_split(P),   # v7.4.0 D-0251 §6.2-2(hard, UF-135 ②)
         "series_label_overlap": lambda: check_series_label_overlap(P),   # v7.4.0 D-0256(hard)
@@ -2967,6 +2973,49 @@ def check_photo_subject_unmatched(P) -> list[str]:  # noqa: ANN001, N803
     """[photo-subject-unmatched] hard(v7.4.0 D-0327) — photo 에 for 가 없거나, 레지스트리 main_subject·background 어디에도 없다."""
     return [f"[photo-subject-unmatched] 사진 {e['mid']} t={e['t0']:.1f} — for {(e.get('for_') or e.get('for'))!r} 가 레지스트리 main_subject·background 에 없다"
             " (연출 photo 에 for 를 적고, 레지스트리 main_subject 를 실제 프레임을 보고 적는다)" for k, e in photo_subject_issues(P) if k == "unmatched"]
+
+
+WAR_GENRE = "war_history"
+
+
+def check_war_history(P) -> dict[str, list[str]]:  # noqa: ANN001, N803
+    """전쟁사 장르 검사 넷(v7.4.0 W2, back_and_forth D-0600 §4 — UF-150 장치). 판정은 schemas.war_history, 값은 rules war_history.
+    장르가 war_history 가 아니면 모두 빈 목록. 증거 층: 연출 photo·clip 비트의 레지스트리 kind + marker toponymy.
+    부호: 연출 이벤트의 unit 부호(tactical 무대 W3) — 지금은 이벤트 'symbol' 키를 모은다."""
+    keys = ("evidence_layer", "period_art_label", "casualty_unsourced", "symbol_set")
+    cache = P.R.cache if isinstance(getattr(P.R, "cache", None), dict) else {}
+    if "war_history" in cache:
+        return cache["war_history"]
+    out: dict[str, list[str]] = {k: [] for k in keys}
+    if (cache.get("genre") or {}).get("name") != WAR_GENRE:
+        return out
+    from schemas.war_history import asset_layer, evidence_missing, period_art_label_missing  # noqa: PLC0415
+    from schemas.war_history import symbol_set_mixed, video_era  # noqa: PLC0415
+
+    assets = P.R.assets.media_assets
+    era = video_era([s.date for s in P.plan.sentences])
+    used = {lay for e in P.events if e["type"] in ("photo", "clip") and e.get("mid") in assets
+            if (lay := asset_layer(assets[e["mid"]])) is not None}
+    if any(e["type"] == "marker" and e.get("toponymy") for e in P.events):
+        used.add("toponymy")
+    out["evidence_layer"] = evidence_missing(era, used)
+
+    def date_at(t: float) -> "str | None":
+        sent = [s for s in P.plan.sentences if s.t0 - 0.3 <= t]
+        return sent[-1].date if sent else None
+
+    out["period_art_label"] = period_art_label_missing([e for e in P.events if e["type"] == "photo"], assets, date_at)
+    import yaml  # noqa: PLC0415
+
+    from script.lint import war_history_issues  # noqa: PLC0415
+    from script.schema import Script  # noqa: PLC0415
+
+    sp = P.root / "script.yaml"
+    out["casualty_unsourced"] = ([i.detail for i in war_history_issues(P.root, Script.model_validate(yaml.safe_load(sp.read_text(encoding="utf-8"))))]
+                                 if sp.exists() else [f"[casualty-unsourced] {sp} 없음 — 원고 sources 를 볼 수 없다"])
+    out["symbol_set"] = symbol_set_mixed(era, [e["symbol"] for e in P.events if e.get("symbol")])
+    cache["war_history"] = out
+    return out
 
 
 def check_photo_age(P) -> list[str]:  # noqa: ANN001, N803
