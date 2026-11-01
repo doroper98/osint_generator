@@ -4,8 +4,8 @@
   "title": "인텔 2026년 3분기 실적",
   "category": "economy",
   "created_at": "2026-11-01T04:55:15.630743Z",
-  "updated_at": "2026-11-01T04:55:15.631132Z",
-  "current_state": "created",
+  "updated_at": "2026-11-01T05:07:48.534570Z",
+  "current_state": "script_draft",
   "target_duration_min": 3,
   "topic_summary": "인텔 2026년 3분기 실적(10월 29일 장 마감 뒤): 예상치·실제·부문·4분기 가이던스·주가 반응(시간외·10월 30일 종가)·지경학. 실적 발표 템플릿(earnings) 둘째 사례",
   "initial_links": [],
@@ -31,7 +31,32 @@
   "gate_decisions": [],
   "stage_records": [],
   "final_outputs": {},
-  "state_history": [],
+  "state_history": [
+    {
+      "from_state": "created",
+      "to_state": "intake",
+      "transitioned_at": "2026-11-01T05:07:48.510888Z",
+      "reason": "소스 4건 등록(인텔 8-K·글로벌이코노믹 2·한국일보 1) — 구현 세션 대행 확인, 게이트 ① 출처 표로 사용자 확인"
+    },
+    {
+      "from_state": "intake",
+      "to_state": "source_verify",
+      "transitioned_at": "2026-11-01T05:07:48.518724Z",
+      "reason": "intake 완료"
+    },
+    {
+      "from_state": "source_verify",
+      "to_state": "research",
+      "transitioned_at": "2026-11-01T05:07:48.526548Z",
+      "reason": "코드 판정(source_verify.apply_draft) — verified 8·unverified 9, drops 0"
+    },
+    {
+      "from_state": "research",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-11-01T05:07:48.534557Z",
+      "reason": "데이터 레코드 INTC_* 등재본(T1) + INTC_PX_D 10월 30일 종가 갱신(c922f202)"
+    }
+  ],
   "rollbacks": [],
   "reopens": []
 }
