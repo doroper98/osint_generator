@@ -1,0 +1,2138 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "7.4.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "ff03b89e072c961b37dc6d2c842f504976796e6d",
+ "prompts": {},
+ "voice": "supertonic-3 M3 ×0.95",
+ "word_anchor": "mixed",
+ "word_anchors": [
+  {
+   "sid": "act1_5",
+   "word": "4월",
+   "mode": "ratio",
+   "t": 61.261,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act1_6",
+   "word": "트럼프",
+   "mode": "aligned",
+   "t": 66.975,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act1_6",
+   "word": "페제시키안",
+   "mode": "aligned",
+   "t": 67.877,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_2",
+   "word": "엿새째",
+   "mode": "aligned",
+   "t": 131.777,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_11",
+   "word": "트럼프",
+   "mode": "aligned",
+   "t": 199.329,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_11",
+   "word": "트럼프",
+   "mode": "aligned",
+   "t": 199.329,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act1_5",
+   "word": "4월",
+   "mode": "ratio",
+   "t": 61.261,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  }
+ ],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 483.031,
+ "sentences": 66,
+ "stages": {
+  "plan": true,
+  "geo": false,
+  "preview": false,
+  "render": false,
+  "mix": true,
+  "mux": false,
+  "ai_direction": false,
+  "visual_qa": false,
+  "bundle": false
+ },
+ "features_used": {
+  "camera_keys": 19,
+  "camera_moves": 16,
+  "camera_cuts": 3,
+  "dips": 2,
+  "dips_under": 1,
+  "badges": 10,
+  "badge_kinds": {
+   "person": 9,
+   "flag": 1
+  },
+  "panels": [
+   "versus",
+   "timeline",
+   "timeline"
+  ],
+  "media": {
+   "clip": 3,
+   "photo": 10,
+   "cutout": 0,
+   "article": 11
+  },
+  "event_types": {
+   "article": 11,
+   "badge": 10,
+   "barrier": 1,
+   "clip": 3,
+   "country": 2,
+   "dip": 2,
+   "marker": 21,
+   "panel": 3,
+   "photo": 10,
+   "quote": 6,
+   "route": 7,
+   "ships": 3
+  },
+  "label_lod": true,
+  "vignette": false,
+  "private_only_assets": [],
+  "at_word": {
+   "aligned": 5,
+   "ratio": 2
+  },
+  "map_layers": {
+   "roads": 2,
+   "rivers": 11,
+   "capitals": true,
+   "enabled": [
+    "roads",
+    "rivers"
+   ],
+   "reason": null
+  },
+  "transitions": [
+   {
+    "sid": "act1_0",
+    "pause_t0": 28.821723,
+    "pause_sec": 1.5,
+    "kind": [
+     "date_jump"
+    ]
+   },
+   {
+    "sid": "act2_0",
+    "pause_t0": 113.433356,
+    "pause_sec": 1.5,
+    "kind": [
+     "date_jump"
+    ]
+   },
+   {
+    "sid": "act4_0",
+    "pause_t0": 252.900272,
+    "pause_sec": 1.5,
+    "kind": [
+     "stage"
+    ]
+   },
+   {
+    "sid": "act5_0",
+    "pause_t0": 305.54737,
+    "pause_sec": 1.5,
+    "kind": [
+     "stage"
+    ]
+   },
+   {
+    "sid": "act6_0",
+    "pause_t0": 374.266349,
+    "pause_sec": 1.5,
+    "kind": [
+     "stage"
+    ]
+   },
+   {
+    "sid": "ending_0",
+    "pause_t0": 441.621837,
+    "pause_sec": 1.5,
+    "kind": []
+   }
+  ],
+  "alignment": {
+   "sources": {
+    "mms_forced_alignment": 66
+   },
+   "score_mean_min": 0.7054,
+   "elapsed_ms_total": 105064
+  },
+  "prosody": {
+   "final_fall": {
+    "applied_n": 66,
+    "skipped_n": 0
+   }
+  }
+ },
+ "qa": {
+  "auto_iterations": 0,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)"
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [],
+  "emblems": {
+   "used": [],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [
+    "araghchi",
+    "centcom",
+    "gb",
+    "il",
+    "ir",
+    "irgc",
+    "khamenei",
+    "kr",
+    "om",
+    "pezeshkian",
+    "pk",
+    "qa",
+    "rezaei",
+    "rubio",
+    "trump",
+    "us",
+    "vance"
+   ],
+   "used": [
+    "araghchi",
+    "khamenei",
+    "kr",
+    "pezeshkian",
+    "rezaei",
+    "trump",
+    "vance"
+   ],
+   "suggested_and_used": [
+    "araghchi",
+    "khamenei",
+    "kr",
+    "pezeshkian",
+    "rezaei",
+    "trump",
+    "vance"
+   ],
+   "suggestions": 81
+  }
+ },
+ "panels": {
+  "used": [
+   {
+    "kind": "versus",
+    "title": "양측 조건",
+    "t0": 214.28,
+    "prov_tag": null
+   },
+   {
+    "kind": "timeline",
+    "title": "휴전안의 한 달",
+    "t0": 115.33,
+    "prov_tag": null
+   },
+   {
+    "kind": "timeline",
+    "title": "휴전안의 한 달",
+    "t0": 307.25,
+    "prov_tag": null
+   }
+  ]
+ },
+ "credits": {
+  "card": {
+   "map": 2,
+   "media": 24,
+   "music": 1,
+   "narration": 1,
+   "people": 6
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "reserved": {
+  "avoidance": [],
+  "badge_delays": []
+ },
+ "audio": {
+  "bgm": [
+   "music.zabriskie_mario_bava"
+  ],
+  "bed_gain": 0.43,
+  "crossfades": 0,
+  "bed_bass": {
+   "applied": {
+    "shelf": {
+     "freq_hz": 110.0,
+     "gain_db": 5.0,
+     "q": 0.7
+    },
+    "sub": {
+     "band_hz": [
+      55.0,
+      220.0
+     ],
+     "out_lp_hz": 110.0,
+     "filter_order": 4,
+     "gain": 0.35,
+     "env_attack_sec": 0.03,
+     "env_release_sec": 0.25,
+     "env_block_sec": 0.001
+    },
+    "swell": {
+     "sec": 2.5,
+     "depth": 0.35
+    },
+    "norm_ref": 0.4
+   },
+   "ratio_db": {
+    "before": 3.25,
+    "after": 8.2
+   },
+   "rise_db": 4.95,
+   "swell_at": [
+    28.822,
+    113.433,
+    210.169,
+    252.9,
+    305.547,
+    374.266,
+    441.622
+   ],
+   "bands_hz": {
+    "bass": [
+     30.0,
+     120.0
+    ],
+    "mid": [
+     200.0,
+     2000.0
+    ]
+   }
+  },
+  "clip_audio": [
+   {
+    "mid": "iran_epic_fury_video",
+    "role": "broll",
+    "audio": "broll",
+    "t0": 35.304,
+    "t1": 40.304,
+    "wav_md5": "ba2c70773a1f1b3398d66053d123a561"
+   },
+   {
+    "mid": "iran_blockade_apr_video",
+    "role": "broll",
+    "audio": "broll",
+    "t0": 61.585,
+    "t1": 66.585,
+    "wav_md5": "e87e06dae8a5010674311e299963dd72"
+   },
+   {
+    "mid": "iran_strikes_jul_video",
+    "role": "broll",
+    "audio": "broll",
+    "t0": 79.415,
+    "t1": 84.415,
+    "wav_md5": "c980d0da231ec2870a4414ca99d1d768"
+   }
+  ]
+ },
+ "end_card": {
+  "version_stamp": "v7.4.0",
+  "roll_px": 335.0,
+  "roll_px_per_sec": 51.54
+ },
+ "render": {
+  "resolution": {
+   "profile": "480p",
+   "width": 854,
+   "height": 480,
+   "fps": 24,
+   "k": 1.0,
+   "pad_x": 0.0,
+   "crf": 19,
+   "preset": "faster"
+  }
+ },
+ "badge": {
+  "R_ignored": [
+   {
+    "i": 4,
+    "pid": "khamenei",
+    "label": "알리 하메네이",
+    "t0": 40.38,
+    "R": 30.0
+   },
+   {
+    "i": 8,
+    "pid": "trump",
+    "label": "트럼프",
+    "t0": 66.98,
+    "R": 30.0
+   },
+   {
+    "i": 9,
+    "pid": "pezeshkian",
+    "label": "페제시키안",
+    "t0": 67.88,
+    "R": 30.0
+   },
+   {
+    "i": 13,
+    "pid": "araghchi",
+    "label": "아라그치",
+    "t0": 125.52,
+    "R": 30.0
+   },
+   {
+    "i": 23,
+    "pid": "trump",
+    "label": "트럼프",
+    "t0": 163.31,
+    "R": 30.0
+   },
+   {
+    "i": 24,
+    "pid": "rezaei",
+    "label": "레자이",
+    "t0": 171.56,
+    "R": 30.0
+   },
+   {
+    "i": 27,
+    "pid": "vance",
+    "label": "밴스",
+    "t0": 194.37,
+    "R": 30.0
+   },
+   {
+    "i": 28,
+    "pid": "trump",
+    "label": "트럼프",
+    "t0": 199.33,
+    "R": 30.0
+   }
+  ],
+  "head_top": []
+ },
+ "geo": {
+  "unsourced": [
+   {
+    "kind": "place",
+    "name": "fujairah",
+    "lonlat": [
+     56.33,
+     25.12
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "israel_iran",
+    "points": 3,
+    "ends": [
+     [
+      35.0,
+      31.7
+     ],
+     [
+      53.3,
+      32.5
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "gulf_in",
+    "points": 3,
+    "ends": [
+     [
+      51.0,
+      27.0
+     ],
+     [
+      56.35,
+      26.55
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "doha_tehran",
+    "points": 3,
+    "ends": [
+     [
+      51.53,
+      25.29
+     ],
+     [
+      51.39,
+      35.69
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "hz_ulsan",
+    "points": 22,
+    "ends": [
+     [
+      56.35,
+      26.55
+     ],
+     [
+      129.31,
+      35.54
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "fuj_ulsan",
+    "points": 22,
+    "ends": [
+     [
+      56.33,
+      25.12
+     ],
+     [
+      129.31,
+      35.54
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "yanbu_ulsan",
+    "points": 25,
+    "ends": [
+     [
+      38.06,
+      24.09
+     ],
+     [
+      129.31,
+      35.54
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "korea_doha",
+    "points": 5,
+    "ends": [
+     [
+      126.9,
+      37.4
+     ],
+     [
+      51.53,
+      25.29
+     ]
+    ]
+   },
+   {
+    "kind": "path",
+    "name": "tehran_doha",
+    "points": 3,
+    "ends": [
+     [
+      51.39,
+      35.69
+     ],
+     [
+      51.53,
+      25.29
+     ]
+    ]
+   }
+  ],
+  "matched": [
+   {
+    "kind": "place",
+    "name": "doha",
+    "lonlat": [
+     51.53,
+     25.29
+    ],
+    "gazetteer": "doha_qat",
+    "km": 0.5,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "tehran",
+    "lonlat": [
+     51.39,
+     35.69
+    ],
+    "gazetteer": "tehran_irn",
+    "km": 3.4,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "hormuz",
+    "lonlat": [
+     56.35,
+     26.55
+    ],
+    "gazetteer": "strait_of_hormuz",
+    "km": 15.9,
+    "tol_km": 40.0
+   },
+   {
+    "kind": "place",
+    "name": "islamabad",
+    "lonlat": [
+     73.05,
+     33.68
+    ],
+    "gazetteer": "islamabad_pak",
+    "km": 3.0,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "ulsan",
+    "lonlat": [
+     129.31,
+     35.54
+    ],
+    "gazetteer": "ulsan_kor",
+    "km": 1.1,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "yanbu",
+    "lonlat": [
+     38.06,
+     24.09
+    ],
+    "gazetteer": "yanbu_al_bahr_sau",
+    "km": 1.2,
+    "tol_km": 25.0
+   },
+   {
+    "kind": "place",
+    "name": "beirut",
+    "lonlat": [
+     35.5,
+     33.89
+    ],
+    "gazetteer": "beirut_lbn",
+    "km": 1.9,
+    "tol_km": 25.0
+   }
+  ],
+  "mismatch": []
+ },
+ "quote": {
+  "status": "adopted",
+  "count": 6,
+  "speakers": [
+   "모즈타바 하메네이",
+   "밴스",
+   "아라그치",
+   "이란 고위 관리",
+   "트럼프"
+  ]
+ },
+ "border_glow": {
+  "status": "adopted",
+  "on": true
+ },
+ "article": [
+  {
+   "mid": "iran_ceasefire_2026_art_0005",
+   "t0": 11.57,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "iran_ceasefire_2026_art_0038",
+   "t0": 72.72,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "iran_ceasefire_2026_art_0043",
+   "t0": 96.42,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "iran_ceasefire_2026_art_0022",
+   "t0": 157.33,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "iran_ceasefire_2026_art_0015",
+   "t0": 180.39,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "iran_ceasefire_2026_art_0047",
+   "t0": 280.06,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "iran_ceasefire_2026_art_0056",
+   "t0": 347.75,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "iran_ceasefire_2026_art_0057",
+   "t0": 364.61,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "iran_ceasefire_2026_art_0064",
+   "t0": 410.06,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "iran_ceasefire_2026_art_0071",
+   "t0": 426.75,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "iran_ceasefire_2026_art_0054",
+   "t0": 295.87,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  }
+ ],
+ "pacing": {
+  "window_sec": 45.0,
+  "min_changes": 3,
+  "static_windows": [],
+  "creep": null
+ },
+ "animatic": true,
+ "catalog": false,
+ "chart_only_runs": [
+  [
+   115.4,
+   125.0
+  ],
+  [
+   214.3,
+   214.4
+  ],
+  [
+   307.3,
+   312.5
+  ]
+ ],
+ "regression_ref": null,
+ "media_density": {
+  "count": 13,
+  "value": 1.615,
+  "min": 1.5,
+  "exempt": false
+ },
+ "stage": {
+  "name": "mercator",
+  "declared": false,
+  "shots_declared": 0,
+  "instances": {
+   "mercator": 1
+  },
+  "configs": {
+   "mercator": {
+    "theme": "light",
+    "theme_reason": "지정학 — 장르 기본 D154, 감독 결정 D550"
+   }
+  }
+ },
+ "map_theme": {
+  "effective": "light",
+  "source": "direction",
+  "declared": true,
+  "reason": "지정학 — 장르 기본 D154, 감독 결정 D550",
+  "series": null
+ },
+ "genre": {
+  "name": "geopolitics",
+  "declared": false,
+  "status": "approved"
+ },
+ "order": {
+  "topic": "2026년 미국·이란 전쟁의 휴전안 정리(9월 25일 이란 7일안 ~ 10월 31일 도하)와 휴전 가능성의 조건부 시나리오·신호, 그리고 한국 접점",
+  "genre": "geopolitics",
+  "decisions": {
+   "topic": {
+    "value": "미국·이란 휴전안 정리와 가능성 타진(2026.11)",
+    "by": "user",
+    "ref": "D-0334 UF-205"
+   },
+   "map_theme": {
+    "value": "light",
+    "by": "default",
+    "ref": "장르 기본(D154) — 지정학, 감독 결정 D550"
+   },
+   "bgm": {
+    "value": "music.zabriskie_mario_bava",
+    "by": "default",
+    "ref": "rules audio.bgm_default 첫 곡 — 기준 작품과 같다"
+   },
+   "resolution": {
+    "value": "720p",
+    "by": "user",
+    "ref": "사용자 결정 2026-10-04 \"기준 해상도는 720p야\""
+   },
+   "gates": {
+    "value": "게이트 ①·② 감독 위임",
+    "by": "user",
+    "ref": "D-0334"
+   }
+  }
+ },
+ "camera": {
+  "suggest_ran": true,
+  "suggested": 7,
+  "used": 0,
+  "given_to_director": false,
+  "from_current_direction": false,
+  "fits": 6,
+  "current_fits_false": 4
+ },
+ "lint_warnings": [
+  "[badge-R-ignored] 인물 뱃지 연출 R 8건 무시 — 크기는 보이는 인물 수로 코드가 정한다(D-0111): 알리 하메네이 R 30, 트럼프 R 30, 페제시키안 R 30, 아라그치 R 30, 트럼프 R 30, 레자이 R 30, 밴스 R 30, 트럼프 R 30",
+  "[media-density-total] 과밀 — 13개 / 483초 = 37.2초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act1: ['iran_epic_fury_video', 'iran_hormuz_modis', 'iran_islamabad_talks', 'iran_blockade_apr_video', 'iran_uss_new_orleans_blockade', 'iran_strikes_jul_video', 'iran_marines_boarding'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act4: ['iran_hormuz_night_iss', 'iran_uss_dextrous_mcm'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-kind-repeat] 이웃 장면 cold→act1 같은 형태 ['article', 'photo'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['article', 'photo'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 act3→act4 같은 형태 ['photo'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 act4→act5 같은 형태 ['article'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 act5→act6 같은 형태 ['article'] (14 §10.1)",
+  "[media-burst-window] 35.3초부터 40초 안 5개 ['iran_epic_fury_video', 'iran_hormuz_modis', 'iran_islamabad_talks', 'iran_blockade_apr_video', 'iran_uss_new_orleans_blockade'] > 2 (14 §10.1 하한, D38)",
+  "[article-unused] act1_2 40.1초 기사 카드 후보 ['iran_ceasefire_2026_art_0030', 'iran_ceasefire_2026_art_0007', 'iran_ceasefire_2026_art_0031'] — 0~60초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act1_2.article 에 사유",
+  "[article-unused] act2_2 125.3초 기사 카드 후보 ['iran_ceasefire_2026_art_0023', 'iran_ceasefire_2026_art_0024'] — 120~180초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act2_2.article 에 사유",
+  "[article-unused] act2_11 194.1초 기사 카드 후보 ['iran_ceasefire_2026_art_0010', 'iran_ceasefire_2026_art_0011'] — 180~240초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act2_11.article 에 사유",
+  "[article-unused] act5_1 312.9초 기사 카드 후보 ['iran_ceasefire_2026_art_0001'] — 300~360초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act5_1.article 에 사유",
+  "[article-unused] ending_0 443.1초 기사 카드 후보 ['iran_ceasefire_2026_art_0023', 'iran_ceasefire_2026_art_0024', 'iran_ceasefire_2026_art_0001', 'iran_ceasefire_2026_art_0010', 'iran_ceasefire_2026_art_0011', 'iran_ceasefire_2026_art_0016'] — 420~480초 구간 1/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유"
+ ],
+ "media": {
+  "suggested": [
+   {
+    "sid": "act1_1",
+    "scene": "act1",
+    "kind": "clip",
+    "trigger": "공습",
+    "at": 34.7,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act1_2",
+    "scene": "act1",
+    "kind": "clip",
+    "trigger": "공습",
+    "at": 40.08,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act1_3",
+    "scene": "act1",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 47.3,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act1_5",
+    "scene": "act1",
+    "kind": "photo",
+    "trigger": "회담",
+    "at": 58.19,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act1_8",
+    "scene": "act1",
+    "kind": "clip",
+    "trigger": "공습",
+    "at": 78.42,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act1_11",
+    "scene": "act1",
+    "kind": "clip",
+    "trigger": "공습",
+    "at": 96.22,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act2_4",
+    "scene": "act2",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 141.5,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act2_7",
+    "scene": "act2",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 163.01,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act2_9",
+    "scene": "act2",
+    "kind": "article",
+    "trigger": "전했",
+    "at": 180.29,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act3_1",
+    "scene": "act3",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 213.88,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act3_2",
+    "scene": "act3",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 223.25,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act3_4",
+    "scene": "act3",
+    "kind": "article",
+    "trigger": "전했",
+    "at": 236.72,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act4_2",
+    "scene": "act4",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 262.91,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act4_3",
+    "scene": "act4",
+    "kind": "photo",
+    "trigger": "발표",
+    "at": 269.84,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act4_5",
+    "scene": "act4",
+    "kind": "article",
+    "trigger": "전했",
+    "at": 288.15,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act5_1",
+    "scene": "act5",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 312.9,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act5_3",
+    "scene": "act5",
+    "kind": "article",
+    "trigger": "전했",
+    "at": 325.61,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act5_7",
+    "scene": "act5",
+    "kind": "article",
+    "trigger": "에 따르면",
+    "at": 347.65,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act5_9",
+    "scene": "act5",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 364.51,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act6_1",
+    "scene": "act6",
+    "kind": "article",
+    "trigger": "에 따르면",
+    "at": 378.62,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act6_7",
+    "scene": "act6",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 426.65,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "ending_0",
+    "scene": "ending",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 443.12,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "ending_2",
+    "scene": "ending",
+    "kind": "photo",
+    "trigger": "발표",
+    "at": 457.76,
+    "source": "trigger",
+    "asset_id": null
+   }
+  ],
+  "used": [
+   {
+    "mid": "iran_ceasefire_2026_art_0005",
+    "kind": "article",
+    "t0": 11.57
+   },
+   {
+    "mid": "iran_ceasefire_2026_art_0038",
+    "kind": "article",
+    "t0": 72.72
+   },
+   {
+    "mid": "iran_ceasefire_2026_art_0043",
+    "kind": "article",
+    "t0": 96.42
+   },
+   {
+    "mid": "iran_ceasefire_2026_art_0022",
+    "kind": "article",
+    "t0": 157.33
+   },
+   {
+    "mid": "iran_ceasefire_2026_art_0015",
+    "kind": "article",
+    "t0": 180.39
+   },
+   {
+    "mid": "iran_ceasefire_2026_art_0047",
+    "kind": "article",
+    "t0": 280.06
+   },
+   {
+    "mid": "iran_ceasefire_2026_art_0056",
+    "kind": "article",
+    "t0": 347.75
+   },
+   {
+    "mid": "iran_ceasefire_2026_art_0057",
+    "kind": "article",
+    "t0": 364.61
+   },
+   {
+    "mid": "iran_ceasefire_2026_art_0064",
+    "kind": "article",
+    "t0": 410.06
+   },
+   {
+    "mid": "iran_ceasefire_2026_art_0071",
+    "kind": "article",
+    "t0": 426.75
+   },
+   {
+    "mid": "iran_doha_skyline",
+    "kind": "photo",
+    "t0": 1.5
+   },
+   {
+    "mid": "iran_epic_fury_video",
+    "kind": "clip",
+    "t0": 35.3
+   },
+   {
+    "mid": "iran_hormuz_modis",
+    "kind": "photo",
+    "t0": 47.6
+   },
+   {
+    "mid": "iran_islamabad_talks",
+    "kind": "photo",
+    "t0": 58.39
+   },
+   {
+    "mid": "iran_blockade_apr_video",
+    "kind": "clip",
+    "t0": 61.59
+   },
+   {
+    "mid": "iran_uss_new_orleans_blockade",
+    "kind": "photo",
+    "t0": 72.82
+   },
+   {
+    "mid": "iran_strikes_jul_video",
+    "kind": "clip",
+    "t0": 79.42
+   },
+   {
+    "mid": "iran_marines_boarding",
+    "kind": "photo",
+    "t0": 92.03
+   },
+   {
+    "mid": "iran_tehran_2026",
+    "kind": "photo",
+    "t0": 203.77
+   },
+   {
+    "mid": "iran_araghchi_moscow",
+    "kind": "photo",
+    "t0": 210.37
+   },
+   {
+    "mid": "iran_hormuz_night_iss",
+    "kind": "photo",
+    "t0": 254.8
+   },
+   {
+    "mid": "iran_uss_dextrous_mcm",
+    "kind": "photo",
+    "t0": 270.24
+   },
+   {
+    "mid": "iran_doha_skyline_09",
+    "kind": "photo",
+    "t0": 453.05
+   },
+   {
+    "mid": "iran_ceasefire_2026_art_0054",
+    "kind": "article",
+    "t0": 295.87
+   }
+  ],
+  "suggested_and_used": [
+   "act1:article",
+   "act1:clip",
+   "act1:photo",
+   "act2:article",
+   "act4:article",
+   "act4:photo",
+   "act5:article",
+   "act6:article",
+   "ending:photo"
+  ],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 483.031,
+   "items": [
+    {
+     "mid": "iran_doha_skyline",
+     "kind": "photo",
+     "t0": 1.5,
+     "t1": 4.8,
+     "scene": "cold"
+    },
+    {
+     "mid": "iran_ceasefire_2026_art_0005",
+     "kind": "article",
+     "t0": 11.57,
+     "t1": 18.07,
+     "scene": "cold"
+    },
+    {
+     "mid": "iran_epic_fury_video",
+     "kind": "clip",
+     "t0": 35.3,
+     "t1": 40.3,
+     "scene": "act1"
+    },
+    {
+     "mid": "iran_hormuz_modis",
+     "kind": "photo",
+     "t0": 47.6,
+     "t1": 51.1,
+     "scene": "act1"
+    },
+    {
+     "mid": "iran_islamabad_talks",
+     "kind": "photo",
+     "t0": 58.39,
+     "t1": 61.26,
+     "scene": "act1"
+    },
+    {
+     "mid": "iran_blockade_apr_video",
+     "kind": "clip",
+     "t0": 61.59,
+     "t1": 66.59,
+     "scene": "act1"
+    },
+    {
+     "mid": "iran_ceasefire_2026_art_0038",
+     "kind": "article",
+     "t0": 72.72,
+     "t1": 77.92,
+     "scene": "act1"
+    },
+    {
+     "mid": "iran_uss_new_orleans_blockade",
+     "kind": "photo",
+     "t0": 72.82,
+     "t1": 75.22,
+     "scene": "act1"
+    },
+    {
+     "mid": "iran_strikes_jul_video",
+     "kind": "clip",
+     "t0": 79.42,
+     "t1": 84.42,
+     "scene": "act1"
+    },
+    {
+     "mid": "iran_marines_boarding",
+     "kind": "photo",
+     "t0": 92.03,
+     "t1": 95.62,
+     "scene": "act1"
+    },
+    {
+     "mid": "iran_ceasefire_2026_art_0043",
+     "kind": "article",
+     "t0": 96.42,
+     "t1": 102.62,
+     "scene": "act1"
+    },
+    {
+     "mid": "iran_ceasefire_2026_art_0022",
+     "kind": "article",
+     "t0": 157.33,
+     "t1": 162.51,
+     "scene": "act2"
+    },
+    {
+     "mid": "iran_ceasefire_2026_art_0015",
+     "kind": "article",
+     "t0": 180.39,
+     "t1": 187.28,
+     "scene": "act2"
+    },
+    {
+     "mid": "iran_tehran_2026",
+     "kind": "photo",
+     "t0": 203.77,
+     "t1": 208.57,
+     "scene": "act2"
+    },
+    {
+     "mid": "iran_araghchi_moscow",
+     "kind": "photo",
+     "t0": 210.37,
+     "t1": 214.18,
+     "scene": "act3"
+    },
+    {
+     "mid": "iran_hormuz_night_iss",
+     "kind": "photo",
+     "t0": 254.8,
+     "t1": 262.21,
+     "scene": "act4"
+    },
+    {
+     "mid": "iran_uss_dextrous_mcm",
+     "kind": "photo",
+     "t0": 270.24,
+     "t1": 279.36,
+     "scene": "act4"
+    },
+    {
+     "mid": "iran_ceasefire_2026_art_0047",
+     "kind": "article",
+     "t0": 280.06,
+     "t1": 287.65,
+     "scene": "act4"
+    },
+    {
+     "mid": "iran_ceasefire_2026_art_0054",
+     "kind": "article",
+     "t0": 295.87,
+     "t1": 307.05,
+     "scene": "act4"
+    },
+    {
+     "mid": "iran_ceasefire_2026_art_0056",
+     "kind": "article",
+     "t0": 347.75,
+     "t1": 355.77,
+     "scene": "act5"
+    },
+    {
+     "mid": "iran_ceasefire_2026_art_0057",
+     "kind": "article",
+     "t0": 364.61,
+     "t1": 372.77,
+     "scene": "act5"
+    },
+    {
+     "mid": "iran_ceasefire_2026_art_0064",
+     "kind": "article",
+     "t0": 410.06,
+     "t1": 418.92,
+     "scene": "act6"
+    },
+    {
+     "mid": "iran_ceasefire_2026_art_0071",
+     "kind": "article",
+     "t0": 426.75,
+     "t1": 434.21,
+     "scene": "act6"
+    },
+    {
+     "mid": "iran_doha_skyline_09",
+     "kind": "photo",
+     "t0": 453.05,
+     "t1": 457.16,
+     "scene": "ending"
+    }
+   ],
+   "count": 24,
+   "beat_count": 13,
+   "sec_per_item": 37.2,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": 35.3,
+     "count": 5,
+     "mids": [
+      "iran_epic_fury_video",
+      "iran_hormuz_modis",
+      "iran_islamabad_talks",
+      "iran_blockade_apr_video",
+      "iran_uss_new_orleans_blockade"
+     ]
+    }
+   },
+   "per_scene": {
+    "cold": [
+     "iran_doha_skyline"
+    ],
+    "act1": [
+     "iran_epic_fury_video",
+     "iran_hormuz_modis",
+     "iran_islamabad_talks",
+     "iran_blockade_apr_video",
+     "iran_uss_new_orleans_blockade",
+     "iran_strikes_jul_video",
+     "iran_marines_boarding"
+    ],
+    "act2": [
+     "iran_tehran_2026"
+    ],
+    "act3": [
+     "iran_araghchi_moscow"
+    ],
+    "act4": [
+     "iran_hormuz_night_iss",
+     "iran_uss_dextrous_mcm"
+    ],
+    "ending": [
+     "iran_doha_skyline_09"
+    ]
+   },
+   "insets": [],
+   "warnings": [
+    "[media-density-total] 과밀 — 13개 / 483초 = 37.2초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act1: ['iran_epic_fury_video', 'iran_hormuz_modis', 'iran_islamabad_talks', 'iran_blockade_apr_video', 'iran_uss_new_orleans_blockade', 'iran_strikes_jul_video', 'iran_marines_boarding'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act4: ['iran_hormuz_night_iss', 'iran_uss_dextrous_mcm'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-kind-repeat] 이웃 장면 cold→act1 같은 형태 ['article', 'photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['article', 'photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act3→act4 같은 형태 ['photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act4→act5 같은 형태 ['article'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act5→act6 같은 형태 ['article'] (14 §10.1)",
+    "[media-burst-window] 35.3초부터 40초 안 5개 ['iran_epic_fury_video', 'iran_hormuz_modis', 'iran_islamabad_talks', 'iran_blockade_apr_video', 'iran_uss_new_orleans_blockade'] > 2 (14 §10.1 하한, D38)"
+   ]
+  },
+  "articles": {
+   "schema_version": 1,
+   "candidates": 66,
+   "covered": 11,
+   "used_events": 11,
+   "per_min_max": 2,
+   "unused": [
+    {
+     "sid": "act1_2",
+     "t0": 40.08,
+     "mids": [
+      "iran_ceasefire_2026_art_0030",
+      "iran_ceasefire_2026_art_0007",
+      "iran_ceasefire_2026_art_0031"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act2_2",
+     "t0": 125.32,
+     "mids": [
+      "iran_ceasefire_2026_art_0023",
+      "iran_ceasefire_2026_art_0024"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act2_11",
+     "t0": 194.07,
+     "mids": [
+      "iran_ceasefire_2026_art_0010",
+      "iran_ceasefire_2026_art_0011"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act5_1",
+     "t0": 312.9,
+     "mids": [
+      "iran_ceasefire_2026_art_0001"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "ending_0",
+     "t0": 443.12,
+     "mids": [
+      "iran_ceasefire_2026_art_0023",
+      "iran_ceasefire_2026_art_0024",
+      "iran_ceasefire_2026_art_0001",
+      "iran_ceasefire_2026_art_0010",
+      "iran_ceasefire_2026_art_0011",
+      "iran_ceasefire_2026_art_0016"
+     ],
+     "reason": null
+    }
+   ],
+   "warnings": [
+    "[article-unused] act1_2 40.1초 기사 카드 후보 ['iran_ceasefire_2026_art_0030', 'iran_ceasefire_2026_art_0007', 'iran_ceasefire_2026_art_0031'] — 0~60초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act1_2.article 에 사유",
+    "[article-unused] act2_2 125.3초 기사 카드 후보 ['iran_ceasefire_2026_art_0023', 'iran_ceasefire_2026_art_0024'] — 120~180초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act2_2.article 에 사유",
+    "[article-unused] act2_11 194.1초 기사 카드 후보 ['iran_ceasefire_2026_art_0010', 'iran_ceasefire_2026_art_0011'] — 180~240초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act2_11.article 에 사유",
+    "[article-unused] act5_1 312.9초 기사 카드 후보 ['iran_ceasefire_2026_art_0001'] — 300~360초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act5_1.article 에 사유",
+    "[article-unused] ending_0 443.1초 기사 카드 후보 ['iran_ceasefire_2026_art_0023', 'iran_ceasefire_2026_art_0024', 'iran_ceasefire_2026_art_0001', 'iran_ceasefire_2026_art_0010', 'iran_ceasefire_2026_art_0011', 'iran_ceasefire_2026_art_0016'] — 420~480초 구간 1/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유"
+   ]
+  },
+  "placement": {
+   "iran_doha_skyline": "center:map_center_media",
+   "iran_epic_fury_video": "auto:map_left",
+   "iran_hormuz_modis": "center:map_center_media",
+   "iran_islamabad_talks": "center:map_center_media",
+   "iran_blockade_apr_video": "auto:map_left",
+   "iran_uss_new_orleans_blockade": "center:map_center_media",
+   "iran_strikes_jul_video": "auto:map_left",
+   "iran_marines_boarding": "center:map_center_media",
+   "iran_tehran_2026": "center:map_center_media",
+   "iran_araghchi_moscow": "center:map_center_media",
+   "iran_hormuz_night_iss": "center:map_center_media",
+   "iran_uss_dextrous_mcm": "center:map_center_media",
+   "iran_doha_skyline_09": "center:map_center_media"
+  }
+ },
+ "script": {
+  "labels": {
+   "verified": 12,
+   "corroborated": 46,
+   "unverified": 3,
+   "disputed": 5
+  }
+ },
+ "visual_void": [
+  [
+   28.72,
+   30.52
+  ],
+  [
+   46.82,
+   47.02
+  ],
+  [
+   57.62,
+   58.42
+  ],
+  [
+   61.32,
+   61.42
+  ],
+  [
+   72.22,
+   72.82
+  ],
+  [
+   77.92,
+   78.12
+  ],
+  [
+   84.42,
+   87.02
+  ],
+  [
+   95.62,
+   95.92
+  ],
+  [
+   102.62,
+   107.32
+  ],
+  [
+   112.12,
+   112.52
+  ],
+  [
+   124.92,
+   125.52
+  ],
+  [
+   141.52,
+   141.82
+  ],
+  [
+   214.22,
+   214.32
+  ],
+  [
+   312.42,
+   313.22
+  ],
+  [
+   441.62,
+   443.52
+  ],
+  [
+   452.92,
+   453.12
+  ]
+ ],
+ "regression_waived": {},
+ "animatic_run": {
+  "output": "out/animatic.mp4",
+  "profile": "480p",
+  "fps": 24,
+  "preset": "veryfast",
+  "band": "콘티 판 · 검토용 · 배포 금지",
+  "placeholders": {
+   "article": 11,
+   "badge": 10,
+   "clip": 3,
+   "photo": 10,
+   "quote": 6
+  },
+  "map": "mercator(본 지도, D-0241)",
+  "voice": "supertonic-3 M3 ×0.95",
+  "checks_skipped": [
+   "as_of_visible",
+   "chart_honesty",
+   "glyph_size",
+   "glyphs",
+   "labels",
+   "media_upscaled",
+   "rights",
+   "series_limit_3",
+   "units_visible"
+  ],
+  "direction_sha1": "7f262c6b74f4181598f997daf1a1bccc92b7fe7e",
+  "script_sha1": "4a47c0a2fb8544a1af3ae8e4b78f33ba7f294305",
+  "sec": {
+   "render": 1104.5,
+   "total": 1405.8,
+   "mux": 74.7
+  },
+  "jobs": 4,
+  "frames": 11592,
+  "loudnorm": {
+   "passes": 2,
+   "pass1": {
+    "input_i": -15.9,
+    "input_tp": -1.09,
+    "input_lra": 4.7,
+    "input_thresh": -26.18,
+    "target_offset": 0.14
+   },
+   "pass2": {
+    "output_i": -14.01,
+    "output_tp": -1.5,
+    "normalization_type": "dynamic"
+   },
+   "post_limiter_dbfs": -2.0
+  },
+  "bytes": 55310251
+ },
+ "checks": {
+  "hard": 0,
+  "warnings": 42,
+  "passed": true,
+  "profile": "animatic"
+ },
+ "user_feedback_guards": [
+  {
+   "id": "UF-01",
+   "checks": {
+    "card_exposure": 0
+   }
+  },
+  {
+   "id": "UF-02",
+   "checks": {
+    "camera_continuity": 0,
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-03",
+   "checks": {
+    "route_label_cross": 0,
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-04",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-05",
+   "checks": {
+    "article_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-06",
+   "checks": {
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-07",
+   "checks": {
+    "route_missing_other": 0,
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-08",
+   "checks": {
+    "battle_geo": 0
+   }
+  },
+  {
+   "id": "UF-09",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-10",
+   "checks": {
+    "portrait_unused": 7,
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-11",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0
+   }
+  },
+  {
+   "id": "UF-12",
+   "checks": {
+    "frame_missing_target": 0,
+    "frame_missing": 0
+   }
+  },
+  {
+   "id": "UF-16",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-18",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-19",
+   "checks": {
+    "camera_per_sentence": 0
+   }
+  },
+  {
+   "id": "UF-20",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-25",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-27",
+   "checks": {
+    "portrait_unused": 7
+   }
+  },
+  {
+   "id": "UF-30",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-31",
+   "checks": {
+    "media_upscaled": "skipped"
+   }
+  },
+  {
+   "id": "UF-32",
+   "checks": {
+    "boundary_as_route": 0
+   }
+  },
+  {
+   "id": "UF-34",
+   "checks": {
+    "offscreen": 0
+   }
+  },
+  {
+   "id": "UF-35",
+   "checks": {
+    "endcard_black": 0
+   }
+  },
+  {
+   "id": "UF-37",
+   "checks": {
+    "glyph_size": "skipped"
+   }
+  },
+  {
+   "id": "UF-39",
+   "checks": {
+    "timeline_rescale": 0
+   }
+  },
+  {
+   "id": "UF-42",
+   "checks": {
+    "stage_choice": 0,
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-45",
+   "checks": {
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-46",
+   "checks": {
+    "cascade": 0
+   }
+  },
+  {
+   "id": "UF-54",
+   "checks": {
+    "subtitle_overlap": 0
+   }
+  },
+  {
+   "id": "UF-63",
+   "checks": {
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-72",
+   "checks": {
+    "timeline_span": 0
+   }
+  },
+  {
+   "id": "UF-73",
+   "checks": {
+    "route_frame": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-77",
+   "checks": {
+    "opening_establish": 0
+   }
+  },
+  {
+   "id": "UF-78",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-80",
+   "checks": {
+    "flag_territory": 0
+   }
+  },
+  {
+   "id": "UF-81",
+   "checks": {
+    "badge_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-84",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-88",
+   "checks": {
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-93",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-97",
+   "checks": {
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-98",
+   "checks": {
+    "title_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-99",
+   "checks": {
+    "camera_bounds": 0,
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-101",
+   "checks": {
+    "portrait_unused": 7
+   }
+  },
+  {
+   "id": "UF-102",
+   "checks": {
+    "media_beats": 15
+   }
+  },
+  {
+   "id": "UF-104",
+   "checks": {
+    "tempo_density": 1
+   }
+  },
+  {
+   "id": "UF-105",
+   "checks": {
+    "transition_camera": 0
+   }
+  },
+  {
+   "id": "UF-107",
+   "checks": {
+    "inset_overlap": 0
+   }
+  },
+  {
+   "id": "UF-109",
+   "checks": {
+    "article_press_missing": 1
+   }
+  },
+  {
+   "id": "UF-110",
+   "checks": {
+    "cutaway_churn": 0
+   }
+  },
+  {
+   "id": "UF-111",
+   "checks": {
+    "unit_glyph_font": 0
+   }
+  },
+  {
+   "id": "UF-113",
+   "checks": {
+    "ratio_graphic": 0
+   }
+  },
+  {
+   "id": "UF-115",
+   "checks": {
+    "tempo_density": 1
+   }
+  },
+  {
+   "id": "UF-118",
+   "checks": {
+    "media_unused": 0
+   }
+  },
+  {
+   "id": "UF-119",
+   "checks": {
+    "media_unused": 0
+   }
+  },
+  {
+   "id": "UF-120",
+   "checks": {
+    "static_camera": 0
+   }
+  },
+  {
+   "id": "UF-122",
+   "checks": {
+    "unit_ton_glyph": 0
+   }
+  },
+  {
+   "id": "UF-123",
+   "checks": {
+    "route_speed": 0
+   }
+  },
+  {
+   "id": "UF-125",
+   "checks": {
+    "sea_only_frame": 0
+   }
+  },
+  {
+   "id": "UF-126",
+   "checks": {
+    "series_unused": 0,
+    "panel_dropped": 0
+   }
+  },
+  {
+   "id": "UF-128",
+   "checks": {
+    "chart_honesty": "skipped"
+   }
+  },
+  {
+   "id": "UF-129",
+   "checks": {
+    "card_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-130",
+   "checks": {
+    "article_outlet": 0
+   }
+  },
+  {
+   "id": "UF-131",
+   "checks": {
+    "glyphs": "skipped"
+   }
+  },
+  {
+   "id": "UF-135",
+   "checks": {
+    "chart_only_run": 0,
+    "chart_world_split": 0
+   }
+  },
+  {
+   "id": "UF-137",
+   "checks": {
+    "chart_edge_bleed": 0
+   }
+  },
+  {
+   "id": "UF-138",
+   "checks": {
+    "timeline_rescale": 0
+   }
+  },
+  {
+   "id": "UF-139",
+   "checks": {
+    "media_density": 0
+   }
+  },
+  {
+   "id": "UF-140",
+   "checks": {
+    "flat_lane": 0
+   }
+  },
+  {
+   "id": "UF-141",
+   "checks": {
+    "clip_frame": 0
+   }
+  },
+  {
+   "id": "UF-142",
+   "checks": {
+    "plot_height": 0,
+    "axis_empty_band": 0
+   }
+  },
+  {
+   "id": "UF-143",
+   "checks": {
+    "island_pin_collision": 0
+   }
+  },
+  {
+   "id": "UF-146",
+   "checks": {
+    "inset_jump": 0
+   }
+  },
+  {
+   "id": "UF-148",
+   "checks": {
+    "text_restates_narration": 0
+   }
+  },
+  {
+   "id": "UF-170",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-200",
+   "checks": {
+    "band_line_outside": 0,
+    "series_date_convention": 0
+   }
+  },
+  {
+   "id": "UF-201",
+   "checks": {
+    "photo_subject_background": 0,
+    "photo_subject_unmatched": 0
+   }
+  }
+ ]
+}
