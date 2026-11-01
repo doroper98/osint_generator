@@ -274,3 +274,30 @@ def license_mismatch(photo_license: str, tags: list[str]) -> list[str]:
     if _norm_record(photo_license) not in norms:
         errs.append(f"[license-mismatch] 레코드 사진 라이선스 {photo_license!r} 가 Commons 분류 {sorted(norms)} 에 없다 — 손으로 적은 값과 파일 페이지가 다르다")
     return errs
+
+
+def photo_license_from_tags(tags: list[str]) -> "str | None":
+    """Commons 분류 → 레코드 사진 라이선스 꼴(tools/commons_fetch.py get 자동 기록, D-0606 보충 ①).
+    유물 나이 PD 분류를 뺀 사진 분류 중 허용 라이선스가 있으면 그것(CC BY x · CC0 · Public domain), 불허뿐이면 그 불허 값(→ 화면 불가),
+    사진 분류가 없고 유물 나이 PD 만 있으면 'Public domain'(PD-Art — 2D 복제에만 성립, 입체 유물은 검수에서 사진 연대 확인)."""
+    R = _rules().rights  # noqa: N806
+    work_age = tuple(x.lower() for x in R.work_age_tags)
+    bad = tuple(x.lower() for x in R.disallowed_tags)
+    photo = [t for t in tags if not t.lower().startswith(work_age) and norm_license_tag(t)]
+
+    def rec(t: str) -> str:
+        n = norm_license_tag(t) or ""
+        if n == "public domain":
+            return "Public domain"
+        if n == "cc0":
+            return "CC0"
+        return n.upper() if n.startswith("cc") else t
+
+    ok = [t for t in photo if not t.lower().startswith(bad)]
+    if ok:
+        return rec(ok[0])
+    if photo:
+        return rec(photo[0])
+    if any(t.lower().startswith(work_age) for t in tags):
+        return "Public domain"
+    return None

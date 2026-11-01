@@ -364,8 +364,11 @@ def main(argv: list[str] | None = None) -> int:
             for c in search(a.query, a.limit):
                 print(json.dumps({k: c[k] for k in ("title", "lic", "restrictions", "allowed", "artist")}, ensure_ascii=False))
         elif a.cmd == "get":   # v7.4.0 D-0606 — 라이선스 분류도 함께 기록(license_tags)
+            from schemas.war_history import photo_license_from_tags  # noqa: PLC0415
+
+            tags = license_tags(a.title)
             print(json.dumps({**rights_entry(fetch(a.title, a.dest, a.width or None, a.allow_restricted)),
-                              "license_tags": license_tags(a.title)}, ensure_ascii=False))
+                              "license_tags": tags, "photo_license": photo_license_from_tags(tags)}, ensure_ascii=False))
         elif a.cmd == "bundles":
             print(f"bundles {record_bundles(a.proj / 'assets' / 'rights_registry.json')}")
         else:

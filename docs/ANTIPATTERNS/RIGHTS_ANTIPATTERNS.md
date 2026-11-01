@@ -20,11 +20,15 @@ last_review: 2026-11-01
   Commons 의 LicenseShortName 이 "Public domain" 이었기 때문이다. 그러나 그 값은 주화(기원전 3세기 유물)의 PD-old 였다.
   사진(CNG 촬영)은 Template:CNG 로 CC BY-SA 2.5 / GFDL 이었다. 화면 허용 목록 밖의 사진이 판정 ① 컷에 나갔다.
   감독 검수(R-0299)도 레코드 license 칸만 보고 파일 페이지 틀을 대조하지 않아 놓쳤다(D-0606 §2).
+- **원리**: 유물(PD)과 사진 라이선스는 별개다. Commons 'PD-Art' 는 2D 복제(회화·판화·사본의 평면 복제)에만 성립한다.
+  주화·조각·부조·도기·비석 같은 입체 유물 사진에는 사진가의 권리가 따로 있다.
 - **나쁜 예 (bad)**: 레코드 `license` 하나에 손으로 적은 값으로 화면 허용을 판정한다. 입체 유물(주화·조각·부조·도기) 사진도 평면 작품처럼 PD-Art 로 본다.
 - **좋은 예 (good)**: 사진 라이선스(`photo_license`)와 유물 권리(`work_license`)를 따로 적는다. 화면 판정은 `photo_license` 로만 한다.
   파일 페이지의 라이선스 분류를 `license_tags` 로 자동 기록하고 손으로 적은 값과 대조한다.
 - **자동 조치 (mitigation)**:
-  - `python -m sketch.war.fetch projects/<pid>`(그리고 `tools/commons_fetch.py get`)가 Commons 분류를 `license_tags` 로 기록한다.
+  - `python -m sketch.war.fetch projects/<pid>`·`tools/commons_fetch.py get`(공용)이 Commons 분류를 `license_tags` 로, 거기서 정한 사진 라이선스를
+    `photo_license` 로 자동 기록한다(`schemas.war_history.photo_license_from_tags`). `work_license` 는 레코드 손값.
+  - `engine/checks.py` `license_mismatch`(hard, 모든 장르) — 영상이 쓰는 레코드를 렌더 검사에서 다시 대조(C12-3 저장소 전체).
   - `schemas.war_history.license_mismatch` — 유물 나이 PD 분류(`rules war_history.rights.work_age_tags`)를 빼고 남은 사진 분류가
     불허(`disallowed_tags`: CC-BY-SA·GFDL·NC·ND)뿐이거나, 레코드 `photo_license` 가 분류에 없으면 `[license-mismatch]` → MediaAsset 검증 실패(hard).
   - period_art·document 레코드는 `photo_license`·`license_tags` 필수, period_art 는 `work_license` 필수(`license` = `photo_license`).
