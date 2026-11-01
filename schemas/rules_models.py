@@ -3465,6 +3465,7 @@ class SketchChecks(_Strict):
     georef_city_deg: float = Field(ge=0)
     horizon_tol_km: float = Field(ge=0)
     label_overlap_px: float = Field(ge=0)
+    c2_exclude_unnamed_units: bool = False   # v7.4.0 D-0610 ③ — 상자 꼬리표 'unnamed_unit' 끼리의 겹침 제외
     approx_word: str = Field(min_length=1)
     approx_note_end_gap_sec: float = Field(ge=0)
     pocket_sliver_ratio: float = Field(ge=0, lt=1)

@@ -2816,6 +2816,7 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
     georef_city_deg: 0.07        # SK-G1 도시 검산 — spec fronts.city_check 도시와 가장 가까운 참고 SVG 원 기호(정합 변환) 거리 상한(천왕성 스탈린그라드 0.0645 = 지도 기호 배치 차·칼라치 0.0348, D-0147 A)
     horizon_tol_km: 0.5          # SK-H6 패널 값(정수 km 반올림) 허용 폭
     label_overlap_px: 0          # SK-C2 새 라벨 예약 상자 겹침(warning)
+    c2_exclude_unnamed_units: true   # v7.4.0 D-0610 ③ — 이름 없는 부대 블록끼리 맞닿은 것은 SK-C2 에서 뺀다(진형이 붙은 것은 사실, 결함 아님). 제외 프레임 수는 provenance approximations 에. SK-W6 입력은 그대로
     seam_px: 12.5                # 2D → 3D 이음새 회귀 임계(설계 px) — 첫 3D 프레임과 2D 마지막 프레임의 발사점·착탄점 화면 좌표 차. 검토본 실측 11.7 + 여유(D-0144: 메르카토르 대 방위 등거리 본질 차, 근본 해결은 본편 globe 무대의 투영 혼합)
     pocket_sliver_ratio: 1.0e-3    # SK-G2 — make_valid 뒤 가장 큰 다각형 밖 조각 면적 ÷ 전체 ≤ 이 값이면 통과 + warning(검토본 시가 점 맞물림 조각 2.6e-5·5.2e-5, D-0146)
     approx_note_end_gap_sec: 1.0   # SK-H5(전황) — '개략' 출처 줄이 엔딩 카드 시작보다 이만큼 먼저 끝나도 된다(검토본 52.0 / 엔딩 53.0)
