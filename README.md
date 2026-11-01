@@ -7,3 +7,8 @@
 - `inchon_sketch/` — 인천 상륙과 서울 수복(1950.9.15~28). 작전 지도 → 인천항 전술 무대(녹색 06:33·적색·청색 17:30) → NHHC·NARA 사진 2 · 공간사 지도 → 공간사 인용
 - 파일: `sketch_war.mp4`(전편) · `sketch_war_sheet.jpg`(컨택트 시트) · `cuts/`(정지 컷) · `sketch_provenance.json`(검사·자료 sha1) · `RIGHTS_media.json`(작품·사진·기록 레코드 — 라이선스·소장처·식별 번호·미술사 한 문장·출처) · `toponymy.yaml` · `sketch.yaml`(spec) · `ancient_geo_sources.json`(우회 경로·라이선스 sha1) · `MD5SUMS`
 - 재현: `python -m sketch.war projects/<pid>`(SKILL campaign-front-map ⑧)
+
+## war_history/concept_v1/ — 구상 컷 둘(D-0604, 사용자 UF-250·251, 칸나이 v1 spec t=36.5 포위 완성)
+- A 밝은 릴리프: `relief_cannae_t36.png`(480p) · `relief_vs_dark.png`(왼쪽 v1 dark · 오른쪽 relief) — 고도 수계 선·지도 안 축척 막대
+- B 3D 궤도(proposed 무대 terrain3d): `terrain3d_cannae_still.png`(720p, 남서에서 북동) · `terrain3d_orbit_8s.mp4`(한 바퀴 60초 속도의 8초 구간)
+- `terrain3d_provenance.json`(규칙 값·영역·렌더러) · `relief_sketch_provenance.json` · `drainage_sources.json` · `RIGHTS.md` · `MD5SUMS`

@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "kind": "war",
+  "spec_sha1": "9f47ac043ec3de7af45ce91970549eea4e289551",
+  "rules_hash": "984b747f3cd026982302d3568421e6ce10962333",
+  "data_files": [
+    {
+      "path": "media_src/cannae_coin.jpg",
+      "sha1": "8020566771e0f60ddf31ed39fc3d5a0777b8f994",
+      "source": "https://commons.wikimedia.org/wiki/File:Carthage,_quarter_shekel,_237-209_BC,_SNG_BM_Spain_102.jpg",
+      "license": "Public domain"
+    },
+    {
+      "path": "media_src/cannae_bust.jpg",
+      "sha1": "3e2f5c1ce08a4d30fa6b1e3fbd880d819fadd7d6",
+      "source": "https://commons.wikimedia.org/wiki/File:Hannibal_Barca_bust_from_Capua_photo.jpg",
+      "license": "Public domain"
+    },
+    {
+      "path": "media_src/cannae_trumbull.jpg",
+      "sha1": "96d4193f2a9c754e6f69d4e3e89a364f62a9342c",
+      "source": "https://commons.wikimedia.org/wiki/File:The_Death_of_Paulus_Aemilius_at_the_Battle_of_Cannae_(Yale_University_Art_Gallery_scan).jpg",
+      "license": "Public domain"
+    },
+    {
+      "path": "media_src/cannae_closs.jpg",
+      "sha1": "b17482631b0533bdb668e68e6a94936486ed952c",
+      "source": "https://commons.wikimedia.org/wiki/File:Punti_storici_d%E2%80%99Italia_campo_della_battaglia_di_Canne.jpg",
+      "license": "Public domain"
+    },
+    {
+      "path": "ancient_geo/places.json",
+      "sha1": "5590ba720db736ea179133d9b43524b5d3ede5cf",
+      "source": "https://github.com/isawnyu/pleiades.datasets@c0534ffa6226a6d3dd6e1a59ef109b9359e1aabd data/gis/places.csv",
+      "license": "CC BY 3.0"
+    },
+    {
+      "path": "toponymy.yaml",
+      "sha1": "89c1ff6c35bb47ffede04f96ea07db3a1b4dd6d8",
+      "source": "toponymy.yaml 레코드 출처 칸",
+      "license": "사실 기록(출처 귀속)"
+    }
+  ],
+  "features_drawn": {
+    "drainage": 1,
+    "river": 1,
+    "faction_legend": 1,
+    "scale_bar": 1,
+    "unit:infantry_block": 6,
+    "unit:cavalry_wedge": 2
+  },
+  "approximations": [
+    "부대 위치·모양·이동: 사료 서술(spec sources)의 개략 — 크기·간격은 축척이 아니다",
+    "강 경로: 개략 선(spec rivers)",
+    "지명 좌표: Pleiades 대표 좌표(있는 것) · 그 밖 개략"
+  ],
+  "numbers_shown": [],
+  "numbers_computed": [],
+  "checks": {
+    "ran": [
+      "SK-H1",
+      "SK-H5",
+      "SK-C1",
+      "SK-W1",
+      "SK-R1",
+      "SK-W2",
+      "SK-W3",
+      "SK-W4",
+      "SK-E1",
+      "SK-C2",
+      "SK-W6",
+      "SK-W5"
+    ],
+    "hard": [],
+    "warnings": []
+  },
+  "render": {
+    "profile": "480p",
+    "frames": 1,
+    "duration_sec": 0.0,
+    "elapsed_sec": 0.0
+  }
+}

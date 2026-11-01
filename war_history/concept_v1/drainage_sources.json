@@ -1,0 +1,10 @@
+{
+ "schema_version": 1,
+ "tier": "G",
+ "z": 11,
+ "downsample": 2,
+ "min_cells": 400,
+ "lines": 249,
+ "source": "Terrarium 고도 타일(geo.prep 와 같은 출처 — tools/fetch_data.TILE_URL)",
+ "rule": "rules geo.drainage"
+}

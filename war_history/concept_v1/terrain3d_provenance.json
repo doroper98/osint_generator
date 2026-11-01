@@ -1,0 +1,68 @@
+{
+ "schema_version": 1,
+ "stage": "terrain3d(proposed)",
+ "t": 36.5,
+ "spec_sha1": "9f47ac043ec3de7af45ce91970549eea4e289551",
+ "region": [
+  16.028000000000002,
+  41.30222940876975,
+  16.188000000000002,
+  41.36975309146418
+ ],
+ "size_m": [
+  13373.52,
+  7464.07
+ ],
+ "radius_m": 5066.768,
+ "frames": 240,
+ "units": 8,
+ "places": 0,
+ "dem": "Terrarium z14",
+ "theme": "relief",
+ "renderer": "three.js 0.170.0 (MIT) · headless Chromium(playwright) swiftshader",
+ "rules": {
+  "sketch.war.terrain3d": {
+   "theme": "relief",
+   "dem_tier": "K",
+   "texture_res": "720p",
+   "region_w_deg": 0.16,
+   "grid": 320,
+   "exaggeration": 4.0,
+   "width": 1280,
+   "height": 720,
+   "fps": 30,
+   "orbit_sec": 8.0,
+   "camera": {
+    "fov_deg": 35.0,
+    "elev_deg": 40.0,
+    "radius_factor": 1.6,
+    "period_sec": 60.0,
+    "start_az_deg": 205.0
+   },
+   "light": {
+    "ambient": 0.55,
+    "sun": 0.85,
+    "az": 315.0,
+    "el": 40.0
+   },
+   "sky": "#0d1218",
+   "fog": [
+    1.8,
+    3.2
+   ],
+   "lift_m": 4.0,
+   "label_lift_m": 90.0,
+   "unit_opacity": 0.88,
+   "river_w_m": 14.0,
+   "text": {
+    "unit": 19.0,
+    "place": 20.0
+   },
+   "halo": "rgba(10,12,16,0.85)"
+  }
+ },
+ "outputs": [
+  "terrain3d_still.png",
+  "terrain3d_orbit.mp4"
+ ]
+}
