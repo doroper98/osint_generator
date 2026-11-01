@@ -55,15 +55,16 @@ def script_gate_view(pdir: Path, runner: Callable = subprocess.run) -> tuple[str
         label_note = "" if labels is not None else " (도시어 없음 — 라벨 계산 안 함)"
     except ValueError as e:
         labels, label_note = None, f" — 라벨 오류: {e}"
-    lines += ["", "원고 전문(자막) · [검증 라벨]" + label_note]
+    # v7.4.0 D-0454(UF-170) — 원고 전문에 검증 라벨 접미(`[<논쟁>]`)를 붙이지 않는다(사용자 검토 자료도 화면과 같이). 상태는 출처 표 열로만
+    lines += ["", "원고 전문(자막)" + label_note]
     src_rows: list[str] = []
     media_rows: list[str] = []
     for scene in sc.scenes:
         for k, s in enumerate(scene.sentences):
             sid = f"{scene.id}_{k}"
-            lab = labels.labels[sid].label if labels is not None else None
-            lines.append(f"  {sid:<12} {s.text}" + (f"  [{lab}]" if lab else ""))
-            src_rows.append(f"  {sid:<12} {', '.join(s.sources) if s.sources else '(출처 없음)'}")
+            st = labels.labels[sid].status if labels is not None else None
+            lines.append(f"  {sid:<12} {s.text}")
+            src_rows.append(f"  {sid:<12} {', '.join(s.sources) if s.sources else '(출처 없음)'}" + (f"  · 검증: {st}" if st else ""))
             if s.media is not None:
                 ref = s.media.asset_id or f"검색어 {s.media.query!r}"
                 media_rows.append(f"  {sid:<12} {s.media.kind} · {ref}" + (f" · '{s.media.at}'" if s.media.at else ""))
