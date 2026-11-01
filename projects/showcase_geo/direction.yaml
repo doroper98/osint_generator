@@ -1066,9 +1066,9 @@ events:
   audio: broll
   role: broll   # v7.4.0 D-0332 (b) — 액자(main)가 하르그 boom·마커를 전 구간 덮었다([label-under-media] 2.4초). 구석 자리로, 지도에서 타격 지점이 보이게(원음은 원래 무음)
 - type: marker
-  start:
+  start:   # v7.4.0 D-0346 — 지뢰 경고 표지판 사진을 act4_1 +2.5 까지 늘려(UF-171) 라벨이 사진 밑에 1.5초 깔렸다([label-under-media]). 사진이 빠지는 때로(옛 +0.3)
     sid: act4_1
-    'off': 0.3
+    'off': 2.2
   end:
     sid: act4_2
     edge: end
