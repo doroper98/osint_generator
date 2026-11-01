@@ -1,0 +1,28 @@
+# 『칸나이 — 기원전 216년 8월 2일』 주문 (v7.4.0 전쟁사 W6-1, back_and_forth D-0608 §1-2 · D-0607 §1 사용자 판정 UF-253).
+schema_version: 1
+tempo: breath
+attribution_mode: narration   # 사료 인용은 저자·작품·권·장을 문장 안에서 밝힌다(장르 narration.source_quote)
+topic: 제2차 포에니 전쟁 칸나이 전투(기원전 216년) — 한니발의 초승달 진형과 양익 포위. 사료(폴리비오스 III·리비우스 XXII)와 당대·후대 미술로 본 하루
+genre: war_history
+invariant_layer: docs/handoff/20 §1.1
+length: 내용이 정한다   # D-0608 §1-2 목표 4~6분(쇼케이스·중국 선례)
+instructions:
+  - "장르 war_history 문법(UF-206·UF-150): 지도는 뼈대, 미술·사료·지명이 살이다. 고대 증거 층 = 당대 미술(period_art) ≥ 1 · 후대 미술 ≥ 1 · 현장(site) · 지명 유래(toponymy) 1문장 · 사료 인용(quote) ≥ 2."
+  - "사료는 폴리비오스 『역사』 III.107~118(Paton 영역 1922)과 리비우스 『로마사』 XXII.43~51(Foster 영역 1929)만. 인용은 저자·작품·권·장을 밝힌다. 두 사료가 다르면 둘 다 같은 무게로 말한다(G4)."
+  - "병력·사상자 수치는 forces.yaml 레코드(사료 값 + 추정 범위 띠)를 인용한 문장에서만 말한다([casualty-unsourced]). 수치는 '폴리비오스에 따르면' 처럼 귀속한다."
+  - "작품을 보일 때마다 작가·연대·소장처·만든 뜻을 한 문장(레코드 art_history). 후대 작품은 후대 묘사임을 말로도 밝힌다."
+  - "과거 시제. 상투 문구 0(slop_check). 발음 텍스트에 숫자·기호 없음."
+  - "부대 이동·배치는 개략(사료 서술 범위 안). 지어낸 대사·심리 묘사 금지. 한니발의 의도는 사료가 말한 만큼만."
+data:
+  series: []
+  documents: [src_doc_0001, src_doc_0002]
+  notes:
+    - "현대 학술 추정(범위 띠)은 출처가 확인되는 것만 forces.yaml band 에. 확인 못 하면 사료 값만 말하고 범위 띠 문장은 쓰지 않는다."
+media:
+  wanted: [주 무대 메르카토르 relief(전쟁사 기본, D-0607 ③), 전술 무대(같은 좌표계 확대), 당대 주화(cannae_coin), 흉상(cannae_bust), 후대 회화(cannae_trumbull), 후대 판화·현장(cannae_closs), 진영 휘장 재현(카르타고 타니트)·로마 무휘장 사유, 병종 픽토그램, 사료 인용 카드]
+  rights: "PD·CC0·CC BY 만 화면에(rules war_history.rights). 사진 라이선스 ≠ 유물 라이선스(RIGHTS-AP-001). 스케치 칸나이 media.json 등재본을 공용 레지스트리로 옮겨 쓴다"
+decisions:
+  topic: {value: 칸나이 전투 샘플 영상, by: user, ref: "D-0600 킥오프 · D-0608"}
+  map_theme: {value: relief, by: user, ref: "D-0607 ③ UF-253(감독 권고 수용)"}
+  bgm: {value: "결정 대기 — Musopen PD 후보 decision_request(D-0307 §4)", by: default, ref: "D-0608 §1-3"}
+  resolution: {value: 720p, by: user, ref: 사용자 결정 2026-10-04 "기준 해상도는 720p야"}

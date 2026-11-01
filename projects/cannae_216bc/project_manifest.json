@@ -4,8 +4,8 @@
   "title": "칸나이 — 기원전 216년 8월 2일",
   "category": "war_military",
   "created_at": "2026-11-01T14:13:58.027817Z",
-  "updated_at": "2026-11-01T14:13:58.028129Z",
-  "current_state": "created",
+  "updated_at": "2026-11-01T14:17:52.599080Z",
+  "current_state": "intake",
   "target_duration_min": 5,
   "topic_summary": "제2차 포에니 전쟁 칸나이 전투(기원전 216년): 한니발의 초승달 진형과 양익 포위. 사료(폴리비오스 III·리비우스 XXII)·당대/후대 미술·지명 유래로 본 전투",
   "initial_links": [],
@@ -31,7 +31,14 @@
   "gate_decisions": [],
   "stage_records": [],
   "final_outputs": {},
-  "state_history": [],
+  "state_history": [
+    {
+      "from_state": "created",
+      "to_state": "intake",
+      "transitioned_at": "2026-11-01T14:17:52.599003Z",
+      "reason": "plan-intake 시작"
+    }
+  ],
   "rollbacks": [],
   "reopens": []
 }
