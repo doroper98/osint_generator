@@ -3,11 +3,11 @@
 장면 목록
   cold_open  문장  6  예상   51.8초
   prelude    문장 11  예상   86.8초
-  deployment 문장 14  예상   91.9초
-  encirclement 문장 15  예상  101.4초
-  aftermath  문장 11  예상   89.4초
+  deployment 문장 15  예상   93.2초
+  encirclement 문장 15  예상  102.0초
+  aftermath  문장 11  예상   88.9초
   ending     문장  6  예상   53.6초
-  합계 63문장 · 예상 474.9초 (글자 수 추정 320자/분)
+  합계 64문장 · 예상 476.2초 (글자 수 추정 320자/분)
 
 원고 전문(자막) · [검증 라벨]
   cold_open_0  기원전 216년, 로마 원로원은 8개 군단을 전장에 보내기로 했습니다.
@@ -35,12 +35,13 @@
   deployment_5 이에 맞서 카르타고군 좌익은 하스드루발이 지휘했습니다.
   deployment_6 카르타고군 중앙은 한니발이 동생 마고와 함께 맡았습니다.
   deployment_7 우익 장수는 폴리비오스가 한노로, 리비우스가 마하르발로 전했습니다.  [<논쟁>]
-  deployment_8 카르타고 진영 표지는 타니트 기호를 본떴고, 그 기호를 새긴 기원전 3세기 석회암 비석이 루브르 박물관에 남았습니다.
-  deployment_9 한니발은 중앙의 히스파니아·켈트 보병을 앞으로 내밀었습니다.
-  deployment_10 즉 중앙을 적 쪽으로 볼록하게 내민 이 배치가 초승달 진형이었습니다.
-  deployment_11 또한 아프리카 보병은 앞선 전투에서 노획한 로마 무기로 무장했습니다.
-  deployment_12 리비우스는 볼투르누스라는 바람이 먼지를 몰아 로마군의 시야를 가렸다고 전했습니다.
-  deployment_13 진형이 갖춰진 두 군대 사이에서 마침내 전투가 시작됐습니다.
+  deployment_8 타니트 기호를 새긴 기원전 3세기 석회암 비석이 루브르 박물관에 남았습니다.
+  deployment_9 이 영상의 카르타고 표지는 그 기호를 본뜬 재현입니다.
+  deployment_10 한니발은 중앙의 히스파니아·켈트 보병을 앞으로 내밀었습니다.
+  deployment_11 즉 중앙을 적 쪽으로 볼록하게 내민 이 배치가 초승달 진형이었습니다.
+  deployment_12 또한 아프리카 보병은 앞선 전투에서 노획한 로마 무기로 무장했습니다.
+  deployment_13 리비우스는 볼투르누스라는 바람이 먼지를 몰아 로마군의 시야를 가렸다고 전했습니다.
+  deployment_14 진형이 갖춰진 두 군대 사이에서 마침내 전투가 시작됐습니다.
   encirclement_0 첫 충돌은 강가의 기병 사이에서 일어났습니다.
   encirclement_1 양측 기병은 말에서 내려 백병전을 벌였습니다.
   encirclement_2 결국 로마군 우익 기병은 히스파니아·켈트 기병에게 패했습니다.
@@ -51,15 +52,15 @@
   encirclement_7 로마 동맹군 기병은 하스드루발의 돌격을 앞두고 무너져 달아났습니다.
   encirclement_8 이어서 하스드루발은 기병으로 로마 군단의 후방을 쳤습니다.
   encirclement_9 리비우스는 누미디아 기병 약 500명이 거짓 투항한 뒤 후방을 공격했다고 전했습니다.
-  encirclement_10 아이밀리우스는 이 전투에서 전사했습니다.
+  encirclement_10 결국 아이밀리우스는 이 전투에서 전사했습니다.
   encirclement_11 1773년 존 트럼불은 이 장면을 「칸나이 전투에서 파울루스 아이밀리우스의 죽음」으로 그렸고, 그림은 예일대학교 미술관에 소장됐습니다.
   encirclement_12 반면 집정관 바로는 베누시아로 달아났습니다.
   encirclement_13 함께 달아난 기병을 폴리비오스는 70명, 리비우스는 약 50명으로 전했습니다.  [<논쟁>]
   encirclement_14 이처럼 포위된 로마군은 전장에서 무너졌습니다.
   aftermath_0  칸나이의 하루는 그렇게 끝났습니다.
-  aftermath_1  두 사료는 패배의 규모를 서로 다른 숫자로 전했습니다.  [<논쟁>]
-  aftermath_2  로마군 전사자를 폴리비오스는 약 7만 명으로, 리비우스는 보병 45,500명과 기병 2,700명으로 전했습니다.  [<논쟁>]
-  aftermath_3  한편 아이밀리우스는 보병 1만 명을 진영에 남겨 카르타고 진영을 치게 했습니다.
+  aftermath_1  아이밀리우스는 보병 1만 명을 진영에 남겨 카르타고 진영을 치게 했습니다.
+  aftermath_2  두 사료는 패배의 규모를 서로 다른 숫자로 전했습니다.  [<논쟁>]
+  aftermath_3  로마군 전사자를 폴리비오스는 약 7만 명으로, 리비우스는 보병 45,500명과 기병 2,700명으로 전했습니다.  [<논쟁>]
   aftermath_4  포로를 폴리비오스는 보병 약 1만 명, 리비우스는 보병 3천 명과 기병 1,500명으로 전했습니다.  [<논쟁>]
   aftermath_5  폴리비오스가 전한 한니발군의 손실은 켈트인 약 4천 명, 히스파니아·아프리카인 1,500명, 기병 200명이었습니다.
   aftermath_6  폴리비오스는 이 전투에서 이긴 쪽도 진 쪽도 뚜렷한 용기를 보였다고 적었습니다.
@@ -70,7 +71,7 @@
   ending_0     8개 군단을 보내고도 로마가 무너진 기원전 216년의 칸나이.
   ending_1     그날 한니발군은 초승달 진형으로 로마 보병을 끌어들인 뒤 측면과 후방에서 에워쌌습니다.
   ending_2     그 결과 집정관 아이밀리우스는 전사했고, 바로는 베누시아로 달아났습니다.
-  ending_3     1856년 『그리스·로마 지리 사전』은 칸나이의 오늘 이름을 칸네로 적었지만, 이름의 뜻은 적지 않았습니다.
+  ending_3     1856년 『그리스·로마 지리 사전』은 칸나이의 당시 이름을 칸네로 적었지만, 이름의 뜻은 적지 않았습니다.
   ending_4     또한 같은 사전은 카노사에서 약 8마일 떨어진 작은 언덕 위에 그 유적이 아직 보인다고 적었습니다.
   ending_5     1885년 구스타프 아돌프 클로스는 그 들판을 후대의 판화로 남겼습니다.
 
@@ -101,11 +102,12 @@
   deployment_6 clm_0012
   deployment_7 clm_0011
   deployment_8 clm_0045
-  deployment_9 clm_0013
+  deployment_9 clm_0045
   deployment_10 clm_0013
-  deployment_11 clm_0014
-  deployment_12 clm_0015
-  deployment_13 clm_0006, clm_0016
+  deployment_11 clm_0013
+  deployment_12 clm_0014
+  deployment_13 clm_0015
+  deployment_14 clm_0006, clm_0016
   encirclement_0 clm_0016
   encirclement_1 clm_0016
   encirclement_2 clm_0017
@@ -122,9 +124,9 @@
   encirclement_13 clm_0025
   encirclement_14 clm_0018
   aftermath_0  clm_0018
-  aftermath_1  clm_0026, clm_0027
-  aftermath_2  clm_0026, clm_0027, force:rome_killed, force:rome_killed_livy
-  aftermath_3  clm_0029
+  aftermath_1  clm_0029
+  aftermath_2  clm_0026, clm_0027
+  aftermath_3  clm_0026, clm_0027, force:rome_killed, force:rome_killed_livy
   aftermath_4  clm_0028, force:rome_captured
   aftermath_5  clm_0030, force:carthage_killed
   aftermath_6  clm_0046
@@ -146,9 +148,9 @@
 미디어 후보 — 원고 media 필드 0건
   트리거 제안 — plan.json 이 생기면(voice_timeline 뒤) 표시
 
-검증 라벨 집계 {"verified": 58, "corroborated": 0, "unverified": 0, "disputed": 5}
+검증 라벨 집계 {"verified": 59, "corroborated": 0, "unverified": 0, "disputed": 5}
 
-미디어 계획 표 — 사진 0/7장(분당 1, 475초 추정) · 기사 카드 후보 0문장(60초당 2개까지 쓴다)
+미디어 계획 표 — 사진 0/7장(분당 1, 476초 추정) · 기사 카드 후보 0문장(60초당 2개까지 쓴다)
   문장         인용 출처              기사(등록/미등록)        사진 찾음/통과/선택      사유
   cold_open_0  clm_0002               -                        0/0/-                  
   cold_open_1  clm_0048               -                        0/0/-                  
@@ -176,11 +178,12 @@
   deployment_6 clm_0012               -                        0/0/-                  
   deployment_7 clm_0011               -                        0/0/-                  
   deployment_8 clm_0045               -                        0/0/-                  
-  deployment_9 clm_0013               -                        0/0/-                  
+  deployment_9 clm_0045               -                        0/0/-                  
   deployment_10 clm_0013               -                        0/0/-                  
-  deployment_11 clm_0014               -                        0/0/-                  
-  deployment_12 clm_0015               -                        0/0/-                  
-  deployment_13 clm_0006,clm_0016      -                        0/0/-                  
+  deployment_11 clm_0013               -                        0/0/-                  
+  deployment_12 clm_0014               -                        0/0/-                  
+  deployment_13 clm_0015               -                        0/0/-                  
+  deployment_14 clm_0006,clm_0016      -                        0/0/-                  
   encirclement_0 clm_0016               -                        0/0/- (충돌)             고르지 않음 — 첫 기병 충돌 문장. 이 장면을 찍은 사진은 있을 수 없고(기원전 216년), 당대 작품도 이 순간을 그린 것이 없다. 전술 무대 위 기병 쐐기 충돌과 병종 픽토그램으로
   encirclement_1 clm_0016               -                        0/0/-                  
   encirclement_2 clm_0017               -                        0/0/-                  
@@ -197,9 +200,9 @@
   encirclement_13 clm_0025               -                        0/0/-                  
   encirclement_14 clm_0018               -                        0/0/-                  
   aftermath_0  clm_0018               -                        0/0/-                  
-  aftermath_1  clm_0026,clm_0027      -                        0/0/-                  
+  aftermath_1  clm_0029               -                        0/0/-                  
   aftermath_2  clm_0026,clm_0027      -                        0/0/-                  
-  aftermath_3  clm_0029               -                        0/0/-                  
+  aftermath_3  clm_0026,clm_0027      -                        0/0/-                  
   aftermath_4  clm_0028               -                        0/0/-                  
   aftermath_5  clm_0030               -                        0/0/-                  
   aftermath_6  clm_0046               -                        0/0/-                  

@@ -190,7 +190,7 @@
       "status": "verified",
       "label": null,
       "claim_ids": [
-        "clm_0013"
+        "clm_0045"
       ]
     },
     "deployment_10": {
@@ -204,17 +204,24 @@
       "status": "verified",
       "label": null,
       "claim_ids": [
-        "clm_0014"
+        "clm_0013"
       ]
     },
     "deployment_12": {
       "status": "verified",
       "label": null,
       "claim_ids": [
-        "clm_0015"
+        "clm_0014"
       ]
     },
     "deployment_13": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0015"
+      ]
+    },
+    "deployment_14": {
       "status": "verified",
       "label": null,
       "claim_ids": [
@@ -336,11 +343,10 @@
       ]
     },
     "aftermath_1": {
-      "status": "disputed",
-      "label": "<논쟁>",
+      "status": "verified",
+      "label": null,
       "claim_ids": [
-        "clm_0026",
-        "clm_0027"
+        "clm_0029"
       ]
     },
     "aftermath_2": {
@@ -352,10 +358,11 @@
       ]
     },
     "aftermath_3": {
-      "status": "verified",
-      "label": null,
+      "status": "disputed",
+      "label": "<논쟁>",
       "claim_ids": [
-        "clm_0029"
+        "clm_0026",
+        "clm_0027"
       ]
     },
     "aftermath_4": {
