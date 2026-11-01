@@ -330,9 +330,7 @@ class WarScene:
             ctx.arc(x, y, P.dot_r, 0, 2 * np.pi)
             ctx.set_source_rgba(*WHITE, a)
             ctx.fill()
-            text(ctx, p.name, x + P.dx, y + P.dy, P.size, P.font, WHITE, P.alpha * a, P.halo)
-            wd = tw(ctx, p.name, P.size, P.font)
-            bottom = y + P.dy   # 이름 줄 바닥 — 현재 이름 줄은 있을 때만 아래에서 예약한다(없는 줄을 예약하지 않는다, v2 SK-C2)
+            lines: list[str] = []
             if p.toponymy:
                 Wr = W.toponymy_wrap
                 line = f"{self.topo[p.toponymy].name} — {self.topo[p.toponymy].line()}"
@@ -340,17 +338,26 @@ class WarScene:
                 lines = wrap(ctx, line, Tp.size, Tp.font, Wr.max_w, 1 if one else Wr.max_lines)
                 if one:
                     self._note("lod:toponymy_one_line")
-                for i, ln in enumerate(lines):
-                    text(ctx, ln, x + P.dx, y + Tp.dy + i * Wr.dy, Tp.size, Tp.font, C["gold"], Tp.alpha * a, Tp.halo)
-                    wd = max(wd, tw(ctx, ln, Tp.size, Tp.font))
-                bottom = max(bottom, y + Tp.dy + (len(lines) - 1) * Wr.dy)
+            wd = max([tw(ctx, p.name, P.size, P.font)] + [tw(ctx, ln, Tp.size, Tp.font) for ln in lines]
+                     + ([tw(ctx, p.now, Nw.size, Nw.font)] if p.now else []))
+            left = x + P.dx + wd > W_OUT   # 오른쪽으로 넘치면 핀 왼쪽에 오른쪽 맞춤(v2 SK-W5 — 글자를 빼지 않고 자리를 바꾼다)
+            tx, anchor = (x - P.dx, "r") if left else (x + P.dx, "l")
+            if left:
+                self._note("label_flip_left")
+            text(ctx, p.name, tx, y + P.dy, P.size, P.font, WHITE, P.alpha * a, P.halo, anchor)
+            bottom = y + P.dy   # 이름 줄 바닥 — 현재 이름 줄은 있을 때만 아래에서 예약한다(없는 줄을 예약하지 않는다, v2 SK-C2)
+            for i, ln in enumerate(lines):
+                text(ctx, ln, tx, y + Tp.dy + i * W.toponymy_wrap.dy, Tp.size, Tp.font, C["gold"], Tp.alpha * a, Tp.halo, anchor)
+            if lines:
+                bottom = max(bottom, y + Tp.dy + (len(lines) - 1) * W.toponymy_wrap.dy)
                 self._note("toponymy")
             now_dy = Nw.dy + (bottom - y - Tp.dy if p.toponymy else 0)
             if p.now:
-                text(ctx, p.now, x + P.dx, y + now_dy, Nw.size, Nw.font, C["muted"], Nw.alpha * a, Nw.halo)
-            if x + P.dx + wd > W_OUT:
+                text(ctx, p.now, tx, y + now_dy, Nw.size, Nw.font, C["muted"], Nw.alpha * a, Nw.halo, anchor)
+            x0, x1 = (tx - wd, x) if left else (x, tx + wd)
+            if x0 < 0 or x1 > W_OUT:
                 self.overflow.append((t, p.name))
-            res.append((x, y - P.size, x + P.dx + wd, y + now_dy if p.now else bottom))
+            res.append((x0, y - P.size, x1, y + now_dy if p.now else bottom))
             self._note("place")
 
     # ---------------------------------------------------------------- 증거 층
