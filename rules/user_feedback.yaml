@@ -2460,3 +2460,17 @@ entries:
   status: guarded
   decision: D-0334(261101_091229_D0334_fable_user-iran-ceasefire-video-delegated.md)
   source: 감독 세션(Fable) 사용자 대화 2026-11-01
+- id: UF-170
+  date: '2026-11-01'
+  project: iran_ceasefire_2026
+  at: "게이트 ① 원고 검토 자료(gate1_view.txt) 전달 직후 — 원고 전문의 문장 끝에 검증 라벨 접미 '[<논쟁>]' 이 보임"
+  quote: "[<논쟁>] 이런 문구는 자막이나 화면에서 빼"
+  quote_kind: verbatim
+  category: 검증 라벨(<논쟁>·<미검증>) — 자막·화면 어디에도 표기 금지(D85 재확인). 검토 자료(gate-view 원고 전문)에서도 문장 접미 라벨 제거, 상태는 출처 표 열로만
+  guards:
+  - {kind: check, ref: label_in_body}
+  - {kind: rule, ref: script_schema.labels}
+  - {kind: test, ref: tests/test_g5_labels_endcard.py}
+  status: open
+  decision: D-0454(이 영상 — 콘티 판·프리뷰·전편 checks [label-in-body] 0 증명 + gate-view 원고 전문 라벨 제거·시험, 구현 세션이 장치 id 확인 뒤 guarded 로)
+  source: 감독 세션(Fable) 사용자 대화 2026-11-01
