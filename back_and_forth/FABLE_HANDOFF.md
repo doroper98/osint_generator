@@ -16,7 +16,8 @@
 | 역할 | 세션 id | 브랜치 | 상태 |
 |---|---|---|---|
 | 쇼케이스 구현 3 | `session_017Yuw8mZjzL9rxkApRyBCoR` | claude/sweet-galileo-7yok3b | D-0335(게이트 ② 승인·econ A) 수신. approve 가 `require_feedback_guards` 에 막힘(R-0296, samsung_q3_2026 open 10건) → D-0338 (a): 경제 트랙 장치 완료까지 대기, 편집 없음 |
-| 경제 템플릿 구현 3(Opus 5.5) | `session_017Yuw8mPogwrWT2H4raHmJ5` | claude/econ-template-2026 | 세션 2(`…kbeoYpfyG3k9TfnLQ`, 컨텍스트 한계, R-0307 인계)를 대체. D-0339: merge → T3 → UF-147·149·151~157·202 장치 → R. ack R-0308 |
+| 경제 템플릿 구현 4(Opus 5.5) | `session_017Yuw8kfAdjmXc7uNhtwomZ` | claude/econ-template-2026 | 세션 3(`…mPogwrWT2H4raHmJ5`)이 D-0339 완료(R-0309: T3·장치 10건·원장 open 0, 머리 30d6da48) 뒤 컨텍스트 한계로 R-0310 인계. D-0342: T4(시트·골든 실측) → T5 삼성·인텔 W0(게이트 ① 사용자). 03:39Z 기동 |
+| 쇼케이스 구현 3 (갱신 03:40Z) | 같은 세션 | sweet-galileo | D-0340 진행 중: econ 30d6da48 병합(DECISIONS 네 줄 보존) → open 0·골든 12·프리뷰 hard 0 → D-0335 approve·전편 |
 | 전쟁사 트랙 위임 감독(Fable 5.1) | `session_017Yuw8i7EwyZ4z45Xtcvjkg` | claude/war-history-2026 | D-0337 기동. 구현 `session_017Yuw8iLVvjENvvmSwCZqkR`(Opus 5.5). D-0600 착수 지침, D700 둘째 사례 = 인천 상륙·서울 수복 1950.9. 번호 D-0600~·D700~·UF-250~. 게이트 위임 없음(사용자 판정 4자리). §0-6 은 그 브랜치에 |
 | 이란 휴전안 위임 감독(Fable 5.1) | `session_017Yuw8hAgYiuiC4hYCHXB27` | claude/iran-ceasefire-2026 | 게이트 ① 감독 승인(원고 v1.2 66문장, 제목 『휴전안의 한 달 — 미국과 이란, 무엇이 먼저 풀려야 하나』, ffa57628). 콘티 판 진행. 다음 통보 = 완성본 |
 - main: 중국 트랙 `merge --no-ff` 완료 0777833c(사용자 승인 UF-206·D314).
