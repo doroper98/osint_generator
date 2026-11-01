@@ -13,3 +13,4 @@ media/*.f32
 media/*.webm
 media/*.mp4
 portrait_src/
+media/res_*/
