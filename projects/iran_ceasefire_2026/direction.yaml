@@ -368,11 +368,11 @@ shots:
   dur: 3.0
   camera:
     lon: 57.6
-    lat: 25.6
+    lat: 27.5
     place: null
     date: null
     lane: null
-    w: 16.0
+    w: 24.0
   under: false
   allow_sea: null
   scene: null
@@ -450,7 +450,7 @@ events:
 - type: marker
   start:
     sid: cold_1
-    'off': 0.1
+    'off': 2.04
   end:
     scene_end: cold
   at_place: doha
@@ -478,8 +478,9 @@ events:
     sid: cold_2
     'off': 2.78
   end:
-    sid: cold_3
-    'off': 4.33
+    card: title
+    edge: end
+    'off': 0.0
   mid: iran_ceasefire_2026_art_0005
   theme: dark
 - type: country
@@ -494,11 +495,11 @@ events:
   a: 0.07
 - type: badge
   start:
-    sid: act1_1
-    'off': 4.9
-  end:
     sid: act1_2
-    'off': 6.27
+    'off': 1.32
+  end:
+    sid: act1_3
+    'off': 0.9
   lon: 59.5
   lat: 32.0
   kind: person
@@ -523,8 +524,8 @@ events:
   ship: true
 - type: marker
   start:
-    sid: act1_3
-    'off': 4.0
+    sid: act1_4
+    'off': 2.3
   end:
     sid: act1_4
     'off': 0.3
@@ -535,10 +536,8 @@ events:
   hl: true
 - type: marker
   start:
-    word:
-      sid: act1_5
-      text: 4월
-    'off': 0.1
+    sid: act1_5
+    'off': 4.31
   end:
     sid: act1_5
     edge: end
@@ -549,10 +548,10 @@ events:
 - type: badge
   start:
     sid: act1_6
-    'off': 1.38
+    'off': 3.23
   end:
     sid: act1_7
-    'off': 0.98
+    'off': 2.88
   lon: 47.0
   lat: 33.5
   kind: person
@@ -565,10 +564,10 @@ events:
 - type: badge
   start:
     sid: act1_6
-    'off': 1.38
+    'off': 3.23
   end:
     sid: act1_7
-    'off': 0.98
+    'off': 2.88
   lon: 58.5
   lat: 33.5
   kind: person
@@ -581,10 +580,10 @@ events:
 - type: article
   start:
     sid: act1_7
-    'off': 1.03
+    'off': 2.98
   end:
     sid: act1_8
-    'off': 3.78
+    'off': 5.78
   mid: iran_ceasefire_2026_art_0038
   theme: dark
 - type: marker
@@ -613,7 +612,7 @@ events:
 - type: marker
   start:
     sid: act3_1
-    'off': 0.5
+    'off': 3.72
   end:
     scene_end: act3
   at_place: doha
@@ -961,7 +960,7 @@ events:
 - type: marker
   start:
     sid: ending_2
-    'off': 0.2
+    'off': 1.84
   end:
     total: true
   at_place: hormuz
@@ -980,67 +979,67 @@ events:
 - type: clip
   start:
     sid: act1_0
-    'off': 1.68
+    'off': 4.38
   end:
-    sid: act1_1
-    'off': 4.55
+    sid: act1_2
+    'off': 1.97
   mid: iran_epic_fury_video
   audio: broll
   role: broll
 - type: photo
   start:
-    sid: act1_2
-    'off': 6.32
+    sid: act1_3
+    'off': 0.9
   end:
     sid: act1_4
-    'off': 0.7
+    'off': 2.5
   mid: iran_hormuz_modis
   for: 호르무즈 해협
 - type: photo
   start:
     sid: act1_4
-    'off': 0.0
+    'off': 1.8
   end:
     sid: act1_5
-    'off': 2.71
+    'off': 4.51
   mid: iran_islamabad_talks
   for: Islamabad Talks April 2026 현수막이 걸린 회담장 입구
 - type: clip
   start:
     sid: act1_5
-    'off': 2.01
+    'off': 3.81
   end:
     sid: act1_6
-    'off': 2.03
+    'off': 3.88
   mid: iran_blockade_apr_video
   audio: broll
   role: broll
 - type: photo
   start:
-    sid: act1_10
-    'off': 4.07
+    sid: act1_11
+    'off': 1.68
   end:
     sid: act1_11
-    'off': 7.18
+    'off': 9.28
   mid: iran_uss_new_orleans_blockade
   for: 봉쇄 작전 중인 미 해군 함정
 - type: clip
   start:
     sid: act1_8
-    'off': 3.88
+    'off': 5.88
   end:
     sid: act1_9
-    'off': 2.68
+    'off': 4.73
   mid: iran_strikes_jul_video
   audio: broll
   role: broll
 - type: photo
   start:
     sid: act1_11
-    'off': 6.48
+    'off': 8.58
   end:
     sid: act1_12
-    'off': 3.18
+    'off': 5.28
   mid: iran_marines_boarding
   for: 검문 대상 유조선과 헬기
 - type: photo
@@ -1106,18 +1105,6 @@ events:
   col: ru
   ship: false
   dashed: true
-- type: marker
-  start:
-    sid: act1_12
-    'off': 0.2
-  end:
-    sid: act1_12
-    'off': 0.5
-    edge: end
-  at_place: tehran
-  label: 테헤란
-  sub: 양해각서 만료 · 2026.08.17
-  side: right
 - type: marker
   start:
     sid: ending_0
@@ -1484,10 +1471,10 @@ events:
 - type: photo
   start:
     sid: act1_9
-    'off': 2.03
+    'off': 4.08
   end:
     sid: act1_11
-    'off': 0.28
+    'off': 2.38
   mid: iran_trump_ankara
   for: 착륙하는 대통령 전용기
 - type: country
@@ -1603,4 +1590,7 @@ media_note: 'v2(구현 세션 손질, AI 초안 v1 바탕): 출처 없는 좌표
   루비오(cold_2)·샤리프(act1_4) 추가. 밴스·레자이 뱃지는 act2 시간축 패널 위라 넣지 않음(badge-over-panel). 푸자이라
   지명 사전 등재(data/gazetteer.yaml manual). · v9(D-0462, UF-171·172): 요소 완전 노출 ≥ 6초(qa_checks.element_hold)
   — 사진·영상·카드 순차 배치. 뺀 것 = 루비오·샤리프 뱃지, 트럼프 quote(act1_9, 자막과 같은 문장), 기사 0043(act1_11)·0047(act4_4,
-  양측 quote 로 대칭) — 자리 없음. act1_7 사진(뉴올리언스)은 act1_10~11 로 옮겨 기사 카드와 겹침 해소(UF-172).'
+  양측 quote 로 대칭) — 자리 없음. act1_7 사진(뉴올리언스)은 act1_10~11 로 옮겨 기사 카드와 겹침 해소(UF-172).
+  · v9 콘티 판 사전 검사 정리: 오프닝 기사 0005 를 타이틀 끝까지(title_backdrop), 에픽 퓨리 클립은 act1_1 부터(clip_date),
+  마커 도하·호르무즈·이슬라마바드는 사진 뒤로, act1_12 테헤란 마커 삭제(사진 아래 깔림), act1_8 숏 w 16→24·lat 27.5(frame_missing
+  ''이란'').'
