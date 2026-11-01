@@ -12,7 +12,7 @@
 - confirm-source {pid} --id ID --by NAME [--posted-at ISO] : 사용자 확인(18 §7)
 - list-sources {pid}                        : 소스 목록·확인 여부
 - submit-intake {pid}                       : 확인된 소스로 source_verify 전이(미확인이 있으면 거부)
-- verify-sources {pid} [--backend]          : 소스 검증(인용 대조) → intake/claims.json (source_verify 에 머문다, v3.2.0)
+- verify-sources {pid} [--backend] [--supplement F] : 소스 검증(인용 대조) → intake/claims.json (source_verify 에 머문다, v3.2.0). --supplement = 원고 단계 보충(v7.4.0)
 - build-research {pid} [--backend] [--force]: ResearchWorker → facts.json + research 전이 (v3.2.0, 17 §5.1)
 - import-bundle {pid} --file <path> [--no-fetch] : v3.5.0 번들 어댑터 — 출처·claim 후보·원고/연출 초안(D-0063 작업 5)
 - build-script {pid} [--backend]            : ScriptWorker 호출 → script.yaml + script_labels.json
@@ -160,6 +160,8 @@ def build_parser() -> argparse.ArgumentParser:
     vsr = sub.add_parser("verify-sources", help="소스 검증(인용 대조) → intake/claims.json (source_verify, v3.2.0)")
     vsr.add_argument("project_id", help="project_id")
     vsr.add_argument("--backend", choices=["claude", "codex"], default="claude", help="LLM backend (기본: claude)")
+    vsr.add_argument("--supplement", type=Path, default=None,
+                     help="보충 후보 VerifyDraft JSON — 기존 claims 를 두고 같은 코드 판정으로 덧붙인다(research·script 단계, v7.4.0 D-0609)")
 
     brs = sub.add_parser("build-research", help="ResearchWorker → facts.json 후 research 전이 (v3.2.0, 17 §5.1)")
     brs.add_argument("project_id", help="project_id")
@@ -686,6 +688,20 @@ def _cmd_verify_sources(args: argparse.Namespace) -> int:
         print(f"error: {e}", file=sys.stderr)
         return 1
     cur = manifest.current_state.value if hasattr(manifest.current_state, "value") else manifest.current_state
+    if args.supplement is not None:   # v7.4.0 D-0609 — 보충 검증(LLM 없음, 같은 judge)
+        from orchestrator.source_verify import SUPPLEMENT_STATES, apply_supplement  # noqa: PLC0415
+        from schemas.source_models import VerifyDraft  # noqa: PLC0415
+
+        if cur not in SUPPLEMENT_STATES:
+            print(f"error: 현재 상태 '{cur}' 에서는 보충 검증을 할 수 없습니다(허용: {', '.join(SUPPLEMENT_STATES)})", file=sys.stderr)
+            return 2
+        pdir = project_dir(args.project_id)
+        draft = VerifyDraft.model_validate_json(args.supplement.read_text(encoding="utf-8"))
+        keep = pdir / "intake" / f"verify_supplement_{args.supplement.stem}.json"   # 후보 원본을 프로젝트에 남긴다(재현)
+        keep.write_text(draft.model_dump_json(indent=2), encoding="utf-8")
+        res = apply_supplement(pdir, draft, args.supplement.stem)
+        print(json.dumps(res.model_dump(), ensure_ascii=False))
+        return 0 if res.ok else 1
     if cur != ProjectState.SOURCE_VERIFY.value:
         print(f"error: 현재 상태 '{cur}' 에서는 verify-sources 를 실행할 수 없습니다(허용: source_verify)", file=sys.stderr)
         return 2
