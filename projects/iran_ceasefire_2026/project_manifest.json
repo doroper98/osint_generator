@@ -4,8 +4,8 @@
   "title": "휴전안 — 미국과 이란, 무엇이 먼저 풀려야 하나",
   "category": "geopolitics",
   "created_at": "2026-11-01T00:29:59.874133Z",
-  "updated_at": "2026-11-01T11:20:45.458194Z",
-  "current_state": "direction",
+  "updated_at": "2026-11-01T13:38:07.451273Z",
+  "current_state": "render",
   "target_duration_min": 18,
   "topic_summary": "2026년 미국·이란 전쟁의 휴전안 정리(9월 말 이란 7일안~10/31 도하)와 휴전 가능성의 조건부 시나리오·신호",
   "initial_links": [],
@@ -61,6 +61,24 @@
         "quote_candidates": "6",
         "animatic": "out/animatic.mp4 · 483.031초 · direction 3525efd481a44b08f3197ac4b96172e4afcaaa80 · script 4a47c0a2fb",
         "user_feedback": "사용자 의견 167건 모두 장치 있음(최근 UF-206)",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-11-01T13:38:07.451193Z",
+      "comment": "사용자 위임 D-0334 · D-0463(콘티 판 v5 f2796da0, 연출 v9, UF-171·172 반영) · 프리뷰 v2 hard 0(R-0316)",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/sheet.jpg",
+        "cuts": "0",
+        "media_used": "quote 4 · article 4 · real 13",
+        "quote_candidates": "6",
+        "animatic": "out/animatic.mp4 · 483.031초 · direction 74a78df029e265e85d4c2d1342d2e967340644e2 · script 4a47c0a2fb",
+        "user_feedback": "사용자 의견 169건 모두 장치 있음(최근 UF-206)",
         "asset_library": "공용 자산 미승격 0"
       },
       "chosen_version": null
@@ -301,6 +319,24 @@
       "to_state": "direction",
       "transitioned_at": "2026-11-01T11:20:45.458127Z",
       "reason": "reopen → direction — opus: UF-171·172(D-0462) — 요소 노출 시간 전수 수정, 원고·음성 불변"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-11-01T13:35:54.891357Z",
+      "reason": "연출 v9(dd03b655) 콘티 판 v5 f2796da0 감독 통과(D-0463) — 엔진 CLI 직접 실행이라 상태만 기록"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-11-01T13:35:55.460131Z",
+      "reason": "프리뷰 v2 --preview auto hard 0(구현 세션 R-0316, artifacts 414ed10 preview_v2/) — 엔진 CLI 직접 실행이라 상태만 기록"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-11-01T13:38:07.451235Z",
+      "reason": "preview_approval 승인 — fable"
     }
   ],
   "rollbacks": [],
