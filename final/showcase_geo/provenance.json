@@ -232,9 +232,15 @@
  },
  "qa": {
   "auto_iterations": 1,
-  "user_approved": false,
+  "user_approved": true,
   "reviewer": "fable (back_and_forth)",
-  "visual_qa": []
+  "visual_qa": [],
+  "approval": {
+   "gate": "preview_approval",
+   "decision": "approved",
+   "by": "user",
+   "at": "2026-11-01T08:44:06.803778Z"
+  }
  },
  "drops": [],
  "assets": {

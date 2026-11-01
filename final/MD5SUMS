@@ -1,5 +1,6 @@
 f64eada5ba81a3a02317167a389a9b5a  ./README.md
 7f6bc9dbe856270aa4141842ff2aeb18  ./combined/frames_30s_290s.jpg
+18627421960867cb33e150d07272d8e8  ./combined/provenance.json
 18f8421688f5e3f3bfffa15554125ba1  ./combined/showcase_combined_deliver.mp4
 d0525853320c1cc84715803766c91db5  ./showcase_econ/audio_qa.json
 abfeac171ead71b15078b9fb2a6a5552  ./showcase_econ/catalog_checks.json
@@ -8,7 +9,7 @@ d0163c7b4d812f42c6488269cf4fa54f  ./showcase_econ/credits.txt
 d20538c37e083ad3af2b7e5e2a349453  ./showcase_econ/description.txt
 feb512661ba8904cedc1c8f92cb591eb  ./showcase_econ/final.srt
 77876ca3c0689294d10b417d2522f9b6  ./showcase_econ/final_deliver.mp4
-113077835bdd922362272872042134b4  ./showcase_econ/provenance.json
+462128cf6c519bed1d5e0bdf46975afc  ./showcase_econ/provenance.json
 97be9aa87985bf05872c07bf67f46342  ./showcase_econ/render.json
 99e06e48ef749541278c892fb285c557  ./showcase_geo/audio_qa.json
 86343c9f6bfc46ae046632b35578d440  ./showcase_geo/catalog_checks.json
@@ -17,5 +18,5 @@ feb512661ba8904cedc1c8f92cb591eb  ./showcase_econ/final.srt
 0394cd20316d054caf09e77a146632ac  ./showcase_geo/description.txt
 cea2406787ce1895e356cdba4c077b47  ./showcase_geo/final.srt
 13348505147c8ec6a002930d2fa7cae4  ./showcase_geo/final_deliver.mp4
-d9243fdfd1089f3df25ec5ca919c11d0  ./showcase_geo/provenance.json
+557c8471a570b066da727677928ff176  ./showcase_geo/provenance.json
 09bb3080ce9dbd2d5872180e6d7aab4c  ./showcase_geo/render.json

@@ -128,9 +128,15 @@
  },
  "qa": {
   "auto_iterations": 0,
-  "user_approved": false,
+  "user_approved": true,
   "reviewer": "fable (back_and_forth)",
-  "visual_qa": []
+  "visual_qa": [],
+  "approval": {
+   "gate": "preview_approval",
+   "decision": "approved",
+   "by": "user",
+   "at": "2026-11-01T08:42:23.744961Z"
+  }
  },
  "drops": [
   {

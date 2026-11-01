@@ -1,0 +1,43 @@
+{
+ "schema_version": 1,
+ "tool": "tools/showcase_concat.py",
+ "inputs": [
+  {
+   "project": "showcase_geo",
+   "final_md5": "390b15dab643360984bd3da1c6e732b6",
+   "duration_sec": 240.93,
+   "user_approved": true,
+   "approval": {
+    "gate": "preview_approval",
+    "decision": "approved",
+    "by": "user",
+    "at": "2026-11-01T08:44:06.803778Z"
+   }
+  },
+  {
+   "project": "showcase_econ",
+   "final_md5": "77876ca3c0689294d10b417d2522f9b6",
+   "duration_sec": 184.13,
+   "user_approved": true,
+   "approval": {
+    "gate": "preview_approval",
+    "decision": "approved",
+    "by": "user",
+    "at": "2026-11-01T08:42:23.744961Z"
+   }
+  }
+ ],
+ "combined": {
+  "md5": "441f42d79397a879308a48bf03aaccb3",
+  "duration_sec": 425.09,
+  "reencode": false
+ },
+ "deliver": {
+  "file": "showcase_combined_deliver.mp4",
+  "md5": "18f8421688f5e3f3bfffa15554125ba1",
+  "video_kbps": 415,
+  "audio": "aac 128k",
+  "two_pass": true
+ },
+ "user_approved": true
+}
