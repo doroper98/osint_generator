@@ -12,10 +12,17 @@
       "status": "verified",
       "label": null,
       "claim_ids": [
-        "clm_0003"
+        "clm_0048"
       ]
     },
     "cold_open_2": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0003"
+      ]
+    },
+    "cold_open_3": {
       "status": "verified",
       "label": null,
       "claim_ids": [
@@ -23,7 +30,7 @@
         "clm_0004"
       ]
     },
-    "cold_open_3": {
+    "cold_open_4": {
       "status": "verified",
       "label": null,
       "claim_ids": [
@@ -77,24 +84,32 @@
       "status": "verified",
       "label": null,
       "claim_ids": [
-        "clm_0039"
+        "clm_0039",
+        "clm_0042"
       ]
     },
     "prelude_7": {
       "status": "verified",
       "label": null,
       "claim_ids": [
-        "clm_0035"
+        "clm_0041"
       ]
     },
     "prelude_8": {
       "status": "verified",
       "label": null,
       "claim_ids": [
-        "clm_0036"
+        "clm_0035"
       ]
     },
     "prelude_9": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0036"
+      ]
+    },
+    "prelude_10": {
       "status": "verified",
       "label": null,
       "claim_ids": [
@@ -161,7 +176,7 @@
       "status": "verified",
       "label": null,
       "claim_ids": [
-        "clm_0013"
+        "clm_0045"
       ]
     },
     "deployment_9": {
@@ -175,17 +190,24 @@
       "status": "verified",
       "label": null,
       "claim_ids": [
-        "clm_0014"
+        "clm_0013"
       ]
     },
     "deployment_11": {
       "status": "verified",
       "label": null,
       "claim_ids": [
-        "clm_0015"
+        "clm_0014"
       ]
     },
     "deployment_12": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0015"
+      ]
+    },
+    "deployment_13": {
       "status": "verified",
       "label": null,
       "claim_ids": [
@@ -274,7 +296,8 @@
       "status": "verified",
       "label": null,
       "claim_ids": [
-        "clm_0040"
+        "clm_0040",
+        "clm_0043"
       ]
     },
     "encirclement_12": {
@@ -346,17 +369,31 @@
       "status": "verified",
       "label": null,
       "claim_ids": [
-        "clm_0037"
+        "clm_0046"
       ]
     },
     "aftermath_7": {
       "status": "verified",
       "label": null,
       "claim_ids": [
-        "clm_0038"
+        "clm_0047"
       ]
     },
     "aftermath_8": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0037"
+      ]
+    },
+    "aftermath_9": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0038"
+      ]
+    },
+    "aftermath_10": {
       "status": "verified",
       "label": null,
       "claim_ids": [
@@ -387,6 +424,27 @@
       "claim_ids": [
         "clm_0022",
         "clm_0024"
+      ]
+    },
+    "ending_3": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0049"
+      ]
+    },
+    "ending_4": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0050"
+      ]
+    },
+    "ending_5": {
+      "status": "verified",
+      "label": null,
+      "claim_ids": [
+        "clm_0044"
       ]
     }
   }

@@ -808,6 +808,197 @@
       "attributed_only": false,
       "claim_kind": "fact",
       "notes": ""
+    },
+    {
+      "claim_id": "clm_0041",
+      "text": "기원전 237~209년경 카르타고 셰켈 은화에는 월계관을 쓴 두상과 전투 코끼리를 탄 기수가 새겨졌고, 베를린 알테스 무제움에 전시돼 있다",
+      "source_ids": [
+        "src_doc_0011"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0011",
+        "quote_match:src_doc_0011",
+        "independent_origins:1",
+        "official:src_doc_0011",
+        "official:src_doc_0011",
+        "supplement:supp_v3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0042",
+      "text": "한니발로 전해지는 카푸아 대리석 흉상은 나폴리 국립고고학박물관에 보존돼 있다",
+      "source_ids": [
+        "src_doc_0011"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0011",
+        "independent_origins:1",
+        "official:src_doc_0011",
+        "supplement:supp_v3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0043",
+      "text": "존 트럼불은 1773년 「칸나이 전투에서 파울루스 아이밀리우스의 죽음」을 그렸고, 이 그림은 예일대학교 미술관 소장이다",
+      "source_ids": [
+        "src_doc_0011"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0011",
+        "quote_match:src_doc_0011",
+        "independent_origins:1",
+        "official:src_doc_0011",
+        "official:src_doc_0011",
+        "supplement:supp_v3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0044",
+      "text": "구스타프 아돌프 클로스는 1885년 칸나이 전투가 벌어진 들판을 화보 잡지에 그렸다",
+      "source_ids": [
+        "src_doc_0011"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0011",
+        "quote_match:src_doc_0011",
+        "independent_origins:1",
+        "official:src_doc_0011",
+        "official:src_doc_0011",
+        "supplement:supp_v3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0045",
+      "text": "타니트 기호를 새긴 기원전 3세기 석회암 비석이 루브르 박물관에 있다",
+      "source_ids": [
+        "src_doc_0014"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0014",
+        "independent_origins:1",
+        "official:src_doc_0014",
+        "supplement:supp_v3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0046",
+      "text": "폴리비오스는 칸나이 전투에서 이긴 쪽과 진 쪽 모두 뚜렷한 용기를 보였다고 적었다",
+      "source_ids": [
+        "src_doc_0005"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0005",
+        "independent_origins:1",
+        "official:src_doc_0005",
+        "supplement:supp_v3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0047",
+      "text": "리비우스는 기병대장 마하르발이 한니발에게 이기는 법은 알아도 승리를 쓰는 법은 모른다고 말했다고 적었다",
+      "source_ids": [
+        "src_doc_0010"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0010",
+        "quote_match:src_doc_0010",
+        "independent_origins:1",
+        "official:src_doc_0010",
+        "official:src_doc_0010",
+        "supplement:supp_v3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0048",
+      "text": "클라우디우스 콰드리가리우스 연대기 5권은 칸나이 패전 날짜를 로마력 섹스틸리스 달 노나이 나흘 전(8월 2일)으로 적었다(마크로비우스 인용)",
+      "source_ids": [
+        "src_doc_0012",
+        "src_doc_0013"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0012",
+        "quote_match:src_doc_0013",
+        "independent_origins:2",
+        "official:src_doc_0012",
+        "official:src_doc_0013",
+        "supplement:supp_v3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0049",
+      "text": "1856년 『그리스·로마 지리 사전』은 칸나이의 오늘 이름을 칸네로 적었다",
+      "source_ids": [
+        "src_doc_0013"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0013",
+        "independent_origins:1",
+        "official:src_doc_0013",
+        "supplement:supp_v3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
+    },
+    {
+      "claim_id": "clm_0050",
+      "text": "1856년 『그리스·로마 지리 사전』은 칸나이 유적이 카노사에서 약 8마일 떨어진 작은 언덕 위에 아직 보인다고 적었다",
+      "source_ids": [
+        "src_doc_0013"
+      ],
+      "status": "verified",
+      "contested": false,
+      "checks": [
+        "quote_match:src_doc_0013",
+        "independent_origins:1",
+        "official:src_doc_0013",
+        "supplement:supp_v3"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
     }
   ]
 }

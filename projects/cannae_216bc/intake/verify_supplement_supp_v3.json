@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "text": "기원전 237~209년경 카르타고 셰켈 은화에는 월계관을 쓴 두상과 전투 코끼리를 탄 기수가 새겨졌고, 베를린 알테스 무제움에 전시돼 있다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0011",
+          "quote": "A Carthaginian shekel coin depicting a wreathed head on the obverse and a man riding a war elephant on the reverse, in the Altes Museum Berlin",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0011",
+          "quote": "File:Cartagine, 1 e messo e doppio siclo, 237-209 ac ca.JPG",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "한니발로 전해지는 카푸아 대리석 흉상은 나폴리 국립고고학박물관에 보존돼 있다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0011",
+          "quote": "It is preserved in the National Archaeological Museum of Naples.",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "존 트럼불은 1773년 「칸나이 전투에서 파울루스 아이밀리우스의 죽음」을 그렸고, 이 그림은 예일대학교 미술관 소장이다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0011",
+          "quote": "Artist: John Trumbull Date: 1773",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0011",
+          "quote": "Credit: Yale University Art Gallery - The Death of Paulus Aemilius at the Battle of Cannae",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "구스타프 아돌프 클로스는 1885년 칸나이 전투가 벌어진 들판을 화보 잡지에 그렸다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0011",
+          "quote": "Punti storici d’Italia: campo della battaglia di Canne.",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0011",
+          "quote": "Artist: Gustav Adolf Closs Date: 1885",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "타니트 기호를 새긴 기원전 3세기 석회암 비석이 루브르 박물관에 있다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0014",
+          "quote": "Stele with the Tanit sign. Limestone. 3rd century BC. Louvre museum (Paris, France).",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "폴리비오스는 칸나이 전투에서 이긴 쪽과 진 쪽 모두 뚜렷한 용기를 보였다고 적었다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0005",
+          "quote": "a battle in which both the victors and the vanquished displayed conspicuous bravery",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "리비우스는 기병대장 마하르발이 한니발에게 이기는 법은 알아도 승리를 쓰는 법은 모른다고 말했다고 적었다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0010",
+          "quote": "you know how to gain a victory, Hannibal: you know not how to use one.",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0010",
+          "quote": "Maharbal praefectus equitum",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "클라우디우스 콰드리가리우스 연대기 5권은 칸나이 패전 날짜를 로마력 섹스틸리스 달 노나이 나흘 전(8월 2일)으로 적었다(마크로비우스 인용)",
+      "evidence": [
+        {
+          "source_id": "src_doc_0012",
+          "quote": "cladem illam uastissimam pugnae Cannensis factam refert ante diem quartum Nonas",
+          "stance": "supports"
+        },
+        {
+          "source_id": "src_doc_0013",
+          "quote": "on the 2nd of August ; but it is probable that the Roman calendar was at this time much in advance of the",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "1856년 『그리스·로마 지리 사전』은 칸나이의 오늘 이름을 칸네로 적었다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0013",
+          "quote": "Cannensis: Canne), a small town of Apulia",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    },
+    {
+      "text": "1856년 『그리스·로마 지리 사전』은 칸나이 유적이 카노사에서 약 8마일 떨어진 작은 언덕 위에 아직 보인다고 적었다",
+      "evidence": [
+        {
+          "source_id": "src_doc_0013",
+          "quote": "the ruins of which are still visible on a small hill about 8 miles from Canosa (Canusium)",
+          "stance": "supports"
+        }
+      ],
+      "event_date": null,
+      "contested": false,
+      "sides": null,
+      "claim_kind": "fact",
+      "speaker_source_ids": []
+    }
+  ],
+  "summary": "칸나이 원고 v3 증거 층 보충(D-0609 ④·D-0610 ④) — 구현 세션이 소스 본문에서 짧은 연속 인용으로 댄 후보. 판정은 judge() 코드"
+}

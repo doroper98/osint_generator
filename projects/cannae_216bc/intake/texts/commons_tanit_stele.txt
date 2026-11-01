@@ -1,0 +1,10 @@
+Wikimedia Commons file information (verbatim extmetadata), retrieved 2026-11-01.
+
+[tanit_stele] File:Stèle avec le signe de Tanit (Louvre, AO 5244).jpg
+URL: https://commons.wikimedia.org/wiki/File:St%C3%A8le_avec_le_signe_de_Tanit_(Louvre,_AO_5244).jpg
+Description: Stele with the Tanit sign. Limestone. 3rd century BC. Louvre museum (Paris, France).
+Object: Stèle avec le signe de Tanit (Louvre, AO 5244)
+Artist: Tangopaso
+Date: 2022-07-13
+Credit: Self-photographed
+License: Public domain

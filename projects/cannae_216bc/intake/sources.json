@@ -101,7 +101,7 @@
       "verification": {
         "status": "verified",
         "checks": [
-          "claims:8"
+          "claims:9"
         ],
         "notes": ""
       },
@@ -214,9 +214,9 @@
       "retrieved_at": "2026-11-01",
       "lang": "en",
       "verification": {
-        "status": "unverified",
+        "status": "verified",
         "checks": [
-          "claims:0"
+          "claims:1"
         ],
         "notes": ""
       },
@@ -239,7 +239,7 @@
       "verification": {
         "status": "verified",
         "checks": [
-          "claims:2"
+          "claims:6"
         ],
         "notes": ""
       },
@@ -252,6 +252,75 @@
       "published_at": "2026-11-01",
       "key_facts": [
         "Wikimedia Commons file information — 4 artworks for Cannae (coin, bust, Trumbull 1773, Closs 1885)"
+      ]
+    },
+    {
+      "id": "src_doc_0012",
+      "url": "https://archive.org/details/macrobius00cicegoog",
+      "retrieved_at": "2026-11-01",
+      "lang": "la",
+      "verification": {
+        "status": "verified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "구현 세션(archive.org PD 원문·Commons 파일 정보 대조)",
+      "confirmed_at": "2026-11-01T15:30:09.441743Z",
+      "note": "칸나이 날짜: 클라우디우스 콰드리가리우스 연대기 5권 인용 — ante diem quartum Nonas Sextiles(로마력 8월 2일). 1893 독일 발행 PD",
+      "type": "document",
+      "issuer": "Macrobius (Latin text, Teubner 1893, public domain)",
+      "title": "Macrobius, Saturnalia I.16.26 (Latin, ed. F. Eyssenhardt, Teubner 1893)",
+      "published_at": "1893-01-01",
+      "key_facts": [
+        "Macrobius, Saturnalia I.16.26 (Latin, ed. F. Eyssenhardt, Teubner 1893)"
+      ]
+    },
+    {
+      "id": "src_doc_0013",
+      "url": "https://archive.org/details/india.history.resource.89510",
+      "retrieved_at": "2026-11-01",
+      "lang": "en",
+      "verification": {
+        "status": "verified",
+        "checks": [
+          "claims:3"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "구현 세션(archive.org PD 원문·Commons 파일 정보 대조)",
+      "confirmed_at": "2026-11-01T15:30:10.157747Z",
+      "note": "지명 표기(Kannai·Kanna·Cannensis·Canne)·유적 위치(카노사에서 약 8마일 작은 언덕)·전투 날짜 각주(겔리우스·마크로비우스, 로마력). 1856 PD",
+      "type": "document",
+      "issuer": "W. Smith, Dictionary of Greek and Roman Geography (London 1856, public domain)",
+      "title": "W. Smith (ed.), Dictionary of Greek and Roman Geography vol. I (1856), 'CANNAE' pp. 499-500",
+      "published_at": "1856-01-01",
+      "key_facts": [
+        "W. Smith (ed.), Dictionary of Greek and Roman Geography vol. I (1856), 'CANNAE' pp. 499-500"
+      ]
+    },
+    {
+      "id": "src_doc_0014",
+      "url": "https://commons.wikimedia.org/wiki/File:St%C3%A8le_avec_le_signe_de_Tanit_(Louvre,_AO_5244).jpg",
+      "retrieved_at": "2026-11-01",
+      "lang": "en",
+      "verification": {
+        "status": "verified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "구현 세션(archive.org PD 원문·Commons 파일 정보 대조)",
+      "confirmed_at": "2026-11-01T15:30:10.863336Z",
+      "note": "카르타고 진영 휘장 재현(타니트 기호)의 근거 유물",
+      "type": "document",
+      "issuer": "Wikimedia Commons(파일 정보 페이지 extmetadata 그대로)",
+      "title": "Wikimedia Commons file information — Stele with the Tanit sign (Louvre AO 5244)",
+      "published_at": "2026-11-01",
+      "key_facts": [
+        "Wikimedia Commons file information — Stele with the Tanit sign (Louvre AO 5244)"
       ]
     }
   ]
