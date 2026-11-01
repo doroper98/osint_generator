@@ -5636,6 +5636,2481 @@
    },
    "source_hash": "e5750050bfbe78199f6d0e29b5390830",
    "file": "hormuz_strait_modis_2020_720.jpg"
+  },
+  "iran_ceasefire_2026_art_0001": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-10-31 — Iran FM says US outreach a 'positive step' as delegation in Qatar for talks",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-10-31",
+   "url": "https://www.aljazeera.com/news/2026/10/31/iran-fm-says-us-outreach-a-positive-step-as-delegation-in-qatar-for-talks",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 10. 31",
+   "depicts": [
+    "10월 31일 이란 대표단이 카타르 도하에 갔다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란 외무장관 \"미국의 접촉은 긍정적 조치\"…대표단 카타르로",
+   "sub": "10월 31일 이란 대표단이 카타르 도하에 갔다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Iran FM says US outreach a 'positive step' as delegation in Qatar for talks"
+  },
+  "iran_ceasefire_2026_art_0002": {
+   "kind": "article",
+   "title": "CNBC 2026-10-31 — Qatari mediators held talks in Tehran aimed at restarting direct U.S.-Iran negotiations, source says",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "CNBC",
+   "credit_author": "CNBC",
+   "date": "2026-10-31",
+   "url": "https://www.cnbc.com/2026/10/31/qatar-iran-us-talks-mediation.html",
+   "caption": "CNBC",
+   "file_note": "2026. 10. 31",
+   "depicts": [
+    "10월 31일 이란 대표단이 카타르 도하에 갔다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "카타르 중재단, 테헤란서 미·이란 직접 협상 재개 위한 협의",
+   "sub": "10월 31일 이란 대표단이 카타르 도하에 갔다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Qatari mediators held talks in Tehran aimed at restarting direct U.S.-Iran negotiations, source says"
+  },
+  "iran_ceasefire_2026_art_0003": {
+   "kind": "article",
+   "title": "Bloomberg 2026-10-30 — Qatari Delegation in Tehran for Talks as US Strike Fears Mount",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Bloomberg",
+   "credit_author": "Bloomberg",
+   "date": "2026-10-30",
+   "url": "https://www.bloomberg.com/news/articles/2026-10-30/qatari-delegation-in-tehran-for-talks-as-us-strike-fears-mount",
+   "caption": "Bloomberg",
+   "file_note": "2026. 10. 30",
+   "depicts": [
+    "10월 30일 카타르 대표단이 테헤란에서 열두 시간 넘게 협의했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "카타르 대표단 테헤란서 협의…미 공격 우려 속",
+   "sub": "10월 30일 카타르 대표단이 테헤란에서 열두 시간 넘게 협의했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Qatari Delegation in Tehran for Talks as US Strike Fears Mount"
+  },
+  "iran_ceasefire_2026_art_0004": {
+   "kind": "article",
+   "title": "경향신문 2026-10-31 — 커지는 미 공격 재개 우려···중재국 카타르, 이란과 마라톤 협상 '돌파구' 찾을까",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "경향신문",
+   "credit_author": "경향신문",
+   "date": "2026-10-31",
+   "url": "https://khan.co.kr/article/202610311702001",
+   "caption": "경향신문",
+   "file_note": "2026. 10. 31",
+   "depicts": [
+    "10월 30일 카타르 대표단이 테헤란에서 열두 시간 넘게 협의했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "커지는 미 공격 재개 우려…카타르, 이란과 마라톤 협상",
+   "sub": "10월 30일 카타르 대표단이 테헤란에서 열두 시간 넘게 협의했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "커지는 미 공격 재개 우려···중재국 카타르, 이란과 마라톤 협상 '돌파구' 찾을까"
+  },
+  "iran_ceasefire_2026_art_0005": {
+   "kind": "article",
+   "title": "The National 2026-10-31 — Rubio says US has yet to decide on new Iran strikes",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The National",
+   "credit_author": "The National",
+   "date": "2026-10-31",
+   "url": "https://www.thenationalnews.com/news/us/2026/10/31/us-iran-strikes-g20-rubio/",
+   "caption": "The National",
+   "file_note": "2026. 10. 31",
+   "depicts": [
+    "루비오 국무장관은 트럼프 대통령이 새 공격을 아직 결정하지 않았고 외교…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "루비오 \"새 이란 공격 아직 결정 안 해\"",
+   "sub": "루비오 국무장관은 트럼프 대통령이 새 공격을 아직 결정하지 않았고 외교…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Rubio says US has yet to decide on new Iran strikes"
+  },
+  "iran_ceasefire_2026_art_0006": {
+   "kind": "article",
+   "title": "Asharq Al-Awsat 2026-10-31 — Rubio Says US Yet to Decide on New Iran Strikes",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Asharq Al-Awsat",
+   "credit_author": "Asharq Al-Awsat",
+   "date": "2026-10-31",
+   "url": "https://english.aawsat.com/world/5336063-rubio-says-us-yet-decide-new-iran-strikes",
+   "caption": "Asharq Al-Awsat",
+   "file_note": "2026. 10. 31",
+   "depicts": [
+    "루비오 국무장관은 트럼프 대통령이 새 공격을 아직 결정하지 않았고 외교…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "루비오 \"미국, 새 이란 공격 결정 안 해\"",
+   "sub": "루비오 국무장관은 트럼프 대통령이 새 공격을 아직 결정하지 않았고 외교…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Rubio Says US Yet to Decide on New Iran Strikes"
+  },
+  "iran_ceasefire_2026_art_0007": {
+   "kind": "article",
+   "title": "France 24(AFP) 2026-10-31 — Iran's Khamenei warns US and Israel against new attacks",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "France 24(AFP)",
+   "credit_author": "France 24(AFP)",
+   "date": "2026-10-31",
+   "url": "https://www.france24.com/en/middle-east/20261031-iran-s-khamenei-warns-us-and-israel-against-new-attacks",
+   "caption": "France 24(AFP)",
+   "file_note": "2026. 10. 31",
+   "depicts": [
+    "2026년 2월 28일 미국과 이스라엘이 이란 합동 공습을 시작했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란 최고지도자 하메네이, 미·이스라엘에 새 공격 경고",
+   "sub": "2026년 2월 28일 미국과 이스라엘이 이란 합동 공습을 시작했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Iran's Khamenei warns US and Israel against new attacks"
+  },
+  "iran_ceasefire_2026_art_0008": {
+   "kind": "article",
+   "title": "South China Morning Post 2026-10-31 — Iran's supreme leader warns US, Israel against war",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "South China Morning Post",
+   "credit_author": "South China Morning Post",
+   "date": "2026-10-31",
+   "url": "https://www.scmp.com/news/world/middle-east/article/3372847/irans-supreme-leader-warns-us-israel-against-war",
+   "caption": "South China Morning Post",
+   "file_note": "2026. 10. 31",
+   "depicts": [
+    "모즈타바 하메네이는 공격받으면 즉각적이고 지리적 제한 없는 대응을 하라…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란 최고지도자, 미·이스라엘에 전쟁 경고",
+   "sub": "모즈타바 하메네이는 공격받으면 즉각적이고 지리적 제한 없는 대응을 하라…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Iran's supreme leader warns US, Israel against war"
+  },
+  "iran_ceasefire_2026_art_0009": {
+   "kind": "article",
+   "title": "Xinhua 2026-11-01 — Iran's security chief says US tone changed in Vance letter",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Xinhua",
+   "credit_author": "Xinhua",
+   "date": "2026-11-01",
+   "url": "https://english.news.cn/20261101/2bef8f3320064f498aef8b05c1cf7949/c.html",
+   "caption": "Xinhua",
+   "file_note": "2026. 11. 01",
+   "depicts": [
+    "레자이는 서한을 읽었지만 답하지 않았고 미국 어조가 바뀐 것은 좋은 신…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란 안보 수장 \"밴스 서한, 미국 어조 바뀌어\"",
+   "sub": "레자이는 서한을 읽었지만 답하지 않았고 미국 어조가 바뀐 것은 좋은 신…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Iran's security chief says US tone changed in Vance letter"
+  },
+  "iran_ceasefire_2026_art_0010": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-10-29 — What we know of Vance's letter to Rezaei, as Trump warns Gulf to 'prepare'",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-10-29",
+   "url": "https://www.aljazeera.com/news/2026/10/29/what-we-know-of-vances-letter-to-rezaei-as-trump-warns-gulf-to-prepare",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 10. 29",
+   "depicts": [
+    "밴스 부통령이 레자이 사무총장에게 서한을 보냈다는 보도(내용 미공개),…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "밴스가 레자이에게 보낸 서한에 대해 알려진 것",
+   "sub": "밴스 부통령이 레자이 사무총장에게 서한을 보냈다는 보도(내용 미공개),…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "What we know of Vance's letter to Rezaei, as Trump warns Gulf to 'prepare'"
+  },
+  "iran_ceasefire_2026_art_0011": {
+   "kind": "article",
+   "title": "The National 2026-10-29 — Trump downplays Vance letter sent to Iran",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The National",
+   "credit_author": "The National",
+   "date": "2026-10-29",
+   "url": "https://www.thenationalnews.com/news/gulf/2026/10/29/trump-downplays-vance-letter-sent-to-iran/",
+   "caption": "The National",
+   "file_note": "2026. 10. 29",
+   "depicts": [
+    "밴스 부통령이 레자이 사무총장에게 서한을 보냈다는 보도(내용 미공개),…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "트럼프, 이란에 보낸 밴스 서한 의미 축소",
+   "sub": "밴스 부통령이 레자이 사무총장에게 서한을 보냈다는 보도(내용 미공개),…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Trump downplays Vance letter sent to Iran"
+  },
+  "iran_ceasefire_2026_art_0012": {
+   "kind": "article",
+   "title": "Axios 2026-10-28 — Vance letter to Iran: talks must address nuclear issue",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Axios",
+   "credit_author": "Axios",
+   "date": "2026-10-28",
+   "url": "https://www.axios.com/2026/10/28/vance-iran-nuclear-talks-letter",
+   "caption": "Axios",
+   "file_note": "2026. 10. 28",
+   "depicts": [
+    "미국 쪽은 핵 문제를 다루지 않는 합의는 없다는 전제(밴스 서한 — 액…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "밴스 서한 \"협상은 핵 문제 다뤄야\"",
+   "sub": "미국 쪽은 핵 문제를 다루지 않는 합의는 없다는 전제(밴스 서한 — 액…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Vance letter to Iran: talks must address nuclear issue"
+  },
+  "iran_ceasefire_2026_art_0013": {
+   "kind": "article",
+   "title": "Haaretz 2026-10-28 — Report: U.S. Prepares Gulf Allies for Short, Post-midterm Conflict With Iran",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Haaretz",
+   "credit_author": "Haaretz",
+   "date": "2026-10-28",
+   "url": "https://www.haaretz.com/middle-east-news/2026-10-28/ty-article/report-u-s-prepares-gulf-allies-for-short-post-midterm-conflict-with-iran/000001a1-81b7-db17-a3ff-d7b721580000",
+   "caption": "Haaretz",
+   "file_note": "2026. 10. 28",
+   "depicts": [
+    "미국이 걸프 국가들에 중간선거 뒤 짧고 강한 작전에 대비하라고 알렸다는…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "보도 \"미국, 걸프 동맹에 중간선거 뒤 짧은 전쟁 대비 통보\"",
+   "sub": "미국이 걸프 국가들에 중간선거 뒤 짧고 강한 작전에 대비하라고 알렸다는…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Report: U.S. Prepares Gulf Allies for Short, Post-midterm Conflict With Iran"
+  },
+  "iran_ceasefire_2026_art_0014": {
+   "kind": "article",
+   "title": "Arab News(Reuters) 2026-10-28 — Iran says discussing plan with mediators to end war, reopen Hormuz",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Arab News(Reuters)",
+   "credit_author": "Arab News(Reuters)",
+   "date": "2026-10-28",
+   "url": "https://www.arabnews.com/middle-east/iran-says-discussing-plan-with-mediators-to-end-war-reopen-hormuz-3008650",
+   "caption": "Arab News(Reuters)",
+   "file_note": "2026. 10. 28",
+   "depicts": [
+    "이란 고위 관리는 카타르가 제안이 아니라 받아들일 수 없는 아이디어를 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란 \"종전·호르무즈 재개방 방안 중재국과 논의\"",
+   "sub": "이란 고위 관리는 카타르가 제안이 아니라 받아들일 수 없는 아이디어를 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Iran says discussing plan with mediators to end war, reopen Hormuz"
+  },
+  "iran_ceasefire_2026_art_0015": {
+   "kind": "article",
+   "title": "Iran International(Reuters) 2026-10-28 — Qatar hands Iran seven-day draft",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Iran International(Reuters)",
+   "credit_author": "Iran International(Reuters)",
+   "date": "2026-10-28",
+   "url": "https://www.iranintl.com/en/202610288735",
+   "caption": "Iran International(Reuters)",
+   "file_note": "2026. 10. 28",
+   "depicts": [
+    "10월 25일 카타르가 하루 단위 신뢰 구축 단계를 담은 7일 초안을 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "카타르, 이란에 7일 초안 전달",
+   "sub": "10월 25일 카타르가 하루 단위 신뢰 구축 단계를 담은 7일 초안을 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Qatar hands Iran seven-day draft"
+  },
+  "iran_ceasefire_2026_art_0016": {
+   "kind": "article",
+   "title": "The National 2026-10-28 — Iran welcomes negotiations after reported Qatari-mediated draft deal",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The National",
+   "credit_author": "The National",
+   "date": "2026-10-28",
+   "url": "https://www.thenationalnews.com/news/mena/2026/10/28/iran-welcomes-negotiations-after-reported-qatari-mediated-draft-deal/",
+   "caption": "The National",
+   "file_note": "2026. 10. 28",
+   "depicts": [
+    "10월 25일 카타르가 하루 단위 신뢰 구축 단계를 담은 7일 초안을 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란, 카타르 중재 초안 보도 뒤 \"협상 환영\"",
+   "sub": "10월 25일 카타르가 하루 단위 신뢰 구축 단계를 담은 7일 초안을 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Iran welcomes negotiations after reported Qatari-mediated draft deal"
+  },
+  "iran_ceasefire_2026_art_0017": {
+   "kind": "article",
+   "title": "Al Arabiya(Reuters) 2026-10-11 — Iran says US response to its proposal to reopen Strait of Hormuz was insufficient",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Arabiya(Reuters)",
+   "credit_author": "Al Arabiya(Reuters)",
+   "date": "2026-10-11",
+   "url": "https://english.alarabiya.net/News/middle-east/2026/10/11/iran-says-us-response-to-its-proposal-to-reopen-strait-of-hormuz-was-insufficient-",
+   "caption": "Al Arabiya(Reuters)",
+   "file_note": "2026. 10. 11",
+   "depicts": [
+    "10월 11일 레자이는 미국 답변이 불충분하다고, 일부 조건은 받아들였…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란 \"호르무즈 재개방 제안에 대한 미국 답변 불충분\"",
+   "sub": "10월 11일 레자이는 미국 답변이 불충분하다고, 일부 조건은 받아들였…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Iran says US response to its proposal to reopen Strait of Hormuz was insufficient"
+  },
+  "iran_ceasefire_2026_art_0018": {
+   "kind": "article",
+   "title": "IRNA 2026-10-11 — Security chief: US response to Iran's 7 conditions insufficient",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "IRNA",
+   "credit_author": "IRNA",
+   "date": "2026-10-11",
+   "url": "https://en.irna.ir/news/86289861/Security-chief-US-response-to-Iran-s-7-conditions-insufficient",
+   "caption": "IRNA",
+   "file_note": "2026. 10. 11",
+   "depicts": [
+    "10월 11일 레자이는 미국 답변이 불충분하다고, 일부 조건은 받아들였…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "안보 수장 \"이란 7개 조건에 대한 미국 답변 불충분\"",
+   "sub": "10월 11일 레자이는 미국 답변이 불충분하다고, 일부 조건은 받아들였…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Security chief: US response to Iran's 7 conditions insufficient"
+  },
+  "iran_ceasefire_2026_art_0019": {
+   "kind": "article",
+   "title": "CNN 2026-10-08 — Trump says he will not attack Iran before the midterm election",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "CNN",
+   "credit_author": "CNN",
+   "date": "2026-10-08",
+   "url": "https://www.cnn.com/2026/10/08/politics/trump-iran-attack-election",
+   "caption": "CNN",
+   "file_note": "2026. 10. 08",
+   "depicts": [
+    "미국 중간선거는 2026년 11월 3일이다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "트럼프 \"중간선거 전에는 이란 공격 안 해\"",
+   "sub": "미국 중간선거는 2026년 11월 3일이다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Trump says he will not attack Iran before the midterm election"
+  },
+  "iran_ceasefire_2026_art_0020": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-10-09 — Trump says US will not strike Iran before midterm elections",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-10-09",
+   "url": "https://www.aljazeera.com/news/2026/10/9/trump-says-us-will-not-strike-iran-before-midterm-elections",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 10. 09",
+   "depicts": [
+    "미국 중간선거는 2026년 11월 3일이다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "트럼프 \"중간선거 전 이란 타격 없다\"",
+   "sub": "미국 중간선거는 2026년 11월 3일이다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Trump says US will not strike Iran before midterm elections"
+  },
+  "iran_ceasefire_2026_art_0021": {
+   "kind": "article",
+   "title": "U.S. News(Reuters) 2026-10-06 — Exclusive: In interview, US Vice President Vance says Iran must cut enrichment to end war",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "U.S. News(Reuters)",
+   "credit_author": "U.S. News(Reuters)",
+   "date": "2026-10-06",
+   "url": "https://www.usnews.com/news/top-news/articles/2026-10-06/exclusive-in-interview-us-vice-president-vance-says-iran-must-cut-enrichment-to-end-war",
+   "caption": "U.S. News(Reuters)",
+   "file_note": "2026. 10. 06",
+   "depicts": [
+    "밴스 부통령은 인터뷰에서 이란이 농축 능력을 의미 있게 줄여야 한다고,…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "밴스 부통령 \"종전하려면 이란 농축 줄여야\"",
+   "sub": "밴스 부통령은 인터뷰에서 이란이 농축 능력을 의미 있게 줄여야 한다고,…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Exclusive: In interview, US Vice President Vance says Iran must cut enrichment to end war"
+  },
+  "iran_ceasefire_2026_art_0022": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-10-07 — US sets new demands for Iran deal: What are they?",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-10-07",
+   "url": "https://www.aljazeera.com/news/2026/10/7/us-sets-new-demands-for-iran-deal-what-are-they",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 10. 07",
+   "depicts": [
+    "밴스 부통령은 인터뷰에서 이란이 농축 능력을 의미 있게 줄여야 한다고,…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미국, 이란 합의에 새 요구…무엇인가",
+   "sub": "밴스 부통령은 인터뷰에서 이란이 농축 능력을 의미 있게 줄여야 한다고,…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "US sets new demands for Iran deal: What are they?"
+  },
+  "iran_ceasefire_2026_art_0023": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-09-25 — What's in Iran's seven-day plan to reopen the Strait of Hormuz?",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-09-25",
+   "url": "https://www.aljazeera.com/news/2026/9/25/whats-in-irans-seven-day-plan-to-reopen-the-strait-of-hormuz",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 09. 25",
+   "depicts": [
+    "9월 24일 아라그치가 뉴욕 유엔총회에서 7일안을 내놨다 — 레바논 포…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란의 '호르무즈 재개방 7일안'에는 무엇이 들었나",
+   "sub": "9월 24일 아라그치가 뉴욕 유엔총회에서 7일안을 내놨다 — 레바논 포…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "What's in Iran's seven-day plan to reopen the Strait of Hormuz?"
+  },
+  "iran_ceasefire_2026_art_0024": {
+   "kind": "article",
+   "title": "The Hill 2026-09-25 — Iran pitches US seven-day peace plan",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The Hill",
+   "credit_author": "The Hill",
+   "date": "2026-09-25",
+   "url": "https://thehill.com/policy/international/6112561-iran-us-seven-day-peace-plan/",
+   "caption": "The Hill",
+   "file_note": "2026. 09. 25",
+   "depicts": [
+    "9월 24일 아라그치가 뉴욕 유엔총회에서 7일안을 내놨다 — 레바논 포…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란, 미국에 7일 평화안 제시",
+   "sub": "9월 24일 아라그치가 뉴욕 유엔총회에서 7일안을 내놨다 — 레바논 포…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Iran pitches US seven-day peace plan"
+  },
+  "iran_ceasefire_2026_art_0026": {
+   "kind": "article",
+   "title": "The Washington Post 2026-09-26 — Trump rejects Iran proposal to reopen Strait of Hormuz, restart peace talks",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The Washington Post",
+   "credit_author": "The Washington Post",
+   "date": "2026-09-26",
+   "url": "https://www.washingtonpost.com/national-security/2026/09/26/trump-rejects-iran-proposal-reopen-strait-hormuz-restart-peace-talks/",
+   "caption": "The Washington Post",
+   "file_note": "2026. 09. 26",
+   "depicts": [
+    "9월 26일 트럼프는 그 합의는 받아들일 수 없다고 말했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "트럼프, 해협 재개방·협상 재개 이란 제안 거부",
+   "sub": "9월 26일 트럼프는 그 합의는 받아들일 수 없다고 말했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Trump rejects Iran proposal to reopen Strait of Hormuz, restart peace talks"
+  },
+  "iran_ceasefire_2026_art_0027": {
+   "kind": "article",
+   "title": "CNBC 2026-09-30 — Iran receives US counterproposal via Qatar",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "CNBC",
+   "credit_author": "CNBC",
+   "date": "2026-09-30",
+   "url": "https://www.cnbc.com/2026/09/30/us-iran-war-trump-hormuz.html",
+   "caption": "CNBC",
+   "file_note": "2026. 09. 30",
+   "depicts": [
+    "9월 30일 이란 정부는 카타르를 거쳐 미국 역제안을 받았다고 밝혔고 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란, 카타르 거쳐 미국 역제안 받아",
+   "sub": "9월 30일 이란 정부는 카타르를 거쳐 미국 역제안을 받았다고 밝혔고 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Iran receives US counterproposal via Qatar"
+  },
+  "iran_ceasefire_2026_art_0028": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-02-28 — US, Israel bomb Iran: A timeline of talks and threats leading up to attacks",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-02-28",
+   "url": "https://www.aljazeera.com/news/2026/2/28/us-israel-bomb-iran-a-timeline-of-talks-and-threats-leading-up-to-attacks",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 02. 28",
+   "depicts": [
+    "2026년 2월 28일 미국과 이스라엘이 이란 합동 공습을 시작했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미국·이스라엘 이란 폭격 — 공격까지의 협상·위협 연표",
+   "sub": "2026년 2월 28일 미국과 이스라엘이 이란 합동 공습을 시작했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "US, Israel bomb Iran: A timeline of talks and threats leading up to attacks"
+  },
+  "iran_ceasefire_2026_art_0029": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-03-02 — Iran says will attack any ship trying to pass through Strait of Hormuz",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-03-02",
+   "url": "https://www.aljazeera.com/news/2026/3/2/iran-says-will-attack-any-ship-trying-to-pass-through-strait-of-hormuz",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 03. 02",
+   "depicts": [
+    "3월 2일 혁명수비대는 해협을 닫고 통과 선박을 공격하겠다고 밝혔다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란 \"호르무즈 통과 선박 공격하겠다\"",
+   "sub": "3월 2일 혁명수비대는 해협을 닫고 통과 선박을 공격하겠다고 밝혔다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Iran says will attack any ship trying to pass through Strait of Hormuz"
+  },
+  "iran_ceasefire_2026_art_0030": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-03-08 — Who is Mojtaba Khamenei?",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-03-08",
+   "url": "https://www.aljazeera.com/features/2026/3/8/who-is-mojtaba-khamenei-a-contender-for-irans-leadership-amid-war",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 03. 08",
+   "depicts": [
+    "2월 28일 공습으로 알리 하메네이 최고지도자가 숨졌다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "모즈타바 하메네이는 누구인가",
+   "sub": "2월 28일 공습으로 알리 하메네이 최고지도자가 숨졌다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Who is Mojtaba Khamenei?"
+  },
+  "iran_ceasefire_2026_art_0031": {
+   "kind": "article",
+   "title": "Tehran Times 2026-03-09 — Assembly of Experts elects Ayatollah Mojtaba Khamenei as Iran's Leader",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Tehran Times",
+   "credit_author": "Tehran Times",
+   "date": "2026-03-09",
+   "url": "https://www.tehrantimes.com/news/524572/Assembly-of-Experts-elects-Ayatollah-Mojtaba-Khamenei-as-Iran-s",
+   "caption": "Tehran Times",
+   "file_note": "2026. 03. 09",
+   "depicts": [
+    "3월 8~9일 전문가회의가 모즈타바 하메네이를 새 최고지도자로 뽑았다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "전문가회의, 모즈타바 하메네이를 최고지도자로 선출",
+   "sub": "3월 8~9일 전문가회의가 모즈타바 하메네이를 새 최고지도자로 뽑았다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Assembly of Experts elects Ayatollah Mojtaba Khamenei as Iran's Leader"
+  },
+  "iran_ceasefire_2026_art_0032": {
+   "kind": "article",
+   "title": "CNBC 2026-04-07 — Trump announces two-week ceasefire with Iran",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "CNBC",
+   "credit_author": "CNBC",
+   "date": "2026-04-07",
+   "url": "https://www.cnbc.com/2026/04/07/trump-iran-ceasefire-hormuz-strait.html",
+   "caption": "CNBC",
+   "file_note": "2026. 04. 07",
+   "depicts": [
+    "4월 7일 트럼프가 파키스탄 중재 2주 휴전을 발표했고 4월 8일 발효…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "트럼프, 이란과 2주 휴전 발표",
+   "sub": "4월 7일 트럼프가 파키스탄 중재 2주 휴전을 발표했고 4월 8일 발효…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Trump announces two-week ceasefire with Iran"
+  },
+  "iran_ceasefire_2026_art_0033": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-04-08 — How Pakistan managed to get the US and Iran to a ceasefire",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-04-08",
+   "url": "https://www.aljazeera.com/features/2026/4/8/how-pakistan-managed-to-get-the-us-and-iran-to-a-ceasefire",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 04. 08",
+   "depicts": [
+    "4월 7일 트럼프가 파키스탄 중재 2주 휴전을 발표했고 4월 8일 발효…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "파키스탄은 어떻게 미국과 이란을 휴전으로 이끌었나",
+   "sub": "4월 7일 트럼프가 파키스탄 중재 2주 휴전을 발표했고 4월 8일 발효…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "How Pakistan managed to get the US and Iran to a ceasefire"
+  },
+  "iran_ceasefire_2026_art_0034": {
+   "kind": "article",
+   "title": "NPR 2026-04-12 — U.S.-Iran peace talks in Islamabad collapse",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "NPR",
+   "credit_author": "NPR",
+   "date": "2026-04-12",
+   "url": "https://www.npr.org/2026/04/12/nx-s1-5782538/u-s-iran-peace-talks-islamabad-collapse",
+   "caption": "NPR",
+   "file_note": "2026. 04. 12",
+   "depicts": [
+    "4월 11~12일 이슬라마바드 회담이 합의 없이 끝났다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이슬라마바드 미·이란 평화 회담 결렬",
+   "sub": "4월 11~12일 이슬라마바드 회담이 합의 없이 끝났다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "U.S.-Iran peace talks in Islamabad collapse"
+  },
+  "iran_ceasefire_2026_art_0035": {
+   "kind": "article",
+   "title": "Euronews 2026-04-13 — US blockade of Iranian ports comes into effect",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Euronews",
+   "credit_author": "Euronews",
+   "date": "2026-04-13",
+   "url": "https://www.euronews.com/2026/04/13/us-blockade-of-iranian-ports-come-into-effect-as-trump-threatens-to-destroy-attack-ships",
+   "caption": "Euronews",
+   "file_note": "2026. 04. 13",
+   "depicts": [
+    "4월 13일 미 중부사령부가 이란 항만 봉쇄를 시작했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미국의 이란 항만 봉쇄 발효",
+   "sub": "4월 13일 미 중부사령부가 이란 항만 봉쇄를 시작했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "US blockade of Iranian ports comes into effect"
+  },
+  "iran_ceasefire_2026_art_0036": {
+   "kind": "article",
+   "title": "CNBC 2026-06-17 — Trump, Iran's President sign memorandum of understanding",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "CNBC",
+   "credit_author": "CNBC",
+   "date": "2026-06-17",
+   "url": "https://www.cnbc.com/2026/06/17/trump-vance-iran-deal-nuclear-g7.html",
+   "caption": "CNBC",
+   "file_note": "2026. 06. 17",
+   "depicts": [
+    "6월 17일 트럼프와 페제시키안이 14개 항 양해각서에 전자 서명했다(…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "트럼프·이란 대통령, 양해각서 서명",
+   "sub": "6월 17일 트럼프와 페제시키안이 14개 항 양해각서에 전자 서명했다(…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Trump, Iran's President sign memorandum of understanding"
+  },
+  "iran_ceasefire_2026_art_0037": {
+   "kind": "article",
+   "title": "Middle East Eye 2026-06-17 — US-Iran peace deal memorandum: six things we learned",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Middle East Eye",
+   "credit_author": "Middle East Eye",
+   "date": "2026-06-17",
+   "url": "https://www.middleeasteye.net/explainers/us-iran-peace-deal-memorandum-six-things-learned",
+   "caption": "Middle East Eye",
+   "file_note": "2026. 06. 17",
+   "depicts": [
+    "6월 17일 트럼프와 페제시키안이 14개 항 양해각서에 전자 서명했다(…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미·이란 양해각서에서 알게 된 여섯 가지",
+   "sub": "6월 17일 트럼프와 페제시키안이 14개 항 양해각서에 전자 서명했다(…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "US-Iran peace deal memorandum: six things we learned"
+  },
+  "iran_ceasefire_2026_art_0038": {
+   "kind": "article",
+   "title": "CNBC 2026-06-18 — U.S. Navy ends blockade of Iran's ports and coastal areas",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "CNBC",
+   "credit_author": "CNBC",
+   "date": "2026-06-18",
+   "url": "https://www.cnbc.com/2026/06/18/us-navy-blockade-iran-trump-oil.html",
+   "caption": "CNBC",
+   "file_note": "2026. 06. 18",
+   "depicts": [
+    "4월 13일 미 중부사령부가 이란 항만 봉쇄를 시작했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미 해군, 이란 항만 봉쇄 해제",
+   "sub": "4월 13일 미 중부사령부가 이란 항만 봉쇄를 시작했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "U.S. Navy ends blockade of Iran's ports and coastal areas"
+  },
+  "iran_ceasefire_2026_art_0039": {
+   "kind": "article",
+   "title": "CBS News 2026-06-16 — Iran warns Israeli attack on Lebanon would violate memorandum",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "CBS News",
+   "credit_author": "CBS News",
+   "date": "2026-06-16",
+   "url": "https://www.cbsnews.com/live-updates/iran-war-us-deal-peace-israel-lebanon-hezbollah-strait-of-hormuz/",
+   "caption": "CBS News",
+   "file_note": "2026. 06. 16",
+   "depicts": [
+    "양해각서 붕괴 책임은 양측이 서로를 든다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란 \"이스라엘의 레바논 공격은 양해각서 위반\"",
+   "sub": "양해각서 붕괴 책임은 양측이 서로를 든다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Iran warns Israeli attack on Lebanon would violate memorandum"
+  },
+  "iran_ceasefire_2026_art_0040": {
+   "kind": "article",
+   "title": "Encyclopaedia Britannica 2026-10-01 — 2026 Iran war",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Encyclopaedia Britannica",
+   "credit_author": "Encyclopaedia Britannica",
+   "date": "2026-10-01",
+   "url": "https://www.britannica.com/event/2026-Iran-war",
+   "caption": "Encyclopaedia Britannica",
+   "file_note": "2026. 10. 01",
+   "depicts": [
+    "7월 6~7일 혁명수비대가 오만 연안에서 상선 세 척을 공격했고, 미국…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "2026년 이란 전쟁",
+   "sub": "7월 6~7일 혁명수비대가 오만 연안에서 상선 세 척을 공격했고, 미국…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "2026 Iran war"
+  },
+  "iran_ceasefire_2026_art_0041": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-07-07 — US says strikes launched as explosions heard in southern Iran",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-07-07",
+   "url": "https://www.aljazeera.com/news/2026/7/7/us-says-strikes-launched-as-explosions-heard-in-southern-iran",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 07. 07",
+   "depicts": [
+    "7월 6~7일 혁명수비대가 오만 연안에서 상선 세 척을 공격했고, 미국…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미국 \"공습 개시\"…이란 남부서 폭발음",
+   "sub": "7월 6~7일 혁명수비대가 오만 연안에서 상선 세 척을 공격했고, 미국…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "US says strikes launched as explosions heard in southern Iran"
+  },
+  "iran_ceasefire_2026_art_0042": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-07-08 — Trump says ceasefire 'over' after US, Iran trade attacks",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-07-08",
+   "url": "https://www.aljazeera.com/news/2026/7/8/trump-says-ceasefire-over-after-us-iran-trade-attacks",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 07. 08",
+   "depicts": [
+    "7월 8일 트럼프는 휴전은 끝났다고 말했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "트럼프 \"휴전은 끝났다\"",
+   "sub": "7월 8일 트럼프는 휴전은 끝났다고 말했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Trump says ceasefire 'over' after US, Iran trade attacks"
+  },
+  "iran_ceasefire_2026_art_0043": {
+   "kind": "article",
+   "title": "Middle East Eye 2026-07-18 — Iran declares Islamabad agreement suspended, blames US violations",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Middle East Eye",
+   "credit_author": "Middle East Eye",
+   "date": "2026-07-18",
+   "url": "https://www.middleeasteye.net/live-blog/live-blog-update/iran-declares-islamabad-agreement-suspended-blames-us-violations",
+   "caption": "Middle East Eye",
+   "file_note": "2026. 07. 18",
+   "depicts": [
+    "양해각서 붕괴 책임은 양측이 서로를 든다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란 \"이슬라마바드 합의 중단\"…미국 위반 탓",
+   "sub": "양해각서 붕괴 책임은 양측이 서로를 든다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Iran declares Islamabad agreement suspended, blames US violations"
+  },
+  "iran_ceasefire_2026_art_0044": {
+   "kind": "article",
+   "title": "CNBC 2026-08-17 — US-Iran memorandum expires without final deal",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "CNBC",
+   "credit_author": "CNBC",
+   "date": "2026-08-17",
+   "url": "https://www.cnbc.com/2026/08/17/us-iran-war-trump-hormuz.html",
+   "caption": "CNBC",
+   "file_note": "2026. 08. 17",
+   "depicts": [
+    "7월 14일 미국이 이란 항만 봉쇄를 다시 시작했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미·이란 양해각서, 최종 합의 없이 만료",
+   "sub": "7월 14일 미국이 이란 항만 봉쇄를 다시 시작했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "US-Iran memorandum expires without final deal"
+  },
+  "iran_ceasefire_2026_art_0045": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-08-17 — US-Iran Memorandum of Understanding expires: How and why it fell apart",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-08-17",
+   "url": "https://www.aljazeera.com/news/2026/8/17/us-iran-memorandum-of-understanding-expires-how-and-why-it-fell-apart",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 08. 17",
+   "depicts": [
+    "6월 18일 미 해군이 봉쇄를 풀었다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미·이란 양해각서 만료 — 어떻게, 왜 무너졌나",
+   "sub": "6월 18일 미 해군이 봉쇄를 풀었다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "US-Iran Memorandum of Understanding expires: How and why it fell apart"
+  },
+  "iran_ceasefire_2026_art_0046": {
+   "kind": "article",
+   "title": "Middle East Eye 2026-10-28 — US CENTCOM rejects Iranian reports of vessels hitting Hormuz sea mines",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Middle East Eye",
+   "credit_author": "Middle East Eye",
+   "date": "2026-10-28",
+   "url": "https://www.middleeasteye.net/live-blog/live-blog-update/us-centcom-rejects-iranian-reports-vessels-hitting-hormuz-sea-mines",
+   "caption": "Middle East Eye",
+   "file_note": "2026. 10. 28",
+   "depicts": [
+    "호르무즈 기뢰 주장 — 양측 발표가 다르고 독립 확인 없음"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미 중부사령부, 이란의 기뢰 피격 발표 부인",
+   "sub": "호르무즈 기뢰 주장 — 양측 발표가 다르고 독립 확인 없음",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "US CENTCOM rejects Iranian reports of vessels hitting Hormuz sea mines"
+  },
+  "iran_ceasefire_2026_art_0047": {
+   "kind": "article",
+   "title": "Gulf News 2026-10-30 — US military rejects Iranian mine-strike claims, says Hormuz transit lanes remain 'clear'",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Gulf News",
+   "credit_author": "Gulf News",
+   "date": "2026-10-30",
+   "url": "https://gulfnews.com/world/mena/us-military-rejects-iranian-mine-strike-claims-says-hormuz-transit-lanes-remain-clear-1.500727648",
+   "caption": "Gulf News",
+   "file_note": "2026. 10. 30",
+   "depicts": [
+    "호르무즈 기뢰 주장 — 양측 발표가 다르고 독립 확인 없음"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미군, 이란의 기뢰 피격 주장 부인…\"통항로 깨끗\"",
+   "sub": "호르무즈 기뢰 주장 — 양측 발표가 다르고 독립 확인 없음",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "US military rejects Iranian mine-strike claims, says Hormuz transit lanes remain 'clear'"
+  },
+  "iran_ceasefire_2026_art_0048": {
+   "kind": "article",
+   "title": "CNBC 2026-10-30 — Iran says tankers hit mines in Strait of Hormuz",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "CNBC",
+   "credit_author": "CNBC",
+   "date": "2026-10-30",
+   "url": "https://www.cnbc.com/2026/10/30/iran-trump-hormuz-oil-middle-east-.html",
+   "caption": "CNBC",
+   "file_note": "2026. 10. 30",
+   "depicts": [
+    "호르무즈 기뢰 주장 — 양측 발표가 다르고 독립 확인 없음"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란 \"유조선들 호르무즈서 기뢰 피격\"",
+   "sub": "호르무즈 기뢰 주장 — 양측 발표가 다르고 독립 확인 없음",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Iran says tankers hit mines in Strait of Hormuz"
+  },
+  "iran_ceasefire_2026_art_0049": {
+   "kind": "article",
+   "title": "The New Arab 2026-10-30 — Iran says four tankers on fire after hitting mines in Hormuz",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The New Arab",
+   "credit_author": "The New Arab",
+   "date": "2026-10-30",
+   "url": "https://www.newarab.com/news/iran-says-four-tankers-fire-after-hitting-mines-hormuz",
+   "caption": "The New Arab",
+   "file_note": "2026. 10. 30",
+   "depicts": [
+    "호르무즈 기뢰 주장 — 양측 발표가 다르고 독립 확인 없음"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란 \"유조선 네 척 기뢰 맞고 화재\"",
+   "sub": "호르무즈 기뢰 주장 — 양측 발표가 다르고 독립 확인 없음",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Iran says four tankers on fire after hitting mines in Hormuz"
+  },
+  "iran_ceasefire_2026_art_0050": {
+   "kind": "article",
+   "title": "SOFX 2026-10-30 — Iran says four tankers struck mines on route U.S. calls mine-free",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "SOFX",
+   "credit_author": "SOFX",
+   "date": "2026-10-30",
+   "url": "https://www.sofx.com/iran-says-four-tankers-struck-mines-in-strait-of-hormuz-on-route-u-s-calls-mine-free/",
+   "caption": "SOFX",
+   "file_note": "2026. 10. 30",
+   "depicts": [
+    "로이터 해상 보안 소식통: 파나마 선적 루이즈 원호는 부착식 기뢰 피해"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란 \"유조선 네 척 기뢰\"…미국 \"기뢰 없는 항로\"",
+   "sub": "로이터 해상 보안 소식통: 파나마 선적 루이즈 원호는 부착식 기뢰 피해",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Iran says four tankers struck mines on route U.S. calls mine-free"
+  },
+  "iran_ceasefire_2026_art_0051": {
+   "kind": "article",
+   "title": "Middle East Eye 2026-10-30 — Hormuz shipping traffic remains 70% below pre-war levels, UKMTO says",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Middle East Eye",
+   "credit_author": "Middle East Eye",
+   "date": "2026-10-30",
+   "url": "https://www.middleeasteye.net/live-blog/live-blog-update/hormuz-shipping-traffic-remains-70-below-pre-war-levels-ukmto-says",
+   "caption": "Middle East Eye",
+   "file_note": "2026. 10. 30",
+   "depicts": [
+    "UKMTO 주간 집계(10/28 주): 통항은 전쟁 전보다 약 70% …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "UKMTO \"호르무즈 통항 전쟁 전보다 70% 적어\"",
+   "sub": "UKMTO 주간 집계(10/28 주): 통항은 전쟁 전보다 약 70% …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Hormuz shipping traffic remains 70% below pre-war levels, UKMTO says"
+  },
+  "iran_ceasefire_2026_art_0052": {
+   "kind": "article",
+   "title": "The National 2026-10-31 — Attacks on ships transiting Hormuz in October highest since start of war",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The National",
+   "credit_author": "The National",
+   "date": "2026-10-31",
+   "url": "https://www.thenationalnews.com/news/mena/2026/10/31/attacks-on-ships-transiting-hormuz-in-october-highest-since-start-of-war/",
+   "caption": "The National",
+   "file_note": "2026. 10. 31",
+   "depicts": [
+    "UKMTO 주간 집계(10/28 주): 통항은 전쟁 전보다 약 70% …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "10월 호르무즈 선박 공격, 개전 뒤 최다",
+   "sub": "UKMTO 주간 집계(10/28 주): 통항은 전쟁 전보다 약 70% …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Attacks on ships transiting Hormuz in October highest since start of war"
+  },
+  "iran_ceasefire_2026_art_0053": {
+   "kind": "article",
+   "title": "U.S. EIA 2025-06-16 — Amid regional conflict, the Strait of Hormuz remains critical oil chokepoint",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "U.S. EIA",
+   "credit_author": "U.S. EIA",
+   "date": "2025-06-16",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=65504",
+   "caption": "U.S. EIA",
+   "file_note": "2025. 06. 16",
+   "depicts": [
+    "전쟁 전(2024년) 호르무즈를 지나는 석유는 하루 약 2,000만 배…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "호르무즈 해협, 핵심 원유 길목",
+   "sub": "전쟁 전(2024년) 호르무즈를 지나는 석유는 하루 약 2,000만 배…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Amid regional conflict, the Strait of Hormuz remains critical oil chokepoint"
+  },
+  "iran_ceasefire_2026_art_0054": {
+   "kind": "article",
+   "title": "CNBC 2026-10-30 — Oil rises on supply concerns",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "CNBC",
+   "credit_author": "CNBC",
+   "date": "2026-10-30",
+   "url": "https://www.cnbc.com/2026/10/30/oil-rises-on-supply-concerns-as-houthis-attack-saudi-arabia.html",
+   "caption": "CNBC",
+   "file_note": "2026. 10. 30",
+   "depicts": [
+    "브렌트유 12월물 10월 30일 배럴당 117.64달러 마감, 전쟁 직…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "공급 우려에 유가 상승",
+   "sub": "브렌트유 12월물 10월 30일 배럴당 117.64달러 마감, 전쟁 직…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Oil rises on supply concerns"
+  },
+  "iran_ceasefire_2026_art_0055": {
+   "kind": "article",
+   "title": "CNBC 2026-04-21 — Oil prices and the Iran war",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "CNBC",
+   "credit_author": "CNBC",
+   "date": "2026-04-21",
+   "url": "https://www.cnbc.com/2026/04/21/oil-price-iran-war-middle-east.html",
+   "caption": "CNBC",
+   "file_note": "2026. 04. 21",
+   "depicts": [
+    "브렌트유 12월물 10월 30일 배럴당 117.64달러 마감, 전쟁 직…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란 전쟁과 유가",
+   "sub": "브렌트유 12월물 10월 30일 배럴당 117.64달러 마감, 전쟁 직…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Oil prices and the Iran war"
+  },
+  "iran_ceasefire_2026_art_0056": {
+   "kind": "article",
+   "title": "Insurance Business 2026-10-14 — Hormuz war-risk rates surge again as ceasefire collapses",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Insurance Business",
+   "credit_author": "Insurance Business",
+   "date": "2026-10-14",
+   "url": "https://www.insurancebusinessmag.com/us/news/breaking-news/hormuz-warrisk-rates-surge-again-as-ceasefire-collapses-581988.aspx",
+   "caption": "Insurance Business",
+   "file_note": "2026. 10. 14",
+   "depicts": [
+    "전쟁 위험 보험료: 전쟁 전 선가의 약 0.25% → 10월 6~10%…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "휴전 붕괴에 호르무즈 전쟁위험 보험료 다시 급등",
+   "sub": "전쟁 위험 보험료: 전쟁 전 선가의 약 0.25% → 10월 6~10%…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Hormuz war-risk rates surge again as ceasefire collapses"
+  },
+  "iran_ceasefire_2026_art_0057": {
+   "kind": "article",
+   "title": "뉴스1 2026-04-02 — 해진공 \"호르무즈 통항 재개돼도 시장 정상화까지 최장 2년\"",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "뉴스1",
+   "credit_author": "뉴스1",
+   "date": "2026-04-02",
+   "url": "https://www.news1.kr/local/busan-gyeongnam/6123848",
+   "caption": "뉴스1",
+   "file_note": "2026. 04. 02",
+   "depicts": [
+    "한국해양진흥공사: 통항 재개 뒤 해운 시장 정상화 최장 2년"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "해양진흥공사 \"통항 재개 뒤 시장 정상화 최장 2년\"",
+   "sub": "한국해양진흥공사: 통항 재개 뒤 해운 시장 정상화 최장 2년",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "해진공 \"호르무즈 통항 재개돼도 시장 정상화까지 최장 2년\""
+  },
+  "iran_ceasefire_2026_art_0058": {
+   "kind": "article",
+   "title": "연합뉴스(다음) 2026-03-04 — 작년 원유 수입 69.6% 호르무즈 경유",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "연합뉴스(다음)",
+   "credit_author": "연합뉴스(다음)",
+   "date": "2026-03-04",
+   "url": "https://v.daum.net/v/20260304145729364",
+   "caption": "연합뉴스(다음)",
+   "file_note": "2026. 03. 04",
+   "depicts": [
+    "한국해양진흥공사: 2025년 한국 원유 수입의 69.6%가 호르무즈 경유"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "작년 원유 수입 69.6% 호르무즈 경유",
+   "sub": "한국해양진흥공사: 2025년 한국 원유 수입의 69.6%가 호르무즈 경유",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "작년 원유 수입 69.6% 호르무즈 경유"
+  },
+  "iran_ceasefire_2026_art_0059": {
+   "kind": "article",
+   "title": "서울신문 2026-03-04 — 원유 수입 70% 호르무즈 경유",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "서울신문",
+   "credit_author": "서울신문",
+   "date": "2026-03-04",
+   "url": "https://www.seoul.co.kr/news/society/2026/03/04/20260304500263",
+   "caption": "서울신문",
+   "file_note": "2026. 03. 04",
+   "depicts": [
+    "한국해양진흥공사: 2025년 한국 원유 수입의 69.6%가 호르무즈 경유"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "원유 수입 70% 호르무즈 경유",
+   "sub": "한국해양진흥공사: 2025년 한국 원유 수입의 69.6%가 호르무즈 경유",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "원유 수입 70% 호르무즈 경유"
+  },
+  "iran_ceasefire_2026_art_0060": {
+   "kind": "article",
+   "title": "서울경제 2026-10-13 — 울산 원유 반입, 호르무즈 안쪽 선적 0%",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "서울경제",
+   "credit_author": "서울경제",
+   "date": "2026-10-13",
+   "url": "https://m.sedaily.com/article/20100867",
+   "caption": "서울경제",
+   "file_note": "2026. 10. 13",
+   "depicts": [
+    "울산세관: 울산 원유 반입 중 호르무즈 안쪽 선적 비중 1월 79.5%…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "울산 원유 반입, 호르무즈 안쪽 선적 0%",
+   "sub": "울산세관: 울산 원유 반입 중 호르무즈 안쪽 선적 비중 1월 79.5%…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "울산 원유 반입, 호르무즈 안쪽 선적 0%"
+  },
+  "iran_ceasefire_2026_art_0061": {
+   "kind": "article",
+   "title": "울산매일 2026-10-13 — 울산 원유 수입선 변화",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "울산매일",
+   "credit_author": "울산매일",
+   "date": "2026-10-13",
+   "url": "https://www.iusm.co.kr/news/articleView.html?idxno=1069063",
+   "caption": "울산매일",
+   "file_note": "2026. 10. 13",
+   "depicts": [
+    "울산세관: 울산 원유 반입 중 호르무즈 안쪽 선적 비중 1월 79.5%…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "울산 원유 수입선 변화",
+   "sub": "울산세관: 울산 원유 반입 중 호르무즈 안쪽 선적 비중 1월 79.5%…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "울산 원유 수입선 변화"
+  },
+  "iran_ceasefire_2026_art_0062": {
+   "kind": "article",
+   "title": "경상일보 2026-10-13 — 울산 원유 호르무즈 우회",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "경상일보",
+   "credit_author": "경상일보",
+   "date": "2026-10-13",
+   "url": "https://www.ksilbo.co.kr/news/articleView.html?idxno=1055894",
+   "caption": "경상일보",
+   "file_note": "2026. 10. 13",
+   "depicts": [
+    "울산세관: 울산 원유 반입 중 호르무즈 안쪽 선적 비중 1월 79.5%…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "울산 원유 호르무즈 우회",
+   "sub": "울산세관: 울산 원유 반입 중 호르무즈 안쪽 선적 비중 1월 79.5%…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "울산 원유 호르무즈 우회"
+  },
+  "iran_ceasefire_2026_art_0063": {
+   "kind": "article",
+   "title": "연합뉴스(네이트) 2026-02-28 — 휘발유 전국 평균 1,691.3원",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "연합뉴스(네이트)",
+   "credit_author": "연합뉴스(네이트)",
+   "date": "2026-02-28",
+   "url": "https://m.news.nate.com/view/20260228n03978",
+   "caption": "연합뉴스(네이트)",
+   "file_note": "2026. 02. 28",
+   "depicts": [
+    "휘발유 전국 평균 전쟁 전 1,691.3원 → 10월 4주 1,855.…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "휘발유 전국 평균 1,691.3원",
+   "sub": "휘발유 전국 평균 전쟁 전 1,691.3원 → 10월 4주 1,855.…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "휘발유 전국 평균 1,691.3원"
+  },
+  "iran_ceasefire_2026_art_0064": {
+   "kind": "article",
+   "title": "파이낸셜뉴스 2026-10-31 — 휘발유 1,855.7원",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "파이낸셜뉴스",
+   "credit_author": "파이낸셜뉴스",
+   "date": "2026-10-31",
+   "url": "https://www.fnnews.com/news/202610310605299399",
+   "caption": "파이낸셜뉴스",
+   "file_note": "2026. 10. 31",
+   "depicts": [
+    "휘발유 전국 평균 전쟁 전 1,691.3원 → 10월 4주 1,855.…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "휘발유 전국 평균 1,855.7원",
+   "sub": "휘발유 전국 평균 전쟁 전 1,691.3원 → 10월 4주 1,855.…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "휘발유 1,855.7원"
+  },
+  "iran_ceasefire_2026_art_0065": {
+   "kind": "article",
+   "title": "연합뉴스(네이트) 2026-10-31 — 주유소 휘발유 가격",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "연합뉴스(네이트)",
+   "credit_author": "연합뉴스(네이트)",
+   "date": "2026-10-31",
+   "url": "https://m.news.nate.com/view/20261031n07100",
+   "caption": "연합뉴스(네이트)",
+   "file_note": "2026. 10. 31",
+   "depicts": [
+    "휘발유 전국 평균 전쟁 전 1,691.3원 → 10월 4주 1,855.…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "주유소 휘발유 가격",
+   "sub": "휘발유 전국 평균 전쟁 전 1,691.3원 → 10월 4주 1,855.…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "주유소 휘발유 가격"
+  },
+  "iran_ceasefire_2026_art_0066": {
+   "kind": "article",
+   "title": "연합뉴스(네이트) 2026-03-12 — 비축유 2,246만 배럴 방출",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "연합뉴스(네이트)",
+   "credit_author": "연합뉴스(네이트)",
+   "date": "2026-03-12",
+   "url": "https://m.news.nate.com/view/20260312n36943",
+   "caption": "연합뉴스(네이트)",
+   "file_note": "2026. 03. 12",
+   "depicts": [
+    "3월 12일 정부가 비축유 2,246만 배럴 방출과 석유 최고가격제를 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "비축유 2,246만 배럴 방출",
+   "sub": "3월 12일 정부가 비축유 2,246만 배럴 방출과 석유 최고가격제를 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "비축유 2,246만 배럴 방출"
+  },
+  "iran_ceasefire_2026_art_0067": {
+   "kind": "article",
+   "title": "뉴스1 2026-03-12 — 비축유 방출·최고가격제",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "뉴스1",
+   "credit_author": "뉴스1",
+   "date": "2026-03-12",
+   "url": "https://www.news1.kr/economy/idustry-trade/6099761",
+   "caption": "뉴스1",
+   "file_note": "2026. 03. 12",
+   "depicts": [
+    "3월 12일 정부가 비축유 2,246만 배럴 방출과 석유 최고가격제를 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "비축유 방출·최고가격제",
+   "sub": "3월 12일 정부가 비축유 2,246만 배럴 방출과 석유 최고가격제를 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "비축유 방출·최고가격제"
+  },
+  "iran_ceasefire_2026_art_0068": {
+   "kind": "article",
+   "title": "대한민국 정책브리핑 2026-03-12 — 13일부터 석유 최고가격제 시행…휘발유 출고가 리터 당 1724원",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "대한민국 정책브리핑",
+   "credit_author": "대한민국 정책브리핑",
+   "date": "2026-03-12",
+   "url": "https://www.korea.kr/news/policyNewsView.do?newsId=148960757",
+   "caption": "대한민국 정책브리핑",
+   "file_note": "2026. 03. 12",
+   "depicts": [
+    "3월 12일 정부가 비축유 2,246만 배럴 방출과 석유 최고가격제를 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "13일부터 석유 최고가격제 시행",
+   "sub": "3월 12일 정부가 비축유 2,246만 배럴 방출과 석유 최고가격제를 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "13일부터 석유 최고가격제 시행…휘발유 출고가 리터 당 1724원"
+  },
+  "iran_ceasefire_2026_art_0069": {
+   "kind": "article",
+   "title": "세계일보 2026-06-23 — [단독] 미·이란 협상 핵심 된 韓 반환 자금… 65억불, 독일 거쳐 카타르로",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "세계일보",
+   "credit_author": "세계일보",
+   "date": "2026-06-23",
+   "url": "https://segye.com/newsView/20260623515901",
+   "caption": "세계일보",
+   "file_note": "2026. 06. 23",
+   "depicts": [
+    "카타르에 묶인 이란 자금(약 60억 달러)은 2023년 한국에서 옮겨 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미·이란 협상 핵심 된 한국 반환 자금",
+   "sub": "카타르에 묶인 이란 자금(약 60억 달러)은 2023년 한국에서 옮겨 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "[단독] 미·이란 협상 핵심 된 韓 반환 자금… 65억불, 독일 거쳐 카타르로"
+  },
+  "iran_ceasefire_2026_art_0070": {
+   "kind": "article",
+   "title": "미주중앙일보 2026-06-18 — 한국에 동결됐던 이란 자금 9조원 풀린다",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "미주중앙일보",
+   "credit_author": "미주중앙일보",
+   "date": "2026-06-18",
+   "url": "https://www.koreadaily.com/article/20260618234341853",
+   "caption": "미주중앙일보",
+   "file_note": "2026. 06. 18",
+   "depicts": [
+    "카타르에 묶인 이란 자금(약 60억 달러)은 2023년 한국에서 옮겨 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "한국에 동결됐던 이란 자금 9조원 풀린다",
+   "sub": "카타르에 묶인 이란 자금(약 60억 달러)은 2023년 한국에서 옮겨 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "한국에 동결됐던 이란 자금 9조원 풀린다"
+  },
+  "iran_ceasefire_2026_art_0071": {
+   "kind": "article",
+   "title": "한국일보 2026-10-27 — 이란, 장금상선 선박에 11월부터 법적 조치",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "한국일보",
+   "credit_author": "한국일보",
+   "date": "2026-10-27",
+   "url": "https://www.hankookilbo.com/news/article/A2026102720560003175",
+   "caption": "한국일보",
+   "file_note": "2026. 10. 27",
+   "depicts": [
+    "10월 27일 이란 해협청은 장금상선 선박에 11월 1일부터 법적 조치…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란, 장금상선 선박에 11월부터 법적 조치",
+   "sub": "10월 27일 이란 해협청은 장금상선 선박에 11월 1일부터 법적 조치…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "이란, 장금상선 선박에 11월부터 법적 조치"
+  },
+  "iran_ceasefire_2026_art_0072": {
+   "kind": "article",
+   "title": "뉴스1 2026-10-27 — 이란 해협청, 장금상선 지목",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "뉴스1",
+   "credit_author": "뉴스1",
+   "date": "2026-10-27",
+   "url": "https://www.news1.kr/world/middleeast-africa/6333997",
+   "caption": "뉴스1",
+   "file_note": "2026. 10. 27",
+   "depicts": [
+    "10월 27일 이란 해협청은 장금상선 선박에 11월 1일부터 법적 조치…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "이란 해협청, 장금상선 지목",
+   "sub": "10월 27일 이란 해협청은 장금상선 선박에 11월 1일부터 법적 조치…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "이란 해협청, 장금상선 지목"
+  },
+  "iran_ceasefire_2026_art_0073": {
+   "kind": "article",
+   "title": "파이낸셜뉴스 2026-10-28 — 해운협회 \"지목 선박은 외국 석유사 재용선\"",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "파이낸셜뉴스",
+   "credit_author": "파이낸셜뉴스",
+   "date": "2026-10-28",
+   "url": "https://www.fnnews.com/news/202610281348448725",
+   "caption": "파이낸셜뉴스",
+   "file_note": "2026. 10. 28",
+   "depicts": [
+    "한국해운협회는 지목 선박이 외국 석유사 재용선이라고 반박했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "해운협회 \"지목 선박은 외국 석유사 재용선\"",
+   "sub": "한국해운협회는 지목 선박이 외국 석유사 재용선이라고 반박했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "해운협회 \"지목 선박은 외국 석유사 재용선\""
+  },
+  "iran_ceasefire_2026_art_0074": {
+   "kind": "article",
+   "title": "파이낸셜뉴스 2026-10-30 — 위성락 \"청해부대 강화 검토\"",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "파이낸셜뉴스",
+   "credit_author": "파이낸셜뉴스",
+   "date": "2026-10-30",
+   "url": "https://www.fnnews.com/news/202610301026101998",
+   "caption": "파이낸셜뉴스",
+   "file_note": "2026. 10. 30",
+   "depicts": [
+    "위성락 안보실장은 청해부대 강화·확대 방안을 검토하고 있다고 밝혔다(미…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "위성락 \"청해부대 강화 검토\"",
+   "sub": "위성락 안보실장은 청해부대 강화·확대 방안을 검토하고 있다고 밝혔다(미…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "위성락 \"청해부대 강화 검토\""
+  },
+  "iran_ceasefire_2026_art_0075": {
+   "kind": "article",
+   "title": "YTN 2026-10-31 — 청해부대 강화 검토",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "YTN",
+   "credit_author": "YTN",
+   "date": "2026-10-31",
+   "url": "https://www.ytn.co.kr/_ln/0134_202610311418476896",
+   "caption": "YTN",
+   "file_note": "2026. 10. 31",
+   "depicts": [
+    "위성락 안보실장은 청해부대 강화·확대 방안을 검토하고 있다고 밝혔다(미…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "청해부대 강화 검토",
+   "sub": "위성락 안보실장은 청해부대 강화·확대 방안을 검토하고 있다고 밝혔다(미…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "청해부대 강화 검토"
+  },
+  "iran_ceasefire_2026_art_0076": {
+   "kind": "article",
+   "title": "Council on Foreign Relations 2026-10-20 — Escalate, Negotiate, or Wait: Trump's Iran Options After the Midterms",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Council on Foreign Relations",
+   "credit_author": "Council on Foreign Relations",
+   "date": "2026-10-20",
+   "url": "https://www.cfr.org/articles/will-the-united-states-attack-iran-after-the-midterms",
+   "caption": "Council on Foreign Relations",
+   "file_note": "2026. 10. 20",
+   "depicts": [
+    "미국외교협회 분석: 11월 3일 뒤 트럼프의 정치적 제약이 풀린다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-01",
+    "casualty_free": true,
+    "relevance": "iran_ceasefire_2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-01",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "확전·협상·관망 — 중간선거 뒤 트럼프의 이란 선택지",
+   "sub": "미국외교협회 분석: 11월 3일 뒤 트럼프의 정치적 제약이 풀린다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Escalate, Negotiate, or Wait: Trump's Iran Options After the Midterms"
   }
  }
 }

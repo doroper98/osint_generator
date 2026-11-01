@@ -80,7 +80,7 @@
    "rejected": []
   },
   {
-   "sid": "act1_0",
+   "sid": "act1_1",
    "query": "Operation Epic Fury strike Iran 2026 hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-11-01",
@@ -96,7 +96,7 @@
    "rejected": []
   },
   {
-   "sid": "act1_0",
+   "sid": "act1_1",
    "query": "Operation Epic Fury strike Iran 2026",
    "pool": "commons_cc",
    "on": "2026-11-01",
@@ -112,7 +112,7 @@
    "rejected": []
   },
   {
-   "sid": "act1_2",
+   "sid": "act1_3",
    "query": "Strait of Hormuz satellite hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-11-01",
@@ -124,7 +124,7 @@
    ]
   },
   {
-   "sid": "act1_2",
+   "sid": "act1_3",
    "query": "Strait of Hormuz satellite",
    "pool": "commons_cc",
    "on": "2026-11-01",
@@ -141,7 +141,7 @@
    ]
   },
   {
-   "sid": "act1_3",
+   "sid": "act1_4",
    "query": "Shehbaz Sharif hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-11-01",
@@ -151,7 +151,7 @@
    "rejected": []
   },
   {
-   "sid": "act1_3",
+   "sid": "act1_4",
    "query": "Shehbaz Sharif",
    "pool": "commons_cc",
    "on": "2026-11-01",
@@ -168,7 +168,7 @@
    ]
   },
   {
-   "sid": "act1_4",
+   "sid": "act1_5",
    "query": "Islamabad talks April 2026 Vance hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-11-01",
@@ -178,7 +178,7 @@
    "rejected": []
   },
   {
-   "sid": "act1_4",
+   "sid": "act1_5",
    "query": "Islamabad talks April 2026 Vance",
    "pool": "commons_cc",
    "on": "2026-11-01",
@@ -253,7 +253,7 @@
    ]
   },
   {
-   "sid": "act1_9",
+   "sid": "act1_8",
    "query": "U.S. Forces retaliatory strikes Iran July 2026 hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-11-01",
@@ -265,7 +265,7 @@
    "rejected": []
   },
   {
-   "sid": "act1_9",
+   "sid": "act1_8",
    "query": "U.S. Forces retaliatory strikes Iran July 2026",
    "pool": "commons_cc",
    "on": "2026-11-01",
@@ -279,7 +279,7 @@
    ]
   },
   {
-   "sid": "act2_0",
+   "sid": "act2_1",
    "query": "Araghchi United Nations General Assembly 2026 hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-11-01",
@@ -289,7 +289,7 @@
    "rejected": []
   },
   {
-   "sid": "act2_0",
+   "sid": "act2_1",
    "query": "Araghchi United Nations General Assembly 2026",
    "pool": "commons_cc",
    "on": "2026-11-01",
@@ -303,7 +303,7 @@
    ]
   },
   {
-   "sid": "act2_7",
+   "sid": "act2_6",
    "query": "JD Vance official portrait hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-11-01",
@@ -313,7 +313,7 @@
    "rejected": []
   },
   {
-   "sid": "act2_7",
+   "sid": "act2_6",
    "query": "JD Vance official portrait",
    "pool": "commons_cc",
    "on": "2026-11-01",
@@ -329,7 +329,7 @@
    ]
   },
   {
-   "sid": "act2_10",
+   "sid": "act2_9",
    "query": "Mohsen Rezaei hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-11-01",
@@ -339,7 +339,7 @@
    "rejected": []
   },
   {
-   "sid": "act2_10",
+   "sid": "act2_9",
    "query": "Mohsen Rezaei",
    "pool": "commons_cc",
    "on": "2026-11-01",
@@ -356,7 +356,7 @@
    ]
   },
   {
-   "sid": "act2_11",
+   "sid": "act2_13",
    "query": "Sheikh Mohammed bin Abdulrahman Al Thani hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-11-01",
@@ -366,7 +366,7 @@
    "rejected": []
   },
   {
-   "sid": "act2_11",
+   "sid": "act2_13",
    "query": "Sheikh Mohammed bin Abdulrahman Al Thani",
    "pool": "commons_cc",
    "on": "2026-11-01",
@@ -383,7 +383,7 @@
    ]
   },
   {
-   "sid": "act2_15",
+   "sid": "act2_13",
    "query": "Tehran skyline hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-11-01",
@@ -393,7 +393,7 @@
    "rejected": []
   },
   {
-   "sid": "act2_15",
+   "sid": "act2_13",
    "query": "Tehran skyline",
    "pool": "commons_cc",
    "on": "2026-11-01",
@@ -433,34 +433,6 @@
   },
   {
    "sid": "act4_4",
-   "query": "mine countermeasures ship Arabian Gulf hastemplate:\"PD-USGov-Military\"",
-   "pool": "us_dod_pd",
-   "on": "2026-11-01",
-   "found": 5,
-   "passed": 0,
-   "top": [],
-   "rejected": [
-    "문서·도식(application/pdf)"
-   ]
-  },
-  {
-   "sid": "act4_4",
-   "query": "mine countermeasures ship Arabian Gulf",
-   "pool": "commons_cc",
-   "on": "2026-11-01",
-   "found": 5,
-   "passed": 5,
-   "top": [
-    "File:US Navy 030319-N-5319A-002 The mine countermeasure ship USS Dextrous (MCM 13) takes part in mine counter measure operations in the Arabian Gulf.jpg",
-    "File:US Navy 110816-N-YX920-055 The Royal Navy mine countermeasures ship HMS Ramsey (M110) transits the Arabian Gulf during a bilateral training exercis.jpg",
-    "File:US Navy 110816-N-YX920-249 The Royal Navy mine countermeasures ship HMS Quorn (M41) transits the Arabian Gulf during a bilateral training exercise.jpg",
-    "File:US Navy 110816-N-YX920-369 The Royal Navy mine countermeasures ship HMS Ramsey (M110) transits the Arabian Gulf during a bilateral training exercis.jpg",
-    "File:US Navy 110816-N-YX920-379 The Royal Navy mine countermeasures ship HMS Quorn (M41) transits the Arabian Gulf during a bilateral training exercise.jpg"
-   ],
-   "rejected": []
-  },
-  {
-   "sid": "act4_3",
    "query": "CENTCOM commander 2026 hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-11-01",
@@ -476,7 +448,7 @@
    "rejected": []
   },
   {
-   "sid": "act4_3",
+   "sid": "act4_4",
    "query": "CENTCOM commander 2026",
    "pool": "commons_cc",
    "on": "2026-11-01",
@@ -492,30 +464,7 @@
    "rejected": []
   },
   {
-   "sid": "act6_1",
-   "query": "Ulsan refinery hastemplate:\"PD-USGov-Military\"",
-   "pool": "us_dod_pd",
-   "on": "2026-11-01",
-   "found": 0,
-   "passed": 0,
-   "top": [],
-   "rejected": []
-  },
-  {
-   "sid": "act6_1",
-   "query": "Ulsan refinery",
-   "pool": "commons_cc",
-   "on": "2026-11-01",
-   "found": 2,
-   "passed": 0,
-   "top": [],
-   "rejected": [
-    "CC BY-SA 2.0",
-    "문서·도식(application/pdf)"
-   ]
-  },
-  {
-   "sid": "act6_3",
+   "sid": "act6_5",
    "query": "gas station prices Korea 2026 hastemplate:\"PD-USGov-Military\"",
    "pool": "us_dod_pd",
    "on": "2026-11-01",
@@ -525,7 +474,7 @@
    "rejected": []
   },
   {
-   "sid": "act6_3",
+   "sid": "act6_5",
    "query": "gas station prices Korea 2026",
    "pool": "commons_cc",
    "on": "2026-11-01",
@@ -598,6 +547,255 @@
    ],
    "rejected": [
     "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_1",
+   "query": "United Nations General Assembly hall 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_1",
+   "query": "United Nations General Assembly hall 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 3,
+   "top": [
+    "File:President Ronald Reagan During His Trip to New York City and His Address to The 41St Session of The United Nations General Assembly Unga and Speaking at The Podium - DPLA - ee57def2a8327ae28c0e09b3626f3567.jpg",
+    "File:President Ronald Reagan Gives a Speech in The General Assembly Hall at The United Nations in New York City - DPLA - 875263932a50b3c5e2cf2e9fe9bd17fb.jpg",
+    "File:Prime Minister Takaichi delivering an address at the General Debate of the United Nations General Assembly in the General Assembly Hall (1).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_6",
+   "query": "JD Vance official portrait hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_6",
+   "query": "JD Vance official portrait",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 3,
+   "top": [
+    "File:January 2025 Official Vice Presidential Portrait of JD Vance (3x4 cropped).jpg",
+    "File:March 2026 Official Vice Presidential Portrait of JD Vance.jpg",
+    "File:March 2026 Official Vice Presidential Portrait of JD Vance (cropped).jpg"
+   ],
+   "rejected": [
+    "Public domain 제한"
+   ]
+  },
+  {
+   "sid": "act2_13",
+   "query": "Tehran skyline hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_13",
+   "query": "Tehran skyline",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act4_1",
+   "query": "oil tanker Strait of Hormuz hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_1",
+   "query": "oil tanker Strait of Hormuz",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 1,
+   "top": [
+    "File:Oil tanker Niovi seized by Iran's Islamic Revolutionary Guard Corps Navy.webm"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_4",
+   "query": "mine countermeasures ship Arabian Gulf hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_4",
+   "query": "mine countermeasures ship Arabian Gulf",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:US Navy 030319-N-5319A-002 The mine countermeasure ship USS Dextrous (MCM 13) takes part in mine counter measure operations in the Arabian Gulf.jpg",
+    "File:US Navy 110816-N-YX920-055 The Royal Navy mine countermeasures ship HMS Ramsey (M110) transits the Arabian Gulf during a bilateral training exercis.jpg",
+    "File:US Navy 110816-N-YX920-249 The Royal Navy mine countermeasures ship HMS Quorn (M41) transits the Arabian Gulf during a bilateral training exercise.jpg",
+    "File:US Navy 110816-N-YX920-369 The Royal Navy mine countermeasures ship HMS Ramsey (M110) transits the Arabian Gulf during a bilateral training exercis.jpg",
+    "File:US Navy 110816-N-YX920-379 The Royal Navy mine countermeasures ship HMS Quorn (M41) transits the Arabian Gulf during a bilateral training exercise.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act4_5",
+   "query": "limpet mine tanker hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_5",
+   "query": "limpet mine tanker",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 1,
+   "top": [
+    "File:MV Kokuka Courageous with hull damage and mine.png"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act6_1",
+   "query": "Ulsan refinery hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act6_1",
+   "query": "Ulsan refinery",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 2,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act6_2",
+   "query": "Ulsan port oil tanker hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act6_2",
+   "query": "Ulsan port oil tanker",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 2,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act6_7",
+   "query": "Sinokor Merchant Marine ship hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act6_7",
+   "query": "Sinokor Merchant Marine ship",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 2,
+   "passed": 2,
+   "top": [
+    "File:ANTWERP BRIDGE. CONTAINER SHIP (51065452847).jpg",
+    "File:ANTWERP BRIDGE. CONTAINER SHIP (51088595279).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act3_2",
+   "query": "Abbas Araghchi 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act3_2",
+   "query": "Abbas Araghchi 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 4,
+   "top": [
+    "File:Meeting with Foreign Minister of Iran Abbas Araghchi (1).jpg",
+    "File:Meeting with Foreign Minister of Iran Abbas Araghchi (2).jpg",
+    "File:Meeting with Foreign Minister of Iran Abbas Araghchi (4).jpg",
+    "File:Meeting with Foreign Minister of Iran Abbas Araghchi (6).jpg"
+   ],
+   "rejected": [
+    "OGL-om 1.0"
    ]
   }
  ]

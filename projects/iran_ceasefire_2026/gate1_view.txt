@@ -1,293 +1,248 @@
-[게이트 ① 원고 승인] 휴전안 — 미국과 이란, 무엇이 먼저 풀려야 하나 — 7일 휴전안의 조건, 호르무즈, 그리고 11월 (2026.11.01)
+[게이트 ① 원고 승인] 휴전안의 한 달 — 미국과 이란, 무엇이 먼저 풀려야 하나 — 7일안, 이틀안, 밴스의 서한, 그리고 11월 3일 (2026.11.01)
 
 장면 목록
-  cold       문장  4  예상   28.5초
-  act1       문장 15  예상  106.5초
-  act2       문장 18  예상  149.2초
-  act3       문장 10  예상   77.8초
-  act4       문장  9  예상   68.4초
-  act5       문장 13  예상   84.9초
-  act6       문장  9  예상   63.6초
-  ending     문장  4  예상   35.8초
-  합계 82문장 · 예상 614.8초 (글자 수 추정 320자/분)
+  cold       문장  4  예상   17.8초
+  act1       문장 14  예상   71.7초
+  act2       문장 15  예상   87.1초
+  act3       문장  8  예상   38.8초
+  act4       문장  7  예상   43.8초
+  act5       문장 11  예상   57.4초
+  act6       문장 10  예상   61.6초
+  ending     문장  4  예상   21.5초
+  합계 73문장 · 예상 399.8초 (plan.json 실측)
 
 원고 전문(자막) · [검증 라벨]
   cold_0       10월 31일, 이란 대표단이 카타르 도하에 도착했습니다.
-  cold_1       아라그치 이란 외무장관은 미국의 접촉을 "긍정적 조치"라고 말했습니다.
-  cold_2       같은 날 루비오 미 국무장관은 트럼프 대통령이 공격 재개를 아직 결정하지 않았다고 말했습니다.
+  cold_1       아라그치 이란 외무장관은 미국의 대화 시도를 "긍정적 조치"라고 말했습니다.
+  cold_2       같은 날 루비오 미 국무장관은 트럼프 대통령이 새 공격 여부를 아직 정하지 않았다고 말했습니다.
   cold_3       그리고 사흘 뒤인 11월 3일은 미국 중간선거입니다.
-  act1_0       이 휴전안이 나오기까지 전쟁은 여덟 달 동안 이어졌습니다.
-  act1_1       먼저 2월 말부터 8월까지의 흐름입니다.
-  act1_2       전쟁은 2월 28일, 미국과 이스라엘의 이란 공습으로 시작됐습니다.
-  act1_3       이 공습으로 최고지도자 알리 하메네이가 숨졌고, 아들 모즈타바 하메네이가 뒤를 이었습니다.
-  act1_4       이후 이란은 호르무즈 해협의 상선 통항을 막았습니다.
-  act1_5       이어서 4월 8일, 파키스탄의 중재로 두 나라는 2주 휴전에 들어갔습니다.
-  act1_6       하지만 이슬라마바드에서 열린 협상은 합의 없이 끝났습니다.
-  act1_7       그 뒤 미국은 이란의 항만을 봉쇄했습니다.
-  act1_8       6월 17일, 트럼프 대통령과 페제시키안 이란 대통령은 14개 항의 양해각서를 맺었습니다.
-  act1_9       이에 미 해군은 다음 날 봉쇄를 풀었고, 최종 합의 시한은 60일로 정해졌습니다.
-  act1_10      그러나 미국은 6월 25일 상선 공격을 이란의 소행이라고 주장했습니다.  [<논쟁>]
-  act1_11      이어서 7월 7일, 트럼프 대통령은 합의가 끝났다고 밝혔습니다.  [<논쟁>]
-  act1_12      이에 대해 이란은 미국의 공습이 양해각서 1조를 어겼고, 이스라엘의 레바논 주둔도 위반이라고 반박했습니다.  [<논쟁>]
-  act1_13      결국 7월 14일, 미국은 이란 항만 봉쇄를 다시 시작했습니다.
-  act1_14      그리고 양해각서는 8월 17일 기한을 넘겨 효력을 잃었습니다.
-  act2_0       한 달 남짓 뒤, 새 휴전안이 나왔습니다.
-  act2_1       9월 말부터 10월 말까지 오간 안을 날짜 순서대로 보겠습니다.
-  act2_2       9월 25일, 아라그치 외무장관은 유엔총회에서 7일짜리 로드맵을 내놓았습니다.
-  act2_3       먼저 미국이 봉쇄를 풀고, 석유 제재를 유예하고, 동결 자산을 풀고, 레바논을 포함한 지역 휴전을 지킨다는 안입니다.
-  act2_4       그 뒤 엿새째 해협을 다시 열고, 이레째 핵 문제 협상을 시작한다는 내용입니다.
-  act2_5       하지만 이튿날 트럼프 대통령은 이 안을 "받아들일 수 없다"고 말했습니다.
-  act2_6       한편 9월 말 이란은 카타르를 거쳐 미국의 역제안을 받았다고 밝혔습니다.
-  act2_7       역제안에는 해협을 단계적으로 다시 여는 방안이 들어 있었습니다.
-  act2_8       이어서 10월 7일 보도에 따르면, 밴스 부통령은 우라늄 농축 능력을 "의미 있게" 줄이라고 요구했습니다.
-  act2_9       다음 날 트럼프 대통령은 중간선거 전에는 이란을 공격하지 않겠다고 밝혔습니다.
-  act2_10      다만 봉쇄는 그대로 유지한다고 강조했습니다.
-  act2_11      그러자 10월 11일, 레자이 이란 최고국가안보회의 사무총장은 미국 답변이 일곱 가지 조건에 못 미친다고 말했습니다.
-  act2_12      10월 25일에는 카타르가 하루 단위 신뢰 구축 단계를 담은 7일 초안을 건넸다고 협상에 정통한 관리가 전했습니다.  [<미검증>]
-  act2_13      하지만 이란 고위 관리는 이것이 제안이 아니라 받아들일 수 없는 아이디어라고 말했습니다.
-  act2_14      이어서 10월 28일, 밴스 부통령이 레자이 사무총장에게 서한을 보냈다고 미국 언론이 전했습니다.
-  act2_15      이에 대해 트럼프 대통령은 이 서한이 의료 물품 지원에 관한 것이라고 말했습니다.
-  act2_16      그리고 10월 30일, 카타르 중재단은 테헤란에서 12시간 넘게 협의했습니다.
-  act2_17      이후 협의 자리는 다음 날 도하로 옮겨졌습니다.
-  act3_0       도하 협의의 바탕에는 양측이 공개한 조건이 있습니다.
+  act1_0       이 협상에 이르기까지 전쟁은 여덟 달 동안 이어졌습니다.
+  act1_1       전쟁은 2월 28일, 미국과 이스라엘의 합동 공습으로 시작됐습니다.
+  act1_2       이 공습으로 최고지도자 알리 하메네이가 숨졌고, 3월 초 아들 모즈타바 하메네이가 뒤를 이었습니다.
+  act1_3       이어서 3월 2일, 이란 혁명수비대는 해협을 지나는 배를 공격하겠다고 밝혔습니다.
+  act1_4       그 뒤 4월 8일, 파키스탄의 중재로 2주 휴전이 시작됐습니다.
+  act1_5       하지만 이슬라마바드 회담은 합의 없이 끝났고, 4월 13일 미국은 이란 항만 봉쇄를 시작했습니다.
+  act1_6       이후 6월 17일, 트럼프 대통령과 페제시키안 이란 대통령은 14개 항의 양해각서를 맺었습니다.
+  act1_7       이에 미국은 다음 날 봉쇄를 풀었고, 60일 안에 최종 합의를 맺기로 했습니다.
+  act1_8       그러나 7월 6일과 7일, 혁명수비대가 오만 연안에서 상선 세 척을 공격하자 미국은 이란 남부를 공습했습니다.
+  act1_9       이어서 7월 8일, 트럼프 대통령은 "휴전은 끝났다"고 말했습니다.  [<논쟁>]
+  act1_10      결국 7월 14일, 미국은 두 번째 봉쇄를 시작했습니다.
+  act1_11      이에 대해 이란은 7월 18일, 미국의 공습이 양해각서 1조를 어겼다며 이행을 멈춘다고 밝혔습니다.  [<논쟁>]
+  act1_12      이란은 앞서 이스라엘의 레바논 공격도 양해각서 위반으로 보겠다고 경고했습니다.  [<논쟁>]
+  act1_13      그리고 양해각서는 8월 17일, 60일 시한을 넘겨 효력을 잃었습니다.
+  act2_0       한 달 남짓 뒤인 9월 말, 새 휴전안이 나왔습니다.
+  act2_1       9월 24일, 아라그치 외무장관은 뉴욕 유엔총회에서 7일짜리 안을 내놓았습니다.
+  act2_2       먼저 미국이 레바논을 포함한 모든 전선에서 교전을 멈추고, 봉쇄와 원유 제재, 동결 자산을 푼다는 내용입니다.
+  act2_3       그 뒤 엿새째 해협을 다시 열고, 이레째 포괄 협상을 시작한다는 것입니다.
+  act2_4       하지만 9월 26일, 트럼프 대통령은 "그 합의는 받아들일 수 없다"고 말했습니다.
+  act2_5       한편 9월 30일, 이란 정부는 카타르를 거쳐 미국의 역제안을 받았다고 밝혔지만 내용은 공개하지 않았습니다.
+  act2_6       이어서 10월 6일, 밴스 부통령은 한 인터뷰에서 이란이 농축 능력을 "의미 있게" 줄여야 한다고 말했습니다.
+  act2_7       이에 대해 이란의 한 관리는 농축 권리 인정은 넘을 수 없는 선이라고 말했습니다.
+  act2_8       다음 날 트럼프 대통령은 중간선거 전에는 이란을 공격하지 않겠다면서도, 봉쇄는 유지한다고 밝혔습니다.
+  act2_9       그러자 10월 11일, 레자이 최고국가안보회의 사무총장은 미국이 일부 조건만 받아들였다며 답변이 불충분하다고 말했습니다.
+  act2_10      이어서 10월 25일, 카타르가 하루 단위 신뢰 구축 단계를 담은 초안을 건넸다고 한 관리가 전했습니다.  [<미검증>]
+  act2_11      하지만 이란 고위 관리는 이것이 제안이 아니라 받아들일 수 없는 아이디어라고 말했습니다.
+  act2_12      10월 28일에는 밴스 부통령이 레자이 사무총장에게 보낸 서한이 알려졌고, 트럼프 대통령은 의료 물품 지원 건이라고 말했습니다.
+  act2_13      그리고 10월 30일, 카타르 대표단은 테헤란에서 12시간 넘게 협의했습니다.
+  act2_14      이튿날 협의 자리는 도하로 옮겨졌습니다.
+  act3_0       도하 협의의 바탕에는 양측이 밝힌 조건이 있습니다.
   act3_1       먼저 이란의 조건입니다.
-  act3_2       이란은 지역 전면 휴전과 동결 자산 해제, 제재 해제, 미 해군 축소를 조건으로 밝혔습니다.
-  act3_3       다만 동결 자산 액수는 알자지라가 9월 안에서 약 120억 달러, 10월 말에는 카타르 등에 묶인 약 60억 달러로 전했습니다.  [<논쟁>]
-  act3_4       한편 미국은 핵 문제를 처음부터 협상에 넣어야 한다고 주장합니다.
-  act3_5       특히 밴스 부통령은 무기를 원하지 않는다면 60% 농축이 왜 필요하냐고 말했습니다.
-  act3_6       루비오 국무장관도 "이란은 핵무기를 가질 수 없다"고 말했습니다.
-  act3_7       그러나 이란은 봉쇄 해제와 석유 제재 해제가 먼저라고 주장합니다.
-  act3_8       이에 대해 협상에 정통한 한 관리는 쟁점이 안의 구성보다 이행 순서라고 말했습니다.  [<미검증>]
-  act3_9       분석가 사이먼 마본도 이란의 우선순위가 농축보다 제재와 동결 자산, 봉쇄라고 말했습니다.
+  act3_2       아라그치 외무장관은 10월 31일 봉쇄 해제와 원유 제재 면제 복원, 양해각서 뒤 부과된 제재 해제를 조건으로 밝혔습니다.
+  act3_3       또한 카타르에 묶인 자금을 포함한 동결 자금 전액, 역내 미군 축소, 오만과 합의한 항로 인정도 함께 밝혔습니다.
+  act3_4       한편 미국 관리들은 핵 문제를 다루지 않는 합의는 없다고 말했습니다.
+  act3_5       그리고 레자이 사무총장은 미국이 해협을 이란과 오만이 함께 관리하는 안을 거부했다고 전했습니다.
+  act3_6       그러나 이란은 봉쇄와 제재가 먼저 풀려야 한다고 주장합니다.
+  act3_7       이에 대해 협상 소식통들은 이행 순서가 주된 걸림돌이라고 말했습니다.
   act4_0       조건의 한가운데에는 호르무즈 해협이 있습니다.
-  act4_1       10월 말, 이란과 미군은 해협의 기뢰를 두고 서로 다른 내용을 발표했습니다.  [<논쟁>]
-  act4_2       먼저 이란 혁명수비대는 유조선 세 척이 남쪽 항로에서 기뢰에 맞았다고 발표했습니다.  [<논쟁>]
-  act4_3       혁명수비대는 이 항로를 허가하지 않은 길이라고 했고, 이란군은 한 척을 더해 네 척이라고 밝혔습니다.  [<논쟁>]
-  act4_4       이에 대해 미 중부사령부는 이 발표를 거짓이라고 반박했습니다.  [<논쟁>]
-  act4_5       중부사령부는 국제적으로 인정된 주 통항로의 기뢰를 미군이 모두 제거했다고 밝혔습니다.  [<논쟁>]
-  act4_6       다만 이란은 기뢰에 맞았다는 배의 이름을 밝히지 않았습니다.
-  act4_7       그리고 이란은 조건이 채워지면 며칠 안에 해협을 열겠다고 밝혔습니다.
-  act4_8       결국 이란이 내건 개방 일정은 봉쇄와 제재가 먼저 풀린다는 전제 위에 있습니다.
+  act4_1       전쟁 전에는 세계 석유 소비의 약 20%가 이 해협을 지났습니다.
+  act4_2       하지만 10월 말 영국 해사무역기구는 통항이 전쟁 전보다 약 70% 적다고 밝혔습니다.
+  act4_3       그리고 10월 29일, 이란 혁명수비대는 허가받지 않은 남쪽 항로에서 유조선 세 척이 기뢰에 맞았다고 발표했고, 이란군은 한 척을 더했습니다.  [<논쟁>]
+  act4_4       이에 대해 미 중부사령부는 거짓이라며, 국제적으로 인정된 주요 통항로의 기뢰는 모두 제거했다고 반박했습니다.  [<논쟁>]
+  act4_5       다만 이란은 배의 이름을 밝히지 않았고, 해상 보안 소식통들은 한 척이 부착식 기뢰에 맞았다고 전했습니다.  [<미검증>]
+  act4_6       그사이 브렌트유 12월물은 10월 30일 배럴당 117.64달러로, 전쟁 직전의 약 72달러보다 크게 올랐습니다.
   act5_0       그렇다면 휴전은 다시 성사될 수 있을까요.
-  act5_1       예측 대신 조건으로 나눠 보겠습니다.
-  act5_2       미국이 봉쇄 해제부터 받아들이면, 이란이 밝힌 해협 재개방 일정이 시험대에 오릅니다.
-  act5_3       반면 미국이 핵 문제부터 요구하면, 7일안은 지금처럼 멈춰 있게 됩니다.
-  act5_4       또한 미국외교협회는 중간선거 뒤 트럼프 대통령의 정치적 제약이 풀린다고 밝혔습니다.
-  act5_5       게다가 미국 정부가 걸프 동맹들에 11월 4일부터 공격에 대비하라고 알렸다고 미국 언론이 전했습니다.  [<미검증>]
-  act5_6       이에 모즈타바 하메네이 최고지도자는 새 공격에는 지리적 제한 없는 대응을 하겠다고 경고했습니다.
-  act5_7       그래서 지켜볼 신호는 다섯 가지입니다.
-  act5_8       첫째, 봉쇄가 풀리는지입니다.
-  act5_9       둘째, 카타르에 묶인 자금이 움직이는지입니다.
-  act5_10      셋째, 도하 협의가 직접 협상으로 이어지는지입니다.
-  act5_11      넷째, 호르무즈를 지나는 배가 다시 늘어나는지입니다.
-  act5_12      그리고 다섯째, 11월 3일 뒤 미국 정부에서 군사 행동에 관한 발언이 나오는지입니다.
-  act6_0       이 신호 가운데 하나는 한국과도 이어져 있습니다.
-  act6_1       바로 카타르에 묶인 이란 자금입니다.
-  act6_2       그 돈은 한국의 은행에 묶여 있다가 2023년 카타르로 옮겨 간 이란의 원유 대금입니다.
-  act6_3       규모는 약 60억 달러로 알려져 있습니다.
-  act6_4       한편 전쟁이 시작되자 정부는 3월 13일 석유 최고가격제를 시행했습니다.
-  act6_5       1997년 유가 자유화 이후 처음입니다.
-  act6_6       또한 산업통상부 집계로는 5월부터 7월까지 중동산 원유 비중이 48.5%였습니다.
-  act6_7       처음으로 절반 아래로 내려간 것이고, 1년 전 같은 기간에는 69.1%였습니다.
-  act6_8       이에 정부는 2035년까지 중동산 의존도를 50% 아래로 낮추는 계획을 세웠습니다.
-  ending_0     다시 11월 1일 지금으로 돌아오면, 양측은 7일 단위의 안을 주고받았지만 아직 만나지 않았습니다.
-  ending_1     확인된 것은 이란 대표단의 도하 방문과 양측이 공개한 조건입니다.
+  act5_1       예측 대신, 양측이 이미 밝힌 조건으로 나눠 보겠습니다.
+  act5_2       먼저 봉쇄 해제와 동결 자금, 제재 면제가 움직이면, 이란은 이틀 안에 해협을 열겠다고 밝혔습니다.
+  act5_3       한편 핵 문제가 빠지면 합의는 없다고 미국 관리들은 말했습니다.
+  act5_4       다만 미국이 걸프 국가들에 중간선거 뒤 짧고 강한 작전에 대비하라고 알렸다고 미국 언론이 전했습니다.  [<미검증>]
+  act5_5       이에 모즈타바 하메네이 최고지도자는 공격받으면 지리적 제한 없는 대응을 하겠다고 경고했습니다.
+  act5_6       그래서 지켜볼 신호는 다섯 가지입니다.
+  act5_7       첫째는 해협을 지나는 배의 수, 둘째는 전쟁 위험 보험료입니다.
+  act5_8       보험 중개사들에 따르면 이 보험료는 전쟁 전 선가의 0.25%에서 10월에는 6~10%로 올랐습니다.
+  act5_9       셋째는 카타르에 묶인 자금, 넷째는 카타르와 파키스탄, 오만의 중재 일정, 다섯째는 레바논 전선입니다.
+  act5_10      다만 해협이 다시 열려도 해운 시장이 정상으로 돌아오는 데는 최장 2년이 걸릴 수 있다고 한국해양진흥공사는 밝혔습니다.
+  act6_0       이 신호들은 한국과도 바로 이어집니다.
+  act6_1       한국해양진흥공사에 따르면, 지난해 한국 원유 수입의 69.6%가 호르무즈 해협을 지났습니다.
+  act6_2       그런데 울산세관 집계로는 울산에 들어온 원유 가운데 해협 안쪽에서 실은 비중이 1월 79.5%에서 9월 0%가 됐습니다.
+  act6_3       대신 해협 밖 얀부, 푸자이라, 소하르 같은 중동 항구에서 실은 비중이 70.6%로 늘었습니다.
+  act6_4       다만 해협 밖에서 실은 원유에도 걸프 원유를 옮겨 실은 물량이 섞였을 수 있습니다.
+  act6_5       한편 휘발유 전국 평균 가격은 전쟁 전 리터당 1,691.3원에서 10월 넷째 주 1,855.7원이 됐습니다.
+  act6_6       또한 카타르에 묶인 이란 자금 약 60억 달러는 2023년 한국에서 옮겨 간 원유 대금입니다.
+  act6_7       그리고 10월 27일, 이란은 한국 해운사 장금상선의 배들에 11월 1일부터 법적 조치를 하겠다고 밝혔습니다.
+  act6_8       이에 대해 한국해운협회는 지목된 배가 외국 석유사가 빌려 쓰는 배라고 반박했습니다.
+  act6_9       또 위성락 국가안보실장은 청해부대 강화 방안을 검토하고 있다고 밝혔습니다.
+  ending_0     다시 11월 1일 지금으로 돌아오면, 양측은 7일안과 이틀안을 주고받았지만 아직 만나지 않았습니다.
+  ending_1     확인된 것은 이란 대표단의 도하 방문과 양측이 밝힌 조건입니다.
   ending_2     반면 해협의 기뢰 피격은 양측이 서로 다르게 발표했고, 카타르 초안의 세부는 익명 관리가 전한 내용입니다.  [<논쟁>]
   ending_3     그리고 무엇을 먼저 풀지에 대한 답은 아직 어느 쪽도 내놓지 않았습니다.
 
 출처 표
-  cold_0       clm_0040
-  cold_1       clm_0020
-  cold_2       clm_0021
-  cold_3       clm_0041
-  act1_0       clm_0001
-  act1_1       clm_0001, clm_0038
-  act1_2       clm_0001
-  act1_3       clm_0001, clm_0042
-  act1_4       clm_0036
-  act1_5       clm_0002
-  act1_6       clm_0003
-  act1_7       clm_0037
-  act1_8       clm_0004
-  act1_9       clm_0004, clm_0005
-  act1_10      clm_0006
-  act1_11      clm_0006
-  act1_12      clm_0006
-  act1_13      clm_0007
-  act1_14      clm_0038
-  act2_0       clm_0008
-  act2_1       clm_0008, clm_0040
-  act2_2       clm_0008
-  act2_3       clm_0008
-  act2_4       clm_0008
-  act2_5       clm_0009
-  act2_6       clm_0011
-  act2_7       clm_0011
-  act2_8       clm_0012
-  act2_9       clm_0014
-  act2_10      clm_0014
-  act2_11      clm_0015
-  act2_12      clm_0016
-  act2_13      clm_0017
-  act2_14      clm_0018
-  act2_15      clm_0018
-  act2_16      clm_0019
-  act2_17      clm_0019, clm_0040
-  act3_0       clm_0008, clm_0044
-  act3_1       clm_0008
-  act3_2       clm_0023
-  act3_3       clm_0024
-  act3_4       clm_0025
-  act3_5       clm_0039
-  act3_6       clm_0013
-  act3_7       clm_0025
-  act3_8       clm_0010
-  act3_9       clm_0030
-  act4_0       clm_0008
-  act4_1       clm_0027
-  act4_2       clm_0027
-  act4_3       clm_0027
-  act4_4       clm_0027
-  act4_5       clm_0027
-  act4_6       clm_0043
-  act4_7       clm_0035
-  act4_8       clm_0008
-  act5_0       clm_0044
-  act5_1       clm_0044
-  act5_2       clm_0008, clm_0007
-  act5_3       clm_0044
-  act5_4       clm_0029
-  act5_5       clm_0028
-  act5_6       clm_0022
-  act5_7       clm_0007, clm_0040, clm_0041
-  act5_8       clm_0007
-  act5_9       clm_0031
-  act5_10      clm_0040, clm_0044
-  act5_11      clm_0036
-  act5_12      clm_0041
-  act6_0       clm_0031
-  act6_1       clm_0031
-  act6_2       clm_0031
-  act6_3       clm_0031
-  act6_4       clm_0032
-  act6_5       clm_0032
-  act6_6       clm_0033
-  act6_7       clm_0033
-  act6_8       clm_0034
-  ending_0     clm_0008, clm_0011, clm_0044
-  ending_1     clm_0040, clm_0008
-  ending_2     clm_0027, clm_0016
-  ending_3     clm_0044
+  cold_0       clm_0001
+  cold_1       clm_0002
+  cold_2       clm_0003
+  cold_3       clm_0004
+  act1_0       clm_0005
+  act1_1       clm_0005
+  act1_2       clm_0006, clm_0008
+  act1_3       clm_0007
+  act1_4       clm_0009
+  act1_5       clm_0010, clm_0011
+  act1_6       clm_0012
+  act1_7       clm_0013, clm_0012
+  act1_8       clm_0014
+  act1_9       clm_0015, clm_0017
+  act1_10      clm_0016
+  act1_11      clm_0018, clm_0017
+  act1_12      clm_0019, clm_0017
+  act1_13      clm_0020
+  act2_0       clm_0021
+  act2_1       clm_0021
+  act2_2       clm_0021
+  act2_3       clm_0021
+  act2_4       clm_0022
+  act2_5       clm_0023
+  act2_6       clm_0024
+  act2_7       clm_0025
+  act2_8       clm_0026
+  act2_9       clm_0027
+  act2_10      clm_0029
+  act2_11      clm_0030
+  act2_12      clm_0031
+  act2_13      clm_0033
+  act2_14      clm_0001, clm_0033
+  act3_0       clm_0056
+  act3_1       clm_0021
+  act3_2       clm_0034
+  act3_3       clm_0034
+  act3_4       clm_0036
+  act3_5       clm_0028
+  act3_6       clm_0037
+  act3_7       clm_0037
+  act4_0       clm_0021
+  act4_1       clm_0040
+  act4_2       clm_0041
+  act4_3       clm_0042
+  act4_4       clm_0042
+  act4_5       clm_0043, clm_0044
+  act4_6       clm_0045
+  act5_0       clm_0056
+  act5_1       clm_0056
+  act5_2       clm_0035, clm_0034
+  act5_3       clm_0036
+  act5_4       clm_0038
+  act5_5       clm_0039
+  act5_6       clm_0056
+  act5_7       clm_0057
+  act5_8       clm_0046
+  act5_9       clm_0052, clm_0033, clm_0021
+  act5_10      clm_0047
+  act6_0       clm_0052, clm_0049
+  act6_1       clm_0048
+  act6_2       clm_0049
+  act6_3       clm_0049
+  act6_4       clm_0049
+  act6_5       clm_0050
+  act6_6       clm_0052
+  act6_7       clm_0053
+  act6_8       clm_0054
+  act6_9       clm_0055
+  ending_0     clm_0021, clm_0056
+  ending_1     clm_0001, clm_0056
+  ending_2     clm_0042, clm_0029
+  ending_3     clm_0056
 
 린트 — 오류 0 · 경고 0
 
 린트 면제 표 — 없음
 
 미디어 후보 — 원고 media 필드 0건
-  트리거 제안 — plan.json 이 생기면(voice_timeline 뒤) 표시
+  트리거 제안 23건: act1_1(clip·공습), act1_2(clip·공습), act1_3(article·밝혔), act1_5(photo·회담), act1_8(clip·공습), act1_11(article·밝혔), act2_5(article·밝혔), act2_8(article·밝혔), act2_10(article·전했), act3_2(article·밝혔), act3_3(article·밝혔), act3_5(article·전했) …
 
-검증 라벨 집계 {"verified": 11, "corroborated": 58, "unverified": 3, "disputed": 10}
+검증 라벨 집계 {"verified": 11, "corroborated": 53, "unverified": 3, "disputed": 6}
 
-미디어 계획 표 — 사진 0/10장(분당 1, 615초 추정) · 기사 카드 후보 18문장(60초당 2개까지 쓴다)
+미디어 계획 표 — 사진 0/6장(분당 1, 400초 추정) · 기사 카드 후보 73문장(60초당 2개까지 쓴다)
   문장         인용 출처              기사(등록/미등록)        사진 찾음/통과/선택      사유
-  cold_0       clm_0040               - / 미등록 2                5/5/-                  (사유 없음)
-  cold_1       clm_0020               - / 미등록 2                5/5/-                  (사유 없음)
-  cold_2       clm_0021               - / 미등록 2                5/5/-                  (사유 없음)
-  cold_3       clm_0041               - / 미등록 2                0/0/-                  
-  act1_0       clm_0001               - / 미등록 2                10/10/-                (사유 없음)
-  act1_1       clm_0001,clm_0038      - / 미등록 2                0/0/-                  
-  act1_2       clm_0001               - / 미등록 2                6/4/- (공습)             (사유 없음)
-  act1_3       clm_0001,clm_0042      - / 미등록 2                5/4/- (공습)             (사유 없음)
-  act1_4       clm_0036               gulf_pact_2026_art_0019 / 미등록 1 5/5/-                  (사유 없음)
-  act1_5       clm_0002               - / 미등록 2                10/10/-                (사유 없음)
-  act1_6       clm_0003               - / 미등록 2                5/4/-                  (사유 없음)
-  act1_7       clm_0037               - / 미등록 2                0/0/-                  
-  act1_8       clm_0004               - / 미등록 2                0/0/-                  
-  act1_9       clm_0004,clm_0005      - / 미등록 3                5/2/-                  (사유 없음)
-  act1_10      clm_0006               - / 미등록 2                0/0/-                  
-  act1_11      clm_0006               - / 미등록 2                0/0/-                  
-  act1_12      clm_0006               - / 미등록 2                0/0/- (공습)             (사유 없음)
-  act1_13      clm_0007               - / 미등록 1                0/0/-                  
-  act1_14      clm_0038               - / 미등록 1                0/0/-                  
-  act2_0       clm_0008               aj_0926_reject / 미등록 1   2/1/-                  (사유 없음)
-  act2_1       clm_0008,clm_0040      aj_0926_reject / 미등록 3   0/0/-                  
-  act2_2       clm_0008               aj_0926_reject / 미등록 1   0/0/-                  
-  act2_3       clm_0008               aj_0926_reject / 미등록 1   0/0/-                  
-  act2_4       clm_0008               aj_0926_reject / 미등록 1   0/0/-                  
-  act2_5       clm_0009               aj_0926_reject           0/0/-                  
-  act2_6       clm_0011               - / 미등록 1                0/0/-                  
-  act2_7       clm_0011               - / 미등록 1                5/3/-                  (사유 없음)
-  act2_8       clm_0012               - / 미등록 1                0/0/-                  
-  act2_9       clm_0014               - / 미등록 2                0/0/-                  
-  act2_10      clm_0014               - / 미등록 2                5/4/-                  (사유 없음)
-  act2_11      clm_0015               - / 미등록 2                5/4/-                  (사유 없음)
-  act2_12      clm_0016               - / 미등록 2                0/0/-                  
-  act2_13      clm_0017               - / 미등록 2                0/0/-                  
-  act2_14      clm_0018               - / 미등록 2                0/0/-                  
-  act2_15      clm_0018               - / 미등록 2                5/0/-                  검색 us_dod_pd 'Tehran skyline hastemplate:"PD-USGov-Military"' 0건·통과 0; commons_cc 'Tehran skyline' 5건·통과 0(CC BY-SA 3.0, CC BY-SA 4.0)
-  act2_16      clm_0019               - / 미등록 3                0/0/-                  
-  act2_17      clm_0019,clm_0040      - / 미등록 4                0/0/-                  
-  act3_0       clm_0008,clm_0044      aj_0926_reject / 미등록 3   0/0/-                  
-  act3_1       clm_0008               aj_0926_reject / 미등록 1   0/0/-                  
-  act3_2       clm_0023               - / 미등록 2                0/0/-                  
-  act3_3       clm_0024               - / 미등록 2                0/0/-                  
-  act3_4       clm_0025               - / 미등록 2                0/0/-                  
-  act3_5       clm_0039               - / 미등록 1                0/0/-                  
-  act3_6       clm_0013               - / 미등록 1                0/0/-                  
-  act3_7       clm_0025               - / 미등록 2                0/0/-                  
-  act3_8       clm_0010               aj_0926_reject           0/0/-                  
-  act3_9       clm_0030               - / 미등록 1                0/0/-                  
-  act4_0       clm_0008               aj_0926_reject / 미등록 1   0/0/-                  
-  act4_1       clm_0027               - / 미등록 2                10/1/- (발표)            (사유 없음)
-  act4_2       clm_0027               - / 미등록 2                0/0/- (발표)             (사유 없음)
-  act4_3       clm_0027               - / 미등록 2                0/0/-                  
-  act4_4       clm_0027               - / 미등록 2                10/5/- (발표)            (사유 없음)
-  act4_5       clm_0027               - / 미등록 2                0/0/-                  
-  act4_6       clm_0043               - / 미등록 1                0/0/-                  
-  act4_7       clm_0035               - / 미등록 2                0/0/-                  
-  act4_8       clm_0008               aj_0926_reject / 미등록 1   0/0/-                  
-  act5_0       clm_0044               - / 미등록 2                0/0/-                  
-  act5_1       clm_0044               - / 미등록 2                0/0/-                  
-  act5_2       clm_0008,clm_0007      aj_0926_reject / 미등록 2   0/0/-                  
-  act5_3       clm_0044               - / 미등록 2                0/0/-                  
-  act5_4       clm_0029               - / 미등록 1                0/0/-                  
-  act5_5       clm_0028               - / 미등록 1                0/0/-                  
-  act5_6       clm_0022               - / 미등록 1                0/0/-                  
-  act5_7       clm_0007,clm_0040,clm_0041 - / 미등록 5                0/0/-                  
-  act5_8       clm_0007               - / 미등록 1                0/0/-                  
-  act5_9       clm_0031               - / 미등록 2                0/0/-                  
-  act5_10      clm_0040,clm_0044      - / 미등록 3                0/0/-                  
-  act5_11      clm_0036               gulf_pact_2026_art_0019 / 미등록 1 0/0/-                  
-  act5_12      clm_0041               - / 미등록 2                0/0/-                  
-  act6_0       clm_0031               - / 미등록 2                0/0/-                  
-  act6_1       clm_0031               - / 미등록 2                0/0/-                  
-  act6_2       clm_0031               - / 미등록 2                0/0/-                  
-  act6_3       clm_0031               - / 미등록 2                0/0/-                  
-  act6_4       clm_0032               - / 미등록 1                0/0/-                  
-  act6_5       clm_0032               - / 미등록 1                0/0/-                  
-  act6_6       clm_0033               gulf_pact_2026_art_0019 / 미등록 1 0/0/-                  
-  act6_7       clm_0033               gulf_pact_2026_art_0019 / 미등록 1 0/0/-                  
-  act6_8       clm_0034               - / 미등록 1                0/0/-                  
-  ending_0     clm_0008,clm_0011,clm_0044 aj_0926_reject / 미등록 4   0/0/-                  
-  ending_1     clm_0040,clm_0008      aj_0926_reject / 미등록 3   0/0/-                  
-  ending_2     clm_0027,clm_0016      - / 미등록 4                0/0/- (발표)             (사유 없음)
-  ending_3     clm_0044               - / 미등록 2                0/0/-                  
-  오류 [photo-reason] cold_0: 사진 후보 문장(검색·원고 query) — 권리 통과 후보 5건이 있는데 고르지 않았다. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid cold_0 "검색어"` 또는 media_notes.yaml sentences.cold_0.photo
-  오류 [photo-reason] cold_1: 사진 후보 문장(검색·원고 query) — 권리 통과 후보 5건이 있는데 고르지 않았다. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid cold_1 "검색어"` 또는 media_notes.yaml sentences.cold_1.photo
-  오류 [photo-reason] cold_2: 사진 후보 문장(검색·원고 query) — 권리 통과 후보 5건이 있는데 고르지 않았다. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid cold_2 "검색어"` 또는 media_notes.yaml sentences.cold_2.photo
-  오류 [photo-reason] act1_0: 사진 후보 문장(검색·원고 query) — 권리 통과 후보 10건이 있는데 고르지 않았다. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid act1_0 "검색어"` 또는 media_notes.yaml sentences.act1_0.photo
-  오류 [photo-reason] act1_2: 사진 후보 문장(공습) — 권리 통과 후보 4건이 있는데 고르지 않았다. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid act1_2 "검색어"` 또는 media_notes.yaml sentences.act1_2.photo
-  오류 [photo-reason] act1_3: 사진 후보 문장(공습) — 권리 통과 후보 4건이 있는데 고르지 않았다. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid act1_3 "검색어"` 또는 media_notes.yaml sentences.act1_3.photo
-  오류 [photo-reason] act1_4: 사진 후보 문장(검색·원고 query) — 권리 통과 후보 5건이 있는데 고르지 않았다. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid act1_4 "검색어"` 또는 media_notes.yaml sentences.act1_4.photo
-  오류 [photo-reason] act1_5: 사진 후보 문장(검색·원고 query) — 권리 통과 후보 10건이 있는데 고르지 않았다. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid act1_5 "검색어"` 또는 media_notes.yaml sentences.act1_5.photo
-  오류 [photo-reason] act1_6: 사진 후보 문장(검색·원고 query) — 권리 통과 후보 4건이 있는데 고르지 않았다. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid act1_6 "검색어"` 또는 media_notes.yaml sentences.act1_6.photo
-  오류 [photo-reason] act1_9: 사진 후보 문장(검색·원고 query) — 권리 통과 후보 2건이 있는데 고르지 않았다. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid act1_9 "검색어"` 또는 media_notes.yaml sentences.act1_9.photo
-  오류 [photo-reason] act1_12: 사진 후보 문장(공습) — 검색 기록·사유 없음. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid act1_12 "검색어"` 또는 media_notes.yaml sentences.act1_12.photo
-  오류 [photo-reason] act2_0: 사진 후보 문장(검색·원고 query) — 권리 통과 후보 1건이 있는데 고르지 않았다. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid act2_0 "검색어"` 또는 media_notes.yaml sentences.act2_0.photo
-  오류 [photo-reason] act2_7: 사진 후보 문장(검색·원고 query) — 권리 통과 후보 3건이 있는데 고르지 않았다. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid act2_7 "검색어"` 또는 media_notes.yaml sentences.act2_7.photo
-  오류 [photo-reason] act2_10: 사진 후보 문장(검색·원고 query) — 권리 통과 후보 4건이 있는데 고르지 않았다. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid act2_10 "검색어"` 또는 media_notes.yaml sentences.act2_10.photo
-  오류 [photo-reason] act2_11: 사진 후보 문장(검색·원고 query) — 권리 통과 후보 4건이 있는데 고르지 않았다. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid act2_11 "검색어"` 또는 media_notes.yaml sentences.act2_11.photo
-  오류 [photo-reason] act4_1: 사진 후보 문장(발표) — 권리 통과 후보 1건이 있는데 고르지 않았다. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid act4_1 "검색어"` 또는 media_notes.yaml sentences.act4_1.photo
-  오류 [photo-reason] act4_2: 사진 후보 문장(발표) — 검색 기록·사유 없음. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid act4_2 "검색어"` 또는 media_notes.yaml sentences.act4_2.photo
-  오류 [photo-reason] act4_4: 사진 후보 문장(발표) — 권리 통과 후보 5건이 있는데 고르지 않았다. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid act4_4 "검색어"` 또는 media_notes.yaml sentences.act4_4.photo
-  오류 [photo-reason] ending_2: 사진 후보 문장(발표) — 검색 기록·사유 없음. `tools/media_fetch.py search --log /home/user/osint_generator/projects/iran_ceasefire_2026 --sid ending_2 "검색어"` 또는 media_notes.yaml sentences.ending_2.photo
+  cold_0       clm_0001               iran_ceasefire_2026_art_0001,iran_ceasefire_2026_art_0002 5/5/-                  선택 — File:Doha Skyline 01.jpg (Commons, CC BY 4.0) — 도하 도심 전경 자료사진(주된 피사체 = 도시 전경, 문장 '대표단 도하 도착'). 원본 받은 뒤 육안 확인
+  cold_1       clm_0002               iran_ceasefire_2026_art_0001 5/5/-                  고르지 않음 — 아라그치는 인물 뱃지(File:Meeting Dr. Seyed Abbas Araghchi (01911589) (51160900217).jpg, CC BY 2.0 — 컷아웃 후보, 권리 확인 뒤). 발언 장면 사진 Commons 없음 → quote 카드
+  cold_2       clm_0003               iran_ceasefire_2026_art_0005,iran_ceasefire_2026_art_0006 5/5/-                  고르지 않음 — 루비오 공식 초상(File:Official portrait of Secretary Marco Rubio, January 2025.jpg, 미 국무부 PD) → 인물 뱃지. 10/31 애틀랜타 G20 사진 Commons 없음
+  cold_3       clm_0004               iran_ceasefire_2026_art_0019,iran_ceasefire_2026_art_0020 0/0/-                  
+  act1_0       clm_0005               iran_ceasefire_2026_art_0028,iran_ceasefire_2026_art_0007 0/0/-                  
+  act1_1       clm_0005               iran_ceasefire_2026_art_0028,iran_ceasefire_2026_art_0007 10/10/- (공습)           선택(영상) — File:Epic Fury Strike compilation (997841).webm (미 국방부 DVIDS, Public domain) — 2/28 작전 공개 영상, 영상 액자 broll 구석(D-0332). 피사체·촬영일은 원본 메타로 확인
+  act1_2       clm_0006,clm_0008      iran_ceasefire_2026_art_0030,iran_ceasefire_2026_art_0007,iran_ceasefire_2026_art_0031 0/0/- (공습)             고르지 않음 — 알리 하메네이 사망 문장. 공습 현장 사진은 act1_1 영상과 겹친다. 공용 초상 khamenei_mono_v01(알리) 뱃지만 — 모즈타바 초상 없음
+  act1_3       clm_0007               iran_ceasefire_2026_art_0029 6/4/-                  선택 — 등재본 hormuz_strait_modis_2020(File:Strait of Hormuz (MODIS 2020-12-04).jpg, NASA PD) — 해협 위성 사진(자료, 2020). 위성 인셋 act4 와 겹치면 act4 는 지도 인셋만
+  act1_4       clm_0009               iran_ceasefire_2026_art_0032,iran_ceasefire_2026_art_0033 5/4/-                  고르지 않음 — 휴전 발표 장면 사진 없음. 샤리프 총리 초상(File:Shehbaz Sharif in 2024.jpg, CC BY 4.0) → 인물 뱃지
+  act1_5       clm_0010,clm_0011      iran_ceasefire_2026_art_0034,iran_ceasefire_2026_art_0033,iran_ceasefire_2026_art_0035,iran_ceasefire_2026_art_0038 25/25/- (회담)           선택(영상) — File:U S Forces Enforce Blockade Against Iran (1006029).webm (Commons, 미 국방부 DVIDS PD, 2026 봉쇄 작전 공개 영상) — 4/13 봉쇄 문장. 촬영일은 원본 메타로 확인(1차 봉쇄 4~6월이 아니면 act1_10 두 번째 봉쇄로). 대안 File:USS New Orleans Enforces Maritime Blockade (9670518).jpg (PD). 이슬라마바드 회담 사진(Sidelines of Islamabad Talks 11, CC BY 4.0)은 주된 피사체 확인 뒤
+  act1_6       clm_0012               iran_ceasefire_2026_art_0036,iran_ceasefire_2026_art_0037 5/4/-                  고르지 않음 — 6/17 전자 서명 장면(베르사유·테헤란) Commons 검색 통과 없음. 페제시키안 초상(File:Masoud Pezeshkian 2024 (A) (cropped).jpg, CC BY 4.0) → 인물 뱃지 + 트럼프 라이브러리 뱃지
+  act1_7       clm_0013,clm_0012      iran_ceasefire_2026_art_0038,iran_ceasefire_2026_art_0045,iran_ceasefire_2026_art_0036,iran_ceasefire_2026_art_0037 0/0/-                  
+  act1_8       clm_0014               iran_ceasefire_2026_art_0040,iran_ceasefire_2026_art_0041 14/4/- (공습)            선택(영상) — File:U S Forces Complete New Round of Retaliatory Strikes Against Iran (1013909).webm (미 국방부 PD) = 등재본 strikes_file 과 같은 계열(2026-07-07 촬영) — 등재본 우선. broll 구석 자리(D-0332)
+  act1_9       clm_0015,clm_0017      iran_ceasefire_2026_art_0042,iran_ceasefire_2026_art_0040,iran_ceasefire_2026_art_0043,iran_ceasefire_2026_art_0039 0/0/-                  
+  act1_10      clm_0016               iran_ceasefire_2026_art_0045,iran_ceasefire_2026_art_0044 0/0/-                  고르지 않음 — 두 번째 봉쇄. act1_5 봉쇄 영상과 같은 대상 반복 안 함 → 지도 반다르아바스·해협 + 날짜 카드 7.14
+  act1_11      clm_0018,clm_0017      iran_ceasefire_2026_art_0043,iran_ceasefire_2026_art_0040,iran_ceasefire_2026_art_0039 0/0/- (공습)             고르지 않음 — 이란 7/18 발표 문장. 가리바바디 차관 초상 권리 미확인 → quote 카드(직함)
+  act1_12      clm_0019,clm_0017      iran_ceasefire_2026_art_0039,iran_ceasefire_2026_art_0040,iran_ceasefire_2026_art_0043 0/0/-                  
+  act1_13      clm_0020               iran_ceasefire_2026_art_0044,iran_ceasefire_2026_art_0045 0/0/-                  
+  act2_0       clm_0021               iran_ceasefire_2026_art_0023,iran_ceasefire_2026_art_0024 0/0/-                  
+  act2_1       clm_0021               iran_ceasefire_2026_art_0023,iran_ceasefire_2026_art_0024 7/4/-                  고르지 않음 — 유엔총회장 통과 후보는 레이건(1986)·다카이치·칼라스 연설 사진뿐 — 아라그치 9/24 회견이 아니다(주된 피사체 불일치, UF-201). 지도 뉴욕은 W 밖 → 기사 카드(알자지라 9/25) + 아라그치 뱃지
+  act2_2       clm_0021               iran_ceasefire_2026_art_0023,iran_ceasefire_2026_art_0024 0/0/-                  
+  act2_3       clm_0021               iran_ceasefire_2026_art_0023,iran_ceasefire_2026_art_0024 0/0/-                  
+  act2_4       clm_0022               aj_0926_reject,iran_ceasefire_2026_art_0026 0/0/-                  
+  act2_5       clm_0023               iran_ceasefire_2026_art_0027 0/0/-                  
+  act2_6       clm_0024               iran_ceasefire_2026_art_0021,iran_ceasefire_2026_art_0022 10/6/-                 고르지 않음 — 밴스 공식 초상(File:March 2026 Official Vice Presidential Portrait of JD Vance.jpg, 백악관 PD) → 인물 뱃지
+  act2_7       clm_0025               iran_ceasefire_2026_art_0022 0/0/-                  
+  act2_8       clm_0026               iran_ceasefire_2026_art_0019,iran_ceasefire_2026_art_0020 0/0/-                  
+  act2_9       clm_0027               iran_ceasefire_2026_art_0017,iran_ceasefire_2026_art_0018 5/4/-                  고르지 않음 — 레자이 초상(File:Mohsen Rezaei in August 2026 (cropped).jpg, CC BY 4.0) → 인물 뱃지
+  act2_10      clm_0029               iran_ceasefire_2026_art_0015,iran_ceasefire_2026_art_0016 0/0/-                  
+  act2_11      clm_0030               iran_ceasefire_2026_art_0014,iran_ceasefire_2026_art_0016 0/0/-                  
+  act2_12      clm_0031               iran_ceasefire_2026_art_0010,iran_ceasefire_2026_art_0011 0/0/-                  
+  act2_13      clm_0033               iran_ceasefire_2026_art_0002,iran_ceasefire_2026_art_0003,iran_ceasefire_2026_art_0004 15/4/-                 고르지 않음 — 테헤란 전경 통과 후보 없음(CC BY-SA 탈락). 카타르 총리 초상(PD 2024) 은 대표단장(총리 보좌관)이 아니라 쓰지 않는다. 지도 테헤란 marker + 기사 카드(CNBC 10/31)
+  act2_14      clm_0001,clm_0033      iran_ceasefire_2026_art_0001,iran_ceasefire_2026_art_0002,iran_ceasefire_2026_art_0003,iran_ceasefire_2026_art_0004 0/0/-                  
+  act3_0       clm_0056               iran_ceasefire_2026_art_0001,iran_ceasefire_2026_art_0016 0/0/-                  
+  act3_1       clm_0021               iran_ceasefire_2026_art_0023,iran_ceasefire_2026_art_0024 0/0/-                  
+  act3_2       clm_0034               iran_ceasefire_2026_art_0001 5/4/-                  고르지 않음 — 아라그치 사진(File:Meeting with Foreign Minister of Iran Abbas Araghchi (1).jpg, Commons 통과)은 cold_1 뱃지 원본 후보로. 이 문장은 versus 패널
+  act3_3       clm_0034               iran_ceasefire_2026_art_0001 0/0/-                  
+  act3_4       clm_0036               iran_ceasefire_2026_art_0012 0/0/-                  
+  act3_5       clm_0028               iran_ceasefire_2026_art_0017 0/0/-                  
+  act3_6       clm_0037               iran_ceasefire_2026_art_0027,iran_ceasefire_2026_art_0004,iran_ceasefire_2026_art_0014 0/0/-                  
+  act3_7       clm_0037               iran_ceasefire_2026_art_0027,iran_ceasefire_2026_art_0004,iran_ceasefire_2026_art_0014 0/0/-                  
+  act4_0       clm_0021               iran_ceasefire_2026_art_0023,iran_ceasefire_2026_art_0024 0/0/-                  
+  act4_1       clm_0040               iran_ceasefire_2026_art_0053 20/2/-                 선택 — 등재본 hormuz_transit(미 해군 PD, 2023 자료사진). 통과 후보 'Estimated oil tanker transit times…png' 는 도표 — 쓰지 않는다
+  act4_2       clm_0041               iran_ceasefire_2026_art_0051,iran_ceasefire_2026_art_0052 0/0/-                  
+  act4_3       clm_0042               iran_ceasefire_2026_art_0047,iran_ceasefire_2026_art_0048,iran_ceasefire_2026_art_0049,iran_ceasefire_2026_art_0046 0/0/- (발표)             선택(영상) — 등재본 niovi(File:Oil tanker Niovi seized by Iran's Islamic Revolutionary Guard Corps Navy.webm, PD, 2023-05 자료 영상) — 혁명수비대 해군의 해협 유조선 단속 자료. 캡션 '자료 영상 · 2023' — 10/29 기뢰 사건 장면처럼 쓰지 않는다. 사건 선박 사진 없음(선박명 미공개)
+  act4_4       clm_0042               iran_ceasefire_2026_art_0047,iran_ceasefire_2026_art_0048,iran_ceasefire_2026_art_0049,iran_ceasefire_2026_art_0046 20/15/-                선택 — File:US Navy 030319-N-5319A-002 The mine countermeasure ship USS Dextrous (MCM 13) takes part in mine counter measure operations in the Arabian Gulf.jpg (미 해군 PD, 2003 자료사진) — 걸프 소해 작전 자료(중부사령부 '기뢰 제거' 문장). CENTCOM 사령관 사진은 인물·시기 미확인 → 쓰지 않는다
+  act4_5       clm_0043,clm_0044      iran_ceasefire_2026_art_0047,iran_ceasefire_2026_art_0049,iran_ceasefire_2026_art_0050 5/1/-                  보류 — File:MV Kokuka Courageous with hull damage and mine.png (Commons 통과, 2019 오만만 유조선 부착식 기뢰 피해 — 미 국방부 공개) — '부착식 기뢰' 자료로만, 캡션 '2019년 사건 · 자료'. 이번 피격 선박처럼 보일 위험 → 감독 판정(쓰지 않으면 카드)
+  act4_6       clm_0045               iran_ceasefire_2026_art_0054,iran_ceasefire_2026_art_0055 0/0/-                  
+  act5_0       clm_0056               iran_ceasefire_2026_art_0001,iran_ceasefire_2026_art_0016 0/0/-                  
+  act5_1       clm_0056               iran_ceasefire_2026_art_0001,iran_ceasefire_2026_art_0016 0/0/-                  
+  act5_2       clm_0035,clm_0034      iran_ceasefire_2026_art_0001 0/0/-                  
+  act5_3       clm_0036               iran_ceasefire_2026_art_0012 0/0/-                  
+  act5_4       clm_0038               iran_ceasefire_2026_art_0013 0/0/-                  
+  act5_5       clm_0039               iran_ceasefire_2026_art_0007,iran_ceasefire_2026_art_0008 0/0/-                  
+  act5_6       clm_0056               iran_ceasefire_2026_art_0001,iran_ceasefire_2026_art_0016 0/0/-                  
+  act5_7       clm_0057               iran_ceasefire_2026_art_0052,iran_ceasefire_2026_art_0051 0/0/-                  
+  act5_8       clm_0046               iran_ceasefire_2026_art_0056 0/0/-                  
+  act5_9       clm_0052,clm_0033,clm_0021 iran_ceasefire_2026_art_0069,iran_ceasefire_2026_art_0070,iran_ceasefire_2026_art_0002,iran_ceasefire_2026_art_0003,iran_ceasefire_2026_art_0004,iran_ceasefire_2026_art_0023,iran_ceasefire_2026_art_0024 0/0/-                  
+  act5_10      clm_0047               iran_ceasefire_2026_art_0057 0/0/-                  
+  act6_0       clm_0052,clm_0049      iran_ceasefire_2026_art_0069,iran_ceasefire_2026_art_0070,iran_ceasefire_2026_art_0060,iran_ceasefire_2026_art_0061,iran_ceasefire_2026_art_0062 0/0/-                  
+  act6_1       clm_0048               iran_ceasefire_2026_art_0058,iran_ceasefire_2026_art_0059 2/0/-                  검색 us_dod_pd 'Ulsan refinery hastemplate:"PD-USGov-Military"' 0건·통과 0; commons_cc 'Ulsan refinery' 2건·통과 0(CC BY-SA 2.0, 문서·도식(application/pdf))
+  act6_2       clm_0049               iran_ceasefire_2026_art_0060,iran_ceasefire_2026_art_0061,iran_ceasefire_2026_art_0062 2/0/-                  고르지 않음 — 울산 정유·울산항 검색 통과 0(Ulsan refinery·Ulsan port oil tanker). 지도 울산 marker + 비중 패널
+  act6_3       clm_0049               iran_ceasefire_2026_art_0060,iran_ceasefire_2026_art_0061,iran_ceasefire_2026_art_0062 0/0/-                  
+  act6_4       clm_0049               iran_ceasefire_2026_art_0060,iran_ceasefire_2026_art_0061,iran_ceasefire_2026_art_0062 0/0/-                  
+  act6_5       clm_0050               iran_ceasefire_2026_art_0063,iran_ceasefire_2026_art_0064,iran_ceasefire_2026_art_0065 5/3/-                  고르지 않음 — 국내 주유소 가격판 통과 후보 없음(통과 3건은 무관한 1950년대 헬리콥터 문서) → 카드(오피넷 수치)
+  act6_6       clm_0052               iran_ceasefire_2026_art_0069,iran_ceasefire_2026_art_0070 0/0/-                  
+  act6_7       clm_0053               iran_ceasefire_2026_art_0071,iran_ceasefire_2026_art_0072 2/2/-                  고르지 않음 — 장금상선 검색 통과 후보는 무관한 앤트워프 컨테이너선 — 쓰지 않는다. 지목 선박은 재용선(해운협회) → 기사 카드(한국일보 10/27)
+  act6_8       clm_0054               iran_ceasefire_2026_art_0073 0/0/-                  
+  act6_9       clm_0055               iran_ceasefire_2026_art_0074,iran_ceasefire_2026_art_0075 0/0/- (부대)             고르지 않음 — 청해부대 사진 검색 안 함(문장은 '검토 중' 발언) → 기사 카드(파이낸셜뉴스 10/30)
+  ending_0     clm_0021,clm_0056      iran_ceasefire_2026_art_0023,iran_ceasefire_2026_art_0024,iran_ceasefire_2026_art_0001,iran_ceasefire_2026_art_0016 0/0/-                  
+  ending_1     clm_0001,clm_0056      iran_ceasefire_2026_art_0001,iran_ceasefire_2026_art_0002,iran_ceasefire_2026_art_0016 0/0/-                  
+  ending_2     clm_0042,clm_0029      iran_ceasefire_2026_art_0047,iran_ceasefire_2026_art_0048,iran_ceasefire_2026_art_0049,iran_ceasefire_2026_art_0046,iran_ceasefire_2026_art_0015,iran_ceasefire_2026_art_0016 0/0/- (발표)             고르지 않음 — 정리 문장, 카드(확인된 것/확인되지 않은 것)
+  ending_3     clm_0056               iran_ceasefire_2026_art_0001,iran_ceasefire_2026_art_0016 0/0/-                  
+  표 판정 — 통과
