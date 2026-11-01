@@ -12,6 +12,16 @@
 | 중국 트랙 감독(Fable 5.1) | `session_017Yuw8hTb2zPgG7PvjAbjyu` | `claude/china-export-controls-2026` | **완료**(사용자 95점, UF-158·D-0324). 손대지 않는다. main 병합은 사용자 지시 대기. |
 | 옛 쇼케이스 구현 1·2, 옛 경제 구현 1 | `session_017Yuw8k4hDAiSpVRGtFv4Lu`·`session_017Yuw8mVchPLgYxtnfEwjjh`·`session_017Yuw8hgL1EgKn1qUsDZQz2` | — | 종료(한도·컨텍스트). 깨우지 않는다. |
 
+### 세션 갱신(2026-11-01 02:30Z, 최종 감독)
+| 역할 | 세션 id | 브랜치 | 상태 |
+|---|---|---|---|
+| 쇼케이스 구현 3 | `session_017Yuw8mZjzL9rxkApRyBCoR` | claude/sweet-galileo-7yok3b | D-0335(게이트 ② 승인·econ A) 수신. approve 가 `require_feedback_guards` 에 막힘(R-0296, samsung_q3_2026 open 10건) → D-0338 (a): 경제 트랙 장치 완료까지 대기, 편집 없음 |
+| 경제 템플릿 구현 3(Opus 5.5) | `session_017Yuw8mPogwrWT2H4raHmJ5` | claude/econ-template-2026 | 세션 2(`…kbeoYpfyG3k9TfnLQ`, 컨텍스트 한계, R-0307 인계)를 대체. D-0339: merge → T3 → UF-147·149·151~157·202 장치 → R. ack R-0308 |
+| 전쟁사 트랙 위임 감독(Fable 5.1) | `session_017Yuw8i7EwyZ4z45Xtcvjkg` | claude/war-history-2026 | D-0337 기동. 구현 `session_017Yuw8iLVvjENvvmSwCZqkR`(Opus 5.5). D-0600 착수 지침, D700 둘째 사례 = 인천 상륙·서울 수복 1950.9. 번호 D-0600~·D700~·UF-250~. 게이트 위임 없음(사용자 판정 4자리). §0-6 은 그 브랜치에 |
+| 이란 휴전안 위임 감독(Fable 5.1) | `session_017Yuw8hAgYiuiC4hYCHXB27` | claude/iran-ceasefire-2026 | 게이트 ① 감독 승인(원고 v1.2 66문장, 제목 『휴전안의 한 달 — 미국과 이란, 무엇이 먼저 풀려야 하나』, ffa57628). 콘티 판 진행. 다음 통보 = 완성본 |
+- main: 중국 트랙 `merge --no-ff` 완료 0777833c(사용자 승인 UF-206·D314).
+- 미결: 사용자 지시 '미국·이란 휴전 협상 분석 영상 별도 트랙' 은 D-0334 트랙과 범위 중복 → 사용자에게 (가) 기존 트랙 범위 확대 (나) 별도 2편 (다) 대체 를 물었다. 답 전까지 새 세션을 띄우지 않는다.
+
 ### 사용자 결정 대기(그대로 묻지 말고, 답이 오면 바로 실행)
 - **2026-11-01 00:30Z 사용자 답(UF-206) "1~4까지 승인"** → 1·2 = D-0335(세션 3 렌더)·D-0336(세션 2 T3) 발송, 3 = CLAUDE.md C0 표제 정정 커밋, 4 = 중국 브랜치 main merge --no-ff. 5 = D-0337 전쟁사 트랙 착수(위임 감독 세션은 §0-6). 추가 지시 '이란 협상 분석 영상 별도 트랙' 은 D-0334 와 범위 중복 → 사용자 확인 중.
 1. 쇼케이스 게이트 ② 승인 + showcase_econ A/B(감독 추천 A = 사진 배경 + 아일랜드). → 세션 3 에 D(from: user) 로 렌더 시작.
