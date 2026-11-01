@@ -4,8 +4,8 @@
   "title": "휴전안 — 미국과 이란, 무엇이 먼저 풀려야 하나",
   "category": "geopolitics",
   "created_at": "2026-11-01T00:29:59.874133Z",
-  "updated_at": "2026-11-01T13:38:07.451273Z",
-  "current_state": "render",
+  "updated_at": "2026-11-01T14:24:08.717706Z",
+  "current_state": "done",
   "target_duration_min": 18,
   "topic_summary": "2026년 미국·이란 전쟁의 휴전안 정리(9월 말 이란 7일안~10/31 도하)와 휴전 가능성의 조건부 시나리오·신호",
   "initial_links": [],
@@ -337,6 +337,24 @@
       "to_state": "render",
       "transitioned_at": "2026-11-01T13:38:07.451235Z",
       "reason": "preview_approval 승인 — fable"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-11-01T14:24:07.390627Z",
+      "reason": "engine render ok — --res final 720p, 연출 v9(UF-171·172)"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-11-01T14:24:08.044000Z",
+      "reason": "engine mix ok — audio.mix peak 0.882 · engine.mux final.mp4 md5 4d65ad0d"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-11-01T14:24:08.717646Z",
+      "reason": "engine deliver ok — final_v2 final_deliver.mp4 28.9MB md5 d1c655d4(artifacts a3ffa45)"
     }
   ],
   "rollbacks": [],
