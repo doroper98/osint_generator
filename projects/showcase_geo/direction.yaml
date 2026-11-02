@@ -1158,22 +1158,18 @@ events:
     edge: end
   pts:
     path: gulf_exit
-- type: badge   # v7.4.0 D-0329 ② — 기사 카드 전면 사진(act5_4)에 98% 덮였다([badge-covered]) → 카드가 끝난 act5_5 로(옛 act5_4 +0.3 ~ 끝 +0.5)
-  start: # v7.4.0 D-0349(UF-173 [media-sentence-span]) — 자기 날짜 창 안에서만(옆 문장 겹침 ≤ 0.5초)(옛 act5_4 +0.0 ~ act5_5 끝 +0.8 — 휴전 종료 문장까지 남았다)
+- type: photo   # v7.4.0 D-0349(UF-173 + [media-density] 7 이상) — 트럼프 인물 배지 자리를 같은 인물·같은 창의 사진으로(레지스트리 등재본). act5_4(10.11) 창 안, 옆 문장 겹침 0.45초씩(옛 배지 act5_3 끝 −0.3 ~ act5_4 끝 +1.3)
+  start:
     sid: act5_3
     edge: end
-    'off': -0.3
+    'off': -0.45
   end:
     sid: act5_4
     edge: end
-    'off': 1.3
-  place: map_upper_left
-  kind: person
-  pid: trump
-  flag: us
-  label: 도널드 트럼프
-  role: 미국 대통령
-  accent: us
+    'off': 1.45
+  mid: diesel_road_2026_trump_1006
+  for: 도널드 트럼프
+  place: map_left
 - type: photo
   start: # v7.4.0 D-0349(UF-173 [media-sentence-span]) — 자기 날짜 창 안에서만(옆 문장 겹침 ≤ 0.5초)(옛 act2_4 +0.5 ~ act2_5 +2.6)
     sid: act2_4
@@ -1342,6 +1338,27 @@ events:
   sub: 10월 15일 새벽
   side: right
   icon: boom
+- type: photo   # v7.4.0 D-0349(UF-173 + [media-density]) — 해협 위성 사진을 act3_2(2025, 창 6.8초) 대신 장면 도입 act3_0·act3_1(2026.03, '무대를 페르시아만으로') 창 안으로
+  start:
+    sid: act3_0
+    'off': 0.6
+  end:
+    sid: act3_1
+    edge: end
+    'off': 0.4
+  mid: hormuz_strait_modis_2020
+  for: 호르무즈 해협
+  place: map_left
+- type: marker   # v7.4.0 D-0349(UF-173) — act1_7(7.8 경유 수출 금지) 기사 카드(art_0009, 창 8.2초 < span 8.5)를 뺀 자리 [scene-visual-void]. 금지 주체 러시아 정부(모스크바) 핀
+  start:
+    sid: act1_7
+    'off': 0.2
+  end:
+    sid: act1_7
+    edge: end
+    'off': 0.5
+  at_place: moscow
+  label: 경유 수출 금지
 sound:
   bgm: music.zabriskie_mario_bava
   intensity:

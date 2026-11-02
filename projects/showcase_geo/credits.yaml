@@ -32,6 +32,10 @@ sections:
 - title: 사진
   column: 0
   items:
+  - main: 호르무즈 해협 위성 사진 (2020. 12. 04)   # v7.4.0 D-0327 — 옛 미 해군 경계 근무 사진(주된 피사체가 수병) 교체
+    license: NASA (MODIS) · Public domain
+    rights:
+    - media.hormuz_strait_modis_2020
   - main: 백악관 남쪽 잔디밭의 트럼프 대통령 (2026. 10. 06)
     license: 백악관 · Public domain
     rights:

@@ -20,7 +20,5 @@ drop:
   reason: "D-0346·D-0347 — 완전 노출 3.75초(< qa_checks.element_hold.min_full_sec) + 기사 카드 art_0020 에 2.69초 덮임([media-overlap]). act3_4 는 지도 봉쇄선·휘장 배지가 맡는다"
 - mid: dmz_fence
   reason: "D-0346·D-0347 — 완전 노출 0초(문장 4.4초에 +3.4 시작). act4 사진 둘 중 하나 — 지뢰 경고 표지판 사진·철책 단면(site_diagram)이 맡는다"
-- mid: hormuz_strait_modis_2020
-  reason: "D-0349(UF-173) — act3_2(2025) 날짜 창 6.8초 < span 7.5. 다른 날짜 문장으로 늘리지 않는다 — 해협은 지도 마커·경로가 맡는다"
 - mid: strikes_file
   reason: "D-0349(UF-173) — act3_3(2026.02.28) 날짜 창 6.6초 < span 7.25. 봉쇄 문장으로 늘리지 않는다 — 공습은 지도 boom·마커가 맡는다"
