@@ -4,8 +4,8 @@
   "title": "휴전안 — 미국과 이란, 무엇이 먼저 풀려야 하나",
   "category": "geopolitics",
   "created_at": "2026-11-01T00:29:59.874133Z",
-  "updated_at": "2026-11-02T10:16:29.022650Z",
-  "current_state": "render",
+  "updated_at": "2026-11-02T10:56:11.174286Z",
+  "current_state": "done",
   "target_duration_min": 18,
   "topic_summary": "2026년 미국·이란 전쟁의 휴전안 정리(9월 말 이란 7일안~10/31 도하)와 휴전 가능성의 조건부 시나리오·신호",
   "initial_links": [],
@@ -280,6 +280,47 @@
       ],
       "drops": 0,
       "log": "logs/stages/14_render.json"
+    },
+    {
+      "state": "render",
+      "stage": "render",
+      "ok": true,
+      "at": "2026-11-02T10:45:16.442848Z",
+      "artifacts": {
+        "video_noaudio": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/video_noaudio.mp4"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/15_render.json"
+    },
+    {
+      "state": "audio_mix",
+      "stage": "mix",
+      "ok": true,
+      "at": "2026-11-02T10:48:23.554079Z",
+      "artifacts": {
+        "mix": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/mix.f32",
+        "bed_stats": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/bed_stats.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/16_mix.json"
+    },
+    {
+      "state": "deliver",
+      "stage": "deliver",
+      "ok": true,
+      "at": "2026-11-02T10:56:11.170442Z",
+      "artifacts": {
+        "final": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/final.mp4",
+        "srt": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/final.srt",
+        "description": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/description.txt",
+        "credits": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/credits.txt",
+        "provenance": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/provenance.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/17_deliver.json"
     }
   ],
   "final_outputs": {},
@@ -433,6 +474,24 @@
       "to_state": "render",
       "transitioned_at": "2026-11-02T10:11:11.767590Z",
       "reason": "preview_approval 승인 — fable"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-11-02T10:45:16.446819Z",
+      "reason": "engine render ok"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-11-02T10:48:23.557434Z",
+      "reason": "engine mix ok"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-11-02T10:56:11.174228Z",
+      "reason": "engine deliver ok"
     }
   ],
   "rollbacks": [],
