@@ -1726,7 +1726,7 @@ class MapCoverShareRules(_Strict):
 
 
 class CreditGarbledRules(_Strict):
-    """v7.4.0 D-0470(RIGHTS-AP-001) — 크레딧 저작자 칸 깨짐(안내문·URL·과길이)."""
+    """v7.4.0 D-0470(RIGHTS-AP-002) — 크레딧 저작자 칸 깨짐(안내문·URL·과길이)."""
     patterns: list[str]
     max_len: int = Field(gt=0)
 
@@ -1844,7 +1844,7 @@ class QAChecks(_Strict):
     media_sentence_span: "MediaSentenceSpanRules"   # v7.4.0 D-0470(UF-173) — 다른 날짜 문장으로 넘어감(hard)
     map_opening: "MapOpeningRules"                   # v7.4.0 D-0470(UF-173) — 첫 문장 지도 덮개 금지(hard)
     map_cover_share: "MapCoverShareRules"            # v7.4.0 D-0470(UF-173) — 지도 무대 창별 덮임 비율(hard)
-    credit_garbled: "CreditGarbledRules"             # v7.4.0 D-0470(RIGHTS-AP-001) — 크레딧 저작자 칸 깨짐(hard)
+    credit_garbled: "CreditGarbledRules"             # v7.4.0 D-0470(RIGHTS-AP-002) — 크레딧 저작자 칸 깨짐(hard)
     restate_overlap_max: float = Field(default=0.6, gt=0, le=1)   # v7.4.0 D-0306 §1.2 — [text-restates-narration] 어절 겹침 상한
     restate_min_words: int = Field(default=4, ge=1)   # 이 어절 미만 화면 글자(이름표)는 보지 않는다
     restate_particles: list[str] = Field(default_factory=list)   # v7.4.0 D-0316 ② — 어절 끝 조사(떼고 비교)
