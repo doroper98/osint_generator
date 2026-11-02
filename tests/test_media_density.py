@@ -71,3 +71,29 @@ class MediaDensityTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class WarHistoryDensityTest(unittest.TestCase):
+    """v7.4.0 D-0618 — 고대·근세 전쟁사는 사료 인용 카드(quote.source)를 기록으로 센다. 패널은 세지 않는다. 몫 상한."""
+
+    @staticmethod
+    def _p(events: list[dict], date: str = "-216", total: float = 120.0) -> NS:
+        return NS(root=Path("/x/war"), events=events, plan=NS(total=total, sentences=[NS(date=date)]),
+                  R=NS(cache={"genre": {"name": "war_history"}}))
+
+    def test_quote_source_counts_ancient(self) -> None:
+        ev = [{"type": "photo"}] * 2 + [{"type": "quote", "source": {"author": "a"}}]   # 3 / 2분 = 1.5
+        self.assertEqual(checks.check_media_density(self._p(ev)), [])
+
+    def test_panel_and_modern_quote_not_counted(self) -> None:
+        ev = [{"type": "photo"}] * 2 + [{"type": "panel"}, {"type": "quote", "flag": "us"}]
+        self.assertTrue(checks.check_media_density(self._p(ev)))
+
+    def test_modern_era_does_not_count_quote_source(self) -> None:
+        ev = [{"type": "photo"}] * 2 + [{"type": "quote", "source": {"author": "a"}}]
+        self.assertTrue(checks.check_media_density(self._p(ev, date="1950.09.15")))
+
+    def test_share_cap(self) -> None:
+        ev = [{"type": "photo"}] + [{"type": "quote", "source": {"author": "a"}}] * 2   # 2/3 > 0.34
+        out = checks.check_media_density(self._p(ev, total=60.0))
+        self.assertTrue(any("몫 상한" in x for x in out))

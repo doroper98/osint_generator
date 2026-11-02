@@ -555,6 +555,14 @@ media_beats:               # 14 §10
   # UF-119 재발) — 검사 [media-density] hard: (photo + clip + cutout 이벤트 수) ÷ 영상 분 < 이 값이면 실패. 사유로 통과 없음. 등재 실사 0 이면
   # 연출 착수 거부 [media-none](workers.direction_io.require_visual_media). 값 1.5 = 감독 제안(D-0261 §2①)
   min_density_per_min: 1.5   # D-0265 §5 — backdrop 무대의 배경 사진(backdrop 이벤트)도 이벤트마다 사진 1장으로 센다(배경도 실사)
+  # v7.4.0 back_and_forth D-0618(R-0324, 사용자 UF-139·UF-206 "과거 전쟁은 미술과 기록") — 장르·시대별로 세는 종류. 없으면 기본(photo·clip·cutout·backdrop).
+  # 고대·근세 전쟁사는 사료 인용 카드(quote 이벤트에 source 가 있는 것 = quote_source)를 "기록" 레퍼런스로 센다. 패널(데이터 그림)은 세지 않는다. 하한 값은 그대로.
+  # 감독 결정(되돌릴 수 있음). quote_source 몫이 quote_source_max_share 를 넘으면 실패(기록 카드로만 채우기 금지)
+  density_count_kinds_by_genre:
+    war_history:
+      ancient: [photo, clip, cutout, backdrop, quote_source]
+      early_modern: [photo, clip, cutout, backdrop, quote_source]
+  quote_source_max_share: 0.34
   # 회귀 기준 면제는 qa_checks.regression_refs 한 곳(v7.4.0 D-0311 — 옛 density_exempt_projects 삭제)
   # v7.3.0 사용자 결정 D232 U1·D234 — 위성 인셋(kind inset) 라이선스 허용 목록(한 곳). 목록 밖 = 레지스트리 로드 오류(RightsError).
   # private_only: true = 비공개 시청 한정(사용자 결정 D234) — 레지스트리 항목에 scope: private_only 필수, provenance private_only_assets 에 기록.

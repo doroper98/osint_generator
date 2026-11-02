@@ -2975,10 +2975,40 @@ def check_flat_lane(P) -> list[str]:  # noqa: ANN001, N803
 MEDIA_DENSITY_TYPES = ("photo", "clip", "cutout", "backdrop")   # v7.4.0 D-0261 — 실사 이벤트(기사·인셋·뱃지는 세지 않는다). D-0265 §5 — 배경 사진(backdrop)도 실사, 이벤트마다 1장
 
 
-def media_density(events: list[dict], total_sec: float) -> tuple[int, float]:
-    """(실사 이벤트 수, 분당 개수) — provenance 와 검사 [media-density] 가 같은 값을 쓴다(P5)."""
-    n = sum(1 for e in events if e.get("type") in MEDIA_DENSITY_TYPES)
+def _density_kind(e: dict) -> str:
+    """세는 종류 이름 — quote 이벤트는 source(고대 사료)가 있을 때만 quote_source, 나머지는 이벤트 타입."""
+    return "quote_source" if e.get("type") == "quote" and e.get("source") else str(e.get("type"))
+
+
+def density_kinds(P) -> tuple[str, ...]:  # noqa: ANN001, N803
+    """이 영상에서 세는 종류(v7.4.0 D-0618) — 장르·시대별 rules media_beats.density_count_kinds_by_genre, 없으면 기본."""
+    R = getattr(P, "R", None)  # noqa: N806
+    cache = R.cache if isinstance(getattr(R, "cache", None), dict) else {}
+    by = R_.media_beats.density_count_kinds_by_genre.get((cache.get("genre") or {}).get("name") or "")
+    if not by:
+        return MEDIA_DENSITY_TYPES
+    from schemas.war_history import video_era  # noqa: PLC0415
+
+    try:
+        era = video_era([s.date for s in P.plan.sentences])
+    except ValueError:
+        return MEDIA_DENSITY_TYPES
+    return tuple(by.get(era, MEDIA_DENSITY_TYPES))
+
+
+def media_density(events: list[dict], total_sec: float, kinds: tuple[str, ...] = MEDIA_DENSITY_TYPES) -> tuple[int, float]:
+    """(세는 이벤트 수, 분당 개수) — provenance 와 검사 [media-density] 가 같은 값을 쓴다(P5). kinds = density_kinds(P)."""
+    n = sum(1 for e in events if _density_kind(e) in kinds)
     return n, n / max(total_sec / 60.0, 1e-9)
+
+
+def media_density_breakdown(events: list[dict], kinds: tuple[str, ...]) -> dict[str, int]:
+    out: dict[str, int] = {}
+    for e in events:
+        k = _density_kind(e)
+        if k in kinds:
+            out[k] = out.get(k, 0) + 1
+    return out
 
 
 def visual_voids(P) -> list[tuple[float, float]]:  # noqa: ANN001, N803
@@ -3311,12 +3341,18 @@ def check_media_density(P) -> list[str]:  # noqa: ANN001, N803
     """[media-density] hard(v7.4.0 back_and_forth D-0261, 사용자 의견 UF-139 "레퍼런스 사진이나 영상 풍부하게") — 사진·영상·컷아웃 이벤트가
     분당 rules media_beats.min_density_per_min 미만이면 실패. 사유로 통과 없음. 회귀 기준(qa_checks.regression_refs)만 hard 면제(waive_regression)."""
     MB = R_.media_beats  # noqa: N806
-    n, d = media_density(P.events, P.plan.total)
+    kinds = density_kinds(P)
+    n, d = media_density(P.events, P.plan.total, kinds)
+    by = media_density_breakdown(P.events, kinds)
+    out = []
+    q = by.get("quote_source", 0)
+    if n and q / n > MB.quote_source_max_share:   # v7.4.0 D-0618 — 기록 카드로만 채우기 금지
+        out.append(f"[media-density] 사료 인용 카드 {q}/{n} = {q / n:.2f} > 몫 상한 {MB.quote_source_max_share:g} — 작품·기록 사진을 더한다(D-0618)")
     if d >= MB.min_density_per_min:
-        return []
+        return out
     need = math.ceil(MB.min_density_per_min * P.plan.total / 60.0)
-    return [f"[media-density] 사진·영상·컷아웃 {n}개 / {P.plan.total / 60:.1f}분 = 분당 {d:.2f} < {MB.min_density_per_min:g} — {need}개 이상 필요. "
-            "tools/media_fetch.py search 로 찾아 등재하고 연출에 넣는다(UF-139, 사유로 통과 없음)"]
+    return out + [f"[media-density] 레퍼런스 {n}개({', '.join(f'{k} {v}' for k, v in sorted(by.items())) or '없음'}) / {P.plan.total / 60:.1f}분 = 분당 {d:.2f} < "
+                  f"{MB.min_density_per_min:g} — {need}개 이상 필요. tools/media_fetch.py search 로 찾아 등재하고 연출에 넣는다(UF-139, 사유로 통과 없음)"]
 
 
 def check_chart_edge_bleed(P) -> list[str]:  # noqa: ANN001, N803
