@@ -31,75 +31,16 @@ from engine.style import C, DATE_BADGE, output_profile
 from engine.typography import text
 from geo.prep import CACHE, load_conf
 from geo.prep_tiers import TILE, TierSpec, mosaic
-from rules import load_rules
 from schemas.era_date import badge_text
 from sketch.common.draw import SK
-from sketch.common.geodesy import dest
 from sketch.war.scene import LABELS_FILE, date_at, load_places
 from sketch.war.spec import WarSpec
 from engine.glyphs.arms import draw_glyph
-from sketch.war.units import WS, key_at
+from engine.stage_terrain3d import Local, hexs, key_at, rank_posts, shape_poly, unit_poly
+from sketch.war.units import WS
 
 REPO = Path(__file__).resolve().parents[2]
 TOOL = REPO / "tools" / "terrain3d"
-M_PER_DEG_LAT = 110540.0      # 지구 타원체 근사(위도 1도 m) — 지역 좌표 변환식 상수(geodesy 와 같은 수준)
-M_PER_DEG_LON_EQ = 111320.0   # 적도 경도 1도 m
-RIGHT = 90
-
-
-def hexs(rgb: tuple) -> str:
-    return "#" + "".join(f"{int(round(c * 255)):02x}" for c in rgb[:3])
-
-
-class Local:
-    """경위도 ↔ 지역 평면 m(x 동쪽, z 남쪽). three.js: 북 = −z."""
-
-    def __init__(self, lon0: float, lat0: float) -> None:
-        self.lon0, self.lat0 = lon0, lat0
-        self.kx = M_PER_DEG_LON_EQ * math.cos(math.radians(lat0))
-
-    def xz(self, lon: float, lat: float) -> list[float]:
-        return [round((lon - self.lon0) * self.kx, 2), round(-(lat - self.lat0) * M_PER_DEG_LAT, 2)]
-
-
-def unit_poly(k) -> list[tuple[float, float]]:  # noqa: ANN001 — UnitKey
-    side = k.heading + RIGHT
-    out = []
-    for s_lat, s_dep in ((-1, -1), (1, -1), (1, 1), (-1, 1)):
-        lon, lat = dest(k.lon, k.lat, side if s_lat > 0 else side + 180, k.length_km / 2)
-        out.append(dest(lon, lat, k.heading if s_dep > 0 else k.heading + 180, k.depth_km / 2))
-    return out
-
-
-def shape_poly(shape: str, rect: list[list[float]]) -> list[list[float]]:
-    """2D 와 같은 윤곽(sketch.war.units) — rect = 뒤-왼, 뒤-오른, 앞-오른, 앞-왼(지역 m)."""
-    r = np.array(rect)
-    if shape == "wedge":
-        tip = (r[2] + r[3]) / 2
-        out = [r[0], r[1], r[1] + (tip - r[1]) * SK.war.unit.wedge_ratio, tip]
-    elif shape == "triangle":
-        out = [r[0], r[1], (r[2] + r[3]) / 2]
-    else:
-        out = list(r)
-    return [[round(float(a), 2), round(float(b), 2)] for a, b in out]
-
-
-def rank_posts(poly: list[list[float]], gap: float, limit: int) -> list[list[float]]:
-    """윗면 대열 기둥 — 고정 간격 격자 중 윤곽 안 점(병력 비례 아님). 결정적(격자 순서)."""
-    P = np.array(poly)  # noqa: N806
-    c = P.mean(axis=0)
-    Q = c + (P - c) * 0.85  # noqa: N806 — 가장자리에서 들인 윤곽
-    lo, hi = P.min(axis=0), P.max(axis=0)
-
-    def inside(x: float, z: float) -> bool:   # 짝홀 규칙
-        hit = False
-        for (x1, z1), (x2, z2) in zip(Q, np.roll(Q, -1, axis=0)):
-            if (z1 > z) != (z2 > z) and x < x1 + (z - z1) * (x2 - x1) / (z2 - z1):
-                hit = not hit
-        return hit
-
-    inside_pts = [(x, z) for z in np.arange(lo[1] + gap / 2, hi[1], gap) for x in np.arange(lo[0] + gap / 2, hi[0], gap) if inside(x, z)]
-    return [[round(float(a), 2), round(float(b), 2)] for a, b in inside_pts[:limit]]
 
 
 def glyph_png(name: str, px: int, out: Path) -> str:

@@ -16,6 +16,7 @@ from engine.glyphs.arms import draw_glyph
 from engine.glyphs.emblems import draw_emblem
 from engine.projection import View
 from engine.stage import ym
+from engine.stage_terrain3d import key_at  # noqa: F401 — 공용 보간(스케치·본편 terrain3d 같은 함수)
 from engine.style import C
 from engine.timebase import clamp01, smooth
 from engine.typography import text, tw
@@ -24,7 +25,7 @@ from sketch.campaign.units import unit_symbol
 from sketch.common.checks import UNNAMED_UNIT
 from sketch.common.draw import SK, WHITE
 from sketch.common.geodesy import dest
-from sketch.war.spec import UnitKey, WarSpec, WarUnit
+from sketch.war.spec import UnitKey, WarSpec
 
 U, F = SK.war.unit, SK.fade
 WS = load_rules().war_history.symbol_sets   # 모양·글리프·입체·대열 격자(D-0605 ①③)
@@ -37,22 +38,6 @@ RIGHT_ANGLE = 90
 def lod_alpha(w: float, max_w: float) -> float:
     """라벨 LOD — 화면 폭 w(도) 가 문턱을 넘으면 문턱 × fade_ratio 구간에서 1 → 0(튀지 않게)."""
     return 1.0 - smooth(clamp01((w - max_w) / (max_w * SK.war.lod.fade_ratio)))
-
-
-def key_at(u: WarUnit, t: float) -> UnitKey:
-    """시각 t 의 부대 상태 — 앞뒤 키 사이 smooth 보간(첫 키 전 = 첫 키, 마지막 키 뒤 = 마지막 키)."""
-    ks = u.keys
-    if t <= ks[0].t:
-        return ks[0]
-    for a, b in zip(ks, ks[1:]):
-        if t < b.t:
-            raw = clamp01((t - a.t) / (b.t - a.t))
-            k = smooth(raw)
-            dh = (b.heading - a.heading + 180) % 360 - 180
-            ks = smooth(clamp01(raw * 2 - 1)) if abs(dh) > U.turn_first_deg else k   # 큰 회전 = 방위 먼저, 크기는 뒤 절반(D-0602 ⑤)
-            return UnitKey(t=t, lon=a.lon + (b.lon - a.lon) * k, lat=a.lat + (b.lat - a.lat) * k, heading=a.heading + dh * k,
-                           length_km=a.length_km + (b.length_km - a.length_km) * ks, depth_km=a.depth_km + (b.depth_km - a.depth_km) * ks)
-    return ks[-1]
 
 
 def _corners(view: View, k: UnitKey) -> np.ndarray:

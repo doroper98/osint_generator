@@ -63,37 +63,46 @@ function box(poly, base, h, top, side) {
   g.rotateX(-Math.PI / 2); g.translate(0, base, 0);
   return new THREE.Mesh(g, [new THREE.MeshLambertMaterial({ color: top }), new THREE.MeshLambertMaterial({ color: side })]);
 }
-const tops = [];   // 빌보드·라벨 위치(윗면 가운데)
-for (const u of S.units) {
+function buildUnits(list) {   // 부대 묶음 — 본편은 프레임마다 키프레임 위치로 다시 만든다(fr.units, 결정적)
+  const grp = new THREE.Group(), tops = [];
+  for (const u of list) {
   const hs = u.poly.map(([x, z]) => hAt(x, z));
   const base = Math.min(...hs) - S.lift_m, rise = Math.max(...hs) - base;   // 바닥은 지표 아래에서 — 비탈에서도 뜨지 않는다
   const sh = new THREE.Mesh(groundShape(u.poly, shadowOff.x, shadowOff.z),
     new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: S.shadow_alpha, depthWrite: false }));
-  sh.renderOrder = 1; scene.add(sh);
+  sh.renderOrder = 1; grp.add(sh);
   let topY;
   if (u.dots) {
     const h = S.unit_height_m * 0.5;
     for (const [x, z] of u.dots) {
       const g = new THREE.CylinderGeometry(u.dot_r, u.dot_r, h + rise, 16);
       const m = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ color: u.color }));
-      m.position.set(x, base + (h + rise) / 2, z); scene.add(m);
+      m.position.set(x, base + (h + rise) / 2, z); grp.add(m);
     }
     topY = base + rise + h;
   } else {
     const h = S.unit_height_m + rise;
-    scene.add(box(u.poly, base, h, u.color, u.side));
+    grp.add(box(u.poly, base, h, u.color, u.side));
     topY = base + h;
     const edge = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(u.poly.map(([x, z]) => new THREE.Vector3(x, topY + 0.5, z))),
       new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: S.rim_alpha }));
-    scene.add(edge);
+    grp.add(edge);
     if (u.posts && u.posts.length) {
       const im = new THREE.InstancedMesh(postGeo, new THREE.MeshLambertMaterial({ color: u.side }), u.posts.length);
       const mt = new THREE.Matrix4();
       u.posts.forEach(([x, z], i) => { mt.makeTranslation(x, topY + S.rank.post_h_m / 2, z); im.setMatrixAt(i, mt); });
-      scene.add(im);
+      grp.add(im);
     }
   }
   tops.push({ u, y: topY });
+  }
+  return { grp, tops };
+}
+let units = buildUnits(S.units); scene.add(units.grp);
+function setUnits(list) {   // 옛 묶음의 기하·재질을 놓고 새 묶음으로
+  scene.remove(units.grp);
+  units.grp.traverse(o => { if (o.geometry && o.geometry !== postGeo) o.geometry.dispose(); if (o.material) [].concat(o.material).forEach(m => m.dispose()); });
+  units = buildUnits(list); scene.add(units.grp);
 }
 const glyphImg = {};
 for (const u of S.units) if (u.glyph && !S.text_in_engine && !glyphImg[u.glyph]) {
@@ -110,6 +119,7 @@ function label(txt, x, y, size, color, weight) {
 // 프레임 카메라 — fr.az 필수, fr.elev·fr.radius·fr.target 은 있으면 그 프레임 값(본편 이어 찍기: 90° → 규칙 고도각, D-0614 ③), 없으면 scene 값
 // S.text_in_engine(본편, D-0614 ①) — 글자·병종 그림을 그리지 않고 화면 좌표만 돌려준다(엔진이 engine.typography·engine.glyphs 로 그린다)
 window.__draw = (fr) => {
+  if (fr.units) setUnits(fr.units);
   const a = fr.az * Math.PI / 180, e = (fr.elev ?? S.camera.elev_deg) * Math.PI / 180;
   const R = fr.radius ?? S.camera.radius_m, c = fr.target ?? S.camera.target;
   const ce = Math.cos(e) < 1e-6 ? 1e-6 : Math.cos(e);   // 90°(내려다보기)에서도 방위가 살아 있게
@@ -118,7 +128,7 @@ window.__draw = (fr) => {
   renderer.render(scene, cam);
   ctx.clearRect(0, 0, W, Ht);
   const out = [];
-  tops.forEach(({ u, y }, i) => {   // 병종 빌보드(윗면 위) + 부대 이름(그 아래)
+  units.tops.forEach(({ u, y }, i) => {   // 병종 빌보드(윗면 위) + 부대 이름(그 아래)
     const v = new THREE.Vector3(u.c[0], y + S.label_lift_m * 0.5, u.c[1]).project(cam);
     const sx = (v.x + 1) / 2 * W, sy = (1 - v.y) / 2 * Ht;
     if (S.text_in_engine) { out.push({ k: 'unit', i, name: u.name || '', glyph: u.glyph_name || null, faction: u.faction || null,
