@@ -4,8 +4,8 @@
   "title": "휴전안 — 미국과 이란, 무엇이 먼저 풀려야 하나",
   "category": "geopolitics",
   "created_at": "2026-11-01T00:29:59.874133Z",
-  "updated_at": "2026-11-01T14:24:08.717706Z",
-  "current_state": "done",
+  "updated_at": "2026-11-02T04:06:04.013741Z",
+  "current_state": "direction",
   "target_duration_min": 18,
   "topic_summary": "2026년 미국·이란 전쟁의 휴전안 정리(9월 말 이란 7일안~10/31 도하)와 휴전 가능성의 조건부 시나리오·신호",
   "initial_links": [],
@@ -355,6 +355,12 @@
       "to_state": "done",
       "transitioned_at": "2026-11-01T14:24:08.717646Z",
       "reason": "engine deliver ok — final_v2 final_deliver.mp4 28.9MB md5 d1c655d4(artifacts a3ffa45)"
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "transitioned_at": "2026-11-02T04:06:04.013703Z",
+      "reason": "reopen → direction — opus: D-0466 UF-173 — 교체본 탈락 2차(첫 화면 사진·1막 지도 매몰), 연출 v10"
     }
   ],
   "rollbacks": [],
@@ -366,6 +372,14 @@
       "at": "2026-11-01T11:20:45.458106Z",
       "reason": "UF-171·172(D-0462) — 요소 노출 시간 전수 수정, 원고·음성 불변",
       "direction_version": 8
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "by": "opus",
+      "at": "2026-11-02T04:06:04.013680Z",
+      "reason": "D-0466 UF-173 — 교체본 탈락 2차(첫 화면 사진·1막 지도 매몰), 연출 v10",
+      "direction_version": 9
     }
   ]
 }
