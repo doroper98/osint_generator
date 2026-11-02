@@ -134,6 +134,8 @@ class DeclaredLeg(BaseModel):
 
 
 class RouteEvent(_Event):
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("flow",)   # v7.4.0 UF-401 — 안 쓰면 dict 옛 모양
+
     type: Literal["route"]
     pts: list[LonLat] = Field(min_length=2)
     grow: float
@@ -143,6 +145,8 @@ class RouteEvent(_Event):
     glow_only: bool = False
     label: str = ""
     declared: Optional[DeclaredLeg] = None   # v7.4.0 D-0229 §2.5(UF-112)
+    # v7.4.0 UF-400·UF-401(영상 분석 D3) — 관계·영향이 한쪽으로 흐르는 선(지원·지시·자금): 다 그려진 선 위를 점들이 출발 → 도착으로 흐른다
+    flow: Optional[bool] = Field(default=None, description="true = 선이 다 그려진 뒤 점들이 출발→도착으로 흐름(관계·영향의 방향). 이동 경로·항로엔 쓰지 않는다")
 
     @model_validator(mode="after")
     def _bend(self) -> "RouteEvent":

@@ -696,6 +696,8 @@ layout_480p:               # 09 §2·§4, 08 §10 — 기준 해상도 854×480.
   marker: {label_size: 13, sub_size: 12, sub_dy: 16}
   # v5.21.11 사용자 의견(2026-10-11 38·101·275초 "선 위의 글씨 시인성", D-0191 §1-3·D-0192) — 경로 선이 자기 라벨을 지나가지 않게
   # 선에서 수직으로 line_gap 띄운 자리를 곡선 위 place_fracs 순서·양쪽으로 시도. 후보 0 = 옛 자리(가운데 점 위 legacy_dy). 검사 route_label_cross·route_label_overlap hard
+  # v7.4.0 UF-400·UF-401(영상 분석 D3) — route flow: 다 그려진 선 위를 점 n 개가 출발 → 도착으로 흐른다(속도 = 곡선 길이 비율/초). 설계 px(480p)
+  route_flow: {dots: 4, speed: 0.35, r: 2.6, alpha: 0.95, fade_in_sec: 0.6, edge_fade: 0.12}
   route_label: {route_size: 12.5, barrier_size: 12.5, legacy_dy: 11, line_gap: 5, line_clear_px: 1.5, place_fracs: [0.5, 0.42, 0.58, 0.34, 0.66, 0.26, 0.74], screen_pad: 6, bottom_pad: 72}   # bottom_pad = 자막 구역(도시 이름과 같은 하단 여백)
   # v5.1.0 back_and_forth D-0121 §C(사용자 결정 D107) — 기사 프레스 규약 v2. 옛 오른쪽·가운데 기사 카드(v4.8.0 D-0101 §2) 경로는 삭제(P2).
   # 순서: 프레스 사진 단독 press_lead_sec(없으면 지금 무대를 press_fallback.blur_px·dim 으로 블러 — 사진을 지어내지 않는다, G4-10·P6)
@@ -1662,6 +1664,7 @@ genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(
     checklist: "가설·후보·시나리오처럼 확인되지 않은 목록은 checklist style open 으로 건다 — 번호 칸을 먼저 비워 보이고 at(각 항목을 말하는 word 앵커)에 채운다. 체크 표시는 확인된 사실 목록(style check)에만."
     clip: "사진·영상 속 여러 사람 가운데 한 사람을 말하는 문장에는 그 사진·영상 이벤트에 spot(그림 안 중심 x·y·반지름 r 비율, t = 그 이름의 word 앵커)을 건다. 주변을 낮춰야 하면 dim — 화면 덮개라 원본 화소는 바꾸지 않는다. 같은 문법은 photo 에도."
     era_numeral: "수십 년을 건너뛰며 해가 바뀌는 구간에는 era_numeral 로 화면 가운데에 그 해를 옅게 깔고, 이야기가 해를 넘기는 말(word 앵커)마다 steps 를 더해 숫자를 굴린다. 문구는 원고 문장 날짜의 해만 — 지어낸 연도 금지. 한 구간에 하나만."
+    route: "두 인물·나라 사이에 지시·지원·영향이 한쪽으로 흐르는 관계를 말하는 문장의 선은 route flow: true 로 그려 점이 출발에서 도착으로 흐르게 한다 — 이동 경로·항로·국경에는 쓰지 않는다."
     badge: "이야기의 주인공 인물 뱃지는 처음 소개된 뒤 그 인물이 이야기 중심인 동안 같은 자리에 머문다 — 문장마다 다시 띄우거나 자리를 바꾸지 않는다. 새 인물이 들어오면 옆에 더하고, 이야기에서 빠지면 그때 내린다. 머무는 인물을 다시 부르는 문장에는 pulse(그 이름의 word 앵커)로 고리만 퍼뜨린다. 숙청·처형·사망이 확인된 사실 문장에는 mark strike(mark_t = 그 말), 의문·미확인을 말하는 문장에는 mark question — 추정을 strike 로 그리지 않는다."
   data_sources:            # 20 §5.1 — 리서치·원고 프롬프트의 데이터 원칙
     - 수치는 1차·공개 출처(중앙은행 공식 발표, 통계기관, FRED 같은 공개 데이터 저장소)에서만 가져온다.

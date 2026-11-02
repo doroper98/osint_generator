@@ -895,6 +895,17 @@ class MediaSpotLayout(_Strict):
     dim_fade_sec: float = Field(ge=0.55)
 
 
+class RouteFlowLayout(_Strict):
+    """v7.4.0 UF-400·UF-401(영상 분석 D3) — route flow 점 흐름."""
+
+    dots: int = Field(ge=1)
+    speed: float = Field(gt=0)        # 곡선 길이 비율/초
+    r: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+    fade_in_sec: float = Field(ge=0.55)
+    edge_fade: float = Field(ge=0, lt=0.5)   # 출발·도착 근처 이 비율 구간에서 점이 옅어진다
+
+
 class Layout480p(_Strict):
     base: LayoutBase
     subtitle: SubtitleLayout
@@ -908,6 +919,7 @@ class Layout480p(_Strict):
     badge: BadgeLayout
     media_caption: MediaCaptionLayout      # v4.8.0 D-0101 §3
     media_spot: MediaSpotLayout            # v7.4.0 UF-401 — 사진·영상 속 점선 원
+    route_flow: RouteFlowLayout            # v7.4.0 UF-401 — 선 위를 흐르는 점
     marker: MarkerLayout
     route_label: RouteLabelLayout
     timeline_gaps: TimelineGaps
