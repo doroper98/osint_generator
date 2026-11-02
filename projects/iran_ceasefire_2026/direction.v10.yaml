@@ -955,8 +955,8 @@ events:
   hl: true
 - type: marker
   start:
-    sid: ending_3
-    'off': 0.15
+    sid: ending_2
+    'off': 1.84
   end:
     total: true
   at_place: hormuz
@@ -1604,6 +1604,7 @@ events:
     'off': 0.25
   mid: iran_hormuz_modis
   for: 호르무즈 해협
+  place: map_pair_right
 - type: panel
   start:
     sid: act2_5
