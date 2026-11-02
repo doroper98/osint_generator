@@ -2405,6 +2405,17 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   restate_particles: [은, 는, 이, 가, 을, 를, 의, 에, 에서, 으로, 로, 와, 과, 도, 만]
   # v7.4.0 back_and_forth D-0311 — 회귀 기준(사용자 영상 아님) 한 목록. media_density·chart_only_run·plot_height·axis_empty_band 의 hard 만 면제 —
   # 검사는 돌고 provenance regression_waived 에 줄이 남는다(D-0251·D-0271 예외 원칙). 판정 키 = direction project_id(없으면 폴더 이름) —
+  # v7.4.0 back_and_forth D-1000 S3(사용자 UF-173 "처음부터 사진을 띄워서 뒤에 지도가 안보이게", D-0466 §2 지도가 먼저) — 지도 무대 사건이 자라나거나
+  # 나타나는 창(route = grow, marker·badge·boom = appear_sec, 카메라 move 키 = dur, 상자 = 화면 전체) 안 step_sec 표본마다 그 상자의 max_ratio 넘게
+  # 덮개(cover_types, 알파 ≥ 0.5 — 기사·인용 = 화면 전체, 사진·영상 = 미디어 상자)가 가리면 [map-event-covered] hard. 구석 broll 은 상자가 겹칠 때만 넓이로 센다. 감독 제안 값
+  map_event_covered: {max_ratio: 0.25, step_sec: 0.1, appear_sec: 2.0, boom_radius_px: 56, box_pad_px: 6,
+                      event_types: [route, marker, badge, boom, camera], camera_modes: [move], cover_types: [photo, clip, article, quote]}
+  # v7.4.0 D-1000 S3(D-0466 §2-3 "요소는 자기 문장(같은 날짜) 안에서만") — 보이는 구간(알파 ≥ 0.5) 안에서 날짜 HUD 가 바뀌면 [media-date-cross] hard.
+  # 바뀌기 전·뒤 grace_sec 안은 허용(0.5초 넘게 넘어가면 실패). 날짜와 무관한 요소는 exempt_types 로만 면제
+  media_date_cross: {types: [photo, clip, article, quote], exempt_types: [backdrop], grace_sec: 0.5}
+  # v7.4.0 D-1000 S3 — 옛 media_beats [media-burst-window] 경고(D-0466 "40초에 4개 > 2 를 무시했다")를 hard 로(창·개수 = media.density.window_sec·window_max).
+  # 더해 지도 무대 같은 길이 창마다 덮개가 하나라도 보이는 시간 비율 ≤ max_cover_ratio([map-cover-share])
+  media_burst: {max_cover_ratio: 0.5, step_sec: 0.1, cover_types: [photo, clip, article, quote]}
   # 합성 사본(tests/test_g8_animatic synthetic_project)도 원본 id 를 연출에 싣고 온다. 범위 = tests/test_regression_refs.py 가 이 둘로 고정
   # v7.4.0 back_and_forth D-0312 §1-1 — 지도·배경만 보이는 구간(아래 요소 하나도 안 보임)이 이 초 이상이면 [scene-visual-void] hard.
   # 콜드 오픈(타이틀 카드 전)·타이틀·엔딩 카드·카메라 이동(move)·dip 전환 중은 제외. provenance visual_void 에 구간 목록. 값 = 감독 제안(D-0312)

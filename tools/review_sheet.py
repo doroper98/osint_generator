@@ -51,14 +51,13 @@ def frame_cells(P, src: str, every: float, tmp: Path) -> list[tuple[Path, float]
 
 def element_rows(P) -> list[dict]:  # noqa: ANN001, N803
     """요소 표 — 종류·이름·시작·끝·완전 노출·보이는 동안 지도 사건 상자를 가린 최대 비율(그 요소 하나만 덮개로 쳤을 때)."""
-    from engine.checks import _covered, _elem_name, element_full_span  # noqa: PLC0415
-    from tools.review_compat import MAP_EVENT_COVERED, _covered_ratio, _vis_span, map_event_windows  # noqa: PLC0415 — a4abe7ac 반입 때 engine.checks import 로 교체(D744 ④)
+    from engine.checks import _covered, _covered_ratio, _elem_name, _vis_span, element_full_span, map_event_windows  # noqa: PLC0415
     from engine.media_plan import media_box  # noqa: PLC0415
     from engine.reserved import FULL_COVER_TYPES  # noqa: PLC0415
     from engine.style import H_OUT, W_OUT  # noqa: PLC0415
     from rules import load_rules  # noqa: PLC0415
 
-    cfg = MAP_EVENT_COVERED   # a4abe7ac 반입 때 load_rules().qa_checks.map_event_covered 로 교체
+    cfg = load_rules().qa_checks.map_event_covered
     wins = map_event_windows(P)
     assets = P.R.assets.media_assets
     rows = []
@@ -112,9 +111,7 @@ def write_table(rows: list[dict], dest_md: Path, dest_jpg: Path, title: str) -> 
         d.text((cols[k], 8 + lh), h, fill=(200, 200, 200), font=font)
     for i, r in enumerate(rows):
         y = 8 + lh * (i + 2)
-        from tools.review_compat import MAP_EVENT_COVERED  # noqa: PLC0415 — a4abe7ac 반입 때 qa.map_event_covered 로 교체
-
-        bad = r["map_cover_max"] > MAP_EVENT_COVERED.max_ratio or r["full_sec"] < qa.element_hold.min_full_sec   # 빨간 줄 = 검사 실패 값
+        bad = r["map_cover_max"] > qa.map_event_covered.max_ratio or r["full_sec"] < qa.element_hold.min_full_sec   # 빨간 줄 = 검사 실패 값
         col = (255, 120, 110) if bad else (235, 235, 235)
         vals = [str(i + 1), r["type"], r["name"][:34], f"{r['t0']:.1f}", f"{r['t1']:.1f}", f"{r['full_sec']:.1f}",
                 f"{r['map_cover_max']:.0%}", r["map_event"][:36]]
