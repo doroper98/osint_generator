@@ -9,14 +9,15 @@
       "license": "Public domain",
       "usage_terms": "Public domain",
       "artist": "Shealeah Craighead",
-      "credit": "This image is available from the United States Library of Congress's Prints and Photographs division under the digital ID ppbd.00608.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.",
+      "credit": "Shealeah Craighead (백악관)",
       "source_page": "https://commons.wikimedia.org/wiki/File:Donald_Trump_official_portrait.jpg",
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/1280px-Donald_Trump_official_portrait.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
       "original_size": [
         2250,
         2850
       ],
-      "local_file": "photo_trump.jpg"
+      "local_file": "photo_trump.jpg",
+      "credit_raw": "This image is available from the United States Library of Congress's Prints and Photographs division under the digital ID ppbd.00608.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing."
     },
     "xi_jinping": {
       "person_id": "xi_jinping",
@@ -26,14 +27,15 @@
       "license": "CC BY 4.0",
       "usage_terms": "Creative Commons Attribution 4.0",
       "artist": "Press Service of the President of the Republic of Azerbaijan",
-      "credit": "Astanada İlham Əliyevin Çin Xalq Respublikasının Sədri Si Cinpin ilə görüşü keçirilib",
+      "credit": "아제르바이잔 대통령 언론실",
       "source_page": "https://commons.wikimedia.org/wiki/File:Xi_Jinping_in_July_2024.jpg",
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/52/Xi_Jinping_in_July_2024.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
       "original_size": [
         794,
         1089
       ],
-      "local_file": "photo_xi_jinping.jpg"
+      "local_file": "photo_xi_jinping.jpg",
+      "credit_raw": "Astanada İlham Əliyevin Çin Xalq Respublikasının Sədri Si Cinpin ilə görüşü keçirilib"
     },
     "putin": {
       "person_id": "putin",
@@ -43,14 +45,15 @@
       "license": "CC BY 4.0",
       "usage_terms": "Creative Commons Attribution 4.0",
       "artist": "This file comes from the website of the President of the Russian Federation and is licensed under the Creative Commons Attribution 4.0 License. In short: you are free to distribute and modify the file as long as you attribute www.kremlin.ru. Note: Works published on site before April 8, 2015 are also licensed under Creative Commons Attribution 3.0 License. The permission letter from the Press Secretary for the President of the Russian Federation is available here.",
-      "credit": "http://en.kremlin.ru/events/president/news/73529/photos",
+      "credit": "kremlin.ru",
       "source_page": "https://commons.wikimedia.org/wiki/File:Vladimir_Putin_portrait_(2024-02-23).png",
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Vladimir_Putin_portrait_%282024-02-23%29.png/1280px-Vladimir_Putin_portrait_%282024-02-23%29.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
       "original_size": [
         2000,
         2812
       ],
-      "local_file": "photo_putin.jpg"
+      "local_file": "photo_putin.jpg",
+      "credit_raw": "http://en.kremlin.ru/events/president/news/73529/photos"
     },
     "powell": {
       "person_id": "powell",
@@ -77,14 +80,15 @@
       "license": "Public domain",
       "usage_terms": "Public domain",
       "artist": "Federalreserve",
-      "credit": "https://www.flickr.com/photos/federalreserve/55341882470/",
+      "credit": "미 연방준비제도(Federal Reserve)",
       "source_page": "https://commons.wikimedia.org/wiki/File:Official_portrait_of_Kevin_M._Warsh_(cropped).jpg",
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Official_portrait_of_Kevin_M._Warsh_%28cropped%29.jpg/1280px-Official_portrait_of_Kevin_M._Warsh_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
       "original_size": [
         1776,
         2298
       ],
-      "local_file": "photo_warsh.jpg"
+      "local_file": "photo_warsh.jpg",
+      "credit_raw": "https://www.flickr.com/photos/federalreserve/55341882470/"
     },
     "jensen_huang": {
       "person_id": "jensen_huang",
@@ -94,14 +98,15 @@
       "license": "CC BY 4.0",
       "usage_terms": "Creative Commons Attribution 4.0",
       "artist": "Photographer: Peter Dasilva",
-      "credit": "Visit of Josep Borrell Fontelles, Vice-President of the European Commission, to the United States",
+      "credit": "Peter Dasilva",
       "source_page": "https://commons.wikimedia.org/wiki/File:Jensen_Huang_(cropped)_(2024).jpg",
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/59/Jensen_Huang_%28cropped%29_%282024%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
       "original_size": [
         1129,
         1678
       ],
-      "local_file": "photo_jensen_huang.jpg"
+      "local_file": "photo_jensen_huang.jpg",
+      "credit_raw": "Visit of Josep Borrell Fontelles, Vice-President of the European Commission, to the United States"
     },
     "chey_tae_won": {
       "person_id": "chey_tae_won",
@@ -111,14 +116,15 @@
       "license": "CC BY-SA 2.0",
       "usage_terms": "Creative Commons Attribution-Share Alike 2.0",
       "artist": "Republic of Korea",
-      "credit": "https://www.flickr.com/photos/koreanet/52811274709/",
+      "credit": "대한민국 정부(Korea.net)",
       "source_page": "https://commons.wikimedia.org/wiki/File:Korea_Portuguese_Business_Forum_01_(cropped).jpg",
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Korea_Portuguese_Business_Forum_01_%28cropped%29.jpg/1280px-Korea_Portuguese_Business_Forum_01_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
       "original_size": [
         1306,
         1630
       ],
-      "local_file": "photo_chey_tae_won.jpg"
+      "local_file": "photo_chey_tae_won.jpg",
+      "credit_raw": "https://www.flickr.com/photos/koreanet/52811274709/"
     },
     "zelensky": {
       "person_id": "zelensky",
@@ -128,14 +134,15 @@
       "license": "CC BY 4.0",
       "usage_terms": "Creative Commons Attribution 4.0",
       "artist": "http://www.president.gov.ua/",
-      "credit": "https://www.president.gov.ua/en/president/biografiya",
+      "credit": "우크라이나 대통령실(president.gov.ua)",
       "source_page": "https://commons.wikimedia.org/wiki/File:Volodymyr_Zelensky_Official_portrait.jpg",
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Volodymyr_Zelensky_Official_portrait.jpg/1280px-Volodymyr_Zelensky_Official_portrait.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
       "original_size": [
         3488,
         4724
       ],
-      "local_file": "photo_zelensky.jpg"
+      "local_file": "photo_zelensky.jpg",
+      "credit_raw": "https://www.president.gov.ua/en/president/biografiya"
     },
     "netanyahu": {
       "person_id": "netanyahu",
@@ -162,14 +169,15 @@
       "license": "CC BY 4.0",
       "usage_terms": "Creative Commons Attribution 4.0",
       "artist": "khamenei.ir",
-      "credit": "http://farsi.khamenei.ir/photo-album?id=36022#i",
+      "credit": "khamenei.ir",
       "source_page": "https://commons.wikimedia.org/wiki/File:Ali_Khamenei_Nowruz_message_official_portrait_1397_02_(cropped).jpg",
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/87/Ali_Khamenei_Nowruz_message_official_portrait_1397_02_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
       "original_size": [
         1183,
         1577
       ],
-      "local_file": "photo_khamenei.jpg"
+      "local_file": "photo_khamenei.jpg",
+      "credit_raw": "http://farsi.khamenei.ir/photo-album?id=36022#i"
     },
     "macron": {
       "person_id": "macron",
@@ -213,14 +221,15 @@
       "license": "CC BY 3.0",
       "usage_terms": "Creative Commons Attribution 3.0",
       "artist": "KBS",
-      "credit": "YouTube: https://www.youtube.com/watch?v=qdpz2-KdVMo – View/save archived versions on archive.org",
+      "credit": "KBS",
       "source_page": "https://commons.wikimedia.org/wiki/File:Lee_Jae-yong_in_2016.jpg",
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Lee_Jae-yong_in_2016.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
       "original_size": [
         342,
         493
       ],
-      "local_file": "photo_lee_jae_yong.jpg"
+      "local_file": "photo_lee_jae_yong.jpg",
+      "credit_raw": "YouTube: https://www.youtube.com/watch?v=qdpz2-KdVMo – View/save archived versions on archive.org"
     },
     "altman": {
       "person_id": "altman",
@@ -281,14 +290,15 @@
       "license": "Public domain",
       "usage_terms": "Public domain",
       "artist": "Français : Fonds monétaire international (identité du photographe non mentionnée)",
-      "credit": "http://www.imf.org/external/np/adm/pictures/caption2.htm",
+      "credit": "국제통화기금(IMF)",
       "source_page": "https://commons.wikimedia.org/wiki/File:Lagarde,_Christine_(official_portrait_2011).jpg",
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/63/Lagarde%2C_Christine_%28official_portrait_2011%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
       "original_size": [
         1200,
         1541
       ],
-      "local_file": "photo_lagarde.jpg"
+      "local_file": "photo_lagarde.jpg",
+      "credit_raw": "http://www.imf.org/external/np/adm/pictures/caption2.htm"
     },
     "tim_cook": {
       "person_id": "tim_cook",
@@ -298,14 +308,15 @@
       "license": "CC BY 4.0",
       "usage_terms": "Creative Commons Attribution 4.0",
       "artist": "European Commission - Photographer: Christophe Licoppe",
-      "credit": "https://audiovisual.ec.europa.eu/en/reportage/P-061904 (archive, archive)",
+      "credit": "European Commission · Christophe Licoppe",
       "source_page": "https://commons.wikimedia.org/wiki/File:Visit_of_Tim_Cook_to_the_European_Commission_-_P061904-946789.jpg",
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Visit_of_Tim_Cook_to_the_European_Commission_-_P061904-946789.jpg/1280px-Visit_of_Tim_Cook_to_the_European_Commission_-_P061904-946789.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
       "original_size": [
         2667,
         4000
       ],
-      "local_file": "photo_tim_cook.jpg"
+      "local_file": "photo_tim_cook.jpg",
+      "credit_raw": "https://audiovisual.ec.europa.eu/en/reportage/P-061904 (archive, archive)"
     },
     "bezos": {
       "person_id": "bezos",
@@ -349,14 +360,15 @@
       "license": "CC BY 2.0",
       "usage_terms": "Creative Commons Attribution 2.0",
       "artist": "UK Prime Minister",
-      "credit": "https://www.flickr.com/photos/49707497@N06/52922227897/",
+      "credit": "영국 총리실(UK Prime Minister)",
       "source_page": "https://commons.wikimedia.org/wiki/File:Dario_Amodei_in_2023.jpg",
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Dario_Amodei_in_2023.jpg/1280px-Dario_Amodei_in_2023.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
       "original_size": [
         1400,
         2240
       ],
-      "local_file": "photo_dario_amodei.jpg"
+      "local_file": "photo_dario_amodei.jpg",
+      "credit_raw": "https://www.flickr.com/photos/49707497@N06/52922227897/"
     },
     "audrey_tang": {
       "person_id": "audrey_tang",

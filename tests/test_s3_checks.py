@@ -34,13 +34,14 @@ class _TB:
         return 0.0
 
 
-def _P(events: list[dict], total: float = 120.0, sents: list | None = None, keys: list | None = None) -> SimpleNamespace:  # noqa: N802
+def _P(events: list[dict], total: float = 120.0, sents: list | None = None, keys: list | None = None,  # noqa: N802
+       cards: list | None = None) -> SimpleNamespace:
     n = int(total * FPS) + 1
     stage = SimpleNamespace(name="mercator", bounds=(0.0, 0.0, float(W_OUT), float(H_OUT)))
     R = SimpleNamespace(stage=stage, tb=_TB(sents or [("a", 0.0, total, "2026.01.01")]),  # noqa: N806
                         assets=SimpleNamespace(media_assets={"p": object(), "q": object()}))
     return SimpleNamespace(events=events, R=R, cams=np.tile([W_OUT / 2, H_OUT / 2, float(W_OUT)], (n, 1)), n_frames=n,
-                           keys=keys or [], plan=SimpleNamespace(total=total))
+                           keys=keys or [], plan=SimpleNamespace(total=total, cards=cards or []))
 
 
 def _route(t0: float, grow: float = 4.0) -> dict:
@@ -74,6 +75,15 @@ class RuleTest(unittest.TestCase):
 
 
 class MapEventCoveredTest(unittest.TestCase):
+    def test_cold_open_exempt_same_key_as_map_cover_share(self) -> None:
+        """D-1001 §1 — 첫 제목 카드 끝 전(콜드 오픈)은 map_cover_share 와 같은 규칙 키(exempt_before_title)로 세지 않는다."""
+        title = SimpleNamespace(kind="title", t0=20.0, t1=25.0)
+        evs = [_route(10.0), _article(11.0, 20.0)]   # 제목 카드 전 — 면제
+        self.assertTrue(QA.map_cover_share.exempt_before_title)
+        self.assertEqual(check_map_event_covered(_P(evs, cards=[title])), [])
+        evs2 = [_route(30.0), _article(31.0, 40.0)]   # 제목 카드 뒤 — 실패
+        self.assertEqual(len(check_map_event_covered(_P(evs2, cards=[title]))), 1)
+
     def test_route_grow_under_article_fails(self) -> None:
         out = check_map_event_covered(_P([_route(10.0), _article(11.0, 20.0)]))   # UF-173 — 경로가 자라는 동안 전면 기사
         self.assertEqual(len(out), 1)

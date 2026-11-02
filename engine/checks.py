@@ -93,6 +93,10 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | bar_border | hard | 그린 막대 가장자리 안쪽 색 ≠ 가운데 색(테두리) `[bar-border]`(v7.4.0 D-0339, UF-202) |
 | element_hold | hard | rules qa_checks.element_hold.types 요소의 완전 노출(페이드 뺀 구간) < min_full_sec `[element-hold]`(v7.4.0 D-0462, UF-171) |
 | media_overlap | hard | 앞 요소(media_overlap.cover_types)가 완전 노출 element_hold.min_full_sec 전에 전면(full_types) 또는 겹치는 상자(box_types)에 덮임 `[media-overlap]`(v7.4.0 D-0462, UF-172) |
+| media_sentence_span | hard | 덮는 요소가 앵커 문장(완전 노출 가운데)과 날짜가 다른 문장과 media_sentence_span.tol_sec 넘게 겹침 `[media-sentence-span]`(v7.4.0 D-0470, UF-173) |
+| map_opening | hard | 지도 주 무대에서 첫 문장 끝(+ after_first_sentence_sec) 전에 덮는 요소 `[map-opening]`(v7.4.0 D-0470, UF-173) |
+| map_cover_share | hard | 지도 무대(패널 없는 시각) window_sec 창 덮임 비율 > max_share(전면·가운데 큰 사진 1, 그 밖 상자 partial_weight, 첫 제목 카드 전 제외) `[map-cover-share]`(v7.4.0 D-0470, UF-173) |
+| credit_garbled | hard | 크레딧 저작자 칸(권리 author·artist, 미디어 credit_author, credits.yaml license)에 URL·Commons 안내문 또는 max_len 초과 `[credit-garbled]`(v7.4.0 D-0470, RIGHTS-AP-002) |
 | badge_covered | hard | 지도 층 배지 계획 구간 중 안 보인 비율(전면 덮개로 늦춰짐·덮개 아래·상자 가림) > rules badge.covered_max_ratio `[badge-covered]`(v7.4.0 D-0329) |
 | map_event_covered | hard | 지도 무대 사건(route grow·marker·badge·boom 등장·카메라 move)이 자라나거나 나타나는 창에서 상자의 rules qa_checks.map_event_covered.max_ratio 넘게 사진·영상·기사·인용에 가림 `[map-event-covered]`(v7.4.0 D-1000 S3, UF-173) |
 | flight_unsourced | hard | flight 에 claim 없음·원고가 인용하지 않은 claim `[flight-unsourced]` — 비행은 출처 있는 특정 타격에만(v7.4.0 D-0316) |
@@ -136,7 +140,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "map_event_covered")   # chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled", "map_event_covered")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -1949,6 +1953,124 @@ def check_media_overlap(P) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
+def media_sentence_span_hits(events: list[dict], sents: list[tuple[str, float, float, "str | None"]]) -> list[str]:
+    """[media-sentence-span] 순수 판정(v7.4.0 D-0470, UF-173) — sents = (sid, t0, t1, date) 시각순. 앵커 = 완전 노출 가운데 시각의 문장."""
+    MS = QA.media_sentence_span  # noqa: N806
+    out = []
+    for e in sorted((e for e in events if e["type"] in MS.types), key=lambda e: e["t0"]):
+        a, b = element_full_span(e)
+        mid = (a + b) / 2
+        anchor = next((s for s in reversed(sents) if s[1] - 1e-6 <= mid), sents[0] if sents else None)
+        if anchor is None or anchor[3] is None:
+            continue
+        for sid, s0, s1, date in sents:
+            if date is None or date == anchor[3]:
+                continue
+            ov = min(e["t1"], s1) - max(e["t0"], s0)
+            if ov > MS.tol_sec:
+                out.append(f"[media-sentence-span] {e['type']} {_elem_name(e)!r}({e['t0']:.2f}~{e['t1']:.2f}) 앵커 {anchor[0]}({anchor[3]}) 인데 "
+                           f"날짜가 다른 {sid}({date})와 {ov:.2f}초 겹친다(> {MS.tol_sec:g}) — 늘리지 말고 주제 맞는 문장으로 옮기거나 뺀다(UF-173)")
+    return out
+
+
+def map_opening_hits(events: list[dict], first_t1: float) -> list[str]:
+    """[map-opening] 순수 판정(v7.4.0 D-0470, UF-173)."""
+    MO = QA.map_opening  # noqa: N806
+    lim = first_t1 + MO.after_first_sentence_sec
+    return [f"[map-opening] {e['type']} {_elem_name(e)!r} t0 {e['t0']:.2f}초 < 첫 문장 끝 {lim:.2f}초 — 첫 화면은 지도(경로·마커)부터(UF-173)"
+            for e in sorted(events, key=lambda e: e["t0"]) if e["type"] in MO.types and e["t0"] < lim]
+
+
+def map_cover_share_worst(events: list[dict], total: float, title_end: float = 0.0) -> tuple[float, float]:
+    """[map-cover-share] 순수 판정(v7.4.0 D-0470, UF-173) — (가장 높은 창 덮임 비율, 그 창 시작 초). 패널이 떠 있는 시각은 지도 무대가 아니다."""
+    MC = QA.map_cover_share  # noqa: N806
+    covers = [e for e in events if e["type"] in MC.types]
+    panels = [(e["t0"], e["t1"]) for e in events if e["type"] == "panel"]
+    n = int(total / MC.step_sec)
+    w = np.zeros(max(n, 1))
+    for i in range(n):
+        t = i * MC.step_sec
+        if (MC.exempt_before_title and t < title_end) or any(a <= t < b for a, b in panels):
+            continue
+        w[i] = max((1.0 if (e["type"] in MC.full_types or float(e.get("w") or 0) >= MC.center_min_w) else MC.partial_weight
+                    for e in covers if e["t0"] <= t < e["t1"]), default=0.0)
+    k = max(1, int(round(MC.window_sec / MC.step_sec)))
+    if n <= k:
+        return float(w.sum() * MC.step_sec / MC.window_sec), 0.0
+    cs = np.concatenate([[0.0], np.cumsum(w)])
+    sums = cs[k:] - cs[:-k]
+    i = int(np.argmax(sums))
+    return float(sums[i] * MC.step_sec / MC.window_sec), i * MC.step_sec
+
+
+def credit_garbled_hits(fields: list[tuple[str, str]]) -> list[str]:
+    """[credit-garbled] 순수 판정(v7.4.0 D-0470, RIGHTS-AP-002) — fields = (참조, 저작자 칸 글자)."""
+    CG = QA.credit_garbled  # noqa: N806
+    out = []
+    for ref, who in fields:
+        s = (who or "").strip()
+        low = s.lower()
+        hit = next((p for p in CG.patterns if p in low), None)
+        if hit or len(s) > CG.max_len:
+            why = f"'{hit}' 포함" if hit else f"{len(s)}자 > {CG.max_len}"
+            out.append(f"[credit-garbled] {ref} 저작자 칸 {s[:60]!r}… — {why}. 저작자 이름만(원문은 credit_raw 에) 적는다(RIGHTS-AP-002)")
+    return out
+
+
+def check_media_sentence_span(P) -> list[str]:  # noqa: ANN001, N803
+    """[media-sentence-span] hard(v7.4.0 back_and_forth D-0466 §6·D-0470, 사용자 의견 UF-173 "무지성으로 그냥 늘리면") — 콘티 판·프리뷰·전편 같은 키(C12-3)."""
+    sents = sorted(((s.sid, s.t0, s.t1, getattr(s, "date", None)) for s in P.R.tb.sent.values()), key=lambda s: s[1])
+    return media_sentence_span_hits(P.events, sents)
+
+
+def check_map_opening(P) -> list[str]:  # noqa: ANN001, N803
+    """[map-opening] hard(v7.4.0 D-0470, UF-173 "처음부터 사진을 띄워서 뒤에 지도가 안보이게") — 지도 주 무대만."""
+    if not _map_main(P) or not P.R.tb.sent:
+        return []
+    first = min(P.R.tb.sent.values(), key=lambda s: s.t0)
+    return map_opening_hits(P.events, first.t1)
+
+
+def cold_open_end(P) -> float:  # noqa: ANN001, N803
+    """콜드 오픈(첫 제목 카드 끝 전) 예외 끝 시각 — rules qa_checks.map_cover_share.exempt_before_title(D-0467 §3)이 켜져 있을 때만, 아니면 0.
+    map_cover_share 와 map_event_covered(D-1001 §1 — 같은 규칙 키를 참조, 값 복사 금지)가 같이 쓴다."""
+    if not QA.map_cover_share.exempt_before_title:
+        return 0.0
+    return min((c.t1 for c in (P.plan.cards or []) if getattr(c, "kind", None) == "title"), default=0.0)
+
+
+def check_map_cover_share(P) -> list[str]:  # noqa: ANN001, N803
+    """[map-cover-share] hard(v7.4.0 D-0470, UF-173) — 지도 주 무대만. 첫 제목 카드 끝 전은 콜드 오픈 예외(D-0467 §3)."""
+    if not _map_main(P):
+        return []
+    MC = QA.map_cover_share  # noqa: N806
+    share, at = map_cover_share_worst(P.events, P.plan.total, cold_open_end(P))
+    if share <= MC.max_share:
+        return []
+    return [f"[map-cover-share] 지도 무대 {at:.1f}초부터 {MC.window_sec:g}초 창 덮임 {share:.0%} > {MC.max_share:.0%} — 덮는 요소 사이에 지도만 보이는 틈을 두고,"
+            " 패널 장면(컷어웨이)이나 반쪽 자리로 옮기거나 뺀다(UF-173)"]
+
+
+def check_credit_garbled(P) -> list[str]:  # noqa: ANN001, N803
+    """[credit-garbled] hard(v7.4.0 D-0470, RIGHTS-AP-002) — 이 영상이 쓰는 권리 항목의 저작자 칸과 credits.yaml 손 행의 license 칸."""
+    from engine.credits import registry_view  # noqa: PLC0415
+
+    view = registry_view(P.R.assets.rights, P.R.assets.media)
+    refs = P.R.cache.get("credit_refs") or set(view)
+    fields: list[tuple[str, str]] = []
+    for ref in sorted(refs):
+        v = view.get(ref) or {}
+        if ref.startswith("media."):
+            fields += [(ref, v.get(k) or "") for k in ("credit_author",) if v.get(k)]
+        else:
+            fields += [(ref, v.get("author") or v.get("artist") or "")]
+    for sec in getattr(P.R.credits, "sections", []) or []:
+        for it in getattr(sec, "items", None) or []:
+            for r in (getattr(it, "rights", None) or [])[:1]:
+                fields.append((f"credits.yaml {r}", str(getattr(it, "license", "") or "").rsplit(" · ", 1)[0]))
+    return credit_garbled_hits(fields)
+
+
 # ---------------------------------------------------------------------------------------------------------------
 # v7.4.0 back_and_forth D-1000 S3 — 탈락 유형 hard 검사(UF-171·172·173, D-0462·D-0466 의 일반화). 모든 렌더 경로 같은 규칙 키(C12 §3).
 
@@ -2043,14 +2165,15 @@ def map_event_windows(P) -> list[tuple[str, str, float, float, "Callable[[float]
 
 def map_event_covered(P) -> list[tuple[str, str, float, float, float, float]]:  # noqa: ANN001, N803
     """(종류, 이름, 창 시작, 창 끝, 최대 가림 비율, 그 시각) — 창 안 step_sec 표본마다 그 사건 상자가 덮개(cover_types, 알파 ≥ 0.5)에 가린 넓이 비율.
-    지도가 다른 이유로 안 보이는 순간(전면 카드·패널·암전, _covered)은 세지 않는다."""
+    지도가 다른 이유로 안 보이는 순간(전면 카드·패널·암전, _covered)과 콜드 오픈(cold_open_end, D-1001 §1)은 세지 않는다."""
     cfg = QA.map_event_covered
+    cold = cold_open_end(P)
     out = []
     for ty, name, a, b, boxf in map_event_windows(P):
         worst, wt = 0.0, a
         t = a
         while t <= b + 1e-9:
-            if not _covered(P, t):
+            if t >= cold and not _covered(P, t):
                 covers = _cover_boxes(P, t, cfg.cover_types)
                 if covers:
                     bx = boxf(t)
@@ -2596,6 +2719,12 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "bar_border": lambda: check_bar_border(P),   # v7.4.0 D-0339(hard, UF-202)
         "element_hold": lambda: check_element_hold(P),     # v7.4.0 D-0462(hard, UF-171)
         "media_overlap": lambda: check_media_overlap(P),   # v7.4.0 D-0462(hard, UF-172)
+        "media_sentence_span": lambda: waive_regression(P, "media_sentence_span", check_media_sentence_span(P)),   # v7.4.0 D-0470(hard, UF-173)
+        "map_opening": lambda: waive_regression(P, "map_opening", check_map_opening(P)),                         # v7.4.0 D-0470(hard, UF-173)
+        "map_cover_share": lambda: waive_regression(P, "map_cover_share", check_map_cover_share(P)),             # v7.4.0 D-0470(hard, UF-173)
+        "credit_garbled": lambda: check_credit_garbled(P),                                                        # v7.4.0 D-0470(hard, RIGHTS-AP-002)
+
+
         "map_event_covered": lambda: check_map_event_covered(P),   # v7.4.0 D-1000 S3(hard, UF-173)
         "label_under_media": lambda: check_label_under_media(P),   # v7.4.0 R-0294 판정(hard)
         "band_line_outside": lambda: check_band_line_outside(P),   # v7.4.0 D-0326(hard, UF-200)
