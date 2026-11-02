@@ -9,6 +9,7 @@
 
 from __future__ import annotations
 
+import functools
 import json
 from dataclasses import dataclass
 from pathlib import Path
@@ -16,16 +17,20 @@ from typing import TYPE_CHECKING, Any, Optional
 
 import cairo
 
+from engine.fullcards import STAMP
 from engine.glyphs.arms import draw_glyph
 from engine.glyphs.emblems import draw_emblem
 from engine.stage_terrain3d import Terrain3DError
-from engine.fullcards import STAMP
-from engine.style import C, H_OUT, W_OUT
+from engine.style import H_OUT, W_OUT, C
 from engine.typography import text
-from rules import load_rules
+from rules import load_rules as _load_rules_uncached
 
 if TYPE_CHECKING:
     from engine.project import Project
+
+
+# 규칙은 프로세스마다 한 번(load_rules 한 번 ≈ 0.3초 — 프레임마다 부르지 않는다)
+load_rules = functools.lru_cache(maxsize=1)(_load_rules_uncached)
 
 
 @dataclass

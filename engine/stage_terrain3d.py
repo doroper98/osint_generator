@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import functools
 import json
 import math
 from pathlib import Path
@@ -15,13 +16,16 @@ from typing import TYPE_CHECKING, Any
 import numpy as np
 
 from engine.timebase import clamp01, smooth
-from rules import load_rules
+from rules import load_rules as _load_rules_uncached
 from schemas.war_units import UnitKey, WarForces, WarUnit
-from sketch.common.geodesy import dest   # 순수 수식(numpy) — 측지 전진 한 함수
+from sketch.common.geodesy import dest  # 순수 수식(numpy) — 측지 전진 한 함수
 
 if TYPE_CHECKING:
     from engine.project import Project
     from engine.terrain3d_prep import Segment
+
+# 규칙은 프로세스마다 한 번(load_rules 한 번 ≈ 0.3초 — 프레임·부대마다 부르면 수천 번)
+load_rules = functools.lru_cache(maxsize=1)(_load_rules_uncached)
 
 RIGHT = 90
 M_PER_DEG_LAT = 110540.0      # 지구 타원체 근사(위도 1도 m) — 지역 좌표 변환식 상수(geodesy 와 같은 수준)
@@ -129,7 +133,10 @@ class Terrain3DStage:
         self.assets, self.out = assets, out
 
     def to_world(self, **anchor: float) -> tuple[float, float]:
-        from engine.stage import StageError, ym  # noqa: PLC0415 — stage → stage_terrain3d 등록 순환 회피
+        from engine.stage import (  # noqa: PLC0415 — stage → stage_terrain3d 등록 순환 회피
+            StageError,
+            ym,
+        )
 
         if set(anchor) != {"lon", "lat"}:
             raise StageError(f"terrain3d 앵커는 lon·lat: {sorted(anchor)}")

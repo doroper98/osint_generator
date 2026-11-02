@@ -18,6 +18,7 @@ manifest.json {schema_version, segment, inputs_sha1, frames, size, i0, i1, rende
 from __future__ import annotations
 
 import argparse
+import functools
 import hashlib
 import json
 import math
@@ -34,11 +35,14 @@ import yaml
 from engine.stage_terrain3d import Terrain3DError, build_scene
 from engine.style import FPS
 from engine.timebase import smooth
-from rules import load_rules
+from rules import load_rules as _load_rules_uncached
 from schemas.war_units import UnitKey, WarForces, WarUnit
 
 if TYPE_CHECKING:
     from engine.project import Project
+
+# 규칙은 프로세스마다 한 번(load_rules 한 번 ≈ 0.3초 — 프레임·부대마다 부르면 수천 번)
+load_rules = functools.lru_cache(maxsize=1)(_load_rules_uncached)
 
 REPO = Path(__file__).resolve().parents[1]
 TOOL = REPO / "tools" / "terrain3d"
