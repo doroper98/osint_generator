@@ -1701,6 +1701,36 @@ class ElementHoldRules(_Strict):
     types: list[str]
 
 
+class MediaSentenceSpanRules(_Strict):
+    """v7.4.0 D-0470(UF-173) — 덮는 요소가 날짜가 다른 문장으로 넘어가는 허용 초."""
+    types: list[str]
+    tol_sec: float = Field(ge=0)
+
+
+class MapOpeningRules(_Strict):
+    """v7.4.0 D-0470(UF-173) — 첫 문장 동안 지도 덮개 금지."""
+    types: list[str]
+    after_first_sentence_sec: float = Field(ge=0)
+
+
+class MapCoverShareRules(_Strict):
+    """v7.4.0 D-0470(UF-173) — 지도 무대 창별 덮임 비율 상한."""
+    types: list[str]
+    full_types: list[str]
+    center_min_w: float = Field(gt=0)
+    partial_weight: float = Field(ge=0, le=1)
+    window_sec: float = Field(gt=0)
+    step_sec: float = Field(gt=0)
+    max_share: float = Field(gt=0, le=1)
+    exempt_before_title: bool = True
+
+
+class CreditGarbledRules(_Strict):
+    """v7.4.0 D-0470(RIGHTS-AP-001) — 크레딧 저작자 칸 깨짐(안내문·URL·과길이)."""
+    patterns: list[str]
+    max_len: int = Field(gt=0)
+
+
 class MediaOverlapRules(_Strict):
     """v7.4.0 D-0462(UF-172) — 앞 요소가 완전 노출 하한 전에 뒤 요소에 덮이면 실패."""
     cover_types: list[str]
@@ -1805,6 +1835,10 @@ class QAChecks(_Strict):
     card_full_exposure_min_sec: float = Field(gt=0)   # v5.21.10 D-0191 §1-2 — 기사·인용 카드 완전 불투명 구간 하한(hard card_exposure)
     element_hold: "ElementHoldRules"     # v7.4.0 D-0462(UF-171) — 요소 종류별 완전 노출 하한(hard element_hold)
     media_overlap: "MediaOverlapRules"   # v7.4.0 D-0462(UF-172) — 앞 요소가 하한 전에 덮임(hard media_overlap)
+    media_sentence_span: "MediaSentenceSpanRules"   # v7.4.0 D-0470(UF-173) — 다른 날짜 문장으로 넘어감(hard)
+    map_opening: "MapOpeningRules"                   # v7.4.0 D-0470(UF-173) — 첫 문장 지도 덮개 금지(hard)
+    map_cover_share: "MapCoverShareRules"            # v7.4.0 D-0470(UF-173) — 지도 무대 창별 덮임 비율(hard)
+    credit_garbled: "CreditGarbledRules"             # v7.4.0 D-0470(RIGHTS-AP-001) — 크레딧 저작자 칸 깨짐(hard)
     restate_overlap_max: float = Field(default=0.6, gt=0, le=1)   # v7.4.0 D-0306 §1.2 — [text-restates-narration] 어절 겹침 상한
     restate_min_words: int = Field(default=4, ge=1)   # 이 어절 미만 화면 글자(이름표)는 보지 않는다
     restate_particles: list[str] = Field(default_factory=list)   # v7.4.0 D-0316 ② — 어절 끝 조사(떼고 비교)
