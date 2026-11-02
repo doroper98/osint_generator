@@ -2578,9 +2578,9 @@ entries:
   category: 작업 순서 — 영상 한 편 제작 시간(퇴고 포함 이틀) 단축 요구
   guards:
   - kind: doc
-    ref: "back_and_forth/261102_185848_D0600_fable_user-speed-system-then-budget-video.md#사용자 결정 — 영상 제작 시간 단축 체계 전환(S0~S6) 먼저, 그 뒤 『2027년 예산안 분석』 영상(B)"
+    ref: "back_and_forth/261102_185848_D1000_fable_user-speed-system-then-budget-video.md#사용자 결정 — 영상 제작 시간 단축 체계 전환(S0~S6) 먼저, 그 뒤 『2027년 예산안 분석』 영상(B)"
   status: guarded
-  decision: "D-0600 — 측정(S0)·규칙 로딩 캐시(S1)·조각 캐시 부분 재렌더(S2)·탈락 유형 hard 검사(S3)·눈 검수 도구(S4)·단일 구현 모드(S5)"
+  decision: "D-1000 — 측정(S0)·규칙 로딩 캐시(S1)·조각 캐시 부분 재렌더(S2)·탈락 유형 hard 검사(S3)·눈 검수 도구(S4)·단일 구현 모드(S5)"
   source: 감독 세션 사용자 대화 2026-11-02
 - id: UF-301
   date: '2026-11-02'
@@ -2591,7 +2591,7 @@ entries:
   category: 작업 순서 — 시간 단축 체계 전환 먼저, 2027년 예산안 분석 영상은 그 뒤
   guards:
   - kind: doc
-    ref: "back_and_forth/261102_185848_D0600_fable_user-speed-system-then-budget-video.md#B. 『2027년 예산안 분석』 영상 — S 병합 뒤 착수"
+    ref: "back_and_forth/261102_185848_D1000_fable_user-speed-system-then-budget-video.md#B. 『2027년 예산안 분석』 영상 — S 병합 뒤 착수"
   status: guarded
-  decision: "D-0600 §B — 장르 fiscal·구성 무대(순위 가로 막대) 구상 1프레임 → 사용자 판정 → S 체계로 제작"
+  decision: "D-1000 §B — 장르 fiscal·구성 무대(순위 가로 막대) 구상 1프레임 → 사용자 판정 → S 체계로 제작"
   source: 감독 세션 사용자 대화 2026-11-02

@@ -1,5 +1,5 @@
 ---
-id: D-0600
+id: D-1000
 from: user
 to: opus
 kind: directive
@@ -16,7 +16,7 @@ priority: urgent
 - UF-300: **"전반적으로 영상 제작에 소요되는 시간이 너무 길어. 거의 이틀이 걸려. 퇴고까지 포함해서. 어떻게 되어야 하는걸까"**
 - UF-301: **"일단 시간을 줄이는 체계 전환을 지금 바로착수 하고 그 뒤에 예산안에 대한 분석 영상을 만들어."**
 
-감독 = `session_017Yuw8kbxf9Vxri6LoH5Je4`(이 트랙만; 다른 트랙의 최종 감독은 session_017Yuw8jLMWscY9bdVXTvddr). 브랜치 `claude/speed-pipeline-2026`(sweet-galileo 935908fc 에서 분기). 번호: 이 트랙 D-0600~0649, DECISIONS D600~, UF-300~. R 은 R-0600~ 로 쓴다(다른 트랙 R 번호와 섞이지 않게 — check.py --next-name 이 내는 번호 대신 R-0600 부터 수동). artifacts `artifacts/speed-pipeline-v7.4.0`.
+감독 = `session_017Yuw8kbxf9Vxri6LoH5Je4`(이 트랙만; 다른 트랙의 최종 감독은 session_017Yuw8jLMWscY9bdVXTvddr). 브랜치 `claude/speed-pipeline-2026`(sweet-galileo 935908fc 에서 분기). 번호: 이 트랙 D-1000~1099(넘으면 D-1100~; D-0600~ 은 전쟁사 트랙이 먼저 씀), DECISIONS D600~, UF-300~. R 은 R-0600~ 로 쓴다(다른 트랙 R 번호와 섞이지 않게 — check.py --next-name 이 내는 번호 대신 R-0600 부터 수동). artifacts `artifacts/speed-pipeline-v7.4.0`.
 
 ## 0. 근거 — 이란 휴전안 영상 실측(back_and_forth 파일 시각, KST)
 | 구간 | 시간 |
