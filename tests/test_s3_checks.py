@@ -1,7 +1,7 @@
 """v7.4.0 back_and_forth D-1000 S3 — 탈락 유형 hard 검사(사용자 UF-171·172·173, D-0462·D-0466 의 일반화).
 
-[map-event-covered] 지도 사건이 자라나거나 나타나는 창에서 덮개에 가림 · [media-date-cross] 보이는 동안 날짜 HUD 가 바뀜 ·
-[media-burst-window]·[map-cover-share] 밀집(옛 경고 → hard). 검사마다 실패 픽스처 1·통과 픽스처 1.
+[map-event-covered] 지도 사건이 자라나거나 나타나는 창에서 덮개에 가림 — 실패·통과 픽스처.
+(media_date_cross·media_burst 는 D-1001 로 삭제 — 같은 개념은 D-0470 의 media_sentence_span·map_cover_share 가 정본.)
 무대는 항등 투영(월드 = 화면, y 뒤집기)인 가짜 지도 무대 — 상자 계산만 본다.
 """
 
@@ -14,12 +14,11 @@ from unittest import mock
 import numpy as np
 
 from engine import checks
-from engine.checks import HARD, check_map_event_covered, check_media_burst, check_media_date_cross
+from engine.checks import HARD, check_map_event_covered
 from engine.style import FPS, H_OUT, W_OUT
 from rules import load_rules
 
 QA = load_rules().qa_checks
-D = load_rules().media.density
 
 
 class _TB:
@@ -64,14 +63,14 @@ def _media_box(e: dict, assets: dict) -> tuple:
 class RuleTest(unittest.TestCase):
     def test_registered_hard_and_rule_keys(self) -> None:
         src = open(checks.__file__, encoding="utf-8").read()
-        for cid in ("map_event_covered", "media_date_cross", "media_burst"):
+        for cid in ("map_event_covered",):
             self.assertIn(cid, HARD)
             self.assertIn(f'"{cid}": lambda: check_{cid}(P)', src)   # 콘티 판·프리뷰·전편·카탈로그가 같은 run_checks(C12-3)
             self.assertIn(f"| {cid} | hard |", src)
         self.assertEqual(QA.map_event_covered.max_ratio, 0.25)
-        self.assertEqual(QA.media_burst.max_cover_ratio, 0.5)
-        self.assertEqual(D.window_sec, 40)
-        self.assertIn("backdrop", QA.media_date_cross.exempt_types)
+        for gone in ("media_date_cross", "media_burst"):   # D-1001 — D-0470 장치(media_sentence_span·map_cover_share)가 정본, 이 둘은 삭제(P2)
+            self.assertNotIn(gone, HARD)
+            self.assertFalse(hasattr(QA, gone))
 
 
 class MapEventCoveredTest(unittest.TestCase):
@@ -99,50 +98,6 @@ class MapEventCoveredTest(unittest.TestCase):
         with mock.patch("engine.media_plan.media_box", _media_box):
             self.assertEqual(len(check_map_event_covered(_P([_photo(29.0, 40.0)], keys=keys))), 1)
             self.assertEqual(check_map_event_covered(_P([_photo(35.0, 45.0)], keys=keys)), [])   # 이동이 끝난 뒤(34초 + 페이드)
-
-
-class MediaDateCrossTest(unittest.TestCase):
-    SENTS = [("a", 0.0, 10.0, "2026.06.17"), ("b", 10.5, 20.0, "2026.07.07"), ("c", 20.5, 30.0, "2026.07.07")]
-
-    def test_article_across_date_fails(self) -> None:
-        out = check_media_date_cross(_P([_article(4.0, 15.0)], total=30.0, sents=self.SENTS))   # 6/18 기사가 7/7 문장 위로(D-0466)
-        self.assertEqual(len(out), 1)
-        self.assertIn("2026.06.17 → 2026.07.07", out[0])
-
-    def test_same_date_window_passes(self) -> None:
-        # 같은 날짜 연속 문장(b·c)은 한 창 — 날짜가 바뀌지 않는다
-        self.assertEqual(check_media_date_cross(_P([_article(11.0, 29.0)], total=30.0, sents=self.SENTS)), [])
-
-    def test_grace_at_boundary_passes(self) -> None:
-        tc = 10.5 - 0.3
-        e = _article(1.0, tc + 0.3 + 1.5)   # 보이는 끝(퇴장 페이드 절반)이 바뀐 시각 + grace 안
-        _, vb = checks._vis_span(e)
-        self.assertLessEqual(vb - tc, QA.media_date_cross.grace_sec + 1.0)
-        out = check_media_date_cross(_P([e], total=30.0, sents=self.SENTS))
-        self.assertEqual(out != [], vb - tc > QA.media_date_cross.grace_sec)
-
-    def test_exempt_type(self) -> None:
-        self.assertEqual(check_media_date_cross(_P([{"type": "backdrop", "t0": 0.0, "t1": 30.0, "mid": "b"}], total=30.0, sents=self.SENTS)), [])
-
-
-class MediaBurstTest(unittest.TestCase):
-    def test_four_in_40s_fails(self) -> None:
-        evs = [_photo(t, t + 7.5, mid=f"m{k}") for k, t in enumerate((5.0, 15.0, 25.0, 35.0))]   # D-0466 "40초에 4개"
-        with mock.patch("engine.media_plan.media_box", _media_box):
-            out = check_media_burst(_P(evs, total=120.0))
-        ids = [o.split("]")[0] + "]" for o in out]
-        self.assertIn("[media-burst-window]", ids)
-        self.assertIn("[map-cover-share]", ids)   # 5~42.5초 거의 내내 덮임
-
-    def test_spaced_passes(self) -> None:
-        evs = [_photo(t, t + 7.5, mid=f"m{k}") for k, t in enumerate((5.0, 50.0, 95.0))]   # 40초 창에 하나씩, 덮임 ≤ 7.5/40
-        with mock.patch("engine.media_plan.media_box", _media_box):
-            self.assertEqual(check_media_burst(_P(evs, total=140.0)), [])
-
-    def test_cover_share_alone(self) -> None:
-        evs = [_article(0.0, 12.0, "a1"), _article(13.0, 25.0, "a2")]   # 기사는 창 개수 밖, 그러나 40초 중 24초 덮임 > 50%
-        out = check_media_burst(_P(evs, total=60.0))
-        self.assertEqual([o.split("]")[0] + "]" for o in out], ["[map-cover-share]"])
 
 
 if __name__ == "__main__":

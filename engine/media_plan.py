@@ -93,7 +93,7 @@ def media_items(events: list[dict], tb: Timebase) -> list[dict]:
 
 
 def density_report(events: list[dict], tb: Timebase, total: float) -> dict:
-    """14 §10.1 밀도 경고 3종(D-0037): media-density-total · media-density-scene · media-kind-repeat(media-burst-window 는 v7.4.0 D-1000 S3 hard media_burst)."""
+    """14 §10.1 밀도 경고 4종(D-0037): media-density-total · media-density-scene · media-kind-repeat · media-burst-window."""
     D = _R.media.density  # noqa: N806
     items = media_items(events, tb)
     beats = [i for i in items if i["kind"] not in D.total_exempt_kinds]   # v5.19.0 D-0163 §2 — 기사는 미디어 비트 상한 밖(분당 상한 따로)
@@ -125,7 +125,9 @@ def density_report(events: list[dict], tb: Timebase, total: float) -> dict:
         inside = [b for b in win[k:] if b["t0"] - a["t0"] < D.window_sec]
         if len(inside) > worst["count"]:
             worst = {"t0": a["t0"], "count": len(inside), "mids": [b["mid"] for b in inside]}
-    # 창 최대가 window_max 를 넘는 것([media-burst-window])은 v7.4.0 D-1000 S3 에서 hard 검사 media_burst(engine.checks)가 이 값으로 낸다 — 경고로 두지 않는다
+    if worst["count"] > D.window_max:   # 경고 유지(v7.4.0 D-1001 B2 — 덮임은 [map-cover-share] hard 가 시간 비율로 잡는다)
+        warns.append(f"[media-burst-window] {worst['t0']}초부터 {D.window_sec:g}초 안 {worst['count']}개 {worst['mids']} > "
+                     f"{D.window_max} (14 §10.1 하한, D38)")
     # v7.3.0 사용자 결정 D232 U2 — 위성 인셋(flight.inset)은 미디어 비트 상한 밖, 자기 상한(장면당·간격)만
     insets = sorted(((e["t0"], e["inset"]["mid"]) for e in events if e["type"] == "flight" and e.get("inset")))
     by_scene_inset: dict[str, list[str]] = {}

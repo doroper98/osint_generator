@@ -450,3 +450,4 @@ last_review: 2026-05-22
 - **자동 조치**: 검사 `map_event_covered`·`media_date_cross`·`media_burst`(옛 [media-burst-window] 경고 → hard + [map-cover-share]) hard, 모든 렌더 경로 같은 run_checks(D-1000 S3, `tests/test_s3_checks.py`). 도구 `tools/review_sheet.py`(3초 간격 프레임 시트 + 요소 노출·지도 가림 표)·`tools/uf_checklist.py`(원장 전부 — 자동 검사 결과·눈 확인 칸·볼 시각), 절차 back_and_forth/README §6.6(D-1000 S4).
 - **회귀 테스트 (regression_test)**: `tests/test_s3_checks.py`, `tests/test_review_tools.py`.
 - **발견 버전**: v7.4.0 · **상태**: active
+- **정정(v7.4.0 D-1001)**: 위 자동 조치 중 `media_date_cross`·`media_burst` 는 sweet-galileo 의 D-0470 장치(`media_sentence_span`·`map_cover_share`, 0583e63f)와 같은 개념이라 삭제했다. `[media-burst-window]` 는 경고 유지(D-1001 B2). 남은 이 트랙 검사 = `map_event_covered`.

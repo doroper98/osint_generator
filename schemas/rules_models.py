@@ -1723,20 +1723,6 @@ class MapEventCoveredRules(_Strict):
     cover_types: list[str]
 
 
-class MediaDateCrossRules(_Strict):
-    """v7.4.0 D-1000 S3(D-0466 §2-3) — 보이는 동안 날짜 HUD 가 바뀌면 실패. 면제는 exempt_types 로만."""
-    types: list[str]
-    exempt_types: list[str]
-    grace_sec: float = Field(ge=0)
-
-
-class MediaBurstRules(_Strict):
-    """v7.4.0 D-1000 S3 — 옛 [media-burst-window] 경고 → hard + 지도 덮임 시간 비율 상한(창 = media.density.window_sec)."""
-    max_cover_ratio: float = Field(gt=0, le=1)
-    step_sec: float = Field(gt=0)
-    cover_types: list[str]
-
-
 class RouteMissingRules(_Strict):
     """v5.21.14 D-0195·D-0197 — 문장에 이동·공격 동사 + 그 문장이 부르는 마커가 있으면 그 마커에 닿는 경로가 문장 구간에 있어야 한다."""
 
@@ -1840,8 +1826,6 @@ class QAChecks(_Strict):
     element_hold: "ElementHoldRules"     # v7.4.0 D-0462(UF-171) — 요소 종류별 완전 노출 하한(hard element_hold)
     media_overlap: "MediaOverlapRules"   # v7.4.0 D-0462(UF-172) — 앞 요소가 하한 전에 덮임(hard media_overlap)
     map_event_covered: "MapEventCoveredRules"   # v7.4.0 D-1000 S3(UF-173) — hard map_event_covered
-    media_date_cross: "MediaDateCrossRules"     # v7.4.0 D-1000 S3 — hard media_date_cross
-    media_burst: "MediaBurstRules"              # v7.4.0 D-1000 S3 — hard media_burst([media-burst-window]·[map-cover-share])
     restate_overlap_max: float = Field(default=0.6, gt=0, le=1)   # v7.4.0 D-0306 §1.2 — [text-restates-narration] 어절 겹침 상한
     restate_min_words: int = Field(default=4, ge=1)   # 이 어절 미만 화면 글자(이름표)는 보지 않는다
     restate_particles: list[str] = Field(default_factory=list)   # v7.4.0 D-0316 ② — 어절 끝 조사(떼고 비교)

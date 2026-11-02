@@ -2177,12 +2177,6 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # 덮개(cover_types, 알파 ≥ 0.5 — 기사·인용 = 화면 전체, 사진·영상 = 미디어 상자)가 가리면 [map-event-covered] hard. 구석 broll 은 상자가 겹칠 때만 넓이로 센다. 감독 제안 값
   map_event_covered: {max_ratio: 0.25, step_sec: 0.1, appear_sec: 2.0, boom_radius_px: 56, box_pad_px: 6,
                       event_types: [route, marker, badge, boom, camera], camera_modes: [move], cover_types: [photo, clip, article, quote]}
-  # v7.4.0 D-1000 S3(D-0466 §2-3 "요소는 자기 문장(같은 날짜) 안에서만") — 보이는 구간(알파 ≥ 0.5) 안에서 날짜 HUD 가 바뀌면 [media-date-cross] hard.
-  # 바뀌기 전·뒤 grace_sec 안은 허용(0.5초 넘게 넘어가면 실패). 날짜와 무관한 요소는 exempt_types 로만 면제
-  media_date_cross: {types: [photo, clip, article, quote], exempt_types: [backdrop], grace_sec: 0.5}
-  # v7.4.0 D-1000 S3 — 옛 media_beats [media-burst-window] 경고(D-0466 "40초에 4개 > 2 를 무시했다")를 hard 로(창·개수 = media.density.window_sec·window_max).
-  # 더해 지도 무대 같은 길이 창마다 덮개가 하나라도 보이는 시간 비율 ≤ max_cover_ratio([map-cover-share])
-  media_burst: {max_cover_ratio: 0.5, step_sec: 0.1, cover_types: [photo, clip, article, quote]}
   # v7.4.0 back_and_forth D-0306 §1.2(UF-148) — 화면 글자가 자막을 되풀이하면 [text-restates-narration] hard. 어절 겹침 비율 상한·대상 최소 어절(짧은 이름표 제외). 감독 제안 값
   restate_overlap_max: 0.6
   restate_min_words: 4
