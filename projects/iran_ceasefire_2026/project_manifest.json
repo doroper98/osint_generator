@@ -4,8 +4,8 @@
   "title": "휴전안 — 미국과 이란, 무엇이 먼저 풀려야 하나",
   "category": "geopolitics",
   "created_at": "2026-11-01T00:29:59.874133Z",
-  "updated_at": "2026-11-02T11:06:31.683528Z",
-  "current_state": "preview_approval",
+  "updated_at": "2026-11-02T11:09:33.466818Z",
+  "current_state": "render",
   "target_duration_min": 18,
   "topic_summary": "2026년 미국·이란 전쟁의 휴전안 정리(9월 말 이란 7일안~10/31 도하)와 휴전 가능성의 조건부 시나리오·신호",
   "initial_links": [],
@@ -89,6 +89,24 @@
       "by": "fable",
       "at": "2026-11-02T10:11:11.767547Z",
       "comment": "사용자 위임 D-0334 · D-0470(콘티 판 v6 7a63dc52, 연출 v10, UF-173 반영) · 프리뷰 v3 hard 0(R-0323)",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/sheet.jpg",
+        "cuts": "0",
+        "media_used": "quote 4 · article 3 · real 13",
+        "quote_candidates": "6",
+        "animatic": "out/animatic.mp4 · 483.031초 · direction fc6f3e210b7476284c04ddffe2b26dc350b8fa86 · script 4a47c0a2fb",
+        "user_feedback": "경고: 이 영상 의견 1건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-173 \"아니 처음부터 사진을 띄워서 뒤에 지도가 안보이게 하면 뭐 어쩌자는거야?\"",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-11-02T11:09:33.466387Z",
+      "comment": "사용자 위임 D-0334 · 크레딧 표기 정정만(트럼프·하메네이 초상 출처, 1f5e0987·da651f1) — 연출 53d1b3c2 불변, 콘티 판 v6 7a63dc52",
       "rollback_to": null,
       "shown": {
         "sheet": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/sheet.jpg",
@@ -510,6 +528,12 @@
       "to_state": "preview_approval",
       "transitioned_at": "2026-11-02T11:06:31.683480Z",
       "reason": "크레딧 표기 정정만(초상 2건 저작자 칸 — 라이브러리 1f5e0987 값 재반영), 연출 불변 53d1b3c2"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-11-02T11:09:33.466757Z",
+      "reason": "preview_approval 승인 — fable"
     }
   ],
   "rollbacks": [],
