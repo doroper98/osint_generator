@@ -66,7 +66,7 @@ class RuleTest(unittest.TestCase):
         src = open(checks.__file__, encoding="utf-8").read()
         for cid in ("map_event_covered",):
             self.assertIn(cid, HARD)
-            self.assertIn(f'"{cid}": lambda: check_{cid}(P)', src)   # 콘티 판·프리뷰·전편·카탈로그가 같은 run_checks(C12-3)
+            self.assertIn(f'"{cid}": lambda: waive_regression(P, "{cid}", check_{cid}(P))', src)   # 같은 run_checks(C12-3), 회귀 기준(골든)만 면제
             self.assertIn(f"| {cid} | hard |", src)
         self.assertEqual(QA.map_event_covered.max_ratio, 0.25)
         for gone in ("media_date_cross", "media_burst"):   # D-1001 — D-0470 장치(media_sentence_span·map_cover_share)가 정본, 이 둘은 삭제(P2)
