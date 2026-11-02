@@ -35,16 +35,17 @@ shots:
   - {at: {sid: encirclement_9}, mode: move, dur: 3.0, camera: {lon: 16.12, lat: 41.325, w: 0.11}, stage: terrain3d, reason: 나올 때 칸나이 마을 자리까지 담는다}
   - {at: {sid: aftermath_0}, mode: move, dur: 6.0, camera: {lon: 15.9, lat: 41.45, w: 3.2}}
   - {at: {sid: aftermath_2}, mode: drift, dur: 14.0, camera: {lon: 16.0, lat: 41.42, w: 3.2}}
-  - {at: {sid: aftermath_8}, mode: move, dur: 6.0, camera: {lon: 13.8, lat: 42.8, w: 14.0}, reason: 타렌툼(남)·갈리아 키살피나(북) — 전장 밖으로}
+  - {at: {sid: aftermath_8}, mode: move, dur: 3.5, camera: {lon: 13.8, lat: 42.4, w: 19.0}, reason: 타렌툼(남)·갈리아 키살피나(북) — 전장 밖으로}
   - {at: {sid: ending_0}, mode: move, dur: 6.0, camera: {lon: 16.0, lat: 41.2, w: 1.8}}
 events:
-  - {type: marker, start: {sid: prelude_0, 'off': 6.2}, end: {sid: prelude_9, edge: end}, at_place: cannae, label: 칸나이, toponymy: cannae}
+  - {type: marker, start: {sid: prelude_0, 'off': 6.2}, end: {sid: prelude_5, edge: end}, at_place: cannae, label: 칸나이, toponymy: cannae}
+  - {type: marker, start: {sid: prelude_8, 'off': 0.4}, end: {sid: prelude_9, edge: end}, at_place: cannae, label: 칸나이}
   - {type: photo, start: {sid: prelude_6, 'off': 0.2}, end: {sid: prelude_6, edge: end, 'off': 0.6}, mid: cannae_bust, for: 대리석 흉상, place: map_pair_right}
   - {type: photo, start: {sid: prelude_7, 'off': 0.2}, end: {sid: prelude_8, 'off': 0.3}, mid: cannae_coin, for: 은화}
   - {type: photo, start: {sid: deployment_8, 'off': 0.2}, end: {sid: deployment_9, edge: end, 'off': 0.3}, mid: cannae_tanit, for: 석회암 비석}
   - {type: photo, start: {sid: deployment_12, 'off': 0.2}, end: {sid: deployment_13, edge: end}, mid: cannae_montefortino, for: 투구, place: map_pair_right}
   - {type: photo, start: {sid: encirclement_11, 'off': 0.2}, end: {sid: encirclement_11, edge: end, 'off': 0.5}, mid: cannae_trumbull, for: 쓰러진 집정관과 말을 권하는 기병}
-  - {type: marker, start: {sid: aftermath_0, 'off': 0.3}, end: {sid: aftermath_4, edge: end}, at_place: cannae, label: 칸나이}
+  - {type: marker, start: {sid: aftermath_1, 'off': 0.2}, end: {sid: aftermath_4, edge: end}, at_place: cannae, label: 칸나이}
   - type: panel
     start: {sid: aftermath_2, 'off': -0.2}
     end: {sid: aftermath_4, edge: end}
@@ -93,7 +94,7 @@ events:
       translation: "1929"
       translation_url: https://archive.org/details/livy-in-fourteen-volumes.-vol.-5-loeb-233
       translation_license: 퍼블릭 도메인(미국, 2025년부터)
-  - {type: marker, start: {sid: aftermath_8, 'off': 1.5}, end: {sid: aftermath_10, edge: end}, at_place: tarentum, label: 타렌툼}
+  - {type: marker, start: {sid: aftermath_8, 'off': 3.6}, end: {sid: aftermath_10, edge: end}, at_place: tarentum, label: 타렌툼}
   - {type: marker, start: {sid: aftermath_9, 'off': 0.3}, end: {sid: aftermath_10, edge: end}, at_place: cisalpina, label: 갈리아 키살피나}
   - {type: marker, start: {sid: ending_1, 'off': 0.3}, end: {sid: ending_2, edge: end}, at_place: cannae, label: 칸나이}
   - {type: marker, start: {sid: ending_2, 'off': 0.3}, end: {sid: ending_2, edge: end, 'off': 0.5}, at_place: venusia, label: 베누시아}
