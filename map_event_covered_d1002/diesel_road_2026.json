@@ -1,0 +1,54 @@
+[
+ {
+  "n": 1,
+  "type": "boom",
+  "name": "boom",
+  "window": [
+   252.24,
+   254.24
+  ],
+  "ratio": 1.0,
+  "t": 254.14,
+  "sid": "act2_8",
+  "png": "/home/user/bench/mec2/diesel_road_2026_01.png"
+ },
+ {
+  "n": 2,
+  "type": "route",
+  "name": "동서 송유관",
+  "window": [
+   682.94,
+   693.94
+  ],
+  "ratio": 1.0,
+  "t": 689.64,
+  "sid": "act4_15",
+  "png": "/home/user/bench/mec2/diesel_road_2026_02.png"
+ },
+ {
+  "n": 3,
+  "type": "marker",
+  "name": "호르무즈 해협",
+  "window": [
+   710.71,
+   712.71
+  ],
+  "ratio": 0.339,
+  "t": 711.01,
+  "sid": "act4_19",
+  "png": "/home/user/bench/mec2/diesel_road_2026_03.png"
+ },
+ {
+  "n": 4,
+  "type": "camera",
+  "name": "move t=257.3",
+  "window": [
+   257.28,
+   263.28
+  ],
+  "ratio": 1.0,
+  "t": 257.28,
+  "sid": "act2_9",
+  "png": "/home/user/bench/mec2/diesel_road_2026_04.png"
+ }
+]

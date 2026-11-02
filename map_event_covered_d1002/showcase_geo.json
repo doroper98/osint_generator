@@ -1,0 +1,106 @@
+[
+ {
+  "n": 1,
+  "type": "route",
+  "name": "레일라호 · 7월·8월",
+  "window": [
+   96.04,
+   106.54
+  ],
+  "ratio": 0.881,
+  "t": 102.44,
+  "sid": "act2_5",
+  "png": "/home/user/bench/mec2/showcase_geo_01.png"
+ },
+ {
+  "n": 2,
+  "type": "route",
+  "name": "레일라호 · 두 번째",
+  "window": [
+   102.38,
+   112.64
+  ],
+  "ratio": 0.39,
+  "t": 104.28,
+  "sid": "act2_5",
+  "png": "/home/user/bench/mec2/showcase_geo_02.png"
+ },
+ {
+  "n": 3,
+  "type": "boom",
+  "name": "boom",
+  "window": [
+   171.29,
+   173.29
+  ],
+  "ratio": 1.0,
+  "t": 171.29,
+  "sid": "act4_1",
+  "png": "/home/user/bench/mec2/showcase_geo_03.png"
+ },
+ {
+  "n": 4,
+  "type": "route",
+  "name": "유일한 바닷길",
+  "window": [
+   125.87,
+   134.33
+  ],
+  "ratio": 0.858,
+  "t": 126.27,
+  "sid": "act3_2",
+  "png": "/home/user/bench/mec2/showcase_geo_04.png"
+ },
+ {
+  "n": 5,
+  "type": "marker",
+  "name": "정유소",
+  "window": [
+   70.32,
+   72.32
+  ],
+  "ratio": 1.0,
+  "t": 70.32,
+  "sid": "act1_8",
+  "png": "/home/user/bench/mec2/showcase_geo_05.png"
+ },
+ {
+  "n": 6,
+  "type": "marker",
+  "name": "정유소",
+  "window": [
+   70.32,
+   72.32
+  ],
+  "ratio": 1.0,
+  "t": 70.32,
+  "sid": "act1_8",
+  "png": "/home/user/bench/mec2/showcase_geo_06.png"
+ },
+ {
+  "n": 7,
+  "type": "marker",
+  "name": "정유소",
+  "window": [
+   70.32,
+   72.32
+  ],
+  "ratio": 1.0,
+  "t": 70.32,
+  "sid": "act1_8",
+  "png": "/home/user/bench/mec2/showcase_geo_07.png"
+ },
+ {
+  "n": 8,
+  "type": "marker",
+  "name": "극동",
+  "window": [
+   84.45,
+   86.45
+  ],
+  "ratio": 1.0,
+  "t": 84.45,
+  "sid": "act2_1",
+  "png": "/home/user/bench/mec2/showcase_geo_08.png"
+ }
+]

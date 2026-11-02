@@ -1,0 +1,41 @@
+[
+ {
+  "n": 1,
+  "type": "marker",
+  "name": "호르무즈 해협",
+  "window": [
+   280.06,
+   282.06
+  ],
+  "ratio": 1.0,
+  "t": 281.76,
+  "sid": "act4_4",
+  "png": "/home/user/bench/mec2/iran_ceasefire_2026_01.png"
+ },
+ {
+  "n": 2,
+  "type": "route",
+  "name": "gold",
+  "window": [
+   419.82,
+   436.82
+  ],
+  "ratio": 1.0,
+  "t": 426.92,
+  "sid": "act6_7",
+  "png": "/home/user/bench/mec2/iran_ceasefire_2026_02.png"
+ },
+ {
+  "n": 3,
+  "type": "camera",
+  "name": "move t=373.1",
+  "window": [
+   373.07,
+   376.47
+  ],
+  "ratio": 1.0,
+  "t": 373.07,
+  "sid": "act5_9",
+  "png": "/home/user/bench/mec2/iran_ceasefire_2026_03.png"
+ }
+]

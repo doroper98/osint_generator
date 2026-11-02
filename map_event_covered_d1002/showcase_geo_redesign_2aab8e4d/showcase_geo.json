@@ -1,0 +1,41 @@
+[
+ {
+  "n": 1,
+  "type": "route",
+  "name": "레일라호 · 7월·8월",
+  "window": [
+   96.04,
+   106.54
+  ],
+  "ratio": 0.877,
+  "t": 101.94,
+  "sid": "act2_5",
+  "png": "/home/user/bench/mec3/showcase_geo_01.png"
+ },
+ {
+  "n": 2,
+  "type": "boom",
+  "name": "boom",
+  "window": [
+   171.29,
+   173.29
+  ],
+  "ratio": 0.839,
+  "t": 171.39,
+  "sid": "act4_1",
+  "png": "/home/user/bench/mec3/showcase_geo_02.png"
+ },
+ {
+  "n": 3,
+  "type": "marker",
+  "name": "극동",
+  "window": [
+   84.45,
+   86.45
+  ],
+  "ratio": 1.0,
+  "t": 84.45,
+  "sid": "act2_1",
+  "png": "/home/user/bench/mec3/showcase_geo_03.png"
+ }
+]

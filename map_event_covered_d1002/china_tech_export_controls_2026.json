@@ -1,0 +1,54 @@
+[
+ {
+  "n": 1,
+  "type": "marker",
+  "name": "베이징",
+  "window": [
+   45.48,
+   47.48
+  ],
+  "ratio": 1.0,
+  "t": 46.38,
+  "sid": "act1_2",
+  "png": "/home/user/bench/mec2/china_tech_export_controls_2026_01.png"
+ },
+ {
+  "n": 2,
+  "type": "camera",
+  "name": "move t=86.3",
+  "window": [
+   86.34,
+   94.34
+  ],
+  "ratio": 0.285,
+  "t": 93.64,
+  "sid": "act1_9",
+  "png": "/home/user/bench/mec2/china_tech_export_controls_2026_02.png"
+ },
+ {
+  "n": 3,
+  "type": "marker",
+  "name": "베이징",
+  "window": [
+   108.25,
+   110.25
+  ],
+  "ratio": 1.0,
+  "t": 108.95,
+  "sid": "act1_11",
+  "png": "/home/user/bench/mec2/china_tech_export_controls_2026_03.png"
+ },
+ {
+  "n": 4,
+  "type": "marker",
+  "name": "진천",
+  "window": [
+   308.95,
+   310.95
+  ],
+  "ratio": 0.867,
+  "t": 308.95,
+  "sid": "act3_8",
+  "png": "/home/user/bench/mec2/china_tech_export_controls_2026_04.png"
+ }
+]
