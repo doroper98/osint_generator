@@ -359,8 +359,23 @@ class QuoteEvent(_Event):
         return self
 
 
+class MediaSpot(BaseModel):
+    """v7.4.0 UF-400·UF-401(영상 분석 D15) — 사진·영상 속 한 사람을 가리키는 점선 원. x·y = 그림 안 중심(폭·높이 비율 0~1), r = 반지름(그림 폭 비율).
+    dim = 원 밖을 어둡게(화면 덮개 — 원본 화소 가공 아님). t = 나타나는 시각(word 앵커, 없으면 이벤트 t0)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    x: float = Field(ge=0, le=1)
+    y: float = Field(ge=0, le=1)
+    r: float = Field(gt=0, le=0.5)
+    dim: bool = False
+    t: Optional[float] = None
+
+
 class PhotoEvent(_Event):
     """사진 카드 — 파일·캡션·출처 줄은 미디어 레지스트리에서만. 연출이 문자열을 주면 모델 오류(extra=forbid, D-0036)."""
+
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("spot",)   # v7.4.0 UF-401 — 안 쓰면 dict 옛 모양
 
     type: Literal["photo"]
     mid: str
@@ -370,6 +385,7 @@ class PhotoEvent(_Event):
     x: Optional[float] = None      # 없으면 배치 슬롯 기본값(engine.placement, rules placement.auto_media — 14 §10.3-5)
     y: Optional[float] = None
     w: Optional[float] = None
+    spot: Optional[MediaSpot] = Field(default=None, description="사진 속 한 사람 점선 원 {x, y, r(그림 비율), dim, t}")
 
     @model_validator(mode="after")
     def _xyw_together(self) -> "PhotoEvent":
@@ -379,10 +395,13 @@ class PhotoEvent(_Event):
 
 
 class ClipEvent(_Event):
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("spot",)   # v7.4.0 UF-401 — 안 쓰면 dict 옛 모양
+
     type: Literal["clip"]
     mid: str
     role: Literal["main", "broll"] = "main"   # v7.4.0 D-0274 §2① — main = 주 요소(액자 clip_frame·원음), broll = 현장 보조(구석 슬롯)
     frame: Optional[Literal["clip_frame"]] = None   # v7.4.0 D-0274 §2① — 코드(engine.placement)가 main 클립에 붙이는 액자 슬롯 표시. 연출이 쓰지 않는다
+    spot: Optional[MediaSpot] = Field(default=None, description="영상 속 한 사람 점선 원 {x, y, r(그림 비율), dim, t}")   # v7.4.0 UF-401
     audio: Optional[Literal["main", "broll"]] = None   # v7.4.0 D-0276 — 원음 이득을 배치 role 과 따로: None=role 과 같게, broll=현장음(발언이 아닌 전투·현장 영상을 액자(main)로 크게 보이되 소리는 낮게, geo strikes)
     x: Optional[float] = None
     y: Optional[float] = None

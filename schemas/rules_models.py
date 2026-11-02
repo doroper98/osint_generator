@@ -883,6 +883,18 @@ class ReservedZones(_Strict):
     subtitle: SubtitleZone
 
 
+class MediaSpotLayout(_Strict):
+    """v7.4.0 UF-400·UF-401(영상 분석 D15) — 사진·영상 속 점선 원."""
+
+    draw_sec: float = Field(gt=0)
+    line_w: float = Field(gt=0)
+    dash: list[float] = Field(min_length=2)
+    line_rgb: RGB
+    line_alpha: float = Field(ge=0, le=1)
+    dim_alpha: float = Field(ge=0, le=1)
+    dim_fade_sec: float = Field(ge=0.55)
+
+
 class Layout480p(_Strict):
     base: LayoutBase
     subtitle: SubtitleLayout
@@ -895,6 +907,7 @@ class Layout480p(_Strict):
     panel: PanelLayout
     badge: BadgeLayout
     media_caption: MediaCaptionLayout      # v4.8.0 D-0101 §3
+    media_spot: MediaSpotLayout            # v7.4.0 UF-401 — 사진·영상 속 점선 원
     marker: MarkerLayout
     route_label: RouteLabelLayout
     timeline_gaps: TimelineGaps
