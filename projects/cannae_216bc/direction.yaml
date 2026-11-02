@@ -47,7 +47,7 @@ events:
   - {type: marker, start: {sid: aftermath_0, 'off': 0.3}, end: {sid: aftermath_1, edge: end, 'off': 0.3}, at_place: cannae, label: 칸나이}
   - type: panel
     start: {sid: aftermath_2, 'off': -0.2}
-    end: {sid: aftermath_5, edge: end, 'off': 0.4}
+    end: {sid: aftermath_4, edge: end, 'off': 0.4}
     kind: versus
     data:
       title: 로마군 손실 — 두 사료
@@ -62,6 +62,7 @@ events:
         items:
         - {text: '전사 보병 45,500명 · 기병 2,700명', t: {sid: aftermath_3, 'off': 3.0}}
         - {text: '포로 보병 3천 명 · 기병 1,500명', t: {sid: aftermath_4, 'off': 3.0}}
+  - {type: photo, start: {sid: aftermath_5, 'off': 0.1}, end: {sid: aftermath_5, edge: end, 'off': -0.5}, mid: cannae_slodtz, for: 대리석상, place: map_center_media}
   - type: quote
     start: {sid: aftermath_5, edge: end, 'off': -0.4}
     end: {sid: aftermath_6, edge: end, 'off': 0.6}

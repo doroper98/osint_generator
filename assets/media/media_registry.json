@@ -6107,6 +6107,67 @@
    "license_tags": [
     "CC-Zero"
    ]
+  },
+  "cannae_slodtz": {
+   "is_file_photo": false,
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-02",
+   "source_hash": "d050b22e892fad9ef04b4e253f13bc02",
+   "kind": "period_art",
+   "title": "File:Hannibal Slodtz Louvre MR2093.jpg",
+   "license": "Public domain",
+   "author": "Jastrow(사진 2006, PD-self)",
+   "credit_author": "Jastrow",
+   "date": "2006",
+   "url": "https://commons.wikimedia.org/wiki/File:Hannibal_Slodtz_Louvre_MR2093.jpg",
+   "caption": "칸나이에서 죽은 로마 기사들의 반지를 세는 한니발",
+   "file_note": "세바스티앵 슬로츠 · 대리석상 · 1704 · 루브르 박물관(MR 2093)",
+   "depicts": [
+    "대리석상",
+    "한니발"
+   ],
+   "main_subject": [
+    "대리석상"
+   ],
+   "verified_by": {
+    "by": "구현 세션(Commons 파일 페이지 원문 — {{Artwork}} 설명·{{PD-self}} 틀, 1280px 표준 축소본)",
+    "on": "2026-11-02",
+    "casualty_free": true,
+    "relevance": "칸나이 전투를 직접 소재로 한 후대 작품(D-0618 §3) — 원고 aftermath_5(한니발군의 손실) 자리. 반지 일화 자체는 화면에 사실로 서술하지 않는다(작품 제목만)"
+   },
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "cannae_slodtz.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "fit": "contain",
+     "matte": [
+      18,
+      20,
+      24
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "file": "cannae_slodtz.jpg",
+   "created": "1704",
+   "work_kind": "sculpture",
+   "holder": "루브르 박물관",
+   "inventory_no": "MR 2093",
+   "material": "대리석",
+   "art_history": "세바스티앵 슬로츠가 1704년에 만든 대리석상으로, 칸나이에서 죽은 로마 기사들의 반지를 세는 한니발을 새겼고 루브르 박물관(MR 2093)에 있다.",
+   "art_history_source": "Commons 파일 설명(Hannibal Barca counting the rings of the Roman knights killed at the Battle of Cannae (216 BC). Marble, 1704. — Louvre MR 2093)",
+   "photo_license": "Public domain",
+   "work_license": "Public domain(작품 1704, PD-old)",
+   "license_tags": [
+    "PD-self"
+   ]
   }
  }
 }
