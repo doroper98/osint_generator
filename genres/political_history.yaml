@@ -1,0 +1,44 @@
+# 장르 프로필 — 정치사·권력 승계 해설 (v7.4.0, 사용자 의견 UF-400 "이 영상을 매우 정밀하게 분석해서 우리 템플릿에 보완해야 할 부분은
+# 추종해서 보완하고 없는 부분은 신설해" — 분석 보고 docs/handoff/reports/video_analysis_nk_succession_2026-11-02.md §5).
+# 대상: 한 체제 안의 권력 이동(후계·숙청·호칭 변화)을 수십 년 단위로 따라가는 해설. 지정학(사건 지점·경로)과 달리 주인공이 **사람**이고,
+# 근거가 정보기관·연구소의 **1차 문서**이며, 같은 **설명 모형**(후계 공개 순서)을 사례마다 다시 불러 비교한다.
+# 지정학 프로필과 다른 점(이 파일이 더하는 것):
+#   1) new: process_lane(과정 도식 — 설명 모형을 한 번 세우고 다시 부른다), doc_excerpt(1차 문서 원문·번역·밑줄)
+#   2) reuse 에 statement_diff — 호칭·문구 변화("사랑하는 → 존경하는", 사전 1970년판 → 1972년판 삭제)를 단어 단위로
+#   3) color_semantics: regime(이야기의 권력 주체) · counterpart(바깥 관찰자 — 정보당국·외국 연구자) — 지정학 색 토큰 그대로 재사용
+#   4) photo_age_check false(1970년대 공식 사진이 근거 자료다, D-0327 역사 장르 예외)
+# status proposed: 사용자 승인 전(20 §3). approved 로 바꾸는 것은 사용자 결정이다. 새 요소 두 개는 실렌더 스케치 판정 뒤에만 영상에 쓴다(20 §4.1).
+# 가져오지 않은 것(C0·불변 층): 비네팅, 모서리 채널 로고, 오른쪽 위 상시 출처 줄(모서리 = 날짜만), 상자형 자막(자막 halo 는 불변 층), 무대 전환 모핑(무대 전환 = 암전 dip).
+schema_version: 1
+genre: political_history
+status: proposed
+template_label: 정치사 해설
+stage:
+  primary: mercator               # 지도 위에서 인물·나라를 따라간다(기준 작품 『경유의 길』의 카메라 문법 그대로)
+  secondary: []
+  mercator: {theme: light}        # D154·D155 장르 기본값 — 해설 = light(레퍼런스의 회색 지도와 같은 결: 땅은 옅게, 주체 나라만 색)
+color_semantics:
+  regime: ru                      # 이야기의 권력 주체(체제·당·집권 측) — country 강조·표지
+  counterpart: us                 # 바깥 관찰자(한국·미국 정보당국, 외국 연구자)
+  emphasis: gold                  # 지금 문장의 주인공·밑줄·도달 단계·기간 괄호
+  neutral: teal                   # 중립·제3국
+  secondary_text: muted           # 공개 선·비공개 구역 이름·보조 글자
+  added: green                    # statement_diff — 새로 들어온 호칭·문구
+  removed: ru                     # statement_diff — 빠진 호칭·문구(붉은 취소선)
+primitives:
+  reuse: [marker, route, country, badge, person, flag, emblem, photo, clip, cutout, article, post, quote,
+          relation, network, timeline, precedent, checklist, gantt, versus, cascade, statement_diff]
+  new: [process_lane, doc_excerpt]
+badges:
+  people: rights_check            # 인물 초상 — 권리 레지스트리(07 §6). 회색조 초상은 자산 단계 규약(07 §3.4)
+  institutions: rights_check      # 정보기관 휘장 — 위키미디어 Restrictions 있으면 국기로 대체(D5)
+narration:
+  define_terms_once: true         # 정치위원회·당중앙·호칭 같은 용어는 첫 등장 때 한 문장으로
+  attribute_causality: true       # 후계 해석은 분석 귀속("CIA 는 ~라고 평가했습니다")
+  numbers_per_sentence_max: 2
+  recurring_model: true          # 후계 공개 순서 모형을 세 사례(김정일·김정은·김주애)에 되부른다 — process_lane 과 짝
+  avoid: [사망설 단정, 건강 이상 단정, 후계자 지명 단정]
+media:
+  preferred: [photo, clip, article, post]
+photo_age_check: false
+qa_extra: []

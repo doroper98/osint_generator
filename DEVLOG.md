@@ -3446,3 +3446,9 @@ last_review: 2026-06-06
 - 2026-10-18 v7.3.0 main 병합(D232·D-0228) — diesel_road_2026 「경유의 길 — 사흘에 한 번」 전편 전달 + flight·원형 위성 인셋·press_cited 시리즈·공용 자산(초상 4·인셋 10·기사 34·시리즈 3). 병합 전 전체 pytest(빠른 -n 4 + 느린 직렬) 1707 passed, 3 failed(환경 의존 — fed_policy_2026 plan.json·tts 미추적, 새 컨테이너에서는 main 도 동일, 브랜치 변경과 무관): test_g5_endcard_overflow ×2, test_g5_labels_endcard::ProjectPreviewNoLabelTest. hormuz 5건(test_v3_voice ×2·HormuzScaleTest ×3)은 자산 복원(geo.prep 1080p·720p, 표준 음성 plan 재생성 — 골든 plan 과 mp3·길이 동일, media 720p, render·mux) 후 통과. 후속 과제: fed_policy_2026 plan·tts 를 artifacts 브랜치로 보존.
 - 2026-10-19 v7.4.0 diesel_road_2026 v2 트랙 완료(D-0229~0244) — 도로·강·수도 상시, drift 카메라, 본 지도 콘티 판, 검사 11종(static_camera·route_speed·sea_only_frame·unit_ton_glyph·media_unused·inset_clipped·press_credit·badge_clipped 등), rollback --to script_draft. 전편 v2 합격(D251)·국기 잘림 교체(final md5 36289c32, RENDER-AP-029). 골든 main 대비 24/25 동일(1컷 도장). 병합 전 빠른 묶음 회귀 6건 수정. main --no-ff 병합.
 - 2026-10-19 v7.4.0 사용자 의견 UF-126~131 — 그래프 복원·점선 보간·그래프 위 카드 0·'경유가' 발음(사전 짧은 키 경계)은 교체 3(md5 554f4f85, D259 합격)으로 전달. UF-130 기사 매체·UF-131 '−' 글리프는 사용자 결정 D262 로 재렌더 없이 장치만([article-outlet-mismatch]·glyph_fallback·glyph_sweep). 장치 검사 6종 추가(series_unused·panel_dropped·card_over_panel·article_outlet·[interp-*]·tts-tensification), 원장 131 미보호 0.
+
+## 2026-11-02 v7.4.0 — 레퍼런스 영상 분석 → 정치사 템플릿·새 요소 둘(UF-400)
+
+- 무엇을: 사용자 업로드 해설 영상(12:04) 실측 — 하드 컷 0, 최장 정지 2.4초, 자막 덩어리 분당 17.1, 말하는 동안 분당 약 409음절(우리 기준 작품 367), 쉼 중앙값 0.25~0.30초(우리 0.9). 장치 19종 대조 → 신설 process_lane·doc_excerpt·political_history·genre_map 프롬프트 층·recurring_model, 보완 sentence_still 검사.
+- 왜: 사용자 지시 UF-400. 레퍼런스의 강점은 '설명 모형을 한 번 세우고 사례마다 되부르는' 서사와 문장마다 요소가 바뀌는 밀도. 겉모양(색·글꼴·조판)은 우리 토큰으로 새로 짰다(LLM-AP-022·UF-202).
+- 막힌 것: anti_inertia 6건 실패 = 골든 자산 부재 3(환경) + 원장 기존 문제 1(UF-203·204 분류) + 이 브랜치 원장의 samsung open 10건 경보 1(경제 브랜치에선 guarded) + 장부 표 재생성 1(해결).

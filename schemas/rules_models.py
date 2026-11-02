@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Literal, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
 class _Strict(BaseModel):
@@ -363,8 +363,24 @@ class StaticWindow(_Strict):
     ladder: str = Field(min_length=1)                # 연출 프롬프트 변화 사다리({{RULES.pacing.static_window}}), {window_sec} 자리
 
 
+class SentenceChange(_Strict):
+    """문장 단위 변화 `[sentence-still]`(v7.4.0 UF-400 영상 분석) — 문장 동안 change_kinds 등장 0 = warning. camera 는 넣지 않는다(C0)."""
+
+    lead_sec: float = Field(ge=0)
+    min_sentence_sec: float = Field(ge=0)
+    change_kinds: list[str] = Field(min_length=1)
+
+    @field_validator("change_kinds")
+    @classmethod
+    def _no_camera(cls, v: list[str]) -> list[str]:
+        if "camera" in v:
+            raise ValueError("sentence_change 는 카메라 이동을 세지 않는다 — C0 '문장마다 카메라 이동' 금지")
+        return v
+
+
 class PacingRules(_Strict):
     static_window: StaticWindow
+    sentence_change: SentenceChange   # v7.4.0 UF-400
 
 
 class MediaBeats(_Strict):
@@ -2432,6 +2448,7 @@ class GenrePromptRules(_Strict):
     data_sources: list[str] = Field(min_length=1)
     rubric_extra: list[str] = Field(min_length=1)
     stage_grammar: dict[str, list[str]] = Field(min_length=1)
+    element_grammar: dict[str, str] = Field(default_factory=dict)   # v7.4.0 UF-400 — 요소별 연출 문법(지도형 장르 문단). 키 = 등록 요소
 
 
 class DataRules(_Strict):
@@ -2590,12 +2607,131 @@ class SiteDiagramLayout(_Strict):
     pad_x: float
 
 
+class ProcessLaneLayout(_Strict):
+    """v7.4.0 UF-400 — process_lane(과정 도식) 레이아웃 토큰(설계 px)."""
+
+    x: float
+    y: float
+    w: float = Field(gt=0)
+    head_h: float
+    row_h: float
+    foot_h: float
+    pad_x: float
+    label_col_w: float
+    radius: float
+    title_dy: float
+    title_size: float
+    src_dy: float
+    steps_min: int = Field(ge=2)
+    steps_max: int = Field(ge=2)
+    step_chars_max: int = Field(ge=1)
+    step_lines_max: int = Field(ge=1)
+    rows_max: int = Field(ge=1)
+    pill_h: float
+    pill_dy: float
+    pill_gap: float
+    pill_pad_x: float
+    pill_base_alpha: float = Field(ge=0, le=1)
+    pill_fill_alpha: float = Field(ge=0, le=1)
+    pill_line_alpha: float = Field(ge=0, le=1)
+    pill_line_w: float
+    step_size: float
+    step_line_h: float
+    step_baseline: float
+    ghost_alpha: float = Field(ge=0, le=1)
+    reach_eps: float
+    step_stagger_sec: float = Field(ge=0)
+    step_fade_sec: float = Field(ge=0.55)
+    hidden_pad: float
+    hidden_top: float
+    hidden_gap: float
+    hidden_alpha: float = Field(ge=0, le=1)
+    hidden_label_dx: float
+    hidden_label_dy: float
+    hidden_label_size: float
+    axis_w: float
+    axis_alpha: float = Field(ge=0, le=1)
+    arrow_len: float
+    arrow_half: float
+    gate_delay_sec: float = Field(ge=0)
+    gate_grow_sec: float = Field(gt=0)
+    gate_over: float
+    gate_under: float
+    gate_w: float
+    gate_label_size: float
+    gate_label_dy: float
+    row_label_size: float
+    row_label_dy: float
+    token_r: float
+    token_dy: float
+    token_delay_sec: float = Field(ge=0)
+    token_label_dx: float
+    token_label_dy: float
+    token_label_size: float
+    move_sec: float = Field(gt=0)
+    span_dy: float
+    span_tick: float
+    span_w: float
+    span_size: float
+    span_label_dy: float
+    span_fade_sec: float = Field(ge=0.55)
+    fade_sec: float = Field(ge=0.6, le=0.9)   # statement_diff 와 같은 범위(UF-159)
+
+
+class DocExcerptLayout(_Strict):
+    """v7.4.0 UF-400 — doc_excerpt(1차 문서 발췌) 레이아웃 토큰(설계 px)."""
+
+    x: float
+    y: float
+    w: float = Field(gt=0)
+    pad_x: float
+    pad_top: float
+    pad_bottom: float
+    radius: float
+    paper: str
+    ink: str
+    ink_muted: str
+    ghost: str
+    head_size: float
+    head_gap: float
+    ghost_before: int = Field(ge=0)
+    ghost_after: int = Field(ge=0)
+    ghost_h: float
+    ghost_gap: float
+    ghost_widths: list[float] = Field(min_length=1)
+    orig_size: float
+    orig_line_h: float
+    orig_gap: float
+    orig_lines_max: int = Field(ge=1)
+    trans_gap: float
+    trans_size: float
+    trans_line_h: float
+    trans_lines_max: int = Field(ge=1)
+    trans_pad_x: float
+    trans_bar_w: float
+    trans_bar_pad: float
+    trans_delay_sec: float = Field(ge=0)
+    trans_fade_sec: float = Field(ge=0.55)
+    trans_rise_px: float
+    alpha_floor: float = Field(gt=0)
+    after_gap: float
+    underline_delay_sec: float = Field(ge=0)
+    underline_grow_sec: float = Field(gt=0)
+    underline_w: float
+    underline_dy: float
+    src_gap: float
+    scale_from: float = Field(gt=0, le=1)
+    fade_sec: float = Field(ge=0.6, le=0.9)
+
+
 class PrimitivesRules(_Strict):
     """v4.2.0 D-0081 작업 4 — 프리미티브별 레이아웃 토큰(engine.style.PRIMITIVES). 요소가 등록될 때 필드를 더한다."""
 
     statement_diff: Optional[StatementDiffLayout] = None
     dot_plot: Optional[DotPlotLayout] = None   # v4.4.0 D-0090 작업 3
     site_diagram: Optional[SiteDiagramLayout] = None   # v4.4.0 dmz_mine_2026 사용자 요청(현장 개념도)
+    process_lane: Optional[ProcessLaneLayout] = None   # v7.4.0 UF-400 과정 도식(영상 분석)
+    doc_excerpt: Optional[DocExcerptLayout] = None   # v7.4.0 UF-400 1차 문서 발췌(영상 분석)
 
 
 # ---------------------------------------------------------------- v5.7.0 스케치 계층(sketch/, D-0140 D130)
@@ -3298,6 +3434,13 @@ class VideoRules(_Strict):
         bad = sorted(set(self.genre_prompt.stage_grammar) - set(self.registries.stages))
         if bad:
             raise ValueError(f"genre_prompt.stage_grammar 의 무대가 registries.stages 에 없다: {bad}")
+        reg = self.registries
+        bad = sorted(set(self.genre_prompt.element_grammar) - set(reg.event_types) - set(reg.panel_kinds) - set(reg.badge_kinds) - set(reg.primitives))
+        if bad:
+            raise ValueError(f"genre_prompt.element_grammar 의 키가 등록 요소가 아니다: {bad}")   # v7.4.0 UF-400
+        bad = sorted(set(self.pacing.sentence_change.change_kinds) - set(reg.event_types))
+        if bad:
+            raise ValueError(f"pacing.sentence_change.change_kinds 가 registries.event_types 에 없다: {bad}")   # v7.4.0 UF-400
         bad = sorted(f"{n}→{st}" for n, sl in self.placement.slots.items() for st in (sl.stages or []) if st not in self.registries.stages)
         if bad:
             raise ValueError(f"placement.slots 의 stages 가 registries.stages 에 없다: {bad}")   # v5.2.0 D-0132

@@ -459,6 +459,14 @@ pacing:                    # v4.11.0 back_and_forth D-0118 §1(사용자 위임 
       - camera
     creep: {enabled: true, w_ratio: 0.96, min_window_sec: 45}   # 느린 푸시인 — 표시된 창에서만 w 를 창 길이에 걸쳐 4 % 선형 축소, 창 뒤 유지(다음 숏 이동이 흡수). shot_grammar.drift 와 곱한다
     ladder: "같은 뷰가 {window_sec}초를 넘으면 뷰를 바꾸지 말고 문장의 내용을 따라 ① 마커·라벨 등장 ② 관계선 하나 ③ 뱃지·카드 ④ 강조 ⑤ 그래도 없으면 숏 이동 순으로 변화를 준다. 이유 없는 카메라 이동 금지. 검사 [static-window]: 지도 무대의 어떤 {window_sec}초 창이든 변화({change_kinds})가 {min_changes}개 미만이면 경고한다. 표시된 창에는 엔진이 느린 푸시인(창 길이에 걸쳐 w × {w_ratio})을 건다 — 연출이 줌을 넣지 않는다."
+  # v7.4.0 사용자 의견 UF-400(영상 분석 보고 video_analysis_nk_succession_2026-11-02 §3.2) — 문장 단위 변화. 레퍼런스는 하드 컷 0·화면이 2.4초 넘게
+  # 멈춘 적 0 이었고, 변화는 카메라가 아니라 요소(표지 등장·고리 맥동·이름표·선)가 줬다. static_window(45초 창)보다 촘촘한 단위 — 문장 하나 동안
+  # change_kinds 이벤트 등장(t0 ∈ [문장 시작 − lead_sec, 문장 끝])이 0 이면 [sentence-still] warning. camera 는 세지 않는다(C0 "문장마다 카메라 이동" 금지 —
+  # 이 검사가 카메라 이동을 부르지 않게). 값 = 분석 세션 제안(사용자 합격 값 아님)
+  sentence_change:
+    lead_sec: 0.5
+    min_sentence_sec: 2.5     # 이보다 짧은 문장은 보지 않는다(연결 문장)
+    change_kinds: [marker, route, badge, panel, photo, clip, cutout, article, post, country, boom, flight, primitive, quote, cascade, island, series]
 
 stage:                     # v4.1.0 D-0076 작업 5·D-0077 — 무대 연속성(docs/handoff/20 §2.2·§12 관성 체크, GOAL G3-17). checks stage_continuity(hard)
   max_secondary: 1         # 영상의 주 무대 1 + 보조 무대 이 수 이하(20 §2.2-1)
@@ -1191,7 +1199,7 @@ registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 �
   accents: [gold, us, ru, teal, muted, green, amber]
   stages: [mercator, timeline, backdrop]   # backdrop = v5.1.0 D-0123(사진 배경 무대, engine/stage_backdrop.py). v4.1.0 D-0076 — 무대(engine.stage). 없는 무대 = 오류, 있는데 구현(STAGE_CLASSES)이 없음 = 오류(P10). timeline = v4.3.0 D-0084 작업 3
   stages_planned: [chart_wall, flow, structure, document]   # v4.2.0 D-0081 — 20 §2.1 무대 카탈로그(구현 전). 장르 프로필 proposed 만 참조 가능, 연출에서 쓰면 오류
-  primitives: [statement_diff, dot_plot, site_diagram]   # site_diagram = v4.4.0 dmz_mine_2026 사용자 요청(현장 개념도, 벡터).  dot_plot = v4.4.0 D-0090 작업 3(사용자 승인 대기 — provenance elements.approval pending). v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
+  primitives: [statement_diff, dot_plot, site_diagram, process_lane, doc_excerpt]   # process_lane·doc_excerpt = v7.4.0 UF-400(영상 분석 — 과정 도식·1차 문서 발췌, 사용자 스케치 판정 대기). site_diagram = v4.4.0 dmz_mine_2026 사용자 요청(현장 개념도, 벡터).  dot_plot = v4.4.0 D-0090 작업 3(사용자 승인 대기 — provenance elements.approval pending). v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
   primitives_planned:     # v4.2.0 D-0082 쟁점 1 A — 구현 전 프리미티브. 장르 프로필 proposed 의 new 만 참조 가능, 연출에서 쓰면 오류
     - rate_step_line      # 20 §3 macro_monetary — v4.3.0: series 이벤트(style: step)가 대신한다. 만들지 않는다(사용자 결정 전이라 목록에서 지우지 않음, D-0084 작업 4·D-0090)
     - yield_curve_shift   # 20 §3 macro_monetary — chart_wall 무대가 필요해 G4 밖(D-0090 작업 3 ③). 구현 전
@@ -1633,6 +1641,14 @@ genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(
     attribute_causality: "인과는 단정하지 않고 귀속한다(\"연준은 ~라고 설명했습니다\", \"~라는 분석이 있습니다\"). 경제 인과는 논쟁 사안인 경우가 많다 — 균형 원칙을 그대로 적용한다."
     numbers_per_sentence_max: "한 문장에 숫자는 {n}개 이하. 나머지 숫자는 화면(시리즈·카드·패널)이 말한다."
     forecast_attribution: "전망은 누구의 전망인지 귀속한다(\"FOMC 참가자들의 전망 중앙값\"). 점도표는 약속이 아니라 참가자별 전망임을 한 번 말한다. 가격·금리 예측을 단정하지 않는다."
+    # v7.4.0 UF-400(영상 분석 §5.3) — 설명 모형 되부르기. 레퍼런스는 1970년대 사례에서 "숨긴 채 정하고, 정한 뒤에 공개한다"는 모형을 세우고 뒤 두 사례를 그 모형에 비춰 말했다
+    recurring_model: "설명 모형: 첫 사례에서 일이 진행되는 순서를 한 문장 모형으로 세운다(예: \"먼저 정하고, 정한 뒤에 공개한다\"). 뒤 사례마다 그 모형에 비춰 같은 점·다른 점을 말하고, 모형 문장은 처음 한 번 풀어 쓴 뒤 뒤에서는 짧게 되부른다. 모형은 출처(누구의 분석인가)에 귀속한다."
+  # v7.4.0 UF-400(영상 분석 §5.3) — 요소별 연출 문법. 장르 요소(reuse ∪ new)에 있는 키만 지도형 장르 문단({{GENRE.element_grammar}})에 들어간다. 키 = 등록 요소 이름
+  element_grammar:
+    process_lane: "한 체제·조직의 일 처리 순서(결정 → 정리 → 공개 등)를 말하는 문장에는 과정 도식(process_lane)을 한 번 세운다. 같은 순서가 뒤 사례에서 다시 나오면 새 도식을 만들지 말고 같은 steps·gate_after 로 다시 부른다 — 두 사례 비교는 rows 두 줄, 걸린 기간은 span. 표지는 moves 의 t 를 그 말의 word 앵커로 옮긴다. 출처 줄 = 그 순서를 정리한 분석(누구의 보고서인가)."
+    doc_excerpt: "주장의 근거가 정보기관·연구소·정부의 1차 문서이면 문서 발췌(doc_excerpt)로 원문 단락(인용 상한 안, 소스 본문 그대로)과 한국어 번역을 함께 띄운다. 내레이션이 짚는 구절을 highlight(원문 그대로)로, highlight_t 는 그 말의 word 앵커로 건다. 스캔 이미지를 띄우지 않는다."
+    statement_diff: "호칭·문구가 바뀐 것을 말하는 문장(사전 개정판, 매체 호칭 변화 등)은 statement_diff 로 이전·이후 문구를 단어 단위로 보인다 — 바뀐 단어만 색이 바뀐다."
+    badge: "이야기의 주인공 인물 뱃지는 처음 소개된 뒤 그 인물이 이야기 중심인 동안 같은 자리에 머문다 — 문장마다 다시 띄우거나 자리를 바꾸지 않는다. 새 인물이 들어오면 옆에 더하고, 이야기에서 빠지면 그때 내린다."
   data_sources:            # 20 §5.1 — 리서치·원고 프롬프트의 데이터 원칙
     - 수치는 1차·공개 출처(중앙은행 공식 발표, 통계기관, FRED 같은 공개 데이터 저장소)에서만 가져온다.
     - 시장 사업자의 독점 데이터(선물 가격에서 추정한 금리 확률 등)는 쓰지 않는다. 필요하면 보도 인용(기사)으로 대신하고 누가 보도했는지 귀속한다.
@@ -1747,6 +1763,115 @@ primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/p
     width_note_v: 0.24
     foot_size: 9.5
     pad_x: 14
+  process_lane:            # v7.4.0 사용자 의견 UF-400(영상 분석 보고 video_analysis_nk_succession_2026-11-02 §4 D5) — 과정 도식(단계 알약·공개 선·표지·두 줄 비교). 설계 px(480p). 글자 ≥ layout_480p.min_font_px. 값 = 분석 세션 제안(사용자 합격 값 아님 — 실렌더 스케치 판정 대기, 20 §4.1)
+    x: 47                  # 상자(화면 가운데, 자막 영역 위). 높이 = head_h + row_h × 줄 수 + foot_h
+    y: 96
+    w: 760
+    head_h: 46
+    row_h: 104
+    foot_h: 30
+    pad_x: 22
+    label_col_w: 78        # 줄 이름(label)이 하나라도 있으면 왼쪽 열 폭
+    radius: 6
+    title_dy: 26
+    title_size: 13
+    src_dy: 11             # 상자 아래 → 출처 줄 기준선
+    steps_min: 3
+    steps_max: 6
+    step_chars_max: 12
+    step_lines_max: 2
+    rows_max: 2
+    pill_h: 32
+    pill_dy: 40            # 줄 아래 끝 → 알약 가운데
+    pill_gap: 14
+    pill_pad_x: 8
+    pill_base_alpha: 0.96  # 알약 바닥(card_bg) — 축선이 글자 뒤로 비치지 않게
+    pill_fill_alpha: 0.10
+    pill_line_alpha: 0.55
+    pill_line_w: 1.2
+    step_size: 11.5
+    step_line_h: 13
+    step_baseline: 0.36    # 글자 기준선 = 가운데 + 크기 × 이 값
+    ghost_alpha: 0.35      # 표지가 아직 닿지 않은 단계(앞으로 갈 길을 옅게 미리 보인다)
+    reach_eps: 0.02
+    step_stagger_sec: 0.18 # 알약이 왼쪽부터 차례로
+    step_fade_sec: 0.55
+    hidden_pad: 10
+    hidden_top: 30
+    hidden_gap: 6
+    hidden_alpha: 0.07
+    hidden_label_dx: 8
+    hidden_label_dy: 13
+    hidden_label_size: 10
+    axis_w: 1.0
+    axis_alpha: 0.45
+    arrow_len: 10
+    arrow_half: 4.5
+    gate_delay_sec: 0.6
+    gate_grow_sec: 0.9     # 공개 선이 위에서 아래로 자라는 시간
+    gate_over: 6
+    gate_under: 12
+    gate_w: 1.6
+    gate_label_size: 11
+    gate_label_dy: 6
+    row_label_size: 11
+    row_label_dy: 4
+    token_r: 9
+    token_dy: 18           # 알약 위 끝 → 표지 가운데
+    token_delay_sec: 0.8
+    token_label_dx: 6
+    token_label_dy: 4
+    token_label_size: 10.5
+    move_sec: 1.2          # 표지 이동(5차 이징 — shot_grammar.move_ease 와 같은 곡선)
+    span_dy: 40            # 알약 위 끝 → 기간 괄호 선
+    span_tick: 5
+    span_w: 1.2
+    span_size: 11
+    span_label_dy: 5
+    span_fade_sec: 0.6
+    fade_sec: 0.75         # 상자 등장·퇴장 = statement_diff·site_diagram 과 같은 값
+  doc_excerpt:             # v7.4.0 사용자 의견 UF-400(영상 분석 보고 §4 D6) — 1차 문서 발췌(원문 단락·번역·구절 밑줄, 스캔 대신 코드 조판). 설계 px(480p). 글자 ≥ layout_480p.min_font_px. 값 = 분석 세션 제안(실렌더 스케치 판정 대기, 20 §4.1)
+    x: 117                 # 종이 상자(화면 가운데, 자막 영역 위). 높이 = 줄 수로 정한다
+    y: 40
+    w: 620
+    pad_x: 30
+    pad_top: 28            # 상자 위 → 머리 줄 기준선
+    pad_bottom: 16         # 출처 줄 기준선 → 상자 아래
+    radius: 3
+    paper: "rgba(238,235,228,1)"
+    ink: "rgba(30,30,32,1)"
+    ink_muted: "rgba(105,103,98,1)"
+    ghost: "rgba(30,30,32,0.12)"   # 읽을 수 없는 문맥 막대(지어낸 글자 대신)
+    head_size: 10
+    head_gap: 18           # 머리 줄 기준선 → 앞 문맥 막대 위 끝
+    ghost_before: 2
+    ghost_after: 2
+    ghost_h: 6
+    ghost_gap: 9
+    ghost_widths: [0.96, 0.88, 0.93, 0.71]   # 안쪽 폭 비율(순환)
+    orig_size: 14.5
+    orig_line_h: 21
+    orig_gap: 18           # 앞 문맥 막대 끝 → 원문 첫 줄 기준선
+    orig_lines_max: 6
+    trans_gap: 16          # 원문 마지막 줄 → 번역 첫 줄 위 끝
+    trans_size: 13
+    trans_line_h: 19
+    trans_lines_max: 4
+    trans_pad_x: 12        # 번역 왼쪽 선 → 글자
+    trans_bar_w: 2.5
+    trans_bar_pad: 6
+    trans_delay_sec: 1.2   # 원문 뒤 번역이 떠오르는 시각(t0 기준)
+    trans_fade_sec: 0.75
+    trans_rise_px: 8
+    alpha_floor: 0.01
+    after_gap: 16          # 번역 마지막 줄 → 뒤 문맥 막대 위 끝
+    underline_delay_sec: 2.0   # highlight_t 가 없을 때 t0 + 이 값
+    underline_grow_sec: 0.9
+    underline_w: 2.0
+    underline_dy: 4
+    src_gap: 16            # 뒤 문맥 막대 끝 → 출처 줄 기준선
+    scale_from: 0.98
+    fade_sec: 0.75
   statement_diff:          # 작업 5 — 성명서 문구 비교(20 §10). 설계 px(480p). 글자 크기 ≥ layout_480p.min_font_px(glyph_size), 출처 줄 = layout_480p.card.src_size, 문구 상한 = verification.quote_max_chars
     w: 360                 # 상자 폭 — 오른쪽 여백·세로 기본값은 layout_480p.card(같은 슬롯 card_right)
     pad_x: 18

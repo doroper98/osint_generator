@@ -96,6 +96,7 @@ class GenreNarration(_Strict):
     attribute_causality: bool = False            # v4.4.0 — 인과 귀속(20 §7)
     numbers_per_sentence_max: Optional[int] = Field(default=None, ge=1)   # v4.4.0 — 문장당 숫자 상한(20 §7)
     forecast_attribution: bool = False           # v4.4.0 — 전망 귀속·점도표는 약속 아님(20 §5.2)
+    recurring_model: bool = False                # v7.4.0 UF-400 — 설명 모형을 한 번 세우고 사례마다 되부른다(영상 분석 §5.3)
     avoid: list[str] = Field(default_factory=list)
 
 

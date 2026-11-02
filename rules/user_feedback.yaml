@@ -2447,3 +2447,22 @@ entries:
   status: guarded
   decision: D-0330 §정정
   source: 감독 세션(Fable) 사용자 대화 2026-10-31
+- id: UF-400
+  date: '2026-11-02'
+  project: video_analysis_nk_succession
+  at: "영상 분석 세션 — 외부 해설 영상 세 토막(.mov 1280×720, 각 약 4분, 북한 후계 해설 한 편) 업로드와 함께 준 지시"
+  quote: "이 영상을 매우 정밀하게 분석해서 우리 템플릿에 보완해야 할 부분은 추종해서 보완하고 없는 부분은 신설해."
+  quote_kind: verbatim
+  category: 영상 문법 — 레퍼런스 영상 분석 → 템플릿 보완(있는 장치)·신설(없는 장치). UF-202·LLM-AP-022(느낌만, 조판 이식 금지)와의 경계 — 장치의 문법(언제·왜·어떻게 움직이는가)은 따르고 겉모양(색·글꼴·조판)은 우리 토큰으로 새로 짠다. C0 금지 목록(비네팅·모서리 로고)은 따르지 않는다
+  guards:
+  - {kind: check, ref: sentence_still}
+  - {kind: rule, ref: pacing.sentence_change}
+  - {kind: rule, ref: genre_prompt.element_grammar}
+  - {kind: test, ref: tests/test_v740_uf400_template.py::MapGenrePromptTest::test_map_genre_uses_map_template_with_element_grammar}
+  - {kind: test, ref: tests/test_v740_uf400_template.py::SentenceStillTest::test_element_change_counts_camera_does_not}
+  - {kind: test, ref: tests/test_primitive_process_lane.py::ProcessLaneDataTest::test_fixture_passes_schema}
+  - {kind: test, ref: tests/test_primitive_doc_excerpt.py::DocExcerptDataTest::test_invalid_data_is_error}
+  - {kind: doc, ref: "docs/handoff/reports/video_analysis_nk_succession_2026-11-02.md#4. 장치 대조표"}
+  status: guarded
+  decision: "분석 보고 docs/handoff/reports/video_analysis_nk_succession_2026-11-02.md — 장치 표(보완·신설·가져오지 않음)"
+  source: 영상 분석 세션 사용자 대화 2026-11-02

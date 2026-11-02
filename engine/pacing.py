@@ -106,4 +106,19 @@ def creep_factor(t: float, settle: float, ranges: Sequence[tuple[float, float]],
     return f
 
 
-__all__ = ["STEP_SEC", "change_times", "creep_factor", "creep_ranges", "map_segments", "static_windows"]
+def still_sentences(sentences: Sequence, events: Sequence[dict]) -> list[dict]:
+    """문장 단위 변화(v7.4.0 UF-400, rules pacing.sentence_change) — 문장마다 [시작 − lead_sec, 끝] 안 change_kinds 이벤트 등장 수.
+    min_sentence_sec 이상인 문장 중 0 인 것 [{sid, t0, t1}]. 카메라 키는 세지 않는다(C0)."""
+    sc = load_rules().pacing.sentence_change
+    ks = set(sc.change_kinds)
+    ts = sorted(float(e["t0"]) for e in events if e.get("type") in ks)
+    out: list[dict] = []
+    for s in sentences:
+        if s.t1 - s.t0 < sc.min_sentence_sec:
+            continue
+        if bisect_right(ts, s.t1) - bisect_left(ts, s.t0 - sc.lead_sec) == 0:
+            out.append({"sid": s.sid, "t0": round(s.t0, 2), "t1": round(s.t1, 2)})
+    return out
+
+
+__all__ = ["STEP_SEC", "change_times", "creep_factor", "creep_ranges", "map_segments", "static_windows", "still_sentences"]
