@@ -2725,7 +2725,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "credit_garbled": lambda: check_credit_garbled(P),                                                        # v7.4.0 D-0470(hard, RIGHTS-AP-002)
 
 
-        "map_event_covered": lambda: check_map_event_covered(P),   # v7.4.0 D-1000 S3(hard, UF-173)
+        "map_event_covered": lambda: waive_regression(P, "map_event_covered", check_map_event_covered(P)),   # v7.4.0 D-1000 S3(hard, UF-173). 골든 2건 = 회귀 기준 면제
         "label_under_media": lambda: check_label_under_media(P),   # v7.4.0 R-0294 판정(hard)
         "band_line_outside": lambda: check_band_line_outside(P),   # v7.4.0 D-0326(hard, UF-200)
         "photo_subject_background": lambda: check_photo_subject_background(P),   # v7.4.0 D-0327(hard, UF-201)

@@ -100,8 +100,9 @@ def write_table(rows: list[dict], dest_md: Path, dest_jpg: Path, title: str) -> 
     lines += [f"| {i + 1} | {r['type']} | {r['name']} | {r['t0']:.2f} | {r['t1']:.2f} | {r['full_sec']:.2f} | {r['map_cover_max']:.0%} | {r['map_event']} |"
               for i, r in enumerate(rows)]
     dest_md.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    font_p = REPO / "assets" / "fonts" / "IBMPlexSansKR-Regular.ttf"
-    font = ImageFont.truetype(str(font_p), 15) if font_p.exists() else ImageFont.load_default()
+    from engine.typography import fc_match  # noqa: PLC0415
+
+    font = ImageFont.truetype(fc_match("IBM Plex Sans KR")[1], 15)   # 시스템 글꼴(fetch_data fonts) — 한글 없는 기본 글꼴로 조용히 폴백하지 않는다(P6)
     lh = 22
     img = Image.new("RGB", (1400, lh * (len(rows) + 3) + 20), (24, 24, 30))
     d = ImageDraw.Draw(img)
