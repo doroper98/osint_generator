@@ -164,7 +164,7 @@ class DocValue(_Strict):
     locator: str = Field(min_length=1)
     raw_value: float
     raw_unit: str
-    budget_stage: Optional[Literal["proposed", "enacted", "settled"]] = None
+    budget_stage: Optional[Literal["proposed", "enacted", "settled", "planned"]] = None   # planned = 국가재정운용계획(중기 계획 연도, D-1008 뒤)
 
     @field_validator("raw_unit")
     @classmethod
@@ -488,7 +488,7 @@ class CategoricalRecord(_Strict):
     unit: str
     license: str
     license_note: str
-    budget_stage: Literal["proposed", "enacted", "settled"]
+    budget_stage: Literal["proposed", "enacted", "settled", "planned"]
     fiscal_year: int = Field(ge=1948)
     rows: list[CategoryRow] = Field(min_length=2)
     total: Optional[float] = None              # 표의 합계 줄(있으면). 행 합계와 다르면 total_note 에 사유(분야 중복·내부거래 등) 필수

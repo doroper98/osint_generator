@@ -1,0 +1,83 @@
+# 예산 시계열 레코드 (v7.4.0, back_and_forth D-1006·D-1008) — 원본 artifacts/budget-2027-v7.4.0 sources/nabo_2027_sector_allocation.pdf (sha1 2f23e1ba64dc8ba6cd4f6e2eac04c5d4b78dfbe9)
+series_id: FISCAL_TOTAL_EXP
+source_kind: document
+source: 국회예산정책처 「2027년도 예산안 분야별 재원 배분 분석」
+source_url: https://www.nabo.go.kr/board/file/down.do?fid=33319629
+retrieved_at: '2026-11-02'
+transform:
+  op: document
+  formula: 원문 문서 표의 값 그대로(단위 환산만 — rules data.filing_scales, 값마다 쪽·표 줄)
+as_of: 2026-10
+issued_on: '2026-10-26'
+revision_note: '표 주 1: 2026년까지는 본예산 기준, 2027년은 정부안 기준'
+unit: 조 원
+frequency: annual
+license: kr_public_work
+license_note: 국회예산정책처 발간물(국가기관 공공저작물, 공공누리 표시 없음) — 수치만 인용, 출처 표시
+source_file:
+  path: nabo_2027_sector_allocation.pdf
+  sha1: 2f23e1ba64dc8ba6cd4f6e2eac04c5d4b78dfbe9
+  title: 2027년도 예산안 분야별 재원 배분 분석(예산안분석시리즈 Ⅱ)
+  publisher: 국회예산정책처
+  published_on: '2026-10-26'
+doc_values:
+- date: '2018-01-01'
+  page: 16
+  locator: p.16 [2018~2027년 12대 분야별 재원배분 현황] · 정부 총지출 · 2018
+  raw_value: 428.8
+  raw_unit: 조 원
+  budget_stage: enacted
+- date: '2019-01-01'
+  page: 16
+  locator: p.16 [2018~2027년 12대 분야별 재원배분 현황] · 정부 총지출 · 2019
+  raw_value: 469.6
+  raw_unit: 조 원
+  budget_stage: enacted
+- date: '2020-01-01'
+  page: 16
+  locator: p.16 [2018~2027년 12대 분야별 재원배분 현황] · 정부 총지출 · 2020
+  raw_value: 512.3
+  raw_unit: 조 원
+  budget_stage: enacted
+- date: '2021-01-01'
+  page: 16
+  locator: p.16 [2018~2027년 12대 분야별 재원배분 현황] · 정부 총지출 · 2021
+  raw_value: 558.0
+  raw_unit: 조 원
+  budget_stage: enacted
+- date: '2022-01-01'
+  page: 16
+  locator: p.16 [2018~2027년 12대 분야별 재원배분 현황] · 정부 총지출 · 2022
+  raw_value: 607.7
+  raw_unit: 조 원
+  budget_stage: enacted
+- date: '2023-01-01'
+  page: 16
+  locator: p.16 [2018~2027년 12대 분야별 재원배분 현황] · 정부 총지출 · 2023
+  raw_value: 638.7
+  raw_unit: 조 원
+  budget_stage: enacted
+- date: '2024-01-01'
+  page: 16
+  locator: p.16 [2018~2027년 12대 분야별 재원배분 현황] · 정부 총지출 · 2024
+  raw_value: 656.6
+  raw_unit: 조 원
+  budget_stage: enacted
+- date: '2025-01-01'
+  page: 16
+  locator: p.16 [2018~2027년 12대 분야별 재원배분 현황] · 정부 총지출 · 2025
+  raw_value: 673.3
+  raw_unit: 조 원
+  budget_stage: enacted
+- date: '2026-01-01'
+  page: 16
+  locator: p.16 [2018~2027년 12대 분야별 재원배분 현황] · 정부 총지출 · 2026
+  raw_value: 727.9
+  raw_unit: 조 원
+  budget_stage: enacted
+- date: '2027-01-01'
+  page: 16
+  locator: p.16 [2018~2027년 12대 분야별 재원배분 현황] · 정부 총지출 · 2027(안)
+  raw_value: 820.9
+  raw_unit: 조 원
+  budget_stage: proposed

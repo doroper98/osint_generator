@@ -1625,7 +1625,7 @@ stage_structure:           # v7.4.0 back_and_forth D-1003 §3 — 구성 무대(
   value_step: 0.1          # 레코드 금액의 반올림 단위(원문 표 0.1조) — 원문 증감률 대조 범위(D-1006)
   pct_step: 0.1            # 원문 증감률의 반올림 단위(%)
   unit_suffix: {"조 원": "조"}     # 행 끝 금액 꼬리(레코드 unit → 화면 꼬리). 없는 단위 = 오류(P6)
-  stage_words: {proposed: 정부안, enacted: 본예산, settled: 결산}   # 레코드 budget_stage → 화면 낱말(D-1003 §2 — 정부안임을 화면에서 분명히)
+  stage_words: {proposed: 정부안, enacted: 본예산, settled: 결산, planned: 계획}   # planned = 국가재정운용계획 연도(2028~).   레코드 budget_stage → 화면 낱말(D-1003 §2 — 정부안임을 화면에서 분명히)
   # v7.4.0 back_and_forth D-1008 §1·§2(UF-304 "직관적이고 시인성을 갖춰야 되는게 가장 중요해") — 감독 명세, 사용자 합격 값 아님
   delta_seg_alpha_add: 0.3   # delta 층: 늘어난 구간(눈금 → 막대 끝)을 같은 막대 위에서 행 잉크 농도 + 이 값(한 단계 밝게). 감소 구간(막대 끝 → 눈금) = 손실 A 면
   focus_base_alpha: 0.42     # focus 층: 초점 행 0 → 눈금 구간 = accent × 이 농도(옅게), 늘어난 구간 = accent 솔리드

@@ -489,16 +489,20 @@ def budget_stage_of(rec: object, d: date) -> str | None:
     return None
 
 
+UNSETTLED = ("proposed", "planned")   # 확정 전 값 — 정부안(국회 확정 전)·국가재정운용계획 연도
+
+
 def proposed_from(rec: object, dates: list[date]) -> int:
-    """dates 중 처음으로 정부안(proposed)인 자리(없으면 len). 그 앞 점 → 그 점부터는 점선(국회 확정 전)."""
-    return next((i for i, d in enumerate(dates) if budget_stage_of(rec, d) == "proposed"), len(dates))
+    """dates 중 처음으로 확정 전(정부안·계획)인 자리(없으면 len). 그 앞 점 → 그 점부터는 점선."""
+    return next((i for i, d in enumerate(dates) if budget_stage_of(rec, d) in UNSETTLED), len(dates))
 
 
 def proposed_tag(rec: object, d: "date | None") -> str:
-    """끝값이 정부안이면 " · 정부안"(rules stage_structure.stage_words.proposed — 낱말 표 하나)."""
+    """끝값이 확정 전이면 " · 정부안"/" · 계획"(rules stage_structure.stage_words — 낱말 표 하나)."""
     from rules import load_rules  # noqa: PLC0415
 
-    return f" · {load_rules().stage_structure.stage_words['proposed']}" if d is not None and budget_stage_of(rec, d) == "proposed" else ""
+    st = budget_stage_of(rec, d) if d is not None else None
+    return f" · {load_rules().stage_structure.stage_words[st]}" if st in UNSETTLED else ""
 
 
 def _date_at(stage: "TimelineStage", x: float, rec: object) -> "date | None":
