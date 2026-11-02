@@ -1,0 +1,20 @@
+# 무대 레지스트리 프리뷰 예제(v7.4.0 back_and_forth D-0614·D-0615) — terrain3d 는 주 무대 위 **구간**(segment_only). 주 무대는 mercator 그대로,
+# 연속한 terrain3d 숏이 구간 [들어감, 나옴)을 정한다. drift 숏에서만 기울어 궤도(장면 단위). 부대는 stage_config.terrain3d.forces 파일(schemas.war_units.WarForces).
+# 칸나이 구간(projects/cannae_216bc/direction.yaml)의 축소판. Direction 모델을 그대로 통과해야 한다(P4).
+schema_version: 1
+key: terrain3d
+anchor_keys: [lon, lat]
+segment_only: true
+direction:
+  version: 1
+  genre: war_history
+  stage: mercator
+  stage_config:
+    terrain3d: {forces: forces.terrain3d.yaml}
+  shots:
+    - {at: 0, mode: cut, dur: 0, camera: {lon: 15.9, lat: 41.45, w: 3.2}}
+    - {at: 2.0, mode: move, dur: 3.0, camera: {lon: 16.108, lat: 41.336, w: 0.09}, stage: terrain3d}
+    - {at: 9.0, mode: drift, dur: 5.0, camera: {lon: 16.108, lat: 41.336, w: 0.09}, stage: terrain3d}
+    - {at: 16.0, mode: move, dur: 2.0, camera: {lon: 16.108, lat: 41.336, w: 0.09}, stage: terrain3d}
+    - {at: 22.0, mode: move, dur: 3.0, camera: {lon: 15.9, lat: 41.45, w: 3.2}}
+  events: []

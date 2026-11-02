@@ -9,7 +9,7 @@ template_label: "전쟁사"
 photo_age_check: false           # 역사 장르 — 사진 연도 경고 끔(D-0327). 자료사진 표기·[clip-date-mismatch] 는 그대로
 stage:
   primary: mercator
-  secondary: [tactical]          # 전장 수 km 축척 부대 블록 무대(W3 — stages_planned)
+  secondary: [terrain3d]          # 주 무대 위 3D 구간(D-0615, rules stage.max_secondary 1). tactical(전장 수 km 부대 블록, W3 — stages_planned)은 쓰지 않는다(D-0615 §3)
   mercator: {theme: relief}      # v7.4.0 D-0608 §1-3 — 전쟁사 기본 = relief(사용자 UF-253, D-0607 §1). D154·D155 의 군사 작전·전황 = dark 는 다른 장르
 color_semantics:                 # 색 토큰(registries.accents). 진영 배지는 rules war_history.faction_badge.tokens
   faction_a: ru                  # 한 진영(예: 카르타고·북한군)

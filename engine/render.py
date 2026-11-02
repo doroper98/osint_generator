@@ -75,14 +75,23 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     panel_a = max([window(t, e["t0"], e["t1"], PANEL.fade_sec, PANEL.fade_sec) for e in act if e["type"] == "panel"] + [0])
     R.zones = card_zones(ctx, P.events, t)   # 카드 RESERVED — 지도 레이어가 먼저 그려지므로 미리(D-0033). 앞뒤 lead 포함(글자 측정만, 그리지 않음)
     capture = R.cache.get("route_label_capture") is not None   # v5.22.7 D210 — 이름표 자리 고르기의 예약 상자 붙잡기: 배경(예약 없음)은 그리지 않는다
-    if not capture:
+    seg3d = None
+    if R.cache.get("terrain3d_segments"):   # v7.4.0 D-0614·D-0615 — 주 무대 위 terrain3d 구간: 바탕 = 미리 렌더 3D, 지도 층 대신 구간 레이어
+        from engine.layers import terrain3d as T3L  # noqa: PLC0415, N812
+
+        seg3d = T3L.segment_at(P, i)
+    if seg3d is not None:
+        if not capture:
+            T3L.draw_base(ctx, seg3d, i)
+        T3L.draw_labels(ctx, P, seg3d, i, t)
+    elif not capture:
         R.stage.render_base(ctx, view)           # 무대 배경: 지형 래스터 + 국경(v4.1.0 D-0076 — MercatorStage = v3 순서 그대로)
     frame = getattr(R.stage, "frame", None)
     if frame is not None:   # v7.4.0 D-0257(UF-137) — 시간축 세계는 틀 안에서만(틀 밖 클립). 패널·카드·자막 등 화면 층은 틀 밖 그대로
         ctx.save()
         ctx.rectangle(*frame)
         ctx.clip()
-    if getattr(R.stage, "border_glow", False) and not capture:   # v5.4.0 국경선 글로우(정규 — 지도 기본, stage_config.mercator.border_glow: false 로 끔)
+    if getattr(R.stage, "border_glow", False) and not capture and seg3d is None:   # v5.4.0 국경선 글로우(정규 — 지도 기본, stage_config.mercator.border_glow: false 로 끔)
         from engine.layers.borders import draw_border_glow  # noqa: PLC0415
 
         draw_border_glow(ctx, R.stage, view, t)
@@ -90,7 +99,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
         if e["type"] == "backdrop" and e["t0"] <= t <= e["t1"] + BACKDROP.crossfade_sec and not capture:
             L.resolve(e).render(ctx, R, view, t, e)
     R.cache["route_labels_pending"] = []   # v5.21.11 D-0191 §1-3 — 경로 라벨은 마커·뱃지가 자리를 잡은 뒤 그린다(flush_route_labels)
-    for typ in MAP_LAYER_ORDER:
+    for typ in (MAP_LAYER_ORDER if seg3d is None else ()):   # 구간 안 지도 층 이벤트는 load_project 가 이미 오류로 막는다(D-0614 ④)
         for e in act:
             if e["type"] == typ and not e.get("in_island"):   # v5.1.0 D-0126 — 차트 아일랜드 안 이벤트는 island 렌더러가 상자 안에 그린다
                 L.resolve(e).render(ctx, R, view, t, e)
@@ -102,7 +111,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     from engine.layers.routes import flush_route_labels  # noqa: PLC0415
 
     flush_route_labels(ctx, R, view, act, t)   # 그린 라벨 상자는 R.reserved 로 — 배경 지명이 피한다
-    if panel_a < 0.99:
+    if panel_a < 0.99 and seg3d is None:
         R.stage.draw_labels(ctx, view, R.reserved, 1 - panel_a)
     if frame is not None:
         ctx.restore()
@@ -590,6 +599,10 @@ def main(argv: list[str] | None = None) -> int:
             res = "trial"   # v5.5.1 — 골든 기준선(md5)은 트라이얼 프로파일로 찍혔다. 기본 해상도(720p)가 바뀌어도 골든 비교는 그대로
         P = load_project(args.proj, out=None if args.animatic or args.catalog else output_profile(res), animatic=args.animatic,  # noqa: N806
                          catalog=args.catalog)
+        if (getattr(P.R, "cache", None) or {}).get("terrain3d_segments"):   # v7.4.0 D-0615 §1 — 미리 렌더 프레임·지문 대조를 렌더 전에(없거나 다르면 오류, P6)
+            from engine.layers.terrain3d import load_segments  # noqa: PLC0415
+
+            P.R.cache["terrain3d_frames"] = load_segments(P)
         if args.chunk:
             render_chunk(P, int(args.chunk[0]), int(args.chunk[1]), Path(args.chunk[2]))
             return 0

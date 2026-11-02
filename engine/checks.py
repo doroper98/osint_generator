@@ -16,6 +16,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | labels | hard | 샘플 시각마다 도시 라벨 수 ≤ labels_per_frame_max |
 | license_mismatch | hard | v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장르. 영상이 쓰는 미디어 레코드의 photo_license(없으면 license)가 Commons 라이선스 분류(license_tags)와 맞는가. 유물 나이 PD(rules war_history.rights.work_age_tags)는 사진 권리가 아니다 |
 | evidence_layer · period_art_label · casualty_unsourced · symbol_set | hard | v7.4.0 전쟁사 W2(D-0600 §4, UF-150) — 장르 war_history 만. 시대별 필수 증거 층·작품 당대/후대 라벨·병력/사상자 force 인용·한 영상 한 부호 세트(schemas.war_history) |
+| war_units_approx | hard | v7.4.0 D-0615 §2-1 — terrain3d 구간 부대 기록(forces) approximate·sources 필수, 구간 출처 줄에 rules sketch.checks.approx_word. 구간 없는 영상은 대상 없음. static_camera·sea_only_frame·route_frame 은 구간 프레임 해당 없음(notes 사유 기록) |
 | date | hard | 문장 date 형식(rules script_schema.date_formats — 파서 schemas/era_date, 기원전·대략·기간 포함) — 날짜 배지는 이 값으로만 그린다 |
 | subtitles | hard | 자막 줄 수 ≤ subtitle_lines_max(렌더러와 같은 wrap) |
 | rights | hard | 권리 점검(load_project 의 check_credits·validate_media)이 통과했으면 0 |
@@ -137,6 +138,7 @@ SAMPLE_SEC = 1.0          # 뱃지·라벨 샘플 간격
 SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여백 — 이만큼 잘리는 것은 허용
 HARD = ("license_mismatch",   # v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장르: 레코드 사진 라이선스 ↔ Commons 라이선스 분류
         "evidence_layer", "period_art_label", "casualty_unsourced", "symbol_set",   # v7.4.0 전쟁사 W2(D-0600 §4) — 장르 war_history 만
+        "war_units_approx",   # v7.4.0 D-0615 §2-1 — terrain3d 구간 부대 기록 개략 표기(구간 있는 영상만)
         "map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
@@ -1276,6 +1278,38 @@ def static_windows(times: list[float], track: list[tuple[float, float, float]], 
     return out
 
 
+TERRAIN3D_NA = ("static_camera", "sea_only_frame", "route_frame")   # D-0614 §3 표 — 2D 화면 기준 검사, terrain3d 구간 프레임은 해당 없음(사유 기록)
+
+
+def in_terrain3d(P, t: float) -> bool:  # noqa: ANN001, N803
+    """t 가 terrain3d 구간 안인가(v7.4.0 D-0615 — 그 프레임 화면은 미리 렌더 3D, 2D 지도 카메라는 멈춰 있다)."""
+    return any(s.t_in <= t < s.t_out for s in (P.R.cache.get("terrain3d_segments") or []))
+
+
+def terrain3d_na_notes(P) -> list[str]:  # noqa: ANN001, N803
+    return [f"[terrain3d-na] {s.sid} {s.t_in:.1f}~{s.t_out:.1f}초 — 2D 지도 화면 기준 검사라 3D 구간 프레임은 해당 없음"
+            "(구간 화면 변화 = 부대 키프레임·궤도, 글자 대비는 map_contrast 가 그대로 잰다, D-0614 §3)"
+            for s in (P.R.cache.get("terrain3d_segments") or [])]
+
+
+def check_war_units_approx(P) -> list[str]:  # noqa: ANN001, N803
+    """[war-units-approx] hard(v7.4.0 D-0615 §2-1, 스케치 SK-H5 와 같은 장치) — terrain3d 구간 부대 기록은 approximate·sources 필수,
+    구간 동안 그리는 출처 줄에 rules sketch.checks.approx_word 가 있어야 한다. 구간이 없으면 검사 대상 없음."""
+    segs = P.R.cache.get("terrain3d_segments") or []
+    if not segs:
+        return []
+    from engine.layers.terrain3d import approx_line  # noqa: PLC0415
+
+    f = P.R.cache["terrain3d_forces"]
+    word = R_.sketch.checks.approx_word
+    out = []
+    if not f.approximate or not f.sources:
+        out.append("[war-units-approx] forces 파일 approximate·sources 필수(위치·크기는 개략, 사료 귀속)")
+    if word not in approx_line(f):
+        out.append(f"[war-units-approx] terrain3d 구간 출처 줄에 '{word}' 가 없다")
+    return out
+
+
 def check_static_camera(P) -> list[str]:  # noqa: ANN001, N803
     """v7.4.0 D-0241 §1 — [static-camera] hard(정지 구간) + [drift-too-fast] hard(drift 숏 속도 > rules camera.drift_speed_max)."""
     from engine.camera import screen_track, speed  # noqa: PLC0415
@@ -1290,7 +1324,8 @@ def check_static_camera(P) -> list[str]:  # noqa: ANN001, N803
     starts = sorted(e["t0"] for e in P.events if e["type"] in NEW_ELEMENT_TYPES)
     out = [f"[static-camera] {a:.1f}~{b:.1f}초({b - a:.0f}초) 카메라가 멈추고 새 화면 요소도 없다 — 숏 mode drift(느린 궤도 훑기)·카드·사진으로 "
            f"화면을 바꾼다(rules camera.static_max_sec {C.static_max_sec:g}, UF-120)"
-           for a, b in static_windows(times, [tuple(x) for x in tr], starts, lambda t: _covered(P, t) or P.R.tb.in_fullcard(t))]
+           for a, b in static_windows(times, [tuple(x) for x in tr], starts,
+                                      lambda t: _covered(P, t) or P.R.tb.in_fullcard(t) or in_terrain3d(P, t))]
     full = screen_track(P.R.stage, P.cams)
     sp = speed(full, (), FPS)
     for k in P.keys:
@@ -1378,7 +1413,7 @@ def check_sea_only(P) -> list[str]:  # noqa: ANN001, N803
     if not _map_main(P) or P.cams is None:
         return []
     lim, ok = R_.camera.land_min_ratio, sea_ok_windows(P)
-    bad = [(t, r) for t, r in land_ratios(P) if r < lim and not any(a <= t < b for a, b in ok)]
+    bad = [(t, r) for t, r in land_ratios(P) if r < lim and not any(a <= t < b for a, b in ok) and not in_terrain3d(P, t)]
     out, run = [], []
     for t, r in bad + [(math.inf, 1.0)]:
         if run and t - run[-1][0] > R_.camera.land_sample_sec * 1.5:
@@ -2487,6 +2522,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "casualty_unsourced": lambda: check_war_history(P)["casualty_unsourced"], # [casualty-unsourced]
         "symbol_set": lambda: check_war_history(P)["symbol_set"],                 # [symbol-set-mixed]
         "license_mismatch": lambda: check_license_mismatch(P),                    # v7.4.0 D-0606 §2 [license-mismatch]
+        "war_units_approx": lambda: check_war_units_approx(P),                    # v7.4.0 D-0615 §2-1 [war-units-approx]
         "series_date_convention": lambda: check_series_date_convention(P),   # v7.4.0 D-0326(warning)
         "chart_world_split": lambda: check_chart_world_split(P),   # v7.4.0 D-0251 §6.2-2(hard, UF-135 ②)
         "series_label_overlap": lambda: check_series_label_overlap(P),   # v7.4.0 D-0256(hard)
@@ -2547,6 +2583,9 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
     if not set(HONESTY) <= skip:
         honesty, notes = judge(project_metas(P, times, labels or [f"t={t:.2f}" for t in times], drawn))
         res.update({k: v for k, v in honesty.items() if k not in skip})
+    for k in TERRAIN3D_NA:   # v7.4.0 D-0614 §3 — 해당 없음은 빈 통과가 아니라 사유 기록
+        if k in res and (na := terrain3d_na_notes(P)):
+            notes[k] = notes.get(k, []) + na
     items = [{"id": k, "severity": "hard" if k in HARD else "warning", "count": len(v), "details": v[:20],
               **({"notes": notes[k][:20]} if notes.get(k) else {}),
               **({"regression_waived": waived[k][:20]} if waived.get(k) else {})} for k, v in res.items()]

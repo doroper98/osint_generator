@@ -2358,6 +2358,13 @@ class ReferenceClipRules(_Strict):
     script: list[str] = Field(min_length=1)
 
 
+class StageTerrain3DRules(_Strict):
+    """v7.4.0 back_and_forth D-0614·D-0615 — terrain3d 구간 본편 값(모양은 sketch.war.terrain3d 와 공유)."""
+
+    tilt_sec: float = Field(gt=0)
+    region_factor: float = Field(gt=1)
+
+
 class StageBackdropRules(_Strict):
     """v5.1.0 D-0121 §B·D-0123 §1 — 사진 배경 무대·backdrop 이벤트 토큰(engine/stage_backdrop.py·engine/layers/backdrop.py)."""
 
@@ -3971,6 +3978,7 @@ class VideoRules(_Strict):
     primitives: PrimitivesRules = Field(default_factory=PrimitivesRules)   # v4.2.0 D-0081
     stage_timeline: StageTimelineRules   # v4.3.0 — D-0084 작업 3·D-0085
     stage_backdrop: StageBackdropRules   # v5.1.0 — D-0121 §B·D-0123
+    stage_terrain3d: "StageTerrain3DRules"   # v7.4.0 D-0614·D-0615 — terrain3d 구간
     chart_world: ChartWorldRules   # v7.4.0 — D-0251 §6.2-4
     reference_clip: ReferenceClipRules   # v7.4.0 — D-0274 §2⑤
     island: IslandRules                  # v5.1.0 — D-0123 §1·D-0126

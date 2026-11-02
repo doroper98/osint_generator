@@ -270,6 +270,17 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     if tracks:   # v7.4.0 D-0305 ② — 인셋 자리 근거(예측 고정 / sticky 보간), 돌지 않은 영상은 기록 없음(P5)
         prov["inset_tracks"] = tracks
     prov["stage"] = P.R.cache.get("stage")   # v4.1.0 D-0076 작업 7 — 무대(name·declared·shots_declared·instances)
+    t3 = P.R.cache.get("terrain3d_segments")
+    if t3:   # v7.4.0 D-0615 §1 — terrain3d 구간 수·총 길이·숏·궤도·'개략' 출처 줄(돈 영상만, P5)
+        from engine.layers.terrain3d import approx_line  # noqa: PLC0415
+
+        forces = P.R.cache["terrain3d_forces"]
+        prov["terrain3d"] = {"segments": [{"id": s.sid, "t_in": round(s.t_in, 2), "t_out": round(s.t_out, 2), "shots": s.shot_index,
+                                           "orbits": [[round(a, 2), round(b, 2)] for a, b in s.orbits]} for s in t3],
+                             "count": len(t3), "total_sec": round(sum(s.t_out - s.t_in for s in t3), 2),
+                             "forces": {"units": len(forces.units), "factions": sorted(forces.factions), "sources": forces.sources,
+                                        "approximate": forces.approximate, "emblems": P.R.cache.get("terrain3d_emblems") or {}},
+                             "approx_line": approx_line(forces)}
     from engine.typography import CONTRAST_FIXED as lcf  # noqa: PLC0415 — 프리뷰(같은 프로세스)
     rjf = P.root / "out" / "render.json"
     if stages.get("render") and rjf.exists():   # v5.21.4 D-0190 §3-1 — 전편은 렌더 청크 기록(render.json)이 정본

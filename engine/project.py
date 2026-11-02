@@ -481,6 +481,22 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R.cache["stage"] = {"name": R.stage.name, "declared": doc.stage is not None,          # provenance stage(15 P5)
                         "shots_declared": sum(1 for s in doc.shots if s.stage is not None), "instances": dict(stages.created),
                         "configs": {k: json.loads(json.dumps(v, default=str)) for k, v in doc.stage_configs().items()}}   # v4.3.0
+    if any(doc.shot_stage(s_) == "terrain3d" for s_ in doc.shots):   # v7.4.0 D-0614·D-0615 — 주 무대 위 terrain3d 구간·부대 기록(forces)
+        from engine.stage_terrain3d import Terrain3DError  # noqa: PLC0415
+        from engine.entities import load_emblem_registry  # noqa: PLC0415
+        from engine.terrain3d_prep import load_forces, segments  # noqa: PLC0415
+
+        try:
+            R.cache["terrain3d_segments"] = segments(doc, tb, plan.total)
+            R.cache["terrain3d_forces"] = load_forces(proj, str(doc.stage_settings("terrain3d")["forces"]))
+        except (Terrain3DError, ValueError, KeyError, TypeError) as ex:
+            raise ProjectError(f"terrain3d 구간 오류: {ex}") from ex
+        reg = load_emblem_registry().reconstructions
+        fac = R.cache["terrain3d_forces"].factions
+        miss = sorted(f.emblem for f in fac.values() if f.emblem and f.emblem not in reg)
+        if miss:
+            raise ProjectError(f"terrain3d 진영 휘장 재작도 없음 {miss} (assets/emblems/registry.json reconstructions)")
+        R.cache["terrain3d_emblems"] = {k: reg[f.emblem].glyph for k, f in fac.items() if f.emblem}
     R.cache["direction_drops"] = [d.model_dump() for d in doc.drops]   # v7.4.0 D-0245 — [series-unused]·[panel-dropped] 예외
     R.cache["invest_notice"] = doc.genre_profile().invest_notice     # v7.4.0 D-0278 §4.3 — 엔딩 카드 맨 마지막 줄 투자 고지
     apply_palette(doc.genre_profile().palette)   # v7.4.0 D-0310(UF-155) — 장르 팔레트(없으면 기존 색으로 되돌린다 — 한 프로세스 여러 영상)
@@ -543,6 +559,12 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         attach_world(events, R.stage, chart_stage)
     except ValueError as ex:   # 앵커 키가 무대와 다름(지도 핀을 시간축에, 등) = 오류(P10, D-0085)
         raise ProjectError(f"앵커 오류: {ex}") from ex   # 앵커(lon·lat) → 월드 좌표. 레이어·검사기는 이 값과 View 만 쓴다(D-0076 작업 3)
+    if R.cache.get("terrain3d_segments"):   # v7.4.0 D-0614 ④ — 구간 위 지도 층 이벤트(route·포위망·마커 등) = 렌더 전 오류(P10)
+        from engine.layers.terrain3d import map_events_in_segments  # noqa: PLC0415
+
+        t3_errs = map_events_in_segments(events, R.cache["terrain3d_segments"], MAP_LAYER_ORDER)
+        if t3_errs:
+            raise ProjectError("\n".join(t3_errs))
     R.cache["backdrop"] = backdrop_report(events, R.assets.media_assets)   # v5.1.0 D-0123 §3 — checks backdrop_rights·backdrop_repeat·provenance
     R.cache["stage_choice"] = doc.stage_choice()                          # v5.1.0 D-0123 §2 — checks stage_choice(warning)
     _check_quotes(proj, events)      # v4.4.0 — statement_diff 문구 = intake 원문(D-0090 작업 4)

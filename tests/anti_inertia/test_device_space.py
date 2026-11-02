@@ -25,6 +25,9 @@ ALLOWED: dict[str, str] = {
     "engine/layers/backdrop.py": "배경 사진 래스터 장치 해상도(블러 반경 × k, v5.1.0 D-0123)",
     "engine/layers/article.py": "프레스 사진·블러 무대 폴백 장치 해상도(v5.1.0 D-0121 §C)",
     "engine/mux.py": "provenance render.resolution",
+    "engine/stage_terrain3d.py": "terrain3d 미리 렌더 크기·텍스처(base_image) 장치 해상도(v7.4.0 D-0615)",
+    "engine/terrain3d_prep.py": "terrain3d 프레임 크기·프로파일별 prev 폴더·입력 지문(v7.4.0 D-0615)",
+    "engine/layers/terrain3d.py": "3D 프레임 장치 px 붙이기·라벨 장치 좌표 → 설계 좌표(v7.4.0 D-0615)",
 }
 NAMES = frozenset({"Output", "output_profile"})
 

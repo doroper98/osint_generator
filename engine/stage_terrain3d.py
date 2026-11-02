@@ -115,6 +115,7 @@ class Terrain3DStage:
 
     name = "terrain3d"
     anchor_keys = ("lon", "lat")
+    segment_only = True   # 주 무대 불가 — 숏 단위 구간만(engine.terrain3d_prep.segments 가 주 무대 지정을 오류로)
     CONFIG_KEYS = frozenset({"forces"})
 
     def __init__(self, assets: object = None, *, out: object = None, config: "dict | None" = None) -> None:

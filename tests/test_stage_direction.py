@@ -64,7 +64,12 @@ class StageRegistryPreviewTest(unittest.TestCase):
             self.assertIn(name, S.STAGE_CLASSES)
             ex = yaml.safe_load((PREVIEW / f"stage_{name}.yaml").read_text(encoding="utf-8"))
             doc = Direction.model_validate(ex["direction"])
-            self.assertEqual(doc.main_stage(), name)
+            if getattr(S.STAGE_CLASSES[name], "segment_only", False):   # v7.4.0 D-0615 — 주 무대 위 구간 무대: 숏에만, 주 무대는 다른 무대
+                self.assertTrue(ex.get("segment_only"))
+                self.assertNotEqual(doc.main_stage(), name)
+                self.assertIn(name, {doc.shot_stage(s) for s in doc.shots})
+            else:
+                self.assertEqual(doc.main_stage(), name)
             self.assertEqual(tuple(ex["anchor_keys"]), S.STAGE_CLASSES[name].anchor_keys)
 
 
