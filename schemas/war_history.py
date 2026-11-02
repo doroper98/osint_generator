@@ -126,7 +126,8 @@ class ToponymyEntry(_Strict):
     place: str = Field(min_length=1)          # 화면 지명(당시 이름)
     name: str = Field(min_length=1)           # 원어 표기(예: Cannae)
     language: str = Field(min_length=1)       # 예: 라틴어
-    meaning: str = Field(min_length=1)        # 한 줄(지도 핀 라벨 아래) — 예: "canna '갈대' 에서 왔다는 설"
+    meaning: str = Field(min_length=1)        # 뜻풀이(기록·내레이션 근거) — 예: "canna '갈대' 에서 왔다는 설"
+    label: Optional[str] = Field(default=None, min_length=1)   # v7.4.0 D-0619 ③ — 지도 핀 아래 짧은 한 줄(없으면 meaning). 출처 범위 안
     source: str = Field(min_length=1)         # 저자·서지
     source_url: Optional[str] = None
     confidence: str
@@ -136,11 +137,15 @@ class ToponymyEntry(_Strict):
         ok = _rules().evidence.toponymy_confidence
         if self.confidence not in ok:
             raise ValueError(f"{self.id}: 확신도 {self.confidence!r} — {ok} 중 하나")
+        mx = _rules().evidence.toponymy_label_max_chars
+        if len(self.line()) > mx:
+            raise ValueError(f"{self.id}: 지도 핀 아래 유래 줄 {len(self.line())}자 > {mx}(rules war_history.evidence.toponymy_label_max_chars) — "
+                             "짧은 label 을 두고 긴 뜻풀이는 내레이션 몫으로(D-0619 ③)")
         return self
 
     def line(self) -> str:
-        """지도 핀 라벨 아래 한 줄(확신도 표기 포함 — 통설이 아니면 괄호로)."""
-        return self.meaning if self.confidence == _rules().evidence.toponymy_confidence[0] else f"{self.meaning}({self.confidence})"
+        """지도 핀 라벨 아래 한 줄(label, 없으면 meaning). 확신도는 기록에만 — 화면에 판정 꼬리말을 쓰지 않는다(D85·D-0619 ③)."""
+        return self.label or self.meaning
 
 
 class ToponymyFile(_Strict):

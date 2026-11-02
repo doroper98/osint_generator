@@ -3888,6 +3888,7 @@ class WarEvidence(_Strict):
 
 
 class WarCasualty(_Strict):
+    toponymy_label_max_chars: int = Field(gt=0)   # v7.4.0 D-0619 ③ — 지도 핀 아래 유래 줄 글자 수 상한
     band_required: bool
     band_labels: dict[Literal["ancient_range", "modern_estimate"], str]
     trigger_words: list[str] = Field(min_length=1)

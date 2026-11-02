@@ -6,6 +6,7 @@ entries:
     name: Cannae
     language: 라틴어(그리스 사료 표기 Kannai·Kanna)
     meaning: "그리스 사료는 칸나이(스트라본)·칸나(폴리비오스)로 적고, 오늘 이름은 칸네. 이름의 뜻은 전하지 않는다"
+    label: "그리스 사료 표기 칸나이·칸나"   # D-0619 ③ — 지도 핀 아래 짧은 줄(Smith 1856 'CANNAE' 범위). 긴 뜻풀이는 meaning·내레이션
     source: "W. Smith, Dictionary of Greek and Roman Geography vol. I(1856), 'CANNAE' 499쪽"
     source_url: "https://archive.org/details/india.history.resource.89510"
     confidence: 미상

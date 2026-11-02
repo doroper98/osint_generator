@@ -2924,6 +2924,7 @@ war_history:               # v7.4.0 전쟁사 트랙 W2(back_and_forth D-0600 §
   casualty:
     band_required: true           # 병력·사상자 = 사료 귀속(ancient_text) + 범위 띠. 현대 추정(modern_estimate)을 열람할 수 없으면 사료 간 범위(ancient_range) 허용 — provenance 에 kind 기록(D-0610 ①)
     band_labels:                  # 띠 라벨 문구(코드가 kind 로 고른다). ancient_range 에 "현대 추정" 이라는 말을 쓰지 않는다
+    toponymy_label_max_chars: 24   # v7.4.0 D-0619 ③ — 지도 핀 아래 지명 유래 줄 글자 수 상한. 넘으면 레코드 label(짧은 줄) 필수, 긴 뜻풀이는 내레이션 몫. 확신도 꼬리말은 화면에 쓰지 않는다(D85)
       ancient_range: "사료마다 다르다 — {low_label} {low}~{high_label} {high}"
       modern_estimate: "현대 추정 {low}~{high}"
     trigger_words: [병력, 전사, 사망, 사상자, 포로, 전사자, 군사]   # 이 낱말 + 숫자가 든 문장은 force 레코드를 sources 에 인용([casualty-unsourced] hard)

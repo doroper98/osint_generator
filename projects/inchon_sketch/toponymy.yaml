@@ -6,6 +6,7 @@ entries:
     name: "RED Beach"
     language: 영어(작전 암호명)
     meaning: "상륙 계획이 해안 구역마다 붙인 색 이름 — 녹색(월미도)·적색·청색"
+    label: "상륙 계획이 해안 구역에 붙인 색 이름"   # D-0619 ③ — 지도 핀 아래 짧은 줄(24자 이하)
     source: "L. Montross·N. Canzona, U.S. Marine Operations in Korea 1950-1953 vol. II(1955) — 상륙군 계획 (1)~(4)"
     source_url: "https://archive.org/details/montross-u-s-marine-operations-in-korea-vol-ll"
     confidence: 통설

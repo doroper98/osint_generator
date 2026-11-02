@@ -105,7 +105,10 @@ class EvidenceTest(unittest.TestCase):
     def test_toponymy(self) -> None:
         e = ToponymyEntry(id="cannae", place="칸나이", name="Cannae", language="라틴어", meaning="canna '갈대' 에서 왔다는 설",
                           source="t", confidence="이설")
-        self.assertEqual(e.line(), "canna '갈대' 에서 왔다는 설(이설)")
+        self.assertEqual(e.line(), "canna '갈대' 에서 왔다는 설")   # D-0619 ③ — 확신도 꼬리말은 화면에 쓰지 않는다(기록에만)
+        self.assertEqual(e.model_copy(update={"label": "짧은 줄"}).line(), "짧은 줄")
+        with self.assertRaises(ValidationError):   # 지도 줄 글자 수 상한(rules toponymy_label_max_chars)
+            ToponymyEntry(id="y", place="y", name="y", language="y", meaning="가" * 40, source="y", confidence="통설")
         with self.assertRaises(ValidationError):
             ToponymyEntry(id="x", place="x", name="x", language="x", meaning="x", source="x", confidence="확실")
         with self.assertRaises(ValidationError):

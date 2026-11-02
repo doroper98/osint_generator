@@ -276,7 +276,7 @@ last_review: 2026-09-29
 | `EraDate` | `schemas/era_date.py` | 천문 연도·정밀도(day·month·year·circa·period)·달력 표기. 문자열 꼴 = `rules script_schema.date_formats`(`-216` = 기원전 216년). 문장 날짜 파서는 이것 하나(`tests/anti_inertia/test_era_date_single_parser.py`) |
 | `MediaAsset` 추가 필드 | `schemas/media_models.py` | kind `period_art`·`document`, optional `created`(EraDate)·`identification`·`art_history`·`art_history_source`·`archive_id`·`work_kind`·`holder`·`inventory_no`·`material`·`site_report`. 작품·기록은 필수 칸 + 라이선스 `rules war_history.rights` |
 | `ForceFigure`·`AncientTextCitation`·`EstimateBand` | `schemas/data_models.py` | `projects/<pid>/forces.yaml` — 병력·사상자: 사료 귀속(저자·작품·권·절·영역본) + 현대 추정 범위 띠. 문장 sources `force:<id>` |
-| `ToponymyEntry`·`ToponymyFile` | `schemas/war_history.py` | `projects/<pid>/toponymy.yaml` — 지명 유래(언어·뜻·출처·확신도). marker `toponymy: <id>` |
+| `ToponymyEntry`·`ToponymyFile` | `schemas/war_history.py` | `projects/<pid>/toponymy.yaml` — 지명 유래(언어·뜻·출처·확신도). marker `toponymy: <id>`. 지도 핀 아래 줄 = `label`(없으면 `meaning`), ≤ rules `war_history.evidence.toponymy_label_max_chars`, 확신도 꼬리말 없음(v7.4.0 D-0619 ③) |
 | `WarSpec` | `sketch/war/spec.py` | 전쟁사 스케치 spec(시대 부호 세트 부대 키프레임·지명·증거 카드·사료 인용) |
 | `MediaAsset` 권리 칸(D-0606 §2) | `schemas/media_models.py` | `photo_license`(화면 판정)·`work_license`(유물 권리)·`license_tags`(Commons 분류, `sketch.war.fetch` 자동 기록). 대조 실패 = `[license-mismatch]`(RIGHTS-AP-001) |
 | `EmblemReconstruction` | `schemas/emblem_models.py` | `assets/emblems/registry.json` `reconstructions` — 유물 근거 진영 휘장 재작도(근거 사진 권리·`reconstruction: true`·"재현" 라벨, D-0606 A). spec `factions.<id>.emblem`·`emblem_absent_reason` |
