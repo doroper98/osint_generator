@@ -34,9 +34,15 @@ from engine.style import BACKDROP, FADE, FONT, FPS, PANEL, output_profile
 from engine.subtitles import draw_subtitle
 from rules import load_rules
 from engine.timebase import smooth, window
+from engine.timing import stage_timer
 from schemas.engine_models import StageResult
 
 REPO = Path(__file__).resolve().parent.parent
+
+
+def run_kind(P: Project) -> str:  # noqa: N803
+    """단계 시간 기록의 이름 칸(D-1000 S0) — animatic · catalog · final(전편, 프로파일은 args.res)."""
+    return "animatic" if getattr(P, "animatic", False) else "catalog" if getattr(P, "catalog", False) else "final"
 
 
 def log(msg: str) -> None:
@@ -243,44 +249,50 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
     from engine.fullcards import EndCardOverflowError  # noqa: PLC0415
 
     kept: list[tuple[float, str]] = []
-    for tt, lab in zip(times, labels or [f"t={t:.2f}" for t in times]):
-        typography.GLYPH_LOG, typography.GLYPH_MISS, typography.DISP_LATIN = [], [], []
-        typography.CONTRAST_LOG = [] if P.R.cache.get("map_theme") is not None else None   # v5.18.0 D-0161 §4 — 지도 무대만
-        try:
-            s, _ = render_frame(P, min(P.n_frames - 1, int(tt * FPS)))
-        except EndCardOverflowError as e:
-            # 엔딩 카드 크레딧 넘침(D-0098) — 이 컷은 그리지 않고 checks offscreen [endcard-overflow] hard 로 연출 루프에 돌려준다.
-            # 전편 렌더(render_chunk)는 같은 오류로 멈춘다(조용한 넘침 금지, 15 P6)
-            log(f"preview {lab}: {e}")
-            continue
-        finally:
-            glog, typography.GLYPH_LOG = typography.GLYPH_LOG, None
-            gmiss, typography.GLYPH_MISS = typography.GLYPH_MISS, None
-            dlat, typography.DISP_LATIN = typography.DISP_LATIN, None
-            clog, typography.CONTRAST_LOG = typography.CONTRAST_LOG, None
-        drawn += [(lab, size, role, txt) for size, role, txt in glog]
-        if clog:   # v5.18.0 D-0161 §4 — 이 컷의 실제 프레임에서 지도 위 글자·선 대비
-            from engine.checks import measure_contrast  # noqa: PLC0415
+    from engine.timing import now_utc, summarize  # noqa: PLC0415
 
-            P.R.cache.setdefault("map_contrast", []).extend((lab, m) for m in measure_contrast(P.R.cache.pop("map_snapshot"), clog))
-        miss += [(lab, name, ch, txt) for name, ch, txt in gmiss]
-        P.R.cache.setdefault("disp_latin", []).extend((lab, x) for x in dlat or [])   # v7.4.0 D-0229 §2.4 — checks unit_glyph_font
-        p = out / f"p_{tt:07.2f}.png"
-        s.write_to_png(str(p))
-        paths.append(str(p))
-        kept.append((tt, lab))
+    since = now_utc()
+    with stage_timer(P.root, "render.preview.frames", res=P.R.out.name, n=len(times)):
+        for tt, lab in zip(times, labels or [f"t={t:.2f}" for t in times]):
+            typography.GLYPH_LOG, typography.GLYPH_MISS, typography.DISP_LATIN = [], [], []
+            typography.CONTRAST_LOG = [] if P.R.cache.get("map_theme") is not None else None   # v5.18.0 D-0161 §4 — 지도 무대만
+            try:
+                s, _ = render_frame(P, min(P.n_frames - 1, int(tt * FPS)))
+            except EndCardOverflowError as e:
+                # 엔딩 카드 크레딧 넘침(D-0098) — 이 컷은 그리지 않고 checks offscreen [endcard-overflow] hard 로 연출 루프에 돌려준다.
+                # 전편 렌더(render_chunk)는 같은 오류로 멈춘다(조용한 넘침 금지, 15 P6)
+                log(f"preview {lab}: {e}")
+                continue
+            finally:
+                glog, typography.GLYPH_LOG = typography.GLYPH_LOG, None
+                gmiss, typography.GLYPH_MISS = typography.GLYPH_MISS, None
+                dlat, typography.DISP_LATIN = typography.DISP_LATIN, None
+                clog, typography.CONTRAST_LOG = typography.CONTRAST_LOG, None
+            drawn += [(lab, size, role, txt) for size, role, txt in glog]
+            if clog:   # v5.18.0 D-0161 §4 — 이 컷의 실제 프레임에서 지도 위 글자·선 대비
+                from engine.checks import measure_contrast  # noqa: PLC0415
+
+                P.R.cache.setdefault("map_contrast", []).extend((lab, m) for m in measure_contrast(P.R.cache.pop("map_snapshot"), clog))
+            miss += [(lab, name, ch, txt) for name, ch, txt in gmiss]
+            P.R.cache.setdefault("disp_latin", []).extend((lab, x) for x in dlat or [])   # v7.4.0 D-0229 §2.4 — checks unit_glyph_font
+            p = out / f"p_{tt:07.2f}.png"
+            s.write_to_png(str(p))
+            paths.append(str(p))
+            kept.append((tt, lab))
     times, names = [t for t, _ in kept], [n for _, n in kept]
-    grid([(Image.open(p), f"{i + 1:02d} {n}" + ("" if n.startswith("t=") else f"  t={t:.2f}"))
-          for i, (p, n, t) in enumerate(zip(paths, names, times))],
-         COLS, out / "sheet.jpg")
+    with stage_timer(P.root, "render.preview.sheet", n=len(paths)):
+        grid([(Image.open(p), f"{i + 1:02d} {n}" + ("" if n.startswith("t=") else f"  t={t:.2f}"))
+              for i, (p, n, t) in enumerate(zip(paths, names, times))],
+             COLS, out / "sheet.jpg")
     prov = project_provenance(P, PREVIEW_STAGES)
     from engine.provenance import direction_sha1  # noqa: PLC0415
 
     prov["preview"] = {"frames": len(paths), "times": [round(t, 3) for t in times], "dir": out.name,
                        "direction_sha1": direction_sha1(P.root)}   # v5.22.5 D208 — mux 가 전편 연출과 대조
-    miss += glyph_sweep(P)   # v7.4.0 D-0250(UF-131) — 프리뷰 표본 밖 문자열도 실제 그리는 글꼴 기준
-    P.R.cache["glyph_miss"] = miss
-    checks = run_checks(P, times, prov, drawn, names)   # 17 §3 결정적 사전 검사(D-0047 작업 6)
+    with stage_timer(P.root, "render.preview.checks", res=P.R.out.name):
+        miss += glyph_sweep(P)   # v7.4.0 D-0250(UF-131) — 프리뷰 표본 밖 문자열도 실제 그리는 글꼴 기준
+        P.R.cache["glyph_miss"] = miss
+        checks = run_checks(P, times, prov, drawn, names)   # 17 §3 결정적 사전 검사(D-0047 작업 6)
     from engine.checks import contrast_summary  # noqa: PLC0415
 
     cs = contrast_summary(P)
@@ -290,6 +302,9 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
     from engine.provenance import feedback_guards  # noqa: PLC0415
 
     prov["user_feedback_guards"] = feedback_guards(checks)   # v5.22.0 D-0200 — 돈 사용자 의견 장치와 결과(P5)
+    tsum = summarize(P.root, since)
+    if tsum is not None:   # D-1000 S0 — 이번 실행의 단계별 시간(돈 단계만, P5)
+        prov["timings"] = tsum
     (out / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
     (out / "checks.json").write_text(json.dumps(checks, ensure_ascii=False, indent=1), encoding="utf-8")
     (out / "frames.json").write_text(json.dumps(frames_info(P, times, names), ensure_ascii=False, indent=1), encoding="utf-8")
@@ -412,27 +427,30 @@ def render_full(P: Project, jobs: int) -> Path:  # noqa: N803
     flag = ["--animatic"] if P.animatic else ["--catalog"] if P.catalog else ["--res", P.R.out.name]
     parts, procs = [], []
     t0 = time.time()
-    for k, (s, e) in enumerate(chunk_ranges(P.n_frames, jobs)):
-        part = outdir / f"{pre}part{k:02d}.mp4"
-        parts.append(part)
-        logf = open(outdir / f"{pre}part{k:02d}.log", "w", encoding="utf-8")
-        procs.append((subprocess.Popen([sys.executable, "-m", "engine.render", str(P.root), *flag,
-                                        "--chunk", str(s), str(e), str(part)],
-                                       cwd=REPO, stdout=logf, stderr=subprocess.STDOUT), logf))
-    fails = []
-    for k, (p, logf) in enumerate(procs):
-        if p.wait() != 0:
-            fails.append(k)
-        logf.close()
-    if fails:
-        raise RuntimeError(f"렌더 조각 실패: {fails} (out/{pre}partNN.log)")
+    kind = run_kind(P)
+    with stage_timer(P.root, f"render.{kind}.frames", res=P.R.out.name, jobs=jobs, frames=P.n_frames):
+        for k, (s, e) in enumerate(chunk_ranges(P.n_frames, jobs)):
+            part = outdir / f"{pre}part{k:02d}.mp4"
+            parts.append(part)
+            logf = open(outdir / f"{pre}part{k:02d}.log", "w", encoding="utf-8")
+            procs.append((subprocess.Popen([sys.executable, "-m", "engine.render", str(P.root), *flag,
+                                            "--chunk", str(s), str(e), str(part)],
+                                           cwd=REPO, stdout=logf, stderr=subprocess.STDOUT), logf))
+        fails = []
+        for k, (p, logf) in enumerate(procs):
+            if p.wait() != 0:
+                fails.append(k)
+            logf.close()
+        if fails:
+            raise RuntimeError(f"렌더 조각 실패: {fails} (out/{pre}partNN.log)")
     lst = outdir / f"{pre}parts.txt"
     lst.write_text("".join(f"file '{p}'\n" for p in parts), encoding="utf-8")
     final = outdir / f"{pre or 'video_'}noaudio.mp4"
     tag = load_rules().animatic.mp4_comment if P.animatic else load_rules().catalog.mp4_comment if P.catalog else None
     meta = ["-metadata", f"comment={tag}"] if tag else []
-    subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", *meta, str(final)],
-                   check=True)
+    with stage_timer(P.root, f"render.{kind}.encode", step="concat", parts=len(parts)):
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", *meta, str(final)],
+                       check=True)
     log(f"render: {P.n_frames} frames, {len(parts)} chunks, {time.time() - t0:.0f}s")
     # mux 가 provenance render.resolution 에 옮겨 적는다(영상을 만든 프로파일 = 이 파일, 15 P5)
     import resource  # noqa: PLC0415
@@ -465,10 +483,14 @@ def render_animatic(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
         raise ProjectError(f"out/mix.f32 없음 — 콘티 판도 음성·음악은 그대로 입힌다: `python -m audio.mix {P.root}` 먼저")
     outd.mkdir(exist_ok=True)
     t0 = time.time()
+    from engine.timing import now_utc, summarize  # noqa: PLC0415
+
+    since = now_utc()
     prov = project_provenance(P, ANIMATIC_STAGES)
     times = auto_preview_times(P)
-    P.R.cache["glyph_miss"] = glyph_sweep(P)   # v7.4.0 D-0250(UF-131) — 콘티 판도 같은 글리프 대조(C12 §3)
-    checks = run_checks(P, times, prov, [], [f"t={t:.2f}" for t in times])
+    with stage_timer(P.root, "render.animatic.checks", res=P.R.out.name):
+        P.R.cache["glyph_miss"] = glyph_sweep(P)   # v7.4.0 D-0250(UF-131) — 콘티 판도 같은 글리프 대조(C12 §3)
+        checks = run_checks(P, times, prov, [], [f"t={t:.2f}" for t in times])
     (outd / "animatic_checks.json").write_text(json.dumps(checks, ensure_ascii=False, indent=1), encoding="utf-8")
     if not checks["passed"]:
         errs = [f"checks hard {i['id']}: {d}" for i in checks["items"] if i["severity"] == "hard" for d in i["details"]]
@@ -476,11 +498,12 @@ def render_animatic(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
     video = render_full(P, jobs)
     t1 = time.time()
     final = outd / AN.output
-    af, loud = loudnorm_two_pass(mix, P.plan.total)
-    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(video), *mix_inputs(mix, P.plan.total),
-                    "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", af, "-ar", str(SR), "-c:a", "aac", "-b:a", AAC_BITRATE,
-                    "-t", f"{P.plan.total:.3f}", "-movflags", "+faststart", "-metadata", f"comment={AN.mp4_comment}", str(final)],
-                   check=True)
+    with stage_timer(P.root, "render.animatic.encode", step="loudnorm_mux"):
+        af, loud = loudnorm_two_pass(mix, P.plan.total)
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(video), *mix_inputs(mix, P.plan.total),
+                        "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", af, "-ar", str(SR), "-c:a", "aac", "-b:a", AAC_BITRATE,
+                        "-t", f"{P.plan.total:.3f}", "-movflags", "+faststart", "-metadata", f"comment={AN.mp4_comment}", str(final)],
+                       check=True)
     rj = json.loads((outd / "animatic_render.json").read_text(encoding="utf-8"))
     kinds: dict[str, int] = {}
     from engine.layers.animatic import PLACEHOLDERS  # noqa: PLC0415
@@ -506,6 +529,9 @@ def render_animatic(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
     from engine.provenance import feedback_guards  # noqa: PLC0415
 
     prov["user_feedback_guards"] = feedback_guards(checks)   # v5.22.0 D-0200
+    tsum = summarize(P.root, since)
+    if tsum is not None:   # D-1000 S0 — 이번 실행의 단계별 시간(P5)
+        prov["timings"] = tsum
     (outd / "animatic_provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
     return final, prov
 
@@ -528,11 +554,15 @@ def render_catalog(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
     if not mix.exists():
         raise ProjectError(f"out/mix.f32 없음 — 카탈로그 판도 음성·음악을 입힌다: `python -m audio.mix {P.root}` 먼저")
     t0 = time.time()
+    from engine.timing import now_utc, summarize  # noqa: PLC0415
+
+    since = now_utc()
     prov = project_provenance(P, CATALOG_STAGES)
     times = auto_preview_times(P)
-    P.R.cache["glyph_miss"] = glyph_sweep(P)
     labels = [f"t={t:.2f}" for t in times]
-    checks = run_checks(P, times, prov, sample_drawn(P, times, labels), labels)   # 전편 검사 = 컷에 그린 글자로(출처 줄·글자 크기)
+    with stage_timer(P.root, "render.catalog.checks", res=P.R.out.name):
+        P.R.cache["glyph_miss"] = glyph_sweep(P)
+        checks = run_checks(P, times, prov, sample_drawn(P, times, labels), labels)   # 전편 검사 = 컷에 그린 글자로(출처 줄·글자 크기)
     (outd / "catalog_checks.json").write_text(json.dumps(checks, ensure_ascii=False, indent=1), encoding="utf-8")
     if not checks["passed"]:
         errs = [f"checks hard {i['id']}: {d}" for i in checks["items"] if i["severity"] == "hard" for d in i["details"]]
@@ -545,11 +575,12 @@ def render_catalog(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
                                                          ensure_ascii=False, indent=1), encoding="utf-8")
     t1 = time.time()
     final = outd / CT.output
-    af, loud = loudnorm_two_pass(mix, P.plan.total)
-    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(video), *mix_inputs(mix, P.plan.total),
-                    "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", af, "-ar", str(SR), "-c:a", "aac", "-b:a", AAC_BITRATE,
-                    "-t", f"{P.plan.total:.3f}", "-movflags", "+faststart", "-metadata", f"comment={CT.mp4_comment}", str(final)],
-                   check=True)
+    with stage_timer(P.root, "render.catalog.encode", step="loudnorm_mux"):
+        af, loud = loudnorm_two_pass(mix, P.plan.total)
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(video), *mix_inputs(mix, P.plan.total),
+                        "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", af, "-ar", str(SR), "-c:a", "aac", "-b:a", AAC_BITRATE,
+                        "-t", f"{P.plan.total:.3f}", "-movflags", "+faststart", "-metadata", f"comment={CT.mp4_comment}", str(final)],
+                       check=True)
     rj = json.loads((outd / "catalog_render.json").read_text(encoding="utf-8"))
     used_el = sorted({x for r in rows for x in r["elements"]})
     used_fn = sorted({x for r in rows for x in r["fonts"]}, key=list(CT.label.font_keys).index)
@@ -565,6 +596,9 @@ def render_catalog(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
     from engine.provenance import feedback_guards  # noqa: PLC0415
 
     prov["user_feedback_guards"] = feedback_guards(checks)
+    tsum = summarize(P.root, since)
+    if tsum is not None:   # D-1000 S0
+        prov["timings"] = tsum
     (outd / "catalog_provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
     return final, prov
 
