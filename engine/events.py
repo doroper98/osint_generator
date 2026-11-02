@@ -853,6 +853,8 @@ class NetworkEdge(_Strict):
     dst: str
     type: Annotated[str, AfterValidator(_network_style)]
     label: str = ""
+    # v7.4.0 UF-400·UF-401(영상 분석 D13) — drop = 위 노드 아래 끝에서 아래 노드 위 끝으로 곧게 내리는 선(가계·후견). 같은 열끼리도 허용
+    shape: Optional[Literal["drop"]] = None
 
 
 class NetworkMention(_Strict):
@@ -877,7 +879,7 @@ class PanelNetwork(_Chart):
             for end in (e.src, e.dst):
                 if end not in col:
                     raise ValueError(f"network 선 끝 {end!r} 가 노드에 없다")
-            if col[e.src] == col[e.dst]:
+            if col[e.src] == col[e.dst] and e.shape != "drop":
                 raise ValueError(f"network 선 {e.src}→{e.dst}: 같은 열끼리는 잇지 않는다(수평 접선 곡선, 08 §3 규칙 3)")
         for m in self.mentions:
             if m.node not in col:

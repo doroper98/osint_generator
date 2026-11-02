@@ -40,6 +40,20 @@ def layout(e: dict) -> dict[str, tuple[float, float, float, float]]:
     return out
 
 
+def partial_polyline(path: list[tuple[float, float]], prog: float) -> list[tuple[float, float]]:
+    """꺾은선 앞쪽 prog(0~1) 길이만 — 점 목록(첫 점 포함)."""
+    segs = [math.hypot(x1 - x0, y1 - y0) for (x0, y0), (x1, y1) in zip(path, path[1:])]
+    left = sum(segs) * max(0.0, min(1.0, prog))
+    out = [path[0]]
+    for (x0, y0), (x1, y1), L_ in zip(path, path[1:], segs):
+        if left <= 0:
+            break
+        f = 1.0 if L_ <= left else left / L_
+        out.append((x0 + (x1 - x0) * f, y0 + (y1 - y0) * f))
+        left -= L_
+    return out
+
+
 def edge_start(e: dict) -> float:
     return max(p[3] for p in layout(e).values()) + REL.edges_after_nodes_sec
 
@@ -56,9 +70,24 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
             continue
         sx, sy, sr, _ = pos[ed["src"]]
         dx, dy, dr, _ = pos[ed["dst"]]
+        st = N.styles[ed["type"]]
+        if ed.get("shape") == "drop":   # v7.4.0 UF-401(영상 분석 D13) — 곧은 내림선(위 → 아래, 열이 다르면 꺾은선), 자라는 시간은 다른 선과 같다
+            down = 1 if dy >= sy else -1
+            y0, y1 = sy + down * (sr + N.drop.pad), dy - down * (dr + N.drop.pad)
+            path = [(sx, y0), (dx, y1)] if sx == dx else [(sx, y0), (sx, (y0 + y1) / 2), (dx, (y0 + y1) / 2), (dx, y1)]
+            ctx.new_path()
+            ctx.move_to(*path[0])
+            for px, py in partial_polyline(path, prog)[1:]:
+                ctx.line_to(px, py)
+            if st.dash:
+                ctx.set_dash(st.dash)
+            ctx.set_source_rgba(*C[st.color], st.alpha * a)
+            ctx.set_line_width(N.drop.width)
+            ctx.stroke()
+            ctx.set_dash([])
+            continue
         sign = 1 if dx > sx else -1
         pts = edge_curve(sx + sign * (sr + REL.source.pad), sy, dx - sign * (dr + REL.target.pad), dy, prog, REL.curve_samples)
-        st = N.styles[ed["type"]]
         ctx.new_path()
         ctx.move_to(*pts[0])
         for p in pts[1:]:

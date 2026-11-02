@@ -1267,6 +1267,13 @@ class ChecklistOpen(_Strict):
     fill_fade_sec: float = Field(ge=0.55)
 
 
+class NetworkDrop(_Strict):
+    """v7.4.0 UF-400·UF-401(영상 분석 D13) — network 선 shape drop(곧은 내림선)."""
+
+    pad: float
+    width: float = Field(gt=0)
+
+
 class NetworkRules(_Strict):
     """08 §3.1 — v2 P_network 를 정돈된 관계선 규칙(panels.relation 의 선 타이밍·곡선)으로 고쳐 이식."""
 
@@ -1290,6 +1297,7 @@ class NetworkRules(_Strict):
     mention_hold_sec: float
     mention_lead_sec: float
     max_edges: int
+    drop: "NetworkDrop"            # v7.4.0 UF-401 — 내림선(가계·후견)
 
 
 class ChartRules(_Strict):
