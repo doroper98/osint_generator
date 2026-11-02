@@ -27,12 +27,14 @@ shots:
   - {at: {sid: prelude_5}, mode: drift, dur: 10.0, camera: {lon: 16.85, lat: 41.38, w: 3.2}}
   - {at: {sid: prelude_10}, mode: move, dur: 7.0, camera: {lon: 16.11, lat: 41.334, w: 0.09}}
   - {at: {sid: deployment_1}, mode: cut, dur: 0.0, camera: {lon: 16.11, lat: 41.334, w: 0.09}, stage: terrain3d}
-  - {at: {sid: deployment_10}, mode: drift, dur: 4.0, camera: {lon: 16.11, lat: 41.334, w: 0.09}, stage: terrain3d, reason: 초승달 진형 — 천천히 기울어 궤도}
-  - {at: {sid: deployment_12}, mode: move, dur: 2.0, camera: {lon: 16.11, lat: 41.334, w: 0.09}, stage: terrain3d}
+  - {at: {sid: deployment_8}, mode: move, dur: 2.0, camera: {lon: 16.136, lat: 41.334, w: 0.105}, stage: terrain3d, reason: 타니트 비석 카드(오른쪽) — 진형을 왼쪽 빈자리로 비켜 둔다(D-0619 ②)}
+  - {at: {sid: deployment_10}, mode: move, dur: 1.2, camera: {lon: 16.11, lat: 41.334, w: 0.09}, stage: terrain3d, reason: 카드가 걷힌 뒤 진형 가운데로}
+  - {at: {sid: deployment_10, 'off': 1.3}, mode: drift, dur: 4.0, camera: {lon: 16.11, lat: 41.334, w: 0.09}, stage: terrain3d, reason: 초승달 진형 — 천천히 기울어 궤도}
+  - {at: {sid: deployment_12}, mode: move, dur: 2.0, camera: {lon: 16.136, lat: 41.334, w: 0.105}, stage: terrain3d, reason: 궤도 되돌리기 + 투구 카드(오른쪽) 자리 비키기(D-0619 ②)}
   - {at: {sid: encirclement_0}, mode: move, dur: 3.0, camera: {lon: 16.097, lat: 41.337, w: 0.06}, stage: terrain3d, reason: 강가 기병 충돌로 pan}
   - {at: {sid: encirclement_5}, mode: move, dur: 3.0, camera: {lon: 16.11, lat: 41.334, w: 0.08}, stage: terrain3d, reason: 중앙 보병으로}
   - {at: {sid: encirclement_6}, mode: drift, dur: 4.0, camera: {lon: 16.11, lat: 41.334, w: 0.08}, stage: terrain3d, reason: 양익 포위 — 천천히 기울어 궤도}
-  - {at: {sid: encirclement_9}, mode: move, dur: 3.0, camera: {lon: 16.12, lat: 41.325, w: 0.11}, stage: terrain3d, reason: 나올 때 칸나이 마을 자리까지 담는다}
+  - {at: {sid: encirclement_9}, mode: move, dur: 3.0, camera: {lon: 16.14, lat: 41.325, w: 0.11}, stage: terrain3d, reason: "나올 때 칸나이 마을 자리까지 담고 트럼불 카드(오른쪽) 자리를 비워 둔다(D-0619 ②)"}
   - {at: {sid: aftermath_0}, mode: move, dur: 6.0, camera: {lon: 15.9, lat: 41.45, w: 3.2}}
   - {at: {sid: aftermath_2}, mode: drift, dur: 14.0, camera: {lon: 16.0, lat: 41.42, w: 3.2}}
   - {at: {sid: aftermath_8}, mode: move, dur: 3.5, camera: {lon: 13.8, lat: 42.4, w: 19.0}, reason: 타렌툼(남)·갈리아 키살피나(북) — 전장 밖으로}
@@ -42,9 +44,9 @@ events:
   - {type: marker, start: {sid: prelude_8, 'off': 0.4}, end: {sid: prelude_9, edge: end}, at_place: cannae, label: 칸나이}
   - {type: photo, start: {sid: prelude_6, 'off': 0.2}, end: {sid: prelude_6, edge: end, 'off': 0.6}, mid: cannae_bust, for: 대리석 흉상, place: map_pair_right}
   - {type: photo, start: {sid: prelude_7, 'off': 0.2}, end: {sid: prelude_8, 'off': 0.3}, mid: cannae_coin, for: 은화}
-  - {type: photo, start: {sid: deployment_8, 'off': 0.2}, end: {sid: deployment_9, edge: end, 'off': 0.3}, mid: cannae_tanit, for: 석회암 비석}
+  - {type: photo, start: {sid: deployment_8, 'off': 0.2}, end: {sid: deployment_9, edge: end, 'off': 0.3}, mid: cannae_tanit, for: 석회암 비석, place: map_pair_right}
   - {type: photo, start: {sid: deployment_12, 'off': 0.2}, end: {sid: deployment_13, edge: end}, mid: cannae_montefortino, for: 투구, place: map_pair_right}
-  - {type: photo, start: {sid: encirclement_11, 'off': 0.2}, end: {sid: encirclement_11, edge: end, 'off': 0.5}, mid: cannae_trumbull, for: 쓰러진 집정관과 말을 권하는 기병}
+  - {type: photo, start: {sid: encirclement_11, 'off': 0.2}, end: {sid: encirclement_11, edge: end, 'off': 0.5}, mid: cannae_trumbull, for: 쓰러진 집정관과 말을 권하는 기병, place: map_pair_right}
   - {type: marker, start: {sid: aftermath_1, 'off': 0.2}, end: {sid: aftermath_4, edge: end}, at_place: cannae, label: 칸나이}
   - type: panel
     start: {sid: aftermath_2, 'off': -0.2}
