@@ -68,6 +68,10 @@ sections:
     license: U.S. Navy · Public domain
     rights:
     - media.dmz_mine_sign
+  - main: DMZ 철책(을지전망대, 2008)
+    license: Friar's Balsam · CC BY 2.0
+    rights:
+    - media.dmz_fence
 - title: 글꼴
   column: 1
   auto: fonts
