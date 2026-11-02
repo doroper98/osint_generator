@@ -65,8 +65,9 @@
     "url": "https://commons.wikimedia.org/wiki/File:Jeff_Bezos%27_iconic_laugh_crop.jpg",
     "license": "CC BY 2.0",
     "rights_status": "rights_clear",
-    "credit": "This file was derived from: Jeff Bezos' iconic laugh.jpg:",
-    "note": "원본 photo_bezos.jpg / CLOSING 크레딧 표기 대상"
+    "credit": "Steve Jurvetson(원본) · King of Hearts(가공)",
+    "note": "원본 photo_bezos.jpg / CLOSING 크레딧 표기 대상",
+    "credit_raw": "This file was derived from: Jeff Bezos' iconic laugh.jpg:"
    },
    "variants": [
     {
@@ -91,8 +92,9 @@
     "url": "https://commons.wikimedia.org/wiki/File:Korea_Portuguese_Business_Forum_01_(cropped).jpg",
     "license": "CC BY-SA 2.0",
     "rights_status": "rights_clear",
-    "credit": "https://www.flickr.com/photos/koreanet/52811274709/",
-    "note": "원본 photo_chey_tae_won.jpg / CC BY-SA — 파생물 SA 검토 필요"
+    "credit": "대한민국 정부(Korea.net)",
+    "note": "원본 photo_chey_tae_won.jpg / CC BY-SA — 파생물 SA 검토 필요",
+    "credit_raw": "https://www.flickr.com/photos/koreanet/52811274709/"
    },
    "variants": [
     {
@@ -143,8 +145,9 @@
     "url": "https://commons.wikimedia.org/wiki/File:Dario_Amodei_in_2023.jpg",
     "license": "CC BY 2.0",
     "rights_status": "rights_clear",
-    "credit": "https://www.flickr.com/photos/49707497@N06/52922227897/",
-    "note": "원본 photo_dario_amodei.jpg / CLOSING 크레딧 표기 대상"
+    "credit": "영국 총리실(UK Prime Minister)",
+    "note": "원본 photo_dario_amodei.jpg / CLOSING 크레딧 표기 대상",
+    "credit_raw": "https://www.flickr.com/photos/49707497@N06/52922227897/"
    },
    "variants": [
     {
@@ -221,8 +224,9 @@
     "url": "https://commons.wikimedia.org/wiki/File:Jensen_Huang_(cropped)_(2024).jpg",
     "license": "CC BY 4.0",
     "rights_status": "rights_clear",
-    "credit": "Visit of Josep Borrell Fontelles, Vice-President of the European Commission, to the United States",
-    "note": "원본 photo_jensen_huang.jpg / CLOSING 크레딧 표기 대상"
+    "credit": "Peter Dasilva",
+    "note": "원본 photo_jensen_huang.jpg / CLOSING 크레딧 표기 대상",
+    "credit_raw": "Visit of Josep Borrell Fontelles, Vice-President of the European Commission, to the United States"
    },
    "variants": [
     {
@@ -274,8 +278,9 @@
     "url": "https://commons.wikimedia.org/wiki/File:Lagarde,_Christine_(official_portrait_2011).jpg",
     "license": "Public domain",
     "rights_status": "rights_clear",
-    "credit": "http://www.imf.org/external/np/adm/pictures/caption2.htm",
-    "note": "원본 photo_lagarde.jpg / 크레딧 의무 없음(PD/CC0)"
+    "credit": "국제통화기금(IMF)",
+    "note": "원본 photo_lagarde.jpg / 크레딧 의무 없음(PD/CC0)",
+    "credit_raw": "http://www.imf.org/external/np/adm/pictures/caption2.htm"
    },
    "variants": [
     {
@@ -456,8 +461,9 @@
     "url": "https://commons.wikimedia.org/wiki/File:Vladimir_Putin_portrait_(2024-02-23).png",
     "license": "CC BY 4.0",
     "rights_status": "rights_clear",
-    "credit": "http://en.kremlin.ru/events/president/news/73529/photos",
-    "note": "원본 photo_putin.jpg / CLOSING 크레딧 표기 대상"
+    "credit": "kremlin.ru",
+    "note": "원본 photo_putin.jpg / CLOSING 크레딧 표기 대상",
+    "credit_raw": "http://en.kremlin.ru/events/president/news/73529/photos"
    },
    "variants": [
     {
@@ -482,8 +488,9 @@
     "url": "https://commons.wikimedia.org/wiki/File:Visit_of_Tim_Cook_to_the_European_Commission_-_P061904-946789.jpg",
     "license": "CC BY 4.0",
     "rights_status": "rights_clear",
-    "credit": "https://audiovisual.ec.europa.eu/en/reportage/P-061904 (archive, archive)",
-    "note": "원본 photo_tim_cook.jpg / CLOSING 크레딧 표기 대상"
+    "credit": "European Commission · Christophe Licoppe",
+    "note": "원본 photo_tim_cook.jpg / CLOSING 크레딧 표기 대상",
+    "credit_raw": "https://audiovisual.ec.europa.eu/en/reportage/P-061904 (archive, archive)"
    },
    "variants": [
     {
@@ -535,8 +542,9 @@
     "url": "https://commons.wikimedia.org/wiki/File:Official_portrait_of_Kevin_M._Warsh_(cropped).jpg",
     "license": "Public domain",
     "rights_status": "rights_clear",
-    "credit": "https://www.flickr.com/photos/federalreserve/55341882470/",
-    "note": "원본 photo_warsh.jpg / 크레딧 의무 없음(PD/CC0)"
+    "credit": "미 연방준비제도(Federal Reserve)",
+    "note": "원본 photo_warsh.jpg / 크레딧 의무 없음(PD/CC0)",
+    "credit_raw": "https://www.flickr.com/photos/federalreserve/55341882470/"
    },
    "variants": [
     {
@@ -561,8 +569,9 @@
     "url": "https://commons.wikimedia.org/wiki/File:Xi_Jinping_in_July_2024.jpg",
     "license": "CC BY 4.0",
     "rights_status": "rights_clear",
-    "credit": "Astanada İlham Əliyevin Çin Xalq Respublikasının Sədri Si Cinpin ilə görüşü keçirilib",
-    "note": "원본 photo_xi_jinping.jpg / CLOSING 크레딧 표기 대상"
+    "credit": "아제르바이잔 대통령 언론실",
+    "note": "원본 photo_xi_jinping.jpg / CLOSING 크레딧 표기 대상",
+    "credit_raw": "Astanada İlham Əliyevin Çin Xalq Respublikasının Sədri Si Cinpin ilə görüşü keçirilib"
    },
    "variants": [
     {
@@ -587,8 +596,9 @@
     "url": "https://commons.wikimedia.org/wiki/File:Volodymyr_Zelensky_Official_portrait.jpg",
     "license": "CC BY 4.0",
     "rights_status": "rights_clear",
-    "credit": "https://www.president.gov.ua/en/president/biografiya",
-    "note": "원본 photo_zelensky.jpg / CLOSING 크레딧 표기 대상"
+    "credit": "우크라이나 대통령실(president.gov.ua)",
+    "note": "원본 photo_zelensky.jpg / CLOSING 크레딧 표기 대상",
+    "credit_raw": "https://www.president.gov.ua/en/president/biografiya"
    },
    "variants": [
     {
