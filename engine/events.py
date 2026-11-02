@@ -237,7 +237,7 @@ class CountryEvent(_Event):
 class BadgeEvent(_Event):
     """뱃지. 지도 앵커 lon·lat, 또는 시간축 앵커 date·lane(v4.4.0 D-0090 작업 4 — 배치 슬롯이 시간축에서 date·lane 을 돌려준다). 한 쌍만."""
 
-    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane", "over_panel", "screen")   # 쓰지 않은 앵커 쌍·패널 위 자리는 dict 에 남기지 않는다(지도 뱃지 dict = v4.3.0 과 같음)
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane", "over_panel", "screen", "pulse", "mark", "mark_t")   # 쓰지 않은 앵커 쌍·패널 위 자리·신호는 dict 에 남기지 않는다(지도 뱃지 dict = v4.3.0 과 같음)
 
     type: Literal["badge"]
     lon: Optional[float] = None
@@ -255,6 +255,19 @@ class BadgeEvent(_Event):
     side: Optional[Literal["right"]] = None
     over_panel: Optional[bool] = None                     # v4.8.0 D-0104 D2(c) — 배치 슬롯(panel_badge)이 채운다: 패널 층 위, 화면 고정
     screen: Optional[tuple[float, float]] = None
+    # v7.4.0 UF-400·UF-401(영상 분석 D1·D9·D10) — 뱃지 신호. 뱃지는 머물고 신호만 더한다(다시 띄우지 않는다)
+    pulse: Optional[list[float]] = Field(default=None, description="재언급 시각 목록(word 앵커) — 그 순간 고리가 퍼진다. 뱃지 [t0, t1] 안")
+    mark: Optional[Literal["strike", "question"]] = Field(default=None, description="strike = 숙청·사망 사실 문장의 붉은 X, question = 의문·미확인의 '?' 말풍선")
+    mark_t: Optional[float] = Field(default=None, description="표시 시각(word 앵커). 없으면 t0")
+
+    @model_validator(mode="after")
+    def _cues(self) -> "BadgeEvent":
+        out = [p for p in (self.pulse or []) if not self.t0 <= p <= self.t1]
+        if out:
+            raise ValueError(f"badge pulse {out} 가 뱃지 구간 [{self.t0}, {self.t1}] 밖")
+        if self.mark_t is not None and (self.mark is None or not self.t0 <= self.mark_t <= self.t1):
+            raise ValueError("badge mark_t 는 mark 가 있을 때만, 뱃지 구간 안")
+        return self
 
     @model_validator(mode="after")
     def _anchor(self) -> "BadgeEvent":

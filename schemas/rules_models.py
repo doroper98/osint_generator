@@ -802,6 +802,31 @@ class BadgeRing(_Strict):
     inner_alpha: float = Field(ge=0, le=1)
 
 
+class BadgeCue(_Strict):
+    """v7.4.0 UF-400·UF-401 — 뱃지 신호(재언급 맥동·숙청 X·물음표 말풍선). 설계 px(480p)."""
+
+    pulse_sec: float = Field(gt=0)
+    pulse_grow: float = Field(gt=0)
+    pulse_w: float = Field(gt=0)
+    pulse_alpha: float = Field(ge=0, le=1)
+    pulse_rings: int = Field(ge=1)
+    pulse_stagger_sec: float = Field(ge=0)
+    mark_draw_sec: float = Field(gt=0)
+    strike_w: float = Field(gt=0)
+    strike_extent: float = Field(gt=0)
+    strike_alpha: float = Field(ge=0, le=1)
+    strike_color: str
+    q_r: float = Field(gt=0)
+    q_dx: float
+    q_dy: float
+    q_size: float
+    q_baseline: float               # '?' 기준선 = 중심 + 크기 × 이 값
+    q_pop_sec: float = Field(gt=0)
+    q_tail: list[tuple[float, float]] = Field(min_length=3, max_length=3)   # 말풍선 꼬리 세 점(q_r 배수)
+    q_bg: RGB
+    q_ink: RGB
+
+
 class BadgeLayout(_Strict):
     R_person_solo: float
     R_person_group: Range2
@@ -829,6 +854,7 @@ class BadgeLayout(_Strict):
     portrait: BadgePortrait           # v5.15.0 D-0153 §5 — 인물 초상 배치(head_inside_max 대체)
     flag_wave: BadgeFlagWave          # v5.15.0 — 인물 뒤 국기 물결
     ring: BadgeRing                   # v5.15.0 — 인물 뱃지 링
+    cue: BadgeCue                     # v7.4.0 UF-400·UF-401 — 재언급 맥동·숙청 X·물음표
 
 
 class TimelineGaps(_Strict):
