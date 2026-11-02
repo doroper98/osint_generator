@@ -9,6 +9,10 @@ from pathlib import Path
 
 import cairo
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from engine.fontenv import ensure  # noqa: E402 — v7.4.0 RENDER-AP-032: 글자를 그리는 도구도 표준 글꼴 렌더 설정에서만
+
+ensure()
 OUT = Path(__file__).parent / "out"
 OUT.mkdir(exist_ok=True)
 INSETS = Path(__file__).resolve().parents[2] / "assets" / "library" / "insets"
