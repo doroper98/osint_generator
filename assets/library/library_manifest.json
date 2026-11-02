@@ -247,8 +247,9 @@
     "url": "https://commons.wikimedia.org/wiki/File:Ali_Khamenei_Nowruz_message_official_portrait_1397_02_(cropped).jpg",
     "license": "CC BY 4.0",
     "rights_status": "rights_clear",
-    "credit": "http://farsi.khamenei.ir/photo-album?id=36022#i",
-    "note": "원본 photo_khamenei.jpg / CLOSING 크레딧 표기 대상"
+    "credit": "khamenei.ir",
+    "note": "원본 photo_khamenei.jpg / CLOSING 크레딧 표기 대상",
+    "credit_raw": "http://farsi.khamenei.ir/photo-album?id=36022#i"
    },
    "variants": [
     {
@@ -507,8 +508,9 @@
     "url": "https://commons.wikimedia.org/wiki/File:Donald_Trump_official_portrait.jpg",
     "license": "Public domain",
     "rights_status": "rights_clear",
-    "credit": "This image is available from the United States Library of Congress's Prints and Photographs division under the digital ID ppbd.00608.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing.",
-    "note": "원본 photo_trump.jpg / 크레딧 의무 없음(PD/CC0)"
+    "credit": "Shealeah Craighead (백악관)",
+    "note": "원본 photo_trump.jpg / 크레딧 의무 없음(PD/CC0)",
+    "credit_raw": "This image is available from the United States Library of Congress's Prints and Photographs division under the digital ID ppbd.00608.This tag does not indicate the copyright status of the attached work. A normal copyright tag is still required. See Commons:Licensing."
    },
    "variants": [
     {
