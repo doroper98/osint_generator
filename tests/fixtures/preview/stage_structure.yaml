@@ -25,4 +25,4 @@ direction:
     - {type: rank, start: 0.6, end: 14.0, layer: bars}
     - {type: rank, start: 4.0, end: 14.0, layer: prior}
     - {type: rank, start: 6.5, end: 14.0, layer: delta}
-    - {type: rank, start: 9.0, end: 14.0, layer: focus, row: industry}
+    - {type: rank, start: 9.0, end: 14.0, layer: focus, row: industry, metric: rate}

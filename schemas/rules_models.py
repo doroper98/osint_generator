@@ -1836,8 +1836,18 @@ class ChartDepth(_Strict):
     sample_step_sec: float = Field(gt=0)                # 프레임을 그려 재는 검사(grid-text-cross·bar-border)의 표본 간격
 
 
+class SpokenNumber(_Strict):
+    """v7.4.0 D-1008 §3(UF-304) — [spoken-number-visible]."""
+
+    samples: int = Field(ge=1)
+    lead_sec: float = Field(ge=0)
+    amount_units: dict[str, float] = Field(min_length=1)
+    tolerance: float = Field(gt=0)
+
+
 class QAChecks(_Strict):
     overlap_core_elements: int
+    spoken_number: Optional[SpokenNumber] = None      # v7.4.0 D-1008 — [spoken-number-visible] hard
     chart_only_run: ChartOnlyRun                      # v7.4.0 D-0252 — [chart-only-run] hard
     card_over_panel: Optional[CardOverPanel] = None   # v7.4.0 D-0248(UF-129)
     label_under_media: Optional[LabelUnderMedia] = None   # v7.4.0 R-0294 판정
@@ -2404,6 +2414,13 @@ class StageStructureRules(_Strict):
     pct_step: float = Field(gt=0)
     unit_suffix: dict[str, str] = Field(min_length=1)
     stage_words: dict[Literal["proposed", "enacted", "settled"], str]
+    delta_seg_alpha_add: float = Field(ge=0, le=1)
+    focus_base_alpha: float = Field(gt=0, le=1)
+    focus_value_size: float = Field(gt=0)
+    focus_value_font: str
+    focus_rest_size: float = Field(gt=0)
+    focus_rest_font: str
+    abs_digits: int = Field(ge=0, le=3)
 
 
 class StageBackdropRules(_Strict):

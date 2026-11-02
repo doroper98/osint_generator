@@ -2656,7 +2656,17 @@ entries:
   quote: "알아서 해. 근데 직관적이고 시인성을 갖춰야 되는게 가장 중요해"
   quote_kind: verbatim
   category: "화면 — 직관성·시인성 최우선. 내레이션이 말하는 숫자가 그 문장 동안 화면에 크게 보여야 한다(구성 무대 강조 방식 선택은 감독 위임)"
-  guards: []
-  status: open
+  guards:
+  - kind: check
+    ref: spoken_number_visible
+  - kind: rule
+    ref: qa_checks.spoken_number
+  - kind: rule
+    ref: stage_structure.focus_value_size
+  - kind: test
+    ref: tests/test_spoken_number_visible.py::SpokenNumberVisibleTest::test_r0608_state_fails
+  - kind: test
+    ref: tests/test_stage_structure.py::StructureStageTest::test_focus_label_says_spoken_number
+  status: guarded
   decision: "D-1008 — 한 장면 차례 강조(증가액 → 증가율), 초점 행은 문장이 말하는 숫자를 크게, 늘어난 구간을 막대 위에 색으로, 구성 무대 글자 크기 상향, 말한 숫자 화면 표시 검사 신설"
   source: 감독 세션 사용자 대화 2026-11-02

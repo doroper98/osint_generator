@@ -50,6 +50,13 @@ class Row(BaseModel):
     value: float
     prior: Optional[float] = None
     published_pct: Optional[float] = None
+    published_abs: Optional[float] = None   # D-1008 — 원문 표 증감액
+
+    @property
+    def delta_abs(self) -> Optional[float]:
+        if self.published_abs is not None:
+            return self.published_abs
+        return None if self.prior is None else self.value - self.prior
 
     @property
     def delta_pct(self) -> Optional[float]:
@@ -109,8 +116,10 @@ class StructureStage:
                 pr = STRUCTURE.pct_step / 2
                 if not lo - pr <= x.change_pct <= hi + pr:
                     raise StructureError(f"행 {x.id}: 원문 증감률 {x.change_pct}% 가 {pv[x.id]}→{x.value} 반올림 범위 {lo:.2f}~{hi:.2f}% 밖")
+            if x.change_abs is not None and abs(x.change_abs - (x.value - pv[x.id])) > step + step / 2:   # 반올림 값의 차 ± 반올림 단위
+                raise StructureError(f"행 {x.id}: 원문 증감액 {x.change_abs} 가 {pv[x.id]}→{x.value} 차와 반올림 범위 밖")
         order = sorted(rec.rows, key=lambda x: (-x.value, x.id))
-        self.rows = [Row(id=x.id, label=x.label, rank=i, value=x.value, prior=pv.get(x.id), published_pct=x.change_pct)
+        self.rows = [Row(id=x.id, label=x.label, rank=i, value=x.value, prior=pv.get(x.id), published_pct=x.change_pct, published_abs=x.change_abs)
                      for i, x in enumerate(order)]
         self.by_id = {r.id: r for r in self.rows}
         _, _, bw, bh = ISLAND.boxes[self.cfg.box]

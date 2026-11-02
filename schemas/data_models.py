@@ -459,6 +459,7 @@ class CategoryRow(_Strict):
     value: float
     page: int = Field(ge=1)                   # 원본 페이지(문서에 찍힌 쪽 번호가 아니라 PDF 쪽)
     locator: str = Field(min_length=1)        # 표 이름·줄(원문 그대로, 예: "12대 분야별 재원배분 · 보건·복지·고용")
+    change_abs: Optional[float] = None        # v7.4.0 D-1008 — 원문 표의 증감액(B−A) 그대로(record.change_vs 대비)
     change_pct: Optional[float] = None        # v7.4.0 D-1006 — 원문 표의 증감률(%) 그대로(record.change_vs 대비). 반올림 값으로 다시 계산하지 않는다
 
     @field_validator("id")

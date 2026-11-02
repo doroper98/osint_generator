@@ -55,7 +55,7 @@ def events(t_focus: float = 3.0) -> list[dict]:
     return [{"type": "rank", "t0": 0.0, "t1": 20.0, "layer": "bars"},
             {"type": "rank", "t0": 1.0, "t1": 20.0, "layer": "prior"},
             {"type": "rank", "t0": 2.0, "t1": 20.0, "layer": "delta"},
-            {"type": "rank", "t0": t_focus, "t1": 20.0, "layer": "focus", "row": "industry"}]
+            {"type": "rank", "t0": t_focus, "t1": 20.0, "layer": "focus", "row": "industry", "metric": "rate"}]
 
 
 def render(st: StructureStage, t: float, evs: list[dict], cam: tuple[float, float, float] | None = None) -> cairo.ImageSurface:
@@ -135,20 +135,23 @@ class StructureStageTest(unittest.TestCase):
         self.assertGreater(sum(mid), 3 * 40, "막대가 칠해지지 않았다")
         gap = px(surf, x_mid, STRUCTURE.pad_top + st.row_h * (r.rank + 1))   # 행 경계 = 막대 사이 틈
         self.assertEqual(gap, (0, 0, 0))
-        f = st.by_id["industry"]
-        fc = px(surf, st.x_of(f.value / 2), st.bh - st.row_y(f.rank))
+        f = st.by_id["industry"]   # 초점 행(D-1008): 늘어난 구간(눈금 → 막대 끝) = accent 솔리드, 0 → 눈금 = accent 옅게
         gold = tuple(round(c * 255) for c in C["gold"])
-        self.assertTrue(all(abs(a - b) <= 2 for a, b in zip(fc, gold)), f"초점 행 {fc} ≠ accent {gold}")
-        d = st.by_id["education"]   # 95 < 100 — 감소
+        fc = px(surf, (st.x_of(f.prior or 0) + st.x_of(f.value)) / 2 + 2, st.bh - st.row_y(f.rank))
+        self.assertTrue(all(abs(a - b) <= 2 for a, b in zip(fc, gold)), f"초점 행 늘어난 구간 {fc} ≠ accent {gold}")
+        fb = px(surf, st.x_of((f.prior or 0) / 2), st.bh - st.row_y(f.rank))
+        self.assertTrue(fb != gold and fb[0] > fb[2], f"초점 행 0 → 눈금 구간 {fb} 는 accent 옅게")
+        d = st.by_id["education"]   # 95 < 100 — 감소: 막대 끝 → 눈금 구간 = 손실 A 면(D-1008 §1-3)
         loss = tuple(round(c * 255) for c in loss_rgb())
-        dim = tuple(round(c * 255 * STRUCTURE.focus_dim) for c in loss_rgb())   # 초점 층이 뜨면 다른 행은 focus_dim(검은 바탕 위)
-        dc = px(surf, st.x_of(d.value / 2), st.bh - st.row_y(d.rank))
-        self.assertTrue(sum(abs(a - b) for a, b in zip(dc, dim)) <= 6, f"감소 행(초점 뒤) {dc} ≠ 손실 면 × focus_dim {dim}")
         pre = render(st, 10.0, events(t_focus=30.0))   # 초점 층 전
-        dc = px(pre, st.x_of(d.value / 2), st.bh - st.row_y(d.rank))
-        self.assertTrue(sum(abs(a - b) for a, b in zip(dc, loss)) <= 6, f"감소 행 {dc} ≠ 손실 면 {loss}")
-        tick_in = px(surf, st.x_of(r.prior or 0), cy)   # 눈금 가운데(속빈) = 막대 칠
-        self.assertEqual(tick_in, mid)
+        dc = px(pre, (st.x_of(d.value) + st.x_of(d.prior or 0)) / 2, st.bh - st.row_y(d.rank))
+        self.assertTrue(sum(abs(a - b) for a, b in zip(dc, loss)) <= 6, f"감소 구간 {dc} ≠ 손실 면 {loss}")
+        w = st.by_id["admin"]   # 120 > 100 — 늘어난 구간은 0 → 눈금 구간보다 밝다(같은 막대 위 한 단계 밝게)
+        lo = px(pre, st.x_of((w.prior or 0) / 2), st.bh - st.row_y(w.rank))
+        hi = px(pre, (st.x_of(w.prior or 0) + st.x_of(w.value)) / 2 + 2, st.bh - st.row_y(w.rank))
+        self.assertGreater(sum(hi), sum(lo) + 3 * 20, f"늘어난 구간 {hi} 가 앞 구간 {lo} 보다 밝아야")
+        early = render(st, 1.8, events())   # prior 층만(delta 전) — 눈금 가운데(속빈) = 막대 칠
+        self.assertEqual(px(early, st.x_of(r.prior or 0), cy), px(early, x_mid, cy))
 
     def test_text_no_overlap(self) -> None:
         """겹침 0 — 모든 층이 뜬 프레임의 글자 상자(이름·금액·증감·머리·태그·출처)끼리 교차 없음, 상자 안."""
@@ -159,10 +162,20 @@ class StructureStageTest(unittest.TestCase):
         names = [n for n, _ in DRAWN_TEXT]
         self.assertIn("head", names)
         self.assertIn("tag:prior", names)
-        self.assertEqual(sum(n.startswith("delta:") for n in names), len(st.rows))
+        self.assertEqual(sum(n.startswith("delta:") for n in names), len(st.rows) - 1)   # 초점 행은 초점 라벨이 대신(D-1008)
+        self.assertIn("focus:industry", names)
+        self.assertNotIn("value:industry", names)
         self.assertEqual(text_overlaps(list(DRAWN_TEXT)), [])
         for n, (x0, y0, x1, y1) in DRAWN_TEXT:
             self.assertTrue(x0 >= -0.5 and y0 >= -0.5 and x1 <= st.bw + 0.5 and y1 <= st.bh + 0.5, f"{n} 상자 밖 {x0, y0, x1, y1}")
+
+    def test_focus_label_says_spoken_number(self) -> None:
+        """D-1008 §1 — metric amount 초점 = "+증감액" 크게 + " · +증감률" 작게, rate 초점 = 거꾸로."""
+        from engine.layers.structure import focus_label  # noqa: PLC0415
+
+        st = stage()
+        self.assertEqual(focus_label(st, st.by_id["admin"], "amount"), ("+20.0조", " · +20.0%"))
+        self.assertEqual(focus_label(st, st.by_id["industry"], "rate"), ("+29.0%", " · +9.0조"))
 
     def test_layers_appear_in_order(self) -> None:
         from engine.layers.structure import DRAWN_TEXT  # noqa: PLC0415

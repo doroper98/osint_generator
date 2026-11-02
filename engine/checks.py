@@ -40,6 +40,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | unit_glyph_font | hard | display 글꼴로 그린 문자열에 라틴 소문자(단위 t 십자형) `[unit-glyph-font]` — 단위 꼬리는 rules fonts.unit_font(v7.4.0 UF-111·D-0229 §2.4) |
 | ratio_graphic | warning | "N 척 중 M" 문장 구간에 dots·versus 패널·series 없음 `[ratio-without-graphic]`(v7.4.0 UF-113·D-0229 §2.6) |
 | inset_overlap | warning | 위성 인셋(원+출처 줄)이 마커·경로 이름표·카드 자리·날짜와 겹침 `[inset-overlap]`(v7.4.0 UF-107·D-0229 §2.7) |
+| spoken_number_visible | hard | 데이터 무대(구성·차트 아일랜드·시간축 주 무대·값 축 패널) 위 문장이 말한 금액·비율이 그 문장 표본 프레임 라벨에 없음 `[spoken-number-visible]`(v7.4.0 UF-304·D-1008 §3, rules qa_checks.spoken_number) |
 | tempo_density | warning | 1분 창 사실(귀속) 문장 > tempo.fact_sentences_per_min_max `[tempo-density]`(v7.4.0 UF-115·D-0229 §2.9, script.lint.tempo_density) |
 | transition_camera | hard | 시점 전환(plan transitions) 호흡~bridge 문장 사이 카메라 이동 < transition.camera_move_min_sec `[transition-camera]`(v7.4.0 UF-105·D-0229 §2.2) |
 | static_camera | hard | 20초 창 안에서 카메라가 멈추고 새 화면 요소도 없음 `[static-camera]`·drift 속도 초과 `[drift-too-fast]`(v7.4.0 D-0241 §1, UF-120) |
@@ -140,7 +141,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled", "map_event_covered")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled", "map_event_covered", "spoken_number_visible")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -2437,6 +2438,89 @@ def card_drawn_strings(P, kind: str) -> list[str]:  # noqa: ANN001, N803
         typography.GLYPH_LOG = old
 
 
+_NUM = r"\d[\d,]*(?:\.\d+)?"
+_AMOUNT_RE = re.compile(rf"({_NUM})\s*조(?:\s*(\d)\s*천)?(?:\s*(\d)\s*백)?\s*억?|({_NUM})\s*억")
+_PCT_RE = re.compile(rf"({_NUM})\s*(%p|%)")
+_LABEL_AMT_RE = re.compile(rf"[+−-]?({_NUM})\s*조")
+_LABEL_PCT_RE = re.compile(rf"[+−-]?({_NUM})\s*(%p|%)")
+
+
+def spoken_numbers(text: str) -> list[tuple[str, float, str]]:
+    """문장이 말한 금액·비율 → [(종류 amount|pct|pp, 값, 원문 조각)]. 금액은 조 단위(rules qa_checks.spoken_number.amount_units).
+    연도("2027년")·날짜·서수·개수는 단위가 달라 잡히지 않는다."""
+    units = QA.spoken_number.amount_units if QA.spoken_number else {"조": 1.0, "억": 0.0001}
+    out: list[tuple[str, float, str]] = []
+    for m in _AMOUNT_RE.finditer(text):
+        if m.group(1) is not None:
+            v = float(m.group(1).replace(",", "")) * units["조"]
+            if m.group(2):
+                v += int(m.group(2)) * 1000 * units["억"]
+            if m.group(3):
+                v += int(m.group(3)) * 100 * units["억"]
+        else:
+            v = float(m.group(4).replace(",", "")) * units["억"]
+        out.append(("amount", round(v, 4), m.group(0).strip()))
+    for m in _PCT_RE.finditer(text):
+        out.append(("pp" if m.group(2) == "%p" else "pct", float(m.group(1).replace(",", "")), m.group(0)))
+    return out
+
+
+def label_numbers(strings: list[str]) -> list[tuple[str, float]]:
+    """화면 라벨 문자열 → [(종류, 값)] — "+27.6조"·"149.0조"·"+29.7%"·"△0.1%" 등."""
+    out: list[tuple[str, float]] = []
+    for s in strings:
+        out += [("amount", float(m.group(1).replace(",", ""))) for m in _LABEL_AMT_RE.finditer(s)]
+        out += [("pp" if m.group(2) == "%p" else "pct", float(m.group(1).replace(",", ""))) for m in _LABEL_PCT_RE.finditer(s)]
+    return out
+
+
+def data_windows(P) -> list[tuple[float, float]]:  # noqa: ANN001, N803
+    """데이터 무대 구간 — 구성·차트 아일랜드, 값 축 패널(engine.honesty.PANEL_META), 시간축 주 무대(전 구간, 전면 카드 제외)."""
+    from engine.honesty import PANEL_META  # noqa: PLC0415
+
+    if getattr(P.R.stage, "name", "") == "timeline":
+        return [(0.0, P.plan.total)]
+    return [(e["t0"], e["t1"]) for e in P.events if (e["type"] == "island" and e.get("kind") in ("chart", "structure"))
+            or (e["type"] == "panel" and e.get("kind") in PANEL_META)]
+
+
+def check_spoken_number_visible(P) -> list[str]:  # noqa: ANN001, N803
+    """v7.4.0 back_and_forth D-1008 §3(사용자 의견 UF-304) — 데이터 무대 위 문장이 말한 금액·비율이 그 문장 동안 화면 라벨에 보이는가.
+    문장 [t0 + lead_sec, t1] 의 표본 프레임을 실제로 그려 text() 가 남긴 문자열(typography.GLYPH_LOG)에서 숫자를 찾는다(렌더와 같은 결과).
+    자막 문자열은 뺀다(자막은 문장 그대로라 늘 맞는다). 없으면 `[spoken-number-visible] sid "조각" — 화면 라벨에 없음`."""
+    from engine import typography  # noqa: PLC0415
+    from engine.render import render_frame  # noqa: PLC0415
+
+    cfg = QA.spoken_number
+    if cfg is None:
+        return []
+    wins = data_windows(P)
+    out: list[str] = []
+    for snt in P.plan.sentences:
+        mid = (snt.t0 + snt.t1) / 2
+        if P.R.tb.in_fullcard(mid) or not any(a <= mid <= b for a, b in wins):
+            continue
+        said = spoken_numbers(snt.text)
+        if not said:
+            continue
+        a0 = snt.t0 + cfg.lead_sec
+        times = [a0 + (snt.t1 - a0) * (k + 1) / cfg.samples for k in range(cfg.samples)]
+        drawn: list[str] = []
+        old, typography.GLYPH_LOG = typography.GLYPH_LOG, []
+        try:
+            for t in times:
+                render_frame(P, min(P.n_frames - 1, int(round(t * FPS))))
+            sub = {snt.text, *(ln for ln in snt.text.split())}
+            drawn = [s for _size, _role, s in typography.GLYPH_LOG if s not in sub and s.strip() not in snt.text]
+        finally:
+            typography.GLYPH_LOG = old
+        shown = label_numbers(drawn)
+        for kind, v, frag in said:
+            if not any(k == kind and abs(x - v) <= cfg.tolerance for k, x in shown):
+                out.append(f"[spoken-number-visible] {snt.sid} {frag!r} — 그 문장 {snt.t0:.2f}~{snt.t1:.2f} 데이터 무대 라벨에 없음(UF-304)")
+    return out
+
+
 def check_template_label(P) -> list[str]:  # noqa: ANN001, N803
     """v7.4.0 UF-147(D-0302 ⑤ "어떤 주제의 템플릿으로 만든 영상인지 알 수 있게 텍스트로") — 장르 template_label 이 있으면
     타이틀 카드 부제 줄과 엔딩 카드에 실제로 그려졌는지 프레임을 그려 본다. 없거나 카드가 없으면 hard."""
@@ -2686,6 +2770,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "bgm_decision": lambda: check_bgm_decision(P),        # v5.22.2 UF-16·30·93(hard)
         "endcard_black": lambda: check_endcard_black(P),      # v5.22.3 UF-35(hard)
         "template_label": lambda: check_template_label(P),    # v7.4.0 UF-147 D-0302(hard)
+        "spoken_number_visible": lambda: check_spoken_number_visible(P),   # v7.4.0 UF-304 D-1008 §3(hard)
         "invest_notice": lambda: check_invest_notice(P),      # v7.4.0 D-0278 §4.3(hard)
         "camera_per_sentence": lambda: check_camera_per_sentence(P),   # v5.22.4 UF-19(hard)
         "label_jump": lambda: check_label_jump(P),   # v5.22.7 D209(hard)

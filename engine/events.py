@@ -485,13 +485,14 @@ class RankEvent(_Event):
     type: Literal["rank"]
     layer: Literal["bars", "prior", "delta", "focus"]
     row: Optional[str] = Field(default=None, min_length=1)
+    metric: Optional[Literal["amount", "rate"]] = None   # v7.4.0 D-1008 — focus 초점 라벨의 큰 숫자: amount = +증감액, rate = +증감률(문장이 말하는 쪽)
 
-    DROP_NONE: ClassVar[tuple[str, ...]] = ("row",)
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("row", "metric")
 
     @model_validator(mode="after")
     def _row(self) -> "RankEvent":
-        if (self.layer == "focus") != (self.row is not None):
-            raise ValueError("rank row 는 focus 층에만, focus 층은 row 가 필요하다")
+        if (self.layer == "focus") != (self.row is not None) or (self.layer == "focus") != (self.metric is not None):
+            raise ValueError("rank row·metric 은 focus 층에만, focus 층은 row·metric 이 필요하다")
         return self
 
 

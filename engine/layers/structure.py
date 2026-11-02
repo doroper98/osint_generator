@@ -28,6 +28,7 @@ if TYPE_CHECKING:
 LAYERS: tuple[str, ...] = ("bars", "prior", "delta", "focus")
 Rect = tuple[float, float, float, float]   # x0, y0, x1, y1(뷰포트 px)
 DRAWN_TEXT: list[tuple[str, Rect]] = []    # 이 프레임에 그린 글자 상자(시험·겹침 검사 — 그리기 전에 비운다)
+DRAWN_STRINGS: list[tuple[str, str, float]] = []   # (이름, 문자열, 알파) — [spoken-number-visible] 이 읽는다(D-1008 §3)
 
 
 def _hbar(ctx: cairo.Context, xz: float, xe: float, y0: float, y1: float, r: float) -> None:
@@ -57,22 +58,8 @@ def layer_alpha(events: list[dict], t: float, layer: str, row: Optional[str] = N
     return best
 
 
-def _focus_row(events: list[dict], t: float) -> tuple[Optional[str], float]:
-    best: tuple[Optional[str], float] = (None, 0.0)
-    for e in events:
-        if e["type"] == "rank" and e["layer"] == "focus":
-            a = layer_alpha([e], t, "focus")
-            if a > best[1]:
-                best = (e["row"], a)
-    return best
-
-
 def _grow(t: float, e: dict, rank: int) -> float:
     return ease_out(max(0.0, min(1.0, (t - e["t0"] - rank * STRUCTURE.stagger_sec) / STRUCTURE.grow_sec)))
-
-
-def _mix(a: tuple[float, float, float], b: tuple[float, float, float], k: float) -> tuple[float, float, float]:
-    return tuple(x * (1 - k) + y * k for x, y in zip(a, b))  # type: ignore[return-value]
 
 
 def fmt_amount(st: "StructureStage", v: float) -> str:
@@ -102,6 +89,7 @@ def _put(ctx: cairo.Context, name: str, s: str, x: float, y: float, size: float,
     r = (x0, y - size * m.ascent, x0 + w, y + size * (1 - m.ascent))
     if a > 0.01:
         DRAWN_TEXT.append((name, r))
+        DRAWN_STRINGS.append((name, s, a))
     return r
 
 
@@ -121,31 +109,39 @@ def draw_rank(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: dic
     {"bars": _draw_bars, "prior": _draw_prior, "delta": _draw_delta, "focus": _draw_focus}[e["layer"]](ctx, view, st, t, e, evs)
 
 
-def _row_fill(st: "StructureStage", row: "Row", evs: list[dict], t: float) -> tuple[tuple[float, float, float], float]:
-    S = STRUCTURE  # noqa: N806
-    from engine.layers.series import bar_ink, loss_rgb  # noqa: PLC0415
+def focus_alpha(evs: list[dict], t: float, row_id: str) -> float:
+    """그 행의 초점 등장 정도(그 행을 가리키는 focus 층 중 큰 값)."""
+    return max((layer_alpha([e], t, "focus") for e in evs if e["type"] == "rank" and e["layer"] == "focus" and e["row"] == row_id),
+               default=0.0)
 
-    ink = bar_ink()
-    alpha = S.ladder[min(row.rank, len(S.ladder) - 1)]
-    col = ink
-    if row.decreased:   # UF-204 A — 감소 행 = down 섞은 채도 낮은 면(증감 층이 뜨는 만큼)
-        da = layer_alpha(evs, t, "delta")
-        col, alpha = _mix(ink, loss_rgb(), da), alpha * (1 - da) + da
-    fr, fa = _focus_row(evs, t)
-    if fr is not None and fa > 0:
-        if fr == row.id:
-            col, alpha = _mix(col, C["gold"], fa), alpha * (1 - fa) + fa
-        else:
-            alpha *= 1 - fa * (1 - S.focus_dim)
-    return col, alpha
+
+def dim_of(evs: list[dict], t: float, row_id: str) -> float:
+    """초점 아닌 행의 잉크 농도 배율 — 어느 행이든 초점이 뜨면 1 − fa × (1 − focus_dim). 초점 행은 1."""
+    fa = max((layer_alpha([e], t, "focus") for e in evs if e["type"] == "rank" and e["layer"] == "focus" and e["row"] != row_id),
+             default=0.0)
+    return 1 - fa * (1 - STRUCTURE.focus_dim) if focus_alpha(evs, t, row_id) <= 0 else 1.0
+
+
+def _seg(ctx: cairo.Context, st: "StructureStage", view: "View", row: "Row", v0: float, v1: float, rounded: bool) -> None:
+    """같은 막대 위 구간 [v0, v1] 경로(막대 두께 그대로). rounded = 바깥 끝 모서리 둥글게(막대 끝과 같은 모양)."""
+    yc = st.row_y(row.rank)
+    x0, y0 = view.to_screen(st.x_of(v0), yc + st.bar_h / 2)
+    x1, y1 = view.to_screen(st.x_of(v1), yc - st.bar_h / 2)
+    if rounded:
+        _hbar(ctx, x0, x1, y0, y1, TIMELINE.bars.top_radius)
+    else:
+        ctx.rectangle(x0, y0, x1 - x0, y1 - y0)
 
 
 def _draw_bars(ctx: cairo.Context, view: "View", st: "StructureStage", t: float, e: dict, evs: list[dict]) -> None:
+    """막대(0 에서 자람) + 행 이름 + 행 끝 금액. 초점 행의 금액 라벨은 초점 라벨이 대신한다(1 − 초점 등장)."""
+    from engine.layers.series import bar_ink  # noqa: PLC0415
+
     S, B = STRUCTURE, TIMELINE.bars  # noqa: N806
     a = layer_alpha([e], t, "bars")
     if a <= 0.01:
         return
-    txt = C["white"]
+    txt, ink = C["white"], bar_ink()
     zx, zy0 = view.to_screen(st.x_of(0.0), st.bh - st.row_top(0))
     _, zy1 = view.to_screen(st.x_of(0.0), st.bh - st.row_top(len(st.rows)))
     ctx.move_to(round(zx) + 0.5, zy0)
@@ -158,16 +154,14 @@ def _draw_bars(ctx: cairo.Context, view: "View", st: "StructureStage", t: float,
         if k <= 0:
             continue
         x0, y0, x1, y1 = bar_rect(st, view, row, k)
-        col, al = _row_fill(st, row, evs, t)
         _hbar(ctx, x0, x1, y0, y1, B.top_radius)
-        ctx.set_source_rgba(*col, al * a)
+        ctx.set_source_rgba(*ink, S.ladder[min(row.rank, len(S.ladder) - 1)] * dim_of(evs, t, row.id) * a)
         ctx.fill()
-        la = a * smooth(k)   # 이름은 막대가 자라면서 차오른다
         yb = (y0 + y1) / 2 + S.label_size * TIMELINE.text_metrics.mid_drop
-        _put(ctx, f"label:{row.id}", row.label, zx - S.label_gap, yb, S.label_size, S.label_font, txt, la, "r")
+        _put(ctx, f"label:{row.id}", row.label, zx - S.label_gap, yb, S.label_size, S.label_font, txt, a * smooth(k), "r")
         if k >= 1.0:
-            _put(ctx, f"value:{row.id}", fmt_amount(st, row.value), value_x(st, view, row), yb, S.value_size, S.value_font,
-                 txt if _focus_row(evs, t)[0] != row.id else C["gold"], a)
+            _put(ctx, f"value:{row.id}", fmt_amount(st, row.value), value_x(st, view, row), yb, S.value_size, S.value_font, txt,
+                 a * (1 - focus_alpha(evs, t, row.id)))
 
 
 def value_x(st: "StructureStage", view: "View", row: "Row") -> float:
@@ -198,24 +192,70 @@ def _draw_prior(ctx: cairo.Context, view: "View", st: "StructureStage", t: float
 
 
 def _draw_delta(ctx: cairo.Context, view: "View", st: "StructureStage", t: float, e: dict, evs: list[dict]) -> None:
+    """늘어난 구간(눈금 → 막대 끝)을 같은 막대 위에서 한 단계 밝게(D-1008 §1-3), 감소 구간(막대 끝 → 눈금) = 손실 A 면(UF-204),
+    행 끝 " · ±증감률". 초점 행의 증감률 라벨은 초점 라벨이 대신한다."""
+    from engine.layers.series import bar_ink, loss_rgb  # noqa: PLC0415
+
     S = STRUCTURE  # noqa: N806
     a = layer_alpha([e], t, "delta")
     if a <= 0.01:
         return
     for row in st.rows:
         p = row.delta_pct
-        if p is None:
+        if p is None or row.prior is None:
             continue
+        dim = dim_of(evs, t, row.id)
+        if row.value >= row.prior:
+            _seg(ctx, st, view, row, row.prior, row.value, True)
+            ctx.set_source_rgba(*bar_ink(), S.delta_seg_alpha_add * dim * a)
+        else:
+            _seg(ctx, st, view, row, row.value, row.prior, False)
+            ctx.set_source_rgba(*loss_rgb(), dim * a)
+        ctx.fill()
         x0, y0, x1, y1 = bar_rect(st, view, row)
         yb = (y0 + y1) / 2 + S.label_size * TIMELINE.text_metrics.mid_drop
         x = value_x(st, view, row) + tw(ctx, fmt_amount(st, row.value), S.value_size, S.value_font)
-        _put(ctx, f"delta:{row.id}", f" · {fmt_pct(p)}", x, yb, S.delta_size, S.delta_font, C["ru"] if p < 0 else C["green"], a)
+        _put(ctx, f"delta:{row.id}", f" · {fmt_pct(p)}", x, yb, S.delta_size, S.delta_font, C["ru"] if p < 0 else C["green"],
+             a * (1 - focus_alpha(evs, t, row.id)))
+
+
+def fmt_abs(st: "StructureStage", v: float) -> str:
+    return f"{v:+,.{STRUCTURE.abs_digits}f}{STRUCTURE.unit_suffix[st.record.unit]}"
+
+
+def focus_label(st: "StructureStage", row: "Row", metric: str) -> tuple[str, str]:
+    """초점 라벨 (큰 숫자, 작은 나머지) — metric amount = ("+27.6조", " · +22.8%"), rate = ("+29.7%", " · +9.4조")."""
+    ab, pc = row.delta_abs, row.delta_pct
+    if ab is None or pc is None:
+        raise ValueError(f"초점 행 {row.id}: 견줄 레코드(prior)가 없어 증감 라벨을 만들 수 없다")
+    big, rest = (fmt_abs(st, ab), fmt_pct(pc)) if metric == "amount" else (fmt_pct(pc), fmt_abs(st, ab))
+    return big, f" · {rest}"
 
 
 def _draw_focus(ctx: cairo.Context, view: "View", st: "StructureStage", t: float, e: dict, evs: list[dict]) -> None:
-    """초점 층 자체는 그릴 것이 없다 — 막대 칠(_row_fill)·금액 색이 이 층의 등장 정도를 읽는다. 행 id 검사만."""
+    """초점 행 하나(D-1008 §1-4·5): 0 → 눈금 구간 accent 옅게, 늘어난 구간 accent 솔리드, 행 끝 라벨 = 문장이 말하는 숫자를 크게."""
+    S = STRUCTURE  # noqa: N806
     if e["row"] not in st.by_id:
         raise ValueError(f"rank focus row {e['row']!r} 가 구성 무대 행에 없다")
+    a = layer_alpha([e], t, "focus")
+    if a <= 0.01:
+        return
+    row = st.by_id[e["row"]]
+    acc = C["gold"]
+    base = min(row.value, row.prior) if row.prior is not None else row.value
+    _seg(ctx, st, view, row, 0.0, base, row.prior is None or row.prior >= row.value)
+    ctx.set_source_rgba(*acc, S.focus_base_alpha * a)
+    ctx.fill()
+    if row.prior is not None and row.value > row.prior:
+        _seg(ctx, st, view, row, row.prior, row.value, True)
+        ctx.set_source_rgba(*acc, a)
+        ctx.fill()
+    big, rest = focus_label(st, row, e["metric"])
+    x0, y0, x1, y1 = bar_rect(st, view, row)
+    yb = (y0 + y1) / 2 + S.focus_value_size * TIMELINE.text_metrics.mid_drop
+    x = value_x(st, view, row)
+    r = _put(ctx, f"focus:{row.id}", big, x, yb, S.focus_value_size, S.focus_value_font, acc, a)
+    _put(ctx, f"focus_rest:{row.id}", rest, r[2], yb, S.focus_rest_size, S.focus_rest_font, acc, a)
 
 
 def rows_band(view: "View") -> Rect:
@@ -229,6 +269,7 @@ def rows_band(view: "View") -> Rect:
 def draw_structure(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, events: list[dict]) -> None:  # noqa: N803
     """구성 아일랜드 안 rank 층 전부 — 층 순서(LAYERS)대로. 행은 rows_band 안, 머리·출처 줄은 띠 밖(_draw_frame_text)."""
     DRAWN_TEXT.clear()
+    DRAWN_STRINGS.clear()
     bars = [ce for ce in events if ce["type"] == "rank" and ce["layer"] == "bars" and ce["t0"] - 0.05 <= t <= ce["t1"] + 0.05]
     x0, y0, x1, y1 = rows_band(view)
     ctx.save()

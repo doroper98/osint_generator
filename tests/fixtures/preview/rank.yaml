@@ -9,3 +9,4 @@ event:
   t1: 14.0
   layer: focus
   row: industry
+  metric: rate

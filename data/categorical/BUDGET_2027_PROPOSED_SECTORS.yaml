@@ -30,70 +30,82 @@ rows:
   value: 289.0
   page: 15
   locator: p.15 [2027년도 예산안 12대 분야별 재원배분] · 1. 보건 ․ 복지 ․ 고용 · 2027 예산안(B)
+  change_abs: 24.6
   change_pct: 9.3
 - id: education
   label: 교육
   value: 110.7
   page: 15
   locator: p.15 [2027년도 예산안 12대 분야별 재원배분] · 2. 교육 · 2027 예산안(B)
+  change_abs: 10.8
   change_pct: 10.8
 - id: culture
   label: 문화·체육·관광
   value: 11.6
   page: 15
   locator: p.15 [2027년도 예산안 12대 분야별 재원배분] · 3. 문화 ․ 체육 ․ 관광 · 2027 예산안(B)
+  change_abs: 2.0
   change_pct: 20.4
 - id: environment
   label: 환경
   value: 14.6
   page: 15
   locator: p.15 [2027년도 예산안 12대 분야별 재원배분] · 4. 환경 · 2027 예산안(B)
+  change_abs: 0.7
   change_pct: 5.2
 - id: rnd
   label: R&D
   value: 39.5
   page: 15
   locator: p.15 [2027년도 예산안 12대 분야별 재원배분] · 5. R&D · 2027 예산안(B)
+  change_abs: 4.0
   change_pct: 11.2
 - id: industry
   label: 산업·중소기업·에너지
   value: 41.2
   page: 15
   locator: p.15 [2027년도 예산안 12대 분야별 재원배분] · 6. 산업 ․ 중소기업 ․ 에너지 · 2027 예산안(B)
+  change_abs: 9.4
   change_pct: 29.7
 - id: soc
   label: SOC
   value: 28.9
   page: 15
   locator: p.15 [2027년도 예산안 12대 분야별 재원배분] · 7. SOC · 2027 예산안(B)
+  change_abs: 1.2
   change_pct: 4.0
 - id: agri
   label: 농림·수산·식품
   value: 30.7
   page: 15
   locator: p.15 [2027년도 예산안 12대 분야별 재원배분] · 8. 농림 ․ 수산 ․ 식품 · 2027 예산안(B)
+  change_abs: 2.7
   change_pct: 9.5
 - id: defense
   label: 국방
   value: 73.3
   page: 15
   locator: p.15 [2027년도 예산안 12대 분야별 재원배분] · 9. 국방 · 2027 예산안(B)
+  change_abs: 5.6
   change_pct: 8.2
 - id: diplomacy
   label: 외교·통일
   value: 7.1
   page: 15
   locator: p.15 [2027년도 예산안 12대 분야별 재원배분] · 10. 외교 ․ 통일 · 2027 예산안(B)
+  change_abs: 0.1
   change_pct: 1.1
 - id: safety
   label: 공공질서·안전
   value: 28.8
   page: 15
   locator: p.15 [2027년도 예산안 12대 분야별 재원배분] · 11. 공공질서 ․ 안전 · 2027 예산안(B)
+  change_abs: 1.5
   change_pct: 5.3
 - id: admin
   label: 일반·지방행정
   value: 149.0
   page: 15
   locator: p.15 [2027년도 예산안 12대 분야별 재원배분] · 12. 일반 ․ 지방행정 · 2027 예산안(B)
+  change_abs: 27.6
   change_pct: 22.8
