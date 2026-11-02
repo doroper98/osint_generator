@@ -250,7 +250,7 @@ def main(argv: list[str] | None = None) -> int:
     theme = a.theme or T3.theme
     out = a.project / "out" / "terrain3d"
     info = build(a.project, spec, a.t, theme, out)
-    subprocess.run(["node", str(TOOL / "render.js"), str(out)], check=True, cwd=TOOL,
+    subprocess.run(["node", str(TOOL / "render.js"), str(out.resolve())], check=True, cwd=TOOL,
                    env={**os.environ, "NODE_PATH": subprocess.run(["npm", "root", "-g"], capture_output=True, text=True).stdout.strip()})
     frames = sorted((out / "frames").glob("f_*.png"))
     scale = T3.width / output_profile(None).width
