@@ -11,7 +11,6 @@ sections:
     license: 기사 화면 캡처·로고 없음
     rights:
     - media.iran_ceasefire_2026_art_0005
-    - media.iran_ceasefire_2026_art_0038
     - media.iran_ceasefire_2026_art_0043
     - media.iran_ceasefire_2026_art_0047
     - media.iran_ceasefire_2026_art_0057
@@ -19,10 +18,6 @@ sections:
 - title: 사진·영상
   column: 0
   items:
-  - main: 카타르 도하 웨스트베이 스카이라인 (2023. 01. 15)
-    license: Zairon (CC BY 4.0) · CC BY 4.0
-    rights:
-    - media.iran_doha_skyline
   - main: 미 국방부 공개 영상 · '에픽 퓨리' 작전 타격 (2026. 03. 01)
     license: 미 국방부 · Public domain
     rights:
@@ -39,10 +34,6 @@ sections:
     license: 미 해군 중부사령부 · Public domain
     rights:
     - media.iran_blockade_apr_video
-  - main: 앙카라 나토 정상회의에 도착하는 미국 대통령 전용기 (2026. 07. 07)
-    license: Kayra (CC BY 4.0) · CC BY 4.0
-    rights:
-    - media.iran_trump_ankara
   - main: 이란 해상 봉쇄 작전 중인 미 해군 상륙함 뉴올리언스 (2026. 04. 28)
     license: 미 국방부 · Public domain
     rights:
@@ -55,10 +46,6 @@ sections:
     license: 미 해군 중부사령부 · Public domain
     rights:
     - media.iran_marines_boarding
-  - main: 테헤란 도심(밀라드 타워) (2026. 07. 21)
-    license: Sajjadmrt (CC0) · CC0
-    rights:
-    - media.iran_tehran_2026
   - main: 취재진 앞의 아라그치 이란 외무장관(모스크바) (2026. 04. 27)
     license: kremlin.ru (CC BY 4.0) · CC BY 4.0
     rights:
@@ -67,10 +54,18 @@ sections:
     license: NASA · Public domain
     rights:
     - media.iran_hormuz_night_iss
-  - main: 카타르 도하 웨스트베이 (2023. 01. 16)
-    license: Zairon (CC BY 4.0) · CC BY 4.0
+  - main: 모흐센 레자이 최고국가안보회의 사무총장 (2020. 06. 26)
+    license: khamenei.ir (CC BY 4.0) · CC BY 4.0
     rights:
-    - media.iran_doha_skyline_09
+    - media.iran_rezaee_2020
+  - main: 페르시아만 원유 터미널에서 원유를 싣는 유조선 (2005. 11. 11)
+    license: 미 해군 · Public domain
+    rights:
+    - media.iran_tanker_abot_2005
+  - main: 호르무즈 해협 일대 부대를 찾은 미 중부사령관 (2026. 10. 23)
+    license: 미 중부사령부 · Public domain
+    rights:
+    - media.iran_centcom_cdr_hormuz_1023
 - title: 글꼴
   column: 1
   auto: fonts

@@ -8206,7 +8206,7 @@
    "date": "2026-04-11",
    "url": "https://commons.wikimedia.org/wiki/File:Sidelines_of_Islamabad_Talks_11.jpg",
    "caption": "이슬라마바드 회담장 입구(2026년 4월)",
-   "file_note": "2026. 04. 11",
+   "file_note": "자료사진 · 2026. 04. 11",
    "depicts": [
     "이슬라마바드 회담 현수막(미국·파키스탄·이란 국기)",
     "회담장 진입로"
@@ -8217,12 +8217,12 @@
    "background": [
     "걸어가는 사람들·셔틀버스"
    ],
-   "is_file_photo": false,
+   "is_file_photo": true,
    "verified_by": {
     "by": "opus 구현 세션 — Commons API 메타(라이선스·작성자·촬영/공개일·VIRIN) 대조, 1280px 원본 육안 확인(주된 피사체 D-0327)",
     "on": "2026-11-01",
     "casualty_free": true,
-    "relevance": "act1_5 '이슬라마바드 회담은 합의 없이 끝났고' — 회담 당일 회담장 사진(4/11)"
+    "relevance": "act1_5 '이슬라마바드 회담은 합의 없이 끝났고' — 회담 당일 회담장 사진(4/11) · v10(D-0466): 사건 날짜와 다른 문장(10/31 조건·중재 일정)에 자료사진으로 씀"
    },
    "rights_status": "rights_clear",
    "retrieved_at": "2026-11-01",
@@ -8392,7 +8392,7 @@
    "date": "2026-07-16",
    "url": "https://commons.wikimedia.org/wiki/File:U_S_Marines_from_the_11th_Marine_Expeditionary_Unit_Conduct_Verification_Boarding_(9815000).jpg",
    "caption": "봉쇄 검문 — 유조선에 내리는 미 해병대 헬기",
-   "file_note": "2026. 07. 16",
+   "file_note": "자료사진 · 2026. 07. 16",
    "depicts": [
     "미 해병대 제11해병원정대 검문 승선",
     "대형 유조선",
@@ -8404,12 +8404,12 @@
    "background": [
     "바다"
    ],
-   "is_file_photo": false,
+   "is_file_photo": true,
    "verified_by": {
     "by": "opus 구현 세션 — Commons API 메타(라이선스·작성자·촬영일·VIRIN) 대조, 1280px 원본 육안 확인(주된 피사체 D-0327)",
     "on": "2026-11-01",
     "casualty_free": true,
-    "relevance": "act1_10 '7월 14일 두 번째 봉쇄' — 두 번째 봉쇄 이틀 뒤(7/16) 검문 승선 공개 사진"
+    "relevance": "act1_10 '7월 14일 두 번째 봉쇄' — 두 번째 봉쇄 이틀 뒤(7/16) 검문 승선 공개 사진 · v10(D-0466): 사건 날짜와 다른 문장(10/31 조건·중재 일정)에 자료사진으로 씀"
    },
    "rights_status": "rights_clear",
    "retrieved_at": "2026-11-01",
@@ -8827,6 +8827,143 @@
    },
    "source_hash": "ea9131be059b812a51c2d29fcb81ff23",
    "file": "iran_trump_ankara_720.jpg"
+  },
+  "iran_rezaee_2020": {
+   "kind": "photo",
+   "title": "File:Mohsen Rezaee in 2020.jpg",
+   "author": "khamenei.ir",
+   "license": "CC BY 4.0",
+   "date": "2020-06-26",
+   "url": "https://commons.wikimedia.org/wiki/File:Mohsen_Rezaee_in_2020.jpg",
+   "caption": "모흐센 레자이(현 최고국가안보회의 사무총장)",
+   "file_note": "자료사진 · 2020. 06",
+   "depicts": [
+    "모흐센 레자이 얼굴(정면)"
+   ],
+   "main_subject": [
+    "레자이 사무총장"
+   ],
+   "background": [
+    "단색 벽"
+   ],
+   "is_file_photo": true,
+   "credit_author": "khamenei.ir (CC BY 4.0)",
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타(라이선스·작성자·날짜·제한 없음) 대조, 1280px 원본 육안 확인(주된 피사체 D-0327)",
+    "on": "2026-11-02",
+    "casualty_free": true,
+    "relevance": "act3_4 '레자이 사무총장은 미국이 해협 공동 관리안을 거부했다고 전했다' — 발언 당사자 자료사진(인물 확인: 8/9~10 SNSC 사무총장 임명, 조사표 01)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-02",
+   "source_hash": "cfd7726eaa42b1bcdc85706fb122c316",
+   "file": "iran_rezaee_2020_720.jpg",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "iran_rezaee_2020.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   }
+  },
+  "iran_tanker_abot_2005": {
+   "kind": "photo",
+   "title": "File:US Navy 051111-N-8163B-032 An oil tanker docked to the Al Basrah Oil Terminal (ABOT) takes on crude oil in the Persian Gulf.jpg",
+   "author": "U.S. Navy photo by Photographer's Mate Airman Eben Boothby",
+   "license": "Public domain",
+   "date": "2005-11-11",
+   "url": "https://commons.wikimedia.org/wiki/File:US_Navy_051111-N-8163B-032_An_oil_tanker_docked_to_the_Al_Basrah_Oil_Terminal_(ABOT)_takes_on_crude_oil_in_the_Persian_Gulf.jpg",
+   "caption": "페르시아만 원유 터미널에서 원유를 싣는 유조선",
+   "file_note": "자료사진 · 2005. 11",
+   "depicts": [
+    "대형 유조선 갑판",
+    "알바스라 원유 터미널 접안 시설"
+   ],
+   "main_subject": [
+    "원유를 싣는 유조선"
+   ],
+   "background": [
+    "바다·하늘"
+   ],
+   "is_file_photo": true,
+   "credit_author": "미 해군(퍼블릭 도메인)",
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타(라이선스·작성자·날짜·제한 없음) 대조, 1280px 원본 육안 확인(주된 피사체 D-0327)",
+    "on": "2026-11-02",
+    "casualty_free": true,
+    "relevance": "act6_2 '울산 반입 원유 중 해협 안쪽에서 실은 비중 1월 79.5% → 9월 0%' — 해협 안쪽(걸프) 원유 터미널 선적 자료사진(알바스라 원유 터미널, 울산 선적 패널 옆)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-02",
+   "source_hash": "f74606f834bdb474a38ffb953260e01a",
+   "file": "iran_tanker_abot_2005_720.jpg",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "iran_tanker_abot_2005.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   }
+  },
+  "iran_centcom_cdr_hormuz_1023": {
+   "kind": "photo",
+   "title": "File:CENTCOM Commander Visits Strait of Hormuz during Milestone Week (10047126).jpg",
+   "author": "Senior Chief Petty Officer Amanda Dunford",
+   "license": "Public domain",
+   "date": "2026-10-23",
+   "url": "https://commons.wikimedia.org/wiki/File:CENTCOM_Commander_Visits_Strait_of_Hormuz_during_Milestone_Week_(10047126).jpg",
+   "caption": "호르무즈 해협 일대 부대를 찾은 미 중부사령관",
+   "file_note": "2026. 10. 23",
+   "depicts": [
+    "미 중부사령관이 장병들에게 말하는 모습",
+    "해병대·해군 장병"
+   ],
+   "main_subject": [
+    "장병들 앞에서 말하는 미 중부사령관"
+   ],
+   "background": [
+    "실내 강당"
+   ],
+   "is_file_photo": false,
+   "credit_author": "미 중부사령부(퍼블릭 도메인)",
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타(라이선스·작성자·날짜·제한 없음) 대조, 1280px 원본 육안 확인(주된 피사체 D-0327)",
+    "on": "2026-11-02",
+    "casualty_free": true,
+    "relevance": "act5_3 '미국이 걸프 국가들에 중간선거 뒤 짧고 강한 작전에 대비하라고 알렸다' — 닷새 앞(10/23) 미 중부사령관의 해협 일대 부대 방문 공개 사진"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-02",
+   "source_hash": "b615e8c4d505eba90813815ff02da7dc",
+   "file": "iran_centcom_cdr_hormuz_1023_720.jpg",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "iran_centcom_cdr_hormuz_1023.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   }
   }
  }
 }

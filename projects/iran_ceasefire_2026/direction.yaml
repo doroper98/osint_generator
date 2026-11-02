@@ -242,9 +242,9 @@ shots:
     w: 32.0
 - at:
     scene_start: act3
-    'off': -1.0
+    'off': -2.2
   mode: move
-  dur: 3.0
+  dur: 2.4
   camera:
     lon: 52.0
     lat: 27.8
@@ -294,22 +294,22 @@ shots:
     lat: 22.0
     w: 96.0
 - at:
-    sid: act1_1
-    'off': -0.3
+    sid: act1_0
+    'off': 0.4
   mode: move
-  dur: 3.2
+  dur: 4.0
   camera:
-    lon: 52.5
+    lon: 47.0
     lat: 31.0
     place: null
     date: null
     lane: null
-    w: 24.0
+    w: 36.0
   under: false
   allow_sea: null
   scene: null
   stage: null
-  reason: act1_1 2/28 공습 — 이란 본토로 다가간다
+  reason: act1_0~2 전쟁 시작 — 이스라엘~이란 한 화면(영상 전에 선다, frame_missing '이스라엘')
 - at:
     sid: act1_3
     'off': -0.3
@@ -346,7 +346,7 @@ shots:
   reason: act1_4 파키스탄 중재 휴전 — 이슬라마바드까지 넓힌다
 - at:
     sid: act1_6
-    'off': -0.3
+    'off': 0.5
   mode: move
   dur: 3.0
   camera:
@@ -363,9 +363,9 @@ shots:
   reason: act1_6 양해각서 — 걸프~파키스탄 전체
 - at:
     sid: act1_8
-    'off': -0.3
+    'off': -1.0
   mode: move
-  dur: 3.0
+  dur: 2.4
   camera:
     lon: 57.6
     lat: 27.5
@@ -431,9 +431,9 @@ shots:
   reason: act5_7 신호 — 걸프에서 레바논까지
 - at:
     sid: act5_8
-    'off': -0.3
+    'off': -2.3
   mode: move
-  dur: 3.0
+  dur: 2.2
   camera:
     lon: 55.0
     lat: 29.0
@@ -524,8 +524,8 @@ events:
   ship: true
 - type: marker
   start:
-    sid: act1_4
-    'off': 2.3
+    sid: act1_3
+    'off': 0.6
   end:
     sid: act1_4
     'off': 0.3
@@ -536,12 +536,12 @@ events:
   hl: true
 - type: marker
   start:
-    sid: act1_5
-    'off': 4.31
+    sid: act1_4
+    'off': 1.0
   end:
     sid: act1_5
-    edge: end
     'off': 0.5
+    edge: end
   at_place: islamabad
   label: 이슬라마바드
   side: right
@@ -577,15 +577,6 @@ events:
   label: 페제시키안
   role: 이란 대통령
   accent: ru
-- type: article
-  start:
-    sid: act1_7
-    'off': 2.98
-  end:
-    sid: act1_8
-    'off': 5.78
-  mid: iran_ceasefire_2026_art_0038
-  theme: dark
 - type: marker
   start:
     sid: act2_2
@@ -612,7 +603,7 @@ events:
 - type: marker
   start:
     sid: act3_1
-    'off': 3.72
+    'off': 4.2
   end:
     scene_end: act3
   at_place: doha
@@ -762,7 +753,9 @@ events:
     sid: act5_1
     'off': 0.4
   end:
-    scene_end: act5
+    sid: act5_7
+    'off': 0.3
+    edge: end
   at_place: hormuz
   label: 호르무즈 해협
   side: right
@@ -967,118 +960,45 @@ events:
   label: 호르무즈 해협
   side: right
   hl: true
-- type: photo
-  start:
-    sid: cold_0
-    'off': -1.0
-  end:
-    sid: cold_1
-    'off': 2.24
-  mid: iran_doha_skyline
-  for: 도하
 - type: clip
   start:
-    sid: act1_0
-    'off': 4.38
+    sid: act1_1
+    'off': 0.1
   end:
     sid: act1_2
-    'off': 1.97
+    'off': 2.07
   mid: iran_epic_fury_video
   audio: broll
   role: broll
-- type: photo
-  start:
-    sid: act1_3
-    'off': 0.9
-  end:
-    sid: act1_4
-    'off': 2.5
-  mid: iran_hormuz_modis
-  for: 호르무즈 해협
-- type: photo
-  start:
-    sid: act1_4
-    'off': 1.8
-  end:
-    sid: act1_5
-    'off': 4.51
-  mid: iran_islamabad_talks
-  for: Islamabad Talks April 2026 현수막이 걸린 회담장 입구
 - type: clip
   start:
     sid: act1_5
-    'off': 3.81
+    'off': 0.4
   end:
     sid: act1_6
-    'off': 3.88
+    'off': 0.47
   mid: iran_blockade_apr_video
   audio: broll
   role: broll
-- type: photo
-  start:
-    sid: act1_11
-    'off': 1.68
-  end:
-    sid: act1_11
-    'off': 9.28
-  mid: iran_uss_new_orleans_blockade
-  for: 봉쇄 작전 중인 미 해군 함정
 - type: clip
   start:
     sid: act1_8
-    'off': 5.88
+    'off': 1.48
   end:
     sid: act1_9
-    'off': 4.73
+    'off': 0.33
   mid: iran_strikes_jul_video
   audio: broll
   role: broll
 - type: photo
   start:
-    sid: act1_11
-    'off': 8.58
-  end:
-    sid: act1_12
-    'off': 5.28
-  mid: iran_marines_boarding
-  for: 검문 대상 유조선과 헬기
-- type: photo
-  start:
-    sid: ending_0
-    'off': 0.4
-  end:
-    sid: ending_0
-    'off': 0.3
-    edge: end
-  mid: iran_tehran_2026
-  for: 테헤란 도심
-- type: photo
-  start:
     sid: act3_0
-    'off': 0.13
+    'off': 0.23
   end:
     sid: act3_1
-    'off': 4.02
+    'off': 4.12
   mid: iran_araghchi_moscow
   for: 아라그치 외무장관
-- type: photo
-  start:
-    sid: act4_0
-    'off': 0.4
-  end:
-    sid: act4_1
-    'off': 4.63
-  mid: iran_hormuz_night_iss
-  for: 호르무즈 해협
-- type: photo
-  start:
-    sid: ending_0
-    'off': 9.18
-  end:
-    sid: ending_2
-    'off': 2.04
-  mid: iran_doha_skyline_09
-  for: 도하
 - type: marker
   start:
     sid: act1_0
@@ -1468,15 +1388,6 @@ events:
       - 1855.7
       decimals: 1
     unit: 원
-- type: photo
-  start:
-    sid: act1_9
-    'off': 4.08
-  end:
-    sid: act1_11
-    'off': 2.38
-  mid: iran_trump_ankara
-  for: 착륙하는 대통령 전용기
 - type: country
   start:
     sid: act6_0
@@ -1495,8 +1406,7 @@ events:
     'off': 0.4
   end:
     sid: act4_3
-    'off': 0.4
-    edge: end
+    'off': 7.6
   flag: ir
   speaker: 이란 혁명수비대
   role: 해군
@@ -1510,10 +1420,10 @@ events:
 - type: quote
   start:
     sid: act4_4
-    'off': 0.04
+    'off': 1.5
   end:
     sid: act4_4
-    'off': 7.74
+    'off': 8.7
   flag: us
   speaker: 미 중부사령부
   role: ''
@@ -1524,6 +1434,127 @@ events:
   pos: center
   claims:
   - clm_0042
+- type: badge
+  start:
+    sid: act1_9
+    'off': 0.35
+  end:
+    sid: act1_10
+    'off': 2.6
+  lon: 62.0
+  lat: 31.0
+  kind: person
+  pid: trump
+  flag: us
+  R: 30
+  label: 트럼프
+  role: 미국 대통령
+  accent: us
+- type: marker
+  start:
+    sid: act1_10
+    'off': 0.3
+  end:
+    sid: act1_11
+    'off': 3.0
+  at_place: hormuz
+  label: 호르무즈 해협
+  side: top
+  hl: true
+- type: marker
+  start:
+    sid: act1_11
+    'off': 3.3
+  end:
+    sid: act1_12
+    'off': 0.3
+    edge: end
+  at_place: tehran
+  label: 테헤란
+  side: right
+  hl: true
+- type: photo
+  start:
+    sid: act2_2
+    'off': 1.88
+  end:
+    sid: act2_2
+    'off': -0.02
+    edge: end
+  mid: iran_hormuz_night_iss
+  for: 호르무즈 해협
+- type: photo
+  start:
+    sid: act2_7
+    'off': -0.4
+  end:
+    sid: act2_7
+    'off': -0.16
+    edge: end
+  mid: iran_uss_new_orleans_blockade
+  for: 봉쇄 작전 중인 미 해군 함정
+- type: photo
+  start:
+    sid: act3_4
+    'off': -0.3
+  end:
+    sid: act3_4
+    'off': 0.77
+    edge: end
+  mid: iran_hormuz_modis
+  for: 호르무즈 해협
+- type: photo
+  start:
+    sid: act2_8
+    'off': 0.1
+  end:
+    sid: act2_8
+    'off': -0.43
+    edge: end
+  mid: iran_rezaee_2020
+  for: 레자이 사무총장
+- type: photo
+  start:
+    sid: act5_3
+    'off': 0.1
+  end:
+    sid: act5_3
+    'off': 0.92
+    edge: end
+  mid: iran_centcom_cdr_hormuz_1023
+  for: 장병들 앞에서 말하는 미 중부사령관
+- type: photo
+  start:
+    sid: act6_2
+    'off': 0.26
+  end:
+    sid: act6_2
+    'off': -1.33
+    edge: end
+  mid: iran_tanker_abot_2005
+  for: 원유를 싣는 유조선
+  age_reason: 해협 안쪽(걸프) 원유 선적 장면의 자료사진 — 전쟁 중 걸프 선적 사진은 허용 라이선스 공용 자료에 없음(D-0466 §4 검색 기록)
+- type: photo
+  start:
+    sid: act5_1
+    'off': -0.1
+  end:
+    sid: act5_1
+    'off': 0.36
+    edge: end
+  mid: iran_marines_boarding
+  for: 검문 대상 유조선과 헬기
+- type: photo
+  start:
+    sid: act5_8
+    'off': 0.0
+  end:
+    sid: act5_8
+    'off': 0.26
+    edge: end
+  mid: iran_islamabad_talks
+  for: Islamabad Talks April 2026 현수막이 걸린 회담장 입구
+  place: map_pair_right
 sound:
   bgm: music.zabriskie_mario_bava
   intensity:
@@ -1571,26 +1602,4 @@ stage_config:
   mercator:
     theme: light
     theme_reason: 지정학 — 장르 기본 D154, 감독 결정 D550
-media_note: 'v2(구현 세션 손질, AI 초안 v1 바탕): 출처 없는 좌표(오만 연안·이란 남부·기뢰 남쪽 항로·이란 중심점)와 그 위
-  boom·경로, 봉쇄선 barrier(좌표 출처 없음), 밴스 서한 경로(출발점 무의미) 삭제(W1.1 M5·D-0450 §8). 실사 13(사진
-  10·영상 3 — media_beats 하한 13): 도하·에픽 퓨리 영상·MODIS·이슬라마바드 회담장·4월 봉쇄 영상·뉴올리언스·7월 공습
-  영상·7/16 검문·테헤란·아라그치·해협 야간·덱스트러스·도하 2. versus 5행 대 5행(D-0453 §3, 미국 5행째 ''보도, 트럼프
-  부인''). 시간축 panel timeline 두 번(act2 도입·act5 재진입, 축 2026-09-15→11-15 같게, 핀 9 — 10/6~8·10/28~30
-  묶음). 유튜브 공식 클립은 봇 검사로 실패(우회 안 함, D551). 휘장 0(중부사령부 휘장 Commons Restrictions). UF-170
-  — 화면 라벨 0. · v3(콘티 판 사전 검사 hard 46 정리): 국기 뱃지 정리(한국만), 사진↔마커 시간 분리, 경로 grow ≥ 속도
-  상한, act2_11·act4·act6 구도 넓힘, 사진 for = 레지스트리 main_subject, 테헤란→도하 경로(cold_0 도착),
-  빈 지도 구간 마커·기사. · v4: 오프닝 첫 폭 60, ''선박 위협'' 경계선·소하르 마커 삭제(라벨 겹침), 기사 2(8/17 만료·해운협회
-  반박). · v5: 기사 이웃 연속 정리(8/17·해운협회 기사 대신 테헤란 마커 부제·도하 마커), act5_1 아라그치 뱃지, 도하 마커 왼쪽,
-  오프닝 중심 60E. · v6(D-0457): 시간축 패널 act2 전체(act2_0→act2_12, 핀 9 문장마다)·act5 재진입(act5_0→act5_3,
-  11/3 강조 — act5_4 하메네이 인용은 패널 뒤 지도에서), act2 의 뱃지·인용·기사·사진은 패널을 덮어 걷어냄(테헤란 사진 → ending_0).
-  데이터 패널: dots 70%·dual_line 2점(브렌트·보험료·울산 선적지·휘발유 — 레지스트리에 bars 패널 없음)·checklist
-  4+꼬리 줄(레바논). · v6.1: versus 4행 대 4행(5행이 상자 밖으로 넘침 — 합친 행), 10/11 핀 아래쪽. · v7(D-0458):
-  덱스트러스 2003 사진 삭제(23년 전 자료, photo-age) → act4_3·act4_4 양측 quote 두 줄(같은 무게). 실사 13
-  유지: act1_9 앙카라 나토 도착 사진(2026-07-07, CC BY 4.0). 한국 국기 뱃지 → country KR 강조. 초상 뱃지
-  루비오(cold_2)·샤리프(act1_4) 추가. 밴스·레자이 뱃지는 act2 시간축 패널 위라 넣지 않음(badge-over-panel). 푸자이라
-  지명 사전 등재(data/gazetteer.yaml manual). · v9(D-0462, UF-171·172): 요소 완전 노출 ≥ 6초(qa_checks.element_hold)
-  — 사진·영상·카드 순차 배치. 뺀 것 = 루비오·샤리프 뱃지, 트럼프 quote(act1_9, 자막과 같은 문장), 기사 0043(act1_11)·0047(act4_4,
-  양측 quote 로 대칭) — 자리 없음. act1_7 사진(뉴올리언스)은 act1_10~11 로 옮겨 기사 카드와 겹침 해소(UF-172).
-  · v9 콘티 판 사전 검사 정리: 오프닝 기사 0005 를 타이틀 끝까지(title_backdrop), 에픽 퓨리 클립은 act1_1 부터(clip_date),
-  마커 도하·호르무즈·이슬라마바드는 사진 뒤로, act1_12 테헤란 마커 삭제(사진 아래 깔림), act1_8 숏 w 16→24·lat 27.5(frame_missing
-  ''이란'').'
+media_note: 'v2(구현 세션 손질, AI 초안 v1 바탕): 출처 없는 좌표(오만 연안·이란 남부·기뢰 남쪽 항로·이란 중심점)와 그 위 boom·경로, 봉쇄선 barrier(좌표 출처 없음), 밴스 서한 경로(출발점 무의미) 삭제(W1.1 M5·D-0450 §8). 실사 13(사진 10·영상 3 — media_beats 하한 13): 도하·에픽 퓨리 영상·MODIS·이슬라마바드 회담장·4월 봉쇄 영상·뉴올리언스·7월 공습 영상·7/16 검문·테헤란·아라그치·해협 야간·덱스트러스·도하 2. versus 5행 대 5행(D-0453 §3, 미국 5행째 ''보도, 트럼프 부인''). 시간축 panel timeline 두 번(act2 도입·act5 재진입, 축 2026-09-15→11-15 같게, 핀 9 — 10/6~8·10/28~30 묶음). 유튜브 공식 클립은 봇 검사로 실패(우회 안 함, D551). 휘장 0(중부사령부 휘장 Commons Restrictions). UF-170 — 화면 라벨 0. · v3(콘티 판 사전 검사 hard 46 정리): 국기 뱃지 정리(한국만), 사진↔마커 시간 분리, 경로 grow ≥ 속도 상한, act2_11·act4·act6 구도 넓힘, 사진 for = 레지스트리 main_subject, 테헤란→도하 경로(cold_0 도착), 빈 지도 구간 마커·기사. · v4: 오프닝 첫 폭 60, ''선박 위협'' 경계선·소하르 마커 삭제(라벨 겹침), 기사 2(8/17 만료·해운협회 반박). · v5: 기사 이웃 연속 정리(8/17·해운협회 기사 대신 테헤란 마커 부제·도하 마커), act5_1 아라그치 뱃지, 도하 마커 왼쪽, 오프닝 중심 60E. · v6(D-0457): 시간축 패널 act2 전체(act2_0→act2_12, 핀 9 문장마다)·act5 재진입(act5_0→act5_3, 11/3 강조 — act5_4 하메네이 인용은 패널 뒤 지도에서), act2 의 뱃지·인용·기사·사진은 패널을 덮어 걷어냄(테헤란 사진 → ending_0). 데이터 패널: dots 70%·dual_line 2점(브렌트·보험료·울산 선적지·휘발유 — 레지스트리에 bars 패널 없음)·checklist 4+꼬리 줄(레바논). · v6.1: versus 4행 대 4행(5행이 상자 밖으로 넘침 — 합친 행), 10/11 핀 아래쪽. · v7(D-0458): 덱스트러스 2003 사진 삭제(23년 전 자료, photo-age) → act4_3·act4_4 양측 quote 두 줄(같은 무게). 실사 13 유지: act1_9 앙카라 나토 도착 사진(2026-07-07, CC BY 4.0). 한국 국기 뱃지 → country KR 강조. 초상 뱃지 루비오(cold_2)·샤리프(act1_4) 추가. 밴스·레자이 뱃지는 act2 시간축 패널 위라 넣지 않음(badge-over-panel). 푸자이라 지명 사전 등재(data/gazetteer.yaml manual). · v9(D-0462, UF-171·172): 요소 완전 노출 ≥ 6초(qa_checks.element_hold) — 사진·영상·카드 순차 배치. 뺀 것 = 루비오·샤리프 뱃지, 트럼프 quote(act1_9, 자막과 같은 문장), 기사 0043(act1_11)·0047(act4_4, 양측 quote 로 대칭) — 자리 없음. act1_7 사진(뉴올리언스)은 act1_10~11 로 옮겨 기사 카드와 겹침 해소(UF-172). · v9 콘티 판 사전 검사 정리: 오프닝 기사 0005 를 타이틀 끝까지(title_backdrop), 에픽 퓨리 클립은 act1_1 부터(clip_date), 마커 도하·호르무즈·이슬라마바드는 사진 뒤로, act1_12 테헤란 마커 삭제(사진 아래 깔림), act1_8 숏 w 16→24·lat 27.5(frame_missing ''이란'').'
