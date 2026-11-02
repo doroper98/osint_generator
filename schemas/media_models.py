@@ -16,7 +16,7 @@ from schemas.era_date import EraDate, parse_era_date
 
 MediaKind = Literal["photo", "video", "cutout", "article", "inset", "period_art", "document"]   # video = clip 이벤트, inset = flight.inset 위성 타일(v7.3.0 D-0206).
 # period_art(당대·후대 미술 작품)·document(공문서·사료 사본 스캔) = v7.4.0 전쟁사 W2(D-0600 §4) — photo 비트로 보인다(engine.layers.media EVENT_KINDS)
-WorkKind = Literal["painting", "print", "sculpture", "mosaic", "pottery", "coin", "relief", "manuscript", "photo", "film", "document", "map"]   # print = 판화·화보 삽화
+WorkKind = Literal["painting", "print", "sculpture", "mosaic", "pottery", "coin", "relief", "manuscript", "photo", "film", "document", "map", "object"]   # print = 판화·화보 삽화. object = 무기·갑주·도구 등 입체 유물(v7.4.0)
 Identification = Literal["certain", "probable", "disputed"]
 RightsStatus = Literal["rights_clear", "restricted", "unverified"]
 FILE_PHOTO_PREFIXES: tuple[str, ...] = ("자료사진", "자료 영상")   # 14 §2.3 저널리즘 표기

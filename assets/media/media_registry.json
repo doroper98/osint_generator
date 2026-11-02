@@ -6048,6 +6048,65 @@
    "license_tags": [
     "PD-self"
    ]
+  },
+  "cannae_montefortino": {
+   "is_file_photo": false,
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-02",
+   "source_hash": "506c9c886573a397e0bb93fdfbb74a37",
+   "kind": "period_art",
+   "title": "File:Helmet of the Montefortino Type MET DP701213.jpg",
+   "license": "CC0",
+   "author": "메트로폴리탄 미술관(Open Access)",
+   "credit_author": "Metropolitan Museum of Art",
+   "date": "2026-11-02",
+   "url": "https://commons.wikimedia.org/wiki/File:Helmet_of_the_Montefortino_Type_MET_DP701213.jpg",
+   "caption": "몬테포르티노형 청동 투구",
+   "file_note": "몬테포르티노형 투구 · 에트루리아 · 기원전 4세기 말~3세기 초 · 메트로폴리탄 미술관",
+   "depicts": [
+    "투구"
+   ],
+   "main_subject": [
+    "투구"
+   ],
+   "verified_by": {
+    "by": "구현 세션(Commons 파일 설명·분류 확인 — MET 기증 파일, CC-Zero)",
+    "on": "2026-11-02",
+    "casualty_free": true,
+    "relevance": "원고 deployment_12(노획한 로마 무기) 구간 — 같은 시기 이탈리아 반도 투구. 화면 라벨은 Commons 설명대로 '에트루리아'(로마 투구라고 쓰지 않는다)"
+   },
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "cannae_montefortino.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "fit": "contain",
+     "matte": [
+      18,
+      20,
+      24
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "file": "cannae_montefortino.jpg",
+   "created": "-350~-251",
+   "work_kind": "object",
+   "holder": "메트로폴리탄 미술관",
+   "material": "청동",
+   "art_history": "몬테포르티노형 청동 투구로, 메트로폴리탄 미술관은 에트루리아의 기원전 4세기 말~3세기 초 유물로 적는다.",
+   "art_history_source": "Commons 파일 설명(MET Open Access: Etruscan; Helmet of the Montefortino Type; late 4th–early 3rd century B.C.)",
+   "photo_license": "CC0",
+   "work_license": "Public domain(유물, PD-old)",
+   "license_tags": [
+    "CC-Zero"
+   ]
   }
  }
 }

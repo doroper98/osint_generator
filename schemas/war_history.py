@@ -303,7 +303,7 @@ def photo_license_from_tags(tags: list[str]) -> "str | None":
     return None
 
 
-THREE_D_WORKS = ("coin", "sculpture", "relief", "pottery")   # 입체 유물 — 사진가 권리가 따로 있다(PD-Art 는 2D 복제에만, RIGHTS-AP-001)
+THREE_D_WORKS = ("coin", "sculpture", "relief", "pottery", "object")   # 입체 유물 — 사진가 권리가 따로 있다(PD-Art 는 2D 복제에만, RIGHTS-AP-001)
 
 
 def photo_pd_basis_needed(work_kind: "str | None", tags: "list[str] | None") -> bool:
