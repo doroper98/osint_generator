@@ -50,6 +50,7 @@
 - 커밋 첫 줄 `v7.4.0: …`, 트레일러 Co-Authored-By: Claude Fable 5.1 + Claude-Session(새 세션 URL). PR 금지(C8-5), main push 금지, 모델 식별자 저장소 기록 금지, 표준 음성 재질문 금지(C0.2), 게이트 장치 우회 금지, 조용한 드롭 금지(P6).
 - 사용자 의견은 받은 즉시 `rules/user_feedback.yaml` 에 원문 그대로 UF 로(C12). 보고문은 `python tools/slop_check.py <file>` 통과 뒤 보낸다(UF-145·UF-202 금지어 — "~축에 겹칩니다" 류 화면 조작 해설 포함).
 - 레퍼런스는 느낌만, 요소 이식 지시 금지(LLM-AP-022). 렌더 전 구상 1프레임으로 판정. 샘플은 나오는 대로 바로 사용자에게(UF-144).
+- 요소·조판 판정 요청에는 해당 컷의 짧은 실제 렌더 mp4 를 함께 보낸다(UF-207, UF-144 재발 — 정지 시트만 보내지 않는다).
 - 점검: 옛 감독의 send_later 트리거 `trig_011XELpyTdKrmNeGj35Y9DEk` 는 승계 시 옛 감독이 끈다. 새 감독은 자기 점검(60~120분, 사용자 결정 대기 중엔 2~4시간)을 건다.
   - **승계 완료(2026-10-31 23:57Z)**: 새 감독이 §0-4 ·README·CLAUDE.md·15·DECISIONS D299~D312·D-0318~D-0333 을 읽고, 세션 3·2 에 새 id 통보, 자기 점검 `trig_011g2r2iF93joBssYXSawwdo`(3시간 간격, 02:58Z 첫 발화)를 걸었다. 세션 2 컨텍스트 71만/100만 — 인계 임박.
   - **승계 완료(최종, 2026-11-01 00:15Z)**: 최종 감독 `session_017Yuw8jLMWscY9bdVXTvddr` 가 §0-4·0-3·0-2·0-1·README §6·CLAUDE.md·15·DECISIONS D299~D312·R-0295·D-0321 을 읽고, 네 브랜치 fetch(sweet-galileo 5f2f5b8c·econ 6ccea7d·artifacts 47427cc·98c020b4), 세션 3·2 에 최종 id 통보(중간 세션 id 무효 명시), 자기 점검 `trig_015VQmUZd2C9VoKfnANtunEr`(03:15Z, 3시간 간격)를 걸었다. 중간 세션 트리거 `trig_011g2r2iF93joBssYXSawwdo` 는 꺼져 있음 확인. **네트워크 실측**: 허용 목록 추가 뒤에도 이 컨테이너는 commons.wikimedia.org·upload.wikimedia.org 만 200, en.wikipedia.org·www.aljazeera.com·doroper98.github.io·analysis-reports.pages.dev·fred.stlouisfed.org·www.cbsnews.com·apnews.com 은 CONNECT 403(정책 거부). 사용자에게 보고.

@@ -2565,7 +2565,7 @@ entries:
   recurs_of: UF-144
   guards:
   - kind: doc
-    ref: "back_and_forth/FABLE_HANDOFF.md#감독 체크리스트 — 요소·조판 판정 요청에는 해당 컷의 짧은 렌더 mp4(실제 엔진) 를 함께 보낸다"
-  status: open
+    ref: "back_and_forth/FABLE_HANDOFF.md#요소·조판 판정 요청에는 해당 컷의 짧은 실제 렌더 mp4 를 함께 보낸다"
+  status: guarded
   decision: 최종 감독 2026-11-01 16:55Z — 구현 세션 3 이 econ_t2 다섯 컷을 전편 렌더해 사용자에게 직접 전달(커밋 없음). 장치는 다음 영상 게이트 전(C12-2)
   source: 구현 세션 3 통보(사용자 원문 인용) 2026-11-01 16:52Z
