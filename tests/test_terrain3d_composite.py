@@ -28,9 +28,9 @@ FIX = REPO / "tests" / "fixtures" / "terrain3d"
 SOURCE = "폴리비오스 『역사』 III.113~116(Paton 영역 1922)"
 
 COMPOSITE_MD5 = {
-    0: "f3e8d4b826acba6d55e768e7b46515f1",
-    1: "3d7ed6e3ef42095322815f15151c712d",
-    2: "c6874afe65b0e40e1a9ab5e6e523eb2f",
+    0: "0b034e46f7a5ea3214ae9fb6dba4cd8d",
+    1: "86a3ea88af6a16ae768c208b0c0c50d1",
+    2: "3e08bdb512beb5c16303af2f620bc65e",
 }
 
 

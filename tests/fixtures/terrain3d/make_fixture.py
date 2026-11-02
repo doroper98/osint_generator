@@ -38,7 +38,8 @@ def shrink(src: Path, dst: Path) -> None:
     (dst / "height.json").write_text(json.dumps({"nx": len(xs), "ny": len(ys), "h": hh}), encoding="utf-8")
     Image.open(src / "texture.png").convert("RGB").resize((W * 2, H * 2), Image.LANCZOS).save(dst / "texture.png")
     el = s["camera"]["elev_deg"]
-    s.update(width=W, height=H, text_in_engine=True,
+    s.update(width=W, height=H, text_in_engine=True, ground="texture",   # 본편 구간 지면(D-0619 ①)
+            
              frames=[{"az": s["frames"][0]["az"], "elev": 90.0}, {"az": s["frames"][0]["az"], "elev": (90.0 + el) / 2},
                      {"az": s["frames"][0]["az"] + 30.0, "elev": el}])
     for u in s["units"]:   # 본편 경로 — 병종 그림은 엔진이 그린다(빌보드 파일 없음, 라벨 기록에 이름만)
