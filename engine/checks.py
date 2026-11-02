@@ -100,7 +100,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | media_sentence_span | hard | 덮는 요소가 앵커 문장(완전 노출 가운데)과 날짜가 다른 문장과 media_sentence_span.tol_sec 넘게 겹침 `[media-sentence-span]`(v7.4.0 D-0470, UF-173) |
 | map_opening | hard | 지도 주 무대에서 첫 문장 끝(+ after_first_sentence_sec) 전에 덮는 요소 `[map-opening]`(v7.4.0 D-0470, UF-173) |
 | map_cover_share | hard | 지도 무대(패널 없는 시각) window_sec 창 덮임 비율 > max_share(전면·가운데 큰 사진 1, 그 밖 상자 partial_weight, 첫 제목 카드 전 제외) `[map-cover-share]`(v7.4.0 D-0470, UF-173) |
-| credit_garbled | hard | 크레딧 저작자 칸(권리 author·artist, 미디어 credit_author, credits.yaml license)에 URL·Commons 안내문 또는 max_len 초과 `[credit-garbled]`(v7.4.0 D-0470, RIGHTS-AP-001) |
+| credit_garbled | hard | 크레딧 저작자 칸(권리 author·artist, 미디어 credit_author, credits.yaml license)에 URL·Commons 안내문 또는 max_len 초과 `[credit-garbled]`(v7.4.0 D-0470, RIGHTS-AP-002) |
 | badge_covered | hard | 지도 층 배지 계획 구간 중 안 보인 비율(전면 덮개로 늦춰짐·덮개 아래·상자 가림) > rules badge.covered_max_ratio `[badge-covered]`(v7.4.0 D-0329) |
 | flight_unsourced | hard | flight 에 claim 없음·원고가 인용하지 않은 claim `[flight-unsourced]` — 비행은 출처 있는 특정 타격에만(v7.4.0 D-0316) |
 | scene_visual_void | hard | 요소(rules qa_checks.visual_void_types) 없이 지도·배경만 보이는 구간 ≥ qa_checks.visual_void_max_sec(콜드 오픈·전면 카드·카메라 move 제외) `[scene-visual-void]`(v7.4.0 D-0312, provenance visual_void) |
@@ -148,7 +148,7 @@ HARD = ("license_mismatch",   # v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장�
         "map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-001), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -2132,7 +2132,7 @@ def map_cover_share_worst(events: list[dict], total: float, title_end: float = 0
 
 
 def credit_garbled_hits(fields: list[tuple[str, str]]) -> list[str]:
-    """[credit-garbled] 순수 판정(v7.4.0 D-0470, RIGHTS-AP-001) — fields = (참조, 저작자 칸 글자)."""
+    """[credit-garbled] 순수 판정(v7.4.0 D-0470, RIGHTS-AP-002) — fields = (참조, 저작자 칸 글자)."""
     CG = QA.credit_garbled  # noqa: N806
     out = []
     for ref, who in fields:
@@ -2141,7 +2141,7 @@ def credit_garbled_hits(fields: list[tuple[str, str]]) -> list[str]:
         hit = next((p for p in CG.patterns if p in low), None)
         if hit or len(s) > CG.max_len:
             why = f"'{hit}' 포함" if hit else f"{len(s)}자 > {CG.max_len}"
-            out.append(f"[credit-garbled] {ref} 저작자 칸 {s[:60]!r}… — {why}. 저작자 이름만(원문은 credit_raw 에) 적는다(RIGHTS-AP-001)")
+            out.append(f"[credit-garbled] {ref} 저작자 칸 {s[:60]!r}… — {why}. 저작자 이름만(원문은 credit_raw 에) 적는다(RIGHTS-AP-002)")
     return out
 
 
@@ -2173,7 +2173,7 @@ def check_map_cover_share(P) -> list[str]:  # noqa: ANN001, N803
 
 
 def check_credit_garbled(P) -> list[str]:  # noqa: ANN001, N803
-    """[credit-garbled] hard(v7.4.0 D-0470, RIGHTS-AP-001) — 이 영상이 쓰는 권리 항목의 저작자 칸과 credits.yaml 손 행의 license 칸."""
+    """[credit-garbled] hard(v7.4.0 D-0470, RIGHTS-AP-002) — 이 영상이 쓰는 권리 항목의 저작자 칸과 credits.yaml 손 행의 license 칸."""
     from engine.credits import registry_view  # noqa: PLC0415
 
     view = registry_view(P.R.assets.rights, P.R.assets.media)
@@ -2720,7 +2720,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "media_sentence_span": lambda: waive_regression(P, "media_sentence_span", check_media_sentence_span(P)),   # v7.4.0 D-0470(hard, UF-173)
         "map_opening": lambda: waive_regression(P, "map_opening", check_map_opening(P)),                         # v7.4.0 D-0470(hard, UF-173)
         "map_cover_share": lambda: waive_regression(P, "map_cover_share", check_map_cover_share(P)),             # v7.4.0 D-0470(hard, UF-173)
-        "credit_garbled": lambda: check_credit_garbled(P),                                                        # v7.4.0 D-0470(hard, RIGHTS-AP-001)
+        "credit_garbled": lambda: check_credit_garbled(P),                                                        # v7.4.0 D-0470(hard, RIGHTS-AP-002)
         "label_under_media": lambda: check_label_under_media(P),   # v7.4.0 R-0294 판정(hard)
         "band_line_outside": lambda: check_band_line_outside(P),   # v7.4.0 D-0326(hard, UF-200)
         "photo_subject_background": lambda: check_photo_subject_background(P),   # v7.4.0 D-0327(hard, UF-201)

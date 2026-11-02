@@ -40,7 +40,9 @@ last_review: 2026-11-02
 
 ---
 
-## RIGHTS-AP-001 — 크레딧 저작자 칸에 Commons 안내문·URL 이 그대로 찍힘
+<!-- 번호 정정(2026-11-02): 이 브랜치에서 처음 RIGHTS-AP-001 로 적었으나, 전쟁사 트랙(claude/war-history-2026, 0893e585, 2026-11-01 11:54Z)이 먼저 RIGHTS-AP-001(유물 PD ≠ 사진 권리)을 썼다. 병합 때 번호가 겹치지 않도록 이 항목을 002 로 옮긴다(내용 불변, 최종 감독 요청). -->
+
+## RIGHTS-AP-002 — 크레딧 저작자 칸에 Commons 안내문·URL 이 그대로 찍힘
 
 - **증상 (symptom)**: 『미국·이란 휴전안』 final_v3(md5 87eda849) 엔딩 카드(478초)와 credits.txt 인물 사진 칸이 깨졌다.
   - 트럼프 초상 출처가 "This image is available from the United States Library of Congress's … See Commons:Licensing." 다섯 줄로 찍혔다.

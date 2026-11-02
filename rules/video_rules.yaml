@@ -2268,7 +2268,7 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # [map-cover-share] hard: 지도 무대(패널이 없는 시각)의 window_sec 창마다 덮인 비율 > max_share 이면 실패. 전면(full_types)·가운데 큰 사진(폭 ≥ center_min_w)=1,
   # 그 밖 상자(반쪽·귀퉁이·액자 밖 영상)=partial_weight. 첫 제목 카드가 끝나기 전(콜드 오픈 도입 훅 — D-0467 §3 예외)은 exempt_before_title 이면 세지 않는다
   map_cover_share: {types: [photo, clip, cutout, article, quote], full_types: [article, quote], center_min_w: 450, partial_weight: 0.5, window_sec: 30, step_sec: 0.1, max_share: 0.5, exempt_before_title: true}
-  # v7.4.0 D-0470(RIGHTS-AP-001) — 엔딩 카드·설명란 크레딧 저작자 칸이 Commons 안내문·URL 이면 [credit-garbled] hard(모든 렌더 경로). patterns 는 소문자 부분 문자열
+  # v7.4.0 D-0470(RIGHTS-AP-002) — 엔딩 카드·설명란 크레딧 저작자 칸이 Commons 안내문·URL 이면 [credit-garbled] hard(모든 렌더 경로). patterns 는 소문자 부분 문자열
   credit_garbled: {patterns: ["http://", "https://", "www.", "this tag does not indicate", "commons:", "this image is available", "this file was derived from"], max_len: 80}
   # v7.4.0 back_and_forth D-0306 §1.2(UF-148) — 화면 글자가 자막을 되풀이하면 [text-restates-narration] hard. 어절 겹침 비율 상한·대상 최소 어절(짧은 이름표 제외). 감독 제안 값
   restate_overlap_max: 0.6
