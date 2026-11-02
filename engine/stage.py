@@ -137,7 +137,7 @@ def by_w(w: float, rule: tuple[list[tuple[float, float]], float]) -> float:
     return last
 
 
-MERCATOR_CONFIG_KEYS = ("border_glow", "theme", "theme_reason", "map_layers", "map_layers_reason")   # theme_reason = v5.18.0 D-0161 §7(direction 이 테마를 고를 때 사유). map_layers = v7.4.0 D-0231
+MERCATOR_CONFIG_KEYS = ("border_glow", "theme", "theme_reason", "map_layers", "map_layers_reason", "basemap_era")   # basemap_era = v7.4.0 전쟁사(rules geo.basemap_era)   # theme_reason = v5.18.0 D-0161 §7(direction 이 테마를 고를 때 사유). map_layers = v7.4.0 D-0231
 
 
 MAP_LAYERS = ("roads", "rivers")   # v7.4.0 D-0231 — 켜고 끌 수 있는 지도 레이어(레지스트리, 그 밖 = 오류 P10)
@@ -172,6 +172,10 @@ def mercator_theme(config: Optional[dict]) -> str:
     if not isinstance(config.get("theme_reason", ""), str):
         raise StageError("mercator stage_config.theme_reason 은 문자열(테마를 고른 사유)")
     map_layers(config)   # v7.4.0 D-0231 — 값 검사(없는 레이어 = 오류)
+    era = config.get("basemap_era", "modern")
+    eras = load_rules().geo.basemap_era
+    if eras is None or era not in ("ancient", "modern"):
+        raise StageError(f"mercator stage_config.basemap_era 는 rules geo.basemap_era 의 시대 이름 — 받은 값 {era!r}")
     th = load_rules().geo.themes
     name = config.get("theme", th.default)
     if name not in th.names():
@@ -189,10 +193,19 @@ class MercatorStage:
                  config: Optional[dict] = None) -> None:
         self.theme_name = mercator_theme(config)
         self.map_layers = map_layers(config)   # v7.4.0 D-0231 — 도로·강 켜기(골든 hormuz = [])
+        # v7.4.0 전쟁사 — 기반 지도 시대(rules geo.basemap_era). ancient = 지형만(현대 국경·도로·강·지명 없음 — 시대 목록에 없는 층은 그리지 않는다).
+        # 고대 지명은 이벤트(마커)·terrain3d forces 가 그린다. 기본 modern = 종전 그대로
+        self.basemap_era = (config or {}).get("basemap_era", "modern")
+        layers_era = getattr(load_rules().geo.basemap_era, self.basemap_era, None) if load_rules().geo.basemap_era else None
+        self.era_layers = tuple(layers_era) if layers_era is not None else ("terrain", "borders", "places")
+        if "borders" not in self.era_layers:
+            self.map_layers = tuple(x for x in self.map_layers if x in self.era_layers)
         self.map_layers_reason = (config or {}).get("map_layers_reason")
         from engine.style import BORDER_GLOW  # noqa: PLC0415 — style → stage 순환 회피
 
         self.border_glow = bool((config or {}).get("border_glow", BORDER_GLOW.default_on))   # v5.4.0 국경선 글로우 — 지도 무대 기본(rules border_glow.default_on)
+        if "borders" not in self.era_layers:   # 고대 기반 지도 — 현대 국경이 없으니 국경 빛도 없다
+            self.border_glow = False
         tg = load_rules().geo.themes.get(self.theme_name).map.border_glow
         if tg is not None and not tg.enabled:   # v5.18.0 D-0161 §2 — 이 테마에선 글로우를 그리지 않는다
             self.border_glow = False
@@ -268,7 +281,8 @@ class MercatorStage:
             draw_rivers(ctx, self, view)
         if "roads" in self.map_layers:
             draw_roads(ctx, self, view)
-        draw_borders(ctx, self, view)
+        if "borders" in self.era_layers:   # 고대 기반 지도(basemap_era ancient)는 현대 국경·행정선 없음
+            draw_borders(ctx, self, view)
 
     def _inside(self, view: "View", T: dict, m: float = MERCATOR_LOD["tier_inside_margin"]) -> bool:  # noqa: N803
         return (view.x0 >= T["lon0"] + m and view.x0 + view.w <= T["lon1"] - m
@@ -311,6 +325,8 @@ class MercatorStage:
     def draw_labels(self, ctx: cairo.Context, view: "View", reserved: list, alpha: float = 1.0) -> list:
         from engine.layers.labels import draw_labels  # noqa: PLC0415
 
+        if "places" not in self.era_layers:   # 고대 기반 지도 — 현대 나라·도시·바다 이름 없음(고대 지명은 마커·forces)
+            return []
         return draw_labels(ctx, self, view, reserved, alpha)
 
     def lod_rules(self) -> dict[str, Any]:

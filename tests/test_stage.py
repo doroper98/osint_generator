@@ -132,3 +132,30 @@ class RegistryTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class BasemapEraTest(unittest.TestCase):
+    """v7.4.0 전쟁사 — stage_config.mercator.basemap_era(rules geo.basemap_era). ancient = 지형만."""
+
+    def test_ancient_drops_modern_layers(self) -> None:
+        from engine.stage import MercatorStage  # noqa: PLC0415
+
+        m = MercatorStage(config={"basemap_era": "ancient", "theme": "relief"})
+        self.assertNotIn("borders", m.era_layers)
+        self.assertNotIn("places", m.era_layers)
+        self.assertEqual(m.map_layers, ())
+        self.assertFalse(m.border_glow)
+
+    def test_modern_default_unchanged(self) -> None:
+        from engine.stage import MercatorStage  # noqa: PLC0415
+
+        m = MercatorStage(config={"theme": "relief"})
+        self.assertEqual(m.basemap_era, "modern")
+        self.assertIn("borders", m.era_layers)
+
+    def test_unknown_era_is_error(self) -> None:
+        from engine.stage import MercatorStage, StageError  # noqa: PLC0415
+
+        for bad in ("medieval", "periods"):
+            with self.subTest(bad=bad), self.assertRaises(StageError):
+                MercatorStage(config={"basemap_era": bad})
