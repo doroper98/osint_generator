@@ -2128,6 +2128,7 @@ class TimelineSeries(_Strict):
     lane_pad_top: float = Field(ge=0, lt=0.5)
     lane_pad_bottom: float = Field(ge=0, lt=0.5)
     line_w: float
+    proposed_dash: tuple[float, float] = (5.0, 3.0)   # v7.4.0 D-1003 — 정부안 값으로 가는 선 조각 점선
     tip_r: float
     fade_sec: float
     min_alpha: float

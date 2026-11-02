@@ -1,0 +1,23 @@
+# 『2027년 예산안 분석』 주문 (v7.4.0, back_and_forth D-1003 · D-1004 · D-1000 §B) — 사용자 요청 UF-301.
+schema_version: 1
+topic: 2027년도 정부 예산안(국회 확정 전) — 총지출 규모·12대 분야 배분·증감·재원(국세수입·미래대응기금·국채)·여야 쟁점·국회 일정
+genre: fiscal
+tempo: breath
+instructions:
+  - "막 = rules genre_prompt.acts.fiscal(콜드 오픈 · 어디에 쓰나 · 무엇이 늘고 줄었나 · 어디서 오나 · 쟁점 · 일정)."
+  - "구성 무대(structure) 한 세계: 12대 분야 순위 가로 막대 → 2026 본예산 속빈 눈금 → 증감률 → 초점 행. 층은 문장마다 하나, 카메라는 무대 안에서(D-1003 §3)."
+  - "정부안 수치는 '정부안'이라 말하고 국회 확정 전임을 화면·원고에서 분명히 한다. 여야 쟁점은 같은 무게(G4)."
+  - "숫자는 업로드 원본 문서 표(source_kind document — sha1·쪽·표 줄)의 값만. 검색 요약으로 숫자 레코드를 만들지 않는다(P6)."
+  - "화면 조작 해설 문장 금지(UF-202). 투자 고지 없음."
+data:
+  series: []
+  documents: []
+  notes:
+    - 1차 출처 호스트는 이 컨테이너에서 막혔다(R-0605). 사용자 업로드 원본을 감독이 artifacts budget-2027-v7.4.0 sources/ 에 올린다(D-1004).
+media:
+  wanted: [국회의사당·예결위 회의 사진(권리 기록 있는 실사진), 기획예산처 브리핑 사진(공공누리 제1유형), 여야 쟁점 보도 기사 카드(양측)]
+  rights: 공공누리 제1유형·CC BY·PD 만(07 §3.2). CC BY-SA 불허.
+decisions:
+  topic: {value: 2027년 예산안 분석, by: user, ref: "UF-301 · D-1000 §B"}
+  source_route: {value: "A 사용자 PDF 업로드(주) · B 허용 목록(병행)", by: default, ref: "D-1004"}
+  resolution: {value: 720p, by: user, ref: 사용자 결정 2026-10-04 "기준 해상도는 720p야"}

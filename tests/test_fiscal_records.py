@@ -61,5 +61,20 @@ class FiscalRecordTest(unittest.TestCase):
             SeriesRecord.model_validate({**rec().model_dump(mode="json"), "source_kind": "fetched"})
 
 
+class ProposedTailTest(unittest.TestCase):
+    """시간축 선 — 정부안 값으로 가는 조각은 점선, 끝값 라벨 꼬리 " · 정부안"(engine.layers.series)."""
+
+    def test_proposed_from_and_tag(self) -> None:
+        from engine.layers.series import budget_stage_of, proposed_from, proposed_tag  # noqa: PLC0415
+
+        r = rec()
+        ds = [d for d, _ in r.values]
+        self.assertEqual(proposed_from(r, ds), 3)
+        self.assertEqual(budget_stage_of(r, ds[2]), "enacted")
+        self.assertEqual(proposed_tag(r, ds[3]), " · 정부안")
+        self.assertEqual(proposed_tag(r, ds[2]), "")
+        self.assertEqual(proposed_from(r, ds[:3]), 3)
+
+
 if __name__ == "__main__":
     unittest.main()
