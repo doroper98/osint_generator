@@ -380,6 +380,94 @@
    "attributed_only": true,
    "claim_kind": "statement",
    "notes": "SBS Biz"
+  },
+  {
+   "claim_id": "clm_0025",
+   "text": "2019년부터 2026년까지 매년 본예산 총지출 증가율은 모두 10% 미만이었다(2019 9.5%·2020 9.1%·2021 8.9%·2022 8.9%·2023 5.1%·2024 2.8%·2025 2.5%·2026 8.1%)",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.16 표 총지출 행에서 계산(코드 전 반올림 값 — 2026 8.1%는 발간사 p.6 과 같음)"
+  },
+  {
+   "claim_id": "clm_0026",
+   "text": "외교·통일(1.1%)·SOC(4.0%)·환경(5.2%)·공공질서·안전(5.3%)은 총지출 증가율보다 덜 늘어 총지출 대비 비중이 줄어든다(예: SOC 2026년 3.8% → 2027년 3.5%)",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.14 본문·p.16 표 비중(종전 기준)"
+  },
+  {
+   "claim_id": "clm_0027",
+   "text": "2026년 추경 대비 2027년도 예산안에서 주택구입·전세자금 융자는 5조 216억원(△48.7%) 감액되고, 보편형 건설임대(출자·융자) 4조 7,719억원이 신규 편성돼 공공임대주택 공급 중심으로 재편됐다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.48"
+  },
+  {
+   "claim_id": "clm_0028",
+   "text": "정부는 구직급여 지급방식 조정(무급휴일 제외, 주 7일→6일) 등으로 구직급여 1.4조원을 절감해 모성보호 등 저출생 대응에 재투자했다고 설명하며, 모성보호육아지원은 1,982억원 늘었다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.48 — 정부 설명은 귀속"
+  },
+  {
+   "claim_id": "clm_0029",
+   "text": "정부는 2027년도 지방교육재정교부금 산정방식을 내국세 연동에서 경상성장률·학령인구 감소율 반영 방식으로 바꾸는 개편을 계획했고, 2026~2030년 계획에서 영유아·초중등교육 부문 연평균 증가율은 6.5%, 고등교육 부문은 10.7%다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.120"
+  },
+  {
+   "claim_id": "clm_0030",
+   "text": "2026년 통합재정사업 성과평가에서 2,487개 세부사업 중 901개(36.2%)가 감액·폐지·통합 대상으로 판정됐다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.31"
   }
  ]
 }
