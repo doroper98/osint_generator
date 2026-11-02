@@ -227,6 +227,14 @@ def load_series_file(yaml_path: Path) -> SeriesRecord:
         if again_c != rec.values:
             raise SeriesError(f"{csv_path}: raw/{jp.name} 의 종가와 다르다(손으로 고친 값 금지)")
         return rec
+    if rec.source_kind == "document":   # v7.4.0 D-1003 — 로컬 원본 문서(구성 레코드와 같은 원본 폴더). 있으면 sha1 대조
+        from data.categorical import categorical_dir, sha1_of  # noqa: PLC0415
+
+        assert rec.source_file is not None
+        doc = categorical_dir() / "raw" / rec.source_file.path
+        if doc.exists() and sha1_of(doc) != rec.source_file.sha1:
+            raise SeriesError(f"{yaml_path}: 원본 {doc.name} sha1 ≠ 레코드 {rec.source_file.sha1}(원본이 바뀌었다, P6)")
+        return rec
     rp = yaml_path.parent / "raw" / csv_path.name
     if rp.exists():
         again, miss = apply_transform(rec.transform.op, read_csv(rp, allow_empty=True), rec.start)

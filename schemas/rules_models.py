@@ -2756,9 +2756,9 @@ class DataRules(_Strict):
     unit_ton_pattern: str = ""   # v7.4.0 D-0241 §3(UF-122) — 화면 문자열에 남으면 [unit-ton-glyph] hard(빈 값 = 검사 안 함)
     unit_prefixes: list[str] = Field(min_length=1)   # v4.3.0 D-0087 보정 1
     sources_allowed: list[str] = Field(min_length=1)
-    frequencies: list[Literal["monthly", "release", "quarterly", "daily"]] = Field(min_length=1)   # release = v4.4.0 scatter · quarterly·daily = v7.4.0 D-0278 §4.2 · daily 계단 = D-0326
+    frequencies: list[Literal["monthly", "release", "quarterly", "daily", "annual"]] = Field(min_length=1)   # release = v4.4.0 scatter · quarterly·daily = v7.4.0 D-0278 §4.2 · daily 계단 = D-0326
     transforms: dict[str, str] = Field(min_length=1)
-    source_kinds: list[Literal["fetched", "press_cited", "filing"]] = Field(min_length=1)   # v7.3.0 D232 U4 · filing = v7.4.0 D-0278 §4.2(E3)
+    source_kinds: list[Literal["fetched", "press_cited", "filing", "document"]] = Field(min_length=1)   # v7.3.0 D232 U4 · filing = v7.4.0 D-0278 §4.2(E3)
     filing_scales: dict[str, FilingScale] = Field(default_factory=dict)   # v7.4.0 D-0278 §4.2 — 공시 원단위 → 화면 단위
     price_outlier_pct: float = Field(default=10.0, gt=0)   # v7.4.0 — 일별 시세 하루 변동 상한(넘으면 cited 필수, [price-outlier])
     chart_null_note: str = Field(min_length=1)   # v7.4.0 D-0319 ① — 일별 종가 null → missing 사유

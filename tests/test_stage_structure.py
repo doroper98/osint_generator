@@ -30,12 +30,12 @@ PRIOR = [185.0, 100.0, 100.0, 57.0, 31.0, 28.0, 30.0, 24.0, 15.5, 9.5, 8.0, 6.5]
 def record(rid: str, values: list[float], stage: str, year: int, **kw: object) -> CategoricalRecord:
     raw = {"record_id": rid, "source": "시험 픽스처 문서", "source_file": {"path": "fixture.pdf", "sha1": "0" * 40, "title": "시험",
                                                                      "publisher": "시험 기관", "published_on": "2026-09-01"},
-           "retrieved_at": "2026-11-02", "transform": {"op": "filing", "formula": ""}, "as_of": "2026-09", "unit": "조 원",
-           "license": "public_filing", "license_note": "시험", "budget_stage": stage, "fiscal_year": year,
+           "retrieved_at": "2026-11-02", "transform": {"op": "document", "formula": ""}, "as_of": "2026-09", "unit": "조 원",
+           "license": "kogl_1", "license_note": "시험", "budget_stage": stage, "fiscal_year": year,
            "rows": [{"id": i, "label": lb, "value": v, "page": 3, "locator": f"표 1 · {lb}"} for (i, lb), v in zip(LABELS, values)]}
     from rules import load_rules  # noqa: PLC0415
 
-    raw["transform"]["formula"] = load_rules().data.transforms["filing"]  # type: ignore[index]
+    raw["transform"]["formula"] = load_rules().data.transforms["document"]  # type: ignore[index]
     raw.update(kw)
     return CategoricalRecord.model_validate(raw)
 
