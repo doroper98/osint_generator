@@ -513,9 +513,8 @@ def render_animatic(P: Project, jobs: int, no_cache: bool = False) -> tuple[Path
     """콘티 판(v4.9.0 back_and_forth D-0108) → out/animatic.mp4 + animatic_checks.json + animatic_provenance.json.
     ① 음성·음악 = 기존 out/mix.f32 그대로(없으면 오류 — audio.mix 먼저) ② checks 콘티 프로파일(hard 면 렌더 전 실패, 프리뷰와 같은 게이트)
     ③ 조각 렌더(자리표시·막지도, 480p·fps 24) ④ 2패스 loudnorm + AAC → animatic.mp4(표식 메타데이터) ⑤ provenance animatic: true."""
-    from audio.qa import loudnorm_two_pass, mix_inputs  # noqa: PLC0415
     from engine.checks import run_checks  # noqa: PLC0415
-    from engine.mux import AAC_BITRATE, SR, project_provenance  # noqa: PLC0415
+    from engine.mux import project_provenance  # noqa: PLC0415
 
     AN = load_rules().animatic  # noqa: N806
     outd = P.root / "out"
@@ -539,12 +538,12 @@ def render_animatic(P: Project, jobs: int, no_cache: bool = False) -> tuple[Path
     video = render_full(P, jobs, no_cache)
     t1 = time.time()
     final = outd / AN.output
-    with stage_timer(P.root, "render.animatic.encode", step="loudnorm_mux"):
-        af, loud = loudnorm_two_pass(mix, P.plan.total)
-        subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(video), *mix_inputs(mix, P.plan.total),
-                        "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", af, "-ar", str(SR), "-c:a", "aac", "-b:a", AAC_BITRATE,
-                        "-t", f"{P.plan.total:.3f}", "-movflags", "+faststart", "-metadata", f"comment={AN.mp4_comment}", str(final)],
-                       check=True)
+    with stage_timer(P.root, "render.animatic.encode", step="loudnorm_mux") as tm:
+        from engine.mux import audio_track, mux_av  # noqa: PLC0415
+
+        track, loud = audio_track(mix, P.plan.total)   # v7.4.0 D-1000 S2-9 — 같은 mix·필터면 인코딩된 오디오 트랙 재사용
+        tm["audio"] = loud["audio"]
+        mux_av(video, track, P.plan.total, final, AN.mp4_comment)
     rj = json.loads((outd / "animatic_render.json").read_text(encoding="utf-8"))
     kinds: dict[str, int] = {}
     from engine.layers.animatic import PLACEHOLDERS  # noqa: PLC0415
@@ -585,9 +584,8 @@ def render_catalog(P: Project, jobs: int, no_cache: bool = False) -> tuple[Path,
     """카탈로그 판(v7.4.0 back_and_forth D-0251 §1.1) → out/catalog.mp4 + catalog_checks.json + catalog_provenance.json + catalog_frames.json.
     전편과 같은 checks(+ [catalog-label-overlap]) → 조각 렌더(라벨 층) → 기존 out/mix.f32 2패스 loudnorm → 표식 메타데이터.
     catalog_frames.json = 표본 시각마다 라벨과 같은 값(요소·글꼴) — tools/catalog_table.py 가 요소 표(md)를 만든다(손으로 쓰지 않는다, P12)."""
-    from audio.qa import loudnorm_two_pass, mix_inputs  # noqa: PLC0415
     from engine.checks import run_checks  # noqa: PLC0415
-    from engine.mux import AAC_BITRATE, SR, project_provenance  # noqa: PLC0415
+    from engine.mux import project_provenance  # noqa: PLC0415
 
     CT = load_rules().catalog  # noqa: N806
     outd = P.root / "out"
@@ -616,12 +614,12 @@ def render_catalog(P: Project, jobs: int, no_cache: bool = False) -> tuple[Path,
                                                          ensure_ascii=False, indent=1), encoding="utf-8")
     t1 = time.time()
     final = outd / CT.output
-    with stage_timer(P.root, "render.catalog.encode", step="loudnorm_mux"):
-        af, loud = loudnorm_two_pass(mix, P.plan.total)
-        subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(video), *mix_inputs(mix, P.plan.total),
-                        "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", af, "-ar", str(SR), "-c:a", "aac", "-b:a", AAC_BITRATE,
-                        "-t", f"{P.plan.total:.3f}", "-movflags", "+faststart", "-metadata", f"comment={CT.mp4_comment}", str(final)],
-                       check=True)
+    with stage_timer(P.root, "render.catalog.encode", step="loudnorm_mux") as tm:
+        from engine.mux import audio_track, mux_av  # noqa: PLC0415
+
+        track, loud = audio_track(mix, P.plan.total)   # v7.4.0 D-1000 S2-9 — 같은 mix·필터면 인코딩된 오디오 트랙 재사용
+        tm["audio"] = loud["audio"]
+        mux_av(video, track, P.plan.total, final, CT.mp4_comment)
     rj = json.loads((outd / "catalog_render.json").read_text(encoding="utf-8"))
     used_el = sorted({x for r in rows for x in r["elements"]})
     used_fn = sorted({x for r in rows for x in r["fonts"]}, key=list(CT.label.font_keys).index)

@@ -106,17 +106,43 @@ def rights_exception_warning(prov: dict) -> str | None:
     return f"[rights-exceptions] 공개 배포 전 재확인 {len(exc)}건: " + ", ".join(f"{x['ref']}({x['user_exception']})" for x in exc)
 
 
-def mux(proj: Path, total: float) -> tuple[Path, dict]:
-    """영상 + mix → final.mp4. 음량은 2패스 loudnorm(v3.4.0 D-0061 — 측정은 audio/qa.py 한 경로). (경로, loudnorm 기록)."""
+def audio_track(mix_f32: Path, total: float) -> tuple[Path, dict]:
+    """loudnorm 2패스 필터를 건 AAC 오디오 트랙(v7.4.0 D-1000 S2-9·D-1002 §4) — out/audio_cache/<키>.m4a.
+    키 = sha1(mix.f32 바이트 + 필터 문자열 + 샘플링·비트레이트·길이). 같으면 다시 인코딩하지 않는다(문장 수정 뒤 재렌더의 오디오 인코딩 약 59초).
+    다르면 인코딩하고 옛 캐시 파일을 지운다(한 벌). 기록 loudnorm.audio = encoded | reused(P5). (경로, loudnorm 기록)."""
+    import hashlib  # noqa: PLC0415
+
     from audio.qa import loudnorm_two_pass, mix_inputs  # noqa: PLC0415
 
+    af, rec = loudnorm_two_pass(mix_f32, total)
+    key = hashlib.sha1(mix_f32.read_bytes() + json.dumps([af, SR, AAC_BITRATE, f"{total:.3f}"]).encode()).hexdigest()[:20]
+    cdir = mix_f32.parent / "audio_cache"
+    cdir.mkdir(exist_ok=True)
+    dest = cdir / f"{key}.m4a"
+    if dest.exists():
+        return dest, {**rec, "audio": "reused"}
+    tmp = cdir / f"{key}.tmp.m4a"
+    subprocess.run(["ffmpeg", "-y", "-v", "error", *mix_inputs(mix_f32, total), "-af", af, "-ar", str(SR), "-c:a", "aac",
+                    "-b:a", AAC_BITRATE, "-t", f"{total:.3f}", str(tmp)], check=True)
+    for old in cdir.glob("*.m4a"):
+        if old != tmp:
+            old.unlink()
+    tmp.replace(dest)
+    return dest, {**rec, "audio": "encoded"}
+
+
+def mux_av(video: Path, audio: Path, total: float, dest: Path, comment: str | None = None) -> None:
+    """영상 + 인코딩된 오디오 트랙을 다시 인코딩 없이 묶는다(-c copy). comment = mp4 표식(콘티 판·카탈로그 판)."""
+    meta = ["-metadata", f"comment={comment}"] if comment else []
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(video), "-i", str(audio), "-map", "0:v", "-map", "1:a", "-c", "copy",
+                    "-t", f"{total:.3f}", "-movflags", "+faststart", *meta, str(dest)], check=True)
+
+
+def mux(proj: Path, total: float) -> tuple[Path, dict]:
+    """영상 + mix → final.mp4. 음량은 2패스 loudnorm(v3.4.0 D-0061 — 측정은 audio/qa.py 한 경로), 오디오 트랙은 audio_track 캐시. (경로, loudnorm 기록)."""
     out = proj / "out" / "final.mp4"
-    af, rec = loudnorm_two_pass(proj / "out" / "mix.f32", total)
-    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(proj / "out" / "video_noaudio.mp4"),
-                    *mix_inputs(proj / "out" / "mix.f32", total),
-                    "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", af,
-                    "-ar", str(SR), "-c:a", "aac", "-b:a", AAC_BITRATE, "-t", f"{total:.3f}", "-movflags", "+faststart",
-                    str(out)], check=True)
+    track, rec = audio_track(proj / "out" / "mix.f32", total)
+    mux_av(proj / "out" / "video_noaudio.mp4", track, total, out)
     return out, rec
 
 
