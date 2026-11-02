@@ -40,6 +40,13 @@ engine:
       720p: {width: 1280, height: 720, fps: 24, crf: 19, preset: faster, mem_per_job_mb: 1000, clip: [704, 396]}
   trial: 480p                          # 별칭 — 트라이얼(프리뷰·검수) 프로파일
   final: 720p                          # 별칭 — 최종(배포) 프로파일. v5.5.1 사용자 결정 2026-10-04 "기준 해상도는 720p야" — 파이프라인 render·assets_final 단계가 --res final. 1080p 는 --res 1080p 로만
+  # v7.4.0 RENDER-AP-032(back_and_forth D-0624) — 글꼴 렌더 설정(힌팅 등)의 단일 출처. engine.style 이 import 될 때(cairo·pango 가 글꼴을
+  # 처음 쓰기 전) FONTCONFIG_FILE 을 이 파일로 정하고 probe 글꼴의 실제 값이 expect 와 다르면 멈춘다(engine/fontenv.py). 컨테이너 재시작으로
+  # 셸 설정이 사라져도 렌더·시험이 조용히 힌팅 꺼진 화소를 내지 않게 한다(골든 25컷 0/25 사고, R-0329).
+  fontconfig:
+    file: config/fontconfig/fonts.conf
+    probe_family: IBM Plex Sans KR
+    expect: {hinting: true, hintstyle: 1}
   render:
     jobs: null                         # 청크 병렬 수. null = os.cpu_count(). 사용 가능 메모리 ÷ 프로파일 mem_per_job_mb 로 줄인다
 
