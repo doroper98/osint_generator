@@ -41,7 +41,7 @@
 - 쇼케이스: 교체본 콘티 판 v2_animatic 게이트 ② **재승인 대기**. sweet-galileo 머리 b2d5f75a(UF-207 원장 정정 217c4525·PIPELINE-AP-026·5bdcd949·fed 데모 120).
 - 경제 구현 4: 삼성·인텔 게이트 ① **답 대기**.
 - 전쟁사(위임 감독 session_017Yuw8i7EwyZ4z45Xtcvjkg, Opus 전환·자동 압축 21만): 칸나이 게이트 ① 사용자 승인(UF-254) → 콘티 판 v1(78158fa8, md5 c092ee46) 사용자 전달·내 세션에서도 08:50Z → **판정 ③ 대기(흐름 + 음악 Zabriskie/코리올란)**. D-0619 결함 넷 수정 중. 승계 명세 §0-6(그 브랜치).
-- 이란: 종료(D329).
+- 이란: **사용자가 다시 엶** — final_v2 2차 탈락(UF-173 기계적 연장·첫 화면 지도 가림·도하 사진) → 연출 v10 → final_v3b(09246f3, md5 0ec9d9f3) 전달(그 세션). 장치 커밋([credit-garbled]·library credit 9건·media-sentence-span·map-opening·map-cover-share) 대기 → 쇼케이스·경제·전쟁사 cherry-pick. 쇼케이스 교체본은 같은 연장 방식이라 보류(D-0349·D332).
 - **새 트랙(옛 감독 session_017Yuw8kbxf9Vxri6LoH5Je4 이 맡음, UF-300·301)**: 제작 시간 단축 S0~S6 → 『2027년 예산안』. 브랜치 claude/speed-pipeline-2026, 번호 D-1000~·DECISIONS D600~·UF-300~·R-0600~, 절 §0-7. S 끝나면 sweet-galileo 로 merge --no-ff — 직전 통보 오면 이쪽 렌더 상태 회신(D331).
 - 미결 사용자 결정: ① 쇼케이스 게이트 ② 재승인 ② 삼성·인텔 게이트 ① ③ 칸나이 콘티 판 판정(흐름·음악) ④ 이란 협상 분석 영상 범위 ⑤ 쇼케이스·이란 main 병합. 다음 번호 UF-208·D-0349·DECISIONS D332. 커밋 트레일러는 시스템 지정 값(현재 Opus 5.5).
 
