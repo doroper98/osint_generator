@@ -11,9 +11,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from engine.fontenv import ensure as _ensure_fontconfig
 from orchestrator.config import load_config
 from rules import load_rules
 
+_ensure_fontconfig()   # v7.4.0 RENDER-AP-032 — 글꼴을 처음 쓰기 전 표준 FONTCONFIG_FILE·시작 점검(모든 렌더 경로가 engine.style 을 지난다)
 _RULES = load_rules()
 _CFG = load_config()
 
