@@ -15,7 +15,6 @@ from __future__ import annotations
 
 import math
 from datetime import date
-from functools import lru_cache
 from typing import TYPE_CHECKING
 
 import cairo
@@ -1145,9 +1144,8 @@ def detail_column(e: dict) -> tuple[date, str]:
     return d1, (f"{q(d0)} → {(d1.month - 1) // 3 + 1}분기" if d0.year == d1.year else f"{q(d0)} → {q(d1)}")
 
 
-@lru_cache(maxsize=1)
 def _column_detail_rules() -> "IslandColumnDetail":
-    """island.column_detail 규칙 — 렌더 프레임마다 YAML 을 다시 읽지 않게 한 번만 읽는다(grid_segments 선례와 같은 처리)."""
+    """island.column_detail 규칙 — 캐시는 load_rules 한 곳(v7.4.0 D-1000 S1, 6299f295 의 lru_cache 를 대체 — 파일이 바뀌면 다시 읽음)."""
     return load_rules().island.column_detail
 
 

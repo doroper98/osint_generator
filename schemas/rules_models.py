@@ -13,7 +13,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class _Strict(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", frozen=True)   # v7.4.0 D-1000 S1 — load_rules 캐시가 같은 객체를 나눠 준다(속성 대입 = 오류)
 
 
 Color4 = tuple[float, float, float, float]

@@ -15,7 +15,6 @@ draw_labels = 레인 이름(왼쪽 고정, 단위 포함)·날짜 눈금 라벨(
 from __future__ import annotations
 
 from datetime import date, timedelta
-from functools import lru_cache
 from typing import TYPE_CHECKING, Any, Optional, Union
 
 import cairo
@@ -37,9 +36,9 @@ MONTHS = 12
 DRAWN_GRID: list[tuple[float, float, float]] = []
 
 
-@lru_cache(maxsize=1)
 def _rules() -> "VideoRules":
-    """규칙 한 번만 읽기 — grid_segments 는 프레임마다 격자선마다 불린다(옛 매 호출 load_rules = YAML 재파싱, fed 데모 프리뷰 50분+ 시간 초과)."""
+    """규칙 — grid_segments 는 프레임마다 격자선마다 불린다. 캐시는 load_rules 한 곳(v7.4.0 D-1000 S1, 파일이 바뀌면 다시 읽음).
+    import 는 지연(순환 회피)."""
     from rules import load_rules  # noqa: PLC0415
 
     return load_rules()
