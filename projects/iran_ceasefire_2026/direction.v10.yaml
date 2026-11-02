@@ -210,18 +210,19 @@ shots:
   mode: cut
   dur: 0
   camera:
-    lon: 60.0
-    lat: 29.0
-    w: 60.0
+    lon: 62.0
+    lat: 29.5
+    w: 68.0
 - at:
-    sid: cold_0
-    'off': -0.6
+    sid: cold_2
+    'off': 1.0
   mode: move
-  dur: 6.0
+  dur: 10.0
   camera:
     lon: 51.8
     lat: 28.5
     w: 24.0
+  reason: 오프닝 진입([opening-establish]) — 경로·도하 마커·인용이 끝난 뒤, 루비오 기사 카드 뒤에서 천천히
 - at:
     card: title
     'off': 2.9
@@ -285,8 +286,8 @@ shots:
     lat: 25.0
     w: 88.0
 - at:
-    sid: ending_2
-    'off': 0.5
+    sid: ending_3
+    'off': 0.1
   mode: move
   dur: 9.0
   camera:
@@ -449,8 +450,9 @@ shots:
 events:
 - type: marker
   start:
-    sid: cold_1
-    'off': 2.04
+    word:
+      sid: cold_0
+      text: 도착했습니다.
   end:
     scene_end: cold
   at_place: doha
@@ -459,11 +461,12 @@ events:
   hl: true
 - type: quote
   start:
-    sid: cold_1
-    'off': 1.54
+    sid: cold_0
+    'off': 0.09
+    edge: end
   end:
     sid: cold_2
-    'off': 2.73
+    'off': 0.45
   pid: araghchi
   flag: ir
   speaker: 아라그치
@@ -476,7 +479,7 @@ events:
 - type: article
   start:
     sid: cold_2
-    'off': 2.78
+    'off': 0.55
   end:
     card: title
     edge: end
@@ -647,9 +650,9 @@ events:
     sid: act3_1
     'off': 4.12
   end:
-    sid: act3_5
-    edge: end
+    sid: act3_4
     'off': 0.5
+    edge: end
   kind: versus
   claims:
   - clm_0024
@@ -698,8 +701,8 @@ events:
           'off': 1.2
       - text: 제재 완화는 핵 진전의 대가(보도, 트럼프 부인)
         t:
-          sid: act3_5
-          'off': 0.4
+          sid: act3_4
+          'off': 4.0
 - type: marker
   start:
     sid: act4_4
@@ -762,8 +765,8 @@ events:
   hl: true
 - type: country
   start:
-    sid: act5_3
-    'off': 2.0
+    sid: act5_2
+    'off': 3.26
   end:
     sid: act5_4
     edge: end
@@ -819,11 +822,11 @@ events:
   side: right
 - type: article
   start:
-    sid: act5_8
-    'off': 7.73
-  end:
     sid: act5_9
-    'off': 8.39
+    'off': 2.37
+  end:
+    sid: act6_0
+    'off': 0.25
   mid: iran_ceasefire_2026_art_0057
   theme: dark
 - type: route
@@ -952,8 +955,8 @@ events:
   hl: true
 - type: marker
   start:
-    sid: ending_2
-    'off': 1.84
+    sid: ending_3
+    'off': 0.15
   end:
     total: true
   at_place: hormuz
@@ -1014,14 +1017,14 @@ events:
 - type: route
   start:
     sid: cold_0
-    'off': 0.2
+    'off': 0.0
   end:
     sid: cold_3
     'off': 0.3
     edge: end
   pts:
     path: tehran_doha
-  grow: 12.5
+  grow: 3.45
   col: ru
   ship: false
   dashed: true
@@ -1041,8 +1044,8 @@ events:
     sid: act2_0
     'off': 0.3
   end:
-    sid: act2_12
-    'off': 0.4
+    sid: act2_6
+    'off': 0.0
     edge: end
   kind: timeline
   claims: &id001
@@ -1091,48 +1094,13 @@ events:
       t:
         sid: act2_5
         'off': 0.4
-    - date: '2026-11-03'
-      label: 미 중간선거
-      col: ru
-      side: -1
-      t:
-        sid: act2_7
-        'off': 1.5
-    - date: '2026-10-11'
-      label: 레자이 '불충분'
-      col: ru
-      side: -1
-      t:
-        sid: act2_8
-        'off': 0.4
-    - date: '2026-10-25'
-      label: 카타르 초안
-      col: ru
-      side: 1
-      t:
-        sid: act2_9
-        'off': 0.4
-    - date: '2026-10-29'
-      label: 밴스 서한·테헤란 협의
-      col: ru
-      side: -2
-      t:
-        sid: act2_11
-        'off': 0.4
-    - date: '2026-10-31'
-      label: 도하
-      col: ru
-      side: 3
-      t:
-        sid: act2_12
-        'off': 2.5
 - type: panel
   start:
     sid: act5_0
     'off': 0.3
   end:
-    sid: act5_3
-    'off': 0.4
+    sid: act5_0
+    'off': 0.3
     edge: end
   kind: timeline
   claims: *id001
@@ -1485,24 +1453,116 @@ events:
   for: 호르무즈 해협
 - type: photo
   start:
+    sid: act5_8
+    'off': 0.0
+  end:
+    sid: act5_8
+    'off': 0.26
+    edge: end
+  mid: iran_islamabad_talks
+  for: Islamabad Talks April 2026 현수막이 걸린 회담장 입구
+  place: map_pair_right
+- type: panel
+  start:
+    sid: act2_9
+    'off': 0.0
+  end:
+    sid: act2_12
+    'off': 0.4
+    edge: end
+  kind: timeline
+  claims:
+  - clm_0021
+  - clm_0022
+  - clm_0023
+  - clm_0024
+  - clm_0026
+  - clm_0027
+  - clm_0029
+  - clm_0031
+  - clm_0033
+  - clm_0001
+  - clm_0004
+  data:
+    title: 휴전안의 한 달
+    subtitle: 2026년 9월 – 11월
+    start: '2026-09-15'
+    end: '2026-11-15'
+    events:
+    - date: '2026-09-24'
+      label: 이란 7일안
+      col: ru
+      side: -1
+      t:
+        sid: act2_9
+        'off': 0.3
+    - date: '2026-09-26'
+      label: 트럼프 거부
+      col: ru
+      side: 1
+      t:
+        sid: act2_9
+        'off': 0.3
+    - date: '2026-09-30'
+      label: 미 역제안
+      col: ru
+      side: -2
+      t:
+        sid: act2_9
+        'off': 0.3
+    - date: '2026-10-07'
+      label: 밴스 요구·선거 전 공격 없음
+      col: ru
+      side: 2
+      t:
+        sid: act2_9
+        'off': 0.3
+    - date: '2026-11-03'
+      label: 미 중간선거
+      col: ru
+      side: -1
+      t:
+        sid: act2_9
+        'off': 0.3
+    - date: '2026-10-11'
+      label: 레자이 '불충분'
+      col: ru
+      side: -1
+      t:
+        sid: act2_9
+        'off': 0.3
+    - date: '2026-10-25'
+      label: 카타르 초안
+      col: ru
+      side: 1
+      t:
+        sid: act2_9
+        'off': 0.4
+    - date: '2026-10-29'
+      label: 밴스 서한·테헤란 협의
+      col: ru
+      side: -2
+      t:
+        sid: act2_11
+        'off': 0.4
+    - date: '2026-10-31'
+      label: 도하
+      col: ru
+      side: 3
+      t:
+        sid: act2_12
+        'off': 2.5
+- type: photo
+  start:
     sid: act2_7
     'off': -0.4
   end:
     sid: act2_7
     'off': -0.16
     edge: end
-  mid: iran_uss_new_orleans_blockade
-  for: 봉쇄 작전 중인 미 해군 함정
-- type: photo
-  start:
-    sid: act3_4
-    'off': -0.3
-  end:
-    sid: act3_4
-    'off': 0.77
-    edge: end
-  mid: iran_hormuz_modis
-  for: 호르무즈 해협
+  mid: iran_marines_boarding
+  for: 검문 대상 유조선과 헬기
+  place: map_pair_left
 - type: photo
   start:
     sid: act2_8
@@ -1513,6 +1573,31 @@ events:
     edge: end
   mid: iran_rezaee_2020
   for: 레자이 사무총장
+  place: map_pair_left
+- type: photo
+  start:
+    sid: act3_4
+    'off': 0.6
+    edge: end
+  end:
+    sid: act3_5
+    'off': 0.45
+    edge: end
+  mid: iran_uss_new_orleans_blockade
+  for: 봉쇄 작전 중인 미 해군 함정
+  place: map_pair_right
+- type: photo
+  start:
+    sid: act5_1
+    'off': -0.1
+  end:
+    sid: act5_1
+    'off': 0.36
+    edge: end
+  mid: iran_tanker_abot_2005
+  for: 원유를 싣는 유조선
+  age_reason: 걸프 원유 선적 장면의 자료사진 — 전쟁 중 걸프 선적 사진은 허용 라이선스 공용 자료에 없음(D-0466 §4 검색 기록)
+  place: map_pair_left
 - type: photo
   start:
     sid: act5_3
@@ -1523,38 +1608,16 @@ events:
     edge: end
   mid: iran_centcom_cdr_hormuz_1023
   for: 장병들 앞에서 말하는 미 중부사령관
+  place: map_pair_left
 - type: photo
   start:
-    sid: act6_2
-    'off': 0.26
+    sid: ending_2
+    'off': 0.1
   end:
-    sid: act6_2
-    'off': -1.33
-    edge: end
-  mid: iran_tanker_abot_2005
-  for: 원유를 싣는 유조선
-  age_reason: 해협 안쪽(걸프) 원유 선적 장면의 자료사진 — 전쟁 중 걸프 선적 사진은 허용 라이선스 공용 자료에 없음(D-0466 §4 검색 기록)
-- type: photo
-  start:
-    sid: act5_1
-    'off': -0.1
-  end:
-    sid: act5_1
-    'off': 0.36
-    edge: end
-  mid: iran_marines_boarding
-  for: 검문 대상 유조선과 헬기
-- type: photo
-  start:
-    sid: act5_8
-    'off': 0.0
-  end:
-    sid: act5_8
-    'off': 0.26
-    edge: end
-  mid: iran_islamabad_talks
-  for: Islamabad Talks April 2026 현수막이 걸린 회담장 입구
-  place: map_pair_right
+    sid: ending_3
+    'off': 0.25
+  mid: iran_hormuz_modis
+  for: 호르무즈 해협
 sound:
   bgm: music.zabriskie_mario_bava
   intensity:
