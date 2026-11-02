@@ -44,8 +44,8 @@ events:
   - {type: marker, start: {sid: prelude_8, 'off': 0.4}, end: {sid: prelude_9, edge: end}, at_place: cannae, label: 칸나이}
   - {type: photo, start: {sid: prelude_6, 'off': 0.2}, end: {sid: prelude_6, edge: end, 'off': 0.6}, mid: cannae_bust, for: 대리석 흉상, place: map_pair_right}
   - {type: photo, start: {sid: prelude_7, 'off': 0.2}, end: {sid: prelude_8, 'off': 0.3}, mid: cannae_coin, for: 은화}
-  - {type: photo, start: {sid: deployment_8, 'off': 0.2}, end: {sid: deployment_9, edge: end, 'off': 0.3}, mid: cannae_tanit, for: 석회암 비석, place: map_pair_right}
-  - {type: photo, start: {sid: deployment_12, 'off': 0.2}, end: {sid: deployment_13, edge: end}, mid: cannae_montefortino, for: 투구, place: map_pair_right}
+  - {type: photo, start: {sid: deployment_8, 'off': 1.8}, end: {sid: deployment_9, edge: end, 'off': 0.6}, mid: cannae_tanit, for: 석회암 비석, place: map_pair_right}
+  - {type: photo, start: {sid: deployment_12, 'off': 1.8}, end: {sid: deployment_13, edge: end}, mid: cannae_montefortino, for: 투구, place: map_pair_right}
   - {type: photo, start: {sid: encirclement_11, 'off': 0.2}, end: {sid: encirclement_11, edge: end, 'off': 0.5}, mid: cannae_trumbull, for: 쓰러진 집정관과 말을 권하는 기병, place: map_pair_right}
   - {type: marker, start: {sid: aftermath_1, 'off': 0.2}, end: {sid: aftermath_4, edge: end}, at_place: cannae, label: 칸나이}
   - type: panel
