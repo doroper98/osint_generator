@@ -460,6 +460,13 @@ def hold_same_place(d: dict, tb: Timebase) -> None:
         d["t1"] = max(d["t1"], end + F.inset.fade[1])
 
 
+def _segment_only(name: str) -> bool:
+    """주 무대 위 구간 무대(v7.4.0 D-0615 — terrain3d). 그 숏 카메라는 주 무대 카메라 키로 들어가고(같은 월드), 화면은 구간 레이어가 바꾼다."""
+    from engine.stage import stage_class  # noqa: PLC0415
+
+    return bool(getattr(stage_class(name), "segment_only", False))
+
+
 def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], list[dict], Optional[dict]]:
     """Direction → (카메라 키, 이벤트 dict, sound dict). 옛 Director 와 같은 모양.
     카메라 앵커(lon·lat)는 stage.to_world 로만 월드 좌표가 된다(v4.1.0 D-0076 작업 3). 이벤트의 앵커는 그대로 두고
@@ -469,7 +476,8 @@ def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], l
     for s in doc.shots:
         if is_island_shot(doc, s, stage.name):
             continue   # v5.1.0 D-0126 Q1 A — 차트 아일랜드 뷰포트 카메라(island_keys)
-        if doc.shot_stage(s) != stage.name:
+        seg = doc.shot_stage(s) != stage.name and _segment_only(doc.shot_stage(s))
+        if doc.shot_stage(s) != stage.name and not seg:
             raise DirectionError(f"숏 {s.at!r} 의 무대 {doc.shot_stage(s)!r} ≠ 주 무대 {stage.name!r} — 아일랜드 없는 보조 무대 렌더는 아직 없다"
                                  "(G3·G12 D-0126 Q7, docs/handoff/20 §12). 무대 연속성 검사(checks stage_continuity)는 shot_stages 로 따로 본다")
         t = resolve_anchor(s.at, tb)

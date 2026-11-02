@@ -73,3 +73,11 @@ events:
       translation_license: 퍼블릭 도메인(미국, 2025년부터)
   - {type: photo, start: {sid: ending_3, 'off': 0.2}, end: {sid: ending_4, edge: end, 'off': 0.3}, mid: cannae_smith1856}
   - {type: photo, start: {sid: ending_5, 'off': 0.2}, end: {sid: ending_5, edge: end, 'off': 0.8}, mid: cannae_closs}
+sound:
+  bgm: music.zabriskie_mario_bava   # D-0613 — 코리올란(A)이 장르 하한 미달이라 콘티 판은 bgm_default 첫째. 코리올란 30초 견본은 따로(판정 ③)
+  intensity:
+  - [0.0, 0.55]
+  - [{scene_start: deployment}, 0.6]
+  - [{scene_start: encirclement}, 0.66]
+  - [{scene_start: aftermath}, 0.55]
+  - [{scene_start: ending}, 0.5]
