@@ -1128,6 +1128,7 @@ events:
     'off': 2.5
   mid: dmz_fence
   for: DMZ 남측 철책
+  age_reason: "D-0351 ① — 2026-11-02 Commons 검색(질의 'DMZ fence Korea'·'Korean Demilitarized Zone fence'·'DMZ barbed wire fence South Korea'·'비무장지대 철책'·'DMZ Peace Trail'·'Korea DMZ fence Korea.net'·'Paju DMZ fence'): 15년 안 PD·CC 후보 중 철책이 주된 피사체인 사진이 없다. DMZ 2732(2022·CC BY 4.0, 철원)는 꿩이 주 피사체, DMZ Peace Trail 01~03(2019·CC BY-SA 2.0, 고성 동해안)은 관광객 무리·해안 풍경이 주 피사체다. 자료사진 표기·촬영 연도(2008) 캡션은 그대로 보인다"
   place: map_right_low
 - type: primitive
   start:
