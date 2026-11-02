@@ -47,8 +47,8 @@
 - **README §6.3a(사용자 전달 전 review_sheet·uf_checklist 의무)** — 다음 전달부터 적용.
 - R-0320 → D-0353(A′: 장면 첫 화면 지도 1.5초 이상 → 사진 → 사건). geo v4_animatic A′ 로 재렌더 대기.
 - R-0321: A′ 뒤 geo 매체 5<7 → 사용자 결정(UF-139 대 UF-173). 비교 클립(artifacts 9d11bd07 d0353_compare/) 사용자 전달 14:28Z — **답 대기**: ① 지도 먼저(B: 이 영상만 매체 하한 면제, 5장) ② 사진 먼저(A: act2 2분할이 무대 도착을 덮음, 7장) ③ 원고 2막 도입 늘리기(게이트 ① 다시). A 를 고르면 하바롭스크 크레딧 "CC BY 3.0" 중복 표기도 고친다.
-- 골든 환경: 원인 = 표준 FONTCONFIG 누락(war R-0329). 장치 fddc5526 → 4562b172(RENDER-AP-032) 쇼케이스·경제·이란에 cherry-pick 지시(D344) — 결과 R 대기(쇼케이스: 골든·조각 캐시 키).
-- 다음 번호 UF-208·D-0354·DECISIONS D345·RENDER-AP-033.
+- 골든 환경: 원인 = 표준 FONTCONFIG 누락(war R-0329). 장치 RENDER-AP-032 네 브랜치 반영 완료(war fddc5526·4562b172 / sweet 1402503d·2499f012 / iran e4ad493f·e409edcf / econ 31004550·597a2c1c). econ 골든 25컷은 병합 전 자산 있는 환경에서. 조각 캐시 키 보강은 속도 트랙에 요청(D345).
+- 다음 번호 UF-208·D-0354·DECISIONS D347·RENDER-AP-033.
 
 ### 상태 갱신(2026-11-02 11:10Z, 최종 감독 — 사용자가 이 세션 모델을 Opus 5.5 로 전환)
 - 쇼케이스: 교체본 콘티 판 v2_animatic 게이트 ② **재승인 대기**. sweet-galileo 머리 b2d5f75a(UF-207 원장 정정 217c4525·PIPELINE-AP-026·5bdcd949·fed 데모 120).
