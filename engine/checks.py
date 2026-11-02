@@ -2990,6 +2990,7 @@ def visual_voids(P) -> list[tuple[float, float]]:  # noqa: ANN001, N803
     moves = [(k.t, k.t + k.dur) for k in (getattr(P, "keys", None) or []) if k.mode == "move" and k.dur > 0]
     moves += [(e["t0"], e["t1"]) for e in P.events if e["type"] == "dip"]   # 어둡게 넘기는 전환(dip)도 전환 — 빈 구간이 아니다
     spans = [(e["t0"], e["t1"]) for e in P.events if e["type"] in kinds]
+    spans += [(s.t_in, s.t_out) for s in (P.R.cache.get("terrain3d_segments") or [])]   # v7.4.0 D-0615 — 구간 = 움직이는 부대 대형(빈 지도 아님)
     out: list[tuple[float, float]] = []
     run0 = None
     t = start

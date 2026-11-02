@@ -168,6 +168,9 @@ def inputs_sha1(proj: Path, rel: str, seg: Segment, view_rows: list[list[float]]
     R = load_rules()  # noqa: N806
     h = hashlib.sha1()
     h.update((proj / rel).read_bytes())
+    for tp in sorted(proj.glob(f"assets/theme_{theme}/tiers.pkl")) + sorted(proj.glob("assets/tiers.pkl")):   # 지형·텍스처 원천(geo.prep) — 다시 만들면 프레임도
+        h.update(tp.read_bytes())
+    h.update(json.dumps([(p.name, p.stat().st_size) for p in sorted(proj.glob(f"assets/theme_{theme}/base_*.png"))]).encode())
     for f in TOOL_FILES:
         h.update((TOOL / f).read_bytes())
     h.update(json.dumps({"seg": [seg.sid, round(seg.t_in, 4), round(seg.t_out, 4), [[round(a, 4), round(b, 4)] for a, b in seg.orbits]],

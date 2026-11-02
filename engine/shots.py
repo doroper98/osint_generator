@@ -96,7 +96,19 @@ def stage_continuity(shots: list[ShotStage]) -> list[tuple[str, str]]:
     if len(names) - 1 > st.max_secondary:
         out.append(("max_secondary", f"무대 {names} — 주 무대 1 + 보조 {len(names) - 1} > {st.max_secondary}"))
     switches = 0
+    from engine.stage import stage_class  # noqa: PLC0415
+
+    def seg(name: str) -> bool:   # v7.4.0 D-0614 ③·D-0615 ① — 주 무대 위 구간 무대: 같은 월드·같은 화면 폭 90° 로 이어 찍기(새 캔버스 아님)
+        from engine.stage import StageError  # noqa: PLC0415
+
+        try:
+            return bool(getattr(stage_class(name), "segment_only", False))
+        except StageError:   # 미등록 무대는 구간 무대가 아니다(오류는 Direction 검사가 낸다)
+            return False
+
     for a, b in zip(ks, ks[1:]):
+        if a.stage != b.stage and (seg(a.stage) or seg(b.stage)):
+            continue   # 이어 찍기 경계(첫·끝 프레임 = 주 무대 화면)는 tests/test_terrain3d_render·구간 manifest 가 맡는다 — 암전 없음이 규칙
         if a.stage != b.stage:
             switches += 1
             if b.mode != "dip":
