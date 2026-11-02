@@ -53,17 +53,19 @@ class DensityTest(unittest.TestCase):
         self.assertEqual((r["count"], r["beat_count"], r["sec_per_item"]), (7, 5, 58.5))
         self.assertEqual(r["window"]["max"]["count"], 2)     # 40초 창 최대 2개(strikes→p8 33.6초)
 
-    def test_b_three_in_40s_warns(self) -> None:
+    def test_b_three_in_40s_counted(self) -> None:
+        """v7.4.0 D-1000 S3 — 40초 창 3개는 경고가 아니라 hard 검사 media_burst 가 이 창 최대로 낸다(tests/test_s3_checks.py)."""
         tb = _TB({"s1": 0.0, "s2": 20.0, "s3": 40.0, "s4": 60.0})
         evs = [_ev("clip", "a", 5), _ev("photo", "b", 25), _ev("cutout", "c", 44)]   # 장면 셋, 39초 안 3개
         r = density_report(evs, tb, 150.0)
-        self.assertEqual(self._ids(r), ["media-burst-window"])
+        self.assertEqual(self._ids(r), [])
+        self.assertEqual(r["window"]["max"]["count"], 3)
 
     def test_c_article_exempt_from_window(self) -> None:
         tb = _TB({"s1": 0.0, "s2": 20.0, "s3": 40.0, "s4": 60.0})
         evs = [_ev("article", "a", 5), _ev("photo", "b", 25), _ev("cutout", "c", 44)]   # 기사 1 + 사진·컷아웃 2
         r = density_report(evs, tb, 150.0)
-        self.assertNotIn("media-burst-window", self._ids(r))
+        self.assertEqual(r["window"]["max"]["count"], 2)   # 기사는 창에서 뺀다
 
     def test_d_two_in_one_scene(self) -> None:
         r = density_report([_ev("photo", "a", 10), _ev("clip", "b", 55)], _TB({"s1": 0.0, "s2": 70.0}), 100.0)

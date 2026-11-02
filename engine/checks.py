@@ -94,6 +94,9 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | element_hold | hard | rules qa_checks.element_hold.types 요소의 완전 노출(페이드 뺀 구간) < min_full_sec `[element-hold]`(v7.4.0 D-0462, UF-171) |
 | media_overlap | hard | 앞 요소(media_overlap.cover_types)가 완전 노출 element_hold.min_full_sec 전에 전면(full_types) 또는 겹치는 상자(box_types)에 덮임 `[media-overlap]`(v7.4.0 D-0462, UF-172) |
 | badge_covered | hard | 지도 층 배지 계획 구간 중 안 보인 비율(전면 덮개로 늦춰짐·덮개 아래·상자 가림) > rules badge.covered_max_ratio `[badge-covered]`(v7.4.0 D-0329) |
+| map_event_covered | hard | 지도 무대 사건(route grow·marker·badge·boom 등장·카메라 move)이 자라나거나 나타나는 창에서 상자의 rules qa_checks.map_event_covered.max_ratio 넘게 사진·영상·기사·인용에 가림 `[map-event-covered]`(v7.4.0 D-1000 S3, UF-173) |
+| media_date_cross | hard | 사진·영상·기사·인용이 보이는 동안(알파 ≥ 0.5) 날짜 HUD 가 바뀜(grace_sec 밖) `[media-date-cross]`(v7.4.0 D-1000 S3, D-0466) |
+| media_burst | hard | media.density.window_sec 창 미디어 비트 > window_max `[media-burst-window]`(옛 media_beats 경고) · 지도 무대 같은 창 덮임 시간 비율 > qa_checks.media_burst.max_cover_ratio `[map-cover-share]`(v7.4.0 D-1000 S3) |
 | flight_unsourced | hard | flight 에 claim 없음·원고가 인용하지 않은 claim `[flight-unsourced]` — 비행은 출처 있는 특정 타격에만(v7.4.0 D-0316) |
 | scene_visual_void | hard | 요소(rules qa_checks.visual_void_types) 없이 지도·배경만 보이는 구간 ≥ qa_checks.visual_void_max_sec(콜드 오픈·전면 카드·카메라 move 제외) `[scene-visual-void]`(v7.4.0 D-0312, provenance visual_void) |
 | inset_jump | hard | 위성 인셋 원 중심 프레임 간 이동 > rules flight.inset.jump_px_max `[inset-jump]`(v7.4.0 D-0300·UF-146) |
@@ -135,7 +138,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap")   # chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "map_event_covered", "media_date_cross", "media_burst")   # chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -1948,6 +1951,204 @@ def check_media_overlap(P) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
+# ---------------------------------------------------------------------------------------------------------------
+# v7.4.0 back_and_forth D-1000 S3 — 탈락 유형 hard 검사(UF-171·172·173, D-0462·D-0466 의 일반화). 모든 렌더 경로 같은 규칙 키(C12 §3).
+
+def _vis_span(e: dict) -> tuple[float, float]:
+    """알파 ≥ 0.5 구간(근사) — 완전 노출 구간에서 등장·퇴장 페이드의 절반씩 넓힌다."""
+    a, b = element_full_span(e)
+    return (e["t0"] + a) / 2, (b + e["t1"]) / 2
+
+
+def _cover_boxes(P, t: float, types: "list[str]") -> list[tuple[float, float, float, float]]:  # noqa: ANN001, N803
+    """시각 t 에 알파 ≥ 0.5 로 보이는 불투명 덮개 상자(설계 좌표). 전면(기사·인용) = 화면 전체, 사진·영상 = 미디어 상자(캡션 바 포함)."""
+    from engine.media_plan import media_box  # noqa: PLC0415
+    from engine.reserved import FULL_COVER_TYPES  # noqa: PLC0415
+
+    assets = P.R.assets.media_assets
+    out = []
+    for c in P.events:
+        if c["type"] not in types or not c["t0"] <= t <= c["t1"]:
+            continue
+        a, b = _vis_span(c)
+        if not a <= t <= b:
+            continue
+        if c["type"] in FULL_COVER_TYPES:
+            out.append((0.0, 0.0, float(W_OUT), float(H_OUT)))
+        elif c["type"] in ("photo", "clip") and "x" in c and c.get("mid") in assets:
+            out.append(tuple(float(v) for v in media_box(c, assets)))
+    return out
+
+
+def _covered_ratio(box: tuple, covers: list[tuple]) -> float:
+    """상자 중 덮개 합집합에 가린 넓이 비율."""
+    from shapely.geometry import box as sbox  # noqa: PLC0415
+    from shapely.ops import unary_union  # noqa: PLC0415
+
+    b = sbox(*box)
+    if b.area <= 0 or not covers:
+        return 0.0
+    return b.intersection(unary_union([sbox(*c) for c in covers])).area / b.area
+
+
+def map_event_windows(P) -> list[tuple[str, str, float, float, "Callable[[float], tuple | None]"]]:  # noqa: ANN001, N803
+    """지도 무대의 자라나는·나타나는 사건 — (종류, 이름, 창 시작, 창 끝, t → 화면 상자 또는 None).
+    route = 성장 창(grow), marker·badge·boom = 등장 창(rules qa_checks.map_event_covered.appear_sec), 카메라 이동 = 키 이동 창(화면 전체)."""
+    from engine.layers.routes import DECLARED_SAMPLES, catmull  # noqa: PLC0415
+
+    cfg = QA.map_event_covered
+    if getattr(P.R.stage, "name", None) != "mercator":
+        return []
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    pad = cfg.box_pad_px
+    out: list = []
+
+    def view(t: float) -> View:
+        return View(P.R.stage, P.cams[min(P.n_frames - 1, max(0, int(t * FPS)))])
+
+    for e in P.events:
+        ty = e["type"]
+        if ty not in cfg.event_types:
+            continue
+        if ty == "route" and e.get("world_pts"):
+            grow = float(e.get("grow") or 0.0)
+            end = e["t0"] + (grow if grow > 0.05 else cfg.appear_sec)
+            curve = catmull(e["world_pts"], DECLARED_SAMPLES)
+
+            def rbox(t: float, e=e, curve=curve, grow=grow) -> "tuple | None":  # noqa: ANN001
+                S = view(t).to_screen_arr(curve)  # noqa: N806
+                prog = min(1.0, max(0.0, (t - e["t0"]) / grow)) if grow > 0.05 else 1.0
+                sub = S[:max(2, int(len(S) * prog))]
+                x0, y0 = float(sub[:, 0].min()), float(sub[:, 1].min())
+                x1, y1 = float(sub[:, 0].max()), float(sub[:, 1].max())
+                return (x0 - pad, y0 - pad, x1 + pad, y1 + pad)
+
+            out.append((ty, str(e.get("label") or e.get("col") or "route"), e["t0"], min(e["t1"], end), rbox))
+        elif ty in ("marker", "badge") and not e.get("over_panel") and ("world" in e or ty == "badge"):
+            def pbox(t: float, e=e) -> "tuple | None":  # noqa: ANN001
+                r = place_over(P, ctx, e, t)
+                return None if r is None else tuple(float(v) for v in r[1])
+
+            out.append((ty, str(e.get("label") or ""), e["t0"], min(e["t1"], e["t0"] + cfg.appear_sec), pbox))
+        elif ty == "boom" and "world" in e:
+            def bbox(t: float, e=e) -> "tuple | None":  # noqa: ANN001
+                x, y = view(t).to_screen(*e["world"])
+                return (x - cfg.boom_radius_px, y - cfg.boom_radius_px, x + cfg.boom_radius_px, y + cfg.boom_radius_px)
+
+            out.append((ty, str(e.get("label") or "boom"), e["t0"], min(e["t1"], e["t0"] + cfg.appear_sec), bbox))
+    if "camera" in cfg.event_types:
+        for k in P.keys:
+            if k.mode in cfg.camera_modes and k.dur > 0:
+                out.append(("camera", f"{k.mode} t={k.t:.1f}", k.t, k.t + k.dur, lambda t: (0.0, 0.0, float(W_OUT), float(H_OUT))))
+    return out
+
+
+def map_event_covered(P) -> list[tuple[str, str, float, float, float, float]]:  # noqa: ANN001, N803
+    """(종류, 이름, 창 시작, 창 끝, 최대 가림 비율, 그 시각) — 창 안 step_sec 표본마다 그 사건 상자가 덮개(cover_types, 알파 ≥ 0.5)에 가린 넓이 비율.
+    지도가 다른 이유로 안 보이는 순간(전면 카드·패널·암전, _covered)은 세지 않는다."""
+    cfg = QA.map_event_covered
+    out = []
+    for ty, name, a, b, boxf in map_event_windows(P):
+        worst, wt = 0.0, a
+        t = a
+        while t <= b + 1e-9:
+            if not _covered(P, t):
+                covers = _cover_boxes(P, t, cfg.cover_types)
+                if covers:
+                    bx = boxf(t)
+                    if bx is not None and -80 <= (bx[0] + bx[2]) / 2 <= W_OUT + 80 and -40 <= (bx[1] + bx[3]) / 2 <= H_OUT + 40:
+                        r = _covered_ratio(bx, covers)
+                        if r > worst:
+                            worst, wt = r, t
+            t += cfg.step_sec
+        out.append((ty, name, a, b, worst, wt))
+    return out
+
+
+def check_map_event_covered(P) -> list[str]:  # noqa: ANN001, N803
+    """[map-event-covered] hard(v7.4.0 D-1000 S3, 사용자 UF-173 "사진을 띄워서 뒤에 지도가 안보이게") — 지도 사건이 자라나거나 나타나는 동안
+    그 상자의 max_ratio 넘게 사진·영상·기사·인용이 덮으면 실패. 덮는 요소를 사건 창 밖으로 옮기거나 뺀다(D-0466 §2 지도가 먼저)."""
+    mx = QA.map_event_covered.max_ratio
+    return [f"[map-event-covered] {ty} {name!r} {a:.1f}~{b:.1f}초 창에서 상자의 {r:.0%} 가 덮개에 가림(t={t:.1f}, > {mx:.0%}) — "
+            "사진·영상·기사·인용을 이 사건 창 밖으로 옮기거나 뺀다(UF-173, D-0466 지도가 먼저)"
+            for ty, name, a, b, r, t in map_event_covered(P) if r > mx + 1e-9]
+
+
+def date_changes(tb) -> list[tuple[float, str, str]]:  # noqa: ANN001
+    """날짜 HUD 값이 바뀌는 순간 (시각, 옛 값, 새 값) — engine.hud.draw_date 와 같은 규칙(문장 시작 0.3초 전)."""
+    out, prev = [], None
+    for sid in tb.order:
+        s = tb.sent[sid]
+        if s.date != prev:
+            if prev is not None:
+                out.append((s.t0 - 0.3, prev, s.date))
+            prev = s.date
+    return out
+
+
+def media_date_cross(P) -> list[tuple[dict, float, float, float, str, str]]:  # noqa: ANN001, N803
+    """(요소, 보이는 시작, 끝, 날짜 바뀐 시각, 옛 값, 새 값) — 보이는 구간(알파 ≥ 0.5) 안에서 날짜 HUD 가 바뀐다. 바뀌기 전·뒤 grace_sec 안은 허용."""
+    cfg = QA.media_date_cross
+    ch = date_changes(P.R.tb)
+    out = []
+    for e in P.events:
+        if e["type"] not in cfg.types or e["type"] in cfg.exempt_types:
+            continue
+        a, b = _vis_span(e)
+        for tc, old, new in ch:
+            if tc - a > cfg.grace_sec and b - tc > cfg.grace_sec:
+                out.append((e, a, b, tc, old, new))
+                break
+    return out
+
+
+def check_media_date_cross(P) -> list[str]:  # noqa: ANN001, N803
+    """[media-date-cross] hard(v7.4.0 D-1000 S3, D-0466 §1 "다른 날짜 문장으로 넘어감") — 사진·영상·기사·인용이 보이는 동안 날짜 HUD 가 바뀌면
+    그 요소는 다른 날짜 문장에 걸쳐 있다. 자기 문장(같은 날짜) 창 안으로 줄이거나 옮긴다. 면제 = rules qa_checks.media_date_cross.exempt_types 만."""
+    return [f"[media-date-cross] {e['type']} {_elem_name(e)!r} 보임 {a:.1f}~{b:.1f}초 중 {tc:.1f}초에 날짜 {old} → {new} — "
+            "같은 날짜 문장 창 안으로 줄이거나 그 날짜 문장으로 옮긴다(UF-173, D-0466 §2-3)" for e, a, b, tc, old, new in media_date_cross(P)]
+
+
+def media_burst(P) -> dict:  # noqa: ANN001, N803
+    """밀집 두 조건(v7.4.0 D-1000 S3 — 옛 [media-burst-window] 경고를 hard 로): ① media.density.window_sec 창 안 미디어 비트 수 최대
+    ② 지도 무대에서 같은 길이 창마다 덮개(qa_checks.media_burst.cover_types, 알파 ≥ 0.5)가 하나라도 보이는 시간 비율 최대."""
+    D, MB = R_.media.density, QA.media_burst  # noqa: N806
+    worst = density_report(P.events, P.R.tb, P.plan.total)["window"]["max"]   # 창 최대 = provenance media.density 와 같은 값(P5)
+    share = {"t0": None, "ratio": 0.0}
+    if getattr(P.R.stage, "name", None) == "mercator":
+        spans = sorted(_vis_span(e) for e in P.events if e["type"] in MB.cover_types)
+        n = int(P.plan.total / MB.step_sec) + 1
+        cov = np.zeros(n, dtype=bool)
+        mapv = np.ones(n, dtype=bool)
+        for i in range(n):
+            t = i * MB.step_sec
+            mapv[i] = not _covered(P, t)
+            cov[i] = mapv[i] and any(a <= t <= b for a, b in spans)
+        w = max(1, int(D.window_sec / MB.step_sec))
+        if n >= w:
+            c = np.concatenate([[0], np.cumsum(cov)])
+            r = (c[w:] - c[:-w]) / w
+            i = int(np.argmax(r))
+            share = {"t0": round(i * MB.step_sec, 1), "ratio": float(r[i])}
+    return {"burst": worst, "share": share}
+
+
+def check_media_burst(P) -> list[str]:  # noqa: ANN001, N803
+    """[media-burst-window]·[map-cover-share] hard(v7.4.0 D-1000 S3, D-0466 "40초에 4개 > 2 경고를 무시했다")."""
+    D, MB = R_.media.density, QA.media_burst  # noqa: N806
+    rep = media_burst(P)
+    out = []
+    w = rep["burst"]
+    if w["count"] > D.window_max:
+        out.append(f"[media-burst-window] {w['t0']}초부터 {D.window_sec:g}초 안 미디어 {w['count']}개 {w['mids']} > {D.window_max} — "
+                   "사이에 지도만 보이는 틈을 두고 나머지는 다른 막(패널·시간축 무대)으로 옮기거나 뺀다(D-0466 §2-5)")
+    s = rep["share"]
+    if s["ratio"] > MB.max_cover_ratio + 1e-9:
+        out.append(f"[map-cover-share] 지도 무대 {s['t0']}초부터 {D.window_sec:g}초 창의 {s['ratio']:.0%} 가 사진·영상·기사·인용에 덮임 "
+                   f"> {MB.max_cover_ratio:.0%} — 덮는 요소 사이에 지도만 보이는 틈을 둔다(D-0466 §2-5)")
+    return out
+
+
 def check_article_backdrop(P) -> list[str]:  # noqa: ANN001, N803
     """한 영상 안 기사 카드 무대 하나(v5.21.12 D-0193) — 기사 카드 theme(dark·light)가 둘 이상이면 hard.
     사진 없는 카드의 블러 무대 밝기는 그리기가 press_fallback.max_luma 로 묶는다(fallback_gain)."""
@@ -2472,6 +2673,9 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "bar_border": lambda: check_bar_border(P),   # v7.4.0 D-0339(hard, UF-202)
         "element_hold": lambda: check_element_hold(P),     # v7.4.0 D-0462(hard, UF-171)
         "media_overlap": lambda: check_media_overlap(P),   # v7.4.0 D-0462(hard, UF-172)
+        "map_event_covered": lambda: check_map_event_covered(P),   # v7.4.0 D-1000 S3(hard, UF-173)
+        "media_date_cross": lambda: check_media_date_cross(P),     # v7.4.0 D-1000 S3(hard, D-0466 §2-3)
+        "media_burst": lambda: check_media_burst(P),               # v7.4.0 D-1000 S3(hard — 옛 media_beats [media-burst-window] 경고)
         "label_under_media": lambda: check_label_under_media(P),   # v7.4.0 R-0294 판정(hard)
         "band_line_outside": lambda: check_band_line_outside(P),   # v7.4.0 D-0326(hard, UF-200)
         "photo_subject_background": lambda: check_photo_subject_background(P),   # v7.4.0 D-0327(hard, UF-201)

@@ -1711,6 +1711,32 @@ class MediaOverlapRules(_Strict):
 
 class RouteMissingRules(_Strict):
     """v5.21.14 D-0195·D-0197 — 문장에 이동·공격 동사 + 그 문장이 부르는 마커가 있으면 그 마커에 닿는 경로가 문장 구간에 있어야 한다."""
+class MapEventCoveredRules(_Strict):
+    """v7.4.0 D-1000 S3(UF-173) — 지도 사건이 자라나거나 나타나는 창에서 덮개에 가린 상자 넓이 비율 상한."""
+    max_ratio: float = Field(gt=0, le=1)
+    step_sec: float = Field(gt=0)
+    appear_sec: float = Field(gt=0)        # marker·badge·boom 등장 창(초)
+    boom_radius_px: float = Field(gt=0)    # 타격 링 상자 반지름(설계 px)
+    box_pad_px: float = Field(ge=0)        # 경로 상자 여백(가는 선이 넓이 0 이 되지 않게)
+    event_types: list[str]
+    camera_modes: list[str]
+    cover_types: list[str]
+
+
+class MediaDateCrossRules(_Strict):
+    """v7.4.0 D-1000 S3(D-0466 §2-3) — 보이는 동안 날짜 HUD 가 바뀌면 실패. 면제는 exempt_types 로만."""
+    types: list[str]
+    exempt_types: list[str]
+    grace_sec: float = Field(ge=0)
+
+
+class MediaBurstRules(_Strict):
+    """v7.4.0 D-1000 S3 — 옛 [media-burst-window] 경고 → hard + 지도 덮임 시간 비율 상한(창 = media.density.window_sec)."""
+    max_cover_ratio: float = Field(gt=0, le=1)
+    step_sec: float = Field(gt=0)
+    cover_types: list[str]
+
+
 
     move_verbs: list[str] = Field(min_length=1)
     attack_verbs: list[str] = Field(min_length=1)
@@ -1813,6 +1839,9 @@ class QAChecks(_Strict):
     media_overlap: "MediaOverlapRules"   # v7.4.0 D-0462(UF-172) — 앞 요소가 하한 전에 덮임(hard media_overlap)
     restate_overlap_max: float = Field(default=0.6, gt=0, le=1)   # v7.4.0 D-0306 §1.2 — [text-restates-narration] 어절 겹침 상한
     restate_min_words: int = Field(default=4, ge=1)   # 이 어절 미만 화면 글자(이름표)는 보지 않는다
+    map_event_covered: "MapEventCoveredRules"   # v7.4.0 D-1000 S3(UF-173) — hard map_event_covered
+    media_date_cross: "MediaDateCrossRules"     # v7.4.0 D-1000 S3 — hard media_date_cross
+    media_burst: "MediaBurstRules"              # v7.4.0 D-1000 S3 — hard media_burst([media-burst-window]·[map-cover-share])
     restate_particles: list[str] = Field(default_factory=list)   # v7.4.0 D-0316 ② — 어절 끝 조사(떼고 비교)
     # v7.4.0 D-0311 — 회귀 기준 프로젝트 id → 사유, 그리고 hard 만 면제하는 검사 id(검사는 돌고 provenance regression_waived 기록)
     regression_refs: dict[str, str] = Field(default_factory=dict)
