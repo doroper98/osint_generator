@@ -2452,6 +2452,22 @@ entries:
   status: guarded
   decision: D-0462(이 영상 — act1_7 사진·기사 겹침 해소 + [element-hold]·[media-overlap] 검사)
   source: 감독 세션(Fable) 사용자 대화 2026-11-01
+- id: UF-173
+  date: '2026-11-02'
+  project: iran_ceasefire_2026
+  at: "교체 완성본 final_v2(md5 d1c655d4) — 첫 화면(0.2~7.8초 도하 스카이라인 사진), 끝부분(452~460초 도하 웨스트베이 사진), 그리고 UF-171 수정 전반"
+  quote: "아니 처음부터 사진을 띄워서 뒤에 지도가 안보이게 하면 뭐 어쩌자는거야?? 첫 화면에 그리고 카타르 도하의 시 이미지는 빼도 될거 같아. 무지성으로 그냥 늘리면 어떻게 해 하 놔 진짜"
+  quote_kind: verbatim
+  category: "지도 가림·기계적 연장 — UF-171 수정이 노출 6초를 맞추려고 사진·영상을 문장 경계 너머로 늘렸다. 첫 화면에서 도하 사진(0.2~7.8초)이 테헤란→도하 경로와 도하 마커를 덮었고, 1막 30~112초 중 약 65초를 사진·영상·기사가 덮었다. 늘어난 요소가 다른 날짜 문장까지 남았다(7월 7일 공격 문장에 6월 18일 봉쇄 해제 기사, 4월 8일 휴전 문장에 3월 2일 해협 위성 사진, 8월 17일 문장에 7월 검문 사진). 도하 도심 사진 두 장(cold_0·ending_1)은 사용자 지시로 뺀다"
+  guards:
+  - {kind: check, ref: media_sentence_span}
+  - {kind: check, ref: map_opening}
+  - {kind: check, ref: map_cover_share}
+  - {kind: rule, ref: qa_checks.map_cover_share.max_share}
+  - {kind: test, ref: tests/test_uf173_guards.py::V9FailsTest::test_cover_share}
+  status: guarded
+  decision: "D-0466(이 영상 — 연출 v10. 도하 사진 두 장 삭제, 첫 화면 지도, 요소는 자기 문장 안에서만 6초, 못 맞추면 늘리지 않고 다른 맞는 문장으로 옮기거나 뺀다. 장치는 전달 뒤 첫 작업)"
+  source: 감독 세션 사용자 대화 2026-11-02
 - id: UF-200
   date: '2026-10-31'
   project: showcase_econ
