@@ -30,6 +30,7 @@ if TYPE_CHECKING:
     from engine.context import RenderCtx
     from engine.projection import View
     from engine.stage_timeline import TimelineStage
+    from schemas.rules_models import IslandColumnDetail
 
 MONTHS = 12
 TAG = load_rules().panels.prov_tag   # 추정 태그 글자(size·font·alpha) 재사용 — D-0266 C
@@ -1143,6 +1144,11 @@ def detail_column(e: dict) -> tuple[date, str]:
     return d1, (f"{q(d0)} → {(d1.month - 1) // 3 + 1}분기" if d0.year == d1.year else f"{q(d0)} → {q(d1)}")
 
 
+def _column_detail_rules() -> "IslandColumnDetail":
+    """island.column_detail 규칙 — 캐시는 load_rules 한 곳(v7.4.0 D-1000 S1, 6299f295 의 lru_cache 를 대체 — 파일이 바뀌면 다시 읽음)."""
+    return load_rules().island.column_detail
+
+
 def detail_unit(e: dict) -> str:
     return "%" if e["style"] == "diverging" else load_series(e["series_id"]).unit
 
@@ -1150,7 +1156,7 @@ def detail_unit(e: dict) -> str:
 def detail_rect(view: "View", side: str, ytop: float, ybot: float) -> tuple[float, float, float, float]:
     """인셋 상자(뷰 화면 좌표 x, y, w, h) — 가로 = 뷰 폭 × w_ratio(side = left|right, margin_px), 세로 = 레인 플롯 높이(ytop~ybot) × h_ratio
     가운데. 레인 이름 줄·출처 줄(레인 밖)을 덮지 않는다."""
-    CD = load_rules().island.column_detail  # noqa: N806
+    CD = _column_detail_rules()  # noqa: N806
     w, h = view.vw * CD.w_ratio, (ybot - ytop) * CD.h_ratio
     x = view.ox + CD.margin_px if side == "left" else view.ox + view.vw - CD.margin_px - w
     return x, ytop + (ybot - ytop - h) / 2, w, h
@@ -1158,7 +1164,7 @@ def detail_rect(view: "View", side: str, ytop: float, ybot: float) -> tuple[floa
 
 def detail_side_ok(side: str, fa: float, fb: float) -> bool:
     """뷰 폭 비율 [fa, fb] 의 열을 그 자리의 인셋이 가리지 않는가(margin 은 비율로 근사하지 않고 w_ratio 만 — 보수적으로 여유를 둔다)."""
-    CD = load_rules().island.column_detail  # noqa: N806
+    CD = _column_detail_rules()  # noqa: N806
     lo, hi = (0.0, CD.w_ratio + CD.side_slack) if side == "left" else (1 - CD.w_ratio - CD.side_slack, 1.0)
     return fb <= lo or fa >= hi
 
@@ -1185,7 +1191,7 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
     """열 확대 인셋(v7.4.0 D-0318·D-0319 ④) — 차트 아일랜드 안 한 분기 열(accent 띠)을 리더선으로 가리키는 둥근 사각.
     같은 레코드·같은 값을 크게(글자 ≥ 12px·점 ≥ 5px). 자리 = prepare_series 가 정한 detail_side(예측 — 생애 내내 열을 가리지 않는 첫 자리).
     등장: 열 쪽에서 미끄러지며 페이드(fade·slide_px), 값은 grow_sec 동안 자란다. 범례 없음(직접 라벨)."""
-    CD = load_rules().island.column_detail  # noqa: N806
+    CD = _column_detail_rules()  # noqa: N806
     B = TIMELINE.bars  # noqa: N806
     ink = bar_ink()
     col = C[e.get("col", "gold")]

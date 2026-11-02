@@ -1,8 +1,9 @@
 """프레임 렌더 CLI (v2.1.0, render3 `render_frame, __main__`, 16 §4).
 
     python -m engine.render <proj> --preview auto|golden|t1,t2,…   → prev/p_TTTT.TT.png, sheet.jpg, provenance.json
-    python -m engine.render <proj> --jobs N                → out/video_noaudio.mp4 (N 조각 병렬 → concat)
-    python -m engine.render <proj> --chunk START END OUT   → (내부용) 프레임 구간 한 조각
+    python -m engine.render <proj> --jobs N                → out/video_noaudio.mp4 (고정 격자 조각을 작업자 N 이 나눠 그림 → concat)
+    --no-cache                    → 조각 캐시(out/chunks/) 없이 전부 다시 그림(v7.4.0 D-1000 S2)
+    python -m engine.render <proj> --chunk-queue PLAN W   → (내부용) 조각 큐 작업자
     --res 480p|1080p|trial|final  → 출력 프로파일(v3.6.0, config engine.output). 기본 프로파일이 아니면 프리뷰는 prev_<이름>/
 
 레이어 순서는 v3 와 같다(02 §1): 무대 배경(베이스 → 국경, engine.stage) → 지도 레이어(MAP_LAYER_ORDER) → 라벨 → 하부 암전 → 패널
@@ -34,9 +35,15 @@ from engine.style import BACKDROP, FADE, FONT, FPS, PANEL, output_profile
 from engine.subtitles import draw_subtitle
 from rules import load_rules
 from engine.timebase import smooth, window
+from engine.timing import stage_timer
 from schemas.engine_models import StageResult
 
 REPO = Path(__file__).resolve().parent.parent
+
+
+def run_kind(P: Project) -> str:  # noqa: N803
+    """단계 시간 기록의 이름 칸(D-1000 S0) — animatic · catalog · final(전편, 프로파일은 args.res)."""
+    return "animatic" if getattr(P, "animatic", False) else "catalog" if getattr(P, "catalog", False) else "final"
 
 
 def log(msg: str) -> None:
@@ -243,44 +250,50 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
     from engine.fullcards import EndCardOverflowError  # noqa: PLC0415
 
     kept: list[tuple[float, str]] = []
-    for tt, lab in zip(times, labels or [f"t={t:.2f}" for t in times]):
-        typography.GLYPH_LOG, typography.GLYPH_MISS, typography.DISP_LATIN = [], [], []
-        typography.CONTRAST_LOG = [] if P.R.cache.get("map_theme") is not None else None   # v5.18.0 D-0161 §4 — 지도 무대만
-        try:
-            s, _ = render_frame(P, min(P.n_frames - 1, int(tt * FPS)))
-        except EndCardOverflowError as e:
-            # 엔딩 카드 크레딧 넘침(D-0098) — 이 컷은 그리지 않고 checks offscreen [endcard-overflow] hard 로 연출 루프에 돌려준다.
-            # 전편 렌더(render_chunk)는 같은 오류로 멈춘다(조용한 넘침 금지, 15 P6)
-            log(f"preview {lab}: {e}")
-            continue
-        finally:
-            glog, typography.GLYPH_LOG = typography.GLYPH_LOG, None
-            gmiss, typography.GLYPH_MISS = typography.GLYPH_MISS, None
-            dlat, typography.DISP_LATIN = typography.DISP_LATIN, None
-            clog, typography.CONTRAST_LOG = typography.CONTRAST_LOG, None
-        drawn += [(lab, size, role, txt) for size, role, txt in glog]
-        if clog:   # v5.18.0 D-0161 §4 — 이 컷의 실제 프레임에서 지도 위 글자·선 대비
-            from engine.checks import measure_contrast  # noqa: PLC0415
+    from engine.timing import now_utc, summarize  # noqa: PLC0415
 
-            P.R.cache.setdefault("map_contrast", []).extend((lab, m) for m in measure_contrast(P.R.cache.pop("map_snapshot"), clog))
-        miss += [(lab, name, ch, txt) for name, ch, txt in gmiss]
-        P.R.cache.setdefault("disp_latin", []).extend((lab, x) for x in dlat or [])   # v7.4.0 D-0229 §2.4 — checks unit_glyph_font
-        p = out / f"p_{tt:07.2f}.png"
-        s.write_to_png(str(p))
-        paths.append(str(p))
-        kept.append((tt, lab))
+    since = now_utc()
+    with stage_timer(P.root, "render.preview.frames", res=P.R.out.name, n=len(times)):
+        for tt, lab in zip(times, labels or [f"t={t:.2f}" for t in times]):
+            typography.GLYPH_LOG, typography.GLYPH_MISS, typography.DISP_LATIN = [], [], []
+            typography.CONTRAST_LOG = [] if P.R.cache.get("map_theme") is not None else None   # v5.18.0 D-0161 §4 — 지도 무대만
+            try:
+                s, _ = render_frame(P, min(P.n_frames - 1, int(tt * FPS)))
+            except EndCardOverflowError as e:
+                # 엔딩 카드 크레딧 넘침(D-0098) — 이 컷은 그리지 않고 checks offscreen [endcard-overflow] hard 로 연출 루프에 돌려준다.
+                # 전편 렌더(render_chunk)는 같은 오류로 멈춘다(조용한 넘침 금지, 15 P6)
+                log(f"preview {lab}: {e}")
+                continue
+            finally:
+                glog, typography.GLYPH_LOG = typography.GLYPH_LOG, None
+                gmiss, typography.GLYPH_MISS = typography.GLYPH_MISS, None
+                dlat, typography.DISP_LATIN = typography.DISP_LATIN, None
+                clog, typography.CONTRAST_LOG = typography.CONTRAST_LOG, None
+            drawn += [(lab, size, role, txt) for size, role, txt in glog]
+            if clog:   # v5.18.0 D-0161 §4 — 이 컷의 실제 프레임에서 지도 위 글자·선 대비
+                from engine.checks import measure_contrast  # noqa: PLC0415
+
+                P.R.cache.setdefault("map_contrast", []).extend((lab, m) for m in measure_contrast(P.R.cache.pop("map_snapshot"), clog))
+            miss += [(lab, name, ch, txt) for name, ch, txt in gmiss]
+            P.R.cache.setdefault("disp_latin", []).extend((lab, x) for x in dlat or [])   # v7.4.0 D-0229 §2.4 — checks unit_glyph_font
+            p = out / f"p_{tt:07.2f}.png"
+            s.write_to_png(str(p))
+            paths.append(str(p))
+            kept.append((tt, lab))
     times, names = [t for t, _ in kept], [n for _, n in kept]
-    grid([(Image.open(p), f"{i + 1:02d} {n}" + ("" if n.startswith("t=") else f"  t={t:.2f}"))
-          for i, (p, n, t) in enumerate(zip(paths, names, times))],
-         COLS, out / "sheet.jpg")
+    with stage_timer(P.root, "render.preview.sheet", n=len(paths)):
+        grid([(Image.open(p), f"{i + 1:02d} {n}" + ("" if n.startswith("t=") else f"  t={t:.2f}"))
+              for i, (p, n, t) in enumerate(zip(paths, names, times))],
+             COLS, out / "sheet.jpg")
     prov = project_provenance(P, PREVIEW_STAGES)
     from engine.provenance import direction_sha1  # noqa: PLC0415
 
     prov["preview"] = {"frames": len(paths), "times": [round(t, 3) for t in times], "dir": out.name,
                        "direction_sha1": direction_sha1(P.root)}   # v5.22.5 D208 — mux 가 전편 연출과 대조
-    miss += glyph_sweep(P)   # v7.4.0 D-0250(UF-131) — 프리뷰 표본 밖 문자열도 실제 그리는 글꼴 기준
-    P.R.cache["glyph_miss"] = miss
-    checks = run_checks(P, times, prov, drawn, names)   # 17 §3 결정적 사전 검사(D-0047 작업 6)
+    with stage_timer(P.root, "render.preview.checks", res=P.R.out.name):
+        miss += glyph_sweep(P)   # v7.4.0 D-0250(UF-131) — 프리뷰 표본 밖 문자열도 실제 그리는 글꼴 기준
+        P.R.cache["glyph_miss"] = miss
+        checks = run_checks(P, times, prov, drawn, names)   # 17 §3 결정적 사전 검사(D-0047 작업 6)
     from engine.checks import contrast_summary  # noqa: PLC0415
 
     cs = contrast_summary(P)
@@ -290,6 +303,9 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
     from engine.provenance import feedback_guards  # noqa: PLC0415
 
     prov["user_feedback_guards"] = feedback_guards(checks)   # v5.22.0 D-0200 — 돈 사용자 의견 장치와 결과(P5)
+    tsum = summarize(P.root, since)
+    if tsum is not None:   # D-1000 S0 — 이번 실행의 단계별 시간(돈 단계만, P5)
+        prov["timings"] = tsum
     (out / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
     (out / "checks.json").write_text(json.dumps(checks, ensure_ascii=False, indent=1), encoding="utf-8")
     (out / "frames.json").write_text(json.dumps(frames_info(P, times, names), ensure_ascii=False, indent=1), encoding="utf-8")
@@ -323,18 +339,32 @@ def sample_drawn(P: Project, times: list[float], labels: list[str]) -> list[tupl
     return drawn
 
 
-def render_chunk(P: Project, st: int, en: int, out: Path) -> None:  # noqa: N803
+def encoder_args(P: Project) -> list[str]:  # noqa: N803
+    """조각 인코더 인자(x264) — 조각 캐시 전역 키에 들어간다(D-1000 S2)."""
     OP = P.R.out  # noqa: N806
     preset = load_rules().animatic.preset if P.animatic else load_rules().catalog.preset if P.catalog else OP.preset   # 콘티·카탈로그 판 인코딩만
+    return ["-c:v", "libx264", "-preset", preset, "-crf", str(OP.crf), "-pix_fmt", "yuv420p", "-g", "48"]
+
+
+def render_chunk(P: Project, st: int, en: int, out: Path, probe: list[int] | None = None) -> str | None:  # noqa: N803
+    """프레임 [st, en) → out(mp4) + 대비 보정 기록(+ 카탈로그 표본). probe = 조각 캐시 탐침 프레임(D-1000 S2) — 그리는 김에 그 프레임 바이트로
+    서명(sha1)을 떠서 돌려준다(추가 렌더 없음)."""
+    OP = P.R.out  # noqa: N806
+    from engine import typography as _tyc  # noqa: PLC0415
+
+    _tyc.CONTRAST_FIXED.clear()   # 조각마다 자기 기록만(작업자 하나가 여러 조각을 그린다 — 캐시된 기록에 다른 조각 값이 섞이지 않게)
     ff = subprocess.Popen(["ffmpeg", "-y", "-v", "error", "-f", "rawvideo", "-pix_fmt", "bgr0", "-s", f"{OP.width}x{OP.height}",
-                           "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", preset, "-crf", str(OP.crf),
-                           "-pix_fmt", "yuv420p", "-g", "48", str(out)], stdin=subprocess.PIPE)
+                           "-r", str(FPS), "-i", "-", *encoder_args(P), str(out)], stdin=subprocess.PIPE)
     assert ff.stdin is not None
     t0 = time.time()
     every = round(load_rules().catalog.sample_every_sec * FPS)
     rows: list[dict] = []
+    want = set(probe or ())
+    sig = hashlib.sha1()
     for i in range(st, en):
         _, b = render_frame(P, i)
+        if i in want:
+            sig.update(hashlib.sha1(b).digest())
         if P.catalog and i % every == 0:   # v7.4.0 D-0251 — 요소 표 표본(라벨과 같은 값)
             rows.append(P.R.cache["catalog"]["last"])
         ff.stdin.write(b)
@@ -343,10 +373,10 @@ def render_chunk(P: Project, st: int, en: int, out: Path) -> None:  # noqa: N803
     ff.stdin.close()
     if ff.wait() != 0:
         raise RuntimeError(f"ffmpeg 실패: {out}")
-    from engine import typography as _tyc  # noqa: PLC0415 — v5.21.4 D-0190 §3-1: 이 청크의 국소 대비 보정(이름 → 보정 전 최저 대비)
     contrast_fix_path(out).write_text(json.dumps(_tyc.CONTRAST_FIXED, ensure_ascii=False), encoding="utf-8")
     if P.catalog:
         out.with_suffix(".catalog.json").write_text(json.dumps(rows, ensure_ascii=False), encoding="utf-8")
+    return sig.hexdigest() if probe is not None else None
 
 
 def contrast_fix_path(part: Path) -> Path:
@@ -363,12 +393,6 @@ def merge_contrast_fix(parts: list[Path]) -> dict[str, float]:
         for k, v in json.loads(f.read_text(encoding="utf-8")).items():
             out[k] = min(v, out.get(k, v))
     return dict(sorted(out.items()))
-
-
-def chunk_ranges(n_frames: int, jobs: int) -> list[tuple[int, int]]:
-    jobs = max(1, min(jobs, n_frames))
-    step = -(-n_frames // jobs)
-    return [(s, min(n_frames, s + step)) for s in range(0, n_frames, step)]
 
 
 def mem_available_mb() -> int | None:
@@ -403,44 +427,79 @@ def plan_jobs(requested: int | None, out: "object", cpu: int | None = None, mem_
     return j, why
 
 
-def render_full(P: Project, jobs: int) -> Path:  # noqa: N803
+def render_full(P: Project, jobs: int, no_cache: bool = False) -> Path:  # noqa: N803
     """전편 → out/video_noaudio.mp4 + render.json. 콘티 판(P.animatic) → out/animatic_noaudio.mp4 + animatic_render.json
-    (조각·목록 이름도 animatic_ 접두 — 전편 산출물을 덮지 않는다, D-0108). 콘티 판 mp4 에는 표식 메타데이터(rules animatic.mp4_comment)."""
+    (목록 이름도 animatic_ 접두 — 전편 산출물을 덮지 않는다, D-0108). 콘티 판 mp4 에는 표식 메타데이터(rules animatic.mp4_comment).
+    v7.4.0 D-1000 S2 — 조각 = 고정 격자(config engine.render.chunk_sec), jobs = 작업자 수. 키가 같은 조각은 out/chunks/<판>/ 에서
+    재사용(no_cache = 전부 다시 그림). render.json chunks[] 에 조각마다 reused|rendered·시간."""
+    import shutil  # noqa: PLC0415
+
+    from engine import chunk_cache as cc  # noqa: PLC0415
+
     outdir = P.root / "out"
     outdir.mkdir(exist_ok=True)
     pre = "animatic_" if P.animatic else "catalog_" if P.catalog else ""
     flag = ["--animatic"] if P.animatic else ["--catalog"] if P.catalog else ["--res", P.R.out.name]
-    parts, procs = [], []
+    kind = run_kind(P)
     t0 = time.time()
-    for k, (s, e) in enumerate(chunk_ranges(P.n_frames, jobs)):
-        part = outdir / f"{pre}part{k:02d}.mp4"
-        parts.append(part)
-        logf = open(outdir / f"{pre}part{k:02d}.log", "w", encoding="utf-8")
-        procs.append((subprocess.Popen([sys.executable, "-m", "engine.render", str(P.root), *flag,
-                                        "--chunk", str(s), str(e), str(part)],
-                                       cwd=REPO, stdout=logf, stderr=subprocess.STDOUT), logf))
-    fails = []
-    for k, (p, logf) in enumerate(procs):
-        if p.wait() != 0:
-            fails.append(k)
-        logf.close()
-    if fails:
-        raise RuntimeError(f"렌더 조각 실패: {fails} (out/{pre}partNN.log)")
+    cdir = outdir / "chunks" / (kind if kind != "final" else f"final_{P.R.out.name}")
+    qdir = outdir / f"{pre}queue"
+    shutil.rmtree(qdir, ignore_errors=True)
+    qdir.mkdir(parents=True)
+    cdir.mkdir(parents=True, exist_ok=True)
+    grid = cc.grid_ranges(P.n_frames, cc.chunk_frames(FPS))
+    workers = max(1, min(jobs, len(grid)))
+    with stage_timer(P.root, f"render.{kind}.frames", res=P.R.out.name, jobs=workers, frames=P.n_frames, chunks=len(grid),
+                     no_cache=no_cache) as tm:
+        plan = {"qdir": str(qdir), "cdir": str(cdir), "workers": workers, "no_cache": no_cache,
+                "gkey": cc.global_key(P, kind, encoder_args(P)),
+                "sidecars": [".contrast_fix.json", *([".catalog.json"] if P.catalog else [])],
+                "chunks": [{"idx": k, "s": s, "e": e} for k, (s, e) in enumerate(grid)]}
+        plan_path = qdir / "plan.json"
+        plan_path.write_text(json.dumps(plan), encoding="utf-8")
+        procs = []
+        for w in range(workers):
+            logf = open(outdir / f"{pre}worker{w:02d}.log", "w", encoding="utf-8")
+            procs.append((subprocess.Popen([sys.executable, "-m", "engine.render", str(P.root), *flag,
+                                            "--chunk-queue", str(plan_path), str(w)],
+                                           cwd=REPO, stdout=logf, stderr=subprocess.STDOUT), logf))
+        fails = []
+        for w, (p, logf) in enumerate(procs):
+            if p.wait() != 0:
+                fails.append(w)
+            logf.close()
+        if fails:
+            raise RuntimeError(f"렌더 작업자 실패: {fails} (out/{pre}workerNN.log)")
+        done = []
+        for k in range(len(grid)):
+            f = qdir / f"{k:04d}.json"
+            if not f.exists():   # 조용히 빠진 조각 없이(P6)
+                raise RuntimeError(f"렌더 조각 {k} 결과 없음 ({qdir})")
+            done.append(json.loads(f.read_text(encoding="utf-8")))
+        tm["reused"] = sum(d["status"] == "reused" for d in done)
+        tm["probe_sec"] = round(sum(d["probe_sec"] for d in done), 3)
+    parts = [Path(d["path"]) for d in done]
     lst = outdir / f"{pre}parts.txt"
     lst.write_text("".join(f"file '{p}'\n" for p in parts), encoding="utf-8")
     final = outdir / f"{pre or 'video_'}noaudio.mp4"
     tag = load_rules().animatic.mp4_comment if P.animatic else load_rules().catalog.mp4_comment if P.catalog else None
     meta = ["-metadata", f"comment={tag}"] if tag else []
-    subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", *meta, str(final)],
-                   check=True)
-    log(f"render: {P.n_frames} frames, {len(parts)} chunks, {time.time() - t0:.0f}s")
+    with stage_timer(P.root, f"render.{kind}.encode", step="concat", parts=len(parts)):
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", *meta, str(final)],
+                       check=True)
+    n_reused = sum(d["status"] == "reused" for d in done)
+    log(f"render: {P.n_frames} frames, {len(parts)} chunks (reused {n_reused}), {workers} workers, {time.time() - t0:.0f}s")
     # mux 가 provenance render.resolution 에 옮겨 적는다(영상을 만든 프로파일 = 이 파일, 15 P5)
     import resource  # noqa: PLC0415
 
-    peak = resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss // 1024   # 가장 큰 청크 프로세스(또는 그 ffmpeg) 피크, MB
-    (outdir / f"{pre}render.json").write_text(json.dumps({"schema_version": 1, "resolution": P.R.out.record(), "jobs": len(parts),
+    peak = resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss // 1024   # 가장 큰 작업자 프로세스(또는 그 ffmpeg) 피크, MB
+    (outdir / f"{pre}render.json").write_text(json.dumps({"schema_version": 1, "resolution": P.R.out.record(), "jobs": workers,
                                                     "frames": P.n_frames, "sec": round(time.time() - t0, 1),
                                                     "peak_child_rss_mb": peak,
+                                                    "chunk_sec": cc.render_cfg().chunk_sec, "no_cache": no_cache,
+                                                    "chunks": [{k: d[k] for k in ("idx", "s", "e", "status", "key", "sec", "probe_sec",
+                                                                                  "probe_frames", "worker", "path")} for d in done],
+                                                    "reused": n_reused, "rendered": len(done) - n_reused,
                                                     "map_contrast_fix": {k: round(v, 2) for k, v in merge_contrast_fix(parts).items()}},
                                                    ensure_ascii=False, indent=1), encoding="utf-8")
     return final
@@ -450,7 +509,7 @@ ANIMATIC_STAGES = {"plan": True, "geo": False, "preview": False, "render": False
                    "ai_direction": False, "visual_qa": False}   # 콘티 판 — 전편 render·deliver 는 돌지 않았다(render.json 을 읽지 않게, P5)
 
 
-def render_animatic(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
+def render_animatic(P: Project, jobs: int, no_cache: bool = False) -> tuple[Path, dict]:  # noqa: N803
     """콘티 판(v4.9.0 back_and_forth D-0108) → out/animatic.mp4 + animatic_checks.json + animatic_provenance.json.
     ① 음성·음악 = 기존 out/mix.f32 그대로(없으면 오류 — audio.mix 먼저) ② checks 콘티 프로파일(hard 면 렌더 전 실패, 프리뷰와 같은 게이트)
     ③ 조각 렌더(자리표시·막지도, 480p·fps 24) ④ 2패스 loudnorm + AAC → animatic.mp4(표식 메타데이터) ⑤ provenance animatic: true."""
@@ -465,22 +524,27 @@ def render_animatic(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
         raise ProjectError(f"out/mix.f32 없음 — 콘티 판도 음성·음악은 그대로 입힌다: `python -m audio.mix {P.root}` 먼저")
     outd.mkdir(exist_ok=True)
     t0 = time.time()
+    from engine.timing import now_utc, summarize  # noqa: PLC0415
+
+    since = now_utc()
     prov = project_provenance(P, ANIMATIC_STAGES)
     times = auto_preview_times(P)
-    P.R.cache["glyph_miss"] = glyph_sweep(P)   # v7.4.0 D-0250(UF-131) — 콘티 판도 같은 글리프 대조(C12 §3)
-    checks = run_checks(P, times, prov, [], [f"t={t:.2f}" for t in times])
+    with stage_timer(P.root, "render.animatic.checks", res=P.R.out.name):
+        P.R.cache["glyph_miss"] = glyph_sweep(P)   # v7.4.0 D-0250(UF-131) — 콘티 판도 같은 글리프 대조(C12 §3)
+        checks = run_checks(P, times, prov, [], [f"t={t:.2f}" for t in times])
     (outd / "animatic_checks.json").write_text(json.dumps(checks, ensure_ascii=False, indent=1), encoding="utf-8")
     if not checks["passed"]:
         errs = [f"checks hard {i['id']}: {d}" for i in checks["items"] if i["severity"] == "hard" for d in i["details"]]
         raise ProjectError("콘티 판 checks hard 실패(렌더 전):\n" + "\n".join(errs[:50]))
-    video = render_full(P, jobs)
+    video = render_full(P, jobs, no_cache)
     t1 = time.time()
     final = outd / AN.output
-    af, loud = loudnorm_two_pass(mix, P.plan.total)
-    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(video), *mix_inputs(mix, P.plan.total),
-                    "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", af, "-ar", str(SR), "-c:a", "aac", "-b:a", AAC_BITRATE,
-                    "-t", f"{P.plan.total:.3f}", "-movflags", "+faststart", "-metadata", f"comment={AN.mp4_comment}", str(final)],
-                   check=True)
+    with stage_timer(P.root, "render.animatic.encode", step="loudnorm_mux"):
+        af, loud = loudnorm_two_pass(mix, P.plan.total)
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(video), *mix_inputs(mix, P.plan.total),
+                        "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", af, "-ar", str(SR), "-c:a", "aac", "-b:a", AAC_BITRATE,
+                        "-t", f"{P.plan.total:.3f}", "-movflags", "+faststart", "-metadata", f"comment={AN.mp4_comment}", str(final)],
+                       check=True)
     rj = json.loads((outd / "animatic_render.json").read_text(encoding="utf-8"))
     kinds: dict[str, int] = {}
     from engine.layers.animatic import PLACEHOLDERS  # noqa: PLC0415
@@ -506,6 +570,9 @@ def render_animatic(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
     from engine.provenance import feedback_guards  # noqa: PLC0415
 
     prov["user_feedback_guards"] = feedback_guards(checks)   # v5.22.0 D-0200
+    tsum = summarize(P.root, since)
+    if tsum is not None:   # D-1000 S0 — 이번 실행의 단계별 시간(P5)
+        prov["timings"] = tsum
     (outd / "animatic_provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
     return final, prov
 
@@ -514,7 +581,7 @@ CATALOG_STAGES = {"plan": True, "geo": True, "preview": False, "render": False, 
                   "ai_direction": False, "visual_qa": False}   # 카탈로그 판 — 전편 render·deliver 는 돌지 않았다(P5)
 
 
-def render_catalog(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
+def render_catalog(P: Project, jobs: int, no_cache: bool = False) -> tuple[Path, dict]:  # noqa: N803
     """카탈로그 판(v7.4.0 back_and_forth D-0251 §1.1) → out/catalog.mp4 + catalog_checks.json + catalog_provenance.json + catalog_frames.json.
     전편과 같은 checks(+ [catalog-label-overlap]) → 조각 렌더(라벨 층) → 기존 out/mix.f32 2패스 loudnorm → 표식 메타데이터.
     catalog_frames.json = 표본 시각마다 라벨과 같은 값(요소·글꼴) — tools/catalog_table.py 가 요소 표(md)를 만든다(손으로 쓰지 않는다, P12)."""
@@ -528,28 +595,33 @@ def render_catalog(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
     if not mix.exists():
         raise ProjectError(f"out/mix.f32 없음 — 카탈로그 판도 음성·음악을 입힌다: `python -m audio.mix {P.root}` 먼저")
     t0 = time.time()
+    from engine.timing import now_utc, summarize  # noqa: PLC0415
+
+    since = now_utc()
     prov = project_provenance(P, CATALOG_STAGES)
     times = auto_preview_times(P)
-    P.R.cache["glyph_miss"] = glyph_sweep(P)
     labels = [f"t={t:.2f}" for t in times]
-    checks = run_checks(P, times, prov, sample_drawn(P, times, labels), labels)   # 전편 검사 = 컷에 그린 글자로(출처 줄·글자 크기)
+    with stage_timer(P.root, "render.catalog.checks", res=P.R.out.name):
+        P.R.cache["glyph_miss"] = glyph_sweep(P)
+        checks = run_checks(P, times, prov, sample_drawn(P, times, labels), labels)   # 전편 검사 = 컷에 그린 글자로(출처 줄·글자 크기)
     (outd / "catalog_checks.json").write_text(json.dumps(checks, ensure_ascii=False, indent=1), encoding="utf-8")
     if not checks["passed"]:
         errs = [f"checks hard {i['id']}: {d}" for i in checks["items"] if i["severity"] == "hard" for d in i["details"]]
         raise ProjectError("카탈로그 판 checks hard 실패(렌더 전):\n" + "\n".join(errs[:50]))
-    video = render_full(P, jobs)
-    rows = [r for k in range(len(chunk_ranges(P.n_frames, jobs)))
-            for r in json.loads((outd / f"catalog_part{k:02d}.catalog.json").read_text(encoding="utf-8"))]
+    video = render_full(P, jobs, no_cache)
+    chunks = json.loads((outd / "catalog_render.json").read_text(encoding="utf-8"))["chunks"]   # 조각 순서(D-1000 S2 고정 격자·캐시)
+    rows = [r for c in chunks for r in json.loads(Path(c["path"]).with_suffix(".catalog.json").read_text(encoding="utf-8"))]
     (outd / "catalog_frames.json").write_text(json.dumps({"schema_version": 1, "sample_every_sec": CT.sample_every_sec,
                                                           "frames": [{**r, "t": round(r["t"], 3)} for r in rows]},
                                                          ensure_ascii=False, indent=1), encoding="utf-8")
     t1 = time.time()
     final = outd / CT.output
-    af, loud = loudnorm_two_pass(mix, P.plan.total)
-    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(video), *mix_inputs(mix, P.plan.total),
-                    "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", af, "-ar", str(SR), "-c:a", "aac", "-b:a", AAC_BITRATE,
-                    "-t", f"{P.plan.total:.3f}", "-movflags", "+faststart", "-metadata", f"comment={CT.mp4_comment}", str(final)],
-                   check=True)
+    with stage_timer(P.root, "render.catalog.encode", step="loudnorm_mux"):
+        af, loud = loudnorm_two_pass(mix, P.plan.total)
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(video), *mix_inputs(mix, P.plan.total),
+                        "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", af, "-ar", str(SR), "-c:a", "aac", "-b:a", AAC_BITRATE,
+                        "-t", f"{P.plan.total:.3f}", "-movflags", "+faststart", "-metadata", f"comment={CT.mp4_comment}", str(final)],
+                       check=True)
     rj = json.loads((outd / "catalog_render.json").read_text(encoding="utf-8"))
     used_el = sorted({x for r in rows for x in r["elements"]})
     used_fn = sorted({x for r in rows for x in r["fonts"]}, key=list(CT.label.font_keys).index)
@@ -565,6 +637,9 @@ def render_catalog(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
     from engine.provenance import feedback_guards  # noqa: PLC0415
 
     prov["user_feedback_guards"] = feedback_guards(checks)
+    tsum = summarize(P.root, since)
+    if tsum is not None:   # D-1000 S0
+        prov["timings"] = tsum
     (outd / "catalog_provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
     return final, prov
 
@@ -574,7 +649,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("proj", type=Path)
     ap.add_argument("--preview", help="auto · golden(골든 25 앵커) · 쉼표로 구분한 초")
     ap.add_argument("--jobs", type=int, default=None)
-    ap.add_argument("--chunk", nargs=3, metavar=("START", "END", "OUT"))
+    ap.add_argument("--chunk-queue", nargs=2, metavar=("PLAN", "WORKER"), help="(내부용) 조각 큐 작업자(D-1000 S2)")
+    ap.add_argument("--no-cache", action="store_true", help="조각 캐시를 쓰지 않고 전부 다시 그린다(D-1000 S2)")
     ap.add_argument("--res", default=None, help="출력 프로파일(config engine.output.profiles 이름 또는 trial·final)")
     ap.add_argument("--animatic", action="store_true",
                     help="콘티 판(v4.9.0 D-0108) → out/animatic.mp4 — 막지도·자리표시·표식 띠, 480p 고정. --preview 와 함께면 prev_animatic/")
@@ -590,8 +666,10 @@ def main(argv: list[str] | None = None) -> int:
             res = "trial"   # v5.5.1 — 골든 기준선(md5)은 트라이얼 프로파일로 찍혔다. 기본 해상도(720p)가 바뀌어도 골든 비교는 그대로
         P = load_project(args.proj, out=None if args.animatic or args.catalog else output_profile(res), animatic=args.animatic,  # noqa: N806
                          catalog=args.catalog)
-        if args.chunk:
-            render_chunk(P, int(args.chunk[0]), int(args.chunk[1]), Path(args.chunk[2]))
+        if args.chunk_queue:
+            from engine.chunk_cache import run_worker  # noqa: PLC0415
+
+            run_worker(P, Path(args.chunk_queue[0]), int(args.chunk_queue[1]))
             return 0
         if args.preview:
             lt = preview_times(P, args.preview)
@@ -610,20 +688,20 @@ def main(argv: list[str] | None = None) -> int:
         elif args.catalog:
             jobs, why = plan_jobs(args.jobs, P.R.out, clip_mb=clip_mem_mb(P))
             log(f"jobs {jobs} ({why}) catalog")
-            final, _ = render_catalog(P, jobs)
+            final, _ = render_catalog(P, jobs, args.no_cache)
             outd = P.root / "out"
             arts = {"catalog": str(final), "provenance": str(outd / "catalog_provenance.json"), "checks": str(outd / "catalog_checks.json"),
                     "frames": str(outd / "catalog_frames.json")}
         elif args.animatic:
             jobs, why = plan_jobs(args.jobs, P.R.out, clip_mb=clip_mem_mb(P))
             log(f"jobs {jobs} ({why}) animatic")
-            final, _ = render_animatic(P, jobs)
+            final, _ = render_animatic(P, jobs, args.no_cache)
             outd = P.root / "out"
             arts = {"animatic": str(final), "provenance": str(outd / "animatic_provenance.json"), "checks": str(outd / "animatic_checks.json")}
         else:
             jobs, why = plan_jobs(args.jobs, P.R.out, clip_mb=clip_mem_mb(P))
             log(f"jobs {jobs} ({why})")
-            arts = {"video_noaudio": str(render_full(P, jobs))}
+            arts = {"video_noaudio": str(render_full(P, jobs, args.no_cache))}
         res = StageResult(ok=True, stage=stage, artifacts=arts, warnings=P.warnings)
     except (ProjectError, RegistryError, RuntimeError, OSError, ValueError) as ex:
         res = StageResult(ok=False, stage=stage, errors=[str(ex)])

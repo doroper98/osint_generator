@@ -77,6 +77,7 @@ def _rules_placeholders(rules: VideoRules) -> dict[str, str]:
         "{{RULES.placement_slots}}": _bullets([
             f"{name} — {', '.join(s.kinds)} ({_slot_form(s)}){_slot_stages(s)}" for name, s in rules.placement.slots.items()]),
         "{{RULES.corner_elements}}": ", ".join(rules.hud.allowed_corner_elements),
+        "{{RULES.geo.director_coords}}": _bullets(rules.geo.director_coords),   # v7.4.0 D-1000 S5 — 좌표는 사전 이름·좌표만(저장 전 점검과 같은 규칙)
         "{{RULES.verification.quote_max_chars}}": str(rules.verification.quote_max_chars),
         "{{RULES.script_labels}}": ", ".join(v for v in rules.script_schema.labels.values() if v),   # v4.4.0 D-0093
         "{{RULES.media.density}}": _media_density(rules),   # v5.19.0 D-0163 §2 — 미디어 비트·기사 카드 밀도(검사 [media-density-*]·[article-unused] 와 같은 값)

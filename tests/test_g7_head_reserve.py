@@ -45,8 +45,9 @@ class HeadReserveTest(unittest.TestCase):
         ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
         e = dict(type="badge", kind="person", pid="p", flag="us", R=34, t0=0, t1=5, label="", head_top=1.08)
         self.assertAlmostEqual(badge_box(ctx, e, 400, 240)[1], 240 - (34 + 7))           # max(1.08R, R + 그림자)
-        with mock.patch.object(badges.BADGE, "head_popout", True):   # v3 동작(머리가 원 위로) — 실측·상한 예약
-            with mock.patch.object(badges.BADGE, "head_reserve", "factor"):
+        bp = badges.BADGE.model_copy(update={"head_popout": True})   # v7.4.0 D-1000 S1 — frozen 규칙은 사본으로
+        with mock.patch.object(badges, "BADGE", bp):   # v3 동작(머리가 원 위로) — 실측·상한 예약
+            with mock.patch.object(badges, "BADGE", bp.model_copy(update={"head_reserve": "factor"})):
                 self.assertAlmostEqual(badge_box(ctx, e, 400, 240)[1], 240 - 34 * B.reserve_top_factor)
             e2 = {k: v for k, v in e.items() if k != "head_top"}
             self.assertAlmostEqual(badge_box(ctx, e2, 400, 240)[1], 240 - 34 * B.reserve_top_factor)   # 초상 실측 없음 = 상한
@@ -59,7 +60,7 @@ class HeadReserveTest(unittest.TestCase):
         self.assertEqual(edge_nudge((-13, 50, 100, 200), 43, 150), (13, 0))
         self.assertEqual(edge_nudge((780, -20, 870, 100), 820, 60), (-16, 20))
         self.assertEqual(edge_nudge((-500, 50, -300, 200), -400, 150), (0, 0))     # 앵커가 화면 밖 = 보정 없음(카메라가 떠남)
-        with mock.patch.object(badges.BADGE, "edge_nudge", False):
+        with mock.patch.object(badges, "BADGE", badges.BADGE.model_copy(update={"edge_nudge": False})):   # v7.4.0 D-1000 S1 — frozen
             self.assertEqual(edge_nudge((-13, 50, 100, 200), 43, 150), (0, 0))
 
     def test_hormuz_edge_recorded(self) -> None:

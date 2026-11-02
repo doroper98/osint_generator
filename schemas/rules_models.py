@@ -13,7 +13,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class _Strict(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", frozen=True)   # v7.4.0 D-1000 S1 — load_rules 캐시가 같은 객체를 나눠 준다(속성 대입 = 오류)
 
 
 Color4 = tuple[float, float, float, float]
@@ -1491,6 +1491,8 @@ class GeoRules(_Strict):
     map_layers_default: list[Literal["roads", "rivers"]]   # v7.4.0 D-0231 — stage_config.mercator.map_layers 기본값
     country_polygons: str = "data/geo_flat/ne_110m_countries.json"   # v7.4.0 D-0241 §2 — 국가 폴리곤 자료(flag_territory·sea_only_frame)
     river_major_scalerank_max: int = Field(ge=0)      # v7.4.0 D-0229 §2.1-2 — NE 강 scalerank 이 값 이하 = 큰 강(geo.prep_geometry.load_rivers)
+    director_coords: list[str] = Field(min_length=1)   # v7.4.0 D-1000 S5 — 연출 프롬프트 좌표 규칙(사전 이름·좌표만)
+    draft_unsourced_error_kinds: list[Literal["place", "marker", "path", "route"]]   # v7.4.0 D-1000 S5 — 연출 저장 전 오류 종류
 
 
 class CreditRules(_Strict):
@@ -1739,6 +1741,19 @@ class MediaOverlapRules(_Strict):
     box_aspect: float = Field(gt=0)
 
 
+class MapEventCoveredRules(_Strict):
+    """v7.4.0 D-1000 S3(UF-173) — 지도 사건이 자라나거나 나타나는 창에서 덮개에 가린 상자 넓이 비율 상한."""
+    max_ratio: float = Field(gt=0, le=1)
+    step_sec: float = Field(gt=0)
+    appear_sec: float = Field(gt=0)        # marker·badge·boom 등장 창(초)
+    boom_radius_px: float = Field(gt=0)    # 타격 링 상자 반지름(설계 px)
+    box_pad_px: float = Field(ge=0)        # 경로 상자 여백(가는 선이 넓이 0 이 되지 않게)
+    event_types: list[str]
+    camera_modes: list[str]
+    cover_types: list[str]
+    camera_cover_types: list[str]          # v7.4.0 D-1002 — 카메라 이동 창에서 세는 덮개(전면만)
+
+
 class RouteMissingRules(_Strict):
     """v5.21.14 D-0195·D-0197 — 문장에 이동·공격 동사 + 그 문장이 부르는 마커가 있으면 그 마커에 닿는 경로가 문장 구간에 있어야 한다."""
 
@@ -1841,6 +1856,7 @@ class QAChecks(_Strict):
     card_full_exposure_min_sec: float = Field(gt=0)   # v5.21.10 D-0191 §1-2 — 기사·인용 카드 완전 불투명 구간 하한(hard card_exposure)
     element_hold: "ElementHoldRules"     # v7.4.0 D-0462(UF-171) — 요소 종류별 완전 노출 하한(hard element_hold)
     media_overlap: "MediaOverlapRules"   # v7.4.0 D-0462(UF-172) — 앞 요소가 하한 전에 덮임(hard media_overlap)
+    map_event_covered: "MapEventCoveredRules"   # v7.4.0 D-1000 S3(UF-173) — hard map_event_covered
     media_sentence_span: "MediaSentenceSpanRules"   # v7.4.0 D-0470(UF-173) — 다른 날짜 문장으로 넘어감(hard)
     map_opening: "MapOpeningRules"                   # v7.4.0 D-0470(UF-173) — 첫 문장 지도 덮개 금지(hard)
     map_cover_share: "MapCoverShareRules"            # v7.4.0 D-0470(UF-173) — 지도 무대 창별 덮임 비율(hard)

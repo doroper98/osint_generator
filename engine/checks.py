@@ -98,6 +98,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | map_cover_share | hard | 지도 무대(패널 없는 시각) window_sec 창 덮임 비율 > max_share(전면·가운데 큰 사진 1, 그 밖 상자 partial_weight, 첫 제목 카드 전 제외) `[map-cover-share]`(v7.4.0 D-0470, UF-173) |
 | credit_garbled | hard | 크레딧 저작자 칸(권리 author·artist, 미디어 credit_author, credits.yaml license)에 URL·Commons 안내문 또는 max_len 초과 `[credit-garbled]`(v7.4.0 D-0470, RIGHTS-AP-002) |
 | badge_covered | hard | 지도 층 배지 계획 구간 중 안 보인 비율(전면 덮개로 늦춰짐·덮개 아래·상자 가림) > rules badge.covered_max_ratio `[badge-covered]`(v7.4.0 D-0329) |
+| map_event_covered | hard | 지도 무대 사건(route grow·marker·badge·boom 등장·카메라 move)이 자라나거나 나타나는 창에서 상자의 rules qa_checks.map_event_covered.max_ratio 넘게 사진·영상·기사·인용에 가림 `[map-event-covered]`(v7.4.0 D-1000 S3, UF-173) |
 | flight_unsourced | hard | flight 에 claim 없음·원고가 인용하지 않은 claim `[flight-unsourced]` — 비행은 출처 있는 특정 타격에만(v7.4.0 D-0316) |
 | scene_visual_void | hard | 요소(rules qa_checks.visual_void_types) 없이 지도·배경만 보이는 구간 ≥ qa_checks.visual_void_max_sec(콜드 오픈·전면 카드·카메라 move 제외) `[scene-visual-void]`(v7.4.0 D-0312, provenance visual_void) |
 | inset_jump | hard | 위성 인셋 원 중심 프레임 간 이동 > rules flight.inset.jump_px_max `[inset-jump]`(v7.4.0 D-0300·UF-146) |
@@ -139,7 +140,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled", "map_event_covered")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -2030,13 +2031,20 @@ def check_map_opening(P) -> list[str]:  # noqa: ANN001, N803
     return map_opening_hits(P.events, first.t1)
 
 
+def cold_open_end(P) -> float:  # noqa: ANN001, N803
+    """콜드 오픈(첫 제목 카드 끝 전) 예외 끝 시각 — rules qa_checks.map_cover_share.exempt_before_title(D-0467 §3)이 켜져 있을 때만, 아니면 0.
+    map_cover_share 와 map_event_covered(D-1001 §1 — 같은 규칙 키를 참조, 값 복사 금지)가 같이 쓴다."""
+    if not QA.map_cover_share.exempt_before_title:
+        return 0.0
+    return min((c.t1 for c in (P.plan.cards or []) if getattr(c, "kind", None) == "title"), default=0.0)
+
+
 def check_map_cover_share(P) -> list[str]:  # noqa: ANN001, N803
     """[map-cover-share] hard(v7.4.0 D-0470, UF-173) — 지도 주 무대만. 첫 제목 카드 끝 전은 콜드 오픈 예외(D-0467 §3)."""
     if not _map_main(P):
         return []
     MC = QA.map_cover_share  # noqa: N806
-    title_end = min((c.t1 for c in (P.plan.cards or []) if getattr(c, "kind", None) == "title"), default=0.0)
-    share, at = map_cover_share_worst(P.events, P.plan.total, title_end)
+    share, at = map_cover_share_worst(P.events, P.plan.total, cold_open_end(P))
     if share <= MC.max_share:
         return []
     return [f"[map-cover-share] 지도 무대 {at:.1f}초부터 {MC.window_sec:g}초 창 덮임 {share:.0%} > {MC.max_share:.0%} — 덮는 요소 사이에 지도만 보이는 틈을 두고,"
@@ -2061,6 +2069,130 @@ def check_credit_garbled(P) -> list[str]:  # noqa: ANN001, N803
             for r in (getattr(it, "rights", None) or [])[:1]:
                 fields.append((f"credits.yaml {r}", str(getattr(it, "license", "") or "").rsplit(" · ", 1)[0]))
     return credit_garbled_hits(fields)
+
+
+# ---------------------------------------------------------------------------------------------------------------
+# v7.4.0 back_and_forth D-1000 S3 — 탈락 유형 hard 검사(UF-171·172·173, D-0462·D-0466 의 일반화). 모든 렌더 경로 같은 규칙 키(C12 §3).
+
+def _vis_span(e: dict) -> tuple[float, float]:
+    """알파 ≥ 0.5 구간(근사) — 완전 노출 구간에서 등장·퇴장 페이드의 절반씩 넓힌다."""
+    a, b = element_full_span(e)
+    return (e["t0"] + a) / 2, (b + e["t1"]) / 2
+
+
+def _cover_boxes(P, t: float, types: "list[str]") -> list[tuple[float, float, float, float]]:  # noqa: ANN001, N803
+    """시각 t 에 알파 ≥ 0.5 로 보이는 불투명 덮개 상자(설계 좌표). 전면(기사·인용) = 화면 전체, 사진·영상 = 미디어 상자(캡션 바 포함)."""
+    from engine.media_plan import media_box  # noqa: PLC0415
+    from engine.reserved import FULL_COVER_TYPES  # noqa: PLC0415
+
+    assets = P.R.assets.media_assets
+    out = []
+    for c in P.events:
+        if c["type"] not in types or not c["t0"] <= t <= c["t1"]:
+            continue
+        a, b = _vis_span(c)
+        if not a <= t <= b:
+            continue
+        if c["type"] in FULL_COVER_TYPES:
+            out.append((0.0, 0.0, float(W_OUT), float(H_OUT)))
+        elif c["type"] in ("photo", "clip") and "x" in c and c.get("mid") in assets:
+            out.append(tuple(float(v) for v in media_box(c, assets)))
+    return out
+
+
+def _covered_ratio(box: tuple, covers: list[tuple]) -> float:
+    """상자 중 덮개 합집합에 가린 넓이 비율."""
+    from shapely.geometry import box as sbox  # noqa: PLC0415
+    from shapely.ops import unary_union  # noqa: PLC0415
+
+    b = sbox(*box)
+    if b.area <= 0 or not covers:
+        return 0.0
+    return b.intersection(unary_union([sbox(*c) for c in covers])).area / b.area
+
+
+def map_event_windows(P) -> list[tuple[str, str, float, float, "Callable[[float], tuple | None]"]]:  # noqa: ANN001, N803
+    """지도 무대의 자라나는·나타나는 사건 — (종류, 이름, 창 시작, 창 끝, t → 화면 상자 또는 None).
+    route = 성장 창(grow), marker·badge·boom = 등장 창(rules qa_checks.map_event_covered.appear_sec), 카메라 이동 = 키 이동 창(화면 전체)."""
+    from engine.layers.routes import DECLARED_SAMPLES, catmull  # noqa: PLC0415
+
+    cfg = QA.map_event_covered
+    if getattr(P.R.stage, "name", None) != "mercator":
+        return []
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    pad = cfg.box_pad_px
+    out: list = []
+
+    def view(t: float) -> View:
+        return View(P.R.stage, P.cams[min(P.n_frames - 1, max(0, int(t * FPS)))])
+
+    for e in P.events:
+        ty = e["type"]
+        if ty not in cfg.event_types:
+            continue
+        if ty == "route" and e.get("world_pts"):
+            grow = float(e.get("grow") or 0.0)
+            end = e["t0"] + (grow if grow > 0.05 else cfg.appear_sec)
+            curve = catmull(e["world_pts"], DECLARED_SAMPLES)
+
+            def rbox(t: float, e=e, curve=curve, grow=grow) -> "tuple | None":  # noqa: ANN001
+                S = view(t).to_screen_arr(curve)  # noqa: N806
+                prog = min(1.0, max(0.0, (t - e["t0"]) / grow)) if grow > 0.05 else 1.0
+                sub = S[:max(2, int(len(S) * prog))]
+                x0, y0 = float(sub[:, 0].min()), float(sub[:, 1].min())
+                x1, y1 = float(sub[:, 0].max()), float(sub[:, 1].max())
+                return (x0 - pad, y0 - pad, x1 + pad, y1 + pad)
+
+            out.append((ty, str(e.get("label") or e.get("col") or "route"), e["t0"], min(e["t1"], end), rbox))
+        elif ty in ("marker", "badge") and not e.get("over_panel") and ("world" in e or ty == "badge"):
+            def pbox(t: float, e=e) -> "tuple | None":  # noqa: ANN001
+                r = place_over(P, ctx, e, t)
+                return None if r is None else tuple(float(v) for v in r[1])
+
+            out.append((ty, str(e.get("label") or ""), e["t0"], min(e["t1"], e["t0"] + cfg.appear_sec), pbox))
+        elif ty == "boom" and "world" in e:
+            def bbox(t: float, e=e) -> "tuple | None":  # noqa: ANN001
+                x, y = view(t).to_screen(*e["world"])
+                return (x - cfg.boom_radius_px, y - cfg.boom_radius_px, x + cfg.boom_radius_px, y + cfg.boom_radius_px)
+
+            out.append((ty, str(e.get("label") or "boom"), e["t0"], min(e["t1"], e["t0"] + cfg.appear_sec), bbox))
+    if "camera" in cfg.event_types:
+        for k in P.keys:
+            if k.mode in cfg.camera_modes and k.dur > 0:
+                out.append(("camera", f"{k.mode} t={k.t:.1f}", k.t, k.t + k.dur, lambda t: (0.0, 0.0, float(W_OUT), float(H_OUT))))
+    return out
+
+
+def map_event_covered(P) -> list[tuple[str, str, float, float, float, float]]:  # noqa: ANN001, N803
+    """(종류, 이름, 창 시작, 창 끝, 최대 가림 비율, 그 시각) — 창 안 step_sec 표본마다 그 사건 상자가 덮개(cover_types, 알파 ≥ 0.5)에 가린 넓이 비율.
+    지도가 다른 이유로 안 보이는 순간(전면 카드·패널·암전, _covered)과 콜드 오픈(cold_open_end, D-1001 §1)은 세지 않는다."""
+    cfg = QA.map_event_covered
+    cold = cold_open_end(P)
+    out = []
+    for ty, name, a, b, boxf in map_event_windows(P):
+        worst, wt = 0.0, a
+        t = a
+        while t <= b + 1e-9:
+            if t >= cold and not _covered(P, t):
+                covers = _cover_boxes(P, t, cfg.camera_cover_types if ty == "camera" else cfg.cover_types)   # D-1002 — 카메라 이동 = 전면 덮개만
+                if covers:
+                    bx = boxf(t)
+                    if bx is not None and -80 <= (bx[0] + bx[2]) / 2 <= W_OUT + 80 and -40 <= (bx[1] + bx[3]) / 2 <= H_OUT + 40:
+                        r = _covered_ratio(bx, covers)
+                        if r > worst:
+                            worst, wt = r, t
+            t += cfg.step_sec
+        out.append((ty, name, a, b, worst, wt))
+    return out
+
+
+def check_map_event_covered(P) -> list[str]:  # noqa: ANN001, N803
+    """[map-event-covered] hard(v7.4.0 D-1000 S3, 사용자 UF-173 "사진을 띄워서 뒤에 지도가 안보이게") — 지도 사건이 자라나거나 나타나는 동안
+    그 상자의 max_ratio 넘게 사진·영상·기사·인용이 덮으면 실패. 덮는 요소를 사건 창 밖으로 옮기거나 뺀다(D-0466 §2 지도가 먼저)."""
+    mx = QA.map_event_covered.max_ratio
+    return [f"[map-event-covered] {ty} {name!r} {a:.1f}~{b:.1f}초 창에서 상자의 {r:.0%} 가 덮개에 가림(t={t:.1f}, > {mx:.0%}) — "
+            "사진·영상·기사·인용을 이 사건 창 밖으로 옮기거나 뺀다(UF-173, D-0466 지도가 먼저)"
+            for ty, name, a, b, r, t in map_event_covered(P) if r > mx + 1e-9]
 
 
 def check_article_backdrop(P) -> list[str]:  # noqa: ANN001, N803
@@ -2591,6 +2723,9 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "map_opening": lambda: waive_regression(P, "map_opening", check_map_opening(P)),                         # v7.4.0 D-0470(hard, UF-173)
         "map_cover_share": lambda: waive_regression(P, "map_cover_share", check_map_cover_share(P)),             # v7.4.0 D-0470(hard, UF-173)
         "credit_garbled": lambda: check_credit_garbled(P),                                                        # v7.4.0 D-0470(hard, RIGHTS-AP-002)
+
+
+        "map_event_covered": lambda: waive_regression(P, "map_event_covered", check_map_event_covered(P)),   # v7.4.0 D-1000 S3(hard, UF-173). 골든 2건 = 회귀 기준 면제
         "label_under_media": lambda: check_label_under_media(P),   # v7.4.0 R-0294 판정(hard)
         "band_line_outside": lambda: check_band_line_outside(P),   # v7.4.0 D-0326(hard, UF-200)
         "photo_subject_background": lambda: check_photo_subject_background(P),   # v7.4.0 D-0327(hard, UF-201)

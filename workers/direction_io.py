@@ -406,6 +406,20 @@ def check_direction(doc: Direction, pdir: Path) -> None:
         raise ValueError(str(ex)) from ex
     if P.keys[0].t != 0 or P.keys[0].mode != "cut":
         raise ValueError("첫 shot 은 at 0, mode cut 이어야 한다")
+    errs = draft_geo_errors(P)
+    if errs:
+        raise ValueError("\n".join(errs))
+
+
+def draft_geo_errors(P) -> list[str]:  # noqa: ANN001, N803 — engine.project.Project
+    """v7.4.0 D-1000 S5 — 연출 초안의 출처 없는 좌표. load_project 가 지명 사전과 대조하지 못한 좌표([geo-unsourced] 와 같은 목록) 중
+    rules geo.draft_unsourced_error_kinds 종류는 저장 전 오류(워커 1회 재요청). 렌더 검사는 warning 그대로(사람이 쓴 연출의 경유점)."""
+    from rules import load_rules  # noqa: PLC0415
+
+    kinds = set(load_rules().geo.draft_unsourced_error_kinds)
+    return [f"[geo-unsourced] {it['kind']} {it['name']} {it.get('lonlat')} — 지명 사전(data/gazetteer.yaml)에 없는 이름의 새 좌표. "
+            "사전 이름·좌표만 쓴다(rules geo.director_coords)"
+            for it in (P.R.cache.get("geo_check") or {}).get("unsourced") or [] if it["kind"] in kinds]
 
 
 def dump_direction_yaml(doc: Direction, header: str) -> str:
@@ -420,5 +434,5 @@ def next_version(pdir: Path, stem: str, suffix: str) -> int:
     return n
 
 
-__all__ = ["article_candidates_text", "quote_candidates", "quote_candidates_text", "cards_table", "check_direction", "current_version", "loop_history", "restore_version", "dump_direction_yaml", "entities_text", "event_fields_table", "geo_text", "load_plan", "documents_text", "series_records_text", "stage_text",
+__all__ = ["article_candidates_text", "quote_candidates", "quote_candidates_text", "cards_table", "check_direction", "draft_geo_errors", "current_version", "loop_history", "restore_version", "dump_direction_yaml", "entities_text", "event_fields_table", "geo_text", "load_plan", "documents_text", "series_records_text", "stage_text",
            "media_text", "next_version", "plan_table", "project_media", "require_visual_media"]

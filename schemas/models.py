@@ -819,6 +819,7 @@ class AssetSourceRef(BaseModel):
     credit: str = ""                        # 출처표시 의무 문구 (있는 경우 필수 표기)
     note: str = ""                          # nominative_use / self_made 등 메모
     user_exception: Optional[str] = None    # v5.15.0 D-0160 — 사용자 예외 번호(schemas.emblem_models.USER_EXCEPTIONS)
+    credit_raw: Optional[str] = None        # v7.4.0 D-0470(RIGHTS-AP-002) — 정리 전 원문 크레딧(Commons 안내문 등). 저작자 칸은 credit. 0583e63f 가 매니페스트에만 넣고 스키마에 빠뜨린 것(C3 optional)
     exception: str = ""                     # 예외 사유·조건 문구
 
 

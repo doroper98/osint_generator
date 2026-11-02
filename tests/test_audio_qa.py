@@ -110,5 +110,39 @@ class AudioQATest(unittest.TestCase):
         self.assertIn("from audio.qa import audio_qa", (REPO / "engine" / "checks.py").read_text(encoding="utf-8"))
 
 
+@unittest.skipUnless(shutil.which("ffmpeg"), "ffmpeg 없음")
+class LoudnormCacheTest(unittest.TestCase):
+    """v7.4.0 D-1000 S2-8·D-1001 §4 — 같은 mix 면 두 측정 패스를 다시 돌리지 않고 out/loudnorm_cache.json 값을 쓴다(필터·출력 동일),
+    mix 가 1샘플이라도 바뀌면 다시 잰다."""
+
+    def _encode(self, mix: Path, af: str, dest: Path) -> bytes:
+        import subprocess  # noqa: PLC0415
+
+        from audio.qa import mix_inputs  # noqa: PLC0415
+
+        subprocess.run(["ffmpeg", "-y", "-v", "error", *mix_inputs(mix, 6.0), "-af", af, "-ar", str(SR), "-c:a", "pcm_s16le", str(dest)],
+                       check=True)
+        return dest.read_bytes()
+
+    def test_reuse_and_invalidate(self) -> None:
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            _fixture(d, -13.0)
+            mix = d / "mix.f32"
+            af1, rec1 = loudnorm_two_pass(mix, 6.0)
+            self.assertEqual(rec1["measurement"], "measured")
+            self.assertTrue((d / "loudnorm_cache.json").exists())
+            af2, rec2 = loudnorm_two_pass(mix, 6.0)
+            self.assertEqual(rec2["measurement"], "reused")
+            self.assertEqual(af1, af2)
+            self.assertEqual({k: v for k, v in rec1.items() if k != "measurement"}, {k: v for k, v in rec2.items() if k != "measurement"})
+            self.assertEqual(self._encode(mix, af1, d / "a.wav"), self._encode(mix, af2, d / "b.wav"))   # 출력 바이트(= LUFS) 동일
+            x = np.fromfile(mix, np.float32)
+            x[1000] += 0.01
+            x.tofile(mix)
+            _, rec3 = loudnorm_two_pass(mix, 6.0)
+            self.assertEqual(rec3["measurement"], "measured")
+
+
 if __name__ == "__main__":
     unittest.main()

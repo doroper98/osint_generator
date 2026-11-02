@@ -77,6 +77,10 @@
 ### 새 감독이 처음 할 일(순서)
 (1) 이 블록·README·CLAUDE.md·15·DECISIONS D299~ 읽기 (2) `git fetch` 로 sweet-galileo·econ-template-2026·artifacts 두 브랜치 확인 (3) 세션 3·세션 2 에 send_message("감독 승계, 이후 R·결정 요청은 이 세션으로") (4) 자기 점검 send_later 걸기 (5) 사용자에게 한 줄 보고(대기 중인 결정 1·2 를 다시 묻지 말고 목록만).
 
+## 0-7. 2026-11-02 — 병행 트랙: 제작 시간 단축 체계(S) → 『2027년 예산안 분석』(B) (사용자 결정 D-1000, UF-300·UF-301)
+- 감독 = `session_017Yuw8kbxf9Vxri6LoH5Je4`(사용자가 이 세션에서 지시). 구현 = `session_017Yuw8jc17NfDj2aRZAmvTu`(Opus 5.5, 2026-11-02 10:00Z). 브랜치 `claude/speed-pipeline-2026`(sweet-galileo 935908fc 에서 분기). 번호 D-1000~(넘으면 D-1100~)·DECISIONS D600~·UF-300~·R-0600~. S 끝나면 sweet-galileo 로 merge --no-ff(골든 바이트 동일 조건), 최종 감독에 사전 통보. B 는 새 세션·새 브랜치 `claude/budget-2027-video`, 재정 출처 호스트 허용이 먼저.
+- 네트워크 주의: 사용자가 허용 목록을 넣었다고 한 뒤 만든 세션들(이란 구현 R-0296, 최종 감독 실측)에서도 en.wikipedia.org·www.aljazeera.com·apnews.com·www.cbsnews.com·fred.stlouisfed.org·doroper98.github.io·analysis-reports.pages.dev 는 CONNECT 403. commons·upload.wikimedia 만 열림. 환경 env_01SnvGMv3UmrvejEraZxEACo 설정 저장 여부를 사용자가 확인해야 한다.
+
 ## 0-5. 2026-11-01 — 병행 트랙: 『미국·이란 휴전안 — 정리와 가능성 타진』(사용자 결정 D-0334, UF-205)
 - 위임 감독(Fable 5.1) `session_017Yuw8hAgYiuiC4hYCHXB27`(2026-11-01 00:13Z, 옛 감독이 D-0334 요지로 기동). D-0282 방식 — 게이트 ①·② 위임, 질문 없이 완성본(final_deliver.mp4 ≤30MB + srt·description·credits·provenance·유튜브 문안)을 사용자에게 직접 전달. 브랜치 `claude/iran-ceasefire-2026`(sweet-galileo 41e00a99 에서 분기), artifacts `artifacts/iran-ceasefire-v7.4.0`. 번호 D-0450~(넘으면 D-0800~)·DECISIONS D550~·UF-170~199. 종료 보고는 최종 감독 `session_017Yuw8jLMWscY9bdVXTvddr` 로.
 

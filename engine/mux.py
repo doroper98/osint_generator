@@ -352,7 +352,10 @@ def main(argv: list[str] | None = None) -> int:
         for need in ("video_noaudio.mp4", "mix.f32"):
             if not (outd / need).exists():
                 raise ProjectError(f"out/{need} 없음 — engine.render / audio.mix 먼저")
-        final, loud = mux(proj, P.plan.total)
+        from engine.timing import last_run_start, stage_timer, summarize  # noqa: PLC0415 — D-1000 S0
+
+        with stage_timer(proj, "mux.final.encode", step="loudnorm_mux"):
+            final, loud = mux(proj, P.plan.total)
         (outd / "final.srt").write_text(build_srt(P.plan), encoding="utf-8")
         (outd / "credits.txt").write_text("\n".join(credit_lines(P.R.credits, P.R.assets.rights, P.R.assets.media,
                                                                   P.R.cache.get("credit_refs"), P.R.cache.get("cited_sources"),
@@ -389,6 +392,9 @@ def main(argv: list[str] | None = None) -> int:
             if pc["from_current_direction"] is not True:
                 warns = [*warns, f"[preview-stale] 프리뷰 검사 연출 지문이 현재 연출과 다르거나 없음 ({pc['direction_sha1']}) — "
                                  "전편 provenance checks 는 그 프리뷰 기준"]
+        tsum = summarize(proj, last_run_start(proj, "render.final.frames"))
+        if tsum is not None:   # D-1000 S0 — 마지막 전편 렌더부터 이 mux 까지(돈 단계만, P5)
+            prov["timings"] = tsum
         (outd / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
         if issues:
             raise ProjectError("오디오 QA hard 실패:\n" + "\n".join(issues))

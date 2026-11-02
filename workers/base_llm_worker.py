@@ -453,12 +453,8 @@ class BaseLLMWorker(BaseWorker):
 
     @property
     def rules(self) -> VideoRules:
-        """영상 규칙 SSOT (`rules/video_rules.yaml`). 인스턴스당 1회 로드."""
-        cached = self.__dict__.get("_rules_cache")
-        if cached is None:
-            cached = load_rules()
-            self.__dict__["_rules_cache"] = cached
-        return cached
+        """영상 규칙 SSOT (`rules/video_rules.yaml`). 캐시는 load_rules 한 곳(v7.4.0 D-1000 S1)."""
+        return load_rules()
 
     def bind_genre(self, args: argparse.Namespace) -> None:
         """프로젝트 장르를 읽어 둔다(v4.4.0 D-0090 작업 1). 주문(order.yaml)이 없으면 기본 장르 — 프롬프트 추가 문단 0.

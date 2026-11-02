@@ -125,7 +125,7 @@ def density_report(events: list[dict], tb: Timebase, total: float) -> dict:
         inside = [b for b in win[k:] if b["t0"] - a["t0"] < D.window_sec]
         if len(inside) > worst["count"]:
             worst = {"t0": a["t0"], "count": len(inside), "mids": [b["mid"] for b in inside]}
-    if worst["count"] > D.window_max:
+    if worst["count"] > D.window_max:   # 경고 유지(v7.4.0 D-1001 B2 — 덮임은 [map-cover-share] hard 가 시간 비율로 잡는다)
         warns.append(f"[media-burst-window] {worst['t0']}초부터 {D.window_sec:g}초 안 {worst['count']}개 {worst['mids']} > "
                      f"{D.window_max} (14 §10.1 하한, D38)")
     # v7.3.0 사용자 결정 D232 U2 — 위성 인셋(flight.inset)은 미디어 비트 상한 밖, 자기 상한(장면당·간격)만
