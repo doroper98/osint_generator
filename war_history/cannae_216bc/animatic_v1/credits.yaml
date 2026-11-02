@@ -1,0 +1,72 @@
+# 『칸나이, 기원전 216년』 엔딩 크레딧(v7.4.0 콘티 판 v1). 작품·기록 행은 미디어 레지스트리 권리 기록(media.*), 휘장 재현은 권리 레지스트리.
+# 권리 레지스트리(projects/cannae_216bc/assets/rights_registry.json, 저장소 미추적)는 artifacts war_history/cannae_216bc 에 함께 보관.
+schema_version: 1
+sections:
+- title: 사료(영역본)
+  column: 0
+  items:
+  - main: 폴리비오스 『역사』 III권 — W. R. Paton 영역(Loeb, 1922)
+    license: 퍼블릭 도메인 · archive.org polybiushistorie0000wrpa_v3i1
+    rights: []
+  - main: 리비우스 『로마사』 XXII권 — B. O. Foster 영역(Loeb, 1929)
+    license: 퍼블릭 도메인(미국, 2025년부터) · archive.org livy-in-fourteen-volumes.-vol.-5-loeb-233
+    rights: []
+  - main: 마크로비우스 『사투르날리아』 I.16.26(Teubner 1893)
+    license: 퍼블릭 도메인 · archive.org macrobius00cicegoog
+    rights: []
+- title: 작품·기록
+  column: 0
+  items:
+  - main: 대리석 흉상(나폴리 국립고고학박물관)
+    license: Fratelli Alinari 사진(1900년경) · Public domain
+    rights: [media.cannae_bust]
+  - main: 카르타고 셰켈 은화
+    license: Sailko · CC BY 3.0
+    rights: [media.cannae_coin]
+  - main: 타니트 기호를 새긴 석회암 비석(루브르 AO 5244)
+    license: Tangopaso · Public domain
+    rights: [media.cannae_tanit]
+  - main: 존 트럼불, 칸나이 전투에서 파울루스 아이밀리우스의 죽음(1773, 예일대학교 미술관)
+    license: Public domain
+    rights: [media.cannae_trumbull]
+  - main: W. Smith 편, 그리스·로마 지리 사전(1856) 'CANNAE'
+    license: Public domain · archive.org india.history.resource.89510
+    rights: [media.cannae_smith1856]
+  - main: G. A. Closs, 칸나이 들판 판화(1885)
+    license: Public domain
+    rights: [media.cannae_closs]
+- title: 지도
+  column: 1
+  auto: map
+- title: 고대 지명
+  column: 1
+  items:
+  - main: Pleiades(pleiades.stoa.org)
+    license: CC BY 3.0
+    rights: []
+- title: 휘장
+  column: 1
+  items:
+  - main: 타니트 기호 재현(코드 벡터)
+    license: 근거 사진 Tangopaso · Public domain
+    rights: [emblems.carthage_tanit]
+- title: 글꼴
+  column: 1
+  auto: fonts
+- title: 음악
+  column: 1
+  items:
+  - music: music.zabriskie_mario_bava
+- title: 음성
+  column: 1
+  items:
+  - main: 내레이션
+    license: AI 음성 합성
+    rights: [narration.tts]
+- title: 표기
+  column: 1
+  slot: notice
+  items:
+  - main: 부대 위치·크기·간격은 사료 서술의 개략(축척 아님)
+    license: 날짜 8월 2일은 로마력 — 실제 계절과 어긋났을 수 있다(Smith 1856)
+    rights: []
