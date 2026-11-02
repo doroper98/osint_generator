@@ -71,12 +71,15 @@ class FontconfigGuardTest(unittest.TestCase):
         self.assertIn("ensure()", (REPO / "tests" / "conftest.py").read_text(encoding="utf-8"))
 
     def test_text_drawers_pass_through(self) -> None:
-        """글자를 그리는 모듈은 engine(→ engine.style) 을 import 하거나 fontenv.ensure 를 직접 부른다(C12 ③)."""
+        """글자를 그리는 모듈은 engine.style 을 import 하거나 fontenv.ensure 를 직접 부른다(C12 ③).
+        engine 패키지 import 만으로는 부족하다 — engine/__init__.py 는 engine.style 을 부르지 않는다(D-0624 보강)."""
+        through = re.compile(r"^\s*(from engine\.style import|import engine\.style\b|from engine import (.*\b)?style\b)"
+                             r"|^\s*from engine\.fontenv import ensure\b(?s:.*)^\s*ensure\(\)", re.M)
         miss = []
         for top in SCAN:
             for p in (REPO / top).rglob("*.py"):
                 s = p.read_text(encoding="utf-8")
-                if TEXT_CALLS.search(s) and not re.search(r"^\s*(from engine[ .]|import engine)", s, re.M):
+                if TEXT_CALLS.search(s) and not through.search(s):
                     miss.append(str(p.relative_to(REPO)))
         self.assertEqual(miss, [])
 
