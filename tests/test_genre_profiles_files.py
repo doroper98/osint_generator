@@ -26,6 +26,16 @@ class GenreFilesTest(unittest.TestCase):
         self.assertEqual(set(p.primitives.reuse), (set(reg.event_types) - carriers) | set(reg.panel_kinds) | set(reg.badge_kinds))
         self.assertEqual(set(p.color_semantics.values()), set(reg.accents))   # 09 §7 색 토큰 전부에 의미가 있다
 
+    def test_political_history_approved(self) -> None:
+        """v7.4.0 UF-401 — 사용자 승인("승인 상태로 올려"). approved 는 등록 요소·구현 검사만 참조할 수 있다(GenreProfile 검증)."""
+        p = load_genre("political_history")
+        reg = load_rules().registries
+        self.assertEqual(p.status, "approved")
+        self.assertEqual(p.stage.primary, "mercator")
+        self.assertTrue(set(p.primitives.new) <= set(reg.primitives))
+        self.assertIn("process_lane", p.primitives.new)
+        self.assertIn("doc_excerpt", p.primitives.new)
+
     def test_macro_monetary_is_section3_proposed(self) -> None:
         """20 §3 예시 그대로(D-0081 작업 2) + D-0082 두 대응(timeline_panel → timeline, new 의 planned)."""
         from engine.primitives import style_for  # noqa: PLC0415

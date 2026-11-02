@@ -2,7 +2,7 @@
 
 ① 문장 단위 변화 검사 [sentence-still] — 요소 등장만 센다(카메라는 세지 않는다, C0 "문장마다 카메라 이동" 금지)
 ② 지도형 장르 프롬프트 층 — 주 무대가 mercator 인 비기본 장르는 genre_map_<name>.md(지도 문법 유지 + 장르 요소 문법)
-③ 장르 프로필 political_history(proposed) — 새 요소 process_lane·doc_excerpt, 설명 모형 되부르기(recurring_model)
+③ 장르 프로필 political_history(UF-401 승인 → approved) — 새 요소 process_lane·doc_excerpt, 설명 모형 되부르기(recurring_model)
 """
 
 from __future__ import annotations
@@ -50,7 +50,7 @@ class SentenceStillTest(unittest.TestCase):
 class MapGenrePromptTest(unittest.TestCase):
     def test_political_history_profile(self) -> None:
         g = load_genre("political_history")
-        self.assertEqual(g.status, "proposed")
+        self.assertEqual(g.status, "approved")
         self.assertEqual(g.stage.primary, "mercator")
         self.assertTrue({"process_lane", "doc_excerpt"} <= set(g.primitives.new))
         self.assertTrue(g.narration is not None and g.narration.recurring_model)

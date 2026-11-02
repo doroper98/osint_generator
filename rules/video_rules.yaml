@@ -144,7 +144,7 @@ tempo:
   fact_sentences_per_min_max: 8
   act_intro_min: 2
   act_outro_min: 1
-  sentence_gap_sec: 0.9
+  sentence_gap_sec: 0.9      # v7.4.0 UF-401(2026-11-02 "현행 유지") — 레퍼런스 쉼(중앙값 0.25~0.30초)을 보고도 사용자가 유지 결정. 바꾸지 않는다
 # v7.4.0 back_and_forth D-0229 §2.8 — 원고 어휘 린트(UF-114 "고정된 물체를 타격했을때는 타격했다·때렸다", UF-108 "반면 보다는 이에 대해").
 # [verb-target-mismatch] 오류 = hit_verbs 와 fixed_targets 가 한 문장(moving_targets 가 있으면 허용).
 # [contrast-conjunction] 경고 = contrast_heads 로 시작하는 문장의 앞 문장이 statement_verbs(발표·주장) 문장.
@@ -1199,7 +1199,7 @@ registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 �
   accents: [gold, us, ru, teal, muted, green, amber]
   stages: [mercator, timeline, backdrop]   # backdrop = v5.1.0 D-0123(사진 배경 무대, engine/stage_backdrop.py). v4.1.0 D-0076 — 무대(engine.stage). 없는 무대 = 오류, 있는데 구현(STAGE_CLASSES)이 없음 = 오류(P10). timeline = v4.3.0 D-0084 작업 3
   stages_planned: [chart_wall, flow, structure, document]   # v4.2.0 D-0081 — 20 §2.1 무대 카탈로그(구현 전). 장르 프로필 proposed 만 참조 가능, 연출에서 쓰면 오류
-  primitives: [statement_diff, dot_plot, site_diagram, process_lane, doc_excerpt]   # process_lane·doc_excerpt = v7.4.0 UF-400(영상 분석 — 과정 도식·1차 문서 발췌, 사용자 스케치 판정 대기). site_diagram = v4.4.0 dmz_mine_2026 사용자 요청(현장 개념도, 벡터).  dot_plot = v4.4.0 D-0090 작업 3(사용자 승인 대기 — provenance elements.approval pending). v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
+  primitives: [statement_diff, dot_plot, site_diagram, process_lane, doc_excerpt]   # process_lane·doc_excerpt = v7.4.0 UF-400(영상 분석 — 과정 도식·1차 문서 발췌), 실렌더 스케치 사용자 승인 UF-401(2026-11-02 "승인. 매우 만족"). site_diagram = v4.4.0 dmz_mine_2026 사용자 요청(현장 개념도, 벡터).  dot_plot = v4.4.0 D-0090 작업 3(사용자 승인 대기 — provenance elements.approval pending). v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
   primitives_planned:     # v4.2.0 D-0082 쟁점 1 A — 구현 전 프리미티브. 장르 프로필 proposed 의 new 만 참조 가능, 연출에서 쓰면 오류
     - rate_step_line      # 20 §3 macro_monetary — v4.3.0: series 이벤트(style: step)가 대신한다. 만들지 않는다(사용자 결정 전이라 목록에서 지우지 않음, D-0084 작업 4·D-0090)
     - yield_curve_shift   # 20 §3 macro_monetary — chart_wall 무대가 필요해 G4 밖(D-0090 작업 3 ③). 구현 전
@@ -1763,7 +1763,7 @@ primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/p
     width_note_v: 0.24
     foot_size: 9.5
     pad_x: 14
-  process_lane:            # v7.4.0 사용자 의견 UF-400(영상 분석 보고 video_analysis_nk_succession_2026-11-02 §4 D5) — 과정 도식(단계 알약·공개 선·표지·두 줄 비교). 설계 px(480p). 글자 ≥ layout_480p.min_font_px. 값 = 분석 세션 제안(사용자 합격 값 아님 — 실렌더 스케치 판정 대기, 20 §4.1)
+  process_lane:            # v7.4.0 사용자 의견 UF-400(영상 분석 보고 video_analysis_nk_succession_2026-11-02 §4 D5) — 과정 도식(단계 알약·공개 선·표지·두 줄 비교). 설계 px(480p). 글자 ≥ layout_480p.min_font_px. 값 = 사용자 승인 스케치 값(UF-401 2026-11-02, 20 §4.1)
     x: 47                  # 상자(화면 가운데, 자막 영역 위). 높이 = head_h + row_h × 줄 수 + foot_h
     y: 96
     w: 760
@@ -1830,7 +1830,7 @@ primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/p
     span_label_dy: 5
     span_fade_sec: 0.6
     fade_sec: 0.75         # 상자 등장·퇴장 = statement_diff·site_diagram 과 같은 값
-  doc_excerpt:             # v7.4.0 사용자 의견 UF-400(영상 분석 보고 §4 D6) — 1차 문서 발췌(원문 단락·번역·구절 밑줄, 스캔 대신 코드 조판). 설계 px(480p). 글자 ≥ layout_480p.min_font_px. 값 = 분석 세션 제안(실렌더 스케치 판정 대기, 20 §4.1)
+  doc_excerpt:             # v7.4.0 사용자 의견 UF-400(영상 분석 보고 §4 D6) — 1차 문서 발췌(원문 단락·번역·구절 밑줄, 스캔 대신 코드 조판). 설계 px(480p). 글자 ≥ layout_480p.min_font_px. 값 = 사용자 승인 스케치 값(UF-401 2026-11-02, 20 §4.1)
     x: 117                 # 종이 상자(화면 가운데, 자막 영역 위). 높이 = 줄 수로 정한다
     y: 40
     w: 620

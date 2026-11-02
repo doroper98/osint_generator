@@ -2466,3 +2466,16 @@ entries:
   status: guarded
   decision: "분석 보고 docs/handoff/reports/video_analysis_nk_succession_2026-11-02.md — 장치 표(보완·신설·가져오지 않음)"
   source: 영상 분석 세션 사용자 대화 2026-11-02
+- id: UF-401
+  date: '2026-11-02'
+  project: video_analysis_nk_succession
+  at: "분석 보고 §6 '남은 결정(사용자)' 네 항목 — ① 신설 요소 process_lane·doc_excerpt 스케치 판정 ② political_history 승인 ③ 후속 제안(D1 재언급 맥동·D11 열린 가설 칸·D15 영상 속 점선 원·D7 큰 연도 숫자) ④ 쉼 길이"
+  quote: "결정 사항 \n1. 승인. 매우 만족\n2. 승인 상태로 올려\n3. 동의 하고 순차적으로 다 반영해\n4. 현행 유지"
+  quote_kind: verbatim
+  category: 영상 문법 — 신설 요소 두 개 승인·정치사 템플릿 approved·후속 장치 순차 반영·쉼 길이(tempo.sentence_gap_sec) 현행 유지
+  guards:
+  - {kind: test, ref: tests/test_genre_profiles_files.py::GenreFilesTest::test_political_history_approved}
+  - {kind: rule, ref: tempo.sentence_gap_sec}
+  status: guarded
+  decision: "D601 — UF-400 후속. 요소 승인은 규칙 주석·장르 approved 로 남기고, 후속 장치는 커밋 하나에 장치 하나씩 순서대로"
+  source: 영상 분석 세션 사용자 대화 2026-11-02

@@ -7,11 +7,11 @@
 #   2) reuse 에 statement_diff — 호칭·문구 변화("사랑하는 → 존경하는", 사전 1970년판 → 1972년판 삭제)를 단어 단위로
 #   3) color_semantics: regime(이야기의 권력 주체) · counterpart(바깥 관찰자 — 정보당국·외국 연구자) — 지정학 색 토큰 그대로 재사용
 #   4) photo_age_check false(1970년대 공식 사진이 근거 자료다, D-0327 역사 장르 예외)
-# status proposed: 사용자 승인 전(20 §3). approved 로 바꾸는 것은 사용자 결정이다. 새 요소 두 개는 실렌더 스케치 판정 뒤에만 영상에 쓴다(20 §4.1).
+# status approved: 사용자 승인 2026-11-02(UF-401 "승인 상태로 올려"). 새 요소 두 개 실렌더 스케치도 승인(UF-401 "승인. 매우 만족", 20 §4.1).
 # 가져오지 않은 것(C0·불변 층): 비네팅, 모서리 채널 로고, 오른쪽 위 상시 출처 줄(모서리 = 날짜만), 상자형 자막(자막 halo 는 불변 층), 무대 전환 모핑(무대 전환 = 암전 dip).
 schema_version: 1
 genre: political_history
-status: proposed
+status: approved                # UF-401(2026-11-02) 사용자 승인
 template_label: 정치사 해설
 stage:
   primary: mercator               # 지도 위에서 인물·나라를 따라간다(기준 작품 『경유의 길』의 카메라 문법 그대로)
