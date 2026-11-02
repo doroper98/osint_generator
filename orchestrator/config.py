@@ -98,6 +98,10 @@ class RenderConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     jobs: int | None = Field(default=None, gt=0)   # None = os.cpu_count()
+    # v7.4.0 back_and_forth D-1000 S2 — 고정 격자 조각 캐시(부분 재렌더). 값은 config.yaml 에만(P3)
+    # None = config.yaml 에 없음 → engine.chunk_cache 가 오류(기본값으로 조용히 채우지 않는다, P6). AppConfig() 시험 생성용으로만 Optional
+    chunk_sec: float | None = Field(default=None, gt=0)        # 조각 길이(초, t=0 정렬) — jobs 와 무관한 고정 경계
+    probe_step_sec: float | None = Field(default=None, gt=0)   # 조각 탐침 시각 간격(초)
 
 
 class EngineConfig(BaseModel):
