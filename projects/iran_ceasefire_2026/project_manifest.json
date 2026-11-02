@@ -4,7 +4,7 @@
   "title": "휴전안 — 미국과 이란, 무엇이 먼저 풀려야 하나",
   "category": "geopolitics",
   "created_at": "2026-11-01T00:29:59.874133Z",
-  "updated_at": "2026-11-02T10:11:11.767630Z",
+  "updated_at": "2026-11-02T10:16:29.022650Z",
   "current_state": "render",
   "target_duration_min": 18,
   "topic_summary": "2026년 미국·이란 전쟁의 휴전안 정리(9월 말 이란 7일안~10/31 도하)와 휴전 가능성의 조건부 시나리오·신호",
@@ -244,6 +244,42 @@
       "errors": [],
       "drops": 0,
       "log": "logs/stages/11_camera_suggest.json"
+    },
+    {
+      "state": "render",
+      "stage": "render",
+      "ok": false,
+      "at": "2026-11-02T10:15:50.609602Z",
+      "artifacts": {},
+      "errors": [
+        "지형 티어 없음: /home/user/osint_generator/projects/iran_ceasefire_2026/assets/theme_light/res_720p/tiers.pkl — `python -m geo.prep /home/user/osint_generator/projects/iran_ceasefire_2026 --res 720p --theme light` 먼저"
+      ],
+      "drops": 0,
+      "log": "logs/stages/12_render.json"
+    },
+    {
+      "state": "render",
+      "stage": "render",
+      "ok": false,
+      "at": "2026-11-02T10:16:10.260805Z",
+      "artifacts": {},
+      "errors": [
+        "지형 티어 없음: /home/user/osint_generator/projects/iran_ceasefire_2026/assets/theme_light/res_720p/tiers.pkl — `python -m geo.prep /home/user/osint_generator/projects/iran_ceasefire_2026 --res 720p --theme light` 먼저"
+      ],
+      "drops": 0,
+      "log": "logs/stages/13_render.json"
+    },
+    {
+      "state": "render",
+      "stage": "render",
+      "ok": false,
+      "at": "2026-11-02T10:16:29.022535Z",
+      "artifacts": {},
+      "errors": [
+        "지형 티어 없음: /home/user/osint_generator/projects/iran_ceasefire_2026/assets/theme_light/res_720p/tiers.pkl — `python -m geo.prep /home/user/osint_generator/projects/iran_ceasefire_2026 --res 720p --theme light` 먼저"
+      ],
+      "drops": 0,
+      "log": "logs/stages/14_render.json"
     }
   ],
   "final_outputs": {},
