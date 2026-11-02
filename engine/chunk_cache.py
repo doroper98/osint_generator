@@ -94,9 +94,73 @@ def assets_manifest(proj: Path) -> str:
     return h.hexdigest()
 
 
+FC_PROPS: tuple[str, ...] = ("antialias", "hinting", "hintstyle", "rgba", "lcdfilter")   # 글자 화소를 정하는 fontconfig 렌더 속성(RENDER-AP-032)
+_FONT_ENV: dict[str, str] = {}   # 프로세스당 한 번(설정 파일 경로 → 지문). 시험은 비우고 다시 잰다
+
+
+def conf_chain(conf: Path, seen: "set[Path] | None" = None) -> list[tuple[str, bytes]]:
+    """fonts.conf 와 그 include 체인(파일·디렉터리 안 *.conf 정렬) → [(경로, 내용)]. 없는 include 는 건너뛴다(fontconfig 와 같음)."""
+    import re  # noqa: PLC0415
+
+    seen = set() if seen is None else seen
+    conf = conf.expanduser().resolve()
+    if conf in seen or not conf.exists():
+        return []
+    seen.add(conf)
+    if conf.is_dir():
+        return [x for f in sorted(conf.glob("*.conf")) for x in conf_chain(f, seen)]
+    body = conf.read_bytes()
+    out = [(str(conf), body)]
+    for m in re.finditer(rb"<include[^>]*>([^<]+)</include>", body):
+        inc = Path(m.group(1).decode().strip()).expanduser()
+        out += conf_chain(inc if inc.is_absolute() else conf.parent / inc, seen)
+    return out
+
+
+def fc_props(family: str, bold: bool, env: "dict[str, str] | None" = None) -> dict[str, str]:
+    """fc-match -v 로 실제 적용되는 렌더 속성과 고른 파일 — 엔진 글꼴 패밀리 하나."""
+    import re  # noqa: PLC0415
+    import subprocess  # noqa: PLC0415
+
+    pat = f"{family}:weight=bold" if bold else family
+    out = subprocess.run(["fc-match", "-v", pat], capture_output=True, text=True, env=env, check=True, timeout=60).stdout
+    got = {k: (m.group(1).strip() if (m := re.search(rf"^\s*{k}:\s*(.+)$", out, re.M)) else "") for k in (*FC_PROPS, "file")}
+    return got
+
+
+def file_md5(path: str) -> str:
+    return hashlib.md5(Path(path).read_bytes()).hexdigest()  # noqa: S324 — 내용 지문(보안 용도 아님)
+
+
+def font_env_fingerprint(conf: "Path | None" = None) -> str:
+    """글꼴 환경 지문(v7.4.0 D-1005, RENDER-AP-032 후속) — 탐침 프레임에 글자가 없는 조각도 글꼴 설정이 바뀌면 무효가 되게.
+    (a) 실제 쓰는 fonts.conf(FONTCONFIG_FILE) 내용 + include 체인, (b) engine.style 글꼴 패밀리마다 fc-match 렌더 속성,
+    (c) 그 패밀리들이 고른 글꼴 파일 md5. 설정 파일 경로마다 프로세스당 한 번만 잰다."""
+    from engine.style import FONT  # noqa: PLC0415 — import 가 fontenv.ensure(표준 FONTCONFIG_FILE)를 먼저 부른다
+
+    path = Path(conf or os.environ.get("FONTCONFIG_FILE") or "/etc/fonts/fonts.conf")
+    k = str(path)
+    if k not in _FONT_ENV:
+        env = {**os.environ, "FONTCONFIG_FILE": str(path)}
+        h = hashlib.sha1()
+        for p_, body in conf_chain(path):
+            h.update(p_.encode() + b"\0" + body + b"\0")
+        files: dict[str, str] = {}
+        for name in sorted(FONT):
+            fam, bold = FONT[name]
+            pr = fc_props(fam, bool(bold), env)
+            h.update(json.dumps([name, {x: pr[x] for x in FC_PROPS}], sort_keys=True).encode())
+            if pr["file"]:
+                files[pr["file"].split('"')[1] if '"' in pr["file"] else pr["file"]] = ""
+        for f in sorted(files):
+            h.update(f"{f}|{file_md5(f) if Path(f).exists() else 'missing'}".encode())
+        _FONT_ENV[k] = h.hexdigest()
+    return _FONT_ENV[k]
+
+
 def global_key(P: "Project", kind: str, encoder: list[str]) -> str:  # noqa: N803
     rec = {"kind": kind, "profile": P.R.out.record(), "encoder": encoder, "code": code_hash(), "assets": assets_manifest(P.root),
-           "total": round(P.plan.total, 6), "n_frames": P.n_frames}
+           "total": round(P.plan.total, 6), "n_frames": P.n_frames, "fontenv": font_env_fingerprint()}
     return _sha(json.dumps(rec, sort_keys=True, default=_jsonable).encode())
 
 
