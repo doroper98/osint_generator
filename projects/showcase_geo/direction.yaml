@@ -1158,17 +1158,15 @@ events:
     edge: end
   pts:
     path: gulf_exit
-- type: photo   # v7.4.0 D-0349(UF-173 + [media-density] 7 이상) — 트럼프 인물 배지 자리를 같은 인물·같은 창의 사진으로(레지스트리 등재본). act5_4(10.11) 창 안, 옆 문장 겹침 ≤ 0.48초(옛 배지 act5_3 끝 −0.3 ~ act5_4 끝 +1.3)
+- type: photo   # v7.4.0 D-0349(UF-173 + [media-density] 7 이상) — 트럼프 인물 배지(act5_4) 대신 백악관 사진을 '무대를 워싱턴으로' act5_0~act5_2(같은 날짜 10.09) 창 안에. act5_4 에 두면 ras_laffan 사진과 한 30초 창에서 덮임 51%([map-cover-share] — 지도 무대 사진은 가운데 461px 라 가중 1), 앞은 지뢰 표지판과 46%
   start:
-    sid: act5_3
-    edge: end
-    'off': -0.48
+    sid: act5_0
+    'off': 2.1
   end:
-    sid: act5_4
-    edge: end
-    'off': 1.38
+    sid: act5_2
+    'off': 1.1
   mid: diesel_road_2026_trump_1006
-  for: 도널드 트럼프
+  for: 워싱턴
   place: map_left
 - type: photo
   start: # v7.4.0 D-0349(UF-173 [media-sentence-span]) — 자기 날짜 창 안에서만(옆 문장 겹침 ≤ 0.5초)(옛 act2_4 +0.5 ~ act2_5 +2.6)
