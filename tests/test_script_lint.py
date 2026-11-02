@@ -79,9 +79,10 @@ class ScriptLintTest(unittest.TestCase):
         from script.lint import load_claims_for  # noqa: PLC0415
 
         rep = _lint_full(script, load_claims_for(REPO / "projects/hormuz_korea"))   # v3.2.0 — claims 이관본(D51)
-        # v5.5.0 script_grammar(사용자 결정 2026-10-02) 이전 원고 — 기준 원고는 고치지 않는다. 새 두 항목(미확인 서술 1·흐름 부족)만 걸린다
+        # v5.5.0 script_grammar(사용자 결정 2026-10-02) 이전 원고 — 기준 원고는 고치지 않는다. 미확인 서술 1 만 걸린다(흐름 부족 flow-sparse 는 v7.4.0 D-1007 삭제,
+        # 새 첫머리 접속어 장치 connective-initial·repeat 에는 걸리지 않는다)
         # v7.4.0 D-0230 §3 — transition-bridge·act-frame 도 걸리고 lint_waivers.yaml(rule_since v7.4.0)이 면제한다
-        self.assertEqual(sorted({i.kind for i in rep.errors}), ["act-frame", "flow-sparse", "transition-bridge", "uncertain-phrase"])
+        self.assertEqual(sorted({i.kind for i in rep.errors}), ["act-frame", "transition-bridge", "uncertain-phrase"])
         self.assertEqual([i.sid for i in rep.errors if i.kind == "uncertain-phrase"], ["now_3"])
         self.assertEqual([i.line() for i in rep.warnings if i.kind in ("source-missing", "attribution")], [])
 

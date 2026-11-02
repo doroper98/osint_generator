@@ -42,7 +42,7 @@ class WaiverTest(unittest.TestCase):
         self.v740 = [w for w in real if w["rule_since"] == "v7.4.0"]
         new = {(w["kind"], w["sid"]) for w in self.v740}
         self.assertEqual({w["kind"] for w in self.v740}, {"transition-bridge", "act-frame"})
-        self.assertEqual({(i.kind, i.sid) for i in self.rep.errors} - new, {("uncertain-phrase", "now_3"), ("flow-sparse", "-")})
+        self.assertEqual({(i.kind, i.sid) for i in self.rep.errors} - new, {("uncertain-phrase", "now_3")})   # flow-sparse 는 v7.4.0 D-1007 삭제
 
     def tearDown(self) -> None:
         self.tmp.cleanup()
@@ -52,24 +52,23 @@ class WaiverTest(unittest.TestCase):
                                          encoding="utf-8")
 
     def test_exact_match_passes(self) -> None:
-        self._write([_waiver(self.script, "uncertain-phrase", "now_3"), _waiver(self.script, "flow-sparse", "-")])
+        self._write([_waiver(self.script, "uncertain-phrase", "now_3")])
         rep, waived = LW.apply(self.rep, LW.load(self.proj), self.script)
         self.assertEqual(rep.errors, [])
-        self.assertEqual([w for w in waived if w["decided_by"] == "D-0168"], [{"kind": "flow-sparse", "sid": "-", "decided_by": "D-0168"},
-                                                                          {"kind": "uncertain-phrase", "sid": "now_3", "decided_by": "D-0168"}])
+        self.assertEqual([w for w in waived if w["decided_by"] == "D-0168"], [{"kind": "uncertain-phrase", "sid": "now_3", "decided_by": "D-0168"}])
         self.assertEqual(len(rep.warnings), len(self.rep.warnings))   # 경고는 그대로 남는다
 
     def test_error_outside_list_still_fails(self) -> None:
-        self._write([_waiver(self.script, "flow-sparse", "-")])
+        self._write([])
         rep, _ = LW.apply(self.rep, LW.load(self.proj), self.script)
         self.assertEqual([(i.kind, i.sid) for i in rep.errors], [("uncertain-phrase", "now_3")])
 
     def test_stale_waiver_is_error(self) -> None:
         w = _waiver(self.script, "uncertain-phrase", "now_3")
-        self._write([w | {"text_sha1": "0" * 40}, _waiver(self.script, "flow-sparse", "-")])   # 원고가 바뀐 것과 같다
+        self._write([w | {"text_sha1": "0" * 40}])   # 원고가 바뀐 것과 같다
         with self.assertRaises(LW.LintWaiverError):
             LW.apply(self.rep, LW.load(self.proj), self.script)
-        self._write([w, _waiver(self.script, "flow-sparse", "-"), _waiver(self.script, "uncertain-phrase", "open_0")])
+        self._write([w, _waiver(self.script, "uncertain-phrase", "open_0")])
         with self.assertRaises(LW.LintWaiverError):   # 일치하는 오류가 없는 면제
             LW.apply(self.rep, LW.load(self.proj), self.script)
 
@@ -79,10 +78,10 @@ class WaiverTest(unittest.TestCase):
             LW.load(self.proj)
 
     def test_approval_after_rule_is_load_error(self) -> None:
-        self._write([_waiver(self.script, "flow-sparse", "-", script_approved="2026-10-02")])
+        self._write([_waiver(self.script, "uncertain-phrase", "now_3", script_approved="2026-10-03")])
         with self.assertRaises(LW.LintWaiverError):
             LW.load(self.proj)
-        self._write([_waiver(self.script, "flow-sparse", "-", rule_since="v0.0.99")])
+        self._write([_waiver(self.script, "uncertain-phrase", "now_3", rule_since="v0.0.99")])
         with self.assertRaises(LW.LintWaiverError):   # CHANGELOG 태그가 아니다
             LW.load(self.proj)
 
@@ -97,11 +96,11 @@ class ProvenanceTest(unittest.TestCase):
         from engine import provenance  # noqa: PLC0415
 
         base = {"sentences": [], "cards": [], "scene_start": {}, "total": 1.0, "voice": "v", "title": "t", "subtitle": "", "date": ""}
-        with_w = provenance.build(Plan.model_validate(base | {"lint_waived": [{"kind": "flow-sparse", "sid": "-", "decided_by": "D-0168"}]}),
+        with_w = provenance.build(Plan.model_validate(base | {"lint_waived": [{"kind": "uncertain-phrase", "sid": "now_3", "decided_by": "D-0168"}]}),
                                   [], [], "0", {})
         without = provenance.build(Plan.model_validate(base), [], [], "0", {})
         feats = next(v for k, v in with_w.items() if isinstance(v, dict) and "at_word" in v)
-        self.assertEqual(feats["lint"], {"waived": [{"kind": "flow-sparse", "sid": "-", "decided_by": "D-0168"}]})
+        self.assertEqual(feats["lint"], {"waived": [{"kind": "uncertain-phrase", "sid": "now_3", "decided_by": "D-0168"}]})
         self.assertNotIn("lint", next(v for k, v in without.items() if isinstance(v, dict) and "at_word" in v))
 
 

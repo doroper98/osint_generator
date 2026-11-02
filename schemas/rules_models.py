@@ -65,8 +65,9 @@ class ScriptGrammar(_Strict):
 
     lines: list[str] = Field(min_length=1)
     connectives: list[str] = Field(min_length=1)
-    connective_min_ratio: float = Field(ge=0, le=1)
-    connective_max_ratio: float = Field(ge=0, le=1)
+    connective_initial_max_ratio: float = Field(ge=0, le=1)   # v7.4.0 D-1007(UF-303) — 첫머리 접속어 문장 비율 상한
+    connective_repeat_gap: int = Field(ge=1)                   # 같은 첫머리 접속어 재등장 최소 간격(문장)
+    estimate_markers: list[str] = Field(default_factory=list)   # v7.4.0 D-1007(UF-302) — 내레이터 목소리 '추정' 표지 금지
     uncertain_patterns: list[str] = Field(min_length=1)
     lint_waivable: list[str] = Field(min_length=1)   # v5.17.0 D-0168 — 프로젝트 면제 목록에 올릴 수 있는 린트 kind(문체·흐름만)
 
