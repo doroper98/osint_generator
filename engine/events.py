@@ -772,11 +772,27 @@ class PanelFork(_Panel):
 
 
 class PanelChecklist(_Panel):
+    DROP_NONE: ClassVar[tuple[str, ...]] = (*_Panel.DROP_NONE, "style", "at")   # v7.4.0 UF-401 — 안 쓰면 dict 옛 모양(부모 chart 유지)
+
     kind: Literal["checklist"]
     subtitle: Optional[str] = None
     items: list[str] = Field(min_length=1, max_length=4)
     footer: str = ""
     provenance: Optional[ChartProvenance] = None
+    # v7.4.0 UF-400·UF-401(영상 분석 D11) — open = 가설·후보처럼 '확인되지 않은 목록': 번호 칸을 먼저 비워 보이고 at 시각에 채운다. 체크 표시 없음
+    style: Optional[Literal["check", "open"]] = Field(default=None, description="check(기본) = 확인된 사실 체크, open = 가설·후보 — 빈 번호 칸을 먼저 보이고 at 에 채운다(체크 없음)")
+    at: Optional[list[float]] = Field(default=None, description="open 칸마다 채우는 시각(word 앵커) — items 와 같은 개수, 시간 순")
+
+    @model_validator(mode="after")
+    def _open(self) -> "PanelChecklist":
+        if self.at is not None:
+            if self.style != "open":
+                raise ValueError("checklist at 은 style open 에서만")
+            if len(self.at) != len(self.items):
+                raise ValueError(f"checklist at {len(self.at)}개 ≠ items {len(self.items)}개")
+            if any(b < a for a, b in zip(self.at, self.at[1:])) or not all(self.t0 <= x <= self.t1 for x in self.at):
+                raise ValueError("checklist at 은 시간 순, 패널 구간 안")
+        return self
 
 
 class NetworkNode(_Strict):

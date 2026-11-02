@@ -1222,6 +1222,24 @@ class ChecklistRules(_Strict):
     footer_sec: float
     footer_fade_sec: float
     max_items: int
+    open: "ChecklistOpen"            # v7.4.0 UF-400·UF-401 — 열린 가설 칸
+
+
+class ChecklistOpen(_Strict):
+    """v7.4.0 UF-400·UF-401(영상 분석 D11) — checklist style open(빈 번호 칸 → 채움, 체크 없음). 설계 px."""
+
+    slot_w: float = Field(gt=0)
+    slot_h: float = Field(gt=0)
+    slot_r: float
+    slot_dash: list[float] = Field(min_length=2)
+    slot_line_alpha: float = Field(ge=0, le=1)
+    slot_line_w: float = Field(gt=0)
+    fill_alpha: float = Field(ge=0, le=1)
+    num_size: float
+    reveal_start_sec: float = Field(ge=0)
+    reveal_step_sec: float = Field(ge=0)
+    reveal_fade_sec: float = Field(ge=0.55)
+    fill_fade_sec: float = Field(ge=0.55)
 
 
 class NetworkRules(_Strict):
