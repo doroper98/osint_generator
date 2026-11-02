@@ -237,3 +237,36 @@ class StructureWiringTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PublishedPctTest(unittest.TestCase):
+    """v7.4.0 D-1006 — 화면 증감률 = 원문 표 값(반올림 값으로 다시 계산하지 않는다), 반올림 범위 밖이면 오류."""
+
+    def _recs(self, pct: float) -> dict:
+        now = record("NOW", NOW, "proposed", 2027, change_vs="PRIOR",
+                     rows=[{"id": i, "label": lb, "value": v, "page": 3, "locator": "x",
+                            "change_pct": (pct if i == "welfare" else round((v - p) / p * 100, 1))}
+                           for (i, lb), v, p in zip(LABELS, NOW, PRIOR)])
+        return {"NOW": now, "PRIOR": record("PRIOR", PRIOR, "enacted", 2026)}
+
+    def test_published_used(self) -> None:
+        st = StructureStage(config={"box": "center_tall", "record": "NOW", "prior": "PRIOR", "title": "t"}, records=self._recs(8.1))
+        self.assertEqual(st.by_id["welfare"].delta_pct, 8.1)
+
+    def test_out_of_rounding_bounds(self) -> None:
+        with self.assertRaisesRegex(StructureError, "반올림 범위"):
+            StructureStage(config={"box": "center_tall", "record": "NOW", "prior": "PRIOR", "title": "t"}, records=self._recs(9.5))
+
+    def test_change_vs_all_rows(self) -> None:
+        with self.assertRaisesRegex(ValueError, "change_pct"):
+            record("NOW", NOW, "proposed", 2027, change_vs="PRIOR")
+
+    def test_real_records(self) -> None:
+        """p.15 실레코드 — 12행, 새 기준 주석, 원문 증감률이 반올림 범위 안(원본이 있으면 sha1 대조)."""
+        st = StructureStage(config={"box": "center_tall", "record": "BUDGET_2027_PROPOSED_SECTORS",
+                                    "prior": "BUDGET_2026_ENACTED_SECTORS", "title": "분야별 총지출"})
+        self.assertEqual(len(st.rows), 12)
+        self.assertEqual(st.rows[0].id, "welfare")
+        self.assertEqual(st.by_id["culture"].delta_pct, 20.4)   # 반올림 값 계산은 20.8 — 원문 값
+        self.assertIn("군인연금기금", st.record.note or "")
+        self.assertEqual((st.record.budget_stage, st.prior_record.budget_stage), ("proposed", "enacted"))

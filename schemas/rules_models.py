@@ -2398,6 +2398,8 @@ class StageStructureRules(_Strict):
     tag_gap: float = Field(ge=0)
     pct_digits: int = Field(ge=0, le=3)
     value_digits: int = Field(ge=0, le=3)
+    value_step: float = Field(gt=0)
+    pct_step: float = Field(gt=0)
     unit_suffix: dict[str, str] = Field(min_length=1)
     stage_words: dict[Literal["proposed", "enacted", "settled"], str]
 

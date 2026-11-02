@@ -459,6 +459,7 @@ class CategoryRow(_Strict):
     value: float
     page: int = Field(ge=1)                   # 원본 페이지(문서에 찍힌 쪽 번호가 아니라 PDF 쪽)
     locator: str = Field(min_length=1)        # 표 이름·줄(원문 그대로, 예: "12대 분야별 재원배분 · 보건·복지·고용")
+    change_pct: Optional[float] = None        # v7.4.0 D-1006 — 원문 표의 증감률(%) 그대로(record.change_vs 대비). 반올림 값으로 다시 계산하지 않는다
 
     @field_validator("id")
     @classmethod
@@ -491,6 +492,8 @@ class CategoricalRecord(_Strict):
     rows: list[CategoryRow] = Field(min_length=2)
     total: Optional[float] = None              # 표의 합계 줄(있으면). 행 합계와 다르면 total_note 에 사유(분야 중복·내부거래 등) 필수
     total_note: Optional[str] = None
+    change_vs: Optional[str] = None            # v7.4.0 D-1006 — 행 change_pct 의 기준 레코드 id(있으면 모든 행에 change_pct 필수)
+    note: Optional[str] = None                 # 분류 기준 개편 등 원문 표 주석(원문 그대로)
 
     @field_validator("record_id")
     @classmethod
@@ -527,6 +530,9 @@ class CategoricalRecord(_Strict):
             raise ValueError(f"as_of {self.as_of} 가 retrieved_at {self.retrieved_at} 보다 늦다")
         if self.source_file.published_on > self.retrieved_at:
             raise ValueError("원본 발행일이 retrieved_at 보다 늦다")
+        if (self.change_vs is not None) != all(x.change_pct is not None for x in self.rows) or (
+                self.change_vs is None and any(x.change_pct is not None for x in self.rows)):
+            raise ValueError("change_vs 가 있으면 모든 행에 change_pct(원문 증감률), 없으면 어느 행에도 쓰지 않는다")
         if self.total is not None:
             s = round(sum(x.value for x in self.rows), 6)
             if abs(s - self.total) > 1e-6 and not self.total_note:

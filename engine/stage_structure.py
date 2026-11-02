@@ -42,16 +42,19 @@ class StructureConfig(BaseModel):
 
 
 class Row(BaseModel):
-    """배치된 행 하나(순위 순)."""
+    """배치된 행 하나(순위 순). published_pct = 원문 표 증감률(있으면 화면 라벨은 이 값 — 반올림 값으로 다시 계산하지 않는다, D-1006)."""
 
     id: str
     label: str
     rank: int
     value: float
     prior: Optional[float] = None
+    published_pct: Optional[float] = None
 
     @property
     def delta_pct(self) -> Optional[float]:
+        if self.published_pct is not None:
+            return self.published_pct
         if self.prior is None or self.prior == 0:
             return None
         return (self.value - self.prior) / self.prior * 100
@@ -59,6 +62,12 @@ class Row(BaseModel):
     @property
     def decreased(self) -> bool:
         return self.prior is not None and self.value < self.prior
+
+
+def pct_bounds(a: float, b: float, step: float) -> tuple[float, float]:
+    """반올림 값 a(전)·b(후) — 실제 값이 ±step/2 안에 있을 때 증감률(%)이 가질 수 있는 범위."""
+    h = step / 2
+    return ((b - h) / (a + h) - 1) * 100, ((b + h) / (a - h) - 1) * 100
 
 
 class StructureStage:
@@ -91,8 +100,18 @@ class StructureStage:
         bad = [x.id for x in rec.rows if x.value < 0] + [k for k, v in pv.items() if v < 0]
         if bad:
             raise StructureError(f"구성 무대는 0 기준 양수 막대만 — 음수 행 {bad}")
+        if rec.change_vs is not None and (pri is None or rec.change_vs != pri.record_id):
+            raise StructureError(f"record.change_vs {rec.change_vs!r} ≠ prior {self.cfg.prior!r} — 원문 증감률의 기준과 눈금 레코드가 다르다")
+        step = STRUCTURE.value_step
+        for x in rec.rows:   # 원문 증감률이 반올림 값과 모순이 없는지(P6) — 표의 미반올림 값으로 계산한 % 라 다를 수 있으나 범위 밖이면 오류
+            if x.change_pct is not None:
+                lo, hi = pct_bounds(pv[x.id], x.value, step)
+                pr = STRUCTURE.pct_step / 2
+                if not lo - pr <= x.change_pct <= hi + pr:
+                    raise StructureError(f"행 {x.id}: 원문 증감률 {x.change_pct}% 가 {pv[x.id]}→{x.value} 반올림 범위 {lo:.2f}~{hi:.2f}% 밖")
         order = sorted(rec.rows, key=lambda x: (-x.value, x.id))
-        self.rows = [Row(id=x.id, label=x.label, rank=i, value=x.value, prior=pv.get(x.id)) for i, x in enumerate(order)]
+        self.rows = [Row(id=x.id, label=x.label, rank=i, value=x.value, prior=pv.get(x.id), published_pct=x.change_pct)
+                     for i, x in enumerate(order)]
         self.by_id = {r.id: r for r in self.rows}
         _, _, bw, bh = ISLAND.boxes[self.cfg.box]
         self.fit(bw, bh)
