@@ -59,7 +59,7 @@ def main(argv: list[str] | None = None) -> int:
         def dev(bx: tuple) -> tuple:
             return tuple(round(v * k_ + (P.R.out.pad_x if i % 2 == 0 else 0)) for i, v in enumerate(bx))
 
-        for cb in _cover_boxes(P, t, cfg.cover_types):
+        for cb in _cover_boxes(P, t, cfg.camera_cover_types if ty == "camera" else cfg.cover_types):   # 검사와 같은 덮개(D-1002)
             d.rectangle(dev(cb), outline=(40, 120, 255), width=3)
         ev = boxf(t)
         if ev is not None:

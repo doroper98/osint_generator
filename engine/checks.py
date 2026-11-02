@@ -2174,7 +2174,7 @@ def map_event_covered(P) -> list[tuple[str, str, float, float, float, float]]:  
         t = a
         while t <= b + 1e-9:
             if t >= cold and not _covered(P, t):
-                covers = _cover_boxes(P, t, cfg.cover_types)
+                covers = _cover_boxes(P, t, cfg.camera_cover_types if ty == "camera" else cfg.cover_types)   # D-1002 — 카메라 이동 = 전면 덮개만
                 if covers:
                     bx = boxf(t)
                     if bx is not None and -80 <= (bx[0] + bx[2]) / 2 <= W_OUT + 80 and -40 <= (bx[1] + bx[3]) / 2 <= H_OUT + 40:

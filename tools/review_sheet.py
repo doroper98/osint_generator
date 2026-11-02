@@ -73,6 +73,8 @@ def element_rows(P) -> list[dict]:  # noqa: ANN001, N803
         worst, what = 0.0, ""
         if box is not None and e["type"] in cfg.cover_types:
             for ty, name, a, b, boxf in wins:
+                if ty == "camera" and e["type"] not in cfg.camera_cover_types:   # 검사와 같은 덮개(D-1002 — 카메라 이동 = 전면만)
+                    continue
                 lo, hi = max(a, va), min(b, vb)
                 t = lo
                 while t <= hi + 1e-9:

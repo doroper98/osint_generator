@@ -2176,7 +2176,8 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # 나타나는 창(route = grow, marker·badge·boom = appear_sec, 카메라 move 키 = dur, 상자 = 화면 전체) 안 step_sec 표본마다 그 상자의 max_ratio 넘게
   # 덮개(cover_types, 알파 ≥ 0.5 — 기사·인용 = 화면 전체, 사진·영상 = 미디어 상자)가 가리면 [map-event-covered] hard. 구석 broll 은 상자가 겹칠 때만 넓이로 센다. 감독 제안 값
   map_event_covered: {max_ratio: 0.25, step_sec: 0.1, appear_sec: 2.0, boom_radius_px: 56, box_pad_px: 6,
-                      event_types: [route, marker, badge, boom, camera], camera_modes: [move], cover_types: [photo, clip, article, quote]}
+                      event_types: [route, marker, badge, boom, camera], camera_modes: [move], cover_types: [photo, clip, article, quote],
+                      camera_cover_types: [article, quote]}   # v7.4.0 D-1002 — 카메라 이동 창은 전면 덮개만(가운데 사진 둘레로 지도·움직임이 보인다 — 눈 판정 오탐 4칸)
   # v7.4.0 back_and_forth D-0466 §6·D-0470(사용자 의견 UF-173 "처음부터 사진을 띄워서 뒤에 지도가 안보이게 하면 … 무지성으로 그냥 늘리면 어떻게 해") — 지도 먼저.
   # [media-sentence-span] hard: 덮는 요소(types)가 앵커 문장(완전 노출 가운데 시각의 문장)과 날짜가 다른 문장과 tol_sec 넘게 겹치면 실패(같은 날짜 연속 문장은 한 창)
   media_sentence_span: {types: [photo, clip, cutout, article, quote], tol_sec: 0.5}

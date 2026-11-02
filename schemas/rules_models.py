@@ -1751,6 +1751,7 @@ class MapEventCoveredRules(_Strict):
     event_types: list[str]
     camera_modes: list[str]
     cover_types: list[str]
+    camera_cover_types: list[str]          # v7.4.0 D-1002 — 카메라 이동 창에서 세는 덮개(전면만)
 
 
 class RouteMissingRules(_Strict):

@@ -103,11 +103,19 @@ class MapEventCoveredTest(unittest.TestCase):
             out = check_map_event_covered(_P([_route(10.0), center]))
         self.assertEqual(len(out), 1)
 
-    def test_camera_move_under_center_photo_fails(self) -> None:
+    def test_camera_move_under_center_photo_passes(self) -> None:
+        """D-1002 눈 판정 — 가운데 큰 사진 둘레로 지도와 카메라 움직임이 보인다(오탐 4칸). 카메라 이동은 전면 덮개만 센다."""
         keys = [SimpleNamespace(t=30.0, dur=4.0, mode="move")]
+        self.assertEqual(QA.map_event_covered.camera_cover_types, ["article", "quote"])
         with mock.patch("engine.media_plan.media_box", _media_box):
-            self.assertEqual(len(check_map_event_covered(_P([_photo(29.0, 40.0)], keys=keys))), 1)
-            self.assertEqual(check_map_event_covered(_P([_photo(35.0, 45.0)], keys=keys)), [])   # 이동이 끝난 뒤(34초 + 페이드)
+            self.assertEqual(check_map_event_covered(_P([_photo(29.0, 40.0)], keys=keys)), [])
+
+    def test_camera_move_under_full_article_fails(self) -> None:
+        keys = [SimpleNamespace(t=30.0, dur=4.0, mode="move")]
+        out = check_map_event_covered(_P([_article(29.0, 40.0)], keys=keys))
+        self.assertEqual(len(out), 1)
+        self.assertTrue(out[0].startswith("[map-event-covered] camera"))
+        self.assertEqual(check_map_event_covered(_P([_article(35.0, 45.0)], keys=keys)), [])   # 이동이 끝난 뒤(34초 + 페이드)
 
 
 if __name__ == "__main__":
