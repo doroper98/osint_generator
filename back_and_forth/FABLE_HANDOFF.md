@@ -45,7 +45,8 @@
 - 전쟁사: 이란 장치 넷 반영(검사 131). 골든 25/25 md5 불일치는 구현 컨테이너 환경 차 — **war main 병합 전 골든이 통과하는 환경에서 재확인**(D337). 칸나이 판정 ③ 답 대기.
 - 속도 트랙 sweet-galileo 병합 73713f0d(14:14Z). 새 hard [map-event-covered] 가 showcase_geo v3 3건 → D-0352(geo v4_animatic + 세 컷 mp4 + §6.3a 시트·점검표). 사용자 게이트 ② 답은 v3 로 받아도 유효, 고친 세 컷은 따로 보낸다.
 - **README §6.3a(사용자 전달 전 review_sheet·uf_checklist 의무)** — 다음 전달부터 적용.
-- 다음 번호 UF-208·D-0353·DECISIONS D340.
+- R-0320 → D-0353(A′: 장면 첫 화면 지도 1.5초 이상 → 사진 → 사건). geo v4_animatic A′ 로 재렌더 대기.
+- 다음 번호 UF-208·D-0354·DECISIONS D341.
 
 ### 상태 갱신(2026-11-02 11:10Z, 최종 감독 — 사용자가 이 세션 모델을 Opus 5.5 로 전환)
 - 쇼케이스: 교체본 콘티 판 v2_animatic 게이트 ② **재승인 대기**. sweet-galileo 머리 b2d5f75a(UF-207 원장 정정 217c4525·PIPELINE-AP-026·5bdcd949·fed 데모 120).
