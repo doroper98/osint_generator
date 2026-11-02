@@ -1491,6 +1491,8 @@ class GeoRules(_Strict):
     map_layers_default: list[Literal["roads", "rivers"]]   # v7.4.0 D-0231 — stage_config.mercator.map_layers 기본값
     country_polygons: str = "data/geo_flat/ne_110m_countries.json"   # v7.4.0 D-0241 §2 — 국가 폴리곤 자료(flag_territory·sea_only_frame)
     river_major_scalerank_max: int = Field(ge=0)      # v7.4.0 D-0229 §2.1-2 — NE 강 scalerank 이 값 이하 = 큰 강(geo.prep_geometry.load_rivers)
+    director_coords: list[str] = Field(min_length=1)   # v7.4.0 D-1000 S5 — 연출 프롬프트 좌표 규칙(사전 이름·좌표만)
+    draft_unsourced_error_kinds: list[Literal["place", "marker", "path", "route"]]   # v7.4.0 D-1000 S5 — 연출 저장 전 오류 종류
 
 
 class CreditRules(_Strict):
@@ -1709,8 +1711,6 @@ class MediaOverlapRules(_Strict):
     box_aspect: float = Field(gt=0)
 
 
-class RouteMissingRules(_Strict):
-    """v5.21.14 D-0195·D-0197 — 문장에 이동·공격 동사 + 그 문장이 부르는 마커가 있으면 그 마커에 닿는 경로가 문장 구간에 있어야 한다."""
 class MapEventCoveredRules(_Strict):
     """v7.4.0 D-1000 S3(UF-173) — 지도 사건이 자라나거나 나타나는 창에서 덮개에 가린 상자 넓이 비율 상한."""
     max_ratio: float = Field(gt=0, le=1)
@@ -1737,6 +1737,8 @@ class MediaBurstRules(_Strict):
     cover_types: list[str]
 
 
+class RouteMissingRules(_Strict):
+    """v5.21.14 D-0195·D-0197 — 문장에 이동·공격 동사 + 그 문장이 부르는 마커가 있으면 그 마커에 닿는 경로가 문장 구간에 있어야 한다."""
 
     move_verbs: list[str] = Field(min_length=1)
     attack_verbs: list[str] = Field(min_length=1)
@@ -1837,11 +1839,11 @@ class QAChecks(_Strict):
     card_full_exposure_min_sec: float = Field(gt=0)   # v5.21.10 D-0191 §1-2 — 기사·인용 카드 완전 불투명 구간 하한(hard card_exposure)
     element_hold: "ElementHoldRules"     # v7.4.0 D-0462(UF-171) — 요소 종류별 완전 노출 하한(hard element_hold)
     media_overlap: "MediaOverlapRules"   # v7.4.0 D-0462(UF-172) — 앞 요소가 하한 전에 덮임(hard media_overlap)
-    restate_overlap_max: float = Field(default=0.6, gt=0, le=1)   # v7.4.0 D-0306 §1.2 — [text-restates-narration] 어절 겹침 상한
-    restate_min_words: int = Field(default=4, ge=1)   # 이 어절 미만 화면 글자(이름표)는 보지 않는다
     map_event_covered: "MapEventCoveredRules"   # v7.4.0 D-1000 S3(UF-173) — hard map_event_covered
     media_date_cross: "MediaDateCrossRules"     # v7.4.0 D-1000 S3 — hard media_date_cross
     media_burst: "MediaBurstRules"              # v7.4.0 D-1000 S3 — hard media_burst([media-burst-window]·[map-cover-share])
+    restate_overlap_max: float = Field(default=0.6, gt=0, le=1)   # v7.4.0 D-0306 §1.2 — [text-restates-narration] 어절 겹침 상한
+    restate_min_words: int = Field(default=4, ge=1)   # 이 어절 미만 화면 글자(이름표)는 보지 않는다
     restate_particles: list[str] = Field(default_factory=list)   # v7.4.0 D-0316 ② — 어절 끝 조사(떼고 비교)
     # v7.4.0 D-0311 — 회귀 기준 프로젝트 id → 사유, 그리고 hard 만 면제하는 검사 id(검사는 돌고 provenance regression_waived 기록)
     regression_refs: dict[str, str] = Field(default_factory=dict)

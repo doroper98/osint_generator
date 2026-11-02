@@ -1145,6 +1145,13 @@ geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계
   # v4.7.0 back_and_forth D-0107 D2(b) — 이 이름(부분 일치, 대소문자 무시)을 단 route 이벤트(label·{path:})·paths 키 = checks [boundary-as-route] hard(M8 재발 방지).
   # 경계선은 지도 경계 레이어가 그린다.
   boundary_names: [군사분계선, MDL, 국경, 휴전선, NLL, 북방한계선, 남방한계선, 경계선, 분계선, 접경선, border, boundary]
+  # v7.4.0 back_and_forth D-1000 S5 — 연출 LLM 초안의 출처 없는 좌표 수작업 제거. 연출 프롬프트 {{RULES.geo.director_coords}} 로 들어간다(P3).
+  director_coords:
+    - "좌표는 지명 사전(data/gazetteer.yaml)에 있는 이름과 그 좌표만 쓴다. places 키 이름은 사전 이름 그대로, 경위도는 사전 값 그대로 옮긴다."
+    - "사전에 없는 장소의 새 좌표를 만들지 않는다 — 그 장소는 마커 없이 문장으로만 다루거나, 사전에 있는 가까운 이름을 쓴다."
+    - "paths 의 바다 경유점(항로 꺾임점)만 예외다. 경로 양 끝은 사전 이름의 좌표로 둔다."
+  # 연출 저장 전 점검(workers.direction_io.check_direction)에서 사전과 대조하지 못한 좌표 중 이 종류는 오류(1회 재요청) — 렌더 검사 [geo-unsourced] 는 warning 그대로
+  draft_unsourced_error_kinds: [place, marker]
   # v4.10.0 back_and_forth D-0116(B-1, D-0107) — 지명 사전. 지도 무대 place 키·그 place 를 쓰는 marker label·인라인 marker label 이
   # 사전 이름과 맞으면 좌표를 대조한다: 맞은 항목 모두의 허용 오차(tol_km) 밖 = checks [geo-mismatch] hard, 사전에 없는 이름 = [geo-unsourced] warning.
   # 사전 = manual(수기 — 해협·섬·만·공항·기지·국가, 항목마다 출처·tol_km) + ne(tools/build_gazetteer.py 가 NE 10m populated places 에서 생성).
@@ -2165,13 +2172,6 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # 전면(full_types — 기사·인용은 화면 전체를 어둡게 덮는다)은 무조건 덮고, 상자(box_types)는 상자가 겹칠 때만 덮는다(상자 높이 = 폭 × box_aspect)
   # full_types 에서 backdrop 제외 — backdrop 은 무대 바닥 층(engine/render.py 층 순서: backdrop 을 지도·사진·기사보다 먼저 그린다) — 덮개가 아니다(D-0348)
   media_overlap: {cover_types: [photo, clip, cutout, quote, article], full_types: [article, quote], box_types: [photo, clip, cutout], box_aspect: 0.75}
-  # v7.4.0 back_and_forth D-0306 §1.2(UF-148) — 화면 글자가 자막을 되풀이하면 [text-restates-narration] hard. 어절 겹침 비율 상한·대상 최소 어절(짧은 이름표 제외). 감독 제안 값
-  restate_overlap_max: 0.6
-  restate_min_words: 4
-  # v7.4.0 D-0316 ② — 어절 끝 조사(하나만, 긴 것부터 뗀다). 조사가 붙은 어절("경유의")과 맨 단어("경유")를 같은 말로 본다. GL135 체크리스트 사례
-  restate_particles: [은, 는, 이, 가, 을, 를, 의, 에, 에서, 으로, 로, 와, 과, 도, 만]
-  # v7.4.0 back_and_forth D-0311 — 회귀 기준(사용자 영상 아님) 한 목록. media_density·chart_only_run·plot_height·axis_empty_band 의 hard 만 면제 —
-  # 검사는 돌고 provenance regression_waived 에 줄이 남는다(D-0251·D-0271 예외 원칙). 판정 키 = direction project_id(없으면 폴더 이름) —
   # v7.4.0 back_and_forth D-1000 S3(사용자 UF-173 "처음부터 사진을 띄워서 뒤에 지도가 안보이게", D-0466 §2 지도가 먼저) — 지도 무대 사건이 자라나거나
   # 나타나는 창(route = grow, marker·badge·boom = appear_sec, 카메라 move 키 = dur, 상자 = 화면 전체) 안 step_sec 표본마다 그 상자의 max_ratio 넘게
   # 덮개(cover_types, 알파 ≥ 0.5 — 기사·인용 = 화면 전체, 사진·영상 = 미디어 상자)가 가리면 [map-event-covered] hard. 구석 broll 은 상자가 겹칠 때만 넓이로 센다. 감독 제안 값
@@ -2183,6 +2183,13 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # v7.4.0 D-1000 S3 — 옛 media_beats [media-burst-window] 경고(D-0466 "40초에 4개 > 2 를 무시했다")를 hard 로(창·개수 = media.density.window_sec·window_max).
   # 더해 지도 무대 같은 길이 창마다 덮개가 하나라도 보이는 시간 비율 ≤ max_cover_ratio([map-cover-share])
   media_burst: {max_cover_ratio: 0.5, step_sec: 0.1, cover_types: [photo, clip, article, quote]}
+  # v7.4.0 back_and_forth D-0306 §1.2(UF-148) — 화면 글자가 자막을 되풀이하면 [text-restates-narration] hard. 어절 겹침 비율 상한·대상 최소 어절(짧은 이름표 제외). 감독 제안 값
+  restate_overlap_max: 0.6
+  restate_min_words: 4
+  # v7.4.0 D-0316 ② — 어절 끝 조사(하나만, 긴 것부터 뗀다). 조사가 붙은 어절("경유의")과 맨 단어("경유")를 같은 말로 본다. GL135 체크리스트 사례
+  restate_particles: [은, 는, 이, 가, 을, 를, 의, 에, 에서, 으로, 로, 와, 과, 도, 만]
+  # v7.4.0 back_and_forth D-0311 — 회귀 기준(사용자 영상 아님) 한 목록. media_density·chart_only_run·plot_height·axis_empty_band 의 hard 만 면제 —
+  # 검사는 돌고 provenance regression_waived 에 줄이 남는다(D-0251·D-0271 예외 원칙). 판정 키 = direction project_id(없으면 폴더 이름) —
   # 합성 사본(tests/test_g8_animatic synthetic_project)도 원본 id 를 연출에 싣고 온다. 범위 = tests/test_regression_refs.py 가 이 둘로 고정
   # v7.4.0 back_and_forth D-0312 §1-1 — 지도·배경만 보이는 구간(아래 요소 하나도 안 보임)이 이 초 이상이면 [scene-visual-void] hard.
   # 콜드 오픈(타이틀 카드 전)·타이틀·엔딩 카드·카메라 이동(move)·dip 전환 중은 제외. provenance visual_void 에 구간 목록. 값 = 감독 제안(D-0312)
