@@ -1,0 +1,15 @@
+{
+ "checks": {
+  "source": "prev/provenance.json",
+  "direction_sha1": "7cac70bdd6bd5aebda4906fb31292810516bd198",
+  "from_current_direction": true,
+  "hard": 0,
+  "warnings": 50,
+  "passed": true
+ },
+ "qa": {
+  "auto_iterations": 0,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)"
+ }
+}
