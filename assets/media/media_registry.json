@@ -8964,6 +8964,98 @@
      "jpeg_quality": 92
     }
    }
+  },
+  "iran_celestial_sea_0520": {
+   "kind": "photo",
+   "title": "File:Sailors and Marines board M-T Celestial Sea (9700459).jpg",
+   "author": "[null Courtesy]",
+   "license": "Public domain",
+   "date": "2026-05-20",
+   "url": "https://commons.wikimedia.org/wiki/File:Sailors_and_Marines_board_M-T_Celestial_Sea_(9700459).jpg",
+   "caption": "봉쇄 중 검문 대상이 된 유조선 셀레스철 시",
+   "file_note": "자료사진 · 2026. 05",
+   "depicts": [
+    "항해 중인 유조선 셀레스철 시(헬기에서 본 모습)",
+    "헬기 문 쪽 기관총 실루엣(가장자리)"
+   ],
+   "main_subject": [
+    "항해 중 유조선"
+   ],
+   "background": [
+    "바다"
+   ],
+   "is_file_photo": true,
+   "credit_author": "미 해군 중부사령부(퍼블릭 도메인)",
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타(라이선스·작성자·날짜·제한 없음) 대조, 1280px 원본 육안 확인(주된 피사체 D-0327)",
+    "on": "2026-11-02",
+    "casualty_free": true,
+    "relevance": "act6_2 울산 선적지 차트 뒤 배경(backdrop) — 봉쇄 중 걸프 유조선 검문(5/20), 차트를 덮지 않는 장식 배경(D-0469 §1)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-02",
+   "source_hash": "0096e7642331aaf37e7d1e804cf27079",
+   "file": "iran_celestial_sea_0520_720.jpg",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "iran_celestial_sea_0520.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   }
+  },
+  "iran_mcm_hormuz_0411": {
+   "kind": "photo",
+   "title": "File:U S Forces Start Mine Clearance Mission in Strait of Hormuz (9609002).jpg",
+   "author": "NAVCENT Public Affairs",
+   "license": "Public domain",
+   "date": "2026-04-11",
+   "url": "https://commons.wikimedia.org/wiki/File:U_S_Forces_Start_Mine_Clearance_Mission_in_Strait_of_Hormuz_(9609002).jpg",
+   "caption": "호르무즈 해협 기뢰 제거 작전에 나선 미 해군 구축함",
+   "file_note": "자료사진 · 2026. 04",
+   "depicts": [
+    "안개 낀 해협의 미 해군 구축함",
+    "멀리 헬기"
+   ],
+   "main_subject": [
+    "해협의 미 해군 구축함"
+   ],
+   "background": [
+    "바다·해안선"
+   ],
+   "is_file_photo": true,
+   "credit_author": "미 해군 중부사령부(퍼블릭 도메인)",
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons API 메타(라이선스·작성자·날짜·제한 없음) 대조, 1280px 원본 육안 확인(주된 피사체 D-0327)",
+    "on": "2026-11-02",
+    "casualty_free": true,
+    "relevance": "act5_7 전쟁 위험 보험료 차트 뒤 배경(backdrop) — 해협 위험의 자료사진(4/11), 차트를 덮지 않는 장식 배경(D-0469 §1)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-02",
+   "source_hash": "f67153b0c977571b26e908ee1f27bda5",
+   "file": "iran_mcm_hormuz_0411_720.jpg",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "iran_mcm_hormuz_0411.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   }
   }
  }
 }
