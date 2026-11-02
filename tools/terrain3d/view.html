@@ -25,7 +25,8 @@ for (let j = 0; j < H.ny; j++) for (let i = 0; i < H.nx; i++) pos.setY(j * H.nx 
 geo.computeVertexNormals();
 const tex = await new THREE.TextureLoader().loadAsync('/scene/texture.png');
 tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
-scene.add(new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ map: tex })));
+// 지면: texture = mercator relief 텍스처 색 그대로(음영은 텍스처에 이미 있음 — 본편 구간 경계 색조 일치, D-0619 ①), 없으면 조명(스케치)
+scene.add(new THREE.Mesh(geo, S.ground === 'texture' ? new THREE.MeshBasicMaterial({ map: tex }) : new THREE.MeshLambertMaterial({ map: tex })));
 scene.add(new THREE.AmbientLight(0xffffff, S.light.ambient));
 const sun = new THREE.DirectionalLight(0xffffff, S.light.sun);
 const az = S.light.az * Math.PI / 180, el = S.light.el * Math.PI / 180;

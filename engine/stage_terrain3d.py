@@ -276,6 +276,7 @@ def build_scene(P: "Project", seg: "Segment", forces: WarForces, out: Path) -> d
         frames.append(fr)
     first_units = frames[0].get("units", [])
     scene = {"width": W, "height": H, "size_m": size_m, "center": [0, 0], "exaggeration": T3.exaggeration, "text_in_engine": True,
+             "ground": load_rules().stage_terrain3d.ground,
              "camera": {"fov": T3.camera.fov_deg, "elev_deg": 90.0, "radius_m": radius, "target": cam_of(views[0])[0]},
              "light": T3.light.model_dump(), "sky": T3.sky, "fog": [radius * T3.fog[0], radius * T3.fog[1]],
              "lift_m": T3.lift_m, "label_lift_m": T3.label_lift_m, "unit_opacity": T3.unit_opacity,

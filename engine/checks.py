@@ -16,6 +16,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | labels | hard | 샘플 시각마다 도시 라벨 수 ≤ labels_per_frame_max |
 | license_mismatch | hard | v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장르. 영상이 쓰는 미디어 레코드의 photo_license(없으면 license)가 Commons 라이선스 분류(license_tags)와 맞는가. 유물 나이 PD(rules war_history.rights.work_age_tags)는 사진 권리가 아니다 |
 | evidence_layer · period_art_label · casualty_unsourced · symbol_set | hard | v7.4.0 전쟁사 W2(D-0600 §4, UF-150) — 장르 war_history 만. 시대별 필수 증거 층·작품 당대/후대 라벨·병력/사상자 force 인용·한 영상 한 부호 세트(schemas.war_history) |
+| terrain3d_seam | hard | v7.4.0 D-0619 ① — terrain3d 구간 들어감·나옴 이음 창(rules stage_terrain3d.seam_sec 앞뒤)의 실제 렌더 이웃 프레임 평균 절대 화소 차 ≤ rules qa_checks.terrain3d_seam_mad_max `[terrain3d-seam]`. 컷처럼 꺾이는 경계(밝기·강·부대가 한 프레임에 바뀜)를 잡는다 |
 | war_units_approx | hard | v7.4.0 D-0615 §2-1 — terrain3d 구간 부대 기록(forces) approximate·sources 필수, 구간 출처 줄에 rules sketch.checks.approx_word. 구간 없는 영상은 대상 없음. static_camera·sea_only_frame·route_frame 은 구간 프레임 해당 없음(notes 사유 기록) |
 | date | hard | 문장 date 형식(rules script_schema.date_formats — 파서 schemas/era_date, 기원전·대략·기간 포함) — 날짜 배지는 이 값으로만 그린다 |
 | subtitles | hard | 자막 줄 수 ≤ subtitle_lines_max(렌더러와 같은 wrap) |
@@ -139,6 +140,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("license_mismatch",   # v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장르: 레코드 사진 라이선스 ↔ Commons 라이선스 분류
         "evidence_layer", "period_art_label", "casualty_unsourced", "symbol_set",   # v7.4.0 전쟁사 W2(D-0600 §4) — 장르 war_history 만
         "war_units_approx",   # v7.4.0 D-0615 §2-1 — terrain3d 구간 부대 기록 개략 표기(구간 있는 영상만)
+        "terrain3d_seam",     # v7.4.0 D-0619 ① — terrain3d 구간 들어감·나옴 이음(이웃 프레임 MAD)
         "map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
@@ -1032,10 +1034,39 @@ def label_under_media(P) -> list[tuple[dict, str, float, float]]:  # noqa: ANN00
     return out
 
 
+def terrain3d_labels_under_media(P) -> list[tuple[str, str, float, float]]:  # noqa: ANN001, N803
+    """(부대·지명 이름, 덮은 미디어 mid, 처음 시각, 깔린 초) — v7.4.0 D-0619 ②. terrain3d 구간 프레임은 지도 마커가 아니라 엔진이 그린
+    부대 라벨(병종 그림·이름 — 블록 중심부)이라 label_under_media 와 같은 규칙 키(step_sec·min_alpha·max_sec)로 labels.json 상자를 잰다."""
+    from engine.layers.terrain3d import label_box, seam_alpha, segment_at  # noqa: PLC0415
+    from engine.media_plan import media_box  # noqa: PLC0415
+    from engine.timebase import window  # noqa: PLC0415
+
+    cfg = QA.label_under_media
+    if cfg is None or not P.R.cache.get("terrain3d_segments"):
+        return []
+    assets = P.R.assets.media_assets
+    media = [(m, tuple(media_box(m, assets))) for m in P.events if m["type"] in cfg.media_types and "x" in m and m.get("mid") in assets]
+    hits: dict[tuple[str, str], list[float]] = {}
+    for m, b in media:
+        t = m["t0"] + cfg.step_sec / 2
+        while t < m["t1"]:
+            i = min(P.n_frames - 1, int(t * FPS))
+            seg = segment_at(P, i)
+            if seg is not None and window(t, m["t0"], m["t1"], *ELEM[m["type"]]) >= cfg.min_alpha \
+                    and seam_alpha(seg, t) >= cfg.min_alpha and not _covered(P, t):
+                for rec in seg.labels[i - seg.i0]:
+                    if not rec.get("behind") and rec.get("name") and _box_hit(label_box(P, rec), b):
+                        hits.setdefault((rec["name"], m["mid"]), []).append(t)
+            t += cfg.step_sec
+    return [(name, mid, ts[0], len(ts) * cfg.step_sec) for (name, mid), ts in hits.items() if len(ts) * cfg.step_sec > cfg.max_sec + 1e-9]
+
+
 def check_label_under_media(P) -> list[str]:  # noqa: ANN001, N803
     """[label-under-media] hard(v7.4.0 R-0294 감독 판정 — 겹침 0 원칙) — 지도 마커 라벨이 사진·영상 아래에 깔린다."""
     return [f"[label-under-media] 마커 {e['label']!r} 라벨이 {mid} 상자 아래 {sec:.1f}초 깔림(t={t:.1f}, > {QA.label_under_media.max_sec:g}초) — "
-            "사진 자리(place)를 라벨과 겹치지 않는 슬롯으로 옮기거나 마커 시각을 사진 밖으로 옮긴다" for e, mid, t, sec in label_under_media(P)]
+            "사진 자리(place)를 라벨과 겹치지 않는 슬롯으로 옮기거나 마커 시각을 사진 밖으로 옮긴다" for e, mid, t, sec in label_under_media(P)] + [
+        f"[label-under-media] terrain3d 부대·지명 {name!r} 라벨이 {mid} 상자 아래 {sec:.1f}초 깔림(t={t:.1f}, > {QA.label_under_media.max_sec:g}초) — "
+        "카드가 나오는 숏에서 카메라가 진형을 비켜 두고 카드는 빈 쪽에 선다(D-0619 ②)" for name, mid, t, sec in terrain3d_labels_under_media(P)]
 
 
 def check_caption_overflow(P) -> list[str]:  # noqa: ANN001, N803
@@ -1308,6 +1339,64 @@ def check_war_units_approx(P) -> list[str]:  # noqa: ANN001, N803
     if word not in approx_line(f):
         out.append(f"[war-units-approx] terrain3d 구간 출처 줄에 '{word}' 가 없다")
     return out
+
+
+def seam_report(P) -> dict[str, dict]:  # noqa: ANN001, N803
+    """구간마다 들어감·나옴 이음 창의 이웃 프레임 MAD 최댓값과 그 프레임(실제 render_frame — 검사 근사 아님). P.R.cache 에 한 번.
+    창 = 경계 앞 한 프레임 ~ 경계 뒤 seam_sec + 한 프레임(들어감), 거꾸로(나옴)."""
+    if "terrain3d_seam" in P.R.cache:
+        return P.R.cache["terrain3d_seam"]
+    from engine import typography  # noqa: PLC0415
+    from engine.layers.terrain3d import load_segments  # noqa: PLC0415
+    from engine.render import render_frame  # noqa: PLC0415
+
+    segs = P.R.cache.get("terrain3d_frames")
+    if segs is None:
+        segs = P.R.cache["terrain3d_frames"] = load_segments(P)
+    n = math.ceil(R_.stage_terrain3d.seam_sec * FPS) + 1
+    memo: dict[int, np.ndarray] = {}
+    keep_log, keep_drawn = typography.CONTRAST_LOG, P.R.cache.get("terrain3d_approx_drawn")
+
+    def frame(i: int) -> np.ndarray:
+        if i not in memo:
+            _, buf = render_frame(P, i)
+            o = P.R.out
+            memo[i] = np.frombuffer(bytes(buf), np.uint8).reshape(o.height, o.width, 4)[..., :3].astype(np.float32)
+        return memo[i]
+
+    def worst(lo: int, hi: int) -> tuple[float, int]:
+        lo, hi = max(0, lo), min(P.n_frames - 1, hi)
+        best = (0.0, lo)
+        for i in range(lo, hi):
+            d = float(np.abs(frame(i + 1) - frame(i)).mean())
+            best = max(best, (d, i))
+        return best
+
+    out: dict[str, dict] = {}
+    typography.CONTRAST_LOG = None
+    try:
+        for s in segs:
+            (mi, fi), (mo, fo) = worst(s.i0 - 1, s.i0 + n), worst(s.i1 - n - 1, s.i1)
+            out[s.sid] = {"in": {"mad": round(mi, 2), "t": round(fi / FPS, 2)}, "out": {"mad": round(mo, 2), "t": round(fo / FPS, 2)}}
+    finally:
+        typography.CONTRAST_LOG = keep_log
+        if keep_drawn is None:
+            P.R.cache.pop("terrain3d_approx_drawn", None)
+        else:
+            P.R.cache["terrain3d_approx_drawn"] = keep_drawn
+    P.R.cache["terrain3d_seam"] = out
+    return out
+
+
+def check_terrain3d_seam(P) -> list[str]:  # noqa: ANN001, N803
+    """[terrain3d-seam] hard(v7.4.0 D-0619 ①) — 구간 경계가 컷처럼 꺾이면(지면 색조·강·부대가 한 프레임에 바뀜) 실패. 구간 없으면 대상 없음."""
+    if not P.R.cache.get("terrain3d_segments"):
+        return []
+    lim = R_.qa_checks.terrain3d_seam_mad_max
+    names = {"in": "들어감", "out": "나옴"}
+    return [f"[terrain3d-seam] {sid} {names[k]} {r['t']:.2f}초 이웃 프레임 평균 화소 차 {r['mad']:.1f} > {lim:g} — 경계가 컷처럼 꺾인다"
+            "(지면 색조를 mercator relief 와 맞추고 rules stage_terrain3d.seam_sec 이음 창에서 녹아 들게, D-0619 ①)"
+            for sid, rep in seam_report(P).items() for k, r in rep.items() if r["mad"] > lim]
 
 
 def check_static_camera(P) -> list[str]:  # noqa: ANN001, N803
@@ -2523,6 +2612,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "casualty_unsourced": lambda: check_war_history(P)["casualty_unsourced"], # [casualty-unsourced]
         "symbol_set": lambda: check_war_history(P)["symbol_set"],                 # [symbol-set-mixed]
         "license_mismatch": lambda: check_license_mismatch(P),                    # v7.4.0 D-0606 §2 [license-mismatch]
+        "terrain3d_seam": lambda: check_terrain3d_seam(P),                        # v7.4.0 D-0619 ① [terrain3d-seam]
         "war_units_approx": lambda: check_war_units_approx(P),                    # v7.4.0 D-0615 §2-1 [war-units-approx]
         "series_date_convention": lambda: check_series_date_convention(P),   # v7.4.0 D-0326(warning)
         "chart_world_split": lambda: check_chart_world_split(P),   # v7.4.0 D-0251 §6.2-2(hard, UF-135 ②)

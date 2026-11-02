@@ -80,6 +80,9 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
         from engine.layers import terrain3d as T3L  # noqa: PLC0415, N812
 
         seg3d = T3L.segment_at(P, i)
+    seam = None   # v7.4.0 D-0619 ① — 구간 이음 창: mercator 지도를 그대로 그린 뒤 그 위로 3D 를 녹여 들이고 걷는다(컷 금지)
+    if seg3d is not None and (a3 := T3L.seam_alpha(seg3d, t)) < 0.999:
+        seam, seg3d = (seg3d, a3), None
     if seg3d is not None:
         if not capture:
             T3L.draw_base(ctx, seg3d, i)
@@ -113,6 +116,10 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     flush_route_labels(ctx, R, view, act, t)   # 그린 라벨 상자는 R.reserved 로 — 배경 지명이 피한다
     if panel_a < 0.99 and seg3d is None:
         R.stage.draw_labels(ctx, view, R.reserved, 1 - panel_a)
+    if seam is not None and seam[1] > 0.001:
+        if not capture:
+            T3L.draw_base(ctx, seam[0], i, seam[1])
+        T3L.draw_labels(ctx, P, seam[0], i, t, seam[1])
     if frame is not None:
         ctx.restore()
     from engine import typography as _ty  # noqa: PLC0415

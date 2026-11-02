@@ -1888,6 +1888,7 @@ class QAChecks(_Strict):
     series_max: int = Field(ge=1)   # v4.3.0 — 20 §5.3 계열 수 상한
     grid_text_cross: Optional[GridTextCross] = None   # v7.4.0 D-0344(UF-155)
     terrain3d_render_mad_max: float = Field(gt=0)   # v7.4.0 D-0614 ② — terrain3d 재렌더 평균 절대 화소 차 상한(0~255, slow 시험)
+    terrain3d_seam_mad_max: float = Field(gt=0)     # v7.4.0 D-0619 ① — 구간 이음 창 이웃 프레임 MAD 상한(checks terrain3d_seam)
     chart_depth: "ChartDepth"   # v7.4.0 D-0339 — 차트 깊이·과밀·보조 축·격자↔글자·막대 테두리(UF-151·152·154·155·202)
     visual_qa_loop_max: int
     empty_exempt: list[Literal["article_press_lead"]] = Field(default_factory=list)   # v5.1.0 D-0127 §5 — 검수 empty 제외 구간
@@ -2365,6 +2366,8 @@ class StageTerrain3DRules(_Strict):
 
     tilt_sec: float = Field(gt=0)
     region_factor: float = Field(gt=1)
+    seam_sec: float = Field(gt=0)            # D-0619 ① — 구간 경계 이음(녹아 듦·걷힘) 시간
+    ground: Literal["texture", "lit"]        # D-0619 ① — 3D 지면 색: texture = mercator relief 그대로, lit = 조명 곱함(스케치)
 
 
 class StageBackdropRules(_Strict):
@@ -3885,10 +3888,10 @@ class WarEvidence(_Strict):
     required_layers: dict[Literal["ancient", "early_modern", "modern"], list[str]]
     by_era: dict[Literal["ancient", "early_modern", "modern"], str]
     toponymy_confidence: list[str] = Field(min_length=1)
+    toponymy_label_max_chars: int = Field(gt=0)   # v7.4.0 D-0619 ③ — 지도 핀 아래 유래 줄 글자 수 상한
 
 
 class WarCasualty(_Strict):
-    toponymy_label_max_chars: int = Field(gt=0)   # v7.4.0 D-0619 ③ — 지도 핀 아래 유래 줄 글자 수 상한
     band_required: bool
     band_labels: dict[Literal["ancient_range", "modern_estimate"], str]
     trigger_words: list[str] = Field(min_length=1)

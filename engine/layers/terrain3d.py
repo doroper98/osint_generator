@@ -74,12 +74,21 @@ def segment_at(P: "Project", i: int) -> Optional[SegFrames]:  # noqa: N803
     return next((s for s in segs if s.i0 <= i < s.i1), None)
 
 
-def draw_base(ctx: cairo.Context, seg: SegFrames, i: int) -> None:
+def seam_alpha(seg: SegFrames, t: float) -> float:
+    """구간 이음(D-0619 ①) — 들어감 뒤·나옴 앞 rules stage_terrain3d.seam_sec 동안 0→1→0(smooth). 1 = 3D 만, 0 = mercator 만."""
+    from engine.timebase import smooth  # noqa: PLC0415
+
+    s = load_rules().stage_terrain3d.seam_sec
+    return smooth(max(0.0, min(1.0, (t - seg.t_in) / s, (seg.t_out - t) / s)))
+
+
+def draw_base(ctx: cairo.Context, seg: SegFrames, i: int, alpha: float = 1.0) -> None:
+    """alpha < 1 = 이음 창 — 이미 그린 mercator 지도 위로 3D 바탕(부대·강 포함)이 녹아 든다(D-0619 ①)."""
     img = cairo.ImageSurface.create_from_png(str(seg.dir / "frames" / f"f_{i - seg.i0:04d}.png"))
     ctx.save()
     ctx.identity_matrix()   # 장치 해상도 그대로(무대 render_base 와 같은 자리)
     ctx.set_source_surface(img, 0, 0)
-    ctx.paint()
+    ctx.paint_with_alpha(alpha)
     ctx.restore()
 
 
@@ -89,13 +98,30 @@ def _design(P: "Project", x: float, y: float) -> tuple[float, float]:  # noqa: N
     return (x - o.pad_x) / o.k, y / o.k
 
 
+def label_box(P: "Project", rec: dict) -> tuple[float, float, float, float]:  # noqa: N803
+    """라벨 기록 하나가 화면에 차지하는 설계 상자(부대 = 병종 그림 + 이름, 지명 = 이름) — draw_labels 와 같은 자리 식.
+    부대 블록 몸통은 라벨 점(블록 중심 위) 둘레라 이 상자가 블록 중심부를 덮는다(D-0619 ② 카드 덮음 검사)."""
+    from engine.typography import adv  # noqa: PLC0415
+
+    T3 = load_rules().sketch.war.terrain3d  # noqa: N806
+    k = W_OUT / T3.width
+    x, y = _design(P, rec["x"], rec["y"])
+    if rec["k"] == "unit":
+        g, sz = T3.glyph_px * k, T3.text.unit * k
+        half = max(g / 2, adv(rec.get("name") or "", sz, "sansm") / 2)
+        return x - half, y - g, x + half, y + sz * 1.35
+    sz = T3.text.place * k
+    half = adv(rec["name"], sz, "sansm") / 2
+    return x - half, y - sz * 0.9, x + half, y + sz * 0.3
+
+
 def approx_line(forces: Any) -> str:
     word = load_rules().sketch.checks.approx_word
     return f"부대 위치·크기: {' · '.join(forces.sources)} — {word}(축척 아님)"
 
 
-def draw_labels(ctx: cairo.Context, P: "Project", seg: SegFrames, i: int, t: float) -> None:  # noqa: N803
-    """부대 픽토그램·이름, 진영 휘장, 지명, '개략' 출처 줄. 뒤에 숨은 점(behind)은 그리지 않는다."""
+def draw_labels(ctx: cairo.Context, P: "Project", seg: SegFrames, i: int, t: float, fade: float = 1.0) -> None:  # noqa: N803
+    """부대 픽토그램·이름, 진영 휘장, 지명, '개략' 출처 줄. 뒤에 숨은 점(behind)은 그리지 않는다. fade = 이음 창 알파(seam_alpha)."""
     R = load_rules()  # noqa: N806
     T3, G, E = R.sketch.war.terrain3d, R.war_history.symbol_sets.glyph, R.war_history.faction_badge.emblem  # noqa: N806
     k = W_OUT / T3.width   # 스케치 3D 폭(규칙 값의 기준) → 설계 폭
@@ -107,21 +133,21 @@ def draw_labels(ctx: cairo.Context, P: "Project", seg: SegFrames, i: int, t: flo
         x, y = _design(P, rec["x"], rec["y"])
         if rec["k"] == "unit":
             if rec.get("glyph"):
-                draw_glyph(ctx, rec["glyph"], x, y - T3.glyph_px * k / 2, T3.glyph_px * k, (1, 1, 1), G.alpha, tuple(G.halo_rgb), G.halo_px)
+                draw_glyph(ctx, rec["glyph"], x, y - T3.glyph_px * k / 2, T3.glyph_px * k, (1, 1, 1), G.alpha * fade, tuple(G.halo_rgb), G.halo_px)
             fk = rec.get("faction")
             if fk in emb:
-                draw_emblem(ctx, emb[fk], x + E.block_dx, y + E.block_dy - T3.glyph_px * k / 2, E.block_px, (1, 1, 1), E.alpha,
+                draw_emblem(ctx, emb[fk], x + E.block_dx, y + E.block_dy - T3.glyph_px * k / 2, E.block_px, (1, 1, 1), E.alpha * fade,
                             (0.05, 0.06, 0.08), E.halo_px)
             if rec.get("name"):
-                text(ctx, rec["name"], x, y + T3.text.unit * k, T3.text.unit * k, "sansm", (1, 1, 1), 1.0, 3.0, "c",
+                text(ctx, rec["name"], x, y + T3.text.unit * k, T3.text.unit * k, "sansm", (1, 1, 1), fade, 3.0, "c",
                      contrast="required")
         elif rec["k"] == "place":
             p = next((q for q in forces.places if q.name == rec["name"]), None)
             if p is not None and (t < p.t or (p.t_out is not None and t >= p.t_out)):
                 continue
-            text(ctx, rec["name"], x, y, T3.text.place * k, "sansm", (1, 1, 1), 1.0, 3.0, "c", contrast="required")
+            text(ctx, rec["name"], x, y, T3.text.place * k, "sansm", (1, 1, 1), fade, 3.0, "c", contrast="required")
     line = approx_line(forces)
-    text(ctx, line, R.source_note.x, H_OUT - R.source_note.y_from_bottom, STAMP.size, STAMP.font, C["muted"], R.source_note.alpha, 0, "l",
+    text(ctx, line, R.source_note.x, H_OUT - R.source_note.y_from_bottom, STAMP.size, STAMP.font, C["muted"], R.source_note.alpha * fade, 0, "l",
          role="media_meta")
     log = P.R.cache.setdefault("terrain3d_approx_drawn", {})
     log.setdefault(seg.sid, {"line": line, "frames": 0})["frames"] += 1
@@ -140,4 +166,4 @@ def map_events_in_segments(events: list[dict], segs: list[Any], map_types: tuple
     return out
 
 
-__all__ = ["SegFrames", "approx_line", "draw_base", "draw_labels", "load_segments", "map_events_in_segments", "segment_at"]
+__all__ = ["SegFrames", "approx_line", "label_box", "draw_base", "seam_alpha", "draw_labels", "load_segments", "map_events_in_segments", "segment_at"]

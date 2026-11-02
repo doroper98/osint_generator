@@ -83,5 +83,54 @@ class Terrain3DCompositeTest(unittest.TestCase):
         self.assertNotEqual(self._compose(P, seg, 0), COMPOSITE_MD5[0])
 
 
+class Terrain3DSeamTest(unittest.TestCase):
+    """구간 이음(D-0619 ①) — 경계에서 3D 알파 0(mercator 그대로), seam_sec 뒤 1, 나옴 앞 seam_sec 동안 다시 0 으로. 0 이면 바탕을 건드리지 않는다."""
+
+    def test_seam_alpha_ramps(self) -> None:
+        from rules import load_rules  # noqa: PLC0415
+
+        sec = load_rules().stage_terrain3d.seam_sec
+        seg = t3l.SegFrames("s", 0, 10, 10.0, 30.0, Path("."), [])
+        self.assertEqual(t3l.seam_alpha(seg, 10.0), 0.0)
+        self.assertEqual(t3l.seam_alpha(seg, 30.0), 0.0)
+        self.assertEqual(t3l.seam_alpha(seg, 10.0 + sec), 1.0)
+        self.assertEqual(t3l.seam_alpha(seg, 30.0 - sec), 1.0)
+        ramp = [t3l.seam_alpha(seg, 10.0 + sec * k / 8) for k in range(9)]
+        self.assertEqual(ramp, sorted(ramp))
+        self.assertTrue(all(0 < a < 1 for a in ramp[1:-1]))
+
+    def test_alpha_zero_leaves_base(self) -> None:
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            shutil.copytree(FIX / "expected", tmp / "frames")
+            seg = t3l.SegFrames("s", 0, 3, 0.0, 1.0, tmp, [])
+            surf = cairo.ImageSurface(cairo.FORMAT_RGB24, 427, 240)
+            ctx = cairo.Context(surf)
+            ctx.set_source_rgb(0.3, 0.5, 0.7)
+            ctx.paint()
+            before = bytes(surf.get_data())
+            t3l.draw_base(ctx, seg, 0, 0.0)
+            surf.flush()
+            self.assertEqual(bytes(surf.get_data()), before)
+            t3l.draw_base(ctx, seg, 0, 0.5)
+            surf.flush()
+            self.assertNotEqual(bytes(surf.get_data()), before)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+
+class Terrain3DLabelBoxTest(unittest.TestCase):
+    """카드 덮음 검사(D-0619 ②)가 쓰는 라벨 상자 — 라벨 점을 품고, 부대 상자는 병종 그림 위까지 올라간다."""
+
+    def test_box_contains_point(self) -> None:
+        P = _project()  # noqa: N806
+        rec = {"k": "unit", "name": "로마 중무장보병", "glyph": "heavy_inf", "x": 200.0, "y": 120.0}
+        x0, y0, x1, y1 = t3l.label_box(P, rec)
+        x, y = 200.0 / P.R.out.k, 120.0 / P.R.out.k
+        self.assertTrue(x0 < x < x1 and y0 < y < y1)
+        px0, py0, px1, py1 = t3l.label_box(P, {**rec, "k": "place", "name": "칸나이"})
+        self.assertGreater(py0, y0)   # 지명 상자는 병종 그림 자리가 없다
+
+
 if __name__ == "__main__":
     unittest.main()
