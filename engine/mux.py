@@ -284,7 +284,8 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
                              "count": len(t3), "total_sec": round(sum(s.t_out - s.t_in for s in t3), 2),
                              "forces": {"units": len(forces.units), "factions": sorted(forces.factions), "sources": forces.sources,
                                         "approximate": forces.approximate, "emblems": P.R.cache.get("terrain3d_emblems") or {}},
-                             "approx_line": approx_line(forces)}
+                             "approx_line": approx_line(forces),
+                             "seam": P.R.cache.get("terrain3d_seam")}   # D-0619 ① — 이음 창 이웃 프레임 MAD(검사가 돈 경우만)
     from engine.typography import CONTRAST_FIXED as lcf  # noqa: PLC0415 — 프리뷰(같은 프로세스)
     rjf = P.root / "out" / "render.json"
     if stages.get("render") and rjf.exists():   # v5.21.4 D-0190 §3-1 — 전편은 렌더 청크 기록(render.json)이 정본
@@ -306,6 +307,8 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     if order is not None:
         prov["order"] = {"topic": order.topic, "genre": order.genre,
                          "decisions": {k: {"value": d.value, "by": d.by, "ref": d.ref} for k, d in order.decisions.items()}}
+        if "bgm" in prov["order"]["decisions"] and "audio" in prov:   # v7.4.0 D-0619 ④ — 결정 기록 옆에 실제로 깐 곡(정본 audio.bgm)을 같이 둔다(P5)
+            prov["order"]["decisions"]["bgm"]["played"] = prov["audio"]["bgm"]
     new = sorted({e["id"] for e in P.events if e["type"] == "primitive"} & set(load_genre(g["name"]).primitives.new)) if g.get("name") else []
     if new:   # v4.4.0 — 새 요소(20 §4.1)의 사용자 승인 상태. 주문에 없으면 pending
         appr = order.decisions.get("elements_approval") if order is not None else None
