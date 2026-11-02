@@ -133,8 +133,16 @@ def _hermite(p0: float, p1: float, v0: float, v1: float, d: float, u: float) -> 
     return h00 * p0 + h10 * d * v0 + h01 * p1 + h11 * d * v1
 
 
+NORTH_UP_AZ = 180.0   # tools/terrain3d view.html 방위 규약에서 카메라가 목표점 남쪽에 있을 때 화면 위 = 북(90° 내려다보기의 mercator 와 같은 방향)
+
+
 def camera_at(t: float, seg: Segment) -> tuple[float, float]:
-    """구간 시각 t 의 (방위°, 고도각°). 90° 내려다보기(북쪽 위, 방위 0) ↔ 규칙 고도각·궤도. 위치·속도 연속(이징)."""
+    """구간 시각 t 의 (방위°, 고도각°) — 방위는 NORTH_UP_AZ 기준. 90° 내려다보기(북쪽 위) ↔ 규칙 고도각·궤도. 위치·속도 연속(이징)."""
+    az, el = _camera_rel(t, seg)
+    return (az + NORTH_UP_AZ) % 360.0, el
+
+
+def _camera_rel(t: float, seg: Segment) -> tuple[float, float]:
     T = load_rules().stage_terrain3d  # noqa: N806
     C = load_rules().sketch.war.terrain3d.camera  # noqa: N806
     rate = 360.0 / C.period_sec
