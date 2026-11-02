@@ -1885,6 +1885,7 @@ class QAChecks(_Strict):
     chart_targets: dict[Literal["value", "date", "none"], list[Literal["chart_honesty", "series_limit_3", "units_visible", "as_of_visible"]]]   # v4.3.0 D-0087
     series_max: int = Field(ge=1)   # v4.3.0 — 20 §5.3 계열 수 상한
     grid_text_cross: Optional[GridTextCross] = None   # v7.4.0 D-0344(UF-155)
+    terrain3d_render_mad_max: float = Field(gt=0)   # v7.4.0 D-0614 ② — terrain3d 재렌더 평균 절대 화소 차 상한(0~255, slow 시험)
     chart_depth: "ChartDepth"   # v7.4.0 D-0339 — 차트 깊이·과밀·보조 축·격자↔글자·막대 테두리(UF-151·152·154·155·202)
     visual_qa_loop_max: int
     empty_exempt: list[Literal["article_press_lead"]] = Field(default_factory=list)   # v5.1.0 D-0127 §5 — 검수 empty 제외 구간

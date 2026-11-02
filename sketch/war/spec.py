@@ -17,9 +17,8 @@ from typing import Literal, Optional
 from pydantic import Field, field_validator, model_validator
 
 from schemas.era_date import validate_era_str
+from schemas.war_units import Faction, LonLat, UnitKey, WarPlace, WarRiver, WarUnit, faction_errors  # noqa: F401 — 공용 부대 모델(R-0322), 스케치 쪽 이름 그대로
 from sketch.common.spec import SketchSpec, _Strict
-
-LonLat = tuple[float, float]
 
 
 class EraMark(_Strict):
@@ -30,61 +29,6 @@ class EraMark(_Strict):
     @classmethod
     def _d(cls, v: str) -> str:
         return validate_era_str(v)
-
-
-class Faction(_Strict):
-    token: str               # 색 토큰(rules war_history.faction_badge.tokens)
-    name: str                # 코드 조판 진영명(휘장을 지어내지 않는다)
-    emblem: Optional[str] = None                 # v2(D-0606 A) — assets/emblems/registry.json reconstructions 키(유물 근거 재작도만)
-    emblem_absent_reason: Optional[str] = None   # 다른 진영에 휘장이 있는데 이 진영에 없으면 사유 필수(비대칭 기록)
-
-
-class UnitKey(_Strict):
-    t: float = Field(ge=0)
-    lon: float
-    lat: float
-    heading: float = 0.0     # 정면 방위(도, 북 = 0, 시계 방향)
-    length_km: float = Field(gt=0)   # 정면 폭(개략)
-    depth_km: float = Field(gt=0)    # 종심(개략)
-
-
-class WarUnit(_Strict):
-    faction: str
-    symbol: str
-    name: str = ""
-    keys: list[UnitKey] = Field(min_length=1)
-    t_out: Optional[float] = None    # 이 시각부터 사라짐(무너짐·포위 섬멸 표현이 아니라 화면 정리)
-
-    @model_validator(mode="after")
-    def _keys(self) -> "WarUnit":
-        ts = [k.t for k in self.keys]
-        if ts != sorted(ts) or len(set(ts)) != len(ts):
-            raise ValueError(f"부대 {self.name or self.symbol}: 키 시각은 겹치지 않는 오름차순 {ts}")
-        return self
-
-
-class WarPlace(_Strict):
-    name: str
-    now: Optional[str] = None        # 현재 이름
-    pleiades: Optional[str] = None   # Pleiades id — 좌표는 ancient_geo/places.json
-    lon: Optional[float] = None
-    lat: Optional[float] = None
-    toponymy: Optional[str] = None   # 지명 유래 레코드 id(projects/<pid>/toponymy.yaml)
-    t: float = 0.0
-    t_out: Optional[float] = None    # 이 시각부터 사라짐(증거 카드 구간 정리)
-
-    @model_validator(mode="after")
-    def _where(self) -> "WarPlace":
-        if (self.pleiades is None) == (self.lon is None or self.lat is None):
-            raise ValueError(f"지명 {self.name}: pleiades id 와 lon·lat 중 정확히 하나")
-        return self
-
-
-class WarRiver(_Strict):
-    name: str
-    pts: list[LonLat] = Field(min_length=2)
-    label_at: LonLat
-    t: float = 0.0
 
 
 class WarRoute(_Strict):
@@ -146,14 +90,9 @@ class WarSpec(SketchSpec):
 
     @model_validator(mode="after")
     def _refs(self) -> "WarSpec":
-        fs = set(self.factions)
-        bad = sorted({u.faction for u in self.units} - fs) + sorted({r.faction for r in self.routes} - fs)
-        if bad:
-            raise ValueError(f"factions 에 없는 진영 {bad}")
-        if any(f.emblem for f in self.factions.values()):   # 비대칭 = 사유 기록(D-0606 A)
-            miss = sorted(k for k, f in self.factions.items() if not f.emblem and not f.emblem_absent_reason)
-            if miss:
-                raise ValueError(f"휘장 없는 진영 {miss}: emblem_absent_reason(사유) 필수 — 다른 진영에 휘장이 있다")
+        errs = faction_errors(self.factions, self.units, tuple(r.faction for r in self.routes))
+        if errs:
+            raise ValueError(errs[0])
         ts = [d.t for d in self.dates]
         if ts != sorted(ts) or ts[0] != 0:
             raise ValueError("dates 는 t = 0 부터 오름차순")

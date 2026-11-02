@@ -96,7 +96,7 @@ for (const u of S.units) {
   tops.push({ u, y: topY });
 }
 const glyphImg = {};
-for (const u of S.units) if (u.glyph && !glyphImg[u.glyph]) {
+for (const u of S.units) if (u.glyph && !S.text_in_engine && !glyphImg[u.glyph]) {
   const im = new Image(); im.src = '/scene/' + u.glyph; await im.decode(); glyphImg[u.glyph] = im;
 }
 const ov = document.getElementById('ov'); ov.width = W; ov.height = Ht;
@@ -107,25 +107,34 @@ function label(txt, x, y, size, color, weight) {
   ctx.lineWidth = size * 0.28; ctx.strokeStyle = S.halo; ctx.strokeText(txt, x, y);
   ctx.fillStyle = color; ctx.fillText(txt, x, y);
 }
+// 프레임 카메라 — fr.az 필수, fr.elev·fr.radius·fr.target 은 있으면 그 프레임 값(본편 이어 찍기: 90° → 규칙 고도각, D-0614 ③), 없으면 scene 값
+// S.text_in_engine(본편, D-0614 ①) — 글자·병종 그림을 그리지 않고 화면 좌표만 돌려준다(엔진이 engine.typography·engine.glyphs 로 그린다)
 window.__draw = (fr) => {
-  const a = fr.az * Math.PI / 180, e = S.camera.elev_deg * Math.PI / 180;
-  const R = S.camera.radius_m, c = S.camera.target;
-  cam.position.set(c[0] + Math.sin(a) * Math.cos(e) * R, hAt(c[0], c[1]) + Math.sin(e) * R, c[1] - Math.cos(a) * Math.cos(e) * R);
+  const a = fr.az * Math.PI / 180, e = (fr.elev ?? S.camera.elev_deg) * Math.PI / 180;
+  const R = fr.radius ?? S.camera.radius_m, c = fr.target ?? S.camera.target;
+  const ce = Math.cos(e) < 1e-6 ? 1e-6 : Math.cos(e);   // 90°(내려다보기)에서도 방위가 살아 있게
+  cam.position.set(c[0] + Math.sin(a) * ce * R, hAt(c[0], c[1]) + Math.sin(e) * R, c[1] - Math.cos(a) * ce * R);
   cam.lookAt(c[0], hAt(c[0], c[1]), c[1]);
   renderer.render(scene, cam);
   ctx.clearRect(0, 0, W, Ht);
-  for (const { u, y } of tops) {   // 병종 빌보드(윗면 위) + 부대 이름(그 아래)
+  const out = [];
+  tops.forEach(({ u, y }, i) => {   // 병종 빌보드(윗면 위) + 부대 이름(그 아래)
     const v = new THREE.Vector3(u.c[0], y + S.label_lift_m * 0.5, u.c[1]).project(cam);
-    if (v.z > 1) continue;
     const sx = (v.x + 1) / 2 * W, sy = (1 - v.y) / 2 * Ht;
+    if (S.text_in_engine) { out.push({ k: 'unit', i, name: u.name || '', glyph: u.glyph_name || null, faction: u.faction || null,
+                                       x: +sx.toFixed(2), y: +sy.toFixed(2), behind: v.z > 1 }); return; }
+    if (v.z > 1) return;
     if (u.glyph) { const im = glyphImg[u.glyph], gh = S.glyph_px, gw = gh * im.width / im.height; ctx.drawImage(im, sx - gw / 2, sy - gh, gw, gh); }
     if (u.name) label(u.name, sx, sy + S.text.unit, S.text.unit, '#ffffff', 600);
-  }
+  });
   for (const p of S.places) {
     const v = new THREE.Vector3(p.c[0], hAt(p.c[0], p.c[1]) + S.label_lift_m, p.c[1]).project(cam);
+    const sx = (v.x + 1) / 2 * W, sy = (1 - v.y) / 2 * Ht;
+    if (S.text_in_engine) { out.push({ k: 'place', name: p.name, x: +sx.toFixed(2), y: +sy.toFixed(2), behind: v.z > 1 }); continue; }
     if (v.z > 1) continue;
-    label(p.name, (v.x + 1) / 2 * W, (1 - v.y) / 2 * Ht, S.text.place, '#ffffff', 500);
+    label(p.name, sx, sy, S.text.place, '#ffffff', 500);
   }
+  return out;
 };
 window.__ready = true;
 </script></body></html>

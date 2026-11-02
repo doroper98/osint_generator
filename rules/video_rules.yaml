@@ -2311,6 +2311,9 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # v7.4.0 back_and_forth D-0344(UF-155) — [grid-text-cross] 가림 조건: 글자 아래 실제로 그린 판(렌더러가 기록한 알파·상자)이 이 알파 이상이면
   # 그 판 안의 격자 조각은 가려진 것으로 센다(라벨 종류로 건너뛰는 예외가 아니라 그린 판의 측정값). 감독 제안 값
   grid_text_cross: {occluder_alpha_min: 0.98}
+  # v7.4.0 back_and_forth D-0614 ②(감독 제안 값) — terrain3d 3D 렌더 재현성: 같은 scene 을 다시 렌더한 프레임과 고정 프레임의 평균 절대 화소 차(0~255) 상한.
+  # 합성 골든(엔진 컷 md5)은 고정 프레임 fixture 로 따로 잰다 — Chromium 판이 바뀌어도 합성 골든은 흔들리지 않는다. 시험 tests/test_terrain3d_render.py(slow)
+  terrain3d_render_mad_max: 1.0
   chart_depth:
     layers_min: 3              # [chart-layers-min] hard — 아래 장르 영상의 차트 아일랜드 중 하나는 층(계열·부문·보조 계열·예상·열 확대 인셋) ≥ 이 값(UF-151 "하나의 차트에 하나의 정보만 제공하는게 아니고")
     layers_min_genres: [earnings]
