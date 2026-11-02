@@ -25,7 +25,7 @@ from engine.camera import CamKey, build_camera, cam
 from engine.context import RenderCtx
 from engine.credits import check_credits, load_credits, required_refs
 from engine.direction import Direction, DirectionError, boundary_routes, geo_unsourced, load_direction_doc, shot_stages
-from engine.direction import ISLAND_STAGE, is_island_shot, island_keys
+from engine.direction import ISLAND_STAGE, STRUCTURE_STAGE, is_island_shot, island_keys
 from engine.events import DETAIL_STYLES
 from engine.direction import build as build_direction
 from geo.gazetteer import check_doc as gazetteer_check
@@ -480,7 +480,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     if R.stage.name == "backdrop":   # v5.1.0 D-0123·D-0126 Q1 A — 주 무대 카메라 {}(고정), 차트 아일랜드 카메라 = stage: timeline 숏
         if not keys:
             keys = [cam(0.0, *R.stage.to_world(), R.stage.fixed_w, 0.0, "cut")]
-        if any(is_island_shot(doc, s_, "backdrop") for s_ in doc.shots):
+        if any(is_island_shot(doc, s_, "backdrop", ISLAND_STAGE) for s_ in doc.shots):
             chart_stage = stages.get(ISLAND_STAGE)
             hs = {ISLAND.boxes[e.get("box") or "center"][3] for e in raw_events if e.get("type") == "island" and e.get("kind") == "chart"}
             if len(hs) > 1:   # v7.4.0 D-0268 — 차트 시간축 무대는 영상당 하나 → 차트 아일랜드 상자 높이도 하나(left_tall 등 높이가 다른 상자)
@@ -559,7 +559,13 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         chart_cams = build_camera(island_keys(doc, tb, chart_stage), n, FPS)
         R.cache["island_chart"] = {"stage": chart_stage, "cams": chart_cams, "order": MAP_LAYER_ORDER,
                                    "events": island_chart_events(events), "resolve": _layers(animatic).resolve}
-    island_errs = check_islands(events, R.stage.name, chart_stage)
+    struct_stage = None
+    if R.stage.name == "backdrop" and any(is_island_shot(doc, s_, "backdrop", STRUCTURE_STAGE) for s_ in doc.shots):   # v7.4.0 D-1003 §3 — 구성 아일랜드
+        struct_stage = stages.get(STRUCTURE_STAGE)
+        R.cache["island_structure"] = {"stage": struct_stage, "cams": build_camera(island_keys(doc, tb, struct_stage), n, FPS),
+                                       "events": structure_events(events), "box": struct_stage.cfg.box}
+        R.cache["structure"] = structure_report(struct_stage)
+    island_errs = check_islands(events, R.stage.name, chart_stage) + check_structure(events, R.stage.name, struct_stage)
     if island_errs:
         raise ProjectError("아일랜드 점검 실패(P6·P10):\n" + "\n".join(island_errs))
     prepare_series(R, events, chart_cams, n, chart_stage or R.stage)   # v4.3.0 D-0084 작업 4 — 레코드 로드·레인 범위·grow 앞끝(카메라 경로)
@@ -648,6 +654,47 @@ def island_chart_events(events: list[dict]) -> list[dict]:
     return out
 
 
+def structure_events(events: list[dict]) -> list[dict]:
+    """구성 아일랜드 안에서 그리는 이벤트 — rank 층. `in_island` 표시(주 무대 레이어 루프가 건너뛴다)."""
+    out = [e for e in events if e["type"] == "rank"]
+    for e in out:
+        e["in_island"] = True
+    return out
+
+
+def structure_report(st: object) -> dict:
+    """provenance structure(P5) — 이 영상이 쓴 구성 레코드·원본 지문 대조·행 순서."""
+    from data.categorical import raw_checked  # noqa: PLC0415
+
+    recs = [st.record] + ([st.prior_record] if st.prior_record is not None else [])  # type: ignore[attr-defined]
+    return {"box": st.cfg.box, "rows": [r.id for r in st.rows],  # type: ignore[attr-defined]
+            "records": [{"id": r.record_id, "budget_stage": r.budget_stage, "fiscal_year": r.fiscal_year, "as_of": r.as_of,
+                         "source_sha1": r.source_file.sha1, "raw_checked": raw_checked(r.record_id)} for r in recs]}
+
+
+def check_structure(events: list[dict], stage_name: str, struct_stage: object) -> list[str]:
+    """구성 아일랜드 배선 점검(v7.4.0 D-1003 §3, P6·P10): island kind structure 는 카메라(stage: structure 숏)가 있어야,
+    상자는 stage_config.structure.box 와 같아야, rank 층은 구성 아일랜드가 떠 있는 동안에만, focus row 는 무대 행 안에."""
+    isl = [e for e in events if e["type"] == "island" and e.get("kind") == "structure"]
+    ranks = [e for e in events if e["type"] == "rank"]
+    errs: list[str] = []
+    if (isl or ranks) and struct_stage is None:
+        errs.append("구성 아일랜드·rank 층이 있는데 구성 무대 카메라가 없다 — direction 에 stage: structure 숏(주 무대 backdrop)")
+        return errs
+    if struct_stage is None:
+        return errs
+    box = struct_stage.cfg.box  # type: ignore[attr-defined]
+    errs += [f"island structure t={e['t0']:.2f} 상자 {e.get('box')!r} ≠ stage_config.structure.box {box!r}" for e in isl if e.get("box") != box]
+    for e in ranks:
+        if not any(i["t0"] - 0.05 <= e["t0"] and e["t1"] <= i["t1"] + 0.05 for i in isl):
+            errs.append(f"rank {e['layer']} t={e['t0']:.2f}~{e['t1']:.2f} 가 구성 아일랜드 구간 밖이다 — island kind structure 안에서만 보인다")
+        if e["layer"] == "focus" and e.get("row") not in struct_stage.by_id:  # type: ignore[attr-defined]
+            errs.append(f"rank focus row {e.get('row')!r} 가 구성 무대 행 {sorted(struct_stage.by_id)} 에 없다")  # type: ignore[attr-defined]
+    if isl and not any(e["layer"] == "bars" for e in ranks):
+        errs.append("구성 아일랜드에 rank bars 층이 없다 — 빈 무대(P6)")
+    return errs
+
+
 def check_islands(events: list[dict], stage_name: str, chart_stage: object) -> list[str]:
     """아일랜드 배선 점검(v5.1.0 D-0126): island 이벤트는 backdrop 무대에만, 차트 아일랜드는 카메라(stage: timeline 숏)가 있어야,
     같은 순간 차트 아일랜드는 하나, 시간축 앵커 이벤트는 차트 아일랜드가 떠 있는 동안에만(밖이면 조용히 안 보인다 → 오류, P6)."""
@@ -655,7 +702,7 @@ def check_islands(events: list[dict], stage_name: str, chart_stage: object) -> l
     errs: list[str] = []
     if isl and stage_name != "backdrop":
         errs.append(f"island 이벤트는 backdrop 무대에서만 — 주 무대 {stage_name!r}")
-    if isl and chart_stage is None and stage_name == "backdrop":
+    if any(e.get("kind") != "structure" for e in isl) and chart_stage is None and stage_name == "backdrop":
         errs.append("차트 아일랜드 카메라가 없다 — direction 에 stage: timeline 숏(아일랜드 뷰포트 카메라, D-0126 Q1)")
     errs += [f"차트 아일랜드 둘이 겹친다: t={b['t0']:.2f} < 앞 끝 {a['t1']:.2f}(같은 순간 차트 아일랜드는 하나 — 카메라 하나)"
              for a, b in zip(isl, isl[1:]) if b["t0"] < a["t1"]]

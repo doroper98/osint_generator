@@ -109,6 +109,9 @@ def draw_island(ctx: cairo.Context, R: RenderCtx, view: Optional[View], t: float
     a = island_alpha(t, e)
     if a <= 0.01:
         return
+    if e.get("kind") == "structure":   # v7.4.0 D-1003 §3 — 구성 무대 뷰포트
+        draw_structure_island(ctx, R, t, e, a)
+        return
     x, y, w, h = island_box(e)
     x += island_slide(t, e)
     chart = R.cache["island_chart"]
@@ -136,6 +139,28 @@ def draw_island(ctx: cairo.Context, R: RenderCtx, view: Optional[View], t: float
         R.zones = zones
     if not flat:
         st.draw_labels(ctx, v, [], 1.0)
+    ctx.pop_group_to_source()
+    ctx.paint_with_alpha(a)
+    ctx.restore()
+
+
+def draw_structure_island(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
+    """구성 아일랜드 — 상자(무대 표면이면 없음) + 구성 무대 뷰포트(카메라 = stage: structure 숏) + rank 층."""
+    from engine.layers.structure import draw_structure  # noqa: PLC0415
+
+    x, y, w, h = island_box(e)
+    x += island_slide(t, e)
+    ss = R.cache["island_structure"]
+    ctx.save()
+    ctx.push_group()
+    draw_frame(ctx, (x, y, w, h), 1.0)
+    rrect(ctx, x, y, w, h, 0.0 if stage_surface() else ISLAND.radius)
+    ctx.clip()
+    ctx.translate(x, y)
+    cams = ss["cams"]
+    v = View(ss["stage"], cams[min(len(cams) - 1, max(0, int(t * FPS)))], viewport=(w, h))
+    ss["stage"].render_base(ctx, v)
+    draw_structure(ctx, R, v, t, ss["events"])
     ctx.pop_group_to_source()
     ctx.paint_with_alpha(a)
     ctx.restore()

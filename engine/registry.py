@@ -31,6 +31,7 @@ from engine.layers.post import draw_post
 from engine.layers.routes import draw_barrier, draw_route, draw_tanker_loop
 from engine.layers import series as series_layer
 from engine.layers.series import draw_series
+from engine.layers.structure import draw_rank
 from engine.panels import checklist, dots, dual_line, fork, gantt, network, precedent, relation, statement, timeline, versus
 from engine.panels.base import make_panel_renderer
 from engine.primitives import event_model, make_renderer, module
@@ -65,6 +66,7 @@ REGISTRY: dict[str, Entry] = {
     "badge": Entry(ev.BadgeEvent, draw_badge, "map"),
     "backdrop": Entry(ev.BackdropEvent, draw_backdrop, "map"),   # v5.1.0 D-0123 — backdrop 무대 배경 사진(무대 바탕 바로 위, render_frame 이 먼저 그린다)
     "island": Entry(ev.IslandEvent, draw_island, "map"),         # v5.1.0 D-0126 Q1 A — 차트 아일랜드(backdrop 무대, 무대 레이어 맨 앞)
+    "rank": Entry(ev.RankEvent, draw_rank, "map"),               # v7.4.0 D-1003 §3 — 구성 무대 순위 막대 층(구성 아일랜드 안에서만)
     # 화면 레이어 — render(ctx, R, t, e)
     "dip": Entry(ev.DipEvent, draw_dip, "dip"),
     "photo": Entry(ev.PhotoEvent, draw_photo, "media"),
@@ -93,7 +95,7 @@ for _pid in load_rules().registries.primitives:
     REGISTRY[f"primitive:{_pid}"] = Entry(event_model(_pid, module(_pid).SCHEMA), make_renderer(_pid), "primitive")
 
 # v3 LAYER 순서(render3 L950) — 지도 레이어는 타입 순서대로, 같은 타입 안에서는 이벤트 순서대로 그린다.
-MAP_LAYER_ORDER: tuple[str, ...] = ("island", "country", "ships", "route", "tanker_loop", "barrier", "boom", "flight", "cutout", "series", "marker", "badge")
+MAP_LAYER_ORDER: tuple[str, ...] = ("island", "country", "ships", "route", "tanker_loop", "barrier", "boom", "flight", "cutout", "series", "rank", "marker", "badge")
 
 
 def dispatch_panel(ctx: object, R: object, t: float, e: dict) -> None:  # noqa: N803
@@ -142,6 +144,7 @@ SERIES_STYLE_RENDERERS: dict[str, Callable[..., None]] = {
 ISLAND_KIND_RENDERERS: dict[str, Callable[..., None]] = {
     "chart": draw_island,
     "column_detail": series_layer._draw_column_detail,
+    "structure": draw_island,   # v7.4.0 D-1003 §3 — 구성 무대 뷰포트(draw_island 가 kind 로 나눈다)
 }
 
 

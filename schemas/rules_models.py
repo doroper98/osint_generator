@@ -2356,6 +2356,51 @@ class ReferenceClipRules(_Strict):
     script: list[str] = Field(min_length=1)
 
 
+class StageStructureRules(_Strict):
+    """v7.4.0 back_and_forth D-1003 §3 — 구성 무대·순위 가로 막대 층 토큰(engine/stage_structure.py·engine/layers/structure.py)."""
+
+    pad_top: float = Field(ge=0)
+    pad_bottom: float = Field(ge=0)
+    label_col: float = Field(gt=0)
+    label_gap: float = Field(ge=0)
+    value_col: float = Field(gt=0)
+    value_gap: float = Field(ge=0)
+    bar_h_ratio: float = Field(gt=0, lt=1)
+    row_h_max: float = Field(gt=0)
+    label_size: float = Field(gt=0)
+    label_font: str
+    value_size: float = Field(gt=0)
+    value_font: str
+    delta_size: float = Field(gt=0)
+    delta_font: str
+    label_halo: float = Field(ge=0)
+    prior_w: float = Field(gt=0)
+    prior_line_w: float = Field(gt=0)
+    prior_over: float = Field(ge=0)
+    prior_alpha: float = Field(gt=0, le=1)
+    grow_sec: float = Field(gt=0)
+    stagger_sec: float = Field(ge=0)
+    layer_in_sec: float = Field(gt=0)
+    source_size: float = Field(gt=0)
+    source_font: str
+    source_dy: float = Field(ge=0)
+    zero_alpha: float = Field(gt=0, le=1)
+    zero_w: float = Field(gt=0)
+    focus_dim: float = Field(gt=0, le=1)
+    max_rows: int = Field(ge=1)
+    ladder: list[float] = Field(min_length=1)
+    head_size: float = Field(gt=0)
+    head_font: str
+    head_dy: float = Field(ge=0)
+    tag_size: float = Field(gt=0)
+    tag_font: str
+    tag_gap: float = Field(ge=0)
+    pct_digits: int = Field(ge=0, le=3)
+    value_digits: int = Field(ge=0, le=3)
+    unit_suffix: dict[str, str] = Field(min_length=1)
+    stage_words: dict[Literal["proposed", "enacted", "settled"], str]
+
+
 class StageBackdropRules(_Strict):
     """v5.1.0 D-0121 §B·D-0123 §1 — 사진 배경 무대·backdrop 이벤트 토큰(engine/stage_backdrop.py·engine/layers/backdrop.py)."""
 
@@ -2675,7 +2720,7 @@ class IslandRules(_Strict):
     chart: IslandChart
     main_required: bool                  # v5.2.0 D-0129 §B — backdrop 무대에 주 아일랜드 상시(checks backdrop_main_missing)
     source_wrap_lines_max: int = Field(ge=1)   # v7.4.0 D-0265 §3 — 시간축 레인 출처 줄이 틀·상자 폭을 넘으면 " · " 경계에서 접는 최대 줄 수
-    main_kinds: list[Literal["chart", "primitive", "photo", "clip", "article", "panel"]] = Field(min_length=1)
+    main_kinds: list[Literal["chart", "structure", "primitive", "photo", "clip", "article", "panel"]] = Field(min_length=1)
     card_only_max_sec: float = Field(gt=0)   # 주 아일랜드 없는 구간 상한(전환 허용)
     column_detail: IslandColumnDetail        # v7.4.0 D-0318 — 열 확대 인셋
     stage_surface: IslandStageSurface        # v7.4.0 D-0328 — 차트 = 무대
@@ -2718,6 +2763,7 @@ class DataRules(_Strict):
     price_outlier_pct: float = Field(default=10.0, gt=0)   # v7.4.0 — 일별 시세 하루 변동 상한(넘으면 cited 필수, [price-outlier])
     chart_null_note: str = Field(min_length=1)   # v7.4.0 D-0319 ① — 일별 종가 null → missing 사유
     series_dir: str
+    categorical_dir: str   # v7.4.0 D-1003 — 구성 레코드(CategoricalRecord)
 
     @model_validator(mode="after")
     def _scales_to_units(self) -> "DataRules":
@@ -3572,6 +3618,7 @@ class VideoRules(_Strict):
     primitives: PrimitivesRules = Field(default_factory=PrimitivesRules)   # v4.2.0 D-0081
     stage_timeline: StageTimelineRules   # v4.3.0 — D-0084 작업 3·D-0085
     stage_backdrop: StageBackdropRules   # v5.1.0 — D-0121 §B·D-0123
+    stage_structure: StageStructureRules   # v7.4.0 — D-1003 §3 구성 무대
     chart_world: ChartWorldRules   # v7.4.0 — D-0251 §6.2-4
     reference_clip: ReferenceClipRules   # v7.4.0 — D-0274 §2⑤
     island: IslandRules                  # v5.1.0 — D-0123 §1·D-0126

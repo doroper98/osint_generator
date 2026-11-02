@@ -179,4 +179,5 @@ QUOTE = _RULES.quote_center  # v5.4.0 — 인물 발언 인용(정규)
 BORDER_GLOW = _RULES.border_glow   # v5.4.0 — 국경선 글로우(정규, 지도 기본)
 BACKDROP = _RULES.stage_backdrop   # v5.1.0 D-0121 §B·D-0123 — 사진 배경 무대·backdrop 이벤트 토큰
 TIMELINE = _RULES.stage_timeline   # v4.3.0 D-0084 작업 3 — 시간축 무대·시리즈 레이어 토큰
+STRUCTURE = _RULES.stage_structure   # v7.4.0 D-1003 §3 — 구성 무대·순위 가로 막대 층 토큰
 QUOTE_MAX_CHARS: int = _RULES.verification.quote_max_chars   # 인용 상한 — 프리미티브 statement_diff 문구 상한(v4.2.0)

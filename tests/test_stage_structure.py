@@ -1,0 +1,239 @@
+"""구성 무대(structure)·순위 가로 막대 층(rank) 시험 (v7.4.0, back_and_forth D-1003 §3).
+
+- 레지스트리 세 곳(무대·이벤트·island 종류)은 tests/anti_inertia/test_registry_complete·tests/test_stage_direction 이 본다.
+- 여기서는: 정직성(막대 길이 = 값 비례, 0 기준), 픽셀 픽스처(막대 속 = 칠, 테두리 없음, 눈금 = 속빈 윤곽, 초점 = accent),
+  글자 겹침 0, 레코드 계약(정부안/확정 구분·원본 지문·합계), 배선 점검(check_structure).
+시험 레코드 값은 실데이터가 아니다(픽스처 — 화면에 내지 않는다).
+"""
+
+from __future__ import annotations
+
+import unittest
+from datetime import date
+
+import cairo
+import yaml
+
+from engine.projection import View
+from engine.stage_structure import StructureError, StructureStage
+from engine.style import C, ISLAND, STRUCTURE, apply_palette
+from schemas.data_models import CategoricalRecord
+from tests.anti_inertia._ast_util import REPO
+
+LABELS = [("welfare", "보건·복지·고용"), ("admin", "일반·지방행정"), ("education", "교육"), ("defense", "국방"),
+          ("industry", "산업·중소기업·에너지"), ("soc", "SOC"), ("rnd", "R&D"), ("agri", "농림·수산·식품"),
+          ("environment", "환경"), ("safety", "공공질서·안전"), ("culture", "문화·체육·관광"), ("diplomacy", "외교·통일")]
+NOW = [200.0, 120.0, 95.0, 60.0, 40.0, 30.0, 32.0, 25.0, 15.0, 10.0, 9.0, 7.0]
+PRIOR = [185.0, 100.0, 100.0, 57.0, 31.0, 28.0, 30.0, 24.0, 15.5, 9.5, 8.0, 6.5]
+
+
+def record(rid: str, values: list[float], stage: str, year: int, **kw: object) -> CategoricalRecord:
+    raw = {"record_id": rid, "source": "시험 픽스처 문서", "source_file": {"path": "fixture.pdf", "sha1": "0" * 40, "title": "시험",
+                                                                     "publisher": "시험 기관", "published_on": "2026-09-01"},
+           "retrieved_at": "2026-11-02", "transform": {"op": "filing", "formula": ""}, "as_of": "2026-09", "unit": "조 원",
+           "license": "public_filing", "license_note": "시험", "budget_stage": stage, "fiscal_year": year,
+           "rows": [{"id": i, "label": lb, "value": v, "page": 3, "locator": f"표 1 · {lb}"} for (i, lb), v in zip(LABELS, values)]}
+    from rules import load_rules  # noqa: PLC0415
+
+    raw["transform"]["formula"] = load_rules().data.transforms["filing"]  # type: ignore[index]
+    raw.update(kw)
+    return CategoricalRecord.model_validate(raw)
+
+
+def stage(**cfg: object) -> StructureStage:
+    recs = {"NOW": record("NOW", NOW, "proposed", 2027), "PRIOR": record("PRIOR", PRIOR, "enacted", 2026)}
+    c = {"box": "center_tall", "record": "NOW", "prior": "PRIOR", "title": "분야별 총지출", **cfg}
+    return StructureStage(config=c, records=recs)
+
+
+class _R:
+    def __init__(self, events: list[dict], st: StructureStage) -> None:
+        self.cache = {"island_structure": {"stage": st, "events": events}}
+
+
+def events(t_focus: float = 3.0) -> list[dict]:
+    return [{"type": "rank", "t0": 0.0, "t1": 20.0, "layer": "bars"},
+            {"type": "rank", "t0": 1.0, "t1": 20.0, "layer": "prior"},
+            {"type": "rank", "t0": 2.0, "t1": 20.0, "layer": "delta"},
+            {"type": "rank", "t0": t_focus, "t1": 20.0, "layer": "focus", "row": "industry"}]
+
+
+def render(st: StructureStage, t: float, evs: list[dict], cam: tuple[float, float, float] | None = None) -> cairo.ImageSurface:
+    from engine.layers.structure import draw_structure  # noqa: PLC0415
+    import numpy as np  # noqa: PLC0415
+
+    surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, int(st.bw), int(st.bh))
+    ctx = cairo.Context(surf)
+    ctx.set_source_rgb(0, 0, 0)
+    ctx.paint()
+    x, y = st.to_world()
+    v = View(st, np.array(cam or (x, y, st.fixed_w)), viewport=(st.bw, st.bh))
+    draw_structure(ctx, _R(evs, st), v, t, evs)  # type: ignore[arg-type]
+    surf.flush()
+    return surf
+
+
+def px(surf: cairo.ImageSurface, x: float, y: float) -> tuple[int, int, int]:
+    d = surf.get_data()
+    o = int(y) * surf.get_stride() + int(x) * 4
+    return d[o + 2], d[o + 1], d[o]
+
+
+class StructureStageTest(unittest.TestCase):
+    def setUp(self) -> None:
+        apply_palette("noturno")
+
+    def tearDown(self) -> None:
+        apply_palette(None)
+
+    def test_rank_order_and_anchor(self) -> None:
+        st = stage()
+        self.assertEqual([r.id for r in st.rows][:3], ["welfare", "admin", "education"])
+        self.assertEqual(st.by_id["rnd"].rank, 5)   # 32 > 30(SOC) — 금액 순
+        x, y = st.to_world(row="welfare")
+        self.assertAlmostEqual(y, st.row_y(0))
+        with self.assertRaises(StructureError):
+            st.to_world(row="nope")
+        with self.assertRaises(StructureError):
+            st.to_world(lon=1.0)
+
+    def test_bar_length_proportional_zero_based(self) -> None:
+        """정직성 — 막대 길이 / 값 = 한 배율(0 기준), 확대해도 비는 그대로."""
+        import numpy as np  # noqa: PLC0415
+
+        from engine.layers.structure import bar_rect  # noqa: PLC0415
+
+        st = stage()
+        for cam in [None, (st.x_of(40), st.row_y(4), st.bw / 2)]:
+            x, y = st.to_world()
+            v = View(st, np.array(cam or (x, y, st.fixed_w)), viewport=(st.bw, st.bh))
+            ratios = []
+            for r in st.rows:
+                x0, _, x1, _ = bar_rect(st, v, r)
+                self.assertAlmostEqual(x0, v.to_screen(st.x_of(0.0), 0)[0])
+                ratios.append((x1 - x0) / r.value)
+            self.assertLess(max(ratios) - min(ratios), 1e-9)
+
+    def test_longest_fits_with_value_column(self) -> None:
+        st = stage()
+        self.assertAlmostEqual(st.x_of(max(NOW + PRIOR)), st.bw - STRUCTURE.value_col)
+        self.assertLessEqual(STRUCTURE.pad_top + st.row_h * len(st.rows), st.bh - STRUCTURE.pad_bottom + 1e-9)
+
+    def test_pixels(self) -> None:
+        """픽셀 픽스처 — 막대 속은 칠(테두리 없음: 가장자리 안쪽과 가운데가 같은 색), 행 사이 틈은 바탕, 초점 행은 accent,
+        감소 행(교육)은 손실 면, 눈금은 속빈 윤곽(가운데가 막대 칠 그대로)."""
+        from engine.layers.series import loss_rgb  # noqa: PLC0415
+
+        st = stage()
+        surf = render(st, 10.0, events())
+        r = st.by_id["welfare"]
+        cy = st.bh - st.row_y(r.rank)
+        x_mid = (st.x_of(0) + st.x_of(r.prior or 0)) / 2
+        mid = px(surf, x_mid, cy)
+        edge = px(surf, x_mid, cy - st.bar_h / 2 + 2)
+        self.assertEqual(mid, edge, "막대 안쪽 가장자리와 가운데 색이 다르다 — 테두리")
+        self.assertGreater(sum(mid), 3 * 40, "막대가 칠해지지 않았다")
+        gap = px(surf, x_mid, STRUCTURE.pad_top + st.row_h * (r.rank + 1))   # 행 경계 = 막대 사이 틈
+        self.assertEqual(gap, (0, 0, 0))
+        f = st.by_id["industry"]
+        fc = px(surf, st.x_of(f.value / 2), st.bh - st.row_y(f.rank))
+        gold = tuple(round(c * 255) for c in C["gold"])
+        self.assertTrue(all(abs(a - b) <= 2 for a, b in zip(fc, gold)), f"초점 행 {fc} ≠ accent {gold}")
+        d = st.by_id["education"]   # 95 < 100 — 감소
+        loss = tuple(round(c * 255) for c in loss_rgb())
+        dim = tuple(round(c * 255 * STRUCTURE.focus_dim) for c in loss_rgb())   # 초점 층이 뜨면 다른 행은 focus_dim(검은 바탕 위)
+        dc = px(surf, st.x_of(d.value / 2), st.bh - st.row_y(d.rank))
+        self.assertTrue(sum(abs(a - b) for a, b in zip(dc, dim)) <= 6, f"감소 행(초점 뒤) {dc} ≠ 손실 면 × focus_dim {dim}")
+        pre = render(st, 10.0, events(t_focus=30.0))   # 초점 층 전
+        dc = px(pre, st.x_of(d.value / 2), st.bh - st.row_y(d.rank))
+        self.assertTrue(sum(abs(a - b) for a, b in zip(dc, loss)) <= 6, f"감소 행 {dc} ≠ 손실 면 {loss}")
+        tick_in = px(surf, st.x_of(r.prior or 0), cy)   # 눈금 가운데(속빈) = 막대 칠
+        self.assertEqual(tick_in, mid)
+
+    def test_text_no_overlap(self) -> None:
+        """겹침 0 — 모든 층이 뜬 프레임의 글자 상자(이름·금액·증감·머리·태그·출처)끼리 교차 없음, 상자 안."""
+        from engine.layers.structure import DRAWN_TEXT, text_overlaps  # noqa: PLC0415
+
+        st = stage()
+        render(st, 10.0, events())
+        names = [n for n, _ in DRAWN_TEXT]
+        self.assertIn("head", names)
+        self.assertIn("tag:prior", names)
+        self.assertEqual(sum(n.startswith("delta:") for n in names), len(st.rows))
+        self.assertEqual(text_overlaps(list(DRAWN_TEXT)), [])
+        for n, (x0, y0, x1, y1) in DRAWN_TEXT:
+            self.assertTrue(x0 >= -0.5 and y0 >= -0.5 and x1 <= st.bw + 0.5 and y1 <= st.bh + 0.5, f"{n} 상자 밖 {x0, y0, x1, y1}")
+
+    def test_layers_appear_in_order(self) -> None:
+        from engine.layers.structure import DRAWN_TEXT  # noqa: PLC0415
+
+        st = stage()
+        render(st, 0.55, events())
+        self.assertFalse(any(n.startswith("delta:") or n == "tag:prior" for n, _ in DRAWN_TEXT))
+        render(st, 1.8, events())
+        names = [n for n, _ in DRAWN_TEXT]
+        self.assertIn("tag:prior", names)
+        self.assertFalse(any(n.startswith("delta:") for n in names))
+
+    def test_config_errors(self) -> None:
+        with self.assertRaises(StructureError):
+            stage(box="nope")
+        with self.assertRaises(StructureError):
+            StructureStage(config=None)
+        recs = {"NOW": record("NOW", NOW, "proposed", 2027), "P2": record("P2", PRIOR[:-1], "enacted", 2026,
+                                                                           rows=[{"id": i, "label": lb, "value": v, "page": 1, "locator": "x"}
+                                                                                 for (i, lb), v in zip(LABELS[:-1], PRIOR)])}
+        with self.assertRaisesRegex(StructureError, "행 id 가 다르다"):
+            StructureStage(config={"box": "center_tall", "record": "NOW", "prior": "P2", "title": "t"}, records=recs)
+
+
+class CategoricalRecordTest(unittest.TestCase):
+    def test_budget_stage_required(self) -> None:
+        with self.assertRaises(ValueError):
+            record("X", NOW, "draft", 2027)
+
+    def test_total_mismatch_needs_note(self) -> None:
+        with self.assertRaisesRegex(ValueError, "total_note"):
+            record("X", NOW, "proposed", 2027, total=1.0)
+        r = record("X", NOW, "proposed", 2027, total=1.0, total_note="분야 간 중복 계상")
+        self.assertEqual(r.total, 1.0)
+
+    def test_sha1_and_dup_rows(self) -> None:
+        with self.assertRaises(ValueError):
+            record("X", NOW, "proposed", 2027, source_file={"path": "a.pdf", "sha1": "abc", "title": "t", "publisher": "p",
+                                                             "published_on": "2026-09-01"})
+        with self.assertRaisesRegex(ValueError, "중복"):
+            record("X", NOW[:2], "proposed", 2027, rows=[{"id": "a", "label": "a", "value": 1, "page": 1, "locator": "x"},
+                                                       {"id": "a", "label": "b", "value": 2, "page": 1, "locator": "x"}])
+
+    def test_retrieved_after_published(self) -> None:
+        with self.assertRaises(ValueError):
+            record("X", NOW, "proposed", 2027, retrieved_at=date(2026, 8, 1).isoformat())
+
+
+class StructureWiringTest(unittest.TestCase):
+    def test_check_structure(self) -> None:
+        from engine.project import check_structure  # noqa: PLC0415
+
+        st = stage()
+        isl = {"type": "island", "kind": "structure", "box": "center_tall", "t0": 1.0, "t1": 10.0}
+        ok = [isl, {"type": "rank", "layer": "bars", "t0": 1.2, "t1": 10.0}]
+        self.assertEqual(check_structure(ok, "backdrop", st), [])
+        bad = [isl, {"type": "rank", "layer": "bars", "t0": 0.2, "t1": 12.0}, {"type": "rank", "layer": "focus", "row": "zz", "t0": 2, "t1": 3}]
+        errs = check_structure(bad, "backdrop", st)
+        self.assertEqual(len(errs), 2)
+        self.assertTrue(check_structure([isl], "backdrop", None))
+        self.assertTrue(check_structure([{**isl, "box": "center"}, ok[1]], "backdrop", st))
+
+    def test_preview_direction(self) -> None:
+        from engine.direction import Direction, is_island_shot  # noqa: PLC0415
+
+        raw = yaml.safe_load((REPO / "tests" / "fixtures" / "preview" / "stage_structure.yaml").read_text(encoding="utf-8"))["direction"]
+        doc = Direction.model_validate(raw)
+        self.assertEqual([is_island_shot(doc, s, doc.main_stage(), "structure") for s in doc.shots], [False, True, True])
+        self.assertEqual([is_island_shot(doc, s, doc.main_stage(), "timeline") for s in doc.shots], [False, False, False])
+        self.assertIn("center_tall", ISLAND.boxes)
+
+
+if __name__ == "__main__":
+    unittest.main()

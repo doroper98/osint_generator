@@ -376,3 +376,115 @@ class SeriesRecord(_Strict):
 
 
 __all__ = ["MissingValue", "ScatterColumn", "SeriesRecord", "SeriesTransform", "ValueCitation", "ValueFiling"]
+
+
+# ------------------------------------------------------------------ 구성 레코드(v7.4.0 back_and_forth D-1003 §2·§3)
+SHA1_RE = re.compile(r"^[0-9a-f]{40}$")
+ROW_ID_RE = re.compile(r"^[a-z][a-z0-9_]*$")
+
+
+class SourceFile(_Strict):
+    """로컬 원본(사용자 업로드 PDF 등, D-1003 §1). path = rules data.categorical_dir/raw 아래 파일 이름, sha1 = 받은 그대로의 지문.
+    로더가 파일이 있으면 sha1 을 다시 재고 다르면 오류(손으로 고친 원본 금지, P6)."""
+
+    path: str = Field(min_length=1)
+    sha1: str
+    title: str = Field(min_length=1)          # 문서 제목(원문 그대로)
+    publisher: str = Field(min_length=1)      # 발행 기관
+    published_on: date
+
+    @field_validator("sha1")
+    @classmethod
+    def _sha1(cls, v: str) -> str:
+        if not SHA1_RE.match(v):
+            raise ValueError(f"sha1 은 소문자 16진 40자: {v!r}")
+        return v
+
+
+class CategoryRow(_Strict):
+    """구성 레코드 행 하나 — 분야 id·이름·값과 원본 위치(페이지·표 줄)."""
+
+    id: str
+    label: str = Field(min_length=1)
+    value: float
+    page: int = Field(ge=1)                   # 원본 페이지(문서에 찍힌 쪽 번호가 아니라 PDF 쪽)
+    locator: str = Field(min_length=1)        # 표 이름·줄(원문 그대로, 예: "12대 분야별 재원배분 · 보건·복지·고용")
+
+    @field_validator("id")
+    @classmethod
+    def _rid(cls, v: str) -> str:
+        if not ROW_ID_RE.match(v):
+            raise ValueError(f"행 id 는 소문자·숫자·밑줄: {v!r}")
+        return v
+
+
+class CategoricalRecord(_Strict):
+    """한 시점의 분야별 값 한 벌(v7.4.0 D-1003) — 구성 무대(stage structure)의 막대·눈금이 이 레코드에서 직접 그린다.
+
+    budget_stage = 정부안(proposed)·국회 확정 본예산(enacted)·결산(settled) 구분(D-1003 §2 필수 — 화면·원고에서 정부안임을 분명히).
+    source_kind filing = 원본 문서 표(로컬 원본 source_file, 행마다 page·locator). 검색 요약으로 만든 레코드 금지(P6)."""
+
+    kind: Literal["categorical"] = "categorical"
+    source_kind: Literal["filing"] = "filing"
+    record_id: str
+    source: str = Field(min_length=1)          # 출처 줄(예: "기획예산처 「2027년도 예산안」")
+    source_url: Optional[str] = None           # 공개 원문 페이지(있으면 https). 업로드 원본만 있으면 비운다
+    source_file: SourceFile
+    retrieved_at: date
+    transform: SeriesTransform
+    as_of: str                                 # YYYY-MM — 문서 발행 달
+    unit: str
+    license: str
+    license_note: str
+    budget_stage: Literal["proposed", "enacted", "settled"]
+    fiscal_year: int = Field(ge=1948)
+    rows: list[CategoryRow] = Field(min_length=2)
+    total: Optional[float] = None              # 표의 합계 줄(있으면). 행 합계와 다르면 total_note 에 사유(분야 중복·내부거래 등) 필수
+    total_note: Optional[str] = None
+
+    @field_validator("record_id")
+    @classmethod
+    def _id(cls, v: str) -> str:
+        if not SERIES_ID_RE.match(v):
+            raise ValueError(f"record_id 는 대문자·숫자·밑줄: {v!r}")
+        return v
+
+    @field_validator("as_of")
+    @classmethod
+    def _as_of(cls, v: str) -> str:
+        if not AS_OF_RE.match(v):
+            raise ValueError(f"as_of 는 YYYY-MM: {v!r}")
+        return v
+
+    @model_validator(mode="after")
+    def _check(self) -> "CategoricalRecord":
+        r = load_rules()
+        if self.unit not in r.data.units:
+            raise ValueError(f"unit {self.unit!r} 는 rules data.units 에 없다")
+        if self.license not in r.data.licenses_allowed:
+            raise ValueError(f"license {self.license!r} 는 rules data.licenses_allowed 에 없다")
+        if self.transform.op != "filing":
+            raise ValueError("구성 레코드(filing)는 transform.op filing")
+        if self.source_url is not None and urlparse(self.source_url).scheme != "https":
+            raise ValueError(f"source_url 은 https: {self.source_url!r}")
+        ids = [x.id for x in self.rows]
+        if len(set(ids)) != len(ids):
+            raise ValueError(f"행 id 중복: {ids}")
+        if len(self.rows) > r.stage_structure.max_rows:
+            raise ValueError(f"행 {len(self.rows)} > rules stage_structure.max_rows {r.stage_structure.max_rows}")
+        y, m = (int(x) for x in self.as_of.split("-"))
+        if date(y, m, 1) > self.retrieved_at:
+            raise ValueError(f"as_of {self.as_of} 가 retrieved_at {self.retrieved_at} 보다 늦다")
+        if self.source_file.published_on > self.retrieved_at:
+            raise ValueError("원본 발행일이 retrieved_at 보다 늦다")
+        if self.total is not None:
+            s = round(sum(x.value for x in self.rows), 6)
+            if abs(s - self.total) > 1e-6 and not self.total_note:
+                raise ValueError(f"행 합계 {s} ≠ total {self.total} — total_note 에 사유(원문 그대로)를 적는다")
+        return self
+
+    def value_of(self, row_id: str) -> float:
+        for x in self.rows:
+            if x.id == row_id:
+                return x.value
+        raise KeyError(row_id)

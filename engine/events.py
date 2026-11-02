@@ -441,7 +441,7 @@ class IslandEvent(_Event):
     box = rules island.boxes 이름(연출은 픽셀을 다루지 않는다 — place 는 배치 슬롯 키라 쓰지 않는다). 사진·기사·패널·프리미티브 아일랜드는 각자의 이벤트 타입이다."""
 
     type: Literal["island"]
-    kind: Literal["chart", "column_detail"]
+    kind: Literal["chart", "column_detail", "structure"]   # structure = v7.4.0 D-1003 §3(구성 무대 뷰포트 — 카메라 = stage: structure 숏)
     box: str = "center"
     # v7.4.0 D-0318·D-0319 ④ — kind column_detail(열 확대 인셋): 차트 아일랜드 안 lane 의 한 분기 열을 가리키는 인셋. 값은 레코드에서만.
     # style dumbbell(전분기→이번)·diverging(전년 동기 대비 %)·slope(1년 전→지금 값 — 구성비는 외부 매출 분모가 공시에 있을 때만, D-0320)·range(가이던스 범위 + 컨센서스 점).
@@ -461,9 +461,9 @@ class IslandEvent(_Event):
         if self.box not in boxes:
             raise ValueError(f"island box {self.box!r} 가 rules island.boxes {sorted(boxes)} 에 없다")
         detail = (self.lane, self.style, self.series_id, self.title)
-        if self.kind == "chart":
+        if self.kind in ("chart", "structure"):
             if any(v is not None for v in detail) or self.parts or self.upper_id or self.estimate_id or self.accent:
-                raise ValueError("island kind chart 는 lane·style·series_id·parts·upper_id·estimate_id·accent·title 을 쓰지 않는다(column_detail 전용)")
+                raise ValueError(f"island kind {self.kind} 는 lane·style·series_id·parts·upper_id·estimate_id·accent·title 을 쓰지 않는다(column_detail 전용)")
             return self
         if any(v is None for v in detail):
             raise ValueError("island column_detail 은 lane·style·series_id·title 이 필요하다")
@@ -475,6 +475,23 @@ class IslandEvent(_Event):
             raise ValueError("column_detail estimate_id(컨센서스 점)는 range 만")
         if self.accent is not None and self.accent not in {"none", *(p.label for p in self.parts)}:
             raise ValueError(f"column_detail accent {self.accent!r}: none · 부문 label 만")
+        return self
+
+
+class RankEvent(_Event):
+    """구성 무대 순위 막대 층(v7.4.0 back_and_forth D-1003 §3) — 구성 아일랜드(island kind structure) 안에서만 그린다.
+    layer = bars(막대·이름·금액) · prior(전년 속빈 눈금) · delta(±증감률·감소 행 손실 면) · focus(row 하나 accent). 값은 무대 레코드에서만(P8)."""
+
+    type: Literal["rank"]
+    layer: Literal["bars", "prior", "delta", "focus"]
+    row: Optional[str] = Field(default=None, min_length=1)
+
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("row",)
+
+    @model_validator(mode="after")
+    def _row(self) -> "RankEvent":
+        if (self.layer == "focus") != (self.row is not None):
+            raise ValueError("rank row 는 focus 층에만, focus 층은 row 가 필요하다")
         return self
 
 

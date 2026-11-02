@@ -225,6 +225,8 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
         prov["islands"] = [{"name": n, "t0": round(a, 2), "t1": round(b, 2), "box": [round(v, 1) for v in bx]}
                            for n, a, b, bx in island_boxes(P.events, P.R.assets.media_assets, P.R.stage.name)]
         prov["island"] = P.R.cache.get("island")   # lane_h_effective(Q2 A)
+    if P.R.cache.get("structure") is not None:   # v7.4.0 D-1003 §3 — 구성 무대 레코드·원본 지문 대조(없으면 기록 없음, P5)
+        prov["structure"] = P.R.cache["structure"]
     ic = P.R.cache.get("island_check")
     if ic is not None and (ic["card_overlap"] or prov.get("islands")):   # v5.2.0 D-0129 §C — checks [card-island] 와 같은 값
         prov["island"] = {**(prov.get("island") or {}), "card_overlap": ic["card_overlap"]}
