@@ -2050,7 +2050,8 @@ def story_geo_report(P) -> dict[str, list[str]]:  # noqa: ANN001, N803
     names = {}
     codes: dict[str, str] = {}
     lab = getattr(getattr(P.R.stage, "assets", None), "labels", None)
-    for k, m, mw in getattr(P.R.stage, "countries", []):
+    modern_places = "places" in getattr(P.R.stage, "era_layers", ("places",))   # v7.4.0 — 고대 기반 지도(basemap_era ancient)는 현대 나라 이름을 그리지 않는다 → 문장의 현대 나라 이름은 화면 대상이 아니다(마커는 그대로 본다)
+    for k, m, mw in (getattr(P.R.stage, "countries", []) if modern_places else []):
         if mw is not None:
             nm = lab.ko.get(k, m["ko"]) if lab is not None else m["ko"]
             names[nm] = mw
