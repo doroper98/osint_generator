@@ -2389,6 +2389,7 @@ class StageStructureRules(_Strict):
     zero_w: float = Field(gt=0)
     focus_dim: float = Field(gt=0, le=1)
     max_rows: int = Field(ge=1)
+    camera_drift: bool
     ladder: list[float] = Field(min_length=1)
     head_size: float = Field(gt=0)
     head_font: str

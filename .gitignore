@@ -310,3 +310,14 @@ data/series/raw/filing_*
 
 # v7.4.0 D-1006 — 구성 레코드 원본 PDF(5 MB)는 artifacts/budget-2027-v7.4.0 sources/ 에 보관(sha1 은 레코드에). 로컬 사본은 추적하지 않는다
 data/categorical/raw/*.pdf
+# v7.4.0 D-1006 — 예산안 프로젝트 생성물(plan·음성·자산·렌더)
+projects/budget_2027*/plan.json
+projects/budget_2027*/tts/
+projects/budget_2027*/assets/
+projects/budget_2027*/media/
+projects/budget_2027*/prev/
+projects/budget_2027*/out/
+projects/budget_2027*/logs/
+projects/budget_2027*/03_tasks/
+projects/budget_2027*/llm_calls/
+projects/budget_2027*/project_manifest.json

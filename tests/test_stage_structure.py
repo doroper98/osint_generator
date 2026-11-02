@@ -270,3 +270,27 @@ class PublishedPctTest(unittest.TestCase):
         self.assertEqual(st.by_id["culture"].delta_pct, 20.4)   # 반올림 값 계산은 20.8 — 원문 값
         self.assertIn("군인연금기금", st.record.note or "")
         self.assertEqual((st.record.budget_stage, st.prior_record.budget_stage), ("proposed", "enacted"))
+
+
+class RowsBandTest(unittest.TestCase):
+    """D-1006 — 확대해도 행이 머리 줄·출처 줄 띠로 넘어가지 않는다(행 띠 클립)."""
+
+    def test_zoomed_rows_clipped(self) -> None:
+        import numpy as np  # noqa: PLC0415
+
+        from engine.layers.structure import DRAWN_TEXT, rows_band  # noqa: PLC0415
+
+        apply_palette("noturno")
+        try:
+            st = stage()
+            cam = (st.x_of(60), st.row_y(len(st.rows) - 1), st.bw / 2)   # 마지막 행 쪽으로 2배
+            surf = render(st, 10.0, events(), cam=cam)
+            v = View(st, np.array(cam), viewport=(st.bw, st.bh))
+            _, top, _, bot = rows_band(v)
+            src = dict(DRAWN_TEXT)["source"]
+            self.assertGreaterEqual(src[1], bot - 1e-6)
+            self.assertLessEqual(dict(DRAWN_TEXT)["head"][3], top + 1e-6)
+            for y in range(int(bot) + 1, int(st.bh)):   # 출처 줄 오른쪽(글자 없는 곳) 띠 아래 = 바탕
+                self.assertEqual(px(surf, st.bw - 3, y), (0, 0, 0), f"y={y}")
+        finally:
+            apply_palette(None)

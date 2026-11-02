@@ -562,7 +562,9 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     struct_stage = None
     if R.stage.name == "backdrop" and any(is_island_shot(doc, s_, "backdrop", STRUCTURE_STAGE) for s_ in doc.shots):   # v7.4.0 D-1003 §3 — 구성 아일랜드
         struct_stage = stages.get(STRUCTURE_STAGE)
-        R.cache["island_structure"] = {"stage": struct_stage, "cams": build_camera(island_keys(doc, tb, struct_stage), n, FPS),
+        from engine.style import STRUCTURE  # noqa: PLC0415
+        R.cache["island_structure"] = {"stage": struct_stage, "cams": build_camera(island_keys(doc, tb, struct_stage), n, FPS,
+                                                                                     drift=STRUCTURE.camera_drift),
                                        "events": structure_events(events), "box": struct_stage.cfg.box}
         R.cache["structure"] = structure_report(struct_stage)
     island_errs = check_islands(events, R.stage.name, chart_stage) + check_structure(events, R.stage.name, struct_stage)

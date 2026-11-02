@@ -1,0 +1,3 @@
+{"schema_version": 1, "claims": [
+ {"claim_id": "clm_0001", "text": "2027년도 예산안(정부안)에서 일반·지방행정 분야는 2026년 본예산 121.4조원에서 149.0조원으로 27.6조원(22.8%) 늘어 12대 분야 중 증가액이 가장 크다", "source_ids": ["src_doc_0001"], "status": "verified", "contested": false, "event_date": "2026-10-26", "checks": ["official:src_doc_0001"], "attributed_only": false, "notes": "p.15 표"},
+ {"claim_id": "clm_0002", "text": "2027년도 예산안(정부안)에서 산업·중소기업·에너지 분야는 31.8조원에서 41.2조원으로 29.7% 늘어 12대 분야 중 증가율이 가장 높다", "source_ids": ["src_doc_0001"], "status": "verified", "contested": false, "event_date": "2026-10-26", "checks": ["official:src_doc_0001"], "attributed_only": false, "notes": "p.15 표"}]}

@@ -153,8 +153,6 @@ def _draw_bars(ctx: cairo.Context, view: "View", st: "StructureStage", t: float,
     ctx.set_source_rgba(*txt, S.zero_alpha * a)
     ctx.set_line_width(S.zero_w)
     ctx.stroke()
-    _put(ctx, "head", head_text(st), 0.0, S.head_dy + S.head_size, S.head_size, S.head_font, C["muted"], a)
-    _put(ctx, "source", source_text(st), 0.0, view.vh - S.source_dy, S.source_size, S.source_font, C["muted"], a)
     for row in st.rows:
         k = _grow(t, e, row.rank)
         if k <= 0:
@@ -220,13 +218,39 @@ def _draw_focus(ctx: cairo.Context, view: "View", st: "StructureStage", t: float
         raise ValueError(f"rank focus row {e['row']!r} 가 구성 무대 행에 없다")
 
 
+def rows_band(view: "View") -> Rect:
+    """행 띠(뷰포트 px) — 머리 줄 아래 ~ 출처 줄 위. 행은 이 안에만 그린다(확대해도 머리·출처와 겹침 0, D-1006)."""
+    S, m = STRUCTURE, TIMELINE.text_metrics  # noqa: N806
+    top = S.head_dy + S.head_size + S.head_size * (1 - m.ascent)
+    bot = view.vh - S.source_dy - S.source_size * m.ascent
+    return 0.0, top, view.vw, bot
+
+
 def draw_structure(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, events: list[dict]) -> None:  # noqa: N803
-    """구성 아일랜드 안 rank 층 전부 — 층 순서(LAYERS)대로."""
+    """구성 아일랜드 안 rank 층 전부 — 층 순서(LAYERS)대로. 행은 rows_band 안, 머리·출처 줄은 띠 밖(_draw_frame_text)."""
     DRAWN_TEXT.clear()
+    bars = [ce for ce in events if ce["type"] == "rank" and ce["layer"] == "bars" and ce["t0"] - 0.05 <= t <= ce["t1"] + 0.05]
+    x0, y0, x1, y1 = rows_band(view)
+    ctx.save()
+    ctx.rectangle(x0, y0, x1 - x0, y1 - y0)
+    ctx.clip()
     for layer in LAYERS:
         for ce in events:
             if ce["type"] == "rank" and ce["layer"] == layer and ce["t0"] - 0.05 <= t <= ce["t1"] + 0.05:
                 draw_rank(ctx, R, view, t, ce)
+    ctx.restore()
+    for ce in bars:
+        _draw_frame_text(ctx, view, view.stage, t, ce)  # type: ignore[arg-type]
+
+
+def _draw_frame_text(ctx: cairo.Context, view: "View", st: "StructureStage", t: float, e: dict) -> None:
+    """머리 짧은 이름·출처 한 줄 — 화면 고정(카메라와 무관), bars 층과 함께 등장."""
+    S = STRUCTURE  # noqa: N806
+    a = layer_alpha([e], t, "bars")
+    if a <= 0.01:
+        return
+    _put(ctx, "head", head_text(st), 0.0, S.head_dy + S.head_size, S.head_size, S.head_font, C["muted"], a)
+    _put(ctx, "source", source_text(st), 0.0, view.vh - S.source_dy, S.source_size, S.source_font, C["muted"], a)
 
 
 def text_overlaps(rects: list[tuple[str, Rect]]) -> list[tuple[str, str]]:

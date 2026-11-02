@@ -18,8 +18,8 @@ direction:
       title: 분야별 총지출
   shots:
     - {at: 0, mode: cut, dur: 0, camera: {}}
-    - {at: 0.5, stage: structure, mode: cut, dur: 0, camera: {row: welfare, w: 674}}
-    - {at: 9.0, stage: structure, mode: move, dur: 2.5, camera: {row: industry, value: 30, w: 360}}
+    - {at: 0.5, stage: structure, mode: cut, dur: 0, camera: {row: welfare, w: 734}}
+    - {at: 9.0, stage: structure, mode: move, dur: 2.5, camera: {row: industry, value: 30, w: 367}}
   events:
     - {type: island, start: 0.5, end: 14.0, kind: structure, box: center_tall}
     - {type: rank, start: 0.6, end: 14.0, layer: bars}
