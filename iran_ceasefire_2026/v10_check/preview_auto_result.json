@@ -1,0 +1,53 @@
+{
+ "ok": false,
+ "stage": "preview",
+ "artifacts": {
+  "prev/p_0009.38.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0009.38.png",
+  "prev/p_0020.29.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0020.29.png",
+  "prev/p_0025.62.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0025.62.png",
+  "prev/p_0054.10.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0054.10.png",
+  "prev/p_0087.80.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0087.80.png",
+  "prev/p_0142.35.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0142.35.png",
+  "prev/p_0180.90.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0180.90.png",
+  "prev/p_0222.88.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0222.88.png",
+  "prev/p_0239.84.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0239.84.png",
+  "prev/p_0268.59.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0268.59.png",
+  "prev/p_0289.51.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0289.51.png",
+  "prev/p_0326.06.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0326.06.png",
+  "prev/p_0353.41.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0353.41.png",
+  "prev/p_0394.37.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0394.37.png",
+  "prev/p_0421.17.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0421.17.png",
+  "prev/p_0454.04.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0454.04.png",
+  "prev/p_0470.61.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0470.61.png",
+  "prev/p_0477.03.png": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/p_0477.03.png",
+  "sheet": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/sheet.jpg",
+  "provenance": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/provenance.json",
+  "checks": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/checks.json",
+  "frames": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/frames.json"
+ },
+ "provenance": null,
+ "drops": [],
+ "errors": [
+  "checks hard media_density: [media-density] 사진·영상·컷아웃 12개 / 8.1분 = 분당 1.49 < 1.5 — 13개 이상 필요. tools/media_fetch.py search 로 찾아 등재하고 연출에 넣는다(UF-139, 사유로 통과 없음)"
+ ],
+ "warnings": [
+  "[badge-R-ignored] 인물 뱃지 연출 R 4건 무시 — 크기는 보이는 인물 수로 코드가 정한다(D-0111): 알리 하메네이 R 30, 트럼프 R 30, 페제시키안 R 30, 트럼프 R 30",
+  "[media-density-scene] 장면 act1: ['iran_epic_fury_video', 'iran_blockade_apr_video', 'iran_strikes_jul_video'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act2: ['iran_hormuz_night_iss', 'iran_uss_new_orleans_blockade', 'iran_rezaee_2020'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act3: ['iran_araghchi_moscow', 'iran_hormuz_modis'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act5: ['iran_marines_boarding', 'iran_centcom_cdr_hormuz_1023', 'iran_islamabad_talks'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 act5→act6 같은 형태 ['article', 'photo'] (14 §10.1)",
+  "[article-unused] act1_11 96.2초 기사 카드 후보 ['iran_ceasefire_2026_art_0043', 'iran_ceasefire_2026_art_0039', 'iran_ceasefire_2026_art_0040'] — 60~120초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act1_11.article 에 사유",
+  "[article-unused] act1_8 78.4초 기사 카드 후보 ['iran_ceasefire_2026_art_0040', 'iran_ceasefire_2026_art_0041'] — 60~120초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act1_8.article 에 사유",
+  "[article-unused] act2_2 125.3초 기사 카드 후보 ['iran_ceasefire_2026_art_0023', 'iran_ceasefire_2026_art_0024'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act2_2.article 에 사유",
+  "[article-unused] act2_8 171.3초 기사 카드 후보 ['iran_ceasefire_2026_art_0017', 'iran_ceasefire_2026_art_0018'] — 120~180초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act2_8.article 에 사유",
+  "[article-unused] act2_11 194.1초 기사 카드 후보 ['iran_ceasefire_2026_art_0010', 'iran_ceasefire_2026_art_0011'] — 180~240초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act2_11.article 에 사유",
+  "[article-unused] act3_1 213.9초 기사 카드 후보 ['iran_ceasefire_2026_art_0001'] — 180~240초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act3_1.article 에 사유",
+  "[article-unused] act4_3 269.8초 기사 카드 후보 ['iran_ceasefire_2026_art_0047', 'iran_ceasefire_2026_art_0048', 'iran_ceasefire_2026_art_0049', 'iran_ceasefire_2026_art_0046'] — 240~300초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act4_3.article 에 사유",
+  "[article-unused] act4_6 295.7초 기사 카드 후보 ['iran_ceasefire_2026_art_0054', 'iran_ceasefire_2026_art_0055'] — 240~300초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act4_6.article 에 사유",
+  "[article-unused] act5_1 312.9초 기사 카드 후보 ['iran_ceasefire_2026_art_0001'] — 300~360초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act5_1.article 에 사유",
+  "[article-unused] act5_8 356.3초 기사 카드 후보 ['iran_ceasefire_2026_art_0069', 'iran_ceasefire_2026_art_0002', 'iran_ceasefire_2026_art_0003', 'iran_ceasefire_2026_art_0004', 'iran_ceasefire_2026_art_0023', 'iran_ceasefire_2026_art_0024'] — 300~360초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act5_8.article 에 사유",
+  "[article-unused] act6_2 386.3초 기사 카드 후보 ['iran_ceasefire_2026_art_0060', 'iran_ceasefire_2026_art_0061', 'iran_ceasefire_2026_art_0062'] — 360~420초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act6_2.article 에 사유"
+ ]
+}
