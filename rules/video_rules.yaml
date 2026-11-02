@@ -1721,6 +1721,9 @@ quote_center:              # v5.4.0 정규(사용자 결정 2026-10-02 "마음�
   pair_max_w: 540
   upper: {portrait: [116, 140], text_x: 172, quote_y: 134}
   lower: {portrait: [738, 290], text_x: 682, quote_y: 284}
+  # v7.4.0 back_and_forth D-0617 ① — 고대 사료 인용(quote.source): 초상·국기 없이 큰 줄 = 우리 번역(세리프), 작은 줄 = 원문(라틴·그리스 또는 PD 영역),
+  # 맨 아래 = "저자 『작품』 locator · 역자 영역(연도, 라이선스)에서 옮김"(스케치 sketch.war.quote 카드와 같은 문구 규칙). 감독 제안 값(사용자 합격 값 아님)
+  source: {quote_y: 222, orig_size: 10.5, orig_line_h: 16, orig_max_lines: 3, orig_dy: 30, orig_alpha: 0.78, credit_size: 9.5, credit_dy: 24, credit_alpha: 0.9}
 border_glow:               # v5.4.0 정규(사용자 결정 2026-10-02 — v5.3.1 시안 승격). engine/layers/borders.draw_border_glow. 지도 무대 기본 켜짐(default_on), 끄기 = direction stage_config.mercator.border_glow: false
   # 국경선(행정구역 선 제외) 위에 옅은 빛(halo)을 상시 깔고, 짧은 빛 조각이 선을 따라 천천히 흐른다(cairo 대시 오프셋 = speed_px × t). 설계 px. 사용자 합격 값
   status: adopted

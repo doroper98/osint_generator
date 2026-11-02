@@ -2438,6 +2438,20 @@ class CascadeSurface(_Strict):
         return self
 
 
+class QuoteSourceLayout(_Strict):
+    """v7.4.0 D-0617 ① — 고대 사료 인용 배치(초상 없음). 설계 px(480p)."""
+
+    quote_y: float
+    orig_size: float = Field(gt=0)
+    orig_line_h: float = Field(gt=0)
+    orig_max_lines: int = Field(ge=1, le=4)
+    orig_dy: float
+    orig_alpha: float = Field(ge=0, le=1)
+    credit_size: float = Field(gt=0)
+    credit_dy: float
+    credit_alpha: float = Field(ge=0, le=1)
+
+
 class QuotePairSlot(_Strict):
     """v5.3.1 맞선 인용 자리 — portrait = 초상 중심 [x, y], text_x = 글자 시작(upper, 왼쪽 정렬)·끝(lower, 오른쪽 정렬), quote_y = 첫 줄 기준선."""
 
@@ -2471,6 +2485,7 @@ class QuoteCenterRules(_Strict):
     pair_max_w: float = Field(gt=0)
     upper: QuotePairSlot
     lower: QuotePairSlot
+    source: QuoteSourceLayout   # v7.4.0 D-0617 ① — 고대 사료 인용
 
 
 class FlightTrail(_Strict):

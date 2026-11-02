@@ -170,10 +170,13 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
             if (gs := gap_subtitle(e)) != e.get("subtitle"):
                 e["subtitle_render"] = gs
         if e["type"] == "quote":   # v5.3.1 인용(시안) — 글자 넘침은 렌더 전 오류(P6)
-            from engine.quote import QuoteError, quote_lines  # noqa: PLC0415
+            from engine.quote import QuoteError, quote_lines, source_orig_lines  # noqa: PLC0415
 
             try:
-                quote_lines(cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1)), e)
+                cx_ = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+                quote_lines(cx_, e)
+                if e.get("source"):   # v7.4.0 D-0617 ① — 고대 사료 원문 줄도 렌더 전 넘침 검사
+                    source_orig_lines(cx_, e)
             except QuoteError as ex:
                 errs.append(str(ex))
         for d in _walk(e):

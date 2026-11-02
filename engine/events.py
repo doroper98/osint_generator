@@ -387,13 +387,29 @@ class CascadeEvent(_Event):
         return self
 
 
+class QuoteSource(BaseModel):
+    """v7.4.0 back_and_forth D-0617 ① — 고대 사료 인용의 출처(초상·국기 대신). 화면 문구는 코드가 만든다:
+    작은 줄 = original, 맨 아래 = "{author} 『{work}』 {locator} · {translator} 영역({translation}, {translation_license})에서 옮김"."""
+
+    model_config = ConfigDict(extra="forbid")
+    author: str = Field(min_length=1)               # 예: 폴리비오스
+    work: str = Field(min_length=1)                 # 예: 역사
+    locator: str = Field(min_length=1)              # 예: III.117.1
+    original: str = Field(min_length=1)             # 원문(라틴·그리스) 또는 PD 영역본 문장 그대로
+    translator: str = Field(min_length=1)           # 예: W. R. Paton
+    translation: str = Field(min_length=1)          # 영역본 연도·판(예: 1922)
+    translation_url: str = Field(min_length=1)
+    translation_license: str = Field(min_length=1)  # 예: 퍼블릭 도메인
+
+
 class QuoteEvent(_Event):
     """v5.4.0 인물 발언 인용(정규 — 사용자 결정 2026-10-02, engine/quote.py). 오른쪽 위 카드 대신
     지도 위 덮개 + 가운데 초상(pid, 없으면 국기) + 세리프 인용문(따옴표는 코드가 그린다 — text 에 넣지 않는다) + 작은 이름·매체·날짜."""
 
     type: Literal["quote"]
     pid: Optional[str] = None          # 인물 엔티티(초상). 없으면 flag 원
-    flag: str                          # 인물 뱃지 바탕 국기 / pid 없을 때 국기 원
+    flag: Optional[str] = None         # 인물 뱃지 바탕 국기 / pid 없을 때 국기 원. source 가 없으면 필수
+    source: Optional[QuoteSource] = None   # v7.4.0 D-0617 ① — 고대 사료 인용(초상·국기 없이). flag·pid 와 함께 쓰지 않는다
     speaker: str = Field(min_length=1)
     role: Optional[str] = None
     text: str = Field(min_length=1, description="따옴표(“”\"「」)를 넣지 않는다 — 코드가 그린다. 이 인용이 걸린 문장의 화면 원고에 있는 문구를 그대로(원고에 없는 말·다른 번역 금지, 검사 quote_in_script)")   # v5.21.1 LLM-AP-018
@@ -406,6 +422,10 @@ class QuoteEvent(_Event):
     def _no_marks(self) -> "QuoteEvent":
         if any(c in self.text for c in "“”\"「」"):
             raise ValueError("quote text 에 따옴표를 넣지 않는다 — 코드가 그린다")
+        if self.source is not None and (self.flag is not None or self.pid is not None):
+            raise ValueError("quote source(고대 사료) 와 flag·pid(현대 발언 초상·국기)를 함께 쓰지 않는다 — 고대 저자에 국기는 지어낸 표지(D-0617 ①)")
+        if self.source is None and self.flag is None:
+            raise ValueError("quote 는 flag(국기·초상 바탕) 또는 source(고대 사료 출처) 중 하나가 필요하다")
         return self
 
 

@@ -42,6 +42,21 @@ def quote_lines(ctx: cairo.Context, e: dict) -> list[str]:
     return lines
 
 
+def source_credit(src: dict) -> str:
+    """고대 사료 인용 맨 아래 줄(v7.4.0 D-0617 ① — 스케치 sketch.war.quote 와 같은 문구 규칙)."""
+    return (f"{src['author']} 『{src['work']}』 {src['locator']} · {src['translator']} 영역"
+            f"({src['translation']}, {src['translation_license']})에서 옮김")
+
+
+def source_orig_lines(ctx: cairo.Context, e: dict) -> list[str]:
+    """원문 작은 줄 — 넘치면 QuoteError(자름 없음, P6)."""
+    S = Q.source  # noqa: N806
+    lines = wrap(ctx, e["source"]["original"], Q.quote_max_w, S.orig_size, "serif")
+    if len(lines) > S.orig_max_lines:
+        raise QuoteError(f"[quote-overflow] {e['speaker']} 원문 {len(lines)}줄 > {S.orig_max_lines} — 원문 발췌를 줄인다")
+    return lines
+
+
 def _span(x: float, w: float, anc: str) -> tuple[float, float]:
     return (x - w / 2, x + w / 2) if anc == "c" else (x, x + w) if anc == "l" else (x - w, x)
 
@@ -52,6 +67,13 @@ def quote_box(ctx: cairo.Context, e: dict) -> tuple[float, float, float, float]:
     lines = quote_lines(ctx, e)
     mark = tw(ctx, "“", Q.mark_size, "serifb")
     xs = [_span(tx, tw(ctx, s, Q.quote_size, "serifb") + 2 * mark, anc) for s in lines]
+    if e.get("source"):   # v7.4.0 D-0617 ① — 초상 없음: 번역 줄 → 원문 줄 → 출처 줄
+        S = Q.source  # noqa: N806
+        orig = source_orig_lines(ctx, e)
+        cred = source_credit(e["source"])
+        y_last = S.quote_y + (len(lines) - 1) * Q.quote_line_h + S.orig_dy + (len(orig) - 1) * S.orig_line_h + S.credit_dy
+        ws = [b - a for a, b in xs] + [tw(ctx, x, S.orig_size, "serif") for x in orig] + [tw(ctx, cred, S.credit_size, "sansm")]
+        return (W_OUT / 2 - max(ws) / 2, S.quote_y - Q.quote_size - Q.mark_size * 0.3, W_OUT / 2 + max(ws) / 2, y_last + S.credit_size * 0.3)
     bottom = qy + (len(lines) - 1) * Q.quote_line_h + Q.who_dy + Q.src_dy + Q.src_size * 0.3
     return (min([px - pr - 7] + [a for a, _ in xs]), min(py - pr - 7, qy - Q.quote_size),
             max([px + pr + 7] + [b for _, b in xs]), max(bottom, py + pr + 7))
@@ -83,6 +105,9 @@ def draw_quote(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     dy = (1 - ease_out(min(1.0, (t - e["t0"]) / Q.fade_sec))) * Q.rise_px
     acc = C.get(e.get("accent") or "gold", C["gold"])
     px, py, pr, tx, qy, anc = _geom(e)
+    if e.get("source"):   # v7.4.0 D-0617 ① — 고대 사료: 초상·국기 없이 가운데 번역·원문·출처
+        _draw_source(ctx, e, lines, a, dy, acc)
+        return
     badge = dict(kind="person" if e.get("pid") else "flag", pid=e.get("pid"), flag=e["flag"], R=pr,
                  t0=e["t0"], label="", accent=e.get("accent") or "gold")
     badge_at(ctx, R, px, py + dy, badge, t, a)
@@ -105,3 +130,25 @@ def draw_quote(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     src = " · ".join(x for x in (e.get("src"), e.get("date")) if x)
     if src:
         text(ctx, src, wx, yw + Q.src_dy, Q.src_size, "mono", C["muted"], 0.9 * a, 2.4, anc)
+
+
+def _draw_source(ctx: cairo.Context, e: dict, lines: list[str], a: float, dy: float, acc: tuple) -> None:
+    """고대 사료 인용 — 큰 줄 = 우리 번역(따옴표는 코드), 작은 줄 = 원문, 맨 아래 = 저자·작품·locator·영역본(권리)."""
+    S = Q.source  # noqa: N806
+    y = S.quote_y + dy
+    for k, s_ in enumerate(lines):
+        yy = y + k * Q.quote_line_h
+        w = tw(ctx, s_, Q.quote_size, "serifb")
+        x0 = W_OUT / 2 - w / 2
+        text(ctx, s_, x0, yy, Q.quote_size, "serifb", (1, 1, 1), a, 3, "l")
+        if k == 0:
+            text(ctx, "“", x0 - 4, yy + Q.mark_size * 0.28, Q.mark_size, "serifb", acc, Q.mark_alpha * a, 0, "r")
+        if k == len(lines) - 1:
+            text(ctx, "”", x0 + w + 4, yy + Q.mark_size * 0.28, Q.mark_size, "serifb", acc, Q.mark_alpha * a, 0, "l")
+    yo = y + (len(lines) - 1) * Q.quote_line_h + S.orig_dy
+    orig = source_orig_lines(ctx, e)
+    for k, s_ in enumerate(orig):
+        text(ctx, s_, W_OUT / 2, yo + k * S.orig_line_h, S.orig_size, "serif", (1, 1, 1), S.orig_alpha * a, 2.4, "c")
+    yc = yo + (len(orig) - 1) * S.orig_line_h + S.credit_dy
+    text(ctx, source_credit(e["source"]), W_OUT / 2, yc, S.credit_size, "sansm", C["gold"], S.credit_alpha * a, 2.4, "c",
+         role="media_meta")
