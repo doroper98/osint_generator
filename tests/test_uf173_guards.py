@@ -1,4 +1,4 @@
-"""UF-173(사용자 의견 "처음부터 사진을 띄워서 뒤에 지도가 안보이게 … 무지성으로 그냥 늘리면") 장치 + RIGHTS-AP-001 [credit-garbled] (v7.4.0 D-0466 §6·D-0470).
+"""UF-173(사용자 의견 "처음부터 사진을 띄워서 뒤에 지도가 안보이게 … 무지성으로 그냥 늘리면") 장치 + RIGHTS-AP-002 [credit-garbled] (v7.4.0 D-0466 §6·D-0470).
 
 고정본: tests/fixtures/uf173/ — iran_ceasefire_2026 연출 v9(교체 완성본 final_v2, 사용자 탈락)·v10(final_v3, 감독 통과)의
 덮는 요소·패널·문장 날짜(렌더 슬롯 폭 포함). v9 는 세 검사에 모두 걸리고 v10 은 모두 통과해야 한다.
@@ -87,7 +87,7 @@ class CreditGarbledTest(unittest.TestCase):
         self.assertEqual(credit_garbled_hits([("people.trump", "Shealeah Craighead (백악관)"), ("people.khamenei", "khamenei.ir")]), [])
 
     def test_library_clean(self) -> None:
-        """공용 초상 라이브러리 credit 칸 전수(RIGHTS-AP-001) — 원문은 credit_raw 에만."""
+        """공용 초상 라이브러리 credit 칸 전수(RIGHTS-AP-002) — 원문은 credit_raw 에만."""
         lib = json.loads((REPO / "assets" / "library" / "library_manifest.json").read_text(encoding="utf-8"))
         self.assertEqual(credit_garbled_hits([(p["person_id"], p["source"].get("credit", "")) for p in lib["people"]]), [])
 
