@@ -1,0 +1,75 @@
+# direction.yaml — 칸나이(cannae_216bc) 콘티 판 v1 연출. 구현 세션 작성(D-0616 §1-3 감독 메모 + D-0615·D-0617). 수치·검증은 코드(P8).
+# 주 무대 mercator relief(장르 기본) — 이탈리아 작전 지도 → 칸나이 확대 → terrain3d 구간(deployment_1 ~ encirclement_14, D-0617 승인):
+#   90° 내려다보기로 들어가 부대 키프레임(forces.terrain3d.yaml)이 배치·초승달·포위를 움직인다. 궤도는 drift 숏 두 곳(deployment_10 초승달,
+#   encirclement_6 포위)에서만 장면 단위로. 그 밖은 90° 시점 숏 단위 pan·push 로 움직이는 부대를 따라간다(encirclement_0 기병 충돌, encirclement_5 중앙).
+# 증거 카드: 흉상·셰켈 은화·타니트 비석·트럼불·Smith 사전·클로스 / 사료 인용 2(quote.source, D-0617 ①). 날짜 뱃지는 문장 date 가 정한다.
+version: 1
+genre: war_history
+stage: mercator
+media_note: >-
+  콘티 판 v1(흐름 검토). 사상자 문장의 사료 간 범위 띠(force 레코드 band)는 화면 요소가 아직 엔진에 없어 이번 판에 넣지 않았다(R 에 기록).
+  지도는 고대 기반(stage_config.mercator.basemap_era ancient — 현대 국경·현대 지명 없음).
+stage_config:
+  mercator:
+    basemap_era: ancient
+  terrain3d:
+    forces: forces.terrain3d.yaml
+places:
+  rome: [12.4964, 41.8919]
+  cannae: [16.1325, 41.3065]
+shots:
+  - {at: 0.0, mode: cut, dur: 0.0, camera: {lon: 13.6, lat: 41.7, w: 9.0}}
+  - {at: {sid: cold_open_2}, mode: drift, dur: 12.0, camera: {lon: 14.6, lat: 41.6, w: 8.0}, reason: 작전 지도 천천히 훑기(로마 → 아풀리아)}
+  - {at: {sid: prelude_0}, mode: move, dur: 6.0, camera: {lon: 15.9, lat: 41.45, w: 3.2}}
+  - {at: {sid: prelude_5}, mode: drift, dur: 10.0, camera: {lon: 16.02, lat: 41.38, w: 2.2}}
+  - {at: {sid: prelude_10}, mode: move, dur: 5.0, camera: {lon: 16.11, lat: 41.334, w: 0.09}}
+  - {at: {sid: deployment_1}, mode: cut, dur: 0.0, camera: {lon: 16.11, lat: 41.334, w: 0.09}, stage: terrain3d}
+  - {at: {sid: deployment_10}, mode: drift, dur: 4.0, camera: {lon: 16.11, lat: 41.334, w: 0.09}, stage: terrain3d, reason: 초승달 진형 — 천천히 기울어 궤도}
+  - {at: {sid: deployment_12}, mode: move, dur: 2.0, camera: {lon: 16.11, lat: 41.334, w: 0.09}, stage: terrain3d}
+  - {at: {sid: encirclement_0}, mode: move, dur: 3.0, camera: {lon: 16.097, lat: 41.337, w: 0.06}, stage: terrain3d, reason: 강가 기병 충돌로 pan}
+  - {at: {sid: encirclement_5}, mode: move, dur: 3.0, camera: {lon: 16.11, lat: 41.334, w: 0.08}, stage: terrain3d, reason: 중앙 보병으로}
+  - {at: {sid: encirclement_6}, mode: drift, dur: 4.0, camera: {lon: 16.11, lat: 41.334, w: 0.08}, stage: terrain3d, reason: 양익 포위 — 천천히 기울어 궤도}
+  - {at: {sid: encirclement_9}, mode: move, dur: 3.0, camera: {lon: 16.11, lat: 41.338, w: 0.09}, stage: terrain3d}
+  - {at: {sid: aftermath_0}, mode: move, dur: 6.0, camera: {lon: 15.9, lat: 41.45, w: 3.2}}
+  - {at: {sid: aftermath_2}, mode: drift, dur: 14.0, camera: {lon: 16.0, lat: 41.42, w: 2.6}}
+  - {at: {sid: aftermath_8}, mode: move, dur: 6.0, camera: {lon: 15.0, lat: 41.2, w: 7.5}}
+  - {at: {sid: ending_0}, mode: move, dur: 6.0, camera: {lon: 16.05, lat: 41.36, w: 1.6}}
+events:
+  - {type: marker, start: {sid: cold_open_0, 'off': 0.4}, end: {sid: cold_open_5, edge: end}, at_place: rome, label: 로마}
+  - {type: marker, start: {sid: cold_open_5, 'off': 0.2}, end: {sid: prelude_10, edge: end}, at_place: cannae, label: 칸나이, toponymy: cannae}
+  - {type: photo, start: {sid: prelude_6, 'off': 0.2}, end: {sid: prelude_6, edge: end, 'off': 0.6}, mid: cannae_bust}
+  - {type: photo, start: {sid: prelude_7, 'off': 0.2}, end: {sid: prelude_8, 'off': 0.3}, mid: cannae_coin}
+  - {type: photo, start: {sid: deployment_8, 'off': 0.2}, end: {sid: deployment_9, edge: end, 'off': 0.3}, mid: cannae_tanit}
+  - {type: photo, start: {sid: encirclement_11, 'off': 0.2}, end: {sid: encirclement_11, edge: end, 'off': 0.5}, mid: cannae_trumbull}
+  - type: quote
+    start: {sid: aftermath_6, 'off': 0.2}
+    end: {sid: aftermath_6, edge: end, 'off': 0.4}
+    speaker: 폴리비오스
+    text: 이긴 쪽도 진 쪽도 뚜렷한 용기를 보였다
+    accent: gold
+    source:
+      author: 폴리비오스
+      work: 역사
+      locator: III.117.1
+      original: "a battle in which both the victors and the vanquished displayed conspicuous bravery"
+      translator: W. R. Paton
+      translation: "1922"
+      translation_url: https://archive.org/details/polybiushistorie0000wrpa_v3i1
+      translation_license: 퍼블릭 도메인
+  - type: quote
+    start: {sid: aftermath_7, 'off': 0.2}
+    end: {sid: aftermath_7, edge: end, 'off': 0.4}
+    speaker: 리비우스
+    text: 이기는 법은 알아도 승리를 쓰는 법은 모른다
+    accent: gold
+    source:
+      author: 리비우스
+      work: 로마사
+      locator: XXII.51.4
+      original: "vincere scis, Hannibal, victoria uti nescis"
+      translator: B. O. Foster
+      translation: "1929"
+      translation_url: https://archive.org/details/livy-in-fourteen-volumes.-vol.-5-loeb-233
+      translation_license: 퍼블릭 도메인(미국, 2025년부터)
+  - {type: photo, start: {sid: ending_3, 'off': 0.2}, end: {sid: ending_4, edge: end, 'off': 0.3}, mid: cannae_smith1856}
+  - {type: photo, start: {sid: ending_5, 'off': 0.2}, end: {sid: ending_5, edge: end, 'off': 0.8}, mid: cannae_closs}
