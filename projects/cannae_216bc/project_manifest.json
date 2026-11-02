@@ -4,8 +4,8 @@
   "title": "칸나이 — 기원전 216년 8월 2일",
   "category": "war_military",
   "created_at": "2026-11-01T14:26:10.379273Z",
-  "updated_at": "2026-11-01T15:03:41.447394Z",
-  "current_state": "script_approval",
+  "updated_at": "2026-11-02T03:40:48.941825Z",
+  "current_state": "voice_timeline",
   "target_duration_min": 5,
   "topic_summary": "제2차 포에니 전쟁 칸나이 전투(기원전 216년): 한니발의 초승달 진형과 양익 포위. 사료(폴리비오스 III·리비우스 XXII)·당대/후대 미술·지명 유래로 본 전투",
   "initial_links": [],
@@ -28,7 +28,26 @@
     "provenance": "out/provenance.json"
   },
   "render_mode_status": {},
-  "gate_decisions": [],
+  "gate_decisions": [
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "user",
+      "at": "2026-11-02T03:40:48.941679Z",
+      "comment": "사용자 승인(D-0616, UF-254 원문 '승인') — 원고 v3.1 sha256 1ded8d48",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/cannae_216bc/script.yaml",
+        "lint_errors": "0",
+        "lint_warnings": "0",
+        "est_sec": "476.2",
+        "media_plan_errors": "0",
+        "script_sha1": "b915c5ed97eb7912aebcb7b607933d29e142d1bb",
+        "media_plan": "사진 0/7 · 기사 후보 0문장 · 476초(chars)"
+      },
+      "chosen_version": null
+    }
+  ],
   "stage_records": [],
   "final_outputs": {},
   "state_history": [
@@ -61,6 +80,12 @@
       "to_state": "script_approval",
       "transitioned_at": "2026-11-01T15:03:41.447310Z",
       "reason": "원고 v2 확정(린트 오류 0·경고 0·slop 0) — 게이트 ① 검토 자료로"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-11-02T03:40:48.941742Z",
+      "reason": "script_approval 승인 — user"
     }
   ],
   "rollbacks": [],
