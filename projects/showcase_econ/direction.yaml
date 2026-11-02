@@ -333,16 +333,6 @@ events:
   sub: 5월
   side: right
   hl: false
-- type: photo
-  start:
-    sid: act1_6
-    'off': 0.3 # v7.4.0 D-0346·D-0348(UF-171 [element-hold]) — 완전 노출 ≥ qa_checks.element_hold.min_full_sec(옛 act1_6 +0.4 ~ 끝 +0.8)
-  end:
-    sid: act1_7
-    'off': 4.2
-  mid: econ_warsh_swearing_5
-  for: 케빈 워시 연준 의장 취임 선서   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
-  place: backdrop_right_low
 - type: marker
   start:
     word:
@@ -483,16 +473,6 @@ events:
   sub: 2026년 9월
   side: left
   hl: true
-- type: photo
-  start:
-    sid: act2_6
-    'off': 0.3 # v7.4.0 D-0346·D-0348(UF-171 [element-hold]) — 완전 노출 ≥ qa_checks.element_hold.min_full_sec(옛 act2_6 +0.8 ~ 끝 +0.6)
-  end:
-    sid: act2_7
-    'off': 2.9
-  mid: econ_walmart_2508
-  for: 소비자물가   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
-  place: backdrop_right_low
 sound:
   bgm: music.zabriskie_patriarch
   intensity:
@@ -516,6 +496,10 @@ sound:
   cues: []
   no_music_decision: null
 drops:
+- record: photo econ_warsh_swearing_5 act1_6
+  reason: "D-0349(UF-173) — act1_6(2026.05) 날짜 창이 옆 문장 0.5초씩 넣어도 4.8초(< span 7.5). 다음 문장(2026.06 '반년 멈춘 금리 선')으로 늘리지 않는다 — 취임은 자막·날짜가 맡는다"
+- record: photo econ_walmart_2508 act2_6
+  reason: "D-0349(UF-173) — act2_6(2026.08) 날짜 창 4.8초(< span 7.5). 금리 방향 문장(2026.09.16)으로 늘리지 않는다 — 8월 물가 3.4% 는 자막이 맡는다"
 - record: photo econ_powell_presser_552 act1_4
   reason: "D-0346·D-0348 — 최소 유지 시간 미달(완전 노출 2.69초). act1 사진 셋(이사회실·파월·워시) 중 하나 — act1_4(동결 4회)는 금리 선이 맡는다(요소 수 축소)"
 - record: photo fed_presser_0729 act2_1

@@ -24,7 +24,6 @@ sections:
     - media.diesel_road_2026_art_0032
     - media.diesel_road_2026_art_0034
     - media.diesel_road_2026_art_0003
-    - media.diesel_road_2026_art_0009
     - media.diesel_road_2026_art_0019
     - media.reuters_0904
     - media.herald_0907
@@ -37,10 +36,6 @@ sections:
     license: NASA (MODIS) · Public domain
     rights:
     - media.hormuz_strait_modis_2020
-  - main: 백악관 남쪽 잔디밭의 트럼프 대통령 (2026. 10. 06)
-    license: 백악관 · Public domain
-    rights:
-    - media.diesel_road_2026_trump_1006
   - main: 모스크바 정유소 화재 연기 (2026. 06. 18)
     license: Rotafinus (CC0) · CC0
     rights:
@@ -69,10 +64,10 @@ sections:
     license: U.S. Navy · Public domain
     rights:
     - media.dmz_mine_sign
-  - main: 이란 군사 목표 타격 영상 (자료 영상 · 2026.7.7 촬영)
-    license: U.S. Central Command · Public domain
+  - main: DMZ 철책(을지전망대, 2008)
+    license: Friar's Balsam · CC BY 2.0
     rights:
-    - media.strikes_file
+    - media.dmz_fence
 - title: 글꼴
   column: 1
   auto: fonts
@@ -86,10 +81,6 @@ sections:
     license: Public domain · 용도 한정(D98)
     rights:
     - emblems.cheongwadae
-  - main: Seal of United States Central Command
-    license: 미 국방부 · Wikimedia Commons · Public domain
-    rights:
-    - emblems.centcom
 - title: 국기
   column: 1
   items:
