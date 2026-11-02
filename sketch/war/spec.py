@@ -90,6 +90,8 @@ class WarSpec(SketchSpec):
 
     @model_validator(mode="after")
     def _refs(self) -> "WarSpec":
+        if any(k.t is None for u in self.units for k in u.keys):
+            raise ValueError("스케치 부대 키프레임은 t(초)만 — 문장 앵커(at)는 본편 forces 파일")
         errs = faction_errors(self.factions, self.units, tuple(r.faction for r in self.routes))
         if errs:
             raise ValueError(errs[0])

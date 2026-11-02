@@ -10,7 +10,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Any, Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -29,12 +29,21 @@ class Faction(_Strict):
 
 
 class UnitKey(_Strict):
-    t: float = Field(ge=0)
+    """키프레임 시각 = t(초) 또는 at(문장 앵커 — 본편 forces 파일만, D-0615 §2-3. 스케치 spec 은 t 만). 둘 중 정확히 하나."""
+
+    t: Optional[float] = Field(default=None, ge=0)
+    at: Optional[dict[str, Any]] = None   # 본편 direction 앵커({at_word: …} 등) — engine.direction.resolve_anchor 로 초가 된다
     lon: float
     lat: float
     heading: float = 0.0     # 정면 방위(도, 북 = 0, 시계 방향)
     length_km: float = Field(gt=0)   # 정면 폭(개략)
     depth_km: float = Field(gt=0)    # 종심(개략)
+
+    @model_validator(mode="after")
+    def _when(self) -> "UnitKey":
+        if (self.t is None) == (self.at is None):
+            raise ValueError("부대 키프레임 시각은 t(초)·at(문장 앵커) 중 정확히 하나")
+        return self
 
 
 class WarUnit(_Strict):
@@ -43,10 +52,15 @@ class WarUnit(_Strict):
     name: str = ""
     keys: list[UnitKey] = Field(min_length=1)
     t_out: Optional[float] = None    # 이 시각부터 사라짐(무너짐·포위 섬멸 표현이 아니라 화면 정리)
+    out_at: Optional[dict[str, Any]] = None   # 본편 — t_out 대신 문장 앵커(D-0615 §2-3). 둘 다 쓰지 않는다
 
     @model_validator(mode="after")
     def _keys(self) -> "WarUnit":
+        if self.t_out is not None and self.out_at is not None:
+            raise ValueError(f"부대 {self.name or self.symbol}: t_out·out_at 중 하나만")
         ts = [k.t for k in self.keys]
+        if any(t is None for t in ts):   # 앵커 키 — 순서는 앵커를 푼 뒤(engine.terrain3d_prep)
+            return self
         if ts != sorted(ts) or len(set(ts)) != len(ts):
             raise ValueError(f"부대 {self.name or self.symbol}: 키 시각은 겹치지 않는 오름차순 {ts}")
         return self
@@ -94,6 +108,8 @@ class WarForces(_Strict):
     """본편 terrain3d 무대의 부대 기록 파일(direction stage_config.terrain3d.forces). schema_version 1."""
 
     schema_version: int = 1
+    approximate: Literal[True]                  # 위치·크기·간격은 개략(축척 아님) — 구간 동안 '개략' 출처 줄 의무([war-units-approx], D-0615 §2-1)
+    sources: list[str] = Field(min_length=1)    # 사료 귀속(예: 폴리비오스 『역사』 III.113~116) — 화면 출처 줄
     factions: dict[str, Faction] = Field(min_length=2)
     units: list[WarUnit] = Field(default_factory=list)
     places: list[WarPlace] = Field(default_factory=list)
