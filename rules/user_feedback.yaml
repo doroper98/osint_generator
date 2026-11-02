@@ -2599,4 +2599,16 @@ entries:
   status: open
   decision: "D-0607(back_and_forth) — 등록 때 장치(레지스트리·골든) guards 에"
   source: "위임 감독 세션(Fable, 전쟁사 트랙) 사용자 대화 2026-11-01"
+- id: UF-254
+  date: '2026-11-02'
+  project: cannae_216bc
+  at: "칸나이 원고 v3.1 게이트 ① 자료(정정본 — 문장 접미 라벨 제거판, script.yaml sha256 1ded8d48)에 대한 답"
+  quote: "승인"
+  quote_kind: verbatim
+  category: "게이트 ① 원고 승인 — 칸나이 원고 v3.1(64문장·약 476초)"
+  guards:
+  - {kind: code, ref: orchestrator.project_manager.require_animatic}
+  status: guarded
+  decision: "D-0616(back_and_forth) — approve --gate script_approval, 표준 음성 → 연출 → 콘티 판"
+  source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-02"
 
