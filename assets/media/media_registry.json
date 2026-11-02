@@ -5931,6 +5931,62 @@
     "PD-old missing SDC copyright status",
     "PD-old-70-expired"
    ]
+  },
+  "cannae_smith1856": {
+   "is_file_photo": false,
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-02",
+   "source_hash": "48845cf200ed0a1f912cbdc4831b6672",
+   "kind": "document",
+   "title": "Dictionary of Greek and Roman Geography, Vol. I (1856) — 'CANNAE' p. 499",
+   "license": "Public domain",
+   "author": "W. Smith 편(1856, 런던)",
+   "credit_author": "W. Smith",
+   "date": "1856",
+   "url": "https://archive.org/details/india.history.resource.89510",
+   "caption": "그리스 로마 지리 사전의 '칸나이' 항목",
+   "file_note": "1856년 런던에서 나온 사전 499쪽 오른쪽 단 — 'CANNAE' 항목 첫머리(지명 표기·아우피두스 남안·카노사 쪽 언덕의 유적)",
+   "depicts": [
+    "사전 항목",
+    "칸나이"
+   ],
+   "main_subject": [
+    "사전 항목"
+   ],
+   "verified_by": {
+    "by": "구현 세션(archive.org 메타데이터·스캔 499쪽 대조, page_numbers.json leaf 514)",
+    "on": "2026-11-02",
+    "casualty_free": true,
+    "relevance": "칸나이 유적 위치와 당시 이름을 적은 19세기 지리 사전 — 원고 ending_3(1856년 사전이 당시 이름을 칸네로 적음)"
+   },
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "cannae_smith1856.png",
+     "thumb_w": null,
+     "crop": [
+      720,
+      450
+     ],
+     "fit": "contain",
+     "matte": [
+      18,
+      20,
+      24
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "file": "cannae_smith1856.jpg",
+   "created": "1856",
+   "work_kind": "document",
+   "holder": "Internet Archive(India history resource 디지털화본)",
+   "archive_id": "india.history.resource.89510",
+   "photo_license": "Public domain",
+   "work_license": "Public domain(1856 출판)",
+   "photo_pd_basis": "2D 인쇄물 스캔 — 원본 1856년 런던 출판(W. Smith 편, 저작자 사후 70년 이상 경과). 스캔은 원본의 충실한 복제(새 저작물 아님). 원본 쪽 = archive.org page/n514(쪽 번호 499), 잘라낸 범위 x 860~1660·y 2296~2558(1701×2800 쪽 이미지)"
   }
  }
 }

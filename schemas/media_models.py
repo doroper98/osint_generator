@@ -149,8 +149,11 @@ class MediaAsset(_Strict):
         errs += [f"{self.kind} 레코드 필수 칸 없음: {f}" for f in need if getattr(self, f) is None]
         if self.kind == "document" and not (self.archive_id or self.inventory_no):
             errs.append("document 는 archive_id 또는 inventory_no(식별 번호) 필수")
-        if self.photo_license is None or self.license_tags is None:
+        commons = "commons.wikimedia.org" in (self.url or "")
+        if self.photo_license is None or (commons and self.license_tags is None):
             errs.append(f"{self.kind} 레코드는 photo_license(사진)·license_tags(Commons 분류, python -m sketch.war.fetch 자동 기록) 필수 — 유물 PD 를 사진 권리로 착각하지 않게(D-0606 §2)")
+        if not commons and self.license_tags is None and not self.photo_pd_basis:   # v7.4.0 D-0617 ② — Commons 밖(archive.org 스캔 등)은 분류가 없다
+            errs.append(f"{self.kind} 레코드가 Commons 밖({self.url}) — license_tags 대신 photo_pd_basis(출판 연도·식별자·복제 근거) 필수")
         elif self.license != self.photo_license:
             errs.append(f"license {self.license!r} ≠ photo_license {self.photo_license!r} — 화면 크레딧 라이선스 = 사진 라이선스")
         from schemas.war_history import photo_pd_basis_needed  # noqa: PLC0415

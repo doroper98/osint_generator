@@ -91,6 +91,16 @@ class MediaAssetLicenseTest(unittest.TestCase):
         MediaAsset.model_validate(_art(license_tags=["PD-old-100-expired", "CC-PD-Mark"], photo_pd_basis="1900년 촬영·발행 사진 PD-old"))
         MediaAsset.model_validate(_art(license_tags=["PD-old-100-expired"], work_kind="painting"))   # 2D 복제 = PD-Art 성립
 
+    def test_non_commons_document_needs_pd_basis(self) -> None:
+        """v7.4.0 D-0617 ② — Commons 밖(archive.org 스캔)은 분류가 없다: license_tags 대신 photo_pd_basis 필수. Commons 파일은 그대로 분류 필수."""
+        doc = dict(kind="document", url="https://archive.org/details/x", license_tags=None, archive_id="x", work_kind="document",
+                   created="1856", art_history=None, art_history_source=None, work_license=None)
+        with self.assertRaises(ValidationError):
+            MediaAsset.model_validate(_art(**doc))
+        MediaAsset.model_validate(_art(**doc, photo_pd_basis="1856 런던 출판 인쇄물의 2D 스캔(archive.org x)"))
+        with self.assertRaises(ValidationError):   # Commons 파일은 photo_pd_basis 가 있어도 분류 필수
+            MediaAsset.model_validate(_art(**{**doc, "url": "https://commons.wikimedia.org/wiki/File:x.jpg"}, photo_pd_basis="b"))
+
     def test_project_records_pass(self) -> None:
         for pid in ("cannae_sketch", "inchon_sketch"):
             raw = json.loads((REPO / "projects" / pid / "media.json").read_text(encoding="utf-8"))
