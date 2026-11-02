@@ -24,7 +24,6 @@ sections:
     - media.diesel_road_2026_art_0032
     - media.diesel_road_2026_art_0034
     - media.diesel_road_2026_art_0003
-    - media.diesel_road_2026_art_0009
     - media.diesel_road_2026_art_0019
     - media.reuters_0904
     - media.herald_0907
@@ -33,10 +32,6 @@ sections:
 - title: 사진
   column: 0
   items:
-  - main: 호르무즈 해협 위성 사진 (2020. 12. 04)   # v7.4.0 D-0327 — 옛 미 해군 경계 근무 사진(주된 피사체가 수병) 교체
-    license: NASA (MODIS) · Public domain
-    rights:
-    - media.hormuz_strait_modis_2020
   - main: 백악관 남쪽 잔디밭의 트럼프 대통령 (2026. 10. 06)
     license: 백악관 · Public domain
     rights:
@@ -69,10 +64,6 @@ sections:
     license: U.S. Navy · Public domain
     rights:
     - media.dmz_mine_sign
-  - main: 이란 군사 목표 타격 영상 (자료 영상 · 2026.7.7 촬영)
-    license: U.S. Central Command · Public domain
-    rights:
-    - media.strikes_file
 - title: 글꼴
   column: 1
   auto: fonts
@@ -86,10 +77,6 @@ sections:
     license: Public domain · 용도 한정(D98)
     rights:
     - emblems.cheongwadae
-  - main: Seal of United States Central Command
-    license: 미 국방부 · Wikimedia Commons · Public domain
-    rights:
-    - emblems.centcom
 - title: 국기
   column: 1
   items:
