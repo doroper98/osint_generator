@@ -40,18 +40,10 @@ sections:
     license: Rotafinus (CC0) · CC0
     rights:
     - media.diesel_road_2026_moscow_fire_0618
-  - main: 하바롭스크 정유소 (2005. 10)
-    license: Николай Максимович · CC BY 3.0 · CC BY 3.0
-    rights:
-    - media.diesel_road_2026_khabarovsk_ref_2005
   - main: 라스라판 LNG 터미널 (2012. 09)
     license: Matthew Smith · CC BY 2.0 · CC BY 2.0
     rights:
     - media.diesel_road_2026_ras_laffan_lng_2012
-  - main: 블라디보스토크 금각만 항구 (2010. 09)   # v7.4.0 D-0327(UF-201) — 옛 예인선 사진(1992) 교체
-    license: Russian.dissident · Public domain
-    rights:
-    - media.vladivostok_golden_horn_2010
   - main: 이라크 파병 한국군 (2003)
     license: U.S. Government · Public domain
     rights:
