@@ -4,8 +4,8 @@
   "title": "휴전안 — 미국과 이란, 무엇이 먼저 풀려야 하나",
   "category": "geopolitics",
   "created_at": "2026-11-01T00:29:59.874133Z",
-  "updated_at": "2026-11-02T10:56:11.174286Z",
-  "current_state": "done",
+  "updated_at": "2026-11-02T11:06:31.683528Z",
+  "current_state": "preview_approval",
   "target_duration_min": 18,
   "topic_summary": "2026년 미국·이란 전쟁의 휴전안 정리(9월 말 이란 7일안~10/31 도하)와 휴전 가능성의 조건부 시나리오·신호",
   "initial_links": [],
@@ -492,6 +492,24 @@
       "to_state": "done",
       "transitioned_at": "2026-11-02T10:56:11.174228Z",
       "reason": "engine deliver ok"
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "transitioned_at": "2026-11-02T11:06:30.330442Z",
+      "reason": "reopen → direction — opus: 크레딧 표기 정정만(초상 2건 저작자 칸 — 라이브러리 1f5e0987 값 재반영), 연출 불변 53d1b3c2"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-11-02T11:06:31.033586Z",
+      "reason": "크레딧 표기 정정만(초상 2건 저작자 칸 — 라이브러리 1f5e0987 값 재반영), 연출 불변 53d1b3c2"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-11-02T11:06:31.683480Z",
+      "reason": "크레딧 표기 정정만(초상 2건 저작자 칸 — 라이브러리 1f5e0987 값 재반영), 연출 불변 53d1b3c2"
     }
   ],
   "rollbacks": [],
@@ -511,6 +529,14 @@
       "at": "2026-11-02T04:06:04.013680Z",
       "reason": "D-0466 UF-173 — 교체본 탈락 2차(첫 화면 사진·1막 지도 매몰), 연출 v10",
       "direction_version": 9
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "by": "opus",
+      "at": "2026-11-02T11:06:30.330420Z",
+      "reason": "크레딧 표기 정정만(초상 2건 저작자 칸 — 라이브러리 1f5e0987 값 재반영), 연출 불변 53d1b3c2",
+      "direction_version": 10
     }
   ]
 }
