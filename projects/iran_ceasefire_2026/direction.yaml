@@ -1044,7 +1044,7 @@ events:
     sid: act2_0
     'off': 0.3
   end:
-    sid: act2_6
+    sid: act2_3
     'off': 0.0
     edge: end
   kind: timeline
@@ -1079,20 +1079,6 @@ events:
       side: 1
       t:
         sid: act2_3
-        'off': 0.4
-    - date: '2026-09-30'
-      label: 미 역제안
-      col: ru
-      side: -2
-      t:
-        sid: act2_4
-        'off': 0.4
-    - date: '2026-10-07'
-      label: 밴스 요구·선거 전 공격 없음
-      col: ru
-      side: 2
-      t:
-        sid: act2_5
         'off': 0.4
 - type: panel
   start:
@@ -1618,6 +1604,72 @@ events:
     'off': 0.25
   mid: iran_hormuz_modis
   for: 호르무즈 해협
+- type: panel
+  start:
+    sid: act2_5
+    'off': 0.0
+  end:
+    sid: act2_6
+    'off': 0.0
+    edge: end
+  kind: timeline
+  claims:
+  - clm_0021
+  - clm_0022
+  - clm_0023
+  - clm_0024
+  - clm_0026
+  - clm_0027
+  - clm_0029
+  - clm_0031
+  - clm_0033
+  - clm_0001
+  - clm_0004
+  data:
+    title: 휴전안의 한 달
+    subtitle: 2026년 9월 – 11월
+    start: '2026-09-15'
+    end: '2026-11-15'
+    events:
+    - date: '2026-09-24'
+      label: 이란 7일안
+      col: ru
+      side: -1
+      t:
+        sid: act2_5
+        'off': 0.3
+    - date: '2026-09-26'
+      label: 트럼프 거부
+      col: ru
+      side: 1
+      t:
+        sid: act2_5
+        'off': 0.3
+    - date: '2026-09-30'
+      label: 미 역제안
+      col: ru
+      side: -2
+      t:
+        sid: act2_5
+        'off': 0.3
+    - date: '2026-10-07'
+      label: 밴스 요구·선거 전 공격 없음
+      col: ru
+      side: 2
+      t:
+        sid: act2_5
+        'off': 0.4
+- type: photo
+  start:
+    sid: act2_4
+    'off': 0.1
+  end:
+    sid: act2_4
+    'off': 0.44
+    edge: end
+  mid: iran_mohajerani_0127
+  for: 이란 정부 대변인
+  place: map_pair_left
 sound:
   bgm: music.zabriskie_mario_bava
   intensity:

@@ -9056,6 +9056,51 @@
      "jpeg_quality": 92
     }
    }
+  },
+  "iran_mohajerani_0127": {
+   "kind": "photo",
+   "title": "File:Press Conference of Fatemeh Mohajerani 21 (Mehr, 27Jan2026).jpg",
+   "author": "Fatemeh Mirahmadi (Mehr News Agency)",
+   "license": "CC BY 4.0",
+   "date": "2026-01-27",
+   "url": "https://commons.wikimedia.org/wiki/File:Press_Conference_of_Fatemeh_Mohajerani_21_(Mehr,_27Jan2026).jpg",
+   "caption": "파테메 모하제라니 이란 정부 대변인 브리핑",
+   "file_note": "자료사진 · 2026. 01",
+   "depicts": [
+    "모하제라니 이란 정부 대변인(마이크 앞)"
+   ],
+   "main_subject": [
+    "이란 정부 대변인"
+   ],
+   "background": [
+    "커튼"
+   ],
+   "is_file_photo": true,
+   "credit_author": "Mehr News Agency · Fatemeh Mirahmadi (CC BY 4.0)",
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons 검색 API 메타(라이선스 CC BY 4.0·작성자·촬영일·제한 없음) 대조, 1280px 사본 육안 확인(주된 피사체 D-0327). 1280px 썸네일은 API 429 로 upload.wikimedia.org 직접 받음",
+    "on": "2026-11-02",
+    "casualty_free": true,
+    "relevance": "act2_4 '9월 30일 이란 정부는 카타르를 거쳐 미국의 역제안을 받았다고 밝혔다' — 발표 주체(정부 대변인, 조사표 02 '9/29~30 govt spokeswoman') 자료사진(D-0469 §2)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-02",
+   "source_hash": "9b0d1f15cd714f0ab728e2e487914ce5",
+   "file": "iran_mohajerani_0127_720.jpg",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "iran_mohajerani_0127.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   }
   }
  }
 }
