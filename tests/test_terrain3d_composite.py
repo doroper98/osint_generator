@@ -4,6 +4,7 @@
 (engine.layers.terrain3d.draw_base + draw_labels — 병종 픽토그램·부대 이름·지명·'개략' 출처 줄)를 427×240(k = 0.5) 표면에 그려
 프레임마다 화소 바이트 md5 를 고정한다. 3D 쪽은 브라우저 GPU 차가 있어 MAD, 글자·그림은 엔진(cairo)이라 바이트 고정으로 나눈다.
 의도한 변경이면 md5 를 고치고 커밋 메시지에 사유를 적는다(골든 갱신 = 사람이 본 뒤).
+md5 는 표준 FONTCONFIG(/etc/fonts/fonts.conf 사본, conf.d 에서 12-unhinted-grayscale 뺌 — R-0310 §3·D-0623)에서 고정했다. 이 설정 없이 돌리면 글자 힌팅 차로 실패한다.
 """
 
 from __future__ import annotations
@@ -28,9 +29,9 @@ FIX = REPO / "tests" / "fixtures" / "terrain3d"
 SOURCE = "폴리비오스 『역사』 III.113~116(Paton 영역 1922)"
 
 COMPOSITE_MD5 = {
-    0: "0b034e46f7a5ea3214ae9fb6dba4cd8d",
-    1: "86a3ea88af6a16ae768c208b0c0c50d1",
-    2: "3e08bdb512beb5c16303af2f620bc65e",
+    0: "3858b451893c499c47f1d923c8486654",
+    1: "b339881a36ef3a1eb137249f71c5d7ef",
+    2: "45746c987f8ad6dd287dfccca418cc3a",
 }
 
 
