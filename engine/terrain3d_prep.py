@@ -85,9 +85,6 @@ def segments(doc: Any, tb: Any, total: float) -> list[Segment]:
             if shots[k].mode == "drift":
                 end = ts[k + 1] if k + 1 <= j else t_out
                 orbits.append((ts[k], end))
-        if any(shots[k].camera.w != first.camera.w or shots[k].camera.lon != first.camera.lon or shots[k].camera.lat != first.camera.lat
-               or shots[k].camera.place != first.camera.place for k in range(i + 1, j + 1)):
-            raise Terrain3DError("terrain3d 구간 안 숏은 들어간 카메라(lon·lat·place·w)를 그대로 쓴다 — 3D 카메라는 구간 규칙이 움직인다")
         out.append(Segment(sid=f"seg{len(out):02d}", t_in=t_in, t_out=t_out, orbits=orbits, shot_index=list(range(i, j + 1))))
         i = j + 1
     T = load_rules().stage_terrain3d  # noqa: N806
@@ -176,7 +173,7 @@ def seg_dir(proj: Path, profile: str, seg: Segment) -> Path:
 def view_rows(P: "Project", seg: Segment) -> list[list[float]]:  # noqa: N803
     fps = FPS
     i0, i1 = int(round(seg.t_in * fps)), int(round(seg.t_out * fps))
-    return [list(map(float, P.cams[i0])), list(map(float, P.cams[max(i0, i1 - 1)]))]
+    return [list(map(float, P.cams[i])) for i in range(i0, max(i0 + 1, i1))]   # 구간 전 프레임 — 3D 카메라가 따르는 mercator 카메라(D-0617)
 
 
 def forces_rel(P: "Project") -> str:  # noqa: N803

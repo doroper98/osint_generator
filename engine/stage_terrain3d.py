@@ -162,7 +162,7 @@ def build_scene(P: "Project", seg: "Segment", forces: WarForces, out: Path) -> d
     """scene.json·height.json·texture.png — 지형·텍스처는 들어가는 순간의 mercator 화면과 같은 세계(같은 base_image, 더 넓게)."""
     from engine.projection import View  # noqa: PLC0415
     from engine.stage import lat_of  # noqa: PLC0415
-    from engine.style import C  # noqa: PLC0415
+    from engine.style import H_OUT, W_OUT, C  # noqa: PLC0415
     from geo.prep import CACHE, load_conf  # noqa: PLC0415
     from geo.prep_tiers import TILE, TierSpec, mosaic  # noqa: PLC0415
 
@@ -171,10 +171,13 @@ def build_scene(P: "Project", seg: "Segment", forces: WarForces, out: Path) -> d
     from engine.style import FPS as fps  # noqa: PLC0415, N811
     i0, i1 = int(round(seg.t_in * fps)), int(round(seg.t_out * fps))
     stage = P.R.stage
-    v_in = View(stage, P.cams[i0])
-    cx, cy = v_in.x0 + v_in.w / 2, v_in.y1 - v_in.h / 2
+    views = [View(stage, P.cams[i]) for i in range(i0, i1)]   # D-0617 — 3D 카메라는 프레임마다 mercator 카메라(숏 단위 push·pan)를 따른다
+    x_lo, x_hi = min(v.x0 for v in views), max(v.x0 + v.w for v in views)
+    y_lo, y_hi = min(v.y1 - v.h for v in views), max(v.y1 for v in views)
+    w_max = max(v.w for v in views)
+    cx, cy = (x_lo + x_hi) / 2, (y_lo + y_hi) / 2
     lon_c, lat_c = cx, lat_of(cy)
-    region = View(stage, np.array([cx, cy, v_in.w * ST.region_factor]))
+    region = View(stage, np.array([cx, cy, max(x_hi - x_lo, (y_hi - y_lo) * W_OUT / H_OUT) + w_max * (ST.region_factor - 1)]))
     out.mkdir(parents=True, exist_ok=True)
     stage.base_image(region, P.R.out).convert("RGB").save(out / "texture.png")
     lat_n, lat_s = lat_of(region.y1), lat_of(region.y1 - region.h)
@@ -241,8 +244,12 @@ def build_scene(P: "Project", seg: "Segment", forces: WarForces, out: Path) -> d
         return recs
 
     hfov = 2 * math.atan(math.tan(math.radians(T3.camera.fov_deg) / 2) * W / H)
-    w_m = v_in.w * L.kx   # mercator 화면 폭(경도°) → 지표 m(중심 위도)
-    radius = w_m / (2 * math.tan(hfov / 2))
+    tan_h = math.tan(hfov / 2)
+
+    def cam_of(v: Any) -> tuple[list[float], float]:   # mercator 화면 → 90° 내려다보기 3D 카메라(같은 중심·같은 화면 폭)
+        return rel(v.x0 + v.w / 2, lat_of(v.y1 - v.h / 2)), v.w * L.kx / (2 * tan_h)
+
+    radius = max(cam_of(v)[1] for v in views)
     db = _places(P.root)
     places = []
     for p in forces.places:
@@ -253,7 +260,8 @@ def build_scene(P: "Project", seg: "Segment", forces: WarForces, out: Path) -> d
     for i in range(i0, i1):
         t = i / fps
         az, el = camera_at(t, seg)
-        fr: dict[str, Any] = {"az": round(az, 4), "elev": round(el, 4), "radius": round(radius, 2), "target": [0.0, 0.0], "t": round(t, 4)}
+        tgt, rad = cam_of(views[i - i0])
+        fr: dict[str, Any] = {"az": round(az, 4), "elev": round(el, 4), "radius": round(rad, 2), "target": tgt, "t": round(t, 4)}
         us = unit_recs(t)
         if us != prev:
             fr["units"] = us
@@ -261,7 +269,7 @@ def build_scene(P: "Project", seg: "Segment", forces: WarForces, out: Path) -> d
         frames.append(fr)
     first_units = frames[0].get("units", [])
     scene = {"width": W, "height": H, "size_m": size_m, "center": [0, 0], "exaggeration": T3.exaggeration, "text_in_engine": True,
-             "camera": {"fov": T3.camera.fov_deg, "elev_deg": 90.0, "radius_m": radius, "target": [0.0, 0.0]},
+             "camera": {"fov": T3.camera.fov_deg, "elev_deg": 90.0, "radius_m": radius, "target": cam_of(views[0])[0]},
              "light": T3.light.model_dump(), "sky": T3.sky, "fog": [radius * T3.fog[0], radius * T3.fog[1]],
              "lift_m": T3.lift_m, "label_lift_m": T3.label_lift_m, "unit_opacity": T3.unit_opacity,
              "unit_height_m": T3.unit_height_m, "shadow_offset_m": T3.shadow_offset_m, "shadow_alpha": WS.depth.shadow_alpha,
