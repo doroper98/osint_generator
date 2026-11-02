@@ -1582,7 +1582,7 @@ stage_structure:           # v7.4.0 back_and_forth D-1003 §3 — 구성 무대(
   # 행 끝 직접 라벨 "금액 · ±증감률"(범례 없음). 바닥 조판 정본 D-0328·D-0330: 테두리 0, 바깥 끝 모서리만 stage_timeline.bars.top_radius, 잉크 사다리, 초점 행만 accent.
   # 감소 행 = 손실 A(stage_timeline.bars.negative_fill muted_fill — UF-204). 층은 문장마다 하나(bars → prior → delta → focus). 카메라는 무대 안에서(월드 = 전체 보기 px, 등방 — 축척 불변).
   # 감독 명세 값(D-1003) — 사용자 합격 값 아님(구상 1프레임 판정 전)
-  pad_top: 34              # 상자 위 → 첫 행 위 끝(px) — 머리 줄·눈금 태그 자리
+  pad_top: 40              # 상자 위 → 첫 행 위 끝(px) — 머리 줄·총지출 줄·눈금 태그 자리(D-1009 태그 13 → 34 에서 넓힘)
   pad_bottom: 26           # 마지막 행 아래 끝 → 상자 아래(출처 한 줄 자리)
   label_col: 128           # 행 이름 열 폭(px, 왼쪽). 이름은 이 열 오른쪽 끝에 붙인다
   label_gap: 10            # 행 이름 오른쪽 끝 → 0 기준선
@@ -1613,11 +1613,11 @@ stage_structure:           # v7.4.0 back_and_forth D-1003 §3 — 구성 무대(
   max_rows: 14             # 한 무대 행 수 상한(12대 분야 + 여유). 넘으면 오류(P6)
   camera_drift: false      # D-1006 — 구성 무대 카메라는 키 뒤 느린 푸시인(camera drift) 없음: 전체 보기 12행이 출처 줄 밑으로 밀리지 않게. 확대는 연출 숏으로만
   # 행(막대·이름·금액·눈금·증감)은 머리 줄 아래 ~ 출처 줄 위 띠 안에만 그린다(확대해도 머리·출처와 겹침 0)
-  ladder: [0.82, 0.66, 0.54]   # 잉크 사다리 — 금액 순위 0·1·2 행, 그 아래는 마지막 값(초점 행은 accent 솔리드)
+  ladder: [0.42, 0.36, 0.3]   # 잉크 사다리 — 금액 순위 0·1·2 행, 그 아래는 마지막 값(초점 행은 accent 솔리드). D-1009 §2-1: 0.82·0.66·0.54 → 낮춰 늘어난 구간(up)과 휘도 차 ≥ 60
   head_size: 13            # D-1008 12 → 13. 무대 머리 짧은 이름 한 줄("2027 정부안 분야별 총지출 · 조 원", sansm muted) — 카드 제목 줄 아님(D-0328 §3)
   head_font: sansm
   head_dy: 4               # 상자 위 끝 → 머리 줄 글자 위(px). pad_top 은 머리 줄 + 여백을 담는다
-  tag_size: 11             # D-1008 9.5 → 11. 견줄 눈금 직접 라벨("2026 본예산" — 첫 행 눈금 위, 범례 아님)
+  tag_size: 13             # D-1009(R-0609 판단 수용) 11 → 13. 견줄 눈금 직접 라벨("2026 본예산" — 첫 행 눈금 위, 범례 아님)
   tag_font: sansm
   tag_gap: 3               # 눈금 위 끝 → 태그 기준선
   pct_digits: 1            # 증감률 소수 자리
@@ -1627,7 +1627,10 @@ stage_structure:           # v7.4.0 back_and_forth D-1003 §3 — 구성 무대(
   unit_suffix: {"조 원": "조"}     # 행 끝 금액 꼬리(레코드 unit → 화면 꼬리). 없는 단위 = 오류(P6)
   stage_words: {proposed: 정부안, enacted: 본예산, settled: 결산, planned: 계획}   # planned = 국가재정운용계획 연도(2028~).   레코드 budget_stage → 화면 낱말(D-1003 §2 — 정부안임을 화면에서 분명히)
   # v7.4.0 back_and_forth D-1008 §1·§2(UF-304 "직관적이고 시인성을 갖춰야 되는게 가장 중요해") — 감독 명세, 사용자 합격 값 아님
-  delta_seg_alpha_add: 0.3   # delta 층: 늘어난 구간(눈금 → 막대 끝)을 같은 막대 위에서 행 잉크 농도 + 이 값(한 단계 밝게). 감소 구간(막대 끝 → 눈금) = 손실 A 면
+  delta_seg_color: up       # D-1009 §2-1 — delta 층: 늘어난 구간(눈금 → 막대 끝) = 증감 라벨과 같은 의미색(up) 면, 기본 구간과 휘도 차 ≥ 60 단계(감독 화소 실측 20~27 → 안 보임). 감소 구간 = 손실 A
+  delta_seg_alpha: 1.0
+  delta_seg_dim: false     # 초점이 다른 행에 있어도 늘어난 구간은 흐리게 하지 않는다(기본 구간만 focus_dim) — 휘도 차 유지
+  avg_word: 연평균            # 초점 작은 줄 "2018~26 연평균 +8.7%"(레코드 avg_growth 해 범위 + 이 낱말)
   focus_base_alpha: 0.42     # focus 층: 초점 행 0 → 눈금 구간 = accent × 이 농도(옅게), 늘어난 구간 = accent 솔리드
   focus_value_size: 18       # 초점 라벨 큰 숫자(sansb, accent) — 문장이 말하는 숫자(metric amount = +증감액, rate = +증감률)
   focus_value_font: sansb
@@ -1964,6 +1967,7 @@ data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs
     month_last: "일별 → 그 달의 마지막 관측값(값은 원자료 그대로, 날짜는 그 달 1일)"
     filing: "공시 표의 값 그대로(단위 환산만 — rules data.filing_scales)"   # v7.4.0 D-0278 §4.2(E3) — source_kind filing. 값마다 filings{form·번호·제출일·항목·위치·url·원값·원단위}, 환산은 로더가 다시 계산해 대조
     chart_close: "Yahoo chart API 일별 종가(indicators.quote close 값 그대로, 거래일만)"   # v7.4.0 D-0278 §4.2 — 주가 레인. raw/<id>.json 을 다시 읽어 대조
+    cagr: "연평균 증가율(%) = ((끝 해 값 / 처음 해 값) ^ (1 / (끝 해 − 처음 해)) − 1) × 100, 소수 첫째 자리 반올림"   # v7.4.0 D-1009 — 구성 레코드 avg_growth(원문 시계열의 두 해 값에서 코드가 계산)
     document: "원문 문서 표의 값 그대로(단위 환산만 — rules data.filing_scales, 값마다 쪽·표 줄)"   # v7.4.0 D-1003 §1 — source_kind document(사용자 업로드 원본 등 로컬 원본 sha1). 예산 레코드는 값마다 budget_stage
     press_cited: "보도 인용값(매체·날짜)"   # v7.3.0 D232 U4 — 1차 표를 열지 못한 값. 코드가 받지 않는다(source_kind press_cited, 값마다 cited)   # v4.4.0 D-0090 작업 2 — DFEDTARU·DFEDTARL(목표 범위 상·하한)
   # v7.3.0 사용자 결정 D232 U4 — 출처 종류. fetched = 코드가 source_url 에서 받은 값(sources_allowed 도메인), press_cited = 보도 인용값(IEA·Vortexa·Kpler·LSEG 등을

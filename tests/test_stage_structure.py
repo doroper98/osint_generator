@@ -307,3 +307,54 @@ class RowsBandTest(unittest.TestCase):
                 self.assertEqual(px(surf, st.bw - 3, y), (0, 0, 0), f"y={y}")
         finally:
             apply_palette(None)
+
+
+class AvgAndTotalTest(unittest.TestCase):
+    """D-1009 — 예년 비교(avg_growth, cagr 코드 계산)·총지출 줄·늘어난 구간 휘도 차."""
+
+    def test_real_avg_labels(self) -> None:
+        from engine.layers.structure import focus_label  # noqa: PLC0415
+
+        st = StructureStage(config={"box": "center_tall", "record": "BUDGET_2027_PROPOSED_SECTORS",
+                                    "prior": "BUDGET_2026_ENACTED_SECTORS", "title": "t"})
+        self.assertEqual(focus_label(st, st.by_id["industry"], "rate", "avg"), ("+29.7%", " · 2018~26 연평균 +8.7%"))
+        self.assertEqual(focus_label(st, st.by_id["environment"], "rate", "avg"), ("+5.2%", " · 2018~26 연평균 +9.1%"))
+        self.assertEqual(focus_label(st, st.by_id["diplomacy"], "rate", "avg"), ("+1.1%", " · 2018~26 연평균 +5.1%"))
+        with self.assertRaisesRegex(ValueError, "기준이 다른 행"):
+            focus_label(st, st.by_id["welfare"], "rate", "avg")   # p.15 새 기준 ≠ p.16 종전 기준
+        tot, pct, avg = st.total_info()
+        self.assertEqual((tot, round(pct, 1), round(avg, 1)), (820.9, 12.8, 6.8))
+
+    def test_total_line_no_overlap_and_contrast(self) -> None:
+        """총지출 줄이 머리·태그와 겹치지 않고, 늘어난 구간이 기본 구간보다 휘도 60 단계 이상 밝다(noturno, 초점 행 아닌 행)."""
+        import numpy as np  # noqa: PLC0415
+
+        from engine.layers.structure import DRAWN_TEXT, draw_structure, text_overlaps  # noqa: PLC0415
+
+        apply_palette("noturno")
+        try:
+            st = StructureStage(config={"box": "center_tall", "record": "BUDGET_2027_PROPOSED_SECTORS",
+                                        "prior": "BUDGET_2026_ENACTED_SECTORS", "title": "분야별 총지출"})
+            evs = events(t_focus=3.0) + [{"type": "rank", "t0": 0.0, "t1": 20.0, "layer": "total"}]
+            evs[3] = {**evs[3], "row": "admin", "metric": "amount"}
+            from engine.style import PALETTE  # noqa: PLC0415
+
+            surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, int(st.bw), int(st.bh))
+            ctx = cairo.Context(surf)
+            ctx.set_source_rgb(*PALETTE["bg"])
+            ctx.paint()
+            x, y = st.to_world()
+            draw_structure(ctx, _R(evs, st), View(st, np.array((x, y, st.fixed_w)), viewport=(st.bw, st.bh)), 10.0, evs)
+            surf.flush()
+            names = [n for n, _ in DRAWN_TEXT]
+            self.assertIn("total:2", names)
+            self.assertEqual(text_overlaps(list(DRAWN_TEXT)), [])
+            lum = lambda p: 0.2126 * p[0] + 0.7152 * p[1] + 0.0722 * p[2]  # noqa: E731
+            for rid in ("welfare", "education", "rnd"):
+                r = st.by_id[rid]
+                yy = st.bh - st.row_y(r.rank)
+                base = px(surf, st.x_of((r.prior or 0) / 2), yy)
+                inc = px(surf, (st.x_of(r.prior or 0) + st.x_of(r.value)) / 2 + 1, yy)
+                self.assertGreaterEqual(lum(inc) - lum(base), 60, f"{rid} {base} → {inc}")
+        finally:
+            apply_palette(None)

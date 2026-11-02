@@ -25,7 +25,7 @@ if TYPE_CHECKING:
     from engine.projection import View
     from engine.stage_structure import Row, StructureStage
 
-LAYERS: tuple[str, ...] = ("bars", "prior", "delta", "focus")
+LAYERS: tuple[str, ...] = ("bars", "prior", "delta", "focus", "total")
 Rect = tuple[float, float, float, float]   # x0, y0, x1, y1(뷰포트 px)
 DRAWN_TEXT: list[tuple[str, Rect]] = []    # 이 프레임에 그린 글자 상자(시험·겹침 검사 — 그리기 전에 비운다)
 DRAWN_STRINGS: list[tuple[str, str, float]] = []   # (이름, 문자열, 알파) — [spoken-number-visible] 이 읽는다(D-1008 §3)
@@ -106,7 +106,7 @@ def draw_rank(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: dic
     """rank 이벤트 한 층. 다른 층의 상태(증감·초점)는 같은 무대 rank 이벤트 목록(R.cache island_structure)에서 읽는다."""
     st: "StructureStage" = view.stage  # type: ignore[assignment]
     evs = (R.cache.get("island_structure") or {}).get("events") or [e]
-    {"bars": _draw_bars, "prior": _draw_prior, "delta": _draw_delta, "focus": _draw_focus}[e["layer"]](ctx, view, st, t, e, evs)
+    {"bars": _draw_bars, "prior": _draw_prior, "delta": _draw_delta, "focus": _draw_focus, "total": _draw_total}[e["layer"]](ctx, view, st, t, e, evs)
 
 
 def focus_alpha(evs: list[dict], t: float, row_id: str) -> float:
@@ -194,7 +194,7 @@ def _draw_prior(ctx: cairo.Context, view: "View", st: "StructureStage", t: float
 def _draw_delta(ctx: cairo.Context, view: "View", st: "StructureStage", t: float, e: dict, evs: list[dict]) -> None:
     """늘어난 구간(눈금 → 막대 끝)을 같은 막대 위에서 한 단계 밝게(D-1008 §1-3), 감소 구간(막대 끝 → 눈금) = 손실 A 면(UF-204),
     행 끝 " · ±증감률". 초점 행의 증감률 라벨은 초점 라벨이 대신한다."""
-    from engine.layers.series import bar_ink, loss_rgb  # noqa: PLC0415
+    from engine.layers.series import loss_rgb  # noqa: PLC0415
 
     S = STRUCTURE  # noqa: N806
     a = layer_alpha([e], t, "delta")
@@ -205,9 +205,9 @@ def _draw_delta(ctx: cairo.Context, view: "View", st: "StructureStage", t: float
         if p is None or row.prior is None:
             continue
         dim = dim_of(evs, t, row.id)
-        if row.value >= row.prior:
+        if row.value >= row.prior:   # D-1009 — 늘어난 구간 = 의미색(up) 면(기본 구간과 휘도 차 ≥ 60 단계)
             _seg(ctx, st, view, row, row.prior, row.value, True)
-            ctx.set_source_rgba(*bar_ink(), S.delta_seg_alpha_add * dim * a)
+            ctx.set_source_rgba(*C["green"], S.delta_seg_alpha * (dim if S.delta_seg_dim else 1.0) * a)
         else:
             _seg(ctx, st, view, row, row.value, row.prior, False)
             ctx.set_source_rgba(*loss_rgb(), dim * a)
@@ -223,13 +223,18 @@ def fmt_abs(st: "StructureStage", v: float) -> str:
     return f"{v:+,.{STRUCTURE.abs_digits}f}{STRUCTURE.unit_suffix[st.record.unit]}"
 
 
-def focus_label(st: "StructureStage", row: "Row", metric: str) -> tuple[str, str]:
-    """초점 라벨 (큰 숫자, 작은 나머지) — metric amount = ("+27.6조", " · +22.8%"), rate = ("+29.7%", " · +9.4조")."""
+def focus_label(st: "StructureStage", row: "Row", metric: str, compare: "str | None" = None) -> tuple[str, str]:
+    """초점 라벨 (큰 숫자, 작은 나머지) — metric amount = ("+27.6조", " · +22.8%"), rate = ("+29.7%", " · +9.4조").
+    compare avg(D-1009) = 작은 줄이 예년 연평균 " · 2018~26 연평균 +8.7%"(기준이 다른 행이면 오류 — 보건·복지·고용·국방)."""
     ab, pc = row.delta_abs, row.delta_pct
     if ab is None or pc is None:
         raise ValueError(f"초점 행 {row.id}: 견줄 레코드(prior)가 없어 증감 라벨을 만들 수 없다")
-    big, rest = (fmt_abs(st, ab), fmt_pct(pc)) if metric == "amount" else (fmt_pct(pc), fmt_abs(st, ab))
-    return big, f" · {rest}"
+    big = fmt_abs(st, ab) if metric == "amount" else fmt_pct(pc)
+    if compare == "avg":
+        if row.avg_pct is None:
+            raise ValueError(f"초점 행 {row.id}: 예년 연평균(avg_growth)이 없다 — 기준이 다른 행은 예년 비교를 하지 않는다")
+        return big, f" · {st.avg_span()} {STRUCTURE.avg_word} {fmt_pct(row.avg_pct)}"
+    return big, f" · {fmt_pct(pc) if metric == 'amount' else fmt_abs(st, ab)}"
 
 
 def _draw_focus(ctx: cairo.Context, view: "View", st: "StructureStage", t: float, e: dict, evs: list[dict]) -> None:
@@ -250,12 +255,29 @@ def _draw_focus(ctx: cairo.Context, view: "View", st: "StructureStage", t: float
         _seg(ctx, st, view, row, row.prior, row.value, True)
         ctx.set_source_rgba(*acc, a)
         ctx.fill()
-    big, rest = focus_label(st, row, e["metric"])
+    big, rest = focus_label(st, row, e["metric"], e.get("compare"))
     x0, y0, x1, y1 = bar_rect(st, view, row)
     yb = (y0 + y1) / 2 + S.focus_value_size * TIMELINE.text_metrics.mid_drop
     x = value_x(st, view, row)
     r = _put(ctx, f"focus:{row.id}", big, x, yb, S.focus_value_size, S.focus_value_font, acc, a)
     _put(ctx, f"focus_rest:{row.id}", rest, r[2], yb, S.focus_rest_size, S.focus_rest_font, acc, a)
+
+
+def _draw_total(ctx: cairo.Context, view: "View", st: "StructureStage", t: float, e: dict, evs: list[dict]) -> None:
+    """총지출 한 줄(D-1009 §1-1) — 머리 줄 오른쪽 끝에 "총지출 820.9조 · +12.8% · 2018~26 연평균 +6.8%"(화면 고정, 행 띠 밖)."""
+    S = STRUCTURE  # noqa: N806
+    a = layer_alpha([e], t, "total")
+    if a <= 0.01:
+        return
+    tot, pct, avg = st.total_info()
+    parts = [(f"총지출 {fmt_amount(st, tot)}", S.head_font, C["white"]), (f" · {fmt_pct(pct)}", S.head_font, C["green"])]
+    if avg is not None:
+        parts.append((f" · {st.avg_span()} {S.avg_word} {fmt_pct(avg)}", S.head_font, C["muted"]))
+    w = sum(tw(ctx, s_, S.head_size, f) for s_, f, _ in parts)
+    x = view.vw - w
+    for i, (s_, f, col) in enumerate(parts):
+        r = _put(ctx, f"total:{i}", s_, x, S.head_dy + S.head_size, S.head_size, f, col, a)
+        x = r[2]
 
 
 def rows_band(view: "View") -> Rect:
@@ -275,13 +297,17 @@ def draw_structure(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e
     ctx.save()
     ctx.rectangle(x0, y0, x1 - x0, y1 - y0)
     ctx.clip()
+    live = [ce for ce in events if ce["type"] == "rank" and ce["t0"] - 0.05 <= t <= ce["t1"] + 0.05]
     for layer in LAYERS:
-        for ce in events:
-            if ce["type"] == "rank" and ce["layer"] == layer and ce["t0"] - 0.05 <= t <= ce["t1"] + 0.05:
+        for ce in live:
+            if ce["layer"] == layer and layer != "total":
                 draw_rank(ctx, R, view, t, ce)
     ctx.restore()
     for ce in bars:
         _draw_frame_text(ctx, view, view.stage, t, ce)  # type: ignore[arg-type]
+    for ce in live:   # 총지출 줄 = 머리 줄 오른쪽(행 띠 밖, D-1009)
+        if ce["layer"] == "total":
+            draw_rank(ctx, R, view, t, ce)
 
 
 def _draw_frame_text(ctx: cairo.Context, view: "View", st: "StructureStage", t: float, e: dict) -> None:

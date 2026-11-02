@@ -51,6 +51,7 @@ class Row(BaseModel):
     prior: Optional[float] = None
     published_pct: Optional[float] = None
     published_abs: Optional[float] = None   # D-1008 — 원문 표 증감액
+    avg_pct: Optional[float] = None         # D-1009 — 예년(avg_growth) 연평균 증가율(코드 계산, 기준이 다른 행은 None)
 
     @property
     def delta_abs(self) -> Optional[float]:
@@ -119,7 +120,9 @@ class StructureStage:
             if x.change_abs is not None and abs(x.change_abs - (x.value - pv[x.id])) > step + step / 2:   # 반올림 값의 차 ± 반올림 단위
                 raise StructureError(f"행 {x.id}: 원문 증감액 {x.change_abs} 가 {pv[x.id]}→{x.value} 차와 반올림 범위 밖")
         order = sorted(rec.rows, key=lambda x: (-x.value, x.id))
-        self.rows = [Row(id=x.id, label=x.label, rank=i, value=x.value, prior=pv.get(x.id), published_pct=x.change_pct, published_abs=x.change_abs)
+        ag = rec.avg_growth
+        self.rows = [Row(id=x.id, label=x.label, rank=i, value=x.value, prior=pv.get(x.id), published_pct=x.change_pct, published_abs=x.change_abs,
+                         avg_pct=(ag.pct(ag.rows[x.id]) if ag is not None and x.id in ag.rows else None))
                      for i, x in enumerate(order)]
         self.by_id = {r.id: r for r in self.rows}
         _, _, bw, bh = ISLAND.boxes[self.cfg.box]
@@ -203,6 +206,21 @@ class StructureStage:
 
     def lod_rules(self) -> dict[str, Any]:
         return {}
+
+    def avg_span(self) -> str:
+        """예년 비교 해 범위 "2018~26"(레코드 avg_growth)."""
+        ag = self.record.avg_growth
+        if ag is None:
+            raise StructureError("레코드에 avg_growth(예년 비교)가 없다")
+        return f"{ag.start_year}~{ag.end_year % 100:02d}"
+
+    def total_info(self) -> tuple[float, float, Optional[float]]:
+        """(총지출, 견줄 레코드 대비 증가율 %, 예년 연평균 %) — 표의 합계 줄(total)에서. 없으면 오류(P6)."""
+        if self.record.total is None or self.prior_record is None or self.prior_record.total is None:
+            raise StructureError("total 층은 record·prior 의 표 합계(total)가 필요하다")
+        ag = self.record.avg_growth
+        pct = (self.record.total / self.prior_record.total - 1) * 100
+        return self.record.total, pct, (ag.pct(ag.total) if ag is not None and ag.total is not None else None)
 
     def stage_word(self, rec: "CategoricalRecord") -> str:
         return f"{rec.fiscal_year} {STRUCTURE.stage_words[rec.budget_stage]}"

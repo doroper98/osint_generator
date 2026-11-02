@@ -470,6 +470,34 @@ class CategoryRow(_Strict):
         return v
 
 
+class AvgGrowth(_Strict):
+    """v7.4.0 D-1009 — 예년 비교: 원문 시계열의 두 해 값(처음·끝). 연평균은 코드가 rules data.transforms.cagr 로 계산(값을 손으로 적지 않는다).
+    basis_note = 분류 기준(예: p.16 종전 기준 — 보건·복지·고용·국방은 기준이 달라 넣지 않는다)."""
+
+    start_year: int
+    end_year: int
+    page: int = Field(ge=1)
+    locator: str = Field(min_length=1)
+    basis_note: str = Field(min_length=1)
+    transform: SeriesTransform
+    rows: dict[str, tuple[float, float]] = Field(min_length=1)   # 행 id → (처음 해 값, 끝 해 값)
+    total: Optional[tuple[float, float]] = None                  # 총지출(처음, 끝)
+
+    @model_validator(mode="after")
+    def _check(self) -> "AvgGrowth":
+        if self.end_year <= self.start_year:
+            raise ValueError("avg_growth end_year ≤ start_year")
+        if self.transform.op != "cagr":
+            raise ValueError("avg_growth.transform.op 는 cagr")
+        if any(a <= 0 or b <= 0 for a, b in [*self.rows.values(), *([self.total] if self.total else [])]):
+            raise ValueError("avg_growth 값은 양수")
+        return self
+
+    def pct(self, pair: tuple[float, float]) -> float:
+        a, b = pair
+        return ((b / a) ** (1 / (self.end_year - self.start_year)) - 1) * 100
+
+
 class CategoricalRecord(_Strict):
     """한 시점의 분야별 값 한 벌(v7.4.0 D-1003) — 구성 무대(stage structure)의 막대·눈금이 이 레코드에서 직접 그린다.
 
@@ -495,6 +523,7 @@ class CategoricalRecord(_Strict):
     total_note: Optional[str] = None
     change_vs: Optional[str] = None            # v7.4.0 D-1006 — 행 change_pct 의 기준 레코드 id(있으면 모든 행에 change_pct 필수)
     note: Optional[str] = None                 # 분류 기준 개편 등 원문 표 주석(원문 그대로)
+    avg_growth: Optional[AvgGrowth] = None     # v7.4.0 D-1009 — 예년 비교(원문 시계열 두 해 값, 연평균은 코드 계산)
 
     @field_validator("record_id")
     @classmethod
@@ -534,6 +563,8 @@ class CategoricalRecord(_Strict):
         if (self.change_vs is not None) != all(x.change_pct is not None for x in self.rows) or (
                 self.change_vs is None and any(x.change_pct is not None for x in self.rows)):
             raise ValueError("change_vs 가 있으면 모든 행에 change_pct(원문 증감률), 없으면 어느 행에도 쓰지 않는다")
+        if self.avg_growth is not None and set(self.avg_growth.rows) - set(ids):
+            raise ValueError(f"avg_growth 행 {sorted(set(self.avg_growth.rows) - set(ids))} 가 레코드 행에 없다")
         if self.total is not None:
             s = round(sum(x.value for x in self.rows), 6)
             if abs(s - self.total) > 1e-6 and not self.total_note:

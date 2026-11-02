@@ -2414,7 +2414,10 @@ class StageStructureRules(_Strict):
     pct_step: float = Field(gt=0)
     unit_suffix: dict[str, str] = Field(min_length=1)
     stage_words: dict[Literal["proposed", "enacted", "settled", "planned"], str]
-    delta_seg_alpha_add: float = Field(ge=0, le=1)
+    delta_seg_color: Literal["up"]
+    delta_seg_alpha: float = Field(gt=0, le=1)
+    delta_seg_dim: bool
+    avg_word: str = Field(min_length=1)
     focus_base_alpha: float = Field(gt=0, le=1)
     focus_value_size: float = Field(gt=0)
     focus_value_font: str
