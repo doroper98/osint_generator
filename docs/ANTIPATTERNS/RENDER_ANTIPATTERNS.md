@@ -310,3 +310,11 @@ last_review: 2026-05-23
 - **원칙**: 글꼴에 없는 글자는 같은 굵기 대체 글꼴로 그린다(원고·데이터 불변). 글리프 대조는 표본 시각과 상관없이 위험 문자열을 가진 모든 이벤트를 실제로 그려 본다.
 - **자동 조치**: rules `fonts.glyph_fallback {disp: sansbb, dispm: sansb}`(typography.fallback_runs), 프리뷰·콘티 판 `glyph_sweep`(공통 cmap 밖 글자를 가진 이벤트마다 한 프레임, 파일 저장 없음) → checks glyphs hard. 시험 `tests/test_v740_outlet_glyph.py::GlyphFallbackTest`.
 - **발견 버전**: v7.4.0 · **상태**: active
+
+## RENDER-AP-032 — 표준 글꼴 렌더 설정(FONTCONFIG_FILE)이 컨테이너 재시작으로 사라져 힌팅 꺼진 화소가 조용히 나옴
+
+- **증상(실제 현상)**: v7.4.0 claude/war-history-2026 — 컨테이너 재시작(2026-11-02 12:14Z, worker_epoch 4) 뒤 호르무즈 골든 25컷이 0/25 로 어긋났다(R-0327). 같은 코드를 예전 커밋에서 돌려도 25/25 어긋났다. terrain3d 합성 골든(c4971802)은 그 상태에서 고정됐다. 오류는 하나도 없었다.
+- **원리**: 엔진 글자 화소는 fontconfig 렌더 속성(hinting·hintstyle·rgba·lcdfilter …)에 달려 있다. 이 컨테이너의 시스템 conf.d 에는 `12-unhinted-grayscale.conf`(hinting false·hintnone·rgba none·lcdnone)가 있다. 표준(골든을 고정한 설정)은 이 파일을 뺀 사본을 `FONTCONFIG_FILE` 로 가리켜 썼다(R-0310 §3). 그 값은 셸 환경과 `/root/.config` 에만 있었고, 재시작 때 사라졌다. 렌더·시험은 설정을 읽지도 확인하지도 않았다.
+- **원칙**: 화소를 정하는 환경 값은 저장소 추적 파일 + 코드 한 곳에서 정하고, 시작에서 실제 값을 확인한다. 셸 설정에 기대지 않는다. 다르면 멈춘다(P6).
+- **자동 조치**: `config/fontconfig/fonts.conf`(시스템 fonts.conf include + 렌더 속성 일곱 개 assign), 경로 `config.yaml engine.fontconfig.file`. `engine/fontenv.py` `ensure()` 를 `engine.style` import 맨 앞(모든 렌더 경로)·`tests/conftest.py`·엔진 밖 글자 도구(tools/strike_demo)가 부른다 — FONTCONFIG_FILE 지정(다른 값은 덮어쓰고 1줄 로그), `fc-match -v` 주 글꼴 hinting·hintstyle 이 `engine.fontconfig.expect` 와 다르면 `FontRenderConfigError`. 시험 `tests/anti_inertia/test_fontconfig_guard.py`(비표준 설정 실패·글자 그리는 모듈 전수).
+- **발견 버전**: v7.4.0 · **상태**: active
