@@ -2781,6 +2781,20 @@ class DocExcerptLayout(_Strict):
     fade_sec: float = Field(ge=0.6, le=0.9)
 
 
+class EraNumeralLayout(_Strict):
+    """v7.4.0 UF-401 ③ — era_numeral(큰 연도 숫자) 레이아웃 토큰(설계 px)."""
+
+    x: float
+    y: float
+    size: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+    roll_sec: float = Field(gt=0)
+    roll_px: float
+    label_chars_max: int = Field(ge=4)
+    steps_max: int = Field(ge=1)
+    fade_sec: float = Field(ge=0.6, le=0.9)
+
+
 class PrimitivesRules(_Strict):
     """v4.2.0 D-0081 작업 4 — 프리미티브별 레이아웃 토큰(engine.style.PRIMITIVES). 요소가 등록될 때 필드를 더한다."""
 
@@ -2789,6 +2803,7 @@ class PrimitivesRules(_Strict):
     site_diagram: Optional[SiteDiagramLayout] = None   # v4.4.0 dmz_mine_2026 사용자 요청(현장 개념도)
     process_lane: Optional[ProcessLaneLayout] = None   # v7.4.0 UF-400 과정 도식(영상 분석)
     doc_excerpt: Optional[DocExcerptLayout] = None   # v7.4.0 UF-400 1차 문서 발췌(영상 분석)
+    era_numeral: Optional[EraNumeralLayout] = None   # v7.4.0 UF-401 ③ 큰 연도 숫자
 
 
 # ---------------------------------------------------------------- v5.7.0 스케치 계층(sketch/, D-0140 D130)

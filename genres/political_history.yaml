@@ -28,7 +28,7 @@ color_semantics:
 primitives:
   reuse: [marker, route, country, badge, person, flag, emblem, photo, clip, cutout, article, post, quote,
           relation, network, timeline, precedent, checklist, gantt, versus, cascade, statement_diff]
-  new: [process_lane, doc_excerpt]
+  new: [process_lane, doc_excerpt, era_numeral]   # era_numeral = UF-401 ③ 큰 연도 숫자
 badges:
   people: rights_check            # 인물 초상 — 권리 레지스트리(07 §6). 회색조 초상은 자산 단계 규약(07 §3.4)
   institutions: rights_check      # 정보기관 휘장 — 위키미디어 Restrictions 있으면 국기로 대체(D5)

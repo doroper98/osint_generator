@@ -2483,6 +2483,8 @@ entries:
   - {kind: test, ref: tests/test_v740_checklist_open.py::ChecklistOpenTest::test_slots_first_then_fill_at_time}
   - {kind: rule, ref: layout_480p.media_spot}
   - {kind: test, ref: tests/test_v740_media_spot.py::MediaSpotTest::test_dim_only_outside}
+  - {kind: rule, ref: primitives.era_numeral}
+  - {kind: test, ref: tests/test_primitive_era_numeral.py::EraNumeralTest::test_invalid_data_is_error}
   status: guarded
   decision: "D601 — UF-400 후속. 요소 승인은 규칙 주석·장르 approved 로 남기고, 후속 장치는 커밋 하나에 장치 하나씩 순서대로"
   source: 영상 분석 세션 사용자 대화 2026-11-02

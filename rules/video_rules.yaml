@@ -1210,7 +1210,7 @@ registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 �
   accents: [gold, us, ru, teal, muted, green, amber]
   stages: [mercator, timeline, backdrop]   # backdrop = v5.1.0 D-0123(사진 배경 무대, engine/stage_backdrop.py). v4.1.0 D-0076 — 무대(engine.stage). 없는 무대 = 오류, 있는데 구현(STAGE_CLASSES)이 없음 = 오류(P10). timeline = v4.3.0 D-0084 작업 3
   stages_planned: [chart_wall, flow, structure, document]   # v4.2.0 D-0081 — 20 §2.1 무대 카탈로그(구현 전). 장르 프로필 proposed 만 참조 가능, 연출에서 쓰면 오류
-  primitives: [statement_diff, dot_plot, site_diagram, process_lane, doc_excerpt]   # process_lane·doc_excerpt = v7.4.0 UF-400(영상 분석 — 과정 도식·1차 문서 발췌), 실렌더 스케치 사용자 승인 UF-401(2026-11-02 "승인. 매우 만족"). site_diagram = v4.4.0 dmz_mine_2026 사용자 요청(현장 개념도, 벡터).  dot_plot = v4.4.0 D-0090 작업 3(사용자 승인 대기 — provenance elements.approval pending). v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
+  primitives: [statement_diff, dot_plot, site_diagram, process_lane, doc_excerpt, era_numeral]   # era_numeral = v7.4.0 UF-401 ③(큰 연도 숫자). process_lane·doc_excerpt = v7.4.0 UF-400(영상 분석 — 과정 도식·1차 문서 발췌), 실렌더 스케치 사용자 승인 UF-401(2026-11-02 "승인. 매우 만족"). site_diagram = v4.4.0 dmz_mine_2026 사용자 요청(현장 개념도, 벡터).  dot_plot = v4.4.0 D-0090 작업 3(사용자 승인 대기 — provenance elements.approval pending). v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
   primitives_planned:     # v4.2.0 D-0082 쟁점 1 A — 구현 전 프리미티브. 장르 프로필 proposed 의 new 만 참조 가능, 연출에서 쓰면 오류
     - rate_step_line      # 20 §3 macro_monetary — v4.3.0: series 이벤트(style: step)가 대신한다. 만들지 않는다(사용자 결정 전이라 목록에서 지우지 않음, D-0084 작업 4·D-0090)
     - yield_curve_shift   # 20 §3 macro_monetary — chart_wall 무대가 필요해 G4 밖(D-0090 작업 3 ③). 구현 전
@@ -1661,6 +1661,7 @@ genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(
     statement_diff: "호칭·문구가 바뀐 것을 말하는 문장(사전 개정판, 매체 호칭 변화 등)은 statement_diff 로 이전·이후 문구를 단어 단위로 보인다 — 바뀐 단어만 색이 바뀐다."
     checklist: "가설·후보·시나리오처럼 확인되지 않은 목록은 checklist style open 으로 건다 — 번호 칸을 먼저 비워 보이고 at(각 항목을 말하는 word 앵커)에 채운다. 체크 표시는 확인된 사실 목록(style check)에만."
     clip: "사진·영상 속 여러 사람 가운데 한 사람을 말하는 문장에는 그 사진·영상 이벤트에 spot(그림 안 중심 x·y·반지름 r 비율, t = 그 이름의 word 앵커)을 건다. 주변을 낮춰야 하면 dim — 화면 덮개라 원본 화소는 바꾸지 않는다. 같은 문법은 photo 에도."
+    era_numeral: "수십 년을 건너뛰며 해가 바뀌는 구간에는 era_numeral 로 화면 가운데에 그 해를 옅게 깔고, 이야기가 해를 넘기는 말(word 앵커)마다 steps 를 더해 숫자를 굴린다. 문구는 원고 문장 날짜의 해만 — 지어낸 연도 금지. 한 구간에 하나만."
     badge: "이야기의 주인공 인물 뱃지는 처음 소개된 뒤 그 인물이 이야기 중심인 동안 같은 자리에 머문다 — 문장마다 다시 띄우거나 자리를 바꾸지 않는다. 새 인물이 들어오면 옆에 더하고, 이야기에서 빠지면 그때 내린다. 머무는 인물을 다시 부르는 문장에는 pulse(그 이름의 word 앵커)로 고리만 퍼뜨린다. 숙청·처형·사망이 확인된 사실 문장에는 mark strike(mark_t = 그 말), 의문·미확인을 말하는 문장에는 mark question — 추정을 strike 로 그리지 않는다."
   data_sources:            # 20 §5.1 — 리서치·원고 프롬프트의 데이터 원칙
     - 수치는 1차·공개 출처(중앙은행 공식 발표, 통계기관, FRED 같은 공개 데이터 저장소)에서만 가져온다.
@@ -1884,6 +1885,16 @@ primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/p
     underline_dy: 4
     src_gap: 16            # 뒤 문맥 막대 끝 → 출처 줄 기준선
     scale_from: 0.98
+    fade_sec: 0.75
+  era_numeral:             # v7.4.0 사용자 결정 UF-401 ③(영상 분석 보고 §4 D7) — 화면 가운데 큰 연도 숫자(옅게, 굴러 바뀜). 설계 px(480p). 모서리 아님(C0 날짜 뱃지와 별개)
+    x: 427                 # 가운데 x
+    y: 262                 # 기준선 y(화면 가운데보다 조금 아래 — 인물 뱃지 줄 뒤)
+    size: 92
+    alpha: 0.2             # 색 의미 secondary_text 알파 × 이 값 — 지도·뱃지를 가리지 않는 옅기
+    roll_sec: 0.7
+    roll_px: 28            # 바뀔 때 옛 숫자가 위로, 새 숫자가 아래에서 올라오는 거리
+    label_chars_max: 10
+    steps_max: 6
     fade_sec: 0.75
   statement_diff:          # 작업 5 — 성명서 문구 비교(20 §10). 설계 px(480p). 글자 크기 ≥ layout_480p.min_font_px(glyph_size), 출처 줄 = layout_480p.card.src_size, 문구 상한 = verification.quote_max_chars
     w: 360                 # 상자 폭 — 오른쪽 여백·세로 기본값은 layout_480p.card(같은 슬롯 card_right)
