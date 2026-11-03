@@ -1,0 +1,118 @@
+# 칸나이 terrain3d 구간 부대 기록(schemas.war_units.WarForces — v7.4.0 back_and_forth D-0615 §2).
+# 위치·크기·간격은 개략(축척 아님). 배치·이동 = 폴리비오스 『역사』 III.113~116(Paton 영역 1922) 서술의 개략 — projects/cannae_sketch/sketch.yaml 과 같은 좌표.
+# 키프레임 시각 = 원고 문장 앵커(sid). 문장이 부대를 말할 때 그 부대가 나오거나 움직인다(구성 = 연출, 수치·검증 = 코드, P8).
+#  로마군 남쪽(180°)을 봄: 우익(강 쪽) 로마 기병 · 중앙 보병 · 좌익 동맹 기병 · 앞에 벨리테스(III.113)
+#  카르타고군 북쪽(0°)을 봄: 좌익(강 쪽) 히스파니아·켈트 기병 · 아프리카 보병 · 히스파니아·켈트 보병(가운데를 앞으로 내민 초승달) ·
+#  아프리카 보병 · 우익 누미디아 기병(III.113~114). 기병 충돌·로마 기병 패주(III.115) → 로마 보병이 초승달을 밀어 오목 → 아프리카 보병이
+#  양쪽에서 안으로 돌아섬 → 하스드루발 기병이 뒤를 침(III.115~116)
+schema_version: 1
+approximate: true
+sources:
+  - "폴리비오스 『역사』 III.113~116(Paton 영역 1922)"
+factions:
+  carthage: {token: ru, name: "카르타고군(한니발)", emblem: carthage_tanit}
+  rome:
+    token: us
+    name: "로마군(집정관 파울루스·바로)"
+    emblem_absent_reason: "군단 독수리는 마리우스(기원전 104년) 이후의 유일 표지(플리니우스 『박물지』 X.16) — 기원전 216년에 맞지 않아 쓰지 않는다. 기원전 3세기 말 로마 주화 도안 중 화면 허용 라이선스 사진을 찾지 못함(D-0606 A)"
+places:
+  - {name: "칸나이", pleiades: "442523", t: 0.0}
+rivers:
+  - name: "아우피두스 강(오판토)"
+    pts: [[16.02, 41.362], [16.06, 41.364], [16.083, 41.36], [16.088, 41.345], [16.087, 41.326], [16.095, 41.312], [16.13, 41.306], [16.17, 41.318], [16.21, 41.35]]
+    label_at: [16.075, 41.317]
+units:
+  # 로마군
+  - faction: rome
+    symbol: heavy_cav
+    name: "로마 기병"
+    out_at: {sid: encirclement_3}       # 패주(III.115) — 화면 정리
+    keys:
+      - {at: {sid: deployment_2}, lon: 16.0935, lat: 41.3395, heading: 180, length_km: 0.7, depth_km: 0.3}
+      - {at: {sid: encirclement_1}, lon: 16.0935, lat: 41.3395, heading: 180, length_km: 0.7, depth_km: 0.3}
+      - {at: {sid: encirclement_2, edge: end}, lon: 16.0935, lat: 41.3445, heading: 0, length_km: 0.5, depth_km: 0.25}
+  - faction: rome
+    symbol: heavy_inf
+    name: "로마 중무장보병"
+    short: "로마 보병"
+    keys:
+      - {at: {sid: deployment_1}, lon: 16.1105, lat: 41.3395, heading: 180, length_km: 2.3, depth_km: 0.7}
+      - {at: {sid: encirclement_5}, lon: 16.1105, lat: 41.3395, heading: 180, length_km: 2.3, depth_km: 0.7}
+      - {at: {sid: encirclement_6}, lon: 16.1105, lat: 41.3352, heading: 180, length_km: 1.8, depth_km: 0.75}
+      - {at: {sid: encirclement_9}, lon: 16.1105, lat: 41.3352, heading: 180, length_km: 1.4, depth_km: 0.8}
+  - faction: rome
+    symbol: heavy_cav
+    name: "동맹 기병"
+    out_at: {sid: encirclement_8}       # 달아남(III.116) — 화면 정리
+    keys:
+      - {at: {sid: deployment_3}, lon: 16.1285, lat: 41.3395, heading: 180, length_km: 0.8, depth_km: 0.3}
+      - {at: {sid: encirclement_7}, lon: 16.1285, lat: 41.3395, heading: 180, length_km: 0.8, depth_km: 0.3}
+      - {at: {sid: encirclement_7, edge: end}, lon: 16.1325, lat: 41.3455, heading: 20, length_km: 0.6, depth_km: 0.25}
+  - faction: rome
+    symbol: light_inf
+    out_at: {sid: encirclement_0}       # 전열 앞 경보병 — 본전투 전 물러남(화면 정리)
+    keys:
+      - {at: {sid: deployment_4}, lon: 16.1105, lat: 41.3355, heading: 180, length_km: 2.5, depth_km: 0.1}
+  # 카르타고군
+  - faction: carthage
+    symbol: heavy_cav
+    name: "히스파니아·켈트 기병"
+    keys:
+      - {at: {sid: deployment_5}, lon: 16.0935, lat: 41.3285, heading: 0, length_km: 0.8, depth_km: 0.35}
+      - {at: {sid: encirclement_0}, lon: 16.0935, lat: 41.3285, heading: 0, length_km: 0.8, depth_km: 0.35}
+      - {at: {sid: encirclement_1}, lon: 16.0935, lat: 41.3375, heading: 0, length_km: 0.8, depth_km: 0.35}
+      - {at: {sid: encirclement_7}, lon: 16.1, lat: 41.3445, heading: 90, length_km: 0.8, depth_km: 0.35}
+      - {at: {sid: encirclement_8}, lon: 16.1105, lat: 41.3445, heading: 180, length_km: 0.8, depth_km: 0.35}
+  - faction: carthage
+    symbol: heavy_inf
+    name: "아프리카 중무장보병"
+    short: "아프리카 보병"
+    keys:
+      - {at: {sid: deployment_6}, lon: 16.1, lat: 41.3285, heading: 0, length_km: 0.5, depth_km: 0.45}
+      - {at: {sid: encirclement_6}, lon: 16.1, lat: 41.3285, heading: 0, length_km: 0.5, depth_km: 0.45}
+      - {at: {sid: encirclement_6, edge: end}, lon: 16.0975, lat: 41.3345, heading: 90, length_km: 0.6, depth_km: 0.35}
+  - faction: carthage
+    symbol: heavy_inf
+    keys:
+      - {at: {sid: deployment_6}, lon: 16.1035, lat: 41.3285, heading: 0, length_km: 0.7, depth_km: 0.3}
+      - {at: {sid: deployment_10}, lon: 16.1035, lat: 41.3285, heading: 0, length_km: 0.7, depth_km: 0.3}
+      - {at: {sid: deployment_11}, lon: 16.1035, lat: 41.3302, heading: 340, length_km: 0.7, depth_km: 0.3}
+      - {at: {sid: encirclement_5}, lon: 16.1035, lat: 41.3302, heading: 340, length_km: 0.7, depth_km: 0.3}
+      - {at: {sid: encirclement_6}, lon: 16.1035, lat: 41.3292, heading: 20, length_km: 0.7, depth_km: 0.3}
+  - faction: carthage
+    symbol: heavy_inf
+    name: "히스파니아·켈트 보병"
+    keys:
+      - {at: {sid: deployment_6}, lon: 16.1105, lat: 41.3285, heading: 0, length_km: 0.6, depth_km: 0.3}
+      - {at: {sid: deployment_10}, lon: 16.1105, lat: 41.3285, heading: 0, length_km: 0.6, depth_km: 0.3}
+      - {at: {sid: deployment_11}, lon: 16.1105, lat: 41.3318, heading: 0, length_km: 0.6, depth_km: 0.3}
+      - {at: {sid: encirclement_5}, lon: 16.1105, lat: 41.3318, heading: 0, length_km: 0.6, depth_km: 0.3}
+      - {at: {sid: encirclement_6}, lon: 16.1105, lat: 41.3262, heading: 0, length_km: 0.6, depth_km: 0.3}
+  - faction: carthage
+    symbol: heavy_inf
+    keys:
+      - {at: {sid: deployment_6}, lon: 16.1175, lat: 41.3285, heading: 0, length_km: 0.7, depth_km: 0.3}
+      - {at: {sid: deployment_10}, lon: 16.1175, lat: 41.3285, heading: 0, length_km: 0.7, depth_km: 0.3}
+      - {at: {sid: deployment_11}, lon: 16.1175, lat: 41.3302, heading: 20, length_km: 0.7, depth_km: 0.3}
+      - {at: {sid: encirclement_5}, lon: 16.1175, lat: 41.3302, heading: 20, length_km: 0.7, depth_km: 0.3}
+      - {at: {sid: encirclement_6}, lon: 16.1175, lat: 41.3292, heading: 340, length_km: 0.7, depth_km: 0.3}
+  - faction: carthage
+    symbol: heavy_inf
+    name: "아프리카 중무장보병"
+    short: "아프리카 보병"
+    keys:
+      - {at: {sid: deployment_6}, lon: 16.121, lat: 41.3285, heading: 0, length_km: 0.5, depth_km: 0.45}
+      - {at: {sid: encirclement_6}, lon: 16.121, lat: 41.3285, heading: 0, length_km: 0.5, depth_km: 0.45}
+      - {at: {sid: encirclement_6, edge: end}, lon: 16.1235, lat: 41.3345, heading: 270, length_km: 0.6, depth_km: 0.35}
+  - faction: carthage
+    symbol: light_cav
+    name: "누미디아 기병"
+    keys:
+      - {at: {sid: deployment_7}, lon: 16.1285, lat: 41.3285, heading: 0, length_km: 0.8, depth_km: 0.35}
+      - {at: {sid: encirclement_7}, lon: 16.1285, lat: 41.3285, heading: 0, length_km: 0.8, depth_km: 0.35}
+      - {at: {sid: encirclement_7, edge: end}, lon: 16.1305, lat: 41.3395, heading: 0, length_km: 0.8, depth_km: 0.35}
+  - faction: carthage
+    symbol: skirmisher
+    out_at: {sid: encirclement_0}
+    keys:
+      - {at: {sid: deployment_7}, lon: 16.1105, lat: 41.3335, heading: 0, length_km: 2.5, depth_km: 0.1}

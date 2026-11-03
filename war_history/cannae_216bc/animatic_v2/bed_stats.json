@@ -1,0 +1,55 @@
+{
+ "schema_version": 1,
+ "bass_band_hz": [
+  30.0,
+  120.0
+ ],
+ "mid_band_hz": [
+  200.0,
+  2000.0
+ ],
+ "before": {
+  "bass_db": -27.08,
+  "mid_db": -22.38,
+  "ratio_db": -4.7
+ },
+ "after": {
+  "bass_db": -23.51,
+  "mid_db": -23.59,
+  "ratio_db": 0.08
+ },
+ "rise_db": 4.78,
+ "swell_at": [
+  44.809,
+  109.856,
+  179.257,
+  254.758,
+  320.546
+ ],
+ "applied": {
+  "shelf": {
+   "freq_hz": 110.0,
+   "gain_db": 5.0,
+   "q": 0.7
+  },
+  "sub": {
+   "band_hz": [
+    55.0,
+    220.0
+   ],
+   "out_lp_hz": 110.0,
+   "filter_order": 4,
+   "gain": 0.35,
+   "env_attack_sec": 0.03,
+   "env_release_sec": 0.25,
+   "env_block_sec": 0.001
+  },
+  "swell": {
+   "sec": 2.5,
+   "depth": 0.35
+  },
+  "norm_ref": 0.4
+ },
+ "mix_samples": 16408235,
+ "method": "베드 모노(좌우 평균) rfft 파워를 대역별로 합한 RMS, 비율 = 저역 − 중역(dB)"
+}

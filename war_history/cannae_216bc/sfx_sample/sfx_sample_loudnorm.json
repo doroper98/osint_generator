@@ -1,0 +1,38 @@
+{
+ "no_sfx": {
+  "file": "sfx_sample_no_sfx.mp4",
+  "loudnorm": {
+   "pass1": {
+    "input_i": -15.55,
+    "input_tp": -1.41,
+    "input_lra": 4.3,
+    "input_thresh": -26.48,
+    "target_offset": 0.17
+   },
+   "pass2": {
+    "output_i": -14.02,
+    "output_tp": -1.5,
+    "normalization_type": "dynamic"
+   },
+   "post_limiter_dbfs": -2.0
+  }
+ },
+ "sfx": {
+  "file": "sfx_sample_sfx.mp4",
+  "loudnorm": {
+   "pass1": {
+    "input_i": -15.55,
+    "input_tp": -1.41,
+    "input_lra": 4.3,
+    "input_thresh": -26.48,
+    "target_offset": 0.17
+   },
+   "pass2": {
+    "output_i": -14.02,
+    "output_tp": -1.5,
+    "normalization_type": "dynamic"
+   },
+   "post_limiter_dbfs": -2.0
+  }
+ }
+}

@@ -1,0 +1,152 @@
+# direction.yaml — 칸나이(cannae_216bc) 콘티 판 v1 연출. 구현 세션 작성(D-0616 §1-3 감독 메모 + D-0615·D-0617). 수치·검증은 코드(P8).
+# 주 무대 mercator relief(장르 기본) — 이탈리아 작전 지도 → 칸나이 확대 → terrain3d 구간(deployment_1 ~ encirclement_14, D-0617 승인).
+# v1 뒤 D-0625(UF-255 "진형은 중앙에"): 3D 숏은 모두 진형 중심(16.111·41.335)을 화면 가운데에. 증거 카드 셋(타니트·투구·트럼불)이 뜨는 동안은
+#   3D 를 걷고 2D 지형 위 카드(전면 컷어웨이)로 바꾼 뒤 가운데 진형으로 돌아온다 — 3D 구간은 넷으로 나뉜다. 옛 설명:
+#   90° 내려다보기로 들어가 부대 키프레임(forces.terrain3d.yaml)이 배치·초승달·포위를 움직인다. 궤도는 drift 숏 두 곳(deployment_10 초승달,
+#   encirclement_6 포위)에서만 장면 단위로. 그 밖은 90° 시점 숏 단위 pan·push 로 움직이는 부대를 따라간다(encirclement_0 기병 충돌, encirclement_5 중앙).
+# 증거 카드: 흉상·셰켈 은화·타니트 비석·트럼불·Smith 사전·클로스 / 사료 인용 2(quote.source, D-0617 ①). 날짜 뱃지는 문장 date 가 정한다.
+version: 1
+genre: war_history
+stage: mercator
+media_note: >-
+  콘티 판 v1(흐름 검토). 사상자 문장의 사료 간 범위 띠(force 레코드 band)는 화면 요소가 아직 엔진에 없어 이번 판에 넣지 않았다(R 에 기록).
+  지도는 고대 기반(stage_config.mercator.basemap_era ancient — 현대 국경·현대 지명 없음).
+stage_config:
+  mercator:
+    basemap_era: ancient
+  terrain3d:
+    forces: forces.terrain3d.yaml
+places:
+  cannae: [16.1325, 41.3065]
+  tarentum: [17.2381, 40.4644]
+  cisalpina: [10.4, 45.2]
+  venusia: [15.8139, 40.9611]
+shots:
+  - {at: 0.0, mode: cut, dur: 0.0, camera: {lon: 9.0, lat: 41.5, w: 32.0}}
+  - {at: {sid: cold_open_1}, mode: move, dur: 8.0, camera: {lon: 14.2, lat: 41.6, w: 10.0}, reason: 지중해 서부 → 이탈리아 반도}
+  - {at: {sid: cold_open_3}, mode: drift, dur: 14.0, camera: {lon: 15.2, lat: 41.4, w: 10.0}, reason: 작전 지도 천천히 훑기}
+  - {at: {sid: prelude_0}, mode: move, dur: 6.0, camera: {lon: 16.75, lat: 41.4, w: 3.2}, reason: 칸나이 지명 유래 줄이 오른쪽으로 길다 — 중심을 동쪽에}
+  - {at: {sid: prelude_5}, mode: drift, dur: 10.0, camera: {lon: 16.85, lat: 41.38, w: 3.2}}
+  - {at: {sid: prelude_10}, mode: move, dur: 7.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}}
+  - {at: {sid: deployment_1}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, stage: terrain3d, reason: "진형 중심(16.111·41.335)이 화면 가운데 — UF-255·D-0625"}
+  - {at: {sid: deployment_8, 'off': 0.4}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, reason: "타니트 카드 — 3D 를 걷고 2D 지형 위 카드(전면 컷어웨이, D-0625 (나))"}
+  - {at: {sid: deployment_10}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.1}, stage: terrain3d, reason: 카드가 걷힌 뒤 가운데 진형으로}
+  - {at: {sid: deployment_10, 'off': 1.4}, mode: drift, dur: 4.0, camera: {lon: 16.111, lat: 41.335, w: 0.1}, stage: terrain3d, reason: "초승달 진형 — 진형 중심을 축으로 천천히 기울어 궤도(기울면 진형 상자가 커져 w 0.10 — 자막 자리 침범 방지)"}
+  - {at: {sid: deployment_12}, mode: move, dur: 2.0, camera: {lon: 16.111, lat: 41.335, w: 0.1}, stage: terrain3d, reason: 궤도 되돌리기(90°·북쪽 위)}
+  - {at: {sid: deployment_12, 'off': 3.9}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, reason: "투구 카드 — 2D 지형 위 카드(전면 컷어웨이, D-0625 (나))"}
+  - {at: {sid: deployment_13, edge: end, 'off': 1.7}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, stage: terrain3d, reason: 카드가 걷힌 뒤 가운데 진형으로}
+  - {at: {sid: encirclement_0}, mode: move, dur: 3.0, camera: {lon: 16.111, lat: 41.335, w: 0.075}, stage: terrain3d, reason: "강가 기병 충돌 — 진형을 가운데 둔 채 당겨 보기(옆으로 비키지 않음, UF-255)"}
+  - {at: {sid: encirclement_5}, mode: move, dur: 3.0, camera: {lon: 16.111, lat: 41.335, w: 0.085}, stage: terrain3d, reason: "중앙 보병(w 0.085 — 다음 궤도 물러남을 줄여 drift 줌 속도 ≤ 0.01/초, [drift-too-fast])"}
+  - {at: {sid: encirclement_6}, mode: drift, dur: 12.0, camera: {lon: 16.111, lat: 41.335, w: 0.095}, stage: terrain3d, reason: "양익 포위 — 진형 중심을 축으로 천천히 기울어 궤도, 기울면서 조금 물러난다(되돌릴 때 진형 상자가 자막 자리에 닿지 않게)"}
+  - {at: {sid: encirclement_9}, mode: move, dur: 3.0, camera: {lon: 16.111, lat: 41.335, w: 0.105}, stage: terrain3d, reason: "궤도 되돌리기(기울어 커진 진형 상자가 자막 자리에 닿지 않게 w 0.105) — 칸나이 마을 자리는 진형을 가운데 둔 채 담기지 않아 뺀다(D-0625 §3-2)"}
+  - {at: {sid: encirclement_11}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, reason: "트럼불 카드 — 2D 지형 위 카드(전면 컷어웨이, D-0625 (나))"}
+  - {at: {sid: encirclement_12}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, stage: terrain3d, reason: 카드가 걷힌 뒤 가운데 진형으로 — 나올 때까지}
+  - {at: {sid: aftermath_0}, mode: move, dur: 6.0, camera: {lon: 15.9, lat: 41.45, w: 3.2}}
+  - {at: {sid: aftermath_2}, mode: drift, dur: 14.0, camera: {lon: 16.0, lat: 41.42, w: 3.2}}
+  - {at: {sid: aftermath_8}, mode: move, dur: 3.5, camera: {lon: 13.8, lat: 42.4, w: 19.0}, reason: 타렌툼(남)·갈리아 키살피나(북) — 전장 밖으로}
+  - {at: {sid: ending_0}, mode: move, dur: 6.0, camera: {lon: 16.0, lat: 41.2, w: 1.8}}
+events:
+  - {type: marker, start: {sid: prelude_0, 'off': 6.2}, end: {sid: prelude_5, edge: end}, at_place: cannae, label: 칸나이, toponymy: cannae}
+  - {type: marker, start: {sid: prelude_8, 'off': 0.4}, end: {sid: prelude_9, edge: end}, at_place: cannae, label: 칸나이}
+  - {type: photo, start: {sid: prelude_6, 'off': 0.2}, end: {sid: prelude_6, edge: end, 'off': 0.6}, mid: cannae_bust, for: 대리석 흉상, place: map_pair_right}
+  - {type: photo, start: {sid: prelude_7, 'off': 0.2}, end: {sid: prelude_8, 'off': 0.3}, mid: cannae_coin, for: 은화}
+  - {type: photo, start: {sid: deployment_8, 'off': 0.6}, end: {sid: deployment_9, edge: end, 'off': 0.6}, mid: cannae_tanit, for: 석회암 비석, place: map_pair_right}
+  - {type: photo, start: {sid: deployment_12, 'off': 4.1}, end: {sid: deployment_13, edge: end, 'off': 1.5}, mid: cannae_montefortino, for: 투구, place: map_pair_right}
+  - {type: photo, start: {sid: encirclement_11, 'off': 0.4}, end: {sid: encirclement_11, edge: end, 'off': 0.5}, mid: cannae_trumbull, for: 쓰러진 집정관과 말을 권하는 기병, place: map_pair_right}
+  - {type: marker, start: {sid: aftermath_1, 'off': 0.2}, end: {sid: aftermath_4, edge: end}, at_place: cannae, label: 칸나이}
+  # D-0628 ② — 사상자 두 사료 패널을 aftermath_5(반지를 센 한니발)까지 늘린다. 같은 주제(칸나이 로마군 손실)라
+  # 슬로츠 상 카드가 패널 장면 안에 든다(지도 가림 30초 창 계산 밖, [map-cover-share] UF-173)
+  # D-0629 §3 — 카드가 들기 1.2초 전부터 두 사료 기둥을 왼쪽에 위아래로 모은다(카드가 리비우스 기둥을 덮지 않게, C0 같은 무게)
+  - type: panel
+    start: {sid: aftermath_2, 'off': -0.2}
+    end: {sid: aftermath_5, edge: end}
+    kind: versus
+    data:
+      title: 로마군 손실 — 두 사료
+      half_left_from: {sid: aftermath_4, edge: end, 'off': -1.2}
+      sides:
+      - title: 폴리비오스
+        src: 『역사』 III.117
+        items:
+        - {text: 전사 약 7만 명, t: {sid: aftermath_3, 'off': 0.5}}
+        - {text: 포로 보병 약 1만 명, t: {sid: aftermath_4, 'off': 0.5}}
+      - title: 리비우스
+        src: 『로마사』 XXII.49
+        items:
+        - {text: '전사 보병 45,500명 · 기병 2,700명', t: {sid: aftermath_3, 'off': 3.0}}
+        - {text: '포로 보병 3천 명 · 기병 1,500명', t: {sid: aftermath_4, 'off': 3.0}}
+  - {type: photo, start: {sid: aftermath_4, edge: end}, end: {sid: aftermath_5, edge: end, 'off': -0.6}, mid: cannae_slodtz, for: 대리석상, place: map_pair_right}
+  - type: quote
+    start: {sid: aftermath_5, edge: end, 'off': -0.6}
+    end: {sid: aftermath_7, 'off': -0.1}
+    speaker: 폴리비오스
+    text: 이긴 쪽도 진 쪽도 뚜렷한 용기를 보였다
+    accent: gold
+    source:
+      author: 폴리비오스
+      work: 역사
+      locator: III.117.1
+      original: "a battle in which both the victors and the vanquished displayed conspicuous bravery"
+      translator: W. R. Paton
+      translation: "1922"
+      translation_url: https://archive.org/details/polybiushistorie0000wrpa_v3i1
+      translation_license: 퍼블릭 도메인
+  - type: quote
+    start: {sid: aftermath_7, 'off': 0.1}
+    end: {sid: aftermath_7, edge: end, 'off': 0.6}   # D-0628 ② — 지도 가림 30초 창 ≤ 0.5(자기 문장 끝 + 0.6)
+    speaker: 리비우스
+    text: 이기는 법은 알아도 승리를 쓰는 법은 모른다
+    accent: gold
+    source:
+      author: 리비우스
+      work: 로마사
+      locator: XXII.51.4
+      original: "vincere scis, Hannibal, victoria uti nescis"
+      translator: B. O. Foster
+      translation: "1929"
+      translation_url: https://archive.org/details/livy-in-fourteen-volumes.-vol.-5-loeb-233
+      translation_license: 퍼블릭 도메인(미국, 2025년부터)
+  - {type: marker, start: {sid: aftermath_8, 'off': 3.6}, end: {sid: aftermath_10, edge: end}, at_place: tarentum, label: 타렌툼}
+  - {type: marker, start: {sid: aftermath_9, 'off': 0.3}, end: {sid: aftermath_10, edge: end}, at_place: cisalpina, label: 갈리아 키살피나}
+  - {type: marker, start: {sid: ending_1, 'off': 0.3}, end: {sid: ending_2, edge: end}, at_place: cannae, label: 칸나이}
+  - {type: marker, start: {sid: ending_2, 'off': 0.3}, end: {sid: ending_2, edge: end, 'off': 0.5}, at_place: venusia, label: 베누시아}
+  - {type: photo, start: {sid: ending_3, 'off': 0.2}, end: {sid: ending_4, edge: end, 'off': 0.3}, mid: cannae_smith1856, for: 사전 항목, place: map_pair_right}
+  - {type: photo, start: {sid: ending_5, 'off': 0.2}, end: {sid: ending_5, edge: end, 'off': 2.9}, mid: cannae_closs, for: 강가 평원 풍경}   # D-0628 ② — 지도 가림 30초 창(331~361초) ≤ 0.5
+sound:
+  bgm: music.beethoven_coriolan   # 사용자 결정 UF-256 "coriolan"(판정 ③, D-0626) — 전쟁사 장르 하한(rules audio.bgm_floor_by_genre.war_history)
+  # D-0629 §1 — 코리올란 큰 대목이 목소리 대역을 덮는 문장 12개(명료도 15 dB 미만·근처)만 국소로 낮춘다(문장 0.2초 앞~끝 0.2초 뒤, 0.5초 경사).
+  # 측정: 국소 감쇠 뒤 명료도 최저 15.60 dB(deployment_5 0.68배 가장 깊음), 음악 레벨 −20.78 dB(전쟁사 장르 범위 [−21.5, −9] 잠정)
+  intensity:
+  - [0.0, 0.55]
+  - [{sid: prelude_1, 'off': -0.7}, 0.572]
+  - [{sid: prelude_1, 'off': -0.2}, 0.439]
+  - [{sid: prelude_3, edge: end, 'off': 0.2}, 0.443]
+  - [{sid: prelude_3, edge: end, 'off': 0.7}, 0.578]
+  - [{sid: prelude_8, 'off': -0.7}, 0.592]
+  - [{sid: prelude_8, 'off': -0.2}, 0.566]
+  - [{sid: prelude_8, edge: end, 'off': 0.2}, 0.568]
+  - [{sid: prelude_8, edge: end, 'off': 0.7}, 0.595]
+  - [{sid: prelude_10, 'off': -0.7}, 0.598]
+  - [{sid: prelude_10, 'off': -0.2}, 0.542]
+  - [{sid: prelude_10, edge: end, 'off': 0.2}, 0.543]
+  - [{sid: prelude_10, edge: end, 'off': 0.7}, 0.599]
+  - [{scene_start: deployment}, 0.6]
+  - [{sid: deployment_5, 'off': -0.7}, 0.616]
+  - [{sid: deployment_5, 'off': -0.2}, 0.419]
+  - [{sid: deployment_7, edge: end, 'off': 0.2}, 0.427]
+  - [{sid: deployment_7, edge: end, 'off': 0.7}, 0.629]
+  - [{sid: deployment_14, 'off': -0.7}, 0.654]
+  - [{sid: deployment_14, 'off': -0.2}, 0.497]
+  - [{sid: deployment_14, edge: end, 'off': 0.2}, 0.5]
+  - [{sid: deployment_14, edge: end, 'off': 0.7}, 0.659]
+  - [{scene_start: encirclement}, 0.66]
+  - [{sid: encirclement_13, 'off': -0.7}, 0.566]
+  - [{sid: encirclement_13, 'off': -0.2}, 0.524]
+  - [{sid: encirclement_13, edge: end, 'off': 0.2}, 0.517]
+  - [{sid: encirclement_13, edge: end, 'off': 0.7}, 0.557]
+  - [{scene_start: aftermath}, 0.55]
+  - [{scene_start: ending}, 0.5]
+  - [{sid: ending_2, 'off': -0.7}, 0.5]
+  - [{sid: ending_2, 'off': -0.2}, 0.412]
+  - [{sid: ending_3, edge: end, 'off': 0.2}, 0.412]
+  - [{sid: ending_3, edge: end, 'off': 0.7}, 0.5]
