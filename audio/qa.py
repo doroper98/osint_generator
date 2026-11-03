@@ -100,6 +100,8 @@ class AudioQA(BaseModel):
     narration_rms_db: float
     music_rms_in_narration_db: float
     music_under_narration_db: float                  # 음악 − 내레이션(음수 = 음악이 낮다)
+    music_range: Optional[tuple[float, float]] = None   # v7.4.0 D-0629 — 판정에 쓴 범위(장르 범위 또는 공통 범위)
+    genre: Optional[str] = None
     narration_seconds: float
     loudness_ok: Optional[bool] = None
     true_peak_ok: Optional[bool] = None
@@ -122,7 +124,7 @@ class AudioQA(BaseModel):
         if self.final_loudness is not None and not self.true_peak_ok:
             out.append(f"트루 피크 {self.final_loudness.TP:.2f} dBTP > {ln.TP:g} + 코덱 여유 {q.tp_codec_margin_db:g}")
         if self.music_level_ok is False:
-            lo, hi = q.music_under_narration_db
+            lo, hi = self.music_range or q.music_under_narration_db
             out.append(f"내레이션 구간 음악 {self.music_under_narration_db:+.2f} dB — 범위 [{lo:g}, {hi:g}]")
         if self.bed_bass_ok is False:
             lo, hi = q.bed_bass_rise_db
@@ -242,14 +244,20 @@ def rms_outliers(srms: dict[str, float]) -> list[str]:
     return [s for s, v in srms.items() if abs(v - mean) > AU.qa.sentence_rms_dev_db]
 
 
-def audio_qa(out_dir: Path, sentences: list, has_music: bool = True) -> AudioQA:  # noqa: ANN001
+def music_range(genre: Optional[str] = None) -> tuple[float, float]:
+    """음악 레벨 범위 — rules audio.qa.music_under_narration_db_by_genre[장르], 없으면 공통 music_under_narration_db(v7.4.0 D-0629)."""
+    q = AU.qa
+    return tuple(q.music_under_narration_db_by_genre.get(genre or "", q.music_under_narration_db))  # type: ignore[return-value]
+
+
+def audio_qa(out_dir: Path, sentences: list, has_music: bool = True, genre: Optional[str] = None) -> AudioQA:  # noqa: ANN001
     """out_dir = 프로젝트 out/(mix.f32 필수, final.mp4 있으면 음량 측정). has_music False(bgm null)면 음악 레벨 판정 없음."""
     mix, vo, mask = stems(out_dir / "mix.f32", sentences)
     srms = sentence_rms(sentences)
     music = mix - vo
     vo_db = db(float(np.sqrt(np.mean(vo[mask] ** 2))))
     mu_db = db(float(np.sqrt(np.mean(music[mask] ** 2))))
-    lo, hi = AU.qa.music_under_narration_db
+    lo, hi = music_range(genre)
     final = out_dir / "final.mp4"
     loud = measure_loudnorm(final) if final.exists() else None
     peak = float(np.abs(mix).max())
@@ -265,7 +273,7 @@ def audio_qa(out_dir: Path, sentences: list, has_music: bool = True) -> AudioQA:
             bb = {"bed_bass_ratio_db": st.after.ratio_db, "bed_bass_ratio_before_db": st.before.ratio_db,
                   "bed_bass_rise_db": st.rise_db, "bed_bass_ok": lo_b <= st.rise_db <= hi_b}
     return AudioQA(final_loudness=loud, mix_peak=round(peak, 4), narration_rms_db=round(vo_db, 2),
-                   music_rms_in_narration_db=round(mu_db, 2), music_under_narration_db=round(mu_db - vo_db, 2),
+                   music_rms_in_narration_db=round(mu_db, 2), music_under_narration_db=round(mu_db - vo_db, 2), music_range=(lo, hi), genre=genre,
                    narration_seconds=round(float(mask.sum()) / SR, 1),
                    loudness_ok=None if loud is None else abs(loud.I - AU.loudnorm.I) <= AU.qa.i_tol_lu,
                    true_peak_ok=None if loud is None else round(loud.TP, 2) <= round(AU.loudnorm.TP + AU.qa.tp_codec_margin_db, 2),

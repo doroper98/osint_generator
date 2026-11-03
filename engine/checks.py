@@ -2759,7 +2759,7 @@ def check_audio(P) -> tuple[list[str], list[str], dict]:  # noqa: ANN001, N803
     from audio.qa import audio_qa  # noqa: PLC0415
 
     has_music = any(r.startswith("music.") for r in (P.R.cache.get("credit_refs") or ()))
-    q = audio_qa(P.root / "out", P.plan.sentences, has_music=has_music)
+    q = audio_qa(P.root / "out", P.plan.sentences, has_music=has_music, genre=(P.R.cache.get("genre") or {}).get("name"))   # v7.4.0 D-0629 장르 범위
     return q.issues(), q.warnings(), q.model_dump()
 
 

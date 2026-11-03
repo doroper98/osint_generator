@@ -1652,6 +1652,8 @@ class NarrationClarity(_Strict):
 class AudioQARules(_Strict):
     i_tol_lu: float = Field(gt=0)
     music_under_narration_db: tuple[float, float]
+    # v7.4.0 back_and_forth D-0629 §1(D737, 잠정) — 장르별 음악 레벨 범위. 없는 장르 = 공통 music_under_narration_db
+    music_under_narration_db_by_genre: dict[str, tuple[float, float]] = Field(default_factory=dict)
     tp_codec_margin_db: float = Field(ge=0)
     sentence_rms_dev_db: float = Field(gt=0)
     sentence_rms_window_sec: float = Field(gt=0)
