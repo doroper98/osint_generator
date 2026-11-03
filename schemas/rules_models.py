@@ -1589,6 +1589,13 @@ class SfxRules(_Strict):
     scene_start: SceneStartSfx
 
 
+class NarrationClarity(_Strict):
+    """v7.4.0 D-0626·D-0628 — 내레이션 명료도 하한(목소리 음역 에너지 비, dB)."""
+
+    min_db: float
+    hard_genres: list[str] = Field(default_factory=list)
+
+
 class AudioQARules(_Strict):
     i_tol_lu: float = Field(gt=0)
     music_under_narration_db: tuple[float, float]
@@ -1599,6 +1606,7 @@ class AudioQARules(_Strict):
     bed_bass_rise_db: tuple[float, float]            # v4.6.0 D-0097 작업 3·D-0102 1-A(판정 = 상승폭)
     bed_bass_band_hz: tuple[float, float]
     bed_mid_band_hz: tuple[float, float]
+    narration_clarity: Optional[NarrationClarity] = None   # v7.4.0 D-0626·D-0628
 
     @model_validator(mode="after")
     def _bands(self) -> "AudioQARules":
