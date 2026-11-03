@@ -39,6 +39,14 @@ from schemas.engine_models import StageResult
 REPO = Path(__file__).resolve().parent.parent
 
 
+
+def record_check_measures(P, prov: dict) -> None:  # noqa: ANN001, N803
+    """검사가 재는 값을 provenance 에 옮긴다 — provenance 는 검사 전에 만들어져 그때는 비어 있다(narration_clarity·terrain3d seam)."""
+    if P.R.cache.get("narration_clarity") is not None:
+        prov["narration_clarity"] = P.R.cache["narration_clarity"]
+    if isinstance(prov.get("terrain3d"), dict) and P.R.cache.get("terrain3d_seam") is not None:
+        prov["terrain3d"]["seam"] = P.R.cache["terrain3d_seam"]
+
 def log(msg: str) -> None:
     print(msg, file=sys.stderr, flush=True)
 
@@ -303,6 +311,7 @@ def preview(P: Project, times: list[float], labels: list[str] | None = None) -> 
     if cs is not None:   # v5.18.0 D-0161 §4 — 지도 대비 측정표(종류별 최저 5개), 측정이 있을 때만(P5)
         prov["map_contrast"] = cs
     prov["checks"] = {"hard": checks["hard"], "warnings": checks["warnings"], "passed": checks["passed"]}
+    record_check_measures(P, prov)   # v7.4.0 — 검사가 잰 값(명료도·이음 MAD)은 검사 뒤에 생긴다(P5, R-0335)
     from engine.provenance import feedback_guards  # noqa: PLC0415
 
     prov["user_feedback_guards"] = feedback_guards(checks)   # v5.22.0 D-0200 — 돈 사용자 의견 장치와 결과(P5)
@@ -519,6 +528,7 @@ def render_animatic(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
                             "jobs": rj["jobs"], "frames": rj["frames"], "loudnorm": {"passes": 2, **loud},
                             "bytes": final.stat().st_size}
     prov["checks"] = {"hard": checks["hard"], "warnings": checks["warnings"], "passed": checks["passed"], "profile": checks["profile"]}
+    record_check_measures(P, prov)   # v7.4.0 — 검사가 잰 값(명료도·이음 MAD)은 검사 뒤에 생긴다(P5, R-0335)
     from engine.provenance import feedback_guards  # noqa: PLC0415
 
     prov["user_feedback_guards"] = feedback_guards(checks)   # v5.22.0 D-0200
@@ -578,6 +588,7 @@ def render_catalog(P: Project, jobs: int) -> tuple[Path, dict]:  # noqa: N803
                            "sec": {"render": rj["sec"], "total": round(time.time() - t0, 1), "mux": round(time.time() - t1, 1)},
                            "jobs": rj["jobs"], "frames": rj["frames"], "loudnorm": {"passes": 2, **loud}, "bytes": final.stat().st_size}
     prov["checks"] = {"hard": checks["hard"], "warnings": checks["warnings"], "passed": checks["passed"], "profile": checks["profile"]}
+    record_check_measures(P, prov)   # v7.4.0 — 검사가 잰 값(명료도·이음 MAD)은 검사 뒤에 생긴다(P5, R-0335)
     from engine.provenance import feedback_guards  # noqa: PLC0415
 
     prov["user_feedback_guards"] = feedback_guards(checks)
