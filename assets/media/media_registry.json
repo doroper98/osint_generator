@@ -6093,6 +6093,52 @@
    },
    "source_hash": "e50b1b48be0b72c78a3f73dae11eebbd",
    "file": "bud_wind_shinan_720.jpg"
+  },
+  "bud_shuttle_42dot": {
+   "kind": "photo",
+   "title": "File:42dot autonomous-DRT Shuttle (1).jpg",
+   "license": "CC BY-SA 4.0",
+   "author": "Damian B Oh",
+   "credit_author": "Damian B Oh",
+   "date": "2022-10-18",
+   "url": "https://commons.wikimedia.org/wiki/File:42dot_autonomous-DRT_Shuttle_(1).jpg",
+   "caption": "자율주행 셔틀",
+   "file_note": "자료사진 · 2022. 10",
+   "depicts": [
+    "42dot 자율주행 수요응답형 셔틀"
+   ],
+   "main_subject": [
+    "자율주행 셔틀 차량"
+   ],
+   "background": [
+    "도로"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 메타·썸네일 접촉 시트 대조, R-0613·D611)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act2_11 자율주행 실증도시 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_shuttle_42dot.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "5b91768819226a9cc81496094724ad49",
+   "file": "bud_shuttle_42dot_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
   }
  }
 }

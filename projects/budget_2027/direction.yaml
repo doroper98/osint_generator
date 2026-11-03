@@ -238,7 +238,7 @@ shots:
     w: 660
 - at: &id009
     sid: act3_0
-    'off': -0.4
+    'off': -0.2
   stage: structure
   mode: cut
   dur: 0
@@ -345,11 +345,25 @@ events:
   start:
     scene_start: cold
   end:
+    scene_start: act1
+  img: bud_subway_suin
+- type: backdrop
+  start:
+    scene_start: act1
+  end:
     scene_start: act2
   img: bud_apt_gwangmyeong
 - type: backdrop
   start:
     scene_start: act2
+  end:
+    sid: act2_9
+    'off': -0.5
+  img: bud_hwy_bridge
+- type: backdrop
+  start:
+    sid: act2_9
+    'off': -0.5
   end:
     scene_start: act3
   img: bud_hwy_westcoast
@@ -364,7 +378,7 @@ events:
     scene_start: act4
   end:
     total: true
-  img: bud_hwy_bridge
+  img: bud_shuttle_42dot
 - type: island
   start: *id001
   end: &id002
@@ -432,9 +446,9 @@ events:
 - type: island
   start: *id007
   end: &id008
-    sid: act2_20
+    sid: act2_19
     edge: end
-    'off': 0.3
+    'off': -0.3
   kind: structure
   box: center_tall
 - type: rank
@@ -719,7 +733,7 @@ events:
   end:
     sid: act2_19
     edge: end
-    'off': 0.0
+    'off': -0.3
   layer: focus
   row: education
   metric: rate
@@ -777,8 +791,9 @@ events:
   end:
     sid: act2_13
     'off': -0.25
-  mid: bud_subway_suin
-  for: 전동차 실내
+  mid: bud_shuttle_42dot
+  for: 자율주행 셔틀 차량
+  place: backdrop_right_low
 - type: photo
   start:
     sid: act2_15
@@ -788,6 +803,16 @@ events:
     'off': -0.5
   mid: bud_apt_gwangmyeong
   for: 아파트 단지
+- type: photo
+  start:
+    sid: act2_20
+    'off': -0.9
+  end:
+    sid: act3_0
+    'off': -0.2
+  mid: bud_wafer
+  for: 반도체 웨이퍼
+  place: backdrop_right_low
 - type: island
   start: *id013
   end: &id014
