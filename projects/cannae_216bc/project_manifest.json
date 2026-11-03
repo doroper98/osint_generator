@@ -4,8 +4,8 @@
   "title": "칸나이 — 기원전 216년 8월 2일",
   "category": "war_military",
   "created_at": "2026-11-01T14:26:10.379273Z",
-  "updated_at": "2026-11-02T03:40:48.941825Z",
-  "current_state": "voice_timeline",
+  "updated_at": "2026-11-03T03:02:09.447016Z",
+  "current_state": "script_approval",
   "target_duration_min": 5,
   "topic_summary": "제2차 포에니 전쟁 칸나이 전투(기원전 216년): 한니발의 초승달 진형과 양익 포위. 사료(폴리비오스 III·리비우스 XXII)·당대/후대 미술·지명 유래로 본 전투",
   "initial_links": [],
@@ -86,8 +86,29 @@
       "to_state": "voice_timeline",
       "transitioned_at": "2026-11-02T03:40:48.941742Z",
       "reason": "script_approval 승인 — user"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-11-03T02:59:48.139290Z",
+      "reason": "rollback → script_draft — fable(D-0626·D-0622 (가)): D-0622 (가) 재현 고지 문장 날짜 = 비석 연대, 문장 글자 불변 — deployment_9 date 2026.11.01(제작일) → -300~-201([date-jump]·[media-sentence-span])"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-11-03T03:02:09.446961Z",
+      "reason": ""
     }
   ],
-  "rollbacks": [],
+  "rollbacks": [
+    {
+      "from_state": "voice_timeline",
+      "to_state": "script_draft",
+      "by": "fable(D-0626·D-0622 (가))",
+      "at": "2026-11-03T02:59:48.139276Z",
+      "reason": "D-0622 (가) 재현 고지 문장 날짜 = 비석 연대, 문장 글자 불변 — deployment_9 date 2026.11.01(제작일) → -300~-201([date-jump]·[media-sentence-span])",
+      "script_fingerprint_before": "b915c5ed97eb7912aebcb7b607933d29e142d1bb"
+    }
+  ],
   "reopens": []
 }
