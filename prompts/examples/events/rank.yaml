@@ -1,0 +1,12 @@
+# 요소 예시 (v7.4.0, back_and_forth D-1003 §3) — 레지스트리 모델을 그대로 통과한다(15 P4). tests/fixtures/preview/rank.yaml 와 같은 event.
+# 구성 무대 순위 막대 층 — island kind structure 안에서만. layer = bars · prior · delta · focus(row 필수). 값은 무대 레코드에서만(P8).
+schema_version: 1
+key: rank
+source: 구성 무대 순위 가로 막대(v7.4.0, D-1003 §3)
+event:
+  type: rank
+  t0: 9.0
+  t1: 14.0
+  layer: focus
+  row: industry
+  metric: rate

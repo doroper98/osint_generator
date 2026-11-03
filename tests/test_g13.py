@@ -31,7 +31,7 @@ class RulesValueTest(unittest.TestCase):
         self.assertEqual((BACKDROP.blur_px, BACKDROP.dim, BACKDROP.desaturate), (6, 0.38, 0.15))
         self.assertEqual(ISLAND.fill_alpha, 0.78)   # 아일랜드 가독은 그대로
         self.assertTrue(ISLAND.main_required)
-        self.assertEqual(ISLAND.main_kinds, ["chart", "primitive", "photo", "clip", "article", "panel"])   # panel = D-0130 Q3 B
+        self.assertEqual(ISLAND.main_kinds, ["chart", "structure", "primitive", "photo", "clip", "article", "panel"])   # panel = D-0130 Q3 B · structure = v7.4.0 D-1003 §3(구성 무대 아일랜드)
         self.assertEqual(MAXS, 3.0)
 
     def test_article_fallback_separate_from_backdrop(self) -> None:
