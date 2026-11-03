@@ -126,7 +126,7 @@ class StructureStage:
                      for i, x in enumerate(order)]
         self.by_id = {r.id: r for r in self.rows}
         _, _, bw, bh = ISLAND.boxes[self.cfg.box]
-        self.fit(bw, bh)
+        self.fit(bw - 2 * ISLAND.inner_pad["x"], bh - 2 * ISLAND.inner_pad["y"])   # D-1010 §1 — 내용 영역(상자 − inner_pad)
 
     @staticmethod
     def _load(rid: Optional[str], records: "Optional[dict[str, CategoricalRecord]]") -> "CategoricalRecord":

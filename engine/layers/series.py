@@ -524,6 +524,39 @@ def value_text(e: dict, v: float, unit: str, hi: float | None = None) -> str:
     return fmt_value(v, "") + TIMELINE.band.sep + fmt_value(hi, unit)
 
 
+def draw_lane_preview(ctx: cairo.Context, R: "RenderCtx", view: "View", e: dict, a: float) -> None:  # noqa: N803
+    """레인 미리 보기 선(v7.4.0 D-1010 §2, UF-306) — 그 시리즈 경로 전체를 rules stage_timeline.lane_preview 알파·굵기로(점·핀·끝값 없이).
+    선 모양은 본 선과 같다(정부안·계획 조각 점선). line·step 만(막대·띠·쌓임은 본 문법 그대로)."""
+    LP = TIMELINE.lane_preview  # noqa: N806
+    if e["style"] not in ("line", "step") or e.get("detail") or e.get("secondary") or LP["alpha"] <= 0:
+        return
+    stage: "TimelineStage" = view.stage  # type: ignore[assignment]
+    rec = load_series(e["series_id"])
+    rng = R.cache["series_range"][e["lane"]]
+    pr = plot_right(ctx, view, stage, e["lane"], rng, rec.unit)
+    pl = plot_left(ctx, view, e["lane"], R)
+    ctx.save()
+    ctx.rectangle(pl, view.oy, max(0.0, pr - pl), stage.area_bottom + TIMELINE.series.clip_below_px)
+    ctx.clip()
+    gaps = None if rec.frequency == "monthly" else rec.missing_dates()
+    for seg in segments(rec.values, gaps):
+        pts = [(stage.x_of(d), value_y(stage, e["lane"], rng, v)) for d, v in seg]
+        k = proposed_from(rec, [d for d, _ in seg]) if e["style"] == "line" else len(pts)
+        for part, dash in ((pts[:k], False), (pts[max(0, k - 1):], True)):
+            if len(part) < 2:
+                continue
+            ctx.new_path()
+            for i, (x, y) in enumerate(part):
+                sx, sy = view.to_screen(x, y)
+                (ctx.move_to if i == 0 else ctx.line_to)(sx, sy)
+            ctx.set_source_rgba(*C[e["col"]], LP["alpha"] * a)
+            ctx.set_line_width(LP["w"])
+            ctx.set_dash(list(TIMELINE.series.proposed_dash) if dash else [])
+            ctx.stroke()
+            ctx.set_dash([])
+    ctx.restore()
+
+
 def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: dict) -> None:  # noqa: N803
     S = TIMELINE.series  # noqa: N806
     if e.get("detail"):   # v7.4.0 D-0318 — 열 확대 인셋(island column_detail) — 등장·퇴장은 자기 규칙(island.column_detail.fade)

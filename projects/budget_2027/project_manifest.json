@@ -4,8 +4,8 @@
   "title": "2027년 예산안, 820조 원은 어디로 가나",
   "category": "economy",
   "created_at": "2026-11-03T01:37:58.373536Z",
-  "updated_at": "2026-11-03T04:29:33.848965Z",
-  "current_state": "voice_timeline",
+  "updated_at": "2026-11-03T10:08:24.993712Z",
+  "current_state": "preview_approval",
   "target_duration_min": 9,
   "topic_summary": "2027년도 정부 예산안(총지출 820.9조)의 분야별 증감·재원·국회 쟁점",
   "initial_links": [],
@@ -122,6 +122,30 @@
       "to_state": "voice_timeline",
       "transitioned_at": "2026-11-03T04:29:33.848928Z",
       "reason": "script_approval 승인 — user"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "assets",
+      "transitioned_at": "2026-11-03T10:08:23.518512Z",
+      "reason": "D-1010 — 음성·자산(실사 11·기사 3)·연출(변형 A + D616·D619·UF-305·306)·프리뷰 v3 checks hard 0 완료, 게이트 ② 기록 대기"
+    },
+    {
+      "from_state": "assets",
+      "to_state": "direction",
+      "transitioned_at": "2026-11-03T10:08:23.989022Z",
+      "reason": "D-1010 — 음성·자산(실사 11·기사 3)·연출(변형 A + D616·D619·UF-305·306)·프리뷰 v3 checks hard 0 완료, 게이트 ② 기록 대기"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-11-03T10:08:24.467880Z",
+      "reason": "D-1010 — 음성·자산(실사 11·기사 3)·연출(변형 A + D616·D619·UF-305·306)·프리뷰 v3 checks hard 0 완료, 게이트 ② 기록 대기"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-11-03T10:08:24.993676Z",
+      "reason": "D-1010 — 음성·자산(실사 11·기사 3)·연출(변형 A + D616·D619·UF-305·306)·프리뷰 v3 checks hard 0 완료, 게이트 ② 기록 대기"
     }
   ],
   "rollbacks": [

@@ -2337,6 +2337,7 @@ class TimelineFrame(_Strict):
 
 class StageTimelineRules(_Strict):
     """v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시간축 무대·시리즈 레이어 토큰(engine/stage_timeline.py·engine/layers/series.py)."""
+    lane_preview: dict[str, float] = Field(default_factory=lambda: {"alpha": 0.0, "w": 1.0})   # v7.4.0 D-1010 §2(UF-306) — 레인 미리 보기 선 알파·굵기
 
     lane_h: float = Field(gt=0)
     area_top: float
@@ -2740,6 +2741,7 @@ class IslandStageSurface(_Strict):
 class IslandRules(_Strict):
     """v5.1.0 D-0123 §1·D-0126 — backdrop 무대 위 아일랜드 공통 규칙(engine/island.py)."""
 
+    inner_pad: dict[str, float] = Field(default_factory=lambda: {"x": 0.0, "y": 0.0})   # v7.4.0 D-1010 §1(UF-305) — 내용 영역 안쪽 여백 x·y
     radius: float = Field(ge=0)
     fill_alpha: float = Field(ge=0, le=1)
     edge_alpha: float = Field(ge=0, le=1)

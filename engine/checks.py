@@ -97,6 +97,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | media_sentence_span | hard | 덮는 요소가 앵커 문장(완전 노출 가운데)과 날짜가 다른 문장과 media_sentence_span.tol_sec 넘게 겹침 `[media-sentence-span]`(v7.4.0 D-0470, UF-173) |
 | map_opening | hard | 지도 주 무대에서 첫 문장 끝(+ after_first_sentence_sec) 전에 덮는 요소 `[map-opening]`(v7.4.0 D-0470, UF-173) |
 | map_cover_share | hard | 지도 무대(패널 없는 시각) window_sec 창 덮임 비율 > max_share(전면·가운데 큰 사진 1, 그 밖 상자 partial_weight, 첫 제목 카드 전 제외) `[map-cover-share]`(v7.4.0 D-0470, UF-173) |
+| island_inner_pad | hard | 아일랜드 내용(구성 무대 글자·차트 뷰포트)과 상자 테두리 간격 < island.inner_pad `[island-inner-pad]`(v7.4.0 D-1010 §1, UF-305) |
+| lane_empty | hard | 시간축 레인 틀이 보이는데 선(미리 보기·본 선)이 없는 구간 > 1초 `[lane-empty]`(v7.4.0 D-1010 §2, UF-306) |
 | data_stage_bare_on_backdrop | hard | 사진 배경(backdrop) 위 구성·차트 아일랜드가 상자 바탕(island.fill_alpha) 없이 그려짐 `[data-stage-bare-on-backdrop]`(v7.4.0 감독 D619, UF-304) |
 | structure_text_offscreen | hard | 구성 무대 글자(행 이름·금액·증감·초점 라벨·총지출 줄)가 아일랜드 상자 밖으로 잘림 `[structure-text-offscreen]`(v7.4.0 감독 D616), 글자 상자가 전년 속빈 눈금을 가로지름 `[structure-text-tick]`(R-0619 뒤) |
 | sa_obligation | hard | 이 영상이 쓰는 CC BY-SA 사진·영상의 고지(작가·제목·라이선스·링크·변경 사항)가 레지스트리·화면 출처 줄·엔딩 크레딧에 없음 `[sa-obligation]`(v7.4.0 사용자 결정 D612) |
@@ -144,7 +146,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled", "map_event_covered", "spoken_number_visible", "sa_obligation", "structure_text_offscreen", "data_stage_bare_on_backdrop")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled", "map_event_covered", "spoken_number_visible", "sa_obligation", "structure_text_offscreen", "data_stage_bare_on_backdrop", "island_inner_pad", "lane_empty")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -2619,6 +2621,80 @@ def check_data_stage_bare_on_backdrop(P) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
+def check_island_inner_pad(P) -> list[str]:  # noqa: ANN001, N803
+    """[island-inner-pad] hard(v7.4.0 D-1010 §1, 사용자 의견 UF-305 "외곽 라인이 너무 타이트하게 붙어") — 아일랜드 내용과 상자 테두리 간격.
+    구성 아일랜드: 표본 프레임을 그려 글자 상자(내용 좌표 + 실제 여백)와 상자 테두리 간격 < island.inner_pad 면 실패.
+    차트 아일랜드: 뷰포트(chart_view)가 상자에서 inner_pad 만큼 줄지 않았으면 실패."""
+    from engine.island import chart_view, island_box  # noqa: PLC0415
+    from engine.layers import structure as SL  # noqa: N812, PLC0415
+    from engine.render import render_frame  # noqa: PLC0415
+
+    px, py = ISLAND.inner_pad["x"], ISLAND.inner_pad["y"]
+    out: list[str] = []
+    chart = P.R.cache.get("island_chart")
+    for e in P.events:
+        if e["type"] == "island" and e.get("kind") == "chart" and chart is not None:
+            b = island_box(e)
+            v = chart_view(chart, e["t0"], b)
+            if v.vw > b[2] - 2 * px + 0.5 or v.vh > b[3] - 2 * py + 0.5:
+                out.append(f"[island-inner-pad] chart t={e['t0']:.2f} 뷰포트 {v.vw:.0f}×{v.vh:.0f} > 상자 − 여백 {b[2] - 2 * px:.0f}×{b[3] - 2 * py:.0f}(UF-305)")
+    isl = [e for e in P.events if e["type"] == "island" and e.get("kind") == "structure"]
+    times = sorted({round((e["t0"] + e["t1"]) / 2, 2) for e in P.events if e["type"] == "rank" and e.get("layer") in ("focus", "total")}
+                   | {round(e["t0"] + 2.0, 2) for e in isl})
+    for t in times:
+        SL.LAST_VIEW.clear()
+        render_frame(P, min(P.n_frames - 1, int(round(t * FPS))))
+        e = next((x for x in isl if x["t0"] <= t <= x["t1"]), None)
+        if not SL.LAST_VIEW or e is None:
+            continue
+        _bx, _by, bw, bh = island_box(e)
+        out += [f"[island-inner-pad] t={t:.2f} structure {n} 테두리 간격 {gap:.1f}px < {min(px, py):g}(UF-305)"
+                for n, gap in inner_pad_hits(list(SL.DRAWN_TEXT), tuple(SL.LAST_VIEW), (bw, bh))]
+    return out
+
+
+def inner_pad_hits(drawn: list, view_wh: tuple, box_wh: tuple) -> list[tuple[str, float]]:
+    """구성 무대 글자 상자(내용 좌표) → 상자 테두리 간격이 island.inner_pad 보다 작은 것 [(이름, 간격)]. 여백은 렌더가 실제로 쓴 값(상자 − 뷰포트)/2."""
+    bw, bh = box_wh
+    ux, uy = (bw - view_wh[0]) / 2, (bh - view_wh[1]) / 2
+    lim = min(ISLAND.inner_pad["x"], ISLAND.inner_pad["y"])
+    out = []
+    for n, r in drawn:
+        gap = min(r[0] + ux, bw - (r[2] + ux), r[1] + uy, bh - (r[3] + uy))
+        if gap < lim - 0.5:
+            out.append((n, gap))
+    return out
+
+
+def lane_empty_windows(P) -> list[tuple[str, float, float]]:  # noqa: ANN001, N803
+    """시간축 레인 틀이 보이는데 선(미리 보기 또는 본 선)이 하나도 없는 구간 [(레인, t0, t1)] — [lane-empty](D-1010 §2)."""
+    chart = P.R.cache.get("island_chart")
+    if chart is None:
+        return []
+    isl = [e for e in P.events if e["type"] == "island" and e.get("kind") == "chart"]
+    ser = [e for e in chart["events"] if e["type"] == "series"]
+    preview = TIMELINE.lane_preview["alpha"] > 0
+    out = []
+    for lane in [ln.id for ln in chart["stage"].lanes]:
+        mine = [e for e in ser if e["lane"] == lane]
+        for i in isl:
+            if preview and any(e["style"] in ("line", "step") for e in mine):
+                continue   # 미리 보기 선이 아일랜드 내내 있다
+            cov = sorted((max(i["t0"], e["t0"]), min(i["t1"], e["t1"])) for e in mine if e["t1"] > i["t0"] and e["t0"] < i["t1"])
+            cur = i["t0"]
+            for a, b in cov + [(i["t1"], i["t1"])]:
+                if a - cur > 1.0:
+                    out.append((lane, cur, a))
+                cur = max(cur, b)
+    return out
+
+
+def check_lane_empty(P) -> list[str]:  # noqa: ANN001, N803
+    """[lane-empty] hard(v7.4.0 D-1010 §2, 사용자 의견 UF-306 "빈 아래쪽 차트를 흐릿한 선으로라도") — 레인 틀만 있고 선 없는 구간 > 1초."""
+    return [f"[lane-empty] 레인 {ln} {a:.2f}~{b:.2f}초({b - a:.1f}초) 틀만 보이고 선이 없다 — 레인 미리 보기 선(stage_timeline.lane_preview, UF-306)"
+            for ln, a, b in lane_empty_windows(P)]
+
+
 def check_template_label(P) -> list[str]:  # noqa: ANN001, N803
     """v7.4.0 UF-147(D-0302 ⑤ "어떤 주제의 템플릿으로 만든 영상인지 알 수 있게 텍스트로") — 장르 template_label 이 있으면
     타이틀 카드 부제 줄과 엔딩 카드에 실제로 그려졌는지 프레임을 그려 본다. 없거나 카드가 없으면 hard."""
@@ -2907,7 +2983,9 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "map_cover_share": lambda: waive_regression(P, "map_cover_share", check_map_cover_share(P)),             # v7.4.0 D-0470(hard, UF-173)
         "sa_obligation": lambda: check_sa_obligation(P),
         "structure_text_offscreen": lambda: check_structure_text_offscreen(P),
-        "data_stage_bare_on_backdrop": lambda: check_data_stage_bare_on_backdrop(P),                            # v7.4.0 감독 D619(hard, UF-304)                                  # v7.4.0 감독 D616(hard)                                                          # v7.4.0 사용자 결정 D612(hard)
+        "data_stage_bare_on_backdrop": lambda: check_data_stage_bare_on_backdrop(P),
+        "island_inner_pad": lambda: check_island_inner_pad(P),                                                  # v7.4.0 D-1010 §1(hard, UF-305)
+        "lane_empty": lambda: check_lane_empty(P),                                                              # v7.4.0 D-1010 §2(hard, UF-306)                            # v7.4.0 감독 D619(hard, UF-304)                                  # v7.4.0 감독 D616(hard)                                                          # v7.4.0 사용자 결정 D612(hard)
         "credit_garbled": lambda: check_credit_garbled(P),                                                        # v7.4.0 D-0470(hard, RIGHTS-AP-002)
 
 

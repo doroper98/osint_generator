@@ -2683,8 +2683,14 @@ entries:
   quote: "콘티 합격인데 차트를 감싸는 외곽 라인이 너무 타이트하게 붙어있는 점, 그리고 첨부한 이미지의 빈 아래쪽 차트를 흐릿한 선으로라도 한번 보여주고 있으면 좋을것 같다는 점 개선 하고 완성본 만들어"
   quote_kind: verbatim
   category: "화면 — 차트 아일랜드 상자 외곽선이 내용(축 라벨·머리 줄·행 이름)에 너무 붙음. 상자 안쪽 여백 확보"
-  guards: []
-  status: open
+  guards:
+  - kind: check
+    ref: island_inner_pad
+  - kind: rule
+    ref: island.inner_pad
+  - kind: test
+    ref: tests/test_uf305_306.py::InnerPadTest::test_preview_v2_flush_header_fails
+  status: guarded
   decision: "D-1010 — 아일랜드 안쪽 여백 규칙 키 신설(내용 ↔ 상자 테두리 최소 간격), 검사로 강제"
   source: 감독 세션 사용자 대화 2026-11-03
 - id: UF-306
@@ -2694,7 +2700,13 @@ entries:
   quote: "첨부한 이미지의 빈 아래쪽 차트를 흐릿한 선으로라도 한번 보여주고 있으면 좋을것 같다는 점 개선 하고 완성본 만들어"
   quote_kind: verbatim
   category: "화면 — 시간축 레인이 데이터 등장 전 빈 칸으로 보임. 해당 문장 전에도 흐릿한 선(미리 보기)으로 레인 내용을 보여 줄 것"
-  guards: []
-  status: open
+  guards:
+  - kind: check
+    ref: lane_empty
+  - kind: rule
+    ref: stage_timeline.lane_preview
+  - kind: test
+    ref: tests/test_uf305_306.py::LanePreviewTest::test_preview_v2_act3_4_state_fails
+  status: guarded
   decision: "D-1010 — 레인 미리 보기 선(낮은 알파, 라벨 없음) 후 문장 도달 시 본 선, 빈 레인 노출 검사"
   source: 감독 세션 사용자 대화 2026-11-03

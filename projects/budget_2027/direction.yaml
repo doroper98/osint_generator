@@ -32,7 +32,7 @@ shots:
   dur: 0
   camera:
     row: defense
-    w: 734
+    w: 702
 - at:
     word:
       sid: act1_2
@@ -43,7 +43,7 @@ shots:
   dur: 1.6
   camera:
     row: welfare
-    w: 734
+    w: 702
 - at:
     word:
       sid: act1_3
@@ -54,7 +54,7 @@ shots:
   dur: 1.6
   camera:
     row: admin
-    w: 734
+    w: 702
 - at:
     word:
       sid: act1_3
@@ -65,7 +65,7 @@ shots:
   dur: 1.6
   camera:
     row: education
-    w: 734
+    w: 702
 - at:
     word:
       sid: act1_4
@@ -76,7 +76,7 @@ shots:
   dur: 1.6
   camera:
     row: defense
-    w: 734
+    w: 702
 - at:
     word:
       sid: act1_5
@@ -87,7 +87,7 @@ shots:
   dur: 1.6
   camera:
     row: defense
-    w: 734
+    w: 702
 - at:
     word:
       sid: act2_1
@@ -98,7 +98,7 @@ shots:
   dur: 1.6
   camera:
     row: admin
-    w: 734
+    w: 702
 - at:
     word:
       sid: act2_2
@@ -109,7 +109,7 @@ shots:
   dur: 1.6
   camera:
     row: admin
-    w: 734
+    w: 702
 - at:
     word:
       sid: act2_4
@@ -120,7 +120,7 @@ shots:
   dur: 1.6
   camera:
     row: industry
-    w: 734
+    w: 702
 - at: &id003
     sid: act2_6
     'off': -0.15
@@ -129,7 +129,7 @@ shots:
   dur: 0
   camera:
     row: defense
-    w: 734
+    w: 702
 - at:
     word:
       sid: act2_6
@@ -140,7 +140,7 @@ shots:
   dur: 1.6
   camera:
     row: environment
-    w: 734
+    w: 702
 - at:
     word:
       sid: act2_7
@@ -151,7 +151,7 @@ shots:
   dur: 1.6
   camera:
     row: diplomacy
-    w: 734
+    w: 702
 - at:
     word:
       sid: act2_8
@@ -162,7 +162,7 @@ shots:
   dur: 1.6
   camera:
     row: soc
-    w: 734
+    w: 702
 - at:
     word:
       sid: act2_9
@@ -173,7 +173,7 @@ shots:
   dur: 1.6
   camera:
     row: soc
-    w: 734
+    w: 702
 - at: &id005
     sid: act2_13
     'off': -0.25
@@ -182,7 +182,7 @@ shots:
   dur: 0
   camera:
     row: defense
-    w: 734
+    w: 702
 - at:
     word:
       sid: act2_13
@@ -193,7 +193,7 @@ shots:
   dur: 1.6
   camera:
     row: welfare
-    w: 734
+    w: 702
 - at: &id007
     sid: act2_16
     'off': -0.5
@@ -202,7 +202,7 @@ shots:
   dur: 0
   camera:
     row: defense
-    w: 734
+    w: 702
 - at:
     word:
       sid: act2_16
@@ -213,7 +213,7 @@ shots:
   dur: 1.6
   camera:
     row: welfare
-    w: 734
+    w: 702
 - at:
     word:
       sid: act2_18
@@ -224,7 +224,7 @@ shots:
   dur: 1.6
   camera:
     row: education
-    w: 734
+    w: 702
 - at:
     word:
       sid: act2_19
@@ -235,7 +235,7 @@ shots:
   dur: 1.6
   camera:
     row: education
-    w: 734
+    w: 702
 - at: &id009
     sid: act3_0
     'off': -0.2
@@ -244,7 +244,7 @@ shots:
   dur: 0
   camera:
     row: defense
-    w: 734
+    w: 702
 - at:
     word:
       sid: act3_0
@@ -255,7 +255,7 @@ shots:
   dur: 1.6
   camera:
     row: admin
-    w: 734
+    w: 702
 - at:
     word:
       sid: act3_2
@@ -266,7 +266,7 @@ shots:
   dur: 1.6
   camera:
     row: admin
-    w: 734
+    w: 702
 - at:
     word:
       sid: act3_3
@@ -277,7 +277,7 @@ shots:
   dur: 1.6
   camera:
     row: admin
-    w: 734
+    w: 702
 - at: &id013
     sid: act3_4
     'off': -0.6
@@ -295,7 +295,7 @@ shots:
   dur: 0
   camera:
     row: defense
-    w: 734
+    w: 702
 - at:
     word:
       sid: act4_1
@@ -306,7 +306,7 @@ shots:
   dur: 1.6
   camera:
     row: admin
-    w: 734
+    w: 702
 - at:
     word:
       sid: act4_3
@@ -317,7 +317,7 @@ shots:
   dur: 1.6
   camera:
     row: admin
-    w: 734
+    w: 702
 - at:
     word:
       sid: act5_1
@@ -328,7 +328,7 @@ shots:
   dur: 1.6
   camera:
     row: admin
-    w: 734
+    w: 702
 - at:
     word:
       sid: act5_2
@@ -339,7 +339,7 @@ shots:
   dur: 1.6
   camera:
     row: admin
-    w: 734
+    w: 702
 events:
 - type: backdrop
   start:

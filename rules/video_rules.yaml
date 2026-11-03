@@ -1353,6 +1353,10 @@ audio:                     # 10
     scene_start: {lead_sec: 0.05, whoosh_dur_sec: 0.9, whoosh_v: 0.55}                  # sfx_policy: 장면 시작 휙(첫 장면 제외)
 
 stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시간축 무대(engine/stage_timeline.py)·시리즈 레이어(engine/layers/series.py). 설계 px(480p)
+  # v7.4.0 back_and_forth D-1010 §2(사용자 의견 UF-306 "빈 아래쪽 차트를 흐릿한 선으로라도 한번 보여주고") — 레인 미리 보기 선.
+  # 차트 아일랜드가 보이는 동안 레인마다 그 시리즈 경로를 흐리게(점·핀·끝값 라벨 없이, 본 선 모양 그대로 — 정부안·계획 점선 포함).
+  # 본 선은 문장이 도달하면 그 위에 그려진다. 값 = 미사일 궤적 미리 보기(sketch missile preview_alpha 0.35·preview_w 1.2) 준용. 검사 [lane-empty] hard
+  lane_preview: {alpha: 0.35, w: 1.2}
   # v7.4.0 back_and_forth D-0257(사용자 의견 UF-137 "금리 차트가 화면 좌우에 다 꽉차서 만드는 UI는 UX 측면에서 최악") — 시간축 주 무대는 화면을 채우지 않고
   # 안쪽 틀 안에 담는다. 세계는 하나 그대로(카메라가 그 안을 움직인다), 틀 밖은 그리지 않는다(클립). 상자 모양·레인 패딩 = 차트 아일랜드(island·island.chart).
   # 틀 = 날짜 뱃지(위 56) 아래·자막(2줄 위 끝 약 407) 위·좌우 60(D-0258). 레인 영역 = 틀 안 [island.chart.pad_top, 높이 − pad_bottom], 세로 척도 = min(lane_h, 영역 ÷ 레인 수). 검사 [chart-edge-bleed] hard
@@ -1793,6 +1797,9 @@ flight:                    # v7.3.0 back_and_forth D-0206·D-0225(사용자 결�
     predict_keyframes: true
     move_headroom: 0.75          # 보간 시간은 move_sec 이 하한 — 거리가 길면 최고 속도 ≤ jump_px_max × 0.75 가 되게 늘린다(geo 콘티 판 v2.1: 0.6초 보간이 25px/프레임)
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
+  # v7.4.0 back_and_forth D-1010 §1(사용자 의견 UF-305 "차트를 감싸는 외곽 라인이 너무 타이트하게 붙어있는 점") — 아일랜드 안쪽 여백(감독 명세).
+  # 상자 크기·자리(boxes)는 그대로, 내용 영역(구성 무대·시간축 뷰포트)을 이만큼 안으로. 글자·행 크기는 줄이지 않는다(UF-304). 검사 [island-inner-pad] hard
+  inner_pad: {x: 16, y: 12}
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)
   # 겹침(checks island_overlap hard, Q3 A): 같은 순간 보이는 아일랜드 제자리 상자(그림자·슬라이드 경로 제외)끼리 교차 > 0, 자막 구역(reserved_zones.subtitle) 교차.
   # 아일랜드 = island 이벤트(차트) · 사진·영상(media_box) · 프리미티브(primitive_box) · backdrop 무대 위 패널(panel_box, Q4 A). 카드·배지는 기존 예약 영역 규칙.
