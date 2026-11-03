@@ -56,12 +56,14 @@ events:
   - {type: marker, start: {sid: aftermath_1, 'off': 0.2}, end: {sid: aftermath_4, edge: end}, at_place: cannae, label: 칸나이}
   # D-0628 ② — 사상자 두 사료 패널을 aftermath_5(반지를 센 한니발)까지 늘린다. 같은 주제(칸나이 로마군 손실)라
   # 슬로츠 상 카드가 패널 장면 안에 든다(지도 가림 30초 창 계산 밖, [map-cover-share] UF-173)
+  # D-0629 §3 — 카드가 들기 1.2초 전부터 두 사료 기둥을 왼쪽에 위아래로 모은다(카드가 리비우스 기둥을 덮지 않게, C0 같은 무게)
   - type: panel
     start: {sid: aftermath_2, 'off': -0.2}
     end: {sid: aftermath_5, edge: end}
     kind: versus
     data:
       title: 로마군 손실 — 두 사료
+      half_left_from: {sid: aftermath_4, edge: end, 'off': -1.2}
       sides:
       - title: 폴리비오스
         src: 『역사』 III.117
