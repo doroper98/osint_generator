@@ -19,6 +19,7 @@
 | render             | python -m engine.render <proj> --res final --jobs N | (v5.5.1 배포 프로파일 720p)
 | mix                | python -m audio.mix <proj>             |
 | deliver            | python -m engine.mux <proj>            | final.mp4·srt·description·provenance.json |
+| upload             | python -m publish.youtube <proj>       | v7.4.0 D-1200 — 유튜브 비공개 업로드, out/youtube_upload.json |
 """
 
 from __future__ import annotations
@@ -37,7 +38,7 @@ from schemas.models import ProjectState
 
 REPO = Path(__file__).resolve().parent.parent
 
-Stage = Literal["plan", "assets", "assets_final", "direction_validate", "validate", "preview", "render", "mix", "deliver", "camera_suggest"]
+Stage = Literal["plan", "assets", "assets_final", "direction_validate", "validate", "preview", "render", "mix", "deliver", "upload", "camera_suggest"]
 
 # 단계 → (모듈, CLI 가 StageResult.stage 에 적는 이름)
 STAGE_COMMANDS: dict[str, tuple[str, str]] = {
@@ -50,6 +51,7 @@ STAGE_COMMANDS: dict[str, tuple[str, str]] = {
     "render": ("engine.render", "render"),
     "mix": ("audio.mix", "mix"),
     "deliver": ("engine.mux", "mux"),
+    "upload": ("publish.youtube", "upload"),   # v7.4.0 D-1200 — 항상 private(공개 클릭은 사용자)
     "camera_suggest": ("engine.camera_suggest", "camera_suggest"),   # v3.3.0 — 제안 파일만 쓴다(자동 적용 없음, P8)
 }
 
@@ -61,7 +63,7 @@ STATE_STAGES: dict[ProjectState, tuple[str, ...]] = {
     ProjectState.PREVIEW_QA: ("preview",),
     ProjectState.RENDER: ("render",),
     ProjectState.AUDIO_MIX: ("mix",),
-    ProjectState.DELIVER: ("deliver",),
+    ProjectState.DELIVER: ("deliver", "upload"),
 }
 
 Runner = Callable[..., subprocess.CompletedProcess]

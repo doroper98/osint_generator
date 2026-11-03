@@ -30,6 +30,7 @@ last_review: 2026-09-29
 | animatic(콘티 판, v4.9.0) | `python -m engine.render <proj> --animatic [--jobs N] [--preview …]` | `out/animatic.mp4`, `animatic_checks.json`, `animatic_provenance.json`(handoff 11 §9, WORKFLOWS W0) |
 | mix | `python -m audio.mix <proj>` | `out/mix.f32`, `out/bed_stats.json`(음악 있을 때 — 베드 저음 보강 전·후 저역 비율, v4.6.0 handoff 10 §3.4) |
 | deliver | `python -m engine.mux <proj>` | `out/final.mp4`, `final.srt`, `description.txt`, `provenance.json` |
+| upload | `python -m publish.youtube <proj>` | 유튜브 비공개 업로드, `out/youtube_upload.json`(v7.4.0 D-1200, `docs/YOUTUBE_UPLOAD.md`) |
 | camera_suggest | `python -m engine.camera_suggest <proj>` | 카메라 제안(보조, P8) |
 
 상태 머신과 단계의 대응(`STATE_STAGES`)은 `orchestrator/engine_service.py`와 handoff 16 §2가 정본이다.

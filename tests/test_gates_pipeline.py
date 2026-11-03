@@ -30,7 +30,7 @@ from tests._fonts import NO_FONTS_REASON, fonts_ready
 S = ProjectState
 REPO = Path(__file__).resolve().parent.parent
 PRE_GATE = [S.INTAKE, S.SOURCE_VERIFY, S.RESEARCH, S.SCRIPT_DRAFT, S.SCRIPT_APPROVAL]
-STAGE_NAME = {"script.plan": "plan", "geo.prep": "geo", "script.lint": "lint", "engine.validate": "validate", "audio.mix": "mix", "engine.mux": "mux", "engine.camera_suggest": "camera_suggest"}
+STAGE_NAME = {"script.plan": "plan", "geo.prep": "geo", "script.lint": "lint", "engine.validate": "validate", "audio.mix": "mix", "engine.mux": "mux", "engine.camera_suggest": "camera_suggest", "publish.youtube": "upload"}
 
 
 def fake_runner(fail: str | None = None, drops: bool = False, log: list | None = None):  # noqa: ANN201
@@ -202,9 +202,9 @@ class PipelineTest(_Proj):
         for _ in range(3):   # render → audio_mix → deliver → done
             m, _ = advance("p", self.cfg, runner=fake_runner(log=log))
         self.assertEqual(m.current_state, "done")
-        self.assertEqual(log, ["plan", "geo", "geo", "lint", "validate", "camera_suggest", "preview", "render", "mix", "mux"])   # v5.5.1 — assets + assets_final(배포 720p 티어)
+        self.assertEqual(log, ["plan", "geo", "geo", "lint", "validate", "camera_suggest", "preview", "render", "mix", "mux", "upload"])   # v7.4.0 D-1200 upload · v5.5.1 — assets + assets_final(배포 720p 티어)
         recs = load_manifest("p", self.cfg).stage_records
-        self.assertEqual([r.stage for r in recs], ["plan", "assets", "assets_final", "direction_validate", "validate", "camera_suggest", "preview", "render", "mix", "deliver"])
+        self.assertEqual([r.stage for r in recs], ["plan", "assets", "assets_final", "direction_validate", "validate", "camera_suggest", "preview", "render", "mix", "deliver", "upload"])
         self.assertTrue((self.root / "p" / recs[0].log).exists())
 
     def test_failure_and_drops_stay(self) -> None:

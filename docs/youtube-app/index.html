@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OSINT Briefing Uploader</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/youtube-app/_style.css">
+</head>
+<body>
+<main>
+<h1>OSINT Briefing Uploader</h1>
+<p class="sub">개인 영상 제작 파이프라인의 유튜브 업로드 도구 · A personal YouTube upload tool</p>
+
+<div class="card">
+<p>이 앱은 운영자 본인이 만든 롱폼 브리핑 영상을 운영자 본인의 유튜브 채널에 <strong>비공개</strong>로 올리는 내부 도구입니다.
+일반 사용자에게 제공되는 서비스가 아니며, 다른 사람의 계정이나 채널에 접근하지 않습니다.</p>
+<p>This app is an internal tool that uploads long-form briefing videos produced by the operator to the operator's own YouTube channel as <strong>private</strong> videos.
+It is not offered to the public and does not access anyone else's account or channel.</p>
+</div>
+
+<h2>하는 일 · What it does</h2>
+<ul>
+<li>완성 영상 파일, 제목·설명, 자막(SRT)을 YouTube Data API로 업로드합니다. Uploads the finished video, its title/description and captions via the YouTube Data API.</li>
+<li>업로드 공개 범위는 항상 비공개입니다. 공개 전환은 운영자가 YouTube Studio에서 직접 합니다. Videos are always uploaded as private; publishing is done manually in YouTube Studio.</li>
+<li>요청 권한: <code>youtube.upload</code>(영상 업로드), <code>youtube.force-ssl</code>(자막 업로드). Scopes requested: <code>youtube.upload</code>, <code>youtube.force-ssl</code>.</li>
+</ul>
+
+<h2>YouTube API Services</h2>
+<p>이 앱은 YouTube API Services를 사용합니다. 이용 시 <a href="https://www.youtube.com/t/terms">YouTube 서비스 약관</a>에 동의하게 됩니다.
+This app uses YouTube API Services. By using it you agree to be bound by the <a href="https://www.youtube.com/t/terms">YouTube Terms of Service</a>.</p>
+
+<footer>
+<a href="/youtube-app/privacy">개인정보처리방침 · Privacy Policy</a>
+</footer>
+</main>
+</body>
+</html>

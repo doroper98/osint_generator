@@ -241,7 +241,7 @@ class DataFetchConfig(BaseModel):
 
 
 class YouTubeConfig(BaseModel):
-    """v7.4.0 D-1200 — 유튜브 업로드(tools/youtube_upload.py). 비밀값은 환경 변수(C9) — 여기 두지 않는다."""
+    """v7.4.0 D-1200 — 유튜브 업로드(publish/youtube.py, DELIVER 의 upload 단계). 비밀값은 환경 변수(C9) — 여기 두지 않는다."""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -254,6 +254,7 @@ class YouTubeConfig(BaseModel):
     default_language: str = Field(min_length=2)
     caption_language: str = Field(min_length=2)
     caption_name: str
+    contains_synthetic_media: bool                # 합성·변형 미디어 표시 기본값
     chunk_mb: int = Field(gt=0)
     timeout_sec: float = Field(gt=0)
     tries: int = Field(ge=1)

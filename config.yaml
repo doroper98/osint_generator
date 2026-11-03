@@ -124,7 +124,7 @@ data_fetch:
   gap_sec: 2       # 감독 지시(2026-10-30) — Yahoo 429 대응, SEC 초당 10요청 상한보다도 넉넉
 
 youtube:
-  # v7.4.0 D-1200 — tools/youtube_upload.py(완성본 out/final.mp4 → 유튜브, 항상 비공개). 비밀값 3개는 환경 변수
+  # v7.4.0 D-1200 — publish/youtube.py: DELIVER 상태에서 engine.mux 다음 단계(upload)로 out/final.mp4 → 유튜브, 항상 비공개. 비밀값 3개는 환경 변수
   # YT_CLIENT_ID·YT_CLIENT_SECRET·YT_REFRESH_TOKEN(C9) — 여기 두지 않는다. 없으면 오류로 멈춘다(P6)
   token_url: "https://oauth2.googleapis.com/token"
   upload_url: "https://www.googleapis.com/upload/youtube/v3/videos"
@@ -135,6 +135,7 @@ youtube:
   default_language: ko
   caption_language: ko
   caption_name: "한국어"
+  contains_synthetic_media: true   # AI 합성 내레이션(Supertonic) — status.containsSyntheticMedia. 영상마다 --synthetic-media 로 바꿀 수 있음
   chunk_mb: 8               # 재개 가능 업로드 조각(256 KiB 배수여야 함)
   timeout_sec: 120
   tries: 5                  # 5xx·네트워크 오류 재시도 상한(지수 대기)

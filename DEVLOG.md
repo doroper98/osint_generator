@@ -3450,3 +3450,4 @@ last_review: 2026-06-06
 - 2026-11-02 v7.4.0 iran_ceasefire_2026 UF-173 장치(D-0466 §6·D-0470) — [media-sentence-span]·[map-opening]·[map-cover-share] hard(연출 v9 고정본 실패·v10 통과 시험), [credit-garbled] hard(RIGHTS-AP-002: 엔딩 카드 초상 크레딧에 Commons 안내문·URL), 공용 초상 라이브러리 크레딧 10건 정리(원문 credit_raw). final_v3b 전달(0ec9d9f3).
 - 2026-11-02 v7.4.0 RENDER-AP-032 — 표준 글꼴 렌더 설정 장치(D-0624): config/fontconfig/fonts.conf(config.yaml engine.fontconfig) + engine.fontenv.ensure()(engine.style 맨 앞·conftest — FONTCONFIG_FILE 지정, 주 글꼴 hinting·hintstyle 다르면 멈춤), anti_inertia test_fontconfig_guard. 재시작으로 셸 설정이 사라져 골든 25컷 0/25 였던 사고.
 - 2026-11-03 v7.4.0 D-1200 유튜브 업로드 도구(tools/youtube_upload.py·config.yaml youtube·docs/YOUTUBE_UPLOAD.md·tests/test_youtube_upload.py 13건). 실측: 기존 설명문 5,844B 가 API 한도 5,000B 초과.
+- 2026-11-03 v7.4.0 D-1200 2차 — publish.youtube 를 DELIVER upload 단계로 배선(tools/youtube_upload.py 삭제·이동), 설명 한도 맞춤 2단계, 재업로드 방지(md5), OAuth 게시용 docs/youtube-app 페이지.
