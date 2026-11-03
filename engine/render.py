@@ -189,6 +189,14 @@ def glyph_sweep(P) -> list[tuple[str, str, str, str]]:  # noqa: ANN001, N803
         out += [(f"sweep {typ} t={t:.2f}", name, ch, txt) for name, ch, txt in got]
     return out
 
+def final_glyph_gate(P: Project) -> list[str]:  # noqa: N803
+    """전편 렌더 전 글리프 관문(v7.4.0 감독 D623, RENDER-AP-033) — 화면에 그릴 문자열(이벤트 + 레지스트리 헤드라인·번역 줄·캡션 + 원고·카드)의
+    글자가 실제로 그리는 글꼴에 있는지. glyph_sweep(그 이벤트 시각을 그려 실제 글꼴 대조) + check_glyphs(모든 글꼴 합집합). 하나라도 = 렌더 안 함."""
+    from engine.checks import check_glyphs  # noqa: PLC0415
+
+    return [f"[glyphs] {where} — 글꼴 {name} 에 {ch!r} U+{ord(ch):04X} 없음: {txt!r}" for where, name, ch, txt in glyph_sweep(P)] + check_glyphs(P)
+
+
 def auto_preview_times(P: Project) -> list[float]:  # noqa: N803
     """장면마다 30%·70% 지점 + 타이틀·엔딩 카드 가운데."""
     tb = P.R.tb
@@ -697,6 +705,9 @@ def main(argv: list[str] | None = None) -> int:
             outd = P.root / "out"
             arts = {"animatic": str(final), "provenance": str(outd / "animatic_provenance.json"), "checks": str(outd / "animatic_checks.json")}
         else:
+            miss = final_glyph_gate(P)   # v7.4.0 감독 D623(RENDER-AP-033) — 두부 글자가 있는 전편은 그리지 않는다(우회 없음)
+            if miss:
+                raise ProjectError("전편 렌더 전 글리프 관문 실패:\n" + "\n".join(miss[:30]))
             jobs, why = plan_jobs(args.jobs, P.R.out, clip_mb=clip_mem_mb(P))
             log(f"jobs {jobs} ({why})")
             arts = {"video_noaudio": str(render_full(P, jobs, args.no_cache))}

@@ -51,3 +51,35 @@ class SweepRendersRegistryCardTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FinalGlyphGateTest(unittest.TestCase):
+    """감독 D623 — 전편 렌더 전 관문. 與 + 산스 = 오류(전달본 사고 재현), 막히면 render_full 을 부르지 않는다."""
+
+    def test_sans_lacks_yeo_serif_has_it(self) -> None:
+        from engine import typography  # noqa: PLC0415
+        from tests._fonts import fonts_ready  # noqa: PLC0415
+
+        if not fonts_ready():
+            self.skipTest("표준 글꼴 없음")
+        self.assertNotIn(ord("與"), typography.font_cmap("sans"))
+        self.assertIn(ord("與"), typography.font_cmap("serif"))
+
+    def test_gate_lists_sweep_miss(self) -> None:
+        miss = [("sweep article t=344.38", "sans", "與", "국힘 vs. 與")]
+        with mock.patch.object(render, "glyph_sweep", return_value=miss), \
+             mock.patch("engine.checks.check_glyphs", return_value=[]):
+            out = render.final_glyph_gate(NS())
+        self.assertEqual(len(out), 1)
+        self.assertIn("與", out[0])
+        self.assertIn("sans", out[0])
+
+    def test_main_refuses_final_render(self) -> None:
+        with mock.patch.object(render, "load_project", return_value=NS(warnings=[], R=NS(out=NS(name="final")))), \
+             mock.patch.object(render, "final_glyph_gate", return_value=["[glyphs] x"]), \
+             mock.patch.object(render, "render_full") as rf, \
+             mock.patch("sys.stdout", new_callable=__import__("io").StringIO) as so:
+            rc = render.main(["projects/budget_2027", "--res", "final"])
+        self.assertEqual(rc, 1)
+        self.assertIn("글리프 관문", so.getvalue())
+        rf.assert_not_called()
