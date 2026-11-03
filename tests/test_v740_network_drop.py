@@ -34,3 +34,31 @@ class NetworkDropTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class NetworkCrowdTest(unittest.TestCase):
+    """v7.4.0 UF-401 ③(영상 분석 D4) — 노드 crowd 점 고리. 점 수는 장식(수치 아님) — rules per_ring 합과 같다."""
+
+    def test_dots_count_and_rings(self) -> None:
+        from engine.panels.network import N, crowd_dots  # noqa: PLC0415
+
+        dots = crowd_dots(0.0, 0.0, 30.0)
+        self.assertEqual(len(dots), sum(N.crowd.per_ring))
+        r_in = min((x * x + y * y) ** (1 / 2) for x, y, i in dots if i == 0)
+        r_out = max((x * x + y * y) ** (1 / 2) for x, y, i in dots if i == N.crowd.rings - 1)
+        self.assertGreater(r_out, r_in)
+        self.assertGreater(r_in, 30.0)
+
+    def test_crowd_field(self) -> None:
+        nodes = [{**NODES[0], "crowd": True}, NODES[2]]
+        out = validate_events([{**NET, "nodes": nodes, "edges": [{"src": "a", "dst": "c", "type": "related"}]}])[0]
+        self.assertTrue(out["nodes"][0]["crowd"])
+
+    def test_drop_column_spacing(self) -> None:
+        from engine.panels.network import N, layout  # noqa: PLC0415
+
+        e = validate_events([{**NET, "edges": [{"src": "a", "dst": "b", "type": "related", "shape": "drop"}]}])[0]
+        plain = validate_events([{**NET, "edges": [{"src": "a", "dst": "c", "type": "related"}]}])[0]
+        gap = layout(e)["b"][1] - layout(e)["a"][1]
+        self.assertAlmostEqual(gap, N.dy * N.drop.dy_scale)
+        self.assertAlmostEqual(layout(plain)["b"][1] - layout(plain)["a"][1], N.dy)

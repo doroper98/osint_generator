@@ -831,6 +831,7 @@ class NetworkNode(_Strict):
     role: Optional[str] = None
     accent: Accent = "muted"
     big: bool = False              # 중심 인물(뱃지 크게)
+    crowd: Optional[bool] = None   # v7.4.0 UF-401(영상 분석 D4) — 둘레 점 고리(지지 기반 표지, 수치 아님)
 
     @model_validator(mode="after")
     def _kind_fields(self) -> "NetworkNode":

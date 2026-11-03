@@ -1272,6 +1272,32 @@ class NetworkDrop(_Strict):
 
     pad: float
     width: float = Field(gt=0)
+    dy_scale: float = Field(ge=1)
+    label_clear: float
+    label_dx: float
+
+
+class NetworkCrowd(_Strict):
+    """v7.4.0 UF-400·UF-401(영상 분석 D4) — network 노드 crowd(점 고리 후광). 점 수는 장식 — 수치를 뜻하지 않는다."""
+
+    rings: int = Field(ge=1)
+    per_ring: list[int] = Field(min_length=1)
+    start_pad: float
+    gap: float
+    dot_r: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+    outer_fade: float = Field(ge=0, le=1)
+    color: str
+    delay_sec: float = Field(ge=0)
+    ring_step_sec: float = Field(ge=0)
+    appear_fade_sec: float = Field(ge=0.55)
+    ring_twist: float
+
+    @model_validator(mode="after")
+    def _rings(self) -> "NetworkCrowd":
+        if len(self.per_ring) != self.rings:
+            raise ValueError(f"crowd per_ring {len(self.per_ring)}개 ≠ rings {self.rings}")
+        return self
 
 
 class NetworkRules(_Strict):
@@ -1298,6 +1324,7 @@ class NetworkRules(_Strict):
     mention_lead_sec: float
     max_edges: int
     drop: "NetworkDrop"            # v7.4.0 UF-401 — 내림선(가계·후견)
+    crowd: "NetworkCrowd"          # v7.4.0 UF-401 — 점 고리 후광(지지 기반)
 
 
 class ChartRules(_Strict):
