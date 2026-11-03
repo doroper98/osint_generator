@@ -4,8 +4,8 @@
   "title": "2027년 예산안, 820조 원은 어디로 가나",
   "category": "economy",
   "created_at": "2026-11-03T01:37:58.373536Z",
-  "updated_at": "2026-11-03T01:40:42.808189Z",
-  "current_state": "voice_timeline",
+  "updated_at": "2026-11-03T04:29:01.649719Z",
+  "current_state": "script_approval",
   "target_duration_min": 9,
   "topic_summary": "2027년도 정부 예산안(총지출 820.9조)의 분야별 증감·재원·국회 쟁점",
   "initial_links": [],
@@ -86,8 +86,29 @@
       "to_state": "voice_timeline",
       "transitioned_at": "2026-11-03T01:40:42.808146Z",
       "reason": "script_approval 승인 — user"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-11-03T04:29:00.704645Z",
+      "reason": "rollback → script_draft — opus: D616 ⑤ — act5_0~2 날짜 2026.12.02 → 2026.11.03(원고 date 세 줄, 문장 불변), 콘티 판 v1 흐름 통과(사용자 '통과') 뒤 게이트 ① 재승인용"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-11-03T04:29:01.649664Z",
+      "reason": "날짜 세 줄 수정 원고 — 게이트 ① 재승인 대기"
     }
   ],
-  "rollbacks": [],
+  "rollbacks": [
+    {
+      "from_state": "voice_timeline",
+      "to_state": "script_draft",
+      "by": "opus",
+      "at": "2026-11-03T04:29:00.704590Z",
+      "reason": "D616 ⑤ — act5_0~2 날짜 2026.12.02 → 2026.11.03(원고 date 세 줄, 문장 불변), 콘티 판 v1 흐름 통과(사용자 '통과') 뒤 게이트 ① 재승인용",
+      "script_fingerprint_before": "1dc67dcbc5a22e8b777c4c96b514a376c4f232cf"
+    }
+  ],
   "reopens": []
 }
