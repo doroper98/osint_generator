@@ -4,3 +4,13 @@ project_photo: 사진 트리거 문장(타격·공습 등)이 없는 금리 영�
 sentences:
   cold_0:
     photo: 고르지 않음 — 발언 자리 앞 문장(v2). 바로 뒤 9.16 회견 영상(fed_clip_0916_decision, 액자 주 요소·원음)이 화면을 채운다(D-0274 §2)
+# v7.4.0 D-0346·D-0348(UF-171) — 최소 유지 시간 재작업으로 연출에서 뺀 사진(요소 수 축소). 연출 drops 와 같은 사유
+drop:
+- mid: econ_powell_presser_552
+  reason: "D-0346·D-0348 — 완전 노출 2.69초(< qa_checks.element_hold.min_full_sec). act1 사진 셋 중 하나 — act1_4(동결 4회)는 금리 선이 맡는다"
+- mid: fed_presser_0729
+  reason: "D-0346·D-0348 — 완전 노출 1.82초. act2 첫머리 7.29 회의 매체 셋 중 하나 — 회견 장면은 표결 영상이 맡는다"
+- mid: econ_warsh_swearing_5
+  reason: "D-0349(UF-173) — act1_6(2026.05) 날짜 창 4.8초 < span 7.5. 다른 날짜 문장으로 늘리지 않는다"
+- mid: econ_walmart_2508
+  reason: "D-0349(UF-173) — act2_6(2026.08) 날짜 창 4.8초 < span 7.5. 다른 날짜 문장으로 늘리지 않는다"

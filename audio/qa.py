@@ -12,6 +12,7 @@ engine.checks(check_audio)·engine.mux(provenance audio)·tools/audio_report.py(
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import subprocess
@@ -165,14 +166,27 @@ def loudnorm_two_pass(mix_f32: Path, total: float) -> tuple[str, dict]:
     """2패스 loudnorm(v3.4.0 D-0061 쟁점 1 C): 1패스 측정 → 2패스 measured_* + linear=true 필터 문자열과 기록.
     linear 로 목표 TP 를 지킬 수 없으면 ffmpeg 가 dynamic 으로 처리한다 — 그 사실을 기록에 남긴다(숨기지 않음, P5·P6)."""
     ins = mix_inputs(mix_f32, total)
-    p1 = _loudnorm_json(ins, _target())
+    # v7.4.0 D-1000 S2-8·D-1001 §4 — 두 측정 패스(1패스 측정·2패스 출력 측정)는 mix 바이트와 인자만의 함수다. 키가 같으면 out/loudnorm_cache.json
+    # 의 측정값을 그대로 쓴다(필터 문자열 동일 → 출력 동일). 키가 다르면 다시 잰다. 기록 measurement = measured | reused(P5)
+    key = hashlib.sha1(mix_f32.read_bytes() + json.dumps([ins, _target()]).encode()).hexdigest()
+    cache = mix_f32.parent / "loudnorm_cache.json"
+    hit = None
+    if cache.exists():
+        c = json.loads(cache.read_text(encoding="utf-8"))
+        hit = c if c.get("key") == key else None
+    if hit is not None:
+        p1, p2, how = hit["p1"], hit["p2"], "reused"
+    else:
+        p1 = _loudnorm_json(ins, _target())
     af = (f"{_target()}:measured_I={p1['input_i']}:measured_TP={p1['input_tp']}:measured_LRA={p1['input_lra']}"
           f":measured_thresh={p1['input_thresh']}:offset={p1['target_offset']}:linear=true")
-    p2 = _loudnorm_json(ins, af)
+    if hit is None:
+        p2, how = _loudnorm_json(ins, af), "measured"
+        cache.write_text(json.dumps({"schema_version": 1, "key": key, "p1": p1, "p2": p2}, ensure_ascii=False), encoding="utf-8")
     rec = {"pass1": {k: float(p1[k]) for k in ("input_i", "input_tp", "input_lra", "input_thresh", "target_offset")},
            "pass2": {"output_i": float(p2["output_i"]), "output_tp": float(p2["output_tp"]),
                      "normalization_type": p2["normalization_type"]},
-           "post_limiter_dbfs": AU.post_limiter_dbfs}
+           "post_limiter_dbfs": AU.post_limiter_dbfs, "measurement": how}
     # RENDER-AP-004 — loudnorm 뒤 샘플 피크 리미터(AAC 인코딩이 트루 피크를 올리는 만큼 미리 낮춘다). 값은 rules audio.post_limiter_dbfs
     af += f",alimiter=limit={10 ** (AU.post_limiter_dbfs / 20):.4f}:level=false:attack=1:release=50"
     return af, rec

@@ -82,6 +82,12 @@ class MediaOverlapTest(unittest.TestCase):
         self.assertEqual(check_media_overlap(_P(_photo(10.0, 18.0), clip_far)), [])
         self.assertEqual(len(check_media_overlap(_P(_photo(10.0, 18.0), clip_on))), 1)
 
+    def test_backdrop_is_floor_not_cover(self) -> None:
+        """D-0348 — backdrop(배경 사진 무대)은 맨 아래 층이다(render.py). 그 위에 뜬 사진은 덮이지 않는다."""
+        bd = {"type": "backdrop", "t0": 0.0, "t1": 60.0, "mid": "b"}
+        self.assertEqual(check_media_overlap(_P(bd, _photo(10.0, 18.0))), [])
+        self.assertNotIn("backdrop", checks.QA.media_overlap.full_types)
+
     def test_sequential_passes(self) -> None:
         p = _photo(10.0, 17.6)
         a, b = element_full_span(p)

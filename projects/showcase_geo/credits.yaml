@@ -17,16 +17,13 @@ sections:
     - media.diesel_road_2026_art_0012
     - media.diesel_road_2026_art_0015
     - media.diesel_road_2026_art_0017
-    - media.diesel_road_2026_art_0020
     - media.diesel_road_2026_art_0021
     - media.diesel_road_2026_art_0024
     - media.diesel_road_2026_art_0026
     - media.diesel_road_2026_art_0028
-    - media.diesel_road_2026_art_0030
     - media.diesel_road_2026_art_0032
     - media.diesel_road_2026_art_0034
     - media.diesel_road_2026_art_0003
-    - media.diesel_road_2026_art_0009
     - media.diesel_road_2026_art_0019
     - media.reuters_0904
     - media.herald_0907
@@ -39,26 +36,14 @@ sections:
     license: NASA (MODIS) · Public domain
     rights:
     - media.hormuz_strait_modis_2020
-  - main: 백악관 남쪽 잔디밭의 트럼프 대통령 (2026. 10. 06)
-    license: 백악관 · Public domain
-    rights:
-    - media.diesel_road_2026_trump_1006
   - main: 모스크바 정유소 화재 연기 (2026. 06. 18)
     license: Rotafinus (CC0) · CC0
     rights:
     - media.diesel_road_2026_moscow_fire_0618
-  - main: 하바롭스크 정유소 (2005. 10)
-    license: Николай Максимович · CC BY 3.0 · CC BY 3.0
-    rights:
-    - media.diesel_road_2026_khabarovsk_ref_2005
   - main: 라스라판 LNG 터미널 (2012. 09)
     license: Matthew Smith · CC BY 2.0 · CC BY 2.0
     rights:
     - media.diesel_road_2026_ras_laffan_lng_2012
-  - main: 블라디보스토크 금각만 항구 (2010. 09)   # v7.4.0 D-0327(UF-201) — 옛 예인선 사진(1992) 교체
-    license: Russian.dissident · Public domain
-    rights:
-    - media.vladivostok_golden_horn_2010
   - main: 이라크 파병 한국군 (2003)
     license: U.S. Government · Public domain
     rights:
@@ -75,14 +60,6 @@ sections:
     license: Friar's Balsam · CC BY 2.0
     rights:
     - media.dmz_fence
-  - main: 혁명수비대의 유조선 나포 영상 (2023)
-    license: U.S. Navy · Public domain
-    rights:
-    - media.niovi
-  - main: 이란 군사 목표 타격 영상 (자료 영상 · 2026.7.7 촬영)
-    license: U.S. Central Command · Public domain
-    rights:
-    - media.strikes_file
 - title: 글꼴
   column: 1
   auto: fonts
@@ -96,10 +73,6 @@ sections:
     license: Public domain · 용도 한정(D98)
     rights:
     - emblems.cheongwadae
-  - main: Seal of United States Central Command
-    license: 미 국방부 · Wikimedia Commons · Public domain
-    rights:
-    - emblems.centcom
 - title: 국기
   column: 1
   items:

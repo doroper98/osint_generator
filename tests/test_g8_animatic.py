@@ -220,8 +220,8 @@ class AnimaticMapRenderTest(_Hormuz):
         self.assertTrue({"offscreen", "subtitles", "shots", "stage_continuity", "overlap", "date"} <= ran)
         from engine.checks import profile_skips
 
-        bad = load_rules()
-        bad.animatic.checks_skip = ["nope"]
+        r = load_rules()   # v7.4.0 D-1000 S1 — 캐시 공유·frozen 객체: 바꾼 사본으로(원본 변형 금지)
+        bad = r.model_copy(update={"animatic": r.animatic.model_copy(update={"checks_skip": ["nope"]})})
         with mock.patch("engine.checks.R_", bad), self.assertRaises(ValueError):
             profile_skips(P)
 

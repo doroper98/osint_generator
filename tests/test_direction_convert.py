@@ -37,6 +37,13 @@ class ConvertFidelityTest(unittest.TestCase):
                         hit = [e for e in want["events_by_type"][typ] if e.get("label") == label]
                         self.assertEqual(len(hit), 1, label)
                         hit[0].update(upd)
+                want["events_by_type"].pop("card", None)   # v7.4.0 D-0306(UF-148) — 구석 카드(card 이벤트) 폐지, 연출에서 삭제(tools/migrate_cards.py)
+                for e in got["events_by_type"].get("marker", []):   # v7.4.0 D-0309 §1-5 — 시간축 핀 세로 점선 선택 필드(지도 마커는 기본 False = 화면 무관)
+                    self.assertFalse(e.pop("vline", False))
+                for e in got["events_by_type"].get("photo", []):   # v7.4.0 D-0327(UF-201) — 사진 문장 대상·오래된 사진 사유 선택 필드(골든 미사용 = None)
+                    self.assertEqual((e.pop("for_", None), e.pop("age_reason", None)), (None, None))
+                for e in got["events_by_type"].get("clip", []):   # v7.4.0 D-0274·D-0284 — 영상 역할·액자·원음 선택 필드(골든 두 클립 = broll·액자 없음·원음 없음, 자리·시각 불변)
+                    self.assertEqual((e.pop("role", None), e.pop("frame", None), e.pop("audio", None)), ("broll", None, None))
                 for e in got["events_by_type"].get("route", []):   # v7.4.0 D-0229 §2.5 — 굴절 항로 선택 필드(골든 미사용 = None)
                     self.assertIsNone(e.pop("declared", None))
                 ex = [e.pop("route_cross_exempt") for evs in got["events_by_type"].values() for e in evs if "route_cross_exempt" in e]
@@ -63,6 +70,8 @@ class ConvertFidelityTest(unittest.TestCase):
         self.assertEqual(len(exempt), 1)
         self.assertEqual(proj.story_geo_exempt["decision"], "D-0205")   # v5.22.1 — 골든 면제도 예시에 넣지 않는다
         proj.story_geo_exempt = None
+        self.assertEqual(proj.project_id, "hormuz_korea")   # v7.4.0 D-0311 — 회귀 기준 판정 키(골든만). 예시에는 넣지 않는다(연출가가 면제를 배우면 안 된다)
+        proj.project_id = None
         self.assertEqual(load_direction_doc(ex), proj)
 
 

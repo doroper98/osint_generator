@@ -216,3 +216,12 @@ last_review: 2026-05-19
 - **원칙**: ① 사용자 원문이 절대어("고정", "하지 마")면 임계값이 아니라 0 이다. 완화는 사용자가 수치를 말할 때만. ② "부족"류 의견의 장치는 사용 비율이 아니라 **하한(밀도)** 이고 hard 다 — 사유로 통과하지 않는다. ③ 한 소스가 막히면 다른 허용 소스(Commons·미 정부)를 돌고, 그래도 0 이면 콘티 판을 만들지 않고 보고한다.
 - **자동 조치**: `rules stage_timeline.axis_scale.w_changes_per_video_max` 0, 검사 `[media-density]` hard(사진+영상+컷아웃 분당 하한, 콘티·프리뷰·전편), 등재 0 프로젝트의 연출 착수 거부(`[media-none]` hard), Commons 탐색 의무(media_fetch search 기록이 provenance 에). 시험은 D-0261 §3.
 - **발견 버전**: v7.4.0 · **상태**: active
+
+
+## PIPELINE-AP-026 — 감독이 사용자 의견 원장에 "장치 있음 + status open" 항목을 넣어 브랜치의 모든 렌더가 막혔다
+
+- **증상(실제 현상)**: v7.4.0 sweet-galileo de537db6(2026-11-01 16:52Z) — 감독(Fable)이 UF-207 을 `guards: [doc …]` + `status: open` 으로 append. `rules.load_user_feedback` 의 FeedbackLedger 검증("status guarded ⇔ 장치 1개 이상")이 실패해 그 브랜치의 모든 렌더가 rc=1. doc 장치의 ref 문구도 FABLE_HANDOFF 에 실제로 없었다. 쇼케이스 구현 세션이 다음 날 03:14Z 시험 묶음에서 발견(약 10시간 잠복 — 그동안 렌더가 없어 드러나지 않음).
+- **원리**: 감독 컨테이너에는 cairo 가 없어 anti_inertia 시험을 돌릴 수 없다. 감독은 YAML 문법만 확인(`yaml.safe_load`)하고 스키마 검증(Pydantic)과 doc 장치 존재 확인을 건너뛰었다. 원장은 모든 렌더 경로가 읽는 파일이라 잘못 하나가 저장소 전체를 멈춘다.
+- **원칙**: ① 원장(`rules/user_feedback.yaml`)을 고친 커밋은 언제나 `python -c "from rules import load_user_feedback; load_user_feedback()"` 와 doc 장치 문구 존재 확인을 거친다(cairo 없이 돈다). ② 장치를 아직 못 단 의견은 `guards` 를 비우고 open — 장치 후보는 `decision` 칸에 적는다. ③ doc 장치는 ref 문구를 같은 커밋에서 그 문서에 실제로 넣는다.
+- **자동 조치**: 217c4525 로 정정(doc 문구 FABLE_HANDOFF 추가, status guarded, 원장 표 170·미보호 0). 감독 체크리스트(FABLE_HANDOFF §0-4 규칙)에 ① 을 한 줄로 추가.
+- **발견 버전**: v7.4.0 · **상태**: active

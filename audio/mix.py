@@ -377,8 +377,11 @@ def main(argv: list[str] | None = None) -> int:
         else:
             src = [(g.t, decode_bgm(bgm_path(g.id))) for g in sound.bgm]
         stats: dict = {}
-        clips, clip_rec = load_clips(proj, events)
-        y, pk = mix(plan, sound, src, stats, clips)
+        from engine.timing import stage_timer  # noqa: PLC0415 — D-1000 S0
+
+        with stage_timer(proj, "audio.mix"):
+            clips, clip_rec = load_clips(proj, events)
+            y, pk = mix(plan, sound, src, stats, clips)
         (proj / "out").mkdir(exist_ok=True)
         out = proj / "out" / "mix.f32"
         y.tofile(out)

@@ -795,17 +795,6 @@ events:
   - IR
   col: ru
   a: 0.06
-- type: article
-  start:
-    sid: act5_4
-    'off': 0.1
-  end:
-    sid: act5_4
-    edge: end
-    'off': 0.4
-  mid: diesel_road_2026_art_0030
-  theme: dark
-  press: diesel_road_2026_trump_1006
 - type: marker
   start:
     word:
@@ -1064,51 +1053,25 @@ events:
         word:
           sid: act3_6
           text: 한국
-- type: clip
-  start:
-    sid: act3_3
-    'off': 0.2
-  end:
-    sid: act3_3
-    'off':
-    - 0.2
-    - 5.0
-  mid: strikes_file
-  audio: broll
-  role: broll   # v7.4.0 D-0332 (b) — 액자(main)가 하르그 boom·마커를 전 구간 덮었다([label-under-media] 2.4초). 구석 자리로, 지도에서 타격 지점이 보이게(원음은 원래 무음)
-- type: clip
-  start:
-    sid: act3_4
-    'off': 0.6
-  end:
-    sid: act3_4
-    'off':
-    - 0.6
-    - 5.0
-  mid: niovi
-  role: broll
-  x: 40
-  y: 150
-  w: 300
 - type: marker
-  start:
+  start:   # v7.4.0 D-0346 — 지뢰 경고 표지판 사진을 act4_1 +2.5 까지 늘려(UF-171) 라벨이 사진 밑에 1.5초 깔렸다([label-under-media]). 사진이 빠지는 때로(옛 +0.3)
     sid: act4_1
-    'off': 0.3
-  end:
+    'off': 3.1   # v7.4.0 D-0353(A′) — 2분할 사진 퇴장 뒤(옛 +2.2)
+  end:   # 단면 카드(site_diagram, act4_2 −0.3)가 뜨기 전에 끝낸다 — 늦춘 시작으로 카드 뒤 비율 62%([label-hidden-by-card]). 같은 라벨은 act4_3 마커가 다시 띄운다(옛 act4_2 끝)
     sid: act4_2
-    edge: end
+    'off': -0.3
   at_place: dmz_dmz_site
   label: 서부전선 비무장지대
   side: right
   hl: true
   icon: boom
-- type: boom
+- type: boom   # v7.4.0 D-0353(A′) — 2분할 사진(~act4_1 +3.05)이 빠진 뒤 맑은 지도에서 폭발. 같은 문장 안(act4_1 4.4초)(옛 +1.0 ~ +3.2)
   start:
     sid: act4_1
-    'off': 1.0
+    'off': 3.1
   end:
     sid: act4_1
-    'off': 3.2
+    'off': 5.3
   at_place: dmz_dmz_site
 - type: country
   start:
@@ -1120,28 +1083,6 @@ events:
   - RU
   col: ru
   a: 0.06
-- type: photo
-  start:
-    sid: act2_0
-    'off': 2.0
-  end:
-    sid: act2_1
-    edge: end
-    'off': 0.6
-  mid: diesel_road_2026_khabarovsk_ref_2005
-  for: 러시아 극동 정유소   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
-  age_reason: "하바롭스크 정유소 위치·외관을 보이는 자료사진(2005, 화면 '자료사진' 표기) — 2015년 이후 권리 기록 가능한 사진은 아직 찾지 않았다(후속)"
-  place: map_left
-- type: article
-  start:
-    sid: act1_7
-    'off': 0.1
-  end:
-    sid: act1_7
-    edge: end
-    'off': 0.6
-  mid: diesel_road_2026_art_0009
-  theme: dark
 - type: route
   start:
     sid: act3_2
@@ -1157,37 +1098,26 @@ events:
   dashed: true
   label: 유일한 바닷길
 - type: photo
-  start:
-    sid: act3_2
-    'off': 0.6
-  end:
-    sid: act3_2
-    edge: end
-    'off': 0.8
-  mid: hormuz_strait_modis_2020   # v7.4.0 D-0327 — 옛 hormuz_transit(주된 피사체가 문장 대상이 아니다: [photo-subject-background])
-  for: 호르무즈 해협   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
-  place: map_pair_left   # v7.4.0 R-0294 판정 — 가운데 큰 자리(x 196~657)가 마커 '호르무즈 해협' 라벨 왼쪽을 2.7초 가렸다([label-under-media]). 왼쪽 자리 x 42~418
-- type: article
-  start:
-    sid: act3_5
-    'off': -0.3
-  end:
-    sid: act3_5
-    edge: end
-    'off': 1.8   # v7.4.0 UF-159 — 전환 ×1.5 로 완전 노출이 2.23초(< card_full_exposure_min_sec 2.5)가 돼 끝을 0.4초 늘림(옛 1.4)
-  mid: diesel_road_2026_art_0020
-  theme: dark
-- type: photo
-  start:
+  start: # v7.4.0 D-0353(A′) — 장면 첫 화면은 지도: 카메라 컷(164.3) 뒤 지도만 1.5초, 그다음 사진. 사진이 빠진 뒤 boom·DMZ 라벨(act4_1 +3.1)(옛 act4_0 +0.3 ~ act4_1 +2.5)
     sid: act4_0
-    'off': 0.8
+    'off': 1.0
   end:
-    sid: act4_0
-    edge: end
-    'off': 0.6
+    sid: act4_1
+    'off': 3.05
   mid: dmz_mine_sign
   for: 지뢰 경고 표지판   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: map_left
+- type: photo   # v7.4.0 D-0349(UF-173 + [media-density] 7 이상) — 지뢰 표지판과 같은 구간(act4_0·act4_1, 같은 날짜 09.21) 좌우 2분할(rules center_media.pair). 동시 둘이라 상자 376 < center_min_w → 덮임 가중 0.5씩([map-cover-share] 그대로)
+  start: # v7.4.0 D-0353(A′) — 장면 첫 화면은 지도: 카메라 컷(164.3) 뒤 지도만 1.5초, 그다음 사진. 사진이 빠진 뒤 boom·DMZ 라벨(act4_1 +3.1)(옛 act4_0 +0.3 ~ act4_1 +2.5)
+    sid: act4_0
+    'off': 1.0
+  end:
+    sid: act4_1
+    'off': 3.05
+  mid: dmz_fence
+  for: DMZ 남측 철책
+  age_reason: "D-0351 ① — 2026-11-02 Commons 검색(질의 'DMZ fence Korea'·'Korean Demilitarized Zone fence'·'DMZ barbed wire fence South Korea'·'비무장지대 철책'·'DMZ Peace Trail'·'Korea DMZ fence Korea.net'·'Paju DMZ fence'): 15년 안 PD·CC 후보 중 철책이 주된 피사체인 사진이 없다. DMZ 2732(2022·CC BY 4.0, 철원)는 꿩이 주 피사체, DMZ Peace Trail 01~03(2019·CC BY-SA 2.0, 고성 동해안)은 관광객 무리·해안 풍경이 주 피사체다. 자료사진 표기·촬영 연도(2008) 캡션은 그대로 보인다"
+  place: map_right_low
 - type: primitive
   start:
     sid: act4_2
@@ -1227,28 +1157,15 @@ events:
     edge: end
   pts:
     path: gulf_exit
-- type: badge   # v7.4.0 D-0332 — 공습 영상이 구석으로 가 덮개가 사라졌다. D-0331 삭제 취소(복원), [badge-covered] 로 확인
-  start:
-    sid: act3_3
-    'off': 0.6
-  end:
-    sid: act3_3
-    edge: end
-    'off': 0.3
-  lon: 53.5
-  lat: 31.6
-  kind: emblem
-  img: centcom
-  label: 미 중부사령부
-  role: 공습
-  accent: us
 - type: badge   # v7.4.0 D-0329 ② — 기사 카드 전면 사진(act5_4)에 98% 덮였다([badge-covered]) → 카드가 끝난 act5_5 로(옛 act5_4 +0.3 ~ 끝 +0.5)
-  start:
-    sid: act5_5
-  end:
-    sid: act5_5
+  start: # v7.4.0 D-0349(UF-173 [media-sentence-span]) — 자기 날짜 창 안에서만(옆 문장 겹침 ≤ 0.5초)(옛 act5_4 +0.0 ~ act5_5 끝 +0.8 — 휴전 종료 문장까지 남았다)
+    sid: act5_3
     edge: end
-    'off': 0.8
+    'off': -0.3
+  end:
+    sid: act5_4
+    edge: end
+    'off': 1.3
   place: map_upper_left
   kind: person
   pid: trump
@@ -1258,35 +1175,11 @@ events:
   accent: us
 - type: photo
   start:
-    sid: act2_4
-    'off': 0.5
-  end:
-    sid: act2_4
-    edge: end
-    'off': 0.3
-  mid: vladivostok_golden_horn_2010   # v7.4.0 D-0327 — 옛 diesel_road_2026_vladivostok_port_1992(주된 피사체가 문장 대상이 아니다: [photo-subject-background])
-  for: 블라디보스토크 항(금각만)   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
-  age_reason: "2015년 이후 Commons 권리 기록 사진 중 항구가 주된 피사체인 낮 사진이 없다(2022 야경 CC0 는 항구가 화면 아래 띠) — 금각만·부두 배치는 같다(화면 '자료사진' 표기)"
-  place: map_left
-- type: photo
-  start:
-    sid: act4_1
-    'off': 3.4
-  end:
-    sid: act4_1
-    edge: end
-    'off': -0.1
-  mid: dmz_fence
-  for: DMZ 남측 철책   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
-  age_reason: "비무장지대 철책을 보이는 자료사진(2008, 화면 '자료사진' 표기) — 철책 경계선은 그대로다"
-  place: map_left
-- type: photo
-  start:
     sid: ending_0
-    'off': 3.0
+    'off': 1.0 # v7.4.0 D-0353(A′) — 장면 첫 화면은 지도: 카메라 컷(215.26) 뒤 지도만 1.5초 이상(옛 +0.3). 끝은 같은 날짜 ending_1(10.17) 안 +0.2(옛 ending_0 끝 +0.4)
   end:
-    sid: ending_0
-    'off': 7.6
+    sid: ending_1
+    'off': 0.2
   mid: diesel_road_2026_ras_laffan_lng_2012
   for: 걸프 에너지 수출 시설   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: map_left
@@ -1367,10 +1260,10 @@ events:
   at_place: syzran
   label: 정유소
   side: right
-- type: marker
+- type: marker   # v7.4.0 D-0353(A′) — 극동 사진 둘을 뺀 자리: '극동으로 옮깁니다'(act2_0) 카메라 컷 뒤 지도만 1.5초 남기고 등장([scene-visual-void])(옛 act2_1 끝)
   start:
-    sid: act2_1
-    edge: end
+    sid: act2_0
+    'off': 1.5
   end:
     sid: act2_3
     edge: end
@@ -1381,9 +1274,9 @@ events:
   start:
     sid: act3_0
     'off': 1.0
-  end:
-    sid: act3_1
-    edge: end
+  end: # v7.4.0 D-0349 — 해협 위성 사진(act3_0 +2.0~) 앞에서 끝([label-under-media]). 옛 act3_1 끝
+    sid: act3_0
+    'off': 2.1
   at_place: gulf_label
   label: 페르시아만
   side: top
@@ -1435,6 +1328,27 @@ events:
   sub: 10월 15일 새벽
   side: right
   icon: boom
+- type: photo   # v7.4.0 D-0349(UF-173 + [media-density]) — 해협 위성 사진을 act3_2(2025, 창 6.8초) 대신 장면 도입 act3_0·act3_1(2026.03, '무대를 페르시아만으로') 창 안으로. 시작 +2.0(페르시아만 라벨 뒤, [label-under-media])·끝 act3_1 끝 +1.0(act3_2 겹침 0.1) — 블라디보스토크 사진과 한 30초 창 덮임 ≤ 50%([map-cover-share])
+  start:
+    sid: act3_0
+    'off': 2.0
+  end:
+    sid: act3_1
+    edge: end
+    'off': 1.0
+  mid: hormuz_strait_modis_2020
+  for: 호르무즈 해협
+  place: map_left
+- type: marker   # v7.4.0 D-0349(UF-173) — act1_7(7.8 경유 수출 금지) 기사 카드(art_0009, 창 8.2초 < span 8.5)를 뺀 자리 [scene-visual-void]. 금지 주체 러시아 정부(모스크바) 핀
+  start:
+    sid: act1_7
+    'off': 0.2
+  end:
+    sid: act1_7
+    edge: end
+    'off': 0.5
+  at_place: moscow
+  label: 경유 수출 금지
 sound:
   bgm: music.zabriskie_mario_bava
   intensity:
@@ -1479,4 +1393,20 @@ sound:
         text: 폭발이
     v: 0.5
   no_music_decision: null
-drops: []   # v7.4.0 D-0332 — D-0331 휘장 배지 drops 줄 제거(배지 복원)
+drops:   # v7.4.0 D-0332 — D-0331 휘장 배지 drops 줄 제거(배지 복원). D-0346·D-0347 — 최소 유지 시간(UF-171·172) 재작업으로 뺀 요소
+- record: photo diesel_road_2026_khabarovsk_ref_2005 act2_0
+  reason: "D-0353(A′) — 장면 첫 화면은 지도: act2 카메라 컷 78.33 + 지도만 1.5초 = 79.8초부터 사진, 같은 날짜(2026.08) 창 끝 84.9초(act2_2 10.06 시작 +0.5)까지 5.1초 < span 7.5. '극동' 마커도 사진 뒤 같은 창이어야 한다 → 자리 없음"
+- record: photo vladivostok_golden_horn_2010 act2_4
+  reason: "D-0352·D-0353 — act2_4 날짜 창(8.2초)에서 레일라호 경로(성장 10.5초)를 덮는다([map-event-covered] 88%). 같은 날짜 장면 도입(act2_0·act2_1)도 위 하바롭스크와 같은 이유로 자리 없음"
+- record: clip niovi act3_4
+  reason: "D-0346·D-0347 — 최소 유지 시간 미달(완전 노출 3.75초) + 기사 카드 art_0020 에 2.69초 덮임([media-overlap], UF-172). act3_4(이란의 해협 봉쇄)는 지도 봉쇄선·휘장 배지가 맡는다(요소 수 축소)"
+- record: article diesel_road_2026_art_0020 act3_5
+  reason: "D-0348 — 기사 카드 완전 노출 6초에는 span 8.5초(press_lead 1.75 + 퇴장 0.75)가 필요한데, 앞 공습 영상(완전 노출 6초)과 뒤 공동성명 패널(act3_6) 사이에 자리가 없다(패널을 밀면 패널이 2초대). act3_5 는 걸프 나라 강조 지도가 맡는다"
+- record: article diesel_road_2026_art_0030 act5_4
+  reason: "D-0348 — span 8.5초면 act5_5(랴잔 정유소 마커, 휴전 종료)를 전부 가린다. 트럼프 배지를 act5_4 부터 act5_5 끝까지 늘려(완전 노출 ≈ 7.5초) 같은 인물·발표를 맡긴다"
+- record: article diesel_road_2026_art_0009 act1_7
+  reason: "D-0349(UF-173) — 기사 카드 완전 노출 6초에는 span 8.5초가 필요한데 act1_7(2026.07.08) 날짜 창은 옆 문장 0.5초씩 넣어도 8.2초다. 다음 문장(2026.09)으로 늘리지 않는다 — 수출 금지는 지도·패널이 맡는다"
+- record: clip strikes_file act3_3
+  reason: "D-0349(UF-173) — act3_3(2026.02.28) 날짜 창이 6.6초(< span 7.25). 봉쇄 문장(2026.03.02)으로 늘리지 않는다 — 공습은 지도의 하르그 boom·마커가 맡는다"
+- record: badge emblem 미 중부사령부 act3_3
+  reason: "D-0349(UF-173) — act3_3 날짜 창 6.6초(< 배지 span 6.71). D-0332 복원을 다시 뺀다(늘리면 봉쇄 문장까지 남는다)"

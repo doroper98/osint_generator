@@ -58,10 +58,8 @@ class PromptRuleTest(unittest.TestCase):
             raw = (REPO / "prompts" / f"{name}.md").read_text(encoding="utf-8")
             self.assertNotIn("40~60초", raw, f"{name}: 밀도 리터럴 — rules media.density 로(P3)")
         rules = load_rules()
-        d = rules.model_copy(deep=True)
-        d.media.density.article_per_min_max = 7
-        d.media.density.per_item_sec = (33.0, 77.0)
-        d.media.density.photo_target_per_min = 3
+        den = rules.media.density.model_copy(update={"article_per_min_max": 7, "per_item_sec": (33.0, 77.0), "photo_target_per_min": 3})
+        d = rules.model_copy(update={"media": rules.media.model_copy(update={"density": den})})   # v7.4.0 D-1000 S1 — frozen 규칙은 사본으로
         base, changed = load_prompt("director", rules), load_prompt("director", d)
         self.assertIn("60초 구간마다 2개까지", base)
         self.assertIn("60초 구간마다 7개까지", changed)

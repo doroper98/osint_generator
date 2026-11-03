@@ -2571,3 +2571,55 @@ entries:
   status: guarded
   decision: D-0335·D-0336·D-0337(261101_101033)
   source: 감독 세션(Fable) 사용자 대화 2026-11-01
+- id: UF-207
+  date: '2026-11-01'
+  project: samsung_q3_2026
+  at: "경제 템플릿 구현 세션 3(종료된 세션)에 사용자가 직접 — 요소 넷 승인 뒤 콘티 판 전, 정지 컷만 보고 있던 단계"
+  quote: "샘플 영상을 줘야지"
+  quote_kind: verbatim
+  category: 작업 순서 — 요소·조판 승인 단계에서도 정지 컷만이 아니라 움직이는 샘플 영상을 함께 보낸다(UF-144 "샘플은 나오는 대로" 의 재발 — 정지 시트만 보내고 영상은 보내지 않음)
+  recurs_of: UF-144
+  guards:
+  - kind: doc
+    ref: "back_and_forth/FABLE_HANDOFF.md#요소·조판 판정 요청에는 해당 컷의 짧은 실제 렌더 mp4 를 함께 보낸다"
+  status: guarded
+  decision: 최종 감독 2026-11-01 16:55Z — 구현 세션 3 이 econ_t2 다섯 컷을 전편 렌더해 사용자에게 직접 전달(커밋 없음). 장치는 다음 영상 게이트 전(C12-2)
+  source: 구현 세션 3 통보(사용자 원문 인용) 2026-11-01 16:52Z
+- id: UF-208
+  date: '2026-11-03'
+  project: samsung_q3_2026
+  at: "경제 템플릿 구현 세션 3(커밋 멈춘 세션)에 사용자가 직접 — UF-207 요청으로 받은 econ_t2 다섯 컷(stage·guidance·slope·dumbbell·diverging, T3·격자 끊기 반영 전편 렌더)을 본 뒤"
+  quote: "내가 뭘 결정 하면 되는거야? 셈플 다섯편은 일단 오케이."
+  quote_kind: verbatim
+  category: "승인 — econ 템플릿 요소 다섯 컷 샘플 승인(일단) · 작업 순서/전달 — 남은 결정이 여러 세션에 흩어져 사용자가 무엇을 정해야 하는지 모름. 결정 요청은 남은 사용자 결정 전체를 한 번에 번호 목록으로"
+  guards:
+  - {kind: doc, ref: "back_and_forth/FABLE_HANDOFF.md#남은 사용자 결정 전체를 번호 목록(트랙·질문·선택지·자료 위치)으로 한 번에 안내한다"}
+  status: guarded
+  decision: "최종 감독 2026-11-03 04:3xZ — 다섯 컷 승인 기록(D350), 남은 결정 전체 목록을 사용자에게 안내"
+  source: 구현 세션 3 통보(사용자 원문 인용) 2026-11-03 04:28Z
+- id: UF-300
+  date: '2026-11-02'
+  project: pipeline_speed
+  at: "이란 휴전안 영상(1차 완성본 약 10시간 40분, 퇴고 2회로 이틀) 뒤 — 제작 시간 전반"
+  quote: "전반적으로 영상 제작에 소요되는 시간이 너무 길어. 거의 이틀이 걸려. 퇴고까지 포함해서. 어떻게 되어야 하는걸까"
+  quote_kind: verbatim
+  category: 작업 순서 — 영상 한 편 제작 시간(퇴고 포함 이틀) 단축 요구
+  guards:
+  - kind: doc
+    ref: "back_and_forth/261102_185848_D1000_fable_user-speed-system-then-budget-video.md#사용자 결정 — 영상 제작 시간 단축 체계 전환(S0~S6) 먼저, 그 뒤 『2027년 예산안 분석』 영상(B)"
+  status: guarded
+  decision: "D-1000 — 측정(S0)·규칙 로딩 캐시(S1)·조각 캐시 부분 재렌더(S2)·탈락 유형 hard 검사(S3)·눈 검수 도구(S4)·단일 구현 모드(S5)"
+  source: 감독 세션 사용자 대화 2026-11-02
+- id: UF-301
+  date: '2026-11-02'
+  project: pipeline_speed
+  at: "감독의 시간 진단·예산안 영상 가능성 답변 직후"
+  quote: "일단 시간을 줄이는 체계 전환을 지금 바로착수 하고 그 뒤에 예산안에 대한 분석 영상을 만들어."
+  quote_kind: verbatim
+  category: 작업 순서 — 시간 단축 체계 전환 먼저, 2027년 예산안 분석 영상은 그 뒤
+  guards:
+  - kind: doc
+    ref: "back_and_forth/261102_185848_D1000_fable_user-speed-system-then-budget-video.md#B. 『2027년 예산안 분석』 영상 — S 병합 뒤 착수"
+  status: guarded
+  decision: "D-1000 §B — 장르 fiscal·구성 무대(순위 가로 막대) 구상 1프레임 → 사용자 판정 → S 체계로 제작"
+  source: 감독 세션 사용자 대화 2026-11-02

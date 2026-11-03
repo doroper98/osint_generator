@@ -114,17 +114,43 @@ def rights_exception_warning(prov: dict) -> str | None:
     return f"[rights-exceptions] 공개 배포 전 재확인 {len(exc)}건: " + ", ".join(f"{x['ref']}({x['user_exception']})" for x in exc)
 
 
-def mux(proj: Path, total: float) -> tuple[Path, dict]:
-    """영상 + mix → final.mp4. 음량은 2패스 loudnorm(v3.4.0 D-0061 — 측정은 audio/qa.py 한 경로). (경로, loudnorm 기록)."""
+def audio_track(mix_f32: Path, total: float) -> tuple[Path, dict]:
+    """loudnorm 2패스 필터를 건 AAC 오디오 트랙(v7.4.0 D-1000 S2-9·D-1002 §4) — out/audio_cache/<키>.m4a.
+    키 = sha1(mix.f32 바이트 + 필터 문자열 + 샘플링·비트레이트·길이). 같으면 다시 인코딩하지 않는다(문장 수정 뒤 재렌더의 오디오 인코딩 약 59초).
+    다르면 인코딩하고 옛 캐시 파일을 지운다(한 벌). 기록 loudnorm.audio = encoded | reused(P5). (경로, loudnorm 기록)."""
+    import hashlib  # noqa: PLC0415
+
     from audio.qa import loudnorm_two_pass, mix_inputs  # noqa: PLC0415
 
+    af, rec = loudnorm_two_pass(mix_f32, total)
+    key = hashlib.sha1(mix_f32.read_bytes() + json.dumps([af, SR, AAC_BITRATE, f"{total:.3f}"]).encode()).hexdigest()[:20]
+    cdir = mix_f32.parent / "audio_cache"
+    cdir.mkdir(exist_ok=True)
+    dest = cdir / f"{key}.m4a"
+    if dest.exists():
+        return dest, {**rec, "audio": "reused"}
+    tmp = cdir / f"{key}.tmp.m4a"
+    subprocess.run(["ffmpeg", "-y", "-v", "error", *mix_inputs(mix_f32, total), "-af", af, "-ar", str(SR), "-c:a", "aac",
+                    "-b:a", AAC_BITRATE, "-t", f"{total:.3f}", str(tmp)], check=True)
+    for old in cdir.glob("*.m4a"):
+        if old != tmp:
+            old.unlink()
+    tmp.replace(dest)
+    return dest, {**rec, "audio": "encoded"}
+
+
+def mux_av(video: Path, audio: Path, total: float, dest: Path, comment: str | None = None) -> None:
+    """영상 + 인코딩된 오디오 트랙을 다시 인코딩 없이 묶는다(-c copy). comment = mp4 표식(콘티 판·카탈로그 판)."""
+    meta = ["-metadata", f"comment={comment}"] if comment else []
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(video), "-i", str(audio), "-map", "0:v", "-map", "1:a", "-c", "copy",
+                    "-t", f"{total:.3f}", "-movflags", "+faststart", *meta, str(dest)], check=True)
+
+
+def mux(proj: Path, total: float) -> tuple[Path, dict]:
+    """영상 + mix → final.mp4. 음량은 2패스 loudnorm(v3.4.0 D-0061 — 측정은 audio/qa.py 한 경로), 오디오 트랙은 audio_track 캐시. (경로, loudnorm 기록)."""
     out = proj / "out" / "final.mp4"
-    af, rec = loudnorm_two_pass(proj / "out" / "mix.f32", total)
-    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(proj / "out" / "video_noaudio.mp4"),
-                    *mix_inputs(proj / "out" / "mix.f32", total),
-                    "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", af,
-                    "-ar", str(SR), "-c:a", "aac", "-b:a", AAC_BITRATE, "-t", f"{total:.3f}", "-movflags", "+faststart",
-                    str(out)], check=True)
+    track, rec = audio_track(proj / "out" / "mix.f32", total)
+    mux_av(proj / "out" / "video_noaudio.mp4", track, total, out)
     return out, rec
 
 
@@ -146,6 +172,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     from engine.provenance import build as build_prov  # noqa: PLC0415
     from engine.provenance import bundle_summary  # noqa: PLC0415
     from engine.provenance import camera_summary  # noqa: PLC0415
+    from engine.provenance import user_approval  # noqa: PLC0415
     from engine.reserved import avoidance_report  # noqa: PLC0415
     from orchestrator import __version__  # noqa: PLC0415
     from script.labels import check_project_labels  # noqa: PLC0415
@@ -157,6 +184,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     stages = {**stages, "ai_direction": ai is not None, "visual_qa": bool(ai and ai["visual_qa"]), "bundle": bun is not None}
     req = P.R.cache.get("credit_refs") or set()
     prov = build_prov(P.plan, P.keys, P.events, __version__, stages, P.R.tb.word_anchors, asset_usage(P))
+    prov["qa"] = {**prov["qa"], **user_approval(P.root)}   # v7.4.0 D-0345 — 게이트 ② 승인 실값(manifest gate_decisions)
     prov["credits"] = credit_summary(req)   # D-0030 §3 — 표기 위치별 종류 개수
     exc = rights_exceptions(req, P.R.assets.rights, P.R.assets.media)   # v5.21.0 — 보도 인용(B) 사진 포함
     if exc:   # v5.15.0 D-0160 — restricted·사용자 예외 자산을 쓴 영상에만(P5·P6)
@@ -359,7 +387,10 @@ def main(argv: list[str] | None = None) -> int:
         for need in ("video_noaudio.mp4", "mix.f32"):
             if not (outd / need).exists():
                 raise ProjectError(f"out/{need} 없음 — engine.render / audio.mix 먼저")
-        final, loud = mux(proj, P.plan.total)
+        from engine.timing import last_run_start, stage_timer, summarize  # noqa: PLC0415 — D-1000 S0
+
+        with stage_timer(proj, "mux.final.encode", step="loudnorm_mux"):
+            final, loud = mux(proj, P.plan.total)
         (outd / "final.srt").write_text(build_srt(P.plan), encoding="utf-8")
         (outd / "credits.txt").write_text("\n".join(credit_lines(P.R.credits, P.R.assets.rights, P.R.assets.media,
                                                                   P.R.cache.get("credit_refs"), P.R.cache.get("cited_sources"),
@@ -403,6 +434,9 @@ def main(argv: list[str] | None = None) -> int:
         prov["description"] = desc_rec
         if not desc_rec["written"]:
             warns = [*warns, f"[description-skipped] {desc_rec['reason']}"]
+        tsum = summarize(proj, last_run_start(proj, "render.final.frames"))
+        if tsum is not None:   # D-1000 S0 — 마지막 전편 렌더부터 이 mux 까지(돈 단계만, P5)
+            prov["timings"] = tsum
         (outd / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
         if issues:
             raise ProjectError("오디오 QA hard 실패:\n" + "\n".join(issues))

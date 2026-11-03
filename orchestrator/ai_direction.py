@@ -62,8 +62,11 @@ def run_worker(name: str, pdir: Path, backend: str = "claude", workers: Optional
     task = TaskQueueItem(task_id=f"{name}-{pdir.name}", task_type=name, assigned_worker=name, description=f"{name} 1회",
                          input_refs=[], output_refs=_refs(name, pdir))
     args = argparse.Namespace(project_id=pdir.name, task_id=task.task_id, projects_root=str(pdir.parent))
+    from engine.timing import stage_timer  # noqa: PLC0415 — D-1000 S0(오케스트레이터는 기록만, 엔진 입력은 쓰지 않는다 P1)
+
     try:
-        res = w.run(args, task)  # type: ignore[attr-defined]
+        with stage_timer(pdir, f"llm.{name}", backend=backend):   # 연출·시각 검수 LLM 호출 1회
+            res = w.run(args, task)  # type: ignore[attr-defined]
     except (OSError, ValueError, KeyError) as ex:        # 입력 부재 등 — 조용히 넘기지 않고 실패로 기록(15 P6)
         return StageResult(ok=False, stage=name, errors=[f"{name} 입력 오류: {type(ex).__name__}: {ex}"])
     try:
