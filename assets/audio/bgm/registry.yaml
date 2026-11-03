@@ -45,6 +45,22 @@ tracks:
     bpm: null
     available: false
     unavailable_reason: "사용 금지 — 작가(incompetech)가 Content ID 사전 등록을 공지(v7.2.0 D-0222). 파일도 없음"
+  music.beethoven_coriolan:   # v7.4.0 사용자 결정 UF-256 "coriolan"(back_and_forth D-0626) — 전쟁사 장르 몫 하한(rules audio.bgm_floor_by_genre.war_history)으로만 등록
+    file: "LudwigVanBeethoven-CoriolanOverture.flac"
+    sha1: 1e89b800ea5b90924521e700f2af8fcfd629bb84     # archive.org 파일 목록 sha1 과 같음(2026-11-03 확인)
+    duration_sec: 498.704                              # ffprobe 실측
+    name: "Coriolan Overture, Op. 62"
+    author: "Ludwig van Beethoven · Musopen Symphony"
+    license: Public Domain
+    url: "https://musopen.org"
+    attribution: "Ludwig van Beethoven, Coriolan Overture Op. 62 — Musopen Symphony, Public Domain"
+    source: "archive.org MusopenCollectionAsFlac(licenseurl = Creative Commons Public Domain Mark 1.0). Commons 같은 녹음 File:Beethoven_-_Coriolan_Overture,_Op._62_(Musopen_Symphony).flac 는 CC-PD-Mark·PD-author·PD-old-100-expired(R-0318)"
+    source_url: "https://archive.org/download/MusopenCollectionAsFlac/Beethoven_CoriolanOverture/LudwigVanBeethoven-CoriolanOverture.flac"
+    mood: []
+    bpm: null
+    measured: {beat_clarity: 3.69, onsets_per_min: 75.3, voice_band: 0.63}   # audio.bgm_measure(0~360초) 실측 — 공통 하한 미달, 전쟁사 장르 하한 통과
+    genres: [war_history]
+    available: true
   music.zabriskie_mario_bava:   # v7.2.0 사용자 청취 합격(UF-100, D-0222) — 새 영상 기본 BGM 첫째(rules audio.bgm_default)
     file: "Mario Bava Sleeps In a Little Later Than He Expected To - Chris Zabriskie.mp3"
     sha1: 02ceb4e748b003fb7447ccd74b0ccf4fad64d3fb     # 사용자가 청취한 파일(조사 세션 청음 페이지와 같은 바이트)

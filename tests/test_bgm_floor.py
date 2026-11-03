@@ -30,7 +30,8 @@ class FloorTest(unittest.TestCase):
         self.assertIn("music.zabriskie_patriarch", av)   # 기준 곡(명확도 7.12)도 통과
         for k, t in av.items():
             self.assertIsNotNone(t.measured, k)
-            self.assertEqual(floor_failures(t.measured), [], k)
+            for g in (t.genres or [None]):   # v7.4.0 D-0626 — 장르 몫 곡(genres)은 그 장르 하한(UF-256)
+                self.assertEqual(floor_failures(t.measured, g), [], k)
 
     def test_rejected_candidates_fail_floor(self) -> None:
         """불합격 2~4위 실측(조사 세션 0~360초) — 박 명확도·온셋에서 걸린다."""

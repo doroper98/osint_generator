@@ -1327,6 +1327,11 @@ audio:                     # 10
   # 측정 = audio.bgm_measure(librosa, 모노 sr·n_fft 아래 값, 0~window_sec). 레지스트리 available 곡이 못 넘으면 실패(audio.registry.bgm_path·시험).
   # 실측(2026-10-12): Mario Bava 명확도 6.55·온셋 분당 473.5·300~3000 Hz 8.8 % / Patriarch(기준 곡) 7.12·328.7·2.9 % / 불합격 후보 명확도 3.2~4.3·온셋 25~302.
   bgm_floor: {beat_clarity_min: 6.0, onsets_per_min_min: 300.0, voice_band_max: 0.10, voice_band_hz: [300, 3000], window_sec: 360, sr: 22050, n_fft: 4096}
+  # v7.4.0 back_and_forth D-0626 — 사용자 결정 UF-256 원문 "coriolan"(감독이 견본 둘·수치를 설명하고 Zabriskie 를 권한 뒤의 선택 = 장르 하한 개정의 사람 승인, C11 P11).
+  # 전쟁사 장르 몫만 따로 둔다(공통 bgm_floor 는 그대로). 값 = 코리올란 실측(audio.bgm_measure 0~360초: 박 명확도 3.69 · 온셋 분당 75.3 · 내레이션 대역 0.630) 바로 아래.
+  # 이 하한으로만 통과한 곡은 레지스트리 genres 에 장르를 적고 그 장르 영상에서만 쓴다(audio.registry.genre_errors — 렌더·믹스 같은 함수). 가림 위험은 narration_clarity 가 실제 믹스에서 잰다
+  bgm_floor_by_genre:
+    war_history: {beat_clarity_min: 3.5, onsets_per_min_min: 70.0, voice_band_max: 0.65}
   bgm_default: [music.zabriskie_mario_bava, music.zabriskie_patriarch]   # v7.2.0 D-0222 — 새 영상 sound.bgm 권장 순서(첫째 = 사용자 합격곡 UF-100)
   duck_depth: 0.5
   duck_pre_sec: 0.25

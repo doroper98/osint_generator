@@ -369,6 +369,11 @@ def main(argv: list[str] | None = None) -> int:
         if snd is None:
             raise ProjectError(f"{proj / 'direction.yaml'}: sound 블록이 없다")
         sound = Sound.model_validate(snd)
+        from audio.registry import genre_errors  # noqa: PLC0415
+        from engine.project import music_ids, read_direction  # noqa: PLC0415
+
+        if gerr := genre_errors(music_ids(snd), read_direction(proj).genre_name()):   # v7.4.0 D-0626(UF-256) — 장르 몫 곡은 그 장르에서만(렌더와 같은 함수)
+            raise ProjectError("\n".join(gerr))
         if sound.bgm is None:
             src = None
         elif isinstance(sound.bgm, str):

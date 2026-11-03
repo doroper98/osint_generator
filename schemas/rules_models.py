@@ -1698,6 +1698,14 @@ class BedBass(_Strict):
     norm_ref: float = Field(ge=0, le=1)   # D-0102 2-C — 정규화 기준 = 처리 전 피크^(1−k) × 처리 후 피크^k
 
 
+class BgmGenreFloor(_Strict):
+    """v7.4.0 D-0626(사용자 결정 UF-256 "coriolan") — 장르 몫 BGM 등록 하한(셋 값만, 측정 창·대역은 공통 bgm_floor)."""
+
+    beat_clarity_min: float = Field(gt=0)
+    onsets_per_min_min: float = Field(gt=0)
+    voice_band_max: float = Field(gt=0, lt=1)
+
+
 class BgmFloor(_Strict):
     """v7.2.0 UF-100 D-0222 — BGM 등록 실측 하한(audio.bgm_measure)."""
 
@@ -1723,6 +1731,7 @@ class AudioClip(_Strict):
 class AudioRules(_Strict):
     bed_gain: float
     bgm_floor: BgmFloor
+    bgm_floor_by_genre: dict[str, BgmGenreFloor] = Field(default_factory=dict)   # v7.4.0 D-0626(UF-256) — 장르 몫 하한. 레지스트리 genres 곡만 이 값으로 잰다
     bgm_default: list[str] = Field(min_length=1)
     duck_depth: float
     duck_pre_sec: float

@@ -44,6 +44,7 @@ class BgmTrack(BaseModel):
     measured: Optional[BgmMeasure] = None          # v7.2.0 UF-100 D-0222 — audio.bgm_measure 실측(0~360초). available 곡 필수·하한 통과
     source_url: Optional[str] = None               # 파일을 받은 곳(fetch_data bgm 이 sha1 대조로 복원)
     unavailable_reason: Optional[str] = None       # available false 인 사유(사용 금지 등)
+    genres: Optional[list[str]] = Field(default=None, min_length=1)   # v7.4.0 D-0626(UF-256) — 장르 몫 하한으로만 등록된 곡: 이 장르 영상에서만 쓴다
 
     @model_validator(mode="after")
     def _measured(self) -> "BgmTrack":
@@ -51,8 +52,10 @@ class BgmTrack(BaseModel):
             raise ValueError(f"{self.file}: available 인 곡은 sha1·duration_sec 실측값이 있어야 한다")
         if self.available and self.measured is None:
             raise ValueError(f"{self.file}: available 인 곡은 measured(audio.bgm_measure 실측)가 있어야 한다 — UF-100 등록 하한")
-        if self.available and (bad := floor_failures(self.measured)):   # type: ignore[arg-type]
-            raise ValueError(f"{self.file}: BGM 등록 하한 미달 {bad} — rules audio.bgm_floor(UF-100)")
+        for g in (self.genres or [None]):   # 장르 몫 곡 = 그 장르 하한(rules audio.bgm_floor_by_genre, D-0626·UF-256), 나머지 = 공통 하한(UF-100)
+            if self.available and (bad := floor_failures(self.measured, g)):   # type: ignore[arg-type]
+                where = f"audio.bgm_floor_by_genre.{g}(UF-256)" if g else "audio.bgm_floor(UF-100)"
+                raise ValueError(f"{self.file}: BGM 등록 하한 미달 {bad} — rules {where}")
         return self
 
 
@@ -80,6 +83,16 @@ def track(bgm_id: str) -> BgmTrack:
     if bgm_id not in reg.tracks:
         raise BgmError(f"BGM 레지스트리에 없는 id: {bgm_id!r} — 등재: {sorted(reg.tracks)} (assets/audio/bgm/registry.yaml)")
     return reg.tracks[bgm_id]
+
+
+def genre_errors(bgm_ids: "set[str] | list[str]", genre: str) -> list[str]:
+    """장르 몫 하한으로만 등록된 곡(genres)을 다른 장르 영상에 쓰면 오류 줄(D-0626, UF-256)."""
+    out = []
+    for b in sorted(bgm_ids):
+        t = track(b)
+        if t.genres and genre not in t.genres:
+            out.append(f"{b}: 장르 {t.genres} 몫 하한으로 등록된 곡 — 장르 {genre!r} 영상에서 쓸 수 없다(rules audio.bgm_floor_by_genre, UF-256)")
+    return out
 
 
 def bgm_path(bgm_id: str, verify: bool = True) -> Path:
@@ -113,5 +126,5 @@ def description_line(bgm_id: str, fmt: str) -> str:
     return fmt.replace("{name}", t.name).replace("{author}", t.author).replace("{license}", t.license)
 
 
-__all__ = ["BGM_DIR", "BgmError", "BgmRegistry", "BgmTrack", "bgm_path", "card_line", "description_line", "load_registry",
+__all__ = ["BGM_DIR", "BgmError", "BgmRegistry", "BgmTrack", "bgm_path", "card_line", "description_line", "genre_errors", "load_registry",
            "rights_music", "track"]

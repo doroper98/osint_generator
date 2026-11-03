@@ -72,6 +72,8 @@ review-out.jsonl
 # BGM 음악 파일 — 라이선스 음원은 커밋 금지 (RIGHTS.md 만 추적). v2.0.0 에서 assets/audio/bgm/ 로 이동.
 # 이미 추적 중인 Zabriskie Patriarch 1곡은 RIGHTS.md 기록대로 임시 커밋본이라 추적 유지 (DECISIONS D17).
 assets/audio/bgm/*.mp3
+# v7.4.0 D-0626 — 코리올란(archive.org, fetch_data bgm 이 sha1 대조로 복원)
+assets/audio/bgm/*.flac
 assets/audio/bgm/*.wav
 assets/audio/bgm/*.m4a
 

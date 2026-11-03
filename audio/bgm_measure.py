@@ -45,9 +45,12 @@ def measure(path: Path) -> BgmMeasure:
                       voice_band=round(float(power[(fr >= lo) & (fr <= hi)].sum() / power.sum()), 3))
 
 
-def floor_failures(m: BgmMeasure) -> list[str]:
-    """하한 미달 항목(빈 목록 = 통과)."""
-    fl = load_rules().audio.bgm_floor
+def floor_failures(m: BgmMeasure, genre: "str | None" = None) -> list[str]:
+    """하한 미달 항목(빈 목록 = 통과). genre 가 있으면 rules audio.bgm_floor_by_genre[genre](D-0626, UF-256) — 없는 장르면 오류 줄."""
+    A = load_rules().audio  # noqa: N806
+    if genre is not None and genre not in A.bgm_floor_by_genre:
+        return [f"장르 {genre!r} 의 BGM 하한이 rules audio.bgm_floor_by_genre 에 없다"]
+    fl = A.bgm_floor_by_genre[genre] if genre is not None else A.bgm_floor
     out = []
     if m.beat_clarity < fl.beat_clarity_min:
         out.append(f"박 명확도 {m.beat_clarity} < {fl.beat_clarity_min}")
@@ -66,7 +69,8 @@ def check_registry(remeasure: bool = True) -> list[str]:
     for k, t in load_registry().tracks.items():
         if not t.available:
             continue
-        bad += [f"{k}: {x}" for x in floor_failures(t.measured)]   # type: ignore[arg-type]
+        for g in (t.genres or [None]):   # 장르 몫 곡은 그 장르 하한(D-0626)
+            bad += [f"{k}: {x}" for x in floor_failures(t.measured, g)]   # type: ignore[arg-type]
         if remeasure:
             got = measure(BGM_DIR / t.file)
             if got.model_dump() != t.measured.model_dump():   # type: ignore[union-attr] — python -m 실행 시 클래스가 __main__ 쪽이라 값으로 비교
