@@ -1,13 +1,13 @@
 [게이트 ① 원고 승인] 칸나이, 기원전 216년 — 한니발의 초승달 진형과 양익 포위 (2026.11.01)
 
 장면 목록
-  cold_open  문장  6  예상   51.8초
-  prelude    문장 11  예상   86.8초
-  deployment 문장 15  예상   93.2초
-  encirclement 문장 15  예상  102.0초
-  aftermath  문장 11  예상   88.9초
-  ending     문장  6  예상   53.6초
-  합계 64문장 · 예상 476.2초 (글자 수 추정 320자/분)
+  cold_open  문장  6  예상   32.0초
+  prelude    문장 11  예상   54.1초
+  deployment 문장 15  예상   54.9초
+  encirclement 문장 15  예상   61.0초
+  aftermath  문장 11  예상   53.4초
+  ending     문장  6  예상   32.9초
+  합계 64문장 · 예상 288.4초 (plan.json 실측)
 
 원고 전문(자막)
   cold_open_0  기원전 216년, 로마 원로원은 8개 군단을 전장에 보내기로 했습니다.
@@ -141,16 +141,17 @@
   ending_4     clm_0050  · 검증: verified
   ending_5     clm_0044  · 검증: verified
 
-린트 — 오류 0 · 경고 0
+린트 — 오류 0 · 경고 1
+  경고 [tense-present] deployment_9: -300~-201 의 일인데 현재형으로 끝남 — 과거의 사건·상태는 과거형으로(script_grammar) — 이 영상의 카르타고 표지는 그 기호를 본뜬 재현입니다.
 
 린트 면제 표 — 없음
 
 미디어 후보 — 원고 media 필드 0건
-  트리거 제안 — plan.json 이 생기면(voice_timeline 뒤) 표시
+  트리거 제안 1건: encirclement_0(clip·충돌)
 
 검증 라벨 집계 {"verified": 59, "corroborated": 0, "unverified": 0, "disputed": 5}
 
-미디어 계획 표 — 사진 0/7장(분당 1, 476초 추정) · 기사 카드 후보 0문장(60초당 2개까지 쓴다)
+미디어 계획 표 — 사진 0/4장(분당 1, 288초 추정) · 기사 카드 후보 0문장(60초당 2개까지 쓴다)
   문장         인용 출처              기사(등록/미등록)        사진 찾음/통과/선택      사유
   cold_open_0  clm_0002               -                        0/0/-                  
   cold_open_1  clm_0048               -                        0/0/-                  
