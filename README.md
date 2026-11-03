@@ -31,3 +31,7 @@
 - 제목: 「2027년 NABO 국세수입 전망 2026~2030」 · 국회예산정책처 · 116쪽
 - 받은 곳: `https://www.nabo.go.kr/board/file/down.do?fid=33319655`
 - sha1 `93881d0d60b0fd8ffc29ac48e320035732f8bb31` · 5,114,096 B
+
+## final/ — 전편 전달본(게이트 ② 승인 49b0e912, D-1010)
+- `final/final_deliver.mp4` — 720p 24fps, 405.08초, 28,881,814 B, md5 `13f36298ccc578c7e35371edda5a6135`(영상 x264 2-pass 360k 재인코딩·음성 복사 `-c:a copy`). 원본 out/final.mp4 42.2 MB md5 41309450(미업로드)
+- 같은 폴더: `MD5SUMS` · `final_sheet_01~04.jpg`(135컷, 3초 간격) · `provenance.json`(사진 11개 · 1.629/분 · SA 의무 4건) · `audio_qa.json`(−14.1 LUFS · TP −1.76 · 음악 −11.15 dB · hard 0) · `description.txt` · `credits.txt` · `final.srt` · `preview_checks.json`(hard 0 · 경고 5)
