@@ -186,3 +186,18 @@ sounds:
     media_url: https://upload.wikimedia.org/wikipedia/commons/d/db/Wiehern.ogg
     source: Wikimedia Commons
     notes: "설명 \"A sounding recording of a neighing horse.\"(2006-05-27). 가까운 울음 — 거리감(far)으로만 쓰고 큐 하나에 많아야 하나(D-0628 §3)"
+  sfx.commons_briefer_s1:
+    file: "commons_briefer_s1.oga"
+    sha1: e17438264ad50ccd6a9d3e875acf0f27ac20c230
+    duration_sec: 8.758   # 44100 Hz · 1 ch(ffprobe)
+    kind: whinny
+    recorded: true
+    title: "Horse whinnies — Supplementary Audio S1 (Briefer et al. 2015)"
+    author: "Briefer E, Maigrot A, Mandel R, Freymond S, Bachmann I, Hillmann E"
+    license: CC BY 4.0
+    license_basis: "Commons 라이선스 틀: \"This file is licensed under the Creative Commons Attribution 4.0 International license.\" · Source: Scientific Reports(2015) DOI 10.1038/srep09989 보충 자료(PMC 4404681, Open Access Media Importer)"
+    page_url: https://commons.wikimedia.org/wiki/File:Segregation-of-information-about-emotional-arousal-and-valence-in-horse-whinnies-srep09989-s2.oga
+    media_url: https://upload.wikimedia.org/wikipedia/commons/c/c6/Segregation-of-information-about-emotional-arousal-and-valence-in-horse-whinnies-srep09989-s2.oga
+    source: Wikimedia Commons
+    attribution: "말 울음 녹음: Briefer E. et al.(2015) Scientific Reports 5:9989, doi:10.1038/srep09989 · CC BY 4.0(creativecommons.org/licenses/by/4.0) · 변경: 거리감 필터·잔향·음높이 ±5 %"
+    notes: "연구용 녹음(말 울음 여러 번, 8.8초). CC BY 4.0 — 쓰면 엔딩 크레딧 sfx 행 의무([battle-sfx] 가 강제), 변경 사실 표기(attribution 안). 가까운 녹음이라 far 로만, 큐당 하나"
