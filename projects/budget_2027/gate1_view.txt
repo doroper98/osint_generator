@@ -137,7 +137,7 @@
 
 미디어 계획 표 — 사진 0/8장(분당 1, 511초 추정) · 기사 카드 후보 0문장(60초당 2개까지 쓴다)
   문장         인용 출처              기사(등록/미등록)        사진 찾음/통과/선택      사유
-  cold_0       clm_0001               -                        0/0/-                  
+  cold_0       clm_0001               -                        20/3/-                 통과 후보 3건 중 국회의사당 외관 영상(File:National Assembly Building of South Korea 2019 July 27.webm, CC BY 4.0)은 연출 단계에서 클립으로 등록해 쓴다. 나머지 둘(1975년 준공 기념우표, 1998년 클린턴 대통령 국회 연설 사진)은 이 문장(2026년 9월 예산안 제출)과 시점·대상이 달라 쓰지 않는다
   cold_1       clm_0002               -                        0/0/-                  
   cold_2       clm_0003               -                        0/0/-                  
   act1_0       clm_0017               -                        0/0/-                  
@@ -152,24 +152,24 @@
   act2_2       clm_0005               -                        0/0/-                  
   act2_3       clm_0032               -                        0/0/-                  
   act2_4       clm_0006,clm_0031      -                        0/0/-                  
-  act2_5       clm_0006               -                        0/0/-                  
+  act2_5       clm_0006               -                        14/0/-                 검색 us_dod_pd 'small business factory South Korea hastemplate:"PD-USGov-Military"' 4건·통과 0(문서·도식(application/pdf)); commons_cc 'small business factory South Korea' 10건·통과 0(문서·도식(application/pdf))
   act2_6       clm_0031,clm_0026      -                        0/0/-                  
   act2_7       clm_0031,clm_0026      -                        0/0/-                  
   act2_8       clm_0033               -                        0/0/-                  
-  act2_9       clm_0033               -                        0/0/-                  
+  act2_9       clm_0033               -                        10/0/-                 검색 us_dod_pd 'expressway South Korea construction hastemplate:"PD-USGov-Military"' 0건·통과 0; commons_cc 'expressway South Korea construction' 10건·통과 0(CC BY-SA 4.0)
   act2_10      clm_0033               -                        0/0/-                  
-  act2_11      clm_0033               -                        0/0/-                  
+  act2_11      clm_0033               -                        11/0/-                 검색 us_dod_pd 'autonomous vehicle pilot city Korea hastemplate:"PD-USGov-Military"' 1건·통과 0(문서·도식(application/pdf)); commons_cc 'autonomous vehicle pilot city Korea' 10건·통과 0(문서·도식(application/pdf))
   act2_12      clm_0027,clm_0028      -                        0/0/-                  
   act2_13      clm_0027               -                        0/0/-                  
-  act2_14      clm_0027               -                        0/0/-                  
+  act2_14      clm_0027               -                        11/0/-                 검색 us_dod_pd 'public rental housing South Korea apartment hastemplate:"PD-USGov-Military"' 1건·통과 0(문서·도식(application/pdf)); commons_cc 'public rental housing South Korea apartment' 10건·통과 0(문서·도식(application/pdf))
   act2_15      clm_0027               -                        0/0/-                  
   act2_16      clm_0028               -                        0/0/-                  
-  act2_17      clm_0028               -                        0/0/-                  
+  act2_17      clm_0028               -                        10/0/-                 검색 us_dod_pd 'parental leave Korea hastemplate:"PD-USGov-Military"' 0건·통과 0; commons_cc 'parental leave Korea' 10건·통과 0(문서·도식(application/pdf))
   act2_18      clm_0029               -                        0/0/-                  
-  act2_19      clm_0029               -                        0/0/-                  
+  act2_19      clm_0029               -                        15/4/-                 통과 후보 4건이 모두 다른 대상 — 미군 자녀 학교 교원 모집, 미 해병 사진, 태국 초등학교 교실 건립, 주한미군 공병단의 학교 방문 행사. 한국 공립 유아·초중등 교육 예산 문장의 사진이 아니어서 쓰지 않는다
   act2_20      clm_0010               -                        0/0/-                  
   act3_0       clm_0010               -                        0/0/-                  
-  act3_1       clm_0010               -                        0/0/-                  
+  act3_1       clm_0010               -                        0/0/-                  검색 us_dod_pd 'Samsung semiconductor fab Pyeongtaek hastemplate:"PD-USGov-Military"' 0건·통과 0; commons_cc 'Samsung semiconductor fab Pyeongtaek' 0건·통과 0
   act3_2       clm_0011               -                        0/0/-                  
   act3_3       clm_0011               -                        0/0/-                  
   act3_4       clm_0015               -                        0/0/-                  
@@ -183,7 +183,7 @@
   act4_2       clm_0018               -                        0/0/-                  
   act4_3       clm_0023,clm_0019      -                        0/0/-                  
   act4_4       clm_0019               -                        0/0/-                  
-  act4_5       clm_0023,clm_0020      - / 미등록 1                0/0/-                  
+  act4_5       clm_0023,clm_0020      - / 미등록 1                20/0/-                 검색 us_dod_pd 'National Assembly Special Committee on Budget and Accounts Korea hastemplate:"PD-USGov-Military"' 10건·통과 0(문서·도식(application/pdf)); commons_cc 'National Assembly Special Committee on Budget and Accounts Korea' 10건·통과 0(문서·도식(application/pdf))
   act4_6       clm_0022               - / 미등록 3                0/0/-                  
   act4_7       clm_0022               - / 미등록 3                0/0/-                  
   act4_8       clm_0024               - / 미등록 1                0/0/-                  
@@ -193,4 +193,5 @@
   act5_1       clm_0003               -                        0/0/-                  
   act5_2       clm_0001,clm_0003      -                        0/0/-                  
   ending_0     clm_0001,clm_0019      -                        0/0/-                  
-  오류 [photo-reason] 사진 0/8장(분당 1) — 사진 후보 문장이 없다. media_notes.yaml project_photo 에 이 영상에 사진이 없는 이유를 적는다
+  영상 전체 사진 사유: 한국 재정·국회 주제의 권리 통과 실사가 드물다 — Commons 의 국회·고속도로·공공임대 사진 대부분이 CC BY-SA(07 §3.2 불허)이고, 공공누리 제1유형 사진이 많은 www.korea.kr 은 이 컨테이너에서 연결이 끊긴다(R-0609 §4). 연출 단계에서 Commons CC BY 4.0 국회의사당 외관 영상(2019)을 클립으로 등록하고, 공공누리 사진은 korea.kr 이 열리면 문장별로 다시 찾는다. 매체 밀도(분당 1.5)는 렌더 hard 검사로 그때 막힌다.
+  표 판정 — 통과

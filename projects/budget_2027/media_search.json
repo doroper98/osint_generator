@@ -1,0 +1,225 @@
+{
+ "schema_version": 1,
+ "searches": [
+  {
+   "sid": "cold_0",
+   "query": "National Assembly Building of South Korea hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-02",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "cold_0",
+   "query": "National Assembly Building of South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-02",
+   "found": 10,
+   "passed": 3,
+   "top": [
+    "File:Build completion of National Assembly Building of South Korea anniversity stamp.jpg",
+    "File:National Assembly Building of South Korea 2019 July 27.webm",
+    "File:Photograph of President William J. Clinton Addressing the South Korean National Assembly in the Main Chamber of the National Assembly Hall in Seoul, South Korea - DPLA - aee1e4c652fe3fa7cf042768fc65191b.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_9",
+   "query": "expressway South Korea construction hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-02",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_9",
+   "query": "expressway South Korea construction",
+   "pool": "commons_cc",
+   "on": "2026-11-02",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_14",
+   "query": "public rental housing South Korea apartment hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-02",
+   "found": 1,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_14",
+   "query": "public rental housing South Korea apartment",
+   "pool": "commons_cc",
+   "on": "2026-11-02",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_17",
+   "query": "parental leave Korea hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-02",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_17",
+   "query": "parental leave Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-02",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_11",
+   "query": "autonomous vehicle pilot city Korea hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-02",
+   "found": 1,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_11",
+   "query": "autonomous vehicle pilot city Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act3_1",
+   "query": "Samsung semiconductor fab Pyeongtaek hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act3_1",
+   "query": "Samsung semiconductor fab Pyeongtaek",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_5",
+   "query": "National Assembly Special Committee on Budget and Accounts Korea hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-03",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_5",
+   "query": "National Assembly Special Committee on Budget and Accounts Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_19",
+   "query": "elementary school classroom Korea hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-03",
+   "found": 5,
+   "passed": 2,
+   "top": [
+    "File:Department of War Education Activity seeks educators and aides to support military-connected students worldwide (9662989).jpg",
+    "File:USMC-110807-M-IX060-205.jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_19",
+   "query": "elementary school classroom Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 10,
+   "passed": 2,
+   "top": [
+    "File:Cobra Gold '14 allies build classrooms for Thai elementary school 140210-M-OY715-065.jpg",
+    "File:USACE Far East District inspires curiosity through STEAM outreach across three schools in South Korea (9726954).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_5",
+   "query": "small business factory South Korea hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-03",
+   "found": 4,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_5",
+   "query": "small business factory South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  }
+ ]
+}
