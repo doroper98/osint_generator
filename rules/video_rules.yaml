@@ -132,8 +132,8 @@ script_grammar:            # v5.5.0 사용자 결정(2026-10-02, 개정 2026-10-
   connectives: [그래서, 따라서, 그러므로, 그렇지만, 하지만, 그러나, 반면, 게다가, 또한, 그리고, 이어서, 이후, 그 뒤, 이에 대해, 이에, 그런데, 다만, 결국, 한편, 특히, 더욱이, 오히려, 물론, 즉, 이처럼, 이렇게, 그러면서, 동시에, 그 결과, 이 때문에, 이로 인해, 그러자, 그럼에도]   # v5.5.0 개정(2026-10-03) — 자연스러운 접속어 추가, 프롬프트에 이 목록 그대로 노출
   # v7.4.0 back_and_forth D-1007 §2(UF-303 "너무 접두사를 무분별하게 쓰는거 같은데 … 조정해") — 하한 강제(connective_min_ratio·[flow-sparse])와 [flow-overuse] 삭제(P2).
   # 원인 실측: 이란 휴전 v3b 자막 55%·중국 수출통제 59% 가 접속어로 시작. 값은 임시(감독 — 날리지식 레퍼런스 실측이 오면 값만 바꾼다)
-  connective_initial_max_ratio: 0.2   # 첫 어절이 connectives 인 문장 비율 상한(초과 = [connective-initial] 오류)
-  connective_repeat_gap: 5            # 같은 첫머리 접속어가 이 문장 수 안에 다시 나오면 [connective-repeat] 오류
+  connective_initial_max_ratio: 0.15   # 첫 어절이 connectives 인 문장 비율 상한(초과 = [connective-initial] 오류). D610 — 날리지식 실측 19/146 = 13.0%
+  connective_repeat_gap: 6            # 같은 첫머리 접속어 재등장 최소 간격(문장) — 간격 < 이 값 = [connective-repeat] 오류(6 통과·5 실패). D610 — 날리지식 실측 최소 6·중앙값 28
   # v7.4.0 back_and_forth D-1007 §1-4·§2-6(UF-302 "“추정” 이런거 붙이지 말고 그럴 가능성이 있다 뭐 이런식으로") — 영향 서술은 "~할 가능성이 있습니다"로.
   # 내레이터 목소리(귀속 없는 문장)에 이 표지가 있으면 [estimate-marker] 오류. 출처가 추정했다고 귀속해 전하는 것은 된다("국회예산정책처는 … 추정했습니다")
   estimate_markers: ["추정", "추산"]

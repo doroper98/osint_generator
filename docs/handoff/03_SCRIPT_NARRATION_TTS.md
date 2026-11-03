@@ -296,7 +296,7 @@ t += 1.2; 엔딩 카드 (t ~ t+11); total = t + 11 + 0.5
   패턴 = `rules script_grammar.uncertain_patterns`). 당사자가 그렇게 말한 것을 귀속해 전하는 문장은 된다.
 - **흐름은 내용의 순서로 잇는다**(v7.4.0 D-1007, 사용자 의견 UF-303 — 옛 하한 `connective_min_ratio`·`flow-sparse` 삭제). 시점어·지시어·핵심어 반복·질문과 답으로 잇고,
   첫머리 접속어(`rules script_grammar.connectives`)는 관계가 실제로 바뀌는 자리에만. 첫머리 접속어 문장 비율 > `connective_initial_max_ratio` = 오류(`connective-initial`),
-  같은 접속어가 `connective_repeat_gap` 문장 안에 다시 = 오류(`connective-repeat`). 인과 연결어는 실제 인과가 출처로 확인될 때만.
+  같은 접속어의 재등장 간격 < `connective_repeat_gap`(최소 간격) = 오류(`connective-repeat`, D610). 인과 연결어는 실제 인과가 출처로 확인될 때만.
 - **영향은 가능성으로 말한다**(UF-302). 내레이터 목소리에 '추정' 표지(`script_grammar.estimate_markers`) = 오류(`estimate-marker`) — "~할 가능성이 있습니다"로 쓴다.
 - **검사 시점**: 이 오류들은 게이트 ① 진입 전에 막는다(`orchestrator/source_completeness_checker.BLOCKING`) — 승인 뒤 음성 단계에서 늦게 막히지 않는다.
 - **마무리는 확인된 사실의 정리.** "아직 정해지지 않은 것"으로 끝내던 v3 관행(골든 `now_3`)은 폐기. 골든 원고는 고치지 않는다(테스트가 오류 2를 고정).

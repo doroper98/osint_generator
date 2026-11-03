@@ -348,7 +348,7 @@ def first_connective(text: str, connectives: list[str]) -> str | None:
 def connective_issues(script: Script) -> list[LintIssue]:
     """v7.4.0 back_and_forth D-1007 §2(사용자 의견 UF-303) — 문장 첫머리 접속어 남발.
     [connective-initial] = 첫 어절이 접속어인 문장 비율 > script_grammar.connective_initial_max_ratio(원고 전체, 오류),
-    [connective-repeat] = 같은 첫머리 접속어가 connective_repeat_gap 문장 안에 다시 나옴(오류, 다시 나온 문장에)."""
+    [connective-repeat] = 같은 첫머리 접속어의 재등장 간격 < connective_repeat_gap(최소 간격, D610 — 오류, 다시 나온 문장에)."""
     sg = load_rules().script_grammar
     sents = [s for sc in script.scenes for s in sc.sentences]
     ids = [f"{sc.id}_{i}" for sc in script.scenes for i, _ in enumerate(sc.sentences)]
@@ -364,9 +364,9 @@ def connective_issues(script: Script) -> list[LintIssue]:
     for i, h in enumerate(heads):
         if h is None:
             continue
-        if h in last and i - last[h] <= sg.connective_repeat_gap:
+        if h in last and i - last[h] < sg.connective_repeat_gap:
             out.append(LintIssue(kind="connective-repeat", severity="error", sid=ids[i], text=sents[i].text,
-                                 detail=f"첫머리 '{h}' 가 {i - last[h]}문장 만에 다시 — 간격 ≤ {sg.connective_repeat_gap}(UF-303)"))
+                                 detail=f"첫머리 '{h}' 가 {i - last[h]}문장 만에 다시 — 최소 간격 {sg.connective_repeat_gap} 미만(UF-303)"))
         last[h] = i
     return out
 

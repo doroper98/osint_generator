@@ -181,15 +181,19 @@ class ScriptGrammarTest(unittest.TestCase):
         self.assertIn("uncertain-phrase", [i.kind for i in lint(self._script(unc), {"clm_0001": "corroborated"}).errors])
 
     def test_connective_guards(self) -> None:
-        """UF-303 — 접속어 25% 원고 = [connective-initial], 같은 '다만' 3문장 간격 = [connective-repeat], 접속어 0% = 통과."""
+        """UF-303 — 접속어 25% 원고 = [connective-initial], 같은 '다만' 간격 5 = [connective-repeat]·6 = 통과(D610), 접속어 0% = 통과."""
         from script.lint import lint  # noqa: PLC0415
 
         base = [f"{n}가 발표했습니다." for n in ("가가", "나나", "다다", "라라", "마마", "바바", "사사", "아아")]
         quarter = ["하지만 나나가 답했습니다.", "그러자 다다가 반박했습니다."] + base[:6]   # 2/8 = 25%
         self.assertEqual([i.kind for i in lint(self._script(quarter), {"clm_0001": "corroborated"}).errors], ["connective-initial"])
-        rep = ["다만 가가 말했습니다."] + base[:2] + ["다만 나나가 말했습니다."] + base[2:8] + base[:2]   # 2/12 ≈ 17%, 간격 3
-        errs = lint(self._script(rep), {"clm_0001": "corroborated"}).errors
-        self.assertEqual([(i.kind, i.sid) for i in errs], [("connective-repeat", "a_3")])
+        ok = lambda e: [(i.kind, i.sid) for i in lint(self._script(e), {"clm_0001": "corroborated"}).errors]  # noqa: E731
+        more = base + [f"{n}가 발표했습니다." for n in ("자자", "차차", "카카", "타타", "파파", "하하")]   # 14문장
+        gap5 = ["다만 가가 말했습니다."] + more[:4] + ["다만 나나가 말했습니다."] + more[4:12]   # 2/14 ≈ 14% ≤ 15%, 간격 5
+        self.assertEqual(ok(gap5), [("connective-repeat", "a_5")])                 # D610 — 5 실패
+        gap6 = ["다만 가가 말했습니다."] + more[:5] + ["다만 나나가 말했습니다."] + more[5:12]   # 간격 6
+        self.assertEqual(ok(gap6), [])                                              # D610 — 6 통과
+        self.assertEqual([k for k, _ in ok(["다만 가가 말했습니다.", "하지만 나나가 답했습니다."] + more[:11])], ["connective-initial"])   # 2/13 ≈ 15.4% > 15%
         self.assertEqual(lint(self._script(base), {"clm_0001": "corroborated"}).errors, [])
 
     def test_estimate_marker(self) -> None:
