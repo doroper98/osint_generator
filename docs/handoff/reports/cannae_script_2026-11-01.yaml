@@ -1,0 +1,452 @@
+# v3(D-0609·D-0610, 구현 세션): 문장 머리 접속사 정리, 귀속 꼴 변주·논쟁 쌍 묶기, 중복 제거, 흉상 '전해지는'·위치 이동, 증거 층(보충 검증 claim). 사실·수치는 claims·force 그대로
+schema_version: 1
+title: 칸나이, 기원전 216년
+subtitle: 한니발의 초승달 진형과 양익 포위
+date: 2026.11.01
+scenes:
+- id: cold_open
+  kind: cold
+  stage: 이탈리아
+  sentences:
+  - date: '-216'
+    text: 기원전 216년, 로마 원로원은 8개 군단을 전장에 보내기로 했습니다.
+    tts: 기원전 이백십육 년, 로마 원로원은 여덟 개 군단을 전장에 보내기로 했습니다.
+    emphasis:
+    - 8개 군단
+    sources:
+    - clm_0002
+  - date: '-216'
+    text: 로마의 연대기 작가 클라우디우스 콰드리가리우스는 이 패전을 로마력 8월 2일의 일로 적었습니다.
+    tts: 로마의 연대기 작가 클라우디우스 콰드리가리우스는 이 패전을 로마력 팔월 이일의 일로 적었습니다.
+    emphasis:
+    - 로마력 8월 2일
+    sources:
+    - clm_0048
+  - date: '1856'
+    text: 다만 1856년 지리 사전은 그 무렵 로마력이 실제 날짜보다 크게 앞서 있었을 것이라고 적었습니다.
+    tts: 다만 천팔백오십육 년 지리 사전은 그 무렵 로마력이 실제 날짜보다 크게 앞서 있었을 것이라고 적었습니다.
+    role: background
+    emphasis: []
+    sources:
+    - clm_0051
+  - date: '-216'
+    text: 폴리비오스가 적은 로마군은 동맹군을 포함해 보병 약 8만 명, 기병 6천여 명이었습니다.
+    tts: 폴리비오스가 적은 로마군은 동맹군을 포함해 보병 약 팔만 명, 기병 육천여 명이었습니다.
+    emphasis:
+    - 약 8만 명
+    sources:
+    - clm_0003
+    - force:rome_strength
+  - date: '-216'
+    text: 반면 카르타고군은 보병 약 4만 명, 기병 약 1만 명이었습니다.
+    tts: 반면 카르타고군은 보병 약 사만 명, 기병 약 만 명이었습니다.
+    emphasis:
+    - 약 4만 명
+    sources:
+    - clm_0005
+    - clm_0004
+    - force:carthage_strength
+  - date: '-216'
+    text: 그러나 이 전투에서 포위돼 무너진 쪽은 병력이 많은 로마군이었습니다.
+    emphasis:
+    - 로마군
+    sources:
+    - clm_0018
+- id: prelude
+  kind: act
+  stage: 이탈리아
+  sentences:
+  - date: '-216'
+    text: 전투에 앞서 로마 지휘부 안에서는 이견이 있었습니다.
+    role: intro
+    emphasis: []
+    sources:
+    - clm_0033
+  - date: '-216'
+    text: 로마군은 두 집정관이 함께 이끌고 있었습니다.
+    role: intro
+    emphasis: []
+    sources:
+    - clm_0035
+    - clm_0032
+  - date: '-216'
+    text: 집정관 루키우스 아이밀리우스 파울루스는 평탄한 지형에서 싸우는 데 반대했습니다.
+    emphasis:
+    - 반대
+    sources:
+    - clm_0033
+  - date: '-216'
+    text: 적의 기병이 우세했기 때문이었습니다.
+    emphasis: []
+    sources:
+    - clm_0033
+  - date: '-216'
+    text: 폴리비오스가 옮긴 연설에서 아이밀리우스는, 이전 패전 때는 두 집정관이 함께 싸운 적이 없었다고 강조했습니다.
+    emphasis: []
+    sources:
+    - clm_0032
+  - date: '-216'
+    text: 한편 한니발은 누미디아 기병을 보내 작은 로마 진영의 물 긷는 병사들을 공격했습니다.
+    emphasis:
+    - 누미디아 기병
+    sources:
+    - clm_0034
+  - date: '1667'
+    text: 한니발로 전해지는 대리석 흉상은 1667년 카푸아에서 발견돼, 나폴리 국립고고학박물관에 남았습니다.
+    tts: 한니발로 전해지는 대리석 흉상은 천육백육십칠 년 카푸아에서 발견돼, 나폴리 국립고고학박물관에 남았습니다.
+    role: background
+    emphasis:
+    - 대리석 흉상
+    sources:
+    - clm_0039
+    - clm_0042
+  - date: -237~-209
+    text: 기원전 237~209년경 카르타고 셰켈 은화에는 월계관을 쓴 두상과 전투 코끼리를 탄 기수가 새겨졌습니다.
+    tts: 기원전 이백삼십칠 년에서 이백구 년 무렵 카르타고 셰켈 은화에는 월계관을 쓴 두상과 전투 코끼리를 탄 기수가 새겨졌습니다.
+    role: background
+    emphasis:
+    - 전투 코끼리
+    sources:
+    - clm_0041
+  - date: '-216'
+    text: 전투 당일 지휘 당번은 집정관 테렌티우스 바로였고, 그가 군을 출진시켰습니다.
+    emphasis:
+    - 테렌티우스 바로
+    sources:
+    - clm_0035
+  - date: '-216'
+    text: 리비우스는 바로가 아이밀리우스와 상의하지 않고 출진 신호를 올렸다고 전했습니다.
+    emphasis:
+    - 상의하지 않고
+    sources:
+    - clm_0036
+  - date: '-216'
+    text: 이렇게 두 군대는 강을 끼고 마주 섰습니다.
+    role: outro
+    emphasis: []
+    sources:
+    - clm_0007
+- id: deployment
+  kind: act
+  stage: 이탈리아
+  sentences:
+  - date: '-216'
+    text: 전투는 두 군대가 진을 치는 데서 시작됐습니다.
+    role: intro
+    emphasis: []
+    sources:
+    - clm_0006
+  - date: '-216'
+    text: 로마군은 남쪽을, 카르타고군은 북쪽을 향해 진을 쳤습니다.
+    role: intro
+    emphasis:
+    - 남쪽
+    - 북쪽
+    sources:
+    - clm_0006
+  - date: '-216'
+    text: 로마 기병은 강 쪽 우익에 섰습니다.
+    emphasis: []
+    sources:
+    - clm_0007
+  - date: '-216'
+    text: 로마군 우익은 아이밀리우스가, 좌익은 바로가 지휘했습니다.
+    emphasis: []
+    sources:
+    - clm_0008
+  - date: '-216'
+    text: 그리고 중앙은 그나이우스 세르빌리우스가 맡았습니다.
+    emphasis: []
+    sources:
+    - clm_0009
+  - date: '-216'
+    text: 이에 맞서 카르타고군 좌익은 하스드루발이 지휘했습니다.
+    emphasis:
+    - 하스드루발
+    sources:
+    - clm_0010
+  - date: '-216'
+    text: 카르타고군 중앙은 한니발이 동생 마고와 함께 맡았습니다.
+    emphasis:
+    - 한니발
+    sources:
+    - clm_0012
+  - date: '-216'
+    text: 우익 장수는 폴리비오스가 한노로, 리비우스가 마하르발로 전했습니다.
+    emphasis:
+    - 한노
+    - 마하르발
+    sources:
+    - clm_0011
+  - date: -300~-201
+    text: 타니트 기호를 새긴 기원전 3세기 석회암 비석이 루브르 박물관에 남았습니다.
+    tts: 타니트 기호를 새긴 기원전 삼 세기 석회암 비석이 루브르 박물관에 남았습니다.
+    role: background
+    emphasis:
+    - 타니트
+    sources:
+    - clm_0045
+  - date: 2026.11.01
+    text: 이 영상의 카르타고 표지는 그 기호를 본뜬 재현입니다.
+    role: background
+    emphasis: []
+    sources:
+    - clm_0045
+  - date: '-216'
+    text: 한니발은 중앙의 히스파니아·켈트 보병을 앞으로 내밀었습니다.
+    tts: 한니발은 중앙의 히스파니아, 켈트 보병을 앞으로 내밀었습니다.
+    emphasis: []
+    sources:
+    - clm_0013
+  - date: '-216'
+    text: 즉 중앙을 적 쪽으로 볼록하게 내민 이 배치가 초승달 진형이었습니다.
+    emphasis:
+    - 초승달
+    sources:
+    - clm_0013
+  - date: '-216'
+    text: 또한 아프리카 보병은 앞선 전투에서 노획한 로마 무기로 무장했습니다.
+    emphasis:
+    - 노획한 로마 무기
+    sources:
+    - clm_0014
+  - date: '-216'
+    text: 리비우스는 볼투르누스라는 바람이 먼지를 몰아 로마군의 시야를 가렸다고 전했습니다.
+    emphasis:
+    - 볼투르누스
+    sources:
+    - clm_0015
+  - date: '-216'
+    text: 진형이 갖춰진 두 군대 사이에서 마침내 전투가 시작됐습니다.
+    role: outro
+    emphasis: []
+    sources:
+    - clm_0006
+    - clm_0016
+- id: encirclement
+  kind: act
+  stage: 이탈리아
+  sentences:
+  - date: '-216'
+    text: 첫 충돌은 강가의 기병 사이에서 일어났습니다.
+    role: intro
+    emphasis: []
+    sources:
+    - clm_0016
+  - date: '-216'
+    text: 양측 기병은 말에서 내려 백병전을 벌였습니다.
+    role: intro
+    emphasis:
+    - 백병전
+    sources:
+    - clm_0016
+  - date: '-216'
+    text: 결국 로마군 우익 기병은 히스파니아·켈트 기병에게 패했습니다.
+    tts: 결국 로마군 우익 기병은 히스파니아, 켈트 기병에게 패했습니다.
+    emphasis: []
+    sources:
+    - clm_0017
+  - date: '-216'
+    text: 리비우스는 기병을 말에서 내리게 한 명령을 들은 한니발이 탄식했다고 전했습니다.
+    emphasis:
+    - 탄식
+    sources:
+    - clm_0031
+  - date: '-216'
+    text: 게다가 아이밀리우스는 전투 초반 투석에 맞아 중상을 입었습니다.
+    emphasis: []
+    sources:
+    - clm_0023
+  - date: '-216'
+    text: 한편 중앙에서는 로마 보병이 카르타고군 중앙으로 밀고 들어갔습니다.
+    emphasis: []
+    sources:
+    - clm_0018
+  - date: '-216'
+    text: 그러자 양 측면의 아프리카 보병이 로마 보병을 에워쌌습니다.
+    emphasis:
+    - 에워쌌습니다
+    sources:
+    - clm_0018
+  - date: '-216'
+    text: 로마 동맹군 기병은 하스드루발의 돌격을 앞두고 무너져 달아났습니다.
+    emphasis: []
+    sources:
+    - clm_0019
+  - date: '-216'
+    text: 이어서 하스드루발은 기병으로 로마 군단의 후방을 쳤습니다.
+    emphasis:
+    - 후방
+    sources:
+    - clm_0020
+  - date: '-216'
+    text: 리비우스는 누미디아 기병 약 500명이 거짓 투항한 뒤 후방을 공격했다고 전했습니다.
+    tts: 리비우스는 누미디아 기병 약 오백 명이 거짓 투항한 뒤 후방을 공격했다고 전했습니다.
+    emphasis:
+    - 거짓 투항
+    sources:
+    - clm_0021
+  - date: '-216'
+    text: 결국 아이밀리우스는 이 전투에서 전사했습니다.
+    emphasis:
+    - 전사
+    sources:
+    - clm_0022
+  - date: '1773'
+    text: 1773년 존 트럼불은 이 장면을 「칸나이 전투에서 파울루스 아이밀리우스의 죽음」으로 그렸고, 그림은 예일대학교 미술관에 소장됐습니다.
+    tts: 천칠백칠십삼 년 존 트럼불은 이 장면을 칸나이 전투에서 파울루스 아이밀리우스의 죽음으로 그렸고, 그림은 예일대학교 미술관에 소장됐습니다.
+    role: background
+    emphasis:
+    - 존 트럼불
+    sources:
+    - clm_0040
+    - clm_0043
+  - date: '-216'
+    text: 반면 집정관 바로는 베누시아로 달아났습니다.
+    emphasis:
+    - 베누시아
+    sources:
+    - clm_0024
+  - date: '-216'
+    text: 함께 달아난 기병을 폴리비오스는 70명, 리비우스는 약 50명으로 전했습니다.
+    tts: 함께 달아난 기병을 폴리비오스는 일흔 명, 리비우스는 약 쉰 명으로 전했습니다.
+    emphasis:
+    - 70명
+    sources:
+    - clm_0025
+  - date: '-216'
+    text: 이처럼 포위된 로마군은 전장에서 무너졌습니다.
+    role: outro
+    emphasis: []
+    sources:
+    - clm_0018
+- id: aftermath
+  kind: act
+  stage: 이탈리아
+  sentences:
+  - date: '-216'
+    text: 칸나이의 하루는 그렇게 끝났습니다.
+    role: bridge
+    emphasis: []
+    sources:
+    - clm_0018
+  - date: '-216'
+    text: 아이밀리우스는 보병 1만 명을 진영에 남겨 카르타고 진영을 치게 했습니다.
+    tts: 아이밀리우스는 보병 만 명을 진영에 남겨 카르타고 진영을 치게 했습니다.
+    emphasis: []
+    sources:
+    - clm_0029
+  - date: '-216'
+    text: 두 사료는 패배의 규모를 서로 다른 숫자로 전했습니다.
+    role: intro
+    emphasis: []
+    sources:
+    - clm_0026
+    - clm_0027
+  - date: '-216'
+    text: 로마군 전사자를 폴리비오스는 약 7만 명으로, 리비우스는 보병 45,500명과 기병 2,700명으로 전했습니다.
+    tts: 로마군 전사자를 폴리비오스는 약 칠만 명으로, 리비우스는 보병 사만오천오백 명과 기병 이천칠백 명으로 전했습니다.
+    emphasis:
+    - 약 7만 명
+    sources:
+    - clm_0026
+    - clm_0027
+    - force:rome_killed
+    - force:rome_killed_livy
+  - date: '-216'
+    text: 포로를 폴리비오스는 보병 약 1만 명, 리비우스는 보병 3천 명과 기병 1,500명으로 전했습니다.
+    tts: 포로를 폴리비오스는 보병 약 만 명, 리비우스는 보병 삼천 명과 기병 천오백 명으로 전했습니다.
+    emphasis:
+    - 약 1만 명
+    sources:
+    - clm_0028
+    - force:rome_captured
+  - date: '-216'
+    text: 폴리비오스가 전한 한니발군의 손실은 켈트인 약 4천 명, 히스파니아·아프리카인 1,500명, 기병 200명이었습니다.
+    tts: 폴리비오스가 전한 한니발군의 손실은 켈트인 약 사천 명, 히스파니아, 아프리카인 천오백 명, 기병 이백 명이었습니다.
+    emphasis:
+    - 약 4천 명
+    sources:
+    - clm_0030
+    - force:carthage_killed
+  - date: '-216'
+    text: 폴리비오스는 이 전투에서 이긴 쪽도 진 쪽도 뚜렷한 용기를 보였다고 적었습니다.
+    emphasis:
+    - 뚜렷한 용기
+    sources:
+    - clm_0046
+  - date: '-216'
+    text: 리비우스는 기병대장 마하르발이 한니발에게, 이기는 법은 알아도 승리를 쓰는 법은 모른다고 말했다고 전했습니다.
+    emphasis:
+    - 승리를 쓰는 법
+    sources:
+    - clm_0047
+  - date: '-216'
+    text: 전투 직후 타렌툼이 카르타고에 항복했습니다.
+    emphasis:
+    - 타렌툼
+    sources:
+    - clm_0037
+  - date: '-216'
+    text: 그 뒤 며칠 만에 갈리아 키살피나로 간 로마 지휘관도 켈트인의 매복에 걸려 전멸했습니다.
+    emphasis:
+    - 매복
+    sources:
+    - clm_0038
+  - date: '-216'
+    text: 칸나이의 패배는 이렇게 전장 밖으로 번졌습니다.
+    role: outro
+    emphasis: []
+    sources:
+    - clm_0037
+    - clm_0038
+- id: ending
+  kind: ending
+  stage: 이탈리아
+  sentences:
+  - date: '-216'
+    text: 8개 군단을 보내고도 로마가 무너진 기원전 216년의 칸나이.
+    tts: 여덟 개 군단을 보내고도 로마가 무너진 기원전 이백십육 년의 칸나이.
+    emphasis:
+    - 칸나이
+    sources:
+    - clm_0002
+    - clm_0018
+  - date: '-216'
+    text: 그날 한니발군은 초승달 진형으로 로마 보병을 끌어들인 뒤 측면과 후방에서 에워쌌습니다.
+    emphasis:
+    - 초승달 진형
+    sources:
+    - clm_0013
+    - clm_0018
+    - clm_0020
+  - date: '-216'
+    text: 그 결과 집정관 아이밀리우스는 전사했고, 바로는 베누시아로 달아났습니다.
+    emphasis: []
+    sources:
+    - clm_0022
+    - clm_0024
+  - date: '1856'
+    text: 1856년 『그리스·로마 지리 사전』은 칸나이의 당시 이름을 칸네로 적었지만, 이름의 뜻은 적지 않았습니다.
+    tts: 천팔백오십육 년 그리스 로마 지리 사전은 칸나이의 당시 이름을 칸네로 적었지만, 이름의 뜻은 적지 않았습니다.
+    role: background
+    emphasis:
+    - 칸네
+    sources:
+    - clm_0049
+  - date: '1856'
+    text: 또한 같은 사전은 카노사에서 약 8마일 떨어진 작은 언덕 위에 그 유적이 아직 보인다고 적었습니다.
+    tts: 또한 같은 사전은 카노사에서 약 팔 마일 떨어진 작은 언덕 위에 그 유적이 아직 보인다고 적었습니다.
+    role: background
+    emphasis:
+    - 작은 언덕
+    sources:
+    - clm_0050
+  - date: '1885'
+    text: 1885년 구스타프 아돌프 클로스는 그 들판을 후대의 판화로 남겼습니다.
+    tts: 천팔백팔십오 년 구스타프 아돌프 클로스는 그 들판을 후대의 판화로 남겼습니다.
+    role: background
+    emphasis:
+    - 클로스
+    sources:
+    - clm_0044

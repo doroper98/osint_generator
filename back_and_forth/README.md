@@ -153,6 +153,19 @@ python back_and_forth/check.py --me opus --next-id         # 내가 쓸 다음 �
    — 테스트 기준선은 **삭제 조정 기준선**이다(D-0053): 합격 = passed ≥ (직전 기준 − P2로 삭제한 옛 테스트 수) + 새 테스트 요구치, failed 0·xfail 0. 삭제 목록을 표로 적는다.
 4. provenance 요약 5. 다음 Phase 계획 — 그리고 **이번 Phase의 DECISIONS 새 행 요약**.
 
+### 6.3a 사용자에게 보내기 전 — 눈 검수 시트·의견 점검표 (v7.4.0 D-1000 S4, LLM-AP-023)
+
+콘티 판·프리뷰·완성본·교체본 등 **사용자에게 무엇이든 보내기 전** 감독은 아래 둘을 만들어 R/D 에 붙이고 **모든 줄을 채운다. 비어 있으면 보내지 않는다.**
+"노출 표만 보고 통과"(D-0463) 사고를 막는 절차다 — 표는 잰 것만 보여 준다.
+
+```bash
+python tools/review_sheet.py projects/{pid} --src animatic|final|preview --every 3   # 3초 간격 프레임 시트(시각·문장 id·날짜 HUD) + 요소 노출·지도 가림 표
+python tools/uf_checklist.py projects/{pid} --src animatic|final|preview            # 사용자 의견 원장 전부: 자동 검사 결과·눈 확인 [ ]·볼 시각
+```
+
+- 시트는 다시 렌더하지 않는다(마지막 산출 mp4 에서 뽑는다). 요소 표의 빨간 줄 = 노출 하한 미만 또는 지도 사건 가림 상한 초과.
+- 점검표의 `[ ]` 는 시트의 해당 시각 칸을 실제로 보고 `[x]`(또는 사유)로 채운다. 자동 검사 fail 이 하나라도 있으면 보내지 않는다.
+
 ### 6.4 결정 위임 — 결정은 Fable이 내린다 (사용자 지시 2026-09-27)
 
 **결정의 범위**: `docs/handoff/DECISIONS.md`에 한 줄로 남을 만한 것 전부다.

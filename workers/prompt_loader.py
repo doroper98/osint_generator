@@ -77,6 +77,7 @@ def _rules_placeholders(rules: VideoRules) -> dict[str, str]:
         "{{RULES.placement_slots}}": _bullets([
             f"{name} — {', '.join(s.kinds)} ({_slot_form(s)}){_slot_stages(s)}" for name, s in rules.placement.slots.items()]),
         "{{RULES.corner_elements}}": ", ".join(rules.hud.allowed_corner_elements),
+        "{{RULES.geo.director_coords}}": _bullets(rules.geo.director_coords),   # v7.4.0 D-1000 S5 — 좌표는 사전 이름·좌표만(저장 전 점검과 같은 규칙)
         "{{RULES.verification.quote_max_chars}}": str(rules.verification.quote_max_chars),
         "{{RULES.script_labels}}": ", ".join(v for v in rules.script_schema.labels.values() if v),   # v4.4.0 D-0093
         "{{RULES.media.density}}": _media_density(rules),   # v5.19.0 D-0163 §2 — 미디어 비트·기사 카드 밀도(검사 [media-density-*]·[article-unused] 와 같은 값)
@@ -199,13 +200,22 @@ def _genre_placeholders(rules: VideoRules, g: GenreProfile) -> dict[str, str]:
         "{{GENRE.colors}}": _bullets([f"{k}: {v}" for k, v in g.color_semantics.items()]),
         "{{GENRE.elements}}": ", ".join(sorted(g.elements() & set(_registered(rules)))),
         "{{GENRE.narration}}": _bullets(rows) if rows else "(없음)",
+        "{{GENRE.acts}}": (gp.acts_head + "\n" + _bullets(gp.acts[g.genre]) + "\n\n") if g.genre in gp.acts else "",   # v7.4.0 D-0278 §3
         "{{GENRE.avoid}}": ", ".join(nar.avoid) if nar is not None and nar.avoid else "(없음)",
-        "{{GENRE.data_sources}}": _bullets(gp.data_sources),
+        "{{GENRE.data_sources}}": _bullets([*gp.data_sources, *gp.data_sources_by_genre.get(g.genre, [])]),   # v7.4.0 D-0304 ② 장르 보충 줄
+        "{{GENRE.director_example}}": director_example(g),   # v7.4.0 D-0304 ① — 차트 무대별 연출 예시
         "{{GENRE.rubric}}": _numbered(gp.rubric_extra),
         "{{GENRE.rubric_n}}": str(len(gp.rubric_extra)),
         "{{GENRE.accents}}": ", ".join(rules.registries.accents),
         "{{GENRE.element_grammar}}": _bullets([t for k, t in gp.element_grammar.items() if k in g.elements()]) or "(없음)",   # v7.4.0 UF-400
     }
+
+
+def director_example(g: GenreProfile) -> str:
+    """v7.4.0 D-0304 ① — 장르 연출 예시 파일 이름 `{{EXAMPLE:genre_director_<무대>.json}}`. 무대 = timeline 이 주·보조 무대면 timeline
+    (차트가 무대 자체 — macro_monetary 그대로), 아니면 주 무대(earnings = backdrop + 차트 아일랜드). 파일이 없으면 _examples 가 오류."""
+    st = "timeline" if "timeline" in g.stage.names() else g.stage.primary
+    return "{{EXAMPLE:genre_director_" + st + ".json}}"
 
 
 def _registered(rules: VideoRules) -> list[str]:
@@ -221,8 +231,12 @@ def genre_block(name: str, rules: VideoRules, genre: GenreProfile | None) -> str
     path = prompt_path(f"genre_map_{name}" if genre.stage.primary == "mercator" else f"genre_{name}")
     if not path.exists():
         raise PromptTemplateError(f"{name}: 장르 {genre.genre} 문단 템플릿이 없다 — {path}")
-    text = _examples(_strip_header(path.read_text(encoding="utf-8")))
-    for key, value in _genre_placeholders(rules, genre).items():
+    ph = _genre_placeholders(rules, genre)
+    text = _strip_header(path.read_text(encoding="utf-8"))
+    for key, value in ph.items():
+        text = text.replace(key, value)
+    text = _examples(text)   # 예시 자리({{EXAMPLE:…}})는 장르 자리표시 뒤에 펼친다(director_example, D-0304) — 예시 안 자리표시도 채운다
+    for key, value in ph.items():
         text = text.replace(key, value)
     return "\n" + text
 

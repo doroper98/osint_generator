@@ -85,6 +85,56 @@ class RegistryCompleteTest(unittest.TestCase):
             self.assertEqual(len(out), 1, key)
 
 
+
+class SeriesStyleRegistryTest(unittest.TestCase):
+    """v7.4.0 back_and_forth D-0336 §1·D-0339 T3(P10) — series 스타일·island 종류 세 곳 등록.
+    rules registries.series_styles·island_kinds = 이벤트 모델 Literal = 렌더러 표(engine.registry) = 프리뷰 예제(tests/fixtures/preview)."""
+
+    def setUp(self) -> None:
+        from typing import get_args  # noqa: PLC0415
+
+        from engine import events as ev  # noqa: PLC0415
+
+        self.reg = load_rules().registries
+        self.registry = importlib.import_module("engine.registry")
+        self.series_lit = set(get_args(ev.SeriesEvent.model_fields["style"].annotation))
+        self.island_lit = set(get_args(ev.IslandEvent.model_fields["kind"].annotation))
+        detail = ev.IslandEvent.model_fields["style"].annotation
+        self.detail_lit = {a for x in get_args(detail) for a in get_args(x)}
+
+    def _fixtures(self) -> list[dict]:
+        out = []
+        for f in sorted((REPO / "tests" / "fixtures" / "preview").glob("*.yaml")):
+            ev_ = yaml.safe_load(f.read_text(encoding="utf-8")).get("event")
+            if isinstance(ev_, dict) and ev_.get("type") in ("series", "island"):
+                out.append(ev_)
+        return out
+
+    def test_model_literal_matches_rules(self) -> None:
+        self.assertEqual(self.series_lit, set(self.reg.series_styles))
+        self.assertEqual(self.island_lit, set(self.reg.island_kinds))
+        self.assertEqual(self.detail_lit, set(self.reg.series_styles_detail_only) | {"range"})
+
+    def test_renderer_for_every_style(self) -> None:
+        self.assertEqual(set(self.registry.SERIES_STYLE_RENDERERS), set(self.reg.series_styles))  # type: ignore[attr-defined]
+        self.assertEqual(set(self.registry.ISLAND_KIND_RENDERERS), set(self.reg.island_kinds))  # type: ignore[attr-defined]
+        for fn in [*self.registry.SERIES_STYLE_RENDERERS.values(), *self.registry.ISLAND_KIND_RENDERERS.values()]:  # type: ignore[attr-defined]
+            self.assertTrue(callable(fn))
+
+    def test_preview_fixture_for_every_style(self) -> None:
+        """스타일마다 예제 하나 — 일반 스타일은 series 이벤트, detail_only 는 island column_detail 이벤트(연출이 쓰는 모양 그대로)."""
+        fx = self._fixtures()
+        self.assertEqual(len(self.registry.validate_events(fx)), len(fx))  # type: ignore[attr-defined]   # P4
+        series_styles = {e["style"] for e in fx if e["type"] == "series"}
+        detail_styles = {e["style"] for e in fx if e["type"] == "island" and e.get("kind") == "column_detail"}
+        kinds = {e["kind"] for e in fx if e["type"] == "island"}
+        detail_only = set(self.reg.series_styles_detail_only)
+        self.assertEqual(series_styles | detail_styles, set(self.reg.series_styles))
+        self.assertEqual(series_styles & detail_only, set(), "detail_only 스타일을 series 이벤트로 직접 쓰는 예제")
+        self.assertTrue(detail_only <= detail_styles)
+        self.assertEqual(kinds, set(self.reg.island_kinds))
+
+
 _HEX = re.compile(r"#[0-9a-fA-F]{3,8}\b")
 ALLOWED_NUMBERS = {0, 1, 2}
 

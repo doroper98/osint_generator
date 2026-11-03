@@ -18,6 +18,7 @@ from pathlib import Path
 
 import yaml
 
+from engine.timing import stage_timer
 from orchestrator.config import load_config
 from rules import load_rules
 from script import lint_waivers
@@ -41,7 +42,8 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None) -> Plan:
     if tts == "elevenlabs":
         elevenlabs.require_allowed()   # 다른 단계보다 먼저(린트·합성 전에 거부) — 공통 함수(D-0153 Q0)
     script = load_script(proj)
-    rep = lint(script, load_claims_for(proj), mode=attribution_mode(proj, script), kinds=load_claim_kinds(proj))   # v3.2.0 — 출처는 claims.json 기준(D-0051 작업 8). v7.4.0 D-0233 귀속 방식
+    with stage_timer(proj, "script.lint"):
+        rep = lint(script, load_claims_for(proj), mode=attribution_mode(proj, script), kinds=load_claim_kinds(proj))   # v3.2.0 — 출처는 claims.json 기준(D-0051 작업 8). v7.4.0 D-0233 귀속 방식
     rep, waived = lint_waivers.apply(rep, lint_waivers.load(proj), script)   # v5.17.0 D-0168 — 정확 일치 면제만
     if rep.errors:
         raise ValueError("원고 린트 위반:\n" + "\n".join(i.line() for i in rep.errors))
@@ -79,12 +81,14 @@ def build(proj: Path, tts: str, warnings: list[str] | None = None) -> Plan:
         else:
             jobs.append((x["tts"], p))
     if st_cfg is not None:
-        supertonic.synth_all(jobs, st_cfg)
+        with stage_timer(proj, "script.tts", backend=tts, synth=len(jobs), sentences=len(rows)):
+            supertonic.synth_all(jobs, st_cfg)
     ff = load_rules().tts_rules.prosody.final_fall
     for x in rows:
         audio = None
         if st_cfg is not None:
-            x["alignment"] = forced_alignment(Path(x["mp3"]), x["tts"])
+            with stage_timer(proj, "script.align", sid=x["sid"]):
+                x["alignment"] = forced_alignment(Path(x["mp3"]), x["tts"])
             audio, rec = final_fall_audio(Path(x["mp3"]), x["tts"], x["sid"], ff)   # v5.20.0 D-0175 — 트림 앞, npy 가 제품 음성
             x["prosody"] = {"final_fall": rec.model_dump()}
         else:   # elevenlabs 정렬은 절대 시각이 아니다(TTS-AP-082) — 보정하지 않는다(기록 없음 = 돌지 않은 단계, P5)

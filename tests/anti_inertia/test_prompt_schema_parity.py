@@ -44,6 +44,7 @@ GENRE_ACTIVE: dict[str, str] = {
     "visual_qa": "engine.qa:QAVerdict",
 }
 GENRE_FOR_PARITY = "macro_monetary"
+GENRES_EXTRA: tuple[str, ...] = ("earnings",)   # v7.4.0 D-0304 ① — 다른 장르도 예시 파리티(earnings = backdrop + 차트 아일랜드 예시)
 PENDING_6_9: dict[str, str] = {}
 _FENCE = re.compile(r"```(yaml|json)\n(.*?)```", re.DOTALL)
 
@@ -75,14 +76,16 @@ class PromptSchemaParityTest(unittest.TestCase):
         from rules import load_rules  # noqa: PLC0415
         from workers.prompt_loader import genre_block  # noqa: PLC0415
 
-        rules, g = load_rules(), load_genre(GENRE_FOR_PARITY)
-        for name, ref in GENRE_ACTIVE.items():
-            blocks = [json.loads(b) if k == "json" else yaml.safe_load(b) for k, b in _FENCE.findall(genre_block(name, rules, g))]
-            self.assertTrue(blocks, f"prompts/genre_{name}.md 에 예시 블록이 없다")
-            for data in blocks:
-                obj = _model(ref).model_validate(data)  # type: ignore[attr-defined]
-                if name == "visual_qa":   # 루브릭 항목 전부(워커 check_parsed 와 같은 규칙)
-                    self.assertEqual(obj.rubric_missing(len(rules.genre_prompt.rubric_extra)), [])
+        rules = load_rules()
+        for gname in (GENRE_FOR_PARITY, *GENRES_EXTRA):   # v7.4.0 — 장르마다(earnings, D-0278 §4.3 P4)
+            g = load_genre(gname)
+            for name, ref in GENRE_ACTIVE.items():
+                blocks = [json.loads(b) if k == "json" else yaml.safe_load(b) for k, b in _FENCE.findall(genre_block(name, rules, g))]
+                self.assertTrue(blocks, f"prompts/genre_{name}.md 에 예시 블록이 없다({gname})")
+                for data in blocks:
+                    obj = _model(ref).model_validate(data)  # type: ignore[attr-defined]
+                    if name == "visual_qa":   # 루브릭 항목 전부(워커 check_parsed 와 같은 규칙)
+                        self.assertEqual(obj.rubric_missing(len(rules.genre_prompt.rubric_extra)), [])
 
     def test_script_example_passes_lint(self) -> None:
         # 예시가 금지 문구·발음 기호를 가르치면 안 된다(D-0025 §3) — 나레이션을 원고 린트에 그대로 통과시킨다

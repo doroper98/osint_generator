@@ -120,8 +120,7 @@ class OctaveCleanTest(unittest.TestCase):
         self.assertGreater(st, -CFG.semitones - 0.5)
 
     def test_disabled_keeps_v5_20_0_path(self) -> None:
-        cfg = CFG.model_copy(deep=True)
-        cfg.octave_clean.enabled = False
+        cfg = CFG.model_copy(update={"octave_clean": CFG.octave_clean.model_copy(update={"enabled": False})})   # v7.4.0 D-1000 S1 — frozen
         y1, r1 = final_fall(_vowel(), _align(), TEXT, cfg)
         y2, _ = final_fall(_vowel(), _align(), TEXT, CFG)
         self.assertEqual(r1.octave_fixed_n, 0)

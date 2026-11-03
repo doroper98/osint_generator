@@ -166,6 +166,23 @@ entities:
     role_default: 대한민국 산업통상부 장관
     accent: gold
     rights: people.kim_jung_kwan
+  # ---------------------------------------------------------------- 기업(v7.4.0 D-0278 §4.3 — 뱃지 = 국기 원 + 코드 조판 회사명, 로고 없음)
+  samsung_electronics:
+    kind: company
+    names: [삼성전자, Samsung Electronics]
+    flag: kr
+    ticker: 005930.KS
+    exchange: KRX
+    accent: gold
+    rights: flags.flag_icons
+  intel:
+    kind: company
+    names: [인텔, Intel]
+    flag: us
+    ticker: INTC
+    exchange: NASDAQ
+    accent: gold
+    rights: flags.flag_icons
   # ---------------------------------------------------------------- 기관
   navcent:
     kind: org

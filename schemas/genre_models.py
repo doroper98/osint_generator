@@ -33,7 +33,7 @@ class TimelineLane(_Strict):
 
     id: str
     label: str
-    kind: Literal["step", "line"]   # v7.4.0 D-0274 §1① — 사건 레인(pins) 삭제: 핀은 값 레인 위 점(UF-142)
+    kind: Literal["step", "line", "bars"]   # v7.4.0 D-0274 §1① — 사건 레인(pins) 삭제: 핀은 값 레인 위 점(UF-142). bars = v7.4.0 D-0278 §4.3(분기 실적 막대 레인 — 축 하한 0, 렌더러는 T3)
     unit: Optional[str] = None
 
 
@@ -46,6 +46,10 @@ class GenreStage(_Strict):
 
     primary: str
     secondary: list[str] = Field(default_factory=list)
+    # v7.4.0 D-0304 ①(R-0291) — 차트 아일랜드 숏 전용 무대(주 무대 backdrop 에서 stage: timeline 숏 = 아일랜드 뷰포트 카메라, D-0126 Q1).
+    # 보조 무대 수(rules stage.max_secondary)에 세지 않는다 — engine.shots.stage_continuity 가 아일랜드 숏을 무대 전환에서 빼는 것과 같은 뜻.
+    # Direction 은 아일랜드 숏에만 이 무대를 허용한다(최상위 stage·일반 숏은 주·보조만)
+    island_stages: list[str] = Field(default_factory=list)
     mercator: Optional[dict[str, Any]] = None
     timeline: Optional[TimelineSettings] = None
     chart_wall: Optional[dict[str, Any]] = None
@@ -56,6 +60,10 @@ class GenreStage(_Strict):
     def names(self) -> list[str]:
         return [self.primary, *self.secondary]
 
+    def all_names(self) -> list[str]:
+        """주·보조 + 아일랜드 전용 무대(v7.4.0 D-0304) — 무대 설정 키·레지스트리 점검 대상."""
+        return [*self.names(), *self.island_stages]
+
     def settings(self) -> dict[str, object]:
         return {k: v for k in ("mercator", "timeline", "chart_wall", "flow", "structure", "document") if (v := getattr(self, k)) is not None}
 
@@ -63,9 +71,13 @@ class GenreStage(_Strict):
     def _shape(self) -> "GenreStage":
         if len(set(self.names())) != len(self.names()):
             raise ValueError(f"stage: 무대 이름 중복 {self.names()}")
-        stray = sorted(set(self.settings()) - set(self.names()))
+        if set(self.island_stages) & set(self.names()) or len(set(self.island_stages)) != len(self.island_stages):
+            raise ValueError(f"stage.island_stages {self.island_stages} 는 주·보조 무대와 겹치지 않고 중복 없음")
+        if self.island_stages and self.primary != "backdrop":
+            raise ValueError("stage.island_stages 는 주 무대 backdrop 에서만(차트 아일랜드 = 사진 배경 위 뷰포트, D-0126 Q1)")
+        stray = sorted(set(self.settings()) - set(self.all_names()))
         if stray:
-            raise ValueError(f"stage: 주·보조 무대가 아닌 무대의 설정 {stray}")
+            raise ValueError(f"stage: 주·보조·아일랜드 무대가 아닌 무대의 설정 {stray}")
         return self
 
 
@@ -96,6 +108,9 @@ class GenreNarration(_Strict):
     attribute_causality: bool = False            # v4.4.0 — 인과 귀속(20 §7)
     numbers_per_sentence_max: Optional[int] = Field(default=None, ge=1)   # v4.4.0 — 문장당 숫자 상한(20 §7)
     forecast_attribution: bool = False           # v4.4.0 — 전망 귀속·점도표는 약속 아님(20 §5.2)
+    company_metric_attribution: bool = False     # v7.4.0 D-0278 §4.3 — 회사 산정 지표(비GAAP·가이던스) 귀속
+    consensus_attribution: bool = False          # v7.4.0 D-0278 §4.3 — 예상치 = 집계 기관 + 매체 귀속
+    price_window_attribution: bool = False       # v7.4.0 D-0278 §4.3 — 주가 반응 창(시간외·종가) 명시
     recurring_model: bool = False                # v7.4.0 UF-400 — 설명 모형을 한 번 세우고 사례마다 되부른다(영상 분석 §5.3)
     avoid: list[str] = Field(default_factory=list)
 
@@ -121,6 +136,10 @@ class GenreProfile(_Strict):
     photo_age_check: bool = True   # v7.4.0 D-0327 — [photo-age] warning(역사 장르는 false)
     # v7.4.0 UF-147(D-0302 ⑤) — 템플릿 표시 줄 문구("실적 발표 템플릿"). 있으면 타이틀 부제 앞·엔딩 카드 머리 줄에 코드가 조판([template-label-missing] hard)
     template_label: Optional[str] = Field(default=None, min_length=1)
+    # v7.4.0 D-0278 §4.3 — 엔딩 카드 투자 고지(rules end_card.notice_invest). true 인데 그리지 않으면 [invest-notice-missing] hard
+    invest_notice: bool = False
+    # v7.4.0 D-0310 §1-1(UF-155) — 화면 팔레트(rules palettes 이름). 없으면 기존 색. 없는 이름 = 오류(engine.style.apply_palette)
+    palette: Optional[str] = None
 
     @field_validator("genre")
     @classmethod
@@ -142,7 +161,7 @@ class GenreProfile(_Strict):
         proposed = self.status == "proposed"
         errs: list[str] = []
         stages_ok = set(reg.stages) | (set(reg.stages_planned) if proposed else set())
-        for s in self.stage.names():
+        for s in self.stage.all_names():
             if s not in stages_ok:
                 why = "구현 전(stages_planned) — approved 는 등록 무대만" if s in reg.stages_planned else "레지스트리에 없음"
                 errs.append(f"stage {s!r}: {why}")

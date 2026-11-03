@@ -5,7 +5,7 @@
 - MAD 계산, 렌더 조각 분할, SRT·설명문 생성(골든과 동일), 전환 시트 시각
 
 v2.3.0(D32): 옛 실행기(tools 의 v3 러너) 삭제에 따라 조각 분할·SRT·설명문 테스트 대상을 새 엔진 동명 함수
-(`engine.render.chunk_ranges`, `engine.mux.{srt_time, build_srt, build_description}`)로 바꿨다. 테스트는 삭제하지 않았다.
+(`engine.chunk_cache.grid_ranges`(v7.4.0 D-1000 S2, 옛 engine.render.chunk_ranges), `engine.mux.{srt_time, build_srt, build_description}`)로 바꿨다. 테스트는 삭제하지 않았다.
 """
 
 from __future__ import annotations
@@ -24,7 +24,7 @@ from fetch_data import TIERS, tile_range  # noqa: E402
 import golden_compare  # noqa: E402
 from golden_compare import anchor_time, load_expected_deltas, load_golden, mad  # noqa: E402
 from engine.mux import build_description, build_srt, load_description, srt_time  # noqa: E402
-from engine.render import chunk_ranges  # noqa: E402
+from engine.chunk_cache import grid_ranges  # noqa: E402 — v7.4.0 D-1000 S2: jobs 분할(chunk_ranges) → 고정 격자
 from script.schema import Plan  # noqa: E402
 
 REF_PLAN = json.loads((REPO / "docs/handoff/reference_code/v3_hormuz_korea/plan.json").read_text(encoding="utf-8"))
@@ -77,7 +77,7 @@ class MadTest(unittest.TestCase):
 
 class RunnerTest(unittest.TestCase):
     def test_chunk_ranges_cover_without_gap(self) -> None:
-        r = chunk_ranges(7018, 4)
+        r = grid_ranges(7018, 240)
         self.assertEqual(r[0][0], 0)
         self.assertEqual(r[-1][1], 7018)
         self.assertTrue(all(a[1] == b[0] for a, b in zip(r, r[1:])))

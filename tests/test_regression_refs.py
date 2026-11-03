@@ -25,7 +25,7 @@ class RegressionRefsTest(unittest.TestCase):
     def test_scope_fixed(self) -> None:
         """범위 고정 — 회귀 기준 둘(골든·엔진 데모)만. 새 영상·쇼케이스는 넣지 않는다."""
         self.assertEqual(sorted(QA.regression_refs), ["fed_timeline_demo", "hormuz_korea"])
-        self.assertEqual(sorted(QA.regression_ref_checks), ["axis_empty_band", "chart_only_run", "media_density", "photo_subject_background", "photo_subject_unmatched", "plot_height", "text_restates_narration"])
+        self.assertEqual(sorted(QA.regression_ref_checks), ["axis_empty_band", "chart_only_run", "chart_overload", "element_hold", "map_cover_share", "map_event_covered", "map_opening", "media_density", "media_overlap", "media_sentence_span", "photo_subject_background", "photo_subject_unmatched", "plot_height", "text_restates_narration"])   # chart_overload = v7.4.0 D-0344(fed 데모 기록만). map_event_covered = v7.4.0 D-1000 S3(골든 2건 기록만)
         self.assertTrue(set(QA.regression_ref_checks) <= set(checks.HARD))
 
     def test_project_id_beats_folder_name(self) -> None:

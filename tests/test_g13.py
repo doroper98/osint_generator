@@ -78,7 +78,7 @@ class MainMissingTest(unittest.TestCase):
         ev = [_ev("card", 0, 20, tag="a")]
         self.assertEqual(main_missing(ev, 20, [], "mercator"), [])
         self.assertEqual(main_missing(ev, 20, [], "timeline"), [])
-        with mock.patch.object(ISLAND, "main_required", False):
+        with mock.patch("engine.island.ISLAND", ISLAND.model_copy(update={"main_required": False})):   # v7.4.0 D-1000 S1 — 규칙 객체는 frozen·공유(사본으로 바꾼다)
             self.assertEqual(main_missing(ev, 20, [], "backdrop"), [])
 
     def test_check_registered_hard_and_reads_cache(self) -> None:

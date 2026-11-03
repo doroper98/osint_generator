@@ -39,7 +39,7 @@ class InsetStickyTest(unittest.TestCase):
     def test_track_interpolates_no_jump(self) -> None:
         e = _ev()
         fr = _frames(60)
-        with mock.patch.object(F.inset, "predict_keyframes", False):   # 보간 경로를 본다(예측이 고정 자리를 찾으면 옮김 0)
+        with mock.patch("engine.layers.flight.F", F.model_copy(update={"inset": F.inset.model_copy(update={"predict_keyframes": False})})):   # 보간 경로를 본다(예측이 고정 자리를 찾으면 옮김 0)
             build_inset_track(e, fr)
         tr = e["inset_track"]
         self.assertGreaterEqual(len(tr["moves"]), 1)   # 이 경로는 자리를 한 번 이상 옮긴다
@@ -72,7 +72,7 @@ class InsetStickyTest(unittest.TestCase):
         try:
             out = checks.check_inset_jump(P)
             self.assertTrue(out and out[0].startswith("[inset-jump]"), out)
-            with mock.patch.object(F.inset, "predict_keyframes", False):
+            with mock.patch("engine.layers.flight.F", F.model_copy(update={"inset": F.inset.model_copy(update={"predict_keyframes": False})})):
                 build_inset_track(e, fr)
             self.assertEqual(checks.check_inset_jump(P), [])
             self.assertTrue(checks.check_inset_side_change(P)[0].startswith("[inset-side-change]"))

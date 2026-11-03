@@ -11,9 +11,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from engine.fontenv import ensure as _ensure_fontconfig
 from orchestrator.config import load_config
 from rules import load_rules
 
+_ensure_fontconfig()   # v7.4.0 RENDER-AP-032 — 글꼴을 처음 쓰기 전 표준 FONTCONFIG_FILE·시작 점검(모든 렌더 경로가 engine.style 을 지난다)
 _RULES = load_rules()
 _CFG = load_config()
 
@@ -81,6 +83,49 @@ C: dict[str, Color] = {
 BADGE_BG: Color = hexc(_c.badge_bg)
 # v5.18.0 D-0161 §3 — 지도 위 요소의 테마별 의미색(없는 키 = C 공통값). 지도 무대가 아니면(카드·패널·자막 등) 쓰지 않는다
 C_THEME: dict[str, dict[str, Color]] = {th: {k: hexc(v) for k, v in m.items()} for th, m in _c.themes.items()}
+
+
+# v7.4.0 D-0310 §1-1(UF-155) — 장르 팔레트(rules palettes). engine.project 가 영상마다 apply_palette 로 고른다(없으면 기존 색으로 되돌린다).
+# 의미색 → C 키: 팔레트를 고르면 C 가 그 값으로 바뀌고, 바탕·아일랜드는 PALETTE 로 읽는다(bg_rgb·island_rgb·border_rgb).
+_C_BASE: dict[str, Color] = dict(C)
+PALETTE_TO_C: dict[str, tuple[str, ...]] = {"text": ("white",), "muted": ("muted",), "accent": ("gold", "kr"), "up": ("green",), "down": ("ru",)}
+PALETTE: dict[str, Color] = {}
+PALETTE_RAW = ("grid_alpha", "zero_alpha", "surface")   # v7.4.0 D-0322·D-0323 — 색이 아닌 팔레트 키
+
+
+def stage_surface() -> bool:
+    """팔레트 surface 가 stage(차트 = 무대, D-0328)인가."""
+    return PALETTE.get("surface") == "stage"  # type: ignore[comparison-overlap]
+
+
+def apply_palette(name: str | None) -> None:
+    """팔레트 적용(없으면 기존 색). 없는 이름 = 오류(P10)."""
+    C.clear()
+    C.update(_C_BASE)
+    PALETTE.clear()
+    if name is None:
+        return
+    pals = _RULES.palettes
+    if name not in pals:
+        raise ValueError(f"팔레트 {name!r} 없음 — rules palettes 는 {sorted(pals)}")
+    p = pals[name]
+    PALETTE.update({k: (v if isinstance(v, (float, str)) and k in PALETTE_RAW else hexc(v)) for k, v in p.model_dump().items() if v is not None})   # 알파·surface 는 값 그대로
+    for tok, keys in PALETTE_TO_C.items():
+        for k in keys:
+            C[k] = PALETTE[tok]
+
+
+def bg_rgb(default: Color) -> Color:
+    """무대 바탕 — 팔레트 bg, 없으면 규칙 값."""
+    return PALETTE.get("bg", default)
+
+
+def island_rgb(default: Color) -> Color:
+    return PALETTE.get("island", default)
+
+
+def border_rgb(default: Color) -> Color:
+    return PALETTE.get("border", default)
 
 
 TEXT_BASE: dict[str, str] = {"gold_text": "gold"}   # v5.20.1 D-0178 — 지도 글자 전용 토큰(공통값 없음) → 이 도형 토큰으로(dark = 공통 gold, 바이트 동일)
