@@ -111,6 +111,7 @@ class GenreNarration(_Strict):
     company_metric_attribution: bool = False     # v7.4.0 D-0278 §4.3 — 회사 산정 지표(비GAAP·가이던스) 귀속
     consensus_attribution: bool = False          # v7.4.0 D-0278 §4.3 — 예상치 = 집계 기관 + 매체 귀속
     price_window_attribution: bool = False       # v7.4.0 D-0278 §4.3 — 주가 반응 창(시간외·종가) 명시
+    recurring_model: bool = False                # v7.4.0 UF-400 — 설명 모형을 한 번 세우고 사례마다 되부른다(영상 분석 §5.3)
     avoid: list[str] = Field(default_factory=list)
 
 

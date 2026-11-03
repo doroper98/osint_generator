@@ -180,6 +180,8 @@ class DeclaredLeg(BaseModel):
 
 
 class RouteEvent(_Event):
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("flow",)   # v7.4.0 UF-401 — 안 쓰면 dict 옛 모양
+
     type: Literal["route"]
     pts: list[LonLat] = Field(min_length=2)
     grow: float
@@ -189,6 +191,8 @@ class RouteEvent(_Event):
     glow_only: bool = False
     label: str = ""
     declared: Optional[DeclaredLeg] = None   # v7.4.0 D-0229 §2.5(UF-112)
+    # v7.4.0 UF-400·UF-401(영상 분석 D3) — 관계·영향이 한쪽으로 흐르는 선(지원·지시·자금): 다 그려진 선 위를 점들이 출발 → 도착으로 흐른다
+    flow: Optional[bool] = Field(default=None, description="true = 선이 다 그려진 뒤 점들이 출발→도착으로 흐름(관계·영향의 방향). 이동 경로·항로엔 쓰지 않는다")
 
     @model_validator(mode="after")
     def _bend(self) -> "RouteEvent":
@@ -283,7 +287,7 @@ class CountryEvent(_Event):
 class BadgeEvent(_Event):
     """뱃지. 지도 앵커 lon·lat, 또는 시간축 앵커 date·lane(v4.4.0 D-0090 작업 4 — 배치 슬롯이 시간축에서 date·lane 을 돌려준다). 한 쌍만."""
 
-    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane", "over_panel", "screen")   # 쓰지 않은 앵커 쌍·패널 위 자리는 dict 에 남기지 않는다(지도 뱃지 dict = v4.3.0 과 같음)
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane", "over_panel", "screen", "pulse", "mark", "mark_t")   # 쓰지 않은 앵커 쌍·패널 위 자리·신호는 dict 에 남기지 않는다(지도 뱃지 dict = v4.3.0 과 같음)
 
     type: Literal["badge"]
     lon: Optional[float] = None
@@ -301,6 +305,19 @@ class BadgeEvent(_Event):
     side: Optional[Literal["right"]] = None
     over_panel: Optional[bool] = None                     # v4.8.0 D-0104 D2(c) — 배치 슬롯(panel_badge)이 채운다: 패널 층 위, 화면 고정
     screen: Optional[tuple[float, float]] = None
+    # v7.4.0 UF-400·UF-401(영상 분석 D1·D9·D10) — 뱃지 신호. 뱃지는 머물고 신호만 더한다(다시 띄우지 않는다)
+    pulse: Optional[list[float]] = Field(default=None, description="재언급 시각 목록(word 앵커) — 그 순간 고리가 퍼진다. 뱃지 [t0, t1] 안")
+    mark: Optional[Literal["strike", "question"]] = Field(default=None, description="strike = 숙청·사망 사실 문장의 붉은 X, question = 의문·미확인의 '?' 말풍선")
+    mark_t: Optional[float] = Field(default=None, description="표시 시각(word 앵커). 없으면 t0")
+
+    @model_validator(mode="after")
+    def _cues(self) -> "BadgeEvent":
+        out = [p for p in (self.pulse or []) if not self.t0 <= p <= self.t1]
+        if out:
+            raise ValueError(f"badge pulse {out} 가 뱃지 구간 [{self.t0}, {self.t1}] 밖")
+        if self.mark_t is not None and (self.mark is None or not self.t0 <= self.mark_t <= self.t1):
+            raise ValueError("badge mark_t 는 mark 가 있을 때만, 뱃지 구간 안")
+        return self
 
     @model_validator(mode="after")
     def _anchor(self) -> "BadgeEvent":
@@ -392,8 +409,23 @@ class QuoteEvent(_Event):
         return self
 
 
+class MediaSpot(BaseModel):
+    """v7.4.0 UF-400·UF-401(영상 분석 D15) — 사진·영상 속 한 사람을 가리키는 점선 원. x·y = 그림 안 중심(폭·높이 비율 0~1), r = 반지름(그림 폭 비율).
+    dim = 원 밖을 어둡게(화면 덮개 — 원본 화소 가공 아님). t = 나타나는 시각(word 앵커, 없으면 이벤트 t0)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    x: float = Field(ge=0, le=1)
+    y: float = Field(ge=0, le=1)
+    r: float = Field(gt=0, le=0.5)
+    dim: bool = False
+    t: Optional[float] = None
+
+
 class PhotoEvent(_Event):
     """사진 카드 — 파일·캡션·출처 줄은 미디어 레지스트리에서만. 연출이 문자열을 주면 모델 오류(extra=forbid, D-0036)."""
+
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("spot",)   # v7.4.0 UF-401 — 안 쓰면 dict 옛 모양
 
     type: Literal["photo"]
     mid: str
@@ -403,6 +435,7 @@ class PhotoEvent(_Event):
     x: Optional[float] = None      # 없으면 배치 슬롯 기본값(engine.placement, rules placement.auto_media — 14 §10.3-5)
     y: Optional[float] = None
     w: Optional[float] = None
+    spot: Optional[MediaSpot] = Field(default=None, description="사진 속 한 사람 점선 원 {x, y, r(그림 비율), dim, t}")
 
     @model_validator(mode="after")
     def _xyw_together(self) -> "PhotoEvent":
@@ -412,10 +445,13 @@ class PhotoEvent(_Event):
 
 
 class ClipEvent(_Event):
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("spot",)   # v7.4.0 UF-401 — 안 쓰면 dict 옛 모양
+
     type: Literal["clip"]
     mid: str
     role: Literal["main", "broll"] = "main"   # v7.4.0 D-0274 §2① — main = 주 요소(액자 clip_frame·원음), broll = 현장 보조(구석 슬롯)
     frame: Optional[Literal["clip_frame"]] = None   # v7.4.0 D-0274 §2① — 코드(engine.placement)가 main 클립에 붙이는 액자 슬롯 표시. 연출이 쓰지 않는다
+    spot: Optional[MediaSpot] = Field(default=None, description="영상 속 한 사람 점선 원 {x, y, r(그림 비율), dim, t}")   # v7.4.0 UF-401
     audio: Optional[Literal["main", "broll"]] = None   # v7.4.0 D-0276 — 원음 이득을 배치 role 과 따로: None=role 과 같게, broll=현장음(발언이 아닌 전투·현장 영상을 액자(main)로 크게 보이되 소리는 낮게, geo strikes)
     x: Optional[float] = None
     y: Optional[float] = None
@@ -831,11 +867,27 @@ class PanelFork(_Panel):
 
 
 class PanelChecklist(_Panel):
+    DROP_NONE: ClassVar[tuple[str, ...]] = (*_Panel.DROP_NONE, "style", "at")   # v7.4.0 UF-401 — 안 쓰면 dict 옛 모양(부모 chart 유지)
+
     kind: Literal["checklist"]
     subtitle: Optional[str] = None
     items: list[str] = Field(min_length=1, max_length=4)
     footer: str = ""
     provenance: Optional[ChartProvenance] = None
+    # v7.4.0 UF-400·UF-401(영상 분석 D11) — open = 가설·후보처럼 '확인되지 않은 목록': 번호 칸을 먼저 비워 보이고 at 시각에 채운다. 체크 표시 없음
+    style: Optional[Literal["check", "open"]] = Field(default=None, description="check(기본) = 확인된 사실 체크, open = 가설·후보 — 빈 번호 칸을 먼저 보이고 at 에 채운다(체크 없음)")
+    at: Optional[list[float]] = Field(default=None, description="open 칸마다 채우는 시각(word 앵커) — items 와 같은 개수, 시간 순")
+
+    @model_validator(mode="after")
+    def _open(self) -> "PanelChecklist":
+        if self.at is not None:
+            if self.style != "open":
+                raise ValueError("checklist at 은 style open 에서만")
+            if len(self.at) != len(self.items):
+                raise ValueError(f"checklist at {len(self.at)}개 ≠ items {len(self.items)}개")
+            if any(b < a for a, b in zip(self.at, self.at[1:])) or not all(self.t0 <= x <= self.t1 for x in self.at):
+                raise ValueError("checklist at 은 시간 순, 패널 구간 안")
+        return self
 
 
 class NetworkNode(_Strict):
@@ -851,6 +903,7 @@ class NetworkNode(_Strict):
     role: Optional[str] = None
     accent: Accent = "muted"
     big: bool = False              # 중심 인물(뱃지 크게)
+    crowd: Optional[bool] = None   # v7.4.0 UF-401(영상 분석 D4) — 둘레 점 고리(지지 기반 표지, 수치 아님)
 
     @model_validator(mode="after")
     def _kind_fields(self) -> "NetworkNode":
@@ -873,6 +926,8 @@ class NetworkEdge(_Strict):
     dst: str
     type: Annotated[str, AfterValidator(_network_style)]
     label: str = ""
+    # v7.4.0 UF-400·UF-401(영상 분석 D13) — drop = 위 노드 아래 끝에서 아래 노드 위 끝으로 곧게 내리는 선(가계·후견). 같은 열끼리도 허용
+    shape: Optional[Literal["drop"]] = None
 
 
 class NetworkMention(_Strict):
@@ -897,7 +952,7 @@ class PanelNetwork(_Chart):
             for end in (e.src, e.dst):
                 if end not in col:
                     raise ValueError(f"network 선 끝 {end!r} 가 노드에 없다")
-            if col[e.src] == col[e.dst]:
+            if col[e.src] == col[e.dst] and e.shape != "drop":
                 raise ValueError(f"network 선 {e.src}→{e.dst}: 같은 열끼리는 잇지 않는다(수평 접선 곡선, 08 §3 규칙 3)")
         for m in self.mentions:
             if m.node not in col:
