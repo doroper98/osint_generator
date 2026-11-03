@@ -3,7 +3,7 @@ tier: 3
 last_synced_with: v7.4.0
 ssot_for: [report-video_analysis_nk_succession_2026-11-02]
 depends_on: [CLAUDE.md, rules/video_rules.yaml, genres/political_history.yaml, rules/user_feedback.yaml]
-last_review: 2026-11-02
+last_review: 2026-11-03
 note: 사용자 의견 UF-400 — 레퍼런스 영상 분석과 템플릿 보완·신설 기록. 분석 세션(claude/video-analysis-2026)
 ---
 
@@ -179,3 +179,34 @@ docs/handoff/20 §4.1에 따라 **사용자 스케치 판정 전에는 영상에
 2. `political_history` 템플릿을 approved 로 올릴지.
 3. 후속 제안 중 먼저 만들 것. 영상 문법 효과가 큰 순서로 적으면 D1 재언급 맥동, D11 열린 가설 칸, D15 영상 속 점선 원, D7 큰 연도 숫자입니다.
 4. 쉼 길이(§3.2). 레퍼런스 쉼은 우리의 3분의 1입니다. 바꾸려면 `tempo.sentence_gap_sec` 개정이 필요합니다.
+
+## 7. 사용자 결정(UF-401)과 반영
+
+사용자 원문: "1. 승인. 매우 만족 2. 승인 상태로 올려 3. 동의 하고 순차적으로 다 반영해 4. 현행 유지"
+
+| 항목 | 반영 |
+|---|---|
+| ① 신설 요소 두 개 | process_lane·doc_excerpt 스케치 승인 — 규칙 주석에 승인 근거(UF-401) |
+| ② 템플릿 | `genres/political_history.yaml` status approved, 고정 시험 `test_political_history_approved` |
+| ③ 후속 장치 | 아래 표 순서대로 커밋 하나에 장치 하나 |
+| ④ 쉼 길이 | `tempo.sentence_gap_sec` 0.9 현행 유지(주석) |
+
+후속 장치 실렌더 시트: `video_analysis_nk_succession_2026-11-02_followups.jpg`.
+샘플 초상은 실루엣, 사진은 합성 그림입니다. 실존 인물 위에 X 를 그리는 샘플은 만들지 않았습니다.
+
+| 순서 | 장치(§4 번호) | 연출이 쓰는 필드 | 규칙 키 | 시험 |
+|---|---|---|---|---|
+| ③-1 | D1 재언급 맥동 · D9 숙청 X · D10 물음표 | badge `pulse`·`mark`·`mark_t` | `layout_480p.badge.cue` | `test_v740_badge_cues.py` |
+| ③-2 | D11 열린 가설 칸 | checklist `style: open`·`at` | `panels.charts.checklist.open` | `test_v740_checklist_open.py` |
+| ③-3 | D15 사진·영상 속 점선 원 | photo·clip `spot{x, y, r, dim, t}` | `layout_480p.media_spot` | `test_v740_media_spot.py` |
+| ③-4 | D7 큰 연도 숫자 | 프리미티브 `era_numeral` | `primitives.era_numeral` | `test_primitive_era_numeral.py` |
+| ③-5 | D3 선 위를 흐르는 점 | route `flow` | `layout_480p.route_flow` | `test_v740_route_flow.py` |
+| ③-6 | D13 가계 내림선 | network 선 `shape: drop` | `panels.charts.network.drop` | `test_v740_network_drop.py` |
+| ③-7 | D4 권력 원 후광 | network 노드 `crowd` | `panels.charts.network.crowd` | `test_v740_network_drop.py` |
+
+공통 원칙은 세 가지입니다.
+- 새 필드를 안 쓰면 이벤트 dict 가 옛 모양 그대로입니다(DROP_NONE). 기존 영상 출력은 바뀌지 않습니다.
+- 요소마다 쓰는 법을 `genre_prompt.element_grammar` 에 한 줄씩 넣었습니다. 지도형 장르 연출 프롬프트에 들어갑니다.
+- 사실 경계를 문법에 박았습니다. strike 는 확인된 숙청·사망 문장에만 씁니다. crowd 점 수는 인원 수치가 아닙니다. 연도 숫자는 원고 날짜의 해만 씁니다. dim 은 화면 덮개라 원본 화소를 바꾸지 않습니다.
+
+§4 표의 '후속 제안'은 모두 반영됐습니다. '가져오지 않음' 항목(D8 계기판, D16 제원 카드, D17~D20)은 그대로입니다.

@@ -3452,3 +3452,9 @@ last_review: 2026-06-06
 - 무엇을: 사용자 업로드 해설 영상(12:04) 실측 — 하드 컷 0, 최장 정지 2.4초, 자막 덩어리 분당 17.1, 말하는 동안 분당 약 409음절(우리 기준 작품 367), 쉼 중앙값 0.25~0.30초(우리 0.9). 장치 19종 대조 → 신설 process_lane·doc_excerpt·political_history·genre_map 프롬프트 층·recurring_model, 보완 sentence_still 검사.
 - 왜: 사용자 지시 UF-400. 레퍼런스의 강점은 '설명 모형을 한 번 세우고 사례마다 되부르는' 서사와 문장마다 요소가 바뀌는 밀도. 겉모양(색·글꼴·조판)은 우리 토큰으로 새로 짰다(LLM-AP-022·UF-202).
 - 막힌 것: anti_inertia 6건 실패 = 골든 자산 부재 3(환경) + 원장 기존 문제 1(UF-203·204 분류) + 이 브랜치 원장의 samsung open 10건 경보 1(경제 브랜치에선 guarded) + 장부 표 재생성 1(해결).
+
+## 2026-11-03 v7.4.0 — UF-401 사용자 결정 반영: 정치사 템플릿 승인·후속 장치 7종
+
+- 무엇을: process_lane·doc_excerpt 승인, political_history approved, tempo 현행 유지. 후속 장치 순서대로 — 뱃지 pulse·strike·question, checklist open, photo·clip spot, era_numeral, route flow, network drop·crowd. 모두 선택 필드(안 쓰면 dict 옛 모양), 수치는 rules, 요소 문법은 genre_prompt.element_grammar.
+- 왜: 사용자 결정 "동의 하고 순차적으로 다 반영해". 사실 경계(strike = 확인된 숙청·사망만, crowd 점 수 = 수치 아님, 연도 = 원고 날짜의 해만, dim = 덮개)를 문법과 검증에 같이 넣었다.
+- 시행착오: 시험이 도는 중 규칙 파일을 고쳐 콘티 판 렌더 조각이 반쯤 바뀐 규칙을 읽고 실패 — 현 코드 재현에서 정상 완료(fed_timeline_demo 2조각). 시험 중에는 규칙·엔진 파일을 고치지 않는다. 샘플에 실존 인물 초상을 썼다가 X 표시가 실존 인물 위에 그려져 폐기, 실루엣으로 다시 렌더.
