@@ -52,6 +52,17 @@ class VersusHalfLeftTest(unittest.TestCase):
         hx, hy, hw, hh = V.half_frame()
         self.assertLessEqual(hy + 2 * hh + V.VS.half_left.gap, V.VS.half_left.bottom + 1e-6)
 
+    def test_columns_never_overlap_while_moving(self) -> None:
+        """옮기는 동안 두 기둥 상자가 겹치지 않는다(대각선 이동이면 리비우스 기둥이 폴리비오스 글자를 덮는다 — 282.4초 프레임)."""
+        e = _doc()["event"]
+        hf, mv = e["half_left_from"], V.VS.half_left.move_sec
+        for k in range(41):
+            (ax, ay, aw, ah), (bx, by, bw, bh) = V.column_rects(hf + mv * k / 40, e)
+            self.assertFalse(ax < bx + bw and bx < ax + aw and ay < by + bh and by < ay + ah, k)
+            img = _render(e, hf + mv * k / 40)   # 기둥 상자 밖(아래 기둥 아래 ~ 자막 구역)에 글자가 없다 — 출처 줄이 상자를 벗어나지 않음
+            low = int(max(ay + ah, by + bh)) + 2
+            self.assertEqual(int(img[low:405, :, 3].astype(int).sum()), 0, k)
+
     def test_plain_versus_unchanged(self) -> None:
         """half_left_from 없는 versus 는 옛 자리(좌우 기둥) 그대로 — t 와 무관하게 u = 0."""
         e = {k: v for k, v in _doc()["event"].items() if k != "half_left_from"}

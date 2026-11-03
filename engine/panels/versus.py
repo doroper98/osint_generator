@@ -38,13 +38,31 @@ def item_lines(ctx: cairo.Context, s: str) -> list[str]:
 
 
 def half_u(t: float, e: dict) -> float:
-    """왼쪽 모음 진행(0 = 좌우 기둥, 1 = 왼쪽 위아래). half_left_from 이 없으면 0(v7.4.0 D-0629 §3)."""
+    """왼쪽 모음 진행(0 = 좌우 기둥, 1 = 왼쪽 위아래, 선형). half_left_from 이 없으면 0(v7.4.0 D-0629 §3)."""
     hf = e.get("half_left_from")
     if hf is None:
         return 0.0
     if VS.half_left is None:
         raise VersusOverflowError("[panel-overflow] versus half_left_from 을 썼는데 rules panels.versus.half_left 가 없다")
-    return smooth((t - hf) / VS.half_left.move_sec)
+    return min(1.0, max(0.0, (t - hf) / VS.half_left.move_sec))
+
+
+def half_phases(u: float) -> tuple[float, float]:
+    """(세로 진행, 가로 진행) — 앞 절반에 높이·세로 자리, 뒤 절반에 가로 자리. 옮기는 동안 두 기둥이 겹치지 않는다(대각선 이동 금지)."""
+    return smooth(min(1.0, 2 * u)), smooth(max(0.0, 2 * u - 1))
+
+
+def column_rects(t: float, e: dict) -> list[tuple[float, float, float, float]]:
+    """두 기둥 상자 (x, y, 폭, 높이) — 그리기와 시험이 같은 함수."""
+    uy, ux = half_phases(half_u(t, e))
+    hx = hy = hw = hh = 0.0
+    if e.get("half_left_from") is not None:
+        hx, hy, hw, hh = half_frame()
+    out = []
+    for i, (_, x0) in enumerate(_COLS):
+        hyi = hy + i * (hh + (VS.half_left.gap if VS.half_left else 0))
+        out.append((x0 + (hx - x0) * ux, 120 + (hyi - 120) * uy, BOX_W + (hw - BOX_W) * ux, 262 + (hh - 262) * uy))
+    return out
 
 
 def half_frame() -> tuple[float, float, float, float]:
@@ -77,24 +95,24 @@ def _half_items(ctx: cairo.Context, side: dict) -> tuple[list[float], list[list[
 
 
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
-    u = half_u(t, e)
-    L = lambda p, q: p + (q - p) * u  # noqa: E731
-    hx = hy = hw = hh = 0.0
+    uy, ux = half_phases(half_u(t, e))
+    L = lambda p, q: p + (q - p) * uy  # noqa: E731 — 기둥 안 세로 자리는 세로 진행을 따른다
+    hx = hw = 0.0
     if e.get("half_left_from") is not None:
-        hx, hy, hw, hh = half_frame()
-    panel_title(ctx, a, e["title"], cx=L(W_OUT / 2, hx + hw / 2) if u > 0 else None)
-    for i, ((cname, x0), side) in enumerate(zip(_COLS, e["sides"])):
+        hx, _, hw, _ = half_frame()
+    panel_title(ctx, a, e["title"], cx=W_OUT / 2 + (hx + hw / 2 - W_OUT / 2) * ux if ux > 0 else None)
+    rects = column_rects(t, e)
+    for i, ((cname, _), side) in enumerate(zip(_COLS, e["sides"])):
         col = C[cname]
         items = side["items"]
         fa = a * smooth((t - items[0]["t"] + 0.6) / MOTION["panel_item_in_sec"])   # v7.4.0 UF-159 ×1.5
         if fa <= 0:
             continue
-        hyi = hy + i * (hh + (VS.half_left.gap if VS.half_left else 0))
         if e.get("half_left_from") is not None:
             iys, ilines = _half_items(ctx, side)
         else:
             iys, ilines = [], []
-        x, y, bw, bh = L(x0, hx), L(120, hyi), L(BOX_W, hw), L(262, hh)
+        x, y, bw, bh = rects[i]
         rrect(ctx, x, y, bw, bh, 6)
         ctx.set_source_rgba(0.07, 0.08, 0.12, 0.92 * fa)
         ctx.fill()
@@ -110,4 +128,4 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
             ctx.fill()
             for k, ln in enumerate(ilines[j] if ilines else item_lines(ctx, it["text"])):
                 text(ctx, ln, x + ITEM_X, iy + k * VS.item_line_gap, VS.item_size, "serifb", (1, 1, 1), ia, 0, "l")
-        text(ctx, side["src"], x + 22, y + L(246, bh - (VS.half_left.src_pad if VS.half_left else 16)), VS.src_size, "sans", C["muted"], fa, 0, "l")
+        text(ctx, side["src"], x + 22, y + bh - L(262 - 246, VS.half_left.src_pad if VS.half_left else 262 - 246), VS.src_size, "sans", C["muted"], fa, 0, "l")   # 상자 아래 끝 기준(옮기는 중에도 상자 안)
