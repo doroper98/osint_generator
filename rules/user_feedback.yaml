@@ -2667,8 +2667,12 @@ entries:
   quote: "그리고 군대의 진형(칸나이 전투 같은)은 중앙에 위치하게 해야 되는데 칸나이 전투 마지막 쯤에는 왼쪽 상단에 위치하더라고"
   quote_kind: verbatim
   category: "전쟁사 전술 화면 — 군대 진형(전형)은 화면 가운데에 둔다. 카메라가 다른 대상(마을·카드 자리)을 위해 진형을 가장자리로 비키지 않는다"
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: formation_centered}
+  - {kind: rule, ref: qa_checks.formation_centered}
+  - {kind: test, ref: tests/test_formation_centered.py::FormationFaultTest::test_v1_end_fails_and_222_passes}
+  - {kind: test, ref: tests/test_formation_centered.py::FormationFaultTest::test_left_shift_fails}
+  status: guarded
   decision: "D-0625(back_and_forth) — 진형 가운데 고정 + 장치(진형 중심 화면 위치 검사). D-0619 ② 의 '진형을 왼쪽 빈자리로' 방식은 대체"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-03"
 - id: UF-256
@@ -2678,8 +2682,11 @@ entries:
   quote: "coriolan"
   quote_kind: verbatim
   category: "칸나이 배경음악 = 베토벤 「코리올란 서곡」 Op. 62(Musopen Symphony, PD). 전쟁사 장르 bgm_floor 개정 승인(D-0613 — 코리올란 선택 = 장르별 하한 개정). 내레이션 가림 위험은 실제 믹스 측정 장치로 지킨다"
-  guards: []
-  status: open
+  guards:
+  - {kind: rule, ref: audio.bgm_floor_by_genre.war_history}
+  - {kind: test, ref: tests/test_bgm_genre_floor.py::BgmGenreFloorTest::test_common_floor_unchanged}
+  - {kind: test, ref: tests/test_bgm_genre_floor.py::BgmGenreFloorTest::test_registry_genre_restriction}
+  status: guarded
   decision: "D-0626(back_and_forth) — 음악 등록·장르 하한 개정·믹스 내레이션 명료도 장치, 판정 ③ 반영 묶음(D-0622 날짜·D-0625 진형) → rollback → 게이트 ① 재승인 → 콘티 판 v2"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-03"
 - id: UF-257
@@ -2689,8 +2696,12 @@ entries:
   quote: "그리고 진형 씬에서 너무 글씨들이 겹치는 현상이 있어."
   quote_kind: verbatim
   category: "전쟁사 전술 화면 글자 — 부대 이름 라벨끼리·라벨과 블록이 겹치지 않는다. 카메라를 물리면(UF-255) 라벨이 더 빽빽해지므로 접기·묶기 규칙과 함께"
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: label_collision}
+  - {kind: rule, ref: stage_terrain3d.label_gap_px}
+  - {kind: test, ref: tests/test_terrain3d_labels.py::LabelLayoutTest::test_old_layout_overlaps_detected}
+  - {kind: test, ref: tests/test_terrain3d_labels.py::LabelLayoutTest::test_new_layout_no_overlap}
+  status: guarded
   decision: "D-0627(back_and_forth) — label_collision 을 terrain3d 구간 라벨에도 같은 규칙 키로, 라벨 LOD·같은 병종 묶기"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-03"
 - id: UF-258
