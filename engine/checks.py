@@ -18,6 +18,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | evidence_layer · period_art_label · casualty_unsourced · symbol_set | hard | v7.4.0 전쟁사 W2(D-0600 §4, UF-150) — 장르 war_history 만. 시대별 필수 증거 층·작품 당대/후대 라벨·병력/사상자 force 인용·한 영상 한 부호 세트(schemas.war_history) |
 | narration_clarity | hard | v7.4.0 D-0626·D-0628 — out/mix.f32 의 문장마다 목소리 음역 내레이션 대 (음악+효과음+클립 원음) 에너지 비 최저가 rules audio.qa.narration_clarity.min_db 미만 `[narration-clarity]`. hard_genres 영상만 hard — v7.4.0 D349 부터 등록 장르 전부(tests/test_narration_clarity 가 등록 장르 ⊆ hard_genres 고정). mix.f32 가 없으면 잴 것 없음(provenance 기록) |
 | narration_clarity_note | warning | 위와 같은 판정 — hard_genres 밖 장르. D349 뒤 등록 장르에서는 0(경로는 남김) |
+| battle_sfx | hard | v7.4.0 D-0627 §2-5·D-0629 §2(UF-258) — 연출 sound.cues kind battle: 소리 종류가 rules audio.battle_sfx.kinds 안, 쓰는 녹음 레지스트리 항목이 녹음·허용 라이선스·파일 sha1 일치, units 가 부대 기록(forces)에 있고 그 병종 표(unit_sounds)에 이 소리가 있음(칸나이 활·투석 소리 금지), CC BY 원천은 엔딩 크레딧 sfx 행, 크레딧 sfx 행은 실제로 쓰는 원천만 `[battle-sfx]` |
+| battle_sfx_missing | warning | 위와 같은 장치 — 전쟁사 terrain3d 구간이 있는데 battle 큐가 없다(사용자 견본 판정 뒤 hard 여부 결정, D-0627 §2-5) |
 | date_jump | hard | v7.4.0 D-0619 ⑤·D-0622 — 문장 날짜 표지가 앞뒤 문장 날짜 범위 밖으로 튀고, 그 문장 동안 뜬 작품·기록 카드의 연대(created)와도 겹치지 않으면 `[date-jump]`. 처음·끝 문장은 이웃이 하나라 대상 밖 |
 | formation_centered | hard | v7.4.0 D-0625(UF-255 "진형은 중앙에") — terrain3d 구간에서 보이는 전 부대 화면 상자 중심이 화면 중심에서 rules qa_checks.formation_centered.center_tol 안, 상자 전체가 안전 영역 안. 어긋남이 max_sec 넘게 이어지면 `[formation-centered]`. 이음 창·전 부대 등장 전 제외. 스케치 전쟁사 2D 전술 축척·3D 컷도 같은 함수(SK-W7) |
 | terrain3d_seam | hard | v7.4.0 D-0619 ① — terrain3d 구간 들어감·나옴 이음 창(rules stage_terrain3d.seam_sec 앞뒤)의 실제 렌더 이웃 프레임 평균 절대 화소 차 ≤ rules qa_checks.terrain3d_seam_mad_max `[terrain3d-seam]`. 컷처럼 꺾이는 경계(밝기·강·부대가 한 프레임에 바뀜)를 잡는다 |
@@ -152,13 +154,14 @@ HARD = ("license_mismatch",   # v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장�
         "formation_centered",  # v7.4.0 D-0625(UF-255) — 전술 화면 진형은 가운데·안전 영역 안
         "narration_clarity",   # v7.4.0 D-0626·D-0628 — 내레이션 명료도(rules audio.qa.narration_clarity.hard_genres 장르만)
         "date_jump",           # v7.4.0 D-0619 ⑤·D-0622 — 날짜 표지가 이웃 문장 범위·화면 카드 연대 밖으로 튐
+        "battle_sfx",          # v7.4.0 D-0627 §2-5·D-0629 §2(UF-258) — 녹음 효과음 큐 권리·병종·크레딧
         "map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
         "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
-        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age", "narration_clarity_note")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
+        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age", "narration_clarity_note", "battle_sfx_missing")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
 
 def missing_fonts() -> list[str]:
@@ -1472,6 +1475,72 @@ def narration_clarity_report(P) -> "dict | None":  # noqa: ANN001, N803
         rep = {"min_db": worst[0][1] if worst else None, "worst": worst[:3], "sentences": len(per)}
     P.R.cache["narration_clarity"] = rep
     return rep
+
+
+def battle_sfx_hits(cues: list[dict], units: dict[str, str], credited: set[str]) -> list[str]:
+    """[battle-sfx] 순수 판정(v7.4.0 D-0627 §2-5·D-0629 §2, UF-258). units = 부대 이름(name·short) → 병종 symbol, credited = 크레딧 sfx 행 id."""
+    from audio.sfx import SfxError, entry, ids_for, sfx_path  # noqa: PLC0415
+
+    bs = R_.audio.battle_sfx
+    out: list[str] = []
+    used: set[str] = set()
+    for c in (c for c in cues if c.get("kind") == "battle"):
+        snd, where = c.get("sound"), f"t={float(c.get('t') or 0):.1f}"
+        if bs is None or snd not in bs.kinds:
+            out.append(f"[battle-sfx] {where} 소리 {snd!r} 가 rules audio.battle_sfx.kinds 밖")
+            continue
+        for u in c.get("units") or []:
+            sym = units.get(u)
+            if sym is None:
+                out.append(f"[battle-sfx] {where} 부대 {u!r} 가 부대 기록(forces)에 없다 — 화면에 없는 병종의 소리 금지(D-0627 §2-3)")
+            elif snd not in bs.unit_sounds.get(sym, []):
+                out.append(f"[battle-sfx] {where} {u!r}({sym}) 에는 {snd!r} 소리가 없다 — rules audio.battle_sfx.unit_sounds(사료·부대 기록 밖 소리 금지)")
+        for sid in ids_for(snd):
+            used.add(sid)
+            e = entry(sid)
+            if e.license not in bs.licenses or not e.recorded:
+                out.append(f"[battle-sfx] {sid} 권리 {e.license!r}·녹음 {e.recorded} — 허용 밖(D-0627 §2-4)")
+            try:
+                sfx_path(sid)
+            except SfxError as ex:
+                out.append(f"[battle-sfx] {ex}")
+    for sid in sorted(used):
+        if entry(sid).license in (bs.attribution_licenses if bs else []) and sid not in credited:
+            out.append(f"[battle-sfx] {sid}({entry(sid).license}) 엔딩 크레딧 sfx 행 없음 — credits.yaml 에 'sfx: {sid}'")
+    for sid in sorted(credited - used):
+        out.append(f"[battle-sfx] 크레딧 sfx 행 {sid} 를 연출이 쓰지 않는다(표기와 사용 불일치)")
+    return out
+
+
+def _forces_units(P) -> dict[str, str]:  # noqa: ANN001, N803
+    f = P.R.cache.get("terrain3d_forces")
+    if f is None:
+        return {}
+    out: dict[str, str] = {}
+    for u in f.units:
+        for n in (u.name, getattr(u, "short", None)):
+            if n:
+                out[n] = u.symbol
+    return out
+
+
+def _credited_sfx(P) -> set[str]:  # noqa: ANN001, N803
+    cr = getattr(P.R, "credits", None)
+    return {it.sfx for sec in (cr.sections if cr else []) for it in sec.items if getattr(it, "sfx", None)}
+
+
+def check_battle_sfx(P) -> list[str]:  # noqa: ANN001, N803
+    """[battle-sfx] hard — 콘티 판·프리뷰·전편 같은 키(C12 ③)."""
+    return battle_sfx_hits(P.R.cache.get("sound_cues") or [], _forces_units(P), _credited_sfx(P))
+
+
+def check_battle_sfx_missing(P) -> list[str]:  # noqa: ANN001, N803
+    """[battle-sfx-missing] warning — 전쟁사 terrain3d 구간이 있는데 battle 큐가 없다."""
+    genre = (P.R.cache.get("genre") or {}).get("name")
+    segs = P.R.cache.get("terrain3d_segments") or []
+    if genre != "war_history" or not segs or any(c.get("kind") == "battle" for c in P.R.cache.get("sound_cues") or []):
+        return []
+    return [f"[battle-sfx-missing] terrain3d 구간 {len(segs)}개에 전투 효과음 큐가 없다(사용자 견본 판정 전 warning, D-0627 §2-5)"]
 
 
 def check_narration_clarity(P, hard: bool) -> list[str]:  # noqa: ANN001, N803
@@ -2955,6 +3024,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "narration_clarity": lambda: check_narration_clarity(P, hard=True),       # v7.4.0 D-0626·D-0628 [narration-clarity]
         "narration_clarity_note": lambda: check_narration_clarity(P, hard=False),
         "date_jump": lambda: check_date_jump(P),                                  # v7.4.0 D-0619 ⑤·D-0622 [date-jump]
+        "battle_sfx": lambda: check_battle_sfx(P),                                # v7.4.0 D-0627 §2-5 [battle-sfx]
+        "battle_sfx_missing": lambda: check_battle_sfx_missing(P),                # v7.4.0 D-0627 §2-5(warning)
         "formation_centered": lambda: check_formation_centered(P),                # v7.4.0 D-0625(UF-255) [formation-centered]
         "terrain3d_seam": lambda: check_terrain3d_seam(P),                        # v7.4.0 D-0619 ① [terrain3d-seam]
         "war_units_approx": lambda: check_war_units_approx(P),                    # v7.4.0 D-0615 §2-1 [war-units-approx]

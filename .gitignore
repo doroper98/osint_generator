@@ -76,6 +76,8 @@ assets/audio/bgm/*.mp3
 assets/audio/bgm/*.flac
 assets/audio/bgm/*.wav
 assets/audio/bgm/*.m4a
+# v7.4.0 D-0627 §2-4 — 녹음 효과음 원천 파일(레지스트리 assets/audio/sfx/registry.yaml 만 추적, sha1 대조로 복원)
+assets/audio/sfx/files/
 
 # v2 overhaul — 골든 레퍼런스 영상은 커밋하지 않음 (docs/handoff/golden/README.md)
 docs/handoff/golden/*.mp4

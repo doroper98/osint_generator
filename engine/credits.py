@@ -42,6 +42,7 @@ class _Strict(BaseModel):
 class CreditItem(_Strict):
     main: Optional[str] = None
     music: Optional[str] = None        # v3.4.0 — BGM 레지스트리 id. 제목·라이선스 줄은 레지스트리에서(D-0060 작업 1, SSOT)
+    sfx: Optional[str] = None          # v7.4.0 D-0627 §2-4 — 효과음 레지스트리 id(sfx.*). 문구는 레지스트리에서(audio.sfx.card_line). 사용·표기 대조 = [battle-sfx]
     license: Optional[str] = None
     license_ref: Optional[str] = None  # rights_registry.people 의 pid — 라이선스 문구를 레지스트리에서 읽는다
     license_suffix: str = ""
@@ -52,10 +53,11 @@ class CreditItem(_Strict):
     def _one_source(self) -> "CreditItem":
         if self.license is not None and self.license_ref is not None:
             raise ValueError(f"license 와 license_ref 는 함께 쓸 수 없다: {self.main!r}")
-        if (self.music is None) == (self.main is None):
-            raise ValueError(f"크레딧 행은 main 과 music 중 정확히 하나: {self.main or self.music!r}")
-        if self.music is not None and (self.license is not None or self.license_ref is not None or self.rights):
-            raise ValueError(f"music 행은 문구·권리를 레지스트리에서 읽는다 — license·license_ref·rights 금지: {self.music}")
+        if sum(x is not None for x in (self.main, self.music, self.sfx)) != 1:
+            raise ValueError(f"크레딧 행은 main·music·sfx 중 정확히 하나: {self.main or self.music or self.sfx!r}")
+        for reg in (self.music, self.sfx):
+            if reg is not None and (self.license is not None or self.license_ref is not None or self.rights):
+                raise ValueError(f"music·sfx 행은 문구·권리를 레지스트리에서 읽는다 — license·license_ref·rights 금지: {reg}")
         return self
 
     def refs(self) -> list[str]:
@@ -63,7 +65,7 @@ class CreditItem(_Strict):
 
     @property
     def label(self) -> str:
-        return self.main or self.music or ""
+        return self.main or self.music or self.sfx or ""
 
 
 class CreditSection(_Strict):
@@ -202,6 +204,11 @@ def _credit_sections(cr: Credits, rights: dict, media: Optional[dict] = None,
                 from audio.registry import card_line  # noqa: PLC0415
 
                 items.append(card_line(it.music, load_rules().credits.music_card_license))
+                continue
+            if it.sfx is not None:
+                from audio.sfx import card_line as sfx_line  # noqa: PLC0415
+
+                items.append(sfx_line(it.sfx))
                 continue
             if it.license_ref is not None:
                 people = rights.get("people", {})

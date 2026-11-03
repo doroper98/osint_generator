@@ -141,6 +141,11 @@ class SoundCue(_Strict):
     kind: str
     t: Union[float, dict[str, Any]]
     v: float
+    # v7.4.0 back_and_forth D-0627 §2 — battle(녹음 효과음 층): end 앵커(길이 = end − t), 소리 종류·거리감·이 소리를 내는 부대 이름(forces)
+    end: Union[float, dict[str, Any], None] = None
+    sound: Optional[str] = None
+    dist: Optional[str] = None
+    units: list[str] = Field(default_factory=list)
 
 
 class BgmSegment(_Strict):
@@ -384,6 +389,19 @@ def resolve_anchor(a: object, tb: Timebase) -> float:
     return t
 
 
+def _cue(c: SoundCue, tb: Timebase) -> dict:
+    """sound.cues 한 줄 → 믹서 Cue dict. battle 은 end 앵커로 길이를 정한다(v7.4.0 D-0627 §2)."""
+    t = resolve_anchor(c.t, tb)
+    d: dict = dict(kind=c.kind, t=t, v=c.v)
+    if c.end is not None:
+        d["dur"] = resolve_anchor(c.end, tb) - t
+        if d["dur"] <= 0:
+            raise DirectionError(f"sound.cues {c.kind} 의 end 가 t 보다 앞이다: {c.t!r} ~ {c.end!r}")
+    if c.sound is not None or c.dist is not None or c.units:
+        d.update(sound=c.sound, dist=c.dist, units=list(c.units))
+    return d
+
+
 def _resolve(v: object, tb: Timebase, doc: Direction) -> object:
     if is_anchor(v):
         return resolve_anchor(v, tb)
@@ -511,7 +529,7 @@ def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], l
         sd = doc.sound
         bgm = sd.bgm if not isinstance(sd.bgm, list) else [dict(id=g.id, t=resolve_anchor(g.from_, tb)) for g in sd.bgm]
         sound = dict(bgm=bgm, intensity=[(resolve_anchor(t, tb), v) for t, v in sd.intensity],
-                     cues=[dict(kind=c.kind, t=resolve_anchor(c.t, tb), v=c.v) for c in sd.cues])
+                     cues=[_cue(c, tb) for c in sd.cues])
         if sd.no_music_decision:   # v5.22.2 UF-16 — 있을 때만(없으면 sound dict 무변경)
             sound["no_music_decision"] = sd.no_music_decision
     return keys, events + dips, sound

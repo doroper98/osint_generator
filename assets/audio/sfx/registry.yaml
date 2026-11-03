@@ -1,0 +1,188 @@
+# 효과음 레지스트리(v7.4.0 back_and_forth D-0627 §2-4·D-0628 §3·D-0629 §2, 사용자 의견 UF-258) — 녹음 효과음 원천·권리의 SSOT(audio/sfx.py).
+# 녹음만(recorded true), 라이선스 = rules audio.battle_sfx.licenses 안만. license_basis = 원천 사이트 자체 약관·라이선스 칸 문구 인용(엇갈리면 등록하지 않는다).
+# 파일은 assets/audio/sfx/files/(저장소 미추적) — media_url 에서 받아 sha1 대조. Still North 는 7z 묶음 안 파일이라 notes 에 묶음 안 이름을 적는다.
+# 뺀 것(R-0332 §4): Gravity Sound(유료 상품 견본)·StarNinjas(부엌칼)·출처 섞인 재업로드·NC·Sampling+·BigSoundBank 스튜디오 흉내(#289·#611)
+schema_version: 1
+sounds:
+  sfx.sn_dagger_norseword_bb:
+    file: "sn_dagger_norseword_bb.wav"
+    sha1: ab3e1283025e31ab960ee58ee4630d5e1b02ffd1
+    duration_sec: 5.704   # 192000 Hz · 1 ch(ffprobe)
+    kind: melee_metal
+    recorded: true
+    title: "Still North Media — Dagger Norse Sword Blade on Blade"
+    author: Ben Jaszczak & Brian Nelson (Still North Media)
+    license: CC0
+    license_basis: "OGA 라이선스 칸 \"License(s): CC0\" · 작가 진술(OGA 인용, StillNorthMedia): \"You may use any of our sounds freely, with no royalties, and no credit needs to be given\" · OGA 저작권 칸 \"These sounds were created and recorded by Ben Jaszczak and Brian Nelson\""
+    page_url: https://opengameart.org/content/medieval-sound-effects-weapon-impacts
+    media_url: https://opengameart.org/sites/default/files/medieval_sfx_weapon_on_weapon_1_of_2.7z
+    source: OpenGameArt
+    notes: "원 사이트(stillnorthmedia.com)가 없어 OGA 라이선스 칸 + 작가 진술 인용으로만 확인(D-0629 §2-4 한계). OGA 게시자는 제3자(MedicineStorm). 2014 Kickstarter CC0 라이브러리(designingsound.org 2014-08-25). 7z 안 파일: Dagger Norse Sword Blade on Blade.wav"
+  sfx.sn_dagger_spear_bb:
+    file: "sn_dagger_spear_bb.wav"
+    sha1: ff565a197e1620faf9404f0e6421ff3bea846c39
+    duration_sec: 4.096   # 192000 Hz · 1 ch(ffprobe)
+    kind: melee_metal
+    recorded: true
+    title: "Still North Media — Dagger Spear Blade on Blade"
+    author: Ben Jaszczak & Brian Nelson (Still North Media)
+    license: CC0
+    license_basis: "OGA 라이선스 칸 \"License(s): CC0\" · 작가 진술(OGA 인용, StillNorthMedia): \"You may use any of our sounds freely, with no royalties, and no credit needs to be given\" · OGA 저작권 칸 \"These sounds were created and recorded by Ben Jaszczak and Brian Nelson\""
+    page_url: https://opengameart.org/content/medieval-sound-effects-weapon-impacts
+    media_url: https://opengameart.org/sites/default/files/medieval_sfx_weapon_on_weapon_1_of_2.7z
+    source: OpenGameArt
+    notes: "원 사이트(stillnorthmedia.com)가 없어 OGA 라이선스 칸 + 작가 진술 인용으로만 확인(D-0629 §2-4 한계). OGA 게시자는 제3자(MedicineStorm). 2014 Kickstarter CC0 라이브러리(designingsound.org 2014-08-25). 7z 안 파일: Dagger Spear Blade on Blade.wav"
+  sfx.sn_seax_norseword_bb:
+    file: "sn_seax_norseword_bb.wav"
+    sha1: cd0ebdcdb1d98abed5f935c1708803cdd9c34690
+    duration_sec: 10.92   # 192000 Hz · 1 ch(ffprobe)
+    kind: melee_metal
+    recorded: true
+    title: "Still North Media — Seax Norse Sword Blade on Blade"
+    author: Ben Jaszczak & Brian Nelson (Still North Media)
+    license: CC0
+    license_basis: "OGA 라이선스 칸 \"License(s): CC0\" · 작가 진술(OGA 인용, StillNorthMedia): \"You may use any of our sounds freely, with no royalties, and no credit needs to be given\" · OGA 저작권 칸 \"These sounds were created and recorded by Ben Jaszczak and Brian Nelson\""
+    page_url: https://opengameart.org/content/medieval-sound-effects-weapon-impacts
+    media_url: https://opengameart.org/sites/default/files/medieval_sfx_weapon_on_weapon_2_of_2.7z
+    source: OpenGameArt
+    notes: "원 사이트(stillnorthmedia.com)가 없어 OGA 라이선스 칸 + 작가 진술 인용으로만 확인(D-0629 §2-4 한계). OGA 게시자는 제3자(MedicineStorm). 2014 Kickstarter CC0 라이브러리(designingsound.org 2014-08-25). 7z 안 파일: Seax Norse Sword Blade on Blade.wav"
+  sfx.sn_spear_norseword_bb:
+    file: "sn_spear_norseword_bb.wav"
+    sha1: 2563a3eed01134226589f92bbae016c0683e4328
+    duration_sec: 18.301   # 192000 Hz · 1 ch(ffprobe)
+    kind: melee_metal
+    recorded: true
+    title: "Still North Media — Spear Norse Sword Blade on Blade"
+    author: Ben Jaszczak & Brian Nelson (Still North Media)
+    license: CC0
+    license_basis: "OGA 라이선스 칸 \"License(s): CC0\" · 작가 진술(OGA 인용, StillNorthMedia): \"You may use any of our sounds freely, with no royalties, and no credit needs to be given\" · OGA 저작권 칸 \"These sounds were created and recorded by Ben Jaszczak and Brian Nelson\""
+    page_url: https://opengameart.org/content/medieval-sound-effects-weapon-impacts
+    media_url: https://opengameart.org/sites/default/files/medieval_sfx_weapon_on_weapon_2_of_2.7z
+    source: OpenGameArt
+    notes: "원 사이트(stillnorthmedia.com)가 없어 OGA 라이선스 칸 + 작가 진술 인용으로만 확인(D-0629 §2-4 한계). OGA 게시자는 제3자(MedicineStorm). 2014 Kickstarter CC0 라이브러리(designingsound.org 2014-08-25). 7z 안 파일: Spear Norse Sword Blade on Blade.wav"
+  sfx.sn_spear_norseword_hb:
+    file: "sn_spear_norseword_hb.wav"
+    sha1: ba71fabcb4aa6eae2308d232f763a68c635f9834
+    duration_sec: 18.451   # 192000 Hz · 1 ch(ffprobe)
+    kind: melee_metal
+    recorded: true
+    title: "Still North Media — Spear Norse Sword Haft on Blade"
+    author: Ben Jaszczak & Brian Nelson (Still North Media)
+    license: CC0
+    license_basis: "OGA 라이선스 칸 \"License(s): CC0\" · 작가 진술(OGA 인용, StillNorthMedia): \"You may use any of our sounds freely, with no royalties, and no credit needs to be given\" · OGA 저작권 칸 \"These sounds were created and recorded by Ben Jaszczak and Brian Nelson\""
+    page_url: https://opengameart.org/content/medieval-sound-effects-weapon-impacts
+    media_url: https://opengameart.org/sites/default/files/medieval_sfx_weapon_on_weapon_2_of_2.7z
+    source: OpenGameArt
+    notes: "원 사이트(stillnorthmedia.com)가 없어 OGA 라이선스 칸 + 작가 진술 인용으로만 확인(D-0629 §2-4 한계). OGA 게시자는 제3자(MedicineStorm). 2014 Kickstarter CC0 라이브러리(designingsound.org 2014-08-25). 7z 안 파일: Spear Norse Sword Haft on Blade.wav"
+  sfx.sn_spear_spear_bb:
+    file: "sn_spear_spear_bb.wav"
+    sha1: 75c51226ac3b8d36b18d1327366e6f1520e93488
+    duration_sec: 15.317   # 192000 Hz · 1 ch(ffprobe)
+    kind: melee_metal
+    recorded: true
+    title: "Still North Media — Spear Spear Blade on Blade"
+    author: Ben Jaszczak & Brian Nelson (Still North Media)
+    license: CC0
+    license_basis: "OGA 라이선스 칸 \"License(s): CC0\" · 작가 진술(OGA 인용, StillNorthMedia): \"You may use any of our sounds freely, with no royalties, and no credit needs to be given\" · OGA 저작권 칸 \"These sounds were created and recorded by Ben Jaszczak and Brian Nelson\""
+    page_url: https://opengameart.org/content/medieval-sound-effects-weapon-impacts
+    media_url: https://opengameart.org/sites/default/files/medieval_sfx_weapon_on_weapon_2_of_2.7z
+    source: OpenGameArt
+    notes: "원 사이트(stillnorthmedia.com)가 없어 OGA 라이선스 칸 + 작가 진술 인용으로만 확인(D-0629 §2-4 한계). OGA 게시자는 제3자(MedicineStorm). 2014 Kickstarter CC0 라이브러리(designingsound.org 2014-08-25). 7z 안 파일: Spear Spear Blade on Blade.wav"
+  sfx.sn_spear_spear_hh:
+    file: "sn_spear_spear_hh.wav"
+    sha1: 34d9b79f1ae535b77b4f774c126a4fe317a1096d
+    duration_sec: 5.851   # 192000 Hz · 1 ch(ffprobe)
+    kind: melee_metal
+    recorded: true
+    title: "Still North Media — Spear Spear Haft on Haft"
+    author: Ben Jaszczak & Brian Nelson (Still North Media)
+    license: CC0
+    license_basis: "OGA 라이선스 칸 \"License(s): CC0\" · 작가 진술(OGA 인용, StillNorthMedia): \"You may use any of our sounds freely, with no royalties, and no credit needs to be given\" · OGA 저작권 칸 \"These sounds were created and recorded by Ben Jaszczak and Brian Nelson\""
+    page_url: https://opengameart.org/content/medieval-sound-effects-weapon-impacts
+    media_url: https://opengameart.org/sites/default/files/medieval_sfx_weapon_on_weapon_2_of_2.7z
+    source: OpenGameArt
+    notes: "원 사이트(stillnorthmedia.com)가 없어 OGA 라이선스 칸 + 작가 진술 인용으로만 확인(D-0629 §2-4 한계). OGA 게시자는 제3자(MedicineStorm). 2014 Kickstarter CC0 라이브러리(designingsound.org 2014-08-25). 7z 안 파일: Spear Spear Haft on Haft.wav"
+  sfx.bsb_gallop_1848:
+    file: "bsb_gallop_1848.ogg"
+    sha1: 2e3185a5078a8a682a675f99669932769f6e9081
+    duration_sec: 10.52   # 48000 Hz · 2 ch(ffprobe)
+    kind: gallop
+    recorded: true
+    title: "Horse gallop, arrival, tall grass (#1848)"
+    author: Joseph SARDIN
+    license: CC0
+    license_basis: "소리 페이지 \"License CC0 (public domain): Free and royalty-free\" · 라이선스 페이지(https://bigsoundbank.com/licenses.html) \"This is: Creative Commons CC0 1.0 Universal … Public Domain Dedication.\"(페이지 제목은 \"CC0-like\")"
+    page_url: https://bigsoundbank.com/horse-gallop-arrival-tall-grass-s1848.html
+    media_url: https://bigsoundbank.com/UPLOAD/ogg/1848.ogg
+    source: BigSoundBank
+    notes: "야외 현장 녹음(소리 페이지: Outdoor · Realistic · SoundDevices MixPre-3 + Neumann KM184). 말 한 마리 — 여러 마리는 사본 겹치기(D-0629 §2). WAV·FLAC 은 내려받기 양식 뒤라 사이트의 Vorbis 판"
+  sfx.bsb_gallop_1849:
+    file: "bsb_gallop_1849.ogg"
+    sha1: 9dcc14ed5668d3d2e009d0ef7fb772ae7b2374eb
+    duration_sec: 14.685   # 48000 Hz · 2 ch(ffprobe)
+    kind: gallop
+    recorded: true
+    title: "Horse gallop, start, tall grass (#1849)"
+    author: Joseph SARDIN
+    license: CC0
+    license_basis: "소리 페이지 \"License CC0 (public domain): Free and royalty-free\" · 라이선스 페이지(https://bigsoundbank.com/licenses.html) \"This is: Creative Commons CC0 1.0 Universal … Public Domain Dedication.\"(페이지 제목은 \"CC0-like\")"
+    page_url: https://bigsoundbank.com/horse-gallop-start-tall-grass-s1849.html
+    media_url: https://bigsoundbank.com/UPLOAD/ogg/1849.ogg
+    source: BigSoundBank
+    notes: "야외 현장 녹음(소리 페이지: Outdoor · Realistic · SoundDevices MixPre-3 + Neumann KM184). 말 한 마리 — 여러 마리는 사본 겹치기(D-0629 §2). WAV·FLAC 은 내려받기 양식 뒤라 사이트의 Vorbis 판"
+  sfx.bsb_gallop_1850:
+    file: "bsb_gallop_1850.ogg"
+    sha1: 0727bb16d9daca77096fb76de0f88c3c36d8af96
+    duration_sec: 36.525   # 48000 Hz · 2 ch(ffprobe)
+    kind: gallop
+    recorded: true
+    title: "Horse gallop, tall grass (#1850)"
+    author: Joseph SARDIN
+    license: CC0
+    license_basis: "소리 페이지 \"License CC0 (public domain): Free and royalty-free\" · 라이선스 페이지(https://bigsoundbank.com/licenses.html) \"This is: Creative Commons CC0 1.0 Universal … Public Domain Dedication.\"(페이지 제목은 \"CC0-like\")"
+    page_url: https://bigsoundbank.com/horse-gallop-tall-grass-s1850.html
+    media_url: https://bigsoundbank.com/UPLOAD/ogg/1850.ogg
+    source: BigSoundBank
+    notes: "야외 현장 녹음(소리 페이지: Outdoor · Realistic · SoundDevices MixPre-3 + Neumann KM184). 말 한 마리 — 여러 마리는 사본 겹치기(D-0629 §2). WAV·FLAC 은 내려받기 양식 뒤라 사이트의 Vorbis 판"
+  sfx.bsb_gallop_1851:
+    file: "bsb_gallop_1851.ogg"
+    sha1: 69dcaba5d4c3bfb6015674c9f5a5387c16e6a9b7
+    duration_sec: 13.97   # 48000 Hz · 2 ch(ffprobe)
+    kind: gallop
+    recorded: true
+    title: "Horse gallop, passage, tall grass (#1851)"
+    author: Joseph SARDIN
+    license: CC0
+    license_basis: "소리 페이지 \"License CC0 (public domain): Free and royalty-free\" · 라이선스 페이지(https://bigsoundbank.com/licenses.html) \"This is: Creative Commons CC0 1.0 Universal … Public Domain Dedication.\"(페이지 제목은 \"CC0-like\")"
+    page_url: https://bigsoundbank.com/horse-gallop-passage-tall-grass-s1851.html
+    media_url: https://bigsoundbank.com/UPLOAD/ogg/1851.ogg
+    source: BigSoundBank
+    notes: "야외 현장 녹음(소리 페이지: Outdoor · Realistic · SoundDevices MixPre-3 + Neumann KM184). 말 한 마리 — 여러 마리는 사본 겹치기(D-0629 §2). WAV·FLAC 은 내려받기 양식 뒤라 사이트의 Vorbis 판"
+  sfx.aporee_crowd_17008:
+    file: "aporee_crowd_17008.wav"
+    sha1: ef817b40a62889383c1874fc31ebf0c8d5490600
+    duration_sec: 270.472   # 44100 Hz · 2 ch(ffprobe)
+    kind: crowd
+    recorded: true
+    title: "dale, Piramida, Slovenia - distant crowd of spectators"
+    author: OR poiesis (radio aporee)
+    license: PDM
+    license_basis: "archive.org 메타데이터 licenseurl \"http://creativecommons.org/publicdomain/mark/1.0/\"(radio aporee ::: maps 보관 항목)"
+    page_url: https://archive.org/details/aporee_17008_19802
+    media_url: https://archive.org/download/aporee_17008_19802/dolina6mar201317371.wav
+    source: archive.org (radio aporee)
+    notes: "2013-03-06 마리보르 현장 녹음. 설명: far away football match, crows and a variety of forest small voices — 새소리는 거리감 저역 통과로 걸러낸다(D-0628 §3). 말소리 알아들을 수 있는지 사용자 견본 판정"
+  sfx.commons_wiehern:
+    file: "commons_wiehern.ogg"
+    sha1: a49c0534cbe82b84eca2e68b7d973a81a6d76a59
+    duration_sec: 2.273   # 44100 Hz · 1 ch(ffprobe)
+    kind: whinny
+    recorded: true
+    title: Wiehern
+    author: "Hü (Wikimedia Commons User:Hü)"
+    license: PD
+    license_basis: "Commons 라이선스 틀(Public domain, PD-self): \"I, the copyright holder of this work, release this work into the public domain. This applies worldwide.\" · Source: \"Own work\""
+    page_url: https://commons.wikimedia.org/wiki/File:Wiehern.ogg
+    media_url: https://upload.wikimedia.org/wikipedia/commons/d/db/Wiehern.ogg
+    source: Wikimedia Commons
+    notes: "설명 \"A sounding recording of a neighing horse.\"(2006-05-27). 가까운 울음 — 거리감(far)으로만 쓰고 큐 하나에 많아야 하나(D-0628 §3)"

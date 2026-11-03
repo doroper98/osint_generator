@@ -605,6 +605,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     b = (sound or {}).get("bgm")
     R.cache["bgm_segments"] = 0 if not b else (1 if isinstance(b, str) else len(b))   # provenance audio.crossfades
     R.cache["music"] = {"bgm": sorted(music_ids(sound)), "no_music_decision": (sound or {}).get("no_music_decision")}   # v5.22.2 UF-16·30·93
+    R.cache["sound_cues"] = list((sound or {}).get("cues") or [])   # v7.4.0 D-0627 §2-5 — [battle-sfx] 가 읽는다(믹서와 같은 dict)
     from audio.registry import genre_errors  # noqa: PLC0415
 
     if gerr := genre_errors(music_ids(sound), doc.genre_name()):   # v7.4.0 D-0626(UF-256) — 장르 몫 곡은 그 장르에서만(P10)

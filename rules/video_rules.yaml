@@ -1312,6 +1312,7 @@ registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 �
   panel_kinds: [relation, statement, timeline, precedent, versus, dots, gantt, dual_line, fork, checklist, network]   # relation = v3 refusal 일반화, 뒤 6종 = v2 차트 이식(D-0032)
   panel_kinds_planned: []
   badge_kinds: [person, flag, emblem]
+  sound_cue_kinds: [whoosh, boom, tick, battle]   # v7.4.0 D-0627 §2-4(15 P10) — 연출 sound.cues kind. 스키마(audio.mix Cue)·믹서(Sfx.cue)·프리뷰 예제(tests/fixtures/preview/sound_cue_*.yaml) 세 곳
   # v7.4.0 back_and_forth D-0336 §1·D-0339(T3, 15 P10) — series 스타일·island 종류. 여기 없는 값을 연출이 쓰면 오류(engine.events Literal 과 같음),
   # 있는데 렌더러(engine.layers.series STYLE_RENDERERS · engine.island KIND_RENDERERS)나 프리뷰 예제(tests/fixtures/preview)가 없으면 오류.
   # detail_only = 열 확대 인셋(island kind column_detail)에서만 쓰는 스타일(D-0318 §1-3 — 열 안 직접 그리기 폐기)
@@ -1424,6 +1425,40 @@ audio:                     # 10
     tick: {dur_sec: 0.12, freq_hz: 1800, tau_sec: 0.015, gain: 0.18}
     title_card: {offset_sec: 0.2, whoosh_dur_sec: 1.4, whoosh_v: 1.0, boom_v: 0.6}      # sfx_policy: 타이틀 카드 휙+쿵
     scene_start: {lead_sec: 0.05, whoosh_dur_sec: 0.9, whoosh_v: 0.55}                  # sfx_policy: 장면 시작 휙(첫 장면 제외)
+  # v7.4.0 back_and_forth D-0627 §2·D-0628 §3·D-0629 §2(사용자 의견 UF-258 "보병간 싸움에는 남자들의 함성과 칼소리 … 기병간 싸움에는 말 소리 … 유치하지 않게") —
+  # 녹음 효과음 층(연출 sound.cues kind battle). 원천 = assets/audio/sfx/registry.yaml(녹음만, 권리 licenses 안). 값은 감독 제안·구현값이며 사용자 견본 판정 뒤 확정한다.
+  # 겹치기(D-0629 §2): 같은 녹음의 테이크·사본을 시간차로 겹쳐 무리 소리를 만든다. 소리 성질은 바꾸지 않는다(걸음 → 질주·늘이기 금지). 사본마다 음높이·속도 ±pitch_pct_max %.
+  # 거리감(D-0627 §2-2): 내려다보기 = far(고역 감쇠·잔향), 기울인 궤도 = mid. 가까운 소리(near)는 없다. 가공 내역은 out/sfx_log.json·provenance audio.sfx
+  battle_sfx:
+    kinds: [melee_metal, crowd, gallop, whinny]
+    licenses: [PD, PDM, CC0, CC BY 4.0]              # PD·CC0·CC BY 만(D-0627 §2-4). BY-SA·NC·출처 불명 불허
+    attribution_licenses: [CC BY 4.0]                # 엔딩 크레딧 sfx 행 의무
+    # 병종(war_units symbol) → 낼 수 있는 소리. 표에 없는 병종·소리 조합의 큐 = [battle-sfx] hard(사료·부대 기록에 없는 소리 금지, D-0627 §2-3 — 칸나이 활·투석 소리 없음)
+    unit_sounds:
+      heavy_inf: [melee_metal, crowd]
+      light_inf: [melee_metal, crowd]
+      skirmisher: [crowd]
+      heavy_cav: [gallop, whinny, melee_metal, crowd]
+      light_cav: [gallop, whinny, crowd]
+    layer:
+      pitch_pct_max: 5.0          # D-0629 §2-2 상한 — 시험이 5 이하를 고정
+      melee_hits_per_sec: 5.0     # 금속 부딪힘 단발 수(초당, 무작위 시각)
+      melee_hit_sec: 0.6          # 테이크 하나에서 떼는 길이(부딪힘 하나 + 울림)
+      gallop_copies: 5            # 질주 사본 수(시간차)
+      crowd_copies: 2
+      offset_spread_sec: 0.8      # 사본 시작 시간차 상한
+      whinny_max_per_cue: 1       # 말 울음 = 큐 하나에 많아야 하나(D-0628 §3)
+      hit_gain: [0.35, 1.0]       # 부딪힘 단발 세기 범위(무작위)
+      copy_gain: [0.6, 1.0]       # 사본 세기 범위
+      whinny_at: [0.2, 0.6]       # 말 울음 자리(큐 길이 비율 범위)
+      seq_xfade_sec: 0.3          # 녹음 잇기 교차 페이드
+    onset: {env_sec: 0.005, hi: 0.3, lo: 0.05, pre_sec: 0.01, gap_sec: 0.25}   # 테이크 안 부딪힘 찾기(포락선 창·오름 문턱·내림 문턱·앞 여유·최소 간격)
+    distance:
+      far: {lowpass_hz: 1800.0, reverb_sec: 1.4, reverb_mix: 0.45}
+      mid: {lowpass_hz: 3800.0, reverb_sec: 0.9, reverb_mix: 0.3}
+    peak: 0.16                    # 큐 하나의 층 피크 상한(v = 1) — 내레이션 피크 narration_peak 0.8 의 1/5
+    fade_sec: 1.5                 # 들고 나는 페이드(갑자기 튀는 소리 금지, D-0627 §2-2 ⑤)
+    seed: 7
 
 stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시간축 무대(engine/stage_timeline.py)·시리즈 레이어(engine/layers/series.py). 설계 px(480p)
   # v7.4.0 back_and_forth D-0257(사용자 의견 UF-137 "금리 차트가 화면 좌우에 다 꽉차서 만드는 UI는 UX 측면에서 최악") — 시간축 주 무대는 화면을 채우지 않고

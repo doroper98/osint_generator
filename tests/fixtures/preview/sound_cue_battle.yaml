@@ -1,0 +1,21 @@
+# 레지스트리 프리뷰 예제(v7.4.0 back_and_forth D-0627 §2·D-0629 §2, 15 P10) — 연출 sound.cues kind battle(녹음 효과음 층).
+# 같은 녹음의 테이크·사본을 시간차로 겹친다(성질 불변·음높이 ±5 % 안·멀리서 듣는 거리감). units = 이 소리를 내는 부대 이름(forces).
+# tests/test_battle_sfx.py 가 모델·믹서·검사를 본다. 연출 원본 모양(end 앵커)은 direction 쪽 — 여기는 앵커 해석 뒤 믹서 Cue.
+schema_version: 1
+key: sound_cue:battle
+cue:
+  kind: battle
+  t: 1.0
+  dur: 8.0
+  v: 0.8
+  sound: melee_metal
+  dist: far
+  units: [로마 중무장보병, 아프리카 중무장보병]
+direction:
+  kind: battle
+  t: {sid: encirclement_5}
+  end: {sid: encirclement_7, edge: end}
+  v: 0.8
+  sound: melee_metal
+  dist: far
+  units: [로마 중무장보병, 아프리카 중무장보병]

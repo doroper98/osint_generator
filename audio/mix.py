@@ -18,7 +18,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 from scipy.signal import butter, lfilter, sosfilt
 
 from audio.qa import bed_stats
@@ -36,10 +36,26 @@ REPO = Path(__file__).resolve().parent.parent
 class Cue(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    kind: str            # whoosh | boom | tick
+    kind: str            # rules registries.sound_cue_kinds(whoosh | boom | tick | battle)
     t: float
     v: float = 1.0
-    dur: float | None = None   # whoosh 길이
+    dur: float | None = None   # whoosh 길이 · battle 길이(필수)
+    # v7.4.0 back_and_forth D-0627 §2·D-0629 §2 — battle(녹음 효과음 층): 소리 종류·거리감·이 소리를 내는 부대 이름(forces)
+    sound: str | None = None
+    dist: str | None = None
+    units: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def _kind(self) -> "Cue":
+        kinds = load_rules().registries.sound_cue_kinds
+        if self.kind not in kinds:
+            raise ValueError(f"효과음 큐 종류 {self.kind!r} 가 rules registries.sound_cue_kinds {kinds} 밖(15 P10)")
+        battle = (self.sound, self.dist, self.dur)
+        if self.kind == "battle" and (None in battle or not self.units):
+            raise ValueError("battle 큐는 sound·dist·dur·units 가 모두 필요하다(D-0627 §2-5)")
+        if self.kind != "battle" and (self.sound is not None or self.dist is not None or self.units):
+            raise ValueError(f"{self.kind} 큐에는 sound·dist·units 를 쓰지 않는다")
+        return self
 
 
 class ClipTrack(BaseModel):
@@ -105,6 +121,8 @@ class Sfx:
         self.fx = np.zeros(n, np.float32)
         self.n = n
         self.rng = rng
+        self.log: list[dict] = []   # v7.4.0 D-0629 §2 — 녹음 효과음 층 가공 기록(out/sfx_log.json·provenance audio.sfx)
+        self.battle_rng: np.random.Generator | None = None   # 합성 효과음 난수열과 따로(옛 whoosh·boom 결정성 유지)
 
     def add(self, t: float, y: np.ndarray) -> None:
         i0 = int(t * SR)
@@ -146,6 +164,14 @@ class Sfx:
             self.boom(c.t, c.v)
         elif c.kind == "tick":
             self.tick(c.t, c.v)
+        elif c.kind == "battle":
+            from audio.sfx import render_battle  # noqa: PLC0415
+
+            if self.battle_rng is None:
+                self.battle_rng = np.random.default_rng(AU.battle_sfx.seed)
+            y, rec = render_battle(c.sound, c.dur, c.dist, c.v, self.battle_rng)   # type: ignore[arg-type]
+            self.add(c.t, y)
+            self.log.append({"t": round(c.t, 2), "units": c.units, **rec})
         else:
             raise ValueError(f"모르는 효과음 종류: {c.kind!r}")
 
@@ -268,7 +294,7 @@ def segment_bed(segs: list[tuple[float, np.ndarray]], n: int, scene_starts: list
 
 
 def mix(plan: Plan, sound: Sound, bg_raw: np.ndarray | list[tuple[float, np.ndarray]] | None,
-        stats: dict | None = None, clips: list[ClipTrack] | None = None) -> tuple[np.ndarray, float]:
+        stats: dict | None = None, clips: list[ClipTrack] | None = None, sfx_log: list | None = None) -> tuple[np.ndarray, float]:
     """(N×2 float32, 정규화 전 피크). bg_raw None = 베드 없음(sound.bgm null) — 내레이션+효과음만(폴백이 아니라 명시 상태).
     stats 가 dict 이고 베드가 있으면 처리 전·후 베드 저역 비율(audio.qa.bed_stats)을 채운다(믹서가 out/bed_stats.json 에 쓴다)."""
     A = AU  # noqa: N806
@@ -314,6 +340,8 @@ def mix(plan: Plan, sound: Sound, bg_raw: np.ndarray | list[tuple[float, np.ndar
             sfx.whoosh(t0 - ss.lead_sec, ss.whoosh_dur_sec, ss.whoosh_v)
     for c in sound.cues:
         sfx.cue(c)
+    if sfx_log is not None:
+        sfx_log.extend(sfx.log)
     fade = np.ones(n, np.float32)
     fi, fo = int(A.fade_in_sec * SR), int(A.fade_out_sec * SR)
     fade[:fi] = np.linspace(0, 1, fi)
@@ -382,10 +410,17 @@ def main(argv: list[str] | None = None) -> int:
             src = [(g.t, decode_bgm(bgm_path(g.id))) for g in sound.bgm]
         stats: dict = {}
         clips, clip_rec = load_clips(proj, events)
-        y, pk = mix(plan, sound, src, stats, clips)
+        slog: list = []
+        y, pk = mix(plan, sound, src, stats, clips, slog)
         (proj / "out").mkdir(exist_ok=True)
         out = proj / "out" / "mix.f32"
         y.tofile(out)
+        sl = proj / "out" / "sfx_log.json"   # v7.4.0 D-0629 §2 — 녹음 효과음 층을 깔았을 때만(P5)
+        if slog:
+            sl.write_text(json.dumps({"schema_version": 1, "cues": slog, "rules": AU.battle_sfx.model_dump()}, ensure_ascii=False, indent=1),
+                          encoding="utf-8")
+        elif sl.exists():
+            sl.unlink()
         ca = proj / "out" / "clip_audio.json"   # v7.4.0 D-0274 §2③ — 클립 원음을 섞었을 때만(P5)
         if clip_rec:
             ca.write_text(json.dumps({"schema_version": 1, "clips": clip_rec, "gains_db": AU.clip.model_dump()}, ensure_ascii=False, indent=1),
@@ -399,7 +434,7 @@ def main(argv: list[str] | None = None) -> int:
             bs.unlink()
         print(f"mix ok {len(y) / SR:.1f}s peak {pk:.3f}", file=sys.stderr)
         res = StageResult(ok=True, stage="mix", artifacts={"mix": str(out), **({"bed_stats": str(bs)} if stats else {})})
-    except (ProjectError, BgmError, ValueError, OSError, subprocess.CalledProcessError) as ex:
+    except (ProjectError, BgmError, ValueError, OSError, subprocess.CalledProcessError) as ex:   # SfxError ⊂ ValueError
         res = StageResult(ok=False, stage="mix", errors=[str(ex)])
     print(json.dumps(res.model_dump(), ensure_ascii=False))
     return 0 if res.ok else 1

@@ -1571,6 +1571,7 @@ class CreditRules(_Strict):
 
 class Registries(_Strict):
     event_types: list[str]
+    sound_cue_kinds: list[str] = Field(default_factory=list)   # v7.4.0 D-0627 §2-4 — 연출 sound.cues kind(스키마·믹서·프리뷰 예제)
     event_types_planned: list[str]
     panel_kinds: list[str]
     panel_kinds_planned: list[str]
@@ -1661,6 +1662,58 @@ class NarrationClarity(_Strict):
 
     min_db: float
     hard_genres: list[str] = Field(default_factory=list)
+
+
+class BattleSfxDistance(_Strict):
+    lowpass_hz: float = Field(gt=0)
+    reverb_sec: float = Field(ge=0)
+    reverb_mix: float = Field(ge=0, le=1)
+
+
+class BattleSfxLayer(_Strict):
+    pitch_pct_max: float = Field(ge=0, le=5)      # D-0629 §2-2 — ±5 % 이내
+    melee_hits_per_sec: float = Field(gt=0)
+    melee_hit_sec: float = Field(gt=0)
+    gallop_copies: int = Field(ge=1)
+    crowd_copies: int = Field(ge=1)
+    offset_spread_sec: float = Field(ge=0)
+    whinny_max_per_cue: int = Field(ge=0, le=1)   # D-0628 §3 — 많아야 하나
+    hit_gain: tuple[float, float]
+    copy_gain: tuple[float, float]
+    whinny_at: tuple[float, float]
+    seq_xfade_sec: float = Field(ge=0)
+
+
+class BattleSfxOnset(_Strict):
+    env_sec: float = Field(gt=0)
+    hi: float = Field(gt=0, le=1)
+    lo: float = Field(gt=0, le=1)
+    pre_sec: float = Field(ge=0)
+    gap_sec: float = Field(gt=0)
+
+
+class BattleSfxRules(_Strict):
+    """v7.4.0 D-0627 §2·D-0629 §2 — 녹음 효과음 층(연출 sound.cues kind battle)."""
+
+    kinds: list[str] = Field(min_length=1)
+    licenses: list[str] = Field(min_length=1)
+    attribution_licenses: list[str] = Field(default_factory=list)
+    unit_sounds: dict[str, list[str]]
+    layer: BattleSfxLayer
+    onset: BattleSfxOnset
+    distance: dict[str, BattleSfxDistance]
+    peak: float = Field(gt=0, le=1)
+    fade_sec: float = Field(ge=0)
+    seed: int
+
+    @model_validator(mode="after")
+    def _known(self) -> "BattleSfxRules":
+        bad = sorted({k for v in self.unit_sounds.values() for k in v} - set(self.kinds))
+        if bad:
+            raise ValueError(f"battle_sfx.unit_sounds 에 kinds 밖 소리: {bad}")
+        if not set(self.attribution_licenses) <= set(self.licenses):
+            raise ValueError("battle_sfx.attribution_licenses ⊆ licenses")
+        return self
 
 
 class AudioQARules(_Strict):
@@ -1779,6 +1832,7 @@ class AudioRules(_Strict):
     norm_eps: float
     bed_bass: BedBass
     sfx: SfxRules
+    battle_sfx: Optional[BattleSfxRules] = None   # v7.4.0 D-0627 §2·D-0629 §2
 
 
 class ElementHoldRules(_Strict):

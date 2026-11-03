@@ -32,6 +32,7 @@ DATA_DRIVEN_MODULES: dict[str, frozenset[float]] = {   # 모듈 → 추가 허�
     "audio/mix.py": frozenset({44100, 10, 20}),     # SR 코덱 상수 — rules audio.sample_rate 와 일치 테스트(test_audio_rules) · dB 정의(10^(dB/20), v4.6.0 셸프)
     "audio/qa.py": frozenset({44100, 20, 10, 4}),   # SR 코덱 상수 · dB 정의(20·log10, 10^(dB/20)) · round(·, 4) 보고 자릿수
     "audio/registry.py": frozenset(),
+    "audio/sfx.py": frozenset({44100, 1000, 100, 4}),   # v7.4.0 D-0627 — SR 코덱 상수 · −60 dB = ln 1000(잔향 길이 정의) · 퍼센트 정의 · round(·, 4) 기록 자릿수. 효과음 수치는 rules audio.battle_sfx
     "bundle/entities.py": frozenset({4}),           # round(·, 4) 보고 자릿수
     "bundle/to_script.py": frozenset({1000}),       # YAML 줄 폭(줄바꿈 안 함 — orchestrator/script_io 와 같음)
     "bundle/to_direction.py": frozenset({4, 10, 1000}),  # round(·, 4) 앵커 자릿수(v4.1.0 — framing 이 하던 반올림) · 10진 자릿수(10^floor(log10), 눈금 가수는 rules bundle.nice_mantissas) · YAML 줄 폭

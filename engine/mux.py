@@ -174,6 +174,9 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     if (stages.get("mix") or getattr(P, "animatic", False) or getattr(P, "catalog", False)) and ca.exists() \
             and any(e["type"] == "clip" for e in P.events):
         prov["audio"]["clip_audio"] = json.loads(ca.read_text(encoding="utf-8"))["clips"]
+    sl = P.root / "out" / "sfx_log.json"   # v7.4.0 D-0629 §2 — 녹음 효과음 층을 깐 경우만: 원천·겹친 수·시간차·음높이 범위(P5)
+    if any(c.get("kind") == "battle" for c in P.R.cache.get("sound_cues") or []) and sl.exists():
+        prov["audio"]["sfx"] = json.loads(sl.read_text(encoding="utf-8"))["cues"]
     if P.R.credits is not None and any(c.kind == "end" for c in P.plan.cards):   # v4.7.0 D-0106 1-C — 엔딩 카드 롤(없으면 기록 없음)
         from engine.fullcards import credit_place, endcard_roll, notice_reserve, project_credit_sections, version_stamp  # noqa: PLC0415
 

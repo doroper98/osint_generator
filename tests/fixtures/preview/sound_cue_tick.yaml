@@ -1,0 +1,8 @@
+# 레지스트리 프리뷰 예제(v7.4.0 back_and_forth D-0627 §2-4, 15 P10) — 연출 sound.cues kind tick(합성 효과음, v3 mix3).
+# tests/test_battle_sfx.py 가 audio.mix Cue 모델·믹서 dispatch 를 검사한다.
+schema_version: 1
+key: sound_cue:tick
+cue:
+  kind: tick
+  t: 2.0
+  v: 0.6
