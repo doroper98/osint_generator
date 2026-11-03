@@ -50,6 +50,7 @@ class WarUnit(_Strict):
     faction: str
     symbol: str
     name: str = ""
+    short: Optional[str] = Field(default=None, min_length=1)   # v7.4.0 D-0627(UF-257) — 자리가 모자랄 때 접는 짧은 이름(뜻이 같은 범위에서만 줄인다)
     keys: list[UnitKey] = Field(min_length=1)
     t_out: Optional[float] = None    # 이 시각부터 사라짐(무너짐·포위 섬멸 표현이 아니라 화면 정리)
     out_at: Optional[dict[str, Any]] = None   # 본편 — t_out 대신 문장 앵커(D-0615 §2-3). 둘 다 쓰지 않는다

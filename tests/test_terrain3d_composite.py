@@ -5,6 +5,7 @@
 프레임마다 화소 바이트 md5 를 고정한다. 3D 쪽은 브라우저 GPU 차가 있어 MAD, 글자·그림은 엔진(cairo)이라 바이트 고정으로 나눈다.
 의도한 변경이면 md5 를 고치고 커밋 메시지에 사유를 적는다(골든 갱신 = 사람이 본 뒤).
 md5 는 표준 FONTCONFIG(/etc/fonts/fonts.conf 사본, conf.d 에서 12-unhinted-grayscale 뺌 — R-0310 §3·D-0623)에서 고정했다. 이 설정 없이 돌리면 글자 힌팅 차로 실패한다.
+v7.4.0 D-0627(UF-257) — 부대 이름이 블록 바깥 자리(layout_labels)로 옮겨 md5 다시 고정(fixture labels.json 에 block 상자 추가, 3D 프레임 PNG 는 같음).
 """
 
 from __future__ import annotations
@@ -29,9 +30,9 @@ FIX = REPO / "tests" / "fixtures" / "terrain3d"
 SOURCE = "폴리비오스 『역사』 III.113~116(Paton 영역 1922)"
 
 COMPOSITE_MD5 = {
-    0: "3858b451893c499c47f1d923c8486654",
-    1: "b339881a36ef3a1eb137249f71c5d7ef",
-    2: "45746c987f8ad6dd287dfccca418cc3a",
+    0: "501dbe3f3afdeeb2ed4c3093c45481f4",
+    1: "fcc6c04a0b583c7b3fef0deb5d1b3725",
+    2: "66b87f51ec33dafc5bed6e01d95370df",
 }
 
 
@@ -121,14 +122,14 @@ class Terrain3DSeamTest(unittest.TestCase):
 
 
 class Terrain3DLabelBoxTest(unittest.TestCase):
-    """카드 덮음 검사(D-0619 ②)가 쓰는 라벨 상자 — 라벨 점을 품고, 부대 상자는 병종 그림 위까지 올라간다."""
+    """카드 덮음·진형 가운데 검사가 쓰는 부대 상자 — 라벨 점을 품고(아래 변), 병종 그림 위까지 올라간다."""
 
     def test_box_contains_point(self) -> None:
         P = _project()  # noqa: N806
         rec = {"k": "unit", "name": "로마 중무장보병", "glyph": "heavy_inf", "x": 200.0, "y": 120.0}
         x0, y0, x1, y1 = t3l.label_box(P, rec)
         x, y = 200.0 / P.R.out.k, 120.0 / P.R.out.k
-        self.assertTrue(x0 < x < x1 and y0 < y < y1)
+        self.assertTrue(x0 < x < x1 and y0 < y <= y1)   # D-0627 — 부대 상자 = 병종 그림(점 위) ∪ 블록. 이름 자리는 layout_labels
         px0, py0, px1, py1 = t3l.label_box(P, {**rec, "k": "place", "name": "칸나이"})
         self.assertGreater(py0, y0)   # 지명 상자는 병종 그림 자리가 없다
 

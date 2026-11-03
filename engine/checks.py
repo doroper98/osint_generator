@@ -476,6 +476,50 @@ def _text_part(e: dict, box: tuple) -> tuple:
     return (x0, y0 + 24, x1, y1)
 
 
+def label_block_hits(names: list[tuple[str, tuple, int]], blocks: list[tuple]) -> list[tuple[str, str]]:
+    """전술 화면 글자 겹침 판정(v7.4.0 D-0627, UF-257) — names = (이름, 글자 상자, 자기 부대 번호), blocks = 부대마다 블록 상자.
+    이름끼리 SUB_TOL_PX 넘게 교차하거나, 이름이 다른 부대 블록 위에 놓이면 (a, b) 쌍. 본편 terrain3d·스케치 공용."""
+    out = []
+    for i, (na, ba, ja) in enumerate(names):
+        for nb, bb, _ in names[i + 1:]:
+            if _overlap_px(ba, bb) > SUB_TOL_PX:
+                out.append((na, nb))
+        for m, blk in enumerate(blocks):
+            if m != ja and _overlap_px(ba, blk) > SUB_TOL_PX:
+                out.append((na, f"블록#{m}"))
+    return out
+
+
+def terrain3d_label_collisions(P) -> list[str]:  # noqa: ANN001, N803
+    """terrain3d 구간 — 실제로 그리는 부대 이름 자리(layout_labels)와 블록 상자(labels.json block)로 label_block_hits. 쌍마다 첫 시각 한 줄."""
+    from engine.layers.terrain3d import block_box, layout_labels, load_segments, seam_alpha  # noqa: PLC0415
+
+    if not P.R.cache.get("terrain3d_segments"):
+        return []
+    segs = P.R.cache.get("terrain3d_frames")
+    if segs is None:
+        segs = P.R.cache["terrain3d_frames"] = load_segments(P)
+    seen: set[tuple[str, str]] = set()
+    out = []
+    for s in segs:
+        t = s.t_in
+        while t < s.t_out:
+            i = min(s.i1 - 1, int(t * FPS))
+            if seam_alpha(s, t) >= 0.5 and not _covered(P, t):
+                recs = s.labels[i - s.i0]
+                units = [r for r in recs if r["k"] == "unit" and not r.get("behind")]
+                placed, _ = layout_labels(P, recs)
+                names = [(p.text, p.box, units.index(p.rec)) for p in placed]
+                blocks = [block_box(P, r) or (0.0, 0.0, 0.0, 0.0) for r in units]
+                for a, b in label_block_hits(names, blocks):
+                    if (a, b) not in seen:
+                        seen.add((a, b))
+                        out.append(f"[label-collision] terrain3d {a!r} ↔ {b!r} t={t:.2f} — 진형 화면 이름끼리 또는 이름이 다른 블록 위(UF-257). "
+                                   "rules stage_terrain3d.label_gap_px·forces short 이름·카메라 폭을 본다")
+            t += COLLIDE_STEP_SEC
+    return out
+
+
 def check_label_collision(P) -> list[str]:  # noqa: ANN001, N803
     """v5.6.0(사용자 지적 2026-10-04 — 수바우키 장면 지명 글자가 서로 겹침, 나토 휘장이 발트해 마커의 날짜를 가림, RENDER-AP-009) —
     같은 순간 보이는 지도 뱃지·마커(점·라벨·부제)·경로/봉쇄선 이름표(RENDER-AP-012) 상자끼리 SUB_TOL_PX 넘게 교차하면 hard. 쌍마다 첫 시각 한 줄."""
@@ -510,7 +554,7 @@ def check_label_collision(P) -> list[str]:  # noqa: ANN001, N803
                     nb = eb.get("label") or eb.get("pid") or eb.get("img")
                     out.append(f"[label-collision] {ea['type']} {na!r} ↔ {eb['type']} {nb!r} t={t:.2f} — 지도 글자·뱃지가 겹침. side·place·sub 길이를 바꾸거나 한쪽을 먼저 끝낸다")
         t += COLLIDE_STEP_SEC
-    return out
+    return out + terrain3d_label_collisions(P)   # v7.4.0 D-0627(UF-257) — terrain3d 구간 엔진 라벨도 같은 검사
 
 
 def check_cascade_label_hidden(P) -> list[str]:  # noqa: ANN001, N803
@@ -1043,7 +1087,7 @@ def label_under_media(P) -> list[tuple[dict, str, float, float]]:  # noqa: ANN00
 def terrain3d_labels_under_media(P) -> list[tuple[str, str, float, float]]:  # noqa: ANN001, N803
     """(부대·지명 이름, 덮은 미디어 mid, 처음 시각, 깔린 초) — v7.4.0 D-0619 ②. terrain3d 구간 프레임은 지도 마커가 아니라 엔진이 그린
     부대 라벨(병종 그림·이름 — 블록 중심부)이라 label_under_media 와 같은 규칙 키(step_sec·min_alpha·max_sec)로 labels.json 상자를 잰다."""
-    from engine.layers.terrain3d import label_box, seam_alpha, segment_at  # noqa: PLC0415
+    from engine.layers.terrain3d import label_box, layout_labels, seam_alpha, segment_at  # noqa: PLC0415
     from engine.media_plan import media_box  # noqa: PLC0415
     from engine.timebase import window  # noqa: PLC0415
 
@@ -1060,9 +1104,12 @@ def terrain3d_labels_under_media(P) -> list[tuple[str, str, float, float]]:  # n
             seg = segment_at(P, i)
             if seg is not None and window(t, m["t0"], m["t1"], *ELEM[m["type"]]) >= cfg.min_alpha \
                     and seam_alpha(seg, t) >= cfg.min_alpha and not _covered(P, t):
-                for rec in seg.labels[i - seg.i0]:
-                    if not rec.get("behind") and rec.get("name") and _box_hit(label_box(P, rec), b):
-                        hits.setdefault((rec["name"], m["mid"]), []).append(t)
+                recs = seg.labels[i - seg.i0]
+                boxes = [(rec.get("name") or "이름 없는 부대", label_box(P, rec)) for rec in recs if not rec.get("behind") and (rec["k"] == "unit" or rec.get("name"))]
+                boxes += [(p.text, p.box) for p in layout_labels(P, recs)[0]]   # D-0627 — 실제 이름 글자 자리
+                for name, bx in boxes:
+                    if _box_hit(bx, b):
+                        hits.setdefault((name, m["mid"]), []).append(t)
             t += cfg.step_sec
     return [(name, mid, ts[0], len(ts) * cfg.step_sec) for (name, mid), ts in hits.items() if len(ts) * cfg.step_sec > cfg.max_sec + 1e-9]
 

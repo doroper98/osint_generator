@@ -99,20 +99,108 @@ def _design(P: "Project", x: float, y: float) -> tuple[float, float]:  # noqa: N
 
 
 def label_box(P: "Project", rec: dict) -> tuple[float, float, float, float]:  # noqa: N803
-    """라벨 기록 하나가 화면에 차지하는 설계 상자(부대 = 병종 그림 + 이름, 지명 = 이름) — draw_labels 와 같은 자리 식.
-    부대 블록 몸통은 라벨 점(블록 중심 위) 둘레라 이 상자가 블록 중심부를 덮는다(D-0619 ② 카드 덮음 검사)."""
+    """부대가 화면에 차지하는 설계 상자 — 병종 그림(라벨 점 위) ∪ 블록 윗면 화면 상자(labels.json block, 있으면). 지명 = 이름 상자.
+    진형 가운데 검사(D-0625)·카드 덮음 검사(D-0619 ②)가 쓴다. 이름 글자 자리는 layout_labels."""
     from engine.typography import adv  # noqa: PLC0415
 
     T3 = load_rules().sketch.war.terrain3d  # noqa: N806
     k = W_OUT / T3.width
     x, y = _design(P, rec["x"], rec["y"])
     if rec["k"] == "unit":
-        g, sz = T3.glyph_px * k, T3.text.unit * k
-        half = max(g / 2, adv(rec.get("name") or "", sz, "sansm") / 2)
-        return x - half, y - g, x + half, y + sz * 1.35
+        g = T3.glyph_px * k
+        bx = [x - g / 2, y - g, x + g / 2, y]
+        blk = block_box(P, rec)
+        if blk is not None:
+            bx = [min(bx[0], blk[0]), min(bx[1], blk[1]), max(bx[2], blk[2]), max(bx[3], blk[3])]
+        return tuple(bx)  # type: ignore[return-value]
     sz = T3.text.place * k
     half = adv(rec["name"], sz, "sansm") / 2
     return x - half, y - sz * 0.9, x + half, y + sz * 0.3
+
+
+def block_box(P: "Project", rec: dict) -> "tuple[float, float, float, float] | None":  # noqa: N803
+    """블록 윗면 화면 상자(설계 좌표) — labels.json 'block'(D-0627). 옛 기록에는 없다."""
+    b = rec.get("block")
+    if not b or not all(map(lambda v: v == v and abs(v) < 1e9, b)):
+        return None
+    x0, y0 = _design(P, b[0], b[1])
+    x1, y1 = _design(P, b[2], b[3])
+    return x0, y0, x1, y1
+
+
+def _hit(a: tuple, b: tuple, tol: float) -> bool:
+    return min(a[2], b[2]) - max(a[0], b[0]) > tol and min(a[3], b[3]) - max(a[1], b[1]) > tol
+
+
+@dataclass
+class Placed:
+    rec: dict
+    text: str
+    x: float
+    y: float
+    size: float
+    box: tuple
+
+
+def layout_labels(P: "Project", recs: list[dict]) -> tuple[list[Placed], list[str]]:  # noqa: N803
+    """부대 이름 자리(D-0627, UF-257) — 블록 윗면 상자 바깥, 진형 중심에서 먼 쪽 먼저(그다음 옆 둘, 마지막 안쪽).
+    다른 이름·다른 부대 블록·모든 병종 그림·안전 영역(qa_checks.formation_centered)과 겹치지 않는 첫 자리. 없으면 short 이름, 그래도 없으면 접는다.
+    같은 이름 블록이 여럿이면 이름은 한 번만(자리가 나는 첫 블록). 결정적(부대 순서 = forces 순서). 반환 = (자리, 접힌 이름)."""
+    from engine.typography import adv  # noqa: PLC0415
+
+    R = load_rules()  # noqa: N806
+    T3, FC = R.sketch.war.terrain3d, R.qa_checks.formation_centered  # noqa: N806
+    k = W_OUT / T3.width
+    sz, gap, tol = T3.text.unit * k, R.stage_terrain3d.label_gap_px, 2.0
+    units = [r for r in recs if r["k"] == "unit" and not r.get("behind")]
+    if not units:
+        return [], []
+    pts = [_design(P, r["x"], r["y"]) for r in units]
+    cx, cy = sum(p[0] for p in pts) / len(pts), sum(p[1] for p in pts) / len(pts)
+    g = T3.glyph_px * k
+    glyphs = [(x - g / 2, y - g, x + g / 2, y) for x, y in pts]
+    blocks = [block_box(P, r) or (x - g / 2, y - g, x + g / 2, y) for r, (x, y) in zip(units, pts)]
+    top, side, bottom = (FC.safe_top_px, FC.safe_side_px, R.layout_480p.reserved_zones.subtitle.y_from) if FC else (0, 0, H_OUT)
+    shorts = {u.name: u.short for u in P.R.cache["terrain3d_forces"].units if u.short}
+    placed: list[Placed] = []
+    folded: list[str] = []
+    done: set[str] = set()
+
+    def candidates(j: int, w: float) -> list[tuple[float, float, tuple]]:
+        b, (x, y) = blocks[j], pts[j]
+        mx, my = (b[0] + b[2]) / 2, (b[1] + b[3]) / 2
+        cand = {"below": (mx, b[3] + gap + sz * 0.85), "above": (mx, b[1] - gap - sz * 0.25),
+                "left": (b[0] - gap - w / 2, my + sz * 0.3), "right": (b[2] + gap + w / 2, my + sz * 0.3)}
+        dx, dy = x - cx, y - cy
+        vert = ("below", "above") if dy >= 0 else ("above", "below")
+        hor = ("right", "left") if dx >= 0 else ("left", "right")
+        order = (vert[0], hor[0], hor[1], vert[1]) if abs(dy) >= abs(dx) else (hor[0], vert[0], vert[1], hor[1])
+        return [(cand[o][0], cand[o][1], (cand[o][0] - w / 2, cand[o][1] - sz * 0.85, cand[o][0] + w / 2, cand[o][1] + sz * 0.25)) for o in order]
+
+    def free(box: tuple, j: int) -> bool:
+        if box[0] < side or box[2] > W_OUT - side or box[1] < top or box[3] > bottom:
+            return False
+        if any(_hit(box, p.box, tol) for p in placed) or any(_hit(box, gb, tol) for gb in glyphs):
+            return False
+        return not any(_hit(box, bb, tol) for m, bb in enumerate(blocks) if m != j)
+
+    for j, r in enumerate(units):
+        name = r.get("name")
+        if not name or name in done:
+            continue
+        group = [m for m, q in enumerate(units) if q.get("name") == name]
+        hit = None
+        for label in [name] + ([shorts[name]] if name in shorts else []):
+            w = adv(label, sz, "sansm")
+            hit = next(((m, x, y, box) for m in group for x, y, box in candidates(m, w) if free(box, m)), None)
+            if hit is not None:
+                m, x, y, box = hit
+                placed.append(Placed(units[m], label, x, y, sz, box))
+                break
+        if hit is None:
+            folded.append(name)
+        done.add(name)
+    return placed, folded
 
 
 def approx_line(forces: Any) -> str:
@@ -127,7 +215,8 @@ def draw_labels(ctx: cairo.Context, P: "Project", seg: SegFrames, i: int, t: flo
     k = W_OUT / T3.width   # 스케치 3D 폭(규칙 값의 기준) → 설계 폭
     forces = P.R.cache["terrain3d_forces"]
     emb = P.R.cache.get("terrain3d_emblems") or {}
-    for rec in seg.labels[i - seg.i0]:
+    recs = seg.labels[i - seg.i0]
+    for rec in recs:
         if rec.get("behind"):
             continue
         x, y = _design(P, rec["x"], rec["y"])
@@ -138,14 +227,18 @@ def draw_labels(ctx: cairo.Context, P: "Project", seg: SegFrames, i: int, t: flo
             if fk in emb:
                 draw_emblem(ctx, emb[fk], x + E.block_dx, y + E.block_dy - T3.glyph_px * k / 2, E.block_px, (1, 1, 1), E.alpha * fade,
                             (0.05, 0.06, 0.08), E.halo_px)
-            if rec.get("name"):
-                text(ctx, rec["name"], x, y + T3.text.unit * k, T3.text.unit * k, "sansm", (1, 1, 1), fade, 3.0, "c",
-                     contrast="required")
         elif rec["k"] == "place":
             p = next((q for q in forces.places if q.name == rec["name"]), None)
             if p is not None and (t < p.t or (p.t_out is not None and t >= p.t_out)):
                 continue
             text(ctx, rec["name"], x, y, T3.text.place * k, "sansm", (1, 1, 1), fade, 3.0, "c", contrast="required")
+    placed, folded = layout_labels(P, recs)   # 부대 이름 — 블록 바깥 자리·접기(D-0627, UF-257)
+    for pl in placed:
+        text(ctx, pl.text, pl.x, pl.y, pl.size, "sansm", (1, 1, 1), fade, 3.0, "c", contrast="required")
+    if folded:
+        log = P.R.cache.setdefault("terrain3d_labels_folded", {})
+        for nm in folded:
+            log[nm] = log.get(nm, 0) + 1
     line = approx_line(forces)
     text(ctx, line, R.source_note.x, H_OUT - R.source_note.y_from_bottom, STAMP.size, STAMP.font, C["muted"], R.source_note.alpha * fade, 0, "l",
          role="media_meta")
@@ -166,4 +259,4 @@ def map_events_in_segments(events: list[dict], segs: list[Any], map_types: tuple
     return out
 
 
-__all__ = ["SegFrames", "approx_line", "label_box", "draw_base", "seam_alpha", "draw_labels", "load_segments", "map_events_in_segments", "segment_at"]
+__all__ = ["Placed", "SegFrames", "approx_line", "block_box", "label_box", "layout_labels", "draw_base", "seam_alpha", "draw_labels", "load_segments", "map_events_in_segments", "segment_at"]

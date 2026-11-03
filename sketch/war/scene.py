@@ -126,6 +126,7 @@ class WarScene:
         self.drainage = json.loads(dp.read_text(encoding="utf-8")) if "drainage" in self._overlays() and dp.is_file() else []
         self.res_boxes: list[tuple[float, list]] = []
         self.unit_boxes: list[tuple[float, float, list]] = []   # (t, 화면 폭 °, 부대 상자) — 진형 가운데 검사(SK-W7, D-0625)
+        self.unit_layout: list[tuple[float, float, list]] = []  # (t, 화면 폭 °, [(이름 상자|None, 블록 상자)]) — SK-W8(D-0627)
         self.card_boxes: list[tuple[float, list]] = []   # 프레임마다 보이는 카드 상자(SK-W6 — 카드가 라벨·부대를 덮는가)
         self.overflow: list[tuple[float, str]] = []      # 핀이 화면 안인데 글자가 화면 밖(SK-W5)
         self.drawn: dict[str, int] = {f"theme:{theme or 'dark'}": 1}   # provenance 에 이번 렌더 테마(D-0607 ③)
@@ -177,6 +178,7 @@ class WarScene:
         self.units.draw(ctx, view, t, ures)
         res += ures
         self.unit_boxes.append((t, float(view.w), [b[:4] for b in ures]))
+        self.unit_layout.append((t, float(view.w), list(self.units.layout)))
         self._places(ctx, view, t, res)
         dim = max((window(t, e.t0, e.t1, W.card.in_sec, W.card.out_sec) for e in sp.evidence), default=0)
         if dim > F.min_alpha:

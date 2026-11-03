@@ -1643,6 +1643,7 @@ stage_terrain3d:
   tilt_sec: 2.5          # 90° 내려다보기 ↔ 규칙 고도각 기울기·방위 가속/되돌리기 시간(이징). 구간 길이 ≥ 2 × 이 값, 궤도 되돌리기는 구간 안에서 끝
   region_factor: 3.0     # 3D 지형·텍스처 영역 폭 = 들어가는 mercator 화면 폭 × 이 값(기울였을 때 화면 위쪽까지 지형이 차게)
   seam_sec: 1.2          # v7.4.0 D-0619 ① — 구간 들어감·나옴 이음(한 박자): 이 시간 동안 3D 바탕·부대·강·라벨이 mercator 지도 위로 녹아 들고 걷힌다(한꺼번에 튀어나옴 금지, C0)
+  label_gap_px: 3        # v7.4.0 D-0627(UF-257 "진형 씬에서 너무 글씨들이 겹치는") — 부대 이름은 블록 윗면 화면 상자 바깥(진형 바깥쪽 먼저) 이 간격에. 자리가 없으면 short 이름, 그래도 없으면 이름을 접는다(병종 그림만)
   ground: texture        # v7.4.0 D-0619 ① — 3D 지면 = mercator relief 텍스처 색 그대로(음영은 텍스처에 이미 있음, 조명 곱하지 않음 → 경계 색조 일치). lit = 스케치 조명
 
 stage_backdrop:            # v5.1.0 back_and_forth D-0121 §B·D-0123 §1(사용자 결정 D106·D108) — 사진 배경 무대(engine/stage_backdrop.py)·backdrop 이벤트(engine/layers/backdrop.py). 설계 px(480p)

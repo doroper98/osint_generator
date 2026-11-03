@@ -106,7 +106,7 @@ def main(argv: list[str] | None = None) -> int:
     else:
         mp4, sheet, rec = render_video(scene, spec.duration_sec, spec.sheet_times, out, args.stem)
         print(mp4, sheet)
-    check_render(report, scene.res_boxes, scene.card_boxes, scene.overflow, scene.unit_boxes)
+    check_render(report, scene.res_boxes, scene.card_boxes, scene.overflow, scene.unit_boxes, scene.unit_layout)
     prov.render = rec
     prov.data_files = data_files(spec, project)
     prov.features_drawn = scene.features_drawn()

@@ -132,8 +132,11 @@ window.__draw = (fr) => {
   units.tops.forEach(({ u, y }, i) => {   // 병종 빌보드(윗면 위) + 부대 이름(그 아래)
     const v = new THREE.Vector3(u.c[0], y + S.label_lift_m * 0.5, u.c[1]).project(cam);
     const sx = (v.x + 1) / 2 * W, sy = (1 - v.y) / 2 * Ht;
+    const bx = [Infinity, Infinity, -Infinity, -Infinity];   // 블록 윗면 화면 상자 — 라벨 겹침·라벨 자리(D-0627, UF-257)
+    for (const [px, pz] of u.poly) { const q = new THREE.Vector3(px, y, pz).project(cam);
+      const qx = (q.x + 1) / 2 * W, qy = (1 - q.y) / 2 * Ht; bx[0] = Math.min(bx[0], qx); bx[1] = Math.min(bx[1], qy); bx[2] = Math.max(bx[2], qx); bx[3] = Math.max(bx[3], qy); }
     out.push({ k: 'unit', i, name: u.name || '', glyph: u.glyph_name || null, faction: u.faction || null,
-               x: +sx.toFixed(2), y: +sy.toFixed(2), behind: v.z > 1 });   // 화면 좌표는 늘 돌려준다 — 진형 가운데 검사(D-0625, 스케치 3D 도)
+               x: +sx.toFixed(2), y: +sy.toFixed(2), behind: v.z > 1, block: bx.map(n => +n.toFixed(2)) });   // 화면 좌표는 늘 돌려준다 — 진형 가운데 검사(D-0625, 스케치 3D 도)
     if (S.text_in_engine || v.z > 1) return;
     if (u.glyph) { const im = glyphImg[u.glyph], gh = S.glyph_px, gw = gh * im.width / im.height; ctx.drawImage(im, sx - gw / 2, sy - gh, gw, gh); }
     if (u.name) label(u.name, sx, sy + S.text.unit, S.text.unit, '#ffffff', 600);

@@ -2414,6 +2414,7 @@ class StageTerrain3DRules(_Strict):
     tilt_sec: float = Field(gt=0)
     region_factor: float = Field(gt=1)
     seam_sec: float = Field(gt=0)            # D-0619 ① — 구간 경계 이음(녹아 듦·걷힘) 시간
+    label_gap_px: float = Field(ge=0)        # D-0627(UF-257) — 부대 이름 ↔ 블록 상자 간격(설계 px)
     ground: Literal["texture", "lit"]        # D-0619 ① — 3D 지면 색: texture = mercator relief 그대로, lit = 조명 곱함(스케치)
 
 

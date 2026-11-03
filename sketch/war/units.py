@@ -71,6 +71,7 @@ class WarUnitLayer:
         self.drawn: dict[str, int] = {}
 
     def draw(self, ctx: cairo.Context, view: View, t: float, res: list) -> None:
+        self.layout: list[tuple["tuple | None", tuple]] = []   # (이름 글자 상자 | None, 블록 상자) — SK-W8 글자 겹침(D-0627, UF-257)
         for u in self.spec.units:
             t_in = u.keys[0].t
             a = smooth((t - t_in) / U.in_sec)
@@ -106,6 +107,13 @@ class WarUnitLayer:
                 text(ctx, u.name, x, y + N.dy, N.size, N.font, WHITE, a * lod, N.halo, "c")
             elif u.name:
                 self.drawn["lod:unit_name"] = self.drawn.get("lod:unit_name", 0) + 1
+            if a > F.min_alpha:
+                bp = _grow(_corners(view, k), hv) if shape != "app6" else np.array([[x - U.min_px[0] / 2, y - U.min_px[1] / 2], [x + U.min_px[0] / 2, y + U.min_px[1] / 2]])
+                nb = None
+                if show_name:
+                    nw = tw(ctx, u.name, U.name.size, U.name.font) / 2
+                    nb = (x - nw, y + U.name.dy - U.name.size * 0.85, x + nw, y + U.name.dy + U.name.size * 0.25)
+                self.layout.append((nb, (float(bp[:, 0].min()), float(bp[:, 1].min()), float(bp[:, 0].max()), float(bp[:, 1].max()))))
             if a > F.min_alpha:   # 부대 상자(보이는 이름 포함) — SK-C2 겹침·SK-W6 카드 덮임 입력
                 half = max(U.min_px[0], tw(ctx, u.name, U.name.size, U.name.font) if show_name else 0) / 2
                 res.append((x - half, y - U.name.dy, x + half, y + U.name.dy, "" if show_name else UNNAMED_UNIT))   # 꼬리표 = SK-C2 제외 판정(D-0610 ③)
