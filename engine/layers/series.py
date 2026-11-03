@@ -226,12 +226,17 @@ def lane_range(events: list[dict], lane: str, stage: "TimelineStage | None" = No
     a, b = fit_extent(dmin, dmax, unit)
     pad = (b - a) * cfg.pad_ratio
     lo, hi = a - pad, b + pad
+    neg = cfg.zero_clamp and dmax <= 0   # v7.4.0 D615 — 모두 0 이하: 0 위로 늘리지 않는다(모두 0 이상의 0 하한과 대칭)
     if dmin >= 0 and lo < 0:
         lo, hi = 0.0, hi - lo
+    if neg and hi > 0:
+        lo, hi = lo - hi, 0.0
     unit_r = nice_step(hi - lo) / (2 if cfg.end_round == "half_step" else 1)
     lo, hi = math.floor(lo / unit_r + EPS) * unit_r, math.ceil(hi / unit_r - EPS) * unit_r
     if dmin >= 0:
         lo = max(lo, 0.0)
+    if neg:
+        hi = min(hi, 0.0)
     return round(lo, ROUND_DP), round(hi, ROUND_DP)
 
 
@@ -250,6 +255,8 @@ def fit_extent(dmin: float, dmax: float, unit: str | None) -> tuple[float, float
     a, b = min(dmin, mid - span / 2), max(dmax, mid + span / 2)
     if dmin >= 0 and a < 0:
         a, b = 0.0, b - a
+    if cfg.zero_clamp and dmax <= 0 and b > 0:   # v7.4.0 D615 — 대칭
+        a, b = a - b, 0.0
     return a, b
 
 

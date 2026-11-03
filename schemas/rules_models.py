@@ -2296,6 +2296,7 @@ class TimelineLaneRange(_Strict):
     flat_lane_min_ratio: float = Field(gt=0, lt=1)   # [flat-lane] hard — 그려진 세로 폭 ÷ 레인 값 영역 높이 하한
     empty_band_max_ratio: float = Field(gt=0, lt=0.5)   # v7.4.0 D-0277 §3 [axis-empty-band] hard — 데이터 극값 밖 빈 띠(한쪽) ÷ 축 범위 상한
     axis_range_note: str = Field(pattern=r"\{lo\}.*\{hi\}")   # 0 이 아닌 곳에서 시작하면 출처 줄 끝에 붙는 표기
+    zero_clamp: bool = True   # v7.4.0 back_and_forth D615 — 값이 모두 0 이하인 레인은 pad·올림을 0 바깥(위)으로 늘리지 않는다(모두 0 이상 쪽은 원래 0 하한)
 
 
 class TimelineProjection(_Strict):
