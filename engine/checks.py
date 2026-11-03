@@ -3662,7 +3662,7 @@ def check_backdrop_subject(P) -> list[str]:  # noqa: ANN001, N803
 def island_text_contrast(P) -> list[dict]:  # noqa: ANN001, N803
     """v7.4.0 감독 D621 ③(D619 후속, UF-304) — 사진 배경 위 구성·차트 아일랜드의 글자 대비 측정.
     렌더와 같은 경로: backdrop_surface(블러·채도·덮개) → 화면 크기로 가운데 맞춤 → draw_frame(boxed=on_backdrop) → 상자 안(모서리 반경 안쪽)
-    휘도의 97 백분위 = 가장 밝은 바탕, rules island.text_colors 각 글자색과 WCAG 대비. → [{island, img, t0, t1, bg, worst, color}]."""
+    휘도의 97 백분위 = 가장 밝은 바탕, 그 무대 글자색(rules island.text_colors[kind] + 구성 focus_text·차트 series col)과 WCAG 대비. → [{island, img, t0, t1, bg, worst, color}]."""
     from engine.contrast import ratio, rel_lum  # noqa: PLC0415
     from engine.island import draw_frame, island_box, on_backdrop  # noqa: PLC0415
     from engine.layers.backdrop import backdrop_surface  # noqa: PLC0415
@@ -3670,7 +3670,16 @@ def island_text_contrast(P) -> list[dict]:  # noqa: ANN001, N803
 
     if getattr(P.R.stage, "name", "") != "backdrop" or not ISLAND.text_colors:
         return []
+    from engine.style import STRUCTURE  # noqa: PLC0415
+
     bds = [e for e in P.events if e["type"] == "backdrop"]
+
+    def colors(e: dict) -> list[str]:   # 감독 D622 — 그 무대가 실제로 쓰는 글자색(구성 = 목록 + focus_text, 차트 = 목록 + 그 시간 series col)
+        base = list(ISLAND.text_colors.get(e["kind"], []))
+        extra = [STRUCTURE.focus_text] if e["kind"] == "structure" else \
+            [s["col"] for s in P.events if s["type"] == "series" and s.get("col") and s["t0"] < e["t1"] and s["t1"] > e["t0"]]
+        return list(dict.fromkeys(base + extra))
+
     out: list[dict] = []
     for e in P.events:
         if e["type"] != "island" or e.get("kind") not in ("chart", "structure"):
@@ -3693,7 +3702,7 @@ def island_text_contrast(P) -> list[dict]:  # noqa: ANN001, N803
             buf = np.ndarray((H_OUT, canvas.get_stride() // 4, 4), np.uint8, buffer=canvas.get_data())
             px = buf[int(y) + r:int(y + h) - r, int(x) + r:int(x + w) - r, :3][..., ::-1].astype(np.float64) / 255.0
             bg = float(np.percentile(rel_lum(px), 97))
-            rs = {c: ratio(float(rel_lum(np.asarray(C[c], np.float64))), bg) for c in ISLAND.text_colors}
+            rs = {c: ratio(float(rel_lum(np.asarray(C[c], np.float64))), bg) for c in colors(e)}
             worst = min(rs, key=rs.get)
             out.append({"island": e.get("kind"), "img": b["img"], "t0": e["t0"], "t1": e["t1"], "bg": round(bg, 3),
                         "worst": round(rs[worst], 2), "color": worst})

@@ -100,3 +100,43 @@ class IslandTextContrastTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class BudgetGoldTextTest(unittest.TestCase):
+    """감독 D622 — 예산안 실측 상태(구성 무대 강조 글자 gold, 사진 배경 상자 위 3.93~4.15) 재현 = 오류, focus_text(흰 잉크) = 통과.
+    0.45 회색 면 = 덮개 거친 산업통상자원부 청사 배경과 같은 바탕 휘도(0.022)."""
+
+    def setUp(self) -> None:
+        from engine.style import apply_palette  # noqa: PLC0415
+
+        apply_palette("noturno")   # fiscal 장르 팔레트(예산안)
+        self.addCleanup(apply_palette, None)
+
+    def _P(self, kind: str = "structure", series_col: str | None = None) -> NS:  # noqa: N802
+        evs = [{"type": "backdrop", "img": "x", "t0": 0.0, "t1": 10.0},
+               {"type": "island", "kind": kind, "box": "center_tall" if kind == "structure" else "left_tall", "t0": 1.0, "t1": 9.0}]
+        if series_col:
+            evs.append({"type": "series", "col": series_col, "lane": "a", "t0": 2.0, "t1": 8.0})
+        return NS(R=NS(stage=NS(name="backdrop")), events=evs)
+
+    def test_gold_focus_text_fails(self) -> None:
+        from engine.style import STRUCTURE  # noqa: PLC0415
+
+        with mock.patch("engine.layers.backdrop.backdrop_surface", return_value=_surface(0.45)), \
+             mock.patch("engine.style.STRUCTURE", STRUCTURE.model_copy(update={"focus_text": "gold"})):
+            ms = checks.island_text_contrast(self._P())
+            out = checks.check_island_text_contrast(self._P())
+        self.assertEqual(ms[0]["color"], "gold")
+        self.assertLess(ms[0]["worst"], R.qa_checks.map_contrast_text)
+        self.assertTrue(out and "글자 gold" in out[0])
+
+    def test_rule_focus_text_passes(self) -> None:
+        self.assertNotEqual(R.stage_structure.focus_text, "gold")
+        with mock.patch("engine.layers.backdrop.backdrop_surface", return_value=_surface(0.45)):
+            self.assertEqual(checks.check_island_text_contrast(self._P()), [])
+
+    def test_chart_measures_series_colors(self) -> None:
+        """차트 아일랜드 = 고정 목록 + 그 시간 series col(계열 끝 값 글자). gold 계열이면 잡힌다(전역 gold 토큰은 그대로, D622)."""
+        with mock.patch("engine.layers.backdrop.backdrop_surface", return_value=_surface(0.45)):
+            self.assertEqual(checks.island_text_contrast(self._P("chart", "gold"))[0]["color"], "gold")
+            self.assertEqual(checks.check_island_text_contrast(self._P("chart", "teal")), [])

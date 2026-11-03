@@ -2426,6 +2426,7 @@ class StageStructureRules(_Strict):
     delta_seg_dim: bool
     avg_word: str = Field(min_length=1)
     focus_base_alpha: float = Field(gt=0, le=1)
+    focus_text: str = Field(default="white", min_length=1)   # v7.4.0 감독 D622 — 구성 무대 강조 글자색(palette 키)
     focus_value_size: float = Field(gt=0)
     focus_value_font: str
     focus_rest_size: float = Field(gt=0)
@@ -2742,7 +2743,7 @@ class IslandRules(_Strict):
     """v5.1.0 D-0123 §1·D-0126 — backdrop 무대 위 아일랜드 공통 규칙(engine/island.py)."""
 
     inner_pad: dict[str, float] = Field(default_factory=lambda: {"x": 0.0, "y": 0.0})   # v7.4.0 D-1010 §1(UF-305) — 내용 영역 안쪽 여백 x·y
-    text_colors: list[str] = Field(default_factory=list)   # v7.4.0 감독 D621 ③(D619 후속) — 사진 배경 위 아일랜드 글자색(palette 키). 대비 하한 = qa_checks.map_contrast_text
+    text_colors: dict[str, list[str]] = Field(default_factory=dict)   # v7.4.0 감독 D621 ③(D619 후속) — 사진 배경 위 아일랜드 글자색(palette 키). 대비 하한 = qa_checks.map_contrast_text
     radius: float = Field(ge=0)
     fill_alpha: float = Field(ge=0, le=1)
     edge_alpha: float = Field(ge=0, le=1)

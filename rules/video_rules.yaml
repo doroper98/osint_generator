@@ -1649,6 +1649,7 @@ stage_structure:           # v7.4.0 back_and_forth D-1003 §3 — 구성 무대(
   avg_word: 연평균            # 초점 작은 줄 "2018~26 연평균 +8.7%"(레코드 avg_growth 해 범위 + 이 낱말)
   focus_base_alpha: 0.42     # focus 층: 초점 행 0 → 눈금 구간 = accent × 이 농도(옅게), 늘어난 구간 = accent 솔리드
   focus_value_size: 18       # 초점 라벨 큰 숫자(sansb, accent) — 문장이 말하는 숫자(metric amount = +증감액, rate = +증감률)
+  focus_text: white          # v7.4.0 감독 D622 — 구성 무대 강조 글자(초점 라벨·총지출 줄 강조)의 색 하나(palette 키). 막대 accent(gold) 글자는 사진 배경 상자 위 대비 3.93~4.15 < 4.5([island-text-contrast]) — 강조는 크기·굵기로, 막대 면은 accent 그대로. 전역 gold 토큰 무변경
   focus_value_font: sansb
   focus_rest_size: 13        # 초점 라벨 뒤 작은 나머지(" · 다른 쪽 숫자", sansm)
   focus_rest_font: sansm
@@ -1803,8 +1804,9 @@ island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) �
   inner_pad: {x: 16, y: 12}
   # v7.4.0 감독 D621 ③(D619 "글자 대비 측정 검사는 전달 뒤 첫 작업", UF-304 시인성) — 사진 배경(backdrop) 위 구성·차트 아일랜드의 글자색.
   # 검사 [island-text-contrast] hard: 렌더와 같은 경로(backdrop_surface + draw_frame)로 상자 안 바탕을 합성해 밝은 쪽 97 백분위 휘도와
-  # 이 글자색들의 WCAG 대비를 잰다. 하한은 새 수치 없이 qa_checks.map_contrast_text(지도 글자 hard 와 같은 값). 이 목록 = engine/layers/structure.py 글자색
-  text_colors: [white, muted, green, ru, gold]
+  # 이 글자색들의 WCAG 대비를 잰다. 하한은 새 수치 없이 qa_checks.map_contrast_text(지도 글자 hard 와 같은 값). 이 목록 = 그 무대 글자색(D622 — 구성 무대 강조 글자는 gold 를 쓰지 않는다)
+  # 구성 = 고정 목록 + stage_structure.focus_text, 차트 = 고정 목록 + 그 아일랜드 시간에 뜬 series 이벤트 col(계열 끝 값 글자 = 계열색)
+  text_colors: {structure: [white, muted, green, ru], chart: [white, muted]}
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)
   # 겹침(checks island_overlap hard, Q3 A): 같은 순간 보이는 아일랜드 제자리 상자(그림자·슬라이드 경로 제외)끼리 교차 > 0, 자막 구역(reserved_zones.subtitle) 교차.
   # 아일랜드 = island 이벤트(차트) · 사진·영상(media_box) · 프리미티브(primitive_box) · backdrop 무대 위 패널(panel_box, Q4 A). 카드·배지는 기존 예약 영역 규칙.

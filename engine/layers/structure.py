@@ -276,8 +276,9 @@ def _draw_focus(ctx: cairo.Context, view: "View", st: "StructureStage", t: float
         r = _put(ctx, f"focus:{row.id}", big, min(x0, x1) + S.value_gap, yb, S.focus_value_size, S.focus_value_font, C["white"], a)
         _put(ctx, f"focus_rest:{row.id}", rest, r[2], yb, S.focus_rest_size, S.focus_rest_font, C["white"], a)
         return
-    r = _put(ctx, f"focus:{row.id}", big, x, yb, S.focus_value_size, S.focus_value_font, acc, a)
-    _put(ctx, f"focus_rest:{row.id}", rest, r[2], yb, S.focus_rest_size, S.focus_rest_font, acc, a)
+    ink = C[S.focus_text]   # 감독 D622 — 강조 글자는 accent(gold) 아닌 focus_text(사진 배경 상자 위 대비 ≥ 4.5), 막대 면만 accent
+    r = _put(ctx, f"focus:{row.id}", big, x, yb, S.focus_value_size, S.focus_value_font, ink, a)
+    _put(ctx, f"focus_rest:{row.id}", rest, r[2], yb, S.focus_rest_size, S.focus_rest_font, ink, a)
 
 
 def _draw_total(ctx: cairo.Context, view: "View", st: "StructureStage", t: float, e: dict, evs: list[dict]) -> None:
@@ -291,7 +292,7 @@ def _draw_total(ctx: cairo.Context, view: "View", st: "StructureStage", t: float
     live = [ce for ce in evs if ce["type"] == "rank" and ce["layer"] == "focus" and ce["row"] == TOTAL_ROW and layer_alpha([ce], t, "focus") > 0]
     note = next((ce.get("note") for ce in live if ce.get("note")), None)   # 감독 지시(02:06Z) — 총지출 줄 작은 줄 = 문장이 말한 수입·기금 숫자
     lerp = lambda u, v: u + (v - u) * fa  # noqa: E731
-    mix = lambda c: tuple(lerp(p_, q_) for p_, q_ in zip(c, C["gold"]))  # noqa: E731
+    mix = lambda c: tuple(lerp(p_, q_) for p_, q_ in zip(c, C[S.focus_text]))  # noqa: E731 — 감독 D622: 강조 = focus_text(gold 글자 아님)
     parts = [(f"총지출 {fmt_amount(st, tot)}", S.head_size, S.head_font, C["white"]),
              (f" · {fmt_pct(pct)}", lerp(S.head_size, S.focus_value_size), S.focus_value_font if fa >= 0.5 else S.head_font, mix(C["green"]))]
     if note is not None:
