@@ -16,8 +16,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | labels | hard | 샘플 시각마다 도시 라벨 수 ≤ labels_per_frame_max |
 | license_mismatch | hard | v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장르. 영상이 쓰는 미디어 레코드의 photo_license(없으면 license)가 Commons 라이선스 분류(license_tags)와 맞는가. 유물 나이 PD(rules war_history.rights.work_age_tags)는 사진 권리가 아니다 |
 | evidence_layer · period_art_label · casualty_unsourced · symbol_set | hard | v7.4.0 전쟁사 W2(D-0600 §4, UF-150) — 장르 war_history 만. 시대별 필수 증거 층·작품 당대/후대 라벨·병력/사상자 force 인용·한 영상 한 부호 세트(schemas.war_history) |
-| narration_clarity | hard | v7.4.0 D-0626·D-0628 — out/mix.f32 의 문장마다 목소리 음역 내레이션 대 (음악+효과음+클립 원음) 에너지 비 최저가 rules audio.qa.narration_clarity.min_db 미만 `[narration-clarity]`. hard_genres(전쟁사) 영상만 hard, 그 밖 장르는 narration_clarity_note(warning). mix.f32 가 없으면 잴 것 없음(provenance 기록) |
-| narration_clarity_note | warning | 위와 같은 판정 — hard_genres 밖 장르(승격은 최종 감독) |
+| narration_clarity | hard | v7.4.0 D-0626·D-0628 — out/mix.f32 의 문장마다 목소리 음역 내레이션 대 (음악+효과음+클립 원음) 에너지 비 최저가 rules audio.qa.narration_clarity.min_db 미만 `[narration-clarity]`. hard_genres 영상만 hard — v7.4.0 D349 부터 등록 장르 전부(tests/test_narration_clarity 가 등록 장르 ⊆ hard_genres 고정). mix.f32 가 없으면 잴 것 없음(provenance 기록) |
+| narration_clarity_note | warning | 위와 같은 판정 — hard_genres 밖 장르. D349 뒤 등록 장르에서는 0(경로는 남김) |
 | date_jump | hard | v7.4.0 D-0619 ⑤·D-0622 — 문장 날짜 표지가 앞뒤 문장 날짜 범위 밖으로 튀고, 그 문장 동안 뜬 작품·기록 카드의 연대(created)와도 겹치지 않으면 `[date-jump]`. 처음·끝 문장은 이웃이 하나라 대상 밖 |
 | formation_centered | hard | v7.4.0 D-0625(UF-255 "진형은 중앙에") — terrain3d 구간에서 보이는 전 부대 화면 상자 중심이 화면 중심에서 rules qa_checks.formation_centered.center_tol 안, 상자 전체가 안전 영역 안. 어긋남이 max_sec 넘게 이어지면 `[formation-centered]`. 이음 창·전 부대 등장 전 제외. 스케치 전쟁사 2D 전술 축척·3D 컷도 같은 함수(SK-W7) |
 | terrain3d_seam | hard | v7.4.0 D-0619 ① — terrain3d 구간 들어감·나옴 이음 창(rules stage_terrain3d.seam_sec 앞뒤)의 실제 렌더 이웃 프레임 평균 절대 화소 차 ≤ rules qa_checks.terrain3d_seam_mad_max `[terrain3d-seam]`. 컷처럼 꺾이는 경계(밝기·강·부대가 한 프레임에 바뀜)를 잡는다 |
