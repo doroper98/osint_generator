@@ -224,13 +224,15 @@ def fmt_abs(st: "StructureStage", v: float) -> str:
     return f"{v:+,.{STRUCTURE.abs_digits}f}{STRUCTURE.unit_suffix[st.record.unit]}"
 
 
-def focus_label(st: "StructureStage", row: "Row", metric: str, compare: "str | None" = None) -> tuple[str, str]:
+def focus_label(st: "StructureStage", row: "Row", metric: str, compare: "str | None" = None, note: "str | None" = None) -> tuple[str, str]:
     """초점 라벨 (큰 숫자, 작은 나머지) — metric amount = ("+27.6조", " · +22.8%"), rate = ("+29.7%", " · +9.4조").
     compare avg(D-1009) = 작은 줄이 예년 연평균 " · 2018~26 연평균 +8.7%"(기준이 다른 행이면 오류 — 보건·복지·고용·국방)."""
     ab, pc = row.delta_abs, row.delta_pct
     if ab is None or pc is None:
         raise ValueError(f"초점 행 {row.id}: 견줄 레코드(prior)가 없어 증감 라벨을 만들 수 없다")
     big = fmt_abs(st, ab) if metric == "amount" else fmt_pct(pc)
+    if note is not None:   # 감독 지시(02:06Z) — 분야 안 사업 숫자(원고 문장 그대로)
+        return big, f" · {note}"
     if compare == "avg":
         if row.avg_pct is None:
             raise ValueError(f"초점 행 {row.id}: 예년 연평균(avg_growth)이 없다 — 기준이 다른 행은 예년 비교를 하지 않는다")
@@ -260,7 +262,7 @@ def _draw_focus(ctx: cairo.Context, view: "View", st: "StructureStage", t: float
         _seg(ctx, st, view, row, row.prior, row.value, True)
         ctx.set_source_rgba(*acc, a)
         ctx.fill()
-    big, rest = focus_label(st, row, e["metric"], e.get("compare"))
+    big, rest = focus_label(st, row, e["metric"], e.get("compare"), e.get("note"))
     x0, y0, x1, y1 = bar_rect(st, view, row)
     yb = (y0 + y1) / 2 + S.focus_value_size * TIMELINE.text_metrics.mid_drop
     x = value_x(st, view, row)

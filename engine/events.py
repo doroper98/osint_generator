@@ -487,8 +487,11 @@ class RankEvent(_Event):
     row: Optional[str] = Field(default=None, min_length=1)
     metric: Optional[Literal["amount", "rate"]] = None   # v7.4.0 D-1008 — focus 초점 라벨의 큰 숫자: amount = +증감액, rate = +증감률(문장이 말하는 쪽)
     compare: Optional[Literal["other", "avg"]] = None    # v7.4.0 D-1009 — 초점 작은 줄: other(기본) = 다른 쪽 숫자, avg = 예년(레코드 avg_growth) 연평균
+    # v7.4.0 감독 지시(02:06Z, R-0615 뒤) — 초점 작은 줄을 그 문장이 말한 분야 안 사업 숫자로(예 SOC "고속도로 1조 239억 → 8,189억").
+    # 원고 문장·claims 의 숫자만 쓴다(연출이 새 숫자를 만들지 않는다). compare 와 함께 쓸 수 없다
+    note: Optional[str] = Field(default=None, min_length=1, max_length=40)
 
-    DROP_NONE: ClassVar[tuple[str, ...]] = ("row", "metric", "compare")
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("row", "metric", "compare", "note")
 
     @model_validator(mode="after")
     def _row(self) -> "RankEvent":
@@ -496,6 +499,8 @@ class RankEvent(_Event):
             raise ValueError("rank row·metric 은 focus 층에만, focus 층은 row·metric 이 필요하다")
         if self.compare is not None and self.layer != "focus":
             raise ValueError("rank compare 는 focus 층에만")
+        if self.note is not None and (self.layer != "focus" or self.compare is not None):
+            raise ValueError("rank note 는 focus 층에만, compare 와 함께 쓸 수 없다")
         return self
 
 

@@ -312,6 +312,21 @@ class RowsBandTest(unittest.TestCase):
 class AvgAndTotalTest(unittest.TestCase):
     """D-1009 — 예년 비교(avg_growth, cagr 코드 계산)·총지출 줄·늘어난 구간 휘도 차."""
 
+    def test_focus_note_replaces_small_line(self) -> None:
+        """감독 지시(02:06Z) — focus note: 작은 줄 = 문장이 말한 분야 안 사업 숫자. compare 와 함께·focus 밖이면 오류."""
+        from engine.events import RankEvent  # noqa: PLC0415
+        from engine.layers.structure import focus_label  # noqa: PLC0415
+
+        st = StructureStage(config={"box": "center_tall", "record": "BUDGET_2027_PROPOSED_SECTORS",
+                                    "prior": "BUDGET_2026_ENACTED_SECTORS", "title": "t"})
+        self.assertEqual(focus_label(st, st.by_id["soc"], "rate", None, "고속도로 1조 239억 → 8,189억")[1], " · 고속도로 1조 239억 → 8,189억")
+        base = {"type": "rank", "t0": 0.0, "t1": 1.0, "layer": "focus", "row": "soc", "metric": "rate"}
+        RankEvent.model_validate({**base, "note": "x"})
+        with self.assertRaises(ValueError):
+            RankEvent.model_validate({**base, "note": "x", "compare": "avg"})
+        with self.assertRaises(ValueError):
+            RankEvent.model_validate({"type": "rank", "t0": 0.0, "t1": 1.0, "layer": "bars", "note": "x"})
+
     def test_total_focus_grows_then_returns(self) -> None:
         """감독 판정 ②(R-0610) — focus row total: 문장 동안 +12.8% 가 focus_value_size, 연평균이 focus_rest_size, 금액은 head_size.
         문장이 끝나면 head_size 로 돌아간다. 행 초점과 겹침 0."""
