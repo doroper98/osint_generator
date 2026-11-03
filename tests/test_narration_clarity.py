@@ -51,14 +51,26 @@ class ClaritySeverityTest(unittest.TestCase):
     def test_threshold_and_genre_split(self) -> None:
         cfg = load_rules().audio.qa.narration_clarity
         self.assertEqual(cfg.min_db, 15.0)
-        self.assertEqual(cfg.hard_genres, ["war_history"])
         low = 12.24   # 칸나이+코리올란 세기 조정 전
         self.assertTrue(check_narration_clarity(self._p("war_history", low), hard=True))
         self.assertEqual(check_narration_clarity(self._p("war_history", low), hard=False), [])
-        self.assertTrue(check_narration_clarity(self._p("geopolitics", low), hard=False))   # 다른 장르 = warning 쪽
-        self.assertEqual(check_narration_clarity(self._p("geopolitics", low), hard=True), [])
+        self.assertTrue(check_narration_clarity(self._p("no_such_genre", low), hard=False))   # hard_genres 밖 = warning 쪽(경로는 남긴다)
+        self.assertEqual(check_narration_clarity(self._p("no_such_genre", low), hard=True), [])
         for ok in (21.92, 16.27):   # 골든·칸나이 v1 통과
             self.assertEqual(check_narration_clarity(self._p("war_history", ok), hard=True), [])
+
+    def test_all_registered_genres_hard(self) -> None:
+        """v7.4.0 D349 — 모든 장르 hard. 등록 장르(genres/*.yaml) ⊆ hard_genres, 그래서 warning 쪽(narration_clarity_note)은 0."""
+        from genres.load import genre_names  # noqa: PLC0415
+
+        cfg = load_rules().audio.qa.narration_clarity
+        names = genre_names()
+        self.assertTrue(names)
+        self.assertLessEqual(set(names), set(cfg.hard_genres), "새 장르는 rules audio.qa.narration_clarity.hard_genres 에 넣는다(D349)")
+        low = 12.24
+        for g in names:
+            self.assertTrue(check_narration_clarity(self._p(g, low), hard=True), g)
+            self.assertEqual(check_narration_clarity(self._p(g, low), hard=False), [], g)   # narration_clarity_note = 0
 
     def test_no_mix_no_finding(self) -> None:
         P = SimpleNamespace(R=SimpleNamespace(cache={"genre": {"name": "war_history"}, "narration_clarity": None}))  # noqa: N806
