@@ -2711,7 +2711,12 @@ entries:
   quote: "싸울때는 보병간 싸움에는 남자들의 함성과 칼소리, 궁평 씬에는 활쏘는 소리, 기병간 싸움에는 말 소리가 좀 있으면 좋겠는데 가능? 유치하지 않게"
   quote_kind: verbatim
   category: "전쟁사 전투 효과음 — 보병 접전 = 함성·칼 부딪는 소리, 궁병 = 활 쏘는 소리, 기병 접전 = 말 소리. 유치하지 않게(장식이 아니라 배경 질감, 내레이션 아래). 녹음 원천만(권리 PD·CC0·CC BY), 사료에 없는 병종 소리는 넣지 않음"
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: battle_sfx}
+  - {kind: rule, ref: audio.battle_sfx.unit_sounds}
+  - {kind: rule, ref: audio.battle_sfx.licenses}
+  - {kind: test, ref: tests/test_battle_sfx.py::LayerRulesTest::test_pitch_limit_and_whinny}
+  - {kind: test, ref: tests/test_battle_sfx.py::RegistryTest::test_registry_entries_rights}
+  status: guarded
   decision: "D-0627(back_and_forth) — 녹음 효과음 레지스트리·큐 종류 추가, 칸나이 견본 먼저 사용자 판정"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-03"
