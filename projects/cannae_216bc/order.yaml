@@ -24,5 +24,5 @@ media:
 decisions:
   topic: {value: 칸나이 전투 샘플 영상, by: user, ref: "D-0600 킥오프 · D-0608"}
   map_theme: {value: relief, by: user, ref: "D-0607 ③ UF-253(감독 권고 수용)"}
-  bgm: {value: "콘티 판 v1 = music.zabriskie_mario_bava(장르 bgm_default 첫째) · 코리올란 견본 비교 — 사용자 판정 ③ 대기", by: default, ref: "D-0613 · D-0616 · D-0619 ④"}
+  bgm: {value: "music.beethoven_coriolan(베토벤 「코리올란 서곡」 Musopen Symphony)", by: user, ref: "UF-256 \"coriolan\" · D-0626"}
   resolution: {value: 720p, by: user, ref: 사용자 결정 2026-10-04 "기준 해상도는 720p야"}

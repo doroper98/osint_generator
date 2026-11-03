@@ -109,7 +109,7 @@ events:
   - {type: photo, start: {sid: ending_3, 'off': 0.2}, end: {sid: ending_4, edge: end, 'off': 0.3}, mid: cannae_smith1856, for: 사전 항목, place: map_pair_right}
   - {type: photo, start: {sid: ending_5, 'off': 0.2}, end: {sid: ending_5, edge: end, 'off': 3.2}, mid: cannae_closs, for: 강가 평원 풍경}
 sound:
-  bgm: music.zabriskie_mario_bava   # D-0613 — 코리올란(A)이 장르 하한 미달이라 콘티 판은 bgm_default 첫째. 코리올란 30초 견본은 따로(판정 ③)
+  bgm: music.beethoven_coriolan   # 사용자 결정 UF-256 "coriolan"(판정 ③, D-0626) — 전쟁사 장르 하한(rules audio.bgm_floor_by_genre.war_history)
   intensity:
   - [0.0, 0.55]
   - [{scene_start: deployment}, 0.6]
