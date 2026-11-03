@@ -16,6 +16,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | labels | hard | 샘플 시각마다 도시 라벨 수 ≤ labels_per_frame_max |
 | license_mismatch | hard | v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장르. 영상이 쓰는 미디어 레코드의 photo_license(없으면 license)가 Commons 라이선스 분류(license_tags)와 맞는가. 유물 나이 PD(rules war_history.rights.work_age_tags)는 사진 권리가 아니다 |
 | evidence_layer · period_art_label · casualty_unsourced · symbol_set | hard | v7.4.0 전쟁사 W2(D-0600 §4, UF-150) — 장르 war_history 만. 시대별 필수 증거 층·작품 당대/후대 라벨·병력/사상자 force 인용·한 영상 한 부호 세트(schemas.war_history) |
+| formation_centered | hard | v7.4.0 D-0625(UF-255 "진형은 중앙에") — terrain3d 구간에서 보이는 전 부대 화면 상자 중심이 화면 중심에서 rules qa_checks.formation_centered.center_tol 안, 상자 전체가 안전 영역 안. 어긋남이 max_sec 넘게 이어지면 `[formation-centered]`. 이음 창·전 부대 등장 전 제외. 스케치 전쟁사 2D 전술 축척·3D 컷도 같은 함수(SK-W7) |
 | terrain3d_seam | hard | v7.4.0 D-0619 ① — terrain3d 구간 들어감·나옴 이음 창(rules stage_terrain3d.seam_sec 앞뒤)의 실제 렌더 이웃 프레임 평균 절대 화소 차 ≤ rules qa_checks.terrain3d_seam_mad_max `[terrain3d-seam]`. 컷처럼 꺾이는 경계(밝기·강·부대가 한 프레임에 바뀜)를 잡는다 |
 | war_units_approx | hard | v7.4.0 D-0615 §2-1 — terrain3d 구간 부대 기록(forces) approximate·sources 필수, 구간 출처 줄에 rules sketch.checks.approx_word. 구간 없는 영상은 대상 없음. static_camera·sea_only_frame·route_frame 은 구간 프레임 해당 없음(notes 사유 기록) |
 | date | hard | 문장 date 형식(rules script_schema.date_formats — 파서 schemas/era_date, 기원전·대략·기간 포함) — 날짜 배지는 이 값으로만 그린다 |
@@ -145,6 +146,7 @@ HARD = ("license_mismatch",   # v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장�
         "evidence_layer", "period_art_label", "casualty_unsourced", "symbol_set",   # v7.4.0 전쟁사 W2(D-0600 §4) — 장르 war_history 만
         "war_units_approx",   # v7.4.0 D-0615 §2-1 — terrain3d 구간 부대 기록 개략 표기(구간 있는 영상만)
         "terrain3d_seam",     # v7.4.0 D-0619 ① — terrain3d 구간 들어감·나옴 이음(이웃 프레임 MAD)
+        "formation_centered",  # v7.4.0 D-0625(UF-255) — 전술 화면 진형은 가운데·안전 영역 안
         "map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
@@ -1401,6 +1403,72 @@ def check_terrain3d_seam(P) -> list[str]:  # noqa: ANN001, N803
     return [f"[terrain3d-seam] {sid} {names[k]} {r['t']:.2f}초 이웃 프레임 평균 화소 차 {r['mad']:.1f} > {lim:g} — 경계가 컷처럼 꺾인다"
             "(지면 색조를 mercator relief 와 맞추고 rules stage_terrain3d.seam_sec 이음 창에서 녹아 들게, D-0619 ①)"
             for sid, rep in seam_report(P).items() for k, r in rep.items() if r["mad"] > lim]
+
+
+def formation_fault(boxes: list[tuple]) -> "str | None":
+    """진형 화면 상자(설계 좌표 상자들의 합집합) 판정 — 본편·스케치 공용(v7.4.0 D-0625, UF-255). 어긋나면 사유 한 줄, 맞으면 None."""
+    FC = QA.formation_centered  # noqa: N806
+    if FC is None or not boxes:
+        return None
+    x0, y0 = min(b[0] for b in boxes), min(b[1] for b in boxes)
+    x1, y1 = max(b[2] for b in boxes), max(b[3] for b in boxes)
+    dx, dy = ((x0 + x1) / 2 - W_OUT / 2) / W_OUT, ((y0 + y1) / 2 - H_OUT / 2) / H_OUT
+    bottom = R_.layout_480p.reserved_zones.subtitle.y_from
+    why = []
+    if abs(dx) > FC.center_tol_x or abs(dy) > FC.center_tol_y:
+        why.append(f"중심 어긋남 가로 {dx:+.2f}·세로 {dy:+.2f}(허용 ±{FC.center_tol_x:g}·±{FC.center_tol_y:g})")
+    if x0 < FC.safe_side_px or x1 > W_OUT - FC.safe_side_px or y0 < FC.safe_top_px or y1 > bottom:
+        why.append(f"안전 영역 밖 상자 ({x0:.0f},{y0:.0f})~({x1:.0f},{y1:.0f})")
+    return " · ".join(why) or None
+
+
+def formation_runs(samples: list[tuple[float, list[tuple]]], step: "float | None" = None) -> list[tuple[float, float, str]]:
+    """(t, 진형 상자들) 표본(시각순, 간격 = step, 없으면 rules step_sec) → 어긋남이 max_sec 넘게 이어진 구간 (처음, 끝, 첫 사유)."""
+    FC = QA.formation_centered  # noqa: N806
+    if FC is None:
+        return []
+    step = FC.step_sec if step is None else step
+    out, run = [], None
+    for t, boxes in samples + [(float("inf"), [])]:
+        why = formation_fault(boxes) if t != float("inf") else None
+        if why and run is None:
+            run = [t, t, why]
+        elif why:
+            run[1] = t
+        elif run is not None:
+            if run[1] - run[0] + step > FC.max_sec + 1e-9:
+                out.append((run[0], run[1], run[2]))
+            run = None
+    return out
+
+
+def terrain3d_formation_samples(P) -> list[tuple[float, list[tuple]]]:  # noqa: ANN001, N803
+    """terrain3d 구간 표본 — 부대 라벨 상자(labels.json, 가려진 점 제외). 이음 창·전 부대 등장 전은 뺀다(D-0625 §3-1)."""
+    from engine.layers.terrain3d import label_box, load_segments, seam_alpha  # noqa: PLC0415
+
+    FC = QA.formation_centered  # noqa: N806
+    if FC is None or not P.R.cache.get("terrain3d_segments"):
+        return []
+    segs = P.R.cache.get("terrain3d_frames")
+    if segs is None:
+        segs = P.R.cache["terrain3d_frames"] = load_segments(P)
+    out = []
+    for s in segs:
+        counts = [sum(1 for r in f if r["k"] == "unit") for f in s.labels]
+        full = next(i for i, c in enumerate(counts) if c == max(counts))   # 전 부대가 다 나타난 첫 프레임
+        t = max(s.t_in, (s.i0 + full) / FPS)
+        while t < s.t_out:
+            i = min(s.i1 - 1, int(t * FPS))
+            if seam_alpha(s, t) >= 0.999:
+                out.append((t, [label_box(P, r) for r in s.labels[i - s.i0] if r["k"] == "unit" and not r.get("behind")]))
+            t += FC.step_sec
+    return out
+
+
+def check_formation_centered(P) -> list[str]:  # noqa: ANN001, N803
+    """[formation-centered] hard(v7.4.0 back_and_forth D-0625, 사용자 의견 UF-255 "군대의 진형은 중앙에") — 본편 terrain3d 구간."""
+    return [f"[formation-centered] terrain3d {a:.1f}~{b:.1f}초 진형이 가운데가 아니다 — {why}. 카메라가 마을·카드 자리를 위해 진형을 비키지 않는다: "
+            "카드 숏은 카메라를 물려 진형을 가운데 작게 두고 카드는 옆 여백에(D-0625)" for a, b, why in formation_runs(terrain3d_formation_samples(P))]
 
 
 def check_static_camera(P) -> list[str]:  # noqa: ANN001, N803
@@ -2731,6 +2799,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "casualty_unsourced": lambda: check_war_history(P)["casualty_unsourced"], # [casualty-unsourced]
         "symbol_set": lambda: check_war_history(P)["symbol_set"],                 # [symbol-set-mixed]
         "license_mismatch": lambda: check_license_mismatch(P),                    # v7.4.0 D-0606 §2 [license-mismatch]
+        "formation_centered": lambda: check_formation_centered(P),                # v7.4.0 D-0625(UF-255) [formation-centered]
         "terrain3d_seam": lambda: check_terrain3d_seam(P),                        # v7.4.0 D-0619 ① [terrain3d-seam]
         "war_units_approx": lambda: check_war_units_approx(P),                    # v7.4.0 D-0615 §2-1 [war-units-approx]
         "series_date_convention": lambda: check_series_date_convention(P),   # v7.4.0 D-0326(warning)

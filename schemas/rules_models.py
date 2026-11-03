@@ -1830,6 +1830,18 @@ class CardOverPanel(_Strict):
     timeline_frame_cover_types: list[str] = Field(default_factory=list)   # v7.4.0 D-0259 — 시간축 틀 안 시리즈 레인 위에서 세는 덮개(사건 레인 허용)
 
 
+class FormationCentered(_Strict):
+    """v7.4.0 D-0625(UF-255) — 전술 화면 진형 중심·안전 영역([formation-centered] hard)."""
+
+    center_tol_x: float = Field(gt=0, lt=0.5)
+    center_tol_y: float = Field(gt=0, lt=0.5)
+    safe_top_px: float = Field(ge=0)
+    safe_side_px: float = Field(ge=0)
+    max_sec: float = Field(ge=0)
+    step_sec: float = Field(gt=0, le=1)
+    sketch_tactical_max_w_deg: float = Field(gt=0)
+
+
 class LabelUnderMedia(_Strict):
     """v7.4.0 R-0294 판정 — 지도 마커 라벨이 사진·영상 상자에 깔리는 시간 상한([label-under-media] hard)."""
 
@@ -1878,6 +1890,7 @@ class QAChecks(_Strict):
     chart_only_run: ChartOnlyRun                      # v7.4.0 D-0252 — [chart-only-run] hard
     card_over_panel: Optional[CardOverPanel] = None   # v7.4.0 D-0248(UF-129)
     label_under_media: Optional[LabelUnderMedia] = None   # v7.4.0 R-0294 판정
+    formation_centered: Optional[FormationCentered] = None   # v7.4.0 D-0625(UF-255)
     outlet_min_overlap_sec: float = 0.5               # v7.4.0 D-0250(UF-130)
     outlet_names: dict[str, OutletNames] = Field(default_factory=dict)
     offscreen_clip: int

@@ -11,6 +11,7 @@
 | SK-W4 | hard | 지명 Pleiades id·지명 유래 id 가 자료에 있다(출처 없는 좌표·유래 금지) |
 | SK-R1 | hard | 증거 카드 레코드(media.json, MediaAsset)·파일·md5, 라이선스 = rules war_history.rights |
 | SK-E1 | hard | 엔딩 자료 줄 수·폭 |
+| SK-W7 | hard | [formation-centered] — 전술 축척(rules qa_checks.formation_centered.sketch_tactical_max_w_deg 이하) 진형 상자 중심·안전 영역(본편과 같은 함수, UF-255) |
 """
 
 from __future__ import annotations
@@ -126,8 +127,32 @@ def check_spec(report: CheckReport, spec: WarSpec, project: Path) -> None:
     check_end_card(report, [s.text for s in spec.sources], E.x, Ln.y0, Ln.dy, E.line_size, Ln.font, E.note_y)
 
 
+def formation_samples(units: list[tuple[float, float, list]]) -> list[tuple[float, list]]:
+    """전술 축척(화면 폭 ≤ rules qa_checks.formation_centered.sketch_tactical_max_w_deg) 프레임 중 그 축척에서 보이는 부대 수가 가장 많은 프레임만
+    (부대가 아직 나타나는 중인 프레임 제외 — 본편 terrain3d 와 같은 원칙, D-0625)."""
+    from rules import load_rules  # noqa: PLC0415
+
+    fc = load_rules().qa_checks.formation_centered
+    if fc is None:
+        return []
+    tac = [(t, bs) for t, w, bs in units if w <= fc.sketch_tactical_max_w_deg and bs]
+    full = max((len(bs) for _, bs in tac), default=0)
+    return [(t, bs) for t, bs in tac if len(bs) == full and full >= 2]
+
+
+def check_formation(report: CheckReport, units: list[tuple[float, float, list]]) -> None:
+    """SK-W7 [formation-centered] hard — 본편과 같은 판정 함수(engine.checks.formation_runs, C12 ③). 사용자 의견 UF-255."""
+    from engine.checks import formation_runs  # noqa: PLC0415
+
+    report.ran_check("SK-W7")
+    samples = formation_samples(units)
+    step = (samples[1][0] - samples[0][0]) if len(samples) > 1 else 0.0
+    for a, b, why in formation_runs(samples, step):
+        report.add("SK-W7", f"[formation-centered] 전술 화면 {a:.1f}~{b:.1f}s 진형이 가운데가 아니다 — {why}(UF-255·D-0625)")
+
+
 def check_render(report: CheckReport, boxes: list[tuple[float, list]], cards: list[tuple[float, list]] | None = None,
-                 overflow: list[tuple[float, str]] | None = None) -> None:
+                 overflow: list[tuple[float, str]] | None = None, units: "list[tuple[float, float, list]] | None" = None) -> None:
     excluded: list[float] = []
     check_label_overlap(report, boxes, SK.checks, excluded)
     report.c2_excluded_frames = len(excluded)   # provenance approximations 에 남긴다(D-0610 ③)
@@ -146,6 +171,7 @@ def check_render(report: CheckReport, boxes: list[tuple[float, list]], cards: li
         if worst > lum.max_sec:
             report.add("SK-W6", f"[label-under-media] 증거 카드가 부대·지명 상자를 {worst:.1f}s 덮는다(> rules qa_checks.label_under_media.max_sec "
                                 f"{lum.max_sec}) — 카메라를 카드 반대쪽으로 비키거나 카드 자리를 옮긴다")
+    check_formation(report, units or [])
     report.ran_check("SK-W5")
     if overflow:
         report.add("SK-W5", f"핀이 화면 안인데 글자가 화면 밖 {len(overflow)}프레임(첫 t={overflow[0][0]:.2f}s {overflow[0][1]}) — 줄을 줄이거나 카메라·핀 위치")

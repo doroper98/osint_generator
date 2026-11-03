@@ -132,17 +132,17 @@ window.__draw = (fr) => {
   units.tops.forEach(({ u, y }, i) => {   // 병종 빌보드(윗면 위) + 부대 이름(그 아래)
     const v = new THREE.Vector3(u.c[0], y + S.label_lift_m * 0.5, u.c[1]).project(cam);
     const sx = (v.x + 1) / 2 * W, sy = (1 - v.y) / 2 * Ht;
-    if (S.text_in_engine) { out.push({ k: 'unit', i, name: u.name || '', glyph: u.glyph_name || null, faction: u.faction || null,
-                                       x: +sx.toFixed(2), y: +sy.toFixed(2), behind: v.z > 1 }); return; }
-    if (v.z > 1) return;
+    out.push({ k: 'unit', i, name: u.name || '', glyph: u.glyph_name || null, faction: u.faction || null,
+               x: +sx.toFixed(2), y: +sy.toFixed(2), behind: v.z > 1 });   // 화면 좌표는 늘 돌려준다 — 진형 가운데 검사(D-0625, 스케치 3D 도)
+    if (S.text_in_engine || v.z > 1) return;
     if (u.glyph) { const im = glyphImg[u.glyph], gh = S.glyph_px, gw = gh * im.width / im.height; ctx.drawImage(im, sx - gw / 2, sy - gh, gw, gh); }
     if (u.name) label(u.name, sx, sy + S.text.unit, S.text.unit, '#ffffff', 600);
   });
   for (const p of S.places) {
     const v = new THREE.Vector3(p.c[0], hAt(p.c[0], p.c[1]) + S.label_lift_m, p.c[1]).project(cam);
     const sx = (v.x + 1) / 2 * W, sy = (1 - v.y) / 2 * Ht;
-    if (S.text_in_engine) { out.push({ k: 'place', name: p.name, x: +sx.toFixed(2), y: +sy.toFixed(2), behind: v.z > 1 }); continue; }
-    if (v.z > 1) continue;
+    out.push({ k: 'place', name: p.name, x: +sx.toFixed(2), y: +sy.toFixed(2), behind: v.z > 1 });
+    if (S.text_in_engine || v.z > 1) continue;
     label(p.name, sx, sy, S.text.place, '#ffffff', 500);
   }
   return out;

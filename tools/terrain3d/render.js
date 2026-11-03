@@ -1,5 +1,5 @@
 // v7.4.0 전쟁사 구상 컷 B(back_and_forth D-0604 §1-B) — 고도 높이맵 3D 궤도 렌더(headless Chromium + three.js 0.170.0, MIT).
-// node render.js <scene_dir>  — scene_dir/scene.json·height.json·texture.png 를 읽어 scene_dir/frames/f_0000.png … 를 쓴다(text_in_engine 이면 frames/labels.json 도).
+// node render.js <scene_dir>  — scene_dir/scene.json·height.json·texture.png 를 읽어 scene_dir/frames/f_0000.png … 와 frames/labels.json(라벨 화면 좌표)을 쓴다.
 // 결정적: 무작위 없음, 프레임마다 카메라 방위만 scene.json 의 목록대로(고정 조명·고정 곡선). 수치는 scene.json(= rules sketch.war.terrain3d).
 const http = require('http');
 const fs = require('fs');
@@ -36,8 +36,8 @@ const server = http.createServer((req, res) => {
     labels.push(await page.evaluate(fr => window.__draw(fr), scene.frames[i]));
     await page.screenshot({ path: path.join(sceneDir, 'frames', `f_${String(i).padStart(4, '0')}.png`) });
   }
-  // 본편(scene.text_in_engine) — 프레임마다 라벨 화면 좌표(엔진이 글자·병종 그림을 그린다, back_and_forth D-0614 ①)
-  if (scene.text_in_engine) fs.writeFileSync(path.join(sceneDir, 'frames', 'labels.json'), JSON.stringify({ schema_version: 1, frames: labels }));
+  // 프레임마다 라벨 화면 좌표 — 본편(text_in_engine)은 엔진이 글자를 그리는 자리(D-0614 ①), 스케치는 진형 가운데 검사 입력(D-0625)
+  fs.writeFileSync(path.join(sceneDir, 'frames', 'labels.json'), JSON.stringify({ schema_version: 1, frames: labels }));
   await browser.close();
   server.close();
 })().catch(e => { console.error(e); process.exit(1); });

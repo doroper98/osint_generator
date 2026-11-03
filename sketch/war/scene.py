@@ -125,6 +125,7 @@ class WarScene:
         dp = project / DRAINAGE_FILE   # 구상 컷 A(D-0604) — 고도 타일 수계(tools/dem_drainage.py), 테마 overlays 에 drainage 가 있을 때만
         self.drainage = json.loads(dp.read_text(encoding="utf-8")) if "drainage" in self._overlays() and dp.is_file() else []
         self.res_boxes: list[tuple[float, list]] = []
+        self.unit_boxes: list[tuple[float, float, list]] = []   # (t, 화면 폭 °, 부대 상자) — 진형 가운데 검사(SK-W7, D-0625)
         self.card_boxes: list[tuple[float, list]] = []   # 프레임마다 보이는 카드 상자(SK-W6 — 카드가 라벨·부대를 덮는가)
         self.overflow: list[tuple[float, str]] = []      # 핀이 화면 안인데 글자가 화면 밖(SK-W5)
         self.drawn: dict[str, int] = {f"theme:{theme or 'dark'}": 1}   # provenance 에 이번 렌더 테마(D-0607 ③)
@@ -172,7 +173,10 @@ class WarScene:
         self._roads(ctx, view, t)
         self._rivers(ctx, view, t)
         self._routes(ctx, view, t)
-        self.units.draw(ctx, view, t, res)
+        ures: list = []
+        self.units.draw(ctx, view, t, ures)
+        res += ures
+        self.unit_boxes.append((t, float(view.w), [b[:4] for b in ures]))
         self._places(ctx, view, t, res)
         dim = max((window(t, e.t0, e.t1, W.card.in_sec, W.card.out_sec) for e in sp.evidence), default=0)
         if dim > F.min_alpha:

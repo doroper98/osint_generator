@@ -17,6 +17,7 @@ import json
 import math
 import os
 import subprocess
+import sys
 from pathlib import Path
 
 import cairo
@@ -179,6 +180,23 @@ def badge(frame: Path, date: str, scale: float) -> None:
     Image.fromarray(arr[..., [2, 1, 0, 3]]).convert("RGB").save(frame)
 
 
+def formation_faults(labels: Path, width: int) -> list[tuple[int, str]]:
+    """labels.json(렌더 폭 width) → 프레임마다 진형 판정(engine.checks.formation_fault). 상자 = engine.layers.terrain3d.label_box(같은 자리 식)."""
+    from types import SimpleNamespace  # noqa: PLC0415
+
+    from engine.checks import formation_fault  # noqa: PLC0415
+    from engine.layers.terrain3d import label_box  # noqa: PLC0415
+    from engine.style import W_OUT  # noqa: PLC0415
+
+    P = SimpleNamespace(R=SimpleNamespace(out=SimpleNamespace(k=width / W_OUT, pad_x=0.0)))  # noqa: N806 — 3D 폭 → 설계 좌표
+    out = []
+    for i, fr in enumerate(json.loads(labels.read_text(encoding="utf-8"))["frames"]):
+        why = formation_fault([label_box(P, r) for r in fr if r["k"] == "unit" and not r.get("behind")])
+        if why:
+            out.append((i, why))
+    return out
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="terrain3d 구상 컷(proposed 무대) — 높이맵 3D 궤도")
     ap.add_argument("project", type=Path)
@@ -197,6 +215,9 @@ def main(argv: list[str] | None = None) -> int:
     scale = T3.width / output_profile(None).width
     for f in frames:
         badge(f, date_at(spec, a.t), scale)
+    bad = formation_faults(out / "frames" / "labels.json", T3.width)   # SK-W7(UF-255·D-0625) — 본편과 같은 판정 함수
+    for i, why in bad:
+        print(f"[formation-centered] terrain3d 컷 프레임 {i}: 진형이 가운데가 아니다 — {why}", file=sys.stderr)
     still = out / "terrain3d_still.png"
     Image.open(frames[0]).save(still)
     mp4 = out / "terrain3d_orbit.mp4"
@@ -206,10 +227,11 @@ def main(argv: list[str] | None = None) -> int:
     prov = {"schema_version": 1, "stage": "terrain3d(proposed)", "t": a.t, "spec_sha1": hashlib.sha1(
         (a.spec or a.project / "sketch.yaml").read_bytes()).hexdigest(), **info,
         "renderer": f"three.js {three['version']} ({three['license']}) · headless Chromium(playwright) swiftshader",
-        "rules": {"sketch.war.terrain3d": T3.model_dump()}, "outputs": [still.name, mp4.name]}
+        "rules": {"sketch.war.terrain3d": T3.model_dump()}, "outputs": [still.name, mp4.name],
+        "formation_centered": {"frames": len(frames), "faults": len(bad)}}
     (out / "terrain3d_provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
     print(still, mp4)
-    return 0
+    return 2 if bad else 0   # hard — 산출물은 남기되 실패로 끝난다(P6)
 
 
 if __name__ == "__main__":

@@ -2243,6 +2243,11 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # v7.4.0 R-0294 감독 판정(겹침 0 원칙) — 지도 마커 라벨(+부제)이 사진·영상 상자 아래로 깔리는 시간.
   # 둘 다 알파 min_alpha 이상인 표본만 센다(서로 페이드 중 겹침은 허용). 마커·미디어 쌍마다 max_sec 초과 = [label-under-media] hard
   label_under_media: {max_sec: 0.2, step_sec: 0.1, min_alpha: 0.5, media_types: [photo, clip]}
+  # v7.4.0 back_and_forth D-0625(사용자 의견 UF-255 "군대의 진형은 중앙에 위치하게 해야 되는데 … 왼쪽 상단에 위치하더라고") — [formation-centered] hard.
+  # 전술 화면(본편 terrain3d 구간, 스케치 전쟁사 2D 전술 축척·3D 컷)에서 보이는 전 부대의 화면 상자 중심이 화면 중심에서 가로·세로 center_tol(화면 폭·높이 비율)
+  # 안, 상자 전체가 안전 영역(위 safe_top_px·좌우 safe_side_px·아래 = layout_480p.reserved_zones.subtitle.y_from 자막 자리) 안. 어긋남이 max_sec 넘게 이어지면 실패.
+  # 제외 = 구간 이음 창(stage_terrain3d.seam_sec)·전 부대가 다 나타나기 전. 궤도는 제외하지 않는다(진형 중심을 축으로 돈다). 스케치 2D 는 화면 폭 ≤ sketch_tactical_max_w_deg 만
+  formation_centered: {center_tol_x: 0.10, center_tol_y: 0.10, safe_top_px: 22, safe_side_px: 8, max_sec: 0.5, step_sec: 0.25, sketch_tactical_max_w_deg: 0.5}
   card_over_panel: {min_overlap_sec: 0.3, panel_pad_px: 4, cover_types: [cascade, article, quote, primitive],
                     cover_types_on_data_panels: [photo, clip, cutout, badge],
                     # v7.4.0 back_and_forth D-0259(UF-129 미보호 경로) — 시간축 주 무대: 틀 안 시리즈 레인(레코드가 그려지는 레인) 상자를
