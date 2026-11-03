@@ -2633,7 +2633,7 @@ entries:
   guards:
   - {kind: check, ref: sentence_still}
   - {kind: rule, ref: pacing.sentence_change}
-  - {kind: rule, ref: genre_prompt.element_grammar}
+  - {kind: rule, ref: direction_grammar}   # v7.4.0 UF-403 — element_grammar 삭제, 요소 안내는 공통 연출 규칙으로
   - {kind: test, ref: tests/test_v740_uf400_template.py::MapGenrePromptTest::test_map_genre_uses_map_template_with_element_grammar}
   - {kind: test, ref: tests/test_v740_uf400_template.py::SentenceStillTest::test_element_change_counts_camera_does_not}
   - {kind: test, ref: tests/test_primitive_process_lane.py::ProcessLaneDataTest::test_fixture_passes_schema}
@@ -2691,7 +2691,14 @@ entries:
   quote: "앞으로 영상 의뢰하면 새롭게 개발 된 템플릿들이 적용되는거지? 근데 궁금한게 주제는 매우 무한한데 우리가 템플릿을 만들어 두면 어거지로 템플릿에 주제를 우겨넣는거 아니야? 나는 룩앤필을 만들어 두는거지 거기에 우겨넣는걸 원하는건 아니거든"
   quote_kind: verbatim
   category: 작업 순서 — 템플릿 = 룩앤필(색·글꼴·모션·카메라·요소 디자인)이지 주제를 끼워 넣는 틀이 아니다. 장르가 요소·막 구성·서술 구조를 강제하면 안 된다
-  guards: []
-  status: open
-  decision: "분석 세션 답변 — 현재 강제 지점(장르 밖 요소 hard 차단 genre_elements, earnings 고정 막 acts, 장르 서술 스위치) 보고와 분리안 제안, 사용자 결정 대기"
+  guards:
+  - {kind: check, ref: genre_elements}
+  - {kind: rule, ref: genre_prompt.acts_head}
+  - {kind: rule, ref: genre_prompt.narration}
+  - {kind: test, ref: tests/test_v740_uf400_template.py::LookAndFeelTest::test_elements_not_whitelisted_by_genre}
+  - {kind: test, ref: tests/test_v740_uf400_template.py::LookAndFeelTest::test_acts_are_reference_not_fixed}
+  - {kind: test, ref: tests/test_v740_uf400_template.py::LookAndFeelTest::test_structure_switch_is_conditional}
+  - {kind: test, ref: tests/test_genre_direction.py::GenreDirectionTest::test_stage_outside_profile}
+  status: guarded
+  decision: "D803 — 사용자 결정 \"1~4 진행해\": ① 요소 = 등록 요소 전부(장르 목록 = 추천) ② 고정 막 → 흔한 흐름(참고) ③ 서술 구조 스위치 조건부 ④ 무대 = 등록 무대 전부(장르 = 기본값·톤). 템플릿 이름 표기(UF-147)는 답 없음 — 유지"
   source: 영상 분석 세션 사용자 대화 2026-11-03

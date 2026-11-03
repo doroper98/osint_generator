@@ -62,7 +62,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | article_press_missing | warning | 인물 발언·발표 문장 구간 기사 카드에 press 사진 없음 `[article-press-missing]`(v7.4.0 UF-109·D-0229 §6) |
 | camera_bounds | hard | 요청 카메라가 무대 경계 밖이라 렌더 View 가 잘랐다 — 화면이 멈췄다가 이동 중간에 꺾임(지도·시간축·차트 아일랜드). camera_continuity·camera_speed 는 화면 궤적(`engine.camera.screen_track`)을 잰다(v7.1.0 UF-99·D-0220) |
 | portrait_unused | warning | 인물 이름이 나오고 초상이 있는데 그 인물 뱃지·인용 없음(v5.22.0 D-0200 UF-10) |
-| genre_elements | hard | 장르 요소(v4.2.0 D-0081 작업 3, GOAL G3-17): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 장르 프로필 primitives.reuse ∪ new |
+| genre_elements | hard | 요소 등록(v4.2.0 D-0081 작업 3, GOAL G3-17 · v7.4.0 UF-403 개정): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 등록 요소 전부. 장르 프로필 primitives 는 추천 목록(장르 = 톤 프리셋) |
 | chart_honesty | hard | 차트 정직성(v4.3.0 D-0084 작업 5·D-0087, 20 §5.3): 막대 0 기준선·압축 구간 ↔ 물결 라벨·%/%p·이중 축 라벨·색·로그 척도 표기 (`engine.honesty`) |
 | series_limit_3 | hard | 한 차트(레인·패널)의 계열 ≤ qa_checks.series_max |
 | units_visible | hard | 화면 단위(레인 이름·패널 unit·y_prefix) ∈ rules data.units·unit_prefixes |
@@ -2548,14 +2548,14 @@ def check_stage_continuity(P) -> list[str]:  # noqa: ANN001, N803
 
 
 def check_genre_elements(P) -> list[str]:  # noqa: ANN001, N803
-    """장르 요소 — 연출이 쓴 요소가 장르 프로필(reuse ∪ new) 밖이면 요소마다 한 줄. 상세는 "[genre-element] …"."""
+    """요소 등록 — 연출이 쓴 요소가 등록 요소(registries event_types·panel_kinds·badge_kinds·primitives) 밖이면 요소마다 한 줄.
+    v7.4.0 UF-403: 장르는 톤 프리셋이다 — 장르 프로필 primitives(reuse ∪ new)는 추천 목록이지 허용 목록이 아니다. 어떤 장르든 등록 요소는 모두 쓴다."""
     from genres.elements import outside  # noqa: PLC0415
-    from genres.load import load_genre  # noqa: PLC0415
+    from schemas.genre_models import registered_elements  # noqa: PLC0415
 
     g = P.R.cache["genre"]
-    prof = load_genre(g["name"])
-    return [f"[genre-element] {name!r} ×{n} — 장르 {prof.genre!r} 프로필 primitives(reuse ∪ new)에 없다"
-            for name, n in outside(g["elements_used"], prof.elements()).items()]
+    return [f"[genre-element] {name!r} ×{n} — 등록 요소가 아니다(registries)"
+            for name, n in outside(g["elements_used"], registered_elements()).items()]
 
 
 def check_subtitles(P) -> list[str]:  # noqa: ANN001, N803

@@ -2816,13 +2816,12 @@ class GenrePromptRules(_Strict):
 
     base_genre: str
     narration: dict[str, str] = Field(min_length=1)
-    acts_head: str = ""                                            # v7.4.0 D-0278 §3 — 템플릿 고정 막 머리 줄
+    acts_head: str = ""                                            # v7.4.0 D-0278 §3 — 장르별 흔한 흐름 머리 줄(UF-403: 참고, 고정 막 아님)
     acts: dict[str, list[str]] = Field(default_factory=dict)       # v7.4.0 D-0278 §3 — 장르 이름 → 막 줄
     data_sources_by_genre: dict[str, list[str]] = Field(default_factory=dict)   # v7.4.0 D-0304 ② — 공통 data_sources 뒤 장르 보충 줄
     data_sources: list[str] = Field(min_length=1)
     rubric_extra: list[str] = Field(min_length=1)
     stage_grammar: dict[str, list[str]] = Field(min_length=1)
-    element_grammar: dict[str, str] = Field(default_factory=dict)   # v7.4.0 UF-400 — 요소별 연출 문법(지도형 장르 문단). 키 = 등록 요소
 
 
 class FilingScale(_Strict):
@@ -3865,9 +3864,6 @@ class VideoRules(_Strict):
         if bad:
             raise ValueError(f"genre_prompt.stage_grammar 의 무대가 registries.stages 에 없다: {bad}")
         reg = self.registries
-        bad = sorted(set(self.genre_prompt.element_grammar) - set(reg.event_types) - set(reg.panel_kinds) - set(reg.badge_kinds) - set(reg.primitives))
-        if bad:
-            raise ValueError(f"genre_prompt.element_grammar 의 키가 등록 요소가 아니다: {bad}")   # v7.4.0 UF-400
         bad = sorted(set(self.pacing.sentence_change.change_kinds) - set(reg.event_types))
         if bad:
             raise ValueError(f"pacing.sentence_change.change_kinds 가 registries.event_types 에 없다: {bad}")   # v7.4.0 UF-400
