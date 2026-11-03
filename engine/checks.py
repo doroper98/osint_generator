@@ -1651,8 +1651,19 @@ def panel_box() -> tuple[float, float, float, float]:
     return m, pl.title_y - pl.title_size, W_OUT - m, R_.layout_480p.reserved_zones.subtitle.y_from
 
 
-def cards_over_panel(events: list[dict], boxes: "Callable[[dict], list[tuple] | None]") -> list[tuple[dict, dict, float]]:
-    """(덮는 요소, 패널, 겹친 시작 시각). boxes(e) = 그 요소의 제자리 화면 상자들(None = 화면 전체 덮개로 본다)."""
+def placed_media_box(e: dict, media_assets: "dict | None") -> "list[tuple] | None":
+    """배치된 사진·영상(x·y·w)의 제자리 상자. 배치가 없거나 레코드가 없으면 None(화면 덮개로 본다)."""
+    from engine.media_plan import media_box  # noqa: PLC0415
+
+    if e["type"] in ("photo", "clip") and "x" in e and media_assets and e.get("mid") in media_assets:
+        return [tuple(media_box(e, media_assets))]
+    return None
+
+
+def cards_over_panel(events: list[dict], boxes: "Callable[[dict], list[tuple] | None]",
+                     media_boxes: "Callable[[dict], list[tuple] | None] | None" = None) -> list[tuple[dict, dict, float]]:
+    """(덮는 요소, 패널, 겹친 시작 시각). boxes(e) = 그 요소의 제자리 화면 상자들(None = 화면 전체 덮개로 본다).
+    media_boxes(e) = versus 패널 위 사진·영상의 제자리 상자(v7.4.0 D-0629 §3, 없으면 화면 덮개)."""
     cfg = R_.qa_checks.card_over_panel
     if cfg is None:
         return []
@@ -1663,15 +1674,18 @@ def cards_over_panel(events: list[dict], boxes: "Callable[[dict], list[tuple] | 
     for p in (e for e in events if e["type"] == "panel"):
         a, b = p["t0"] + fade, p["t1"] - fade
         kinds = set(cfg.cover_types) | (set(cfg.cover_types_on_data_panels) if data_records([p]) else set())
+        versus_media = set()
         if p.get("kind") == "versus":
             kinds.discard("badge")   # badge_over_panel 이 보고한다(중복 없음)
+            versus_media = set(cfg.cover_types_on_versus_panels) - kinds
+            kinds |= versus_media
         for e in events:
             if e["type"] not in kinds:
                 continue
             ov = min(b, e["t1"]) - max(a, e["t0"])
             if ov <= cfg.min_overlap_sec:
                 continue
-            bx = boxes(e)
+            bx = (media_boxes(e) if media_boxes else None) if e["type"] in versus_media else boxes(e)
             if bx is None or any(x0 < px1 + pad and x1 > px0 - pad and y0 < py1 + pad and y1 > py0 - pad for x0, y0, x1, y1 in bx):
                 out.append((e, p, max(a, e["t0"])))
     return out
@@ -1692,7 +1706,8 @@ def check_card_over_panel(P) -> list[str]:  # noqa: ANN001, N803
         return None   # 기사·인용·사진·영상·컷아웃·뱃지 = 화면 덮개로 본다(시간 겹침, D-0249)
 
     return [f"[card-over-panel] {e['type']} {e.get('tag') or e.get('mid') or e.get('title') or ''!s} t={t:.1f} — 패널 {p.get('kind')} {p.get('title')!r} 위. "
-            "패널 앞에 끝내거나 뒤에 시작한다(UF-129)" for e, p, t in cards_over_panel(P.events, boxes)] + [
+            "패널 앞에 끝내거나 뒤에 시작한다(UF-129). versus 패널이면 두 기둥을 다 보이게 한다(D-0629 §3, C0 같은 무게)"
+            for e, p, t in cards_over_panel(P.events, boxes, lambda e: placed_media_box(e, P.R.assets.media_assets))] + [
         f"[card-over-panel] {e['type']} {e.get('tag') or e.get('label') or e.get('mid') or e.get('title') or ''!s} t={t:.1f} — 시간축 틀 안 시리즈 레인 "
         f"{lane} 위({ov:.1f}초). 사건 레인·틀 밖 자리로 옮기거나 뺀다(UF-129, D-0259)" for e, lane, t, ov in timeline_lanes_covered(P)]
 
