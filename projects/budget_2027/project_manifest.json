@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "project_id": "budget_2027",
+  "title": "2027년 예산안, 820조 원은 어디로 가나",
+  "category": "economy",
+  "created_at": "2026-11-03T01:37:58.373536Z",
+  "updated_at": "2026-11-03T01:38:05.499885Z",
+  "current_state": "script_approval",
+  "target_duration_min": 9,
+  "topic_summary": "2027년도 정부 예산안(총지출 820.9조)의 분야별 증감·재원·국회 쟁점",
+  "initial_links": [],
+  "paths": {
+    "sources": "intake/sources.json",
+    "claims": "intake/claims.json",
+    "screenshots": "intake/screenshots",
+    "script": "script.yaml",
+    "script_labels": "script_labels.json",
+    "plan": "plan.json",
+    "tts": "tts",
+    "assets": "assets",
+    "media": "media",
+    "direction": "direction.yaml",
+    "prev": "prev",
+    "prev_sheet": "prev/sheet.jpg",
+    "prev_provenance": "prev/provenance.json",
+    "out": "out",
+    "final": "out/final.mp4",
+    "provenance": "out/provenance.json"
+  },
+  "render_mode_status": {},
+  "gate_decisions": [],
+  "stage_records": [],
+  "final_outputs": {},
+  "state_history": [
+    {
+      "from_state": "created",
+      "to_state": "intake",
+      "transitioned_at": "2026-11-03T01:38:03.301982Z",
+      "reason": "W0a 단일 구현(D-1003) — 산출물 기존 작성, 매니페스트 재생성(컨테이너 재시작 소실)"
+    },
+    {
+      "from_state": "intake",
+      "to_state": "source_verify",
+      "transitioned_at": "2026-11-03T01:38:03.764047Z",
+      "reason": "W0a 단일 구현(D-1003) — 산출물 기존 작성, 매니페스트 재생성(컨테이너 재시작 소실)"
+    },
+    {
+      "from_state": "source_verify",
+      "to_state": "research",
+      "transitioned_at": "2026-11-03T01:38:04.244196Z",
+      "reason": "W0a 단일 구현(D-1003) — 산출물 기존 작성, 매니페스트 재생성(컨테이너 재시작 소실)"
+    },
+    {
+      "from_state": "research",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-11-03T01:38:04.711174Z",
+      "reason": "W0a 단일 구현(D-1003) — 산출물 기존 작성, 매니페스트 재생성(컨테이너 재시작 소실)"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-11-03T01:38:05.499842Z",
+      "reason": "W0a 단일 구현(D-1003) — 산출물 기존 작성, 매니페스트 재생성(컨테이너 재시작 소실)"
+    }
+  ],
+  "rollbacks": [],
+  "reopens": []
+}
