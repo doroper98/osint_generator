@@ -16,6 +16,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | labels | hard | 샘플 시각마다 도시 라벨 수 ≤ labels_per_frame_max |
 | license_mismatch | hard | v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장르. 영상이 쓰는 미디어 레코드의 photo_license(없으면 license)가 Commons 라이선스 분류(license_tags)와 맞는가. 유물 나이 PD(rules war_history.rights.work_age_tags)는 사진 권리가 아니다 |
 | evidence_layer · period_art_label · casualty_unsourced · symbol_set | hard | v7.4.0 전쟁사 W2(D-0600 §4, UF-150) — 장르 war_history 만. 시대별 필수 증거 층·작품 당대/후대 라벨·병력/사상자 force 인용·한 영상 한 부호 세트(schemas.war_history) |
+| date_jump | hard | v7.4.0 D-0619 ⑤·D-0622 — 문장 날짜 표지가 앞뒤 문장 날짜 범위 밖으로 튀고, 그 문장 동안 뜬 작품·기록 카드의 연대(created)와도 겹치지 않으면 `[date-jump]`. 처음·끝 문장은 이웃이 하나라 대상 밖 |
 | formation_centered | hard | v7.4.0 D-0625(UF-255 "진형은 중앙에") — terrain3d 구간에서 보이는 전 부대 화면 상자 중심이 화면 중심에서 rules qa_checks.formation_centered.center_tol 안, 상자 전체가 안전 영역 안. 어긋남이 max_sec 넘게 이어지면 `[formation-centered]`. 이음 창·전 부대 등장 전 제외. 스케치 전쟁사 2D 전술 축척·3D 컷도 같은 함수(SK-W7) |
 | terrain3d_seam | hard | v7.4.0 D-0619 ① — terrain3d 구간 들어감·나옴 이음 창(rules stage_terrain3d.seam_sec 앞뒤)의 실제 렌더 이웃 프레임 평균 절대 화소 차 ≤ rules qa_checks.terrain3d_seam_mad_max `[terrain3d-seam]`. 컷처럼 꺾이는 경계(밝기·강·부대가 한 프레임에 바뀜)를 잡는다 |
 | war_units_approx | hard | v7.4.0 D-0615 §2-1 — terrain3d 구간 부대 기록(forces) approximate·sources 필수, 구간 출처 줄에 rules sketch.checks.approx_word. 구간 없는 영상은 대상 없음. static_camera·sea_only_frame·route_frame 은 구간 프레임 해당 없음(notes 사유 기록) |
@@ -147,6 +148,7 @@ HARD = ("license_mismatch",   # v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장�
         "war_units_approx",   # v7.4.0 D-0615 §2-1 — terrain3d 구간 부대 기록 개략 표기(구간 있는 영상만)
         "terrain3d_seam",     # v7.4.0 D-0619 ① — terrain3d 구간 들어감·나옴 이음(이웃 프레임 MAD)
         "formation_centered",  # v7.4.0 D-0625(UF-255) — 전술 화면 진형은 가운데·안전 영역 안
+        "date_jump",           # v7.4.0 D-0619 ⑤·D-0622 — 날짜 표지가 이웃 문장 범위·화면 카드 연대 밖으로 튐
         "map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
@@ -1450,6 +1452,51 @@ def check_terrain3d_seam(P) -> list[str]:  # noqa: ANN001, N803
     return [f"[terrain3d-seam] {sid} {names[k]} {r['t']:.2f}초 이웃 프레임 평균 화소 차 {r['mad']:.1f} > {lim:g} — 경계가 컷처럼 꺾인다"
             "(지면 색조를 mercator relief 와 맞추고 rules stage_terrain3d.seam_sec 이음 창에서 녹아 들게, D-0619 ①)"
             for sid, rep in seam_report(P).items() for k, r in rep.items() if r["mad"] > lim]
+
+
+def _year_span(d: object) -> tuple[int, int]:
+    """EraDate(또는 그 문자열) → (처음, 끝) 천문 연도."""
+    e = parse_era_date(d) if isinstance(d, (str, int)) else d
+    end = getattr(e, "end", None)
+    return e.astronomical_year, (end.astronomical_year if end is not None else e.astronomical_year)  # type: ignore[union-attr]
+
+
+def date_jump_hits(sents: list[tuple[str, "str | None"]], cards: dict[str, list[object]]) -> list[str]:
+    """[date-jump] 순수 판정(v7.4.0 D-0619 ⑤·D-0622) — sents = (sid, 날짜) 시각순, cards = sid → 그 문장 동안 뜬 카드의 연대(created).
+    통과: 앞·뒤 문장 사이 범위 안, 또는 그 문장 카드 연대와 겹침, 또는 영상 전체(다른 문장 날짜 ∪ 모든 카드 연대) 범위 안
+    (1667·1773·1856·1885 처럼 영상이 다루는 후대 기록 날짜). 실패 = 영상 어디에도 근거 없는 날짜(제작일이 새어 든 v1 '2026.11.01')."""
+    spans = {i: _year_span(d) for i, (_, d) in enumerate(sents) if d}
+    card_spans = [_year_span(c) for cs in cards.values() for c in cs if c is not None]
+    out = []
+    for i in range(1, len(sents) - 1):
+        sid, d = sents[i]
+        p, q = sents[i - 1][1], sents[i + 1][1]
+        if not d or not p or not q or d in (p, q):
+            continue
+        lo, hi = spans[i]
+        (plo, phi), (qlo, qhi) = spans[i - 1], spans[i + 1]
+        if lo >= min(plo, qlo) and hi <= max(phi, qhi):
+            continue
+        if any(c is not None and (s := _year_span(c))[0] <= hi and lo <= s[1] for c in cards.get(sid, [])):
+            continue
+        rest = [v for j, v in spans.items() if j != i] + card_spans
+        if rest and lo >= min(a for a, _ in rest) and hi <= max(b for _, b in rest):
+            continue
+        out.append(f"[date-jump] {sid} 날짜 표지 {d!r} — 앞({p})·뒤({q}) 문장 범위 밖이고, 그 문장 카드 연대와도, 영상 전체 날짜·카드 연대 범위와도 맞지 않는다. "
+                   "제작일·다른 사건 날짜가 새어 들었는지 본다(같은 대상을 말하는 문장만 카드 연대로 맞춘다, D-0622)")
+    return out
+
+
+def check_date_jump(P) -> list[str]:  # noqa: ANN001, N803
+    """[date-jump] hard — 콘티 판·프리뷰·전편 같은 run(C12 ③). v1 deployment_9 '2026.11.01'(제작일) 같은 새어 든 날짜를 잡는다."""
+    sents = sorted(P.R.tb.sent.values(), key=lambda s: s.t0)
+    assets = P.R.assets.media_assets
+    cards: dict[str, list[object]] = {}
+    for s in sents:
+        for e in P.events:
+            if e["type"] in ("photo", "clip") and e["t0"] < s.t1 and e["t1"] > s.t0 and e.get("mid") in assets:
+                cards.setdefault(s.sid, []).append(getattr(assets[e["mid"]], "created", None))
+    return date_jump_hits([(s.sid, getattr(s, "date", None)) for s in sents], cards)
 
 
 def formation_fault(boxes: list[tuple]) -> "str | None":
@@ -2846,6 +2893,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "casualty_unsourced": lambda: check_war_history(P)["casualty_unsourced"], # [casualty-unsourced]
         "symbol_set": lambda: check_war_history(P)["symbol_set"],                 # [symbol-set-mixed]
         "license_mismatch": lambda: check_license_mismatch(P),                    # v7.4.0 D-0606 §2 [license-mismatch]
+        "date_jump": lambda: check_date_jump(P),                                  # v7.4.0 D-0619 ⑤·D-0622 [date-jump]
         "formation_centered": lambda: check_formation_centered(P),                # v7.4.0 D-0625(UF-255) [formation-centered]
         "terrain3d_seam": lambda: check_terrain3d_seam(P),                        # v7.4.0 D-0619 ① [terrain3d-seam]
         "war_units_approx": lambda: check_war_units_approx(P),                    # v7.4.0 D-0615 §2-1 [war-units-approx]
