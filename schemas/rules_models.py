@@ -440,6 +440,7 @@ class MediaRules(_Strict):
     photo_age_max_years: int = Field(default=15, gt=0)   # v7.4.0 D-0327 — [photo-age] warning
     file_clip_date_gap_days: int = Field(default=30, gt=0)   # v7.4.0 D-0283 §1 — [clip-date-mismatch] 촬영일 ↔ 문장 날짜 차 상한(자료 표기 없을 때)
     sa_allowed: bool = False                     # v7.4.0 사용자 결정 D612 — 사진·영상 CC BY-SA 허용(휘장·초상은 그대로)
+    restriction_phrases: list[str] = Field(default_factory=list)   # v7.4.0 D613(RIGHTS-AP-003) — 사진 쪽 별도 이용 조건 조각(대소문자 무시)
     sa_licenses: list[str] = Field(default_factory=list)
     sa_screen_suffix: str = ""                   # 화면 출처 줄 끝 — "{modifications}"
     sa_credit_line: str = ""                     # 엔딩 크레딧·설명란 — {author}{title}{license}{url}{modifications}

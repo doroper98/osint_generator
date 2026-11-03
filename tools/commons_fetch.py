@@ -36,7 +36,7 @@ if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
 from orchestrator.config import load_config  # noqa: E402
-from schemas.emblem_models import EmblemEntry, EmblemRegistry, decide_emblem, license_allowed, media_license_allowed  # noqa: E402
+from schemas.emblem_models import EmblemEntry, EmblemRegistry, decide_emblem, license_allowed, media_license_allowed, restriction_hits  # noqa: E402
 
 UA = {"User-Agent": "osint-video-trial/0.4 (research; https://github.com/doroper98/osint_generator)"}
 COMMONS_API = "https://commons.wikimedia.org/w/api.php"
@@ -140,7 +140,7 @@ def _ii(page: dict) -> dict:
                 date=m("DateTimeOriginal") or m("DateTime"), restr=m("Restrictions"),
                 restrictions=parse_restrictions(md.get("Restrictions", {}).get("value", "")),
                 page=ii.get("descriptionurl", ""), url=ii.get("url", ""), thumburl=ii.get("thumburl", ""),
-                mime=ii.get("mime", ""))
+                mime=ii.get("mime", ""), terms=" ".join(m(k) for k in ("ImageDescription", "UsageTerms", "AttributionRequired", "Permission")))
 
 
 def info(title: str, width: int | None = None) -> dict:
@@ -164,7 +164,8 @@ def search(query: str, limit: int = 7, width: int = 960, media: bool = False) ->
     pages = api(params).get("query", {}).get("pages", {})
     out = [_ii(p) for p in pages.values() if "imageinfo" in p]
     for c in out:
-        c["allowed"] = (media_license_allowed if media else license_allowed)(c["lic"]) and not c["restrictions"]
+        c["terms_hits"] = restriction_hits(c.get("terms", "")) if media else []   # v7.4.0 D613 — 별도 이용 조건(RIGHTS-AP-003)
+        c["allowed"] = (media_license_allowed if media else license_allowed)(c["lic"]) and not c["restrictions"] and not c["terms_hits"]
     return out
 
 

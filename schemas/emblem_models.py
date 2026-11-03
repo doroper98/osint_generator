@@ -43,6 +43,15 @@ def media_license_allowed(lic: str) -> bool:
         and lic.strip().lower() in {x.lower() for x in m.sa_licenses}
 
 
+def restriction_hits(text: str) -> list[str]:
+    """사진 쪽 설명란·태그·이용 조건 글에서 rules media.restriction_phrases 조각(대소문자 무시)을 찾는다(v7.4.0 D613, RIGHTS-AP-003).
+    하나라도 있으면 라이선스 번호와 상관없이 거부한다 — CC 표시 위에 붙은 별도 조건(보도·공익 한정, 부분 복제·합성 금지)."""
+    from rules import load_rules  # noqa: PLC0415
+
+    low = (text or "").lower()
+    return [p for p in load_rules().media.restriction_phrases if p.lower() in low]
+
+
 def license_allowed(lic: str) -> bool:
     """07 §3.2 허용 라이선스: PD·CC0·CC BY(1.0~4.0)·KOGL 제1유형. CC BY-SA 는 불허(파생물 검토 필요)."""
     s = lic.strip().lower()

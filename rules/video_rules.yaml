@@ -514,6 +514,10 @@ media:                     # v2.5.5 D-0037(D38) — 14 §10.1 밀도 경고. v3 
   # NC·ND 는 여전히 불허(media_beats.sources_excluded_licenses). SA 자산은 고지 의무(작가·제목·라이선스·링크·변경 사항)를 화면 출처 줄·엔딩 크레딧·설명란에 남기고
   # provenance rights.sa_obligations 에 기록한다 — 하나라도 빠지면 오류(schemas.media_models MediaAsset·checks [sa-obligation])
   sa_allowed: true
+  # v7.4.0 back_and_forth D613(RIGHTS-AP-003) — 사진 쪽 설명란·태그·이용 조건에 이 조각이 있으면 라이선스 번호와 상관없이 거부(Flickr·Commons 같은 키).
+  # Korea.net Flickr 처럼 CC 표시 위에 "보도·공익 한정, 부분 복제·합성 금지" 별도 조건을 붙인 계정을 라이선스 번호만 보고 통과시키지 않는다
+  restriction_phrases: ["news organization", "public purposes", "strictly prohibited", "written permission", "non-commercial use only",
+                        "보도 혹은 공익", "공익목적", "부분 복제", "명시적인 허가", "사전 허가", "무단 전재", "재배포 금지"]
   sa_licenses: ["CC BY-SA 2.0", "CC BY-SA 2.5", "CC BY-SA 3.0", "CC BY-SA 4.0"]
   sa_screen_suffix: " · {modifications}"                 # 화면 출처 줄 끝(credit_formats 뒤) — 변경 사항
   sa_credit_line: "{author} · {title} · {license} · {url} · {modifications}"   # 엔딩 크레딧·설명란 한 줄
@@ -542,7 +546,7 @@ media:                     # v2.5.5 D-0037(D38) — 14 §10.1 밀도 경고. v3 
       - "위성 인셋(flight.inset)은 이 상한 밖이다 — 장면당 {inset_per_scene_max}개 이하, 인셋 사이 {inset_min_gap_sec}초 이상. 시설이 식별되는 등록 인셋만 쓴다."
 
   flickr:                  # v4.4.0 D-0090 작업 4 — 기관 공식 Flickr(연준 이사회 등) 사진. 사진 페이지의 license 번호를 코드가 읽어 이 목록 밖이면 받지 않는다(07 §3.2·20 §8, C9)
-    licenses_allowed: {"4": CC BY 2.0, "5": CC BY-SA 2.0, "8": United States Government Work, "9": Public Domain Dedication (CC0), "10": Public Domain Mark}   # "4"(Attribution 2.0) = v7.4.0 D611 — 07 §3.2 CC BY 허용·sources_order gov_flickr_ccby 와 맞춤(정부·군 공식 계정만). "5"(Attribution-ShareAlike 2.0) = D612(사용자 결정 — 사진·영상 SA 허용, 고지 의무). NC(1·2·3)·ND(6) 는 밖
+    licenses_allowed: {"4": CC BY 2.0, "5": CC BY-SA 2.0, "11": CC BY 4.0, "12": CC BY-SA 4.0, "8": United States Government Work, "9": Public Domain Dedication (CC0), "10": Public Domain Mark}   # "11"(CC BY 4.0)·"12"(CC BY-SA 4.0) = v7.4.0 D613. "4"(Attribution 2.0) = v7.4.0 D611 — 07 §3.2 CC BY 허용·sources_order gov_flickr_ccby 와 맞춤(정부·군 공식 계정만). "5"(Attribution-ShareAlike 2.0) = D612(사용자 결정 — 사진·영상 SA 허용, 고지 의무). NC(1·2·3)·ND(6) 는 밖
     size_suffix: b         # 받을 크기(_b = 긴 변 1024)
 
 media_beats:               # 14 §10

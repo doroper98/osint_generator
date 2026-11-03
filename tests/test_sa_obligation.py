@@ -93,5 +93,41 @@ class ObligationTest(unittest.TestCase):
             credits.credit_lines = orig  # type: ignore[assignment]
 
 
+class RestrictionPhraseTest(unittest.TestCase):
+    """D613(RIGHTS-AP-003) — CC 라이선스 번호가 붙어 있어도 사진 쪽 별도 이용 조건이면 거부(Flickr·Commons 같은 규칙 키)."""
+
+    PAGE = ('<meta name="description" content="21th Cabinet meeting of 2026 All photographs in the official Flickr account of the '
+            'Republic of Korea are available only for publication by news organizations and/or for public purposes … use of the photograph '
+            'with other images is strictly prohibited without the express written permission">'
+            '"license":12,"sizes":{"data":{"sq":{"data":{"displayUrl":"//live.staticflickr.com/65535/55268178942_ab_s.jpg"')
+
+    def test_flickr_terms_reject_even_with_cc_license(self) -> None:
+        from tools.media_fetch import flickr_check, flickr_license_ok
+
+        self.assertTrue(flickr_license_ok("12", "CC BY-SA 4.0"))   # 번호만 보면 통과
+        r = flickr_check("https://www.flickr.com/photos/koreanet/55268178942/", page=self.PAGE)
+        self.assertFalse(r["allowed"])
+        self.assertTrue(any("별도 이용 조건" in x for x in r["reasons"]))
+        clean = self.PAGE.split("All photographs")[0] + '">' + self.PAGE.split('">', 1)[1]
+        self.assertTrue(flickr_check("https://www.flickr.com/photos/koreanet/55268178942/", page=clean)["allowed"])
+        for nc in ("13", "14", "15", "16"):
+            self.assertFalse(flickr_license_ok(nc, "CC BY 4.0"), nc)
+
+    def test_commons_terms_reject(self) -> None:
+        from tools import commons_fetch
+
+        page = {"title": "File:A.jpg", "imageinfo": [{"url": "u", "thumburl": "t", "descriptionurl": "d", "mime": "image/jpeg", "extmetadata": {
+            "LicenseShortName": {"value": "CC BY-SA 4.0"},
+            "UsageTerms": {"value": "보도 혹은 공익목적으로만 사용, 부분 복제 금지"}}}]}
+        orig = commons_fetch.api
+        commons_fetch.api = lambda params: {"query": {"pages": {"1": page}}}  # type: ignore[assignment]
+        try:
+            c = commons_fetch.search("q", media=True)[0]
+            self.assertFalse(c["allowed"])
+            self.assertTrue(c["terms_hits"])
+        finally:
+            commons_fetch.api = orig  # type: ignore[assignment]
+
+
 if __name__ == "__main__":
     unittest.main()
