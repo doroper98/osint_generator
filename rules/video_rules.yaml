@@ -1304,7 +1304,8 @@ audio:                     # 10
     # v7.4.0 back_and_forth D-0626·D-0628 — 내레이션 명료도(audio/qa.narration_clarity): 문장마다 목소리 음역(audio.bgm_floor.voice_band_hz) 안에서
     # 내레이션 대 (음악 + 효과음 + 클립 원음) 에너지 비(dB). 영상 값 = 가장 낮은 문장. min_db 미만이면 hard_genres 는 hard, 그 밖 장르는 warning(승격은 최종 감독).
     # 실측(R-0331): 호르무즈 골든 21.92 · 칸나이 v1(Zabriskie) 16.27 · 칸나이+코리올란(세기 조정 전) 12.24. 장르 하한을 푼 곡(UF-256)의 가림 위험을 실제 믹스에서 잰다
-    narration_clarity: {min_db: 15.0, hard_genres: [war_history]}
+    # v7.4.0 D349(R-0324 실측: 골든 21.92 · showcase_geo 최저 16.50 · showcase_econ 최저 23.39) — 모든 장르 hard. 등록 장르(genres/*.yaml) ⊆ hard_genres 는 tests/test_narration_clarity 가 고정(새 장르가 조용히 warning 으로 빠지지 않게). war_history 는 전쟁사 브랜치 장르
+    narration_clarity: {min_db: 15.0, hard_genres: [earnings, geopolitics, macro_monetary, war_history]}
     bed_bass_band_hz: [30, 120]
     bed_mid_band_hz: [200, 2000]
   crossfade_sec: 4.0        # v3.4.0 D-0060 작업 5 — 곡 교체 교차 페이드(경계 가운데 정렬, 선형 합 1). BGM 반복 교차 페이드(loop_xfade_sec)와 같은 값
