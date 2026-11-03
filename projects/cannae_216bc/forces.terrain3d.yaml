@@ -34,6 +34,7 @@ units:
   - faction: rome
     symbol: heavy_inf
     name: "로마 중무장보병"
+    short: "로마 보병"
     keys:
       - {at: {sid: deployment_1}, lon: 16.1105, lat: 41.3395, heading: 180, length_km: 2.3, depth_km: 0.7}
       - {at: {sid: encirclement_5}, lon: 16.1105, lat: 41.3395, heading: 180, length_km: 2.3, depth_km: 0.7}
@@ -65,6 +66,7 @@ units:
   - faction: carthage
     symbol: heavy_inf
     name: "아프리카 중무장보병"
+    short: "아프리카 보병"
     keys:
       - {at: {sid: deployment_6}, lon: 16.1, lat: 41.3285, heading: 0, length_km: 0.5, depth_km: 0.45}
       - {at: {sid: encirclement_6}, lon: 16.1, lat: 41.3285, heading: 0, length_km: 0.5, depth_km: 0.45}
@@ -97,6 +99,7 @@ units:
   - faction: carthage
     symbol: heavy_inf
     name: "아프리카 중무장보병"
+    short: "아프리카 보병"
     keys:
       - {at: {sid: deployment_6}, lon: 16.121, lat: 41.3285, heading: 0, length_km: 0.5, depth_km: 0.45}
       - {at: {sid: encirclement_6}, lon: 16.121, lat: 41.3285, heading: 0, length_km: 0.5, depth_km: 0.45}

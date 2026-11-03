@@ -1,5 +1,7 @@
 # direction.yaml — 칸나이(cannae_216bc) 콘티 판 v1 연출. 구현 세션 작성(D-0616 §1-3 감독 메모 + D-0615·D-0617). 수치·검증은 코드(P8).
-# 주 무대 mercator relief(장르 기본) — 이탈리아 작전 지도 → 칸나이 확대 → terrain3d 구간(deployment_1 ~ encirclement_14, D-0617 승인):
+# 주 무대 mercator relief(장르 기본) — 이탈리아 작전 지도 → 칸나이 확대 → terrain3d 구간(deployment_1 ~ encirclement_14, D-0617 승인).
+# v1 뒤 D-0625(UF-255 "진형은 중앙에"): 3D 숏은 모두 진형 중심(16.111·41.335)을 화면 가운데에. 증거 카드 셋(타니트·투구·트럼불)이 뜨는 동안은
+#   3D 를 걷고 2D 지형 위 카드(전면 컷어웨이)로 바꾼 뒤 가운데 진형으로 돌아온다 — 3D 구간은 넷으로 나뉜다. 옛 설명:
 #   90° 내려다보기로 들어가 부대 키프레임(forces.terrain3d.yaml)이 배치·초승달·포위를 움직인다. 궤도는 drift 숏 두 곳(deployment_10 초승달,
 #   encirclement_6 포위)에서만 장면 단위로. 그 밖은 90° 시점 숏 단위 pan·push 로 움직이는 부대를 따라간다(encirclement_0 기병 충돌, encirclement_5 중앙).
 # 증거 카드: 흉상·셰켈 은화·타니트 비석·트럼불·Smith 사전·클로스 / 사료 인용 2(quote.source, D-0617 ①). 날짜 뱃지는 문장 date 가 정한다.
@@ -25,16 +27,20 @@ shots:
   - {at: {sid: cold_open_3}, mode: drift, dur: 14.0, camera: {lon: 15.2, lat: 41.4, w: 10.0}, reason: 작전 지도 천천히 훑기}
   - {at: {sid: prelude_0}, mode: move, dur: 6.0, camera: {lon: 16.75, lat: 41.4, w: 3.2}, reason: 칸나이 지명 유래 줄이 오른쪽으로 길다 — 중심을 동쪽에}
   - {at: {sid: prelude_5}, mode: drift, dur: 10.0, camera: {lon: 16.85, lat: 41.38, w: 3.2}}
-  - {at: {sid: prelude_10}, mode: move, dur: 7.0, camera: {lon: 16.11, lat: 41.334, w: 0.09}}
-  - {at: {sid: deployment_1}, mode: cut, dur: 0.0, camera: {lon: 16.11, lat: 41.334, w: 0.09}, stage: terrain3d}
-  - {at: {sid: deployment_8}, mode: move, dur: 2.0, camera: {lon: 16.136, lat: 41.334, w: 0.105}, stage: terrain3d, reason: 타니트 비석 카드(오른쪽) — 진형을 왼쪽 빈자리로 비켜 둔다(D-0619 ②)}
-  - {at: {sid: deployment_10}, mode: move, dur: 1.2, camera: {lon: 16.11, lat: 41.334, w: 0.09}, stage: terrain3d, reason: 카드가 걷힌 뒤 진형 가운데로}
-  - {at: {sid: deployment_10, 'off': 1.3}, mode: drift, dur: 4.0, camera: {lon: 16.11, lat: 41.334, w: 0.09}, stage: terrain3d, reason: 초승달 진형 — 천천히 기울어 궤도}
-  - {at: {sid: deployment_12}, mode: move, dur: 2.0, camera: {lon: 16.136, lat: 41.334, w: 0.105}, stage: terrain3d, reason: 궤도 되돌리기 + 투구 카드(오른쪽) 자리 비키기(D-0619 ②)}
-  - {at: {sid: encirclement_0}, mode: move, dur: 3.0, camera: {lon: 16.097, lat: 41.337, w: 0.06}, stage: terrain3d, reason: 강가 기병 충돌로 pan}
-  - {at: {sid: encirclement_5}, mode: move, dur: 3.0, camera: {lon: 16.11, lat: 41.334, w: 0.08}, stage: terrain3d, reason: 중앙 보병으로}
-  - {at: {sid: encirclement_6}, mode: drift, dur: 4.0, camera: {lon: 16.11, lat: 41.334, w: 0.08}, stage: terrain3d, reason: 양익 포위 — 천천히 기울어 궤도}
-  - {at: {sid: encirclement_9}, mode: move, dur: 3.0, camera: {lon: 16.14, lat: 41.325, w: 0.11}, stage: terrain3d, reason: "나올 때 칸나이 마을 자리까지 담고 트럼불 카드(오른쪽) 자리를 비워 둔다(D-0619 ②)"}
+  - {at: {sid: prelude_10}, mode: move, dur: 7.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}}
+  - {at: {sid: deployment_1}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, stage: terrain3d, reason: "진형 중심(16.111·41.335)이 화면 가운데 — UF-255·D-0625"}
+  - {at: {sid: deployment_8, 'off': 0.4}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, reason: "타니트 카드 — 3D 를 걷고 2D 지형 위 카드(전면 컷어웨이, D-0625 (나))"}
+  - {at: {sid: deployment_10}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.1}, stage: terrain3d, reason: 카드가 걷힌 뒤 가운데 진형으로}
+  - {at: {sid: deployment_10, 'off': 1.4}, mode: drift, dur: 4.0, camera: {lon: 16.111, lat: 41.335, w: 0.1}, stage: terrain3d, reason: "초승달 진형 — 진형 중심을 축으로 천천히 기울어 궤도(기울면 진형 상자가 커져 w 0.10 — 자막 자리 침범 방지)"}
+  - {at: {sid: deployment_12}, mode: move, dur: 2.0, camera: {lon: 16.111, lat: 41.335, w: 0.1}, stage: terrain3d, reason: 궤도 되돌리기(90°·북쪽 위)}
+  - {at: {sid: deployment_12, 'off': 3.9}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, reason: "투구 카드 — 2D 지형 위 카드(전면 컷어웨이, D-0625 (나))"}
+  - {at: {sid: deployment_13, edge: end, 'off': 1.7}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, stage: terrain3d, reason: 카드가 걷힌 뒤 가운데 진형으로}
+  - {at: {sid: encirclement_0}, mode: move, dur: 3.0, camera: {lon: 16.111, lat: 41.335, w: 0.075}, stage: terrain3d, reason: "강가 기병 충돌 — 진형을 가운데 둔 채 당겨 보기(옆으로 비키지 않음, UF-255)"}
+  - {at: {sid: encirclement_5}, mode: move, dur: 3.0, camera: {lon: 16.111, lat: 41.335, w: 0.08}, stage: terrain3d, reason: 중앙 보병}
+  - {at: {sid: encirclement_6}, mode: drift, dur: 4.0, camera: {lon: 16.111, lat: 41.335, w: 0.08}, stage: terrain3d, reason: 양익 포위 — 진형 중심을 축으로 천천히 기울어 궤도}
+  - {at: {sid: encirclement_9}, mode: move, dur: 3.0, camera: {lon: 16.111, lat: 41.335, w: 0.105}, stage: terrain3d, reason: "궤도 되돌리기(기울어 커진 진형 상자가 자막 자리에 닿지 않게 w 0.105) — 칸나이 마을 자리는 진형을 가운데 둔 채 담기지 않아 뺀다(D-0625 §3-2)"}
+  - {at: {sid: encirclement_11}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, reason: "트럼불 카드 — 2D 지형 위 카드(전면 컷어웨이, D-0625 (나))"}
+  - {at: {sid: encirclement_12}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, stage: terrain3d, reason: 카드가 걷힌 뒤 가운데 진형으로 — 나올 때까지}
   - {at: {sid: aftermath_0}, mode: move, dur: 6.0, camera: {lon: 15.9, lat: 41.45, w: 3.2}}
   - {at: {sid: aftermath_2}, mode: drift, dur: 14.0, camera: {lon: 16.0, lat: 41.42, w: 3.2}}
   - {at: {sid: aftermath_8}, mode: move, dur: 3.5, camera: {lon: 13.8, lat: 42.4, w: 19.0}, reason: 타렌툼(남)·갈리아 키살피나(북) — 전장 밖으로}
@@ -44,9 +50,9 @@ events:
   - {type: marker, start: {sid: prelude_8, 'off': 0.4}, end: {sid: prelude_9, edge: end}, at_place: cannae, label: 칸나이}
   - {type: photo, start: {sid: prelude_6, 'off': 0.2}, end: {sid: prelude_6, edge: end, 'off': 0.6}, mid: cannae_bust, for: 대리석 흉상, place: map_pair_right}
   - {type: photo, start: {sid: prelude_7, 'off': 0.2}, end: {sid: prelude_8, 'off': 0.3}, mid: cannae_coin, for: 은화}
-  - {type: photo, start: {sid: deployment_8, 'off': 1.8}, end: {sid: deployment_9, edge: end, 'off': 0.6}, mid: cannae_tanit, for: 석회암 비석, place: map_pair_right}
-  - {type: photo, start: {sid: deployment_12, 'off': 1.8}, end: {sid: deployment_13, edge: end}, mid: cannae_montefortino, for: 투구, place: map_pair_right}
-  - {type: photo, start: {sid: encirclement_11, 'off': 0.2}, end: {sid: encirclement_11, edge: end, 'off': 0.5}, mid: cannae_trumbull, for: 쓰러진 집정관과 말을 권하는 기병, place: map_pair_right}
+  - {type: photo, start: {sid: deployment_8, 'off': 0.6}, end: {sid: deployment_9, edge: end, 'off': 0.6}, mid: cannae_tanit, for: 석회암 비석, place: map_pair_right}
+  - {type: photo, start: {sid: deployment_12, 'off': 4.1}, end: {sid: deployment_13, edge: end, 'off': 1.5}, mid: cannae_montefortino, for: 투구, place: map_pair_right}
+  - {type: photo, start: {sid: encirclement_11, 'off': 0.4}, end: {sid: encirclement_11, edge: end, 'off': 0.5}, mid: cannae_trumbull, for: 쓰러진 집정관과 말을 권하는 기병, place: map_pair_right}
   - {type: marker, start: {sid: aftermath_1, 'off': 0.2}, end: {sid: aftermath_4, edge: end}, at_place: cannae, label: 칸나이}
   - type: panel
     start: {sid: aftermath_2, 'off': -0.2}
