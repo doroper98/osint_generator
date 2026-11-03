@@ -49,7 +49,7 @@
 - R-0321: A′ 뒤 geo 매체 5<7 → 사용자 결정(UF-139 대 UF-173). 비교 클립(artifacts 9d11bd07 d0353_compare/) 사용자 전달 14:28Z — **답 대기**: ① 지도 먼저(B: 이 영상만 매체 하한 면제, 5장) ② 사진 먼저(A: act2 2분할이 무대 도착을 덮음, 7장) ③ 원고 2막 도입 늘리기(게이트 ① 다시). A 를 고르면 하바롭스크 크레딧 "CC BY 3.0" 중복 표기도 고친다.
 - 골든 환경: 원인 = 표준 FONTCONFIG 누락(war R-0329). 장치 RENDER-AP-032 네 브랜치 반영 완료(war fddc5526·4562b172 / sweet 1402503d·2499f012 / iran e4ad493f·e409edcf / econ 31004550·597a2c1c). econ 골든 25컷은 병합 전 자산 있는 환경에서. 조각 캐시 키 보강 a2c612fc 반영(D347, 종결).
 - narration_clarity: 쇼케이스 3b2d1bb6·af0409ef·34dedc1c(전 장르 hard, D349). 경제(3b2d1bb6 → af0409ef → 34dedc1c)·전쟁사(af0409ef → 34dedc1c) 전파 지시, R 대기.
-- 다음 번호 UF-208·D-0354·DECISIONS D350·RENDER-AP-033.
+- 다음 번호 UF-209·D-0354·DECISIONS D351·RENDER-AP-033.
 
 ### 상태 갱신(2026-11-02 11:10Z, 최종 감독 — 사용자가 이 세션 모델을 Opus 5.5 로 전환)
 - 쇼케이스: 교체본 콘티 판 v2_animatic 게이트 ② **재승인 대기**. sweet-galileo 머리 b2d5f75a(UF-207 원장 정정 217c4525·PIPELINE-AP-026·5bdcd949·fed 데모 120).
@@ -73,6 +73,7 @@
 - 사용자 의견은 받은 즉시 `rules/user_feedback.yaml` 에 원문 그대로 UF 로(C12). 보고문은 `python tools/slop_check.py <file>` 통과 뒤 보낸다(UF-145·UF-202 금지어 — "~축에 겹칩니다" 류 화면 조작 해설 포함).
 - 레퍼런스는 느낌만, 요소 이식 지시 금지(LLM-AP-022). 렌더 전 구상 1프레임으로 판정. 샘플은 나오는 대로 바로 사용자에게(UF-144).
 - 요소·조판 판정 요청에는 해당 컷의 짧은 실제 렌더 mp4 를 함께 보낸다(UF-207, UF-144 재발 — 정지 시트만 보내지 않는다).
+- 사용자에게 결정을 물을 때는 그 세션 것만이 아니라 남은 사용자 결정 전체를 번호 목록(트랙·질문·선택지·자료 위치)으로 한 번에 안내한다(UF-208 — "내가 뭘 결정 하면 되는거야?"). 구현 세션이 사용자 질문을 받으면 감독에게 넘기고, 감독이 전체 목록으로 답한다.
 - 원장(`rules/user_feedback.yaml`)을 고친 커밋은 `python -c "from rules import load_user_feedback; load_user_feedback()"` 와 doc 장치 문구 존재 확인을 반드시 거친다(PIPELINE-AP-026 — 감독 컨테이너는 cairo 가 없어 시험을 못 돌린다). 장치 없는 의견은 guards 비우고 open.
 - 점검: 옛 감독의 send_later 트리거 `trig_011XELpyTdKrmNeGj35Y9DEk` 는 승계 시 옛 감독이 끈다. 새 감독은 자기 점검(60~120분, 사용자 결정 대기 중엔 2~4시간)을 건다.
   - **승계 완료(2026-10-31 23:57Z)**: 새 감독이 §0-4 ·README·CLAUDE.md·15·DECISIONS D299~D312·D-0318~D-0333 을 읽고, 세션 3·2 에 새 id 통보, 자기 점검 `trig_011g2r2iF93joBssYXSawwdo`(3시간 간격, 02:58Z 첫 발화)를 걸었다. 세션 2 컨텍스트 71만/100만 — 인계 임박.
