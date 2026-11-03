@@ -180,6 +180,22 @@ def _strings(v: object) -> list[str]:
     return []
 
 
+MEDIA_TEXT_FIELDS = ("headline", "headline_original", "sub", "caption", "file_note")   # 레지스트리에서 화면에 그리는 문자열(기사 카드·사진 캡션)
+
+
+def event_strings(P, e: dict) -> list[str]:  # noqa: ANN001, N803
+    """이벤트가 화면에 그리는 문자열 — 이벤트 필드 + 미디어 레지스트리 문자열(mid·press). v7.4.0 RENDER-AP-033:
+    기사 카드 번역 줄(headline)의 '與' 가 이벤트 필드에 없어 글리프 검사·전수 검사(glyph_sweep)를 비켜 갔다(예산안 완성본 345초 두부)."""
+    out = _strings(e)
+    assets = getattr(getattr(P, "R", None), "assets", None)
+    reg = getattr(assets, "media_assets", None) or {}
+    for key in ("mid", "press"):
+        a = reg.get(e.get(key)) if e.get(key) else None
+        if a is not None:
+            out += [v for f in MEDIA_TEXT_FIELDS if isinstance(v := getattr(a, f, None), str) and v]
+    return out
+
+
 def check_glyphs(P) -> list[str]:  # noqa: ANN001, N803
     have = frozenset().union(*(_cmap(fam) for fam, _ in FONT.values()))
     texts: list[str] = [s.text for s in P.plan.sentences] + [P.plan.title, P.plan.subtitle, P.plan.date]
@@ -189,7 +205,7 @@ def check_glyphs(P) -> list[str]:  # noqa: ANN001, N803
     if hasattr(P.R, "cache") and hasattr(P.R, "tb"):   # 렌더 문맥(R.cache·R.tb.order)이 있을 때만 — 검사 단독 문맥(시험)은 고지 줄 없음
         texts.append(last_notice(P.R) or "")
     for e in P.events:
-        texts += _strings(e)
+        texts += event_strings(P, e)   # v7.4.0 RENDER-AP-033 — 레지스트리 문자열 포함
     miss: dict[str, str] = {}
     for s in texts:
         for ch in s:

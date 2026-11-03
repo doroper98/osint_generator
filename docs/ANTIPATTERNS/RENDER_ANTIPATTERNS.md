@@ -318,3 +318,11 @@ last_review: 2026-05-23
 - **원칙**: 화소를 정하는 환경 값은 저장소 추적 파일 + 코드 한 곳에서 정하고, 시작에서 실제 값을 확인한다. 셸 설정에 기대지 않는다. 다르면 멈춘다(P6).
 - **자동 조치**: `config/fontconfig/fonts.conf`(시스템 fonts.conf include + 렌더 속성 일곱 개 assign), 경로 `config.yaml engine.fontconfig.file`. `engine/fontenv.py` `ensure()` 를 `engine.style` import 맨 앞(모든 렌더 경로)·`tests/conftest.py`·엔진 밖 글자 도구(tools/strike_demo)가 부른다 — FONTCONFIG_FILE 지정(다른 값은 덮어쓰고 1줄 로그), `fc-match -v` 주 글꼴 hinting·hintstyle 이 `engine.fontconfig.expect` 와 다르면 `FontRenderConfigError`. 시험 `tests/anti_inertia/test_fontconfig_guard.py`(비표준 설정 실패·글자 그리는 모듈 전수).
 - **발견 버전**: v7.4.0 · **상태**: active
+
+## RENDER-AP-033 — 기사 카드 번역 줄의 '與' 가 두부로 전달됨: 글리프 검사가 레지스트리 문자열을 보지 않았다 (recurs_of RENDER-AP-031 부류)
+
+- **증상(실제 현상)**: v7.4.0 budget_2027 완성본(md5 13f36298, 사용자 전달) 345초 SBS Biz 기사 카드. 위 원문 헤드라인(세리프, headline_original)은 '與' 가 보이지만 아래 번역 줄(산스, 레지스트리 headline)은 '▯'. 프리뷰 v3 checks glyphs 0, 게이트 ② 통과. 전달 뒤 D622 확인용 프리뷰(128·215초)에서 [glyphs] hard 로 처음 잡혔다 — 배경 이벤트에 `for` 문자열이 생겨 glyph_sweep 이 우연히 344.38초를 그렸기 때문.
+- **원리**: `check_glyphs` 와 `glyph_sweep` 의 문자열 목록이 `_strings(이벤트)` — 이벤트 필드만이다. 기사·사진 이벤트는 mid 만 갖고, 화면 글자(헤드라인·번역 줄·부제·캡션)는 미디어 레지스트리에서 온다. 그래서 그 카드 시각을 그리지 않았고, 프리뷰 표본(340.42초)은 카드 전이었다. 68488905 에서 등재 제목(title)의 '與' 만 고치고 번역 줄(headline)은 남겼다.
+- **원칙**: 글자 검사는 "화면에 그리는 문자열" 전부를 본다 — 이벤트 필드 + 레지스트리 문자열. 한자 약칭(與·野 등)은 번역 줄에서 한글(여당·야당)로, 원문 헤드라인은 그대로 둔다.
+- **자동 조치**: `engine.checks.event_strings`(이벤트 + 레지스트리 headline·headline_original·sub·caption·file_note, mid·press) — `check_glyphs`·`glyph_sweep` 이 쓴다. 레지스트리 art_0003 headline '與' → '여당'. 시험 `tests/test_glyph_registry_strings.py`(옛 경로 = 문자열 없음, 지금 = 카드 시각을 그림). 예산안 실측 sweep 0·glyphs 0, 프리뷰 345.5초 번역 줄 '여당' 눈 확인.
+- **발견 버전**: v7.4.0 · **상태**: active

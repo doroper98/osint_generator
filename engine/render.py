@@ -168,14 +168,14 @@ def glyph_sweep(P) -> list[tuple[str, str, str, str]]:  # noqa: ANN001, N803
     """v7.4.0 D-0250(UF-131 "특수문자 에러") — 문자열에 프로젝트 글꼴 중 하나라도 없는 글자가 있는 이벤트를, 그 이벤트가 떠 있는 시각에 한 번씩
     그려(파일 저장 없음) 실제 그린 글꼴(대체 사슬 반영) 기준 없는 글자를 모은다. 프리뷰 표본 시각에 걸리지 않은 카드도 잡는다."""
     from engine import typography  # noqa: PLC0415
-    from engine.checks import _strings  # noqa: PLC0415
+    from engine.checks import event_strings  # noqa: PLC0415 — v7.4.0 RENDER-AP-033: 레지스트리 문자열(기사 헤드라인·번역 줄·캡션)까지
 
     common = frozenset.intersection(*(typography.font_cmap(k) for k in FONT))
     ts: list[tuple[float, str]] = []
     for e in P.events:
         if "t0" not in e or "t1" not in e:
             continue
-        if any(not ch.isspace() and ord(ch) not in common for s in _strings(e) for ch in s):
+        if any(not ch.isspace() and ord(ch) not in common for s in event_strings(P, e) for ch in s):
             ts.append((min(e["t1"] - 0.05, e["t0"] + max(0.6, (e["t1"] - e["t0"]) * 0.5)), e.get("type", "")))
     out: list[tuple[str, str, str, str]] = []
     for t, typ in sorted(set(ts)):

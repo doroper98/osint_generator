@@ -3453,3 +3453,4 @@ last_review: 2026-06-06
 - 2026-11-03 v7.4.0 PIPELINE-AP-027 — 게이트 기록 정직성(감독 D621 ④⑤): 린트 실행 실패는 '오류 N' 대신 기록 거부(engine_service.is_crash·approve_gate), prev/ 없으면 cuts·밀도 '확인 불가', media_used 에 backdrop 수 — tests/test_gate_record_honesty.py
 - 2026-11-03 v7.4.0 감독 D621 ②③ — [backdrop-subject-background]·[backdrop-subject-unmatched] hard(backdrop for ↔ 레지스트리 main_subject, D616 ④), [island-text-contrast] hard(사진 배경 위 아일랜드 글자 대비, 렌더 경로 합성 97 백분위 ↔ qa_checks.map_contrast_text, D619·UF-304 장치) — tests/test_backdrop_subject_contrast.py
 - 2026-11-03 v7.4.0 감독 D622 — 구성 무대 강조 글자(초점 라벨·총지출 줄 강조) = stage_structure.focus_text(white), gold 글자 폐지(막대 면은 accent 그대로·전역 gold 무변경). [island-text-contrast] 글자색 = 무대별 목록 + 구성 focus_text·차트 그 시간 series col. 예산안 실측 3.93~4.15 → 최저 5.02(muted)
+- 2026-11-03 v7.4.0 RENDER-AP-033 — 예산안 완성본 345초 기사 번역 줄 '與' 두부(전달 뒤 발견): 글리프 검사·전수 검사가 레지스트리 문자열 포함(engine.checks.event_strings), art_0003 headline '여당' — tests/test_glyph_registry_strings.py
