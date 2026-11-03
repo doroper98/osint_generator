@@ -16,6 +16,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | labels | hard | 샘플 시각마다 도시 라벨 수 ≤ labels_per_frame_max |
 | license_mismatch | hard | v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장르. 영상이 쓰는 미디어 레코드의 photo_license(없으면 license)가 Commons 라이선스 분류(license_tags)와 맞는가. 유물 나이 PD(rules war_history.rights.work_age_tags)는 사진 권리가 아니다 |
 | evidence_layer · period_art_label · casualty_unsourced · symbol_set | hard | v7.4.0 전쟁사 W2(D-0600 §4, UF-150) — 장르 war_history 만. 시대별 필수 증거 층·작품 당대/후대 라벨·병력/사상자 force 인용·한 영상 한 부호 세트(schemas.war_history) |
+| narration_clarity | hard | v7.4.0 D-0626·D-0628 — out/mix.f32 의 문장마다 목소리 음역 내레이션 대 (음악+효과음+클립 원음) 에너지 비 최저가 rules audio.qa.narration_clarity.min_db 미만 `[narration-clarity]`. hard_genres(전쟁사) 영상만 hard, 그 밖 장르는 narration_clarity_note(warning). mix.f32 가 없으면 잴 것 없음(provenance 기록) |
+| narration_clarity_note | warning | 위와 같은 판정 — hard_genres 밖 장르(승격은 최종 감독) |
 | date_jump | hard | v7.4.0 D-0619 ⑤·D-0622 — 문장 날짜 표지가 앞뒤 문장 날짜 범위 밖으로 튀고, 그 문장 동안 뜬 작품·기록 카드의 연대(created)와도 겹치지 않으면 `[date-jump]`. 처음·끝 문장은 이웃이 하나라 대상 밖 |
 | formation_centered | hard | v7.4.0 D-0625(UF-255 "진형은 중앙에") — terrain3d 구간에서 보이는 전 부대 화면 상자 중심이 화면 중심에서 rules qa_checks.formation_centered.center_tol 안, 상자 전체가 안전 영역 안. 어긋남이 max_sec 넘게 이어지면 `[formation-centered]`. 이음 창·전 부대 등장 전 제외. 스케치 전쟁사 2D 전술 축척·3D 컷도 같은 함수(SK-W7) |
 | terrain3d_seam | hard | v7.4.0 D-0619 ① — terrain3d 구간 들어감·나옴 이음 창(rules stage_terrain3d.seam_sec 앞뒤)의 실제 렌더 이웃 프레임 평균 절대 화소 차 ≤ rules qa_checks.terrain3d_seam_mad_max `[terrain3d-seam]`. 컷처럼 꺾이는 경계(밝기·강·부대가 한 프레임에 바뀜)를 잡는다 |
@@ -148,6 +150,7 @@ HARD = ("license_mismatch",   # v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장�
         "war_units_approx",   # v7.4.0 D-0615 §2-1 — terrain3d 구간 부대 기록 개략 표기(구간 있는 영상만)
         "terrain3d_seam",     # v7.4.0 D-0619 ① — terrain3d 구간 들어감·나옴 이음(이웃 프레임 MAD)
         "formation_centered",  # v7.4.0 D-0625(UF-255) — 전술 화면 진형은 가운데·안전 영역 안
+        "narration_clarity",   # v7.4.0 D-0626·D-0628 — 내레이션 명료도(rules audio.qa.narration_clarity.hard_genres 장르만)
         "date_jump",           # v7.4.0 D-0619 ⑤·D-0622 — 날짜 표지가 이웃 문장 범위·화면 카드 연대 밖으로 튐
         "map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
@@ -155,7 +158,7 @@ HARD = ("license_mismatch",   # v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장�
         "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
-        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
+        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age", "narration_clarity_note")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
 
 def missing_fonts() -> list[str]:
@@ -1452,6 +1455,39 @@ def check_terrain3d_seam(P) -> list[str]:  # noqa: ANN001, N803
     return [f"[terrain3d-seam] {sid} {names[k]} {r['t']:.2f}초 이웃 프레임 평균 화소 차 {r['mad']:.1f} > {lim:g} — 경계가 컷처럼 꺾인다"
             "(지면 색조를 mercator relief 와 맞추고 rules stage_terrain3d.seam_sec 이음 창에서 녹아 들게, D-0619 ①)"
             for sid, rep in seam_report(P).items() for k, r in rep.items() if r["mad"] > lim]
+
+
+def narration_clarity_report(P) -> "dict | None":  # noqa: ANN001, N803
+    """out/mix.f32 의 문장별 명료도(audio.qa.narration_clarity) — 한 번만 재고 P.R.cache 에. mix 가 없으면 None."""
+    if "narration_clarity" in P.R.cache:
+        return P.R.cache["narration_clarity"]
+    from audio.qa import narration_clarity, stems  # noqa: PLC0415
+
+    f = P.root / "out" / "mix.f32"
+    rep = None
+    if f.exists():
+        mix, vo, _ = stems(f, P.plan.sentences)
+        per = narration_clarity(mix, vo, P.plan.sentences)
+        worst = sorted(per.items(), key=lambda kv: kv[1])
+        rep = {"min_db": worst[0][1] if worst else None, "worst": worst[:3], "sentences": len(per)}
+    P.R.cache["narration_clarity"] = rep
+    return rep
+
+
+def check_narration_clarity(P, hard: bool) -> list[str]:  # noqa: ANN001, N803
+    """[narration-clarity] — 장르가 rules hard_genres 안이면 hard 쪽(hard=True)에서, 밖이면 warning 쪽(hard=False)에서만 낸다."""
+    cfg = R_.audio.qa.narration_clarity
+    if cfg is None:
+        return []
+    genre = (P.R.cache.get("genre") or {}).get("name")
+    if (genre in cfg.hard_genres) != hard:
+        return []
+    rep = narration_clarity_report(P)
+    if not rep or rep["min_db"] is None or rep["min_db"] >= cfg.min_db:
+        return []
+    ws = " · ".join(f"{s} {v:+.1f}" for s, v in rep["worst"])
+    return [f"[narration-clarity] 목소리 음역 내레이션 대 음악·효과음 최저 {rep['min_db']:.1f} dB < {cfg.min_db:g} — 가장 낮은 문장 {ws}. "
+            "bed_gain 은 그대로 두고 연출 sound.intensity·효과음 세기로 그 구간을 낮춘다(D-0626·D-0628)"]
 
 
 def _year_span(d: object) -> tuple[int, int]:
@@ -2893,6 +2929,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "casualty_unsourced": lambda: check_war_history(P)["casualty_unsourced"], # [casualty-unsourced]
         "symbol_set": lambda: check_war_history(P)["symbol_set"],                 # [symbol-set-mixed]
         "license_mismatch": lambda: check_license_mismatch(P),                    # v7.4.0 D-0606 §2 [license-mismatch]
+        "narration_clarity": lambda: check_narration_clarity(P, hard=True),       # v7.4.0 D-0626·D-0628 [narration-clarity]
+        "narration_clarity_note": lambda: check_narration_clarity(P, hard=False),
         "date_jump": lambda: check_date_jump(P),                                  # v7.4.0 D-0619 ⑤·D-0622 [date-jump]
         "formation_centered": lambda: check_formation_centered(P),                # v7.4.0 D-0625(UF-255) [formation-centered]
         "terrain3d_seam": lambda: check_terrain3d_seam(P),                        # v7.4.0 D-0619 ① [terrain3d-seam]
