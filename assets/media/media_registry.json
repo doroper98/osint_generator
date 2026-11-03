@@ -5675,6 +5675,105 @@
    },
    "source_hash": "e5750050bfbe78199f6d0e29b5390830",
    "file": "hormuz_strait_modis_2020_720.jpg"
+  },
+  "budget_2027_art_0001": {
+   "kind": "article",
+   "title": "머니투데이방송 2026-09-04 — 안도걸 “2027년 예산, 재정 폭주 아닌 미래 위한 담대한 투자”",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "머니투데이방송",
+   "credit_author": "머니투데이방송",
+   "date": "2026-09-04",
+   "url": "https://news.mtn.co.kr/news-detail/2026090412482890415",
+   "caption": "머니투데이방송",
+   "file_note": "2026. 09. 04",
+   "depicts": [
+    "미래대응기금을 두고 국민의힘은 국회 통제를 우회할 수 있다고 비판하고,…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "budget_2027 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "안도걸 “2027년 예산, 재정 폭주 아닌 미래 위한 담대한 투자”",
+   "sub": "미래대응기금을 두고 국민의힘은 국회 통제를 우회할 수 있다고 비판하고,…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "안도걸 “2027년 예산, 재정 폭주 아닌 미래 위한 담대한 투자”"
+  },
+  "budget_2027_art_0002": {
+   "kind": "article",
+   "title": "뉴스토마토 2026-09-10 — \"104조 쌓고 100조 빚 늘려\"…국힘, 미래대응기금에 \"정권 쌈짓돈\" 비판",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "뉴스토마토",
+   "credit_author": "뉴스토마토",
+   "date": "2026-09-10",
+   "url": "https://newstomato.com/ReadNews.aspx?no=1313268",
+   "caption": "뉴스토마토",
+   "file_note": "2026. 09. 10",
+   "depicts": [
+    "미래대응기금을 두고 국민의힘은 국회 통제를 우회할 수 있다고 비판하고,…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "budget_2027 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "\"104조 쌓고 100조 빚 늘려\"…국힘, 미래대응기금에 \"정권 쌈짓돈\" 비판",
+   "sub": "미래대응기금을 두고 국민의힘은 국회 통제를 우회할 수 있다고 비판하고,…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "\"104조 쌓고 100조 빚 늘려\"…국힘, 미래대응기금에 \"정권 쌈짓돈\" 비판"
+  },
+  "budget_2027_art_0003": {
+   "kind": "article",
+   "title": "SBS Biz 2026-10-30 — 국힘 \"빚잔치\" vs. 與 \"성장동력 확보\"…'내년 예산안' 본격 공방",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "SBS Biz",
+   "credit_author": "SBS Biz",
+   "date": "2026-10-30",
+   "url": "https://biz.sbs.co.kr/amp/article/20000343415",
+   "caption": "SBS Biz",
+   "file_note": "2026. 10. 30",
+   "depicts": [
+    "2026년 10월 30일 국회 예산결산특별위원회 공청회에서 여야가 예산…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "budget_2027 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "국힘 \"빚잔치\" vs. 與 \"성장동력 확보\"…'내년 예산안' 본격 공방",
+   "sub": "2026년 10월 30일 국회 예산결산특별위원회 공청회에서 여야가 예산…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "국힘 \"빚잔치\" vs. 與 \"성장동력 확보\"…'내년 예산안' 본격 공방"
   }
  }
 }

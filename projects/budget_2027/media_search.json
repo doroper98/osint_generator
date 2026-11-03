@@ -1035,6 +1035,90 @@
     "https://www.flickr.com/photos/mdgovpics/17615273993/"
    ],
    "rejected": []
+  },
+  {
+   "sid": "act2_16",
+   "query": "employment center Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 7,
+   "top": [
+    "File:3rd MarDiv, MARFORK visit Republic of Korea 2nd MarDiv (9463255).jpg",
+    "File:Airmen begin unloading at Gwangju for Bev Pack 25-1 (8838028).jpg",
+    "File:Shafiqur Rahman Choudhury Bangladesh Korea Technical Training Center Dhaka 2024-02-01 (PID-0010982).jpg",
+    "File:U.S. Marine Operations In Korea 1950-1953 (Volume 2).djvu",
+    "File:U.S. Marine Operations In Korea 1950-1953 (Volume 3).djvu"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_19",
+   "query": "Korea elementary school classroom",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 6,
+   "top": [
+    "File:Classroom in the U.S.jpg",
+    "File:Cobra Gold '14 allies build classrooms for Thai elementary school 140210-M-OY715-065.jpg",
+    "File:Department of War Education Activity seeks educators and aides to support military-connected students worldwide (9662989).jpg",
+    "File:ECCAT LOGO.jpg",
+    "File:Joong-Dae Elementary School 중대초등학교 (5477801131).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_11",
+   "query": "autonomous bus Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 14,
+   "top": [
+    "File:42dot autonomous-DRT Shuttle (1).jpg",
+    "File:42dot autonomous-DRT Shuttle (10).jpg",
+    "File:42dot autonomous-DRT Shuttle (11).jpg",
+    "File:42dot autonomous-DRT Shuttle (12).jpg",
+    "File:42dot autonomous-DRT Shuttle (13).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_14",
+   "query": "LH apartment Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act3_1",
+   "query": "Samsung Pyeongtaek campus",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 11,
+   "passed": 10,
+   "top": [
+    "File:P20220520AS-000033-2 (52196618699).jpg",
+    "File:P20220520AS-0238 (52196618649).jpg",
+    "File:P20220520AS-1486 (52196618609).jpg",
+    "File:P20220520AS-1568 (52196371303).jpg",
+    "File:P20220520CS-0484 (52195348752).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
   }
  ]
 }
