@@ -144,7 +144,18 @@ class FlickrLicenseTest(unittest.TestCase):
     def test_rules_allow_only_public_domain_like(self) -> None:
         from rules import load_rules  # noqa: PLC0415
 
-        self.assertEqual(set(load_rules().media.flickr.licenses_allowed), {"8", "9", "10"})
+        self.assertEqual(set(load_rules().media.flickr.licenses_allowed), {"4", "8", "9", "10"})   # "4" CC BY 2.0 = D611
+
+    def test_flickr_cc_by_only_no_sa_nc(self) -> None:
+        """D611 — Flickr 4(CC BY 2.0) 통과, 5(CC BY-SA 2.0)·1~3(NC)·6(ND) 거부, 이름이 레지스트리와 다르면 거부."""
+        from schemas.emblem_models import license_allowed  # noqa: PLC0415
+        from tools.media_fetch import flickr_license_ok  # noqa: PLC0415
+
+        self.assertTrue(flickr_license_ok("4", "CC BY 2.0"))
+        self.assertTrue(license_allowed("CC BY 2.0"))
+        for bad in ("1", "2", "3", "5", "6"):
+            self.assertFalse(flickr_license_ok(bad, "CC BY 2.0"), bad)
+        self.assertFalse(flickr_license_ok("4", "CC BY-SA 2.0"))
 
     def test_registry_photos_are_pdm(self) -> None:
         from engine.media_registry import load_media_registry  # noqa: PLC0415

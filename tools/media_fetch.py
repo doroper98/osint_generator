@@ -69,6 +69,14 @@ def flickr_license(page: str, pid: str) -> str:
     return m.group(1)
 
 
+def flickr_license_ok(lic: str, registry_license: str) -> bool:
+    """Flickr license 번호가 rules media.flickr.licenses_allowed 안이고 그 이름이 레지스트리 license 와 같은가(D611 — 4 CC BY 통과, 5 SA·NC 거부)."""
+    from rules import load_rules  # noqa: PLC0415
+
+    allowed = load_rules().media.flickr.licenses_allowed
+    return lic in allowed and allowed[lic] == registry_license
+
+
 def fetch_flickr(a: MediaAsset, dest: Path) -> None:
     """v4.4.0 D-0090 작업 4 — 기관 공식 Flickr 사진. 페이지의 license 번호가 rules media.flickr.licenses_allowed 안이고
     그 이름이 레지스트리 license 와 같을 때만 받는다(권리 불확실 = 받지 않음, 20 §8)."""
@@ -83,7 +91,7 @@ def fetch_flickr(a: MediaAsset, dest: Path) -> None:
     pid = m.group(1)
     page = requests.get(a.url, headers={"User-Agent": "Mozilla/5.0"}, timeout=60).text
     lic = flickr_license(page, pid)
-    if lic not in fr.licenses_allowed or fr.licenses_allowed[lic] != a.license:
+    if not flickr_license_ok(lic, a.license):
         raise MediaFetchError(f"Flickr {pid}: 라이선스 {lic}({fr.licenses_allowed.get(lic, '허용 목록 밖')}) ≠ 레지스트리 {a.license!r}")
     u = re.search(r"live\.staticflickr\.com/\d+/" + pid + r"_[0-9a-f]+_" + fr.size_suffix + r"\.jpg", page)
     if not u:

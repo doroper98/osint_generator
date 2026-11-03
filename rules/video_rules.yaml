@@ -535,7 +535,7 @@ media:                     # v2.5.5 D-0037(D38) — 14 §10.1 밀도 경고. v3 
       - "위성 인셋(flight.inset)은 이 상한 밖이다 — 장면당 {inset_per_scene_max}개 이하, 인셋 사이 {inset_min_gap_sec}초 이상. 시설이 식별되는 등록 인셋만 쓴다."
 
   flickr:                  # v4.4.0 D-0090 작업 4 — 기관 공식 Flickr(연준 이사회 등) 사진. 사진 페이지의 license 번호를 코드가 읽어 이 목록 밖이면 받지 않는다(07 §3.2·20 §8, C9)
-    licenses_allowed: {"8": United States Government Work, "9": Public Domain Dedication (CC0), "10": Public Domain Mark}
+    licenses_allowed: {"4": CC BY 2.0, "8": United States Government Work, "9": Public Domain Dedication (CC0), "10": Public Domain Mark}   # "4"(Attribution 2.0) = v7.4.0 D611 — 07 §3.2 CC BY 허용·sources_order gov_flickr_ccby 와 맞춤(정부·군 공식 계정만). SA(5)·NC(1·2·3)·ND(6) 는 밖
     size_suffix: b         # 받을 크기(_b = 긴 변 1024)
 
 media_beats:               # 14 §10
