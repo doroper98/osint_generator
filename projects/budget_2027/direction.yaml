@@ -288,8 +288,8 @@ shots:
     date: '2028-01-01'
     w: 1880
 - at: &id011
-    sid: act4_0
-    'off': -0.4
+    sid: act4_1
+    'off': -0.3
   stage: structure
   mode: cut
   dur: 0
@@ -346,20 +346,20 @@ events:
     scene_start: cold
   end:
     scene_start: act1
-  img: bud_subway_suin
+  img: bud_assembly_ext_2014
 - type: backdrop
   start:
     scene_start: act1
   end:
     scene_start: act2
-  img: bud_apt_gwangmyeong
+  img: bud_sejong_complex
 - type: backdrop
   start:
     scene_start: act2
   end:
     sid: act2_9
     'off': -0.5
-  img: bud_hwy_bridge
+  img: bud_motie
 - type: backdrop
   start:
     sid: act2_9
@@ -378,7 +378,7 @@ events:
     scene_start: act4
   end:
     total: true
-  img: bud_shuttle_42dot
+  img: bud_assembly_ext_2014
 - type: island
   start: *id001
   end: &id002
@@ -803,6 +803,16 @@ events:
     'off': -0.2
   mid: bud_wafer
   for: 반도체 웨이퍼
+  place: backdrop_right_low
+- type: photo
+  start:
+    sid: act4_0
+    'off': -1.4
+  end:
+    sid: act4_1
+    'off': -0.3
+  mid: bud_assembly_ext_2014
+  for: 국회의사당
   place: backdrop_right_low
 - type: island
   start: *id013
