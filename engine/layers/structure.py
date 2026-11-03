@@ -278,11 +278,15 @@ def _draw_total(ctx: cairo.Context, view: "View", st: "StructureStage", t: float
         return
     tot, pct, avg = st.total_info()
     fa = focus_alpha(evs, t, TOTAL_ROW)   # 감독 판정 ②: 문장 동안 +12.8% = focus_value_size, 연평균 = focus_rest_size(accent), 금액은 그대로
+    live = [ce for ce in evs if ce["type"] == "rank" and ce["layer"] == "focus" and ce["row"] == TOTAL_ROW and layer_alpha([ce], t, "focus") > 0]
+    note = next((ce.get("note") for ce in live if ce.get("note")), None)   # 감독 지시(02:06Z) — 총지출 줄 작은 줄 = 문장이 말한 수입·기금 숫자
     lerp = lambda u, v: u + (v - u) * fa  # noqa: E731
     mix = lambda c: tuple(lerp(p_, q_) for p_, q_ in zip(c, C["gold"]))  # noqa: E731
     parts = [(f"총지출 {fmt_amount(st, tot)}", S.head_size, S.head_font, C["white"]),
              (f" · {fmt_pct(pct)}", lerp(S.head_size, S.focus_value_size), S.focus_value_font if fa >= 0.5 else S.head_font, mix(C["green"]))]
-    if avg is not None:
+    if note is not None:
+        parts.append((f" · {note}", lerp(S.head_size, S.focus_rest_size), S.focus_rest_font if fa >= 0.5 else S.head_font, mix(C["muted"])))
+    elif avg is not None:
         parts.append((f" · {st.avg_span()} {S.avg_word} {fmt_pct(avg)}", lerp(S.head_size, S.focus_rest_size),
                       S.focus_rest_font if fa >= 0.5 else S.head_font, mix(C["muted"])))
     w = sum(tw(ctx, s_, sz, f) for s_, sz, f, _ in parts)

@@ -5774,6 +5774,325 @@
    "sub": "2026년 10월 30일 국회 예산결산특별위원회 공청회에서 여야가 예산…",
    "note": "헤드라인 번역 · 원문 영어",
    "headline_original": "국힘 \"빚잔치\" vs. 與 \"성장동력 확보\"…'내년 예산안' 본격 공방"
+  },
+  "bud_hwy_bridge": {
+   "kind": "photo",
+   "title": "File:Korean highway Expressway in South Korea bridge.jpg",
+   "license": "CC0",
+   "author": "Hankook12",
+   "credit_author": "Hankook12",
+   "date": "2024-02-09",
+   "url": "https://commons.wikimedia.org/wiki/File:Korean_highway_Expressway_in_South_Korea_bridge.jpg",
+   "caption": "건설 중인 고속도로 교량",
+   "file_note": "자료사진 · 2024. 02",
+   "depicts": [
+    "한국 고속도로 교량 공사 현장"
+   ],
+   "main_subject": [
+    "건설 중인 고속도로 교량",
+    "타워 크레인"
+   ],
+   "background": [
+    "산",
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 메타·썸네일 접촉 시트 대조, R-0613·D611)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act2_9·act2_10 고속도로 건설 예산 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_hwy_bridge.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "3a24b251db9fbbf370cf25f88b68791d",
+   "file": "bud_hwy_bridge_720.jpg"
+  },
+  "bud_hwy_westcoast": {
+   "kind": "photo",
+   "title": "File:South Korean West Coast Expressway.jpg",
+   "license": "CC0",
+   "author": "Hankook12",
+   "credit_author": "Hankook12",
+   "date": "2024-02-09",
+   "url": "https://commons.wikimedia.org/wiki/File:South_Korean_West_Coast_Expressway.jpg",
+   "caption": "서해안고속도로",
+   "file_note": "자료사진 · 2024. 02",
+   "depicts": [
+    "서해안고속도로 본선"
+   ],
+   "main_subject": [
+    "고속도로 본선",
+    "승용차"
+   ],
+   "background": [
+    "고가도로",
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 메타·썸네일 접촉 시트 대조, R-0613·D611)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act2_10 새 고속도로·국도 건설 속도 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_hwy_westcoast.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "2ea1ffbc5e70f3195a4c13ff5b19de91",
+   "file": "bud_hwy_westcoast_720.jpg"
+  },
+  "bud_icn_t1": {
+   "kind": "photo",
+   "title": "File:2025-10-14 17.20.29 Incheon International Airport.jpg",
+   "license": "CC0",
+   "author": "Choikwangmo25",
+   "credit_author": "Choikwangmo25",
+   "date": "2025-10-15",
+   "url": "https://commons.wikimedia.org/wiki/File:2025-10-14_17.20.29_Incheon_International_Airport.jpg",
+   "caption": "인천국제공항 출국장",
+   "file_note": "자료사진 · 2025. 10",
+   "depicts": [
+    "인천국제공항 여객터미널 출국장"
+   ],
+   "main_subject": [
+    "공항 출국장"
+   ],
+   "background": [
+    "여행객"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 메타·썸네일 접촉 시트 대조, R-0613·D611)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act2_10 공항 건설 사업 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_icn_t1.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "2168dbebd333b574f0ace7f40ad5ce03",
+   "file": "bud_icn_t1_720.jpg"
+  },
+  "bud_subway_suin": {
+   "kind": "photo",
+   "title": "File:Suin–Bundang Line (Korail Class 319000) 20240713 (01).jpg",
+   "license": "CC BY 4.0",
+   "author": "LandAndTree",
+   "credit_author": "LandAndTree",
+   "date": "2024-07-13",
+   "url": "https://commons.wikimedia.org/wiki/File:Suin%E2%80%93Bundang_Line_(Korail_Class_319000)_20240713_(01).jpg",
+   "caption": "수인분당선 전동차",
+   "file_note": "자료사진 · 2024. 07",
+   "depicts": [
+    "수인분당선 전동차 실내"
+   ],
+   "main_subject": [
+    "전동차 실내"
+   ],
+   "background": [],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 메타·썸네일 접촉 시트 대조, R-0613·D611)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act2_11 대중교통비 환급 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_subway_suin.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "91a2e4bf5df4a0a2f0451a2cd7cca756",
+   "file": "bud_subway_suin_720.jpg"
+  },
+  "bud_apt_gwangmyeong": {
+   "kind": "photo",
+   "title": "File:Apartmentgwangmyeong.jpg",
+   "license": "CC BY 4.0",
+   "author": "Kimhs5400",
+   "credit_author": "Kimhs5400",
+   "date": "2025-07-13",
+   "url": "https://commons.wikimedia.org/wiki/File:Apartmentgwangmyeong.jpg",
+   "caption": "광명 아파트 단지",
+   "file_note": "자료사진 · 2025. 07",
+   "depicts": [
+    "경기 광명 아파트 단지"
+   ],
+   "main_subject": [
+    "아파트 단지"
+   ],
+   "background": [
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 메타·썸네일 접촉 시트 대조, R-0613·D611)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act2_13·act2_14 주택 융자·공공임대 문장(아파트 단지 일반 장면)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_apt_gwangmyeong.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "edb97027f9a51510d4606e54b63741cf",
+   "file": "bud_apt_gwangmyeong_720.jpg"
+  },
+  "bud_wafer": {
+   "kind": "photo",
+   "title": "File:A semiconductor wafer being removed from processing equipment.jpg",
+   "license": "CC BY 4.0",
+   "author": "YouTube — Purdue Engineering",
+   "credit_author": "YouTube — Purdue Engineering",
+   "date": "2026-04-06",
+   "url": "https://commons.wikimedia.org/wiki/File:A_semiconductor_wafer_being_removed_from_processing_equipment.jpg",
+   "caption": "반도체 웨이퍼 공정",
+   "file_note": "자료사진 · 2026. 04",
+   "depicts": [
+    "반도체 웨이퍼를 공정 장비에서 꺼내는 장면"
+   ],
+   "main_subject": [
+    "반도체 웨이퍼",
+    "공정 장비"
+   ],
+   "background": [
+    "장갑 낀 손"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 메타·썸네일 접촉 시트 대조, R-0613·D611)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act3_1 반도체 호황 배경 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_wafer.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "2a8adf440c6d1d475e21093b2930487c",
+   "file": "bud_wafer_720.jpg"
+  },
+  "bud_wind_shinan": {
+   "kind": "photo",
+   "title": "File:Jeonnam Offshore Wind Power Shinan Blue Jaeun 20241217 (01).jpg",
+   "license": "KOGL Type 1",
+   "author": "전라남도청 해상풍력산업과",
+   "credit_author": "전라남도청 해상풍력산업과",
+   "date": "2024-12-17",
+   "url": "https://commons.wikimedia.org/wiki/File:Jeonnam_Offshore_Wind_Power_Shinan_Blue_Jaeun_20241217_(01).jpg",
+   "caption": "전남 신안 해상풍력",
+   "file_note": "자료사진 · 2024. 12",
+   "depicts": [
+    "전남 신안 해상풍력 단지"
+   ],
+   "main_subject": [
+    "해상풍력 발전기"
+   ],
+   "background": [
+    "바다",
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 메타·썸네일 접촉 시트 대조, R-0613·D611)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act2_5 에너지 분야 지원 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_wind_shinan.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "e50b1b48be0b72c78a3f73dae11eebbd",
+   "file": "bud_wind_shinan_720.jpg"
   }
  }
 }

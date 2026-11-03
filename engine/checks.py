@@ -1289,7 +1289,8 @@ def check_static_camera(P) -> list[str]:  # noqa: ANN001, N803
     times = [round(k * step, 3) for k in range(int(P.plan.total / step))]
     idx = [min(P.n_frames - 1, int(t * FPS)) for t in times]
     tr = screen_track(P.R.stage, P.cams[idx])
-    starts = sorted(e["t0"] for e in P.events if e["type"] in NEW_ELEMENT_TYPES)
+    starts = sorted(e["t0"] for e in P.events if e["type"] in NEW_ELEMENT_TYPES
+                    or (e["type"] == "rank" and e.get("layer") == "focus"))   # v7.4.0 — 구성 무대 초점 이동(새 강조 라벨·accent 행)도 화면 변화
     out = [f"[static-camera] {a:.1f}~{b:.1f}초({b - a:.0f}초) 카메라가 멈추고 새 화면 요소도 없다 — 숏 mode drift(느린 궤도 훑기)·카드·사진으로 "
            f"화면을 바꾼다(rules camera.static_max_sec {C.static_max_sec:g}, UF-120)"
            for a, b in static_windows(times, [tuple(x) for x in tr], starts, lambda t: _covered(P, t) or P.R.tb.in_fullcard(t))]
@@ -2470,27 +2471,33 @@ def card_drawn_strings(P, kind: str) -> list[str]:  # noqa: ANN001, N803
 
 
 _NUM = r"\d[\d,]*(?:\.\d+)?"
-_AMOUNT_RE = re.compile(rf"({_NUM})\s*조(?:\s*(\d)\s*천)?(?:\s*(\d)\s*백)?\s*억?|({_NUM})\s*억")
+# 조 단위 금액 한 덩이: "1조 239억"=1.0239·"4조 7천억"=4.7·"584조 4천억"=584.4·"8,189억"=0.8189·"5조"(v7.4.0 — 말과 라벨이 같은 함수)
+_AMOUNT_RE = re.compile(rf"({_NUM})\s*조(?:\s*(\d[\d,]*)\s*(천|백)?\s*억)?|(\d[\d,]*)\s*(천|백)?\s*억")
 _PCT_RE = re.compile(rf"({_NUM})\s*(%p|%)")
-_LABEL_AMT_RE = re.compile(rf"[+−-]?({_NUM})\s*조")
 _LABEL_PCT_RE = re.compile(rf"[+−-]?({_NUM})\s*(%p|%)")
+
+
+def amounts(text: str, units: "dict[str, float] | None" = None) -> list[tuple[float, str]]:
+    """조 단위 금액 덩이 → [(값(조), 원문 조각)] — 말(spoken_numbers)과 화면 라벨(label_numbers)이 같은 함수를 쓴다."""
+    u = units or (QA.spoken_number.amount_units if QA.spoken_number else {"조": 1.0, "억": 0.0001})
+    mul = {None: 1, "": 1, "천": 1000, "백": 100}
+    out = []
+    for m in _AMOUNT_RE.finditer(text):
+        if m.group(1) is not None:
+            v = float(m.group(1).replace(",", "")) * u["조"]
+            if m.group(2):
+                v += int(m.group(2).replace(",", "")) * mul[m.group(3)] * u["억"]
+        else:
+            v = int(m.group(4).replace(",", "")) * mul[m.group(5)] * u["억"]
+        out.append((round(v, 4), m.group(0).strip()))
+    return out
 
 
 def spoken_numbers(text: str) -> list[tuple[str, float, str]]:
     """문장이 말한 금액·비율 → [(종류 amount|pct|pp, 값, 원문 조각)]. 금액은 조 단위(rules qa_checks.spoken_number.amount_units).
     연도("2027년")·날짜·서수·개수는 단위가 달라 잡히지 않는다."""
     units = QA.spoken_number.amount_units if QA.spoken_number else {"조": 1.0, "억": 0.0001}
-    out: list[tuple[str, float, str]] = []
-    for m in _AMOUNT_RE.finditer(text):
-        if m.group(1) is not None:
-            v = float(m.group(1).replace(",", "")) * units["조"]
-            if m.group(2):
-                v += int(m.group(2)) * 1000 * units["억"]
-            if m.group(3):
-                v += int(m.group(3)) * 100 * units["억"]
-        else:
-            v = float(m.group(4).replace(",", "")) * units["억"]
-        out.append(("amount", round(v, 4), m.group(0).strip()))
+    out: list[tuple[str, float, str]] = [("amount", v, frag) for v, frag in amounts(text, units)]
     for m in _PCT_RE.finditer(text):
         out.append(("pp" if m.group(2) == "%p" else "pct", float(m.group(1).replace(",", "")), m.group(0)))
     return out
@@ -2500,7 +2507,7 @@ def label_numbers(strings: list[str]) -> list[tuple[str, float]]:
     """화면 라벨 문자열 → [(종류, 값)] — "+27.6조"·"149.0조"·"+29.7%"·"△0.1%" 등."""
     out: list[tuple[str, float]] = []
     for s in strings:
-        out += [("amount", float(m.group(1).replace(",", ""))) for m in _LABEL_AMT_RE.finditer(s)]
+        out += [("amount", v) for v, _ in amounts(s)]
         out += [("pp" if m.group(2) == "%p" else "pct", float(m.group(1).replace(",", ""))) for m in _LABEL_PCT_RE.finditer(s)]
     return out
 
