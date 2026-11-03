@@ -37,7 +37,7 @@ shots:
   - {at: {sid: deployment_13, edge: end, 'off': 1.7}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, stage: terrain3d, reason: 카드가 걷힌 뒤 가운데 진형으로}
   - {at: {sid: encirclement_0}, mode: move, dur: 3.0, camera: {lon: 16.111, lat: 41.335, w: 0.075}, stage: terrain3d, reason: "강가 기병 충돌 — 진형을 가운데 둔 채 당겨 보기(옆으로 비키지 않음, UF-255)"}
   - {at: {sid: encirclement_5}, mode: move, dur: 3.0, camera: {lon: 16.111, lat: 41.335, w: 0.08}, stage: terrain3d, reason: 중앙 보병}
-  - {at: {sid: encirclement_6}, mode: drift, dur: 4.0, camera: {lon: 16.111, lat: 41.335, w: 0.08}, stage: terrain3d, reason: 양익 포위 — 진형 중심을 축으로 천천히 기울어 궤도}
+  - {at: {sid: encirclement_6}, mode: drift, dur: 4.0, camera: {lon: 16.111, lat: 41.335, w: 0.095}, stage: terrain3d, reason: "양익 포위 — 진형 중심을 축으로 천천히 기울어 궤도, 기울면서 조금 물러난다(되돌릴 때 진형 상자가 자막 자리에 닿지 않게)"}
   - {at: {sid: encirclement_9}, mode: move, dur: 3.0, camera: {lon: 16.111, lat: 41.335, w: 0.105}, stage: terrain3d, reason: "궤도 되돌리기(기울어 커진 진형 상자가 자막 자리에 닿지 않게 w 0.105) — 칸나이 마을 자리는 진형을 가운데 둔 채 담기지 않아 뺀다(D-0625 §3-2)"}
   - {at: {sid: encirclement_11}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, reason: "트럼불 카드 — 2D 지형 위 카드(전면 컷어웨이, D-0625 (나))"}
   - {at: {sid: encirclement_12}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, stage: terrain3d, reason: 카드가 걷힌 뒤 가운데 진형으로 — 나올 때까지}
