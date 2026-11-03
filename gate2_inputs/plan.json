@@ -1,0 +1,2543 @@
+{
+ "sentences": [
+  {
+   "sid": "cold_0",
+   "scene": "cold",
+   "date": "2026.09.03",
+   "text": "정부가 9월 3일 국회에 낸 2027년도 예산안의 총지출은 820조 9천억 원입니다.",
+   "tts": "정부가 구월 삼일 국회에 낸 이천이십칠년도 예산안의 총지출은 팔백이십조 구천억 원입니다.",
+   "segments": [
+    [
+     "정부가 9월 3일 국회에 낸 2027년도 예산안의 총지출은 ",
+     0
+    ],
+    [
+     "820조 9천억 원",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/cold_0_570adf0ca5.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/cold_0_570adf0ca5.npy",
+   "dur": 6.265918367346939,
+   "t0": 1.2,
+   "t1": 7.465918367346939,
+   "trim_offset": 0.388073,
+   "chunks": [
+    "정부가 구월 삼일 국회에 낸 이천이십칠년도 예산안의 총지출은 팔백이십조 구천억 원입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7901,
+    "elapsed_ms": 14589,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.235,
+      6.97
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 79.44,
+     "f0_end_hz": 67.83,
+     "octave_fixed_n": 26
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "cold_1",
+   "scene": "cold",
+   "date": "2026.09.03",
+   "text": "올해 본예산보다 12.8% 많은 규모입니다.",
+   "tts": "올해 본예산보다 십이 점 팔 퍼센트 많은 규모입니다.",
+   "segments": [
+    [
+     "올해 본예산보다 ",
+     0
+    ],
+    [
+     "12.8%",
+     1
+    ],
+    [
+     " 많은 규모입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/cold_1_fc37729f1a.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/cold_1_fc37729f1a.npy",
+   "dur": 3.133786848072562,
+   "t0": 8.36591836734694,
+   "t1": 11.499705215419501,
+   "trim_offset": 0.501542,
+   "chunks": [
+    "올해 본예산보다 십이 점 팔 퍼센트 많은 규모입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.6244,
+    "elapsed_ms": 473,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.19,
+      3.955
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.82,
+     "f0_end_hz": 70.33,
+     "octave_fixed_n": 13
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "cold_2",
+   "scene": "cold",
+   "date": "2026.09.03",
+   "text": "이 숫자는 아직 정부안이고, 국회는 12월 2일까지 예산안을 의결해야 합니다.",
+   "tts": "이 숫자는 아직 정부안이고, 국회는 십이월 이일까지 예산안을 의결해야 합니다.",
+   "segments": [
+    [
+     "이 숫자는 아직 ",
+     0
+    ],
+    [
+     "정부안",
+     1
+    ],
+    [
+     "이고, 국회는 12월 2일까지 예산안을 의결해야 합니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/cold_2_66ac22bf8c.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/cold_2_66ac22bf8c.npy",
+   "dur": 4.98485260770975,
+   "t0": 12.399705215419502,
+   "t1": 17.384557823129253,
+   "trim_offset": 0.542948,
+   "chunks": [
+    "이 숫자는 아직 정부안이고, 국회는 십이월 이일까지 예산안을 의결해야 합니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8873,
+    "elapsed_ms": 703,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.045,
+      5.72
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 83.78,
+     "f0_end_hz": 67.77,
+     "octave_fixed_n": 38
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_0",
+   "scene": "act1",
+   "date": "2026.09.03",
+   "text": "총지출은 예산과 기금에서 중복 거래와 국채 같은 보전거래를 뺀, 정부가 실제로 쓰는 돈입니다.",
+   "tts": "총지출은 예산과 기금에서 중복 거래와 국채 같은 보전거래를 뺀, 정부가 실제로 쓰는 돈입니다.",
+   "segments": [
+    [
+     "총지출",
+     1
+    ],
+    [
+     "은 예산과 기금에서 중복 거래와 국채 같은 보전거래를 뺀, 정부가 실제로 쓰는 돈입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act1_0_65949a07d3.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act1_0_65949a07d3.npy",
+   "dur": 6.579637188208617,
+   "t0": 24.48455782312925,
+   "t1": 31.064195011337866,
+   "trim_offset": 0.541202,
+   "chunks": [
+    "총지출은 예산과 기금에서 중복 거래와 국채 같은 보전거래를 뺀, 정부가 실제로 쓰는 돈입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9334,
+    "elapsed_ms": 943,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.66,
+      7.365
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.09,
+     "f0_end_hz": 71.62,
+     "octave_fixed_n": 23
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act1_1",
+   "scene": "act1",
+   "date": "2026.09.03",
+   "text": "정부는 이 돈을 열두 개 분야로 나눠 배분합니다.",
+   "tts": "정부는 이 돈을 열두 개 분야로 나눠 배분합니다.",
+   "segments": [
+    [
+     "정부는 이 돈을 열두 개 분야로 나눠 배분합니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act1_1_4d2b3873a6.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act1_1_4d2b3873a6.npy",
+   "dur": 2.5802947845804987,
+   "t0": 31.964195011337864,
+   "t1": 34.544489795918366,
+   "trim_offset": 0.617166,
+   "chunks": [
+    "정부는 이 돈을 열두 개 분야로 나눠 배분합니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.89,
+    "elapsed_ms": 434,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.74,
+      3.535
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.87,
+     "f0_end_hz": 70.06,
+     "octave_fixed_n": 52
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act1_2",
+   "scene": "act1",
+   "date": "2026.09.03",
+   "text": "가장 큰 분야는 보건·복지·고용으로, 289조 원입니다.",
+   "tts": "가장 큰 분야는 보건 복지 고용으로, 이백팔십구조 원입니다.",
+   "segments": [
+    [
+     "가장 큰 분야는 ",
+     0
+    ],
+    [
+     "보건·복지·고용",
+     1
+    ],
+    [
+     "으로, 289조 원입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act1_2_0626d17091.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act1_2_0626d17091.npy",
+   "dur": 3.7577097505668933,
+   "t0": 35.444489795918365,
+   "t1": 39.20219954648526,
+   "trim_offset": 0.50898,
+   "chunks": [
+    "가장 큰 분야는 보건 복지 고용으로, 이백팔십구조 원입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8726,
+    "elapsed_ms": 645,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.83,
+      4.395
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 161.23,
+     "f0_end_hz": 69.39,
+     "octave_fixed_n": 23
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_3",
+   "scene": "act1",
+   "date": "2026.09.03",
+   "text": "그 뒤를 일반·지방행정 149조 원, 교육 110조 7천억 원이 잇습니다.",
+   "tts": "그 뒤를 일반 지방행정 백사십구조 원, 교육 백십조 칠천억 원이 잇습니다.",
+   "segments": [
+    [
+     "그 뒤를 일반·지방행정 149조 원, 교육 110조 7천억 원이 잇습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act1_3_90bfbc22c9.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act1_3_90bfbc22c9.npy",
+   "dur": 4.768843537414966,
+   "t0": 40.10219954648526,
+   "t1": 44.871043083900226,
+   "trim_offset": 0.437279,
+   "chunks": [
+    "그 뒤를 일반 지방행정 백사십구조 원, 교육 백십조 칠천억 원이 잇습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9176,
+    "elapsed_ms": 633,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.67,
+      5.385
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 101.13,
+     "f0_end_hz": 89.28,
+     "octave_fixed_n": 11
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_4",
+   "scene": "act1",
+   "date": "2026.09.03",
+   "text": "네 번째는 국방으로, 73조 3천억 원입니다.",
+   "tts": "네 번째는 국방으로, 칠십삼조 삼천억 원입니다.",
+   "segments": [
+    [
+     "네 번째는 국방으로, 73조 3천억 원입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act1_4_d1e11505ce.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act1_4_d1e11505ce.npy",
+   "dur": 3.2262585034013607,
+   "t0": 45.771043083900224,
+   "t1": 48.997301587301585,
+   "trim_offset": 0.564422,
+   "chunks": [
+    "네 번째는 국방으로, 칠십삼조 삼천억 원입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7222,
+    "elapsed_ms": 532,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.365,
+      3.99
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 84.23,
+     "f0_end_hz": 67.07,
+     "octave_fixed_n": 18
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_5",
+   "scene": "act1",
+   "date": "2026.09.03",
+   "text": "올해부터 군인연금기금이 복지 분야에서 국방 분야로 옮겨 가, 두 분야의 숫자는 예년 보도와 기준이 다릅니다.",
+   "tts": "올해부터 군인연금기금이 복지 분야에서 국방 분야로 옮겨 가, 두 분야의 숫자는 예년 보도와 기준이 다릅니다.",
+   "segments": [
+    [
+     "올해부터 군인연금기금이 복지 분야에서 국방 분야로 옮겨 가, 두 분야의 숫자는 예년 보도와 기준이 다릅니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act1_5_ca678d01a1.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act1_5_ca678d01a1.npy",
+   "dur": 7.367460317460317,
+   "t0": 49.897301587301584,
+   "t1": 57.2647619047619,
+   "trim_offset": 0.485714,
+   "chunks": [
+    "올해부터 군인연금기금이 복지 분야에서 국방 분야로 옮겨 가, 두 분야의 숫자는 예년 보도와 기준이 다릅니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9406,
+    "elapsed_ms": 1070,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.33,
+      8.215
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.05,
+     "f0_end_hz": 70.13,
+     "octave_fixed_n": 1
+    }
+   },
+   "role": "background"
+  },
+  {
+   "sid": "act1_6",
+   "scene": "act1",
+   "date": "2026.09.03",
+   "text": "규모 순서와 증가 순서는 다릅니다.",
+   "tts": "규모 순서와 증가 순서는 다릅니다.",
+   "segments": [
+    [
+     "규모 순서와 증가 순서는 다릅니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act1_6_fbe63de0cf.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act1_6_fbe63de0cf.npy",
+   "dur": 1.9031519274376418,
+   "t0": 58.164761904761896,
+   "t1": 60.06791383219954,
+   "trim_offset": 0.515669,
+   "chunks": [
+    "규모 순서와 증가 순서는 다릅니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8747,
+    "elapsed_ms": 352,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      1.92,
+      2.37
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.65,
+     "f0_end_hz": 74.79,
+     "octave_fixed_n": 2
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "act2_0",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "열두 개 분야는 모두 올해 본예산보다 늘어납니다.",
+   "tts": "열두 개 분야는 모두 올해 본예산보다 늘어납니다.",
+   "segments": [
+    [
+     "열두 개 분야는 모두 올해 본예산보다 늘어납니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_0_fff0800f09.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_0_fff0800f09.npy",
+   "dur": 2.84734693877551,
+   "t0": 61.967913832199535,
+   "t1": 64.81526077097504,
+   "trim_offset": 0.555873,
+   "chunks": [
+    "열두 개 분야는 모두 올해 본예산보다 늘어납니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8207,
+    "elapsed_ms": 443,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.925,
+      3.545
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 80.94,
+     "f0_end_hz": 78.12,
+     "octave_fixed_n": 3
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act2_1",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "2018년부터 올해까지 총지출은 연평균 6.8% 늘었는데, 내년 정부안은 한 해에 12.8%를 늘립니다.",
+   "tts": "이천십팔년부터 올해까지 총지출은 연평균 육 점 팔 퍼센트 늘었는데, 내년 정부안은 한 해에 십이 점 팔 퍼센트를 늘립니다.",
+   "segments": [
+    [
+     "2018년부터 올해까지 총지출은 연평균 6.8% 늘었는데, 내년 정부안은 한 해에 12.8%를 늘립니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_1_96d6d929b7.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_1_96d6d929b7.npy",
+   "dur": 8.40047619047619,
+   "t0": 65.71526077097505,
+   "t1": 74.11573696145123,
+   "trim_offset": 0.509229,
+   "chunks": [
+    "이천십팔년부터 올해까지 총지출은 연평균 육 점 팔 퍼센트 늘었는데, 내년 정부안은 한 해에 십이 점 팔 퍼센트를 늘립니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7277,
+    "elapsed_ms": 1184,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.42,
+      9.15
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.7,
+     "f0_end_hz": 69.47,
+     "octave_fixed_n": 25
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act2_2",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "일반·지방행정은 27조 6천억 원이 늘어, 열두 개 분야 가운데 가장 많이 늘어납니다.",
+   "tts": "일반 지방행정은 이십칠조 육천억 원이 늘어, 열두 개 분야 가운데 가장 많이 늘어납니다.",
+   "segments": [
+    [
+     "일반·지방행정",
+     1
+    ],
+    [
+     "은 27조 6천억 원이 늘어, 열두 개 분야 가운데 가장 많이 늘어납니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_2_fff33489a8.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_2_fff33489a8.npy",
+   "dur": 5.672335600907029,
+   "t0": 75.01573696145124,
+   "t1": 80.68807256235827,
+   "trim_offset": 0.460454,
+   "chunks": [
+    "일반 지방행정은 이십칠조 육천억 원이 늘어, 열두 개 분야 가운데 가장 많이 늘어납니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8799,
+    "elapsed_ms": 768,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.63,
+      6.41
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.25,
+     "f0_end_hz": 70.78,
+     "octave_fixed_n": 5
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_3",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "국회예산정책처는 이 증가분의 대부분이 새 기금 사업과 지방교부세, 국채 이자에서 나와 정책 우선순위의 변화로 보기는 어렵다고 분석했습니다.",
+   "tts": "국회예산정책처는 이 증가분의 대부분이 새 기금 사업과 지방교부세, 국채 이자에서 나와 정책 우선순위의 변화로 보기는 어렵다고 분석했습니다.",
+   "segments": [
+    [
+     "국회예산정책처는 이 증가분의 대부분이 새 기금 사업과 지방교부세, 국채 이자에서 나와 정책 우선순위의 변화로 보기는 어렵다고 분석했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_3_76d5c3656a.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_3_76d5c3656a.npy",
+   "dur": 9.763242630385488,
+   "t0": 81.58807256235828,
+   "t1": 91.35131519274377,
+   "trim_offset": 0.499161,
+   "chunks": [
+    "국회예산정책처는 이 증가분의 대부분이 새 기금 사업과 지방교부세, 국채 이자에서 나와 정책 우선순위의 변화로 보기는 어렵다고 분석했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9337,
+    "elapsed_ms": 1323,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      9.765,
+      10.49
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.04,
+     "f0_end_hz": 67.83,
+     "octave_fixed_n": 13
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_4",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "증가율은 산업·중소기업·에너지가 29.7%로 가장 높고, 2018년부터 올해까지의 연평균 8.7%를 크게 웃돕니다.",
+   "tts": "증가율은 산업 중소기업 에너지가 이십구 점 칠 퍼센트로 가장 높고, 이천십팔년부터 올해까지의 연평균 팔 점 칠 퍼센트를 크게 웃돕니다.",
+   "segments": [
+    [
+     "증가율은 ",
+     0
+    ],
+    [
+     "산업·중소기업·에너지",
+     1
+    ],
+    [
+     "가 29.7%로 가장 높고, 2018년부터 올해까지의 연평균 8.7%를 크게 웃돕니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_4_f93e9c7146.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_4_f93e9c7146.npy",
+   "dur": 9.549342403628119,
+   "t0": 92.25131519274377,
+   "t1": 101.80065759637189,
+   "trim_offset": 0.466281,
+   "chunks": [
+    "증가율은 산업 중소기업 에너지가 이십구 점 칠 퍼센트로 가장 높고, 이천십팔년부터 올해까지의 연평균 팔 점 칠 퍼센트를 크게 웃돕니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.721,
+    "elapsed_ms": 1229,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      9.455,
+      10.265
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 118.88,
+     "f0_end_hz": 68.04,
+     "octave_fixed_n": 25
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_5",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "이 분야 사업으로 지원을 받는 중소기업과 에너지 기업에는 지원 규모가 커질 가능성이 있습니다.",
+   "tts": "이 분야 사업으로 지원을 받는 중소기업과 에너지 기업에는 지원 규모가 커질 가능성이 있습니다.",
+   "segments": [
+    [
+     "이 분야 사업으로 지원을 받는 중소기업과 에너지 기업에는 지원 규모가 커질 가능성이 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_5_87c8c3ca86.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_5_87c8c3ca86.npy",
+   "dur": 5.759342403628118,
+   "t0": 102.7006575963719,
+   "t1": 108.46000000000001,
+   "trim_offset": 0.463946,
+   "chunks": [
+    "이 분야 사업으로 지원을 받는 중소기업과 에너지 기업에는 지원 규모가 커질 가능성이 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9718,
+    "elapsed_ms": 712,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.795,
+      6.245
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.18,
+     "f0_end_hz": 64.93,
+     "octave_fixed_n": 10
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_6",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "환경은 5.2% 늘어, 같은 기간 연평균 9.1%보다 느리게 늘어납니다.",
+   "tts": "환경은 오 점 이 퍼센트 늘어, 같은 기간 연평균 구 점 일 퍼센트보다 느리게 늘어납니다.",
+   "segments": [
+    [
+     "환경",
+     1
+    ],
+    [
+     "은 5.2% 늘어, 같은 기간 연평균 9.1%보다 느리게 늘어납니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_6_53d77f479b.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_6_53d77f479b.npy",
+   "dur": 5.617142857142857,
+   "t0": 109.36000000000001,
+   "t1": 114.97714285714287,
+   "trim_offset": 0.550703,
+   "chunks": [
+    "환경은 오 점 이 퍼센트 늘어, 같은 기간 연평균 구 점 일 퍼센트보다 느리게 늘어납니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9205,
+    "elapsed_ms": 655,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.68,
+      6.31
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 81.97,
+     "f0_end_hz": 64.73,
+     "octave_fixed_n": 37
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_7",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "외교·통일은 1.1%로, 연평균 5.1%에 크게 못 미칩니다.",
+   "tts": "외교 통일은 일 점 일 퍼센트로, 연평균 오 점 일 퍼센트에 크게 못 미칩니다.",
+   "segments": [
+    [
+     "외교·통일",
+     1
+    ],
+    [
+     "은 1.1%로, 연평균 5.1%에 크게 못 미칩니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_7_cb612184bf.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_7_cb612184bf.npy",
+   "dur": 5.016507936507937,
+   "t0": 115.87714285714287,
+   "t1": 120.8936507936508,
+   "trim_offset": 0.421814,
+   "chunks": [
+    "외교 통일은 일 점 일 퍼센트로, 연평균 오 점 일 퍼센트에 크게 못 미칩니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9349,
+    "elapsed_ms": 635,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.875,
+      5.375
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 99.09,
+     "f0_end_hz": 66.79,
+     "octave_fixed_n": 0
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_8",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "SOC는 새 기금으로 편성된 몫을 빼면 올해보다 줄어듭니다.",
+   "tts": "에스오시는 새 기금으로 편성된 몫을 빼면 올해보다 줄어듭니다.",
+   "segments": [
+    [
+     "SOC는 새 기금으로 편성된 몫을 빼면 올해보다 줄어듭니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_8_5543a723ba.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_8_5543a723ba.npy",
+   "dur": 3.8629705215419503,
+   "t0": 121.79365079365081,
+   "t1": 125.65662131519277,
+   "trim_offset": 0.540045,
+   "chunks": [
+    "에스오시는 새 기금으로 편성된 몫을 빼면 올해보다 줄어듭니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9183,
+    "elapsed_ms": 533,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.89,
+      4.605
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 104.44,
+     "f0_end_hz": 86.16,
+     "octave_fixed_n": 13
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_9",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "고속도로 건설 예산은 올해 추경 1조 239억 원에서 내년 8,189억 원으로 줄어듭니다.",
+   "tts": "고속도로 건설 예산은 올해 추경 일조 이백삼십구억 원에서 내년 팔천백팔십구억 원으로 줄어듭니다.",
+   "segments": [
+    [
+     "고속도로 건설 예산은 올해 추경 1조 239억 원에서 내년 8,189억 원으로 줄어듭니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_9_f09d3e6d4f.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_9_f09d3e6d4f.npy",
+   "dur": 6.54501133786848,
+   "t0": 126.55662131519277,
+   "t1": 133.10163265306124,
+   "trim_offset": 0.506032,
+   "chunks": [
+    "고속도로 건설 예산은 올해 추경 일조 이백삼십구억 원에서 내년 팔천백팔십구억 원으로 줄어듭니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7882,
+    "elapsed_ms": 758,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.52,
+      7.14
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.77,
+     "f0_end_hz": 67.81,
+     "octave_fixed_n": 31
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_10",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "새 고속도로와 국도, 공항을 짓는 사업은 속도가 늦어질 가능성이 있습니다.",
+   "tts": "새 고속도로와 국도, 공항을 짓는 사업은 속도가 늦어질 가능성이 있습니다.",
+   "segments": [
+    [
+     "새 고속도로와 국도, 공항을 짓는 사업은 속도가 늦어질 가능성이 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_10_aa9e4c1e20.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_10_aa9e4c1e20.npy",
+   "dur": 4.866938775510204,
+   "t0": 134.00163265306125,
+   "t1": 138.86857142857144,
+   "trim_offset": 0.511814,
+   "chunks": [
+    "새 고속도로와 국도, 공항을 짓는 사업은 속도가 늦어질 가능성이 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9564,
+    "elapsed_ms": 681,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.915,
+      5.355
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 103.08,
+     "f0_end_hz": 62.68,
+     "octave_fixed_n": 12
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_11",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "반면 자율주행 실증도시와 대중교통비 환급 같은 사업에는 돈이 더 들어갑니다.",
+   "tts": "반면 자율주행 실증도시와 대중교통비 환급 같은 사업에는 돈이 더 들어갑니다.",
+   "segments": [
+    [
+     "반면 자율주행 실증도시와 대중교통비 환급 같은 사업에는 돈이 더 들어갑니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_11_7c691736ce.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_11_7c691736ce.npy",
+   "dur": 4.879251700680272,
+   "t0": 139.76857142857145,
+   "t1": 144.64782312925172,
+   "trim_offset": 0.509955,
+   "chunks": [
+    "반면 자율주행 실증도시와 대중교통비 환급 같은 사업에는 돈이 더 들어갑니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9836,
+    "elapsed_ms": 635,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.93,
+      5.515
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 83.43,
+     "f0_end_hz": 82.32,
+     "octave_fixed_n": 27
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_12",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "분야 안에서는 줄어드는 사업도 있습니다.",
+   "tts": "분야 안에서는 줄어드는 사업도 있습니다.",
+   "segments": [
+    [
+     "분야 안에서는 줄어드는 사업도 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_12_ae48c30772.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_12_ae48c30772.npy",
+   "dur": 2.0241043083900228,
+   "t0": 145.54782312925173,
+   "t1": 147.57192743764176,
+   "trim_offset": 0.545057,
+   "chunks": [
+    "분야 안에서는 줄어드는 사업도 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9424,
+    "elapsed_ms": 383,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.145,
+      2.53
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.49,
+     "f0_end_hz": 85.42,
+     "octave_fixed_n": 3
+    }
+   },
+   "role": "background"
+  },
+  {
+   "sid": "act2_13",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "주택구입·전세자금 융자는 올해 추경보다 5조 원 넘게, 절반 가까이 줄어듭니다.",
+   "tts": "주택구입 전세자금 융자는 올해 추경보다 오조 원 넘게, 절반 가까이 줄어듭니다.",
+   "segments": [
+    [
+     "주택구입·전세자금 융자는 올해 추경보다 5조 원 넘게, 절반 가까이 줄어듭니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_13_b1800cbff9.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_13_b1800cbff9.npy",
+   "dur": 5.407641723356009,
+   "t0": 148.47192743764177,
+   "t1": 153.8795691609978,
+   "trim_offset": 0.457619,
+   "chunks": [
+    "주택구입 전세자금 융자는 올해 추경보다 오조 원 넘게, 절반 가까이 줄어듭니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9279,
+    "elapsed_ms": 646,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.335,
+      5.955
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.67,
+     "f0_end_hz": 68.67,
+     "octave_fixed_n": 25
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_14",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "대신 공공임대주택을 짓는 보편형 건설임대에 4조 7천억 원 남짓이 새로 들어갑니다.",
+   "tts": "대신 공공임대주택을 짓는 보편형 건설임대에 사조 칠천억 원 남짓이 새로 들어갑니다.",
+   "segments": [
+    [
+     "대신 공공임대주택을 짓는 보편형 건설임대에 4조 7천억 원 남짓이 새로 들어갑니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_14_b77e21b24e.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_14_b77e21b24e.npy",
+   "dur": 5.686417233560091,
+   "t0": 154.7795691609978,
+   "t1": 160.4659863945579,
+   "trim_offset": 0.515805,
+   "chunks": [
+    "대신 공공임대주택을 짓는 보편형 건설임대에 사조 칠천억 원 남짓이 새로 들어갑니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9009,
+    "elapsed_ms": 796,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.76,
+      6.52
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.86,
+     "f0_end_hz": 73.18,
+     "octave_fixed_n": 2
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_15",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "정책 융자로 집을 사거나 전세를 얻으려던 가구에는 문턱이 높아질 수 있고, 공공임대를 기다리는 가구에는 공급이 늘어날 가능성이 있습니다.",
+   "tts": "정책 융자로 집을 사거나 전세를 얻으려던 가구에는 문턱이 높아질 수 있고, 공공임대를 기다리는 가구에는 공급이 늘어날 가능성이 있습니다.",
+   "segments": [
+    [
+     "정책 융자로 집을 사거나 전세를 얻으려던 가구에는 문턱이 높아질 수 있고, 공공임대를 기다리는 가구에는 공급이 늘어날 가능성이 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_15_bdf4ab49a2.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_15_bdf4ab49a2.npy",
+   "dur": 9.09249433106576,
+   "t0": 161.3659863945579,
+   "t1": 170.45848072562364,
+   "trim_offset": 0.51288,
+   "chunks": [
+    "정책 융자로 집을 사거나 전세를 얻으려던 가구에는 문턱이 높아질 수 있고, 공공임대를 기다리는 가구에는 공급이 늘어날 가능성이 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9774,
+    "elapsed_ms": 1333,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      9.06,
+      9.955
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 106.86,
+     "f0_end_hz": 69.11,
+     "octave_fixed_n": 23
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_16",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "정부는 구직급여 지급 기준에서 무급휴일을 빼는 등으로 1조 4천억 원을 아끼고, 그 돈을 저출생 대응에 쓴다고 설명했습니다.",
+   "tts": "정부는 구직급여 지급 기준에서 무급휴일을 빼는 등으로 일조 사천억 원을 아끼고, 그 돈을 저출생 대응에 쓴다고 설명했습니다.",
+   "segments": [
+    [
+     "정부는 구직급여 지급 기준에서 무급휴일을 빼는 등으로 1조 4천억 원을 아끼고, 그 돈을 저출생 대응에 쓴다고 설명했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_16_c52418f64a.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_16_c52418f64a.npy",
+   "dur": 8.503582766439909,
+   "t0": 171.35848072562365,
+   "t1": 179.86206349206356,
+   "trim_offset": 0.457619,
+   "chunks": [
+    "정부는 구직급여 지급 기준에서 무급휴일을 빼는 등으로 일조 사천억 원을 아끼고, 그 돈을 저출생 대응에 쓴다고 설명했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9441,
+    "elapsed_ms": 1065,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.54,
+      8.93
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 91.22,
+     "f0_end_hz": 73.8,
+     "octave_fixed_n": 7
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_17",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "실직한 사람이 받는 구직급여는 줄어들 수 있고, 육아휴직 같은 모성보호 지원은 늘어날 가능성이 있습니다.",
+   "tts": "실직한 사람이 받는 구직급여는 줄어들 수 있고, 육아휴직 같은 모성보호 지원은 늘어날 가능성이 있습니다.",
+   "segments": [
+    [
+     "실직한 사람이 받는 구직급여는 줄어들 수 있고, 육아휴직 같은 모성보호 지원은 늘어날 가능성이 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_17_e6a862cd25.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_17_e6a862cd25.npy",
+   "dur": 6.4741043083900225,
+   "t0": 180.76206349206356,
+   "t1": 187.2361678004536,
+   "trim_offset": 0.566168,
+   "chunks": [
+    "실직한 사람이 받는 구직급여는 줄어들 수 있고, 육아휴직 같은 모성보호 지원은 늘어날 가능성이 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9628,
+    "elapsed_ms": 783,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.56,
+      7.39
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 97.04,
+     "f0_end_hz": 70.37,
+     "octave_fixed_n": 4
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_18",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "교육에서는 지방교육재정교부금을 내국세에 연동하던 방식이 경제 성장률과 학령인구 감소를 반영하는 방식으로 바뀝니다.",
+   "tts": "교육에서는 지방교육재정교부금을 내국세에 연동하던 방식이 경제 성장률과 학령인구 감소를 반영하는 방식으로 바뀝니다.",
+   "segments": [
+    [
+     "교육에서는 지방교육재정교부금을 내국세에 연동하던 방식이 경제 성장률과 학령인구 감소를 반영하는 방식으로 바뀝니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_18_c180447215.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_18_c180447215.npy",
+   "dur": 8.354013605442177,
+   "t0": 188.1361678004536,
+   "t1": 196.49018140589578,
+   "trim_offset": 0.480816,
+   "chunks": [
+    "교육에서는 지방교육재정교부금을 내국세에 연동하던 방식이 경제 성장률과 학령인구 감소를 반영하는 방식으로 바뀝니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9475,
+    "elapsed_ms": 1025,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.33,
+      8.82
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 87.21,
+     "f0_end_hz": 61.23,
+     "octave_fixed_n": 7
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_19",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "정부 계획에서 2030년까지 유아·초중등교육 예산은 연평균 6.5%, 대학 예산은 10.7% 늘어납니다.",
+   "tts": "정부 계획에서 이천삼십년까지 유아 초중등교육 예산은 연평균 육 점 오 퍼센트, 대학 예산은 십 점 칠 퍼센트 늘어납니다.",
+   "segments": [
+    [
+     "정부 계획에서 2030년까지 유아·초중등교육 예산은 연평균 6.5%, 대학 예산은 10.7% 늘어납니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_19_815fab9c33.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_19_815fab9c33.npy",
+   "dur": 8.511065759637189,
+   "t0": 197.3901814058958,
+   "t1": 205.90124716553296,
+   "trim_offset": 0.361814,
+   "chunks": [
+    "정부 계획에서 이천삼십년까지 유아 초중등교육 예산은 연평균 육 점 오 퍼센트, 대학 예산은 십 점 칠 퍼센트 늘어납니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7901,
+    "elapsed_ms": 1154,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.405,
+      8.995
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 82.66,
+     "f0_end_hz": 63.04,
+     "octave_fixed_n": 34
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_20",
+   "scene": "act2",
+   "date": "2026.09.03",
+   "text": "이렇게 많이 늘어나는 지출의 돈이 어디서 오는지가 이번 예산안의 다음 질문입니다.",
+   "tts": "이렇게 많이 늘어나는 지출의 돈이 어디서 오는지가 이번 예산안의 다음 질문입니다.",
+   "segments": [
+    [
+     "이렇게 많이 늘어나는 지출의 돈이 어디서 오는지가 이번 예산안의 다음 질문입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act2_20_47227161f7.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act2_20_47227161f7.npy",
+   "dur": 5.082902494331066,
+   "t0": 206.80124716553297,
+   "t1": 211.88414965986402,
+   "trim_offset": 0.535624,
+   "chunks": [
+    "이렇게 많이 늘어나는 지출의 돈이 어디서 오는지가 이번 예산안의 다음 질문입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.942,
+    "elapsed_ms": 632,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.1,
+      5.845
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.91,
+     "f0_end_hz": 63.79,
+     "octave_fixed_n": 4
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "act3_0",
+   "scene": "act3",
+   "date": "2026.09.03",
+   "text": "정부안의 내년 국세수입은 584조 4천억 원입니다.",
+   "tts": "정부안의 내년 국세수입은 오백팔십사조 사천억 원입니다.",
+   "segments": [
+    [
+     "정부안의 내년 국세수입은 ",
+     0
+    ],
+    [
+     "584조 4천억 원",
+     1
+    ],
+    [
+     "입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act3_0_695ed0076e.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act3_0_695ed0076e.npy",
+   "dur": 3.492358276643991,
+   "t0": 213.78414965986403,
+   "t1": 217.276507936508,
+   "trim_offset": 0.506304,
+   "chunks": [
+    "정부안의 내년 국세수입은 오백팔십사조 사천억 원입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8249,
+    "elapsed_ms": 580,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.585,
+      4.22
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 80.27,
+     "f0_end_hz": 66.47,
+     "octave_fixed_n": 24
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act3_1",
+   "scene": "act3",
+   "date": "2026.09.03",
+   "text": "올해 본예산보다 49.8% 많고, 국회예산정책처는 반도체 호황 등을 배경으로 들었습니다.",
+   "tts": "올해 본예산보다 사십구 점 팔 퍼센트 많고, 국회예산정책처는 반도체 호황 등을 배경으로 들었습니다.",
+   "segments": [
+    [
+     "올해 본예산보다 49.8% 많고, 국회예산정책처는 반도체 호황 등을 배경으로 들었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act3_1_0cdaf35422.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act3_1_0cdaf35422.npy",
+   "dur": 6.580249433106576,
+   "t0": 218.17650793650802,
+   "t1": 224.7567573696146,
+   "trim_offset": 0.457914,
+   "chunks": [
+    "올해 본예산보다 사십구 점 팔 퍼센트 많고, 국회예산정책처는 반도체 호황 등을 배경으로 들었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7283,
+    "elapsed_ms": 794,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.595,
+      7.24
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.36,
+     "f0_end_hz": 66.35,
+     "octave_fixed_n": 11
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act3_2",
+   "scene": "act3",
+   "date": "2026.09.03",
+   "text": "정부는 이 가운데 158조 5천억 원의 추가 세수로 미래대응기금을 새로 만듭니다.",
+   "tts": "정부는 이 가운데 백오십팔조 오천억 원의 추가 세수로 미래대응기금을 새로 만듭니다.",
+   "segments": [
+    [
+     "정부는 이 가운데 158조 5천억 원의 추가 세수로 ",
+     0
+    ],
+    [
+     "미래대응기금",
+     1
+    ],
+    [
+     "을 새로 만듭니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act3_2_ccd211f5d4.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act3_2_ccd211f5d4.npy",
+   "dur": 5.445600907029479,
+   "t0": 225.6567573696146,
+   "t1": 231.10235827664408,
+   "trim_offset": 0.45195,
+   "chunks": [
+    "정부는 이 가운데 백오십팔조 오천억 원의 추가 세수로 미래대응기금을 새로 만듭니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8317,
+    "elapsed_ms": 677,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.385,
+      5.995
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.37,
+     "f0_end_hz": 94.48,
+     "octave_fixed_n": 34
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_3",
+   "scene": "act3",
+   "date": "2026.09.03",
+   "text": "이 기금은 청년, 성장동력, 지방, 교육·인재 네 분야에 45조 4천억 원을 씁니다.",
+   "tts": "이 기금은 청년, 성장동력, 지방, 교육 인재 네 분야에 사십오조 사천억 원을 씁니다.",
+   "segments": [
+    [
+     "이 기금은 청년, 성장동력, 지방, 교육·인재 네 분야에 45조 4천억 원을 씁니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act3_3_cb0757fed9.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act3_3_cb0757fed9.npy",
+   "dur": 5.682403628117914,
+   "t0": 232.0023582766441,
+   "t1": 237.684761904762,
+   "trim_offset": 0.574558,
+   "chunks": [
+    "이 기금은 청년, 성장동력, 지방, 교육 인재 네 분야에 사십오조 사천억 원을 씁니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8892,
+    "elapsed_ms": 763,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.725,
+      6.475
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 97.08,
+     "f0_end_hz": 67.91,
+     "octave_fixed_n": 41
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_4",
+   "scene": "act3",
+   "date": "2026.09.03",
+   "text": "관리재정수지는 총수입에서 총지출을 뺀 뒤, 국민연금 같은 사회보장성기금의 수지까지 덜어 낸 값입니다.",
+   "tts": "관리재정수지는 총수입에서 총지출을 뺀 뒤, 국민연금 같은 사회보장성기금의 수지까지 덜어 낸 값입니다.",
+   "segments": [
+    [
+     "관리재정수지",
+     1
+    ],
+    [
+     "는 총수입에서 총지출을 뺀 뒤, 국민연금 같은 사회보장성기금의 수지까지 덜어 낸 값입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act3_4_b56a1e253f.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act3_4_b56a1e253f.npy",
+   "dur": 7.104535147392291,
+   "t0": 238.58476190476202,
+   "t1": 245.6892970521543,
+   "trim_offset": 0.552358,
+   "chunks": [
+    "관리재정수지는 총수입에서 총지출을 뺀 뒤, 국민연금 같은 사회보장성기금의 수지까지 덜어 낸 값입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9312,
+    "elapsed_ms": 1015,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.17,
+      7.82
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.78,
+     "f0_end_hz": 68.06,
+     "octave_fixed_n": 44
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_5",
+   "scene": "act3",
+   "date": "2026.09.03",
+   "text": "정부 계획에서 이 적자는 올해 추경 107조 6천억 원에서 내년 3조 1천억 원으로 줄어듭니다.",
+   "tts": "정부 계획에서 이 적자는 올해 추경 백칠조 육천억 원에서 내년 삼조 일천억 원으로 줄어듭니다.",
+   "segments": [
+    [
+     "정부 계획에서 이 적자는 올해 추경 107조 6천억 원에서 내년 3조 1천억 원으로 줄어듭니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act3_5_376c2f40c3.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act3_5_376c2f40c3.npy",
+   "dur": 6.384489795918367,
+   "t0": 246.5892970521543,
+   "t1": 252.97378684807268,
+   "trim_offset": 0.434512,
+   "chunks": [
+    "정부 계획에서 이 적자는 올해 추경 백칠조 육천억 원에서 내년 삼조 일천억 원으로 줄어듭니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9015,
+    "elapsed_ms": 725,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.28,
+      6.765
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 79.33,
+     "f0_end_hz": 64.23,
+     "octave_fixed_n": 6
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_6",
+   "scene": "act3",
+   "date": "2026.09.03",
+   "text": "하지만 같은 계획에서 적자는 2028년부터 다시 커져, 2030년에는 국내총생산의 2.9%가 됩니다.",
+   "tts": "하지만 같은 계획에서 적자는 이천이십팔년부터 다시 커져, 이천삼십년에는 국내총생산의 이 점 구 퍼센트가 됩니다.",
+   "segments": [
+    [
+     "하지만 같은 계획에서 적자는 2028년부터 다시 커져, 2030년에는 국내총생산의 2.9%가 됩니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act3_6_0818add99e.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act3_6_0818add99e.npy",
+   "dur": 7.714353741496598,
+   "t0": 253.87378684807268,
+   "t1": 261.58814058956926,
+   "trim_offset": 0.397959,
+   "chunks": [
+    "하지만 같은 계획에서 적자는 이천이십팔년부터 다시 커져, 이천삼십년에는 국내총생산의 이 점 구 퍼센트가 됩니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8649,
+    "elapsed_ms": 988,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.58,
+      8.255
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.99,
+     "f0_end_hz": 78.25,
+     "octave_fixed_n": 30
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_7",
+   "scene": "act3",
+   "date": "2026.09.03",
+   "text": "국가채무는 중앙정부와 지방정부가 갚아야 할 빚을 현금 기준으로 합친 금액입니다.",
+   "tts": "국가채무는 중앙정부와 지방정부가 갚아야 할 빚을 현금 기준으로 합친 금액입니다.",
+   "segments": [
+    [
+     "국가채무",
+     1
+    ],
+    [
+     "는 중앙정부와 지방정부가 갚아야 할 빚을 현금 기준으로 합친 금액입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act3_7_e0233413fc.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act3_7_e0233413fc.npy",
+   "dur": 5.11952380952381,
+   "t0": 262.48814058956924,
+   "t1": 267.60766439909304,
+   "trim_offset": 0.529297,
+   "chunks": [
+    "국가채무는 중앙정부와 지방정부가 갚아야 할 빚을 현금 기준으로 합친 금액입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8947,
+    "elapsed_ms": 655,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.245,
+      5.87
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 79.61,
+     "f0_end_hz": 68.55,
+     "octave_fixed_n": 35
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_8",
+   "scene": "act3",
+   "date": "2026.09.03",
+   "text": "내년 국가채무는 1,519조 8천억 원으로, 올해 추경보다 107조 원 늘어납니다.",
+   "tts": "내년 국가채무는 천오백십구조 팔천억 원으로, 올해 추경보다 백칠조 원 늘어납니다.",
+   "segments": [
+    [
+     "내년 국가채무는 1,519조 8천억 원으로, 올해 추경보다 107조 원 늘어납니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act3_8_256046db43.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act3_8_256046db43.npy",
+   "dur": 5.6111791383219956,
+   "t0": 268.507664399093,
+   "t1": 274.118843537415,
+   "trim_offset": 0.512132,
+   "chunks": [
+    "내년 국가채무는 천오백십구조 팔천억 원으로, 올해 추경보다 백칠조 원 늘어납니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8204,
+    "elapsed_ms": 689,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.635,
+      6.345
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.87,
+     "f0_end_hz": 70.95,
+     "octave_fixed_n": 31
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_9",
+   "scene": "act3",
+   "date": "2026.09.03",
+   "text": "경제 규모가 더 크게 늘어, 국내총생산 대비 비율은 48.3%로 오히려 낮아지게 짜여 있습니다.",
+   "tts": "경제 규모가 더 크게 늘어, 국내총생산 대비 비율은 사십팔 점 삼 퍼센트로 오히려 낮아지게 짜여 있습니다.",
+   "segments": [
+    [
+     "경제 규모가 더 크게 늘어, 국내총생산 대비 비율은 48.3%로 오히려 낮아지게 짜여 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act3_9_01406c32b3.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act3_9_01406c32b3.npy",
+   "dur": 6.757891156462585,
+   "t0": 275.01884353741497,
+   "t1": 281.77673469387753,
+   "trim_offset": 0.506168,
+   "chunks": [
+    "경제 규모가 더 크게 늘어, 국내총생산 대비 비율은 사십팔 점 삼 퍼센트로 오히려 낮아지게 짜여 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8105,
+    "elapsed_ms": 927,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.8,
+      7.44
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 106.6,
+     "f0_end_hz": 70.6,
+     "octave_fixed_n": 5
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "act4_0",
+   "scene": "act4",
+   "date": "2026.10.26",
+   "text": "10월 말, 국회예산정책처는 이 예산안을 두고 세 가지 논의가 제기된다고 정리했습니다.",
+   "tts": "시월 말, 국회예산정책처는 이 예산안을 두고 세 가지 논의가 제기된다고 정리했습니다.",
+   "segments": [
+    [
+     "10월 말, 국회예산정책처는 이 예산안을 두고 세 가지 논의가 제기된다고 정리했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act4_0_103c0e9527.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act4_0_103c0e9527.npy",
+   "dur": 5.668231292517007,
+   "t0": 285.1767346938775,
+   "t1": 290.8449659863945,
+   "trim_offset": 0.412585,
+   "chunks": [
+    "시월 말, 국회예산정책처는 이 예산안을 두고 세 가지 논의가 제기된다고 정리했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9654,
+    "elapsed_ms": 659,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.615,
+      6.21
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 98.66,
+     "f0_end_hz": 65.72,
+     "octave_fixed_n": 0
+    }
+   },
+   "role": "bridge"
+  },
+  {
+   "sid": "act4_1",
+   "scene": "act4",
+   "date": "2026.10.26",
+   "text": "첫째는 세수 전망으로, 국회예산정책처는 내년 국세수입을 593조 7천억 원으로 정부안보다 9조 3천억 원 많게 봤습니다.",
+   "tts": "첫째는 세수 전망으로, 국회예산정책처는 내년 국세수입을 오백구십삼조 칠천억 원으로 정부안보다 구조 삼천억 원 많게 봤습니다.",
+   "segments": [
+    [
+     "첫째는 세수 전망으로, 국회예산정책처는 내년 국세수입을 593조 7천억 원으로 정부안보다 9조 3천억 원 많게 봤습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act4_1_3a654704a5.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act4_1_3a654704a5.npy",
+   "dur": 9.282743764172336,
+   "t0": 291.7449659863945,
+   "t1": 301.0277097505668,
+   "trim_offset": 0.417075,
+   "chunks": [
+    "첫째는 세수 전망으로, 국회예산정책처는 내년 국세수입을 오백구십삼조 칠천억 원으로 정부안보다 구조 삼천억 원 많게 봤습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.821,
+    "elapsed_ms": 1327,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      9.195,
+      9.99
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.93,
+     "f0_end_hz": 73.05,
+     "octave_fixed_n": 28
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act4_2",
+   "scene": "act4",
+   "date": "2026.10.26",
+   "text": "동시에 반도체 업황이 바뀌면 법인세를 중심으로 세수가 크게 흔들릴 수 있다고 덧붙였습니다.",
+   "tts": "동시에 반도체 업황이 바뀌면 법인세를 중심으로 세수가 크게 흔들릴 수 있다고 덧붙였습니다.",
+   "segments": [
+    [
+     "동시에 반도체 업황이 바뀌면 법인세를 중심으로 세수가 크게 흔들릴 수 있다고 덧붙였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act4_2_19a140994d.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act4_2_19a140994d.npy",
+   "dur": 5.824807256235828,
+   "t0": 301.9277097505668,
+   "t1": 307.75251700680263,
+   "trim_offset": 0.459864,
+   "chunks": [
+    "동시에 반도체 업황이 바뀌면 법인세를 중심으로 세수가 크게 흔들릴 수 있다고 덧붙였습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9215,
+    "elapsed_ms": 715,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.74,
+      6.555
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 108.23,
+     "f0_end_hz": 65.38,
+     "octave_fixed_n": 7
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_3",
+   "scene": "act4",
+   "date": "2026.10.26",
+   "text": "둘째는 새 기금의 운용 방식으로, 미래대응기금에 쌓아 두는 여유자금 104조 4천억 원은 총지출에 잡히지 않습니다.",
+   "tts": "둘째는 새 기금의 운용 방식으로, 미래대응기금에 쌓아 두는 여유자금 백사조 사천억 원은 총지출에 잡히지 않습니다.",
+   "segments": [
+    [
+     "둘째는 새 기금의 운용 방식으로, 미래대응기금에 쌓아 두는 여유자금 104조 4천억 원은 총지출에 잡히지 않습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act4_3_efc7d808c1.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act4_3_efc7d808c1.npy",
+   "dur": 7.967324263038549,
+   "t0": 308.6525170068026,
+   "t1": 316.6198412698412,
+   "trim_offset": 0.390635,
+   "chunks": [
+    "둘째는 새 기금의 운용 방식으로, 미래대응기금에 쌓아 두는 여유자금 백사조 사천억 원은 총지출에 잡히지 않습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.876,
+    "elapsed_ms": 1018,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.83,
+      8.48
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 112.5,
+     "f0_end_hz": 77.7,
+     "octave_fixed_n": 38
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_4",
+   "scene": "act4",
+   "date": "2026.10.26",
+   "text": "국회예산정책처는 이 돈이 2028년 이후 사업비로 쓰이면 지출이 늘어나는 구조라고 분석했습니다.",
+   "tts": "국회예산정책처는 이 돈이 이천이십팔년 이후 사업비로 쓰이면 지출이 늘어나는 구조라고 분석했습니다.",
+   "segments": [
+    [
+     "국회예산정책처는 이 돈이 2028년 이후 사업비로 쓰이면 지출이 늘어나는 구조라고 분석했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act4_4_ce3c43242b.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act4_4_ce3c43242b.npy",
+   "dur": 6.2785260770975055,
+   "t0": 317.51984126984115,
+   "t1": 323.7983673469387,
+   "trim_offset": 0.486553,
+   "chunks": [
+    "국회예산정책처는 이 돈이 이천이십팔년 이후 사업비로 쓰이면 지출이 늘어나는 구조라고 분석했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8948,
+    "elapsed_ms": 808,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.32,
+      6.99
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 94.56,
+     "f0_end_hz": 68.94,
+     "octave_fixed_n": 38
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_5",
+   "scene": "act4",
+   "date": "2026.10.30",
+   "text": "셋째는 국회 통제 장치이고, 10월 30일 예결위 공청회에서 여야가 맞섰습니다.",
+   "tts": "셋째는 국회 통제 장치이고, 시월 삼십일 예결위 공청회에서 여야가 맞섰습니다.",
+   "segments": [
+    [
+     "셋째는 국회 통제 장치이고, 10월 30일 예결위 공청회에서 여야가 맞섰습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act4_5_d1c7e4360c.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act4_5_d1c7e4360c.npy",
+   "dur": 5.10108843537415,
+   "t0": 326.19836734693865,
+   "t1": 331.2994557823128,
+   "trim_offset": 0.568254,
+   "chunks": [
+    "셋째는 국회 통제 장치이고, 시월 삼십일 예결위 공청회에서 여야가 맞섰습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7731,
+    "elapsed_ms": 607,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.15,
+      5.73
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.63,
+     "f0_end_hz": 67.63,
+     "octave_fixed_n": 1
+    }
+   },
+   "role": "bridge"
+  },
+  {
+   "sid": "act4_6",
+   "scene": "act4",
+   "date": "2026.10.30",
+   "text": "국민의힘은 미래대응기금이 국회 통제를 우회하는 출구가 될 수 있다고 주장했습니다.",
+   "tts": "국민의힘은 미래대응기금이 국회 통제를 우회하는 출구가 될 수 있다고 주장했습니다.",
+   "segments": [
+    [
+     "국민의힘은 미래대응기금이 국회 통제를 우회하는 출구가 될 수 있다고 주장했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act4_6_3fc4e245a9.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act4_6_3fc4e245a9.npy",
+   "dur": 5.017709750566893,
+   "t0": 332.1994557823128,
+   "t1": 337.2171655328797,
+   "trim_offset": 0.428821,
+   "chunks": [
+    "국민의힘은 미래대응기금이 국회 통제를 우회하는 출구가 될 수 있다고 주장했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9289,
+    "elapsed_ms": 630,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.965,
+      5.56
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.16,
+     "f0_end_hz": 66.89,
+     "octave_fixed_n": 30
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_7",
+   "scene": "act4",
+   "date": "2026.10.30",
+   "text": "같은 당 배준영 의원은 여유자금을 쌓아 두면서 국채는 더 발행한다고 말했습니다.",
+   "tts": "같은 당 배준영 의원은 여유자금을 쌓아 두면서 국채는 더 발행한다고 말했습니다.",
+   "segments": [
+    [
+     "같은 당 배준영 의원은 여유자금을 쌓아 두면서 국채는 더 발행한다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act4_7_d7b72b6ab6.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act4_7_d7b72b6ab6.npy",
+   "dur": 5.264716553287982,
+   "t0": 338.11716553287965,
+   "t1": 343.38188208616765,
+   "trim_offset": 0.439524,
+   "chunks": [
+    "같은 당 배준영 의원은 여유자금을 쌓아 두면서 국채는 더 발행한다고 말했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9344,
+    "elapsed_ms": 630,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.19,
+      6.055
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 98.64,
+     "f0_end_hz": 70.76,
+     "octave_fixed_n": 23
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_8",
+   "scene": "act4",
+   "date": "2026.10.30",
+   "text": "이에 대해 더불어민주당은 공청회에서 미래 성장동력을 확보하기 위한 적극적인 재정 투자라고 강조했습니다.",
+   "tts": "이에 대해 더불어민주당은 공청회에서 미래 성장동력을 확보하기 위한 적극적인 재정 투자라고 강조했습니다.",
+   "segments": [
+    [
+     "이에 대해 더불어민주당은 공청회에서 미래 성장동력을 확보하기 위한 적극적인 재정 투자라고 강조했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act4_8_f4a0c0615e.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act4_8_f4a0c0615e.npy",
+   "dur": 6.761519274376417,
+   "t0": 344.2818820861676,
+   "t1": 351.04340136054407,
+   "trim_offset": 0.600816,
+   "chunks": [
+    "이에 대해 더불어민주당은 공청회에서 미래 성장동력을 확보하기 위한 적극적인 재정 투자라고 강조했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9061,
+    "elapsed_ms": 913,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.86,
+      7.67
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 109.14,
+     "f0_end_hz": 66.89,
+     "octave_fixed_n": 10
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_9",
+   "scene": "act4",
+   "date": "2026.09.04",
+   "text": "같은 당 안도걸 의원은 앞서 9월, 이 기금이 법률에 따른 사용 제한과 국회 심의를 받는 안전판이라고 반박했습니다.",
+   "tts": "같은 당 안도걸 의원은 앞서 구월, 이 기금이 법률에 따른 사용 제한과 국회 심의를 받는 안전판이라고 반박했습니다.",
+   "segments": [
+    [
+     "같은 당 안도걸 의원은 앞서 9월, 이 기금이 법률에 따른 사용 제한과 국회 심의를 받는 안전판이라고 반박했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act4_9_cac38719ce.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act4_9_cac38719ce.npy",
+   "dur": 7.7798866213151925,
+   "t0": 351.94340136054404,
+   "t1": 359.72328798185924,
+   "trim_offset": 0.459637,
+   "chunks": [
+    "같은 당 안도걸 의원은 앞서 구월, 이 기금이 법률에 따른 사용 제한과 국회 심의를 받는 안전판이라고 반박했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9145,
+    "elapsed_ms": 995,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.77,
+      8.425
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.5,
+     "f0_end_hz": 109.69,
+     "octave_fixed_n": 32
+    }
+   },
+   "role": "background"
+  },
+  {
+   "sid": "act4_10",
+   "scene": "act4",
+   "date": "2026.10.30",
+   "text": "세 쟁점은 국회 예산 심사에서 다뤄집니다.",
+   "tts": "세 쟁점은 국회 예산 심사에서 다뤄집니다.",
+   "segments": [
+    [
+     "세 쟁점은 국회 예산 심사에서 다뤄집니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act4_10_cc74ee474a.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act4_10_cc74ee474a.npy",
+   "dur": 2.566893424036281,
+   "t0": 360.6232879818592,
+   "t1": 363.1901814058955,
+   "trim_offset": 0.419909,
+   "chunks": [
+    "세 쟁점은 국회 예산 심사에서 다뤄집니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9089,
+    "elapsed_ms": 388,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.49,
+      3.185
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 84.54,
+     "f0_end_hz": 66.47,
+     "octave_fixed_n": 0
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "act5_0",
+   "scene": "act5",
+   "date": "2026.11.03",
+   "text": "남은 시간은 한 달입니다.",
+   "tts": "남은 시간은 한 달입니다.",
+   "segments": [
+    [
+     "남은 시간은 한 달입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act5_0_8858faa344.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act5_0_8858faa344.npy",
+   "dur": 1.3073696145124716,
+   "t0": 366.59018140589546,
+   "t1": 367.89755102040795,
+   "trim_offset": 0.498005,
+   "chunks": [
+    "남은 시간은 한 달입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9678,
+    "elapsed_ms": 327,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      1.36,
+      1.99
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.43,
+     "f0_end_hz": 72.5,
+     "octave_fixed_n": 0
+    }
+   },
+   "role": "bridge"
+  },
+  {
+   "sid": "act5_1",
+   "scene": "act5",
+   "date": "2026.11.03",
+   "text": "헌법은 회계연도 시작 30일 전까지 예산안을 의결하도록 정하고 있어, 올해 시한은 12월 2일입니다.",
+   "tts": "헌법은 회계연도 시작 삼십일 전까지 예산안을 의결하도록 정하고 있어, 올해 시한은 십이월 이일입니다.",
+   "segments": [
+    [
+     "헌법은 회계연도 시작 30일 전까지 예산안을 의결하도록 정하고 있어, 올해 시한은 12월 2일입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act5_1_baf8ff0266.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act5_1_baf8ff0266.npy",
+   "dur": 6.698253968253968,
+   "t0": 368.7975510204079,
+   "t1": 375.4958049886619,
+   "trim_offset": 0.33381,
+   "chunks": [
+    "헌법은 회계연도 시작 삼십일 전까지 예산안을 의결하도록 정하고 있어, 올해 시한은 십이월 이일입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8156,
+    "elapsed_ms": 749,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.515,
+      6.99
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 90.33,
+     "f0_end_hz": 79.46,
+     "octave_fixed_n": 6
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act5_2",
+   "scene": "act5",
+   "date": "2026.11.03",
+   "text": "그때까지 820조 9천억 원이라는 숫자와 분야별 배분은 국회 심사에서 바뀔 수 있습니다.",
+   "tts": "그때까지 팔백이십조 구천억 원이라는 숫자와 분야별 배분은 국회 심사에서 바뀔 수 있습니다.",
+   "segments": [
+    [
+     "그때까지 820조 9천억 원이라는 숫자와 분야별 배분은 국회 심사에서 바뀔 수 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/act5_2_ccda82ee44.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/act5_2_ccda82ee44.npy",
+   "dur": 6.027936507936508,
+   "t0": 376.3958049886619,
+   "t1": 382.4237414965984,
+   "trim_offset": 0.401633,
+   "chunks": [
+    "그때까지 팔백이십조 구천억 원이라는 숫자와 분야별 배분은 국회 심사에서 바뀔 수 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8672,
+    "elapsed_ms": 696,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.93,
+      6.59
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 83.01,
+     "f0_end_hz": 89.13,
+     "octave_fixed_n": 31
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "ending_0",
+   "scene": "ending",
+   "date": "2026.11.03",
+   "text": "2027년 예산안은 늘어난 세수를 어디에 얼마나 쓰고 얼마나 쌓아 둘지를 두고, 지금 국회의 손에 있습니다.",
+   "tts": "이천이십칠년 예산안은 늘어난 세수를 어디에 얼마나 쓰고 얼마나 쌓아 둘지를 두고, 지금 국회의 손에 있습니다.",
+   "segments": [
+    [
+     "2027년 예산안은 늘어난 세수를 어디에 얼마나 쓰고 얼마나 쌓아 둘지를 두고, 지금 국회의 손에 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/budget_2027/tts/ending_0_08c8f5d444.mp3",
+   "npy": "/home/user/osint_generator/projects/budget_2027/tts/ending_0_08c8f5d444.npy",
+   "dur": 7.153537414965986,
+   "t0": 384.32374149659836,
+   "t1": 391.4772789115643,
+   "trim_offset": 0.598866,
+   "chunks": [
+    "이천이십칠년 예산안은 늘어난 세수를 어디에 얼마나 쓰고 얼마나 쌓아 둘지를 두고, 지금 국회의 손에 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8741,
+    "elapsed_ms": 952,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.26,
+      8.025
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 96.73,
+     "f0_end_hz": 72.31,
+     "octave_fixed_n": 29
+    }
+   },
+   "role": null
+  }
+ ],
+ "cards": [
+  {
+   "kind": "title",
+   "t0": 18.48455782312925,
+   "t1": 24.084557823129252
+  },
+  {
+   "kind": "end",
+   "t0": 393.5772789115643,
+   "t1": 404.5772789115643
+  }
+ ],
+ "scene_start": {
+  "cold": 1.2,
+  "act1": 24.48455782312925,
+  "act2": 61.967913832199535,
+  "act3": 213.78414965986403,
+  "act4": 283.6767346938775,
+  "act5": 365.09018140589546,
+  "ending": 384.32374149659836
+ },
+ "total": 405.0772789115643,
+ "voice": "supertonic-3 M3 ×0.95",
+ "title": "2027년 예산안, 820조 원은 어디로 가나",
+ "subtitle": "정부안의 분야별 증감과 재원, 그리고 국회의 쟁점",
+ "date": "2026.11.03",
+ "tts_resynthesized": [],
+ "lint_waived": null,
+ "transitions": [
+  {
+   "sid": "act4_0",
+   "pause_t0": 283.676735,
+   "pause_sec": 1.5,
+   "kind": [
+    "date_jump"
+   ]
+  },
+  {
+   "sid": "act4_5",
+   "pause_t0": 324.698367,
+   "pause_sec": 1.5,
+   "kind": []
+  },
+  {
+   "sid": "act5_0",
+   "pause_t0": 365.090181,
+   "pause_sec": 1.5,
+   "kind": []
+  }
+ ],
+ "holds": []
+}
