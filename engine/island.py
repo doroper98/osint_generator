@@ -61,7 +61,7 @@ Occluder = tuple[Box, float, float]   # (x, y, 폭, 높이), 모서리 반경, �
 
 
 def draw_frame(ctx: cairo.Context, box: Box, a: float, style: Optional[FrameStyle] = None,
-               occluders: tuple[Occluder, ...] = ()) -> None:
+               occluders: tuple[Occluder, ...] = (), boxed: bool = False) -> None:
     """아일랜드 공통 상자 — 그림자·반투명 바탕·테두리.
 
     style·occluders 는 cascade V2 전용(v5.14.0 D-0153 §4). occluders 가 있으면 상자(그림자 포함)를 그룹에 그린 뒤 가리는 상자마다
@@ -79,7 +79,7 @@ def draw_frame(ctx: cairo.Context, box: Box, a: float, style: Optional[FrameStyl
         ctx.paint()
         return
     x, y, w, h = box
-    if style is None and stage_surface():   # v7.4.0 D-0328 §3 — 차트 = 무대: 테두리·바탕·그림자 없음(바탕 위에 바로)
+    if style is None and stage_surface() and not boxed:   # v7.4.0 D-0328 §3 — 차트 = 무대: 테두리·바탕·그림자 없음(바탕 위에 바로)
         return
     r = ISLAND.radius if style is None else style.radius
     for d_, al in ISLAND.shadow:
@@ -96,6 +96,12 @@ def draw_frame(ctx: cairo.Context, box: Box, a: float, style: Optional[FrameStyl
         ctx.set_source_rgba(*style.edge_rgb, style.edge_alpha * a)
         ctx.set_line_width(style.edge_w)
     ctx.stroke()
+
+
+def on_backdrop(R: RenderCtx) -> bool:  # noqa: N803
+    """사진 배경(backdrop 주 무대) 위 데이터 무대인가 — 감독 D619: 그때는 무대 표면 팔레트여도 표준 아일랜드 상자(바탕 fill_alpha) 안에 그린다
+    (사용자 결정 D106·D108 의 아일랜드 정본, UF-304 시인성). 무대 표면(D-0328)은 시간축·지도 주 무대 바탕 위에서만."""
+    return getattr(R.stage, "name", "") == "backdrop"
 
 
 def chart_view(chart: dict, t: float, box: Box) -> View:
@@ -115,10 +121,11 @@ def draw_island(ctx: cairo.Context, R: RenderCtx, view: Optional[View], t: float
     x, y, w, h = island_box(e)
     x += island_slide(t, e)
     chart = R.cache["island_chart"]
+    boxed = on_backdrop(R)
     ctx.save()
     ctx.push_group()
-    draw_frame(ctx, (x, y, w, h), 1.0)
-    rrect(ctx, x, y, w, h, 0.0 if stage_surface() else ISLAND.radius)
+    draw_frame(ctx, (x, y, w, h), 1.0, boxed=boxed)
+    rrect(ctx, x, y, w, h, 0.0 if stage_surface() and not boxed else ISLAND.radius)
     ctx.clip()
     ctx.translate(x, y)
     v = chart_view(chart, t, (x, y, w, h))
@@ -151,10 +158,11 @@ def draw_structure_island(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a
     x, y, w, h = island_box(e)
     x += island_slide(t, e)
     ss = R.cache["island_structure"]
+    boxed = on_backdrop(R)
     ctx.save()
     ctx.push_group()
-    draw_frame(ctx, (x, y, w, h), 1.0)
-    rrect(ctx, x, y, w, h, 0.0 if stage_surface() else ISLAND.radius)
+    draw_frame(ctx, (x, y, w, h), 1.0, boxed=boxed)
+    rrect(ctx, x, y, w, h, 0.0 if stage_surface() and not boxed else ISLAND.radius)
     ctx.clip()
     ctx.translate(x, y)
     cams = ss["cams"]

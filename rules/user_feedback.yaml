@@ -2663,6 +2663,12 @@ entries:
     ref: qa_checks.spoken_number
   - kind: rule
     ref: stage_structure.focus_value_size
+  - kind: check
+    ref: data_stage_bare_on_backdrop
+  - kind: test
+    ref: tests/test_data_stage_on_backdrop.py::DataStageOnBackdropTest::test_r0618_state_fails
+  - kind: check
+    ref: structure_text_offscreen
   - kind: test
     ref: tests/test_spoken_number_visible.py::SpokenNumberVisibleTest::test_r0608_state_fails
   - kind: test
