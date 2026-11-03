@@ -433,6 +433,8 @@ def approve_gate(
     g = _require_gate(manifest, gate)
     nxt = next_state(g)
     assert nxt is not None
+    if (shown or {}).get("lint_crash"):   # v7.4.0 감독 D621 ④(PIPELINE-AP-027) — 린트가 결과 없이 죽었으면 개수 대신 기록 거부(우회 플래그 없음)
+        raise ValueError(f"린트 실행 실패 — 승인 기록 거부: {shown['lint_crash']} (환경을 고치고 gate-view 로 린트 결과를 다시 본다)")
     if g == ProjectState.SCRIPT_APPROVAL:   # v5.6.0 — 승인한 원고의 지문(콘티 판이 이 원고로 만들어졌는지 게이트 ② 에서 대조)
         pdir = project_dir(manifest.project_id, cfg)
         shown = {**(shown or {}), "script_sha1": script_sha1(pdir),

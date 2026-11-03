@@ -74,8 +74,14 @@ def script_gate_view(pdir: Path, runner: Callable = subprocess.run) -> tuple[str
     if bl:
         lines += ["", *bl]
     lint = engine_service.run_stage(pdir, "direction_validate", runner=runner)
-    lines += ["", f"린트 — 오류 {len(lint.errors)} · 경고 {len(lint.warnings)}"]
-    lines += [f"  오류 {e}" for e in lint.errors] + [f"  경고 {w}" for w in lint.warnings[:20]]
+    crashed = engine_service.is_crash(lint)   # v7.4.0 감독 D621 ④(PIPELINE-AP-027) — 실행 실패를 '오류 N건'으로 세지 않는다
+    if crashed:
+        lines += ["", "린트 — 실행 실패(StageResult 없음, 결과 확인 불가) — 이 화면으로는 승인 기록이 거부된다"]
+        lines += [f"  {e}" for e in lint.errors]
+    else:
+        lines += ["", f"린트 — 오류 {len(lint.errors)} · 경고 {len(lint.warnings)}"]
+        lines += [f"  오류 {e}" for e in lint.errors]
+    lines += [f"  경고 {w}" for w in lint.warnings[:20]]
     if len(lint.warnings) > 20:
         lines.append(f"  … 경고 {len(lint.warnings) - 20}건 더")
     lines += ["", *waiver_table(pdir)]
@@ -99,8 +105,10 @@ def script_gate_view(pdir: Path, runner: Callable = subprocess.run) -> tuple[str
     except MediaTableError as e:
         lines += ["", f"미디어 계획 표 — 오류: {e}"]
         media_errs = "1"
-    shown = {"script": str(pdir / "script.yaml"), "lint_errors": str(len(lint.errors)),
+    shown = {"script": str(pdir / "script.yaml"), "lint_errors": "확인 불가(린트 실행 실패)" if crashed else str(len(lint.errors)),
              "lint_warnings": str(len(lint.warnings)), "est_sec": f"{total:.1f}", "media_plan_errors": media_errs}
+    if crashed:
+        shown["lint_crash"] = lint.errors[0]
     return "\n".join(lines), shown
 
 
@@ -131,7 +139,9 @@ def preview_gate_view(pdir: Path) -> tuple[str, dict[str, str]]:
         m, s = divmod(plan.total, 60)
         lines.append(f"예상 러닝타임 {int(m)}분 {s:04.1f}초 ({plan.total:.3f}초, 목소리 {plan.voice})")
     pp = prev / "provenance.json"
-    shown = {"sheet": str(sheet), "cuts": str(len(cuts))}
+    # v7.4.0 감독 D621 ⑤ — prev/ 없는 체크아웃(감독 컨테이너)에서 '0' 을 사실처럼 남기지 않는다
+    shown = {"sheet": str(sheet) if sheet.exists() else "확인 불가(prev/ 없음)",
+             "cuts": str(len(cuts)) if prev.exists() else "확인 불가(prev/ 없음)"}
     if pp.exists():
         prov = json.loads(pp.read_text(encoding="utf-8"))
         fu = prov.get("features_used", {})
@@ -166,6 +176,7 @@ def media_summary(pdir: Path, shown: dict[str, str] | None = None) -> list[str]:
     evs = doc.get("events", [])
     used = {k: sum(1 for e in evs if e.get("type") in kinds) for k, kinds in
             {"quote": ("quote",), "article": ("article",), "real": ("photo", "clip", "cutout")}.items()}
+    backdrops = sum(1 for e in evs if e.get("type") == "backdrop")   # v7.4.0 D621 ⑤ — 배경 사진도 실사(checks media_density 와 같은 셈)
     reg = media_text(pdir)
     avail = {"article": len(re.findall(r"^- [^:]+: article ", reg, re.M)),
              "real": len(re.findall(r"^- [^:]+: (photo|video|cutout) ", reg, re.M))}
@@ -195,9 +206,20 @@ def media_summary(pdir: Path, shown: dict[str, str] | None = None) -> list[str]:
     elif not (used["quote"] and used["article"] and used["real"]):
         out.append("  연출 메모       (없음 — 0건인 항목의 이유를 direction.yaml media_note 에 적는다)")
     if shown is not None:
-        shown.update({"media_used": f"quote {used['quote']} · article {used['article']} · real {used['real']}",
+        dens = _density_shown(pdir)
+        shown.update({"media_used": f"quote {used['quote']} · article {used['article']} · real {used['real']} · backdrop {backdrops}"
+                                    + f" · 밀도 검사 {dens}",
                       "quote_candidates": str(len(qc))})
     return out
+
+
+def _density_shown(pdir: Path) -> str:
+    """프리뷰 검사(prev/provenance.json media_density)가 센 실사 수 — 없으면 '확인 불가'(v7.4.0 감독 D621 ⑤)."""
+    pp = pdir / "prev" / "provenance.json"
+    if not pp.exists():
+        return "확인 불가(prev/ 없음)"
+    md = json.loads(pp.read_text(encoding="utf-8")).get("media_density") or {}
+    return f"{md['count']}개 · {md['value']}/분" if "count" in md and "value" in md else "확인 불가(provenance media_density 없음)"
 
 
 def _camera_table(pdir: Path, shown: dict[str, str]) -> list[str]:
