@@ -6139,6 +6139,192 @@
    "source_hash": "5b91768819226a9cc81496094724ad49",
    "file": "bud_shuttle_42dot_720.jpg",
    "modifications": "자르기·크기 조정·색 보정"
+  },
+  "bud_assembly_ext_2014": {
+   "kind": "photo",
+   "title": "File:National Assembly Building of the Republic of Korea.png",
+   "license": "CC BY-SA 4.0",
+   "author": "clumsyforeigner",
+   "credit_author": "clumsyforeigner",
+   "date": "2014-09-08",
+   "url": "https://commons.wikimedia.org/wiki/File:National_Assembly_Building_of_the_Republic_of_Korea.png",
+   "caption": "국회의사당",
+   "file_note": "자료사진 · 2014. 09",
+   "depicts": [
+    "서울 여의도 국회의사당 외관"
+   ],
+   "main_subject": [
+    "국회의사당"
+   ],
+   "background": [
+    "잔디밭",
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 파일 쪽 날짜·작가·라이선스·별도 이용 조건 대조, Openverse 는 후보 찾기만 — D617)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "cold·act1·act4 국회 예산 심사·의결 문장(국회 외관)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_assembly_ext_2014.png",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "3a38236627f022d298b2ae3e6dded5c1",
+   "file": "bud_assembly_ext_2014_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
+  },
+  "bud_sejong_complex": {
+   "kind": "photo",
+   "title": "File:Government Complex Sejong (N).jpg",
+   "license": "CC BY-SA 4.0",
+   "author": "Minseong Kim",
+   "credit_author": "Minseong Kim",
+   "date": "2015-03-19",
+   "url": "https://commons.wikimedia.org/wiki/File:Government_Complex_Sejong_(N).jpg",
+   "caption": "정부세종청사",
+   "file_note": "자료사진 · 2015. 03",
+   "depicts": [
+    "정부세종청사 전경"
+   ],
+   "main_subject": [
+    "정부세종청사"
+   ],
+   "background": [
+    "아파트 단지",
+    "산"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 파일 쪽 날짜·작가·라이선스·별도 이용 조건 대조, Openverse 는 후보 찾기만 — D617)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act1 정부 예산 배분 문장(정부세종청사)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_sejong_complex.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "30a72bc55ea2966ee310e461bcb277e4",
+   "file": "bud_sejong_complex_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
+  },
+  "bud_mohw": {
+   "kind": "photo",
+   "title": "File:Ministry of Health and Welfare(South Korea).JPG",
+   "license": "CC BY-SA 4.0",
+   "author": "Minseong Kim",
+   "credit_author": "Minseong Kim",
+   "date": "2014-12-05",
+   "url": "https://commons.wikimedia.org/wiki/File:Ministry_of_Health_and_Welfare(South_Korea).JPG",
+   "caption": "보건복지부 청사",
+   "file_note": "자료사진 · 2014. 12",
+   "depicts": [
+    "세종시 보건복지부 청사"
+   ],
+   "main_subject": [
+    "보건복지부 청사"
+   ],
+   "background": [
+    "주차장"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 파일 쪽 날짜·작가·라이선스·별도 이용 조건 대조, Openverse 는 후보 찾기만 — D617)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "보건·복지 분야 문장(후보)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_mohw.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "fe371fc059a6d97d364270a0f1d284db",
+   "file": "bud_mohw_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
+  },
+  "bud_motie": {
+   "kind": "photo",
+   "title": "File:Ministry of Trade, Industry and Energy(South Korea).JPG",
+   "license": "CC BY-SA 4.0",
+   "author": "Minseong Kim",
+   "credit_author": "Minseong Kim",
+   "date": "2014-12-02",
+   "url": "https://commons.wikimedia.org/wiki/File:Ministry_of_Trade,_Industry_and_Energy(South_Korea).JPG",
+   "caption": "산업통상자원부 청사",
+   "file_note": "자료사진 · 2014. 12",
+   "depicts": [
+    "세종시 산업통상자원부 청사"
+   ],
+   "main_subject": [
+    "산업통상자원부 청사"
+   ],
+   "background": [
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 파일 쪽 날짜·작가·라이선스·별도 이용 조건 대조, Openverse 는 후보 찾기만 — D617)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act2 산업·중소기업·에너지 분야 문장(배경)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_motie.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "006c01b410c18013426344f7e4f87e11",
+   "file": "bud_motie_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
   }
  }
 }
