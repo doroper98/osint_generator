@@ -22,7 +22,7 @@ from engine.glyphs.arms import draw_glyph
 from engine.glyphs.emblems import draw_emblem
 from engine.stage_terrain3d import Terrain3DError
 from engine.style import H_OUT, W_OUT, C
-from engine.typography import text
+from engine.typography import GLYPH_ASCENT, GLYPH_DESCENT, glyph_box, text
 from rules import load_rules as _load_rules_uncached
 
 if TYPE_CHECKING:
@@ -169,13 +169,13 @@ def layout_labels(P: "Project", recs: list[dict]) -> tuple[list[Placed], list[st
     def candidates(j: int, w: float) -> list[tuple[float, float, tuple]]:
         b, (x, y) = blocks[j], pts[j]
         mx, my = (b[0] + b[2]) / 2, (b[1] + b[3]) / 2
-        cand = {"below": (mx, b[3] + gap + sz * 0.85), "above": (mx, b[1] - gap - sz * 0.25),
+        cand = {"below": (mx, b[3] + gap + sz * GLYPH_ASCENT), "above": (mx, b[1] - gap - sz * GLYPH_DESCENT),
                 "left": (b[0] - gap - w / 2, my + sz * 0.3), "right": (b[2] + gap + w / 2, my + sz * 0.3)}
         dx, dy = x - cx, y - cy
         vert = ("below", "above") if dy >= 0 else ("above", "below")
         hor = ("right", "left") if dx >= 0 else ("left", "right")
         order = (vert[0], hor[0], hor[1], vert[1]) if abs(dy) >= abs(dx) else (hor[0], vert[0], vert[1], hor[1])
-        return [(cand[o][0], cand[o][1], (cand[o][0] - w / 2, cand[o][1] - sz * 0.85, cand[o][0] + w / 2, cand[o][1] + sz * 0.25)) for o in order]
+        return [(cand[o][0], cand[o][1], glyph_box(cand[o][0], cand[o][1], w, sz)) for o in order]
 
     def free(box: tuple, j: int) -> bool:
         if box[0] < side or box[2] > W_OUT - side or box[1] < top or box[3] > bottom:

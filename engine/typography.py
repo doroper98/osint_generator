@@ -24,6 +24,16 @@ DISP = ("disp", "dispm")
 UNIT_WEIGHT = {"sans": {"disp": "sansbb", "dispm": "sansb"}}   # unit_font 이름 → display 굵기별 같은 무게 글꼴(engine.style.FONT 키)
 
 
+# 글자 상자 비율(기준선 위 = 크기 × GLYPH_ASCENT, 아래 = 크기 × GLYPH_DESCENT) — 대비 측정 상자·라벨 자리·겹침 판정이 같은 값을 쓴다(v7.4.0 D-0627)
+GLYPH_ASCENT = 0.85
+GLYPH_DESCENT = 0.25
+
+
+def glyph_box(cx: float, y: float, w: float, size: float) -> tuple[float, float, float, float]:
+    """가운데 정렬 글자 줄(가운데 cx, 기준선 y, 폭 w)의 화면 상자."""
+    return (cx - w / 2, y - size * GLYPH_ASCENT, cx + w / 2, y + size * GLYPH_DESCENT)
+
+
 class FontMissingError(RuntimeError):
     """프로젝트 글꼴이 설치되지 않아 fontconfig 가 다른 글꼴로 대체했다(D-0050 NB10 검사기, v3.6.0 NB16 렌더 경로)."""
 
@@ -238,10 +248,10 @@ def text(ctx: cairo.Context, s: str, x: float, y: float, size: float, name: str 
     ctx.set_source_rgba(*col[:3], a)
     ctx.fill()
     if contrast is not None and CONTRAST_LOG is not None:   # 지도 위 글자 대비 측정 대상(required | aux) — 설계 상자 → 장치 상자
-        xs, ys = zip(*(ctx.user_to_device(px, py) for px in (x, x + w) for py in (y - size * 0.85, y + size * 0.25)))
+        xs, ys = zip(*(ctx.user_to_device(px, py) for px in (x, x + w) for py in (y - size * GLYPH_ASCENT, y + size * GLYPH_DESCENT)))
         CONTRAST_LOG.append((contrast, (min(xs), min(ys), max(xs), max(ys)), tuple(col[:3]), a, s))
     if contrast == "required" and CONTRAST_FIX is not None and not _FIXING and a >= CONTRAST_FIX[2]:
-        xs, ys = zip(*(ctx.user_to_device(px, py) for px in (x, x + w) for py in (y - size * 0.85, y + size * 0.25)))
+        xs, ys = zip(*(ctx.user_to_device(px, py) for px in (x, x + w) for py in (y - size * GLYPH_ASCENT, y + size * GLYPH_DESCENT)))
         CONTRAST_PENDING.append(((min(xs), min(ys), max(xs), max(ys)), ctx.get_matrix(), CONTRAST_LOG[-1] if CONTRAST_LOG else None,
                                  (s, x_arg, y, size, name, col, a, anchor, spacing, halo_rgb)))
     return w

@@ -19,7 +19,7 @@ from engine.stage import ym
 from engine.stage_terrain3d import key_at  # noqa: F401 — 공용 보간(스케치·본편 terrain3d 같은 함수)
 from engine.style import C
 from engine.timebase import clamp01, smooth
-from engine.typography import text, tw
+from engine.typography import glyph_box, text, tw
 from rules import load_rules
 from sketch.campaign.units import unit_symbol
 from sketch.common.checks import UNNAMED_UNIT
@@ -111,8 +111,7 @@ class WarUnitLayer:
                 bp = _grow(_corners(view, k), hv) if shape != "app6" else np.array([[x - U.min_px[0] / 2, y - U.min_px[1] / 2], [x + U.min_px[0] / 2, y + U.min_px[1] / 2]])
                 nb = None
                 if show_name:
-                    nw = tw(ctx, u.name, U.name.size, U.name.font) / 2
-                    nb = (x - nw, y + U.name.dy - U.name.size * 0.85, x + nw, y + U.name.dy + U.name.size * 0.25)
+                    nb = glyph_box(x, y + U.name.dy, tw(ctx, u.name, U.name.size, U.name.font), U.name.size)
                 self.layout.append((nb, (float(bp[:, 0].min()), float(bp[:, 1].min()), float(bp[:, 0].max()), float(bp[:, 1].max()))))
             if a > F.min_alpha:   # 부대 상자(보이는 이름 포함) — SK-C2 겹침·SK-W6 카드 덮임 입력
                 half = max(U.min_px[0], tw(ctx, u.name, U.name.size, U.name.font) if show_name else 0) / 2

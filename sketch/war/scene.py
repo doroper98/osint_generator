@@ -177,7 +177,7 @@ class WarScene:
         ures: list = []
         self.units.draw(ctx, view, t, ures)
         res += ures
-        self.unit_boxes.append((t, float(view.w), [b[:4] for b in ures]))
+        self.unit_boxes.append((t, float(view.w), [b[:-1] for b in ures]))   # 끝 칸 = 꼬리표(SK-C2) 뺀 상자
         self.unit_layout.append((t, float(view.w), list(self.units.layout)))
         self._places(ctx, view, t, res)
         dim = max((window(t, e.t0, e.t1, W.card.in_sec, W.card.out_sec) for e in sp.evidence), default=0)
