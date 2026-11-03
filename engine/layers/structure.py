@@ -29,6 +29,7 @@ LAYERS: tuple[str, ...] = ("bars", "prior", "delta", "focus", "total")
 TOTAL_ROW = "total"   # D-1009 감독 판정 ② — focus 층 row: total = 총지출 줄을 초점 글자체로(문장 동안만), 행 초점과 같은 문법
 Rect = tuple[float, float, float, float]   # x0, y0, x1, y1(뷰포트 px)
 DRAWN_TEXT: list[tuple[str, Rect]] = []    # 이 프레임에 그린 글자 상자(시험·겹침 검사 — 그리기 전에 비운다)
+LAST_VIEW: list[float] = []   # 마지막으로 그린 구성 아일랜드 뷰포트 [vw, vh](검사가 화면 밖 글자를 가른다)
 DRAWN_STRINGS: list[tuple[str, str, float]] = []   # (이름, 문자열, 알파) — [spoken-number-visible] 이 읽는다(D-1008 §3)
 
 
@@ -266,6 +267,12 @@ def _draw_focus(ctx: cairo.Context, view: "View", st: "StructureStage", t: float
     x0, y0, x1, y1 = bar_rect(st, view, row)
     yb = (y0 + y1) / 2 + S.focus_value_size * TIMELINE.text_metrics.mid_drop
     x = value_x(st, view, row)
+    w = tw(ctx, big, S.focus_value_size, S.focus_value_font) + tw(ctx, rest, S.focus_rest_size, S.focus_rest_font)
+    if x + w > view.vw:   # 감독 D616 — 긴 막대 행은 초점 줄이 화면 밖으로 잘린다 → 막대 안쪽(끝에서 왼쪽, 밝은 글자)
+        xr = max(x0, x1) - S.value_gap
+        r = _put(ctx, f"focus_rest:{row.id}", rest.lstrip(" ·") + " ", xr, yb, S.focus_rest_size, S.focus_rest_font, C["white"], a, "r")
+        _put(ctx, f"focus:{row.id}", big + " · ", r[0], yb, S.focus_value_size, S.focus_value_font, C["white"], a, "r")
+        return
     r = _put(ctx, f"focus:{row.id}", big, x, yb, S.focus_value_size, S.focus_value_font, acc, a)
     _put(ctx, f"focus_rest:{row.id}", rest, r[2], yb, S.focus_rest_size, S.focus_rest_font, acc, a)
 
@@ -304,10 +311,17 @@ def rows_band(view: "View") -> Rect:
     return 0.0, top, view.vw, bot
 
 
+def offscreen_text(vw: float, vh: float) -> list[tuple[str, Rect]]:
+    """이번 프레임 구성 무대 글자 중 상자(0~vw·0~vh) 밖으로 나간 것 — 감독 D616 [structure-text-offscreen]·[spoken-number-visible] 이 쓴다."""
+    eps = 0.5
+    return [(n, r) for n, r in DRAWN_TEXT if r[0] < -eps or r[2] > vw + eps or r[1] < -eps or r[3] > vh + eps]
+
+
 def draw_structure(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, events: list[dict]) -> None:  # noqa: N803
     """구성 아일랜드 안 rank 층 전부 — 층 순서(LAYERS)대로. 행은 rows_band 안, 머리·출처 줄은 띠 밖(_draw_frame_text)."""
     DRAWN_TEXT.clear()
     DRAWN_STRINGS.clear()
+    LAST_VIEW[:] = [view.vw, view.vh]
     bars = [ce for ce in events if ce["type"] == "rank" and ce["layer"] == "bars" and ce["t0"] - 0.05 <= t <= ce["t1"] + 0.05]
     x0, y0, x1, y1 = rows_band(view)
     ctx.save()

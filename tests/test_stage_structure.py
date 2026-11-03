@@ -312,6 +312,21 @@ class RowsBandTest(unittest.TestCase):
 class AvgAndTotalTest(unittest.TestCase):
     """D-1009 — 예년 비교(avg_growth, cagr 코드 계산)·총지출 줄·늘어난 구간 휘도 차."""
 
+    def test_long_bar_focus_label_stays_inside(self) -> None:
+        """감독 D616 — 막대가 가장 긴 행(보건·복지·고용)의 초점 줄이 오른쪽 끝에서 잘리던 컷(act2_14) 재현: 막대 안쪽으로 옮겨 상자 안.
+        화면 밖 글자는 offscreen_text 가 잡는다(검사 [structure-text-offscreen]·[spoken-number-visible] 이 쓴다)."""
+        from engine.layers.structure import DRAWN_STRINGS, DRAWN_TEXT, LAST_VIEW, offscreen_text  # noqa: PLC0415
+
+        st = StructureStage(config={"box": "center_tall", "record": "BUDGET_2027_PROPOSED_SECTORS",
+                                    "prior": "BUDGET_2026_ENACTED_SECTORS", "title": "분야별 총지출"})
+        evs = events(t_focus=30.0)[:3] + [{"type": "rank", "t0": 3.0, "t1": 20.0, "layer": "focus", "row": "welfare", "metric": "rate",
+                                            "note": "주택 융자 −5조 · 건설임대 +4조 7천억"}]
+        render(st, 10.0, evs)
+        self.assertEqual(offscreen_text(*LAST_VIEW), [])
+        self.assertIn("주택 융자 −5조 · 건설임대 +4조 7천억 ", [s for _n, s, _a in DRAWN_STRINGS])
+        DRAWN_TEXT.append(("focus_rest:x", (700.0, 10.0, 760.0, 20.0)))   # 잘린 글자 = 잡힌다
+        self.assertEqual([n for n, _ in offscreen_text(*LAST_VIEW)], ["focus_rest:x"])
+
     def test_focus_note_replaces_small_line(self) -> None:
         """감독 지시(02:06Z) — focus note: 작은 줄 = 문장이 말한 분야 안 사업 숫자. compare 와 함께·focus 밖이면 오류."""
         from engine.events import RankEvent  # noqa: PLC0415

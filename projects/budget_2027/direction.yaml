@@ -43,7 +43,7 @@ shots:
   dur: 1.6
   camera:
     row: welfare
-    w: 660
+    w: 734
 - at:
     word:
       sid: act1_3
@@ -54,7 +54,7 @@ shots:
   dur: 1.6
   camera:
     row: admin
-    w: 660
+    w: 734
 - at:
     word:
       sid: act1_3
@@ -65,7 +65,7 @@ shots:
   dur: 1.6
   camera:
     row: education
-    w: 660
+    w: 734
 - at:
     word:
       sid: act1_4
@@ -76,7 +76,7 @@ shots:
   dur: 1.6
   camera:
     row: defense
-    w: 660
+    w: 734
 - at:
     word:
       sid: act1_5
@@ -87,7 +87,7 @@ shots:
   dur: 1.6
   camera:
     row: defense
-    w: 660
+    w: 734
 - at:
     word:
       sid: act2_1
@@ -109,7 +109,7 @@ shots:
   dur: 1.6
   camera:
     row: admin
-    w: 660
+    w: 734
 - at:
     word:
       sid: act2_4
@@ -120,7 +120,7 @@ shots:
   dur: 1.6
   camera:
     row: industry
-    w: 660
+    w: 734
 - at: &id003
     sid: act2_6
     'off': -0.15
@@ -140,7 +140,7 @@ shots:
   dur: 1.6
   camera:
     row: environment
-    w: 660
+    w: 734
 - at:
     word:
       sid: act2_7
@@ -151,7 +151,7 @@ shots:
   dur: 1.6
   camera:
     row: diplomacy
-    w: 660
+    w: 734
 - at:
     word:
       sid: act2_8
@@ -162,7 +162,7 @@ shots:
   dur: 1.6
   camera:
     row: soc
-    w: 660
+    w: 734
 - at:
     word:
       sid: act2_9
@@ -173,7 +173,7 @@ shots:
   dur: 1.6
   camera:
     row: soc
-    w: 660
+    w: 734
 - at: &id005
     sid: act2_13
     'off': -0.25
@@ -193,7 +193,7 @@ shots:
   dur: 1.6
   camera:
     row: welfare
-    w: 660
+    w: 734
 - at: &id007
     sid: act2_16
     'off': -0.5
@@ -213,7 +213,7 @@ shots:
   dur: 1.6
   camera:
     row: welfare
-    w: 660
+    w: 734
 - at:
     word:
       sid: act2_18
@@ -224,7 +224,7 @@ shots:
   dur: 1.6
   camera:
     row: education
-    w: 660
+    w: 734
 - at:
     word:
       sid: act2_19
@@ -235,7 +235,7 @@ shots:
   dur: 1.6
   camera:
     row: education
-    w: 660
+    w: 734
 - at: &id009
     sid: act3_0
     'off': -0.2
@@ -398,9 +398,9 @@ events:
 - type: island
   start: *id003
   end: &id004
-    sid: act2_9
+    sid: act2_10
     edge: end
-    'off': -0.2
+    'off': 0.2
   kind: structure
   box: center_tall
 - type: rank
@@ -679,9 +679,9 @@ events:
       sid: act2_9
       text: 고속도로
   end:
-    sid: act2_9
+    sid: act2_10
     edge: end
-    'off': -0.3
+    'off': 0.0
   layer: focus
   row: soc
   metric: rate
@@ -777,17 +777,8 @@ events:
   place: backdrop_right_low
 - type: photo
   start:
-    sid: act2_10
-    'off': -1.0
-  end:
     sid: act2_11
-    'off': 0.8
-  mid: bud_hwy_westcoast
-  for: 고속도로 본선
-- type: photo
-  start:
-    sid: act2_11
-    'off': 0.8
+    'off': -0.4
   end:
     sid: act2_13
     'off': -0.25
