@@ -2671,3 +2671,14 @@ entries:
   status: open
   decision: "D-0625(back_and_forth) — 진형 가운데 고정 + 장치(진형 중심 화면 위치 검사). D-0619 ② 의 '진형을 왼쪽 빈자리로' 방식은 대체"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-03"
+- id: UF-256
+  date: '2026-11-03'
+  project: cannae_216bc
+  at: "칸나이 콘티 판 v1 판정 ③ 배경음악 선택 — 같은 30초 구간(201.6~231.6초) 견본 둘(Zabriskie / 베토벤 코리올란 서곡 Musopen PD)과 수치 설명(코리올란 박자 선명도 3.69·분당 시작 75.3·목소리 음역 0.630 — bgm_floor 세 항목 미달, 감독 권고 Zabriskie) 뒤 사용자 답"
+  quote: "coriolan"
+  quote_kind: verbatim
+  category: "칸나이 배경음악 = 베토벤 「코리올란 서곡」 Op. 62(Musopen Symphony, PD). 전쟁사 장르 bgm_floor 개정 승인(D-0613 — 코리올란 선택 = 장르별 하한 개정). 내레이션 가림 위험은 실제 믹스 측정 장치로 지킨다"
+  guards: []
+  status: open
+  decision: "D-0626(back_and_forth) — 음악 등록·장르 하한 개정·믹스 내레이션 명료도 장치, 판정 ③ 반영 묶음(D-0622 날짜·D-0625 진형) → rollback → 게이트 ① 재승인 → 콘티 판 v2"
+  source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-03"
