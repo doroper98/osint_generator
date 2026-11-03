@@ -2660,3 +2660,14 @@ entries:
   decision: "D-0616(back_and_forth) — approve --gate script_approval, 표준 음성 → 연출 → 콘티 판"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-02"
 
+- id: UF-255
+  date: '2026-11-03'
+  project: cannae_216bc
+  at: "칸나이 콘티 판 v1(artifacts 78158fa8, 371.6초) 판정 ③ — terrain3d 전술 화면. 나올 무렵(encirclement_9, 약 4:10~4:16) 카메라가 칸나이 마을 자리까지 넣으려 비켜 진형이 화면 왼쪽 위에 놓임"
+  quote: "그리고 군대의 진형(칸나이 전투 같은)은 중앙에 위치하게 해야 되는데 칸나이 전투 마지막 쯤에는 왼쪽 상단에 위치하더라고"
+  quote_kind: verbatim
+  category: "전쟁사 전술 화면 — 군대 진형(전형)은 화면 가운데에 둔다. 카메라가 다른 대상(마을·카드 자리)을 위해 진형을 가장자리로 비키지 않는다"
+  guards: []
+  status: open
+  decision: "D-0625(back_and_forth) — 진형 가운데 고정 + 장치(진형 중심 화면 위치 검사). D-0619 ② 의 '진형을 왼쪽 빈자리로' 방식은 대체"
+  source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-03"
