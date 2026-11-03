@@ -40,3 +40,10 @@ priority: urgent
 3. **여기서 멈춘다.** 감독이 사용자에게 게이트 ① 재승인을 받는다. 승인 전에는 콘티 판 v2 를 렌더하지 않는다.
 4. 승인 뒤: 표준 음성은 글자가 같으므로 다시 만들지 않는다(plan 지문이 바뀌면 그 이유를 적는다) → `audio.mix`(코리올란) → 콘티 판 v2(표준 FONTCONFIG) → artifacts `war_history/cannae_216bc/animatic_v2/` → R(checks·provenance·narration_clarity 값·formation_centered 결과·대표 프레임).
 - 감독은 v2 를 실물로 보고 사용자에게 보낸다. 그 뒤가 게이트 ②(판정 ④)다.
+
+## 4. 보충(01:50Z, 최종 감독 조건 셋)
+1. 전쟁사 장르 bgm 하한은 사용자 결정 UF-256 의 결과다. 규칙 주석에 원문("coriolan")과 UF 번호를 남긴다. 장르 키로만 갈린다는 것을 시험으로 고정한다. 다른 장르의 하한(`audio.bgm_floor`)이 그대로인지 시험이 확인한다. bed_gain 0.43 불변.
+2. narration_clarity 를 모든 장르 hard 로 걸기 전에 실측표를 R 에 붙인다. 대상은 호르무즈 골든, 쇼케이스 geo·econ v3 콘티 판(artifacts/showcase-v7.4.0 5aade897 v3_animatic), 이란 final_v3b, 칸나이 v1·v2 다.
+   - 골든은 반드시 통과해야 한다.
+   - 사용자가 받아들인 영상이 하나라도 걸리면 임계를 정하기 전에 `decision_request` 를 올린다.
+3. narration_clarity 는 검사 + 규칙 키 + 시험만 담은 **단독 커밋**으로 만들고 해시를 알린다. 다른 브랜치 전파는 최종 감독이 한다.
