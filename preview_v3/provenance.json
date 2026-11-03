@@ -1,0 +1,1925 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "7.4.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "16b735230e205134241a4ef5b52411acbe5408b2",
+ "prompts": {},
+ "voice": "supertonic-3 M3 ×0.95",
+ "word_anchor": "mixed",
+ "word_anchors": [
+  {
+   "sid": "act1_2",
+   "word": "보건·복지·고용으로",
+   "mode": "ratio",
+   "t": 36.535,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act1_3",
+   "word": "일반·지방행정",
+   "mode": "ratio",
+   "t": 40.684,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act1_3",
+   "word": "교육",
+   "mode": "aligned",
+   "t": 42.833,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act1_4",
+   "word": "국방으로",
+   "mode": "aligned",
+   "t": 46.411,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act1_5",
+   "word": "군인연금기금이",
+   "mode": "aligned",
+   "t": 50.634,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_1",
+   "word": "2018년부터",
+   "mode": "ratio",
+   "t": 65.715,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_2",
+   "word": "일반·지방행정은",
+   "mode": "ratio",
+   "t": 75.016,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_4",
+   "word": "산업·중소기업·에너지가",
+   "mode": "ratio",
+   "t": 92.997,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_6",
+   "word": "환경은",
+   "mode": "aligned",
+   "t": 109.36,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_7",
+   "word": "외교·통일은",
+   "mode": "ratio",
+   "t": 115.877,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_8",
+   "word": "SOC는",
+   "mode": "ratio",
+   "t": 121.794,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_9",
+   "word": "고속도로",
+   "mode": "aligned",
+   "t": 126.572,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_13",
+   "word": "주택구입·전세자금",
+   "mode": "ratio",
+   "t": 148.472,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_16",
+   "word": "구직급여",
+   "mode": "aligned",
+   "t": 171.901,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_18",
+   "word": "교육에서는",
+   "mode": "aligned",
+   "t": 188.156,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_19",
+   "word": "유아·초중등교육",
+   "mode": "ratio",
+   "t": 199.738,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act5_1",
+   "word": "헌법은",
+   "mode": "aligned",
+   "t": 368.805,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act5_2",
+   "word": "그때까지",
+   "mode": "aligned",
+   "t": 376.396,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act3_0",
+   "word": "정부안의",
+   "mode": "aligned",
+   "t": 213.801,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act3_2",
+   "word": "정부는",
+   "mode": "aligned",
+   "t": 225.665,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act3_3",
+   "word": "이",
+   "mode": "aligned",
+   "t": 232.069,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act4_1",
+   "word": "첫째는",
+   "mode": "aligned",
+   "t": 291.749,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act4_3",
+   "word": "둘째는",
+   "mode": "aligned",
+   "t": 308.663,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act1_2",
+   "word": "보건·복지·고용으로",
+   "mode": "ratio",
+   "t": 36.535,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act1_3",
+   "word": "일반·지방행정",
+   "mode": "ratio",
+   "t": 40.684,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act1_3",
+   "word": "교육",
+   "mode": "aligned",
+   "t": 42.833,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act1_4",
+   "word": "국방으로",
+   "mode": "aligned",
+   "t": 46.411,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act1_5",
+   "word": "군인연금기금이",
+   "mode": "aligned",
+   "t": 50.634,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_1",
+   "word": "2018년부터",
+   "mode": "ratio",
+   "t": 65.715,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_2",
+   "word": "일반·지방행정은",
+   "mode": "ratio",
+   "t": 75.016,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_4",
+   "word": "산업·중소기업·에너지가",
+   "mode": "ratio",
+   "t": 92.997,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_6",
+   "word": "환경은",
+   "mode": "aligned",
+   "t": 109.36,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_7",
+   "word": "외교·통일은",
+   "mode": "ratio",
+   "t": 115.877,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_8",
+   "word": "SOC는",
+   "mode": "ratio",
+   "t": 121.794,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_9",
+   "word": "고속도로",
+   "mode": "aligned",
+   "t": 126.572,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_13",
+   "word": "주택구입·전세자금",
+   "mode": "ratio",
+   "t": 148.472,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_16",
+   "word": "구직급여",
+   "mode": "aligned",
+   "t": 171.901,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_18",
+   "word": "교육에서는",
+   "mode": "aligned",
+   "t": 188.156,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_19",
+   "word": "유아·초중등교육",
+   "mode": "ratio",
+   "t": 199.738,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act3_0",
+   "word": "정부안의",
+   "mode": "aligned",
+   "t": 213.801,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act3_2",
+   "word": "정부는",
+   "mode": "aligned",
+   "t": 225.665,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act3_3",
+   "word": "이",
+   "mode": "aligned",
+   "t": 232.069,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act4_1",
+   "word": "첫째는",
+   "mode": "aligned",
+   "t": 291.749,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act4_3",
+   "word": "둘째는",
+   "mode": "aligned",
+   "t": 308.663,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act5_1",
+   "word": "헌법은",
+   "mode": "aligned",
+   "t": 368.805,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act5_2",
+   "word": "그때까지",
+   "mode": "aligned",
+   "t": 376.396,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act1_2",
+   "word": "보건·복지·고용으로",
+   "mode": "ratio",
+   "t": 36.535,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act1_3",
+   "word": "일반·지방행정",
+   "mode": "ratio",
+   "t": 40.684,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act1_3",
+   "word": "교육",
+   "mode": "aligned",
+   "t": 42.833,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act1_4",
+   "word": "국방으로",
+   "mode": "aligned",
+   "t": 46.411,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act1_5",
+   "word": "군인연금기금이",
+   "mode": "aligned",
+   "t": 50.634,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_1",
+   "word": "2018년부터",
+   "mode": "ratio",
+   "t": 65.715,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_2",
+   "word": "일반·지방행정은",
+   "mode": "ratio",
+   "t": 75.016,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_4",
+   "word": "산업·중소기업·에너지가",
+   "mode": "ratio",
+   "t": 92.997,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_6",
+   "word": "환경은",
+   "mode": "aligned",
+   "t": 109.36,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_7",
+   "word": "외교·통일은",
+   "mode": "ratio",
+   "t": 115.877,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_8",
+   "word": "SOC는",
+   "mode": "ratio",
+   "t": 121.794,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_9",
+   "word": "고속도로",
+   "mode": "aligned",
+   "t": 126.572,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_13",
+   "word": "주택구입·전세자금",
+   "mode": "ratio",
+   "t": 148.472,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act2_16",
+   "word": "구직급여",
+   "mode": "aligned",
+   "t": 171.901,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_18",
+   "word": "교육에서는",
+   "mode": "aligned",
+   "t": 188.156,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act2_19",
+   "word": "유아·초중등교육",
+   "mode": "ratio",
+   "t": 199.738,
+   "alignment_source": "mms_forced_alignment",
+   "note": "단어가 발음 텍스트에 없음"
+  },
+  {
+   "sid": "act3_0",
+   "word": "정부안의",
+   "mode": "aligned",
+   "t": 213.801,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act3_2",
+   "word": "정부는",
+   "mode": "aligned",
+   "t": 225.665,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act3_3",
+   "word": "이",
+   "mode": "aligned",
+   "t": 232.069,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act4_1",
+   "word": "첫째는",
+   "mode": "aligned",
+   "t": 291.749,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act4_3",
+   "word": "둘째는",
+   "mode": "aligned",
+   "t": 308.663,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act5_1",
+   "word": "헌법은",
+   "mode": "aligned",
+   "t": 368.805,
+   "alignment_source": "mms_forced_alignment"
+  },
+  {
+   "sid": "act5_2",
+   "word": "그때까지",
+   "mode": "aligned",
+   "t": 376.396,
+   "alignment_source": "mms_forced_alignment"
+  }
+ ],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 405.077,
+ "sentences": 56,
+ "stages": {
+  "plan": true,
+  "geo": true,
+  "preview": true,
+  "render": false,
+  "mix": false,
+  "mux": false,
+  "ai_direction": false,
+  "visual_qa": false,
+  "bundle": false
+ },
+ "features_used": {
+  "camera_keys": 1,
+  "camera_moves": 0,
+  "camera_cuts": 1,
+  "dips": 0,
+  "dips_under": 0,
+  "badges": 0,
+  "badge_kinds": {},
+  "panels": [],
+  "media": {
+   "clip": 0,
+   "photo": 5,
+   "cutout": 0,
+   "article": 4
+  },
+  "event_types": {
+   "article": 4,
+   "backdrop": 6,
+   "island": 7,
+   "marker": 3,
+   "photo": 5,
+   "rank": 47,
+   "series": 2
+  },
+  "label_lod": true,
+  "vignette": false,
+  "private_only_assets": [],
+  "at_word": {
+   "aligned": 42,
+   "ratio": 27
+  },
+  "map_layers": {
+   "roads": 0,
+   "rivers": 0,
+   "capitals": true
+  },
+  "transitions": [
+   {
+    "sid": "act4_0",
+    "pause_t0": 283.676735,
+    "pause_sec": 1.5,
+    "kind": [
+     "date_jump"
+    ]
+   },
+   {
+    "sid": "act4_5",
+    "pause_t0": 324.698367,
+    "pause_sec": 1.5,
+    "kind": []
+   },
+   {
+    "sid": "act5_0",
+    "pause_t0": 365.090181,
+    "pause_sec": 1.5,
+    "kind": []
+   }
+  ],
+  "alignment": {
+   "sources": {
+    "mms_forced_alignment": 56
+   },
+   "score_mean_min": 0.6244,
+   "elapsed_ms_total": 56974
+  },
+  "prosody": {
+   "final_fall": {
+    "applied_n": 56,
+    "skipped_n": 0
+   }
+  }
+ },
+ "qa": {
+  "auto_iterations": 0,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)"
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [
+   "media:bud_apt_gwangmyeong_720.jpg",
+   "media:bud_assembly_ext_2014_720.jpg",
+   "media:bud_hwy_westcoast_720.jpg",
+   "media:bud_motie_720.jpg",
+   "media:bud_sejong_complex_720.jpg",
+   "media:bud_shuttle_42dot_720.jpg",
+   "media:bud_wafer_720.jpg",
+   "media:bud_wind_shinan_720.jpg"
+  ],
+  "emblems": {
+   "used": [],
+   "flag_fallback": {}
+  },
+  "badges": {
+   "suggested": [],
+   "used": [],
+   "suggested_and_used": [],
+   "suggestions": 0
+  }
+ },
+ "panels": {
+  "used": []
+ },
+ "credits": {
+  "card": {
+   "media": 11,
+   "music": 1,
+   "narration": 1
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "rights": {
+  "sa_obligations": [
+   {
+    "ref": "media.bud_assembly_ext_2014",
+    "sa_obligation": true,
+    "author": "clumsyforeigner",
+    "title": "File:National Assembly Building of the Republic of Korea.png",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:National_Assembly_Building_of_the_Republic_of_Korea.png",
+    "modifications": "자르기·크기 조정·색 보정"
+   },
+   {
+    "ref": "media.bud_motie",
+    "sa_obligation": true,
+    "author": "Minseong Kim",
+    "title": "File:Ministry of Trade, Industry and Energy(South Korea).JPG",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Ministry_of_Trade,_Industry_and_Energy(South_Korea).JPG",
+    "modifications": "자르기·크기 조정·색 보정"
+   },
+   {
+    "ref": "media.bud_sejong_complex",
+    "sa_obligation": true,
+    "author": "Minseong Kim",
+    "title": "File:Government Complex Sejong (N).jpg",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Government_Complex_Sejong_(N).jpg",
+    "modifications": "자르기·크기 조정·색 보정"
+   },
+   {
+    "ref": "media.bud_shuttle_42dot",
+    "sa_obligation": true,
+    "author": "Damian B Oh",
+    "title": "File:42dot autonomous-DRT Shuttle (1).jpg",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:42dot_autonomous-DRT_Shuttle_(1).jpg",
+    "modifications": "자르기·크기 조정·색 보정"
+   }
+  ]
+ },
+ "reserved": {
+  "avoidance": [],
+  "badge_delays": []
+ },
+ "audio": {
+  "bgm": [
+   "music.zabriskie_patriarch"
+  ],
+  "bed_gain": 0.43,
+  "crossfades": 0
+ },
+ "end_card": {
+  "version_stamp": "v7.4.0",
+  "roll_px": 257.0,
+  "roll_px_per_sec": 39.54
+ },
+ "render": {
+  "resolution": {
+   "profile": "480p",
+   "width": 854,
+   "height": 480,
+   "fps": 24,
+   "k": 1.0,
+   "pad_x": 0.0,
+   "crf": 19,
+   "preset": "faster"
+  }
+ },
+ "badge": {
+  "R_ignored": [],
+  "head_top": []
+ },
+ "islands": [
+  {
+   "name": "island structure center_tall",
+   "t0": 0.6,
+   "t1": 101.1,
+   "box": [
+    60.0,
+    52.0,
+    734.0,
+    344.0
+   ]
+  },
+  {
+   "name": "island structure center_tall",
+   "t0": 109.21,
+   "t1": 139.07,
+   "box": [
+    60.0,
+    52.0,
+    734.0,
+    344.0
+   ]
+  },
+  {
+   "name": "island structure center_tall",
+   "t0": 148.22,
+   "t1": 160.77,
+   "box": [
+    60.0,
+    52.0,
+    734.0,
+    344.0
+   ]
+  },
+  {
+   "name": "island structure center_tall",
+   "t0": 170.86,
+   "t1": 205.6,
+   "box": [
+    60.0,
+    52.0,
+    734.0,
+    344.0
+   ]
+  },
+  {
+   "name": "island structure center_tall",
+   "t0": 213.58,
+   "t1": 237.98,
+   "box": [
+    60.0,
+    52.0,
+    734.0,
+    344.0
+   ]
+  },
+  {
+   "name": "island structure center_tall",
+   "t0": 291.44,
+   "t1": 391.98,
+   "box": [
+    60.0,
+    52.0,
+    734.0,
+    344.0
+   ]
+  },
+  {
+   "name": "photo bud_wind_shinan",
+   "t0": 101.6,
+   "t1": 109.21,
+   "box": [
+    594.0,
+    200.0,
+    236.0,
+    201.5
+   ]
+  },
+  {
+   "name": "photo bud_shuttle_42dot",
+   "t0": 139.37,
+   "t1": 148.22,
+   "box": [
+    594.0,
+    200.0,
+    236.0,
+    201.5
+   ]
+  },
+  {
+   "name": "photo bud_apt_gwangmyeong",
+   "t0": 161.17,
+   "t1": 170.86,
+   "box": [
+    560.0,
+    196.0,
+    262.0,
+    205.8
+   ]
+  },
+  {
+   "name": "photo bud_wafer",
+   "t0": 205.9,
+   "t1": 213.58,
+   "box": [
+    594.0,
+    200.0,
+    236.0,
+    201.5
+   ]
+  },
+  {
+   "name": "photo bud_assembly_ext_2014",
+   "t0": 283.78,
+   "t1": 291.44,
+   "box": [
+    594.0,
+    200.0,
+    236.0,
+    201.5
+   ]
+  },
+  {
+   "name": "island chart left_tall",
+   "t0": 237.98,
+   "t1": 282.18,
+   "box": [
+    24.0,
+    52.0,
+    540.0,
+    344.0
+   ]
+  }
+ ],
+ "island": {
+  "lane_h_effective": 123.0,
+  "lane_h": 96.0,
+  "lanes": 2,
+  "card_overlap": [],
+  "label_clip": [],
+  "label_overlap": [],
+  "label_flip": []
+ },
+ "structure": {
+  "box": "center_tall",
+  "rows": [
+   "welfare",
+   "admin",
+   "education",
+   "defense",
+   "industry",
+   "rnd",
+   "agri",
+   "soc",
+   "safety",
+   "environment",
+   "culture",
+   "diplomacy"
+  ],
+  "records": [
+   {
+    "id": "BUDGET_2027_PROPOSED_SECTORS",
+    "budget_stage": "proposed",
+    "fiscal_year": 2027,
+    "as_of": "2026-10",
+    "source_sha1": "2f23e1ba64dc8ba6cd4f6e2eac04c5d4b78dfbe9",
+    "raw_checked": true
+   },
+   {
+    "id": "BUDGET_2026_ENACTED_SECTORS",
+    "budget_stage": "enacted",
+    "fiscal_year": 2026,
+    "as_of": "2026-10",
+    "source_sha1": "2f23e1ba64dc8ba6cd4f6e2eac04c5d4b78dfbe9",
+    "raw_checked": true
+   }
+  ]
+ },
+ "article": [
+  {
+   "mid": "budget_2027_art_0003",
+   "t0": 323.5,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "budget_2027_art_0002",
+   "t0": 332.4,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "budget_2027_art_0003",
+   "t0": 343.28,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "budget_2027_art_0001",
+   "t0": 351.94,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  }
+ ],
+ "backdrop": {
+  "photos": [
+   {
+    "img": "bud_assembly_ext_2014",
+    "t0": 1.2,
+    "t1": 24.48
+   },
+   {
+    "img": "bud_sejong_complex",
+    "t0": 24.48,
+    "t1": 61.97
+   },
+   {
+    "img": "bud_motie",
+    "t0": 61.97,
+    "t1": 126.06
+   },
+   {
+    "img": "bud_hwy_westcoast",
+    "t0": 126.06,
+    "t1": 213.78
+   },
+   {
+    "img": "bud_wafer",
+    "t0": 213.78,
+    "t1": 283.68
+   },
+   {
+    "img": "bud_assembly_ext_2014",
+    "t0": 283.68,
+    "t1": 405.08
+   }
+  ],
+  "unique": 5,
+  "main_missing": []
+ },
+ "timeline": {
+  "w_changes": []
+ },
+ "pacing": {
+  "window_sec": 45.0,
+  "min_changes": 3,
+  "static_windows": [],
+  "creep": null
+ },
+ "animatic": false,
+ "catalog": false,
+ "chart_only_runs": [],
+ "regression_ref": null,
+ "media_density": {
+  "count": 11,
+  "value": 1.629,
+  "min": 1.5,
+  "exempt": false
+ },
+ "lane_range": {
+  "bal": {
+   "range": [
+    -125.0,
+    0.0
+   ],
+   "visible_ratio": 0.836
+  },
+  "debt": {
+   "range": [
+    48.0,
+    51.0
+   ],
+   "visible_ratio": 0.767
+  }
+ },
+ "plot_height": {
+  "plot_px": 246.0,
+  "inner_px": 344.0,
+  "ratio": 0.715,
+  "min": 0.7
+ },
+ "pin_labels": {
+  "rows": {
+   "2026 추경 −107.6조": 1,
+   "−2.9%": 2,
+   "1,519.8조 · 48.3%": 2
+  },
+  "dropped": [],
+  "collisions": 0
+ },
+ "stage": {
+  "name": "backdrop",
+  "declared": true,
+  "shots_declared": 30,
+  "instances": {
+   "backdrop": 1,
+   "structure": 1,
+   "timeline": 1
+  },
+  "configs": {
+   "timeline": {
+    "lanes": [
+     {
+      "id": "bal",
+      "label": "관리재정수지",
+      "kind": "line",
+      "unit": "조 원"
+     },
+     {
+      "id": "debt",
+      "label": "국가채무 · GDP 대비",
+      "kind": "line",
+      "unit": "%"
+     }
+    ],
+    "start": "2017-07-01",
+    "end": "2030-12-31"
+   },
+   "backdrop": {},
+   "structure": {
+    "box": "center_tall",
+    "record": "BUDGET_2027_PROPOSED_SECTORS",
+    "prior": "BUDGET_2026_ENACTED_SECTORS",
+    "title": "분야별 총지출"
+   }
+  }
+ },
+ "genre": {
+  "name": "fiscal",
+  "declared": true,
+  "status": "proposed"
+ },
+ "order": {
+  "topic": "2027년도 정부 예산안(국회 확정 전) — 총지출 규모·12대 분야 배분·증감·재원(국세수입·미래대응기금·국채)·여야 쟁점·국회 일정",
+  "genre": "fiscal",
+  "decisions": {
+   "topic": {
+    "value": "2027년 예산안 분석",
+    "by": "user",
+    "ref": "UF-301 · D-1000 §B"
+   },
+   "source_route": {
+    "value": "A 사용자 PDF 업로드(주) · B 허용 목록(병행)",
+    "by": "default",
+    "ref": "D-1004"
+   },
+   "resolution": {
+    "value": "720p",
+    "by": "user",
+    "ref": "사용자 결정 2026-10-04 \"기준 해상도는 720p야\""
+   }
+  }
+ },
+ "series": [
+  {
+   "series_id": "FISCAL_MGMT_BALANCE",
+   "as_of": "2026-10",
+   "license": "kr_public_work",
+   "source_url": "https://www.nabo.go.kr/board/file/down.do?fid=33319627",
+   "transform": "document",
+   "missing": []
+  },
+  {
+   "series_id": "FISCAL_DEBT_GDP",
+   "as_of": "2026-10",
+   "license": "kr_public_work",
+   "source_url": "https://www.nabo.go.kr/board/file/down.do?fid=33319627",
+   "transform": "document",
+   "missing": []
+  }
+ ],
+ "camera": {
+  "suggest_ran": false,
+  "suggested": 0,
+  "used": 0,
+  "given_to_director": false
+ },
+ "lint_warnings": [
+  "[media-density-total] 과소 — 5개 / 405초 = 81.0초당 1개 > 60초 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act2: ['bud_wind_shinan', 'bud_shuttle_42dot', 'bud_apt_gwangmyeong', 'bud_wafer'] > 1 (14 §10.1, ['article'] 제외)",
+  "[article-unused] act4_10 360.6초 기사 카드 후보 ['budget_2027_art_0003'] — 360~420초 구간 0/1개. 쓰거나 media_notes.yaml sentences.act4_10.article 에 사유",
+  "[article-density] 300~360초 기사 카드 4개 > 2 (rules media.density.article_per_min_max)"
+ ],
+ "media": {
+  "suggested": [],
+  "used": [
+   {
+    "mid": "bud_wind_shinan",
+    "kind": "photo",
+    "t0": 101.6
+   },
+   {
+    "mid": "bud_shuttle_42dot",
+    "kind": "photo",
+    "t0": 139.37
+   },
+   {
+    "mid": "bud_apt_gwangmyeong",
+    "kind": "photo",
+    "t0": 161.17
+   },
+   {
+    "mid": "bud_wafer",
+    "kind": "photo",
+    "t0": 205.9
+   },
+   {
+    "mid": "bud_assembly_ext_2014",
+    "kind": "photo",
+    "t0": 283.78
+   },
+   {
+    "mid": "budget_2027_art_0003",
+    "kind": "article",
+    "t0": 323.5
+   },
+   {
+    "mid": "budget_2027_art_0002",
+    "kind": "article",
+    "t0": 332.4
+   },
+   {
+    "mid": "budget_2027_art_0003",
+    "kind": "article",
+    "t0": 343.28
+   },
+   {
+    "mid": "budget_2027_art_0001",
+    "kind": "article",
+    "t0": 351.94
+   }
+  ],
+  "suggested_and_used": [],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 405.077,
+   "items": [
+    {
+     "mid": "bud_wind_shinan",
+     "kind": "photo",
+     "t0": 101.6,
+     "t1": 109.21,
+     "scene": "act2"
+    },
+    {
+     "mid": "bud_shuttle_42dot",
+     "kind": "photo",
+     "t0": 139.37,
+     "t1": 148.22,
+     "scene": "act2"
+    },
+    {
+     "mid": "bud_apt_gwangmyeong",
+     "kind": "photo",
+     "t0": 161.17,
+     "t1": 170.86,
+     "scene": "act2"
+    },
+    {
+     "mid": "bud_wafer",
+     "kind": "photo",
+     "t0": 205.9,
+     "t1": 213.58,
+     "scene": "act2"
+    },
+    {
+     "mid": "bud_assembly_ext_2014",
+     "kind": "photo",
+     "t0": 283.78,
+     "t1": 291.44,
+     "scene": "act4"
+    },
+    {
+     "mid": "budget_2027_art_0003",
+     "kind": "article",
+     "t0": 323.5,
+     "t1": 332.4,
+     "scene": "act4"
+    },
+    {
+     "mid": "budget_2027_art_0002",
+     "kind": "article",
+     "t0": 332.4,
+     "t1": 343.28,
+     "scene": "act4"
+    },
+    {
+     "mid": "budget_2027_art_0003",
+     "kind": "article",
+     "t0": 343.28,
+     "t1": 351.94,
+     "scene": "act4"
+    },
+    {
+     "mid": "budget_2027_art_0001",
+     "kind": "article",
+     "t0": 351.94,
+     "t1": 360.62,
+     "scene": "act4"
+    }
+   ],
+   "count": 9,
+   "beat_count": 5,
+   "sec_per_item": 81.0,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": 101.6,
+     "count": 2,
+     "mids": [
+      "bud_wind_shinan",
+      "bud_shuttle_42dot"
+     ]
+    }
+   },
+   "per_scene": {
+    "act2": [
+     "bud_wind_shinan",
+     "bud_shuttle_42dot",
+     "bud_apt_gwangmyeong",
+     "bud_wafer"
+    ],
+    "act4": [
+     "bud_assembly_ext_2014"
+    ]
+   },
+   "insets": [],
+   "warnings": [
+    "[media-density-total] 과소 — 5개 / 405초 = 81.0초당 1개 > 60초 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act2: ['bud_wind_shinan', 'bud_shuttle_42dot', 'bud_apt_gwangmyeong', 'bud_wafer'] > 1 (14 §10.1, ['article'] 제외)"
+   ]
+  },
+  "articles": {
+   "schema_version": 1,
+   "candidates": 6,
+   "covered": 5,
+   "used_events": 4,
+   "per_min_max": 2,
+   "unused": [
+    {
+     "sid": "act4_10",
+     "t0": 360.62,
+     "mids": [
+      "budget_2027_art_0003"
+     ],
+     "reason": null
+    }
+   ],
+   "warnings": [
+    "[article-unused] act4_10 360.6초 기사 카드 후보 ['budget_2027_art_0003'] — 360~420초 구간 0/1개. 쓰거나 media_notes.yaml sentences.act4_10.article 에 사유",
+    "[article-density] 300~360초 기사 카드 4개 > 2 (rules media.density.article_per_min_max)"
+   ]
+  },
+  "placement": {
+   "bud_wind_shinan": "slot:backdrop_right_low",
+   "bud_shuttle_42dot": "slot:backdrop_right_low",
+   "bud_apt_gwangmyeong": "auto:map_right_low",
+   "bud_wafer": "slot:backdrop_right_low",
+   "bud_assembly_ext_2014": "slot:backdrop_right_low"
+  }
+ },
+ "script": {
+  "labels": {
+   "verified": 56,
+   "corroborated": 0,
+   "unverified": 0,
+   "disputed": 0
+  }
+ },
+ "preview": {
+  "frames": 16,
+  "times": [
+   8.08,
+   17.25,
+   21.28,
+   35.62,
+   50.48,
+   107.41,
+   167.99,
+   234.65,
+   262.46,
+   308.0,
+   340.42,
+   370.76,
+   378.31,
+   390.55,
+   398.85,
+   399.08
+  ],
+  "dir": "prev",
+  "direction_sha1": "32204d09846bbe9c12b883b056f142eefd46041b"
+ },
+ "visual_void": [
+  [
+   101.18,
+   101.68
+  ],
+  [
+   139.08,
+   139.38
+  ],
+  [
+   160.78,
+   161.18
+  ],
+  [
+   205.68,
+   205.98
+  ],
+  [
+   282.18,
+   283.78
+  ],
+  [
+   391.98,
+   393.28
+  ],
+  [
+   404.88,
+   405.08
+  ]
+ ],
+ "regression_waived": {},
+ "checks": {
+  "hard": 0,
+  "warnings": 5,
+  "passed": true
+ },
+ "user_feedback_guards": [
+  {
+   "id": "UF-01",
+   "checks": {
+    "card_exposure": 0
+   }
+  },
+  {
+   "id": "UF-02",
+   "checks": {
+    "camera_continuity": 0,
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-03",
+   "checks": {
+    "route_label_cross": 0,
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-04",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-05",
+   "checks": {
+    "article_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-06",
+   "checks": {
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-07",
+   "checks": {
+    "route_missing_other": 0,
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-08",
+   "checks": {
+    "battle_geo": 0
+   }
+  },
+  {
+   "id": "UF-09",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-10",
+   "checks": {
+    "portrait_unused": 0,
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-11",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0
+   }
+  },
+  {
+   "id": "UF-12",
+   "checks": {
+    "frame_missing_target": 0,
+    "frame_missing": 0
+   }
+  },
+  {
+   "id": "UF-16",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-18",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-19",
+   "checks": {
+    "camera_per_sentence": 0
+   }
+  },
+  {
+   "id": "UF-20",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-25",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-27",
+   "checks": {
+    "portrait_unused": 0
+   }
+  },
+  {
+   "id": "UF-30",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-31",
+   "checks": {
+    "media_upscaled": 0
+   }
+  },
+  {
+   "id": "UF-32",
+   "checks": {
+    "boundary_as_route": 0
+   }
+  },
+  {
+   "id": "UF-34",
+   "checks": {
+    "offscreen": 0
+   }
+  },
+  {
+   "id": "UF-35",
+   "checks": {
+    "endcard_black": 0
+   }
+  },
+  {
+   "id": "UF-37",
+   "checks": {
+    "glyph_size": 0
+   }
+  },
+  {
+   "id": "UF-39",
+   "checks": {
+    "timeline_rescale": 0
+   }
+  },
+  {
+   "id": "UF-42",
+   "checks": {
+    "stage_choice": 0,
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-45",
+   "checks": {
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-46",
+   "checks": {
+    "cascade": 0
+   }
+  },
+  {
+   "id": "UF-54",
+   "checks": {
+    "subtitle_overlap": 0
+   }
+  },
+  {
+   "id": "UF-63",
+   "checks": {
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-72",
+   "checks": {
+    "timeline_span": 0
+   }
+  },
+  {
+   "id": "UF-73",
+   "checks": {
+    "route_frame": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-77",
+   "checks": {
+    "opening_establish": 0
+   }
+  },
+  {
+   "id": "UF-78",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-80",
+   "checks": {
+    "flag_territory": 0
+   }
+  },
+  {
+   "id": "UF-81",
+   "checks": {
+    "badge_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-84",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-88",
+   "checks": {
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-93",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-97",
+   "checks": {
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-98",
+   "checks": {
+    "title_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-99",
+   "checks": {
+    "camera_bounds": 0,
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-101",
+   "checks": {
+    "portrait_unused": 0
+   }
+  },
+  {
+   "id": "UF-102",
+   "checks": {
+    "media_beats": 4
+   }
+  },
+  {
+   "id": "UF-104",
+   "checks": {
+    "tempo_density": 0
+   }
+  },
+  {
+   "id": "UF-105",
+   "checks": {
+    "transition_camera": 0
+   }
+  },
+  {
+   "id": "UF-107",
+   "checks": {
+    "inset_overlap": 0
+   }
+  },
+  {
+   "id": "UF-109",
+   "checks": {
+    "article_press_missing": 0
+   }
+  },
+  {
+   "id": "UF-110",
+   "checks": {
+    "cutaway_churn": 0
+   }
+  },
+  {
+   "id": "UF-111",
+   "checks": {
+    "unit_glyph_font": 0
+   }
+  },
+  {
+   "id": "UF-113",
+   "checks": {
+    "ratio_graphic": 0
+   }
+  },
+  {
+   "id": "UF-115",
+   "checks": {
+    "tempo_density": 0
+   }
+  },
+  {
+   "id": "UF-118",
+   "checks": {
+    "media_unused": 0
+   }
+  },
+  {
+   "id": "UF-119",
+   "checks": {
+    "media_unused": 0
+   }
+  },
+  {
+   "id": "UF-120",
+   "checks": {
+    "static_camera": 0
+   }
+  },
+  {
+   "id": "UF-122",
+   "checks": {
+    "unit_ton_glyph": 0
+   }
+  },
+  {
+   "id": "UF-123",
+   "checks": {
+    "route_speed": 0
+   }
+  },
+  {
+   "id": "UF-125",
+   "checks": {
+    "sea_only_frame": 0
+   }
+  },
+  {
+   "id": "UF-126",
+   "checks": {
+    "series_unused": 0,
+    "panel_dropped": 0
+   }
+  },
+  {
+   "id": "UF-128",
+   "checks": {
+    "chart_honesty": 0
+   }
+  },
+  {
+   "id": "UF-129",
+   "checks": {
+    "card_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-130",
+   "checks": {
+    "article_outlet": 0
+   }
+  },
+  {
+   "id": "UF-131",
+   "checks": {
+    "glyphs": 0
+   }
+  },
+  {
+   "id": "UF-135",
+   "checks": {
+    "chart_only_run": 0,
+    "chart_world_split": 0
+   }
+  },
+  {
+   "id": "UF-137",
+   "checks": {
+    "chart_edge_bleed": 0
+   }
+  },
+  {
+   "id": "UF-138",
+   "checks": {
+    "timeline_rescale": 0
+   }
+  },
+  {
+   "id": "UF-139",
+   "checks": {
+    "media_density": 0
+   }
+  },
+  {
+   "id": "UF-140",
+   "checks": {
+    "flat_lane": 0
+   }
+  },
+  {
+   "id": "UF-141",
+   "checks": {
+    "clip_frame": 0
+   }
+  },
+  {
+   "id": "UF-142",
+   "checks": {
+    "plot_height": 0,
+    "axis_empty_band": 0
+   }
+  },
+  {
+   "id": "UF-143",
+   "checks": {
+    "island_pin_collision": 0
+   }
+  },
+  {
+   "id": "UF-146",
+   "checks": {
+    "inset_jump": 0
+   }
+  },
+  {
+   "id": "UF-147",
+   "checks": {
+    "template_label": 0
+   }
+  },
+  {
+   "id": "UF-148",
+   "checks": {
+    "text_restates_narration": 0
+   }
+  },
+  {
+   "id": "UF-151",
+   "checks": {
+    "chart_layers_min": 0
+   }
+  },
+  {
+   "id": "UF-152",
+   "checks": {
+    "secondary_axis_single": 0
+   }
+  },
+  {
+   "id": "UF-154",
+   "checks": {
+    "chart_overload": 0
+   }
+  },
+  {
+   "id": "UF-155",
+   "checks": {
+    "grid_text_cross": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-170",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-171",
+   "checks": {
+    "element_hold": 0
+   }
+  },
+  {
+   "id": "UF-172",
+   "checks": {
+    "media_overlap": 0
+   }
+  },
+  {
+   "id": "UF-173",
+   "checks": {
+    "media_sentence_span": 0,
+    "map_opening": 0,
+    "map_cover_share": 0
+   }
+  },
+  {
+   "id": "UF-200",
+   "checks": {
+    "band_line_outside": 0,
+    "series_date_convention": 0
+   }
+  },
+  {
+   "id": "UF-201",
+   "checks": {
+    "photo_subject_background": 0,
+    "photo_subject_unmatched": 0
+   }
+  },
+  {
+   "id": "UF-202",
+   "checks": {
+    "forbidden": 0,
+    "bar_border": 0
+   }
+  },
+  {
+   "id": "UF-203",
+   "checks": {
+    "bar_border": 0
+   }
+  },
+  {
+   "id": "UF-304",
+   "checks": {
+    "spoken_number_visible": 0,
+    "data_stage_bare_on_backdrop": 0,
+    "structure_text_offscreen": 0
+   }
+  }
+ ],
+ "timings": {
+  "render.preview.checks": {
+   "sec": 17.101,
+   "n": 1
+  },
+  "render.preview.frames": {
+   "sec": 1.544,
+   "n": 1
+  },
+  "render.preview.sheet": {
+   "sec": 0.184,
+   "n": 1
+  }
+ }
+}
