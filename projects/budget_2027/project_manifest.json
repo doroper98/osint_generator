@@ -4,8 +4,8 @@
   "title": "2027년 예산안, 820조 원은 어디로 가나",
   "category": "economy",
   "created_at": "2026-11-03T01:37:58.373536Z",
-  "updated_at": "2026-11-03T10:08:24.993712Z",
-  "current_state": "preview_approval",
+  "updated_at": "2026-11-03T10:10:09.743936Z",
+  "current_state": "render",
   "target_duration_min": 9,
   "topic_summary": "2027년도 정부 예산안(총지출 820.9조)의 분야별 증감·재원·국회 쟁점",
   "initial_links": [],
@@ -62,6 +62,24 @@
         "media_plan_errors": "0",
         "script_sha1": "1dc67dcbc5a22e8b777c4c96b514a376c4f232cf",
         "media_plan": "사진 0/8 · 기사 후보 6문장 · 510초(chars)"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "user",
+      "at": "2026-11-03T10:10:09.743514Z",
+      "comment": "사용자 게이트 ② 승인(감독 세션 session_017Yuw8kbxf9Vxri6LoH5Je4, 2026-11-03 09:5xZ) 원문: '콘티 합격인데 차트를 감싸는 외곽 라인이 너무 타이트하게 붙어있는 점, 그리고 첨부한 이미지의 빈 아래쪽 차트를 흐릿한 선으로라도 한번 보여주고 있으면 좋을것 같다는 점 개선 하고 완성본 만들어' — 대상 프리뷰 v2(+t≈158초 초점 줄 수정), 개선 UF-305(island.inner_pad)·UF-306(lane_preview) 반영 콘티 판 md5 2b299593(44948d93) 감독 눈 확인. 콘티 판 기록은 구현 컨테이너 원본(artifacts aea2f64a gate2_inputs/). D620.",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/budget_2027/prev/sheet.jpg",
+        "cuts": "0",
+        "media_used": "quote 0 · article 4 · real 5",
+        "quote_candidates": "0",
+        "animatic": "out/animatic.mp4 · 405.077초 · direction 32204d09846bbe9c12b883b056f142eefd46041b · script 1dc67dcbc5",
+        "user_feedback": "사용자 의견 178건 모두 장치 있음(최근 UF-306)",
+        "asset_library": "공용 자산 미승격 0"
       },
       "chosen_version": null
     }
@@ -146,6 +164,12 @@
       "to_state": "preview_approval",
       "transitioned_at": "2026-11-03T10:08:24.993676Z",
       "reason": "D-1010 — 음성·자산(실사 11·기사 3)·연출(변형 A + D616·D619·UF-305·306)·프리뷰 v3 checks hard 0 완료, 게이트 ② 기록 대기"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-11-03T10:10:09.743871Z",
+      "reason": "preview_approval 승인 — user"
     }
   ],
   "rollbacks": [
