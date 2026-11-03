@@ -63,9 +63,9 @@ class MapGenrePromptTest(unittest.TestCase):
                 self.assertIn("지도 위 장르 political_history", block)
                 self.assertNotIn("{{", block)
                 self.assertNotIn("이 영상의 주 무대에 쓰지 않는다", block)   # 지도형 장르에 비지도 문단이 붙지 않는다
-        d = genre_block("director", r, g)
-        self.assertIn("process_lane", d)
-        self.assertIn("doc_excerpt", d)
+        full = load_prompt("director", r, g)   # v7.4.0 UF-403 — 요소 안내는 공통 연출 규칙(본문)으로 옮겼다
+        self.assertIn("process_lane", full)
+        self.assertIn("doc_excerpt", full)
         self.assertIn("설명 모형", genre_block("script", r, g))
 
     def test_base_genre_unchanged(self) -> None:
@@ -73,16 +73,12 @@ class MapGenrePromptTest(unittest.TestCase):
         self.assertEqual(genre_block("director", r, load_genre("geopolitics")), "")
         self.assertNotIn("지도 위 장르", load_prompt("director", r, load_genre("macro_monetary")))
 
-    def test_element_grammar_keys_must_be_registered(self) -> None:
-        raw = yaml.safe_load(RULES_PATH.read_text(encoding="utf-8"))
-        raw = copy.deepcopy(raw)
-        raw["genre_prompt"]["element_grammar"]["gauge"] = "계기판"
+    def test_element_grammar_removed(self) -> None:
+        """v7.4.0 UF-403 — 장르별 요소 안내(element_grammar)는 삭제(P2). 다시 넣으면 규칙 로드 오류(extra forbid)."""
+        raw = copy.deepcopy(yaml.safe_load(RULES_PATH.read_text(encoding="utf-8")))
+        raw["genre_prompt"]["element_grammar"] = {"process_lane": "x"}
         with self.assertRaises(ValidationError):
             VideoRules.model_validate(raw)
-
-
-if __name__ == "__main__":
-    unittest.main()
 
 
 class CommonGrammarTest(unittest.TestCase):
@@ -99,11 +95,53 @@ class CommonGrammarTest(unittest.TestCase):
                 with self.subTest(genre=genre, mark=m):
                     self.assertIn(m, text)
 
-    def test_element_grammar_only_genre_restricted(self) -> None:
-        self.assertEqual(set(load_rules().genre_prompt.element_grammar), {"process_lane", "doc_excerpt", "statement_diff", "era_numeral"})
+    def test_genre_element_lines_are_common_too(self) -> None:
+        """v7.4.0 UF-403 — 정치사에서 시작한 요소(process_lane·doc_excerpt·era_numeral·statement_diff) 안내도 모든 장르 프롬프트에."""
+        text = load_prompt("director", load_rules(), load_genre("geopolitics"))
+        for m in ("process_lane", "doc_excerpt", "era_numeral", "statement_diff 로"):
+            with self.subTest(mark=m):
+                self.assertIn(m, text)
 
     def test_no_duplicate_in_map_genre(self) -> None:
         text = load_prompt("director", load_rules(), load_genre("political_history"))
         for m in self.MARKS:
             with self.subTest(mark=m):
                 self.assertEqual(text.count(m), 1)
+
+
+class LookAndFeelTest(unittest.TestCase):
+    """v7.4.0 UF-403(사용자 "나는 룩앤필을 만들어 두는거지 거기에 우겨넣는걸 원하는건 아니거든") — 장르 = 톤 프리셋.
+    ① 요소는 등록 요소 전부(장르 목록 = 추천) ② 고정 막 없음(흔한 흐름 = 참고) ③ 서술 구조 스위치는 조건부 ④ 무대도 등록 무대 전부(장르 = 기본값)."""
+
+    def test_elements_not_whitelisted_by_genre(self) -> None:
+        from engine.checks import check_genre_elements  # noqa: PLC0415
+        from genres.elements import used_elements  # noqa: PLC0415
+
+        ev = [{"type": "primitive", "id": "process_lane"}, {"type": "primitive", "id": "era_numeral"}, {"type": "panel", "kind": "checklist"}]
+        for genre in ("geopolitics", "macro_monetary", "earnings"):
+            with self.subTest(genre=genre):
+                P = NS(R=NS(cache={"genre": {"name": genre, "elements_used": used_elements(ev)}}))  # noqa: N806
+                self.assertEqual(check_genre_elements(P), [])
+
+    def test_acts_are_reference_not_fixed(self) -> None:
+        head = load_rules().genre_prompt.acts_head
+        self.assertIn("고정 막이 아니다", head)
+        self.assertIn("따르지 않는다", head)
+        self.assertIn(head, load_prompt("script", load_rules(), load_genre("earnings")))
+
+    def test_structure_switch_is_conditional(self) -> None:
+        t = load_rules().genre_prompt.narration["recurring_model"]
+        self.assertIn("되풀이될 때만", t)
+        self.assertIn("모형을 만들지 않는다", t)
+
+    def test_any_registered_stage_with_genre_default_theme(self) -> None:
+        """무대는 장르로 막지 않는다 — 어떤 장르든 지도 무대를 고를 수 있게 모든 프로필이 지도 기본 테마를 갖는다(D154)."""
+        from genres.load import genre_names  # noqa: PLC0415
+
+        for g in genre_names():
+            with self.subTest(genre=g):
+                self.assertIn("theme", load_genre(g).stage.settings().get("mercator") or {})
+
+
+if __name__ == "__main__":
+    unittest.main()

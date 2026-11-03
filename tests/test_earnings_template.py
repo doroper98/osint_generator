@@ -41,7 +41,7 @@ class GenreEarningsTest(unittest.TestCase):
         self.assertEqual(len(g.stage.secondary), 1)
 
     def test_island_stage_only_for_island_shots(self) -> None:
-        """D-0304 ① — island_stages 무대는 아일랜드 숏(주 무대 backdrop 의 stage: timeline 숏)에만. 최상위 stage 로는 오류."""
+        """D-0304 ① — island_stages 는 주 무대 backdrop 에서만 선언. v7.4.0 UF-403 — 무대 선택 자체는 장르로 막지 않는다."""
         import json  # noqa: PLC0415
 
         from engine.direction import Direction  # noqa: PLC0415
@@ -50,8 +50,7 @@ class GenreEarningsTest(unittest.TestCase):
         raw = (PROMPTS_DIR / "examples" / "genre_director_backdrop.json").read_text(encoding="utf-8").replace("{{GENRE.name}}", "earnings")
         d = json.loads(raw)
         Direction.model_validate(d)
-        with self.assertRaisesRegex(ValidationError, "프로필 무대"):
-            Direction.model_validate({**d, "stage": "timeline"})
+        Direction.model_validate({**d, "stage": "timeline"})   # v7.4.0 UF-403 — 장르는 톤 프리셋: 등록 무대는 최상위로도 고를 수 있다(기본과 다르면 stage_choice)
         with self.assertRaisesRegex(ValidationError, "island_stages"):
             from schemas.genre_models import GenreStage  # noqa: PLC0415
 

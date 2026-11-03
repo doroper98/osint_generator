@@ -1,6 +1,6 @@
 # 장르 프로필 — 기업 실적 발표(earnings) (v7.4.0, back_and_forth D-0278 §4.3 · D-0251 E5 · D-0302 · D-0303)
 # 사용자 요청(2026-10-30, DECISIONS D274): 예상치·실제 발표·가이던스·주가 반응·지경학 다섯 막. 첫 사례 삼성전자·인텔 Q3 2026.
-# 막 구성(고정 막)은 D-0278 §3 — order.yaml instructions 로 강제한다. 차트는 하나의 시간축 세계(C0·UF-135): 분기 실적 막대와 주가 선은
+# 막 구성: D-0278 §3 의 '고정 막'은 v7.4.0 UF-403 으로 '흔한 흐름(참고)'이 됐다 — 막의 수·순서는 원고가 주제에서 정한다. 차트는 하나의 시간축 세계(C0·UF-135): 분기 실적 막대와 주가 선은
 # 같은 시간축 위 두 레인, 예상치·실제·가이던스는 같은 레인·같은 축척 위 표식. 지경학 막은 mercator 보조 무대(전환 1회).
 # status proposed: 사용자 승인 전(20 §3). approved 로 바꾸는 것은 사용자 결정이다.
 # 새 시리즈 스타일(bars·estimate)과 검사 셋([bars-from-zero]·[estimate-actual-pair]·[price-window-label])은 T3 등록 전 — qa_checks.planned.

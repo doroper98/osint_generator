@@ -62,8 +62,9 @@ class GenreProfileSchemaTest(unittest.TestCase):
             GenreProfile.model_validate(prof(status="proposed", stage={"primary": "timeline", "secondary": ["chart_wall", "flow"]}))
 
     def test_settings_for_unused_stage(self) -> None:
-        with self.assertRaisesRegex(ValidationError, "주·보조·아일랜드 무대가 아닌"):
-            GenreProfile.model_validate(prof(stage={"primary": "mercator", "timeline": {"lanes": [{"id": "a", "label": "a", "kind": "line"}]}}))
+        """v7.4.0 UF-403 — 장르 = 톤 프리셋: 주·보조가 아닌 무대에도 기본 설정을 둘 수 있다(연출이 그 무대를 고르면 기본값)."""
+        p = GenreProfile.model_validate(prof(stage={"primary": "mercator", "timeline": {"lanes": [{"id": "a", "label": "a", "kind": "line"}]}}))
+        self.assertIn("timeline", p.stage.settings())
 
     def test_unregistered_reuse(self) -> None:
         for bad in ("timeline_panel", "occupied"):   # 레지스트리 밖 / event_types_planned

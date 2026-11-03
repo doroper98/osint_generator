@@ -54,11 +54,17 @@ class GenreDirectionTest(unittest.TestCase):
             Direction.model_validate(doc(genre="astrology"))
 
     def test_stage_outside_profile(self) -> None:
+        """v7.4.0 UF-403 — 장르는 톤 프리셋: 프로필 밖이라도 등록 무대는 고를 수 있다(기본값과 다르면 stage_reason — stage_choice 경고).
+        등록되지 않은 무대(구현 전 planned 포함)만 오류."""
         with mock.patch("genres.load.load_genre", fake_load_genre):
-            with self.assertRaisesRegex(ValidationError, "프로필 무대"):
-                Direction.model_validate(doc(genre="tl_only", stage="mercator"))
-            shots = [dict(DOC["shots"][0], stage="mercator")]
-            with self.assertRaisesRegex(ValidationError, r"shots\[0\]\.stage"):
+            d = Direction.model_validate(doc(genre="tl_only", stage="mercator"))
+            self.assertEqual(d.main_stage(), "mercator")
+            self.assertTrue(d.stage_choice())   # 사유 없이 기본(timeline)과 다르면 경고 한 줄
+            self.assertEqual(Direction.model_validate(doc(genre="tl_only", stage="mercator", stage_reason="주제가 지리")).stage_choice(), [])
+            with self.assertRaisesRegex(ValidationError, "등록 무대"):
+                Direction.model_validate(doc(genre="tl_only", stage="chart_wall"))
+            shots = [dict(DOC["shots"][0], stage="chart_wall")]
+            with self.assertRaisesRegex(ValidationError, r"shots\.0\.stage|shots\[0\]\.stage"):
                 Direction.model_validate(doc(genre="tl_only", shots=shots))
 
     def test_stage_default_from_profile(self) -> None:
@@ -88,14 +94,16 @@ class GenreElementsTest(unittest.TestCase):
                 self.assertEqual(outside(used, allowed), {})
 
     def test_check_is_hard_and_fails_outside(self) -> None:
+        """v7.4.0 UF-403 — 장르 프로필 밖이라도 등록 요소는 통과(지정학 영상에 statement_diff·process_lane), 등록되지 않은 요소만 실패."""
         self.assertIn("genre_elements", HARD)
-        ev = [{"type": "marker"}, {"type": "primitive", "id": "statement_diff"}, {"type": "panel", "kind": "versus"}]
+        ev = [{"type": "marker"}, {"type": "primitive", "id": "statement_diff"}, {"type": "primitive", "id": "process_lane"},
+              {"type": "panel", "kind": "versus"}]
         P = SimpleNamespace(R=SimpleNamespace(cache={"genre": {"name": "geopolitics", "elements_used": used_elements(ev)}}))  # noqa: N806
+        self.assertEqual(check_genre_elements(P), [])
+        P.R.cache["genre"]["elements_used"] = used_elements(ev + [{"type": "primitive", "id": "gauge"}])
         out = check_genre_elements(P)
         self.assertEqual(len(out), 1)
-        self.assertIn("statement_diff", out[0])
-        P.R.cache["genre"]["elements_used"] = used_elements(ev[:1] + ev[2:])
-        self.assertEqual(check_genre_elements(P), [])
+        self.assertIn("gauge", out[0])
 
 
 if __name__ == "__main__":

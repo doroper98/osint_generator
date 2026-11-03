@@ -207,7 +207,6 @@ def _genre_placeholders(rules: VideoRules, g: GenreProfile) -> dict[str, str]:
         "{{GENRE.rubric}}": _numbered(gp.rubric_extra),
         "{{GENRE.rubric_n}}": str(len(gp.rubric_extra)),
         "{{GENRE.accents}}": ", ".join(rules.registries.accents),
-        "{{GENRE.element_grammar}}": _bullets([t for k, t in gp.element_grammar.items() if k in g.elements()]) or "(없음)",   # v7.4.0 UF-400
     }
 
 
