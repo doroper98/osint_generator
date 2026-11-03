@@ -2267,7 +2267,10 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
                     cover_types_on_data_panels: [photo, clip, cutout, badge],
                     # v7.4.0 back_and_forth D-0259(UF-129 미보호 경로) — 시간축 주 무대: 틀 안 시리즈 레인(레코드가 그려지는 레인) 상자를
                     # 데이터 패널로 센다(사건 레인은 v7.4.0 D-0274 에서 삭제 — 핀은 값 레인 위). 기사·인용은 프레스 v2 화면 전체 규약이라 세지 않는다
-                    timeline_frame_cover_types: [cascade, primitive, photo, clip, cutout, badge]}
+                    timeline_frame_cover_types: [cascade, primitive, photo, clip, cutout, badge],
+                    # v7.4.0 back_and_forth D-0629 §3(C0 같은 무게) — 두 입장·두 사료를 나란히 보이는 versus 패널 위 사진·영상·컷아웃. 제자리 상자(배치 x·y·w)가
+                    # 패널 기둥 상자와 겹치면 실패 — 한쪽 기둥만 덮으면 양측 균형이 깨진다. 서사 패널 위 사진은 그대로(D-0249·D260 골든 v3)
+                    cover_types_on_versus_panels: [photo, clip, cutout]}
   # v5.21.10 사용자 의견(2026-10-11 "기사 화면이 나왔는데 0.5초도 안 돼서 사라진다", D-0191 §1-2) — 기사(프레스 단독·페이드 뺀 글자 구간)·인용(페이드 뺀 구간)
   # 완전 노출 하한. 문장이 짧으면 연출이 다음 문장까지 늘리거나 앞당긴다. 검사 card_exposure hard
   card_full_exposure_min_sec: 2.5

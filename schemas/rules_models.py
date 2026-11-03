@@ -1847,6 +1847,7 @@ class CardOverPanel(_Strict):
     cover_types: list[str] = Field(min_length=1)               # 모든 패널 위 덮개(D-0249)
     cover_types_on_data_panels: list[str] = Field(default_factory=list)   # 데이터 패널(series record) 위에서만 더 세는 덮개
     timeline_frame_cover_types: list[str] = Field(default_factory=list)   # v7.4.0 D-0259 — 시간축 틀 안 시리즈 레인 위에서 세는 덮개(사건 레인 허용)
+    cover_types_on_versus_panels: list[str] = Field(default_factory=list)  # v7.4.0 D-0629 §3 — 사료·입장 대조(versus) 패널 위에서 더 세는 덮개(제자리 상자로 판정)
 
 
 class FormationCentered(_Strict):
