@@ -358,6 +358,16 @@
    "rejected": [
     "문서·도식(application/pdf)"
    ]
+  },
+  {
+   "sid": "act2_9",
+   "query": "expressway hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
   }
  ]
 }
