@@ -1,0 +1,998 @@
+version: 1
+genre: fiscal
+stage: backdrop
+stage_config:
+  structure:
+    box: center_tall
+    record: BUDGET_2027_PROPOSED_SECTORS
+    prior: BUDGET_2026_ENACTED_SECTORS
+    title: 분야별 총지출
+  timeline:
+    start: '2017-07-01'
+    end: '2030-12-31'
+    lanes:
+    - id: bal
+      label: 관리재정수지
+      kind: line
+      unit: 조 원
+    - id: debt
+      label: 국가채무 · GDP 대비
+      kind: line
+      unit: '%'
+shots:
+- at: 0
+  mode: cut
+  dur: 0
+  camera: {}
+- at: &id001
+    sid: cold_0
+    'off': -0.6
+  stage: structure
+  mode: cut
+  dur: 0
+  camera:
+    row: defense
+    w: 734
+- at:
+    word:
+      sid: act1_2
+      text: 보건·복지·고용으로
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: welfare
+    w: 660
+- at:
+    word:
+      sid: act1_3
+      text: 일반·지방행정
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: admin
+    w: 660
+- at:
+    word:
+      sid: act1_3
+      text: 교육
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: education
+    w: 660
+- at:
+    word:
+      sid: act1_4
+      text: 국방으로
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: defense
+    w: 660
+- at:
+    word:
+      sid: act1_5
+      text: 군인연금기금이
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: defense
+    w: 660
+- at:
+    word:
+      sid: act2_1
+      text: 2018년부터
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: admin
+    w: 734
+- at:
+    word:
+      sid: act2_2
+      text: 일반·지방행정은
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: admin
+    w: 660
+- at:
+    word:
+      sid: act2_4
+      text: 산업·중소기업·에너지가
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: industry
+    w: 660
+- at: &id003
+    sid: act2_6
+    'off': -0.15
+  stage: structure
+  mode: cut
+  dur: 0
+  camera:
+    row: defense
+    w: 734
+- at:
+    word:
+      sid: act2_6
+      text: 환경은
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: environment
+    w: 660
+- at:
+    word:
+      sid: act2_7
+      text: 외교·통일은
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: diplomacy
+    w: 660
+- at:
+    word:
+      sid: act2_8
+      text: SOC는
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: soc
+    w: 660
+- at:
+    word:
+      sid: act2_9
+      text: 고속도로
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: soc
+    w: 660
+- at: &id005
+    sid: act2_13
+    'off': -0.25
+  stage: structure
+  mode: cut
+  dur: 0
+  camera:
+    row: defense
+    w: 734
+- at:
+    word:
+      sid: act2_13
+      text: 주택구입·전세자금
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: welfare
+    w: 660
+- at: &id007
+    sid: act2_16
+    'off': -0.5
+  stage: structure
+  mode: cut
+  dur: 0
+  camera:
+    row: defense
+    w: 734
+- at:
+    word:
+      sid: act2_16
+      text: 구직급여
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: welfare
+    w: 660
+- at:
+    word:
+      sid: act2_18
+      text: 교육에서는
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: education
+    w: 660
+- at:
+    word:
+      sid: act2_19
+      text: 유아·초중등교육
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: education
+    w: 660
+- at: &id009
+    sid: act3_0
+    'off': -0.2
+  stage: structure
+  mode: cut
+  dur: 0
+  camera:
+    row: defense
+    w: 734
+- at:
+    word:
+      sid: act3_0
+      text: 정부안의
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: admin
+    w: 734
+- at:
+    word:
+      sid: act3_2
+      text: 정부는
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: admin
+    w: 734
+- at:
+    word:
+      sid: act3_3
+      text: 이
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: admin
+    w: 734
+- at: &id013
+    sid: act3_4
+    'off': -0.6
+  stage: timeline
+  mode: cut
+  dur: 0
+  camera:
+    date: '2028-01-01'
+    w: 1880
+- at: &id011
+    sid: act4_0
+    'off': -0.4
+  stage: structure
+  mode: cut
+  dur: 0
+  camera:
+    row: defense
+    w: 734
+- at:
+    word:
+      sid: act4_1
+      text: 첫째는
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: admin
+    w: 734
+- at:
+    word:
+      sid: act4_3
+      text: 둘째는
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: admin
+    w: 734
+- at:
+    word:
+      sid: act5_1
+      text: 헌법은
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: admin
+    w: 734
+- at:
+    word:
+      sid: act5_2
+      text: 그때까지
+    'off': -0.4
+  stage: structure
+  mode: move
+  dur: 1.6
+  camera:
+    row: admin
+    w: 734
+events:
+- type: backdrop
+  start:
+    scene_start: cold
+  end:
+    scene_start: act1
+  img: bud_subway_suin
+- type: backdrop
+  start:
+    scene_start: act1
+  end:
+    scene_start: act2
+  img: bud_apt_gwangmyeong
+- type: backdrop
+  start:
+    scene_start: act2
+  end:
+    sid: act2_9
+    'off': -0.5
+  img: bud_hwy_bridge
+- type: backdrop
+  start:
+    sid: act2_9
+    'off': -0.5
+  end:
+    scene_start: act3
+  img: bud_hwy_westcoast
+- type: backdrop
+  start:
+    scene_start: act3
+  end:
+    scene_start: act4
+  img: bud_wafer
+- type: backdrop
+  start:
+    scene_start: act4
+  end:
+    total: true
+  img: bud_shuttle_42dot
+- type: island
+  start: *id001
+  end: &id002
+    sid: act2_4
+    edge: end
+    'off': -0.7
+  kind: structure
+  box: center_tall
+- type: rank
+  start: *id001
+  end: *id002
+  layer: bars
+- type: rank
+  start: *id001
+  end: *id002
+  layer: total
+- type: island
+  start: *id003
+  end: &id004
+    sid: act2_9
+    edge: end
+    'off': -0.2
+  kind: structure
+  box: center_tall
+- type: rank
+  start: *id003
+  end: *id004
+  layer: bars
+- type: rank
+  start: *id003
+  end: *id004
+  layer: total
+- type: rank
+  start: *id003
+  end: *id004
+  layer: prior
+- type: rank
+  start: *id003
+  end: *id004
+  layer: delta
+- type: island
+  start: *id005
+  end: &id006
+    sid: act2_14
+    edge: end
+    'off': 0.3
+  kind: structure
+  box: center_tall
+- type: rank
+  start: *id005
+  end: *id006
+  layer: bars
+- type: rank
+  start: *id005
+  end: *id006
+  layer: total
+- type: rank
+  start: *id005
+  end: *id006
+  layer: prior
+- type: rank
+  start: *id005
+  end: *id006
+  layer: delta
+- type: island
+  start: *id007
+  end: &id008
+    sid: act2_19
+    edge: end
+    'off': -0.3
+  kind: structure
+  box: center_tall
+- type: rank
+  start: *id007
+  end: *id008
+  layer: bars
+- type: rank
+  start: *id007
+  end: *id008
+  layer: total
+- type: rank
+  start: *id007
+  end: *id008
+  layer: prior
+- type: rank
+  start: *id007
+  end: *id008
+  layer: delta
+- type: island
+  start: *id009
+  end: &id010
+    sid: act3_3
+    edge: end
+    'off': 0.3
+  kind: structure
+  box: center_tall
+- type: rank
+  start: *id009
+  end: *id010
+  layer: bars
+- type: rank
+  start: *id009
+  end: *id010
+  layer: total
+- type: rank
+  start: *id009
+  end: *id010
+  layer: prior
+- type: rank
+  start: *id009
+  end: *id010
+  layer: delta
+- type: island
+  start: *id011
+  end: &id012
+    sid: ending_0
+    edge: end
+    'off': 0.5
+  kind: structure
+  box: center_tall
+- type: rank
+  start: *id011
+  end: *id012
+  layer: bars
+- type: rank
+  start: *id011
+  end: *id012
+  layer: total
+- type: rank
+  start: *id011
+  end: *id012
+  layer: prior
+- type: rank
+  start: *id011
+  end: *id012
+  layer: delta
+- type: rank
+  start:
+    sid: act2_0
+    'off': -0.3
+  end:
+    sid: act2_4
+    edge: end
+    'off': -0.7
+  layer: prior
+- type: rank
+  start:
+    sid: act2_0
+    'off': 0.6
+  end:
+    sid: act2_4
+    edge: end
+    'off': -0.7
+  layer: delta
+- type: rank
+  start:
+    word:
+      sid: act1_2
+      text: 보건·복지·고용으로
+  end:
+    sid: act1_2
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: welfare
+  metric: amount
+  note: 규모 1위
+- type: rank
+  start:
+    word:
+      sid: act1_3
+      text: 일반·지방행정
+  end:
+    sid: act1_3
+    edge: end
+    'off': -2.4
+  layer: focus
+  row: admin
+  metric: amount
+  note: 규모 2위
+- type: rank
+  start:
+    word:
+      sid: act1_3
+      text: 교육
+  end:
+    sid: act1_3
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: education
+  metric: amount
+  note: 규모 3위
+- type: rank
+  start:
+    word:
+      sid: act1_4
+      text: 국방으로
+  end:
+    sid: act1_4
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: defense
+  metric: amount
+  note: 규모 4위
+- type: rank
+  start:
+    word:
+      sid: act1_5
+      text: 군인연금기금이
+  end:
+    sid: act1_5
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: defense
+  metric: amount
+  note: 새 기준 · 군인연금기금 이관
+- type: rank
+  start:
+    word:
+      sid: act2_1
+      text: 2018년부터
+  end:
+    sid: act2_1
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: total
+  metric: rate
+- type: rank
+  start:
+    word:
+      sid: act2_2
+      text: 일반·지방행정은
+  end:
+    sid: act2_3
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: admin
+  metric: amount
+- type: rank
+  start:
+    word:
+      sid: act2_4
+      text: 산업·중소기업·에너지가
+  end:
+    sid: act2_4
+    edge: end
+    'off': -0.7
+  layer: focus
+  row: industry
+  metric: rate
+  compare: avg
+- type: rank
+  start:
+    word:
+      sid: act2_6
+      text: 환경은
+  end:
+    sid: act2_6
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: environment
+  metric: rate
+  compare: avg
+- type: rank
+  start:
+    word:
+      sid: act2_7
+      text: 외교·통일은
+  end:
+    sid: act2_7
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: diplomacy
+  metric: rate
+  compare: avg
+- type: rank
+  start:
+    word:
+      sid: act2_8
+      text: SOC는
+  end:
+    sid: act2_8
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: soc
+  metric: rate
+- type: rank
+  start:
+    word:
+      sid: act2_9
+      text: 고속도로
+  end:
+    sid: act2_9
+    edge: end
+    'off': -0.3
+  layer: focus
+  row: soc
+  metric: rate
+  note: 고속도로 1조 239억 → 8,189억
+- type: rank
+  start:
+    word:
+      sid: act2_13
+      text: 주택구입·전세자금
+  end:
+    sid: act2_14
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: welfare
+  metric: rate
+  note: 주택 융자 −5조 · 건설임대 +4조 7천억
+- type: rank
+  start:
+    word:
+      sid: act2_16
+      text: 구직급여
+  end:
+    sid: act2_16
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: welfare
+  metric: rate
+  note: 구직급여 −1조 4천억
+- type: rank
+  start:
+    word:
+      sid: act2_18
+      text: 교육에서는
+  end:
+    sid: act2_18
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: education
+  metric: rate
+  note: 교부금 산정방식 개편
+- type: rank
+  start:
+    word:
+      sid: act2_19
+      text: 유아·초중등교육
+  end:
+    sid: act2_19
+    edge: end
+    'off': -0.3
+  layer: focus
+  row: education
+  metric: rate
+  note: 유아·초중등 6.5% · 대학 10.7%
+- type: rank
+  start:
+    word:
+      sid: act5_1
+      text: 헌법은
+  end:
+    sid: act5_1
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: total
+  metric: rate
+  note: 의결 시한 12월 2일
+- type: rank
+  start:
+    word:
+      sid: act5_2
+      text: 그때까지
+  end:
+    sid: act5_2
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: total
+  metric: rate
+  note: 국회 심사에서 바뀔 수 있음
+- type: photo
+  start:
+    sid: act2_5
+    'off': -1.1
+  end:
+    sid: act2_5
+    edge: end
+    'off': 0.75
+  mid: bud_wind_shinan
+  for: 해상풍력 발전기
+  place: backdrop_right_low
+- type: photo
+  start:
+    sid: act2_10
+    'off': -1.0
+  end:
+    sid: act2_11
+    'off': 0.8
+  mid: bud_hwy_westcoast
+  for: 고속도로 본선
+- type: photo
+  start:
+    sid: act2_11
+    'off': 0.8
+  end:
+    sid: act2_13
+    'off': -0.25
+  mid: bud_shuttle_42dot
+  for: 자율주행 셔틀 차량
+  place: backdrop_right_low
+- type: photo
+  start:
+    sid: act2_15
+    'off': -0.2
+  end:
+    sid: act2_16
+    'off': -0.5
+  mid: bud_apt_gwangmyeong
+  for: 아파트 단지
+- type: photo
+  start:
+    sid: act2_20
+    'off': -0.9
+  end:
+    sid: act3_0
+    'off': -0.2
+  mid: bud_wafer
+  for: 반도체 웨이퍼
+  place: backdrop_right_low
+- type: island
+  start: *id013
+  end: &id014
+    sid: act3_9
+    edge: end
+    'off': 0.4
+  kind: chart
+  box: left_tall
+- type: series
+  start:
+    sid: act3_4
+    'off': -0.3
+  end: *id014
+  lane: bal
+  series_id: FISCAL_MGMT_BALANCE
+  style: line
+  col: ru
+- type: series
+  start:
+    sid: act3_7
+    'off': -0.3
+  end: *id014
+  lane: debt
+  series_id: FISCAL_DEBT_GDP
+  style: line
+  col: teal
+- type: marker
+  start:
+    sid: act3_5
+    'off': 0.2
+  end:
+    sid: act3_5
+    edge: end
+    'off': 0.3
+  date: '2026-01-01'
+  lane: bal
+  label: 2026 추경 −107.6조
+  sub: 2027 정부안 −3.1조
+  side: left
+  hl: true
+- type: marker
+  start:
+    sid: act3_6
+    'off': 0.2
+  end:
+    sid: act3_6
+    edge: end
+    'off': 0.3
+  date: '2030-01-01'
+  lane: bal
+  label: −2.9%
+  sub: 2030 · GDP 대비
+  side: left
+  hl: true
+- type: marker
+  start:
+    sid: act3_8
+    'off': 0.2
+  end:
+    sid: act3_9
+    edge: end
+    'off': 0.3
+  date: '2027-01-01'
+  lane: debt
+  label: 1,519.8조 · 48.3%
+  sub: 2026 추경 대비 +107조
+  side: left
+  hl: true
+- type: rank
+  start:
+    word:
+      sid: act3_0
+      text: 정부안의
+  end:
+    sid: act3_1
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: total
+  metric: rate
+  note: 국세수입 584조 4천억 · 본예산 대비 49.8%
+- type: rank
+  start:
+    word:
+      sid: act3_2
+      text: 정부는
+  end:
+    sid: act3_2
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: total
+  metric: rate
+  note: 추가 세수 158조 5천억 → 미래대응기금
+- type: rank
+  start:
+    word:
+      sid: act3_3
+      text: 이
+  end:
+    sid: act3_3
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: total
+  metric: rate
+  note: 기금 사업 45조 4천억
+- type: rank
+  start:
+    word:
+      sid: act4_1
+      text: 첫째는
+  end:
+    sid: act4_2
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: total
+  metric: rate
+  note: 예정처 전망 593조 7천억 · 정부안 +9조 3천억
+- type: rank
+  start:
+    word:
+      sid: act4_3
+      text: 둘째는
+  end:
+    sid: act4_4
+    edge: end
+    'off': 0.0
+  layer: focus
+  row: total
+  metric: rate
+  note: 여유자금 104조 4천억 · 총지출 미계상
+- type: article
+  start:
+    sid: act4_5
+    'off': -2.7
+  end:
+    sid: act4_6
+    'off': 0.2
+  mid: budget_2027_art_0003
+  theme: dark
+- type: article
+  start:
+    sid: act4_6
+    'off': 0.2
+  end:
+    sid: act4_8
+    'off': -1.0
+  mid: budget_2027_art_0002
+  theme: dark
+- type: article
+  start:
+    sid: act4_8
+    'off': -1.0
+  end:
+    sid: act4_9
+    'off': 0.0
+  mid: budget_2027_art_0003
+  theme: dark
+- type: article
+  start:
+    sid: act4_9
+    'off': 0.0
+  end:
+    sid: act4_9
+    edge: end
+    'off': 0.9
+  mid: budget_2027_art_0001
+  theme: dark
+sound:
+  bgm: music.zabriskie_patriarch
+  intensity:
+  - - 0.0
+    - 0.55
+  - - scene_start: act2
+    - 0.52
+  - - scene_start: act3
+    - 0.55
+  - - scene_start: act4
+    - 0.6
+  - - scene_start: act5
+    - 0.52
