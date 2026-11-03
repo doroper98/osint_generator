@@ -1268,6 +1268,19 @@ class PrecedentPanelRules(_Strict):
     footnote_gap: float = Field(default=13.0, gt=0)    # 줄 간격
 
 
+class VersusHalfLeft(_Strict):
+    """v7.4.0 D-0629 §3 — versus 두 기둥을 왼쪽 짝 자리에 위아래로(사진 카드가 오른쪽에 있는 동안)."""
+
+    slot: str                                # layout_480p.slots 이름(x·y·w 를 가져온다)
+    bottom: float = Field(gt=0)              # 아래 기둥 상자 아래 끝(설계 px, 자막 구역 위)
+    gap: float = Field(ge=0)                 # 두 기둥 사이
+    title_dy: float = Field(gt=0)            # 기둥 상자 위 → 기둥 제목 기준선
+    item_dy0: float = Field(gt=0)            # 기둥 상자 위 → 첫 항목 기준선
+    item_step: float = Field(gt=0)           # 항목 간격
+    src_pad: float = Field(gt=0)             # 기둥 상자 아래 → 출처 줄 기준선
+    move_sec: float = Field(gt=0)            # 옮겨 가는 시간
+
+
 class VersusPanelRules(_Strict):
     title_size: float
     item_size: float
@@ -1275,6 +1288,7 @@ class VersusPanelRules(_Strict):
     item_pad_r: float = Field(gt=0)          # v5.3.1 — 항목 글자 오른쪽 여백(상자 테두리에 닿지 않게)
     item_max_lines: int = Field(ge=1, le=3)  # v5.3.1 — 한 항목 최대 줄 수(넘치면 오류, P6)
     item_line_gap: float = Field(gt=0)       # v5.3.1 — 접힌 항목 둘째 줄 간격(항목 간격 50 안)
+    half_left: Optional[VersusHalfLeft] = None   # v7.4.0 D-0629 §3
 
 
 class PanelRules(_Strict):

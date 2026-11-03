@@ -1969,15 +1969,23 @@ def cards_over_panel(events: list[dict], boxes: "Callable[[dict], list[tuple] | 
             kinds.discard("badge")   # badge_over_panel 이 보고한다(중복 없음)
             versus_media = set(cfg.cover_types_on_versus_panels) - kinds
             kinds |= versus_media
+        wins = [(a, b, (px0, py0, px1, py1))]
+        if p.get("kind") == "versus" and p.get("half_left_from") is not None:   # v7.4.0 D-0629 §3 — 왼쪽 모음 뒤 패널 상자
+            from engine.panels.versus import VS, half_box  # noqa: PLC0415
+
+            hs = p["half_left_from"] + VS.half_left.move_sec
+            wins = [(a, min(b, hs), (px0, py0, px1, py1)), (max(a, hs), b, half_box())]
         for e in events:
             if e["type"] not in kinds:
                 continue
-            ov = min(b, e["t1"]) - max(a, e["t0"])
-            if ov <= cfg.min_overlap_sec:
-                continue
-            bx = (media_boxes(e) if media_boxes else None) if e["type"] in versus_media else boxes(e)
-            if bx is None or any(x0 < px1 + pad and x1 > px0 - pad and y0 < py1 + pad and y1 > py0 - pad for x0, y0, x1, y1 in bx):
-                out.append((e, p, max(a, e["t0"])))
+            for wa, wb, (qx0, qy0, qx1, qy1) in wins:
+                ov = min(wb, e["t1"]) - max(wa, e["t0"])
+                if ov <= cfg.min_overlap_sec:
+                    continue
+                bx = (media_boxes(e) if media_boxes else None) if e["type"] in versus_media else boxes(e)
+                if bx is None or any(x0 < qx1 + pad and x1 > qx0 - pad and y0 < qy1 + pad and y1 > qy0 - pad for x0, y0, x1, y1 in bx):
+                    out.append((e, p, max(wa, e["t0"])))
+                    break
     return out
 
 

@@ -8,7 +8,7 @@ import cairo
 
 from engine.context import RenderCtx
 from engine.panels.base import panel_title
-from engine.style import C, MOTION
+from engine.style import C, MOTION, PANEL, W_OUT
 from engine.timebase import smooth
 from engine.typography import rrect, text, tw, wrap
 from rules import load_rules
@@ -37,26 +37,77 @@ def item_lines(ctx: cairo.Context, s: str) -> list[str]:
     return lines
 
 
+def half_u(t: float, e: dict) -> float:
+    """왼쪽 모음 진행(0 = 좌우 기둥, 1 = 왼쪽 위아래). half_left_from 이 없으면 0(v7.4.0 D-0629 §3)."""
+    hf = e.get("half_left_from")
+    if hf is None:
+        return 0.0
+    if VS.half_left is None:
+        raise VersusOverflowError("[panel-overflow] versus half_left_from 을 썼는데 rules panels.versus.half_left 가 없다")
+    return smooth((t - hf) / VS.half_left.move_sec)
+
+
+def half_frame() -> tuple[float, float, float, float]:
+    """왼쪽 모음 기둥 하나의 (x, 위 y, 폭, 높이) — 위 기둥 기준, 아래 기둥은 높이 + gap 아래."""
+    hl = VS.half_left
+    x, y, w = load_rules().placement.slots[hl.slot].box
+    return float(x), float(y), float(w), (hl.bottom - y - hl.gap) / 2
+
+
+def half_box() -> tuple[float, float, float, float]:
+    """왼쪽 모음 패널 상자(설계 px) — 패널 제목 줄 ~ 아래 기둥 끝. [card-over-panel] 이 쓴다."""
+    x, _, w, _ = half_frame()
+    return x, PANEL.title_y - PANEL.title_size, x + w, VS.half_left.bottom
+
+
+def _half_items(ctx: cairo.Context, side: dict) -> tuple[list[float], list[list[str]]]:
+    """왼쪽 모음 기둥 안 항목 기준선(상자 위 기준)과 접힌 줄. 출처 줄 위를 넘으면 VersusOverflowError(P6)."""
+    hl = VS.half_left
+    _, _, _, h = half_frame()
+    ys, lines, y = [], [], hl.item_dy0
+    for it in side["items"]:
+        ln = item_lines(ctx, it["text"])
+        ys.append(y)
+        lines.append(ln)
+        y += hl.item_step + (len(ln) - 1) * VS.item_line_gap
+    last = ys[-1] + (len(lines[-1]) - 1) * VS.item_line_gap
+    if last + VS.item_size > h - hl.src_pad - VS.src_size:
+        raise VersusOverflowError(f"[panel-overflow] versus 왼쪽 모음 기둥 {side['title']!r} 항목이 출처 줄과 겹친다 — 항목을 줄인다")
+    return ys, lines
+
+
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
-    panel_title(ctx, a, e["title"])
-    for (cname, x), side in zip(_COLS, e["sides"]):
+    u = half_u(t, e)
+    L = lambda p, q: p + (q - p) * u  # noqa: E731
+    hx = hy = hw = hh = 0.0
+    if e.get("half_left_from") is not None:
+        hx, hy, hw, hh = half_frame()
+    panel_title(ctx, a, e["title"], cx=L(W_OUT / 2, hx + hw / 2) if u > 0 else None)
+    for i, ((cname, x0), side) in enumerate(zip(_COLS, e["sides"])):
         col = C[cname]
         items = side["items"]
         fa = a * smooth((t - items[0]["t"] + 0.6) / MOTION["panel_item_in_sec"])   # v7.4.0 UF-159 ×1.5
         if fa <= 0:
             continue
-        rrect(ctx, x, 120, BOX_W, 262, 6)
+        hyi = hy + i * (hh + (VS.half_left.gap if VS.half_left else 0))
+        if e.get("half_left_from") is not None:
+            iys, ilines = _half_items(ctx, side)
+        else:
+            iys, ilines = [], []
+        x, y, bw, bh = L(x0, hx), L(120, hyi), L(BOX_W, hw), L(262, hh)
+        rrect(ctx, x, y, bw, bh, 6)
         ctx.set_source_rgba(0.07, 0.08, 0.12, 0.92 * fa)
         ctx.fill()
         ctx.set_source_rgba(*col, fa)
-        ctx.rectangle(x, 120, BOX_W, 3)
+        ctx.rectangle(x, y, bw, 3)
         ctx.fill()
-        text(ctx, side["title"], x + 22, 156, VS.title_size, "sansb", col, fa, 0, "l")
-        for i, it in enumerate(items):
+        text(ctx, side["title"], x + 22, y + L(36, VS.half_left.title_dy if VS.half_left else 36), VS.title_size, "sansb", col, fa, 0, "l")
+        for j, it in enumerate(items):
             ia = a * smooth((t - it["t"]) / MOTION["panel_item_fast_in_sec"])
-            ctx.arc(x + 26, 196 + i * 50 - 5, 3, 0, 2 * math.pi)
+            iy = y + L(76 + j * 50, iys[j] if iys else 76 + j * 50)
+            ctx.arc(x + 26, iy - 5, 3, 0, 2 * math.pi)
             ctx.set_source_rgba(*col, ia)
             ctx.fill()
-            for k, ln in enumerate(item_lines(ctx, it["text"])):
-                text(ctx, ln, x + ITEM_X, 196 + i * 50 + k * VS.item_line_gap, VS.item_size, "serifb", (1, 1, 1), ia, 0, "l")
-        text(ctx, side["src"], x + 22, 366, VS.src_size, "sans", C["muted"], fa, 0, "l")
+            for k, ln in enumerate(ilines[j] if ilines else item_lines(ctx, it["text"])):
+                text(ctx, ln, x + ITEM_X, iy + k * VS.item_line_gap, VS.item_size, "serifb", (1, 1, 1), ia, 0, "l")
+        text(ctx, side["src"], x + 22, y + L(246, bh - (VS.half_left.src_pad if VS.half_left else 16)), VS.src_size, "sans", C["muted"], fa, 0, "l")

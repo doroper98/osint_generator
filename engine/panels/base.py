@@ -18,10 +18,11 @@ _TAG = load_rules().panels.prov_tag
 PanelFn = Callable[[cairo.Context, RenderCtx, float, dict, float], None]
 
 
-def panel_title(ctx: cairo.Context, a: float, s: str, sub: str | None = None) -> None:
-    text(ctx, s, W_OUT / 2, PANEL.title_y, PANEL.title_size, "serifb", (1, 1, 1), a, 0, "c")
+def panel_title(ctx: cairo.Context, a: float, s: str, sub: str | None = None, cx: float | None = None) -> None:
+    x = W_OUT / 2 if cx is None else cx   # cx = v7.4.0 D-0629 versus 왼쪽 모음(기둥 위 가운데)
+    text(ctx, s, x, PANEL.title_y, PANEL.title_size, "serifb", (1, 1, 1), a, 0, "c")
     if sub:
-        text(ctx, sub, W_OUT / 2, PANEL.subtitle_y, PANEL.subtitle_size, "sansm", C["muted"], a, 0, "c")
+        text(ctx, sub, x, PANEL.subtitle_y, PANEL.subtitle_size, "sansm", C["muted"], a, 0, "c")
 
 
 def edge_curve(x0: float, y0: float, x1: float, y1: float, prog: float, n: int = 36) -> np.ndarray:

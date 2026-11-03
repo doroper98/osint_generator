@@ -1,0 +1,35 @@
+# 전쟁사 프리뷰 예제(v7.4.0 back_and_forth D-0629 §3, 15 P10) — versus 왼쪽 모음(half_left_from): 사진 카드가 오른쪽 짝 자리에 드는 동안
+# 두 사료 기둥을 왼쪽 짝 자리에 위아래로 모아 둘 다 보인다(C0 같은 무게). tests/test_versus_half_left.py 가 모델·렌더·덮임 검사를 본다.
+schema_version: 1
+key: panel:versus:half_left
+source: projects/cannae_216bc/direction.yaml(칸나이 aftermath — 로마군 손실 두 사료 + 슬로츠 상)
+event:
+  type: panel
+  t0: 2.0
+  t1: 16.0
+  title: 로마군 손실 — 두 사료
+  kind: versus
+  half_left_from: 8.0
+  sides:
+  - title: 폴리비오스
+    items:
+    - text: 전사 약 7만 명
+      t: 2.6
+    - text: 포로 보병 약 1만 명
+      t: 4.0
+    src: 『역사』 III.117
+  - title: 리비우스
+    items:
+    - text: 전사 보병 45,500명 · 기병 2,700명
+      t: 3.0
+    - text: 포로 보병 3천 명 · 기병 1,500명
+      t: 5.0
+    src: 『로마사』 XXII.49
+card:
+  type: photo
+  mid: cannae_slodtz
+  t0: 9.0
+  t1: 15.0
+  x: 436.0
+  y: 100.0
+  w: 376.0

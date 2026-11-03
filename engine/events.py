@@ -750,8 +750,12 @@ class VersusSide(_Strict):
 
 
 class PanelVersus(_Panel):
+    DROP_NONE: ClassVar[tuple[str, ...]] = (*_Panel.DROP_NONE, "half_left_from")   # 안 쓰는 패널 dict = 이전과 같음
+
     kind: Literal["versus"]
     sides: list[VersusSide] = Field(min_length=2, max_length=2)  # 양측 같은 무게(G4)
+    # v7.4.0 back_and_forth D-0629 §3 — 이 시각부터 두 기둥을 왼쪽 짝 자리에 위아래로 모은다(오른쪽 짝 자리 사진 카드와 함께, C0 같은 무게)
+    half_left_from: Optional[float] = None
 
 
 # ------------------------------------------------------------------ v2 번들 차트 (v2.5.0, D-0032 작업 5, 08 §8·§9)
