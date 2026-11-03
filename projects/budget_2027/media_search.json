@@ -368,6 +368,92 @@
    "passed": 0,
    "top": [],
    "rejected": []
+  },
+  {
+   "sid": "act2_9",
+   "query": "고속도로 hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_5",
+   "query": "National Assembly hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 15,
+   "passed": 15,
+   "top": [
+    "File:National Assembly Speaker Cho Jeong-sik meets with Foreign Minister Cho Hyun 20260619 (01).jpg",
+    "File:National Assembly Speaker Cho Jeong-sik meets with Foreign Minister Cho Hyun 20260619 (02).jpg",
+    "File:National Assembly Speaker Cho Jeong-sik meets with Foreign Minister Cho Hyun 20260619 (03).jpg",
+    "File:National Assembly Speaker Cho Jeong-sik meets with Foreign Minister Cho Hyun 20260619 (04).jpg",
+    "File:National Assembly Speaker Cho Jung-sik meets with Chief of Staff to the President Kang Hoon-sik 20260609 (01).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act3_1",
+   "query": "semiconductor hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_14",
+   "query": "apartment hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 15,
+   "passed": 15,
+   "top": [
+    "File:Ambassador Hong Young-ki 20260326.jpg",
+    "File:Cho Hyun 20260619.jpg",
+    "File:Kassym-Jomart Tokayev 카슴조마르트 토카예프 20260916.jpg",
+    "File:Minister Park Hong-keun 20260331.jpg",
+    "File:Moses Wetang'ula 모세스 웨탄굴라 20260514.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act2_11",
+   "query": "bus hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_16",
+   "query": "employment hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 3,
+   "passed": 3,
+   "top": [
+    "File:박윤주 외교부 제1차관, 방글라데시 외교 제1국무장관과 면담 20261002 (01).jpg",
+    "File:박윤주 외교부 제1차관, 방글라데시 외교 제1국무장관과 면담 20261002 (02).jpg",
+    "File:박윤주 외교부 제1차관, 방글라데시 외교 제1국무장관과 면담 20261002 (03).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act2_5",
+   "query": "factory hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
   }
  ]
 }
