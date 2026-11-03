@@ -434,6 +434,8 @@ class BackdropEvent(_Event):
 
     type: Literal["backdrop"]
     img: str = Field(min_length=1)
+    # v7.4.0 감독 D621 ②(D616 ③④ — 지하철·아파트 사진이 개관·쟁점 막 배경) — 이 배경이 보여 주는 장면 주제(용어). 레지스트리 main_subject 에 있어야 한다
+    for_: Optional[str] = Field(default=None, alias="for", min_length=1)
 
 
 class IslandEvent(_Event):

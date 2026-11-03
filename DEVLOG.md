@@ -3451,3 +3451,4 @@ last_review: 2026-06-06
 - 2026-11-02 v7.4.0 RENDER-AP-032 — 표준 글꼴 렌더 설정 장치(D-0624): config/fontconfig/fonts.conf(config.yaml engine.fontconfig) + engine.fontenv.ensure()(engine.style 맨 앞·conftest — FONTCONFIG_FILE 지정, 주 글꼴 hinting·hintstyle 다르면 멈춤), anti_inertia test_fontconfig_guard. 재시작으로 셸 설정이 사라져 골든 25컷 0/25 였던 사고.
 - v7.4.0 D613 — Flickr·Commons 사진 쪽 별도 이용 조건 거부(rules media.restriction_phrases), Flickr 11·12 추가 — RIGHTS-AP-003
 - 2026-11-03 v7.4.0 PIPELINE-AP-027 — 게이트 기록 정직성(감독 D621 ④⑤): 린트 실행 실패는 '오류 N' 대신 기록 거부(engine_service.is_crash·approve_gate), prev/ 없으면 cuts·밀도 '확인 불가', media_used 에 backdrop 수 — tests/test_gate_record_honesty.py
+- 2026-11-03 v7.4.0 감독 D621 ②③ — [backdrop-subject-background]·[backdrop-subject-unmatched] hard(backdrop for ↔ 레지스트리 main_subject, D616 ④), [island-text-contrast] hard(사진 배경 위 아일랜드 글자 대비, 렌더 경로 합성 97 백분위 ↔ qa_checks.map_contrast_text, D619·UF-304 장치) — tests/test_backdrop_subject_contrast.py

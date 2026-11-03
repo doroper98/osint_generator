@@ -2673,6 +2673,10 @@ entries:
     ref: tests/test_spoken_number_visible.py::SpokenNumberVisibleTest::test_r0608_state_fails
   - kind: test
     ref: tests/test_stage_structure.py::StructureStageTest::test_focus_label_says_spoken_number
+  - kind: check
+    ref: island_text_contrast
+  - kind: test
+    ref: tests/test_backdrop_subject_contrast.py::IslandTextContrastTest::test_bare_island_fails
   status: guarded
   decision: "D-1008 — 한 장면 차례 강조(증가액 → 증가율), 초점 행은 문장이 말하는 숫자를 크게, 늘어난 구간을 막대 위에 색으로, 구성 무대 글자 크기 상향, 말한 숫자 화면 표시 검사 신설"
   source: 감독 세션 사용자 대화 2026-11-02

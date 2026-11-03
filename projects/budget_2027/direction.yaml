@@ -347,12 +347,14 @@ events:
   end:
     scene_start: act1
   img: bud_assembly_ext_2014
+  for: 국회의사당
 - type: backdrop
   start:
     scene_start: act1
   end:
     scene_start: act2
   img: bud_sejong_complex
+  for: 정부세종청사
 - type: backdrop
   start:
     scene_start: act2
@@ -360,6 +362,7 @@ events:
     sid: act2_9
     'off': -0.5
   img: bud_motie
+  for: 산업통상자원부 청사
 - type: backdrop
   start:
     sid: act2_9
@@ -367,18 +370,21 @@ events:
   end:
     scene_start: act3
   img: bud_hwy_westcoast
+  for: 고속도로 본선
 - type: backdrop
   start:
     scene_start: act3
   end:
     scene_start: act4
   img: bud_wafer
+  for: 반도체 웨이퍼
 - type: backdrop
   start:
     scene_start: act4
   end:
     total: true
   img: bud_assembly_ext_2014
+  for: 국회의사당
 - type: island
   start: *id001
   end: &id002

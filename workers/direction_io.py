@@ -178,6 +178,7 @@ def media_text(pdir: Path | None = None) -> str:
     reg, own = project_media(pdir)
     rows = [f"- {mid}: {a.kind} · {a.caption} · {a.file_note}" + (f" · {'·'.join(a.depicts)}" if own and a.kind != "article" else "")
             + (f" · 헤드라인 「{a.headline}」" if a.kind == "article" and a.headline else "")   # v5.6.0 — 어떤 기사인지 보고 고른다
+            + (f" · 주된 피사체 {'·'.join(a.main_subject)}" if a.kind != "article" and a.main_subject else "")   # v7.4.0 감독 D621 ② — photo·backdrop for 는 이 목록에서
             + (f" · 구간 {a.segment}" if a.segment else "")
             + (" · 대체 타일 — 기본(Esri) 인셋을 먼저, 쓰면 inset.fallback_reason 필수"   # v7.4.0 D-0240 후속
                if a.kind == "inset" and _INSET_PREF and not a.license.startswith(_INSET_PREF) else "")

@@ -99,6 +99,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | map_cover_share | hard | 지도 무대(패널 없는 시각) window_sec 창 덮임 비율 > max_share(전면·가운데 큰 사진 1, 그 밖 상자 partial_weight, 첫 제목 카드 전 제외) `[map-cover-share]`(v7.4.0 D-0470, UF-173) |
 | island_inner_pad | hard | 아일랜드 내용(구성 무대 글자·차트 뷰포트)과 상자 테두리 간격 < island.inner_pad `[island-inner-pad]`(v7.4.0 D-1010 §1, UF-305) |
 | lane_empty | hard | 시간축 레인 틀이 보이는데 선(미리 보기·본 선)이 없는 구간 > 1초 `[lane-empty]`(v7.4.0 D-1010 §2, UF-306) |
+| backdrop_subject | hard | 배경 사진(backdrop) for(장면 주제)가 레지스트리 main_subject 에 없음 `[backdrop-subject-background]`·`[backdrop-subject-unmatched]`(v7.4.0 감독 D621 ②, D616 ④) |
+| island_text_contrast | hard | 사진 배경 위 구성·차트 아일랜드 글자색(rules island.text_colors) 대비 < qa_checks.map_contrast_text — 렌더 경로로 합성한 상자 안 밝은 쪽(97 백분위) 바탕 `[island-text-contrast]`(v7.4.0 감독 D621 ③, D619) |
 | data_stage_bare_on_backdrop | hard | 사진 배경(backdrop) 위 구성·차트 아일랜드가 상자 바탕(island.fill_alpha) 없이 그려짐 `[data-stage-bare-on-backdrop]`(v7.4.0 감독 D619, UF-304) |
 | structure_text_offscreen | hard | 구성 무대 글자(행 이름·금액·증감·초점 라벨·총지출 줄)가 아일랜드 상자 밖으로 잘림 `[structure-text-offscreen]`(v7.4.0 감독 D616), 글자 상자가 전년 속빈 눈금을 가로지름 `[structure-text-tick]`(R-0619 뒤) |
 | sa_obligation | hard | 이 영상이 쓰는 CC BY-SA 사진·영상의 고지(작가·제목·라이선스·링크·변경 사항)가 레지스트리·화면 출처 줄·엔딩 크레딧에 없음 `[sa-obligation]`(v7.4.0 사용자 결정 D612) |
@@ -146,7 +148,7 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled", "map_event_covered", "spoken_number_visible", "sa_obligation", "structure_text_offscreen", "data_stage_bare_on_backdrop", "island_inner_pad", "lane_empty")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled", "map_event_covered", "spoken_number_visible", "sa_obligation", "structure_text_offscreen", "data_stage_bare_on_backdrop", "island_inner_pad", "lane_empty", "backdrop_subject", "island_text_contrast")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -2994,6 +2996,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "band_line_outside": lambda: check_band_line_outside(P),   # v7.4.0 D-0326(hard, UF-200)
         "photo_subject_background": lambda: check_photo_subject_background(P),   # v7.4.0 D-0327(hard, UF-201)
         "photo_subject_unmatched": lambda: check_photo_subject_unmatched(P),     # v7.4.0 D-0327(hard)
+        "backdrop_subject": lambda: check_backdrop_subject(P),                   # v7.4.0 감독 D621 ②(hard, D616 ④)
+        "island_text_contrast": lambda: check_island_text_contrast(P),           # v7.4.0 감독 D621 ③(hard, D619·UF-304)
         "photo_age": lambda: check_photo_age(P),                                 # v7.4.0 D-0327(warning)
         "series_date_convention": lambda: check_series_date_convention(P),   # v7.4.0 D-0326(warning)
         "chart_world_split": lambda: check_chart_world_split(P),   # v7.4.0 D-0251 §6.2-2(hard, UF-135 ②)
@@ -3611,15 +3615,16 @@ def _subject_hit(term: str, items: list[str]) -> bool:
     return any(t and (t in x or x in t) for x in items)
 
 
-def photo_subject_issues(P) -> list[tuple[str, dict]]:  # noqa: ANN001, N803
+def photo_subject_issues(P, etype: str = "photo", key: str = "mid") -> list[tuple[str, dict]]:  # noqa: ANN001, N803
     """v7.4.0 back_and_forth D-0327(UF-201) — photo 이벤트 for(문장 대상)를 레지스트리 main_subject·background 와 대조.
-    → [("background"|"unmatched", 이벤트)]. for 없음 = unmatched(연출이 고른 이유를 적는다, P8)."""
+    → [("background"|"unmatched", 이벤트)]. for 없음 = unmatched(연출이 고른 이유를 적는다, P8).
+    etype·key = 같은 대조를 backdrop(img)에도(v7.4.0 감독 D621 ②, D616 ④)."""
     assets = P.R.assets.media_assets
     out = []
     for e in P.events:
-        if e["type"] != "photo":
+        if e["type"] != etype:
             continue
-        a = assets.get(e.get("mid"))
+        a = assets.get(e.get(key))
         term = e.get("for_") or e.get("for")
         main, bg = (list(getattr(a, "main_subject", []) or []), list(getattr(a, "background", []) or [])) if a is not None else ([], [])
         if term and _subject_hit(term, main):
@@ -3638,6 +3643,68 @@ def check_photo_subject_unmatched(P) -> list[str]:  # noqa: ANN001, N803
     """[photo-subject-unmatched] hard(v7.4.0 D-0327) — photo 에 for 가 없거나, 레지스트리 main_subject·background 어디에도 없다."""
     return [f"[photo-subject-unmatched] 사진 {e['mid']} t={e['t0']:.1f} — for {(e.get('for_') or e.get('for'))!r} 가 레지스트리 main_subject·background 에 없다"
             " (연출 photo 에 for 를 적고, 레지스트리 main_subject 를 실제 프레임을 보고 적는다)" for k, e in photo_subject_issues(P) if k == "unmatched"]
+
+
+def check_backdrop_subject(P) -> list[str]:  # noqa: ANN001, N803
+    """[backdrop-subject-background]·[backdrop-subject-unmatched] hard(v7.4.0 감독 D621 ②, D616 ③④) — 배경 사진(backdrop)의 for(장면 주제)가
+    레지스트리 main_subject 에 없다(배경에만 있거나 어디에도 없거나 for 없음). 개수를 채우려 주제 어긋난 배경을 깔지 않는다(D617)."""
+    out = []
+    for k, e in photo_subject_issues(P, "backdrop", "img"):
+        term = e.get("for_") or e.get("for")
+        if k == "background":
+            out.append(f"[backdrop-subject-background] 배경 {e['img']} t={e['t0']:.1f} — for {term!r} 는 사진의 배경에만 있다. 그것이 주된 피사체인 사진으로 바꾼다(D616)")
+        else:
+            out.append(f"[backdrop-subject-unmatched] 배경 {e['img']} t={e['t0']:.1f} — for {term!r} 가 레지스트리 main_subject·background 에 없다"
+                       " (연출 backdrop 에 장면 주제 for 를 적고, 주제에 맞는 사진을 고른다 — D616·D617)")
+    return out
+
+
+def island_text_contrast(P) -> list[dict]:  # noqa: ANN001, N803
+    """v7.4.0 감독 D621 ③(D619 후속, UF-304) — 사진 배경 위 구성·차트 아일랜드의 글자 대비 측정.
+    렌더와 같은 경로: backdrop_surface(블러·채도·덮개) → 화면 크기로 가운데 맞춤 → draw_frame(boxed=on_backdrop) → 상자 안(모서리 반경 안쪽)
+    휘도의 97 백분위 = 가장 밝은 바탕, rules island.text_colors 각 글자색과 WCAG 대비. → [{island, img, t0, t1, bg, worst, color}]."""
+    from engine.contrast import ratio, rel_lum  # noqa: PLC0415
+    from engine.island import draw_frame, island_box, on_backdrop  # noqa: PLC0415
+    from engine.layers.backdrop import backdrop_surface  # noqa: PLC0415
+    from engine.style import C  # noqa: PLC0415
+
+    if getattr(P.R.stage, "name", "") != "backdrop" or not ISLAND.text_colors:
+        return []
+    bds = [e for e in P.events if e["type"] == "backdrop"]
+    out: list[dict] = []
+    for e in P.events:
+        if e["type"] != "island" or e.get("kind") not in ("chart", "structure"):
+            continue
+        x, y, w, h = island_box(e)
+        for b in bds:
+            if b["t1"] <= e["t0"] or b["t0"] >= e["t1"]:
+                continue
+            bs, k = backdrop_surface(P.R, b["img"])
+            canvas = cairo.ImageSurface(cairo.FORMAT_RGB24, W_OUT, H_OUT)
+            ctx = cairo.Context(canvas)
+            ctx.save()
+            ctx.scale(1 / k, 1 / k)
+            ctx.set_source_surface(bs, -(bs.get_width() - W_OUT * k) / 2, -(bs.get_height() - H_OUT * k) / 2)
+            ctx.paint()
+            ctx.restore()
+            draw_frame(ctx, (x, y, w, h), 1.0, boxed=on_backdrop(P.R))
+            canvas.flush()
+            r = int(ISLAND.radius) + 1
+            buf = np.ndarray((H_OUT, canvas.get_stride() // 4, 4), np.uint8, buffer=canvas.get_data())
+            px = buf[int(y) + r:int(y + h) - r, int(x) + r:int(x + w) - r, :3][..., ::-1].astype(np.float64) / 255.0
+            bg = float(np.percentile(rel_lum(px), 97))
+            rs = {c: ratio(float(rel_lum(np.asarray(C[c], np.float64))), bg) for c in ISLAND.text_colors}
+            worst = min(rs, key=rs.get)
+            out.append({"island": e.get("kind"), "img": b["img"], "t0": e["t0"], "t1": e["t1"], "bg": round(bg, 3),
+                        "worst": round(rs[worst], 2), "color": worst})
+    return out
+
+
+def check_island_text_contrast(P) -> list[str]:  # noqa: ANN001, N803
+    """[island-text-contrast] hard(v7.4.0 감독 D621 ③, D619·UF-304) — 사진 배경 위 아일랜드 글자 대비 < qa_checks.map_contrast_text."""
+    return [f"[island-text-contrast] island {m['island']} t={m['t0']:.2f}~{m['t1']:.2f} 배경 {m['img']} — 글자 {m['color']} 대비 {m['worst']:.2f} < "
+            f"{QA.map_contrast_text:g}(상자 안 밝은 쪽 바탕 휘도 {m['bg']:.3f}). 상자 바탕(island.fill_alpha)·배경 사진을 본다(D619)"
+            for m in island_text_contrast(P) if m["worst"] < QA.map_contrast_text]
 
 
 def check_photo_age(P) -> list[str]:  # noqa: ANN001, N803
