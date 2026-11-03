@@ -15,6 +15,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | media_upscaled | warning | 사진·영상·컷아웃 원본 픽셀 폭 < 출력 프로파일의 장치 폭(설계 폭 × k) — 추측 보간 금지, 알리기만(v3.6.0 D-0067 요건 3) |
 | labels | hard | 샘플 시각마다 도시 라벨 수 ≤ labels_per_frame_max |
 | date | hard | 문장 date 형식(YYYY / YYYY.MM / YYYY.MM.DD) — 날짜 배지는 이 값으로만 그린다 |
+| narration_clarity | hard | v7.4.0 D-0626·D-0628 — out/mix.f32 의 문장마다 목소리 음역 내레이션 대 (음악+효과음+클립 원음) 에너지 비 최저가 rules audio.qa.narration_clarity.min_db 미만 `[narration-clarity]`. hard_genres(전쟁사) 영상만 hard, 그 밖 장르는 narration_clarity_note(warning). mix.f32 가 없으면 잴 것 없음(provenance 기록) |
+| narration_clarity_note | warning | 위와 같은 판정 — hard_genres 밖 장르(승격은 최종 감독) |
 | subtitles | hard | 자막 줄 수 ≤ subtitle_lines_max(렌더러와 같은 wrap) |
 | rights | hard | 권리 점검(load_project 의 check_credits·validate_media)이 통과했으면 0 |
 | forbidden | hard | 도장·비네팅·모서리 브랜드: 레지스트리 밖 이벤트 타입 0, vignette 끔, 모서리 요소 = 날짜뿐. v4.5.0(D85): 프리뷰 컷에 그린 글자 중 검증 라벨 문구(`script_schema.labels`) 0 `[label-in-body]` |
@@ -137,13 +139,14 @@ QA = R_.qa_checks
 SG = R_.shot_grammar
 SAMPLE_SEC = 1.0          # 뱃지·라벨 샘플 간격
 SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여백 — 이만큼 잘리는 것은 허용
-HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
+HARD = ("narration_clarity",   # v7.4.0 D-0626·D-0628 — 내레이션 명료도(rules audio.qa.narration_clarity.hard_genres 장르만)
+        "map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
         "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled", "map_event_covered")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
-        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
+        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age", "narration_clarity_note")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
 
 def missing_fonts() -> list[str]:
@@ -1274,6 +1277,39 @@ def static_windows(times: list[float], track: list[tuple[float, float, float]], 
         elif out and out[-1][0] == times[i0]:
             out[-1] = (times[i0], t)
     return out
+
+
+def narration_clarity_report(P) -> "dict | None":  # noqa: ANN001, N803
+    """out/mix.f32 의 문장별 명료도(audio.qa.narration_clarity) — 한 번만 재고 P.R.cache 에. mix 가 없으면 None."""
+    if "narration_clarity" in P.R.cache:
+        return P.R.cache["narration_clarity"]
+    from audio.qa import narration_clarity, stems  # noqa: PLC0415
+
+    f = P.root / "out" / "mix.f32"
+    rep = None
+    if f.exists():
+        mix, vo, _ = stems(f, P.plan.sentences)
+        per = narration_clarity(mix, vo, P.plan.sentences)
+        worst = sorted(per.items(), key=lambda kv: kv[1])
+        rep = {"min_db": worst[0][1] if worst else None, "worst": worst[:3], "sentences": len(per)}
+    P.R.cache["narration_clarity"] = rep
+    return rep
+
+
+def check_narration_clarity(P, hard: bool) -> list[str]:  # noqa: ANN001, N803
+    """[narration-clarity] — 장르가 rules hard_genres 안이면 hard 쪽(hard=True)에서, 밖이면 warning 쪽(hard=False)에서만 낸다."""
+    cfg = R_.audio.qa.narration_clarity
+    if cfg is None:
+        return []
+    genre = (P.R.cache.get("genre") or {}).get("name")
+    if (genre in cfg.hard_genres) != hard:
+        return []
+    rep = narration_clarity_report(P)
+    if not rep or rep["min_db"] is None or rep["min_db"] >= cfg.min_db:
+        return []
+    ws = " · ".join(f"{s} {v:+.1f}" for s, v in rep["worst"])
+    return [f"[narration-clarity] 목소리 음역 내레이션 대 음악·효과음 최저 {rep['min_db']:.1f} dB < {cfg.min_db:g} — 가장 낮은 문장 {ws}. "
+            "bed_gain 은 그대로 두고 연출 sound.intensity·효과음 세기로 그 구간을 낮춘다(D-0626·D-0628)"]
 
 
 def check_static_camera(P) -> list[str]:  # noqa: ANN001, N803
@@ -2731,6 +2767,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "photo_subject_background": lambda: check_photo_subject_background(P),   # v7.4.0 D-0327(hard, UF-201)
         "photo_subject_unmatched": lambda: check_photo_subject_unmatched(P),     # v7.4.0 D-0327(hard)
         "photo_age": lambda: check_photo_age(P),                                 # v7.4.0 D-0327(warning)
+        "narration_clarity": lambda: check_narration_clarity(P, hard=True),       # v7.4.0 D-0626·D-0628 [narration-clarity]
+        "narration_clarity_note": lambda: check_narration_clarity(P, hard=False),
         "series_date_convention": lambda: check_series_date_convention(P),   # v7.4.0 D-0326(warning)
         "chart_world_split": lambda: check_chart_world_split(P),   # v7.4.0 D-0251 §6.2-2(hard, UF-135 ②)
         "series_label_overlap": lambda: check_series_label_overlap(P),   # v7.4.0 D-0256(hard)
