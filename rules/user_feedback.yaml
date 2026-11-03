@@ -2668,7 +2668,7 @@ entries:
   - {kind: rule, ref: panels.charts.network.crowd}
   - {kind: test, ref: tests/test_v740_network_drop.py::NetworkCrowdTest::test_dots_count_and_rings}
   status: guarded
-  decision: "D601 — UF-400 후속. 요소 승인은 규칙 주석·장르 approved 로 남기고, 후속 장치는 커밋 하나에 장치 하나씩 순서대로"
+  decision: "D801(번호 정정 — 처음 D601) — UF-400 후속. 요소 승인은 규칙 주석·장르 approved 로 남기고, 후속 장치는 커밋 하나에 장치 하나씩 순서대로"
   source: 영상 분석 세션 사용자 대화 2026-11-02
 - id: UF-402
   date: '2026-11-03'
@@ -2682,5 +2682,5 @@ entries:
   - {kind: test, ref: tests/test_v740_uf400_template.py::CommonGrammarTest::test_geopolitics_director_gets_device_lines}
   - {kind: test, ref: tests/test_v740_uf400_template.py::CommonGrammarTest::test_no_duplicate_in_map_genre}
   status: guarded
-  decision: "D602 — 병합 커밋 95455c4d(충돌 8건 양쪽 유지) + 범용 장치 안내 6줄을 direction_grammar 로 이동"
+  decision: "D802(번호 정정 — 처음 D602) — 병합 커밋 95455c4d(충돌 8건 양쪽 유지) + 범용 장치 안내 6줄을 direction_grammar 로 이동"
   source: 영상 분석 세션 사용자 대화 2026-11-03
