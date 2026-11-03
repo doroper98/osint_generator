@@ -2671,3 +2671,36 @@ entries:
   status: open
   decision: "D-0625(back_and_forth) — 진형 가운데 고정 + 장치(진형 중심 화면 위치 검사). D-0619 ② 의 '진형을 왼쪽 빈자리로' 방식은 대체"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-03"
+- id: UF-256
+  date: '2026-11-03'
+  project: cannae_216bc
+  at: "칸나이 콘티 판 v1 판정 ③ 배경음악 선택 — 같은 30초 구간(201.6~231.6초) 견본 둘(Zabriskie / 베토벤 코리올란 서곡 Musopen PD)과 수치 설명(코리올란 박자 선명도 3.69·분당 시작 75.3·목소리 음역 0.630 — bgm_floor 세 항목 미달, 감독 권고 Zabriskie) 뒤 사용자 답"
+  quote: "coriolan"
+  quote_kind: verbatim
+  category: "칸나이 배경음악 = 베토벤 「코리올란 서곡」 Op. 62(Musopen Symphony, PD). 전쟁사 장르 bgm_floor 개정 승인(D-0613 — 코리올란 선택 = 장르별 하한 개정). 내레이션 가림 위험은 실제 믹스 측정 장치로 지킨다"
+  guards: []
+  status: open
+  decision: "D-0626(back_and_forth) — 음악 등록·장르 하한 개정·믹스 내레이션 명료도 장치, 판정 ③ 반영 묶음(D-0622 날짜·D-0625 진형) → rollback → 게이트 ① 재승인 → 콘티 판 v2"
+  source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-03"
+- id: UF-257
+  date: '2026-11-03'
+  project: cannae_216bc
+  at: "칸나이 콘티 판 v1 판정 ③ — terrain3d 전술 화면(1:53~4:16). 부대 이름 라벨(히스파니아·켈트 보병·아프리카 중무장보병·누미디아 기병 등)이 서로, 그리고 부대 블록과 겹쳐 붙어 읽힘(예 150·157·165초)"
+  quote: "그리고 진형 씬에서 너무 글씨들이 겹치는 현상이 있어."
+  quote_kind: verbatim
+  category: "전쟁사 전술 화면 글자 — 부대 이름 라벨끼리·라벨과 블록이 겹치지 않는다. 카메라를 물리면(UF-255) 라벨이 더 빽빽해지므로 접기·묶기 규칙과 함께"
+  guards: []
+  status: open
+  decision: "D-0627(back_and_forth) — label_collision 을 terrain3d 구간 라벨에도 같은 규칙 키로, 라벨 LOD·같은 병종 묶기"
+  source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-03"
+- id: UF-258
+  date: '2026-11-03'
+  project: cannae_216bc
+  at: "칸나이 콘티 판 v1 판정 ③ — 전투 장면 소리(현재 음악·내레이션·합성 휙 소리만)"
+  quote: "싸울때는 보병간 싸움에는 남자들의 함성과 칼소리, 궁평 씬에는 활쏘는 소리, 기병간 싸움에는 말 소리가 좀 있으면 좋겠는데 가능? 유치하지 않게"
+  quote_kind: verbatim
+  category: "전쟁사 전투 효과음 — 보병 접전 = 함성·칼 부딪는 소리, 궁병 = 활 쏘는 소리, 기병 접전 = 말 소리. 유치하지 않게(장식이 아니라 배경 질감, 내레이션 아래). 녹음 원천만(권리 PD·CC0·CC BY), 사료에 없는 병종 소리는 넣지 않음"
+  guards: []
+  status: open
+  decision: "D-0627(back_and_forth) — 녹음 효과음 레지스트리·큐 종류 추가, 칸나이 견본 먼저 사용자 판정"
+  source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-03"
