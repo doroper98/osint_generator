@@ -28,6 +28,7 @@ AAC_BITRATE = "192k"
 DESCRIPTION_CREDITS_HEADING = "크레딧 (영상 밖 표기 — 폰트 등)"
 DESCRIPTION_SOURCES_HEADING = "출처 원문 (보도 · 자료 · X 게시물)"
 DESCRIPTION_PRESS_HEADING = "사진 출처 (보도 인용)"   # v5.21.0 D-0177 §3
+DESCRIPTION_SA_HEADING = "사진·영상 출처 (CC BY-SA — 작가 · 제목 · 라이선스 · 링크 · 변경 사항)"   # v7.4.0 사용자 결정 D612
 
 
 class Chapter(BaseModel):
@@ -181,6 +182,11 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     exc = rights_exceptions(req, P.R.assets.rights, P.R.assets.media)   # v5.21.0 — 보도 인용(B) 사진 포함
     if exc:   # v5.15.0 D-0160 — restricted·사용자 예외 자산을 쓴 영상에만(P5·P6)
         prov["rights"] = {"exceptions": exc}
+    from engine.credits import sa_obligations  # noqa: PLC0415
+
+    sao = sa_obligations(req, P.R.assets.media)   # v7.4.0 사용자 결정 D612 — CC BY-SA 사진·영상 고지 의무(쓴 영상에만)
+    if sao:
+        prov.setdefault("rights", {})["sa_obligations"] = sao
     prov["drops"] = [{"record": d["record"], "reason": d["reason"]} for d in P.R.cache.get("direction_drops") or []]   # v7.4.0 D-0331 — 연출이 일부러 뺀 것(시리즈·요소)과 사유(P5·P6)
     prov["reserved"] = {"avoidance": avoidance_report(P), "badge_delays": P.R.cache.get("badge_delays") or []}   # D-0033 §2 — 카드 영역 때문에 비킨·흐린 뱃지. badge_delays = v7.4.0 D-0329 ② 전면 덮개 뒤로 미룬 배지
     mus = sorted(r for r in (P.R.cache.get("credit_refs") or set()) if r.startswith("music."))
@@ -400,6 +406,11 @@ def main(argv: list[str] | None = None) -> int:
         dpress = description_press_photos(req, P.R.assets.media)   # v5.21.0 D-0177 §3 — 보도 인용(B) 사진 출처 줄
         if dpress:
             desc += "\n\n" + DESCRIPTION_PRESS_HEADING + "\n" + "\n".join(dpress)
+        from engine.credits import description_sa_credits  # noqa: PLC0415
+
+        dsa = description_sa_credits(req, P.R.assets.media)   # v7.4.0 D612 — CC BY-SA 사진·영상 고지(작가·제목·라이선스·링크·변경)
+        if dsa:
+            desc += "\n\n" + DESCRIPTION_SA_HEADING + "\n" + "\n".join(dsa)
         (outd / "description.txt").write_text(desc, encoding="utf-8")
         prov = project_provenance(P, {"plan": True, "geo": True, "preview": (proj / "prev" / "provenance.json").exists(),
                                       "render": True, "mix": True, "mux": True, "ai_direction": False, "visual_qa": False})

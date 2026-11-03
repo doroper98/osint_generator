@@ -70,7 +70,7 @@ def flickr_license(page: str, pid: str) -> str:
 
 
 def flickr_license_ok(lic: str, registry_license: str) -> bool:
-    """Flickr license 번호가 rules media.flickr.licenses_allowed 안이고 그 이름이 레지스트리 license 와 같은가(D611 — 4 CC BY 통과, 5 SA·NC 거부)."""
+    """Flickr license 번호가 rules media.flickr.licenses_allowed 안이고 그 이름이 레지스트리 license 와 같은가(D611 — 4 CC BY, D612 — 5 CC BY-SA 통과, NC·ND 거부)."""
     from rules import load_rules  # noqa: PLC0415
 
     allowed = load_rules().media.flickr.licenses_allowed
@@ -130,7 +130,7 @@ def fetch_source(a: MediaAsset, media: Path, restore_from: Path | None = None, t
         return fetch_video(str(prm["url"]), dest)
     kw = {} if tries is None else {"tries": tries}
     ii = commons_fetch.info(a.title, prm.get("thumb_w"))   # 표준 폭만(07 §3.2)
-    if not commons_fetch.license_allowed(ii["lic"]) or ii["restrictions"]:
+    if not commons_fetch.media_license_allowed(ii["lic"]) or ii["restrictions"]:   # v7.4.0 D612 — 사진·영상 관문(SA 포함, 고지 의무)
         raise MediaFetchError(f"라이선스·제한 불허 {ii['lic']!r} {ii['restrictions']}: {a.title}")
     if a.kind == "video":
         data = commons_fetch.http_get(ii["url"], timeout=300, **kw)
@@ -403,7 +403,7 @@ def search_pools(query: str, limit: int = 7, only: str | None = None, log: Path 
     pools = [p for p in mb.sources_order if only is None or p.id == only]
     if not pools:
         raise MediaFetchError(f"풀 {only!r} 없음 — rules media_beats.sources_order: {[p.id for p in mb.sources_order]}")
-    find = searcher or commons_fetch.search
+    find = searcher or (lambda q, n: commons_fetch.search(q, n, media=True))   # v7.4.0 D612 — 사진·영상 후보는 media 관문
     rows: list[dict] = []
     logged: list[MediaSearch] = []
     for rank, p in enumerate(pools, 1):

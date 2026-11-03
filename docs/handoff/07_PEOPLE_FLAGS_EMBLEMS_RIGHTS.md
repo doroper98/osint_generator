@@ -93,6 +93,8 @@ extmetadata: LicenseShortName, Artist(HTML), Restrictions, Credit
 # User-Agent 헤더 필수: 'osint-video-trial/0.3 (research)'
 ```
 - **허용 라이선스**: Public domain, CC0, CC BY(1.0~4.0), KOGL Type 1(공공누리 제1유형). CC BY-SA는 파생물 라이선스 검토 필요(저장소 RIGHTS.md 규칙과 동일).
+- **사진·영상 CC BY-SA 허용(v7.4.0 사용자 결정 D612, 2026-11-03)**: 미디어 레지스트리 사진·영상(photo·video, backdrop 배경 사진 포함)은 CC BY-SA 2.0~4.0 을 쓴다(`rules media.sa_allowed`·`sa_licenses`, Flickr `"5"`). 사용자는 "영상 전체에 같은 CC BY-SA 조건이 붙을 수 있다"는 권리 위험을 알고 정했다. NC·ND 는 여전히 불허. **휘장(emblem)·인물 초상·국기 규칙은 바꾸지 않는다** — 그 관문(`schemas.emblem_models.license_allowed`)은 SA 불허 그대로이고, 사진·영상 관문만 `media_license_allowed` 를 쓴다(`tools/commons_fetch.search(media=True)`·`tools/media_fetch` Commons·Flickr).
+  - **고지 의무**: SA 사진·영상마다 작가·제목·라이선스 이름·원본 링크·변경 사항(자르기·크기 조정 등, 레지스트리 `modifications`)을 ① 화면 출처 줄(`media.sa_screen_suffix`) ② 엔딩 크레딧 ③ 설명란 "사진·영상 출처 (CC BY-SA …)" 에 남기고(`media.sa_credit_line`), provenance `rights.sa_obligations[]`(`sa_obligation: true`)에 기록한다. 필드가 비면 레지스트리 모델 오류, 화면·엔딩에 없으면 검사 `[sa-obligation]` hard.
 - **Restrictions 태그**(`personality`, `insignia`, `trademarked`, `communist`)가 있으면 자동 차단 → 사람 판단. (예: 이재명 2021 사진은 KOGL+personality → 제외, 같은 인물의 Public domain 공식 초상 사용)
 - **다운로드 폭은 표준 썸네일 폭(예: 960) 또는 원본**. 비표준 폭(700 등)은 썸네일 생성 요청이 되어 **HTTP 429**가 반복된다(v2에서 실제 발생 — 저장소 RIGHTS.md의 교훈과 동일). 실패 시 원본 URL로 폴백, 6회 재시도, 지수적 대기.
 - 받은 바이트는 `PIL.Image.open(BytesIO).verify()`로 검증(429 HTML이 jpg로 저장되는 사고 방지).

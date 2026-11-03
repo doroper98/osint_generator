@@ -25,6 +25,24 @@ EmblemDecision = Literal["use", "flag_fallback"]
 ALLOWED_LICENSE_PREFIXES: tuple[str, ...] = ("public domain", "pd", "cc0", "cc by ", "cc-by-", "kogl type 1")
 
 
+def is_sa(lic: str) -> bool:
+    """CC BY-SA 계열인가(SA 조각)."""
+    return "sa" in lic.strip().lower().replace("-", " ").split()
+
+
+def media_license_allowed(lic: str) -> bool:
+    """사진·영상 라이선스 관문(v7.4.0 사용자 결정 D612) — license_allowed(07 §3.2) + rules media.sa_allowed 이면 media.sa_licenses 의 CC BY-SA.
+    NC·ND 는 여기서도 불허. 휘장·초상은 license_allowed 를 그대로 쓴다(SA 불허)."""
+    if license_allowed(lic):
+        return True
+    from rules import load_rules  # noqa: PLC0415
+
+    m = load_rules().media
+    words = lic.strip().lower().replace("-", " ").split()
+    return m.sa_allowed and is_sa(lic) and "nc" not in words and "nd" not in words \
+        and lic.strip().lower() in {x.lower() for x in m.sa_licenses}
+
+
 def license_allowed(lic: str) -> bool:
     """07 §3.2 허용 라이선스: PD·CC0·CC BY(1.0~4.0)·KOGL 제1유형. CC BY-SA 는 불허(파생물 검토 필요)."""
     s = lic.strip().lower()

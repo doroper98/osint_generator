@@ -439,6 +439,10 @@ class MediaRules(_Strict):
     flickr: Optional[FlickrRules] = None   # v4.4.0
     photo_age_max_years: int = Field(default=15, gt=0)   # v7.4.0 D-0327 — [photo-age] warning
     file_clip_date_gap_days: int = Field(default=30, gt=0)   # v7.4.0 D-0283 §1 — [clip-date-mismatch] 촬영일 ↔ 문장 날짜 차 상한(자료 표기 없을 때)
+    sa_allowed: bool = False                     # v7.4.0 사용자 결정 D612 — 사진·영상 CC BY-SA 허용(휘장·초상은 그대로)
+    sa_licenses: list[str] = Field(default_factory=list)
+    sa_screen_suffix: str = ""                   # 화면 출처 줄 끝 — "{modifications}"
+    sa_credit_line: str = ""                     # 엔딩 크레딧·설명란 — {author}{title}{license}{url}{modifications}
 
 
 class DateBadge(_Strict):

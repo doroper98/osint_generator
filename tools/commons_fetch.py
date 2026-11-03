@@ -36,7 +36,7 @@ if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
 from orchestrator.config import load_config  # noqa: E402
-from schemas.emblem_models import EmblemEntry, EmblemRegistry, decide_emblem, license_allowed  # noqa: E402
+from schemas.emblem_models import EmblemEntry, EmblemRegistry, decide_emblem, license_allowed, media_license_allowed  # noqa: E402
 
 UA = {"User-Agent": "osint-video-trial/0.4 (research; https://github.com/doroper98/osint_generator)"}
 COMMONS_API = "https://commons.wikimedia.org/w/api.php"
@@ -156,14 +156,15 @@ def info(title: str, width: int | None = None) -> dict:
     return _ii(page)
 
 
-def search(query: str, limit: int = 7, width: int = 960) -> list[dict]:
-    """후보 검색(07 §3.2). 라이선스 허용·제한 여부를 붙여 돌려준다 — 고르는 것은 사람/연출."""
+def search(query: str, limit: int = 7, width: int = 960, media: bool = False) -> list[dict]:
+    """후보 검색(07 §3.2). 라이선스 허용·제한 여부를 붙여 돌려준다 — 고르는 것은 사람/연출.
+    media = 사진·영상 후보(v7.4.0 사용자 결정 D612 — media_license_allowed, CC BY-SA 포함). 기본(휘장·초상) = license_allowed."""
     params = {"action": "query", "generator": "search", "gsrsearch": query, "gsrnamespace": "6", "gsrlimit": str(limit),
               "prop": "imageinfo", "iiprop": "url|extmetadata|mime", "iiurlwidth": str(width)}
     pages = api(params).get("query", {}).get("pages", {})
     out = [_ii(p) for p in pages.values() if "imageinfo" in p]
     for c in out:
-        c["allowed"] = license_allowed(c["lic"]) and not c["restrictions"]
+        c["allowed"] = (media_license_allowed if media else license_allowed)(c["lic"]) and not c["restrictions"]
     return out
 
 
