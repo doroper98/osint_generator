@@ -145,6 +145,24 @@ def onsets(y: np.ndarray) -> list[int]:
     return out
 
 
+def calls(y: np.ndarray) -> list[tuple[int, int]]:
+    """말 울음 파일 안 울음 구간(시작, 끝 표본) — RMS 포락선이 문턱을 넘는 덩어리, 가까운 덩어리는 이어 붙인다."""
+    K = load_rules().audio.battle_sfx.call  # noqa: N806
+    k = max(1, int(K.env_sec * SR))
+    env = np.sqrt(np.convolve(y ** 2, np.ones(k) / k, mode="same"))
+    on = np.flatnonzero(env > K.hi * env.max())
+    if not len(on):
+        return []
+    out: list[list[int]] = [[int(on[0]), int(on[0])]]
+    for i in on[1:]:
+        if i - out[-1][1] <= K.merge_gap_sec * SR:
+            out[-1][1] = int(i)
+        else:
+            out.append([int(i), int(i)])
+    pre = int(K.pre_sec * SR)
+    return [(max(0, a - pre), min(len(y), b + pre)) for a, b in out]
+
+
 def repitch(y: np.ndarray, f: float) -> np.ndarray:
     """음높이·속도를 함께 f 배(재표본화 한 번). |f − 1| ≤ pitch_pct_max/100 은 부르는 쪽이 지킨다."""
     n = max(1, int(round(len(y) / f)))
@@ -219,11 +237,16 @@ def render_battle(sound: str, dur: float, dist: str, v: float, rng: np.random.Ge
     elif sound == "whinny":
         for _ in range(L.whinny_max_per_cue):
             sid = ids[int(rng.integers(len(ids)))]
+            src = decode(sid)
+            cs = calls(src)
+            if not cs:
+                raise SfxError(f"말 울음 녹음에서 울음을 찾지 못했다: {sid}")
+            a, b = cs[int(rng.integers(len(cs)))]   # 울음 한 번만(D-0628 §3 — 파일에 여럿이어도)
             f = pitch()
-            seg = repitch(decode(sid), f)[:n]
+            seg = repitch(src[a:b], f)[:n]
             at = int(rng.uniform(*L.whinny_at) * max(1, n - len(seg)))
             y[at:at + len(seg)] += seg[: n - at]
-            parts.append({"id": sid, "at_sec": round(at / SR, 2), "pitch": round(f, 4)})
+            parts.append({"id": sid, "call_sec": [round(a / SR, 2), round(b / SR, 2)], "at_sec": round(at / SR, 2), "pitch": round(f, 4)})
     else:   # gallop·crowd — 녹음을 잇고(늘이기 없음) 사본을 시간차로 겹친다
         copies = L.gallop_copies if sound == "gallop" else L.crowd_copies
         for c in range(copies):
@@ -245,4 +268,4 @@ def render_battle(sound: str, dur: float, dist: str, v: float, rng: np.random.Ge
 
 
 __all__ = ["SfxEntry", "SfxError", "SfxRegistry", "card_line", "decode", "distance", "entry", "ids_for", "load_sfx_registry", "onsets",
-           "render_battle", "repitch", "sfx_path"]
+           "calls", "render_battle", "repitch", "sfx_path"]

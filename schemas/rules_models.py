@@ -1684,6 +1684,15 @@ class BattleSfxLayer(_Strict):
     seq_xfade_sec: float = Field(ge=0)
 
 
+class BattleSfxCall(_Strict):
+    """말 울음 파일 안 울음 한 번 나누기(v7.4.0 D-0628 §3 — 큐당 울음 하나)."""
+
+    env_sec: float = Field(gt=0)
+    hi: float = Field(gt=0, le=1)
+    merge_gap_sec: float = Field(ge=0)
+    pre_sec: float = Field(ge=0)
+
+
 class BattleSfxOnset(_Strict):
     env_sec: float = Field(gt=0)
     hi: float = Field(gt=0, le=1)
@@ -1701,6 +1710,7 @@ class BattleSfxRules(_Strict):
     unit_sounds: dict[str, list[str]]
     layer: BattleSfxLayer
     onset: BattleSfxOnset
+    call: BattleSfxCall
     distance: dict[str, BattleSfxDistance]
     peak: float = Field(gt=0, le=1)
     fade_sec: float = Field(ge=0)

@@ -86,6 +86,18 @@ class LayerRulesTest(unittest.TestCase):
     def test_onsets_find_takes(self) -> None:
         self.assertEqual(len(S.onsets(_clicks())), 8)
 
+    def test_whinny_one_call(self) -> None:
+        """파일에 울음이 여럿이어도 큐 하나에 울음 한 번(D-0628 §3) — 실측 Wiehern 2·Briefer S1 3."""
+        y = np.zeros(int(3.0 * SR), np.float32)
+        for a in (0.2, 1.2, 2.2):   # 울음 사이 0.5초 > merge_gap_sec
+            i = int(a * SR)
+            y[i:i + int(0.5 * SR)] = np.sin(np.arange(int(0.5 * SR)) * 0.08)
+        self.assertEqual(len(S.calls(y)), 3)
+        with mock.patch.object(S, "decode", return_value=y), mock.patch.object(S, "ids_for", return_value=["sfx.w"]):
+            out, rec = S.render_battle("whinny", 4.0, "far", 1.0, np.random.default_rng(7))
+        (c0, c1), = [p["call_sec"] for p in rec["parts"]]
+        self.assertLess(c1 - c0, 0.5 + 2 * BS.call.pre_sec + 0.1)   # 울음 한 번 길이
+
     def test_render_rules_with_synthetic_sources(self) -> None:
         srcs = {"sfx.a": _clicks(), "sfx.b": _clicks(3.0, 0.4), "sfx.g": np.sin(np.arange(20 * SR) * 0.01).astype(np.float32)}
         kinds = {"melee_metal": ["sfx.a", "sfx.b"], "gallop": ["sfx.g"], "whinny": ["sfx.a"], "crowd": ["sfx.g"]}

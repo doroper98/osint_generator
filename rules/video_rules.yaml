@@ -1453,6 +1453,7 @@ audio:                     # 10
       whinny_at: [0.2, 0.6]       # 말 울음 자리(큐 길이 비율 범위)
       seq_xfade_sec: 0.3          # 녹음 잇기 교차 페이드
     onset: {env_sec: 0.005, hi: 0.3, lo: 0.05, pre_sec: 0.01, gap_sec: 0.25}   # 테이크 안 부딪힘 찾기(포락선 창·오름 문턱·내림 문턱·앞 여유·최소 간격)
+    call: {env_sec: 0.05, hi: 0.25, merge_gap_sec: 0.4, pre_sec: 0.05}   # 말 울음 파일 안 울음 한 번 나누기(RMS 창·문턱·이어 붙일 간격·앞 여유) — 큐당 울음 하나(D-0628 §3)
     distance:
       far: {lowpass_hz: 1800.0, reverb_sec: 1.4, reverb_mix: 0.45}
       mid: {lowpass_hz: 3800.0, reverb_sec: 0.9, reverb_mix: 0.3}
