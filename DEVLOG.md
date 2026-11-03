@@ -3449,3 +3449,4 @@ last_review: 2026-06-06
 - 2026-11-02 v7.4.0 감독 원장 커밋(de537db6) UF-207 '장치 있음 + open' 으로 FeedbackLedger 검증 실패 → sweet-galileo 모든 렌더 rc=1 약 10시간(PIPELINE-AP-026) → 217c4525 정정, 감독 체크리스트에 load_user_feedback 확인 의무.
 - 2026-11-02 v7.4.0 iran_ceasefire_2026 UF-173 장치(D-0466 §6·D-0470) — [media-sentence-span]·[map-opening]·[map-cover-share] hard(연출 v9 고정본 실패·v10 통과 시험), [credit-garbled] hard(RIGHTS-AP-002: 엔딩 카드 초상 크레딧에 Commons 안내문·URL), 공용 초상 라이브러리 크레딧 10건 정리(원문 credit_raw). final_v3b 전달(0ec9d9f3).
 - 2026-11-02 v7.4.0 RENDER-AP-032 — 표준 글꼴 렌더 설정 장치(D-0624): config/fontconfig/fonts.conf(config.yaml engine.fontconfig) + engine.fontenv.ensure()(engine.style 맨 앞·conftest — FONTCONFIG_FILE 지정, 주 글꼴 hinting·hintstyle 다르면 멈춤), anti_inertia test_fontconfig_guard. 재시작으로 셸 설정이 사라져 골든 25컷 0/25 였던 사고.
+- 2026-11-03 v7.4.0 D-1200 유튜브 업로드 도구(tools/youtube_upload.py·config.yaml youtube·docs/YOUTUBE_UPLOAD.md·tests/test_youtube_upload.py 13건). 실측: 기존 설명문 5,844B 가 API 한도 5,000B 초과.

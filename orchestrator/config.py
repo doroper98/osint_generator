@@ -240,6 +240,28 @@ class DataFetchConfig(BaseModel):
     gap_sec: float = Field(ge=0)                       # 요청 간격(SEC 초당 10회 상한보다 넉넉하게)
 
 
+class YouTubeConfig(BaseModel):
+    """v7.4.0 D-1200 — 유튜브 업로드(tools/youtube_upload.py). 비밀값은 환경 변수(C9) — 여기 두지 않는다."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    token_url: str = Field(min_length=1)
+    upload_url: str = Field(min_length=1)
+    captions_url: str = Field(min_length=1)
+    watch_url_prefix: str = Field(min_length=1)
+    privacy_status: Literal["private"]            # 자동 공개 금지 — 공개 클릭은 사용자 몫
+    category_id: str = Field(min_length=1)
+    default_language: str = Field(min_length=2)
+    caption_language: str = Field(min_length=2)
+    caption_name: str
+    chunk_mb: int = Field(gt=0)
+    timeout_sec: float = Field(gt=0)
+    tries: int = Field(ge=1)
+    title_max_chars: int = Field(gt=0)
+    description_max_bytes: int = Field(gt=0)
+    tags_max_chars: int = Field(gt=0)
+
+
 class CommonsConfig(BaseModel):
     """위키미디어 공용 요청 설정 (v2.5.5, D-0031 NB4) — tools/commons_fetch·media_fetch·fetch_data 가 공유.
     14 §10.4: 요청 간격 15초, 429 는 60초부터 지수 대기(최대 600초, Retry-After 우선), 시도 상한."""
@@ -284,6 +306,7 @@ class AppConfig(BaseModel):
     commons: CommonsConfig = Field(default_factory=CommonsConfig)
     media: MediaConfig = Field(default_factory=MediaConfig)
     data_fetch: DataFetchConfig | None = None   # v7.4.0 — 없으면 fetch_filing 이 오류(P6)
+    youtube: YouTubeConfig | None = None   # v7.4.0 D-1200 — 없으면 youtube_upload 가 오류(P6)
     review_gates: ReviewGatesConfig = Field(default_factory=ReviewGatesConfig)
 
 
