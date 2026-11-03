@@ -454,6 +454,71 @@
    "passed": 0,
    "top": [],
    "rejected": []
+  },
+  {
+   "sid": "act4_5",
+   "query": "plenary session hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_5",
+   "query": "budget hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 4,
+   "passed": 4,
+   "top": [
+    "File:Speaker Woo Won-shik meets with Minister of Planning and Budget Park Hong-keun 20260331 (01).jpg",
+    "File:Speaker Woo Won-shik meets with Minister of Planning and Budget Park Hong-keun 20260331 (02).jpg",
+    "File:Speaker Woo Won-shik meets with Minister of Planning and Budget Park Hong-keun 20260331 (03).jpg",
+    "File:Speaker Woo Won-shik meets with Minister of Planning and Budget Park Hong-keun 20260331 (04).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "cold_0",
+   "query": "예산안 hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "cold_0",
+   "query": "시정연설 hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act5_1",
+   "query": "본회의 hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_10",
+   "query": "Special Committee on Budget hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
   }
  ]
 }
