@@ -836,6 +836,181 @@
    "rejected": [
     "문서·도식(application/pdf)"
    ]
+  },
+  {
+   "sid": "act2_5",
+   "query": "solar power plant South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 6,
+   "top": [
+    "File:Global public support for energy sources (Ipsos 2011).png",
+    "File:Republic-of-Korea PVOUT Photovoltaic-power-potential-map GlobalSolarAtlas World-Bank-Esmap-Solargis.png",
+    "File:Republic-of-Korea PVOUT Photovoltaic-power-potential-map lang-KO GlobalSolarAtlas World-Bank-Esmap-Solargis.png",
+    "File:State of the Union Address (January 25, 2011) Barack Obama (WhiteHouse.gov).ogg",
+    "File:State of the Union Address (January 25, 2011) Barack Obama (WhiteHouse.gov).ogv"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_5",
+   "query": "wind farm South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 6,
+   "top": [
+    "File:Jeonnam Offshore Wind Power Shinan Blue Jaeun 20241217 (01).jpg",
+    "File:Jeonnam Offshore Wind Power Shinan Blue Jaeun 20241217 (02).jpg",
+    "File:대관령1.jpg",
+    "File:대관령2.jpg",
+    "File:대관령3.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_11",
+   "query": "autonomous bus South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_17",
+   "query": "daycare center South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 2,
+   "top": [
+    "File:US Navy 080129-N-0021M-001 Cmdr. William Weedon, commanding officer of Commander, Fleet Activities Chinhae (CFAC) cut the ribbon commemorating the completion of $35,000 in upgrades to the command's Child Development Center.jpg",
+    "File:US Navy 080129-N-0021M-002 ary Larose, morale, welfare and recreation, director, left, and Cmdr. William Weedon, commanding officer of Commander, Fleet Activities Chinhae (CFAC), right, cut the cake to the command Child Develop.jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_19",
+   "query": "classroom school South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 4,
+   "top": [
+    "File:Community service project 120629-N-ZZ999-001.jpg",
+    "File:RCC-K Hosts Humphreys High School Students for Inaugural Cyber Operations Tour (10048369).jpg",
+    "File:RCC-K Hosts Humphreys High School Students for Inaugural Cyber Operations Tour (10048371).jpg",
+    "File:USACE Far East District inspires curiosity through STEAM outreach across three schools in South Korea (9726954).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0 igo",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act3_0",
+   "query": "National Tax Service Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 19,
+   "top": [
+    "File:Emblemen NTS, NRU, NOS, Bestanddeelnr 922-4841.jpg",
+    "File:Herdenkingsbijeenkomst NTS 10-jarig bestaan. Voorzitter NTS Schuttenhelm reikt g, Bestanddeelnr 913-0003.jpg",
+    "File:Herdenkingsbijeenkomst NTS 10-jarig bestaan. Voorzitter NTS Schuttenhelm reikt g, Bestanddeelnr 913-0004.jpg",
+    "File:Kees Verkerk krijgt speld, opdracht NTS, Bestanddeelnr 920-3749.jpg",
+    "File:Landingsbaan R19 van Schiphol, opdracht NTS, Bestanddeelnr 921-8941.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0 nl",
+    "CC BY-SA 4.0",
+    "GODL-India",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act3_4",
+   "query": "National Pension Service Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "GODL-India",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act3_2",
+   "query": "Samsung Electronics Hwaseong",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act5_1",
+   "query": "National Assembly of South Korea night",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 8,
+   "top": [
+    "File:Army Photography Contest - 2007 - FMWRC - Arts and Crafts - Night Vision (4930276400).jpg",
+    "File:Dangsan Railway Bridge Night View.jpg",
+    "File:Olympic Boulevard Expressway Light Trails.jpg",
+    "File:U.S. Marine Operations In Korea 1950-1953 (Volume 1).djvu",
+    "File:U.S. Marine Operations In Korea 1950-1953 (Volume 2).djvu"
+   ],
+   "rejected": [
+    "CC BY 2.0 제한",
+    "CC BY-SA 3.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_0",
+   "query": "National Assembly Budget Office",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 3.0 de",
+    "CC BY-SA 3.0 de 제한",
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act3_1",
+   "query": "Pyeongtaek Samsung semiconductor plant aerial",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
   }
  ]
 }
