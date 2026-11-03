@@ -312,6 +312,31 @@ class RowsBandTest(unittest.TestCase):
 class AvgAndTotalTest(unittest.TestCase):
     """D-1009 — 예년 비교(avg_growth, cagr 코드 계산)·총지출 줄·늘어난 구간 휘도 차."""
 
+    def test_total_focus_grows_then_returns(self) -> None:
+        """감독 판정 ②(R-0610) — focus row total: 문장 동안 +12.8% 가 focus_value_size, 연평균이 focus_rest_size, 금액은 head_size.
+        문장이 끝나면 head_size 로 돌아간다. 행 초점과 겹침 0."""
+        from engine.layers.structure import DRAWN_TEXT, text_overlaps  # noqa: PLC0415
+
+        S = STRUCTURE  # noqa: N806
+        st = StructureStage(config={"box": "center_tall", "record": "BUDGET_2027_PROPOSED_SECTORS",
+                                    "prior": "BUDGET_2026_ENACTED_SECTORS", "title": "분야별 총지출"})
+        evs = events(t_focus=30.0)[:3] + [{"type": "rank", "t0": 0.0, "t1": 20.0, "layer": "total"},
+                                          {"type": "rank", "t0": 3.0, "t1": 8.0, "layer": "focus", "row": "total", "metric": "rate"}]
+
+        def h(name: str) -> float:
+            r = dict(DRAWN_TEXT)[name]
+            return r[3] - r[1]
+
+        render(st, 6.0, evs)
+        on = (h("total:0"), h("total:1"))
+        self.assertEqual(text_overlaps(list(DRAWN_TEXT)), [])
+        render(st, 15.0, evs)
+        off = (h("total:0"), h("total:1"))
+        self.assertAlmostEqual(on[0], off[0], places=3)                      # 금액 그대로
+        self.assertGreater(on[1] / off[1], S.focus_value_size / S.head_size * 0.9)   # +12.8% 커짐 → 돌아옴
+        with self.assertRaisesRegex(ValueError, "metric rate"):
+            render(st, 6.0, evs[:4] + [{**evs[4], "metric": "amount"}])
+
     def test_real_avg_labels(self) -> None:
         from engine.layers.structure import focus_label  # noqa: PLC0415
 

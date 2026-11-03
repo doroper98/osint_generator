@@ -26,6 +26,7 @@ if TYPE_CHECKING:
     from engine.stage_structure import Row, StructureStage
 
 LAYERS: tuple[str, ...] = ("bars", "prior", "delta", "focus", "total")
+TOTAL_ROW = "total"   # D-1009 감독 판정 ② — focus 층 row: total = 총지출 줄을 초점 글자체로(문장 동안만), 행 초점과 같은 문법
 Rect = tuple[float, float, float, float]   # x0, y0, x1, y1(뷰포트 px)
 DRAWN_TEXT: list[tuple[str, Rect]] = []    # 이 프레임에 그린 글자 상자(시험·겹침 검사 — 그리기 전에 비운다)
 DRAWN_STRINGS: list[tuple[str, str, float]] = []   # (이름, 문자열, 알파) — [spoken-number-visible] 이 읽는다(D-1008 §3)
@@ -240,6 +241,10 @@ def focus_label(st: "StructureStage", row: "Row", metric: str, compare: "str | N
 def _draw_focus(ctx: cairo.Context, view: "View", st: "StructureStage", t: float, e: dict, evs: list[dict]) -> None:
     """초점 행 하나(D-1008 §1-4·5): 0 → 눈금 구간 accent 옅게, 늘어난 구간 accent 솔리드, 행 끝 라벨 = 문장이 말하는 숫자를 크게."""
     S = STRUCTURE  # noqa: N806
+    if e["row"] == TOTAL_ROW:   # 총지출 줄 초점은 _draw_total 이 그린다(머리 줄 자리, 행 띠 밖)
+        if e["metric"] != "rate":
+            raise ValueError("rank focus row total 은 metric rate 만(총지출 줄의 큰 숫자 = 증가율)")
+        return
     if e["row"] not in st.by_id:
         raise ValueError(f"rank focus row {e['row']!r} 가 구성 무대 행에 없다")
     a = layer_alpha([e], t, "focus")
@@ -270,13 +275,18 @@ def _draw_total(ctx: cairo.Context, view: "View", st: "StructureStage", t: float
     if a <= 0.01:
         return
     tot, pct, avg = st.total_info()
-    parts = [(f"총지출 {fmt_amount(st, tot)}", S.head_font, C["white"]), (f" · {fmt_pct(pct)}", S.head_font, C["green"])]
+    fa = focus_alpha(evs, t, TOTAL_ROW)   # 감독 판정 ②: 문장 동안 +12.8% = focus_value_size, 연평균 = focus_rest_size(accent), 금액은 그대로
+    lerp = lambda u, v: u + (v - u) * fa  # noqa: E731
+    mix = lambda c: tuple(lerp(p_, q_) for p_, q_ in zip(c, C["gold"]))  # noqa: E731
+    parts = [(f"총지출 {fmt_amount(st, tot)}", S.head_size, S.head_font, C["white"]),
+             (f" · {fmt_pct(pct)}", lerp(S.head_size, S.focus_value_size), S.focus_value_font if fa >= 0.5 else S.head_font, mix(C["green"]))]
     if avg is not None:
-        parts.append((f" · {st.avg_span()} {S.avg_word} {fmt_pct(avg)}", S.head_font, C["muted"]))
-    w = sum(tw(ctx, s_, S.head_size, f) for s_, f, _ in parts)
+        parts.append((f" · {st.avg_span()} {S.avg_word} {fmt_pct(avg)}", lerp(S.head_size, S.focus_rest_size),
+                      S.focus_rest_font if fa >= 0.5 else S.head_font, mix(C["muted"])))
+    w = sum(tw(ctx, s_, sz, f) for s_, sz, f, _ in parts)
     x = view.vw - w
-    for i, (s_, f, col) in enumerate(parts):
-        r = _put(ctx, f"total:{i}", s_, x, S.head_dy + S.head_size, S.head_size, f, col, a)
+    for i, (s_, sz, f, col) in enumerate(parts):
+        r = _put(ctx, f"total:{i}", s_, x, S.head_dy + S.head_size, sz, f, col, a)
         x = r[2]
 
 

@@ -690,7 +690,7 @@ def check_structure(events: list[dict], stage_name: str, struct_stage: object) -
     for e in ranks:
         if not any(i["t0"] - 0.05 <= e["t0"] and e["t1"] <= i["t1"] + 0.05 for i in isl):
             errs.append(f"rank {e['layer']} t={e['t0']:.2f}~{e['t1']:.2f} 가 구성 아일랜드 구간 밖이다 — island kind structure 안에서만 보인다")
-        if e["layer"] == "focus" and e.get("row") not in struct_stage.by_id:  # type: ignore[attr-defined]
+        if e["layer"] == "focus" and e.get("row") != "total" and e.get("row") not in struct_stage.by_id:  # type: ignore[attr-defined]
             errs.append(f"rank focus row {e.get('row')!r} 가 구성 무대 행 {sorted(struct_stage.by_id)} 에 없다")  # type: ignore[attr-defined]
     if isl and not any(e["layer"] == "bars" for e in ranks):
         errs.append("구성 아일랜드에 rank bars 층이 없다 — 빈 무대(P6)")
