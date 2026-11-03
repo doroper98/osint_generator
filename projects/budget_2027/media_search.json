@@ -220,6 +220,109 @@
    "rejected": [
     "문서·도식(application/pdf)"
    ]
+  },
+  {
+   "sid": "act2_9",
+   "query": "고속도로 공사",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 1,
+   "passed": 1,
+   "top": [
+    "File:Budowa Velostrady nr 6 - odcinek Katowice Brynów - Katowice Brynów, wyrównywarka oraz walec podczas pracy.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act2_9",
+   "query": "Korea expressway construction site",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 15,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_14",
+   "query": "Seoul apartment complex",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 15,
+   "passed": 4,
+   "top": [
+    "File:Cherry Blossoms, Metasequoia glyptostroboides and the first high-rise apartment building in South Korea.jpg",
+    "File:Chimney of old apartment complex in South Korea.jpg",
+    "File:Jamsil Siyoung Apartment 1978-07-02.png",
+    "File:Koreatyp04.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_14",
+   "query": "LH 임대주택",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 1,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_16",
+   "query": "고용센터",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 15,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act3_1",
+   "query": "Samsung Pyeongtaek",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 15,
+   "passed": 9,
+   "top": [
+    "File:202403 Southbound SRT Platform of PyeongtaekJije Station.jpg",
+    "File:K-Bridge Program builds lasting bonds (9528109).jpg",
+    "File:President Biden and Yoon Suk-yeol at the Samsung Electronics Pyeongtaek Campus.jpg",
+    "File:President Biden and Yoon Suk-yeol talked to staffs of Samsung Electronics.jpg",
+    "File:President Biden visited the Samsung Electronics Pyeongtaek Campus (1).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act3_1",
+   "query": "SK hynix Icheon",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 15,
+   "passed": 2,
+   "top": [
+    "File:SK Hynix DDR5 Tall MRDIMM.jpg",
+    "File:SK Hynix DDR5 form factors.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "FAL",
+    "문서·도식(image/svg+xml)"
+   ]
   }
  ]
 }
