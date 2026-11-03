@@ -547,6 +547,295 @@
     "문서·도식(application/pdf)",
     "문서·도식(image/svg+xml)"
    ]
+  },
+  {
+   "sid": "act4_10",
+   "query": "National Assembly of South Korea plenary",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 1,
+   "top": [
+    "File:President Trump addresses the South Korean National Assembly 2017.jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_1",
+   "query": "Government Complex Sejong",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 2,
+   "top": [
+    "File:대한민국 정부세종청사 고속시외버스정류장 (Intercity Bus Stop in front of Sejong Government Complex, in Korea).jpg",
+    "File:정부세종 5단계신청사 조감도.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act1_1",
+   "query": "정부세종청사",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 2,
+   "top": [
+    "File:대한민국 정부세종청사 고속시외버스정류장 (Intercity Bus Stop in front of Sejong Government Complex, in Korea).jpg",
+    "File:정부세종 5단계신청사 조감도.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_9",
+   "query": "expressway South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 22,
+   "top": [
+    "File:Gyeongbu Expressway Bus Only Lane.JPG",
+    "File:Highway in South Korea Expressway (3).jpg",
+    "File:Korea Expressway Signs.jpg",
+    "File:Korea Expressway tollgate ic.jpg",
+    "File:Korean highway Expressway in South Korea (2).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_9",
+   "query": "고속도로 건설 공사",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 1,
+   "passed": 1,
+   "top": [
+    "File:Budowa Velostrady nr 6 - odcinek Katowice Brynów - Katowice Brynów, wyrównywarka oraz walec podczas pracy.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act2_10",
+   "query": "national road construction Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 4,
+   "top": [
+    "File:Every-day life in Korea (1898).djvu",
+    "File:Korea (1904).djvu",
+    "File:Two Korean girls ride their bicycles down a road near the work site of a Navy mobile construction battalion during Exercise TEAM SPIRIT'88 - DPLA - 25f0c724a2c4776d4f30c195efa5323e.jpeg",
+    "File:U.S. Marine Operations In Korea 1950-1953 (Volume 3).djvu"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_10",
+   "query": "Incheon International Airport Terminal 2",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 17,
+   "top": [
+    "File:2025-10-14 17.17.48 Incheon International Airport.jpg",
+    "File:2025-10-14 17.20.29 Incheon International Airport.jpg",
+    "File:2025-10-14 17.20.47 Incheon International Airport.jpg",
+    "File:2025-10-14 17.34.10 Incheon International Airport.jpg",
+    "File:2025-10-14 18.30.50 Incheon International Airport.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_14",
+   "query": "apartment complex South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 11,
+   "top": [
+    "File:Anseong City Oksan-dong Complex Mall 20250101 01.jpg",
+    "File:Apartmentgwangmyeong.jpg",
+    "File:Chargé d’Affaires Marc Knapper Welcomes Team USA A020818.png",
+    "File:Cherry Blossoms, Metasequoia glyptostroboides and the first high-rise apartment building in South Korea.jpg",
+    "File:Chimney of old apartment complex in South Korea.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_14",
+   "query": "공공임대 아파트",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_11",
+   "query": "Seoul Metropolitan Subway train",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 15,
+   "top": [
+    "File:Korea Standard EMU Front.jpg",
+    "File:Korea Standard EMU Motorman's Seat.jpg",
+    "File:KwangwoonUniv-pf1.jpg",
+    "File:Lascar The Madrid Metro (4607055539).jpg",
+    "File:Mullae Station Exit 4.JPG"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_11",
+   "query": "Seoul city bus",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 1,
+   "top": [
+    "File:Seoul City Bus 1967.JPG"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_11",
+   "query": "autonomous shuttle Sejong",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act3_1",
+   "query": "semiconductor wafer",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 15,
+   "top": [
+    "File:A semiconductor wafer being removed from processing equipment.jpg",
+    "File:Etchedwafer.jpg",
+    "File:Installed fab capacity by region.webp",
+    "File:Micro-chips wafer (25079).jpg",
+    "File:Micro-chips wafer (59614).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act3_1",
+   "query": "SK hynix",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 3,
+   "top": [
+    "File:SK Hynix DDR5 Tall MRDIMM.jpg",
+    "File:SK Hynix DDR5 form factors.jpg",
+    "File:SK Hynix SOCAMM module Computex 2025.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "FAL",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act2_16",
+   "query": "Seoul job center",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 1,
+   "top": [
+    "File:Camp Humphreys Conference and Dining Center Groundbreaking- U.S. Army Garrison Humphreys, South Korea - 16 May 2012 (7207995478).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_5",
+   "query": "Korea industrial complex",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 8,
+   "top": [
+    "File:9930Guiguinto, Bulacan Barangays Villages Roads 57.jpg",
+    "File:U.S. Marine Operations In Korea 1950-1953 (Volume 2).djvu",
+    "File:U.S. Marine Operations In Korea 1950-1953 (Volume 3).djvu",
+    "File:Yongin Advanced System Semiconductor Cluster National Industrial Complex Industrial Complex Plan Approval Commemorative Ceremony 20241226 (01).jpg",
+    "File:Yongin Advanced System Semiconductor Cluster National Industrial Complex Industrial Complex Plan Approval Commemorative Ceremony 20241226 (02).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_9",
+   "query": "안도걸",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 3,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_9",
+   "query": "Ahn Do-geol",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
   }
  ]
 }
