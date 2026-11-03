@@ -208,6 +208,12 @@ def prepare(P: "Project", segs: list[Segment]) -> list[dict]:  # noqa: N803
     out = []
     for seg in segs:
         d = seg_dir(P.root, P.R.out.name, seg)
+        want = inputs_sha1(P.root, rel, seg, view_rows(P, seg), size, theme)
+        man_p = d / "manifest.json"
+        if man_p.is_file() and json.loads(man_p.read_text(encoding="utf-8")).get("inputs_sha1") == want:   # 입력 지문이 같으면 다시 그리지 않는다
+            out.append(json.loads(man_p.read_text(encoding="utf-8")))
+            print(f"terrain3d {seg.sid}: 입력 지문 같음 — 그대로 둔다({d})", flush=True)
+            continue
         shutil.rmtree(d, ignore_errors=True)
         info = build_scene(P, seg, forces, d)
         subprocess.run(["node", str(TOOL / "render.js"), str(d.resolve())], check=True, cwd=TOOL, env={**os.environ, "NODE_PATH": npm_root})
@@ -215,7 +221,7 @@ def prepare(P: "Project", segs: list[Segment]) -> list[dict]:  # noqa: N803
         if n != info["i1"] - info["i0"]:
             raise Terrain3DError(f"{seg.sid}: 렌더 프레임 {n} ≠ 구간 프레임 {info['i1'] - info['i0']}")
         man = {"schema_version": 1, "segment": seg.sid, "t_in": seg.t_in, "t_out": seg.t_out, "orbits": seg.orbits,
-               "inputs_sha1": inputs_sha1(P.root, rel, seg, view_rows(P, seg), size, theme), "frames": n, "size": list(size), **info,
+               "inputs_sha1": want, "frames": n, "size": list(size), **info,
                "renderer": f"three.js {three['version']} ({three['license']}) · headless Chromium(playwright) swiftshader"}
         (d / "manifest.json").write_text(json.dumps(man, ensure_ascii=False, indent=1), encoding="utf-8")
         out.append(man)
