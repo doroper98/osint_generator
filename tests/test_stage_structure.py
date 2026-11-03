@@ -321,9 +321,17 @@ class AvgAndTotalTest(unittest.TestCase):
                                     "prior": "BUDGET_2026_ENACTED_SECTORS", "title": "분야별 총지출"})
         evs = events(t_focus=30.0)[:3] + [{"type": "rank", "t0": 3.0, "t1": 20.0, "layer": "focus", "row": "welfare", "metric": "rate",
                                             "note": "주택 융자 −5조 · 건설임대 +4조 7천억"}]
+        evs[1] = {**evs[1], "t0": 0.5}   # 전년 눈금 층
         render(st, 10.0, evs)
         self.assertEqual(offscreen_text(*LAST_VIEW), [])
-        self.assertIn("주택 융자 −5조 · 건설임대 +4조 7천억 ", [s for _n, s, _a in DRAWN_STRINGS])
+        self.assertIn(" · 주택 융자 −5조 · 건설임대 +4조 7천억", [s for _n, s, _a in DRAWN_STRINGS])
+        from engine.layers.structure import PRIOR_TICKS, text_tick_overlaps  # noqa: PLC0415
+
+        self.assertEqual(text_tick_overlaps(), [])   # 감독 판정(R-0619 뒤) — 막대 왼쪽부터 써서 2026 눈금과 겹침 0
+        k = dict(PRIOR_TICKS)["welfare"]
+        DRAWN_TEXT.append(("focus_rest:y", (k[0] - 5, k[1] + 1, k[2] + 5, k[3] - 1)))   # 눈금 위 글자 = 잡힌다(옛 끝 정렬)
+        self.assertIn(("focus_rest:y", "welfare"), text_tick_overlaps())
+        DRAWN_TEXT.pop()
         DRAWN_TEXT.append(("focus_rest:x", (700.0, 10.0, 760.0, 20.0)))   # 잘린 글자 = 잡힌다
         self.assertEqual([n for n, _ in offscreen_text(*LAST_VIEW)], ["focus_rest:x"])
 

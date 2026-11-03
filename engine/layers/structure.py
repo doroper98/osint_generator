@@ -29,6 +29,7 @@ LAYERS: tuple[str, ...] = ("bars", "prior", "delta", "focus", "total")
 TOTAL_ROW = "total"   # D-1009 감독 판정 ② — focus 층 row: total = 총지출 줄을 초점 글자체로(문장 동안만), 행 초점과 같은 문법
 Rect = tuple[float, float, float, float]   # x0, y0, x1, y1(뷰포트 px)
 DRAWN_TEXT: list[tuple[str, Rect]] = []    # 이 프레임에 그린 글자 상자(시험·겹침 검사 — 그리기 전에 비운다)
+PRIOR_TICKS: list[tuple[str, Rect]] = []   # 이번 프레임 전년 속빈 눈금 상자(행 id, 상자) — [structure-text-tick] 이 쓴다
 LAST_VIEW: list[float] = []   # 마지막으로 그린 구성 아일랜드 뷰포트 [vw, vh](검사가 화면 밖 글자를 가른다)
 DRAWN_STRINGS: list[tuple[str, str, float]] = []   # (이름, 문자열, 알파) — [spoken-number-visible] 이 읽는다(D-1008 §3)
 
@@ -184,6 +185,8 @@ def _draw_prior(ctx: cairo.Context, view: "View", st: "StructureStage", t: float
         cx, cy0 = view.to_screen(st.x_of(row.prior), yc + st.bar_h / 2)
         _, cy1 = view.to_screen(st.x_of(row.prior), yc - st.bar_h / 2)
         ctx.rectangle(cx - S.prior_w / 2, cy0 - S.prior_over, S.prior_w, cy1 - cy0 + S.prior_over * 2)
+        if a > 0.01:
+            PRIOR_TICKS.append((row.id, (cx - S.prior_w / 2, cy0 - S.prior_over, cx + S.prior_w / 2, cy1 + S.prior_over)))
         ctx.set_source_rgba(*C["white"], S.prior_alpha * a)
         ctx.set_line_width(S.prior_line_w)
         ctx.stroke()
@@ -268,10 +271,10 @@ def _draw_focus(ctx: cairo.Context, view: "View", st: "StructureStage", t: float
     yb = (y0 + y1) / 2 + S.focus_value_size * TIMELINE.text_metrics.mid_drop
     x = value_x(st, view, row)
     w = tw(ctx, big, S.focus_value_size, S.focus_value_font) + tw(ctx, rest, S.focus_rest_size, S.focus_rest_font)
-    if x + w > view.vw:   # 감독 D616 — 긴 막대 행은 초점 줄이 화면 밖으로 잘린다 → 막대 안쪽(끝에서 왼쪽, 밝은 글자)
-        xr = max(x0, x1) - S.value_gap
-        r = _put(ctx, f"focus_rest:{row.id}", rest.lstrip(" ·") + " ", xr, yb, S.focus_rest_size, S.focus_rest_font, C["white"], a, "r")
-        _put(ctx, f"focus:{row.id}", big + " · ", r[0], yb, S.focus_value_size, S.focus_value_font, C["white"], a, "r")
+    if x + w > view.vw:   # 감독 D616 — 긴 막대 행은 초점 줄이 화면 밖으로 잘린다 → 막대 안쪽, 밝은 글자.
+        # 감독 판정(R-0619 뒤) — 막대 왼쪽 시작점 + value_gap 부터 왼쪽 정렬(끝에서 거꾸로 쓰면 전년 속빈 눈금을 가로지른다)
+        r = _put(ctx, f"focus:{row.id}", big, min(x0, x1) + S.value_gap, yb, S.focus_value_size, S.focus_value_font, C["white"], a)
+        _put(ctx, f"focus_rest:{row.id}", rest, r[2], yb, S.focus_rest_size, S.focus_rest_font, C["white"], a)
         return
     r = _put(ctx, f"focus:{row.id}", big, x, yb, S.focus_value_size, S.focus_value_font, acc, a)
     _put(ctx, f"focus_rest:{row.id}", rest, r[2], yb, S.focus_rest_size, S.focus_rest_font, acc, a)
@@ -311,6 +314,12 @@ def rows_band(view: "View") -> Rect:
     return 0.0, top, view.vw, bot
 
 
+def text_tick_overlaps() -> list[tuple[str, str]]:
+    """이번 프레임 구성 무대 글자 상자 ↔ 전년 속빈 눈금 교차(글자 이름, 눈금 행) — 감독 판정(R-0619 뒤) [structure-text-tick]."""
+    return [(n, rid) for n, r in DRAWN_TEXT for rid, k in PRIOR_TICKS
+            if min(r[2], k[2]) > max(r[0], k[0]) and min(r[3], k[3]) > max(r[1], k[1]) and not n.startswith("tag:")]
+
+
 def offscreen_text(vw: float, vh: float) -> list[tuple[str, Rect]]:
     """이번 프레임 구성 무대 글자 중 상자(0~vw·0~vh) 밖으로 나간 것 — 감독 D616 [structure-text-offscreen]·[spoken-number-visible] 이 쓴다."""
     eps = 0.5
@@ -321,6 +330,7 @@ def draw_structure(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e
     """구성 아일랜드 안 rank 층 전부 — 층 순서(LAYERS)대로. 행은 rows_band 안, 머리·출처 줄은 띠 밖(_draw_frame_text)."""
     DRAWN_TEXT.clear()
     DRAWN_STRINGS.clear()
+    PRIOR_TICKS.clear()
     LAST_VIEW[:] = [view.vw, view.vh]
     bars = [ce for ce in events if ce["type"] == "rank" and ce["layer"] == "bars" and ce["t0"] - 0.05 <= t <= ce["t1"] + 0.05]
     x0, y0, x1, y1 = rows_band(view)

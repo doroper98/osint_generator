@@ -98,7 +98,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | map_opening | hard | 지도 주 무대에서 첫 문장 끝(+ after_first_sentence_sec) 전에 덮는 요소 `[map-opening]`(v7.4.0 D-0470, UF-173) |
 | map_cover_share | hard | 지도 무대(패널 없는 시각) window_sec 창 덮임 비율 > max_share(전면·가운데 큰 사진 1, 그 밖 상자 partial_weight, 첫 제목 카드 전 제외) `[map-cover-share]`(v7.4.0 D-0470, UF-173) |
 | data_stage_bare_on_backdrop | hard | 사진 배경(backdrop) 위 구성·차트 아일랜드가 상자 바탕(island.fill_alpha) 없이 그려짐 `[data-stage-bare-on-backdrop]`(v7.4.0 감독 D619, UF-304) |
-| structure_text_offscreen | hard | 구성 무대 글자(행 이름·금액·증감·초점 라벨·총지출 줄)가 아일랜드 상자 밖으로 잘림 `[structure-text-offscreen]`(v7.4.0 감독 D616) |
+| structure_text_offscreen | hard | 구성 무대 글자(행 이름·금액·증감·초점 라벨·총지출 줄)가 아일랜드 상자 밖으로 잘림 `[structure-text-offscreen]`(v7.4.0 감독 D616), 글자 상자가 전년 속빈 눈금을 가로지름 `[structure-text-tick]`(R-0619 뒤) |
 | sa_obligation | hard | 이 영상이 쓰는 CC BY-SA 사진·영상의 고지(작가·제목·라이선스·링크·변경 사항)가 레지스트리·화면 출처 줄·엔딩 크레딧에 없음 `[sa-obligation]`(v7.4.0 사용자 결정 D612) |
 | credit_garbled | hard | 크레딧 저작자 칸(권리 author·artist, 미디어 credit_author, credits.yaml license)에 URL·Commons 안내문 또는 max_len 초과 `[credit-garbled]`(v7.4.0 D-0470, RIGHTS-AP-002) |
 | badge_covered | hard | 지도 층 배지 계획 구간 중 안 보인 비율(전면 덮개로 늦춰짐·덮개 아래·상자 가림) > rules badge.covered_max_ratio `[badge-covered]`(v7.4.0 D-0329) |
@@ -2589,6 +2589,8 @@ def check_structure_text_offscreen(P) -> list[str]:  # noqa: ANN001, N803
         strings = {n: s for n, s, _a in SL.DRAWN_STRINGS}
         out += [f"[structure-text-offscreen] t={t:.2f} {n} {strings.get(n, '')!r} 상자 {tuple(round(v) for v in r)} ⊄ 0~{SL.LAST_VIEW[0]:.0f}"
                 for n, r in SL.offscreen_text(*SL.LAST_VIEW)]
+        out += [f"[structure-text-tick] t={t:.2f} {n} {strings.get(n, '')!r} 가 {rid} 행 전년 속빈 눈금을 가로지른다(감독 판정 R-0619 뒤)"
+                for n, rid in SL.text_tick_overlaps()]
     return out
 
 
