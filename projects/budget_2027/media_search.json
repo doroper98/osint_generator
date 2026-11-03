@@ -519,6 +519,34 @@
    "passed": 0,
    "top": [],
    "rejected": []
+  },
+  {
+   "sid": "cold_0",
+   "query": "National Assembly Proceeding Hall Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 1,
+   "top": [
+    "File:National Assembly Building of South Korea 2019 July 27.webm"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "cold_0",
+   "query": "국회 본회의장",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 9,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)",
+    "문서·도식(image/svg+xml)"
+   ]
   }
  ]
 }
