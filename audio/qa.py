@@ -244,7 +244,7 @@ def narration_clarity(mix: np.ndarray, vo: np.ndarray, sentences: list) -> dict[
         a, b = int(g("t0") * SR), int(g("t1") * SR)
         if b - a < SR // 10:
             continue
-        out[str(g("sid") or i)] = round(10 * math.log10(band_energy(vo[a:b], lo, hi) / max(band_energy(rest[a:b], lo, hi), 1e-12)), 2)
+        out[str(g("sid") or i)] = round(10 * math.log10(band_energy(vo[a:b], lo, hi) / max(band_energy(rest[a:b], lo, hi), AU.norm_eps)), 2)
     return out
 
 
