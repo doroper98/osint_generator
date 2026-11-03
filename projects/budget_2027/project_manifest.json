@@ -4,8 +4,8 @@
   "title": "2027년 예산안, 820조 원은 어디로 가나",
   "category": "economy",
   "created_at": "2026-11-03T01:37:58.373536Z",
-  "updated_at": "2026-11-03T01:38:05.499885Z",
-  "current_state": "script_approval",
+  "updated_at": "2026-11-03T01:40:42.808189Z",
+  "current_state": "voice_timeline",
   "target_duration_min": 9,
   "topic_summary": "2027년도 정부 예산안(총지출 820.9조)의 분야별 증감·재원·국회 쟁점",
   "initial_links": [],
@@ -28,7 +28,26 @@
     "provenance": "out/provenance.json"
   },
   "render_mode_status": {},
-  "gate_decisions": [],
+  "gate_decisions": [
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "user",
+      "at": "2026-11-03T01:40:42.808106Z",
+      "comment": "사용자 승인(감독 세션 session_017Yuw8kbxf9Vxri6LoH5Je4 질의에 사용자가 직접 답함, 2026-11-03 01:33Z): 선택 '승인 + 반복 두 곳 수정 (Recommended)' — act2_15·act2_17 앞쪽 '가능성이 있고' → '~할 수 있고' 두 곳만 수정한 원고(sha1 c0e6b536). DECISIONS D612.",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/budget_2027/script.yaml",
+        "lint_errors": "0",
+        "lint_warnings": "0",
+        "est_sec": "509.6",
+        "media_plan_errors": "0",
+        "script_sha1": "c0e6b536e6735488280a74d48b99f24ad9da6484",
+        "media_plan": "사진 0/8 · 기사 후보 0문장 · 510초(chars)"
+      },
+      "chosen_version": null
+    }
+  ],
   "stage_records": [],
   "final_outputs": {},
   "state_history": [
@@ -61,6 +80,12 @@
       "to_state": "script_approval",
       "transitioned_at": "2026-11-03T01:38:05.499842Z",
       "reason": "W0a 단일 구현(D-1003) — 산출물 기존 작성, 매니페스트 재생성(컨테이너 재시작 소실)"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-11-03T01:40:42.808146Z",
+      "reason": "script_approval 승인 — user"
     }
   ],
   "rollbacks": [],
