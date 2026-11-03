@@ -83,3 +83,27 @@ class MapGenrePromptTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CommonGrammarTest(unittest.TestCase):
+    """v7.4.0 UF-402("둘다 진행해") — 범용 장치(뱃지 신호·열린 가설 칸·점선 원·흐르는 점·내림선·점 고리) 사용 안내는 모든 장르의
+    연출 프롬프트(direction_grammar)에, 정치사 전용 요소 안내만 장르 문단(element_grammar)에. 같은 줄이 두 번 들어가지 않는다."""
+
+    MARKS = ("pulse", "style open", "spot(", "flow: true", "shape drop", "crowd: true")
+
+    def test_geopolitics_director_gets_device_lines(self) -> None:
+        r = load_rules()
+        for genre in ("geopolitics", "macro_monetary"):
+            text = load_prompt("director", r, load_genre(genre))
+            for m in self.MARKS:
+                with self.subTest(genre=genre, mark=m):
+                    self.assertIn(m, text)
+
+    def test_element_grammar_only_genre_restricted(self) -> None:
+        self.assertEqual(set(load_rules().genre_prompt.element_grammar), {"process_lane", "doc_excerpt", "statement_diff", "era_numeral"})
+
+    def test_no_duplicate_in_map_genre(self) -> None:
+        text = load_prompt("director", load_rules(), load_genre("political_history"))
+        for m in self.MARKS:
+            with self.subTest(mark=m):
+                self.assertEqual(text.count(m), 1)
