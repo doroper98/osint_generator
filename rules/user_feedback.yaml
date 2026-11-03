@@ -2720,3 +2720,15 @@ entries:
   status: guarded
   decision: "D-0627(back_and_forth) — 녹음 효과음 레지스트리·큐 종류 추가, 칸나이 견본 먼저 사용자 판정"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-03"
+- id: UF-259
+  date: '2026-11-03'
+  project: cannae_216bc
+  at: "칸나이 원고 v3.2 게이트 ① 재승인 자료(gate1_view 944dab17 — deployment_9 날짜 칸만 2026.11.01 → -300~-201, 문장 글자 불변, script.yaml sha256 7a07b494)에 대한 답"
+  quote: "승인"
+  quote_kind: verbatim
+  category: "게이트 ① 원고 재승인 — 칸나이 원고 v3.2(D-0622 (가) 재현 고지 문장 날짜 = 비석 연대)"
+  guards:
+  - {kind: code, ref: orchestrator.project_manager.require_animatic}
+  status: guarded
+  decision: "D-0630 — approve --gate script_approval(원고 지문 7a07b494) → plan → mix → 효과음 견본 → 콘티 판 v2"
+  source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-03"
