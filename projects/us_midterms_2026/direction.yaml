@@ -107,7 +107,7 @@ shots:
     sid: act1_10
     'off': 0.0
   mode: drift
-  dur: 24.87
+  dur: 23.97
   camera:
     lon: -94.0
     lat: 38.0
@@ -313,7 +313,7 @@ shots:
     sid: act6_2
     'off': 0.0
   mode: drift
-  dur: 33.31
+  dur: 32.41
   camera:
     lon: -77.45
     lat: 38.85
