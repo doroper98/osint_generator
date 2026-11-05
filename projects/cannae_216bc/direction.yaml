@@ -129,46 +129,49 @@ sound:
   - {id: music.beethoven_coriolan, from: 319.6, src: 436.25}
   # D-0629 §1 — 코리올란 큰 대목이 목소리 대역을 덮는 문장 12개(명료도 15 dB 미만·근처)만 국소로 낮춘다(문장 0.2초 앞~끝 0.2초 뒤, 0.5초 경사).
   # 측정: 국소 감쇠 뒤 명료도 최저 15.60 dB(deployment_5 0.68배 가장 깊음), 음악 레벨 −20.78 dB(전쟁사 장르 범위 [−21.5, −9] 잠정)
+  # D-0630 §4 — 국소 감쇠(tools/clarity_dips.py 문장별, 효과음·이어 붙인 곡 포함 믹스 실측): 명료도 최저 15.65 dB, 음악 −20.89 dB, 가장 깊은 곳 encirclement_1 0.53배
   intensity:
   - [0.0, 0.55]
-  - [{sid: prelude_1, 'off': -0.7}, 0.572]
-  - [{sid: prelude_1, 'off': -0.2}, 0.439]
-  - [{sid: prelude_3, edge: end, 'off': 0.2}, 0.443]
-  - [{sid: prelude_3, edge: end, 'off': 0.7}, 0.578]
-  - [{sid: prelude_8, 'off': -0.7}, 0.592]
-  - [{sid: prelude_8, 'off': -0.2}, 0.566]
-  - [{sid: prelude_8, edge: end, 'off': 0.2}, 0.568]
-  - [{sid: prelude_8, edge: end, 'off': 0.7}, 0.595]
-  - [{sid: prelude_10, 'off': -0.7}, 0.598]
-  - [{sid: prelude_10, 'off': -0.2}, 0.542]
-  - [{sid: prelude_10, edge: end, 'off': 0.2}, 0.543]
-  - [{sid: prelude_10, edge: end, 'off': 0.7}, 0.599]
-  - [{scene_start: deployment}, 0.6]
-  - [{sid: deployment_5, 'off': -0.7}, 0.616]
-  - [{sid: deployment_5, 'off': -0.2}, 0.419]
-  - [{sid: deployment_7, edge: end, 'off': 0.2}, 0.427]
-  - [{sid: deployment_7, edge: end, 'off': 0.7}, 0.629]
-  - [{sid: deployment_14, 'off': -0.7}, 0.654]
-  - [{sid: deployment_14, 'off': -0.2}, 0.497]
-  - [{sid: deployment_14, edge: end, 'off': 0.2}, 0.5]
-  - [{sid: deployment_14, edge: end, 'off': 0.7}, 0.659]
-  - [{scene_start: encirclement}, 0.66]
-  - [{sid: encirclement_13, 'off': -0.7}, 0.566]
-  - [{sid: encirclement_13, 'off': -0.2}, 0.524]
-  - [{sid: encirclement_13, edge: end, 'off': 0.2}, 0.517]
-  - [{sid: encirclement_13, edge: end, 'off': 0.7}, 0.557]
-  - [{scene_start: aftermath}, 0.55]
-  - [{scene_start: ending}, 0.5]
-  - [{sid: ending_2, 'off': -0.7}, 0.5]
-  - [{sid: ending_2, 'off': -0.2}, 0.412]
-  - [{sid: ending_3, edge: end, 'off': 0.2}, 0.412]
-  - [{sid: ending_3, edge: end, 'off': 0.7}, 0.5]
+  - [58.141, 0.576]
+  - [58.491, 0.469]
+  - [60.737, 0.47]
+  - [61.087, 0.578]
+  - [109.856, 0.6]
+  - [152.287, 0.637]
+  - [152.637, 0.371]
+  - [156.66, 0.373]
+  - [157.01, 0.641]
+  - [173.075, 0.655]
+  - [173.425, 0.443]
+  - [177.507, 0.446]
+  - [177.857, 0.659]
+  - [178.757, 0.659]
+  - [179.107, 0.506]
+  - [179.257, 0.506]
+  - [182.063, 0.503]
+  - [182.663, 0.349]
+  - [185.629, 0.346]
+  - [186.229, 0.534]
+  - [190.426, 0.529]
+  - [191.026, 0.456]
+  - [196.077, 0.45]
+  - [196.427, 0.635]
+  - [220.383, 0.6]
+  - [220.733, 0.491]
+  - [225.891, 0.485]
+  - [226.491, 0.312]
+  - [229.477, 0.31]
+  - [230.077, 0.497]
+  - [240.115, 0.485]
+  - [240.465, 0.571]
+  - [254.758, 0.55]
+  - [320.546, 0.5]
   # D-0630 §3(UF-262 "효과음까지 들리는 버전이 좋네" — 채택) — 3D 접전 구간 전체에 녹음 효과음 층(먼 거리감, 견본 원칙). 3D 구간 밖(트럼불 카드 230~241초)은 깔지 않는다.
   # 활·투석 소리 없음(D-0627 §2-3). 울음 = 충돌마다 한 번. 세기는 명료도 15 dB 실측으로 정한다
   cues:
-  - {kind: battle, t: {sid: encirclement_0, 'off': -0.8}, end: {sid: encirclement_2, edge: end, 'off': 0.6}, v: 0.45, sound: gallop, dist: far, units: [로마 기병, 히스파니아·켈트 기병]}
-  - {kind: battle, t: {sid: encirclement_1, 'off': -0.3}, end: {sid: encirclement_4, edge: end, 'off': 0.4}, v: 0.3, sound: melee_metal, dist: far, units: [로마 기병, 히스파니아·켈트 기병]}
-  - {kind: battle, t: {sid: encirclement_1, 'off': -0.3}, end: {sid: encirclement_1, edge: end, 'off': 1.5}, v: 0.35, sound: whinny, dist: far, units: [로마 기병]}
+  - {kind: battle, t: {sid: encirclement_0, 'off': -0.8}, end: {sid: encirclement_2, edge: end, 'off': 0.6}, v: 0.25, sound: gallop, dist: far, units: [로마 기병, 히스파니아·켈트 기병]}
+  - {kind: battle, t: {sid: encirclement_1, 'off': -0.3}, end: {sid: encirclement_4, edge: end, 'off': 0.4}, v: 0.2, sound: melee_metal, dist: far, units: [로마 기병, 히스파니아·켈트 기병]}
+  - {kind: battle, t: {sid: encirclement_1, 'off': -0.3}, end: {sid: encirclement_1, edge: end, 'off': 1.5}, v: 0.25, sound: whinny, dist: far, units: [로마 기병]}
   - {kind: battle, t: {sid: encirclement_3, 'off': -0.3}, end: {sid: encirclement_10, edge: end, 'off': 0.6}, v: 0.45, sound: crowd, dist: far, units: [로마 중무장보병, 아프리카 중무장보병]}
   - {kind: battle, t: {sid: encirclement_5, 'off': -0.3}, end: {sid: encirclement_7, edge: end, 'off': 0.8}, v: 0.7, sound: melee_metal, dist: far, units: [로마 중무장보병, 아프리카 중무장보병, 히스파니아·켈트 보병]}
   - {kind: battle, t: {sid: encirclement_7, 'off': -0.2}, end: {sid: encirclement_7, edge: end, 'off': 0.8}, v: 0.5, sound: gallop, dist: far, units: [동맹 기병]}
