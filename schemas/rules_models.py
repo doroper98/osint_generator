@@ -1259,6 +1259,7 @@ class Admin1Mode(_Strict):
     halo: float = Field(ge=0)
     halo_a: float = Field(ge=0, le=1)
     cities: Optional[Admin1Cities] = None   # None = 도시 지명 기존 규칙 그대로(subtle)
+    color: Literal["admin_label", "ink"] = "admin_label"   # v7.4.0 D-0305(D527) — 주 이름 색: admin_label = 테마 회색(v7.3), ink = 테마 white 토큰(짙은 채움 위)
     marker_sub: Literal["gold", "ink"] = "gold"   # v7.4.0 D-0304(DECISIONS D526) — 마커 부제 색: gold = 테마 gold_text(v7.3), ink = 테마 white 토큰(주 채움 위 대비)
 
 

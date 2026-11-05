@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING
 from engine.projection import View
 from engine.stage import MERCATOR_LOD as LOD
 from engine.stage import by_w
-from engine.style import H_OUT, W_OUT, hexc
+from engine.style import H_OUT, W_OUT, hexc, map_c
 from engine.typography import text, tw
 from rules import load_rules
 
@@ -94,6 +94,7 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
         md_below, md_size, md_font, md_alpha, md_halo, md_halo_a, mc = LOD["admin_names_below_w"], 9.5, "sans", 0.42, 1.8, 0.8, None
     else:
         md_below, md_size, md_font, md_alpha, md_halo, md_halo_a, mc = md.below_w, md.size, md.font, md.alpha, md.halo, md.halo_a, md.cities
+    md_col = map_c(stage, "white") if md is not None and md.color == "ink" else th.admin_label   # v7.4.0 D-0305 — prominent 주 이름 잉크
     if view.w < md_below:
         for k in lab.province_countries:
             for ad in stage.adm.get(k, []):
@@ -104,7 +105,7 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
                     w = tw(ctx, ad["name"], md_size, md_font)
                     top, hh = round(md_size * 0.95), round(md_size * 1.26)   # subtle 9.5px → 9·12(v7.3 상자 그대로)
                     if free(x - w / 2, y - top, w, hh):
-                        text(ctx, ad["name"], x, y, md_size, md_font, th.admin_label, md_alpha * la, md_halo, "c", 0.0, md_halo_a, halo_rgb=hr, contrast="aux")
+                        text(ctx, ad["name"], x, y, md_size, md_font, md_col, md_alpha * la, md_halo, "c", 0.0, md_halo_a, halo_rgb=hr, contrast="aux")
                         placed.append((x - w / 2, y - top, x + w / 2, y - top + hh))
                         drawn.append(_lb(placed[-1], ad["name"], "admin"))
     # cities

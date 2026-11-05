@@ -955,7 +955,7 @@ events:
     edge: end
   at_place: me
   label: 메인
-  sub: 잭슨 53.4 · 콜린스 46.5
+  sub: 현직 콜린스 낙선
   side: right
   hl: true
   claims:
@@ -1548,7 +1548,7 @@ events:
   status: called
   src: 엔비씨 집계 · 11월 5일 오전
   rows:
-  - name: 엘세이드
+  - name: 엘사예드
     col: dem
     pct: 52.5
   - name: 로저스
