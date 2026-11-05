@@ -1908,7 +1908,7 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
     max_sec: 18
     step_sec: 0.1
     appear_hold_sec: 4
-    element_types: [photo, clip, cutout, article, quote, panel, card, badge, island, backdrop, inset, cascade, primitive, series]
+    element_types: [photo, clip, cutout, article, quote, panel, card, badge, island, backdrop, inset, cascade, primitive, series, bars]   # bars = v7.4.0 D-0303(득표율 막대 상자 — 화면 요소)
     appear_types: [marker, route, country]
     exempt_projects:   # 회귀 기준만(새 영상 면제 없음). 범위 = tests/test_feedback_guards_uf160_162.py 가 고정
       hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"

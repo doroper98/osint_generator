@@ -875,7 +875,7 @@ events:
     sid: act2_5
     'off': 1.55
   end:
-    sid: act2_6
+    sid: act2_5
     'off': 0.5
     edge: end
   at_place: ks
@@ -1416,7 +1416,7 @@ events:
     'off': 0.3
     edge: end
   at_place: sc
-  side: below
+  side: left
   race: senate
   code: US-SC
   status: called
@@ -1437,7 +1437,7 @@ events:
     'off': 0.3
     edge: end
   at_place: ia
-  side: below
+  side: left
   race: senate
   code: US-IA
   status: called
@@ -1458,7 +1458,7 @@ events:
     'off': 0.3
     edge: end
   at_place: oh
-  side: below
+  side: left
   race: senate
   code: US-OH
   status: called
@@ -1479,7 +1479,7 @@ events:
     'off': 0.3
     edge: end
   at_place: nc
-  side: below
+  side: left
   race: senate
   code: US-NC
   status: called
@@ -1500,7 +1500,7 @@ events:
     'off': 0.3
     edge: end
   at_place: me
-  side: below
+  side: left
   race: senate
   code: US-ME
   status: called
@@ -1521,7 +1521,7 @@ events:
     'off': 0.8
     edge: end
   at_place: ga
-  side: right
+  side: below
   race: senate
   code: US-GA
   status: called
@@ -1584,7 +1584,7 @@ events:
     'off': 0.3
     edge: end
   at_place: ak
-  side: below
+  side: left
   race: senate
   code: US-AK
   status: counting
@@ -1626,7 +1626,7 @@ events:
     'off': 0.3
     edge: end
   at_place: tx
-  side: below
+  side: left
   race: governor
   code: US-TX
   status: called
@@ -1647,7 +1647,7 @@ events:
     'off': 0.3
     edge: end
   at_place: nv
-  side: below
+  side: left
   race: governor
   code: US-NV
   status: called
@@ -1668,7 +1668,7 @@ events:
     'off': 0.3
     edge: end
   at_place: ia
-  side: below
+  side: left
   race: governor
   code: US-IA
   status: called
@@ -1689,7 +1689,7 @@ events:
     'off': 0.3
     edge: end
   at_place: fl
-  side: right
+  side: left
   race: governor
   code: US-FL
   status: called

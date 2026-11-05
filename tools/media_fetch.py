@@ -172,7 +172,7 @@ def process_photo(src: Path, out: Path, prm: dict) -> None:
     w, h = im.size
     s = max(tw / w, th / h)
     im = im.resize((int(w * s) + 1, int(h * s) + 1), Image.LANCZOS)
-    x0, y0 = (im.width - tw) // 2, (im.height - th) // 2
+    x0, y0 = (im.width - tw) // 2, int((im.height - th) * prm.get("crop_y", 0.5))   # v7.4.0 crop_y — 세로 자르기 기준(0 위·0.5 가운데 기본·1 아래). 세로 초상은 머리가 잘리지 않게 위쪽
     im = im.crop((x0, y0, x0 + tw, y0 + th))
     im = ImageEnhance.Contrast(ImageEnhance.Color(im).enhance(prm["color"])).enhance(prm["contrast"])
     im.save(out, quality=prm["jpeg_quality"])

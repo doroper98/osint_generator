@@ -8271,7 +8271,8 @@
      ],
      "color": 0.9,
      "contrast": 1.04,
-     "jpeg_quality": 92
+     "jpeg_quality": 92,
+     "crop_y": 0.2
     }
    },
    "source_hash": "b7d3f25e1f8117bb89c0348cc30f5c6a",
@@ -8310,7 +8311,8 @@
      ],
      "color": 0.9,
      "contrast": 1.04,
-     "jpeg_quality": 92
+     "jpeg_quality": 92,
+     "crop_y": 0.2
     }
    },
    "source_hash": "267e0c2ce0021c349558a8f9c2df21ba",
@@ -8349,7 +8351,8 @@
      ],
      "color": 0.9,
      "contrast": 1.04,
-     "jpeg_quality": 92
+     "jpeg_quality": 92,
+     "crop_y": 0.2
     }
    },
    "source_hash": "47befe2504897c42ce22a84fe6e895b4",
@@ -8427,7 +8430,8 @@
      ],
      "color": 0.9,
      "contrast": 1.04,
-     "jpeg_quality": 92
+     "jpeg_quality": 92,
+     "crop_y": 0.2
     }
    },
    "source_hash": "80c3ac0175c0e526f546d75b38391818",
@@ -8505,7 +8509,8 @@
      ],
      "color": 0.9,
      "contrast": 1.04,
-     "jpeg_quality": 92
+     "jpeg_quality": 92,
+     "crop_y": 0.2
     }
    },
    "source_hash": "84f205deb83e140c46c62c38bbf359b0",
@@ -8544,7 +8549,8 @@
      ],
      "color": 0.9,
      "contrast": 1.04,
-     "jpeg_quality": 92
+     "jpeg_quality": 92,
+     "crop_y": 0.2
     }
    },
    "source_hash": "ee9dfd28cae48b99eeed047fa6343330",
@@ -8622,7 +8628,8 @@
      ],
      "color": 0.9,
      "contrast": 1.04,
-     "jpeg_quality": 92
+     "jpeg_quality": 92,
+     "crop_y": 0.2
     }
    },
    "source_hash": "bfbee7a6a699795e89fd896dca9554d8",
