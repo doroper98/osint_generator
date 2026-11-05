@@ -144,7 +144,7 @@ class AreaChecksTest(unittest.TestCase):
         self.assertEqual(report([ev(t1=4.0), ev(t0=5.0, t1=12.0)]), [])
 
     def test_dense_warning_and_severity(self) -> None:
-        many = [dict(code=f"US-A{i}", col="dem", band="solid", status="called", delay=0.0) for i in range(40)]
+        many = [dict(code=f"US-A{i}", col="dem", band="solid", status="called", delay=0.0) for i in range(45)]
         self.assertTrue(checks.area_dense([dict(type="area", t0=0.0, items=many)]))
         self.assertIn("area", checks.HARD)
         self.assertIn("area_dense", checks.WARN)
