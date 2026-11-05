@@ -266,6 +266,7 @@ python tools/uf_checklist.py projects/{pid} --src animatic|final|preview        
 
 - 사용자는 이 폴더에 `D` 파일을 직접 쓸 수 있다(`from: user`). 번호는 Fable의 D 번호를 이어서 쓴다.
 - 사용자가 대화로 준 지시는 파일보다 우선한다. Opus는 그 지시를 다음 `progress`에 인용해 Fable도 알게 한다.
+- **게이트 승인 기록 자리**(UF-267, PIPELINE-AP-026, D-0633): 사용자의 교신 창구는 감독 세션 하나다. 사용자 게이트 승인(①·②·사전 승인 포함)은 사용자가 말한 세션, 곧 감독 세션에서 `approve` 로 기록하고 push 한다. 구현 세션은 사용자 승인을 대신 기록하지 않는다. git 에 기록된 승인을 pull 해서 진행만 한다. 구현은 게이트 자료와 함께 승인 검사 입력(gate packet)을 git 에 올린다. 사용자에게 다른 세션으로 옮겨 입력하라고 요청하지 않는다. 권한 장치에 막히면 장치를 넓히거나 우회하지 않고 이 경로로 돌린다.
 - 사용자 의견(영상·화면·소리·작업 순서)은 받은 쪽(감독·구현 세션 누구든)이 그 자리에서 `rules/user_feedback.yaml` 에 원문 그대로 UF 번호로 기록한다(CLAUDE.md C12, D-0200). 장치 없는 의견이 있으면 게이트 ② 가 거부된다.
 
 ## 10. 세션 생존과 재기동 — 정본은 `docs/handoff/21_SESSION_LIVENESS_AND_RECOVERY.md`
