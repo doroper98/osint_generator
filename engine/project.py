@@ -508,6 +508,9 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         attach_world(events, R.stage, chart_stage)
     except ValueError as ex:   # 앵커 키가 무대와 다름(지도 핀을 시간축에, 등) = 오류(P10, D-0085)
         raise ProjectError(f"앵커 오류: {ex}") from ex   # 앵커(lon·lat) → 월드 좌표. 레이어·검사기는 이 값과 View 만 쓴다(D-0076 작업 3)
+    from engine.layers.bars import resolve_sides  # noqa: PLC0415
+
+    resolve_sides(events, R.stage, cams, FPS)   # v7.4.0 D-0303 §3 — bars 자리(마커 이름표·화면 밖 회피, 코드가 고른다)
     R.cache["backdrop"] = backdrop_report(events, R.assets.media_assets)   # v5.1.0 D-0123 §3 — checks backdrop_rights·backdrop_repeat·provenance
     R.cache["stage_choice"] = doc.stage_choice()                          # v5.1.0 D-0123 §2 — checks stage_choice(warning)
     _check_quotes(proj, events)      # v4.4.0 — statement_diff 문구 = intake 원문(D-0090 작업 4)

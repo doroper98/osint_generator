@@ -65,6 +65,46 @@ def bars_box(view: View, e: dict) -> tuple[tuple[float, float, float, float], bo
     return _place(order[0], x, y, w, h), False
 
 
+def resolve_sides(events: list[dict], stage: object, cams: object, fps: float) -> None:
+    """렌더 전 한 번(engine.project.load_project) — bars 마다 연출 side 부터 rules bars.side_order 차례로, 다 자란 시각·가운데 시각
+    모두에서 화면 안이고 그 시각 보이는 마커 이름표(부제 포함)와 겹치지 않는 첫 자리를 고른다(코드가 겹침 회피, 픽셀 금지 — P8).
+    바뀌면 e["side_auto"] = 연출이 고른 side(provenance·검사 기록). 맞는 자리가 없으면 연출 side 그대로(검사 [bars-*] 가 실패)."""
+    from engine.layers.markers import marker_box  # noqa: PLC0415 — 순환 회피
+
+    bs = [e for e in events if e["type"] == "bars"]
+    if not bs or cams is None:
+        return
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    mk = [m for m in events if m["type"] == "marker" and m.get("world") is not None]
+    n = len(cams)
+    for e in bs:
+        ts = (min(e["t1"], e["t0"] + B.grow_sec + B.fade_sec), (e["t0"] + e["t1"]) / 2)
+        views = [View(stage, cams[min(n - 1, max(0, int(t * fps)))]) for t in ts]
+        want = e.get("side") or "right"
+        w, h = box_size(e)
+        for side in [want] + [x for x in B.side_order if x != want]:
+            ok = True
+            for t, v in zip(ts, views):
+                x, y = v.to_screen(*anchor_world(v, e))
+                b = _place(side, x, y, w, h)
+                if not _fits(b):
+                    ok = False
+                    break
+                for m in mk:
+                    if m["t0"] <= t <= m["t1"]:
+                        mb = marker_box(ctx, m, *v.to_screen(*m["world"]), with_sub=True)
+                        if mb[0] < b[2] and b[0] < mb[2] and mb[1] < b[3] and b[1] < mb[3]:
+                            ok = False
+                            break
+                if not ok:
+                    break
+            if ok:
+                if side != want:
+                    e["side_auto"] = want
+                    e["side"] = side
+                break
+
+
 def _round_rect(ctx: cairo.Context, x: float, y: float, w: float, h: float, r: float) -> None:
     ctx.new_path()
     ctx.arc(x + w - r, y + r, r, -math.pi / 2, 0)
@@ -117,4 +157,4 @@ def draw_bars(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -
     R.reserved.append((x0, y0, x1, y1))
 
 
-__all__ = ["anchor_world", "bars_box", "box_size", "draw_bars"]
+__all__ = ["anchor_world", "bars_box", "box_size", "draw_bars", "resolve_sides"]
