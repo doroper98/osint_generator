@@ -71,6 +71,9 @@ places:
   nvia:
   - -105.0
   - 40.0
+  east:
+  - -81.0
+  - 33.5
 shots:
 - at: 0
   mode: cut
@@ -260,27 +263,18 @@ shots:
   reason: 네바다·아이오와 주지사 — 서부와 중서부 함께(오하이오는 앞 숏 구도 안)
 - at:
     sid: act4_7
-    'off': -2.5
+    'off': -1.93
   mode: move
-  dur: 5.4
+  dur: 3.5
   camera:
-    place: flw
-    w: 20.0
-  reason: 플로리다(공화 유지) — 반도와 남동부 육지
-- at:
-    sid: act4_8
-    'off': -2.5
-  mode: move
-  dur: 5.0
-  camera:
-    place: pa
-    w: 12.0
-  reason: 펜실베이니아 주의회
+    place: east
+    w: 40.0
+  reason: 플로리다·펜실베이니아 — 동부 해안 권역 한 구도(문장마다 이동 금지)
 - at:
     sid: act4_9
     'off': -2.5
   mode: move
-  dur: 8.07
+  dur: 5.1
   camera:
     place: tx
     w: 16.0
@@ -312,6 +306,16 @@ shots:
     place: dc
     w: 10.0
   reason: 워싱턴으로 복귀
+- at:
+    sid: act6_2
+    'off': 0.0
+  mode: drift
+  dur: 33.31
+  camera:
+    lon: -77.6
+    lat: 38.7
+    w: 9.6
+  reason: 6막 새 의회·전망 문장 — 워싱턴 위 느린 궤도 훑기(정지 방지 UF-120)
 - at:
     sid: ending_0
     'off': -2.5
@@ -1131,7 +1135,7 @@ events:
 - type: marker
   start:
     sid: act4_7
-    'off': 3.1
+    'off': 1.77
   end:
     sid: act4_7
     'off': 0.5
@@ -1146,7 +1150,7 @@ events:
 - type: marker
   start:
     sid: act4_8
-    'off': 2.7
+    'off': 1.4
   end:
     sid: act4_8
     'off': 0.5
@@ -1161,7 +1165,7 @@ events:
 - type: marker
   start:
     sid: act4_9
-    'off': 5.7700000000000005
+    'off': 2.8000000000000003
   end:
     sid: act4_9
     'off': 0.5
@@ -1392,8 +1396,8 @@ events:
     sid: cold_3
     'off': 0.5
     edge: end
-  lon: -83.1
-  lat: 37.9
+  lon: -84.17
+  lat: 38.3
 - type: photo
   mid: us_midterms_2026_house_chamber
   start:
@@ -1434,20 +1438,19 @@ events:
   img: dem_party
   label: 민주당
   accent: dem
-  place: map_lower_left
   start:
     sid: act1_0
     'off': 2.32
   end:
-    sid: act1_1
-    'off': 0.5
-    edge: end
+    sid: act1_2
+    'off': -0.3
+  lon: -116.46
+  lat: 36.83
 - type: badge
   kind: emblem
   img: rep_party
   label: 공화당
   accent: rep
-  place: map_lower_left
   start:
     sid: act1_5
     'off': 0.1
@@ -1455,6 +1458,8 @@ events:
     sid: act1_6
     'off': 0.5
     edge: end
+  lon: -116.46
+  lat: 36.83
 - type: article
   mid: us_midterms_2026_art_0004
   start:
@@ -1480,7 +1485,6 @@ events:
   img: dem_party
   label: 민주당
   accent: dem
-  place: map_lower_left
   start:
     sid: act2_2
     'off': 1.79
@@ -1488,6 +1492,8 @@ events:
     sid: act2_4
     'off': 0.5
     edge: end
+  lon: -103.95
+  lat: 30.65
 - type: photo
   mid: us_midterms_2026_talarico_rally
   start:
@@ -1615,14 +1621,15 @@ events:
   img: rep_party
   label: 공화당
   accent: rep
-  place: map_lower_left
   start:
     sid: act4_7
-    'off': 3.1999999999999997
+    'off': 1.87
   end:
     sid: act4_8
     'off': 0.5
     edge: end
+  lon: -93.97
+  lat: 32.32
 - type: article
   mid: us_midterms_2026_art_0031
   start:
