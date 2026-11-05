@@ -2243,3 +2243,14 @@ entries:
   status: guarded
   decision: D-0289(감독 — act4_6 뱃지를 act4_7 끝까지 유지. 장치는 전달 뒤)
   source: 감독 세션(Fable, 중국 트랙) 사용자 대화 2026-10-30
+- id: UF-163
+  date: '2026-11-05'
+  project: us_midterms_2026
+  at: 게이트 ① 원고 v1.1 검토(사용자 대화, 감독 세션) — 원고에 제도 설명(왜 치르는가·무엇을 뽑는가)이 없음
+  quote: 중간선거 의의에 대한 내용도 좀 추가해줘. 왜 하는지, 뭘 뽑는지 등
+  quote_kind: verbatim
+  category: 원고 구성 — 선거·제도 소재 영상은 "왜 하는가·무엇을 뽑는가" 제도 설명 막을 둔다(사실 1차 출처 — 헌법·연방법). 장치 = script_grammar 규칙 줄 + 린트(전달 뒤)
+  guards: []
+  status: open
+  decision: D-0294(감독 — 막 basics 신설 6~8문장, 1차 출처 미국 헌법 1조·수정 17조·2 U.S.C. §7·Federalist 52, 원고 v1.2 → 게이트 ① 재요청. 장치는 영상 전달 뒤 첫 작업)
+  source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
