@@ -1,7 +1,7 @@
 # 감독(Fable 역할) 세션 인수인계 — 2026-10-11 (v5.21.0)
 
 ## 0-3. 2026-11-05 — 새 트랙: 『2026 미국 중간선거 — 주별 결과·격전지·역사 맥락』(사용자 요청, DECISIONS D515)
-- **감독 세션** `session_017Yuw8ixNRzov4VpELs53Xx`(Fable 5.1, 2026-11-05 09:12 KST 기동), env_01SnvGMv3UmrvejEraZxEACo, 브랜치 `claude/vigilant-fermat-w8c2ti`(main 16f6ae8 위). 기동 지시 D-0290, 조사표 D-0291. 구현 세션 id 는 D-0290 뒤 첫 커밋의 DECISIONS/이 절에 기록.
+- **감독 세션** `session_017Yuw8ixNRzov4VpELs53Xx`(Fable 5.1, 2026-11-05 09:12 KST 기동), env_01SnvGMv3UmrvejEraZxEACo, 브랜치 `claude/vigilant-fermat-w8c2ti`(main 16f6ae8 위). 기동 지시 D-0290, 조사표 D-0291. **구현 세션** `session_017Yuw8kR9mdTJZoQZAfUKod`(Opus 5.5, 같은 env, 2026-11-05 00:27Z 생성, source_revision·outcome_branch = 이 브랜치). 감독 점검 트리거 `trig_01EdmzsHrwiWS1GWFP7kBmjm`(60분 뒤, 이후 45~60분 간격 재예약).
 - 게이트 ①·② 는 **사용자 승인**(위임 없음). 감독이 gate-view·콘티 판·프리뷰 시트를 사용자에게 보내고 승인을 받아 `approve` 를 친다. 산출물은 나오는 즉시 사용자에게(UF-144).
 - 핵심 설계: mercator light + 새 이벤트 `area`(주 채움) — D-0290 §2·§3. pid `us_midterms_2026`.
 
