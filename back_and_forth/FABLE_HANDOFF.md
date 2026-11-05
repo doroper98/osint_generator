@@ -1,5 +1,10 @@
 # 감독(Fable 역할) 세션 인수인계 — 2026-10-11 (v5.21.0)
 
+## 0-3. 2026-11-05 — 새 트랙: 『2026 미국 중간선거 — 주별 결과·격전지·역사 맥락』(사용자 요청, DECISIONS D515)
+- **감독 세션** `session_017Yuw8ixNRzov4VpELs53Xx`(Fable 5.1, 2026-11-05 09:12 KST 기동), env_01SnvGMv3UmrvejEraZxEACo, 브랜치 `claude/vigilant-fermat-w8c2ti`(main 16f6ae8 위). 기동 지시 D-0290, 조사표 D-0291. 구현 세션 id 는 D-0290 뒤 첫 커밋의 DECISIONS/이 절에 기록.
+- 게이트 ①·② 는 **사용자 승인**(위임 없음). 감독이 gate-view·콘티 판·프리뷰 시트를 사용자에게 보내고 승인을 받아 `approve` 를 친다. 산출물은 나오는 즉시 사용자에게(UF-144).
+- 핵심 설계: mercator light + 새 이벤트 `area`(주 채움) — D-0290 §2·§3. pid `us_midterms_2026`.
+
 ## 0-2. 2026-10-30 — 병행 트랙: 『중국의 기술 수출통제 확대(2026.10)』(사용자 결정 D-0282)
 - **상태(2026-10-30 16:00Z)**: 전편 전달 완료 — `artifacts/china-export-controls-v7.4.0` 95148beb `final/final_deliver.mp4`(md5 02ccbde3, 397.1초, 28.9 MB), DECISIONS D500~D510, 게이트 ①·② 감독 승인(D-0282 위임, 사용자 결정 D-0289). 구현 세션 `session_017Yuw8kwTv8PML5DnvDiExD`. 남은 것: 전체 pytest 결과·UF-160~162 장치 3건(D-0289 §장치).
 - 사용자 지시로 **별도 감독(Fable) 세션**이 이 영상을 묻지 않고 완성본까지 만든다. 브랜치 `claude/china-export-controls-2026`. 감독 세션 `session_017Yuw8hTb2zPgG7PvjAbjyu`(Fable 5.1, 2026-10-30 15:31 KST 기동, DECISIONS D500, 기동 지시 D-0283). 쇼케이스 트랙(0-1)과 독립 — 이 세션(sweet-galileo)은 쇼케이스·E7 만.
