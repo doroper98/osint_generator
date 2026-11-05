@@ -73,7 +73,7 @@ places:
   - 40.0
   east:
   - -81.0
-  - 33.5
+  - 34.3
 shots:
 - at: 0
   mode: cut
@@ -820,12 +820,24 @@ events:
     src: 엔비씨 집계 · 2026-11-05 09:30 KST
   claims:
   - clm_0014
+- type: photo
+  mid: diesel_road_2026_trump_1006
+  start:
+    sid: act1_12
+    'off': 0.3
+  end:
+    sid: act1_12
+    'off': 0.3
+    edge: end
+  x: 227.0
+  y: 72.0
+  w: 400.0
 - type: badge
   start:
     sid: act1_9
     'off': 0.2
   end:
-    sid: act1_12
+    sid: act1_11
     'off': 0.5
     edge: end
   kind: person
@@ -1397,7 +1409,7 @@ events:
     'off': 0.5
     edge: end
   lon: -84.17
-  lat: 38.3
+  lat: 39.1
 - type: photo
   mid: us_midterms_2026_house_chamber
   start:
@@ -1435,19 +1447,6 @@ events:
   w: 400.0
 - type: badge
   kind: emblem
-  img: dem_party
-  label: 민주당
-  accent: dem
-  start:
-    sid: act1_0
-    'off': 2.32
-  end:
-    sid: act1_2
-    'off': -0.3
-  lon: -116.46
-  lat: 36.83
-- type: badge
-  kind: emblem
   img: rep_party
   label: 공화당
   accent: rep
@@ -1459,7 +1458,7 @@ events:
     'off': 0.5
     edge: end
   lon: -116.46
-  lat: 36.83
+  lat: 39.05
 - type: article
   mid: us_midterms_2026_art_0004
   start:
@@ -1493,7 +1492,7 @@ events:
     'off': 0.5
     edge: end
   lon: -103.95
-  lat: 30.65
+  lat: 31.29
 - type: photo
   mid: us_midterms_2026_talarico_rally
   start:
@@ -1629,7 +1628,7 @@ events:
     'off': 0.5
     edge: end
   lon: -93.97
-  lat: 32.32
+  lat: 34.69
 - type: article
   mid: us_midterms_2026_art_0031
   start:
