@@ -1,0 +1,362 @@
+{
+ "schema_version": 1,
+ "frames": [
+  {
+   "n": 1,
+   "file": "p_0008.93.png",
+   "label": "t=8.93",
+   "t": 8.93,
+   "sid": "cold_1",
+   "text": "그리고 다음 날 새벽까지 민주당은 하원과 상원을 모두 되찾았습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "area"
+    },
+    {
+     "type": "photo",
+     "mid": "us_midterms_2026_capitol_night"
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "file": "p_0019.23.png",
+   "label": "t=19.23",
+   "t": 19.23,
+   "sid": "cold_3",
+   "text": "트럼프 대통령 2기의 첫 중간선거였습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "area"
+    },
+    {
+     "type": "badge",
+     "kind": "emblem",
+     "label": "민주당"
+    }
+   ]
+  },
+  {
+   "n": 3,
+   "file": "p_0024.11.png",
+   "label": "t=24.11",
+   "t": 24.11,
+   "sid": null,
+   "text": null,
+   "after_sid": "cold_3",
+   "card": "title",
+   "events": [
+    {
+     "type": "area"
+    }
+   ]
+  },
+  {
+   "n": 4,
+   "file": "p_0048.98.png",
+   "label": "t=48.98",
+   "t": 48.98,
+   "sid": "basics_2",
+   "text": "헌법 1조에 따라 하원의원 임기는 2년이라 435석 전원을, 상원의원 임기는 6년이라 3분의 1씩을 2년마다 다시 뽑습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "area"
+    },
+    {
+     "type": "panel",
+     "kind": "dots",
+     "title": "상원 100석"
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "file": "p_0077.89.png",
+   "label": "t=77.89",
+   "t": 77.89,
+   "sid": "basics_6",
+   "text": "헌법상 세입 법안과 탄핵 소추는 하원이, 탄핵 재판과 인준 동의는 상원이 맡습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "area"
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "file": "p_0124.29.png",
+   "label": "t=124.29",
+   "t": 124.29,
+   "sid": "act1_4",
+   "text": "11월 5일 아침까지 확정된 자리는 민주당 242석, 공화당 151석이고, 42곳이 남았습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "area"
+    },
+    {
+     "type": "panel",
+     "kind": "versus",
+     "title": "하원 435석 · 과반 218"
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "file": "p_0156.80.png",
+   "label": "t=156.80",
+   "t": 156.8,
+   "sid": "act1_10",
+   "text": "씨비에스 초기 출구조사에서 트럼프 대통령의 국정 지지율은 38%로, 씨비에스는 중간선거 때 대통령 지지율로는 가장 낮다고 밝혔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "area"
+    },
+    {
+     "type": "badge",
+     "kind": "person",
+     "label": "트럼프"
+    },
+    {
+     "type": "article",
+     "mid": "us_midterms_2026_art_0015",
+     "phase": "press_lead"
+    }
+   ]
+  },
+  {
+   "n": 8,
+   "file": "p_0221.54.png",
+   "label": "t=221.54",
+   "t": 221.54,
+   "sid": "act2_6",
+   "text": "캔자스의 민주당 상원의원 당선은 1932년 이후 처음이고, 2024년 대선에서 트럼프 대통령이 16포인트 이긴 주입니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "area"
+    },
+    {
+     "type": "photo",
+     "mid": "us_midterms_2026_marshall"
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "file": "p_0274.88.png",
+   "label": "t=274.88",
+   "t": 274.88,
+   "sid": "act2_13",
+   "text": "또한 노스캐롤라이나에서는 톰 틸리스 의원이 물러난 자리를 로이 쿠퍼 전 주지사가 59 대 39로 차지했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "area"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "file": "p_0332.39.png",
+   "label": "t=332.39",
+   "t": 332.39,
+   "sid": "act3_2",
+   "text": "미시시피에서는 민주당 스콧 콜롬 후보와 현직 신디 하이드스미스 의원의 표 차가 집계 매체와 시각에 따라 수십 표에서 2천 표 남짓입니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "area"
+    },
+    {
+     "type": "marker",
+     "label": "미시시피"
+    },
+    {
+     "type": "bars"
+    }
+   ]
+  },
+  {
+   "n": 11,
+   "file": "p_0355.26.png",
+   "label": "t=355.26",
+   "t": 355.26,
+   "sid": "act3_5",
+   "text": "다만 과반 후보가 없으면 11월 18일 순위선택 집계로 당선자가 정해집니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "area"
+    },
+    {
+     "type": "marker",
+     "label": "알래스카"
+    },
+    {
+     "type": "photo",
+     "mid": "us_midterms_2026_rcv_count_1937"
+    }
+   ]
+  },
+  {
+   "n": 12,
+   "file": "p_0396.60.png",
+   "label": "t=396.60",
+   "t": 396.6,
+   "sid": "act4_4",
+   "text": "조지아에서는 키샤 랜스 보텀스 후보가 54 대 46으로 이겨, 미국 역사상 첫 흑인 여성 주지사가 됩니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "area"
+    },
+    {
+     "type": "photo",
+     "mid": "us_midterms_2026_bottoms"
+    }
+   ]
+  },
+  {
+   "n": 13,
+   "file": "p_0428.37.png",
+   "label": "t=428.37",
+   "t": 428.37,
+   "sid": "act4_7",
+   "text": "반면 공화당이 지킨 플로리다에서는 바이런 도널즈 후보가 50.0 대 48.7로 이겨 플로리다의 첫 흑인 주지사가 됩니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "area"
+    },
+    {
+     "type": "marker",
+     "label": "플로리다"
+    },
+    {
+     "type": "bars"
+    },
+    {
+     "type": "badge",
+     "kind": "emblem",
+     "label": "공화당"
+    }
+   ]
+  },
+  {
+   "n": 14,
+   "file": "p_0472.82.png",
+   "label": "t=472.82",
+   "t": 472.82,
+   "sid": "act5_2",
+   "text": "아메리칸 프레지던시 프로젝트 집계로는, 1934년부터 2022년까지 대통령의 당이 중간선거에서 하원 평균 27석, 상원 평균 약 3석을 잃었습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "대통령의 당, 중간선거 평균"
+    }
+   ]
+  },
+  {
+   "n": 15,
+   "file": "p_0499.84.png",
+   "label": "t=499.84",
+   "t": 499.84,
+   "sid": "act5_6",
+   "text": "엔비씨 집계로는 이번에 하원에서 지금까지 확정된 자리만으로 공화당이 34석을 잃어, 90년 평균보다 많습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "panel",
+     "kind": "precedent",
+     "title": "대통령의 당, 중간선거 성적"
+    }
+   ]
+  },
+  {
+   "n": 16,
+   "file": "p_0533.53.png",
+   "label": "t=533.53",
+   "t": 533.53,
+   "sid": "act6_2",
+   "text": "척 슈머 민주당 원내대표는 트럼프 대통령이 국민의 뜻이나 법을 거스르면 조사하고 법정에 세우겠다고 말했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "quote"
+    }
+   ]
+  },
+  {
+   "n": 17,
+   "file": "p_0550.95.png",
+   "label": "t=550.95",
+   "t": 550.95,
+   "sid": "act6_4",
+   "text": "한편 주민투표에서는 버지니아와 네바다가 낙태권을, 오하이오와 노스캐롤라이나가 투표 때 사진 신분증 제시를 주 헌법에 넣었습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "badge",
+     "kind": "person",
+     "label": "트럼프"
+    }
+   ]
+  },
+  {
+   "n": 18,
+   "file": "p_0572.76.png",
+   "label": "t=572.76",
+   "t": 572.76,
+   "sid": "ending_0",
+   "text": "끝으로, 11월 5일 아침 기준으로 민주당은 상원 54석과 하원 과반, 주지사 과반을 확보했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": []
+  },
+  {
+   "n": 19,
+   "file": "p_0583.95.png",
+   "label": "t=583.95",
+   "t": 583.95,
+   "sid": null,
+   "text": null,
+   "after_sid": "ending_1",
+   "card": "end",
+   "events": []
+  },
+  {
+   "n": 20,
+   "file": "p_0586.34.png",
+   "label": "t=586.34",
+   "t": 586.34,
+   "sid": null,
+   "text": null,
+   "after_sid": "ending_1",
+   "card": "end",
+   "events": []
+  }
+ ]
+}
