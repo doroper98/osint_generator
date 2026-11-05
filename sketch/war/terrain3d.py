@@ -37,7 +37,7 @@ from sketch.common.draw import SK
 from sketch.war.scene import LABELS_FILE, date_at, load_places
 from sketch.war.spec import WarSpec
 from engine.glyphs.arms import draw_glyph
-from engine.stage_terrain3d import Local, hexs, key_at, rank_posts, shape_poly, unit_poly
+from engine.stage_terrain3d import Local, downsample_frames, hexs, key_at, rank_posts, shape_poly, unit_poly
 from sketch.war.units import WS
 
 REPO = Path(__file__).resolve().parents[2]
@@ -130,7 +130,7 @@ def build(project: Path, spec: WarSpec, t: float, theme: str, out: Path) -> dict
                 rec["posts"] = rank_posts(rec["poly"], T3.rank.gap_m, T3.rank.max_posts)
         g = WS.glyph_of(u.symbol)
         if g:
-            glyph_files.setdefault(g, glyph_png(g, int(T3.glyph_px * 2), out))
+            glyph_files.setdefault(g, glyph_png(g, int(T3.glyph_px * 2 * (T3.finish.supersample if T3.finish else 1)), out))   # 고해상도(D-0630 §1)
             rec["glyph"] = glyph_files[g]
         units.append(rec)
     places_db = load_places(project)
@@ -155,7 +155,7 @@ def build(project: Path, spec: WarSpec, t: float, theme: str, out: Path) -> dict
              "light": T3.light.model_dump(), "sky": T3.sky, "fog": [radius * T3.fog[0], radius * T3.fog[1]],
              "lift_m": T3.lift_m, "label_lift_m": T3.label_lift_m, "unit_opacity": T3.unit_opacity,
              "unit_height_m": T3.unit_height_m, "shadow_offset_m": T3.shadow_offset_m, "shadow_alpha": WS.depth.shadow_alpha,
-             "rank": T3.rank.model_dump(), "glyph_px": T3.glyph_px, "rim_alpha": WS.depth.rim_alpha,
+             "rank": T3.rank.model_dump(), "glyph_px": T3.glyph_px, "rim_alpha": WS.depth.rim_alpha, "finish": T3.finish.model_dump() if T3.finish else None,
              "river": {"w_m": T3.river_w_m, "color": hexs(SK.war.river.rgb)}, "text": T3.text.model_dump(), "halo": T3.halo,
              "units": units, "places": places, "rivers": rivers, "frames": frames}
     (out / "scene.json").write_text(json.dumps(scene, ensure_ascii=False), encoding="utf-8")
@@ -211,6 +211,7 @@ def main(argv: list[str] | None = None) -> int:
     info = build(a.project, spec, a.t, theme, out)
     subprocess.run(["node", str(TOOL / "render.js"), str(out.resolve())], check=True, cwd=TOOL,
                    env={**os.environ, "NODE_PATH": subprocess.run(["npm", "root", "-g"], capture_output=True, text=True).stdout.strip()})
+    downsample_frames(out / "frames", (T3.width, T3.height))   # D-0630 §1 — 2배 그림 → 화면 크기(LANCZOS)
     frames = sorted((out / "frames").glob("f_*.png"))
     scale = T3.width / output_profile(None).width
     for f in frames:

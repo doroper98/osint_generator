@@ -1195,6 +1195,9 @@ geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계
          period_field: timeperiod}
   land_miss_allow_px2: 16  # 국가 면적(deg²) × 티어 ppd² 가 이 값 미만이면 land-miss 를 small 로 허용(4×4 px). 이상 = drop
   land_fill_min_ratio: 0.5   # v4.1.0 D-0078 — 국가 원본 피처 합집합 영역 안 육지 화소 비율이 이 값 미만이면 land-miss(대표점 한 점이 아니라 면적, 키 충돌 덮어쓰기 검출)
+  # v7.4.0 back_and_forth D-0630 §2(UF-261) — 겹친 상세 티어(geo.yaml tier blend: relative)의 LOD 이음. 아래 층 실효 ppd 대비 필요 ppd 비율이
+  # from_ratio → to_ratio 사이에서 smooth 로 섞는다. 기본(v3) 티어 블렌딩(engine.stage MERCATOR_LOD tier_blend_ppd)은 그대로 — 골든 불변
+  tier_blend_relative: {from_ratio: 0.8, to_ratio: 1.2}
   # v4.7.0 back_and_forth D-0107 D2(b) — 이 이름(부분 일치, 대소문자 무시)을 단 route 이벤트(label·{path:})·paths 키 = checks [boundary-as-route] hard(M8 재발 방지).
   # 경계선은 지도 경계 레이어가 그린다.
   boundary_names: [군사분계선, MDL, 국경, 휴전선, NLL, 북방한계선, 남방한계선, 경계선, 분계선, 접경선, border, boundary]
@@ -1390,6 +1393,9 @@ audio:                     # 10
     # 내레이션 대 (음악 + 효과음 + 클립 원음) 에너지 비(dB). 영상 값 = 가장 낮은 문장. min_db 미만이면 hard_genres 는 hard, 그 밖 장르는 warning(승격은 최종 감독).
     # 실측(R-0331): 호르무즈 골든 21.92 · 칸나이 v1(Zabriskie) 16.27 · 칸나이+코리올란(세기 조정 전) 12.24. 장르 하한을 푼 곡(UF-256)의 가림 위험을 실제 믹스에서 잰다
     # v7.4.0 D349(R-0324 실측: 골든 21.92 · showcase_geo 최저 16.50 · showcase_econ 최저 23.39) — 모든 장르 hard. 등록 장르(genres/*.yaml) ⊆ hard_genres 는 tests/test_narration_clarity 가 고정(새 장르가 조용히 warning 으로 빠지지 않게). war_history 는 전쟁사 브랜치 장르
+    # v7.4.0 back_and_forth D-0630 §4(사용자 의견 UF-263 "코리올란의 하이라이트 부분이 전쟁 신에서 들리면 좋겠어") — [bgm-highlight] warning 시작(프리뷰 판정 뒤 hard 여부).
+    # 영상에 깔린 곡 초마다 원곡 세기(RMS, 녹음 그대로 — 연출 세기·감쇠 전)를 재고 상위 top_frac 이 전투 구간(battle 큐 범위, 없으면 terrain3d 구간)에 min_overlap 이상 들어야 한다
+    bgm_highlight: {genres: [war_history], window_sec: 1.0, top_frac: 0.2, min_overlap: 0.5}
     narration_clarity: {min_db: 15.0, hard_genres: [earnings, geopolitics, macro_monetary, war_history]}
     bed_bass_band_hz: [30, 120]
     bed_mid_band_hz: [200, 2000]
@@ -2307,6 +2313,10 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # 전술 화면(본편 terrain3d 구간, 스케치 전쟁사 2D 전술 축척·3D 컷)에서 보이는 전 부대의 화면 상자 중심이 화면 중심에서 가로·세로 center_tol(화면 폭·높이 비율)
   # 안, 상자 전체가 안전 영역(위 safe_top_px·좌우 safe_side_px·아래 = layout_480p.reserved_zones.subtitle.y_from 자막 자리) 안. 어긋남이 max_sec 넘게 이어지면 실패.
   # 제외 = 구간 이음 창(stage_terrain3d.seam_sec)·전 부대가 다 나타나기 전. 궤도는 제외하지 않는다(진형 중심을 축으로 돈다). 스케치 2D 는 화면 폭 ≤ sketch_tactical_max_w_deg 만
+  # v7.4.0 back_and_forth D-0630 §2(사용자 의견 UF-261 "지도가 확대될때 해상도가 크게 낮아지네") — [basemap-upscale] hard, 모든 테마·렌더 경로.
+  # 지도 무대 화면 장치 px/도 ÷ 지형 원천 실효 px/도(고른 티어 레벨과 타일 줌 고유 해상도 256·2^z/360 중 작은 값) > max_ratio 가 max_sec 넘게 이어지면 실패.
+  # terrain3d 구간·패널 덮개 동안은 지도 무대가 아니다. 콘티 판 v2: 3도 폭 화면 6.8배·1.75도 12배(W 40ppd 늘림) — 실패해야 한다
+  basemap_upscale: {max_ratio: 1.5, max_sec: 0.75, step_sec: 0.25}
   formation_centered: {center_tol_x: 0.10, center_tol_y: 0.10, safe_top_px: 22, safe_side_px: 8, max_sec: 0.5, step_sec: 0.25, sketch_tactical_max_w_deg: 0.5}
   card_over_panel: {min_overlap_sec: 0.3, panel_pad_px: 4, cover_types: [cascade, article, quote, primitive],
                     cover_types_on_data_panels: [photo, clip, cutout, badge],
@@ -2354,7 +2364,7 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   regression_refs:
     hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
     fed_timeline_demo: "시간축 엔진 검증용 데모(배포 영상 아님) — 미디어 없는 순수 차트 픽스처"
-  regression_ref_checks: [media_density, chart_only_run, plot_height, axis_empty_band, text_restates_narration, photo_subject_unmatched, photo_subject_background, chart_overload, element_hold, media_overlap, media_sentence_span, map_opening, map_cover_share]   # element_hold·media_overlap = v7.4.0 D-0462(UF-171·172) 골든 연출 불변(회귀 기준). text_restates_narration = v7.4.0 D-0316 ② 조사 떼기 뒤 골든 핀 '9월 8일 파병 반대 집회' 60%(골든 연출 불변)   # chart_overload = v7.4.0 D-0344 — fed 데모 두 층 0.30초 동시(데모 연출 불변, 기록만)   # media_sentence_span·map_opening·map_cover_share = v7.4.0 D-0470(UF-173) 골든 연출 불변
+  regression_ref_checks: [media_density, chart_only_run, plot_height, axis_empty_band, text_restates_narration, photo_subject_unmatched, photo_subject_background, chart_overload, element_hold, media_overlap, media_sentence_span, map_opening, map_cover_share, basemap_upscale]   # basemap_upscale = v7.4.0 D-0630 §2(UF-261) 골든 지형 화소 고정(최대 2.8배, 기록만)   # element_hold·media_overlap = v7.4.0 D-0462(UF-171·172) 골든 연출 불변(회귀 기준). text_restates_narration = v7.4.0 D-0316 ② 조사 떼기 뒤 골든 핀 '9월 8일 파병 반대 집회' 60%(골든 연출 불변)   # chart_overload = v7.4.0 D-0344 — fed 데모 두 층 0.30초 동시(데모 연출 불변, 기록만)   # media_sentence_span·map_opening·map_cover_share = v7.4.0 D-0470(UF-173) 골든 연출 불변
   # v7.4.0 D-0229 §2.6(UF-113 "몇 척중 몇척은 제재 대상임을 그래픽으로") — 문장에 "N 척 중·가운데 M" 문형이 있는데 그 문장 구간에 dots·versus 패널·series 가 없으면 warning ratio_graphic
   ratio_patterns:
     - '(\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|스무|스물)\s*(척|곳|건|명|개|대|기)\s*(중|가운데)'
@@ -2892,6 +2902,19 @@ sketch:                    # v5.7.0 back_and_forth D-0140(D130) — 스케치 �
       river_w_m: 14
       text: {unit: 19, place: 20}
       halo: "rgba(10,12,16,0.85)"   # v2(D-0602 ④) — 전술 축척(화면 ppd ≥ from)에서 평탄한 땅이 검게 묻히지 않게 바탕을 더한다(OPERATOR_ADD)
+      # v7.4.0 back_and_forth D-0630 §1(사용자 의견 UF-260 "진형에 대한 렌더링은 본 편에서는 더 고급지게") — 마감. 과장 금지(장난감 광택·과장 그림자·움직이는 장식 없음, C0).
+      # 빛 방향 = light.az(315°, relief 지형 음영과 같은 쪽). 값 = 감독 방향 구현값(사용자 합격 값 아님). 스케치·본편 같은 키(view.html)
+      finish:
+        supersample: 2            # 3D 화면을 이 배로 그려 LANCZOS 로 줄인다(가장자리 계단 없앰) — supersample_min 아래면 규칙 오류·시험 실패
+        supersample_min: 2
+        bevel_m: 8                # 블록 윗변 경사(빛 받는 모서리) — 바닥 윤곽은 그대로(bevelOffset)
+        bevel_segments: 2
+        rim_alpha: 0.32           # 해를 보는 변만 은은한 모서리 빛(옛 rim = 모든 변 0.5)
+        shadow_layers: 8          # 접지 그림자 = 둥글게 퍼진 여러 겹(부드러운 가장자리)
+        shadow_spread_m: 22
+        shadow_alpha: 0.38        # 겹 합 알파(옛 한 겹 0.35)
+        color_sat: 0.86           # 진영색 채도 × — relief 바탕과 어울리게(붉음·푸름 구분 유지, 대비 검사)
+        color_value: 0.96         # 진영색 명도 ×
     place_now: {size: 9, font: sans, halo: 2.5, dy: 29, alpha: 0.75}
     legend: {x: 18, y: 396, row_dy: 18, chip: [12, 8], chip_dy: -7, label_dx: 18, bg: [-8, -16, 170, 8], radius: 5, alpha: 0.78,
              label: {size: 11, font: sansm, halo: 0}}

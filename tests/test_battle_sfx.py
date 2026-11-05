@@ -173,7 +173,8 @@ class BattleSfxCheckTest(unittest.TestCase):
 
     def test_registered_as_hard_and_warning(self) -> None:
         self.assertIn("battle_sfx", C.HARD)
-        self.assertIn("battle_sfx_missing", C.WARN)
+        self.assertIn("battle_sfx_missing", C.HARD)   # v7.4.0 D-0630 §3 — 사용자 채택(UF-262)으로 warning → hard
+        self.assertNotIn("battle_sfx_missing", C.WARN)
 
 
 @pytest.mark.slow   # C8.3(D187) — 실제 녹음 파일(assets/audio/sfx/files, 저장소 미추적)

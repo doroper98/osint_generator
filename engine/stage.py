@@ -111,6 +111,9 @@ def to_uv(rings: list) -> list:
 
 
 # 월드 폭 w 별 표시 규칙(v3 값 그대로 — 04 §6·§7). (w 초과 문턱, 값) 을 위에서부터 보고 처음 맞는 값, 없으면 마지막 값.
+TILE_PX = 256   # 지형 타일 한 장 화소(웹 메르카토르 타일 규격) — 줌 z 고유 해상도 = 256·2^z/360 px/도
+
+
 MERCATOR_LOD: dict[str, Any] = {
     "country_rank_max": ([(60, 2), (30, 4), (12, 6)], 9),          # 국가 라벨 rank 상한
     "city_rank_max": ([(60, 1), (25, 2), (12, 4), (5, 6)], 8),     # 도시 라벨 rank 상한(수도는 +2)
@@ -291,24 +294,55 @@ class MercatorStage:
     def base_image(self, view: "View", out: Optional[Output] = None) -> Image.Image:
         """지형 베이스 — 장치 해상도(out, None = 설계 854×480). 티어 레벨은 장치 ppd 로 고르고, 상세 티어 블렌딩은
         설계 ppd 로 계산한다(해상도가 달라도 같은 순간에 같은 비율로 섞인다, v3.6.0 D-0067)."""
+        dev = out is not None and out.k != 1
+        plan = self.tier_plan(view, out.k if dev else 1.0)
+        top = max(i for i, (_, a, _) in enumerate(plan) if a >= 1.0)   # 완전히 덮는 가장 위 층부터 — 그 아래 층은 보이지 않는다(블렌드 1.0 = 위 층 그대로, 같은 화소)
+        im = self._tier(view, plan[top][0], plan[top][2], out if dev else None)
+        for n, a, need_dev in plan[top + 1:]:
+            im = Image.blend(im, self._tier(view, n, need_dev, out if dev else None), a)
+        return im
+
+    def tier_level(self, n: str, need: float) -> int:
+        """티어 n 에서 고를 레벨(장치 ppd) — v3 규칙(필요 ppd × 0.95 이상 중 가장 작은 것, 없으면 가장 큰 것)."""
+        lvs = sorted(self.tiers[n]["levels"])
+        return next((lv_ for lv_ in lvs if lv_ >= need * 0.95), lvs[-1])
+
+    def source_ppd(self, n: str, need: float) -> float:
+        """티어 n 의 실효 원천 ppd — 고른 레벨과 타일 줌 고유 해상도(256·2^z/360) 중 작은 값(v7.4.0 D-0630 §2)."""
+        return min(float(self.tier_level(n, need)), TILE_PX * 2 ** self.tiers[n]["z"] / 360)
+
+    def tier_plan(self, view: "View", k: float = 1.0) -> list[tuple[str, float, float]]:
+        """[(티어, 섞는 비율, 장치 필요 ppd)] — W 가 먼저(비율 1), 그다음 상세 티어를 정의 순서대로. 그리기·[basemap-upscale] 같은 함수.
+        블렌딩: 기본(v3) = smooth((설계 ppd − 26)/18). geo.yaml blend: relative(v7.4.0 D-0630 §2) = 아래 층 실효 ppd 대비 필요 ppd 비율로
+        rules geo.tier_blend_relative from→to 동안 섞는다(겹친 티어 사이 줌 단계가 바뀌어도 튀지 않게)."""
         tb = MERCATOR_LOD["tier_blend_ppd"]
         need = W_OUT / view.w
-        dev = out is not None and out.k != 1
-        need_dev = need * out.k if dev else need
-        im = self._tier(view, "W", need_dev, out if dev else None)
+        need_dev = need * k
+        plan: list[tuple[str, float, float]] = [("W", 1.0, need_dev)]
+        below = self.source_ppd("W", need_dev)
         for n in self.tiers:  # 상세 티어: W 를 뺀 전부, 정의 순서대로(v3 는 G→K). 블렌딩 규칙은 v3 그대로
-            if n == "W":
+            if n == "W" or not self._inside(view, self.tiers[n]):
                 continue
-            if self._inside(view, self.tiers[n]):
+            if self.tiers[n].get("blend") == "relative":
+                rb = load_rules().geo.tier_blend_relative
+                a = smooth((need_dev / below - rb.from_ratio) / (rb.to_ratio - rb.from_ratio))
+            else:
                 a = smooth((need - tb["from"]) / tb["span"])
-                if a > 0.01:
-                    im = Image.blend(im, self._tier(view, n, need_dev, out if dev else None), a)
-        return im
+            if a > 0.01:
+                plan.append((n, a, need_dev))
+                if a >= 0.5:
+                    below = self.source_ppd(n, need_dev)
+        return plan
+
+    def upscale_ratio(self, view: "View", k: float = 1.0) -> tuple[float, str]:
+        """(장치 필요 ppd ÷ 화면을 주로 채우는 층의 실효 원천 ppd, 그 층 이름) — [basemap-upscale](UF-261)."""
+        plan = self.tier_plan(view, k)
+        top = next((n for n, a, _ in reversed(plan) if a >= 0.5), "W")
+        return plan[0][2] / self.source_ppd(top, plan[0][2]), top
 
     def _tier(self, view: "View", n: str, need: float, out: Optional[Output] = None) -> Image.Image:
         T = self.tiers[n]  # noqa: N806
-        lvs = sorted(T["levels"])
-        lv = next((lv_ for lv_ in lvs if lv_ >= need * 0.95), lvs[-1])
+        lv = self.tier_level(n, need)
         im = self.assets.base[(n, lv)]
         x0 = (view.x0 - T["lon0"]) * lv
         y0 = (ym(T["lat1"]) - view.y1) * lv

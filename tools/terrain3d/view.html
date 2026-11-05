@@ -9,7 +9,9 @@ const S = await (await fetch('/scene/scene.json')).json();
 const H = await (await fetch('/scene/height.json')).json();
 const W = S.width, Ht = S.height;
 const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
-renderer.setSize(W, Ht); renderer.setPixelRatio(1);
+// v7.4.0 D-0630 §1(UF-260) — 마감(finish): 2배 이상으로 그려 줄여 쓴다(가장자리 계단 없앰). 줄이기는 엔진(LANCZOS, engine.stage_terrain3d.downsample_frames)
+const F = S.finish || { supersample: 1 };
+renderer.setSize(W, Ht); renderer.setPixelRatio(F.supersample);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 document.body.insertBefore(renderer.domElement, document.getElementById('ov'));
 const scene = new THREE.Scene();
@@ -58,26 +60,40 @@ function groundShape(poly, dx, dz) {
   for (let k = 0; k < p.count; k++) p.setY(k, hAt(p.getX(k), p.getZ(k)) + S.lift_m);
   return g;
 }
+// 진영색 마감 — relief 바탕과 어울리게 채도·명도를 조금 낮춘다(붉음·푸름 구분은 그대로, 값 = finish.color_sat·color_value)
+function tone(hex) {
+  if (!S.finish) return hex;
+  const c = new THREE.Color(hex), hsl = {}; c.getHSL(hsl);
+  c.setHSL(hsl.h, hsl.s * F.color_sat, hsl.l * F.color_value); return c;
+}
 function box(poly, base, h, top, side) {
   const shape = new THREE.Shape(poly.map(([x, z]) => new THREE.Vector2(x, -z)));
-  const g = new THREE.ExtrudeGeometry(shape, { depth: h, bevelEnabled: false });
+  // 모서리 경사(bevel) — 윗변이 빛을 받아 은은한 모서리 빛이 된다. bevelOffset = −bevelSize 로 바닥 윤곽(2D 와 같은 부호 모양)은 그대로
+  const bv = S.finish ? F.bevel_m : 0;
+  const g = new THREE.ExtrudeGeometry(shape, bv > 0 ? { depth: Math.max(1, h - bv), bevelEnabled: true, bevelThickness: bv, bevelSize: bv,
+    bevelOffset: -bv, bevelSegments: F.bevel_segments } : { depth: h, bevelEnabled: false });
   g.rotateX(-Math.PI / 2); g.translate(0, base, 0);
-  return new THREE.Mesh(g, [new THREE.MeshLambertMaterial({ color: top }), new THREE.MeshLambertMaterial({ color: side })]);
+  return new THREE.Mesh(g, [new THREE.MeshLambertMaterial({ color: tone(top) }), new THREE.MeshLambertMaterial({ color: tone(side) })]);
 }
 function buildUnits(list) {   // 부대 묶음 — 본편은 프레임마다 키프레임 위치로 다시 만든다(fr.units, 결정적)
   const grp = new THREE.Group(), tops = [];
   for (const u of list) {
   const hs = u.poly.map(([x, z]) => hAt(x, z));
   const base = Math.min(...hs) - S.lift_m, rise = Math.max(...hs) - base;   // 바닥은 지표 아래에서 — 비탈에서도 뜨지 않는다
-  const sh = new THREE.Mesh(groundShape(u.poly, shadowOff.x, shadowOff.z),
-    new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: S.shadow_alpha, depthWrite: false }));
-  sh.renderOrder = 1; grp.add(sh);
+  // 접지 그림자 — 해 반대쪽(relief 음영과 같은 빛 방향). finish 가 있으면 둥글게 퍼진 여러 겹(부드러운 가장자리), 없으면 한 겹(옛 모양)
+  const layers = S.finish ? F.shadow_layers : 1;
+  for (let k = 0; k < layers; k++) {
+    const th = 2 * Math.PI * k / layers, sp = S.finish ? F.shadow_spread_m : 0;
+    const sh = new THREE.Mesh(groundShape(u.poly, shadowOff.x + Math.cos(th) * sp, shadowOff.z + Math.sin(th) * sp),
+      new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: (S.finish ? F.shadow_alpha : S.shadow_alpha) / layers, depthWrite: false }));
+    sh.renderOrder = 1; grp.add(sh);
+  }
   let topY;
   if (u.dots) {
     const h = S.unit_height_m * 0.5;
     for (const [x, z] of u.dots) {
       const g = new THREE.CylinderGeometry(u.dot_r, u.dot_r, h + rise, 16);
-      const m = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ color: u.color }));
+      const m = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ color: tone(u.color) }));
       m.position.set(x, base + (h + rise) / 2, z); grp.add(m);
     }
     topY = base + rise + h;
@@ -85,11 +101,24 @@ function buildUnits(list) {   // 부대 묶음 — 본편은 프레임마다 키
     const h = S.unit_height_m + rise;
     grp.add(box(u.poly, base, h, u.color, u.side));
     topY = base + h;
-    const edge = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(u.poly.map(([x, z]) => new THREE.Vector3(x, topY + 0.5, z))),
-      new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: S.rim_alpha }));
-    grp.add(edge);
+    if (S.finish) {   // 모서리 빛 — 해를 보는 변만(빛 방향 = relief 음영과 같은 쪽), 은은하게
+      const pts = [];
+      for (let k = 0; k < u.poly.length; k++) {
+        const [x0, z0] = u.poly[k], [x1, z1] = u.poly[(k + 1) % u.poly.length];
+        const cx = u.poly.reduce((a, p) => a + p[0], 0) / u.poly.length, cz = u.poly.reduce((a, p) => a + p[1], 0) / u.poly.length;
+        let nx = z1 - z0, nz = -(x1 - x0);   // 변의 바깥 법선(중심 반대쪽으로 맞춘다)
+        if (nx * ((x0 + x1) / 2 - cx) + nz * ((z0 + z1) / 2 - cz) < 0) { nx = -nx; nz = -nz; }
+        if (nx * sunDir.x + nz * sunDir.z > 0) pts.push(new THREE.Vector3(x0, topY + 0.5, z0), new THREE.Vector3(x1, topY + 0.5, z1));
+      }
+      if (pts.length) grp.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts),
+        new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: F.rim_alpha })));
+    } else {
+      const edge = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(u.poly.map(([x, z]) => new THREE.Vector3(x, topY + 0.5, z))),
+        new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: S.rim_alpha }));
+      grp.add(edge);
+    }
     if (u.posts && u.posts.length) {
-      const im = new THREE.InstancedMesh(postGeo, new THREE.MeshLambertMaterial({ color: u.side }), u.posts.length);
+      const im = new THREE.InstancedMesh(postGeo, new THREE.MeshLambertMaterial({ color: tone(u.side) }), u.posts.length);
       const mt = new THREE.Matrix4();
       u.posts.forEach(([x, z], i) => { mt.makeTranslation(x, topY + S.rank.post_h_m / 2, z); im.setMatrixAt(i, mt); });
       grp.add(im);
@@ -109,8 +138,9 @@ const glyphImg = {};
 for (const u of S.units) if (u.glyph && !S.text_in_engine && !glyphImg[u.glyph]) {
   const im = new Image(); im.src = '/scene/' + u.glyph; await im.decode(); glyphImg[u.glyph] = im;
 }
-const ov = document.getElementById('ov'); ov.width = W; ov.height = Ht;
-const ctx = ov.getContext('2d');
+const ov = document.getElementById('ov'); ov.width = W * F.supersample; ov.height = Ht * F.supersample;
+ov.style.width = W + 'px'; ov.style.height = Ht + 'px';
+const ctx = ov.getContext('2d'); ctx.scale(F.supersample, F.supersample);   // 글자·병종 그림도 같은 배율로 그린다(스케치)
 function label(txt, x, y, size, color, weight) {
   ctx.font = `${weight} ${size}px "IBM Plex Sans KR","Noto Sans CJK KR",sans-serif`;
   ctx.textAlign = 'center'; ctx.lineJoin = 'round';

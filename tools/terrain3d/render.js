@@ -26,7 +26,9 @@ const server = http.createServer((req, res) => {
   const port = server.address().port;
   const scene = JSON.parse(fs.readFileSync(path.join(sceneDir, 'scene.json')));
   const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
-  const page = await browser.newPage({ viewport: { width: scene.width, height: scene.height }, deviceScaleFactor: 1 });
+  // v7.4.0 D-0630 §1(UF-260) — finish.supersample 배로 찍는다(f_*.png = 너비 × 배율). 줄이기는 엔진(engine.stage_terrain3d.downsample_frames, LANCZOS)
+  const ss = (scene.finish && scene.finish.supersample) || 1;
+  const page = await browser.newPage({ viewport: { width: scene.width, height: scene.height }, deviceScaleFactor: ss });
   page.on('console', m => { if (m.type() === 'error') console.error('page:', m.text()); });
   await page.goto(`http://127.0.0.1:${port}/view.html`);
   await page.waitForFunction(() => window.__ready === true, null, { timeout: 120000 });

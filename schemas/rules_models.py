@@ -1525,6 +1525,21 @@ class GeoThemes(_Strict):
         return getattr(self, name)
 
 
+class TierBlendRelative(_Strict):
+    """겹친 상세 티어의 LOD 이음 — 아래 층 실효 ppd 대비 필요 ppd 비율 from→to 동안 smooth 로 섞는다(줌 단계가 바뀌어도 튀지 않게)."""
+
+    from_ratio: float = Field(gt=0)
+    to_ratio: float = Field(gt=0)
+
+
+class BasemapUpscale(_Strict):
+    """[basemap-upscale] hard(v7.4.0 D-0630 §2, UF-261 "지도가 확대될때 해상도가 크게 낮아지네") — 지형 원천 늘림 배율 상한."""
+
+    max_ratio: float = Field(gt=1)      # 화면 장치 px/도 ÷ 원천 실효 px/도(티어 레벨과 타일 줌 고유 해상도 중 작은 값)
+    max_sec: float = Field(ge=0)        # 이 길이 넘게 이어지면 실패(줌 이동 중 잠깐은 허용)
+    step_sec: float = Field(gt=0)
+
+
 class GeoRules(_Strict):
     land_miss_allow_px2: float
     land_fill_min_ratio: float = Field(gt=0, le=1)   # v4.1.0 D-0078
@@ -1535,6 +1550,7 @@ class GeoRules(_Strict):
     country_polygons: str = "data/geo_flat/ne_110m_countries.json"   # v7.4.0 D-0241 §2 — 국가 폴리곤 자료(flag_territory·sea_only_frame)
     river_major_scalerank_max: int = Field(ge=0)      # v7.4.0 D-0229 §2.1-2 — NE 강 scalerank 이 값 이하 = 큰 강(geo.prep_geometry.load_rivers)
     basemap_era: Optional["BasemapEra"] = None
+    tier_blend_relative: Optional["TierBlendRelative"] = None   # v7.4.0 D-0630 §2(UF-261) — 겹친 상세 티어 이음(geo.yaml tier blend: relative)
     drainage: Optional["DrainageRules"] = None   # v7.4.0 D-0604 구상 컷 A         # v7.4.0 전쟁사 W3(D-0600 §5) — 시대별 기반 지도 층·고대 지리 자료 출처
 
 
@@ -1726,6 +1742,15 @@ class BattleSfxRules(_Strict):
         return self
 
 
+class BgmHighlight(_Strict):
+    """[bgm-highlight] warning(v7.4.0 D-0630 §4, UF-263) — 쓰인 곡 구간의 세기 상위 대목이 전투 구간과 겹치는 비율."""
+
+    genres: list[str] = Field(min_length=1)
+    window_sec: float = Field(gt=0)
+    top_frac: float = Field(gt=0, lt=1)      # 영상 안 곡 재생 초 가운데 원곡 세기(RMS) 상위 이 비율 = 하이라이트
+    min_overlap: float = Field(gt=0, le=1)   # 하이라이트 중 전투 구간(battle 큐, 없으면 terrain3d 구간) 안 비율 하한
+
+
 class AudioQARules(_Strict):
     i_tol_lu: float = Field(gt=0)
     music_under_narration_db: tuple[float, float]
@@ -1739,6 +1764,7 @@ class AudioQARules(_Strict):
     bed_bass_band_hz: tuple[float, float]
     bed_mid_band_hz: tuple[float, float]
     narration_clarity: Optional[NarrationClarity] = None   # v7.4.0 D-0626·D-0628
+    bgm_highlight: Optional["BgmHighlight"] = None        # v7.4.0 D-0630 §4(UF-263)
 
     @model_validator(mode="after")
     def _bands(self) -> "AudioQARules":
@@ -1987,6 +2013,7 @@ class QAChecks(_Strict):
     overlap_core_elements: int
     chart_only_run: ChartOnlyRun                      # v7.4.0 D-0252 — [chart-only-run] hard
     card_over_panel: Optional[CardOverPanel] = None   # v7.4.0 D-0248(UF-129)
+    basemap_upscale: Optional[BasemapUpscale] = None   # v7.4.0 D-0630 §2(UF-261)
     label_under_media: Optional[LabelUnderMedia] = None   # v7.4.0 R-0294 판정
     formation_centered: Optional[FormationCentered] = None   # v7.4.0 D-0625(UF-255)
     outlet_min_overlap_sec: float = 0.5               # v7.4.0 D-0250(UF-130)
@@ -3813,6 +3840,27 @@ class T3Rank(_Strict):
     max_posts: int = Field(ge=1)
 
 
+class T3Finish(_Strict):
+    """v7.4.0 D-0630 §1(UF-260) — 3D 부대 마감(본편·스케치 같은 view.html)."""
+
+    supersample: int = Field(ge=1)
+    supersample_min: int = Field(ge=2)
+    bevel_m: float = Field(ge=0)
+    bevel_segments: int = Field(ge=1)
+    rim_alpha: float = Field(ge=0, le=1)
+    shadow_layers: int = Field(ge=1)
+    shadow_spread_m: float = Field(ge=0)
+    shadow_alpha: float = Field(ge=0, le=1)
+    color_sat: float = Field(gt=0, le=1)
+    color_value: float = Field(gt=0, le=1)
+
+    @model_validator(mode="after")
+    def _ss(self) -> "T3Finish":
+        if self.supersample < self.supersample_min:
+            raise ValueError(f"terrain3d finish.supersample {self.supersample} < supersample_min {self.supersample_min}(UF-260)")
+        return self
+
+
 class SketchWarTerrain3d(_Strict):
     theme: str
     dem_tier: str
@@ -3839,6 +3887,7 @@ class SketchWarTerrain3d(_Strict):
     river_w_m: float
     text: T3Text
     halo: str
+    finish: Optional[T3Finish] = None   # v7.4.0 D-0630 §1(UF-260)
 
 
 class SketchWarLod(_Strict):

@@ -41,6 +41,7 @@ class Tier(_Strict):
     tiles: str
     z: int
     levels: list[int] = Field(min_length=1)
+    blend: Optional[Literal["relative"]] = None   # v7.4.0 D-0630 §2(UF-261) — 겹친 상세 티어 이음(없음 = v3 블렌딩)
 
 
 RightsStatus = Literal["rights_clear", "restricted", "unverified"]

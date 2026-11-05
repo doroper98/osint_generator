@@ -42,6 +42,7 @@ class _Strict(BaseModel):
 class CreditItem(_Strict):
     main: Optional[str] = None
     music: Optional[str] = None        # v3.4.0 — BGM 레지스트리 id. 제목·라이선스 줄은 레지스트리에서(D-0060 작업 1, SSOT)
+    edit: Optional[str] = None         # v7.4.0 D-0630 §4(UF-263) — music 행: 곡 편집 사실(악구 이어 붙이기). 연출 sound.bgm 에 src 가 있으면 필수([bgm-edit-credit])
     sfx: Optional[str] = None          # v7.4.0 D-0627 §2-4 — 효과음 레지스트리 id(sfx.*). 문구는 레지스트리에서(audio.sfx.card_line). 사용·표기 대조 = [battle-sfx]
     license: Optional[str] = None
     license_ref: Optional[str] = None  # rights_registry.people 의 pid — 라이선스 문구를 레지스트리에서 읽는다
@@ -58,6 +59,8 @@ class CreditItem(_Strict):
         for reg in (self.music, self.sfx):
             if reg is not None and (self.license is not None or self.license_ref is not None or self.rights):
                 raise ValueError(f"music·sfx 행은 문구·권리를 레지스트리에서 읽는다 — license·license_ref·rights 금지: {reg}")
+        if self.edit is not None and self.music is None:
+            raise ValueError(f"edit 는 music 행에만 쓴다: {self.main or self.sfx!r}")
         return self
 
     def refs(self) -> list[str]:
@@ -203,7 +206,8 @@ def _credit_sections(cr: Credits, rights: dict, media: Optional[dict] = None,
             if it.music is not None:
                 from audio.registry import card_line  # noqa: PLC0415
 
-                items.append(card_line(it.music, load_rules().credits.music_card_license))
+                name, lic = card_line(it.music, load_rules().credits.music_card_license)
+                items.append((name, lic + (f" · 편집: {it.edit}" if it.edit else "")))   # v7.4.0 D-0630 §4 — 곡 편집 사실
                 continue
             if it.sfx is not None:
                 from audio.sfx import card_line as sfx_line  # noqa: PLC0415

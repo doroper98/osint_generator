@@ -155,6 +155,9 @@ class BgmSegment(_Strict):
 
     id: str
     from_: Union[float, dict[str, Any]] = Field(default=0, alias="from")
+    # v7.4.0 back_and_forth D-0630 §4(UF-263 "코리올란의 하이라이트 부분이 전쟁 신에서") — 이 구간이 곡의 몇 초부터 재생하는지(악구 경계 이어 붙이기).
+    # 녹음 자체(음높이·속도)는 바꾸지 않는다. 경계 = rules audio.crossfade_sec 교차 페이드. 0 = 곡 처음(옛 곡 교체와 같음)
+    src: float = Field(default=0.0, ge=0)
 
     @field_validator("id")
     @classmethod
@@ -527,7 +530,7 @@ def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], l
     sound = None
     if doc.sound is not None:
         sd = doc.sound
-        bgm = sd.bgm if not isinstance(sd.bgm, list) else [dict(id=g.id, t=resolve_anchor(g.from_, tb)) for g in sd.bgm]
+        bgm = sd.bgm if not isinstance(sd.bgm, list) else [dict(id=g.id, t=resolve_anchor(g.from_, tb), **({"src": g.src} if g.src else {})) for g in sd.bgm]
         sound = dict(bgm=bgm, intensity=[(resolve_anchor(t, tb), v) for t, v in sd.intensity],
                      cues=[_cue(c, tb) for c in sd.cues])
         if sd.no_music_decision:   # v5.22.2 UF-16 — 있을 때만(없으면 sound dict 무변경)

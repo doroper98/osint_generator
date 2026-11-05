@@ -605,6 +605,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     b = (sound or {}).get("bgm")
     R.cache["bgm_segments"] = 0 if not b else (1 if isinstance(b, str) else len(b))   # provenance audio.crossfades
     R.cache["music"] = {"bgm": sorted(music_ids(sound)), "no_music_decision": (sound or {}).get("no_music_decision")}   # v5.22.2 UF-16·30·93
+    R.cache["bgm_list"] = [dict(g) for g in b] if isinstance(b, list) else ([{"id": b, "t": 0.0, "src": 0.0}] if b else [])   # v7.4.0 D-0630 §4
     R.cache["sound_cues"] = list((sound or {}).get("cues") or [])   # v7.4.0 D-0627 §2-5 — [battle-sfx] 가 읽는다(믹서와 같은 dict)
     from audio.registry import genre_errors  # noqa: PLC0415
 

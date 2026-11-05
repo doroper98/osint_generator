@@ -104,6 +104,7 @@ class BgmSeg(BaseModel):
 
     id: str
     t: float                                   # 이 곡이 시작하는 시각(앵커 해석 뒤)
+    src: float = 0.0                           # v7.4.0 D-0630 §4 — 곡의 이 초부터 재생(악구 이어 붙이기, 녹음 불변)
 
 
 class Sound(BaseModel):
@@ -293,6 +294,23 @@ def segment_bed(segs: list[tuple[float, np.ndarray]], n: int, scene_starts: list
     return out
 
 
+def bgm_segments(plan: Plan, sound: Sound) -> list[tuple[float, np.ndarray]]:
+    """곡 교체·이어 붙이기 목록 → [(영상 시각, 곡 src 초부터의 표본)]. 구간이 곡 끝을 넘으면 오류 — 곡 처음으로 몰래 돌아가지 않는다(P6)."""
+    segs = list(sound.bgm)  # type: ignore[arg-type]
+    end = plan.total + AU.tail_sec
+    out = []
+    cache: dict[str, np.ndarray] = {}
+    for k, g in enumerate(segs):
+        raw = cache.setdefault(g.id, decode_bgm(bgm_path(g.id)))
+        a = int(g.src * SR)
+        nxt = segs[k + 1].t + AU.crossfade_sec / 2 if k + 1 < len(segs) else end
+        need = nxt - (g.t - (AU.crossfade_sec / 2 if k else 0.0))
+        if g.src and a + need * SR > len(raw):
+            raise ValueError(f"BGM 이어 붙이기 {g.id} src {g.src:.2f}s 부터 {need:.1f}s 가 곡 길이 {len(raw) / SR:.1f}s 를 넘는다(곡 처음으로 돌아가지 않는다)")
+        out.append((g.t, raw[a:]))
+    return out
+
+
 def mix(plan: Plan, sound: Sound, bg_raw: np.ndarray | list[tuple[float, np.ndarray]] | None,
         stats: dict | None = None, clips: list[ClipTrack] | None = None, sfx_log: list | None = None) -> tuple[np.ndarray, float]:
     """(N×2 float32, 정규화 전 피크). bg_raw None = 베드 없음(sound.bgm null) — 내레이션+효과음만(폴백이 아니라 명시 상태).
@@ -407,7 +425,7 @@ def main(argv: list[str] | None = None) -> int:
         elif isinstance(sound.bgm, str):
             src = decode_bgm(bgm_path(sound.bgm))
         else:
-            src = [(g.t, decode_bgm(bgm_path(g.id))) for g in sound.bgm]
+            src = bgm_segments(plan, sound)   # v7.4.0 D-0630 §4 — 곡 안 시작점(src)·길이 점검
         stats: dict = {}
         clips, clip_rec = load_clips(proj, events)
         slog: list = []

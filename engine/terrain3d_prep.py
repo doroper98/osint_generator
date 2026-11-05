@@ -32,7 +32,7 @@ from typing import TYPE_CHECKING, Any
 
 import yaml
 
-from engine.stage_terrain3d import Terrain3DError, build_scene
+from engine.stage_terrain3d import Terrain3DError, build_scene, downsample_frames
 from engine.style import FPS
 from engine.timebase import smooth
 from rules import load_rules as _load_rules_uncached
@@ -217,6 +217,7 @@ def prepare(P: "Project", segs: list[Segment]) -> list[dict]:  # noqa: N803
         shutil.rmtree(d, ignore_errors=True)
         info = build_scene(P, seg, forces, d)
         subprocess.run(["node", str(TOOL / "render.js"), str(d.resolve())], check=True, cwd=TOOL, env={**os.environ, "NODE_PATH": npm_root})
+        downsample_frames(d / "frames", size)   # v7.4.0 D-0630 §1(UF-260) — finish.supersample 배 그림 → 출력 크기(LANCZOS)
         n = len(list((d / "frames").glob("f_*.png")))
         if n != info["i1"] - info["i0"]:
             raise Terrain3DError(f"{seg.sid}: 렌더 프레임 {n} ≠ 구간 프레임 {info['i1'] - info['i0']}")

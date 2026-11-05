@@ -165,6 +165,24 @@ def _places(proj: Path) -> dict[str, dict]:
     return {r["id"]: r for r in json.loads(p.read_text(encoding="utf-8"))} if p.is_file() else {}
 
 
+def downsample_frames(frames_dir: Path, size: "tuple[int, int]") -> int:
+    """render.js 가 finish.supersample 배로 찍은 f_*.png 를 출력 크기로 줄인다(LANCZOS — 가장자리 계단 없앰, v7.4.0 D-0630 §1). 줄인 장 수.
+    이미 그 크기면 그대로(supersample 1). 배율이 정수배가 아니면 오류(조용히 늘이거나 자르지 않는다, P6)."""
+    from PIL import Image  # noqa: PLC0415
+
+    n = 0
+    for f in sorted(frames_dir.glob("f_*.png")):
+        with Image.open(f) as im:
+            if im.size == tuple(size):
+                continue
+            if im.size[0] % size[0] or im.size[1] % size[1] or im.size[0] // size[0] != im.size[1] // size[1]:
+                raise Terrain3DError(f"{f.name}: 그림 {im.size} 가 출력 {size} 의 정수배가 아니다(finish.supersample)")
+            small = im.convert("RGB").resize(size, Image.LANCZOS)
+        small.save(f)
+        n += 1
+    return n
+
+
 def build_scene(P: "Project", seg: "Segment", forces: WarForces, out: Path) -> dict:  # noqa: N803
     """scene.json·height.json·texture.png — 지형·텍스처는 들어가는 순간의 mercator 화면과 같은 세계(같은 base_image, 더 넓게)."""
     from engine.projection import View  # noqa: PLC0415
@@ -281,7 +299,7 @@ def build_scene(P: "Project", seg: "Segment", forces: WarForces, out: Path) -> d
              "light": T3.light.model_dump(), "sky": T3.sky, "fog": [radius * T3.fog[0], radius * T3.fog[1]],
              "lift_m": T3.lift_m, "label_lift_m": T3.label_lift_m, "unit_opacity": T3.unit_opacity,
              "unit_height_m": T3.unit_height_m, "shadow_offset_m": T3.shadow_offset_m, "shadow_alpha": WS.depth.shadow_alpha,
-             "rank": T3.rank.model_dump(), "glyph_px": T3.glyph_px, "rim_alpha": WS.depth.rim_alpha,
+             "rank": T3.rank.model_dump(), "glyph_px": T3.glyph_px, "rim_alpha": WS.depth.rim_alpha, "finish": T3.finish.model_dump() if T3.finish else None,
              "river": {"w_m": T3.river_w_m, "color": hexs(load_rules().sketch.war.river.rgb)}, "text": T3.text.model_dump(), "halo": T3.halo,
              "units": first_units, "places": places, "rivers": [{"pts": [rel(lo, la) for lo, la in r.pts]} for r in forces.rivers],
              "frames": frames}

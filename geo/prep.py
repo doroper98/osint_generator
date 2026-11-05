@@ -20,6 +20,7 @@ import time
 import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from typing import Literal
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -43,6 +44,8 @@ class TierConf(BaseModel):
     ppd: int = Field(gt=0)
     z: int = Field(ge=0, le=15)
     bbox: tuple[float, float, float, float]  # lon0, lat0, lon1, lat1
+    # v7.4.0 D-0630 §2(UF-261) — 겹친 상세 티어 블렌딩. v3(기본) = 설계 ppd 문턱, relative = 아래 층 실효 ppd 대비(rules geo.tier_blend_relative)
+    blend: Literal["v3", "relative"] = "v3"
 
     def spec(self) -> TierSpec:
         return TierSpec.parse(f"{self.name}:{self.ppd}:{self.z}:{','.join(repr(v) for v in self.bbox)}")
@@ -120,7 +123,7 @@ def res_spec(tc: TierConf, k: float) -> TierSpec:
     if k == 1:
         return tc.spec()
     z = min(15, tc.z + round(math.log2(k)))
-    return TierConf(name=tc.name, ppd=round(tc.ppd * k), z=z, bbox=tc.bbox).spec()
+    return TierConf(name=tc.name, ppd=round(tc.ppd * k), z=z, bbox=tc.bbox, blend=tc.blend).spec()
 
 
 def theme_root(a: Path, theme: str | None) -> Path:
@@ -157,6 +160,8 @@ def prep(proj: Path, cache: Path = CACHE, res: str | None = None, k: float = 1.0
         ratios: dict[str, float] = {}
         lv, miss = build_tier(T, G, tiles_dir, out, k, ref, ratios, terrain)
         tiers[T.name] = tier_record(T, tiles_dir, lv)
+        if tc.blend != "v3":
+            tiers[T.name]["blend"] = tc.blend   # 기본 티어 기록은 v3 그대로(골든 tiers.pkl 불변)
         low = {k_: r for k_, r in sorted(ratios.items(), key=lambda kv: kv[1])[:5]}
         report[T.name] = dict(tiles=n, levels=lv, land_miss=classify_miss(miss, G, tc.ppd, ref), ppd=T.ppd, z=T.z,
                               fill_ratio=dict(checked=len(ratios), min_allowed=load_rules().geo.land_fill_min_ratio, lowest=low),
