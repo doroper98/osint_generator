@@ -25,11 +25,11 @@
   },
   {
    "png": "p_0035.36.png",
-   "md5": "b15ad184b6fd7ccbfc560a4ecfff08d6"
+   "md5": "8da33fc8b4a3795e9caeba6fdd94b43d"
   },
   {
    "png": "p_0041.39.png",
-   "md5": "6c1a419a38482171da7e1a04e7590e6d"
+   "md5": "0dfeb8f858f1f77975cd2f01aaf1a98e"
   },
   {
    "png": "p_0050.86.png",
@@ -42,7 +42,11 @@
   {
    "png": "p_0059.02.png",
    "md5": "ea9c75593bd099923fb8035573bcc613",
-   "superseded": {"md5": "50e2620f4ed166250256c0d9751edc09", "by": "v5.21.11", "reason": "UF-03·D-0203 — 경로 이름표 자리(점선이 '허가받은 배만 통과' 글자를 지나가던 결함), light 짙은 글자+색 막대"}
+   "superseded": {
+    "md5": "50e2620f4ed166250256c0d9751edc09",
+    "by": "v5.21.11",
+    "reason": "UF-03·D-0203 — 경로 이름표 자리(점선이 '허가받은 배만 통과' 글자를 지나가던 결함), light 짙은 글자+색 막대"
+   }
   },
   {
    "png": "p_0072.76.png",
@@ -70,12 +74,16 @@
   },
   {
    "png": "p_0145.33.png",
-   "md5": "95de891e4a48fc888231176994492d5e",
-   "superseded": {"md5": "8cf36aed08e8bd236265de500b336679", "by": "v5.21.12", "reason": "UF-05·D-0204 — 사진 없는 기사 카드 블러 무대 밝기 상한(press_fallback.max_luma)"}
+   "md5": "b05d7bb19b33b7e85b919476ef772496",
+   "superseded": {
+    "md5": "8cf36aed08e8bd236265de500b336679",
+    "by": "v5.21.12",
+    "reason": "UF-05·D-0204 — 사진 없는 기사 카드 블러 무대 밝기 상한(press_fallback.max_luma)"
+   }
   },
   {
    "png": "p_0150.26.png",
-   "md5": "c717113e052d5bfd75782e1904470272"
+   "md5": "a9d616bc27203451c0fd757b3c8495d5"
   },
   {
    "png": "p_0170.97.png",
@@ -87,8 +95,12 @@
   },
   {
    "png": "p_0189.96.png",
-   "md5": "0bc436f7fb564e371868c79616a62d29",
-   "superseded": {"md5": "db845e1b1b4b9cbc3c838eed14943a92", "by": "v5.21.12", "reason": "UF-05·D-0204 — 사진 없는 기사 카드 블러 무대 밝기 상한(press_fallback.max_luma)"}
+   "md5": "680b0a29693181b639ce68a384451a5e",
+   "superseded": {
+    "md5": "db845e1b1b4b9cbc3c838eed14943a92",
+    "by": "v5.21.12",
+    "reason": "UF-05·D-0204 — 사진 없는 기사 카드 블러 무대 밝기 상한(press_fallback.max_luma)"
+   }
   },
   {
    "png": "p_0195.53.png",
@@ -100,7 +112,7 @@
   },
   {
    "png": "p_0218.12.png",
-   "md5": "7e55945dac61091ec3c186d8dd4546c6"
+   "md5": "4f81f91358364a653f7ffc3d4adcd94e"
   },
   {
    "png": "p_0229.62.png",
@@ -108,13 +120,36 @@
   },
   {
    "png": "p_0245.60.png",
-   "md5": "26920c6854fcac4e92dc49342a04781b",
-   "superseded": {"md5": "347eba3ba5889b65871dc20ae865e85d", "by": "v5.21.9", "reason": "UF-02·D-0202 — 카메라 이징 5차(shot_grammar.move_ease), 엔딩 풀백 한가운데 카메라 차 0.025 px"}
+   "md5": "cbe2d5e53887ed3912f1196dd52a9b66",
+   "superseded": {
+    "md5": "347eba3ba5889b65871dc20ae865e85d",
+    "by": "v5.21.9",
+    "reason": "UF-02·D-0202 — 카메라 이징 5차(shot_grammar.move_ease), 엔딩 풀백 한가운데 카메라 차 0.025 px"
+   }
   },
   {
    "png": "p_0256.66.png",
    "mask": true,
-   "md5_masked": "b6681d06b05b0c76b1c6681e1a1837cc"
+   "md5_masked": "567fc844beb8d127cbd05d9756d4cf2b"
   }
- ]
+ ],
+ "expected_deltas": {
+  "uf175_label_plan": {
+   "version": "v7.4.0",
+   "decision": "D-0312 (DECISIONS D534)",
+   "reason": "UF-175 숏 단위 지명 라벨 일정(engine/labels_plan.py) — 카메라 이동 숏의 라벨 진입 시점이 바뀜. 차이는 지명 라벨 상자만, 다른 요소 0",
+   "changed": [
+    "p_0035.36.png",
+    "p_0041.39.png",
+    "p_0145.33.png",
+    "p_0150.26.png",
+    "p_0189.96.png",
+    "p_0218.12.png",
+    "p_0245.60.png",
+    "p_0256.66.png"
+   ],
+   "count": 8,
+   "previous": "hormuz_light_baseline_pre_uf175.json"
+  }
+ }
 }
