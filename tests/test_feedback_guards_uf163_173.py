@@ -81,6 +81,9 @@ class OutletDisplayTest(unittest.TestCase):
     def test_latin_text_with_hangul_tts_passes(self) -> None:
         self.assertNotIn("outlet-display", _kinds("NBC 집계로는 민주당이 이겼습니다.", tts={0: "엔비씨 집계로는 민주당이 이겼습니다."}))
 
+    def test_exempt_only_golden(self) -> None:
+        self.assertEqual(load_rules().script_vocab.wording_exempt_projects, ["hormuz_korea"])   # 회귀 기준만 — 새 영상이 몰래 면제되지 못하게
+
     def test_screen_event_strings(self) -> None:
         bad = [dict(type="bars", t0=0.0, t1=5.0, src="씨비에스 집계 · 11월 5일", rows=[dict(name="가", col="dem", pct=50.0)], mid="x_씨비에스")]
         got = checks.screen_wording(bad, election=False)

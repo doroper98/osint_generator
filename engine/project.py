@@ -516,6 +516,10 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         from engine.labels_plan import build_plan  # noqa: PLC0415
 
         R.stage.label_plan = build_plan(R.stage, cams, keys, events, n, FPS)
+        (proj / "out").mkdir(parents=True, exist_ok=True)   # 기록(결정적 — 병렬 구간 워커가 같은 내용을 쓴다, 임시 파일 → 교체)
+        tmp = proj / "out" / f".labels_plan.{id(R)}.json"
+        tmp.write_text(json.dumps(R.stage.label_plan.to_json(), ensure_ascii=False), encoding="utf-8")
+        tmp.replace(proj / "out" / "labels_plan.json")
     R.cache["backdrop"] = backdrop_report(events, R.assets.media_assets)   # v5.1.0 D-0123 §3 — checks backdrop_rights·backdrop_repeat·provenance
     R.cache["stage_choice"] = doc.stage_choice()                          # v5.1.0 D-0123 §2 — checks stage_choice(warning)
     _check_quotes(proj, events)      # v4.4.0 — statement_diff 문구 = intake 원문(D-0090 작업 4)

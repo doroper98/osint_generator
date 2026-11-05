@@ -58,6 +58,10 @@ class LabelPlan:
                     break
         return out
 
+    def to_json(self) -> dict:
+        return {"schema_version": 1, "fade_sec": self.fade_sec, "shots": [list(x) for x in self.shots], "hard_end": self.hard_end,
+                "spans": {k: [[s.t_in, s.t_out, s.fade_in, s.fade_out, s.shot] for s in v] for k, v in sorted(self.spans.items())}}
+
     def stats(self) -> dict[str, int]:
         return {"shots": len(self.shots), "labels": len(self.spans), "events": sum(len(v) for v in self.spans.values())}
 

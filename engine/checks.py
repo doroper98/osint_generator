@@ -2222,7 +2222,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "bars_no_camera": lambda: bars_no_camera(P),   # v7.4.0 D-0303 §3(warning)
         "label_flicker": lambda: _label_flicker(P)[0],   # v7.4.0 D-0311(hard, UF-175) — 숏 단위 라벨 일정의 재등장·짧은 노출
         "label_churn": lambda: _label_flicker(P)[1],   # v7.4.0 D-0311(warning, UF-175)
-        "screen_wording": lambda: screen_wording(P.events, _is_election(P)),   # v7.4.0 D-0309(hard, UF-171·172·173)
+        "screen_wording": lambda: [] if P.root.name in R_.script_vocab.wording_exempt_projects else screen_wording(P.events, _is_election(P)),   # v7.4.0 D-0309(hard, UF-171·172·173)
         "symbol_media": lambda: symbol_media(P.plan.sentences, P.events),   # v7.4.0 D-0309(hard, UF-164)
         "admin1_label_missing": lambda: admin1_label_missing(P),   # v7.4.0 D-0309(warning, UF-167)
         "plot_height": lambda: check_plot_height(P),

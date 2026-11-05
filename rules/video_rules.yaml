@@ -148,6 +148,7 @@ script_vocab:
   counting_banned: [개표 중, 개표중, 개표가 끝나지, 개표가 끝나야, 미확정]   # UF-172·173 — 선거 영상 원고·화면에 쓰지 않는다([counting-wording] 오류·checks screen_wording hard). 승자 발표 전 선두 = counting_label
   counting_label: 유력                                                  # UF-173(D530) "사실상 유력" — rules bars.counting_note 와 같아야 한다(테스트)
   outlet_display: {엔비씨: NBC, 씨비에스: CBS, 에이피: AP, 비비씨: BBC, 씨엔엔: CNN, 엔피알: NPR, 에이비씨: ABC, 폭스뉴스: Fox News, 로이터: Reuters}   # UF-171 — 화면(text·이벤트 글자)엔 오른쪽 표기, 발음(tts)엔 왼쪽 음차([outlet-display] 오류·screen_wording)
+  wording_exempt_projects: [hormuz_korea]   # 회귀 기준(v3 골든, 사용자 합격본 — 카드 "로이터")만. checks screen_wording 면제(D516 badge_hold 와 같은 방식, 새 영상 면제 없음)
   symbol_terms: [당나귀, 코끼리]                                         # UF-164 — 이 말이 나오는 문장엔 사진·영상·컷아웃·휘장 뱃지 중 하나([symbol-media-missing] hard, checks symbol_media)
   statement_verbs: [밝혔, 말했, 전했, 주장, 발표했, 보도했]
   contrast_hint: '한쪽 발표 뒤 상대측 반응은 "이에 대해"로 잇는다("한편" 금지, UF-174). "반면"은 수치·성질 대조에만'

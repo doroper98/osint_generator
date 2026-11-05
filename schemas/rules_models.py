@@ -87,6 +87,7 @@ class ScriptVocab(_Strict):
     counting_label: Optional[str] = None
     outlet_display: dict[str, str] = Field(default_factory=dict)
     symbol_terms: list[str] = Field(default_factory=list)
+    wording_exempt_projects: list[str] = Field(default_factory=list)
 
 
 class ElectionBasics(_Strict):
