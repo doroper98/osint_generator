@@ -4,8 +4,8 @@
   "title": "뒤집힌 일곱 자리 — 2026 미국 중간선거",
   "category": "geopolitics",
   "created_at": "2026-11-05T00:40:19.301806Z",
-  "updated_at": "2026-11-05T04:19:18.351467Z",
-  "current_state": "preview_qa",
+  "updated_at": "2026-11-05T10:34:29.930030Z",
+  "current_state": "render",
   "target_duration_min": 18,
   "topic_summary": "2026-11-03 미국 중간선거 결과 — 주별 상원·주지사·하원 결과, 격전지, 역사 맥락(대통령 당 중간선거 성적)",
   "initial_links": [],
@@ -44,6 +44,24 @@
         "media_plan_errors": "0",
         "script_sha1": "b7ce51ec564a05634b979e822c7eca8c045dd56a",
         "media_plan": "사진 0/12 · 기사 후보 65문장 · 755초(chars)"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-11-05T10:34:29.929945Z",
+      "comment": "사용자 위임 UF-166/D521 · 감독 판정 D-0305(R-0307 gate2 e670c547, 12컷 hard 0)",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/us_midterms_2026/prev/sheet.jpg",
+        "cuts": "0",
+        "media_used": "quote 2 · article 5 · real 17",
+        "quote_candidates": "2",
+        "animatic": "out/animatic.mp4 · 592.338초 · direction 9288eb9376391b2f33a4235fe51599a6b541a53b · script b7ce51ec56",
+        "user_feedback": "경고: 이 영상 의견 8건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-163 \"중간선거 의의에 대한 내용도 좀 추가해줘. 왜 하는지, 뭘 뽑는지 등\" · UF-164 \"민주 공화를 의미하는 그 당나귀와 코끼리 이미지도 보이게 되는거지?\" · UF-165 \"공식 로고를 띄워. 내가 지시한다\" · UF-166 \"콘티 나한테 승인 받을 필요 없이 니가 검토해서 승인하고 완성본 직행해\" · UF-167 \"이번에는 도시 이름들 보다 주 이름이 표기 되면 좋겠어.\" · UF-168 \"그리고 흰색 테두리가 너무 작은 글씨에는 맞지 않는거 같아.\" · UF-169 \"그리고 주를 나타내는 테두리 라인의 두께를 좀 얇게 해. 너무 투박해.\" · UF-170 \"그리고 주별 선거 결과를 보여줄때 막대그래프로 직관적으로 인지할 수 있도\"",
+        "asset_library": "공용 자산 미승격 0"
       },
       "chosen_version": null
     }
@@ -257,6 +275,18 @@
       "to_state": "preview_qa",
       "transitioned_at": "2026-11-05T04:19:18.351386Z",
       "reason": "engine direction_validate, validate, camera_suggest ok"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-11-05T10:32:20.021692Z",
+      "reason": "프리뷰(--preview auto) hard 0 — 구현 컨테이너 실행, artifacts e670c547 gate2/(감독 실측 D-0305). 상태 기록을 감독 컨테이너로 옮김"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-11-05T10:34:29.929989Z",
+      "reason": "preview_approval 승인 — fable"
     }
   ],
   "rollbacks": [],
