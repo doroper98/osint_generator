@@ -2732,3 +2732,47 @@ entries:
   status: guarded
   decision: "D-0630 — approve --gate script_approval(원고 지문 7a07b494) → plan → mix → 효과음 견본 → 콘티 판 v2"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-03"
+- id: UF-260
+  date: '2026-11-05'
+  project: cannae_216bc
+  at: "칸나이 콘티 판 v2(artifacts ed01e6d4, 480p 콘티 판) 판정 — terrain3d 전술 화면의 진형 블록(단색 면·병종 그림·두께)"
+  quote: "흐름 좋은데 진형에 대한 렌더링은 본 편에서는 더 고급지게 바꿀껀가?"
+  quote_kind: verbatim
+  category: "전쟁사 전술 화면 — 흐름 합격. 진형(부대 블록) 렌더링을 본편에서 더 고급스럽게(재질·빛·그림자·가장자리 선명도). 콘티 판 화질 탓만으로 넘기지 않는다"
+  guards: []
+  status: open
+  decision: "D-0630(back_and_forth) — 진형 렌더 고급화(본편·프리뷰), 전후 비교 프레임을 프리뷰와 함께"
+  source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-05"
+- id: UF-261
+  date: '2026-11-05'
+  project: cannae_216bc
+  at: "칸나이 콘티 판 v2 — 2D 지도(relief)가 가까이 확대된 화면(약 1:00·1:37·4:21·4:58·5:34 등)에서 지형 바탕이 뭉개짐"
+  quote: "그리고 지도가 확대될때 해상도가 크게 낮아지네."
+  quote_kind: verbatim
+  category: "지도 해상도 — 카메라가 확대될 때 바탕 지도(지형 음영·색)가 늘려져 흐려지지 않는다. 확대 배율에 맞는 고해상도 원천을 쓴다(모든 테마·모든 렌더 경로)"
+  guards: []
+  status: open
+  decision: "D-0630(back_and_forth) — 바탕 지도 늘림 배율 검사(hard) + 확대 구간 고해상도 원천"
+  source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-05"
+- id: UF-262
+  date: '2026-11-05'
+  project: cannae_216bc
+  at: "칸나이 전투 효과음 견본 둘(178~218초, 효과음 있음/없음, 효과음 층 믹스 대비 약 −22 dB) 판정"
+  quote: "그리고 효과음까지 들리는 버전이 좋네."
+  quote_kind: verbatim
+  category: "전쟁사 전투 효과음 채택 — 효과음 있는 판. 3D 접전 구간에 녹음 효과음 층을 넣는다(D-0627·D-0629 원칙 그대로)"
+  guards: []
+  status: open
+  decision: "D-0630(back_and_forth) — 본 연출에 battle 큐, battle_sfx_missing 전쟁사 hard, docs/handoff/10 §4 battle 줄"
+  source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-05"
+- id: UF-263
+  date: '2026-11-05'
+  project: cannae_216bc
+  at: "칸나이 콘티 판 v2 — 코리올란 배치(전투 장면 encirclement 180~200초가 곡에서 가장 조용한 대목, 강주는 50·130·170초 부근)"
+  quote: "코리올란의 하이라이트 부분이 전쟁 신에서 들리면 좋겠어."
+  quote_kind: verbatim
+  category: "음악 배치 — 곡의 하이라이트(가장 극적인 대목)가 전투 장면(3D 접전·포위)에 오게 한다. 내레이션 명료도 15 dB 는 그대로 지킨다"
+  guards: []
+  status: open
+  decision: "D-0630(back_and_forth) — 곡 시작점·악구 경계 편집으로 하이라이트를 전투 구간에, 측정 장치"
+  source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-05"
