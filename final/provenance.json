@@ -1,0 +1,1942 @@
+{
+ "schema_version": 1,
+ "engine": "engine",
+ "repo_version": "7.4.0",
+ "rules_version": "2.0.0",
+ "rules_hash": "eddd0949754d32c22581a1e368bf5d7e6fb3138a",
+ "prompts": {},
+ "voice": "supertonic-3 M3 ×0.95",
+ "word_anchor": "none",
+ "word_anchors": [],
+ "tts": {
+  "resynthesized": []
+ },
+ "total_sec": 592.834,
+ "sentences": 79,
+ "stages": {
+  "plan": true,
+  "geo": true,
+  "preview": true,
+  "render": true,
+  "mix": true,
+  "mux": true,
+  "ai_direction": false,
+  "visual_qa": false,
+  "bundle": false
+ },
+ "features_used": {
+  "camera_keys": 28,
+  "camera_moves": 23,
+  "camera_cuts": 3,
+  "dips": 2,
+  "dips_under": 0,
+  "badges": 7,
+  "badge_kinds": {
+   "person": 3,
+   "emblem": 4
+  },
+  "panels": [
+   "dots",
+   "checklist",
+   "versus",
+   "versus",
+   "precedent",
+   "precedent"
+  ],
+  "cards": 0,
+  "media": {
+   "clip": 0,
+   "photo": 17,
+   "cutout": 0,
+   "article": 5
+  },
+  "event_types": {
+   "area": 2,
+   "article": 5,
+   "badge": 7,
+   "bars": 16,
+   "dip": 2,
+   "marker": 27,
+   "panel": 6,
+   "photo": 17,
+   "quote": 2
+  },
+  "label_lod": true,
+  "vignette": false,
+  "private_only_assets": [],
+  "area": {
+   "events": 2,
+   "items": 71,
+   "counting": 4
+  },
+  "bars": {
+   "events": 16,
+   "counting": 3,
+   "codes": [
+    "US-AK:senate",
+    "US-FL:governor",
+    "US-GA:senate",
+    "US-IA:governor",
+    "US-IA:senate",
+    "US-KS:governor",
+    "US-KS:senate",
+    "US-ME:senate",
+    "US-MI:senate",
+    "US-MS:senate",
+    "US-NC:senate",
+    "US-NV:governor",
+    "US-OH:senate",
+    "US-SC:senate",
+    "US-TX:governor",
+    "US-TX:senate"
+   ],
+   "side_auto": [
+    "US-IA:governor left→above",
+    "US-NC:senate left→below",
+    "US-NV:governor left→above"
+   ]
+  },
+  "at_word": {
+   "aligned": 0,
+   "ratio": 0
+  },
+  "map_layers": {
+   "roads": 14,
+   "rivers": 19,
+   "capitals": true,
+   "enabled": [
+    "roads",
+    "rivers"
+   ],
+   "reason": null
+  },
+  "transitions": [
+   {
+    "sid": "basics_0",
+    "pause_t0": 27.306485,
+    "pause_sec": 1.5,
+    "kind": [
+     "stage"
+    ]
+   },
+   {
+    "sid": "act1_0",
+    "pause_t0": 99.913039,
+    "pause_sec": 1.5,
+    "kind": [
+     "stage"
+    ]
+   },
+   {
+    "sid": "act2_0",
+    "pause_t0": 181.455261,
+    "pause_sec": 1.5,
+    "kind": [
+     "stage"
+    ]
+   },
+   {
+    "sid": "act3_0",
+    "pause_t0": 315.157302,
+    "pause_sec": 1.5,
+    "kind": [
+     "stage"
+    ]
+   },
+   {
+    "sid": "act4_0",
+    "pause_t0": 374.374512,
+    "pause_sec": 1.5,
+    "kind": [
+     "stage"
+    ]
+   },
+   {
+    "sid": "act5_0",
+    "pause_t0": 454.171927,
+    "pause_sec": 1.5,
+    "kind": [
+     "stage"
+    ]
+   },
+   {
+    "sid": "act6_0",
+    "pause_t0": 520.781927,
+    "pause_sec": 1.5,
+    "kind": [
+     "stage"
+    ]
+   },
+   {
+    "sid": "ending_0",
+    "pause_t0": 564.697937,
+    "pause_sec": 1.5,
+    "kind": [
+     "stage"
+    ]
+   }
+  ],
+  "alignment": {
+   "sources": {
+    "mms_forced_alignment": 79
+   },
+   "score_mean_min": 0.6896,
+   "elapsed_ms_total": 445055
+  },
+  "prosody": {
+   "final_fall": {
+    "applied_n": 77,
+    "skipped_n": 2
+   }
+  }
+ },
+ "qa": {
+  "auto_iterations": 0,
+  "user_approved": false,
+  "reviewer": "fable (back_and_forth)"
+ },
+ "drops": [],
+ "assets": {
+  "images_used": [
+   "emblem:dem_party",
+   "emblem:rep_party",
+   "flag11:us",
+   "flag43:us",
+   "media:diesel_road_2026_trump_1006_720.jpg",
+   "media:us_midterms_2026_acton_720.jpg",
+   "media:us_midterms_2026_andrews_720.jpg",
+   "media:us_midterms_2026_bottoms_720.jpg",
+   "media:us_midterms_2026_brown_720.jpg",
+   "media:us_midterms_2026_capitol_night_720.jpg",
+   "media:us_midterms_2026_donalds_720.jpg",
+   "media:us_midterms_2026_hinojosa_720.jpg",
+   "media:us_midterms_2026_house_chamber_720.jpg",
+   "media:us_midterms_2026_marshall_720.jpg",
+   "media:us_midterms_2026_nast_donkey_1870_720.jpg",
+   "media:us_midterms_2026_nast_elephant_1874_720.jpg",
+   "media:us_midterms_2026_pa_capitol_720.jpg",
+   "media:us_midterms_2026_rcv_count_1937_720.jpg",
+   "media:us_midterms_2026_senate_floor_720.jpg",
+   "media:us_midterms_2026_talarico_rally_720.jpg",
+   "portrait:trump"
+  ],
+  "emblems": {
+   "used": [
+    "dem_party",
+    "rep_party"
+   ],
+   "flag_fallback": {},
+   "rights_exceptions": {
+    "dem_party": {
+     "user_exception": "D519",
+     "scope": "us_midterms_2026 정당 범례 뱃지 전용(민주당), 비공개 시청 한정(D264 private_only), 무가공(정사각 여백만), 엔딩 권리 행 표기 — 공개 배포 전 재확인"
+    },
+    "rep_party": {
+     "user_exception": "D519",
+     "scope": "us_midterms_2026 정당 범례 뱃지 전용(공화당), 비공개 시청 한정(D264 private_only), 무가공(정사각 여백만), 엔딩 권리 행 표기 — 공개 배포 전 재확인"
+    }
+   }
+  },
+  "badges": {
+   "suggested": [
+    "trump",
+    "us"
+   ],
+   "used": [
+    "dem_party",
+    "rep_party",
+    "trump"
+   ],
+   "suggested_and_used": [
+    "trump"
+   ],
+   "suggestions": 10
+  }
+ },
+ "panels": {
+  "used": [
+   {
+    "kind": "dots",
+    "title": "상원 100석",
+    "t0": 40.76,
+    "prov_tag": null
+   },
+   {
+    "kind": "checklist",
+    "title": "이번에 뽑은 자리",
+    "t0": 62.07,
+    "prov_tag": null
+   },
+   {
+    "kind": "versus",
+    "title": "상원 100석",
+    "t0": 108.45,
+    "prov_tag": null
+   },
+   {
+    "kind": "versus",
+    "title": "하원 435석 · 과반 218",
+    "t0": 117.45,
+    "prov_tag": null
+   },
+   {
+    "kind": "precedent",
+    "title": "대통령의 당, 중간선거 성적",
+    "t0": 482.79,
+    "prov_tag": null
+   },
+   {
+    "kind": "precedent",
+    "title": "대통령의 당, 중간선거 성적",
+    "t0": 498.82,
+    "prov_tag": null
+   }
+  ]
+ },
+ "credits": {
+  "card": {
+   "emblems": 2,
+   "flags": 1,
+   "map": 2,
+   "media": 21,
+   "music": 1,
+   "narration": 1,
+   "people": 1
+  },
+  "description_only": {
+   "fonts": 4
+  }
+ },
+ "rights": {
+  "exceptions": [
+   {
+    "ref": "emblems.dem_party",
+    "rights_status": "restricted",
+    "user_exception": "D519",
+    "exception": "us_midterms_2026 정당 범례 뱃지 전용(민주당), 비공개 시청 한정(D264 private_only), 무가공(정사각 여백만), 엔딩 권리 행 표기 — 공개 배포 전 재확인",
+    "license": "Public domain"
+   },
+   {
+    "ref": "emblems.rep_party",
+    "rights_status": "restricted",
+    "user_exception": "D519",
+    "exception": "us_midterms_2026 정당 범례 뱃지 전용(공화당), 비공개 시청 한정(D264 private_only), 무가공(정사각 여백만), 엔딩 권리 행 표기 — 공개 배포 전 재확인",
+    "license": "Public domain"
+   }
+  ]
+ },
+ "reserved": {
+  "avoidance": []
+ },
+ "audio": {
+  "bgm": [
+   "music.zabriskie_mario_bava"
+  ],
+  "bed_gain": 0.43,
+  "crossfades": 0,
+  "bed_bass": {
+   "applied": {
+    "shelf": {
+     "freq_hz": 110.0,
+     "gain_db": 5.0,
+     "q": 0.7
+    },
+    "sub": {
+     "band_hz": [
+      55.0,
+      220.0
+     ],
+     "out_lp_hz": 110.0,
+     "filter_order": 4,
+     "gain": 0.35,
+     "env_attack_sec": 0.03,
+     "env_release_sec": 0.25,
+     "env_block_sec": 0.001
+    },
+    "swell": {
+     "sec": 2.5,
+     "depth": 0.35
+    },
+    "norm_ref": 0.4
+   },
+   "ratio_db": {
+    "before": 3.39,
+    "after": 8.33
+   },
+   "rise_db": 4.94,
+   "swell_at": [
+    27.306,
+    99.913,
+    181.455,
+    315.157,
+    374.375,
+    454.172,
+    520.782,
+    564.698
+   ],
+   "bands_hz": {
+    "bass": [
+     30.0,
+     120.0
+    ],
+    "mid": [
+     200.0,
+     2000.0
+    ]
+   }
+  },
+  "loudnorm": {
+   "passes": 2,
+   "pass1": {
+    "input_i": -15.43,
+    "input_tp": -0.91,
+    "input_lra": 4.1,
+    "input_thresh": -25.77,
+    "target_offset": 0.07
+   },
+   "pass2": {
+    "output_i": -14.01,
+    "output_tp": -1.5,
+    "normalization_type": "dynamic"
+   },
+   "post_limiter_dbfs": -2.0
+  },
+  "qa": {
+   "hard": [],
+   "warnings": [],
+   "final_loudness": {
+    "I": -14.08,
+    "TP": -1.67,
+    "LRA": 3.9
+   },
+   "music_under_narration_db": -12.06,
+   "mix_peak": 0.8751,
+   "bed_bass_ratio_db": 8.33,
+   "bed_bass_rise_db": 4.94
+  }
+ },
+ "end_card": {
+  "version_stamp": "v7.4.0",
+  "roll_px": 356.0,
+  "roll_px_per_sec": 54.77
+ },
+ "render": {
+  "resolution": {
+   "profile": "720p",
+   "width": 1280,
+   "height": 720,
+   "fps": 24,
+   "k": 1.5,
+   "pad_x": -0.5,
+   "crf": 19,
+   "preset": "faster"
+  }
+ },
+ "badge": {
+  "R_ignored": [],
+  "head_top": [
+   {
+    "pid": "trump",
+    "head_top": 1.0276,
+    "md5": "f2cd16bd229947837c8db5f19c401459"
+   }
+  ]
+ },
+ "geo": {
+  "unsourced": [
+   {
+    "kind": "place",
+    "name": "tx",
+    "lonlat": [
+     -98.76,
+     31.13
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "ks",
+    "lonlat": [
+     -98.33,
+     38.5
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "sc",
+    "lonlat": [
+     -80.65,
+     33.86
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "ia",
+    "lonlat": [
+     -93.39,
+     42.04
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "oh",
+    "lonlat": [
+     -82.67,
+     40.09
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "nc",
+    "lonlat": [
+     -78.87,
+     35.62
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "me",
+    "lonlat": [
+     -69.2,
+     45.15
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "ga",
+    "lonlat": [
+     -83.41,
+     32.85
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "mi",
+    "lonlat": [
+     -84.95,
+     43.43
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "ms",
+    "lonlat": [
+     -89.72,
+     32.87
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "ak",
+    "lonlat": [
+     -151.6,
+     65.36
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "nv",
+    "lonlat": [
+     -117.02,
+     39.43
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "fl",
+    "lonlat": [
+     -81.62,
+     28.16
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "pa",
+    "lonlat": [
+     -77.61,
+     40.86
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "mo",
+    "lonlat": [
+     -92.45,
+     38.55
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "dc",
+    "lonlat": [
+     -77.03,
+     38.9
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "us",
+    "lonlat": [
+     -97.0,
+     38.5
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "gami",
+    "lonlat": [
+     -84.5,
+     36.5
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "gaus",
+    "lonlat": [
+     -89.0,
+     35.5
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "flw",
+    "lonlat": [
+     -84.0,
+     29.8
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "nvia",
+    "lonlat": [
+     -105.0,
+     40.0
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "east",
+    "lonlat": [
+     -81.0,
+     34.3
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "pa_s",
+    "lonlat": [
+     -77.6,
+     40.2
+    ]
+   },
+   {
+    "kind": "place",
+    "name": "fl_n",
+    "lonlat": [
+     -82.4,
+     29.9
+    ]
+   }
+  ],
+  "matched": [],
+  "mismatch": []
+ },
+ "quote": {
+  "status": "adopted",
+  "count": 2,
+  "speakers": [
+   "연방주의자 논설 52편",
+   "척 슈머"
+  ]
+ },
+ "border_glow": {
+  "status": "adopted",
+  "on": true
+ },
+ "article": [
+  {
+   "mid": "us_midterms_2026_art_0004",
+   "t0": 143.23,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "us_midterms_2026_art_0015",
+   "t0": 156.38,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "us_midterms_2026_art_0033",
+   "t0": 337.96,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "us_midterms_2026_art_0031",
+   "t0": 440.25,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  },
+  {
+   "mid": "us_midterms_2026_art_0026",
+   "t0": 539.4,
+   "press": "none",
+   "theme": "dark",
+   "headline": "original"
+  }
+ ],
+ "pacing": {
+  "window_sec": 45.0,
+  "min_changes": 3,
+  "static_windows": [],
+  "creep": null
+ },
+ "animatic": false,
+ "catalog": false,
+ "chart_only_runs": [
+  [
+   482.8,
+   491.5
+  ],
+  [
+   498.9,
+   507.1
+  ]
+ ],
+ "chart_only_exempt": false,
+ "media_density": {
+  "count": 17,
+  "value": 1.721,
+  "min": 1.5,
+  "exempt": false
+ },
+ "stage": {
+  "name": "mercator",
+  "declared": false,
+  "shots_declared": 0,
+  "instances": {
+   "mercator": 1
+  },
+  "configs": {
+   "mercator": {
+    "theme": "light",
+    "theme_reason": "지정학 장르 기본 D154, 감독 결정 D515",
+    "admin1_labels": "prominent"
+   }
+  }
+ },
+ "map_contrast_fix": {
+  "labels": {
+   "1988년 이후 첫 민주 상원": 4.13,
+   "1995년 이후 첫 민주 주지사": 4.25,
+   "2008년 이후 첫 민주 상원": 2.48,
+   "공화 25석 → 24석": 3.9,
+   "그린즈버러": 4.19,
+   "네바다": 3.47,
+   "노스캐롤라이나": 3.38,
+   "노퍽": 3.08,
+   "뉴욕": 3.64,
+   "덴버": 4.26,
+   "로스앤젤레스": 4.05,
+   "롤리": 4.48,
+   "린치버그": 4.06,
+   "미시간": 3.98,
+   "미시시피 상원": 3.74,
+   "보이시": 4.05,
+   "새크라멘토": 4.37,
+   "샌타페이": 3.22,
+   "샌프란시스코": 4.2,
+   "샤이엔": 3.1,
+   "샬러츠빌": 4.35,
+   "샬럿": 4.29,
+   "세인트루이스": 4.07,
+   "솔트레이크시티": 4.31,
+   "수폴스": 3.5,
+   "스프링필드": 3.9,
+   "시카고": 3.43,
+   "아이오와": 3.1,
+   "아이오와 주지사": 4.04,
+   "애틀랜타": 4.47,
+   "오소프 재선": 3.79,
+   "오하이오 주지사": 4.35,
+   "조지아": 3.72,
+   "찰스턴": 4.26,
+   "캔자스": 4.36,
+   "캔자스 주지사": 4.38,
+   "콜로라도스프링스": 3.51,
+   "콜롬 유력 · AP 발표 전": 3.73,
+   "털사": 3.85,
+   "텍사스": 3.82,
+   "텍사스 연방 하원": 4.04,
+   "텍사스 주지사": 4.04,
+   "틸리스 은퇴 의석": 3.38,
+   "펜실베이니아": 4.06,
+   "피어": 4.26,
+   "현직 낙선": 2.25,
+   "홀셔 유력 · 약 7,000표 차": 4.17
+  }
+ },
+ "map_theme": {
+  "effective": "light",
+  "source": "direction",
+  "declared": true,
+  "reason": "지정학 장르 기본 D154, 감독 결정 D515",
+  "series": null
+ },
+ "genre": {
+  "name": "geopolitics",
+  "declared": false,
+  "status": "approved"
+ },
+ "order": {
+  "topic": "2026-11-03 미국 중간선거 결과 — 주별 상원·주지사 결과, 뒤집힌 상원 일곱 자리, 개표 중인 미시시피·알래스카, 주의회·재획정, 대통령의 당 중간선거 성적(1934~2022)",
+  "genre": "geopolitics",
+  "decisions": {
+   "topic": {
+    "value": "2026 미국 중간선거 결과",
+    "by": "user",
+    "ref": "D-0290 §0 사용자 원문"
+   },
+   "map_theme": {
+    "value": "light",
+    "by": "default",
+    "ref": "장르 기본(D154) — 지정학, 감독 결정 D515"
+   },
+   "bgm": {
+    "value": "music.zabriskie_mario_bava",
+    "by": "default",
+    "ref": "rules audio.bgm_default 첫 곡"
+   },
+   "resolution": {
+    "value": "720p",
+    "by": "user",
+    "ref": "사용자 결정 2026-10-04 \"기준 해상도는 720p야\""
+   },
+   "gates": {
+    "value": "게이트 ①·② 사용자 승인",
+    "by": "user",
+    "ref": "D-0290 §0"
+   }
+  }
+ },
+ "camera": {
+  "suggest_ran": true,
+  "suggested": 21,
+  "used": 0,
+  "given_to_director": false,
+  "from_current_direction": false,
+  "fits": 17,
+  "current_fits_false": 4
+ },
+ "lint_warnings": [
+  "[media-density-total] 과밀 — 17개 / 593초 = 34.9초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 basics: ['us_midterms_2026_house_chamber', 'us_midterms_2026_nast_donkey_1870', 'us_midterms_2026_nast_elephant_1874'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act2: ['us_midterms_2026_talarico_rally', 'us_midterms_2026_marshall', 'us_midterms_2026_andrews', 'us_midterms_2026_brown'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-density-scene] 장면 act4: ['us_midterms_2026_hinojosa', 'us_midterms_2026_bottoms', 'us_midterms_2026_acton', 'us_midterms_2026_donalds', 'us_midterms_2026_pa_capitol'] > 1 (14 §10.1, ['article'] 제외)",
+  "[media-kind-repeat] 이웃 장면 cold→basics 같은 형태 ['photo'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 basics→act1 같은 형태 ['photo'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['photo'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 act3→act4 같은 형태 ['article', 'photo'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 act4→act5 같은 형태 ['photo'] (14 §10.1)",
+  "[media-kind-repeat] 이웃 장면 act5→act6 같은 형태 ['photo'] (14 §10.1)",
+  "[media-burst-window] 384.79초부터 40초 안 4개 ['us_midterms_2026_hinojosa', 'us_midterms_2026_bottoms', 'us_midterms_2026_acton', 'us_midterms_2026_donalds'] > 2 (14 §10.1 하한, D38)",
+  "[article-unused] cold_0 1.2초 기사 카드 후보 ['us_midterms_2026_art_0001', 'us_midterms_2026_art_0006'] — 0~60초 구간 0/2개. 쓰거나 media_notes.yaml sentences.cold_0.article 에 사유",
+  "[article-unused] cold_1 7.8초 기사 카드 후보 ['us_midterms_2026_art_0006', 'us_midterms_2026_art_0001', 'us_midterms_2026_art_0002'] — 0~60초 구간 0/2개. 쓰거나 media_notes.yaml sentences.cold_1.article 에 사유",
+  "[article-unused] basics_7 80.3초 기사 카드 후보 ['us_midterms_2026_art_0046', 'us_midterms_2026_art_0047'] — 60~120초 구간 0/2개. 쓰거나 media_notes.yaml sentences.basics_7.article 에 사유",
+  "[article-unused] act1_2 108.7초 기사 카드 후보 ['us_midterms_2026_art_0001'] — 60~120초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act1_2.article 에 사유",
+  "[article-unused] act2_7 227.8초 기사 카드 후보 ['us_midterms_2026_art_0019', 'us_midterms_2026_art_0037'] — 180~240초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act2_7.article 에 사유",
+  "[article-unused] act2_6 218.1초 기사 카드 후보 ['us_midterms_2026_art_0008', 'us_midterms_2026_art_0018'] — 180~240초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act2_6.article 에 사유",
+  "[article-unused] act2_10 252.4초 기사 카드 후보 ['us_midterms_2026_art_0020', 'us_midterms_2026_art_0001'] — 240~300초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act2_10.article 에 사유",
+  "[article-unused] act2_15 286.1초 기사 카드 후보 ['us_midterms_2026_art_0021', 'us_midterms_2026_art_0032', 'us_midterms_2026_art_0001'] — 240~300초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act2_15.article 에 사유",
+  "[article-unused] act3_6 358.7초 기사 카드 후보 ['us_midterms_2026_art_0035', 'us_midterms_2026_art_0041', 'us_midterms_2026_art_0003'] — 300~360초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act3_6.article 에 사유",
+  "[article-unused] act4_6 413.5초 기사 카드 후보 ['us_midterms_2026_art_0024', 'us_midterms_2026_art_0003'] — 360~420초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act4_6.article 에 사유",
+  "[article-unused] act4_4 397.9초 기사 카드 후보 ['us_midterms_2026_art_0022', 'us_midterms_2026_art_0038', 'us_midterms_2026_art_0016'] — 360~420초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act4_4.article 에 사유",
+  "[article-unused] act4_7 421.6초 기사 카드 후보 ['us_midterms_2026_art_0023', 'us_midterms_2026_art_0039'] — 420~480초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act4_7.article 에 사유",
+  "[article-unused] act5_7 507.6초 기사 카드 후보 ['us_midterms_2026_art_0001'] — 480~540초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act5_7.article 에 사유",
+  "[article-unused] act6_4 546.8초 기사 카드 후보 ['us_midterms_2026_art_0011'] — 540~600초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act6_4.article 에 사유",
+  "[article-unused] ending_0 566.2초 기사 카드 후보 ['us_midterms_2026_art_0001', 'us_midterms_2026_art_0002', 'us_midterms_2026_art_0007'] — 540~600초 구간 0/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유"
+ ],
+ "media": {
+  "suggested": [
+   {
+    "sid": "act1_10",
+    "scene": "act1",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 156.18,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act1_11",
+    "scene": "act1",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 167.06,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act1_12",
+    "scene": "act1",
+    "kind": "clip",
+    "trigger": "타격",
+    "at": 172.97,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act2_1",
+    "scene": "act2",
+    "kind": "article",
+    "trigger": "밝혔",
+    "at": 186.05,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act2_12",
+    "scene": "act2",
+    "kind": "article",
+    "trigger": "기고",
+    "at": 267.78,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act2_15",
+    "scene": "act2",
+    "kind": "photo",
+    "trigger": "발표",
+    "at": 286.11,
+    "source": "trigger",
+    "asset_id": null
+   },
+   {
+    "sid": "act3_1",
+    "scene": "act3",
+    "kind": "photo",
+    "trigger": "발표",
+    "at": 320.42,
+    "source": "trigger",
+    "asset_id": null
+   }
+  ],
+  "used": [
+   {
+    "mid": "diesel_road_2026_trump_1006",
+    "kind": "photo",
+    "t0": 173.27
+   },
+   {
+    "mid": "us_midterms_2026_house_chamber",
+    "kind": "photo",
+    "t0": 475.72
+   },
+   {
+    "mid": "us_midterms_2026_capitol_night",
+    "kind": "photo",
+    "t0": 8.09
+   },
+   {
+    "mid": "us_midterms_2026_house_chamber",
+    "kind": "photo",
+    "t0": 33.52
+   },
+   {
+    "mid": "us_midterms_2026_nast_donkey_1870",
+    "kind": "photo",
+    "t0": 80.47
+   },
+   {
+    "mid": "us_midterms_2026_nast_elephant_1874",
+    "kind": "photo",
+    "t0": 85.47
+   },
+   {
+    "mid": "us_midterms_2026_art_0004",
+    "kind": "article",
+    "t0": 143.23
+   },
+   {
+    "mid": "us_midterms_2026_art_0015",
+    "kind": "article",
+    "t0": 156.38
+   },
+   {
+    "mid": "us_midterms_2026_talarico_rally",
+    "kind": "photo",
+    "t0": 205.07
+   },
+   {
+    "mid": "us_midterms_2026_marshall",
+    "kind": "photo",
+    "t0": 218.43
+   },
+   {
+    "mid": "us_midterms_2026_andrews",
+    "kind": "photo",
+    "t0": 245.34
+   },
+   {
+    "mid": "us_midterms_2026_brown",
+    "kind": "photo",
+    "t0": 262.46
+   },
+   {
+    "mid": "us_midterms_2026_art_0033",
+    "kind": "article",
+    "t0": 337.96
+   },
+   {
+    "mid": "us_midterms_2026_rcv_count_1937",
+    "kind": "photo",
+    "t0": 353.86
+   },
+   {
+    "mid": "us_midterms_2026_hinojosa",
+    "kind": "photo",
+    "t0": 384.79
+   },
+   {
+    "mid": "us_midterms_2026_bottoms",
+    "kind": "photo",
+    "t0": 398.2
+   },
+   {
+    "mid": "us_midterms_2026_acton",
+    "kind": "photo",
+    "t0": 406.05
+   },
+   {
+    "mid": "us_midterms_2026_donalds",
+    "kind": "photo",
+    "t0": 421.87
+   },
+   {
+    "mid": "us_midterms_2026_pa_capitol",
+    "kind": "photo",
+    "t0": 431.28
+   },
+   {
+    "mid": "us_midterms_2026_art_0031",
+    "kind": "article",
+    "t0": 440.25
+   },
+   {
+    "mid": "us_midterms_2026_senate_floor",
+    "kind": "photo",
+    "t0": 522.58
+   },
+   {
+    "mid": "us_midterms_2026_art_0026",
+    "kind": "article",
+    "t0": 539.4
+   }
+  ],
+  "suggested_and_used": [
+   "act1:article",
+   "act2:photo",
+   "act3:photo"
+  ],
+  "density": {
+   "schema_version": 1,
+   "total_sec": 592.834,
+   "items": [
+    {
+     "mid": "us_midterms_2026_capitol_night",
+     "kind": "photo",
+     "t0": 8.09,
+     "t1": 12.18,
+     "scene": "cold"
+    },
+    {
+     "mid": "us_midterms_2026_house_chamber",
+     "kind": "photo",
+     "t0": 33.52,
+     "t1": 40.36,
+     "scene": "basics"
+    },
+    {
+     "mid": "us_midterms_2026_nast_donkey_1870",
+     "kind": "photo",
+     "t0": 80.47,
+     "t1": 85.27,
+     "scene": "basics"
+    },
+    {
+     "mid": "us_midterms_2026_nast_elephant_1874",
+     "kind": "photo",
+     "t0": 85.47,
+     "t1": 91.76,
+     "scene": "basics"
+    },
+    {
+     "mid": "us_midterms_2026_art_0004",
+     "kind": "article",
+     "t0": 143.23,
+     "t1": 149.14,
+     "scene": "act1"
+    },
+    {
+     "mid": "us_midterms_2026_art_0015",
+     "kind": "article",
+     "t0": 156.38,
+     "t1": 166.66,
+     "scene": "act1"
+    },
+    {
+     "mid": "diesel_road_2026_trump_1006",
+     "kind": "photo",
+     "t0": 173.27,
+     "t1": 179.86,
+     "scene": "act1"
+    },
+    {
+     "mid": "us_midterms_2026_talarico_rally",
+     "kind": "photo",
+     "t0": 205.07,
+     "t1": 209.64,
+     "scene": "act2"
+    },
+    {
+     "mid": "us_midterms_2026_marshall",
+     "kind": "photo",
+     "t0": 218.43,
+     "t1": 227.1,
+     "scene": "act2"
+    },
+    {
+     "mid": "us_midterms_2026_andrews",
+     "kind": "photo",
+     "t0": 245.34,
+     "t1": 251.78,
+     "scene": "act2"
+    },
+    {
+     "mid": "us_midterms_2026_brown",
+     "kind": "photo",
+     "t0": 262.46,
+     "t1": 267.18,
+     "scene": "act2"
+    },
+    {
+     "mid": "us_midterms_2026_art_0033",
+     "kind": "article",
+     "t0": 337.96,
+     "t1": 345.39,
+     "scene": "act3"
+    },
+    {
+     "mid": "us_midterms_2026_rcv_count_1937",
+     "kind": "photo",
+     "t0": 353.86,
+     "t1": 358.08,
+     "scene": "act3"
+    },
+    {
+     "mid": "us_midterms_2026_hinojosa",
+     "kind": "photo",
+     "t0": 384.79,
+     "t1": 389.71,
+     "scene": "act4"
+    },
+    {
+     "mid": "us_midterms_2026_bottoms",
+     "kind": "photo",
+     "t0": 398.2,
+     "t1": 405.15,
+     "scene": "act4"
+    },
+    {
+     "mid": "us_midterms_2026_acton",
+     "kind": "photo",
+     "t0": 406.05,
+     "t1": 412.89,
+     "scene": "act4"
+    },
+    {
+     "mid": "us_midterms_2026_donalds",
+     "kind": "photo",
+     "t0": 421.87,
+     "t1": 425.78,
+     "scene": "act4"
+    },
+    {
+     "mid": "us_midterms_2026_pa_capitol",
+     "kind": "photo",
+     "t0": 431.28,
+     "t1": 439.45,
+     "scene": "act4"
+    },
+    {
+     "mid": "us_midterms_2026_art_0031",
+     "kind": "article",
+     "t0": 440.25,
+     "t1": 447.45,
+     "scene": "act4"
+    },
+    {
+     "mid": "us_midterms_2026_house_chamber",
+     "kind": "photo",
+     "t0": 475.72,
+     "t1": 482.39,
+     "scene": "act5"
+    },
+    {
+     "mid": "us_midterms_2026_senate_floor",
+     "kind": "photo",
+     "t0": 522.58,
+     "t1": 525.12,
+     "scene": "act6"
+    },
+    {
+     "mid": "us_midterms_2026_art_0026",
+     "kind": "article",
+     "t0": 539.4,
+     "t1": 546.42,
+     "scene": "act6"
+    }
+   ],
+   "count": 22,
+   "beat_count": 17,
+   "sec_per_item": 34.9,
+   "target_sec_per_item": [
+    40.0,
+    60.0
+   ],
+   "window": {
+    "window_sec": 40.0,
+    "window_max": 2,
+    "exempt": [
+     "article"
+    ],
+    "max": {
+     "t0": 384.79,
+     "count": 4,
+     "mids": [
+      "us_midterms_2026_hinojosa",
+      "us_midterms_2026_bottoms",
+      "us_midterms_2026_acton",
+      "us_midterms_2026_donalds"
+     ]
+    }
+   },
+   "per_scene": {
+    "cold": [
+     "us_midterms_2026_capitol_night"
+    ],
+    "basics": [
+     "us_midterms_2026_house_chamber",
+     "us_midterms_2026_nast_donkey_1870",
+     "us_midterms_2026_nast_elephant_1874"
+    ],
+    "act1": [
+     "diesel_road_2026_trump_1006"
+    ],
+    "act2": [
+     "us_midterms_2026_talarico_rally",
+     "us_midterms_2026_marshall",
+     "us_midterms_2026_andrews",
+     "us_midterms_2026_brown"
+    ],
+    "act3": [
+     "us_midterms_2026_rcv_count_1937"
+    ],
+    "act4": [
+     "us_midterms_2026_hinojosa",
+     "us_midterms_2026_bottoms",
+     "us_midterms_2026_acton",
+     "us_midterms_2026_donalds",
+     "us_midterms_2026_pa_capitol"
+    ],
+    "act5": [
+     "us_midterms_2026_house_chamber"
+    ],
+    "act6": [
+     "us_midterms_2026_senate_floor"
+    ]
+   },
+   "insets": [],
+   "warnings": [
+    "[media-density-total] 과밀 — 17개 / 593초 = 34.9초당 1개 < 40초 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 basics: ['us_midterms_2026_house_chamber', 'us_midterms_2026_nast_donkey_1870', 'us_midterms_2026_nast_elephant_1874'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act2: ['us_midterms_2026_talarico_rally', 'us_midterms_2026_marshall', 'us_midterms_2026_andrews', 'us_midterms_2026_brown'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-density-scene] 장면 act4: ['us_midterms_2026_hinojosa', 'us_midterms_2026_bottoms', 'us_midterms_2026_acton', 'us_midterms_2026_donalds', 'us_midterms_2026_pa_capitol'] > 1 (14 §10.1, ['article'] 제외)",
+    "[media-kind-repeat] 이웃 장면 cold→basics 같은 형태 ['photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 basics→act1 같은 형태 ['photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act1→act2 같은 형태 ['photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act2→act3 같은 형태 ['photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act3→act4 같은 형태 ['article', 'photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act4→act5 같은 형태 ['photo'] (14 §10.1)",
+    "[media-kind-repeat] 이웃 장면 act5→act6 같은 형태 ['photo'] (14 §10.1)",
+    "[media-burst-window] 384.79초부터 40초 안 4개 ['us_midterms_2026_hinojosa', 'us_midterms_2026_bottoms', 'us_midterms_2026_acton', 'us_midterms_2026_donalds'] > 2 (14 §10.1 하한, D38)"
+   ]
+  },
+  "articles": {
+   "schema_version": 1,
+   "candidates": 65,
+   "covered": 5,
+   "used_events": 5,
+   "per_min_max": 2,
+   "unused": [
+    {
+     "sid": "cold_0",
+     "t0": 1.2,
+     "mids": [
+      "us_midterms_2026_art_0001",
+      "us_midterms_2026_art_0006"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "cold_1",
+     "t0": 7.79,
+     "mids": [
+      "us_midterms_2026_art_0006",
+      "us_midterms_2026_art_0001",
+      "us_midterms_2026_art_0002"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "basics_7",
+     "t0": 80.27,
+     "mids": [
+      "us_midterms_2026_art_0046",
+      "us_midterms_2026_art_0047"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act1_2",
+     "t0": 108.65,
+     "mids": [
+      "us_midterms_2026_art_0001"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act2_7",
+     "t0": 227.8,
+     "mids": [
+      "us_midterms_2026_art_0019",
+      "us_midterms_2026_art_0037"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act2_6",
+     "t0": 218.13,
+     "mids": [
+      "us_midterms_2026_art_0008",
+      "us_midterms_2026_art_0018"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act2_10",
+     "t0": 252.38,
+     "mids": [
+      "us_midterms_2026_art_0020",
+      "us_midterms_2026_art_0001"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act2_15",
+     "t0": 286.11,
+     "mids": [
+      "us_midterms_2026_art_0021",
+      "us_midterms_2026_art_0032",
+      "us_midterms_2026_art_0001"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act3_6",
+     "t0": 358.68,
+     "mids": [
+      "us_midterms_2026_art_0035",
+      "us_midterms_2026_art_0041",
+      "us_midterms_2026_art_0003"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act4_6",
+     "t0": 413.49,
+     "mids": [
+      "us_midterms_2026_art_0024",
+      "us_midterms_2026_art_0003"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act4_4",
+     "t0": 397.9,
+     "mids": [
+      "us_midterms_2026_art_0022",
+      "us_midterms_2026_art_0038",
+      "us_midterms_2026_art_0016"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act4_7",
+     "t0": 421.57,
+     "mids": [
+      "us_midterms_2026_art_0023",
+      "us_midterms_2026_art_0039"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act5_7",
+     "t0": 507.57,
+     "mids": [
+      "us_midterms_2026_art_0001"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "act6_4",
+     "t0": 546.82,
+     "mids": [
+      "us_midterms_2026_art_0011"
+     ],
+     "reason": null
+    },
+    {
+     "sid": "ending_0",
+     "t0": 566.2,
+     "mids": [
+      "us_midterms_2026_art_0001",
+      "us_midterms_2026_art_0002",
+      "us_midterms_2026_art_0007"
+     ],
+     "reason": null
+    }
+   ],
+   "warnings": [
+    "[article-unused] cold_0 1.2초 기사 카드 후보 ['us_midterms_2026_art_0001', 'us_midterms_2026_art_0006'] — 0~60초 구간 0/2개. 쓰거나 media_notes.yaml sentences.cold_0.article 에 사유",
+    "[article-unused] cold_1 7.8초 기사 카드 후보 ['us_midterms_2026_art_0006', 'us_midterms_2026_art_0001', 'us_midterms_2026_art_0002'] — 0~60초 구간 0/2개. 쓰거나 media_notes.yaml sentences.cold_1.article 에 사유",
+    "[article-unused] basics_7 80.3초 기사 카드 후보 ['us_midterms_2026_art_0046', 'us_midterms_2026_art_0047'] — 60~120초 구간 0/2개. 쓰거나 media_notes.yaml sentences.basics_7.article 에 사유",
+    "[article-unused] act1_2 108.7초 기사 카드 후보 ['us_midterms_2026_art_0001'] — 60~120초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act1_2.article 에 사유",
+    "[article-unused] act2_7 227.8초 기사 카드 후보 ['us_midterms_2026_art_0019', 'us_midterms_2026_art_0037'] — 180~240초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act2_7.article 에 사유",
+    "[article-unused] act2_6 218.1초 기사 카드 후보 ['us_midterms_2026_art_0008', 'us_midterms_2026_art_0018'] — 180~240초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act2_6.article 에 사유",
+    "[article-unused] act2_10 252.4초 기사 카드 후보 ['us_midterms_2026_art_0020', 'us_midterms_2026_art_0001'] — 240~300초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act2_10.article 에 사유",
+    "[article-unused] act2_15 286.1초 기사 카드 후보 ['us_midterms_2026_art_0021', 'us_midterms_2026_art_0032', 'us_midterms_2026_art_0001'] — 240~300초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act2_15.article 에 사유",
+    "[article-unused] act3_6 358.7초 기사 카드 후보 ['us_midterms_2026_art_0035', 'us_midterms_2026_art_0041', 'us_midterms_2026_art_0003'] — 300~360초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act3_6.article 에 사유",
+    "[article-unused] act4_6 413.5초 기사 카드 후보 ['us_midterms_2026_art_0024', 'us_midterms_2026_art_0003'] — 360~420초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act4_6.article 에 사유",
+    "[article-unused] act4_4 397.9초 기사 카드 후보 ['us_midterms_2026_art_0022', 'us_midterms_2026_art_0038', 'us_midterms_2026_art_0016'] — 360~420초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act4_4.article 에 사유",
+    "[article-unused] act4_7 421.6초 기사 카드 후보 ['us_midterms_2026_art_0023', 'us_midterms_2026_art_0039'] — 420~480초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act4_7.article 에 사유",
+    "[article-unused] act5_7 507.6초 기사 카드 후보 ['us_midterms_2026_art_0001'] — 480~540초 구간 1/2개. 쓰거나 media_notes.yaml sentences.act5_7.article 에 사유",
+    "[article-unused] act6_4 546.8초 기사 카드 후보 ['us_midterms_2026_art_0011'] — 540~600초 구간 0/2개. 쓰거나 media_notes.yaml sentences.act6_4.article 에 사유",
+    "[article-unused] ending_0 566.2초 기사 카드 후보 ['us_midterms_2026_art_0001', 'us_midterms_2026_art_0002', 'us_midterms_2026_art_0007'] — 540~600초 구간 0/2개. 쓰거나 media_notes.yaml sentences.ending_0.article 에 사유"
+   ]
+  },
+  "placement": {
+   "diesel_road_2026_trump_1006": "explicit",
+   "badge:트럼프": "slot:map_lower_left",
+   "us_midterms_2026_house_chamber": "explicit",
+   "us_midterms_2026_capitol_night": "explicit",
+   "us_midterms_2026_nast_donkey_1870": "explicit",
+   "us_midterms_2026_nast_elephant_1874": "explicit",
+   "us_midterms_2026_talarico_rally": "explicit",
+   "us_midterms_2026_marshall": "explicit",
+   "us_midterms_2026_andrews": "explicit",
+   "us_midterms_2026_brown": "explicit",
+   "us_midterms_2026_rcv_count_1937": "explicit",
+   "us_midterms_2026_hinojosa": "explicit",
+   "us_midterms_2026_bottoms": "explicit",
+   "us_midterms_2026_acton": "explicit",
+   "us_midterms_2026_donalds": "explicit",
+   "us_midterms_2026_pa_capitol": "explicit",
+   "us_midterms_2026_senate_floor": "explicit"
+  }
+ },
+ "script": {
+  "labels": {
+   "verified": 38,
+   "corroborated": 20,
+   "unverified": 21,
+   "disputed": 0
+  }
+ },
+ "checks": {
+  "source": "prev/provenance.json",
+  "direction_sha1": "972305eb3eb09dfe2b439a8637e8c4110eb46e3e",
+  "from_current_direction": false,
+  "hard": 0,
+  "warnings": 72,
+  "passed": true
+ },
+ "user_feedback_guards": [
+  {
+   "id": "UF-01",
+   "checks": {
+    "card_exposure": 0
+   }
+  },
+  {
+   "id": "UF-02",
+   "checks": {
+    "camera_continuity": 0,
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-03",
+   "checks": {
+    "route_label_cross": 0,
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-04",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-05",
+   "checks": {
+    "article_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-06",
+   "checks": {
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-07",
+   "checks": {
+    "route_missing_other": 0,
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-08",
+   "checks": {
+    "battle_geo": 0
+   }
+  },
+  {
+   "id": "UF-09",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-10",
+   "checks": {
+    "portrait_unused": 5,
+    "quote_in_script": 0
+   }
+  },
+  {
+   "id": "UF-11",
+   "checks": {
+    "route_label_cross": 0,
+    "route_label_overlap": 0
+   }
+  },
+  {
+   "id": "UF-12",
+   "checks": {
+    "frame_missing_target": 0,
+    "frame_missing": 0
+   }
+  },
+  {
+   "id": "UF-16",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-18",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-19",
+   "checks": {
+    "camera_per_sentence": 0
+   }
+  },
+  {
+   "id": "UF-20",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-25",
+   "checks": {
+    "forbidden": 0
+   }
+  },
+  {
+   "id": "UF-27",
+   "checks": {
+    "portrait_unused": 5
+   }
+  },
+  {
+   "id": "UF-30",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-31",
+   "checks": {
+    "media_upscaled": 0
+   }
+  },
+  {
+   "id": "UF-32",
+   "checks": {
+    "boundary_as_route": 0
+   }
+  },
+  {
+   "id": "UF-34",
+   "checks": {
+    "offscreen": 0
+   }
+  },
+  {
+   "id": "UF-35",
+   "checks": {
+    "endcard_black": 0
+   }
+  },
+  {
+   "id": "UF-37",
+   "checks": {
+    "glyph_size": 0
+   }
+  },
+  {
+   "id": "UF-39",
+   "checks": {
+    "timeline_rescale": 0
+   }
+  },
+  {
+   "id": "UF-42",
+   "checks": {
+    "stage_choice": 0,
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-45",
+   "checks": {
+    "backdrop_main_missing": 0
+   }
+  },
+  {
+   "id": "UF-46",
+   "checks": {
+    "cascade": 0
+   }
+  },
+  {
+   "id": "UF-54",
+   "checks": {
+    "subtitle_overlap": 0
+   }
+  },
+  {
+   "id": "UF-63",
+   "checks": {
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-72",
+   "checks": {
+    "timeline_span": 0
+   }
+  },
+  {
+   "id": "UF-73",
+   "checks": {
+    "route_frame": 0,
+    "label_collision": 0
+   }
+  },
+  {
+   "id": "UF-77",
+   "checks": {
+    "opening_establish": 0
+   }
+  },
+  {
+   "id": "UF-78",
+   "checks": {
+    "route_missing": 0
+   }
+  },
+  {
+   "id": "UF-80",
+   "checks": {
+    "flag_territory": 0
+   }
+  },
+  {
+   "id": "UF-81",
+   "checks": {
+    "badge_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-84",
+   "checks": {
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-88",
+   "checks": {
+    "map_contrast": 0
+   }
+  },
+  {
+   "id": "UF-93",
+   "checks": {
+    "bgm_decision": 0
+   }
+  },
+  {
+   "id": "UF-97",
+   "checks": {
+    "camera_speed": 0,
+    "camera_bounds": 0
+   }
+  },
+  {
+   "id": "UF-98",
+   "checks": {
+    "title_backdrop": 0
+   }
+  },
+  {
+   "id": "UF-99",
+   "checks": {
+    "camera_bounds": 0,
+    "camera_continuity": 0
+   }
+  },
+  {
+   "id": "UF-101",
+   "checks": {
+    "portrait_unused": 5
+   }
+  },
+  {
+   "id": "UF-102",
+   "checks": {
+    "media_beats": 27
+   }
+  },
+  {
+   "id": "UF-104",
+   "checks": {
+    "tempo_density": 0
+   }
+  },
+  {
+   "id": "UF-105",
+   "checks": {
+    "transition_camera": 0
+   }
+  },
+  {
+   "id": "UF-107",
+   "checks": {
+    "inset_overlap": 0
+   }
+  },
+  {
+   "id": "UF-109",
+   "checks": {
+    "article_press_missing": 2
+   }
+  },
+  {
+   "id": "UF-110",
+   "checks": {
+    "cutaway_churn": 0
+   }
+  },
+  {
+   "id": "UF-111",
+   "checks": {
+    "unit_glyph_font": 0
+   }
+  },
+  {
+   "id": "UF-113",
+   "checks": {
+    "ratio_graphic": 1
+   }
+  },
+  {
+   "id": "UF-115",
+   "checks": {
+    "tempo_density": 0
+   }
+  },
+  {
+   "id": "UF-118",
+   "checks": {
+    "media_unused": 0
+   }
+  },
+  {
+   "id": "UF-119",
+   "checks": {
+    "media_unused": 0
+   }
+  },
+  {
+   "id": "UF-120",
+   "checks": {
+    "static_camera": 0
+   }
+  },
+  {
+   "id": "UF-122",
+   "checks": {
+    "unit_ton_glyph": 0
+   }
+  },
+  {
+   "id": "UF-123",
+   "checks": {
+    "route_speed": 0
+   }
+  },
+  {
+   "id": "UF-125",
+   "checks": {
+    "sea_only_frame": 0
+   }
+  },
+  {
+   "id": "UF-126",
+   "checks": {
+    "series_unused": 0,
+    "panel_dropped": 0
+   }
+  },
+  {
+   "id": "UF-128",
+   "checks": {
+    "chart_honesty": 0
+   }
+  },
+  {
+   "id": "UF-129",
+   "checks": {
+    "card_over_panel": 0
+   }
+  },
+  {
+   "id": "UF-130",
+   "checks": {
+    "article_outlet": 0
+   }
+  },
+  {
+   "id": "UF-131",
+   "checks": {
+    "glyphs": 0
+   }
+  },
+  {
+   "id": "UF-135",
+   "checks": {
+    "chart_only_run": 0,
+    "chart_world_split": 0
+   }
+  },
+  {
+   "id": "UF-137",
+   "checks": {
+    "chart_edge_bleed": 0
+   }
+  },
+  {
+   "id": "UF-138",
+   "checks": {
+    "timeline_rescale": 0
+   }
+  },
+  {
+   "id": "UF-139",
+   "checks": {
+    "media_density": 0
+   }
+  },
+  {
+   "id": "UF-140",
+   "checks": {
+    "flat_lane": 0
+   }
+  },
+  {
+   "id": "UF-141",
+   "checks": {
+    "clip_frame": 0
+   }
+  },
+  {
+   "id": "UF-142",
+   "checks": {
+    "plot_height": 0,
+    "axis_empty_band": 0
+   }
+  },
+  {
+   "id": "UF-143",
+   "checks": {
+    "island_pin_collision": 0
+   }
+  },
+  {
+   "id": "UF-160",
+   "checks": {
+    "element_gap": 0
+   }
+  },
+  {
+   "id": "UF-161",
+   "checks": {
+    "label_banned_terms": 0
+   }
+  },
+  {
+   "id": "UF-162",
+   "checks": {
+    "badge_hold": 0
+   }
+  }
+ ]
+}
