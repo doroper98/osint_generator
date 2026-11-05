@@ -271,6 +271,9 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
         f = prov["features_used"]["map_layers"]
         f.update({k: (f.get(k, 0) if k in ml else 0) for k in ("roads", "rivers")},   # 끈 레이어는 돌지 않았다(P5)
                  enabled=list(ml), reason=getattr(P.R.stage, "map_layers_reason", None))
+    lp = getattr(P.R.stage, "label_plan", None)
+    if lp is not None and isinstance(prov.get("features_used"), dict):   # v7.4.0 D-0311(UF-175) — 숏 단위 라벨 일정 사용(없으면 기록 없음, P5)
+        prov["features_used"]["label_plan"] = lp.stats()
     g = P.R.cache.get("genre") or {}
     prov["genre"] = {"name": g.get("name"), "declared": g.get("declared"), "status": g.get("status")}   # v4.2.0 D-0081 작업 3, v4.3.0 status(proposed 사용 기록)
     from genres.load import load_genre, load_order  # noqa: PLC0415

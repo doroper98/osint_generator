@@ -2421,7 +2421,12 @@ entries:
   quote: 그리고 지도가 확대 되거나 축소 될때 도시 이름이 나왔다 사라지거나 없던게 나온다거나 깜빡깜빡 거리는거 있는데 그런것도 없애라고 했잖아. 왜 기억을 못하니
   quote_kind: verbatim
   category: "지도 라벨 안정성 — 한 숏 안에서 지명 라벨은 한 번 나타나면 숏이 끝나거나 화면 밖으로 나갈 때까지 유지(페이드), 중간에 새 라벨이 끼어들어 기존 라벨을 밀어내지 않는다, 폭 LOD 는 이력(hysteresis). 앞선 같은 지시가 원장에 없음(기록 누락 — 재발). 장치 = 라벨 일정 사전 계산 + [label-flicker] hard(그려진 상자 기준)"
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: label_flicker}
+  - {kind: rule, ref: labels.stability}
+  - {kind: code, ref: engine.labels_plan.build_plan}
+  - {kind: test, ref: tests/test_label_stability.py::LegacyFlickerProvenTest::test_per_frame_selection_flickers}
+  - {kind: test, ref: tests/test_label_stability.py::PlanStableTest::test_build_plan_no_flicker_and_waits_for_still}
+  status: guarded
   decision: 사용자 결정 D533 · D-0311(감독 — 라벨 일정 사전 계산·이력 LOD·[label-flicker] hard, 골든 영향은 R 로 보고 뒤 재기준 결정)
   source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05

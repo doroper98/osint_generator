@@ -12,6 +12,8 @@ from engine.style import map_c
 from engine.timebase import window
 from rules import load_rules
 
+AREA = load_rules().area   # 모듈 로드 때 한 번(프레임마다 YAML 을 다시 읽지 않는다)
+
 
 def draw_country(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
     a = window(t, e["t0"], e["t1"], 0.8, 0.6)
@@ -37,7 +39,7 @@ def draw_area(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -
     """v7.4.0 back_and_forth D-0290 §3-3 — 1급 행정구역(주) 채움. 항목마다 t0 + delay 에 페이드 등장, t1 에 퇴장.
     채움 알파 = rules area.alpha_bands[band], 외곽선 = rules area.outline(draw_country 와 같은 3단), 개표 중(counting) = 채움 위 사선 빗금.
     고리는 stage.adm_rings(code) — 옛 geo.pkl·없는 code 면 StageError(조용히 건너뛰지 않는다, P6)."""
-    A = load_rules().area  # noqa: N806
+    A = AREA  # noqa: N806
     for it in e["items"]:
         a = window(t, e["t0"] + it["delay"], e["t1"], A.fade_sec, A.fade_sec)
         rings = view.stage.adm_rings(e["country"], it["code"])

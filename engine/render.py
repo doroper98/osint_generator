@@ -103,7 +103,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
 
     flush_route_labels(ctx, R, view, act, t)   # 그린 라벨 상자는 R.reserved 로 — 배경 지명이 피한다
     if panel_a < 0.99:
-        R.stage.draw_labels(ctx, view, R.reserved, 1 - panel_a)
+        R.stage.draw_labels(ctx, view, R.reserved, 1 - panel_a, t)   # t — v7.4.0 D-0311 숏 단위 라벨 일정
     if frame is not None:
         ctx.restore()
     from engine import typography as _ty  # noqa: PLC0415

@@ -511,6 +511,11 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     from engine.layers.bars import resolve_sides  # noqa: PLC0415
 
     resolve_sides(events, R.stage, cams, FPS)   # v7.4.0 D-0303 §3 — bars 자리(마커 이름표·화면 밖 회피, 코드가 고른다)
+    if (cams is not None and R.stage.name == "mercator" and getattr(R.stage, "assets", None) is not None
+            and load_rules().labels.stability is not None):   # v7.4.0 D-0311(UF-175) — 숏 단위 지명 라벨 일정(렌더 전 1회, 결정적)
+        from engine.labels_plan import build_plan  # noqa: PLC0415
+
+        R.stage.label_plan = build_plan(R.stage, cams, keys, events, n, FPS)
     R.cache["backdrop"] = backdrop_report(events, R.assets.media_assets)   # v5.1.0 D-0123 §3 — checks backdrop_rights·backdrop_repeat·provenance
     R.cache["stage_choice"] = doc.stage_choice()                          # v5.1.0 D-0123 §2 — checks stage_choice(warning)
     _check_quotes(proj, events)      # v4.4.0 — statement_diff 문구 = intake 원문(D-0090 작업 4)

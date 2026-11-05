@@ -111,10 +111,10 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "element_gap", "label_banned_terms", "badge_hold", "area", "bars", "screen_wording", "symbol_media")   # screen_wording·symbol_media v7.4.0 D-0309(UF-164·171~173). bars v7.4.0 D-0303 §3. area v7.4.0 D-0290 §3-5. element_gap·label_banned_terms·badge_hold v7.4.0 UF-160~162, cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "element_gap", "label_banned_terms", "badge_hold", "area", "bars", "screen_wording", "symbol_media", "label_flicker")   # label_flicker v7.4.0 D-0311(UF-175). screen_wording·symbol_media v7.4.0 D-0309(UF-164·171~173). bars v7.4.0 D-0303 §3. area v7.4.0 D-0290 §3-5. element_gap·label_banned_terms·badge_hold v7.4.0 UF-160~162, cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
-        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "area_dense", "bars_no_camera", "admin1_label_missing")   # admin1_label_missing v7.4.0 D-0309(UF-167). bars_no_camera v7.4.0 D-0303. area_dense v7.4.0 D-0290. ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
+        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "area_dense", "bars_no_camera", "admin1_label_missing", "label_churn")   # label_churn v7.4.0 D-0311. admin1_label_missing v7.4.0 D-0309(UF-167). bars_no_camera v7.4.0 D-0303. area_dense v7.4.0 D-0290. ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
 
 def missing_fonts() -> list[str]:
@@ -2220,6 +2220,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "area_dense": lambda: area_dense(P.events),   # v7.4.0 D-0290 §3-5(warning)
         "bars": lambda: check_bars(P),   # v7.4.0 D-0303 §3(hard, UF-170) — 득표율 막대 정직성·자리
         "bars_no_camera": lambda: bars_no_camera(P),   # v7.4.0 D-0303 §3(warning)
+        "label_flicker": lambda: _label_flicker(P)[0],   # v7.4.0 D-0311(hard, UF-175) — 숏 단위 라벨 일정의 재등장·짧은 노출
+        "label_churn": lambda: _label_flicker(P)[1],   # v7.4.0 D-0311(warning, UF-175)
         "screen_wording": lambda: screen_wording(P.events, _is_election(P)),   # v7.4.0 D-0309(hard, UF-171·172·173)
         "symbol_media": lambda: symbol_media(P.plan.sentences, P.events),   # v7.4.0 D-0309(hard, UF-164)
         "admin1_label_missing": lambda: admin1_label_missing(P),   # v7.4.0 D-0309(warning, UF-167)
@@ -2908,6 +2910,19 @@ def admin1_label_missing(P) -> list[str]:  # noqa: ANN001, N803
         if not any(20 < x < W_OUT - 20 and 60 < y < H_OUT - 70 for x, y in pts):
             out.append(f"[admin1-label-missing] {s.sid} t={t:.1f} w={v.w:.1f} — 주 이름이 화면에 없다(UF-167)")
     return out
+
+
+def _label_flicker(P) -> "tuple[list[str], list[str]]":  # noqa: ANN001, N803
+    """v7.4.0 D-0311(UF-175) — 렌더가 읽는 숏 단위 라벨 일정(stage.label_plan)을 잰다. 지도 무대인데 일정이 없으면 그 자체로 실패(프레임별 선택 = 깜빡임)."""
+    st = P.R.stage
+    plan = getattr(st, "label_plan", None)
+    if st.name != "mercator" or getattr(st, "assets", None) is None or P.cams is None:
+        return [], []
+    if plan is None:
+        return ["[label-flicker] 지도 무대인데 숏 단위 라벨 일정(label_plan)이 없다 — 프레임마다 라벨을 다시 고른다(UF-175)"], []
+    from engine.labels_plan import flicker_report  # noqa: PLC0415
+
+    return flicker_report(plan)
 
 
 def _is_election(P) -> bool:  # noqa: ANN001, N803

@@ -196,6 +196,7 @@ class MercatorStage:
         lr = load_rules().labels   # v7.4.0 D-0303 §1(UF-167) — 주 이름 표기 모드(없으면 기본 subtle = v7.3 값)
         self.admin1_mode_name = (config or {}).get("admin1_labels", lr.admin1_mode_default)
         self.admin1_mode = lr.admin1_modes.get(self.admin1_mode_name)
+        self.label_plan = None   # v7.4.0 D-0311(UF-175) — engine.project 가 카메라가 정해진 뒤 채운다(engine.labels_plan.build_plan)
         from engine.style import BORDER_GLOW  # noqa: PLC0415 — style → stage 순환 회피
 
         self.border_glow = bool((config or {}).get("border_glow", BORDER_GLOW.default_on))   # v5.4.0 국경선 글로우 — 지도 무대 기본(rules border_glow.default_on)
@@ -330,10 +331,10 @@ class MercatorStage:
                          box=(max(0.0, x0 + dx), max(0.0, y0), min(x0 + dx + wd, im.width), min(y0 + view.h * lv, im.height)))
 
     # --- 라벨·LOD
-    def draw_labels(self, ctx: cairo.Context, view: "View", reserved: list, alpha: float = 1.0) -> list:
+    def draw_labels(self, ctx: cairo.Context, view: "View", reserved: list, alpha: float = 1.0, t: "float | None" = None) -> list:
         from engine.layers.labels import draw_labels  # noqa: PLC0415
 
-        return draw_labels(ctx, self, view, reserved, alpha)
+        return draw_labels(ctx, self, view, reserved, alpha, t)   # t = v7.4.0 D-0311 숏 단위 라벨 일정(label_plan)
 
     def lod_rules(self) -> dict[str, Any]:
         return dict(MERCATOR_LOD)

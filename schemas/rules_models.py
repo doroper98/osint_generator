@@ -1275,6 +1275,17 @@ class Admin1Mode(_Strict):
     marker_sub: Literal["gold", "ink"] = "gold"   # v7.4.0 D-0304(DECISIONS D526) — 마커 부제 색: gold = 테마 gold_text(v7.3), ink = 테마 white 토큰(주 채움 위 대비)
 
 
+class LabelStability(_Strict):
+    """v7.4.0 D-0311(UF-175) — 숏 단위 라벨 일정(engine/labels_plan.py)."""
+
+    fade_sec: float = Field(gt=0)
+    min_hold_sec: float = Field(gt=0)
+    lod_hysteresis: float = Field(ge=1)
+    sample_every_frames: int = Field(ge=1)
+    max_events_per_shot: int = Field(ge=1)
+    still_eps: float = Field(gt=0)
+
+
 class LabelRules(_Strict):
     border_lod_w: float
     admin1_fade_w: Range2
@@ -1288,6 +1299,7 @@ class LabelRules(_Strict):
     capital_always_max_w: Optional[float] = None
     # v7.4.0 back_and_forth D-0303 §1(사용자 의견 UF-167·168, DECISIONS D525) — 주 이름 표기 모드. 고르기 = direction stage_config.mercator.admin1_labels
     small_text_halo_max: Optional[float] = None   # v7.4.0 D-0309(UF-168)
+    stability: Optional[LabelStability] = None     # v7.4.0 D-0311(UF-175) — 없으면 프레임별 선택(옛 규칙 파일)
     admin1_modes: dict[str, Admin1Mode] = Field(default_factory=dict)
     admin1_mode_default: str = "subtle"
 
