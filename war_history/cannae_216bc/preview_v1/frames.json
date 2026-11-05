@@ -1,0 +1,340 @@
+{
+ "schema_version": 1,
+ "frames": [
+  {
+   "n": 1,
+   "file": "p_0014.18.png",
+   "label": "t=14.18",
+   "t": 14.18,
+   "sid": "cold_open_2",
+   "text": "다만 1856년 지리 사전은 그 무렵 로마력이 실제 날짜보다 크게 앞서 있었을 것이라고 적었습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": []
+  },
+  {
+   "n": 2,
+   "file": "p_0031.48.png",
+   "label": "t=31.48",
+   "t": 31.48,
+   "sid": "cold_open_4",
+   "text": "반면 카르타고군은 보병 약 4만 명, 기병 약 1만 명이었습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": []
+  },
+  {
+   "n": 3,
+   "file": "p_0041.61.png",
+   "label": "t=41.61",
+   "t": 41.61,
+   "sid": null,
+   "text": null,
+   "after_sid": "cold_open_5",
+   "card": "title",
+   "events": []
+  },
+  {
+   "n": 4,
+   "file": "p_0064.22.png",
+   "label": "t=64.22",
+   "t": 64.22,
+   "sid": "prelude_4",
+   "text": "폴리비오스가 옮긴 연설에서 아이밀리우스는, 이전 패전 때는 두 집정관이 함께 싸운 적이 없었다고 강조했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "칸나이"
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "file": "p_0090.10.png",
+   "label": "t=90.10",
+   "t": 90.1,
+   "sid": "prelude_7",
+   "text": "기원전 237~209년경 카르타고 셰켈 은화에는 월계관을 쓴 두상과 전투 코끼리를 탄 기수가 새겨졌습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "photo",
+     "mid": "cannae_coin"
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "file": "p_0130.57.png",
+   "label": "t=130.57",
+   "t": 130.57,
+   "sid": "deployment_5",
+   "text": "이에 맞서 카르타고군 좌익은 하스드루발이 지휘했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": []
+  },
+  {
+   "n": 7,
+   "file": "p_0158.19.png",
+   "label": "t=158.19",
+   "t": 158.19,
+   "sid": "deployment_11",
+   "text": "즉 중앙을 적 쪽으로 볼록하게 내민 이 배치가 초승달 진형이었습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": []
+  },
+  {
+   "n": 8,
+   "file": "p_0201.80.png",
+   "label": "t=201.80",
+   "t": 201.8,
+   "sid": "encirclement_5",
+   "text": "한편 중앙에서는 로마 보병이 카르타고군 중앙으로 밀고 들어갔습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": []
+  },
+  {
+   "n": 9,
+   "file": "p_0231.86.png",
+   "label": "t=231.86",
+   "t": 231.86,
+   "sid": "encirclement_11",
+   "text": "1773년 존 트럼불은 이 장면을 「칸나이 전투에서 파울루스 아이밀리우스의 죽음」으로 그렸고, 그림은 예일대학교 미술관에 소장됐습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "photo",
+     "mid": "cannae_trumbull"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "file": "p_0274.39.png",
+   "label": "t=274.39",
+   "t": 274.39,
+   "sid": "aftermath_3",
+   "text": "로마군 전사자를 폴리비오스는 약 7만 명으로, 리비우스는 보병 45,500명과 기병 2,700명으로 전했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "칸나이"
+    },
+    {
+     "type": "panel",
+     "kind": "versus",
+     "title": "로마군 손실 — 두 사료"
+    }
+   ]
+  },
+  {
+   "n": 11,
+   "file": "p_0300.56.png",
+   "label": "t=300.56",
+   "t": 300.56,
+   "sid": "aftermath_7",
+   "text": "리비우스는 기병대장 마하르발이 한니발에게, 이기는 법은 알아도 승리를 쓰는 법은 모른다고 말했다고 전했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "quote"
+    }
+   ]
+  },
+  {
+   "n": 12,
+   "file": "p_0335.85.png",
+   "label": "t=335.85",
+   "t": 335.85,
+   "sid": "ending_2",
+   "text": "그 결과 집정관 아이밀리우스는 전사했고, 바로는 베누시아로 달아났습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "칸나이"
+    },
+    {
+     "type": "marker",
+     "label": "베누시아"
+    }
+   ]
+  },
+  {
+   "n": 13,
+   "file": "p_0356.26.png",
+   "label": "t=356.26",
+   "t": 356.26,
+   "sid": "ending_5",
+   "text": "1885년 구스타프 아돌프 클로스는 그 들판을 후대의 판화로 남겼습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "photo",
+     "mid": "cannae_closs"
+    }
+   ]
+  },
+  {
+   "n": 14,
+   "file": "p_0365.57.png",
+   "label": "t=365.57",
+   "t": 365.57,
+   "sid": null,
+   "text": null,
+   "after_sid": "ending_5",
+   "card": "end",
+   "events": []
+  },
+  {
+   "n": 15,
+   "file": "p_0059.90.png",
+   "label": "t=59.90",
+   "t": 59.9,
+   "sid": "prelude_3",
+   "text": "적의 기병이 우세했기 때문이었습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "칸나이"
+    }
+   ]
+  },
+  {
+   "n": 16,
+   "file": "p_0096.50.png",
+   "label": "t=96.50",
+   "t": 96.5,
+   "sid": "prelude_8",
+   "text": "전투 당일 지휘 당번은 집정관 테렌티우스 바로였고, 그가 군을 출진시켰습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "칸나이"
+    }
+   ]
+  },
+  {
+   "n": 17,
+   "file": "p_0130.00.png",
+   "label": "t=130.00",
+   "t": 130.0,
+   "sid": "deployment_5",
+   "text": "이에 맞서 카르타고군 좌익은 하스드루발이 지휘했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": []
+  },
+  {
+   "n": 18,
+   "file": "p_0188.00.png",
+   "label": "t=188.00",
+   "t": 188.0,
+   "sid": "encirclement_2",
+   "text": "결국 로마군 우익 기병은 히스파니아·켈트 기병에게 패했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": []
+  },
+  {
+   "n": 19,
+   "file": "p_0215.00.png",
+   "label": "t=215.00",
+   "t": 215.0,
+   "sid": "encirclement_7",
+   "text": "로마 동맹군 기병은 하스드루발의 돌격을 앞두고 무너져 달아났습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": []
+  },
+  {
+   "n": 20,
+   "file": "p_0261.20.png",
+   "label": "t=261.20",
+   "t": 261.2,
+   "sid": "aftermath_1",
+   "text": "아이밀리우스는 보병 1만 명을 진영에 남겨 카르타고 진영을 치게 했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "칸나이"
+    }
+   ]
+  },
+  {
+   "n": 21,
+   "file": "p_0297.80.png",
+   "label": "t=297.80",
+   "t": 297.8,
+   "sid": "aftermath_7",
+   "text": "리비우스는 기병대장 마하르발이 한니발에게, 이기는 법은 알아도 승리를 쓰는 법은 모른다고 말했다고 전했습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "quote"
+    }
+   ]
+  },
+  {
+   "n": 22,
+   "file": "p_0334.40.png",
+   "label": "t=334.40",
+   "t": 334.4,
+   "sid": "ending_2",
+   "text": "그 결과 집정관 아이밀리우스는 전사했고, 바로는 베누시아로 달아났습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": [
+    {
+     "type": "marker",
+     "label": "칸나이"
+    },
+    {
+     "type": "marker",
+     "label": "베누시아"
+    }
+   ]
+  },
+  {
+   "n": 23,
+   "file": "p_0111.50.png",
+   "label": "t=111.50",
+   "t": 111.5,
+   "sid": "deployment_0",
+   "text": "전투는 두 군대가 진을 치는 데서 시작됐습니다.",
+   "after_sid": null,
+   "card": null,
+   "events": []
+  },
+  {
+   "n": 24,
+   "file": "p_0113.00.png",
+   "label": "t=113.00",
+   "t": 113.0,
+   "sid": null,
+   "text": null,
+   "after_sid": "deployment_0",
+   "card": null,
+   "events": []
+  }
+ ]
+}

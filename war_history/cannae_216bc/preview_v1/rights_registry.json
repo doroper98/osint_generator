@@ -1,0 +1,74 @@
+{
+ "people": {},
+ "emblems": {
+  "carthage_tanit": {
+   "license": "Public domain(근거 사진 PD-self) · 재작도 = 코드 벡터",
+   "url": "https://commons.wikimedia.org/wiki/File:St%C3%A8le_avec_le_signe_de_Tanit_(Louvre,_AO_5244).jpg",
+   "title": "타니트 기호 재현(근거: 루브르 AO 5244 비석, Tangopaso 사진)",
+   "restrictions": ""
+  }
+ },
+ "flags": {
+  "flag_icons": {
+   "name": "flag-icons",
+   "license": "MIT",
+   "author": "Panayiotis Lipiridis",
+   "url": "https://github.com/lipis/flag-icons"
+  }
+ },
+ "fonts": {
+  "ibm_plex_sans_kr": {
+   "name": "IBM Plex Sans KR",
+   "license": "SIL OFL 1.1",
+   "author": "IBM",
+   "url": "https://github.com/google/fonts/tree/main/ofl/ibmplexsanskr"
+  },
+  "ibm_plex_mono": {
+   "name": "IBM Plex Mono",
+   "license": "SIL OFL 1.1",
+   "author": "IBM",
+   "url": "https://github.com/google/fonts/tree/main/ofl/ibmplexmono"
+  },
+  "gmarket_sans": {
+   "name": "GmarketSans",
+   "license": "G마켓 무료 폰트",
+   "author": "Gmarket",
+   "url": "https://corp.gmarket.com/fonts/"
+  },
+  "noto_serif_cjk": {
+   "name": "Noto Serif CJK KR",
+   "license": "SIL OFL 1.1",
+   "author": "Google · Adobe",
+   "url": "https://github.com/notofonts/noto-cjk"
+  }
+ },
+ "map": {
+  "natural_earth": {
+   "name": "Natural Earth",
+   "license": "Public domain",
+   "author": "Natural Earth",
+   "url": "https://www.naturalearthdata.com",
+   "layers": [
+    "ne_10m_admin_0_countries",
+    "ne_10m_admin_1_states_provinces",
+    "ne_10m_populated_places",
+    "ne_10m_roads",
+    "ne_10m_rivers_lake_centerlines"
+   ]
+  },
+  "aws_terrain_tiles": {
+   "name": "AWS Terrain Tiles",
+   "license": "구성 데이터별 조건(Mapzen terrarium)",
+   "author": "Mapzen · AWS Open Data",
+   "url": "https://registry.opendata.aws/terrain-tiles/"
+  }
+ },
+ "narration": {
+  "tts": {
+   "name": "내레이션",
+   "license": "AI 음성 합성",
+   "author": "",
+   "url": ""
+  }
+ }
+}
