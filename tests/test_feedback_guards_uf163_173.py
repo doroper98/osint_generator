@@ -136,5 +136,32 @@ class Admin1LabelTest(unittest.TestCase):
         self.assertEqual(checks.admin1_label_missing(P), [])
 
 
+class LeadingConnectiveTest(unittest.TestCase):
+    """UF-174 "무지성으로 한편같은거 넣지 말라고 하지 않았어?" — 문장 첫머리 '한편' 금지(slop), 첫머리 접속사 남발 = [flow-overuse]."""
+
+    V14 = ["그리고 다음 날 새벽까지 민주당은 하원과 상원을 모두 되찾았습니다.", "그래서 이번에는 상원 35석을 뽑았습니다.",
+           "또한 주지사 선거에서는 민주당이 다섯 곳을 가져왔습니다.", "이어서 캔자스에서는 해밀턴 후보가 이겼습니다.",
+           "또한 노스캐롤라이나에서는 쿠퍼 후보가 이겼습니다.", "메인은 잭슨 후보가 이겼습니다.", "오하이오는 브라운 후보가 이겼습니다.",
+           "조지아는 오소프 의원이 재선됐습니다.", "그리고 네바다에서는 포드 후보가 이겼습니다.", "텍사스는 탈라리코 후보가 이겼습니다."]
+
+    def _lint(self, texts: list[str]) -> "list[tuple[str, str]]":
+        from script.lint import lint  # noqa: PLC0415
+
+        return [(i.kind, i.severity) for i in lint(_sc(*texts), check_sources=False).issues]
+
+    def test_hanpyeon_head_is_slop(self) -> None:
+        self.assertIn(("slop", "error"), self._lint(["한편 주민투표에서는 버지니아가 투표권을 넓혔습니다."]))
+        self.assertNotIn(("slop", "error"), self._lint(["주민투표에서는 버지니아가 투표권을 넓혔습니다."]))
+
+    def test_v14_connective_overuse_warns(self) -> None:
+        self.assertIn(("flow-overuse", "warning"), self._lint(self.V14))
+
+    def test_rules_no_longer_recommend_hanpyeon(self) -> None:
+        r = load_rules()
+        self.assertNotIn("한편", r.script_grammar.connectives)
+        self.assertLessEqual(r.script_grammar.connective_max_ratio, 0.35)
+        self.assertNotIn('"한편"으로 잇는다', r.script_vocab.contrast_hint)
+
+
 if __name__ == "__main__":
     unittest.main()

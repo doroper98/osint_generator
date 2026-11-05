@@ -187,7 +187,7 @@ class ScriptGrammarTest(unittest.TestCase):
         from script.lint import lint  # noqa: PLC0415
 
         both = self._script(["러시아는 나토가 봉쇄를 준비한다고 주장했습니다.", "반면 나토는 방어 동맹이라고 밝혔습니다.",
-                             "로이터는 회랑 길이를 약 팔십 킬로미터라고 보도했습니다.", "그러자 러시아는 다시 반박했다고 전했습니다."])
+                             "Reuters는 회랑 길이를 약 팔십 킬로미터라고 보도했습니다.", "그러자 러시아는 다시 반박했다고 전했습니다."])
         self.assertEqual([i.kind for i in lint(both, {"clm_0001": "disputed"}).errors], [])
         bare = self._script(["러시아는 나토를 비난했다고 밝혔습니다.", "반면 나토는 방어 동맹이라고 밝혔습니다.",
                              "나토가 봉쇄를 준비하고 있습니다.", "그러자 러시아는 다시 반박했다고 전했습니다."])
