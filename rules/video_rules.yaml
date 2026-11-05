@@ -112,6 +112,7 @@ source_note:              # v5.6.0 사용자 결정(2026-10-04) — 참조 출�
   y_from_bottom: 6
   alpha: 0.55
   prefix: "출처 · "
+  approx_font: sansm        # v7.4.0 D-0632 — terrain3d '개략' 출처 줄(사료 서명 『』·한글). 버전 도장 mono 에는 두 글리프가 없다([glyphs] hard). 크기·자리는 위 값 그대로
   spoken_names: [위키백과, 위키피디아]   # 사용자 결정 2026-10-04 "위키백과에 따르면·위키백과가 전했다 삭제" — 내레이션에 나오면 린트 오류
 script_grammar:            # v5.5.0 사용자 결정(2026-10-02, 개정 2026-10-03 "막지 말고 양측을 밝혀라") — 원고 서술 규약. 프롬프트 {{RULES.script_grammar}}(script·genre_script), 린트가 같은 값으로 강제
   lines:

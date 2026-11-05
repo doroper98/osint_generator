@@ -58,6 +58,7 @@ class SourceNote(_Strict):
     alpha: float = Field(gt=0, le=1)
     prefix: str
     spoken_names: list[str] = Field(min_length=1)   # 내레이션에 나오면 린트 reference-in-narration 오류
+    approx_font: str = "sansm"   # v7.4.0 D-0632 — terrain3d '개략' 출처 줄 글꼴(사료 서명 『』·한글, mono 에 글리프 없음)
 
 
 class ScriptGrammar(_Strict):

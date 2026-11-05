@@ -240,7 +240,7 @@ def draw_labels(ctx: cairo.Context, P: "Project", seg: SegFrames, i: int, t: flo
         for nm in folded:
             log[nm] = log.get(nm, 0) + 1
     line = approx_line(forces)
-    text(ctx, line, R.source_note.x, H_OUT - R.source_note.y_from_bottom, STAMP.size, STAMP.font, C["muted"], R.source_note.alpha * fade, 0, "l",
+    text(ctx, line, R.source_note.x, H_OUT - R.source_note.y_from_bottom, STAMP.size, R.source_note.approx_font, C["muted"], R.source_note.alpha * fade, 0, "l",
          role="media_meta")
     log = P.R.cache.setdefault("terrain3d_approx_drawn", {})
     log.setdefault(seg.sid, {"line": line, "frames": 0})["frames"] += 1
