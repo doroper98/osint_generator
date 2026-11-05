@@ -4,6 +4,7 @@
 - **감독 세션** `session_017Yuw8ixNRzov4VpELs53Xx`(Fable 5.1, 2026-11-05 09:12 KST 기동), env_01SnvGMv3UmrvejEraZxEACo, 브랜치 `claude/vigilant-fermat-w8c2ti`(main 16f6ae8 위). 기동 지시 D-0290, 조사표 D-0291. **구현 세션** `session_017Yuw8kR9mdTJZoQZAfUKod`(Opus 5.5, 같은 env, 2026-11-05 00:27Z 생성, source_revision·outcome_branch = 이 브랜치). 감독 점검 트리거 `trig_01EdmzsHrwiWS1GWFP7kBmjm`(60분 뒤, 이후 45~60분 간격 재예약).
 - 게이트 ①·② 는 **사용자 승인**(위임 없음). 감독이 gate-view·콘티 판·프리뷰 시트를 사용자에게 보내고 승인을 받아 `approve` 를 친다. 산출물은 나오는 즉시 사용자에게(UF-144).
 - 핵심 설계: mercator light + 새 이벤트 `area`(주 채움) — D-0290 §2·§3. pid `us_midterms_2026`.
+- **상태(2026-11-05 13:20Z)**: 전편 전달 완료 — artifacts e4e33bb6 `final/final_deliver.mp4`(md5 2e3b0c41, 592.8초, 29.8 MB), DECISIONS D515~D531, 원장 UF-163~173(open — 장치는 전달 뒤 첫 작업, D-0309 §2). 게이트 ① 사용자 승인 D520(v1.2) + 사용자 지시 D528~D530 으로 표시·문구 수정(script_sha1 760ef1f4), 게이트 ② 감독 승인 D527(위임 D521). 새 엔진 요소: area·bars·admin1_modes·정당 로고 권리 예외·단위 '석'. main 병합 보류(사용자 판정 뒤).
 
 ## 0-2. 2026-10-30 — 병행 트랙: 『중국의 기술 수출통제 확대(2026.10)』(사용자 결정 D-0282)
 - **상태(2026-10-30 16:00Z)**: 전편 전달 완료 — `artifacts/china-export-controls-v7.4.0` 95148beb `final/final_deliver.mp4`(md5 02ccbde3, 397.1초, 28.9 MB), DECISIONS D500~D510, 게이트 ①·② 감독 승인(D-0282 위임, 사용자 결정 D-0289). 구현 세션 `session_017Yuw8kwTv8PML5DnvDiExD`. 남은 것: 전체 pytest 결과·UF-160~162 장치 3건(D-0289 §장치).
