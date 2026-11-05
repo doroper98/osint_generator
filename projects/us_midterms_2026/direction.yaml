@@ -61,13 +61,16 @@ places:
   - 38.5
   gami:
   - -84.5
-  - 37.5
+  - 38.5
   gaus:
   - -89.0
   - 35.5
   flw:
-  - -84.5
-  - 31.0
+  - -84.0
+  - 29.8
+  nvia:
+  - -105.0
+  - 40.0
 shots:
 - at: 0
   mode: cut
@@ -78,16 +81,16 @@ shots:
   reason: 콜드 오픈 — 본토 전체에서 주가 차례로 색을 입는다
 - at:
     sid: cold_3
-    'off': -1.6
+    'off': -3.2
   mode: move
-  dur: 4.5
+  dur: 8.0
   camera:
     place: dc
     w: 22.0
   reason: 트럼프 2기 첫 중간선거 — 워싱턴으로 들어간다(오프닝)
 - at:
     sid: act1_0
-    'off': -1.6
+    'off': -2.48
   mode: move
   dur: 4.5
   camera:
@@ -95,8 +98,18 @@ shots:
     w: 60.0
   reason: 전국 성적표 — 본토 전체
 - at:
+    sid: act1_10
+    'off': 0.0
+  mode: drift
+  dur: 24.87
+  camera:
+    lon: -94.0
+    lat: 38.0
+    w: 57.0
+  reason: 1막 끝 지지율·심판 문장 — 본토 위 느린 궤도 훑기(정지 방지 UF-120)
+- at:
     sid: act2_0
-    'off': -1.6
+    'off': -2.48
   mode: move
   dur: 4.5
   camera:
@@ -105,79 +118,79 @@ shots:
   reason: 주 단위로 — 본토에서 남부 쪽으로
 - at:
     sid: act2_2
-    'off': -1.4400000000000002
+    'off': -1.81
   mode: move
-  dur: 3.6
+  dur: 3.3
   camera:
     place: tx
     w: 16.0
   reason: 텍사스 — 첫 뒤집힌 자리
 - at:
     sid: act2_5
-    'off': -1.04
+    'off': -1.65
   mode: move
-  dur: 2.6
+  dur: 3.0
   camera:
     place: ks
     w: 14.0
   reason: 캔자스로
 - at:
     sid: act2_7
-    'off': -1.6
+    'off': -2.5
   mode: move
-  dur: 4.9
+  dur: 7.4
   camera:
     place: sc
     w: 12.0
   reason: 사우스캐롤라이나로
 - at:
     sid: act2_10
-    'off': -1.6
+    'off': -2.5
   mode: move
-  dur: 4.1
+  dur: 6.2
   camera:
     place: ia
     w: 14.0
   reason: 아이오와로
 - at:
     sid: act2_11
-    'off': -1.2000000000000002
+    'off': -2.48
   mode: move
-  dur: 3.0
+  dur: 4.5
   camera:
     place: oh
     w: 12.0
   reason: 오하이오 보궐
 - at:
     sid: act2_13
-    'off': -1.04
+    'off': -1.65
   mode: move
-  dur: 2.6
+  dur: 3.0
   camera:
     place: nc
     w: 12.0
   reason: 노스캐롤라이나로
 - at:
     sid: act2_14
-    'off': -1.4000000000000001
+    'off': -2.5
   mode: move
-  dur: 3.5
+  dur: 5.8
   camera:
     place: me
     w: 12.0
   reason: 메인 — 일곱째 자리
 - at:
     sid: act2_17
-    'off': -1.6
+    'off': -2.5
   mode: move
-  dur: 5.8
+  dur: 5.9
   camera:
     place: gami
-    w: 30.0
+    w: 40.0
   reason: 조지아·미시간 유지 — 동부 권역
 - at:
     sid: act3_0
-    'off': -1.6
+    'off': -2.48
   mode: move
   dur: 4.5
   camera:
@@ -186,9 +199,9 @@ shots:
   reason: 아직 색을 입지 못한 주 — 본토 전체
 - at:
     sid: act3_2
-    'off': -1.6
+    'off': -2.48
   mode: move
-  dur: 6.1
+  dur: 4.5
   camera:
     place: ms
     w: 12.0
@@ -211,7 +224,7 @@ shots:
   reason: 캔자스 주지사 개표 중(알래스카에서 — 암전 전환)
 - at:
     sid: act4_0
-    'off': -1.6
+    'off': -2.48
   mode: move
   dur: 4.5
   camera:
@@ -220,79 +233,70 @@ shots:
   reason: 주 정부로 — 주지사 지도
 - at:
     sid: act4_2
-    'off': -1.6
+    'off': -1.87
   mode: move
-  dur: 4.0
+  dur: 3.4
   camera:
     place: tx
     w: 16.0
   reason: 텍사스 주지사
 - at:
     sid: act4_4
-    'off': -1.2000000000000002
+    'off': -1.93
   mode: move
-  dur: 3.0
+  dur: 3.5
   camera:
     place: gaus
     w: 32.0
-  reason: 조지아 주지사 — 미국 첫 흑인 여성 주지사(미국 전체 함께)
-- at:
-    sid: act4_5
-    'off': -1.4400000000000002
-  mode: move
-  dur: 3.6
-  camera:
-    place: oh
-    w: 12.0
-  reason: 오하이오 주지사
+  reason: 조지아·오하이오 주지사 — 남동부·중서부 동쪽 함께
 - at:
     sid: act4_6
-    'off': -1.6
+    'off': -1.65
   mode: move
-  dur: 10.0
+  dur: 3.0
   camera:
-    place: nv
-    w: 26.0
-  reason: 네바다·아이오와 주지사
+    place: nvia
+    w: 36.0
+  reason: 네바다·아이오와 주지사 — 서부와 중서부 함께(오하이오는 앞 숏 구도 안)
 - at:
     sid: act4_7
-    'off': -1.6
+    'off': -2.5
   mode: move
-  dur: 5.5
+  dur: 5.4
   camera:
     place: flw
     w: 20.0
   reason: 플로리다(공화 유지) — 반도와 남동부 육지
 - at:
     sid: act4_8
-    'off': -1.4800000000000002
+    'off': -2.5
   mode: move
-  dur: 3.7
+  dur: 5.0
   camera:
     place: pa
     w: 12.0
   reason: 펜실베이니아 주의회
 - at:
     sid: act4_9
-    'off': -1.6
+    'off': -2.5
   mode: move
-  dur: 6.3
+  dur: 8.07
   camera:
     place: tx
     w: 16.0
   reason: 텍사스 재획정
 - at:
     sid: act4_10
-    'off': -1.04
+    'off': -1.93
   mode: move
-  dur: 2.6
+  dur: 3.5
   camera:
     place: mo
     w: 14.0
   reason: 미주리 지도 부결
 - at:
     sid: act5_0
-    'off': -1.6
+    'off': -2.48
   mode: move
   dur: 4.5
   camera:
@@ -301,18 +305,18 @@ shots:
   reason: 역사 — 본토 전체(지도 위 패널)
 - at:
     sid: act6_0
-    'off': -1.6
+    'off': -2.5
   mode: move
-  dur: 10.9
+  dur: 7.3
   camera:
     place: dc
     w: 10.0
   reason: 워싱턴으로 복귀
 - at:
     sid: ending_0
-    'off': -1.6
+    'off': -2.5
   mode: move
-  dur: 10.9
+  dur: 7.3
   camera:
     place: us
     w: 60.0
@@ -830,7 +834,7 @@ events:
 - type: marker
   start:
     sid: act2_2
-    'off': 1.4
+    'off': 1.69
   end:
     sid: act2_4
     'off': 0.5
@@ -845,7 +849,7 @@ events:
 - type: marker
   start:
     sid: act2_5
-    'off': 1.4
+    'off': 1.55
   end:
     sid: act2_6
     'off': 0.5
@@ -860,7 +864,7 @@ events:
 - type: marker
   start:
     sid: act2_7
-    'off': 1.4
+    'off': 5.1000000000000005
   end:
     sid: act2_9
     'off': 0.5
@@ -875,7 +879,7 @@ events:
 - type: marker
   start:
     sid: act2_10
-    'off': 1.4
+    'off': 3.9000000000000004
   end:
     sid: act2_10
     'off': 0.5
@@ -890,7 +894,7 @@ events:
 - type: marker
   start:
     sid: act2_11
-    'off': 1.4
+    'off': 2.22
   end:
     sid: act2_12
     'off': 0.5
@@ -905,7 +909,7 @@ events:
 - type: marker
   start:
     sid: act2_13
-    'off': 1.4
+    'off': 1.55
   end:
     sid: act2_13
     'off': 0.5
@@ -920,7 +924,7 @@ events:
 - type: marker
   start:
     sid: act2_14
-    'off': 1.4
+    'off': 3.5
   end:
     sid: act2_15
     'off': 0.5
@@ -950,7 +954,7 @@ events:
 - type: marker
   start:
     sid: act2_17
-    'off': 1.4
+    'off': 3.6
   end:
     sid: act2_17
     'off': 0.5
@@ -965,7 +969,7 @@ events:
 - type: marker
   start:
     sid: act2_17
-    'off': 0.8
+    'off': 3.6
   end:
     sid: act2_17
     'off': 0.5
@@ -980,9 +984,9 @@ events:
 - type: marker
   start:
     sid: act3_2
-    'off': 1.4
+    'off': 2.22
   end:
-    sid: act3_3
+    sid: act3_2
     'off': 0.5
     edge: end
   at_place: ms
@@ -1052,7 +1056,7 @@ events:
 - type: marker
   start:
     sid: act4_2
-    'off': 1.4
+    'off': 1.73
   end:
     sid: act4_3
     'off': 0.5
@@ -1067,7 +1071,7 @@ events:
 - type: marker
   start:
     sid: act4_4
-    'off': 1.4
+    'off': 1.77
   end:
     sid: act4_4
     'off': 0.5
@@ -1097,7 +1101,7 @@ events:
 - type: marker
   start:
     sid: act4_6
-    'off': 1.4
+    'off': 1.55
   end:
     sid: act4_6
     'off': 0.5
@@ -1112,7 +1116,7 @@ events:
 - type: marker
   start:
     sid: act4_6
-    'off': 1.2
+    'off': 1.55
   end:
     sid: act4_6
     'off': 0.5
@@ -1127,7 +1131,7 @@ events:
 - type: marker
   start:
     sid: act4_7
-    'off': 1.4
+    'off': 3.1
   end:
     sid: act4_7
     'off': 0.5
@@ -1135,14 +1139,14 @@ events:
   at_place: fl
   label: 플로리다
   sub: 플로리다 첫 흑인 주지사
-  side: right
+  side: top
   hl: true
   claims:
   - clm_0051
 - type: marker
   start:
     sid: act4_8
-    'off': 1.4
+    'off': 2.7
   end:
     sid: act4_8
     'off': 0.5
@@ -1157,7 +1161,7 @@ events:
 - type: marker
   start:
     sid: act4_9
-    'off': 1.4
+    'off': 5.7700000000000005
   end:
     sid: act4_9
     'off': 0.5
@@ -1172,7 +1176,7 @@ events:
 - type: marker
   start:
     sid: act4_10
-    'off': 1.4
+    'off': 1.77
   end:
     sid: act4_10
     'off': 0.5
@@ -1195,7 +1199,7 @@ events:
   at_place: dc
   label: 대통령의 당, 중간선거 평균
   sub: 하원 −27 · 상원 약 −3 (1934~2022)
-  side: right
+  side: left
   hl: true
   claims:
   - clm_0012
@@ -1252,7 +1256,7 @@ events:
   at_place: dc
   label: 2018 · 트럼프 1기
   sub: 하원 −41 · 상원 +2
-  side: right
+  side: left
   hl: true
   claims:
   - clm_0055
@@ -1313,14 +1317,14 @@ events:
   at_place: dc
   label: 상원 7석 이상 잃은 해
   sub: 1986 · 1994 · 2014 (1960년 이후)
-  side: right
+  side: left
   hl: true
   claims:
   - clm_0057
 - type: marker
   start:
     sid: act6_0
-    'off': 1.4
+    'off': 5.0
   end:
     sid: act6_1
     'off': 0.5
@@ -1381,7 +1385,6 @@ events:
   img: dem_party
   label: 민주당
   accent: dem
-  place: map_lower_left
   start:
     sid: cold_2
     'off': 0.1
@@ -1389,6 +1392,8 @@ events:
     sid: cold_3
     'off': 0.5
     edge: end
+  lon: -83.1
+  lat: 37.9
 - type: photo
   mid: us_midterms_2026_house_chamber
   start:
@@ -1432,7 +1437,7 @@ events:
   place: map_lower_left
   start:
     sid: act1_0
-    'off': 0.1
+    'off': 2.32
   end:
     sid: act1_1
     'off': 0.5
@@ -1478,7 +1483,7 @@ events:
   place: map_lower_left
   start:
     sid: act2_2
-    'off': 0.1
+    'off': 1.79
   end:
     sid: act2_4
     'off': 0.5
@@ -1613,7 +1618,7 @@ events:
   place: map_lower_left
   start:
     sid: act4_7
-    'off': 0.1
+    'off': 3.1999999999999997
   end:
     sid: act4_8
     'off': 0.5

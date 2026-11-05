@@ -18,20 +18,18 @@ sections:
     - media.us_midterms_2026_art_0035
     - media.us_midterms_2026_art_0029
     - media.us_midterms_2026_art_0031
-    - media.us_midterms_2026_art_0010
     - media.us_midterms_2026_art_0026
-    - media.us_midterms_2026_art_0011
 - title: 사진
   column: 0
   items:
-  - main: 미국 연방 의사당 야경
-    license: Otávio Astor Vaz Costa (CC0)
-    rights:
-    - media.us_midterms_2026_capitol_night
   - main: 연방 하원 본회의장
     license: United States House of Representatives… · Public domain
     rights:
     - media.us_midterms_2026_house_chamber
+  - main: 미국 연방 의사당 야경
+    license: Otávio Astor Vaz Costa (CC0)
+    rights:
+    - media.us_midterms_2026_capitol_night
   - main: 토머스 내스트 만평(하퍼스 위클리, 1870. 01)
     license: Thomas Nast · Public domain
     rights:
@@ -56,6 +54,14 @@ sections:
     license: Stimpus1 (CC0)
     rights:
     - media.us_midterms_2026_andrews
+  - main: 아이오와 주 의사당
+    license: Carol M. Highsmith · Public domain
+    rights:
+    - media.us_midterms_2026_ia_capitol
+  - main: 셰러드 브라운 전 의원 공식 사진
+    license: Office of Senator Sherrod Brown · Public domain
+    rights:
+    - media.us_midterms_2026_brown
 - title: 정당 로고
   column: 1
   items:
