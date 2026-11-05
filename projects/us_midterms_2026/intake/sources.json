@@ -9,7 +9,7 @@
    "verification": {
     "status": "verified",
     "checks": [
-     "claims:16"
+     "claims:17"
     ],
     "notes": ""
    },
@@ -35,7 +35,7 @@
    "verification": {
     "status": "verified",
     "checks": [
-     "claims:3"
+     "claims:4"
     ],
     "notes": ""
    },
@@ -61,7 +61,7 @@
    "verification": {
     "status": "verified",
     "checks": [
-     "claims:5"
+     "claims:6"
     ],
     "notes": ""
    },
@@ -1052,6 +1052,125 @@
    ]
   },
   {
+   "id": "src_doc_0003",
+   "url": "https://www.archives.gov/founding-docs/constitution-transcript",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "컨테이너 curl 로 조문 대조(미국 국립기록원 전사본)",
+   "type": "document",
+   "issuer": "미국 국립기록원(National Archives)",
+   "title": "The Constitution of the United States: A Transcription",
+   "published_at": null,
+   "key_facts": [
+    "1조 2절: 하원의원은 2년마다(every second Year) 각 주 주민이 뽑는다 · 하원은 탄핵 소추권(sole Power of Impeachment)",
+    "1조 3절: 상원의원 임기 6년, 세 무리(three Classes)로 나눠 2년마다 3분의 1 · 상원은 탄핵 재판권",
+    "1조 7절: 세입 법안은 하원에서 발의 · 2조 2절: 조약·고위직 임명은 상원의 조언과 동의"
+   ]
+  },
+  {
+   "id": "src_doc_0004",
+   "url": "https://avalon.law.yale.edu/18th_century/fed52.asp",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "컨테이너 curl 로 원문 대조(예일 로스쿨 아발론 프로젝트). 미 의회도서관 전문 안내 https://guides.loc.gov/federalist-papers/text-51-60 도 열림",
+   "type": "document",
+   "issuer": "The Federalist Papers(예일 로스쿨 아발론 프로젝트 원문)",
+   "title": "The Federalist No. 52 — The House of Representatives (New York Packet, February 8, 1788)",
+   "published_at": null,
+   "key_facts": [
+    "it is particularly essential that the branch of it under consideration should have an immediate dependence on, and an intimate sympathy with, the people. Frequent elections are unquestionably the only policy by which this dependence and sympathy can be effectually secured.",
+    "저자 표기: HAMILTON OR MADISON"
+   ]
+  },
+  {
+   "id": "src_doc_0005",
+   "url": "https://www.law.cornell.edu/uscode/text/2/7",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "컨테이너 curl 로 조문 대조(코넬 LII)",
+   "type": "document",
+   "issuer": "미국 연방법(U.S. Code)",
+   "title": "2 U.S. Code § 7 — Time of election",
+   "published_at": null,
+   "key_facts": [
+    "The Tuesday next after the 1st Monday in November, in every even numbered year, is established as the day for the election … of Representatives"
+   ]
+  },
+  {
+   "id": "src_doc_0006",
+   "url": "https://www.usa.gov/midterm-elections",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "WebSearch 요약 대조(usa.gov·senate.gov 일치)",
+   "type": "document",
+   "issuer": "미국 연방정부 안내(USA.gov)",
+   "title": "Congressional elections and midterm elections",
+   "published_at": null,
+   "key_facts": [
+    "중간선거 = 대통령 선거 사이 한가운데에 치르는 의회 선거, 대통령은 투표지에 없다",
+    "2년마다 상원 3분의 1·하원 전 의석"
+   ]
+  },
+  {
+   "id": "src_doc_0007",
+   "url": "https://www.senate.gov/artandhistory/history/common/generic/Feature_Homepage_MidtermElections.htm",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "WebSearch 요약 대조",
+   "type": "document",
+   "issuer": "미국 상원 역사실(U.S. Senate)",
+   "title": "Midterm Elections",
+   "published_at": null,
+   "key_facts": [
+    "midterm congressional elections take place halfway between presidential elections"
+   ]
+  },
+  {
    "id": "src_doc_0002",
    "url": null,
    "retrieved_at": "2026-11-05",
@@ -1059,7 +1178,7 @@
    "verification": {
     "status": "verified",
     "checks": [
-     "claims:18"
+     "claims:19"
     ],
     "notes": ""
    },

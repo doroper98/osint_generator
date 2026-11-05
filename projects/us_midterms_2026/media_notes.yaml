@@ -1,4 +1,4 @@
-# us_midterms_2026 미디어 사유(게이트 ① 미디어 계획 표) — 원고 v1.1(72문장) 문장 번호. D-0290 §2·§5, D-0292 §2.2(인물 사진 우선 — 의사당 사진은 후보 없는 주의 대체).
+# us_midterms_2026 미디어 사유(게이트 ① 미디어 계획 표) — 원고 v1.2(78문장) 문장 번호. D-0290 §2·§5, D-0292 §2.2(인물 사진 우선 — 의사당 사진은 후보 없는 주의 대체).
 # 게이트 ① 은 원본 받기와 분리 — 고른 후보(파일명·라이선스·사유)를 여기 적고, 원본 바이트·피사체·시기 대조는 승인 뒤 미디어 등록 단계에서(Wikimedia 429 지속).
 # 사진 밀도 하한: rules media_beats.min_density_per_min 1.5 × 예상 8분 20초 ≈ 13 → 22장 선택(D-0292 목표 16 이상). 인물 사진 = 가운데 큰 액자, 뱃지는 발언 문장에만.
 # 클립: c-span.org 컨테이너 403(봇 차단) — 우회 금지(D-0290 §7) → 클립 0, 사진 액자. 연방 공직자 공식 초상 = 미 정부 저작물 PD.
@@ -56,11 +56,13 @@ sentences:
     photo: "선택 — File:Rep. Byron Donalds official photo, 117th Congress.jpg (Public domain, 미 하원) — 도널즈 의원 공식 사진"
   act4_8:
     photo: "선택 — File:Harrisburg, Pennsylvania State Capitol Building.jpg (CC BY 2.0) — 펜실베이니아 주 의사당 자료사진"
+  basics_1:
+    photo: "선택 — File:United States House of Representatives chamber.jpg (Public domain) — 연방 하원 본회의장 자료사진(act5_2 에서 옮김, D-0294 §1)"
   act5_2:
-    photo: "선택 — File:United States House of Representatives chamber.jpg (Public domain) — 연방 하원 본회의장 자료사진"
-  act6_1:
+    photo: 고르지 않음 — 하원 본회의장 사진은 basics_1 로 옮겼다(D-0294). precedent 패널(지도 위)로
+  act6_0:
     photo: "선택 — File:United States Senate Floor.jpg (Public domain) — 연방 상원 본회의장 자료사진"
-  act6_2:
+  act6_1:
     photo: "선택 — File:Hakeem Jeffries official portrait.jpg (Public domain, 미 하원) — 제프리스 원내대표 공식 초상"
-  act6_3:
+  act6_2:
     photo: "고르지 않음 — 슈머 발언 문장 = 인물 뱃지(File:Chuck Schumer official photo (cropped).jpg, PD) + quote"

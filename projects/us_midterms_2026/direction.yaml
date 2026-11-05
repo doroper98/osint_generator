@@ -138,14 +138,14 @@ shots:
     w: 28
   reason: 조지아·미시간 유지 — 동부 권역
 - at:
-    sid: act2_18
+    sid: act3_0
     'off': -0.4
   mode: move
   dur: 3.0
   camera:
     place: us
     w: 60
-  reason: 막 정리 — 본토 전체로 빠진다
+  reason: 아직 색을 입지 못한 주 — 본토 전체로 빠진다
 - at:
     sid: act3_2
     'off': -0.4
@@ -468,7 +468,7 @@ events:
     status: counting
     delay: 5.0
   claims:
-  - clm_0005
+  - clm_0012
 - type: area
   start:
     sid: act4_0
@@ -660,7 +660,7 @@ events:
     status: called
     delay: 0.0
   claims:
-  - clm_0007
+  - clm_0014
 - type: badge
   start:
     sid: cold_3
@@ -673,6 +673,67 @@ events:
   flag: us
   label: 미국
   place: map_lower_left
+- type: panel
+  kind: dots
+  start:
+    sid: basics_2
+    'off': -0.2
+  end:
+    sid: basics_2
+    'off': 0.6
+    edge: end
+  title: 상원 100석
+  subtitle: 2년마다 3분의 1씩
+  provenance:
+    verification: verified
+    sources:
+    - 미국 헌법 1조 3절 · 2026 선거
+  highlight: 35
+  total: 100
+  accent: gold
+  big: '35'
+  unit: 석
+  caption: 이번에 뽑은 상원 자리
+  detail: 정기 33 + 보궐 2
+  claims:
+  - clm_0006
+  - clm_0008
+- type: quote
+  start:
+    sid: basics_3
+    'off': 0.2
+  end:
+    sid: basics_3
+    'off': 0.6
+    edge: end
+  flag: us
+  speaker: 연방주의자 논설 52편
+  role: 1788년
+  text: 국민에게 직접 기대고 국민과 긴밀히 공감해야
+  src: 아발론 프로젝트 원문
+  accent: gold
+  pos: center
+  claims:
+  - clm_0007
+- type: panel
+  kind: checklist
+  start:
+    sid: basics_4
+    'off': -0.2
+  end:
+    sid: basics_5
+    'off': 0.6
+    edge: end
+  title: 이번에 뽑은 자리
+  items:
+  - 연방 하원 435석 전원
+  - 연방 상원 35석(100석 중)
+  - 주지사 36곳(50곳 중)
+  - 주의회·주민투표
+  footer: 투표일 = 짝수 해 11월 첫 월요일 다음 화요일
+  claims:
+  - clm_0008
+  - clm_0009
 - type: panel
   kind: versus
   start:
@@ -699,7 +760,7 @@ events:
         'off': 2.5
     src: 엔비씨 집계 · 2026-11-05 09:30 KST
   claims:
-  - clm_0005
+  - clm_0012
 - type: panel
   kind: dots
   start:
@@ -725,7 +786,7 @@ events:
   note_label: 공화당 151 · 미확정
   note_value: 42곳
   claims:
-  - clm_0006
+  - clm_0013
 - type: badge
   start:
     sid: act1_9
@@ -755,7 +816,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0016
+  - clm_0023
 - type: marker
   start:
     sid: act2_5
@@ -770,7 +831,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0018
+  - clm_0025
 - type: marker
   start:
     sid: act2_7
@@ -785,7 +846,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0021
+  - clm_0028
 - type: marker
   start:
     sid: act2_10
@@ -800,7 +861,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0023
+  - clm_0030
 - type: marker
   start:
     sid: act2_11
@@ -815,7 +876,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0024
+  - clm_0031
 - type: marker
   start:
     sid: act2_13
@@ -830,7 +891,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0025
+  - clm_0032
 - type: marker
   start:
     sid: act2_14
@@ -845,7 +906,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0027
+  - clm_0034
 - type: marker
   start:
     sid: act2_17
@@ -860,7 +921,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0028
+  - clm_0035
 - type: marker
   start:
     sid: act2_17
@@ -875,7 +936,7 @@ events:
   side: left
   hl: false
   claims:
-  - clm_0029
+  - clm_0036
 - type: marker
   start:
     sid: act3_2
@@ -890,7 +951,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0030
+  - clm_0037
 - type: marker
   start:
     sid: act3_4
@@ -905,7 +966,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0035
+  - clm_0042
 - type: panel
   kind: versus
   start:
@@ -932,7 +993,7 @@ events:
         'off': 1.0
     src: 엔비씨 74% 집계
   claims:
-  - clm_0031
+  - clm_0038
 - type: marker
   start:
     sid: act3_6
@@ -947,7 +1008,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0032
+  - clm_0039
 - type: marker
   start:
     sid: act4_2
@@ -962,7 +1023,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0038
+  - clm_0045
 - type: marker
   start:
     sid: act4_4
@@ -977,7 +1038,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0039
+  - clm_0046
 - type: marker
   start:
     sid: act4_5
@@ -992,7 +1053,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0040
+  - clm_0047
 - type: marker
   start:
     sid: act4_6
@@ -1007,7 +1068,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0041
+  - clm_0048
 - type: marker
   start:
     sid: act4_6
@@ -1022,7 +1083,7 @@ events:
   side: left
   hl: false
   claims:
-  - clm_0042
+  - clm_0049
 - type: marker
   start:
     sid: act4_7
@@ -1037,7 +1098,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0043
+  - clm_0050
 - type: marker
   start:
     sid: act4_8
@@ -1052,7 +1113,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0044
+  - clm_0051
 - type: marker
   start:
     sid: act4_9
@@ -1067,7 +1128,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0036
+  - clm_0043
 - type: marker
   start:
     sid: act4_10
@@ -1082,7 +1143,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0037
+  - clm_0044
 - type: panel
   kind: precedent
   start:
@@ -1129,16 +1190,16 @@ events:
       'off': 0.2
     hl: true
   claims:
-  - clm_0045
-  - clm_0047
-  - clm_0048
-  - clm_0049
+  - clm_0011
+  - clm_0053
+  - clm_0054
+  - clm_0055
 - type: marker
   start:
     sid: act6_0
     'off': 0.3
   end:
-    sid: act6_2
+    sid: act6_1
     'off': 0.5
     edge: end
   at_place: dc
@@ -1147,13 +1208,13 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0051
+  - clm_0057
 - type: quote
   start:
-    sid: act6_3
+    sid: act6_2
     'off': 0.2
   end:
-    sid: act6_3
+    sid: act6_2
     'off': 0.6
     edge: end
   flag: us
@@ -1164,13 +1225,13 @@ events:
   accent: dem
   pos: center
   claims:
-  - clm_0053
+  - clm_0059
 - type: badge
   start:
-    sid: act6_4
+    sid: act6_3
     'off': 0.1
   end:
-    sid: act6_6
+    sid: act6_5
     'off': 0.5
     edge: end
   kind: person

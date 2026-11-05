@@ -256,7 +256,7 @@
    ]
   },
   {
-   "sid": "act6_1",
+   "sid": "act6_0",
    "query": "United States Senate chamber",
    "pool": "commons_cc",
    "on": "2026-11-05",
@@ -550,7 +550,7 @@
    "rejected": []
   },
   {
-   "sid": "act6_2",
+   "sid": "act6_1",
    "query": "Hakeem Jeffries",
    "pool": "commons_cc",
    "on": "2026-11-05",
@@ -566,7 +566,7 @@
    "rejected": []
   },
   {
-   "sid": "act6_3",
+   "sid": "act6_2",
    "query": "Chuck Schumer",
    "pool": "commons_cc",
    "on": "2026-11-05",
