@@ -2809,9 +2809,9 @@ def check_bars(P) -> list[str]:  # noqa: ANN001, N803
                 out.append(f"[bars-offscreen] {tag} t={t:.1f} — 어느 자리({R_.bars.side_order})도 화면 안이 아니다(카메라·앵커를 고친다)")
                 break
             for m in P.events:
-                if m["type"] != "marker" or not (m["t0"] <= t <= m["t1"]) or "lon" not in m:
+                if m["type"] != "marker" or not (m["t0"] <= t <= m["t1"]) or m.get("world") is None:
                     continue
-                mx, my = v.to_screen(m["lon"], m["lat"])
+                mx, my = v.to_screen(*m["world"])
                 mb = marker_box(ctx, m, mx, my, with_sub=True)
                 if mb[0] < b[2] and b[0] < mb[2] and mb[1] < b[3] and b[1] < mb[3]:
                     out.append(f"[bars-overlap] {tag} t={t:.1f} — 마커 {m['label']!r} 이름표와 겹친다(side 를 바꾼다)")
@@ -2827,7 +2827,9 @@ def bars_no_camera(P) -> list[str]:  # noqa: ANN001, N803
             continue
         t = (e["t0"] + e["t1"]) / 2
         v = View(P.R.stage, P.cams[min(P.n_frames - 1, max(0, int(t * FPS)))])
-        x, y = v.to_screen(e["lon"], e["lat"])
+        from engine.layers.bars import anchor_world  # noqa: PLC0415
+
+        x, y = v.to_screen(*anchor_world(v, e))
         if not (0 <= x <= W_OUT and 0 <= y <= H_OUT):
             out.append(f"[bars-no-camera] bars t={e['t0']:.1f} {e['code']} — 그 주가 화면 밖({x:.0f},{y:.0f})")
     return out

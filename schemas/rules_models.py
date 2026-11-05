@@ -1246,6 +1246,7 @@ class Admin1Cities(_Strict):
     capitals_only_above_w: float       # 이 폭(도)보다 넓으면 수도(주도·나라 수도)만
     size: float = Field(gt=0)
     halo: float = Field(ge=0)          # 작은 글자 흰 테두리(UF-168 — 얇게)
+    alpha: float = Field(gt=0, le=1)   # 도시 글자 불투명도(subtle 은 v3 0.82)
 
 
 class Admin1Mode(_Strict):

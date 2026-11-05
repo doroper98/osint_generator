@@ -1043,7 +1043,7 @@ labels:                    # 04 §6·§7
       alpha: 0.9
       halo: 0.9
       halo_a: 0.5
-      cities: {max_per_frame: 6, foreign: false, capitals_only_above_w: 40, size: 9.5, halo: 0.6}
+      cities: {max_per_frame: 6, foreign: false, capitals_only_above_w: 40, size: 9.5, halo: 0.6, alpha: 1.0}   # alpha 1.0 — 얇은 테두리에서 대비(map_contrast) 확보
 
 geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계(geo.prep)
   land_miss_allow_px2: 16  # 국가 면적(deg²) × 티어 ppd² 가 이 값 미만이면 land-miss 를 small 로 허용(4×4 px). 이상 = drop
@@ -1542,7 +1542,7 @@ area:                      # v7.4.0 back_and_forth D-0290 §3(감독 결정 D515
 
 bars:                      # v7.4.0 back_and_forth D-0303 §3(사용자 의견 UF-170 "주별 선거 결과 … 막대그래프로 직관적으로", DECISIONS D525) — engine/layers/bars.py. 설계 px(480p)
   # 지도 위 작은 막대 상자(이야기 안에 박힌 데이터 — 기준 작품 문법). 막대 길이 = pct/100 × 막대 폭(모든 주 같은 축척). 연출은 side·rows 만(픽셀 금지, P8)
-  box_w: 176
+  box_w: 196
   pad: 7
   row_h: 17
   bar_h: 8
@@ -1550,8 +1550,8 @@ bars:                      # v7.4.0 back_and_forth D-0303 §3(사용자 의견 U
   pct_w: 34                # 숫자 칸(오른쪽 정렬)
   name_size: 10
   pct_size: 10
-  src_size: 7.5
-  src_h: 11
+  src_size: 9.5            # = layout_480p.min_font_px(glyph_size hard)
+  src_h: 13
   radius: 5
   gap_px: 16               # 앵커 점 ↔ 상자 간격
   bg_a: 0.9                # 바탕 = 지도 테마 halo 색(light 흰빛·dark 어둠)

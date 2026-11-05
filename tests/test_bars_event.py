@@ -98,7 +98,8 @@ class BarsRenderTest(unittest.TestCase):
         st = stage()
         v = view(st, lon=-99.0, lat=31.5)
         e = ev(lon=-99.0 + 16.0 * (W_OUT / 2 - 20) / W_OUT)   # 앵커가 오른쪽 끝 20px 안 — right 는 화면 밖
-        x, _ = v.to_screen(e["lon"], e["lat"])
+        x, y = v.to_screen(*st.to_world(lon=e["lon"], lat=e["lat"]))
+        self.assertAlmostEqual(y, H_OUT / 2, delta=1.0)   # 위도 = 메르카토르 월드 좌표로(무대 변환)
         self.assertGreater(x, W_OUT - 30)
         b, ok = bars_box(v, e)
         self.assertTrue(ok)

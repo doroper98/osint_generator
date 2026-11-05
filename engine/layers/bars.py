@@ -48,9 +48,14 @@ def _fits(b: tuple[float, float, float, float]) -> bool:
     return not (b[0] < DATE_BOX[2] and b[2] > DATE_BOX[0] and b[1] < DATE_BOX[3] and b[3] > DATE_BOX[1])
 
 
+def anchor_world(view: View, e: dict) -> tuple[float, float]:
+    """앵커 월드 좌표 — 렌더 전 attach_world 가 붙인 world, 없으면(검사·시험) 무대가 lon·lat 에서 바꾼다(좌표 변환은 무대만, 15 P1)."""
+    return e["world"] if e.get("world") is not None else view.stage.to_world(lon=e["lon"], lat=e["lat"])
+
+
 def bars_box(view: View, e: dict) -> tuple[tuple[float, float, float, float], bool]:
     """(상자, 화면 안 여부). 연출 side 를 먼저, 안 맞으면 side_order 차례(결정적)."""
-    x, y = view.to_screen(e["lon"], e["lat"])
+    x, y = view.to_screen(*anchor_world(view, e))
     w, h = box_size(e)
     order = [e.get("side") or "right"] + [s for s in B.side_order if s != (e.get("side") or "right")]
     for s in order:
@@ -112,4 +117,4 @@ def draw_bars(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -
     R.reserved.append((x0, y0, x1, y1))
 
 
-__all__ = ["bars_box", "box_size", "draw_bars"]
+__all__ = ["anchor_world", "bars_box", "box_size", "draw_bars"]

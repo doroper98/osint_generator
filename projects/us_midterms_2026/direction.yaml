@@ -76,6 +76,9 @@ places:
   east:
   - -81.0
   - 34.3
+  pa_s:
+  - -77.6
+  - 40.2
   fl_n:
   - -82.4
   - 29.9
@@ -878,7 +881,7 @@ events:
   at_place: ks
   label: 캔자스
   sub: 1932년 이후 첫 민주 상원
-  side: left
+  side: top
   hl: true
   claims:
   - clm_0026
@@ -1145,7 +1148,7 @@ events:
     sid: act4_8
     'off': 0.5
     edge: end
-  at_place: pa
+  at_place: pa_s
   label: 펜실베이니아
   sub: 1993년 이후 민주 주지사·양원
   side: right
@@ -1371,11 +1374,11 @@ events:
     'off': 0.3
     edge: end
   at_place: tx
-  side: below
+  side: left
   race: senate
   code: US-TX
   status: called
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  src: 엔비씨 집계 · 11월 5일 오전
   rows:
   - name: 탈라리코
     col: dem
@@ -1396,7 +1399,7 @@ events:
   race: senate
   code: US-KS
   status: called
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  src: 엔비씨 집계 · 11월 5일 오전
   rows:
   - name: 해밀턴
     col: dem
@@ -1417,7 +1420,7 @@ events:
   race: senate
   code: US-SC
   status: called
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  src: 엔비씨 집계 · 11월 5일 오전
   rows:
   - name: 앤드루스
     col: dem
@@ -1438,7 +1441,7 @@ events:
   race: senate
   code: US-IA
   status: called
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  src: 엔비씨 집계 · 11월 5일 오전
   rows:
   - name: 투렉
     col: dem
@@ -1459,7 +1462,7 @@ events:
   race: senate
   code: US-OH
   status: called
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  src: 엔비씨 집계 · 11월 5일 오전
   rows:
   - name: 브라운
     col: dem
@@ -1480,7 +1483,7 @@ events:
   race: senate
   code: US-NC
   status: called
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  src: 엔비씨 집계 · 11월 5일 오전
   rows:
   - name: 쿠퍼
     col: dem
@@ -1501,7 +1504,7 @@ events:
   race: senate
   code: US-ME
   status: called
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  src: 엔비씨 집계 · 11월 5일 오전
   rows:
   - name: 잭슨
     col: dem
@@ -1515,14 +1518,14 @@ events:
     'off': 3.9
   end:
     sid: act2_17
-    'off': 0.3
+    'off': 0.8
     edge: end
   at_place: ga
   side: right
   race: senate
   code: US-GA
   status: called
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  src: 엔비씨 집계 · 11월 5일 오전
   rows:
   - name: 오소프
     col: dem
@@ -1536,14 +1539,14 @@ events:
     'off': 3.9
   end:
     sid: act2_17
-    'off': 0.3
+    'off': 0.8
     edge: end
   at_place: mi
   side: right
   race: senate
   code: US-MI
   status: called
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  src: 엔비씨 집계 · 11월 5일 오전
   rows:
   - name: 엘세이드
     col: dem
@@ -1564,7 +1567,7 @@ events:
   race: senate
   code: US-MS
   status: counting
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST · NBC 집계 95.6%
+  src: 엔비씨 집계 · 11월 5일 오전 95.6%
   rows:
   - name: 콜롬
     col: dem
@@ -1585,7 +1588,7 @@ events:
   race: senate
   code: US-AK
   status: counting
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST · NBC 집계 74.4%
+  src: 엔비씨 집계 · 11월 5일 오전 74.4%
   rows:
   - name: 펠톨라
     col: dem
@@ -1598,7 +1601,7 @@ events:
     sid: act3_6
     'off': 1.1
   end:
-    sid: act3_6
+    sid: act3_7
     'off': 0.3
     edge: end
   at_place: ks
@@ -1606,7 +1609,7 @@ events:
   race: governor
   code: US-KS
   status: counting
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST · NBC 집계 98.8%
+  src: 엔비씨 집계 · 11월 5일 오전 98.8%
   rows:
   - name: 홀셔
     col: dem
@@ -1616,10 +1619,10 @@ events:
     pct: 49.7
 - type: bars
   start:
-    sid: act4_2
-    'off': 2.0300000000000002
+    sid: act4_3
+    'off': 0.5
   end:
-    sid: act4_2
+    sid: act4_3
     'off': 0.3
     edge: end
   at_place: tx
@@ -1627,7 +1630,7 @@ events:
   race: governor
   code: US-TX
   status: called
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  src: 엔비씨 집계 · 11월 5일 오전
   rows:
   - name: 이노호사
     col: dem
@@ -1648,7 +1651,7 @@ events:
   race: governor
   code: US-NV
   status: called
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  src: 엔비씨 집계 · 11월 5일 오전
   rows:
   - name: 포드
     col: dem
@@ -1669,7 +1672,7 @@ events:
   race: governor
   code: US-IA
   status: called
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  src: 엔비씨 집계 · 11월 5일 오전
   rows:
   - name: 샌드
     col: dem
@@ -1690,7 +1693,7 @@ events:
   race: governor
   code: US-FL
   status: called
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  src: 엔비씨 집계 · 11월 5일 오전
   rows:
   - name: 도널즈
     col: rep
@@ -1880,10 +1883,10 @@ events:
 - type: photo
   mid: us_midterms_2026_hinojosa
   start:
-    sid: act4_3
+    sid: act4_2
     'off': 0.3
   end:
-    sid: act4_3
+    sid: act4_2
     'off': 0.3
     edge: end
   x: 227.0

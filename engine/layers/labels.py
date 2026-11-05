@@ -146,7 +146,7 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
         ctx.set_source_rgba(*th.city_dot.edge, th.city_dot.edge_alpha * la)
         ctx.set_line_width(0.8)
         ctx.stroke()
-        text(ctx, nm, x + 5, y + 4, size, "sansb" if cap else "sansm", th.city_label, 0.82 * la, halo, "l", halo_rgb=hr, contrast="required")
+        text(ctx, nm, x + 5, y + 4, size, "sansb" if cap else "sansm", th.city_label, (0.82 if mc is None else mc.alpha) * la, halo, "l", halo_rgb=hr, contrast="required")
         placed.append((x - 3, y - 8, x + w + 7, y + 5))
         drawn.append(_lb(placed[-1], nm, "city"))
         n += 1
