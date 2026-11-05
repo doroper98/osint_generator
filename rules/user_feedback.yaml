@@ -2800,3 +2800,15 @@ entries:
   status: guarded
   decision: "D-0632(back_and_forth) — 프리뷰 자료 → approve --gate preview_approval(by user UF-265) → 720p 전편 즉시, 감독 병행 확인"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-05"
+- id: UF-266
+  date: '2026-11-06'
+  project: cannae_216bc
+  at: "칸나이 프리뷰 v1 감독 합격 뒤, 구현 세션의 approve --gate preview_approval 이 그 세션 권한 장치(Self-Approval)에 막혀 사용자에게 구현 세션 직접 입력을 요청(16:55Z)하고 약 6시간 미입력 — 전편 미착수 상태"
+  quote: "영상 내놔"
+  quote_kind: verbatim
+  category: "전달 — 완성본 재촉(재발). 사전 승인을 받은 게이트를 다른 세션 권한 장치가 막아 사용자에게 세션을 옮겨 다시 입력하게 한 절차 마찰이 원인. 사전 승인은 처음부터 기록할 세션에서 받도록 절차를 고친다"
+  recurs_of: UF-264
+  guards: []
+  status: open
+  decision: "감독 판단(DECISIONS D747) — 이번 영상은 사용자가 구현 세션에 한 줄 입력하는 길만 남음(권한 장치 우회 금지). 전달 뒤 PIPELINE-AP 기록과 절차 장치(게이트 사전 승인은 기록 세션에서 직접 받기)"
+  source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-06"
