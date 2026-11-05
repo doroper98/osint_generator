@@ -97,6 +97,7 @@ class StageSignatureTest(unittest.TestCase):
 
         classes = [c for m in (stage, stage_backdrop, stage_timeline) for _, c in inspect.getmembers(m, inspect.isclass)
                    if c.__module__ == m.__name__ and "draw_labels" in c.__dict__]
+        classes += [c for c in stage.STAGE_CLASSES.values() if c not in classes]   # 등록된 무대 전부(RENDER-AP-032)
         self.assertGreaterEqual(len(classes), 3)
         for c in classes:
             self.assertIn("t", inspect.signature(c.draw_labels).parameters, c.__name__)

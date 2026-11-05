@@ -310,3 +310,12 @@ last_review: 2026-05-23
 - **원칙**: 글꼴에 없는 글자는 같은 굵기 대체 글꼴로 그린다(원고·데이터 불변). 글리프 대조는 표본 시각과 상관없이 위험 문자열을 가진 모든 이벤트를 실제로 그려 본다.
 - **자동 조치**: rules `fonts.glyph_fallback {disp: sansbb, dispm: sansb}`(typography.fallback_runs), 프리뷰·콘티 판 `glyph_sweep`(공통 cmap 밖 글자를 가진 이벤트마다 한 프레임, 파일 저장 없음) → checks glyphs hard. 시험 `tests/test_v740_outlet_glyph.py::GlyphFallbackTest`.
 - **발견 버전**: v7.4.0 · **상태**: active
+
+## RENDER-AP-032 — 무대 프로토콜 서명 변경(draw_labels 에 t)이 STAGE_CLASSES 전부에 전파되지 않아 timeline·backdrop 렌더가 TypeError
+
+- **증상(실제 현상)**: v7.4.0 D-0311(UF-175 숏 단위 라벨 일정)에서 `engine/render.py` 가 `R.stage.draw_labels(ctx, view, reserved, alpha, t)` 로 부르게 바꿨는데, `MercatorStage` 만 `t` 를 받았다. `TimelineStage`·`BackdropStage`·`Stage` 프로토콜은 옛 서명 그대로 → timeline·backdrop 무대 영상은 렌더에서 `TypeError: … takes from 4 to 5 positional arguments but 6 were given`. us_midterms_2026 전편(mercator)·골든 e2e 는 통과해 놓쳤고, 전체 pytest 시한 초과 파일(test_g8_animatic)의 시험 단위 재실행에서 드러났다(R-0314).
+- **원리**: 무대는 `STAGE_CLASSES` 레지스트리로 고르는 다형 구조인데, 서명은 정적 검사·시험 어느 쪽도 무대 전부를 대조하지 않았다. 변경 세션은 자기 영상의 무대만 렌더해 확인했다.
+- **원칙**: Protocol(`engine.stage.Stage`) 메서드 서명을 바꾸면 **무대 전부 + 서명 시험을 한 커밋에** 넣는다. 확인 렌더는 쓰는 무대 하나가 아니라 등록된 무대마다 한 컷.
+- **자동 조치**: 모든 무대 `draw_labels(…, t=None)`(cfff6aa0) + `tests/test_label_stability.py::StageSignatureTest`(STAGE_CLASSES 전부 t 인자 확인 — 수정 전 실패 증명).
+- **발견 버전**: v7.4.0 · **상태**: active
+
