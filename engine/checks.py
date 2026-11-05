@@ -20,7 +20,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | narration_clarity_note | warning | 위와 같은 판정 — hard_genres 밖 장르. D349 뒤 등록 장르에서는 0(경로는 남김) |
 | battle_sfx | hard | v7.4.0 D-0627 §2-5·D-0629 §2(UF-258) — 연출 sound.cues kind battle: 소리 종류가 rules audio.battle_sfx.kinds 안, 쓰는 녹음 레지스트리 항목이 녹음·허용 라이선스·파일 sha1 일치, units 가 부대 기록(forces)에 있고 그 병종 표(unit_sounds)에 이 소리가 있음(칸나이 활·투석 소리 금지), CC BY 원천은 엔딩 크레딧 sfx 행, 크레딧 sfx 행은 실제로 쓰는 원천만 `[battle-sfx]` |
 | battle_sfx_missing | hard | 위와 같은 장치 — 전쟁사 terrain3d 구간이 있는데 battle 큐가 없다. v7.4.0 D-0630 §3 사용자 채택(UF-262)으로 warning → hard(전쟁사 장르만 대상) |
-| bgm_highlight | warning | v7.4.0 D-0630 §4(UF-263) — 전쟁사 영상에 깔린 곡 초마다 원곡 세기(녹음 RMS)를 재어 상위 rules audio.qa.bgm_highlight.top_frac 가 전투 구간(battle 큐 범위, 없으면 terrain3d 구간)에 min_overlap 미만으로 들면 `[bgm-highlight]`(프리뷰 판정 뒤 hard 여부) |
+| bgm_highlight | warning | v7.4.0 D-0630 §4(UF-263) — 전쟁사 영상에 깔린 곡 초마다 원곡 세기(녹음 RMS)를 재어 상위 rules audio.qa.bgm_highlight.top_frac 가 전투 구간(battle 큐가 든 terrain3d 구간 처음~끝, 사이 컷어웨이 포함)에 min_overlap 미만으로 들면 `[bgm-highlight]`(프리뷰 판정 뒤 hard 여부) |
 | bgm_edit_credit | hard | v7.4.0 D-0630 §4 — 연출 sound.bgm 에 곡 안 시작점(src, 악구 이어 붙이기)이 있으면 credits.yaml 그 곡 music 행에 edit(편집 사실)가 있어야 `[bgm-edit-credit]` |
 | basemap_upscale | hard | v7.4.0 D-0630 §2(UF-261 "지도가 확대될때 해상도가 크게 낮아지네") — 모든 테마·렌더 경로. 지도 무대 화면 장치 px/도 ÷ 지형 원천 실효 px/도(engine.stage.MercatorStage.upscale_ratio — 고른 티어 레벨과 타일 줌 고유 해상도 중 작은 값) > rules qa_checks.basemap_upscale.max_ratio 가 max_sec 넘게 이어지면 `[basemap-upscale]`. terrain3d 구간·패널 동안 제외 |
 | date_jump | hard | v7.4.0 D-0619 ⑤·D-0622 — 문장 날짜 표지가 앞뒤 문장 날짜 범위 밖으로 튀고, 그 문장 동안 뜬 작품·기록 카드의 연대(created)와도 겹치지 않으면 `[date-jump]`. 처음·끝 문장은 이웃이 하나라 대상 밖 |
@@ -1530,6 +1530,18 @@ def bgm_source_times(segs: list[dict], ts: "np.ndarray") -> "np.ndarray":
     return srcs[k] + ts - np.where(k == 0, 0.0, starts[k])
 
 
+def battle_window(cues: list[tuple[float, float]], segs: list[tuple[float, float]]) -> list[tuple[float, float]]:
+    """전투 구간 — battle 큐가 든 terrain3d 구간의 처음 들어감 ~ 마지막 나옴(사이 카드 컷어웨이 포함, 한 덩어리 전투 서사).
+    구간이 없으면 큐 범위 전체, 큐가 없으면 terrain3d 구간 그대로."""
+    if cues and segs:
+        hit = [(a, b) for a, b in segs if any(ca < b and cb > a for ca, cb in cues)]
+        if hit:
+            return [(min(a for a, _ in hit), max(b for _, b in hit))]
+    if cues:
+        return [(min(a for a, _ in cues), max(b for _, b in cues))]
+    return list(segs)
+
+
 def bgm_highlight_overlap(src_db: "np.ndarray", segs: list[dict], total: float, battle: list[tuple[float, float]]) -> tuple[float, list[float]]:
     """(하이라이트 중 전투 구간 안 비율, 하이라이트 영상 시각 목록). src_db = 원곡 window_sec 창 세기(dB)."""
     cfg = R_.audio.qa.bgm_highlight
@@ -1556,9 +1568,9 @@ def check_bgm_highlight(P) -> list[str]:  # noqa: ANN001, N803
     w = int(cfg.window_sec * SR)
     n = len(y) // w
     src_db = 20 * np.log10(np.sqrt(np.mean(y[: n * w].reshape(n, w) ** 2, 1)) + 1e-9)
-    cues = [c for c in P.R.cache.get("sound_cues") or [] if c.get("kind") == "battle"]
-    battle = [(float(c["t"]), float(c["t"]) + float(c.get("dur") or 0)) for c in cues] or \
-             [(s.t_in, s.t_out) for s in (P.R.cache.get("terrain3d_segments") or [])]
+    battle = battle_window([(float(c["t"]), float(c["t"]) + float(c.get("dur") or 0))
+                            for c in P.R.cache.get("sound_cues") or [] if c.get("kind") == "battle"],
+                           [(s.t_in, s.t_out) for s in (P.R.cache.get("terrain3d_segments") or [])])
     if not battle:
         return []
     frac, _ = bgm_highlight_overlap(src_db, segs, P.plan.total, battle)

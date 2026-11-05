@@ -72,6 +72,13 @@ class BgmHighlightTest(unittest.TestCase):
         frac0, _ = C.bgm_highlight_overlap(src_db, [{"t": 0.0, "src": 0.0}], 372.0, battle)   # 옮기기 전(v2): 하이라이트가 전투 밖
         self.assertLess(frac0, load_rules().audio.qa.bgm_highlight.min_overlap)
 
+    def test_battle_window(self) -> None:
+        segs = [(113.5, 143.5), (152.8, 166.4), (174.4, 230.2), (240.9, 256.3)]
+        cues = [(178.5, 190.9), (240.6, 253.9)]
+        self.assertEqual(C.battle_window(cues, segs), [(174.4, 256.3)])   # 사이 트럼불 카드 컷어웨이 포함
+        self.assertEqual(C.battle_window(cues, []), [(178.5, 253.9)])
+        self.assertEqual(C.battle_window([], segs), segs)
+
     def test_edit_credit(self) -> None:
         cr = NS(sections=[NS(items=[CreditItem.model_validate({"music": "music.beethoven_coriolan"})])])
         P = NS(R=NS(cache={"bgm_list": [{"id": "music.beethoven_coriolan", "t": 0.0}, {"id": "music.beethoven_coriolan", "t": 173.1, "src": 328.25}]}, credits=cr))  # noqa: N806
