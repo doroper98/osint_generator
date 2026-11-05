@@ -1,8 +1,8 @@
 # us_midterms_2026 direction v1 뼈대 (v7.4.0, D-0290 §5) — area 는 data/state_results.yaml 에서 생성(동→서 경도 순 delay). 미디어는 등록 뒤.
 version: 1
-media_note: 'UF-148 card 0. 사진 26장 가운데 큰 액자(인물 우선 D-0292 §2.2, 개표 중 주는 의사당). 기사 카드 11(60초당 ≤2, 문장 매체 이름과 같은 매체만 — UF-130). 정당 공식 로고 emblem 뱃지 5회(cold_2·act1 앞뒤·act2 텍사스·act4 플로리다) — 사용자 지시 UF-165·D519 권리
-  예외, 비공개 시청 한정. 알래스카 의사당 사진은 act3_4 versus 패널과 겹쳐 등록하지 않았다. 클립 0(c-span.org 403 봇 차단, 우회 안 함). · 콘티 판 v1: Wikimedia 429 대기로 아직 못 받은 자산 8건(collins, cooper, jackson, jeffries, ms_capitol, ossoff, sand, sc_capitol)
-  — 그 문장의 이벤트를 빼고 지도·패널로 진행, 전편 전에 채운다(D-0298 §1-2).'
+media_note: 'UF-148 card 0. 사진 이벤트 19(가운데 큰 액자 — 인물 우선 D-0292 §2.2, 개표 중 주는 의사당; 받은 원본 17 + 공용 트럼프 1, 하원 본회의장 2회). 기사 카드 9(60초당 ≤2, 문장 매체 이름과 같은 매체만 — UF-130). 정당 공식 로고 emblem 뱃지 4회(cold_2 민주·act1_5 민주(D-0301
+  ①)·act2_2 민주·act4_7 공화) — 사용자 지시 UF-165·D519 권리 예외, 비공개 시청 한정. 알래스카 의사당 사진은 act3_4 versus 패널과 겹쳐 쓰지 않는다. 클립 0(c-span.org 403 봇 차단, 우회 안 함). · 콘티 판 v1: Wikimedia 429 대기로 아직 못 받은 자산 8건(collins, cooper,
+  jackson, jeffries, ms_capitol, ossoff, sand, sc_capitol) — 그 문장의 이벤트를 빼고 지도·패널로 진행, 전편 전에 채운다(D-0298 §1-2).'
 stage_config:
   mercator:
     theme: light
@@ -1036,7 +1036,7 @@ events:
     sid: act3_4
     'off': 0.2
   end:
-    sid: act3_5
+    sid: act3_4
     'off': 0.4
     edge: end
   title: 알래스카 상원 1순위
@@ -1450,9 +1450,9 @@ events:
   w: 400.0
 - type: badge
   kind: emblem
-  img: rep_party
-  label: 공화당
-  accent: rep
+  img: dem_party
+  label: 민주당
+  accent: dem
   start:
     sid: act1_5
     'off': 0.1
@@ -1602,7 +1602,7 @@ events:
   mid: us_midterms_2026_rcv_count_1937
   start:
     sid: act3_5
-    'off': 0.3
+    'off': 1.0
   end:
     sid: act3_5
     'off': 0.3
