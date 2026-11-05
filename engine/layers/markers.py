@@ -46,6 +46,12 @@ def icon(ctx: cairo.Context, kind: str, x: float, y: float, col: tuple, a: float
         ctx.stroke()
 
 
+def sub_key(stage: object) -> str:
+    """마커 부제 색 토큰 — 주 이름 표기 모드가 marker_sub ink 면 테마 white(잉크), 아니면 gold_text(v7.3·골든). v7.4.0 D-0304(D526)."""
+    md = getattr(stage, "admin1_mode", None)
+    return "white" if md is not None and md.marker_sub == "ink" else "gold_text"
+
+
 _SIDE = {"right": (12, 4, "l"), "left": (-12, 4, "r"), "top": (0, -14, "c"), "bottom": (0, 22, "c")}
 
 
@@ -164,7 +170,7 @@ def _draw_pin_label(ctx: cairo.Context, R: RenderCtx, view: View, lt: float, a: 
     by = y0 + MK.label_size
     text(ctx, e["label"], cx, by, MK.label_size, "sansb", map_c(view.stage, "white"), la, 3.2, "c", **hk, contrast="required")
     if e.get("sub"):
-        text(ctx, e["sub"], cx, by + MK.sub_dy, MK.sub_size, "sansm", map_c(view.stage, "gold_text"), la, 3, "c", **hk, contrast="required")
+        text(ctx, e["sub"], cx, by + MK.sub_dy, MK.sub_size, "sansm", map_c(view.stage, sub_key(view.stage)), la, 3, "c", **hk, contrast="required")
     R.reserved.append((x0, y0, x1, y1))
 
 
@@ -203,6 +209,6 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     text(ctx, e["label"], x + dx + shift, y + dy, MK.label_size, "sansb", map_c(view.stage, "white"), la, 3.2, anc, **hk,
          contrast="required")
     if e.get("sub"):
-        text(ctx, e["sub"], x + dx + shift, y + dy + MK.sub_dy, MK.sub_size, "sansm", map_c(view.stage, "gold_text"), la, 3, anc, **hk,
+        text(ctx, e["sub"], x + dx + shift, y + dy + MK.sub_dy, MK.sub_size, "sansm", map_c(view.stage, sub_key(view.stage)), la, 3, anc, **hk,
              contrast="required")
     R.reserved.append(box)

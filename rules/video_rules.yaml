@@ -1043,6 +1043,7 @@ labels:                    # 04 §6·§7
       alpha: 0.9
       halo: 0.9
       halo_a: 0.5
+      marker_sub: ink          # v7.4.0 back_and_forth D-0304(DECISIONS D526) — 마커 부제를 잉크색(테마 white 토큰)으로. 주 채움(dem·rep) 위 금색 부제 대비 미달(R-0306 실측) — halo 는 키우지 않는다(UF-168)
       cities: {max_per_frame: 6, foreign: false, capitals_only_above_w: 40, size: 9.5, halo: 0.6, alpha: 1.0}   # alpha 1.0 — 얇은 테두리에서 대비(map_contrast) 확보
 
 geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계(geo.prep)

@@ -151,6 +151,13 @@ class Admin1ModeTest(unittest.TestCase):
         with self.assertRaises(StageError):
             stage(admin1_labels="loud")
 
+    def test_marker_sub_ink_only_in_prominent(self) -> None:
+        """D-0304(D526) — prominent 는 마커 부제 잉크(테마 white), subtle·골든은 gold_text 그대로."""
+        from engine.layers.markers import sub_key  # noqa: PLC0415
+
+        self.assertEqual(sub_key(stage()), "gold_text")
+        self.assertEqual(sub_key(stage(admin1_labels="prominent")), "white")
+
 
 if __name__ == "__main__":
     unittest.main()
