@@ -27,7 +27,7 @@ shots:
   - {at: {sid: cold_open_3}, mode: drift, dur: 14.0, camera: {lon: 15.2, lat: 41.4, w: 10.0}, reason: 작전 지도 천천히 훑기}
   - {at: {sid: prelude_0}, mode: move, dur: 6.0, camera: {lon: 16.75, lat: 41.4, w: 3.2}, reason: 칸나이 지명 유래 줄이 오른쪽으로 길다 — 중심을 동쪽에}
   - {at: {sid: prelude_5}, mode: drift, dur: 10.0, camera: {lon: 16.85, lat: 41.38, w: 3.2}}
-  - {at: {sid: prelude_10}, mode: move, dur: 7.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}}
+  - {at: {sid: prelude_10}, mode: move, dur: 5.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, reason: "D-0630 §2 — 확대 이동 5초(7초면 G·K 사이 늘림 1.0초, [basemap-upscale])"}
   - {at: {sid: deployment_1}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, stage: terrain3d, reason: "진형 중심(16.111·41.335)이 화면 가운데 — UF-255·D-0625"}
   - {at: {sid: deployment_8, 'off': 0.4}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, reason: "타니트 카드 — 3D 를 걷고 2D 지형 위 카드(전면 컷어웨이, D-0625 (나))"}
   - {at: {sid: deployment_10}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.1}, stage: terrain3d, reason: 카드가 걷힌 뒤 가운데 진형으로}
@@ -41,7 +41,7 @@ shots:
   - {at: {sid: encirclement_9}, mode: move, dur: 3.0, camera: {lon: 16.111, lat: 41.335, w: 0.105}, stage: terrain3d, reason: "궤도 되돌리기(기울어 커진 진형 상자가 자막 자리에 닿지 않게 w 0.105) — 칸나이 마을 자리는 진형을 가운데 둔 채 담기지 않아 뺀다(D-0625 §3-2)"}
   - {at: {sid: encirclement_11}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, reason: "트럼불 카드 — 2D 지형 위 카드(전면 컷어웨이, D-0625 (나))"}
   - {at: {sid: encirclement_12}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, stage: terrain3d, reason: 카드가 걷힌 뒤 가운데 진형으로 — 나올 때까지}
-  - {at: {sid: aftermath_0}, mode: move, dur: 6.0, camera: {lon: 15.9, lat: 41.45, w: 3.2}}
+  - {at: {sid: aftermath_0}, mode: move, dur: 5.3, camera: {lon: 15.9, lat: 41.45, w: 3.2}, reason: "D-0630 §2 — 축소 이동 5.3초(K 를 벗어난 직후 늘림 구간을 짧게, 속도 ≤ 1.3, [basemap-upscale])"}
   - {at: {sid: aftermath_2}, mode: drift, dur: 14.0, camera: {lon: 16.0, lat: 41.42, w: 3.2}}
   - {at: {sid: aftermath_8}, mode: move, dur: 3.5, camera: {lon: 13.8, lat: 42.4, w: 19.0}, reason: 타렌툼(남)·갈리아 키살피나(북) — 전장 밖으로}
   - {at: {sid: ending_0}, mode: move, dur: 6.0, camera: {lon: 16.0, lat: 41.2, w: 1.8}}
