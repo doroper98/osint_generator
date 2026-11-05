@@ -80,6 +80,18 @@ class ScriptVocab(_Strict):
     contrast_heads: list[str] = Field(min_length=1)     # 대조 접속어 문장 머리
     statement_verbs: list[str] = Field(min_length=1)    # 앞 문장이 발표·주장이면 [contrast-conjunction] 경고
     contrast_hint: str = Field(min_length=1)
+    # v7.4.0 D-0309(C12-2, UF-163·164·171·172·173)
+    election_markers: list[str] = Field(default_factory=list)
+    election_basics: Optional["ElectionBasics"] = None
+    counting_banned: list[str] = Field(default_factory=list)
+    counting_label: Optional[str] = None
+    outlet_display: dict[str, str] = Field(default_factory=dict)
+    symbol_terms: list[str] = Field(default_factory=list)
+
+
+class ElectionBasics(_Strict):
+    terms_all: list[list[str]] = Field(min_length=1)   # 각 묶음 중 하나씩 모두 들어 있는 문장
+    within_ratio: float = Field(gt=0, le=1)
 
 
 class TempoRules(_Strict):
@@ -1275,6 +1287,7 @@ class LabelRules(_Strict):
     capital_always: bool = False
     capital_always_max_w: Optional[float] = None
     # v7.4.0 back_and_forth D-0303 §1(사용자 의견 UF-167·168, DECISIONS D525) — 주 이름 표기 모드. 고르기 = direction stage_config.mercator.admin1_labels
+    small_text_halo_max: Optional[float] = None   # v7.4.0 D-0309(UF-168)
     admin1_modes: dict[str, Admin1Mode] = Field(default_factory=dict)
     admin1_mode_default: str = "subtle"
 
@@ -1282,6 +1295,13 @@ class LabelRules(_Strict):
     def _admin1(self) -> "LabelRules":
         if self.admin1_modes and self.admin1_mode_default not in self.admin1_modes:
             raise ValueError(f"labels.admin1_mode_default {self.admin1_mode_default!r} 가 admin1_modes 에 없다")
+        hm = self.small_text_halo_max
+        if hm is not None:   # UF-168 — 작은 지명 글자 흰 테두리 상한
+            for k, m in self.admin1_modes.items():
+                if k != "subtle" and m.size <= 10 and m.halo > hm:
+                    raise ValueError(f"labels.admin1_modes.{k}.halo {m.halo} > small_text_halo_max {hm}(UF-168)")
+                if m.cities is not None and m.cities.size <= 10 and m.cities.halo > hm:
+                    raise ValueError(f"labels.admin1_modes.{k}.cities.halo {m.cities.halo} > small_text_halo_max {hm}(UF-168)")
         return self
 
 
@@ -2408,6 +2428,13 @@ class AreaRules(_Strict):
     band_margin_pts: AreaBandMargin
     cols: list[str] = Field(min_length=1)
     data_file: str = Field(min_length=1)
+    outline_max_px: Optional[float] = None   # v7.4.0 D-0309(UF-169)
+
+    @model_validator(mode="after")
+    def _outline(self) -> "AreaRules":
+        if self.outline_max_px is not None and max(w for w, _ in self.outline) > self.outline_max_px:
+            raise ValueError(f"area.outline 가장 굵은 단 {max(w for w, _ in self.outline)} > outline_max_px {self.outline_max_px}(UF-169)")
+        return self
 
     @model_validator(mode="after")
     def _bands(self) -> "AreaRules":

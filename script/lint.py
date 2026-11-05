@@ -501,6 +501,38 @@ def vocab_issues(script: Script) -> list[LintIssue]:
         if head and j > 0 and any(v in flat[j - 1][1].text for v in V.statement_verbs):
             out.append(LintIssue(kind="contrast-conjunction", severity="warning", sid=sid, text=s.text,
                                  detail=f"앞 문장이 발표·주장인데 '{head}' 로 시작 — {V.contrast_hint}(UF-108)"))
+        for k, v in V.outlet_display.items():   # v7.4.0 D-0309(UF-171) — 화면 글자(text)엔 라틴 매체명, 음차는 tts 에만
+            if k in s.text:
+                out.append(LintIssue(kind="outlet-display", severity="error", sid=sid, text=s.text,
+                                     detail=f"자막에 매체 음차 '{k}' — 화면은 '{v}'(발음은 tts 에 '{k}', UF-171)"))
+    out += election_issues(script, flat)
+    return out
+
+
+def is_election(script: Script) -> bool:
+    """rules script_vocab.election_markers 가 제목·원고에 있으면 선거 영상(v7.4.0 D-0309)."""
+    V = load_rules().script_vocab  # noqa: N806
+    hay = " ".join([script.title or "", script.subtitle or ""] + [s.text for sc in script.scenes for s in sc.sentences])
+    return any(m in hay for m in V.election_markers)
+
+
+def election_issues(script: Script, flat: list) -> list[LintIssue]:
+    """v7.4.0 D-0309(C12-2) — 선거 영상: [election-basics-missing](UF-163 제도 설명) · [counting-wording](UF-172·173 '개표 중'·'미확정' 금지)."""
+    V = load_rules().script_vocab  # noqa: N806
+    if not flat or not is_election(script):
+        return []
+    out = []
+    for sid, s in flat:
+        for w in V.counting_banned:
+            if w in s.text or w in (s.tts or ""):
+                out.append(LintIssue(kind="counting-wording", severity="error", sid=sid, text=s.text,
+                                     detail=f"'{w}' — 선거 영상은 개표 진행 표현을 쓰지 않는다. 승자 발표 전 선두는 '{V.counting_label}'(UF-172·173)"))
+    B = V.election_basics  # noqa: N806
+    if B is not None:
+        head = flat[:max(1, int(len(flat) * B.within_ratio))]
+        if not any(all(any(t in s.text for t in grp) for grp in B.terms_all) for _, s in head):
+            out.append(LintIssue(kind="election-basics-missing", severity="error", sid="-", text="",
+                                 detail=f"앞 {int(B.within_ratio * 100)} % 안에 제도 설명(임기·무엇을 뽑는지) 문장이 없다 — {B.terms_all}(UF-163)"))
     return out
 
 

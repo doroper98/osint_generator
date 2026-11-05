@@ -2250,8 +2250,11 @@ entries:
   quote: 중간선거 의의에 대한 내용도 좀 추가해줘. 왜 하는지, 뭘 뽑는지 등
   quote_kind: verbatim
   category: 원고 구성 — 선거·제도 소재 영상은 "왜 하는가·무엇을 뽑는가" 제도 설명 막을 둔다(사실 1차 출처 — 헌법·연방법). 장치 = script_grammar 규칙 줄 + 린트(전달 뒤)
-  guards: []
-  status: open
+  guards:
+  - {kind: test, ref: tests/test_feedback_guards_uf163_173.py::ElectionBasicsTest::test_missing_basics_fails}
+  - {kind: rule, ref: script_vocab.election_basics}
+  - {kind: code, ref: script.lint.election_issues}
+  status: guarded
   decision: D-0294(감독 — 막 basics 신설 6~8문장, 1차 출처 미국 헌법 1조·수정 17조·2 U.S.C. §7·Federalist 52, 원고 v1.2 → 게이트 ① 재요청. 장치는 영상 전달 뒤 첫 작업)
   source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
 - id: UF-164
@@ -2261,8 +2264,11 @@ entries:
   quote: 민주 공화를 의미하는 그 당나귀와 코끼리 이미지도 보이게 되는거지?
   quote_kind: verbatim
   category: 미디어 계획 — 정당·진영이 주역인 영상은 그 상징(휘장·만평)을 화면에 둔다. 권리는 D5(상표 휘장 금지 — PD 만평·CC0 실루엣으로 대체)·D264 기록
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: symbol_media}
+  - {kind: rule, ref: script_vocab.symbol_terms}
+  - {kind: test, ref: tests/test_feedback_guards_uf163_173.py::SymbolMediaTest::test_no_media_fails}
+  status: guarded
   decision: D-0295(감독 — basics 막에 내스트 만평 2장(PD, 1870·1874)과 상징 유래 1~2문장, CC0 실루엣 emblem 뱃지로 파랑·빨강 범례. 공식 로고(상표)는 쓰지 않는다. 장치는 전달 뒤)
   source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
 - id: UF-165
@@ -2272,8 +2278,12 @@ entries:
   quote: 공식 로고를 띄워. 내가 지시한다
   quote_kind: verbatim
   category: 권리 예외(사용자 고유 결정) — 정당 공식 로고(상표)를 이 영상에 쓴다. D5(상표 휘장 대체) 의 사용자 예외, 권리는 D264 방식으로 기록(scope private_only, 상표 표기). 장치 = 예외는 레지스트리 권리 기록 + provenance 에 남는다(조용한 우회 금지)
-  guards: []
-  status: open
+  guards:
+  - {kind: test, ref: tests/test_party_logo_exception.py::PartyLogoExceptionTest::test_d519_only_party_logos}
+  - {kind: test, ref: tests/test_party_logo_exception.py::PartyLogoExceptionTest::test_provenance_records_exception}
+  - {kind: test, ref: tests/test_party_logo_exception.py::CreditsEmblemExceptionTest::test_restricted_emblem_needs_registered_exception}
+  - {kind: code, ref: schemas.emblem_models.decide_emblem}
+  status: guarded
   decision: 사용자 결정 D519(DECISIONS) · D-0296(감독 — DNC 당나귀·RNC 코끼리 공식 로고를 emblem 뱃지로, 권리 기록 trademarked·private_only·사유 UF-165, provenance rights_exceptions. 내스트 만평은 유래 장면에 그대로)
   source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
 - id: UF-166
@@ -2283,8 +2293,10 @@ entries:
   quote: 콘티 나한테 승인 받을 필요 없이 니가 검토해서 승인하고 완성본 직행해
   quote_kind: verbatim
   category: 작업 순서(사용자 위임) — 이 영상의 콘티 판 흐름 검토와 게이트 ② 승인을 감독(Fable)에게 위임, 완성본 직행. 콘티 판 자체는 코드 강제(require_animatic)라 만든다. 산출물은 그대로 사용자에게 전달(UF-144)
-  guards: []
-  status: open
+  guards:
+  - {kind: doc, ref: "back_and_forth/README.md#콘티 판 흐름 검토와 게이트 ② 승인을 감독이 대신한다"}
+  - {kind: code, ref: orchestrator.project_manager.require_animatic}
+  status: guarded
   decision: 사용자 결정 D521 · D-0299(감독 — 콘티 판 감독 검토 → 프리뷰 → 감독 approve --gate preview_approval --by fable '사용자 위임 UF-166' → 720p 전편 → 전달)
   source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
 - id: UF-167
@@ -2294,8 +2306,11 @@ entries:
   quote: 이번에는 도시 이름들 보다 주 이름이 표기 되면 좋겠어.
   quote_kind: verbatim
   category: 지도 라벨 — 주(admin-1) 단위 영상은 주 이름을 지도 라벨로 또렷이, 도시 이름은 줄인다(수도·주요 도시만, 외국 도시 제외). 장치 = stage_config admin1_labels 모드 + 규칙 키 + 검사(전달 뒤)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: admin1_label_missing}
+  - {kind: rule, ref: labels.admin1_modes.prominent}
+  - {kind: test, ref: tests/test_bars_event.py::Admin1ModeTest::test_modes}
+  status: guarded
   decision: D-0303(감독 — mercator stage_config admin1_labels prominent 모드 신설, 이 영상 적용)
   source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
 - id: UF-168
@@ -2305,8 +2320,10 @@ entries:
   quote: 그리고 흰색 테두리가 너무 작은 글씨에는 맞지 않는거 같아.
   quote_kind: verbatim
   category: 타이포 — light 테마 작은 지명 글자의 흰 halo 를 얇게/없앤다(글자 크기에 비례). 이 영상은 prominent 모드 값으로, 일반 규칙(light 테마 전체·골든 재기준)은 전달 뒤 결정
-  guards: []
-  status: open
+  guards:
+  - {kind: rule, ref: labels.small_text_halo_max}
+  - {kind: test, ref: tests/test_feedback_guards_uf163_173.py::LabelHaloTest::test_thick_small_halo_rejected}
+  status: guarded
   decision: D-0303(감독 — 모드 값으로 먼저 적용, light 테마 일반화는 D-0053 방식 골든 재기준과 함께 전달 뒤)
   source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
 - id: UF-169
@@ -2316,8 +2333,10 @@ entries:
   quote: 그리고 주를 나타내는 테두리 라인의 두께를 좀 얇게 해. 너무 투박해.
   quote_kind: verbatim
   category: area 외곽선 — 두께를 절반 안팎으로(rules area.outline). 장치 = 규칙 키 상한 + 테스트(전달 뒤)
-  guards: []
-  status: open
+  guards:
+  - {kind: rule, ref: area.outline_max_px}
+  - {kind: test, ref: tests/test_feedback_guards_uf163_173.py::AreaOutlineTest::test_old_thick_outline_rejected}
+  status: guarded
   decision: D-0303(감독 — outline 값 축소, 컷으로 확인 뒤 확정)
   source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
 - id: UF-170
@@ -2327,8 +2346,12 @@ entries:
   quote: 그리고 주별 선거 결과를 보여줄때 막대그래프로 직관적으로 인지할 수 있도록 보완해.
   quote_kind: verbatim
   category: 데이터 시각화 — 주별 득표 결과는 지도 위 막대(후보별 득표율, 정당색)로 보여 준다. 새 지도 요소 bars(값 = data/state_results.yaml, 검사 hard). 장치 = 레지스트리·검사·연출 문법(전달 뒤 원장 연결)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: bars}
+  - {kind: rule, ref: bars}
+  - {kind: test, ref: tests/test_bars_event.py::BarsRenderTest::test_bar_lengths_share_one_scale}
+  - {kind: test, ref: tests/test_bars_event.py::BarsChecksTest::test_data_mismatch}
+  status: guarded
   decision: D-0303(감독 — 새 이벤트 bars 신설, 주 투어·주지사·개표 중 주에 적용)
   source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
 - id: UF-171
@@ -2338,8 +2361,12 @@ entries:
   quote: 그리고 방송국 같은 명칭의 자막에는 엔비씨 가 아니라 NBC 로 표기 해줘
   quote_kind: verbatim
   category: 자막 표기 — 방송사·통신사 같은 매체 명칭은 화면(자막·패널·막대 출처 줄·엔딩 카드)에 라틴 표기(NBC·CBS·AP), 발음 텍스트(tts)는 한글 음차 그대로. 장치 = script 린트(text 의 매체 음차 금지, tts 는 반대) + 규칙 키 매체 표기표(전달 뒤)
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: screen_wording}
+  - {kind: rule, ref: script_vocab.outlet_display}
+  - {kind: test, ref: tests/test_feedback_guards_uf163_173.py::OutletDisplayTest::test_transliteration_in_text_fails}
+  - {kind: test, ref: tests/test_feedback_guards_uf163_173.py::OutletDisplayTest::test_screen_event_strings}
+  status: guarded
   decision: 사용자 결정 D528 · D-0306(감독 — 표시 텍스트만 v1.3, tts·plan 불변, 렌더 재시작)
   source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
 - id: UF-172
@@ -2349,8 +2376,12 @@ entries:
   quote: 아 참 그리고 이미 선거는 끝났고 개표까지 끝났으니 뭐 개표중이라던지 하는 문구는 빼야 해
   quote_kind: verbatim
   category: '원고·라벨 문구 — "개표 중" 표현을 쓰지 않는다. 사실 대조(감독 2026-11-05 20:00 KST): AP 미콜 4곳(MS·AK 상원, KS·AK 주지사)은 "확정되지 않았다/미확정" 으로 사실에 맞게 표기(G4 — 확정처럼 쓰지 않는다). 장치 = 라벨 문구 규칙 키(status counting 표기 = "미확정") + 원고 린트 금지어(전달 뒤)'
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: screen_wording}
+  - {kind: rule, ref: script_vocab.counting_banned}
+  - {kind: test, ref: tests/test_feedback_guards_uf163_173.py::CountingWordingTest::test_counting_in_text_or_tts_fails}
+  - {kind: test, ref: tests/test_feedback_guards_uf163_173.py::CountingWordingTest::test_screen_wording_counting}
+  status: guarded
   decision: 사용자 결정 D529(감독 사실 대조 첨부) · D-0307(감독 — 문구 교체·집계 시각 갱신·음성 재합성 문장만·전편 재시작)
   source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
 - id: UF-173
@@ -2360,8 +2391,11 @@ entries:
   quote: 아니 미확정이 아니고 사실상 유력으로 정정해.
   quote_kind: verbatim
   category: 원고·라벨 문구(사용자 결정) — AP 미콜 레이스는 "미확정" 이 아니라 선두 후보 "사실상 유력" 으로 표기. 선두 후보명·표 차·득표율은 화면에 그대로, AP 미콜 사실은 엔딩 카드 표기 행에만(D85). 장치 = counting 표기 규칙 키 값 "유력" + 원고 린트(전달 뒤)
-  guards: []
-  status: open
+  guards:
+  - {kind: rule, ref: script_vocab.counting_label}
+  - {kind: rule, ref: bars.counting_note}
+  - {kind: test, ref: tests/test_feedback_guards_uf163_173.py::CountingWordingTest::test_label_is_likely_everywhere}
+  status: guarded
   decision: 사용자 결정 D530 · D-0308(감독 — D-0307 §1·§2 의 "미확정/확정되지 않았다" 를 "사실상 유력/유력" 으로 대체)
   source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
 - id: UF-174

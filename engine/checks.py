@@ -111,10 +111,10 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "element_gap", "label_banned_terms", "badge_hold", "area", "bars")   # bars v7.4.0 D-0303 §3. area v7.4.0 D-0290 §3-5. element_gap·label_banned_terms·badge_hold v7.4.0 UF-160~162, cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "element_gap", "label_banned_terms", "badge_hold", "area", "bars", "screen_wording", "symbol_media")   # screen_wording·symbol_media v7.4.0 D-0309(UF-164·171~173). bars v7.4.0 D-0303 §3. area v7.4.0 D-0290 §3-5. element_gap·label_banned_terms·badge_hold v7.4.0 UF-160~162, cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
-        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "area_dense", "bars_no_camera")   # bars_no_camera v7.4.0 D-0303. area_dense v7.4.0 D-0290. ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
+        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "area_dense", "bars_no_camera", "admin1_label_missing")   # admin1_label_missing v7.4.0 D-0309(UF-167). bars_no_camera v7.4.0 D-0303. area_dense v7.4.0 D-0290. ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
 
 def missing_fonts() -> list[str]:
@@ -2220,6 +2220,9 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "area_dense": lambda: area_dense(P.events),   # v7.4.0 D-0290 §3-5(warning)
         "bars": lambda: check_bars(P),   # v7.4.0 D-0303 §3(hard, UF-170) — 득표율 막대 정직성·자리
         "bars_no_camera": lambda: bars_no_camera(P),   # v7.4.0 D-0303 §3(warning)
+        "screen_wording": lambda: screen_wording(P.events, _is_election(P)),   # v7.4.0 D-0309(hard, UF-171·172·173)
+        "symbol_media": lambda: symbol_media(P.plan.sentences, P.events),   # v7.4.0 D-0309(hard, UF-164)
+        "admin1_label_missing": lambda: admin1_label_missing(P),   # v7.4.0 D-0309(warning, UF-167)
         "plot_height": lambda: check_plot_height(P),
         "axis_empty_band": lambda: check_axis_empty_band(P),   # v7.4.0 D-0277 §3(hard, UF-142)
         "clip_frame": lambda: check_clip_frame(P),   # v7.4.0 D-0274 §2①②(hard, UF-141)
@@ -2837,6 +2840,81 @@ def bars_no_camera(P) -> list[str]:  # noqa: ANN001, N803
         if not (0 <= x <= W_OUT and 0 <= y <= H_OUT):
             out.append(f"[bars-no-camera] bars t={e['t0']:.1f} {e['code']} — 그 주가 화면 밖({x:.0f},{y:.0f})")
     return out
+
+
+SCREEN_TEXT_SKIP = ("mid", "img", "pid", "type", "kind", "code", "flag", "at_place", "accent", "side", "race", "status", "col", "band", "id", "theme")
+
+
+def _event_strings(o: object, key: str = "") -> "list[str]":
+    """이벤트 dict 안 화면 글자 후보 문자열(식별자 키 제외)."""
+    if isinstance(o, str):
+        return [] if key in SCREEN_TEXT_SKIP else [o]
+    if isinstance(o, dict):
+        return [x for k, v in o.items() for x in _event_strings(v, k)]
+    if isinstance(o, (list, tuple)):
+        return [x for v in o for x in _event_strings(v, key)]
+    return []
+
+
+def screen_wording(events: list[dict], election: bool) -> list[str]:
+    """[screen-wording] hard(v7.4.0 D-0309, UF-171·172·173) — 화면 이벤트 글자에 매체 음차(script_vocab.outlet_display 키) 금지,
+    선거 영상이면 개표 진행 표현(script_vocab.counting_banned) 금지. 자막(원고 text)은 script.lint 가 같은 값으로 잡는다."""
+    V = R_.script_vocab  # noqa: N806
+    out = []
+    for e in events:
+        for txt in _event_strings(e):
+            for k, v in V.outlet_display.items():
+                if k in txt:
+                    out.append(f"[screen-wording] {e['type']} t={e['t0']:.1f} '{k}' → '{v}'(화면은 라틴 매체명, UF-171): {txt[:40]}")
+            if election:
+                for w in V.counting_banned:
+                    if w in txt:
+                        out.append(f"[screen-wording] {e['type']} t={e['t0']:.1f} '{w}' — 선거 영상 화면에 개표 진행 표현 금지, 선두 = '{V.counting_label}'(UF-172·173): {txt[:40]}")
+    return out
+
+
+def symbol_media(sentences: list, events: list[dict]) -> list[str]:
+    """[symbol-media-missing] hard(v7.4.0 D-0309, UF-164 "당나귀와 코끼리 이미지도 보이게") — script_vocab.symbol_terms 가 나오는 문장 구간에
+    사진·영상·컷아웃·휘장 뱃지가 하나도 없으면 실패."""
+    V = R_.script_vocab  # noqa: N806
+    out = []
+    for s in sentences:
+        hit = [w for w in V.symbol_terms if w in s.text]
+        if not hit:
+            continue
+        ok = any(e["t0"] < s.t1 and s.t0 < e["t1"] and (e["type"] in ("photo", "clip", "cutout") or (e["type"] == "badge" and e.get("kind") == "emblem"))
+                 for e in events)
+        if not ok:
+            out.append(f"[symbol-media-missing] {s.sid} '{'·'.join(hit)}' — 상징을 말하는 문장에 그 상징 사진·만평·휘장이 없다(UF-164)")
+    return out
+
+
+def admin1_label_missing(P) -> list[str]:  # noqa: ANN001, N803
+    """[admin1-label-missing] warning(v7.4.0 D-0309, UF-167) — 주 이름 모드 prominent 인데 카메라 폭 ≤ 20 인 문장 가운데 시각에
+    화면 안에 들어오는 주 이름 기준점이 하나도 없다(주 단위 투어인데 주 이름이 안 보인다)."""
+    st = P.R.stage
+    md = getattr(st, "admin1_mode_name", None)
+    if md != "prominent" or P.cams is None:
+        return []
+    lab = getattr(getattr(st, "assets", None), "labels", None)
+    countries = list(getattr(lab, "province_countries", []) or [])
+    out = []
+    for s in P.plan.sentences:
+        t = (s.t0 + s.t1) / 2
+        v = View(st, P.cams[min(P.n_frames - 1, max(0, int(t * FPS)))])
+        if v.w > 20:
+            continue
+        pts = [v.to_screen(*ad["xy"]) for k in countries for ad in st.adm.get(k, []) if ad["xy"] is not None]
+        if not any(20 < x < W_OUT - 20 and 60 < y < H_OUT - 70 for x, y in pts):
+            out.append(f"[admin1-label-missing] {s.sid} t={t:.1f} w={v.w:.1f} — 주 이름이 화면에 없다(UF-167)")
+    return out
+
+
+def _is_election(P) -> bool:  # noqa: ANN001, N803
+    """원고(plan 문장)·제목에 rules script_vocab.election_markers 가 있으면 선거 영상."""
+    V = R_.script_vocab  # noqa: N806
+    hay = " ".join([getattr(P.plan, "title", "") or ""] + [s.text for s in P.plan.sentences])
+    return any(m in hay for m in V.election_markers)
 
 
 def check_chart_edge_bleed(P) -> list[str]:  # noqa: ANN001, N803

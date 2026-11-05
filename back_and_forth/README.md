@@ -191,6 +191,7 @@ python back_and_forth/check.py --me opus --next-id         # 내가 쓸 다음 �
 - pass 직후 **Fable이 main을 fast-forward한다**: `git push origin overhaul/v2-map-engine:main` (ff만, 실패하면 멈추고 원인을 D에 기록). 그다음 다음 Phase 착수 `directive`를 낸다.
 - **태그는 두 세션 모두 원격 푸시가 막혀 있다(403).** 대신 `docs/handoff/TAGS_PENDING.md`에 `버전 → 커밋`을 한 줄씩 append한다. 사용자가 원할 때 PC에서 한꺼번에 올리면 되고, 올리지 않아도 진행에 영향이 없다.
 - 사용자가 대화나 `from: user` D로 Phase를 멈추거나 되돌리면 그 지시가 우선한다.
+- (각주, 사용자 의견 UF-166·결정 D521 — v7.4.0) 사용자가 위임하면 **콘티 판 흐름 검토와 게이트 ② 승인을 감독이 대신한다**. 콘티 판은 그대로 만들고(`require_animatic`, 건너뛰지 않는다), 승인 명령은 구현 세션이 치지 않고 감독이 감독 컨테이너에서 `--by fable` 로 기록한다. 위임은 그 영상에 한정된다.
 
 ## 7. 금지 항목과 Fable 전결 (사용자 지시 2026-09-27)
 
