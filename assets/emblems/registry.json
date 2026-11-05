@@ -140,6 +140,38 @@
    "fetched_at": "2026-10-04T02:05:10Z",
    "user_exception": "U20261004",
    "exception_scope": "나토(북대서양조약기구)가 발언·행위 주체인 문장의 식별 표시 전용, 무가공, 엔딩 크레딧 표기"
+  },
+  "dem_party": {
+   "file": "dem_party.png",
+   "title": "File:US Democratic Party 2025 logo (profile).svg",
+   "license": "Public domain",
+   "author": "Democratic National Committee",
+   "restrictions": [
+    "trademarked"
+   ],
+   "decision": "use",
+   "reason": "user_exception D519: restrictions trademarked — 용도 한정",
+   "fallback_flag": "us",
+   "source_url": "https://commons.wikimedia.org/wiki/File:US_Democratic_Party_2025_logo_(profile).svg",
+   "fetched_at": "2026-11-05T03:42:00Z",
+   "user_exception": "D519",
+   "exception_scope": "us_midterms_2026 정당 범례 뱃지 전용(민주당), 비공개 시청 한정(D264 private_only), 무가공(정사각 여백만), 엔딩 권리 행 표기 — 공개 배포 전 재확인"
+  },
+  "rep_party": {
+   "file": "rep_party.png",
+   "title": "File:Republicanlogo.svg",
+   "license": "Public domain",
+   "author": "Republican Party (United States)",
+   "restrictions": [
+    "trademarked"
+   ],
+   "decision": "use",
+   "reason": "user_exception D519: restrictions trademarked — 용도 한정",
+   "fallback_flag": "us",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Republicanlogo.svg",
+   "fetched_at": "2026-11-05T03:53:15Z",
+   "user_exception": "D519",
+   "exception_scope": "us_midterms_2026 정당 범례 뱃지 전용(공화당), 비공개 시청 한정(D264 private_only), 무가공(정사각 여백만), 엔딩 권리 행 표기 — 공개 배포 전 재확인"
   }
  }
 }

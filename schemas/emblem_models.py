@@ -56,6 +56,11 @@ def person_exception_ok(pid: str, user_exception: Optional[str]) -> bool:
     return user_exception is not None and pid in USER_EXCEPTIONS.get(user_exception, frozenset())
 
 
+def emblem_exception_ok(eid: str, user_exception: Optional[str]) -> bool:
+    """휘장 권리 항목의 사용자 예외가 USER_EXCEPTIONS 에 그 휘장 id 로 등록돼 있는가(v7.4.0 D519). 예외 없는 restricted 는 False."""
+    return user_exception is not None and eid in USER_EXCEPTIONS.get(user_exception, frozenset())
+
+
 def press_exception_ok(user_exception: Optional[str]) -> bool:
     """미디어 사진의 사용자 예외가 보도 인용 범주(press_quote)인가(v5.21.0 D-0177). 예외 없는 restricted 사진은 False."""
     return user_exception is not None and PRESS_QUOTE in USER_EXCEPTIONS.get(user_exception, frozenset())

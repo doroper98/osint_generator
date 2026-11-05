@@ -4,8 +4,8 @@
   "title": "뒤집힌 일곱 자리 — 2026 미국 중간선거",
   "category": "geopolitics",
   "created_at": "2026-11-05T00:40:19.301806Z",
-  "updated_at": "2026-11-05T03:37:55.662671Z",
-  "current_state": "voice_timeline",
+  "updated_at": "2026-11-05T04:19:18.351467Z",
+  "current_state": "preview_qa",
   "target_duration_min": 18,
   "topic_summary": "2026-11-03 미국 중간선거 결과 — 주별 상원·주지사·하원 결과, 격전지, 역사 맥락(대통령 당 중간선거 성적)",
   "initial_links": [],
@@ -48,7 +48,160 @@
       "chosen_version": null
     }
   ],
-  "stage_records": [],
+  "stage_records": [
+    {
+      "state": "voice_timeline",
+      "stage": "plan",
+      "ok": true,
+      "at": "2026-11-05T04:00:16.091603Z",
+      "artifacts": {
+        "plan": "/home/user/osint_generator/projects/us_midterms_2026/plan.json",
+        "tts": "/home/user/osint_generator/projects/us_midterms_2026/tts"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/01_plan.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets",
+      "ok": true,
+      "at": "2026-11-05T04:01:06.787303Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/us_midterms_2026/assets",
+        "report": "/home/user/osint_generator/projects/us_midterms_2026/assets/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/02_assets.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets_final",
+      "ok": true,
+      "at": "2026-11-05T04:02:46.010841Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/us_midterms_2026/assets/res_720p",
+        "report": "/home/user/osint_generator/projects/us_midterms_2026/assets/res_720p/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/03_assets_final.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-11-05T04:04:31.725935Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/us_midterms_2026/script.yaml",
+        "label_counts": "{\"verified\": 38, \"corroborated\": 20, \"unverified\": 21, \"disputed\": 0}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/04_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": false,
+      "at": "2026-11-05T04:05:27.654395Z",
+      "artifacts": {},
+      "errors": [
+        "이벤트 검증 실패(렌더 시작 전):\n[7] panel: 2 validation errors for PanelDots\nhighlight\n  Input should be less than or equal to 100 [type=less_than_equal, input_value=242, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.13/v/less_than_equal\ntotal\n  Input should be less than or equal to 100 [type=less_than_equal, input_value=435, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.13/v/less_than_equal"
+      ],
+      "drops": 0,
+      "log": "logs/stages/05_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-11-05T04:07:17.950212Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/us_midterms_2026/script.yaml",
+        "label_counts": "{\"verified\": 38, \"corroborated\": 20, \"unverified\": 21, \"disputed\": 0}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/06_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": false,
+      "at": "2026-11-05T04:08:55.242086Z",
+      "artifacts": {},
+      "errors": [
+        "렌더 전 점검 실패:\n권리 레지스트리에 인물 없음: trump (badge t0=149.82)\n권리 레지스트리에 인물 없음: trump (badge t0=538.98)\n자산 없음: /home/user/osint_generator/projects/us_midterms_2026/assets/flags/us_1x1.png (키 flag11:us)\n자산 없음: /home/user/osint_generator/projects/us_midterms_2026/assets/flags/us_4x3.png (키 flag43:us)\n자산 없음: /home/user/osint_generator/projects/us_midterms_2026/assets/portraits/trump.png (키 portrait:trump)"
+      ],
+      "drops": 0,
+      "log": "logs/stages/07_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-11-05T04:10:57.626914Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/us_midterms_2026/script.yaml",
+        "label_counts": "{\"verified\": 38, \"corroborated\": 20, \"unverified\": 21, \"disputed\": 0}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/08_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": false,
+      "at": "2026-11-05T04:12:33.793040Z",
+      "artifacts": {},
+      "errors": [
+        "크레딧·권리 점검 실패:\n엔딩 크레딧 누락: emblems.dem_party\n엔딩 크레딧 누락: emblems.rep_party\n엔딩 크레딧 누락: media.us_midterms_2026_andrews\n엔딩 크레딧 누락: media.us_midterms_2026_art_0004\n엔딩 크레딧 누락: media.us_midterms_2026_art_0010\n엔딩 크레딧 누락: media.us_midterms_2026_art_0011\n엔딩 크레딧 누락: media.us_midterms_2026_art_0015\n엔딩 크레딧 누락: media.us_midterms_2026_art_0026\n엔딩 크레딧 누락: media.us_midterms_2026_art_0028\n엔딩 크레딧 누락: media.us_midterms_2026_art_0029\n엔딩 크레딧 누락: media.us_midterms_2026_art_0031\n엔딩 크레딧 누락: media.us_midterms_2026_art_0033\n엔딩 크레딧 누락: media.us_midterms_2026_art_0035\n엔딩 크레딧 누락: media.us_midterms_2026_art_0037\n엔딩 크레딧 누락: media.us_midterms_2026_capitol_night\n엔딩 크레딧 누락: media.us_midterms_2026_hamilton_rally\n엔딩 크레딧 누락: media.us_midterms_2026_house_chamber\n엔딩 크레딧 누락: media.us_midterms_2026_marshall\n엔딩 크레딧 누락: media.us_midterms_2026_nast_donkey_1870\n엔딩 크레딧 누락: media.us_midterms_2026_nast_elephant_1874\n엔딩 크레딧 누락: media.us_midterms_2026_talarico_rally"
+      ],
+      "drops": 0,
+      "log": "logs/stages/09_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-11-05T04:14:30.449005Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/us_midterms_2026/script.yaml",
+        "label_counts": "{\"verified\": 38, \"corroborated\": 20, \"unverified\": 21, \"disputed\": 0}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/10_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-11-05T04:16:53.510248Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/us_midterms_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 25, \"events\": 59, \"frames\": 14216}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/11_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": true,
+      "at": "2026-11-05T04:19:18.349174Z",
+      "artifacts": {
+        "camera_suggest": "/home/user/osint_generator/projects/us_midterms_2026/prev/camera_suggest.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/12_camera_suggest.json"
+    }
+  ],
   "final_outputs": {},
   "state_history": [
     {
@@ -86,6 +239,24 @@
       "to_state": "voice_timeline",
       "transitioned_at": "2026-11-05T03:37:55.662626Z",
       "reason": "script_approval 승인 — user"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "assets",
+      "transitioned_at": "2026-11-05T04:00:16.094693Z",
+      "reason": "engine plan ok"
+    },
+    {
+      "from_state": "assets",
+      "to_state": "direction",
+      "transitioned_at": "2026-11-05T04:02:46.015959Z",
+      "reason": "engine assets, assets_final ok"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-11-05T04:19:18.351386Z",
+      "reason": "engine direction_validate, validate, camera_suggest ok"
     }
   ],
   "rollbacks": [],

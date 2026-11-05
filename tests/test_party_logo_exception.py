@@ -44,5 +44,16 @@ class PartyLogoExceptionTest(unittest.TestCase):
         self.assertEqual(got["rights_exceptions"]["dem_party"]["user_exception"], "D519")
 
 
+class CreditsEmblemExceptionTest(unittest.TestCase):
+    def test_restricted_emblem_needs_registered_exception(self) -> None:
+        """engine.credits.rights_exception — restricted 휘장은 D519 기록이 있고 그 id 일 때만 예외로 통과(나머지는 None → 권리 점검 실패)."""
+        from engine.credits import rights_exception  # noqa: PLC0415
+
+        ok = {"rights_status": "restricted", "user_exception": "D519", "exception": "정당 범례"}
+        self.assertEqual(rights_exception("emblems.dem_party", ok), "D519")
+        self.assertIsNone(rights_exception("emblems.centcom", ok))
+        self.assertIsNone(rights_exception("emblems.dem_party", {"rights_status": "restricted"}))
+
+
 if __name__ == "__main__":
     unittest.main()

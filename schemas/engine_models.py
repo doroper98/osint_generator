@@ -74,6 +74,16 @@ class EmblemRights(_Strict):
     rights_status: Optional[RightsStatus] = None
     retrieved_at: Optional[str] = None
     processing: Optional[dict[str, object]] = None  # v5.5.0 — 원형 뱃지용 자르기 등 가공 기록(C9). 색·도형 가공은 금지
+    # v7.4.0 D519(UF-165) — restricted 휘장의 사용자 예외(schemas.emblem_models.USER_EXCEPTIONS). 예외가 있으면 사유 문구 필수
+    user_exception: Optional[str] = Field(default=None, pattern=r"^(D\d+|U\d{8})$")
+    exception: Optional[str] = None
+    scope: Optional[Literal["private_only"]] = None   # D264 비공개 시청 한정
+
+    @model_validator(mode="after")
+    def _exception_text(self) -> "EmblemRights":
+        if self.user_exception is not None and not self.exception:
+            raise ValueError(f"user_exception={self.user_exception} 에 exception(사유·조건) 없음")
+        return self
 
 
 class AssetRights(_Strict):

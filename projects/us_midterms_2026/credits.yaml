@@ -4,6 +4,66 @@ sections:
 - title: 보도 출처
   column: 0
   auto: press
+- title: 기사 카드
+  column: 0
+  items:
+  - main: 헤드라인 번역·요지 자체 조판(위 보도)
+    license: 기사 화면 캡처·로고 없음
+    rights:
+    - media.us_midterms_2026_art_0004
+    - media.us_midterms_2026_art_0015
+    - media.us_midterms_2026_art_0028
+    - media.us_midterms_2026_art_0037
+    - media.us_midterms_2026_art_0033
+    - media.us_midterms_2026_art_0035
+    - media.us_midterms_2026_art_0029
+    - media.us_midterms_2026_art_0031
+    - media.us_midterms_2026_art_0010
+    - media.us_midterms_2026_art_0026
+    - media.us_midterms_2026_art_0011
+- title: 사진
+  column: 0
+  items:
+  - main: 미국 연방 의사당 야경
+    license: Otávio Astor Vaz Costa (CC0)
+    rights:
+    - media.us_midterms_2026_capitol_night
+  - main: 연방 하원 본회의장
+    license: United States House of Representatives… · Public domain
+    rights:
+    - media.us_midterms_2026_house_chamber
+  - main: 토머스 내스트 만평(하퍼스 위클리, 1870. 01)
+    license: Thomas Nast · Public domain
+    rights:
+    - media.us_midterms_2026_nast_donkey_1870
+  - main: 토머스 내스트 만평(하퍼스 위클리, 1874. 11)
+    license: Thomas Nast · Public domain
+    rights:
+    - media.us_midterms_2026_nast_elephant_1874
+  - main: 제임스 탈라리코 유세
+    license: H. Michael Karshis (CC BY 4.0)
+    rights:
+    - media.us_midterms_2026_talarico_rally
+  - main: 애덤 해밀턴 유세(캔자스 뉴턴, 2026. 10. 30)
+    license: Leoniceno (CC0)
+    rights:
+    - media.us_midterms_2026_hamilton_rally
+  - main: 로저 마셜 의원 공식 사진
+    license: Eric Connolly, U.S. House Office of Ph… · Public domain
+    rights:
+    - media.us_midterms_2026_marshall
+  - main: 애니 앤드루스 후보
+    license: Stimpus1 (CC0)
+    rights:
+    - media.us_midterms_2026_andrews
+- title: 정당 로고
+  column: 1
+  items:
+  - main: 민주당·공화당 공식 로고
+    license: 각 당 상표 · 비공개 시청 한정(D264) · 사용자 지시 D519
+    rights:
+    - emblems.dem_party
+    - emblems.rep_party
 - title: 글꼴
   column: 1
   auto: fonts

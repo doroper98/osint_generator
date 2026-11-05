@@ -277,7 +277,7 @@ def description_credits(rights: dict, required: set[str], rules: Optional[Credit
 def rights_exception(ref: str, entry: dict) -> Optional[str]:
     """restricted 자산의 등록된 사용자 예외 번호 — 없으면 None. restricted 만.
     인물(people.<id>, v5.15.0 D-0160) = 인물 id 예외, 미디어(media.<mid>, v5.21.0 D-0177) = 보도 인용 사진(press_of)의 범주 예외 press_quote."""
-    from schemas.emblem_models import person_exception_ok, press_exception_ok  # noqa: PLC0415
+    from schemas.emblem_models import emblem_exception_ok, person_exception_ok, press_exception_ok  # noqa: PLC0415
 
     kind, _, key = ref.partition(".")
     ue = entry.get("user_exception")
@@ -286,6 +286,8 @@ def rights_exception(ref: str, entry: dict) -> Optional[str]:
     if kind == "people" and person_exception_ok(key, ue):
         return ue
     if kind == "media" and entry.get("press_of") and press_exception_ok(ue):
+        return ue
+    if kind == "emblems" and emblem_exception_ok(key, ue):   # v7.4.0 D519 — 정당 공식 로고
         return ue
     return None
 

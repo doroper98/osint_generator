@@ -8042,6 +8042,318 @@
    "sub": "민주당 당나귀·공화당 코끼리는 토머스 내스트가 하퍼스 위클리에 그린 만…",
    "note": "헤드라인 번역 · 원문 영어",
    "headline_original": "The Third-Term Controversy That Gave the Republican Party Its Symbol"
+  },
+  "us_midterms_2026_capitol_night": {
+   "kind": "photo",
+   "title": "File:View of the United States Capitol at night from Union Square.jpg",
+   "license": "CC0",
+   "author": "Otávio Astor Vaz Costa",
+   "credit_author": "Otávio Astor Vaz Costa (CC0)",
+   "date": "2019-08-18",
+   "url": "https://commons.wikimedia.org/wiki/File:View_of_the_United_States_Capitol_at_night_from_Union_Square.jpg",
+   "caption": "미국 연방 의사당 야경",
+   "file_note": "자료사진",
+   "depicts": [
+    "워싱턴 D.C. 연방 의사당(야간, 유니언 스퀘어에서)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·제한 대조(tools/commons_fetch.info), 원본 육안 확인(피사체·시기). 실사용 판정은 게이트 ②",
+    "on": "2026-11-05",
+    "casualty_free": true,
+    "relevance": "cold_1 '하원과 상원을 되찾았다' — 의회 건물"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-05",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "us_midterms_2026_capitol_night.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "d0d6fd2bc7d51ccd0f4bcc770aadbe97",
+   "file": "us_midterms_2026_capitol_night_720.jpg"
+  },
+  "us_midterms_2026_house_chamber": {
+   "kind": "photo",
+   "title": "File:United States House of Representatives chamber.jpg",
+   "license": "Public domain",
+   "author": "United States House of Representatives or Office of the Speaker of the House",
+   "credit_author": "United States House of Representatives… · Public domain",
+   "date": "2017-02-27",
+   "url": "https://commons.wikimedia.org/wiki/File:United_States_House_of_Representatives_chamber.jpg",
+   "caption": "연방 하원 본회의장",
+   "file_note": "자료사진",
+   "depicts": [
+    "미국 연방 하원 본회의장"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·제한 대조(tools/commons_fetch.info), 원본 육안 확인(피사체·시기). 실사용 판정은 게이트 ②",
+    "on": "2026-11-05",
+    "casualty_free": true,
+    "relevance": "basics_1 중간선거 뜻·하원 435석"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-05",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "us_midterms_2026_house_chamber.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "f99f64b63141ce3469364c9b88fc57cd",
+   "file": "us_midterms_2026_house_chamber_720.jpg"
+  },
+  "us_midterms_2026_nast_donkey_1870": {
+   "kind": "photo",
+   "title": "File:Democraticjackass.jpg",
+   "license": "Public domain",
+   "author": "Thomas Nast",
+   "credit_author": "Thomas Nast · Public domain",
+   "date": "1870-01-19",
+   "url": "https://commons.wikimedia.org/wiki/File:Democraticjackass.jpg",
+   "caption": "토머스 내스트 만평(하퍼스 위클리, 1870. 01)",
+   "file_note": "자료사진 · 1870. 01. 15",
+   "depicts": [
+    "토머스 내스트 'A Live Jackass Kicking a Dead Lion' — 당나귀(민주당 상징의 시작)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·제한 대조(tools/commons_fetch.info), 원본 육안 확인(피사체·시기). 실사용 판정은 게이트 ②",
+    "on": "2026-11-05",
+    "casualty_free": true,
+    "relevance": "basics_7 당나귀 상징 유래"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-05",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "us_midterms_2026_nast_donkey_1870.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "ac92d05b7ad5bd15be78cf99210f5fa3",
+   "file": "us_midterms_2026_nast_donkey_1870_720.jpg"
+  },
+  "us_midterms_2026_nast_elephant_1874": {
+   "kind": "photo",
+   "title": "File:NastRepublicanElephant.jpg",
+   "license": "Public domain",
+   "author": "Thomas Nast",
+   "credit_author": "Thomas Nast · Public domain",
+   "date": "1874-11-07",
+   "url": "https://commons.wikimedia.org/wiki/File:NastRepublicanElephant.jpg",
+   "caption": "토머스 내스트 만평(하퍼스 위클리, 1874. 11)",
+   "file_note": "자료사진 · 1874. 11. 07",
+   "depicts": [
+    "토머스 내스트 'The Third-Term Panic' — 코끼리(공화당 상징의 시작)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·제한 대조(tools/commons_fetch.info), 원본 육안 확인(피사체·시기). 실사용 판정은 게이트 ②",
+    "on": "2026-11-05",
+    "casualty_free": true,
+    "relevance": "basics_7 코끼리 상징 유래"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-05",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "us_midterms_2026_nast_elephant_1874.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "1654345b803e866c3bc920dee1ba3405",
+   "file": "us_midterms_2026_nast_elephant_1874_720.jpg"
+  },
+  "us_midterms_2026_talarico_rally": {
+   "kind": "photo",
+   "title": "File:¡Viva Democracy! Awesome turnout last night at the James Talarico Rally at The Backyard.jpg",
+   "license": "CC BY 4.0",
+   "author": "H. Michael Karshis",
+   "credit_author": "H. Michael Karshis (CC BY 4.0)",
+   "date": "2025-09-10",
+   "url": "https://commons.wikimedia.org/wiki/File:%C2%A1Viva_Democracy!_Awesome_turnout_last_night_at_the_James_Talarico_Rally_at_The_Backyard.jpg",
+   "caption": "제임스 탈라리코 유세",
+   "file_note": "자료사진",
+   "depicts": [
+    "텍사스 상원 민주당 후보 제임스 탈라리코 유세 현장"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·제한 대조(tools/commons_fetch.info), 원본 육안 확인(피사체·시기). 실사용 판정은 게이트 ②",
+    "on": "2026-11-05",
+    "casualty_free": true,
+    "relevance": "act2_3 탈라리코 승리"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-05",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "us_midterms_2026_talarico_rally.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "c738c4a3248242ed13b4e3e28f3d25dd",
+   "file": "us_midterms_2026_talarico_rally_720.jpg"
+  },
+  "us_midterms_2026_hamilton_rally": {
+   "kind": "photo",
+   "title": "File:Adam Hamilton campaign rally, Newton, Kansas, 30 Oct 2026.jpg",
+   "license": "CC0",
+   "author": "Leoniceno",
+   "credit_author": "Leoniceno (CC0)",
+   "date": "2026-10-30",
+   "url": "https://commons.wikimedia.org/wiki/File:Adam_Hamilton_campaign_rally,_Newton,_Kansas,_30_Oct_2026.jpg",
+   "caption": "애덤 해밀턴 유세(캔자스 뉴턴, 2026. 10. 30)",
+   "file_note": "2026. 10. 30",
+   "depicts": [
+    "캔자스 상원 민주당 후보 애덤 해밀턴 유세"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·제한 대조(tools/commons_fetch.info), 원본 육안 확인(피사체·시기). 실사용 판정은 게이트 ②",
+    "on": "2026-11-05",
+    "casualty_free": true,
+    "relevance": "act2_5 해밀턴 승리"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-05",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "us_midterms_2026_hamilton_rally.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "b7d3f25e1f8117bb89c0348cc30f5c6a",
+   "file": "us_midterms_2026_hamilton_rally_720.jpg"
+  },
+  "us_midterms_2026_marshall": {
+   "kind": "photo",
+   "title": "File:Roger Marshall official portrait.jpg",
+   "license": "Public domain",
+   "author": "Eric Connolly, U.S. House Office of Photography",
+   "credit_author": "Eric Connolly, U.S. House Office of Ph… · Public domain",
+   "date": "2017-06-29",
+   "url": "https://commons.wikimedia.org/wiki/File:Roger_Marshall_official_portrait.jpg",
+   "caption": "로저 마셜 의원 공식 사진",
+   "file_note": "자료사진",
+   "depicts": [
+    "로저 마셜 연방 상원의원(캔자스, 공화) 공식 초상"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·제한 대조(tools/commons_fetch.info), 원본 육안 확인(피사체·시기). 실사용 판정은 게이트 ②",
+    "on": "2026-11-05",
+    "casualty_free": true,
+    "relevance": "act2_6 현직 마셜 낙선"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-05",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "us_midterms_2026_marshall.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "267e0c2ce0021c349558a8f9c2df21ba",
+   "file": "us_midterms_2026_marshall_720.jpg"
+  },
+  "us_midterms_2026_andrews": {
+   "kind": "photo",
+   "title": "File:Annie Andrews Greenville.jpg",
+   "license": "CC0",
+   "author": "Stimpus1",
+   "credit_author": "Stimpus1 (CC0)",
+   "date": "2026-05-11",
+   "url": "https://commons.wikimedia.org/wiki/File:Annie_Andrews_Greenville.jpg",
+   "caption": "애니 앤드루스 후보",
+   "file_note": "자료사진",
+   "depicts": [
+    "사우스캐롤라이나 상원 민주당 후보 애니 앤드루스(그린빌)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·제한 대조(tools/commons_fetch.info), 원본 육안 확인(피사체·시기). 실사용 판정은 게이트 ②",
+    "on": "2026-11-05",
+    "casualty_free": true,
+    "relevance": "act2_8 앤드루스 승리"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-05",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "us_midterms_2026_andrews.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "47befe2504897c42ce22a84fe6e895b4",
+   "file": "us_midterms_2026_andrews_720.jpg"
   }
  }
 }

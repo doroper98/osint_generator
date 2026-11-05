@@ -1,6 +1,8 @@
 # us_midterms_2026 direction v1 뼈대 (v7.4.0, D-0290 §5) — area 는 data/state_results.yaml 에서 생성(동→서 경도 순 delay). 미디어는 등록 뒤.
 version: 1
-media_note: 미디어 등록 전 뼈대(게이트 ① 대기) — photo·article 은 등록 뒤 덧붙인다. card 0(UF-148).
+media_note: 'UF-148 card 0. 사진 26장 가운데 큰 액자(인물 우선 D-0292 §2.2, 개표 중 주는 의사당). 기사 카드 13(60초당 ≤2, 문장 매체 이름과 같은 매체만 — UF-130). 정당 공식 로고 emblem 뱃지 5회(cold_2·act1 앞뒤·act2 텍사스·act4 플로리다) — 사용자 지시 UF-165·D519 권리
+  예외, 비공개 시청 한정. 알래스카 의사당 사진은 act3_4 versus 패널과 겹쳐 등록하지 않았다. 클립 0(c-span.org 403 봇 차단, 우회 안 함). · 콘티 판 v1: Wikimedia 429 대기로 아직 못 받은 자산 17건(acton, bottoms, brown, collins, cooper, donalds, hinojosa, ia_capitol,
+  jackson, jeffries, ms_capitol, ossoff, pa_capitol, rcv_count_1937, sand, sc_capitol, senate_floor) — 그 문장의 이벤트를 빼고 지도·패널로 진행, 전편 전에 채운다(D-0298 §1-2).'
 stage_config:
   mercator:
     theme: light
@@ -468,7 +470,7 @@ events:
     status: counting
     delay: 5.0
   claims:
-  - clm_0012
+  - clm_0013
 - type: area
   start:
     sid: act4_0
@@ -660,7 +662,7 @@ events:
     status: called
     delay: 0.0
   claims:
-  - clm_0014
+  - clm_0015
 - type: badge
   start:
     sid: cold_3
@@ -760,9 +762,9 @@ events:
         'off': 2.5
     src: 엔비씨 집계 · 2026-11-05 09:30 KST
   claims:
-  - clm_0012
+  - clm_0013
 - type: panel
-  kind: dots
+  kind: versus
   start:
     sid: act1_3
     'off': -0.2
@@ -770,23 +772,24 @@ events:
     sid: act1_4
     'off': 0.6
     edge: end
-  title: 하원 435석
-  subtitle: 11월 5일 아침 확정 자리
-  provenance:
-    verification: verified
-    sources:
-    - 엔비씨 집계 · 11월 5일 09:30 KST
-  highlight: 242
-  total: 435
-  accent: dem
-  big: '242'
-  unit: 석
-  caption: 민주당 확정
-  detail: 과반 218
-  note_label: 공화당 151 · 미확정
-  note_value: 42곳
+  title: 하원 435석 · 과반 218
+  sides:
+  - title: 민주당 242석 확정
+    items:
+    - text: 과반 218 넘김
+      t:
+        sid: act1_3
+        'off': 0.4
+    src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  - title: 공화당 151석 확정
+    items:
+    - text: 미확정 42곳
+      t:
+        sid: act1_4
+        'off': 1.5
+    src: 엔비씨 집계 · 2026-11-05 09:30 KST
   claims:
-  - clm_0013
+  - clm_0014
 - type: badge
   start:
     sid: act1_9
@@ -816,7 +819,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0023
+  - clm_0024
 - type: marker
   start:
     sid: act2_5
@@ -831,7 +834,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0025
+  - clm_0026
 - type: marker
   start:
     sid: act2_7
@@ -846,7 +849,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0028
+  - clm_0029
 - type: marker
   start:
     sid: act2_10
@@ -861,7 +864,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0030
+  - clm_0031
 - type: marker
   start:
     sid: act2_11
@@ -876,7 +879,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0031
+  - clm_0032
 - type: marker
   start:
     sid: act2_13
@@ -891,7 +894,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0032
+  - clm_0033
 - type: marker
   start:
     sid: act2_14
@@ -906,7 +909,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0034
+  - clm_0035
 - type: marker
   start:
     sid: act2_17
@@ -921,7 +924,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0035
+  - clm_0036
 - type: marker
   start:
     sid: act2_17
@@ -936,7 +939,7 @@ events:
   side: left
   hl: false
   claims:
-  - clm_0036
+  - clm_0037
 - type: marker
   start:
     sid: act3_2
@@ -951,7 +954,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0037
+  - clm_0038
 - type: marker
   start:
     sid: act3_4
@@ -966,7 +969,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0042
+  - clm_0043
 - type: panel
   kind: versus
   start:
@@ -993,7 +996,7 @@ events:
         'off': 1.0
     src: 엔비씨 74% 집계
   claims:
-  - clm_0038
+  - clm_0039
 - type: marker
   start:
     sid: act3_6
@@ -1008,7 +1011,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0039
+  - clm_0040
 - type: marker
   start:
     sid: act4_2
@@ -1023,7 +1026,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0045
+  - clm_0046
 - type: marker
   start:
     sid: act4_4
@@ -1038,7 +1041,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0046
+  - clm_0047
 - type: marker
   start:
     sid: act4_5
@@ -1053,7 +1056,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0047
+  - clm_0048
 - type: marker
   start:
     sid: act4_6
@@ -1068,7 +1071,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0048
+  - clm_0049
 - type: marker
   start:
     sid: act4_6
@@ -1083,7 +1086,7 @@ events:
   side: left
   hl: false
   claims:
-  - clm_0049
+  - clm_0050
 - type: marker
   start:
     sid: act4_7
@@ -1098,7 +1101,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0050
+  - clm_0051
 - type: marker
   start:
     sid: act4_8
@@ -1113,7 +1116,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0051
+  - clm_0052
 - type: marker
   start:
     sid: act4_9
@@ -1128,7 +1131,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0043
+  - clm_0044
 - type: marker
   start:
     sid: act4_10
@@ -1143,7 +1146,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0044
+  - clm_0045
 - type: panel
   kind: precedent
   start:
@@ -1190,10 +1193,10 @@ events:
       'off': 0.2
     hl: true
   claims:
-  - clm_0011
-  - clm_0053
+  - clm_0012
   - clm_0054
   - clm_0055
+  - clm_0056
 - type: marker
   start:
     sid: act6_0
@@ -1208,7 +1211,7 @@ events:
   side: right
   hl: true
   claims:
-  - clm_0057
+  - clm_0058
 - type: quote
   start:
     sid: act6_2
@@ -1225,7 +1228,7 @@ events:
   accent: dem
   pos: center
   claims:
-  - clm_0059
+  - clm_0060
 - type: badge
   start:
     sid: act6_3
@@ -1241,6 +1244,276 @@ events:
   flag: us
   accent: rep
   place: map_lower_left
+- type: photo
+  mid: us_midterms_2026_capitol_night
+  start:
+    sid: cold_1
+    'off': 0.3
+  end:
+    sid: cold_1
+    'off': 0.3
+    edge: end
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: badge
+  kind: emblem
+  img: dem_party
+  label: 민주당
+  accent: dem
+  place: map_lower_left
+  start:
+    sid: cold_2
+    'off': 0.1
+  end:
+    sid: cold_3
+    'off': 0.5
+    edge: end
+- type: photo
+  mid: us_midterms_2026_house_chamber
+  start:
+    sid: basics_1
+    'off': 0.3
+  end:
+    sid: basics_1
+    'off': 0.3
+    edge: end
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: photo
+  mid: us_midterms_2026_nast_donkey_1870
+  start:
+    sid: basics_7
+    'off': 0.2
+  end:
+    sid: basics_7
+    'off': 5.0
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: photo
+  mid: us_midterms_2026_nast_elephant_1874
+  start:
+    sid: basics_7
+    'off': 5.2
+  end:
+    sid: basics_7
+    'off': 0.4
+    edge: end
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: badge
+  kind: emblem
+  img: dem_party
+  label: 민주당
+  accent: dem
+  place: map_lower_left
+  start:
+    sid: act1_0
+    'off': 0.1
+  end:
+    sid: act1_1
+    'off': 0.5
+    edge: end
+- type: badge
+  kind: emblem
+  img: rep_party
+  label: 공화당
+  accent: rep
+  place: map_lower_left
+  start:
+    sid: act1_3
+    'off': 0.1
+  end:
+    sid: act1_4
+    'off': 0.5
+    edge: end
+- type: article
+  mid: us_midterms_2026_art_0004
+  start:
+    sid: act1_8
+    'off': 0.2
+  end:
+    sid: act1_8
+    'off': 0.5
+    edge: end
+  theme: dark
+- type: article
+  mid: us_midterms_2026_art_0015
+  start:
+    sid: act1_10
+    'off': 0.2
+  end:
+    sid: act1_10
+    'off': 0.5
+    edge: end
+  theme: dark
+- type: badge
+  kind: emblem
+  img: dem_party
+  label: 민주당
+  accent: dem
+  place: map_lower_left
+  start:
+    sid: act2_2
+    'off': 0.1
+  end:
+    sid: act2_4
+    'off': 0.5
+    edge: end
+- type: photo
+  mid: us_midterms_2026_talarico_rally
+  start:
+    sid: act2_3
+    'off': 0.3
+  end:
+    sid: act2_3
+    'off': 0.3
+    edge: end
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: article
+  mid: us_midterms_2026_art_0028
+  start:
+    sid: act2_4
+    'off': 0.2
+  end:
+    sid: act2_4
+    'off': 0.5
+    edge: end
+  theme: dark
+- type: photo
+  mid: us_midterms_2026_hamilton_rally
+  start:
+    sid: act2_5
+    'off': 0.3
+  end:
+    sid: act2_5
+    'off': 0.3
+    edge: end
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: photo
+  mid: us_midterms_2026_marshall
+  start:
+    sid: act2_6
+    'off': 0.3
+  end:
+    sid: act2_6
+    'off': 0.2
+    edge: end
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: photo
+  mid: us_midterms_2026_andrews
+  start:
+    sid: act2_8
+    'off': 0.3
+  end:
+    sid: act2_8
+    'off': 0.3
+    edge: end
+  x: 227.0
+  y: 72.0
+  w: 400.0
+- type: article
+  mid: us_midterms_2026_art_0037
+  start:
+    sid: act2_9
+    'off': 0.2
+  end:
+    sid: act2_9
+    'off': 0.5
+    edge: end
+  theme: dark
+- type: article
+  mid: us_midterms_2026_art_0033
+  start:
+    sid: act3_3
+    'off': 0.2
+  end:
+    sid: act3_3
+    'off': 0.5
+    edge: end
+  theme: dark
+- type: article
+  mid: us_midterms_2026_art_0035
+  start:
+    sid: act3_6
+    'off': 0.2
+  end:
+    sid: act3_6
+    'off': 0.5
+    edge: end
+  theme: dark
+- type: article
+  mid: us_midterms_2026_art_0029
+  start:
+    sid: act4_3
+    'off': 0.2
+  end:
+    sid: act4_3
+    'off': 0.5
+    edge: end
+  theme: dark
+- type: badge
+  kind: emblem
+  img: rep_party
+  label: 공화당
+  accent: rep
+  place: map_lower_left
+  start:
+    sid: act4_7
+    'off': 0.1
+  end:
+    sid: act4_8
+    'off': 0.5
+    edge: end
+- type: article
+  mid: us_midterms_2026_art_0031
+  start:
+    sid: act4_9
+    'off': 0.2
+  end:
+    sid: act4_9
+    'off': 0.5
+    edge: end
+  theme: dark
+- type: article
+  mid: us_midterms_2026_art_0010
+  start:
+    sid: act4_10
+    'off': 0.2
+  end:
+    sid: act4_10
+    'off': 0.5
+    edge: end
+  theme: dark
+- type: article
+  mid: us_midterms_2026_art_0026
+  start:
+    sid: act6_3
+    'off': 0.2
+  end:
+    sid: act6_3
+    'off': 0.5
+    edge: end
+  theme: dark
+- type: article
+  mid: us_midterms_2026_art_0011
+  start:
+    sid: act6_4
+    'off': 0.2
+  end:
+    sid: act6_4
+    'off': 0.5
+    edge: end
+  theme: dark
 sound:
   bgm: music.zabriskie_mario_bava
   intensity:
