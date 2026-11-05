@@ -23,7 +23,7 @@ class CheongwadaeEmblemTest(unittest.TestCase):
         self.assertIn("insignia", e.restrictions)                      # 제한은 그대로 기록
         self.assertTrue(e.exception_scope and "청와대" in e.exception_scope)
         self.assertTrue(e.source_url.startswith("https://commons.wikimedia.org/"))
-        others = [k for k, v in reg.emblems.items() if v.restrictions and k not in ("cheongwadae", "nato")]   # nato = U20261004
+        others = [k for k, v in reg.emblems.items() if v.restrictions and k not in ("cheongwadae", "nato", "dem_party", "rep_party")]   # nato = U20261004 · 정당 로고 = 사용자 권리 예외 D519(us_midterms_2026)
         self.assertTrue(others)
         self.assertTrue(all(reg.emblems[k].decision == "flag_fallback" and reg.emblems[k].user_exception is None for k in others))
         self.assertEqual(USER_EXCEPTIONS, {"D98": frozenset({"cheongwadae"}), "U20261004": frozenset({"nato"}),
