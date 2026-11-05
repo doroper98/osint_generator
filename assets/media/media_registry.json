@@ -8432,6 +8432,279 @@
    },
    "source_hash": "80c3ac0175c0e526f546d75b38391818",
    "file": "us_midterms_2026_brown_720.jpg"
+  },
+  "us_midterms_2026_rcv_count_1937": {
+   "kind": "photo",
+   "title": "File:1937 election vote counting nyc stv.jpg",
+   "license": "Public domain",
+   "author": "The Washington daily news",
+   "credit_author": "The Washington daily news · Public domain",
+   "date": "1937-11-06",
+   "url": "https://commons.wikimedia.org/wiki/File:1937_election_vote_counting_nyc_stv.jpg",
+   "caption": "1937년 뉴욕 순위선택 개표",
+   "file_note": "자료사진 · 1937",
+   "depicts": [
+    "1937년 뉴욕시 순위선택(단기이양식) 개표 작업"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·제한 대조(tools/commons_fetch.info), 원본 육안 확인(피사체·시기). 실사용 판정은 게이트 ②",
+    "on": "2026-11-05",
+    "casualty_free": true,
+    "relevance": "act3_5 순위선택 집계 설명"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-05",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "us_midterms_2026_rcv_count_1937.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "c58c06b9b74dd6a9e2eb55fd86eed203",
+   "file": "us_midterms_2026_rcv_count_1937_720.jpg"
+  },
+  "us_midterms_2026_hinojosa": {
+   "kind": "photo",
+   "title": "File:Gina Hinojosa at the AFL-CIO COPE convention in 2024.jpg",
+   "license": "CC0",
+   "author": "RRC1701",
+   "credit_author": "RRC1701 (CC0)",
+   "date": "2024-01-28",
+   "url": "https://commons.wikimedia.org/wiki/File:Gina_Hinojosa_at_the_AFL-CIO_COPE_convention_in_2024.jpg",
+   "caption": "지나 이노호사 후보",
+   "file_note": "자료사진 · 2024",
+   "depicts": [
+    "텍사스 주지사 민주당 후보 지나 이노호사(2024 노동단체 대회)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·제한 대조(tools/commons_fetch.info), 원본 육안 확인(피사체·시기). 실사용 판정은 게이트 ②",
+    "on": "2026-11-05",
+    "casualty_free": true,
+    "relevance": "act4_2 이노호사 승리"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-05",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "us_midterms_2026_hinojosa.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "84f205deb83e140c46c62c38bbf359b0",
+   "file": "us_midterms_2026_hinojosa_720.jpg"
+  },
+  "us_midterms_2026_bottoms": {
+   "kind": "photo",
+   "title": "File:Keisha Lance Bottoms in 2025.jpg",
+   "license": "CC0",
+   "author": "Americandesigner",
+   "credit_author": "Americandesigner (CC0)",
+   "date": "2025-10-23",
+   "url": "https://commons.wikimedia.org/wiki/File:Keisha_Lance_Bottoms_in_2025.jpg",
+   "caption": "키샤 랜스 보텀스 후보",
+   "file_note": "자료사진 · 2025",
+   "depicts": [
+    "조지아 주지사 민주당 후보 키샤 랜스 보텀스"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·제한 대조(tools/commons_fetch.info), 원본 육안 확인(피사체·시기). 실사용 판정은 게이트 ②",
+    "on": "2026-11-05",
+    "casualty_free": true,
+    "relevance": "act4_4 보텀스 승리"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-05",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "us_midterms_2026_bottoms.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "ee9dfd28cae48b99eeed047fa6343330",
+   "file": "us_midterms_2026_bottoms_720.jpg"
+  },
+  "us_midterms_2026_acton": {
+   "kind": "photo",
+   "title": "File:Amy Acton.jpg",
+   "license": "Public domain",
+   "author": "U.S. Air National Guard photo by Senior Airman Gwendalyn Smith",
+   "credit_author": "U.S. Air National Guard photo by Senio… · Public domain",
+   "date": "2019-08-10",
+   "url": "https://commons.wikimedia.org/wiki/File:Amy_Acton.jpg",
+   "caption": "에이미 액턴 후보",
+   "file_note": "자료사진",
+   "depicts": [
+    "오하이오 주지사 민주당 후보 에이미 액턴(전 오하이오 보건국장)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·제한 대조(tools/commons_fetch.info), 원본 육안 확인(피사체·시기). 실사용 판정은 게이트 ②",
+    "on": "2026-11-05",
+    "casualty_free": true,
+    "relevance": "act4_5 액턴 승리"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-05",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "us_midterms_2026_acton.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "0398b25add6bda5c6de1e98b37703a9d",
+   "file": "us_midterms_2026_acton_720.jpg"
+  },
+  "us_midterms_2026_donalds": {
+   "kind": "photo",
+   "title": "File:Rep. Byron Donalds official photo, 117th Congress.jpg",
+   "license": "Public domain",
+   "author": "United States Congress",
+   "credit_author": "United States Congress · Public domain",
+   "date": "2021-01-01",
+   "url": "https://commons.wikimedia.org/wiki/File:Rep._Byron_Donalds_official_photo,_117th_Congress.jpg",
+   "caption": "바이런 도널즈 의원 공식 사진",
+   "file_note": "자료사진",
+   "depicts": [
+    "바이런 도널즈 연방 하원의원(플로리다, 공화) 공식 사진"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·제한 대조(tools/commons_fetch.info), 원본 육안 확인(피사체·시기). 실사용 판정은 게이트 ②",
+    "on": "2026-11-05",
+    "casualty_free": true,
+    "relevance": "act4_7 도널즈 승리"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-05",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "us_midterms_2026_donalds.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "bfbee7a6a699795e89fd896dca9554d8",
+   "file": "us_midterms_2026_donalds_720.jpg"
+  },
+  "us_midterms_2026_pa_capitol": {
+   "kind": "photo",
+   "title": "File:Harrisburg, Pennsylvania State Capitol Building.jpg",
+   "license": "CC BY 2.0",
+   "author": "kev72",
+   "credit_author": "kev72 (CC BY 2.0)",
+   "date": "2006-11-19",
+   "url": "https://commons.wikimedia.org/wiki/File:Harrisburg,_Pennsylvania_State_Capitol_Building.jpg",
+   "caption": "펜실베이니아 주 의사당",
+   "file_note": "자료사진",
+   "depicts": [
+    "펜실베이니아 주 의사당(해리스버그)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·제한 대조(tools/commons_fetch.info), 원본 육안 확인(피사체·시기). 실사용 판정은 게이트 ②",
+    "on": "2026-11-05",
+    "casualty_free": true,
+    "relevance": "act4_8 펜실베이니아 주의회"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-05",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "us_midterms_2026_pa_capitol.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "e49de50a24ed177917320de17f146e4a",
+   "file": "us_midterms_2026_pa_capitol_720.jpg"
+  },
+  "us_midterms_2026_senate_floor": {
+   "kind": "photo",
+   "title": "File:United States Senate Floor.jpg",
+   "license": "Public domain",
+   "author": "United States Senate",
+   "credit_author": "United States Senate · Public domain",
+   "date": "Unknown da",
+   "url": "https://commons.wikimedia.org/wiki/File:United_States_Senate_Floor.jpg",
+   "caption": "연방 상원 본회의장",
+   "file_note": "자료사진",
+   "depicts": [
+    "미국 연방 상원 본회의장"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·제한 대조(tools/commons_fetch.info), 원본 육안 확인(피사체·시기). 실사용 판정은 게이트 ②",
+    "on": "2026-11-05",
+    "casualty_free": true,
+    "relevance": "act6_0 새 의회 2027년 1월"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-05",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "us_midterms_2026_senate_floor.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "4f5ac5f02308afda370233b84f9253db",
+   "file": "us_midterms_2026_senate_floor_720.jpg"
   }
  }
 }
