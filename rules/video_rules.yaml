@@ -1563,7 +1563,7 @@ bars:                      # v7.4.0 back_and_forth D-0303 §3(사용자 의견 U
   fade_sec: 0.4
   hold_min_sec: 4.0        # [bars-hold] hard — 보이는 시간 하한
   counting_dash: [3.0, 2.0]   # status counting = 막대 끝 점선 덧그림 + 출처 줄에 counting_note
-  counting_note: "개표 중"
+  counting_note: "유력"      # v7.4.0 사용자 결정 UF-173·D530(D-0308) — AP 승자 발표 전 선두 = "유력"(UF-172 "개표 중" 금지)
   side_order: [right, left, below, above]   # 연출 side 가 화면 밖이면 이 차례로 첫 맞는 자리(결정적). 다 벗어나면 [bars-offscreen] hard
   safe_margin_px: 6
   cols: [dem, rep, muted]
