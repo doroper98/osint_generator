@@ -74,6 +74,9 @@ places:
   east:
   - -81.0
   - 34.3
+  fl_n:
+  - -82.4
+  - 29.9
 shots:
 - at: 0
   mode: cut
@@ -312,9 +315,9 @@ shots:
   mode: drift
   dur: 33.31
   camera:
-    lon: -77.6
-    lat: 38.7
-    w: 9.6
+    lon: -77.45
+    lat: 38.85
+    w: 10.0
   reason: 6막 새 의회·전망 문장 — 워싱턴 위 느린 궤도 훑기(정지 방지 UF-120)
 - at:
     sid: ending_0
@@ -1152,7 +1155,7 @@ events:
     sid: act4_7
     'off': 0.5
     edge: end
-  at_place: fl
+  at_place: fl_n
   label: 플로리다
   sub: 플로리다 첫 흑인 주지사
   side: top
