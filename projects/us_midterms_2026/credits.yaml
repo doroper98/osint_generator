@@ -34,13 +34,10 @@ sections:
     license: Otávio Astor Vaz Costa (CC0)
     rights:
     - media.us_midterms_2026_capitol_night
-  - main: 토머스 내스트 만평(하퍼스 위클리, 1870. 01)
+  - main: 토머스 내스트 만평 2점(하퍼스 위클리, 1870·1874)
     license: Thomas Nast · Public domain
     rights:
     - media.us_midterms_2026_nast_donkey_1870
-  - main: 토머스 내스트 만평(하퍼스 위클리, 1874. 11)
-    license: Thomas Nast · Public domain
-    rights:
     - media.us_midterms_2026_nast_elephant_1874
   - main: 제임스 탈라리코 유세
     license: H. Michael Karshis (CC BY 4.0)
