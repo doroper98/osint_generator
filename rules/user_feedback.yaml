@@ -2787,3 +2787,16 @@ entries:
   status: open
   decision: "D-0631(back_and_forth) — 완성본 단축 순서"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-05"
+- id: UF-265
+  date: '2026-11-05'
+  project: cannae_216bc
+  at: "칸나이 D-0630·D-0631 진행 중(프리뷰 자료 11:30Z 예상, 감쇠 버그 수정 보고 뒤) — 사용자가 프리뷰를 보기 전에 게이트 ② 를 승인"
+  quote: "프리뷰 승인"
+  quote_kind: verbatim
+  category: "게이트 ② 사전 승인 — 사용자가 프리뷰 판정을 이번 영상에 한해 감독 확인에 맡김. 프리뷰 자료(렌더 전 검사 hard 0)가 나오면 승인 기록 → 곧바로 720p 전편. 감독이 프리뷰를 실물로 보고 결함이면 멈추고 사용자에게 알린다"
+  guards:
+  - {kind: code, ref: orchestrator.project_manager.require_animatic}
+  - {kind: code, ref: orchestrator.project_manager.require_feedback_guards}
+  status: guarded
+  decision: "D-0632(back_and_forth) — 프리뷰 자료 → approve --gate preview_approval(by user UF-265) → 720p 전편 즉시, 감독 병행 확인"
+  source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-05"
