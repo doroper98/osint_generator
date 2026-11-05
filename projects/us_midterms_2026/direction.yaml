@@ -2005,11 +2005,11 @@ sound:
   bgm: music.zabriskie_mario_bava
   intensity:
   - - 0.0
-    - 0.55
-  - - scene_start: act2
     - 0.62
+  - - scene_start: act2
+    - 0.7
   - - scene_start: act5
-    - 0.58
+    - 0.66
   - - total: true
       'off': 0.5
     - 0.0
