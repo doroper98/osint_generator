@@ -1,0 +1,1195 @@
+# us_midterms_2026 direction v1 뼈대 (v7.4.0, D-0290 §5) — area 는 data/state_results.yaml 에서 생성(동→서 경도 순 delay). 미디어는 등록 뒤.
+version: 1
+media_note: 미디어 등록 전 뼈대(게이트 ① 대기) — photo·article 은 등록 뒤 덧붙인다. card 0(UF-148).
+stage_config:
+  mercator:
+    theme: light
+    theme_reason: 지정학 장르 기본 D154, 감독 결정 D515
+places:
+  tx:
+  - -98.76
+  - 31.13
+  ks:
+  - -98.33
+  - 38.5
+  sc:
+  - -80.65
+  - 33.86
+  ia:
+  - -93.39
+  - 42.04
+  oh:
+  - -82.67
+  - 40.09
+  nc:
+  - -78.87
+  - 35.62
+  me:
+  - -69.2
+  - 45.15
+  ga:
+  - -83.41
+  - 32.85
+  mi:
+  - -84.95
+  - 43.43
+  ms:
+  - -89.72
+  - 32.87
+  ak:
+  - -151.6
+  - 65.36
+  nv:
+  - -117.02
+  - 39.43
+  fl:
+  - -81.62
+  - 28.16
+  pa:
+  - -77.61
+  - 40.86
+  mo:
+  - -92.45
+  - 38.55
+  dc:
+  - -77.03
+  - 38.9
+  us:
+  - -97.0
+  - 38.5
+shots:
+- at: 0
+  mode: cut
+  dur: 0
+  camera:
+    place: us
+    w: 60.0
+  reason: 콜드 오픈 — 본토 전체에서 주가 차례로 색을 입는다
+- at:
+    sid: act2_2
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: tx
+    w: 16
+  reason: 텍사스 — 첫 뒤집힌 자리
+- at:
+    sid: act2_5
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: ks
+    w: 14
+  reason: 캔자스로
+- at:
+    sid: act2_7
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: sc
+    w: 12
+  reason: 사우스캐롤라이나로
+- at:
+    sid: act2_10
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: ia
+    w: 14
+  reason: 아이오와로
+- at:
+    sid: act2_11
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: oh
+    w: 12
+  reason: 오하이오 보궐
+- at:
+    sid: act2_13
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: nc
+    w: 12
+  reason: 노스캐롤라이나로
+- at:
+    sid: act2_14
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: me
+    w: 12
+  reason: 메인 — 일곱째 자리
+- at:
+    sid: act2_17
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: ga
+    w: 28
+  reason: 조지아·미시간 유지 — 동부 권역
+- at:
+    sid: act2_18
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: us
+    w: 60
+  reason: 막 정리 — 본토 전체로 빠진다
+- at:
+    sid: act3_2
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: ms
+    w: 12
+  reason: 미시시피 개표 중
+- at:
+    sid: act3_4
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: ak
+    w: 34
+  reason: 알래스카 개표 중
+- at:
+    sid: act3_6
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: ks
+    w: 14
+  reason: 캔자스 주지사 개표 중
+- at:
+    sid: act4_0
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: us
+    w: 60
+  reason: 주 정부로 — 주지사 지도
+- at:
+    sid: act4_2
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: tx
+    w: 16
+  reason: 텍사스 주지사
+- at:
+    sid: act4_4
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: ga
+    w: 12
+  reason: 조지아 주지사
+- at:
+    sid: act4_5
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: oh
+    w: 12
+  reason: 오하이오 주지사
+- at:
+    sid: act4_6
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: nv
+    w: 26
+  reason: 네바다·아이오와 주지사
+- at:
+    sid: act4_7
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: fl
+    w: 14
+  reason: 플로리다(공화 유지)
+- at:
+    sid: act4_8
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: pa
+    w: 12
+  reason: 펜실베이니아 주의회
+- at:
+    sid: act4_9
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: tx
+    w: 16
+  reason: 텍사스 재획정
+- at:
+    sid: act4_10
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: mo
+    w: 14
+  reason: 미주리 지도 부결
+- at:
+    sid: act5_0
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: us
+    w: 60
+  reason: 역사 — 본토 전체(지도 위 패널)
+- at:
+    sid: act6_0
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: dc
+    w: 10
+  reason: 워싱턴으로 복귀
+- at:
+    sid: ending_0
+    'off': -0.4
+  mode: move
+  dur: 3.0
+  camera:
+    place: us
+    w: 60
+  reason: 정리 — 본토 전체
+events:
+- type: area
+  start:
+    sid: cold_0
+    'off': 0.4
+  end:
+    scene_end: act3
+  country: US
+  race: senate
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  items:
+  - code: US-ME
+    col: dem
+    band: solid
+    status: called
+    delay: 0.0
+  - code: US-RI
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.14
+  - code: US-NH
+    col: dem
+    band: solid
+    status: called
+    delay: 0.15
+  - code: US-MA
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.17
+  - code: US-NJ
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.32
+  - code: US-DE
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.38
+  - code: US-VA
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.55
+  - code: US-NC
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.59
+  - code: US-SC
+    col: dem
+    band: lean
+    status: called
+    delay: 0.69
+  - code: US-WV
+    col: rep
+    band: landslide
+    status: called
+    delay: 0.7
+  - code: US-FL
+    col: rep
+    band: lean
+    status: called
+    delay: 0.75
+  - code: US-OH
+    col: dem
+    band: lean
+    status: called
+    delay: 0.82
+  - code: US-GA
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.86
+  - code: US-MI
+    col: dem
+    band: solid
+    status: called
+    delay: 0.96
+  - code: US-KY
+    col: rep
+    band: solid
+    status: called
+    delay: 0.99
+  - code: US-TN
+    col: rep
+    band: solid
+    status: called
+    delay: 1.04
+  - code: US-AL
+    col: rep
+    band: solid
+    status: called
+    delay: 1.06
+  - code: US-IL
+    col: dem
+    band: landslide
+    status: called
+    delay: 1.21
+  - code: US-MS
+    col: muted
+    band: lean
+    status: counting
+    delay: 1.25
+  - code: US-LA
+    col: rep
+    band: lean
+    status: called
+    delay: 1.38
+  - code: US-AR
+    col: rep
+    band: solid
+    status: called
+    delay: 1.39
+  - code: US-MN
+    col: dem
+    band: solid
+    status: called
+    delay: 1.47
+  - code: US-IA
+    col: dem
+    band: lean
+    status: called
+    delay: 1.47
+  - code: US-OK
+    col: rep
+    band: landslide
+    status: called
+    delay: 1.69
+  - code: US-KS
+    col: dem
+    band: solid
+    status: called
+    delay: 1.77
+  - code: US-TX
+    col: dem
+    band: solid
+    status: called
+    delay: 1.79
+  - code: US-NE
+    col: rep
+    band: solid
+    status: called
+    delay: 1.85
+  - code: US-SD
+    col: rep
+    band: landslide
+    status: called
+    delay: 1.88
+  - code: US-CO
+    col: dem
+    band: landslide
+    status: called
+    delay: 2.21
+  - code: US-NM
+    col: dem
+    band: landslide
+    status: called
+    delay: 2.23
+  - code: US-WY
+    col: rep
+    band: landslide
+    status: called
+    delay: 2.33
+  - code: US-MT
+    col: rep
+    band: solid
+    status: called
+    delay: 2.48
+  - code: US-ID
+    col: rep
+    band: landslide
+    status: called
+    delay: 2.73
+  - code: US-OR
+    col: dem
+    band: landslide
+    status: called
+    delay: 3.11
+  - code: US-AK
+    col: muted
+    band: lean
+    status: counting
+    delay: 5.0
+  claims:
+  - clm_0005
+- type: area
+  start:
+    sid: act4_0
+    'off': 0.2
+  end:
+    scene_end: act4
+  country: US
+  race: governor
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  items:
+  - code: US-ME
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.0
+  - code: US-RI
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.0
+  - code: US-NH
+    col: rep
+    band: lean
+    status: called
+    delay: 0.0
+  - code: US-MA
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.0
+  - code: US-VT
+    col: rep
+    band: solid
+    status: called
+    delay: 0.0
+  - code: US-CT
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.0
+  - code: US-NY
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.0
+  - code: US-MD
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.0
+  - code: US-PA
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.0
+  - code: US-SC
+    col: rep
+    band: lean
+    status: called
+    delay: 0.0
+  - code: US-FL
+    col: rep
+    band: lean
+    status: called
+    delay: 0.0
+  - code: US-OH
+    col: dem
+    band: solid
+    status: called
+    delay: 0.0
+  - code: US-GA
+    col: dem
+    band: solid
+    status: called
+    delay: 0.0
+  - code: US-MI
+    col: dem
+    band: solid
+    status: called
+    delay: 0.0
+  - code: US-TN
+    col: rep
+    band: lean
+    status: called
+    delay: 0.0
+  - code: US-AL
+    col: rep
+    band: lean
+    status: called
+    delay: 0.0
+  - code: US-IL
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.0
+  - code: US-WI
+    col: dem
+    band: solid
+    status: called
+    delay: 0.0
+  - code: US-AR
+    col: rep
+    band: landslide
+    status: called
+    delay: 0.0
+  - code: US-MN
+    col: dem
+    band: solid
+    status: called
+    delay: 0.0
+  - code: US-IA
+    col: dem
+    band: solid
+    status: called
+    delay: 0.0
+  - code: US-OK
+    col: rep
+    band: solid
+    status: called
+    delay: 0.0
+  - code: US-KS
+    col: muted
+    band: lean
+    status: counting
+    delay: 0.0
+  - code: US-TX
+    col: dem
+    band: solid
+    status: called
+    delay: 0.0
+  - code: US-NE
+    col: rep
+    band: solid
+    status: called
+    delay: 0.0
+  - code: US-SD
+    col: rep
+    band: landslide
+    status: called
+    delay: 0.0
+  - code: US-CO
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.0
+  - code: US-NM
+    col: dem
+    band: solid
+    status: called
+    delay: 0.0
+  - code: US-WY
+    col: rep
+    band: landslide
+    status: called
+    delay: 0.0
+  - code: US-AZ
+    col: dem
+    band: solid
+    status: called
+    delay: 0.0
+  - code: US-ID
+    col: rep
+    band: landslide
+    status: called
+    delay: 0.0
+  - code: US-NV
+    col: dem
+    band: solid
+    status: called
+    delay: 0.0
+  - code: US-CA
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.0
+  - code: US-OR
+    col: dem
+    band: solid
+    status: called
+    delay: 0.0
+  - code: US-AK
+    col: muted
+    band: lean
+    status: counting
+    delay: 0.0
+  - code: US-HI
+    col: dem
+    band: landslide
+    status: called
+    delay: 0.0
+  claims:
+  - clm_0007
+- type: badge
+  start:
+    sid: cold_3
+    'off': 0.1
+  end:
+    sid: act1_0
+    'off': 0.3
+    edge: end
+  kind: flag
+  flag: us
+  label: 미국
+  place: map_lower_left
+- type: panel
+  kind: versus
+  start:
+    sid: act1_2
+    'off': -0.2
+  end:
+    sid: act1_2
+    'off': 0.6
+    edge: end
+  title: 상원 100석
+  sides:
+  - title: 민주당 54석
+    items:
+    - text: 뒤집은 자리 7곳
+      t:
+        sid: act1_2
+        'off': 0.3
+    src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  - title: 공화당 44석
+    items:
+    - text: 미확정 2곳 — 미시시피·알래스카
+      t:
+        sid: act1_2
+        'off': 2.5
+    src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  claims:
+  - clm_0005
+- type: panel
+  kind: dots
+  start:
+    sid: act1_3
+    'off': -0.2
+  end:
+    sid: act1_4
+    'off': 0.6
+    edge: end
+  title: 하원 435석
+  subtitle: 11월 5일 아침 확정 자리
+  provenance:
+    verification: verified
+    sources:
+    - 엔비씨 집계 · 11월 5일 09:30 KST
+  highlight: 242
+  total: 435
+  accent: dem
+  big: '242'
+  unit: 석
+  caption: 민주당 확정
+  detail: 과반 218
+  note_label: 공화당 151 · 미확정
+  note_value: 42곳
+  claims:
+  - clm_0006
+- type: badge
+  start:
+    sid: act1_9
+    'off': 0.2
+  end:
+    sid: act1_12
+    'off': 0.5
+    edge: end
+  kind: person
+  pid: trump
+  label: 트럼프
+  role: 미국 대통령
+  flag: us
+  accent: rep
+  place: map_lower_left
+- type: marker
+  start:
+    sid: act2_2
+    'off': 0.3
+  end:
+    sid: act2_4
+    'off': 0.5
+    edge: end
+  at_place: tx
+  label: 텍사스
+  sub: 1988년 이후 첫 민주 상원
+  side: right
+  hl: true
+  claims:
+  - clm_0016
+- type: marker
+  start:
+    sid: act2_5
+    'off': 0.3
+  end:
+    sid: act2_6
+    'off': 0.5
+    edge: end
+  at_place: ks
+  label: 캔자스
+  sub: 1932년 이후 첫 민주 상원
+  side: right
+  hl: true
+  claims:
+  - clm_0018
+- type: marker
+  start:
+    sid: act2_7
+    'off': 0.3
+  end:
+    sid: act2_9
+    'off': 0.5
+    edge: end
+  at_place: sc
+  label: 사우스캐롤라이나
+  sub: 1998년 이후 첫 민주 상원
+  side: right
+  hl: true
+  claims:
+  - clm_0021
+- type: marker
+  start:
+    sid: act2_10
+    'off': 0.3
+  end:
+    sid: act2_10
+    'off': 0.5
+    edge: end
+  at_place: ia
+  label: 아이오와
+  sub: 2008년 이후 첫 민주 상원
+  side: right
+  hl: true
+  claims:
+  - clm_0023
+- type: marker
+  start:
+    sid: act2_11
+    'off': 0.3
+  end:
+    sid: act2_12
+    'off': 0.5
+    edge: end
+  at_place: oh
+  label: 오하이오
+  sub: 보궐 — 부통령이 남긴 자리
+  side: right
+  hl: true
+  claims:
+  - clm_0024
+- type: marker
+  start:
+    sid: act2_13
+    'off': 0.3
+  end:
+    sid: act2_13
+    'off': 0.5
+    edge: end
+  at_place: nc
+  label: 노스캐롤라이나
+  sub: 틸리스 은퇴 의석
+  side: right
+  hl: true
+  claims:
+  - clm_0025
+- type: marker
+  start:
+    sid: act2_14
+    'off': 0.3
+  end:
+    sid: act2_16
+    'off': 0.5
+    edge: end
+  at_place: me
+  label: 메인
+  sub: 1995년 이후 첫 민주 상원
+  side: right
+  hl: true
+  claims:
+  - clm_0027
+- type: marker
+  start:
+    sid: act2_17
+    'off': 0.3
+  end:
+    sid: act2_17
+    'off': 0.5
+    edge: end
+  at_place: ga
+  label: 조지아
+  sub: 오소프 재선
+  side: right
+  hl: true
+  claims:
+  - clm_0028
+- type: marker
+  start:
+    sid: act2_17
+    'off': 0.8
+  end:
+    sid: act2_17
+    'off': 0.5
+    edge: end
+  at_place: mi
+  label: 미시간
+  sub: 민주 유지
+  side: left
+  hl: false
+  claims:
+  - clm_0029
+- type: marker
+  start:
+    sid: act3_2
+    'off': 0.3
+  end:
+    sid: act3_3
+    'off': 0.5
+    edge: end
+  at_place: ms
+  label: 미시시피
+  sub: 개표 중 — 표 차 수십~2천 표
+  side: right
+  hl: true
+  claims:
+  - clm_0030
+- type: marker
+  start:
+    sid: act3_4
+    'off': 0.3
+  end:
+    sid: act3_5
+    'off': 0.5
+    edge: end
+  at_place: ak
+  label: 알래스카
+  sub: 11월 18일 순위선택 집계
+  side: right
+  hl: true
+  claims:
+  - clm_0035
+- type: panel
+  kind: versus
+  start:
+    sid: act3_4
+    'off': 0.2
+  end:
+    sid: act3_5
+    'off': 0.4
+    edge: end
+  title: 알래스카 상원 1순위
+  sides:
+  - title: 펠톨라 48.2%
+    items:
+    - text: 민주당
+      t:
+        sid: act3_4
+        'off': 0.5
+    src: 엔비씨 74% 집계
+  - title: 설리번 47.9%
+    items:
+    - text: 공화당 · 현직
+      t:
+        sid: act3_4
+        'off': 1.0
+    src: 엔비씨 74% 집계
+  claims:
+  - clm_0031
+- type: marker
+  start:
+    sid: act3_6
+    'off': 0.3
+  end:
+    sid: act3_6
+    'off': 0.5
+    edge: end
+  at_place: ks
+  label: 캔자스 주지사
+  sub: 약 5,500표 차 · 개표 중
+  side: right
+  hl: true
+  claims:
+  - clm_0032
+- type: marker
+  start:
+    sid: act4_2
+    'off': 0.3
+  end:
+    sid: act4_3
+    'off': 0.5
+    edge: end
+  at_place: tx
+  label: 텍사스 주지사
+  sub: 1995년 이후 첫 민주 주지사
+  side: right
+  hl: true
+  claims:
+  - clm_0038
+- type: marker
+  start:
+    sid: act4_4
+    'off': 0.3
+  end:
+    sid: act4_4
+    'off': 0.5
+    edge: end
+  at_place: ga
+  label: 조지아 주지사
+  sub: 미국 첫 흑인 여성 주지사
+  side: right
+  hl: true
+  claims:
+  - clm_0039
+- type: marker
+  start:
+    sid: act4_5
+    'off': 0.3
+  end:
+    sid: act4_5
+    'off': 0.5
+    edge: end
+  at_place: oh
+  label: 오하이오 주지사
+  sub: 민주 뒤집음
+  side: right
+  hl: true
+  claims:
+  - clm_0040
+- type: marker
+  start:
+    sid: act4_6
+    'off': 0.3
+  end:
+    sid: act4_6
+    'off': 0.5
+    edge: end
+  at_place: nv
+  label: 네바다
+  sub: 현직 낙선
+  side: right
+  hl: true
+  claims:
+  - clm_0041
+- type: marker
+  start:
+    sid: act4_6
+    'off': 1.2
+  end:
+    sid: act4_6
+    'off': 0.5
+    edge: end
+  at_place: ia
+  label: 아이오와 주지사
+  sub: 민주 뒤집음
+  side: left
+  hl: false
+  claims:
+  - clm_0042
+- type: marker
+  start:
+    sid: act4_7
+    'off': 0.3
+  end:
+    sid: act4_7
+    'off': 0.5
+    edge: end
+  at_place: fl
+  label: 플로리다
+  sub: 플로리다 첫 흑인 주지사
+  side: right
+  hl: true
+  claims:
+  - clm_0043
+- type: marker
+  start:
+    sid: act4_8
+    'off': 0.3
+  end:
+    sid: act4_8
+    'off': 0.5
+    edge: end
+  at_place: pa
+  label: 펜실베이니아
+  sub: 1993년 이후 민주 주지사·양원
+  side: right
+  hl: true
+  claims:
+  - clm_0044
+- type: marker
+  start:
+    sid: act4_9
+    'off': 0.3
+  end:
+    sid: act4_9
+    'off': 0.5
+    edge: end
+  at_place: tx
+  label: 텍사스 연방 하원
+  sub: 공화 25석 → 24석
+  side: right
+  hl: true
+  claims:
+  - clm_0036
+- type: marker
+  start:
+    sid: act4_10
+    'off': 0.3
+  end:
+    sid: act4_10
+    'off': 0.5
+    edge: end
+  at_place: mo
+  label: 미주리
+  sub: 새 하원 지도 부결
+  side: right
+  hl: true
+  claims:
+  - clm_0037
+- type: panel
+  kind: precedent
+  start:
+    sid: act5_4
+    'off': -0.2
+  end:
+    sid: act5_7
+    'off': 0.6
+    edge: end
+  title: 대통령의 당, 중간선거 성적
+  subtitle: 하원 / 상원 의석 변화 · 아메리칸 프레지던시 프로젝트
+  cards:
+  - year: '1994'
+    title: 클린턴 · 민주당
+    lines:
+    - 하원 −54
+    - 상원 −8
+    t0:
+      sid: act5_4
+      'off': 0.2
+  - year: '2010'
+    title: 오바마 · 민주당
+    lines:
+    - 하원 −63
+    - 상원 −6
+    t0:
+      sid: act5_4
+      'off': 2.5
+  - year: '2018'
+    title: 트럼프 1기 · 공화당
+    lines:
+    - 하원 −41
+    - 상원 +2
+    t0:
+      sid: act5_5
+      'off': 0.2
+  - year: '2026'
+    title: 트럼프 2기 · 공화당
+    lines:
+    - 하원 −34 이상
+    - 상원 −7 · 개표 중
+    t0:
+      sid: act5_6
+      'off': 0.2
+    hl: true
+  claims:
+  - clm_0045
+  - clm_0047
+  - clm_0048
+  - clm_0049
+- type: marker
+  start:
+    sid: act6_0
+    'off': 0.3
+  end:
+    sid: act6_2
+    'off': 0.5
+    edge: end
+  at_place: dc
+  label: 워싱턴
+  sub: 새 의회 2027년 1월
+  side: right
+  hl: true
+  claims:
+  - clm_0051
+- type: quote
+  start:
+    sid: act6_3
+    'off': 0.2
+  end:
+    sid: act6_3
+    'off': 0.6
+    edge: end
+  flag: us
+  speaker: 척 슈머
+  role: 민주당 상원 원내대표
+  text: 국민의 뜻이나 법을 거스르면 조사하고 법정에 세우겠다
+  src: 씨비에스 · 11월 4일
+  accent: dem
+  pos: center
+  claims:
+  - clm_0053
+- type: badge
+  start:
+    sid: act6_4
+    'off': 0.1
+  end:
+    sid: act6_6
+    'off': 0.5
+    edge: end
+  kind: person
+  pid: trump
+  label: 트럼프
+  role: 미국 대통령
+  flag: us
+  accent: rep
+  place: map_lower_left
+sound:
+  bgm: music.zabriskie_mario_bava
+  intensity:
+  - - 0.0
+    - 0.55
+  - - scene_start: act2
+    - 0.62
+  - - scene_start: act5
+    - 0.58
+  - - total: true
+      'off': 0.5
+    - 0.0
+  cues: []
