@@ -318,7 +318,7 @@ shots:
     sid: act6_2
     'off': 0.0
   mode: drift
-  dur: 32.41
+  dur: 31.55
   camera:
     lon: -77.45
     lat: 38.85
