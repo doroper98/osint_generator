@@ -73,3 +73,9 @@ sentences:
 #  공화당: File:Republicanlogo.svg (Commons 'Public domain' 태그 + Restrictions trademarked, RNC 별 셋 코끼리)
 #  자리(문장 사유): cold_2(일곱 곳 민주로 → 당나귀) · act1_2 상원 versus 앞뒤(패널 위 금지) · act2_2 텍사스(당나귀) · act4_7 플로리다(코끼리) — 라벨 "민주당"/"공화당"
 #  권리 기록: license 태그 그대로 + restrictions trademarked + user_exception {ref: "UF-165 D519", scope: private_only} + note "사용자 지시 UF-165 · D519 — D5 예외(이 영상 한정)". provenance 에 자산 id·사유
+# v7.4.0 back_and_forth D-0303 §3(사용자 의견 UF-170) — 결과 문장은 득표율 막대(bars)가 차지한다. 등재했지만 쓰지 않는 사진(UF-118 사유)
+drop:
+  - mid: us_midterms_2026_hamilton_rally
+    reason: "act2_5 결과 문장 = bars(캔자스 상원 득표율), 다음 문장 act2_6 = 마셜 공식 사진 — 해밀턴 유세 사진 자리 없음(D-0303 §3)"
+  - mid: us_midterms_2026_ia_capitol
+    reason: "act2_10 결과 문장 = bars(아이오와 상원 득표율), act2_11 = 오하이오로 이동 — 아이오와 의사당 사진 자리 없음(D-0303 §3)"

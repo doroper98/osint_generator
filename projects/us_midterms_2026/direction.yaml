@@ -1,12 +1,14 @@
 # us_midterms_2026 direction v1 뼈대 (v7.4.0, D-0290 §5) — area 는 data/state_results.yaml 에서 생성(동→서 경도 순 delay). 미디어는 등록 뒤.
 version: 1
-media_note: 'UF-148 card 0. 사진 이벤트 19(가운데 큰 액자 — 인물 우선 D-0292 §2.2, 개표 중 주는 의사당; 받은 원본 17 + 공용 트럼프 1, 하원 본회의장 2회). 기사 카드 9(60초당 ≤2, 문장 매체 이름과 같은 매체만 — UF-130). 정당 공식 로고 emblem 뱃지 4회(cold_2 민주·act1_5 민주(D-0301
-  ①)·act2_2 민주·act4_7 공화) — 사용자 지시 UF-165·D519 권리 예외, 비공개 시청 한정. 알래스카 의사당 사진은 act3_4 versus 패널과 겹쳐 쓰지 않는다. 클립 0(c-span.org 403 봇 차단, 우회 안 함). · 콘티 판 v1: Wikimedia 429 대기로 아직 못 받은 자산 8건(collins, cooper,
-  jackson, jeffries, ms_capitol, ossoff, sand, sc_capitol) — 그 문장의 이벤트를 빼고 지도·패널로 진행, 전편 전에 채운다(D-0298 §1-2).'
+media_note: 'UF-148 card 0. 사진 이벤트 17(가운데 큰 액자 — 인물 우선 D-0292 §2.2; 받은 원본 + 공용 트럼프 1, 하원 본회의장 2회). 결과 문장 16곳은 후보별 득표율 막대 bars(D-0303 §3, UF-170) — 그 문장의 사진은 다음 문장으로 옮기거나 뺐다(media_notes drop: 해밀턴 유세·아이오와
+  의사당). 조지아·오하이오 주지사 문장은 후보 사진(보텀스·액턴)을 두고 bars 를 두지 않았다(문장 7초 — 사진·막대 각 4초 불가). 플로리다는 앞 절반 사진·뒤 절반 막대. 기사 카드 5(60초당 ≤2, 문장 매체 이름과 같은 매체만 — UF-130; 결과 문장 자리를 bars 에 내주며 0028·0037·0035·0029 뺌). 정당 공식 로고
+  emblem 뱃지 4회(cold_2·act1_5·act2_2 민주, act4_7 공화) — UF-165·D519 권리 예외, 비공개 시청 한정. 알래스카 1순위는 versus 패널 대신 bars. 주 이름 표기 admin1_labels prominent(UF-167). 클립 0(c-span.org 403 봇 차단, 우회 안 함). · 콘티 판 v1: Wikimedia
+  429 대기로 아직 못 받은 자산 3건(collins, jeffries, sc_capitol) — 그 문장의 이벤트를 빼고 지도·패널로 진행, 전편 전에 채운다(D-0298 §1-2).'
 stage_config:
   mercator:
     theme: light
     theme_reason: 지정학 장르 기본 D154, 감독 결정 D515
+    admin1_labels: prominent
 places:
   tx:
   - -98.76
@@ -1030,33 +1032,6 @@ events:
   hl: true
   claims:
   - clm_0043
-- type: panel
-  kind: versus
-  start:
-    sid: act3_4
-    'off': 0.2
-  end:
-    sid: act3_4
-    'off': 0.4
-    edge: end
-  title: 알래스카 상원 1순위
-  sides:
-  - title: 펠톨라 48.2%
-    items:
-    - text: 민주당
-      t:
-        sid: act3_4
-        'off': 0.5
-    src: 엔비씨 74% 집계
-  - title: 설리번 47.9%
-    items:
-    - text: 공화당 · 현직
-      t:
-        sid: act3_4
-        'off': 1.0
-    src: 엔비씨 74% 집계
-  claims:
-  - clm_0039
 - type: marker
   start:
     sid: act3_6
@@ -1387,6 +1362,342 @@ events:
   flag: us
   accent: rep
   place: map_lower_left
+- type: bars
+  start:
+    sid: act2_3
+    'off': 0.5
+  end:
+    sid: act2_3
+    'off': 0.3
+    edge: end
+  at_place: tx
+  side: below
+  race: senate
+  code: US-TX
+  status: called
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  rows:
+  - name: 탈라리코
+    col: dem
+    pct: 55.1
+  - name: 팩스턴
+    col: rep
+    pct: 43.0
+- type: bars
+  start:
+    sid: act2_5
+    'off': 1.85
+  end:
+    sid: act2_5
+    'off': 0.3
+    edge: end
+  at_place: ks
+  side: below
+  race: senate
+  code: US-KS
+  status: called
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  rows:
+  - name: 해밀턴
+    col: dem
+    pct: 51.0
+  - name: 마셜
+    col: rep
+    pct: 46.0
+- type: bars
+  start:
+    sid: act2_8
+    'off': 0.5
+  end:
+    sid: act2_8
+    'off': 0.3
+    edge: end
+  at_place: sc
+  side: below
+  race: senate
+  code: US-SC
+  status: called
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  rows:
+  - name: 앤드루스
+    col: dem
+    pct: 51.1
+  - name: 그레이엄
+    col: rep
+    pct: 46.7
+- type: bars
+  start:
+    sid: act2_10
+    'off': 4.2
+  end:
+    sid: act2_10
+    'off': 0.3
+    edge: end
+  at_place: ia
+  side: below
+  race: senate
+  code: US-IA
+  status: called
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  rows:
+  - name: 투렉
+    col: dem
+    pct: 50.5
+  - name: 힌슨
+    col: rep
+    pct: 46.4
+- type: bars
+  start:
+    sid: act2_12
+    'off': 0.5
+  end:
+    sid: act2_12
+    'off': 0.3
+    edge: end
+  at_place: oh
+  side: below
+  race: senate
+  code: US-OH
+  status: called
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  rows:
+  - name: 브라운
+    col: dem
+    pct: 50.0
+  - name: 허스테드
+    col: rep
+    pct: 45.2
+- type: bars
+  start:
+    sid: act2_13
+    'off': 1.85
+  end:
+    sid: act2_13
+    'off': 0.3
+    edge: end
+  at_place: nc
+  side: below
+  race: senate
+  code: US-NC
+  status: called
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  rows:
+  - name: 쿠퍼
+    col: dem
+    pct: 58.7
+  - name: 와틀리
+    col: rep
+    pct: 39.1
+- type: bars
+  start:
+    sid: act2_15
+    'off': 0.5
+  end:
+    sid: act2_15
+    'off': 0.3
+    edge: end
+  at_place: me
+  side: below
+  race: senate
+  code: US-ME
+  status: called
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  rows:
+  - name: 잭슨
+    col: dem
+    pct: 53.4
+  - name: 콜린스
+    col: rep
+    pct: 46.5
+- type: bars
+  start:
+    sid: act2_17
+    'off': 3.9
+  end:
+    sid: act2_17
+    'off': 0.3
+    edge: end
+  at_place: ga
+  side: right
+  race: senate
+  code: US-GA
+  status: called
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  rows:
+  - name: 오소프
+    col: dem
+    pct: 59.0
+  - name: 콜린스
+    col: rep
+    pct: 41.0
+- type: bars
+  start:
+    sid: act2_17
+    'off': 3.9
+  end:
+    sid: act2_17
+    'off': 0.3
+    edge: end
+  at_place: mi
+  side: right
+  race: senate
+  code: US-MI
+  status: called
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  rows:
+  - name: 엘세이드
+    col: dem
+    pct: 52.5
+  - name: 로저스
+    col: rep
+    pct: 45.5
+- type: bars
+  start:
+    sid: act3_2
+    'off': 2.52
+  end:
+    sid: act3_2
+    'off': 0.3
+    edge: end
+  at_place: ms
+  side: right
+  race: senate
+  code: US-MS
+  status: counting
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST · NBC 집계 95.6%
+  rows:
+  - name: 콜롬
+    col: dem
+    pct: 49.0
+  - name: 하이드스미스
+    col: rep
+    pct: 48.9
+- type: bars
+  start:
+    sid: act3_4
+    'off': 1.1
+  end:
+    sid: act3_4
+    'off': 0.3
+    edge: end
+  at_place: ak
+  side: below
+  race: senate
+  code: US-AK
+  status: counting
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST · NBC 집계 74.4%
+  rows:
+  - name: 펠톨라
+    col: dem
+    pct: 48.2
+  - name: 설리번
+    col: rep
+    pct: 47.9
+- type: bars
+  start:
+    sid: act3_6
+    'off': 1.1
+  end:
+    sid: act3_6
+    'off': 0.3
+    edge: end
+  at_place: ks
+  side: below
+  race: governor
+  code: US-KS
+  status: counting
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST · NBC 집계 98.8%
+  rows:
+  - name: 홀셔
+    col: dem
+    pct: 50.3
+  - name: 마스터슨
+    col: rep
+    pct: 49.7
+- type: bars
+  start:
+    sid: act4_2
+    'off': 2.0300000000000002
+  end:
+    sid: act4_2
+    'off': 0.3
+    edge: end
+  at_place: tx
+  side: below
+  race: governor
+  code: US-TX
+  status: called
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  rows:
+  - name: 이노호사
+    col: dem
+    pct: 52.8
+  - name: 애벗
+    col: rep
+    pct: 45.7
+- type: bars
+  start:
+    sid: act4_6
+    'off': 1.85
+  end:
+    sid: act4_6
+    'off': 0.3
+    edge: end
+  at_place: nv
+  side: below
+  race: governor
+  code: US-NV
+  status: called
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  rows:
+  - name: 포드
+    col: dem
+    pct: 51.5
+  - name: 롬바르도
+    col: rep
+    pct: 44.3
+- type: bars
+  start:
+    sid: act4_6
+    'off': 1.85
+  end:
+    sid: act4_6
+    'off': 0.3
+    edge: end
+  at_place: ia
+  side: below
+  race: governor
+  code: US-IA
+  status: called
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  rows:
+  - name: 샌드
+    col: dem
+    pct: 55.5
+  - name: 란
+    col: rep
+    pct: 44.5
+- type: bars
+  start:
+    sid: act4_7
+    'off': 4.4
+  end:
+    sid: act4_7
+    'off': 0.3
+    edge: end
+  at_place: fl
+  side: right
+  race: governor
+  code: US-FL
+  status: called
+  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  rows:
+  - name: 도널즈
+    col: rep
+    pct: 50.0
+  - name: 졸리
+    col: dem
+    pct: 48.7
 - type: photo
   mid: us_midterms_2026_capitol_night
   start:
@@ -1499,32 +1810,10 @@ events:
 - type: photo
   mid: us_midterms_2026_talarico_rally
   start:
-    sid: act2_3
-    'off': 0.3
-  end:
-    sid: act2_3
-    'off': 0.3
-    edge: end
-  x: 227.0
-  y: 72.0
-  w: 400.0
-- type: article
-  mid: us_midterms_2026_art_0028
-  start:
     sid: act2_4
-    'off': 0.2
+    'off': 0.3
   end:
     sid: act2_4
-    'off': 0.5
-    edge: end
-  theme: dark
-- type: photo
-  mid: us_midterms_2026_hamilton_rally
-  start:
-    sid: act2_5
-    'off': 0.3
-  end:
-    sid: act2_5
     'off': 0.3
     edge: end
   x: 227.0
@@ -1545,32 +1834,10 @@ events:
 - type: photo
   mid: us_midterms_2026_andrews
   start:
-    sid: act2_8
-    'off': 0.3
-  end:
-    sid: act2_8
-    'off': 0.3
-    edge: end
-  x: 227.0
-  y: 72.0
-  w: 400.0
-- type: article
-  mid: us_midterms_2026_art_0037
-  start:
     sid: act2_9
-    'off': 0.2
+    'off': 0.3
   end:
     sid: act2_9
-    'off': 0.5
-    edge: end
-  theme: dark
-- type: photo
-  mid: us_midterms_2026_ia_capitol
-  start:
-    sid: act2_10
-    'off': 0.3
-  end:
-    sid: act2_10
     'off': 0.3
     edge: end
   x: 227.0
@@ -1579,10 +1846,10 @@ events:
 - type: photo
   mid: us_midterms_2026_brown
   start:
-    sid: act2_12
+    sid: act2_11
     'off': 0.3
   end:
-    sid: act2_12
+    sid: act2_11
     'off': 0.3
     edge: end
   x: 227.0
@@ -1610,38 +1877,18 @@ events:
   x: 227.0
   y: 72.0
   w: 400.0
-- type: article
-  mid: us_midterms_2026_art_0035
-  start:
-    sid: act3_6
-    'off': 0.2
-  end:
-    sid: act3_6
-    'off': 0.5
-    edge: end
-  theme: dark
 - type: photo
   mid: us_midterms_2026_hinojosa
   start:
-    sid: act4_2
+    sid: act4_3
     'off': 0.3
   end:
-    sid: act4_2
+    sid: act4_3
     'off': 0.3
     edge: end
   x: 227.0
   y: 72.0
   w: 400.0
-- type: article
-  mid: us_midterms_2026_art_0029
-  start:
-    sid: act4_3
-    'off': 0.2
-  end:
-    sid: act4_3
-    'off': 0.5
-    edge: end
-  theme: dark
 - type: photo
   mid: us_midterms_2026_bottoms
   start:
@@ -1673,7 +1920,7 @@ events:
     'off': 0.3
   end:
     sid: act4_7
-    'off': 0.3
+    'off': -4.3
     edge: end
   x: 227.0
   y: 72.0

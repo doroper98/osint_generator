@@ -2,6 +2,7 @@
 # 출처: NBC 결과 페이지(__NEXT_DATA__ 구조 데이터, 컨테이너 curl 2026-11-05 09:30 KST) — 득표율은 카운티 합계로 재계산(소수 1자리).
 # status called = AP 콜(2차 보도 인용) 또는 NBC 결정데스크 추정(projection) — 감독 결정 D517(D-0293 §2). called_by 에 주체. 원고에 이름이 나오는 레이스는 AP 인용. AP 사이트는 컨테이너·도구 모두 차단.
 # 콜 없음(미시시피·알래스카 상원, 캔자스·알래스카 주지사) = counting — 화면에 확정처럼 칠하지 않는다(D-0290 §7).
+# names_ko·parties = v7.4.0 D-0303 §3(UF-170) bars 용 — pct 와 같은 차례(1위·2위). 한글 표기는 원고 표기 우선, 원고에 없는 후보는 외래어 표기법.
 schema_version: 1
 as_of: 2026-11-05T09:30+09:00
 country: US
@@ -30,6 +31,12 @@ states:
       retrieved_at: '2026-11-05'
       leader: Mary Peltola
       note: 1순위 집계. 과반 없으면 순위선택 집계 11/18 예정(Alaska Beacon). 미집계 부재자·조기투표 수천 표 · 현직 Dan S. Sullivan
+      names_ko:
+      - 펠톨라
+      - 설리번
+      parties:
+      - dem
+      - rep
   US-AL:
     name: 앨라배마
     governor:
@@ -223,6 +230,12 @@ states:
       loser: David Jolly
       called_by: AP(NPR 인용, 11/3)
       flip: false
+      names_ko:
+      - 도널즈
+      - 졸리
+      parties:
+      - rep
+      - dem
     senate:
       winner_party: rep
       pct:
@@ -252,6 +265,12 @@ states:
       loser: Rick Jackson
       called_by: AP(NPR·AJC 인용)
       flip: true
+      names_ko:
+      - 보텀스
+      - 잭슨
+      parties:
+      - dem
+      - rep
     senate:
       winner_party: dem
       pct:
@@ -266,6 +285,12 @@ states:
       called_by: AP(NPR·AJC 인용, 11/3)
       flip: false
       note: 현직 Jon Ossoff
+      names_ko:
+      - 오소프
+      - 콜린스
+      parties:
+      - dem
+      - rep
   US-HI:
     name: 하와이
     governor:
@@ -297,6 +322,12 @@ states:
       loser: Zach Lahn
       called_by: AP(Iowa Capital Dispatch 인용, 11/3)
       flip: true
+      names_ko:
+      - 샌드
+      - 란
+      parties:
+      - dem
+      - rep
     senate:
       winner_party: dem
       pct:
@@ -310,6 +341,12 @@ states:
       loser: Ashley Hinson
       called_by: AP(NPR·CBS 인용)
       flip: true
+      names_ko:
+      - 투렉
+      - 힌슨
+      parties:
+      - dem
+      - rep
     house_flips:
     - district: IA-1
       winner: Bohannan
@@ -409,6 +446,12 @@ states:
       retrieved_at: '2026-11-05'
       leader: Cindy Holscher
       note: 약 5,500표 차(Kansas Reflector·KCUR 11/4). 1% 미만 차 감사 규정, 마스터슨 재검토 요구
+      names_ko:
+      - 홀셔
+      - 마스터슨
+      parties:
+      - dem
+      - rep
     senate:
       winner_party: dem
       pct:
@@ -423,6 +466,12 @@ states:
       called_by: AP(NPR·KCUR 인용)
       flip: true
       note: 현직 Roger Marshall 낙선
+      names_ko:
+      - 해밀턴
+      - 마셜
+      parties:
+      - dem
+      - rep
   US-KY:
     name: 켄터키
     senate:
@@ -543,6 +592,12 @@ states:
       called_by: AP(NPR·Maine Public 인용, 11/4 01:02 ET)
       flip: true
       note: 현직 Susan Collins 낙선
+      names_ko:
+      - 잭슨
+      - 콜린스
+      parties:
+      - dem
+      - rep
   US-MI:
     name: 미시간
     governor:
@@ -571,6 +626,12 @@ states:
       loser: Mike Rogers
       called_by: AP(Michigan Advance·Bridge Michigan 인용, 11/4 02:27 ET)
       flip: false
+      names_ko:
+      - 엘세이드
+      - 로저스
+      parties:
+      - dem
+      - rep
     house_flips:
     - district: MI-7
       winner: Lawrence
@@ -653,6 +714,12 @@ states:
       retrieved_at: '2026-11-05'
       leader: Scott Colom
       note: 미시시피는 재검표 제도가 없다(주 국무장관실 → ABC). 표 차는 집계 시각에 따라 수십 표(NPR 43, MFP 28, ABC 65). 카운티 결과 보고 기한 11/13(NBC). 양측 모두 승리 선언 안 함 · 현직 Cindy Hyde-Smith
+      names_ko:
+      - 콜롬
+      - 하이드스미스
+      parties:
+      - dem
+      - rep
   US-MT:
     name: 몬태나
     senate:
@@ -683,6 +750,12 @@ states:
       loser: Michael Whatley
       called_by: AP(WUNC 인용, 11/3)
       flip: true
+      names_ko:
+      - 쿠퍼
+      - 와틀리
+      parties:
+      - dem
+      - rep
     house_flips:
     - district: NC-11
       winner: Ager
@@ -845,6 +918,12 @@ states:
       called_by: AP(NPR 인용)
       flip: true
       note: 현직 Joe Lombardo 낙선
+      names_ko:
+      - 포드
+      - 롬바르도
+      parties:
+      - dem
+      - rep
   US-NY:
     name: 뉴욕
     governor:
@@ -876,6 +955,12 @@ states:
       loser: Vivek Ramaswamy
       called_by: AP(NPR·WOSU 인용, 11/3 23시 직전)
       flip: true
+      names_ko:
+      - 액턴
+      - 라마스와미
+      parties:
+      - dem
+      - rep
     senate:
       winner_party: dem
       pct:
@@ -890,6 +975,12 @@ states:
       called_by: AP(NPR 인용, 11/3 23:12 ET)
       flip: true
       note: 현직 Jon Husted 낙선
+      names_ko:
+      - 브라운
+      - 허스테드
+      parties:
+      - dem
+      - rep
     house_flips:
     - district: OH-7
       winner: Poindexter
@@ -1089,6 +1180,12 @@ states:
       called_by: AP(NPR 인용)
       flip: true
       note: 현직 Darline Graham 낙선
+      names_ko:
+      - 앤드루스
+      - 그레이엄
+      parties:
+      - dem
+      - rep
   US-SD:
     name: 사우스다코타
     governor:
@@ -1164,6 +1261,12 @@ states:
       called_by: AP(Texas Tribune 인용, 11/3 22:17 CT)
       flip: true
       note: 현직 Greg Abbott 낙선
+      names_ko:
+      - 이노호사
+      - 애벗
+      parties:
+      - dem
+      - rep
     senate:
       winner_party: dem
       pct:
@@ -1177,6 +1280,12 @@ states:
       loser: Ken Paxton
       called_by: AP(Texas Tribune·Houston Public Media 인용, 11/3 22:04 CT)
       flip: true
+      names_ko:
+      - 탈라리코
+      - 팩스턴
+      parties:
+      - dem
+      - rep
   US-VA:
     name: 버지니아
     senate:

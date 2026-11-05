@@ -12,11 +12,7 @@ sections:
     rights:
     - media.us_midterms_2026_art_0004
     - media.us_midterms_2026_art_0015
-    - media.us_midterms_2026_art_0028
-    - media.us_midterms_2026_art_0037
     - media.us_midterms_2026_art_0033
-    - media.us_midterms_2026_art_0035
-    - media.us_midterms_2026_art_0029
     - media.us_midterms_2026_art_0031
     - media.us_midterms_2026_art_0026
 - title: 사진
@@ -43,10 +39,6 @@ sections:
     license: H. Michael Karshis (CC BY 4.0)
     rights:
     - media.us_midterms_2026_talarico_rally
-  - main: 애덤 해밀턴 유세(캔자스 뉴턴, 2026. 10. 30)
-    license: Leoniceno (CC0)
-    rights:
-    - media.us_midterms_2026_hamilton_rally
   - main: 로저 마셜 의원 공식 사진
     license: Eric Connolly, U.S. House Office of Ph… · Public domain
     rights:
@@ -55,10 +47,6 @@ sections:
     license: Stimpus1 (CC0)
     rights:
     - media.us_midterms_2026_andrews
-  - main: 아이오와 주 의사당
-    license: Carol M. Highsmith · Public domain
-    rights:
-    - media.us_midterms_2026_ia_capitol
   - main: 셰러드 브라운 전 의원 공식 사진
     license: Office of Senator Sherrod Brown · Public domain
     rights:

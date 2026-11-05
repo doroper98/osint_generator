@@ -6,3 +6,6 @@ ko:
   MX: 멕시코
   CU: 쿠바
   RU: 러시아
+# v7.4.0 D-0303 §1(UF-167) — 주 이름 표기(admin1_labels prominent)의 초점 나라와 도시 iso 대조
+province_countries: [US]
+iso3: {US: USA}
