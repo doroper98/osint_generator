@@ -241,6 +241,20 @@ entities:
     emblem: nato
     accent: us
     rights: emblems.nato
+  dem_party:                   # v7.4.0 D519(UF-165) — 미국 민주당 공식 로고(휘장 레지스트리 user_exception D519, 비공개 시청 한정)
+    kind: org
+    names: [미국 민주당, Democratic Party]   # "민주당" 단독은 한국 정당과 겹쳐 넣지 않는다
+    flag: us
+    emblem: dem_party
+    accent: dem
+    rights: emblems.dem_party
+  rep_party:                   # v7.4.0 D519(UF-165) — 미국 공화당 공식 로고(휘장 레지스트리 user_exception D519, 비공개 시청 한정)
+    kind: org
+    names: [미국 공화당, Republican Party]
+    flag: us
+    emblem: rep_party
+    accent: rep
+    rights: emblems.rep_party
   un_security_council:
     kind: org
     names: [안보리, 유엔 안전보장이사회, 안전보장이사회]

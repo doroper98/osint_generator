@@ -43,6 +43,10 @@ USER_EXCEPTIONS: dict[str, frozenset[str]] = {
     # v5.21.0 back_and_forth D-0177(사용자 결정 D172, 2026-10-11) — **범주 예외**(키 = 범주, 자산 id 가 아니다): 보도 인용(press_quote).
     # 인용한 기사에 실린 통신사 사진 1장을 그 기사 카드의 프레스 칸에서만(저작권법 §28 취지, 개인 프로젝트). **공개 배포 전 재확인**.
     "U20261011": frozenset({"press_quote"}),
+    # v7.4.0 back_and_forth D-0296(사용자 결정 D519, UF-165 "공식 로고를 띄워. 내가 지시한다", 2026-11-05) — 미국 민주당·공화당 공식 로고(상표,
+    # Commons Restrictions trademarked). us_midterms_2026 정당 범례 뱃지 전용, 비공개 시청 한정(D264 scope private_only), 무가공(정사각 여백만).
+    # 권리 기록·provenance(features_used.rights_exceptions)에 남긴다. **공개 배포 전 재확인**.
+    "D519": frozenset({"dem_party", "rep_party"}),
 }
 PRESS_QUOTE = "press_quote"   # v5.21.0 — 미디어(사진) 범주 예외 이름
 

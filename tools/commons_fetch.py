@@ -62,6 +62,8 @@ EMBLEM_TITLES: dict[str, tuple[str | None, str]] = {
     "cia": ("File:Seal of the U.S. Central Intelligence Agency.svg", "us"),
     "cheongwadae": ("File:Emblem of the President of the Republic of Korea.svg", "kr"),   # v4.8.0 D-0109 대통령 표장(봉황·무궁화)
     "potus": ("File:Seal of the President of the United States.svg", "us"),
+    "dem_party": ("File:US Democratic Party 2025 logo (profile).svg", "us"),   # v7.4.0 D519(UF-165) — 민주당 공식 로고(당나귀), trademarked → 사용자 예외
+    "rep_party": ("File:Republicanlogo.svg", "us"),                            # v7.4.0 D519(UF-165) — 공화당 공식 로고(별 셋 코끼리), trademarked → 사용자 예외
     "nato": ("File:Flag of NATO.svg", "be"),   # v5.5.0 사용자 지시 2026-10-04 — 나토 깃발(나침반 장미). 대체 국기 = 본부 소재국(실제로는 use)
 }
 
@@ -246,7 +248,13 @@ def record_bundles(registry: Path, bundles: Path = BUNDLES) -> int:
 EMBLEM_EXCEPTIONS: dict[str, tuple[str, str]] = {
     "cheongwadae": ("D98", "청와대·대통령실(한국)이 발언·행위 주체인 문장의 식별 표시 전용, 무가공, 엔딩 크레딧 표기"),
     "nato": ("U20261004", "나토(북대서양조약기구)가 발언·행위 주체인 문장의 식별 표시 전용, 무가공, 엔딩 크레딧 표기"),
+    "dem_party": ("D519", "us_midterms_2026 정당 범례 뱃지 전용(민주당), 비공개 시청 한정(D264 private_only), 무가공(정사각 여백만), 엔딩 권리 행 표기 — 공개 배포 전 재확인"),
+    "rep_party": ("D519", "us_midterms_2026 정당 범례 뱃지 전용(공화당), 비공개 시청 한정(D264 private_only), 무가공(정사각 여백만), 엔딩 권리 행 표기 — 공개 배포 전 재확인"),
 }
+# v7.4.0 D519 — 비공개 시청 한정(private_only) 예외: 프로젝트 권리 기록에 scope·user_exception 을 함께 남긴다(provenance 가 읽는다)
+EMBLEM_PRIVATE_ONLY: frozenset[str] = frozenset({"dem_party", "rep_party"})
+# 가로·세로가 다른 로고 — 자르지 않고 투명 여백으로 정사각(도형 손실 없음)
+EMBLEM_PAD: frozenset[str] = frozenset({"dem_party", "rep_party"})
 
 
 # 깃발 형태(가로로 긴) 휘장 — 원형 뱃지에 흰 띠가 남지 않도록 가운데 정사각만 자른다(색·도형 무가공).
@@ -263,6 +271,27 @@ def square_crop(path: Path) -> dict[str, object]:
     if w != h:
         im.crop(((w - s) // 2, (h - s) // 2, (w - s) // 2 + s, (h - s) // 2 + s)).save(path)
     return {"tool": "PIL Image.crop", "op": "center_square", "source_size": [w, h], "note": "원형 뱃지용 가운데 정사각 자르기만 — 색·도형 무가공"}
+
+
+def square_pad(path: Path) -> dict[str, object]:
+    """투명 여백으로 정사각(멱등). 자르지 않는다 — 로고 도형 손실 없음(D519)."""
+    from PIL import Image  # noqa: PLC0415
+
+    im = Image.open(path).convert("RGBA")
+    w, h = im.size
+    s = max(w, h)
+    if w != h:
+        out = Image.new("RGBA", (s, s), (0, 0, 0, 0))
+        out.paste(im, ((s - w) // 2, (s - h) // 2))
+        out.save(path)
+    return {"tool": "PIL Image.paste", "op": "square_pad_transparent", "source_size": [w, h], "note": "원형 뱃지용 투명 여백만 — 색·도형 무가공"}
+
+
+def _exception_rec(eid: str, rec: dict) -> dict:
+    if eid in EMBLEM_PRIVATE_ONLY:
+        ue, why = EMBLEM_EXCEPTIONS[eid]
+        rec.update(rights_status="restricted", scope="private_only", user_exception=ue, exception=why)
+    return rec
 
 
 def emblem_entry(eid: str, title: str | None, flag: str, ii: dict | None) -> EmblemEntry:
@@ -317,7 +346,9 @@ def fetch_emblems(proj: Path | None, only: list[str] | None = None, refresh: boo
                            rights_status="rights_clear", retrieved_at=ent.fetched_at)
                 if eid in EMBLEM_SQUARE:
                     rec["processing"] = {"tool": "assets/emblems/files 공용 자산", "op": "center_square", "note": "원형 뱃지용 가운데 정사각 자르기만 — 색·도형 무가공"}
-                record_rights(proj / "assets" / "rights_registry.json", "emblems", eid, rec)
+                if eid in EMBLEM_PAD:
+                    rec["processing"] = {"tool": "assets/emblems/files 공용 자산", "op": "square_pad_transparent", "note": "원형 뱃지용 투명 여백만 — 색·도형 무가공"}
+                record_rights(proj / "assets" / "rights_registry.json", "emblems", eid, _exception_rec(eid, rec))
                 continue
             ii = info(ent.title or "", EMBLEM_WIDTH)
             dest = download(ii, dest)
@@ -325,7 +356,9 @@ def fetch_emblems(proj: Path | None, only: list[str] | None = None, refresh: boo
                        rights_status="rights_clear", retrieved_at=now_iso())
             if eid in EMBLEM_SQUARE:
                 rec["processing"] = square_crop(dest)
-            record_rights(proj / "assets" / "rights_registry.json", "emblems", eid, rec)
+            if eid in EMBLEM_PAD:
+                rec["processing"] = square_pad(dest)
+            record_rights(proj / "assets" / "rights_registry.json", "emblems", eid, _exception_rec(eid, rec))
     return reg
 
 

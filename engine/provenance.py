@@ -200,7 +200,12 @@ def emblem_usage(events: list[dict], emblem_flag: Callable[[str], str | None]) -
                 used.add(img)
             else:
                 fallback[img] = fb
-    return {"used": sorted(used), "flag_fallback": dict(sorted(fallback.items()))}
+    from engine.entities import load_emblem_registry  # noqa: PLC0415 — v7.4.0 D519 권리 예외 기록(P5)
+
+    reg = load_emblem_registry().emblems
+    exc = {i: {"user_exception": reg[i].user_exception, "scope": reg[i].exception_scope} for i in sorted(used)
+           if i in reg and reg[i].user_exception is not None}
+    return {"used": sorted(used), "flag_fallback": dict(sorted(fallback.items())), **({"rights_exceptions": exc} if exc else {})}
 
 
 def build(plan: Plan, keys: list[CamKey], events: list[dict], repo_version: str, stages: dict[str, bool],

@@ -1843,6 +1843,9 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
     ft: {names: [파이낸셜타임스, Financial Times], domains: [ft.com]}
     bbc: {names: [BBC, 비비씨], domains: [bbc.com, bbc.co.uk]}
     cnn: {names: [CNN, 씨엔엔], domains: [cnn.com]}
+    nbc: {names: [엔비씨, NBC], domains: [nbcnews.com]}   # v7.4.0 D-0292 §2.2 — us_midterms_2026 귀속 매체
+    cbs: {names: [씨비에스, CBS], domains: [cbsnews.com]}
+    npr: {names: [엔피알, NPR], domains: [npr.org]}
   # v7.4.0 back_and_forth D-0251 §6.2-3·D-0252(사용자 의견 UF-135 ① "너무 차트만 나오기도 하고") — 차트·카드만 보이는 구간이 max_sec 를 넘으면 [chart-only-run] hard.
   # 모든 무대·장르, 콘티 판·프리뷰·전편 같은 키(C12-3). 지도 = 비차트(장소), timeline 무대의 시간축 = 차트. provenance chart_only_runs
   chart_only_run:
