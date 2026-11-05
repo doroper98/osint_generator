@@ -18,7 +18,7 @@ released 항목은 **append-only**입니다.
 ## [Unreleased]
 
 ### Added
--
+- (Unreleased — 병합 시 v7.5.0, back_and_forth D-0290) 새 이벤트 `area` — 주(1급 행정구역) 채움. `geo.prep` admin1 `code`(ISO 3166-2) 보존, `MercatorStage.adm_rings`, 렌더러 `engine/layers/areas.draw_area`(band 알파·3단 외곽선·개표 중 빗금·항목별 delay), 규칙 `rules area`·accents `dem`·`rep`, 검사 `area`(hard 5종)·`area_dense`(warning), 데이터 파일 모델 `schemas/election_models.py`(`data/state_results.yaml`), provenance `features_used.area`, 테스트 `tests/test_area_event.py`.
 
 ### Changed
 -

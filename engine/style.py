@@ -77,6 +77,7 @@ _c = _RULES.colors
 C: dict[str, Color] = {
     "ru": hexc(_c.ru), "us": hexc(_c.us), "gold": hexc(_c.gold), "teal": hexc(_c.teal), "green": hexc(_c.green),
     "muted": hexc(_c.muted), "amber": hexc(_c.amber), "white": (1, 1, 1), "kr": hexc(_c.gold), "water": hexc(_c.water),
+    "dem": hexc(_c.dem), "rep": hexc(_c.rep),   # v7.4.0 D-0290 — area 채움 전용
 }
 BADGE_BG: Color = hexc(_c.badge_bg)
 # v5.18.0 D-0161 §3 — 지도 위 요소의 테마별 의미색(없는 키 = C 공통값). 지도 무대가 아니면(카드·패널·자막 등) 쓰지 않는다

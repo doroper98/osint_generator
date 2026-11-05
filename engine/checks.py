@@ -111,10 +111,10 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "element_gap", "label_banned_terms", "badge_hold")   # element_gap·label_banned_terms·badge_hold v7.4.0 UF-160~162, cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "element_gap", "label_banned_terms", "badge_hold", "area")   # area v7.4.0 D-0290 §3-5. element_gap·label_banned_terms·badge_hold v7.4.0 UF-160~162, cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
-        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
+        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "area_dense")   # area_dense v7.4.0 D-0290. ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
 
 def missing_fonts() -> list[str]:
@@ -2216,6 +2216,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "element_gap": lambda: check_element_gap(P),   # v7.4.0 UF-160(hard)
         "label_banned_terms": lambda: check_label_banned_terms(P),   # v7.4.0 UF-161(hard)
         "badge_hold": lambda: check_badge_hold(P),   # v7.4.0 UF-162(hard)
+        "area": lambda: check_area(P),   # v7.4.0 D-0290 §3-5(hard) — 주 채움 정직성 5종
+        "area_dense": lambda: area_dense(P.events),   # v7.4.0 D-0290 §3-5(warning)
         "plot_height": lambda: check_plot_height(P),
         "axis_empty_band": lambda: check_axis_empty_band(P),   # v7.4.0 D-0277 §3(hard, UF-142)
         "clip_frame": lambda: check_clip_frame(P),   # v7.4.0 D-0274 §2①②(hard, UF-141)
@@ -2659,6 +2661,74 @@ def check_badge_hold(P) -> list[str]:  # noqa: ANN001, N803
         out.append(f"[badge-hold] 뱃지 {b.get('label') or b.get('pid')!r} t={b['t0']:.1f} 노출 {dur:.1f}초 < {C.min_hold_sec:g}초 — "
                    "다음 문장 끝이나 장면 끝까지 띄운다(UF-162)")
     return out
+
+
+def area_codes(stage: object, country: str) -> "set[str] | None":
+    """무대 admin1 의 code 집합 — 나라가 없으면 None, 옛 geo.pkl(code 없음)이면 빈 집합."""
+    lst = getattr(stage, "adm", {}).get(country)
+    return None if lst is None else {x["code"] for x in lst if x.get("code")}
+
+
+def area_report(events: list[dict], codes: "Callable[[str], set[str] | None]", results: object, data_err: "str | None") -> list[str]:
+    """area 정직성 5종(v7.4.0 back_and_forth D-0290 §3-5, hard). codes(나라) → 무대 code 집합, results = StateResultsFile|None.
+    [area-code-missing] 무대 admin1 에 없는 code · [area-src-missing] 출처 줄 없음 · [area-col] rules area.cols 밖 색 ·
+    [area-data-mismatch] data/state_results.yaml 의 그 주·그 레이스와 색·상태가 다름(콜 없는데 칠함 포함) · [area-overlap] 같은 시각 같은 code 두 번."""
+    A = R_.area  # noqa: N806
+    out: list[str] = []
+    ar = [e for e in events if e["type"] == "area"]
+    if ar and results is None:
+        out.append(f"[area-data-mismatch] area 이벤트 {len(ar)}개인데 대조할 {A.data_file} 이 없다/틀렸다: {data_err}")
+    for e in ar:
+        tag = f"area t={e['t0']:.1f} {e['country']} {e['race']}"
+        if not str(e.get("src") or "").strip():
+            out.append(f"[area-src-missing] {tag} — src(매체·집계 시각) 출처 줄이 없다")
+        have = codes(e["country"])
+        for it in e["items"]:
+            c = it["code"]
+            if have is None or c not in have:
+                out.append(f"[area-code-missing] {tag} {c} — 무대 admin1 에 없다(geo.yaml admin1·geo.prep 확인)")
+            if it["col"] not in A.cols:
+                out.append(f"[area-col] {tag} {c} col {it['col']!r} — area 색은 {A.cols} 만")
+            if results is None:
+                continue
+            r = results.race(c, e["race"])
+            if r is None:
+                out.append(f"[area-data-mismatch] {tag} {c} — {A.data_file} 에 이 주·레이스가 없다")
+                continue
+            want = "muted" if r.status == "counting" else r.winner_party
+            if it["status"] != r.status or it["col"] != want:
+                out.append(f"[area-data-mismatch] {tag} {c} — 연출 {it['col']}/{it['status']} ≠ 데이터 {want}/{r.status}"
+                           f"({r.called_by or '콜 없음'}) — 콜 없는 주는 muted·counting")
+    seen: list[tuple[str, float, float, float]] = []
+    for e in ar:
+        mine: set[str] = set()
+        for it in e["items"]:
+            c, a0 = it["code"], e["t0"] + it["delay"]
+            if c in mine or any(c == c2 and a0 < b2 and a2 < e["t1"] for c2, a2, b2, _ in seen):
+                out.append(f"[area-overlap] {c} t={a0:.1f} — 같은 시각에 같은 주를 두 번 칠한다")
+            mine.add(c)
+        seen += [(it["code"], e["t0"] + it["delay"], e["t1"], 0.0) for it in e["items"]]
+    return out
+
+
+def area_dense(events: list[dict]) -> list[str]:
+    """[area-dense] warning — 한 area 이벤트 항목 수 > rules area.max_items_warn(한 문장 요소 2~3개 원칙, D-0290 §3-5)."""
+    n = R_.area.max_items_warn
+    return [f"[area-dense] area t={e['t0']:.1f} 항목 {len(e['items'])}개 > {n} — 문장을 나누거나 묶음을 줄인다"
+            for e in events if e["type"] == "area" and len(e["items"]) > n]
+
+
+def check_area(P) -> list[str]:  # noqa: ANN001, N803
+    if not any(e["type"] == "area" for e in P.events):
+        return []
+    from schemas.election_models import load_state_results  # noqa: PLC0415
+
+    results, err = None, None
+    try:
+        results = load_state_results(P.root / R_.area.data_file)
+    except (OSError, ValueError) as ex:
+        err = str(ex)[:200]
+    return area_report(P.events, lambda k: area_codes(P.R.stage, k), results, err)
 
 
 def check_chart_edge_bleed(P) -> list[str]:  # noqa: ANN001, N803

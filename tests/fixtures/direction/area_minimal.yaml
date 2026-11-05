@@ -1,0 +1,20 @@
+# direction.yaml area 최소 예시(v7.4.0 back_and_forth D-0290 §3-6) — 스키마 테스트용(test_prompt_schema_parity EXAMPLE_FILES).
+# 주 채움: 확정 주는 dem·rep + called, 개표 중인 주는 muted + counting(빗금). delay = t0 기준 초(동→서 차례 등장).
+version: 1
+places:
+  texas: [-99.3, 31.3]
+shots:
+  - {at: 0, mode: cut, dur: 0, camera: {lon: -97.0, lat: 38.5, w: 60}}
+  - {at: {sid: s_1, off: -0.6}, mode: move, dur: 3.0, camera: {place: texas, w: 14}}
+events:
+  - type: area
+    start: {sid: s_0, off: 0.0}
+    end: {sid: s_1, edge: end}
+    country: US
+    race: senate
+    src: "에이피 집계 · 2026-11-05 09:00 KST"
+    items:
+      - {code: US-ME, col: dem, band: solid, status: called, delay: 0.0}
+      - {code: US-TX, col: dem, band: solid, status: called, delay: 1.2}
+      - {code: US-MS, col: muted, band: lean, status: counting, delay: 2.0}
+  - {type: marker, start: {sid: s_1, off: 0.3}, end: {sid: s_1, edge: end}, at_place: texas, label: 텍사스, sub: 1988년 이후 첫 민주 상원, side: right}

@@ -231,6 +231,37 @@ class CountryEvent(_Event):
     a: float = Field(ge=0, le=1)
 
 
+class AreaItem(BaseModel):
+    """area 항목 하나 — 주 code·색·강도·상태·등장 지연(v7.4.0 D-0290 §3-2). 픽셀·알파 수치는 없다(P8, rules area)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    code: str = Field(pattern=r"^[A-Z]{2}-[A-Z0-9]{1,3}$")   # ISO 3166-2(예 US-TX)
+    col: Accent
+    band: Literal["lean", "solid", "landslide"]
+    status: Literal["called", "counting"]
+    delay: float = Field(default=0.0, ge=0)   # t0 기준 초(동→서 차례 등장)
+
+
+class AreaEvent(_Event):
+    """v7.4.0 D-0290 §3 — 1급 행정구역(주) 채움. src 출처 줄 필수, race 는 data/state_results.yaml 대조 키(checks [area-*])."""
+
+    type: Literal["area"]
+    country: str = Field(pattern=r"^[A-Z]{2}$")
+    race: Literal["senate", "governor"]
+    src: str = Field(min_length=1)
+    items: list[AreaItem] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def _src(self) -> "AreaEvent":
+        if not self.src.strip():
+            raise ValueError("[area-src-missing] area src(출처 줄)가 비었다")
+        bad = [i.code for i in self.items if not i.code.startswith(self.country + "-")]
+        if bad:
+            raise ValueError(f"[area-code-missing] {self.country} 밖 code: {bad}")
+        return self
+
+
 class BadgeEvent(_Event):
     """뱃지. 지도 앵커 lon·lat, 또는 시간축 앵커 date·lane(v4.4.0 D-0090 작업 4 — 배치 슬롯이 시간축에서 date·lane 을 돌려준다). 한 쌍만."""
 

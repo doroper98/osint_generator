@@ -18,7 +18,7 @@ from engine import events as ev
 from engine.cards import draw_card
 from engine.cascade import draw_cascade
 from engine.quote import draw_quote
-from engine.layers.areas import draw_country
+from engine.layers.areas import draw_area, draw_country
 from engine.island import draw_island
 from engine.layers.backdrop import draw_backdrop
 from engine.layers.badges import draw_badge, draw_over_panel
@@ -53,6 +53,7 @@ class Entry:
 REGISTRY: dict[str, Entry] = {
     # 지도 레이어 — render(ctx, R, view, t, e)
     "country": Entry(ev.CountryEvent, draw_country, "map"),
+    "area": Entry(ev.AreaEvent, draw_area, "map"),           # v7.4.0 D-0290 — 1급 행정구역(주) 채움(국가 채움 바로 위)
     "ships": Entry(ev.ShipsEvent, draw_ships, "map"),
     "route": Entry(ev.RouteEvent, draw_route, "map"),
     "tanker_loop": Entry(ev.TankerLoopEvent, draw_tanker_loop, "map"),
@@ -94,7 +95,7 @@ for _pid in load_rules().registries.primitives:
     REGISTRY[f"primitive:{_pid}"] = Entry(event_model(_pid, module(_pid).SCHEMA), make_renderer(_pid), "primitive")
 
 # v3 LAYER 순서(render3 L950) — 지도 레이어는 타입 순서대로, 같은 타입 안에서는 이벤트 순서대로 그린다.
-MAP_LAYER_ORDER: tuple[str, ...] = ("island", "country", "ships", "route", "tanker_loop", "barrier", "boom", "flight", "cutout", "series", "marker", "badge")
+MAP_LAYER_ORDER: tuple[str, ...] = ("island", "country", "area", "ships", "route", "tanker_loop", "barrier", "boom", "flight", "cutout", "series", "marker", "badge")
 
 
 def dispatch_panel(ctx: object, R: object, t: float, e: dict) -> None:  # noqa: N803

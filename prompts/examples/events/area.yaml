@@ -1,0 +1,23 @@
+# 요소 예시 (v7.4.0, back_and_forth D-0290 §3-6) — 레지스트리 모델을 그대로 통과한다(15 P4). tests/fixtures/preview/area.yaml 와 같은 event(test_element_examples).
+# 수치·문구는 예시다. 시각(t0·t1)은 hormuz_korea 연출의 실제 시각(첫 숏 한국 권역 w 6.4) — 요소 갤러리가 그 순간의 카메라로 그린다(지도에 KR admin1 이 있다).
+schema_version: 1
+key: area
+source: back_and_forth D-0290 §3(주 채움 첫 사용 = us_midterms_2026)
+event:
+  type: area
+  t0: 0.2
+  t1: 2.8
+  country: KR
+  race: governor
+  src: 예시 출처 · 2026-11-05
+  items:
+  - code: KR-11
+    col: dem
+    band: solid
+    status: called
+    delay: 0.0
+  - code: KR-26
+    col: muted
+    band: lean
+    status: counting
+    delay: 1.0

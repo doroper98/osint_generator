@@ -213,8 +213,8 @@ class MercatorStage:
         if assets is not None:
             geo = assets.geo
             self.bord = {lod: {k: to_uv(v) for k, v in geo[lod].items()} for lod in ("coarse", "fine")}
-            self.adm = {k: [dict(name=x["name"], xy=None if x["lx"] is None else self.to_world(lon=x["lx"], lat=x["ly"]),
-                                 rings=to_uv(x["rings"])) for x in v]
+            self.adm = {k: [dict(name=x["name"], code=x.get("code"), xy=None if x["lx"] is None else self.to_world(lon=x["lx"], lat=x["ly"]),
+                                 rings=to_uv(x["rings"])) for x in v]   # code = v7.4.0 D-0290(옛 geo.pkl = None → area 가 쓰면 StageError)
                         for k, v in geo["admin1"].items()}
             self.countries = [(k, m, None if m["lx"] is None else self.to_world(lon=m["lx"], lat=m["ly"])) for k, m in geo["meta"].items()]
             self.seas = [(s, self.to_world(lon=s.lon, lat=s.lat)) for s in assets.labels.seas]
@@ -232,6 +232,22 @@ class MercatorStage:
         if self._bounds is None:
             raise StageError("MercatorStage: 티어가 없어 경계(bounds)를 모른다 — assets 또는 tiers 로 만든다")
         return self._bounds
+
+    def adm_rings(self, country: str, code: str) -> list:
+        """1급 행정구역 code(예 US-TX)의 월드 고리(v7.4.0 D-0290 area). 옛 geo.pkl(code 없음)·없는 나라·없는 code = StageError(P6)."""
+        memo = self.__dict__.setdefault("_adm_rings", {})   # 같은 목록 객체를 돌려준다(borders._pack 캐시가 id 로 잡는다)
+        if (country, code) in memo:
+            return memo[(country, code)]
+        lst = self.adm.get(country)
+        if lst is None:
+            raise StageError(f"geo.yaml admin1 에 {country!r} 가 없다 — admin1 에 넣고 `python -m geo.prep <프로젝트>` 다시")
+        if any(x.get("code") is None for x in lst):
+            raise StageError(f"geo.pkl admin1[{country!r}] 에 code 가 없다(옛 geo.pkl) — `python -m geo.prep <프로젝트>` 다시(v7.4.0 D-0290)")
+        hit = [r for x in lst if x["code"] == code for r in x["rings"]]
+        if not hit:
+            raise StageError(f"admin1[{country!r}] 에 code {code!r} 가 없다")
+        memo[(country, code)] = hit
+        return hit
 
     def to_world(self, **anchor: float) -> tuple[float, float]:
         if set(anchor) != {"lon", "lat"}:

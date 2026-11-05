@@ -193,3 +193,22 @@ stroke 4px (#ff4d5e, 0.3a) + 1.4px (0.95a)
 - 엔딩 카드 맨 아래 한 줄(D85 방식)로 "비행 경로·출발 위치는 개략 표현" 을 알린다(연출·크레딧 몫).
 - 콘티 판은 같은 기하, 인셋만 원형 자리표시 `[인셋: mid]`.
 - `arc`(탄도 궤적·고도 단면)는 여전히 planned — `flight` 는 평면 개략 비행이다.
+
+## v7.4.0 — 주(1급 행정구역) 채움 `area` (back_and_forth D-0290 §3, 감독 결정 D515)
+
+선거 결과처럼 주(州) 단위 사실을 지도 위에 색으로 입힌다. 새 무대(Albers 등)를 만들지 않고 mercator 무대 그대로 — 카메라가 연속 세계 안에서 주로 들어간다(C0).
+렌더러 `engine/layers/areas.draw_area`, 수치 `rules area`(값 복사 금지 — 키만 인용).
+
+| 항목 | 규칙 | 근거 |
+|---|---|---|
+| 지오 | `geo.prep` 가 NE `iso_3166_2` 를 admin1 항목 `code` 로 보존 → `MercatorStage.adm_rings(country, code)` | 옛 geo.pkl(code 없음)에 area 가 오면 `StageError` — 다시 `geo.prep`(P6) |
+| 필드 | `country`·`race`(senate·governor)·`src`(출처 줄 필수)·`items[code·col·band·status·delay]` | 연출은 band 이름만, 알파·두께 수치 금지(P8) |
+| 색 | `col` ∈ `rules area.cols`(dem·rep·muted). dem·rep = `registries.accents`·`colors`(+`themes.light`) — 채움 전용 | 글자 색 아님 |
+| 알파 | `area.alpha_bands[band]` | lean·solid·landslide |
+| 외곽선 | `area.outline` 3단(draw_country 와 같은 방식) | |
+| 개표 중 | `status: counting` = muted 채움 위 사선 빗금(`area.hatch`) | 콜 없는 결과를 확정처럼 칠하지 않는다 |
+| 등장 | 항목마다 t0 + `delay` 에 `area.fade_sec` 페이드 | 동→서 차례 등장 |
+
+- 레이어 순서: `country` 바로 뒤(`engine.registry.MAP_LAYER_ORDER`). 콘티 판도 같은 기하.
+- 검사(hard, `engine/checks` 키 `area`): `[area-code-missing]` · `[area-src-missing]` · `[area-col]` · `[area-data-mismatch]`(프로젝트 `rules area.data_file` = `data/state_results.yaml`, 모델 `schemas/election_models.py`) · `[area-overlap]`. 경고 `area_dense`(`area.max_items_warn`).
+- provenance `features_used.area` = {events, items, counting}.

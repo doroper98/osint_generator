@@ -1,0 +1,22 @@
+# 레지스트리 프리뷰 예제 (v7.4.0 D-0290, 15 P10) — 모델 검증 테스트가 읽는다.
+schema_version: 1
+key: area
+source: back_and_forth D-0290 §3(주 채움 첫 사용 = us_midterms_2026)
+event:
+  type: area
+  t0: 0.2
+  t1: 2.8
+  country: KR
+  race: governor
+  src: 예시 출처 · 2026-11-05
+  items:
+  - code: KR-11
+    col: dem
+    band: solid
+    status: called
+    delay: 0.0
+  - code: KR-26
+    col: muted
+    band: lean
+    status: counting
+    delay: 1.0

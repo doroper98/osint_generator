@@ -135,7 +135,7 @@ def load_admin1(ne_dir: Path, codes: set[str], bb: BaseGeometry) -> dict:
         if not g.intersects(bb):
             continue
         out.setdefault(p["iso_a2"], []).append(dict(name=p.get("name_ko") or p.get("name"), g=g, lx=p.get("longitude"),
-                                                     ly=p.get("latitude")))
+                                                     ly=p.get("latitude"), code=p.get("iso_3166_2")))   # code = v7.4.0 D-0290(area 이벤트, 예 US-TX)
     return out
 
 
@@ -216,7 +216,7 @@ def build_geo(ne_dir: Path, bbox: tuple[float, float, float, float], admin1: set
     ADM = load_admin1(ne_dir, admin1, bb)  # noqa: N806
     geo = dict(coarse={k: rings(g, COARSE_TOL) for k, g in G.items()}, fine={k: rings(g, FINE_TOL) for k, g in G.items()},
                meta=META,
-               admin1={k: [dict(name=a["name"], lx=a["lx"], ly=a["ly"], rings=rings(a["g"], ADMIN1_TOL)) for a in v]
+               admin1={k: [dict(name=a["name"], code=a["code"], lx=a["lx"], ly=a["ly"], rings=rings(a["g"], ADMIN1_TOL)) for a in v]
                        for k, v in ADM.items()},
                places=load_places(ne_dir, bb),
                roads=load_roads(ne_dir, bb), rivers=load_rivers(ne_dir, bb, river_major_scalerank_max()))

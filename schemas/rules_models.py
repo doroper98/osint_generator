@@ -1215,6 +1215,8 @@ class Colors(_Strict):
     green: str
     muted: str
     amber: str
+    dem: str                 # v7.4.0 D-0290 §3-2 — area 채움 전용
+    rep: str
     water: str
     badge_bg: str
     panel_cover: Color4
@@ -2320,6 +2322,30 @@ class FlightRules(_Strict):
     inset: FlightInsetRules
 
 
+class AreaHatch(_Strict):
+    spacing: float = Field(gt=0)
+    width: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+
+
+class AreaRules(_Strict):
+    """v7.4.0 back_and_forth D-0290 §3 — 1급 행정구역 채움(area). 설계 px(480p). engine/layers/areas.draw_area·engine/checks 만 읽는다."""
+
+    alpha_bands: dict[Literal["lean", "solid", "landslide"], float]
+    outline: list[tuple[float, float]] = Field(min_length=1)
+    fade_sec: float = Field(gt=0)
+    hatch: AreaHatch
+    max_items_warn: int = Field(ge=1)
+    cols: list[str] = Field(min_length=1)
+    data_file: str = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def _bands(self) -> "AreaRules":
+        if set(self.alpha_bands) != {"lean", "solid", "landslide"}:
+            raise ValueError(f"area.alpha_bands 는 lean·solid·landslide 셋: {sorted(self.alpha_bands)}")
+        return self
+
+
 class BorderGlowRules(_Strict):
     """v5.3.1 국경선 글로우(시안 — 사용자 제안 2026-10-02, valdai-2026 한정). 설계 px."""
 
@@ -3245,6 +3271,7 @@ class VideoRules(_Strict):
     cascade: CascadeRules                # v5.2.0 — 겹침 카드(사용자 재구성 2026-10-01, v5.3.0 D-0139 채택)
     quote_center: QuoteCenterRules       # v5.3.1 — 인물 발언 중앙 인용(시안, valdai-2026 한정)
     flight: FlightRules                  # v7.3.0 — 비행·착탄·위성 인셋(D-0206)
+    area: AreaRules                      # v7.4.0 — 주(1급 행정구역) 채움(D-0290)
     border_glow: BorderGlowRules         # v5.3.1 — 국경선 글로우(시안, direction stage_config.mercator.border_glow)
     data: DataRules                # v4.3.0 — D-0084 작업 1
     genre_prompt: GenrePromptRules  # v4.4.0 — D-0090 작업 1
@@ -3264,6 +3291,9 @@ class VideoRules(_Strict):
         bad = sorted(set(self.pacing.static_window.change_kinds) - set(self.registries.event_types) - {"camera"})
         if bad:
             raise ValueError(f"pacing.static_window.change_kinds 가 registries.event_types(+camera) 에 없다: {bad}")
+        bad = sorted(set(self.area.cols) - set(self.registries.accents))
+        if bad:
+            raise ValueError(f"area.cols 가 registries.accents 에 없다: {bad}")   # v7.4.0 D-0290
         bad = sorted(set(self.genre_prompt.stage_grammar) - set(self.registries.stages))
         if bad:
             raise ValueError(f"genre_prompt.stage_grammar 의 무대가 registries.stages 에 없다: {bad}")

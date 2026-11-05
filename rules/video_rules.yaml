@@ -354,6 +354,7 @@ direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문�
   - '가격·추이·통계 문장에는 알맞은 차트를 건다 — 시간에 따른 변화 = 선 차트(panel dual_line, 출처 있는 실측값, 촘촘한 날짜 라벨은 x_label_rotate), 전체 대비 비율 = 도트(panel dots), 단일 지표 = 큰 숫자 카드(bigs). 값은 출처가 있는 것만, 주장 수치는 주장 주체를 패널 문구에 적는다(v5.4.0, 사용자 지시 2026-10-02, 검사 정직성 4종 hard).'
   - '주문(order.yaml) data.series 에 있는 시리즈는 반드시 데이터 패널(dual_line 등 series[].record)로 그린다. 이전 승인 연출(track_v*)의 데이터 패널도 그대로 이어 간다. 일부러 빼려면 direction drops 에 {record, reason} 을 적는다(사용자 의견 UF-126, 검사 [series-unused]·[panel-dropped] hard).'
   - '패널(그래프·도표)이 떠 있는 동안에는 오른쪽 상단 카드·계단식 카드·기사·사진·인용·뱃지를 두지 않는다 — 패널 앞에 끝내거나 뒤에 시작한다. 같은 수치는 패널 점·자막이 맡는다(사용자 의견 UF-129, 검사 [card-over-panel] hard).'
+  - '주별(1급 행정구역) 결과는 area 로 칠한다 — src 출처 줄 필수(매체·집계 시각), race(senate·governor) 필수, AP 등 콜이 없는 주는 col muted·status counting(빗금), 확정 주만 dem·rep. 값은 프로젝트 data/state_results.yaml 과 같아야 한다(다르면 [area-data-mismatch] hard). 동→서 차례 등장은 items[].delay(초). 알파·두께 수치는 쓰지 않는다(rules area, band 이름만).'
 
 shot_grammar:              # 05 §2
   camera_moves_per_scene_max: 1
@@ -402,6 +403,7 @@ pacing:                    # v4.11.0 back_and_forth D-0118 §1(사용자 위임 
       - cutout
       - article
       - post
+      - area               # v7.4.0 D-0290 — 주 채움 등장
       - country            # 강조·하이라이트(국가)
       - boom               # 강조(타격 링)
       - flight             # v7.3.0 비행·착탄
@@ -978,6 +980,8 @@ colors:                    # 09 §7
   green: "#8fd08a"
   muted: "#a9b0bd"
   amber: "#ffb347"
+  dem: "#4a86e8"              # v7.4.0 D-0290 §3-2 — 민주당(area 채움 전용, 글자 아님)
+  rep: "#e8504a"              # v7.4.0 D-0290 §3-2 — 공화당(area 채움 전용, 글자 아님)
   water: "#7fc4ff"            # v3 render3 C["water"] (v2.1.0 추가 — 코드 상수에서 이관)
   badge_bg: "#1b2a3a"         # v3 badge_at 원판 바탕 (v2.1.0 추가)
   panel_cover: [0.025, 0.03, 0.045, 0.8]
@@ -997,6 +1001,8 @@ colors:                    # 09 §7
       green: "#2f6a2a"
       muted: "#555e6e"
       amber: "#885000"
+      dem: "#1753b5"        # v7.4.0 D-0290 — 공통값과 같은 색상(hue), 밝기만 낮춤
+      rep: "#b51d17"
       water: "#005eae"
       white: "#1f2125"      # 지도 위 마커 이름(흰 글자 → 짙은 글자)
       gold_text: "#68480f"  # 지도 위 마커 부제 글자
@@ -1109,12 +1115,12 @@ credits:                   # D-0030(D35) — 권리 레지스트리 종류별 �
   music_description: 'Music: "{name}" — {author} ({license})'          # 설명란 footer 의 {music} 자리(v3 description.yaml 문구와 같은 결과)
 
 registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 쓰면 오류, 있는데 렌더러가 없으면 오류
-  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, card, panel, dip, photo, clip, cutout, article, post, primitive, series, backdrop, island, cascade, quote, flight]   # flight = v7.3.0 D-0206(비행·꼬리선·착탄 링·위성 인셋, 사용자 결정 D232). island = v5.1.0 D-0126 Q1(차트 아일랜드 — 뷰포트 카메라 = stage: timeline 숏), backdrop = v5.1.0 D-0121 §B·D-0123(backdrop 무대 배경 사진, 미디어 레지스트리 photo), post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives), series = v4.3.0 D-0084(시간축 무대, 데이터 레코드), cascade = v5.3.0 D-0139(겹침 카드, 사용자 결정 D116·D117), quote = v5.4.0 정규(인물 발언 인용, 사용자 결정 2026-10-02)
+  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, area, badge, card, panel, dip, photo, clip, cutout, article, post, primitive, series, backdrop, island, cascade, quote, flight]   # flight = v7.3.0 D-0206(비행·꼬리선·착탄 링·위성 인셋, 사용자 결정 D232). island = v5.1.0 D-0126 Q1(차트 아일랜드 — 뷰포트 카메라 = stage: timeline 숏), backdrop = v5.1.0 D-0121 §B·D-0123(backdrop 무대 배경 사진, 미디어 레지스트리 photo), post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives), series = v4.3.0 D-0084(시간축 무대, 데이터 레코드), cascade = v5.3.0 D-0139(겹침 카드, 사용자 결정 D116·D117), quote = v5.4.0 정규(인물 발언 인용, 사용자 결정 2026-10-02)
   event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, line, arrow]   # v1/v2 이식 후보(미구현 = 사용 불가). movers = v7.3.0 flight 로 대체(D-0206 §1-2)
   panel_kinds: [relation, statement, timeline, precedent, versus, dots, gantt, dual_line, fork, checklist, network]   # relation = v3 refusal 일반화, 뒤 6종 = v2 차트 이식(D-0032)
   panel_kinds_planned: []
   badge_kinds: [person, flag, emblem]
-  accents: [gold, us, ru, teal, muted, green, amber]
+  accents: [gold, us, ru, teal, muted, green, amber, dem, rep]   # dem·rep = v7.4.0 D-0290 §3-2(area 채움 전용 — 글자 색 아님)
   stages: [mercator, timeline, backdrop]   # backdrop = v5.1.0 D-0123(사진 배경 무대, engine/stage_backdrop.py). v4.1.0 D-0076 — 무대(engine.stage). 없는 무대 = 오류, 있는데 구현(STAGE_CLASSES)이 없음 = 오류(P10). timeline = v4.3.0 D-0084 작업 3
   stages_planned: [chart_wall, flow, structure, document]   # v4.2.0 D-0081 — 20 §2.1 무대 카탈로그(구현 전). 장르 프로필 proposed 만 참조 가능, 연출에서 쓰면 오류
   primitives: [statement_diff, dot_plot, site_diagram]   # site_diagram = v4.4.0 dmz_mine_2026 사용자 요청(현장 개념도, 벡터).  dot_plot = v4.4.0 D-0090 작업 3(사용자 승인 대기 — provenance elements.approval pending). v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
@@ -1507,6 +1513,16 @@ flight:                    # v7.3.0 back_and_forth D-0206·D-0225(사용자 결�
     # 연출이 고른 side 가 벗어나면 side_order 순서로 첫 맞는 자리(결정적). 어느 자리도 안 맞으면 [inset-clipped] hard
     safe_margin_px: 6
     side_order: [up_right, up_left, down_right, down_left, right, left, up, down]
+area:                      # v7.4.0 back_and_forth D-0290 §3(감독 결정 D515) — 1급 행정구역(주) 채움 이벤트(engine/layers/areas.draw_area). 설계 px(480p).
+  # 값은 Opus 잠정(light 지도 눈 확인 컷 → R-0296, 감독 확정 대기). 연출은 band 이름만 쓴다(수치 금지, P8)
+  alpha_bands: {lean: 0.32, solid: 0.5, landslide: 0.68}   # 채움 알파(band 이름 → 값)
+  outline: [[5.0, 0.08], [2.2, 0.22], [0.9, 0.85]]          # 외곽선 3단 [두께 px, 알파] — draw_country 와 같은 방식(글로우 → 선)
+  fade_sec: 0.6            # 항목 등장(t0 + delay)·퇴장(t1) 페이드
+  hatch: {spacing: 7.0, width: 1.1, alpha: 0.55}            # status counting = muted 채움 위 사선 빗금(개표 중)
+  max_items_warn: 30       # 한 area 이벤트 항목이 이보다 많으면 [area-dense] 경고(한 문장 요소 2~3개 원칙)
+  cols: [dem, rep, muted]  # [area-col] — area 가 쓸 수 있는 색(그 외 = hard)
+  data_file: data/state_results.yaml   # [area-data-mismatch] 대조 기준(프로젝트 기준 상대 경로)
+
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)
   # 겹침(checks island_overlap hard, Q3 A): 같은 순간 보이는 아일랜드 제자리 상자(그림자·슬라이드 경로 제외)끼리 교차 > 0, 자막 구역(reserved_zones.subtitle) 교차.
