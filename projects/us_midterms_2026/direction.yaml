@@ -271,7 +271,7 @@ shots:
   dur: 3.5
   camera:
     place: east
-    w: 40.0
+    w: 36.0
   reason: 플로리다·펜실베이니아 — 동부 해안 권역 한 구도(문장마다 이동 금지)
 - at:
     sid: act4_9
@@ -876,7 +876,7 @@ events:
   at_place: ks
   label: 캔자스
   sub: 1932년 이후 첫 민주 상원
-  side: right
+  side: left
   hl: true
   claims:
   - clm_0026
@@ -1011,7 +1011,7 @@ events:
   at_place: ms
   label: 미시시피
   sub: 개표 중 — 표 차 수십~2천 표
-  side: right
+  side: left
   hl: true
   claims:
   - clm_0038
@@ -1690,8 +1690,8 @@ events:
     sid: act4_8
     'off': 0.5
     edge: end
-  lon: -93.97
-  lat: 34.69
+  lon: -92.68
+  lat: 34.65
 - type: photo
   mid: us_midterms_2026_pa_capitol
   start:
