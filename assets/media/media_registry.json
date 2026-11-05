@@ -8354,6 +8354,84 @@
    },
    "source_hash": "47befe2504897c42ce22a84fe6e895b4",
    "file": "us_midterms_2026_andrews_720.jpg"
+  },
+  "us_midterms_2026_ia_capitol": {
+   "kind": "photo",
+   "title": "File:Capitol building, Des Moines, Iowa.jpg",
+   "license": "Public domain",
+   "author": "Carol M. Highsmith",
+   "credit_author": "Carol M. Highsmith · Public domain",
+   "date": "between 19",
+   "url": "https://commons.wikimedia.org/wiki/File:Capitol_building,_Des_Moines,_Iowa.jpg",
+   "caption": "아이오와 주 의사당",
+   "file_note": "자료사진",
+   "depicts": [
+    "아이오와 주 의사당(디모인)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·제한 대조(tools/commons_fetch.info), 원본 육안 확인(피사체·시기). 실사용 판정은 게이트 ②",
+    "on": "2026-11-05",
+    "casualty_free": true,
+    "relevance": "act2_10 아이오와 상원(투렉 사진 허용 라이선스 없음)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-05",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "us_midterms_2026_ia_capitol.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "58d2d0ce29a0fdcc8fd79673c3c10f82",
+   "file": "us_midterms_2026_ia_capitol_720.jpg"
+  },
+  "us_midterms_2026_brown": {
+   "kind": "photo",
+   "title": "File:Sherrod Brown official photo 2009.jpg",
+   "license": "Public domain",
+   "author": "Office of Senator Sherrod Brown",
+   "credit_author": "Office of Senator Sherrod Brown · Public domain",
+   "date": "2009-06-23",
+   "url": "https://commons.wikimedia.org/wiki/File:Sherrod_Brown_official_photo_2009.jpg",
+   "caption": "셰러드 브라운 전 의원 공식 사진",
+   "file_note": "자료사진 · 2009",
+   "depicts": [
+    "셰러드 브라운 전 연방 상원의원(오하이오, 민주) 공식 사진"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata 라이선스·제한 대조(tools/commons_fetch.info), 원본 육안 확인(피사체·시기). 실사용 판정은 게이트 ②",
+    "on": "2026-11-05",
+    "casualty_free": true,
+    "relevance": "act2_12 브라운 복귀"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-05",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "us_midterms_2026_brown.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "80c3ac0175c0e526f546d75b38391818",
+   "file": "us_midterms_2026_brown_720.jpg"
   }
  }
 }
