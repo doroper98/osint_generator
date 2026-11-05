@@ -1003,6 +1003,30 @@
    ]
   },
   {
+   "id": "src_art_0045",
+   "url": "https://thehill.com/homenews/campaign/6196987-mississippi-senate-race-too-close-to-call-ddhq/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "감독 조사표 D-0291 §2 — 요지 대조",
+   "type": "article",
+   "publisher": "The Hill",
+   "headline_original": "Mississippi Senate race too close to call: DDHQ",
+   "headline_ko": "미시시피 상원, 판정 불가(DDHQ)",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "DDHQ 집계 표 차 2,169표(보도 시점)"
+   ]
+  },
+  {
    "id": "src_doc_0001",
    "url": "https://www.presidency.ucsb.edu/statistics/data/seats-congress-gainedlost-the-presidents-party-mid-term-elections",
    "retrieved_at": "2026-11-05",

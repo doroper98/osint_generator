@@ -189,7 +189,7 @@
   },
   {
    "claim_id": "clm_0011",
-   "text": "CBS 출구조사: 트럼프 대통령 국정 지지율 38% — CBS 는 중간선거 때 대통령 지지율로 가장 낮다고 전했다",
+   "text": "CBS 초기 출구조사: 트럼프 대통령 국정 지지율 38% — CBS 는 중간선거 때 대통령 지지율로 가장 낮다고 전했다",
    "source_ids": [
     "src_art_0015",
     "src_art_0005"
@@ -554,11 +554,12 @@
   },
   {
    "claim_id": "clm_0030",
-   "text": "미시시피 상원: 콜롬(민주)과 현직 하이드스미스(공화) 표 차가 집계 시각에 따라 수십 표(NPR 43·ABC 65)",
+   "text": "미시시피 상원: 콜롬(민주)과 현직 하이드스미스(공화) 표 차가 집계 매체·시각에 따라 수십 표~2천 표 남짓(NPR 43·ABC 65·DDHQ 2,169)",
    "source_ids": [
     "src_art_0025",
     "src_art_0033",
     "src_art_0009",
+    "src_art_0045",
     "src_doc_0002"
    ],
    "status": "verified",
@@ -567,8 +568,9 @@
     "quote_match:src_art_0025",
     "quote_match:src_art_0033",
     "quote_match:src_art_0009",
+    "quote_match:src_art_0045",
     "quote_match:src_doc_0002",
-    "independent_origins:4"
+    "independent_origins:5"
    ],
    "attributed_only": false,
    "claim_kind": "fact",

@@ -272,6 +272,313 @@
    "rejected": [
     "No restrictions"
    ]
+  },
+  {
+   "sid": "act2_3",
+   "query": "James Talarico",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 1,
+   "top": [
+    "File:¡Viva Democracy! Awesome turnout last night at the James Talarico Rally at The Backyard.jpg"
+   ],
+   "rejected": [
+    "CC BY 4.0 제한",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_5",
+   "query": "Adam Hamilton pastor Kansas",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 4,
+   "top": [
+    "File:Adam Hamilton, 1930s.jpg",
+    "File:Adam Hamilton campaign rally, Newton, Kansas, 30 Oct 2026.jpg",
+    "File:Adam Hamilton campaign rally, Newton, Kansas, 30 Oct 2026 (3x4 cropped).jpg",
+    "File:Adam Hamilton campaign rally, Newton, Kansas, 30 Oct 2026 (cropped).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0"
+   ]
+  },
+  {
+   "sid": "act2_8",
+   "query": "Annie Andrews South Carolina",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 5,
+   "top": [
+    "File:Annie Andrews Greenville.jpg",
+    "File:Annie Andrews Greenville (cropped).jpg",
+    "File:Annie Andrews Greenville (cropped 2).jpg",
+    "File:Annie Andrews Senate Campaign Building.jpg",
+    "File:Annie E. Andrews, Esquire American Lawyer and Juvenile Justice Advocate.jpg"
+   ],
+   "rejected": [
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act2_10",
+   "query": "Josh Turek",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 4,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "Copyrighted free use"
+   ]
+  },
+  {
+   "sid": "act2_12",
+   "query": "Sherrod Brown",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 3,
+   "top": [
+    "File:Sherrod Brown 113th Congress.jpg",
+    "File:Sherrod Brown official photo 2009.jpg",
+    "File:Sherrod Brown on his support for the nomination of Lisa Cook as Federal Reserve Governor.ogg"
+   ],
+   "rejected": [
+    "Public domain 제한"
+   ]
+  },
+  {
+   "sid": "act2_13",
+   "query": "Roy Cooper",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 4,
+   "top": [
+    "File:Gov. Cooper Cropped.jpg",
+    "File:Roy Cooper in November 2023.jpg",
+    "File:Roy Cooper speaks at NC by train home for the holidays 2023 (2).jpg",
+    "File:Senator Roy A. Cooper III.gif"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_15",
+   "query": "Troy Jackson Maine",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 5,
+   "top": [
+    "File:L-21-10-05-C-022 (51559078584) (3x4).jpg",
+    "File:Political yard signs Scarborough ME September 2026 01.jpg",
+    "File:Troy Jackson Unveils Universal Childcare Plan.jpg",
+    "File:Troy Jackson in the Senate Chamber.jpg",
+    "File:Troy Jackson in the Senate Chamber (cropped).jpg"
+   ],
+   "rejected": [
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act2_17",
+   "query": "Jon Ossoff",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 6,
+   "top": [
+    "File:2023 Peanut Leadership Academy with Jon Ossoff 01.jpg",
+    "File:2023 Peanut Leadership Academy with Jon Ossoff 02.jpg",
+    "File:Senator Jon Ossoff Addresses the Media, February 11, 2021.jpg",
+    "File:Senator Jon Ossoff on Bipartisan Investigation into Medical Mistreatment of Women in U.S. Detention.ogg",
+    "File:Senator Jon Ossoff on Bipartisan Investigation into the Medical Mistreatment of Women in U.S. Detention.ogg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act2_17",
+   "query": "Abdul El-Sayed",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 3,
+   "top": [
+    "File:Abdul El-Sayed audio sample.ogg",
+    "File:Abdul El-Sayed testifying at committee hearing, 2024.jpg",
+    "File:Abdul El Sayed senate hearing.webm"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act4_2",
+   "query": "Gina Hinojosa",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 3,
+   "top": [
+    "File:Gina Hinojosa 16 February 2017 (cropped).jpg",
+    "File:Gina Hinojosa at LBJ Library Forum.jpg",
+    "File:Gina Hinojosa at the AFL-CIO COPE convention in 2024.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act4_4",
+   "query": "Keisha Lance Bottoms",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 6,
+   "top": [
+    "File:David Perdue, Cory Seals, Keisha Lance Bottoms, and Johnny Isakson.jpg",
+    "File:Keisha Lance Bottoms.jpg",
+    "File:Keisha Lance Bottoms (46601210695) (cropped).jpg",
+    "File:Keisha Lance Bottoms 2019.jpg",
+    "File:Keisha Lance Bottoms in 2019.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act4_5",
+   "query": "Amy Acton Ohio",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 6,
+   "top": [
+    "File:Amy Acton.jpg",
+    "File:Amy Acton (cropped).jpg",
+    "File:Amy Acton (cropped2).jpg",
+    "File:Double protest to Open Ohio 02IMG 0801 (49873051447).jpg",
+    "File:Double protest to Open Ohio 02aIMG 0789 (49872740076).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act4_6",
+   "query": "Aaron Ford Nevada attorney general",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 4,
+   "top": [
+    "File:Nevada Attorney General Aaron Ford ICCPR Civil Society Consultation October 17-18, 2023.jpg",
+    "File:Nevada Attorney General Aaron Ford addresses the United Nations Human Rights Committee, October 17-18, 2023 1.jpg",
+    "File:Nevada Attorney General Aaron Ford addresses the United Nations Human Rights Committee, October 17-18, 2023 1 (cropped).jpg",
+    "File:Nevada Attorney General Aaron Ford addresses the United Nations Human Rights Committee, October 17-18, 2023 2.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "Public domain 제한"
+   ]
+  },
+  {
+   "sid": "act4_6",
+   "query": "Rob Sand Iowa",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 5,
+   "top": [
+    "File:Rob Sand For Iowa.jpg",
+    "File:Rob Sand For Iowa (cropped).jpg",
+    "File:Rob Sand For Iowa - 54827783578.jpg",
+    "File:Rob Sand For Iowa - 54827846235.jpg",
+    "File:Rob Sand For Iowa 2.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act4_7",
+   "query": "Byron Donalds",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 1,
+   "top": [
+    "File:Rep. Byron Donalds official photo, 117th Congress.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act3_2",
+   "query": "Cindy Hyde-Smith",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 6,
+   "top": [
+    "File:Cindy Hyde-Smith Questioning USDA Requirements to Access Federal Aid for Rural Hospitals.ogg",
+    "File:Cindy Hyde-Smith official photo.jpg",
+    "File:Cindy Hyde-Smith official photo (cropped).jpg",
+    "File:Cindyhydesmith.jpg",
+    "File:Official headshot of US Senator Cindy Hyde-Smith (cropped 2).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act3_4",
+   "query": "Mary Peltola",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 6,
+   "top": [
+    "File:Mary Peltola Congressional Member Portrait (2).jpeg",
+    "File:Mary Peltola and Mike Dunleavy (October 2023).jpg",
+    "File:Mary Peltola on her support for S.5087, a bill to amend the Not Invisible Act of 2019.ogg",
+    "File:Rep. Mary Peltola headshot.jpg",
+    "File:Rep. Mary Peltola swearing-in.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act6_2",
+   "query": "Hakeem Jeffries",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 6,
+   "top": [
+    "File:Hakeem Jeffries Bio Shot - In House (crop).jpg",
+    "File:Hakeem Jeffries Portrait.jpg",
+    "File:Hakeem Jeffries official portrait.jpg",
+    "File:Hakeem Jeffries portrait (116th Congress).jpg",
+    "File:Rep-Hakeem-Jeffries-Official-Portrait (cropped).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act6_3",
+   "query": "Chuck Schumer",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 6,
+   "passed": 1,
+   "top": [
+    "File:Chuck Schumer official photo (cropped).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "Public domain 제한"
+   ]
   }
  ]
 }

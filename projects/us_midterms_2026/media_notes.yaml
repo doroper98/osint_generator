@@ -1,42 +1,66 @@
-# us_midterms_2026 미디어 사유(게이트 ① 미디어 계획 표) — 원고 v1(74문장) 문장 번호. D-0290 §2·§5(Commons 탐색 의무, 등재 0 금지).
-# 게이트 ① 은 원본 받기와 분리 — 고른 후보(파일명·라이선스·사유)를 여기 적고, 원본 바이트는 승인 뒤 미디어 등록 단계에서 받는다(Wikimedia 429 지속).
-# 사진 밀도 하한: rules media_beats.min_density_per_min 1.5 × 예상 8.7분 ≈ 13 → 14장 선택. 선거 당일 사진은 Commons 에 아직 없다 → 의사당·의회 자료사진(자료사진 표기).
-# 클립: c-span.org 컨테이너 403(봇 차단) — 우회 금지(D-0290 §7) → 클립 0, 사진 액자.
+# us_midterms_2026 미디어 사유(게이트 ① 미디어 계획 표) — 원고 v1.1(72문장) 문장 번호. D-0290 §2·§5, D-0292 §2.2(인물 사진 우선 — 의사당 사진은 후보 없는 주의 대체).
+# 게이트 ① 은 원본 받기와 분리 — 고른 후보(파일명·라이선스·사유)를 여기 적고, 원본 바이트·피사체·시기 대조는 승인 뒤 미디어 등록 단계에서(Wikimedia 429 지속).
+# 사진 밀도 하한: rules media_beats.min_density_per_min 1.5 × 예상 8분 20초 ≈ 13 → 22장 선택(D-0292 목표 16 이상). 인물 사진 = 가운데 큰 액자, 뱃지는 발언 문장에만.
+# 클립: c-span.org 컨테이너 403(봇 차단) — 우회 금지(D-0290 §7) → 클립 0, 사진 액자. 연방 공직자 공식 초상 = 미 정부 저작물 PD.
 schema_version: 1
 sentences:
   cold_1:
     photo: "선택 — File:View of the United States Capitol at night from Union Square.jpg (CC0) — 연방 의사당 야경 자료사진(선거의 밤)"
   act1_8:
-    photo: 고르지 않음 — 통과 후보는 호주 투표소 사진 1장뿐(미국 아님). 출구조사 패널(versus)과 기사 카드(엔비씨 출구조사)
+    photo: 고르지 않음 — 통과 후보는 호주 투표소 사진 1장뿐(미국 아님). 출구조사 기사 카드(엔비씨)
+  act1_12:
+    photo: 고르지 않음 — 트럼프 대통령 발언 문장(폭스뉴스 인터뷰). 인물 뱃지(공용 라이브러리 trump)로. 인터뷰 화면은 권리 없음
   act2_2:
-    photo: "선택 — File:Texas State Capitol - Austin, Texas - DSC07601.jpg (CC0) — 텍사스 주 의사당 자료사진"
+    photo: "고르지 않음 — 다음 문장(act2_3) 탈라리코 사진으로. 텍사스 의사당(CC0) 은 예비"
+  act2_3:
+    photo: "선택 — File:¡Viva Democracy! Awesome turnout last night at the James Talarico Rally at The Backyard.jpg (CC BY 4.0) — 탈라리코 유세 현장(피사체·시기 등록 때 대조, 안 맞으면 텍사스 의사당 CC0 로 대체)"
   act2_5:
-    photo: 고르지 않음 — 캔자스 주 의사당 검색 통과 0(전부 CC BY-SA). 지도 캔자스 area·marker + 기사 카드(엔비씨 해밀턴)
+    photo: "선택 — File:Adam Hamilton campaign rally, Newton, Kansas, 30 Oct 2026.jpg (CC0) — 해밀턴 유세(2026-10-30)"
+  act2_6:
+    photo: "선택 — File:Roger Marshall official portrait.jpg (Public domain, 미 상원) — 낙선한 현직 마셜 의원 공식 초상"
   act2_7:
-    photo: "선택 — File:South Carolina State Capitol.jpg (Public domain) — 사우스캐롤라이나 주 의사당 자료사진"
+    photo: "선택 — File:South Carolina State Capitol.jpg (Public domain) — 사우스캐롤라이나 주 의사당 자료사진(임명 문장)"
+  act2_8:
+    photo: "선택 — File:Annie Andrews Greenville.jpg (CC0) — 앤드루스 후보"
   act2_10:
-    photo: "선택 — File:Capitol building, Des Moines, Iowa.jpg (Public domain) — 아이오와 주 의사당 자료사진"
+    photo: "선택 — File:Capitol building, Des Moines, Iowa.jpg (Public domain) — 아이오와 주 의사당 자료사진. 투렉 사진은 'Copyrighted free use' 뿐(허용 라이선스 밖)"
   act2_11:
-    photo: 고르지 않음 — 통과 후보는 1914년 여성 참정권 시위 사진뿐(문장과 무관). 지도 오하이오 area·marker
+    photo: 고르지 않음 — 통과 후보는 1914년 여성 참정권 시위 사진뿐(문장과 무관). 다음 문장 브라운 공식 사진으로
+  act2_12:
+    photo: "선택 — File:Sherrod Brown official photo 2009.jpg (Public domain, 미 상원) — 셰러드 브라운 전 의원 공식 사진"
   act2_13:
-    photo: "선택 — File:Raleigh - North Carolina State Capitol.jpg (CC BY 4.0) — 노스캐롤라이나 주 의사당 자료사진"
+    photo: "선택 — File:Roy Cooper in November 2023.jpg (CC BY 2.0) — 로이 쿠퍼 전 주지사"
   act2_14:
-    photo: "선택 — File:Maine state capitol.jpg (Public domain) — 메인 주 의사당 자료사진"
+    photo: "고르지 않음 — 다음 문장(act2_15) 잭슨 사진으로. 메인 의사당(PD)은 예비"
+  act2_15:
+    photo: "선택 — File:Troy Jackson in the Senate Chamber.jpg (CC0) — 트로이 잭슨(메인 주 상원)"
+  act2_16:
+    photo: "선택 — File:Senator Susan Collins 2014 official portrait (1).jpg (Public domain, 미 상원) — 콜린스 의원 공식 초상"
+  act2_17:
+    photo: "선택 — File:Senator Jon Ossoff Addresses the Media, February 11, 2021.jpg (CC BY 2.0) — 오소프 의원. 엘사예드는 PD 청문회 사진(2024) 예비"
   act3_2:
-    photo: "선택 — File:Mississippi State Capitol.jpg (CC BY 2.0) — 미시시피 주 의사당 자료사진"
+    photo: "선택 — File:Mississippi State Capitol.jpg (CC BY 2.0) — 미시시피 주 의사당 자료사진(개표 중 — 한 후보 사진을 고르지 않는다)"
   act3_4:
-    photo: "선택 — File:210103 Snowy capitol.jpg (CC BY 2.0) — 알래스카 주 의사당(주노) 자료사진. 낙태 반대 집회 사진(PD)은 문장과 무관해 쓰지 않는다"
+    photo: "선택 — File:210103 Snowy capitol.jpg (CC BY 2.0) — 알래스카 주 의사당(개표 중 — 후보 한쪽 사진을 고르지 않는다)"
   act3_5:
-    photo: "선택 — File:1937 election vote counting nyc stv.jpg (Public domain) — 1937년 뉴욕 순위선택 개표 자료사진(순위선택 집계 설명). 아프가니스탄 개표 사진(미 해군 PD)은 다른 나라라 쓰지 않는다"
+    photo: "선택 — File:1937 election vote counting nyc stv.jpg (Public domain) — 1937년 뉴욕 순위선택 개표 자료사진(연도 표기, D-0292)"
+  act4_2:
+    photo: "선택 — File:Gina Hinojosa at the AFL-CIO COPE convention in 2024.jpg (CC0) — 이노호사 후보(2024)"
   act4_4:
-    photo: "선택 — File:The Georgia State Capitol Building.jpg (CC BY 4.0) — 조지아 주 의사당 자료사진"
+    photo: "선택 — File:Keisha Lance Bottoms in 2025.jpg (CC0) — 보텀스 후보(2025)"
+  act4_5:
+    photo: "선택 — File:Amy Acton.jpg (Public domain, 오하이오 주 정부) — 액턴 후보"
+  act4_6:
+    photo: "선택 — File:Rob Sand For Iowa.jpg (CC0) — 롭 샌드 후보. 포드 후보는 PD(유엔 인권위원회 2023) 예비"
+  act4_7:
+    photo: "선택 — File:Rep. Byron Donalds official photo, 117th Congress.jpg (Public domain, 미 하원) — 도널즈 의원 공식 사진"
   act4_8:
     photo: "선택 — File:Harrisburg, Pennsylvania State Capitol Building.jpg (CC BY 2.0) — 펜실베이니아 주 의사당 자료사진"
   act5_2:
     photo: "선택 — File:United States House of Representatives chamber.jpg (Public domain) — 연방 하원 본회의장 자료사진"
   act6_1:
     photo: "선택 — File:United States Senate Floor.jpg (Public domain) — 연방 상원 본회의장 자료사진"
-  act1_12:
-    photo: 고르지 않음 — 트럼프 대통령 발언 문장(폭스뉴스 인터뷰). 인물 뱃지(공용 라이브러리 trump)로. 인터뷰 화면은 권리 없음
-  act2_15:
-    photo: 고르지 않음 — 앞 문장(act2_14) 메인 의사당 사진 유지. 콜린스 의원은 인물 뱃지(공식 초상 PD 확인 뒤)
+  act6_2:
+    photo: "선택 — File:Hakeem Jeffries official portrait.jpg (Public domain, 미 하원) — 제프리스 원내대표 공식 초상"
+  act6_3:
+    photo: "고르지 않음 — 슈머 발언 문장 = 인물 뱃지(File:Chuck Schumer official photo (cropped).jpg, PD) + quote"
