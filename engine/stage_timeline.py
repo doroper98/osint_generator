@@ -338,7 +338,7 @@ class TimelineStage:
         return out
 
     # --- 라벨
-    def draw_labels(self, ctx: cairo.Context, view: "View", reserved: list, alpha: float = 1.0) -> None:
+    def draw_labels(self, ctx: cairo.Context, view: "View", reserved: list, alpha: float = 1.0, t: "float | None" = None) -> None:
         T = TIMELINE  # noqa: N806
         for i, ln in enumerate(self.lanes):
             top, _ = self.lane_screen(view, i)

@@ -51,7 +51,7 @@ class BackdropStage:
         ctx.set_source_rgb(*BACKDROP.bg_rgb)
         ctx.paint()
 
-    def draw_labels(self, ctx: cairo.Context, view: "View", reserved: list, alpha: float = 1.0) -> None:
+    def draw_labels(self, ctx: cairo.Context, view: "View", reserved: list, alpha: float = 1.0, t: "float | None" = None) -> None:
         """라벨 없음(사진 배경은 장식 — 캡션 바도 없다, D-0121 §B)."""
 
     def lod_rules(self) -> dict[str, Any]:

@@ -86,5 +86,21 @@ class PlanStableTest(unittest.TestCase):
         self.assertEqual(lp.shot_ranges(keys, 6 * FPS, FPS), [(0, 48, False), (48, 96, True), (96, 144, True)])
 
 
+class StageSignatureTest(unittest.TestCase):
+    """engine/render.py 가 모든 무대에 draw_labels(ctx, view, reserved, alpha, t) 로 부른다 — 무대 하나라도 t 를 못 받으면 그 장르 영상 렌더가 TypeError
+    (v7.4.0 전체 pytest 에서 timeline 무대로 발견)."""
+
+    def test_all_stages_accept_t(self) -> None:
+        import inspect  # noqa: PLC0415
+
+        from engine import stage, stage_backdrop, stage_timeline  # noqa: PLC0415
+
+        classes = [c for m in (stage, stage_backdrop, stage_timeline) for _, c in inspect.getmembers(m, inspect.isclass)
+                   if c.__module__ == m.__name__ and "draw_labels" in c.__dict__]
+        self.assertGreaterEqual(len(classes), 3)
+        for c in classes:
+            self.assertIn("t", inspect.signature(c.draw_labels).parameters, c.__name__)
+
+
 if __name__ == "__main__":
     unittest.main()
