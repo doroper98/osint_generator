@@ -4,8 +4,8 @@
   "title": "뒤집힌 일곱 자리 — 2026 미국 중간선거",
   "category": "geopolitics",
   "created_at": "2026-11-05T00:40:19.301806Z",
-  "updated_at": "2026-11-05T01:06:28.632943Z",
-  "current_state": "script_approval",
+  "updated_at": "2026-11-05T03:37:55.662671Z",
+  "current_state": "voice_timeline",
   "target_duration_min": 18,
   "topic_summary": "2026-11-03 미국 중간선거 결과 — 주별 상원·주지사·하원 결과, 격전지, 역사 맥락(대통령 당 중간선거 성적)",
   "initial_links": [],
@@ -28,7 +28,26 @@
     "provenance": "out/provenance.json"
   },
   "render_mode_status": {},
-  "gate_decisions": [],
+  "gate_decisions": [
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "user",
+      "at": "2026-11-05T03:37:55.662581Z",
+      "comment": "사용자 승인(감독 세션 대화 2026-11-05 12:40 KST, 원문 '승인') — 원고 v1.2 79문장 sha1 b7ce51ec, UF-163·164·165 반영",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/us_midterms_2026/script.yaml",
+        "lint_errors": "6",
+        "lint_warnings": "0",
+        "est_sec": "755.2",
+        "media_plan_errors": "0",
+        "script_sha1": "b7ce51ec564a05634b979e822c7eca8c045dd56a",
+        "media_plan": "사진 0/12 · 기사 후보 65문장 · 755초(chars)"
+      },
+      "chosen_version": null
+    }
+  ],
   "stage_records": [],
   "final_outputs": {},
   "state_history": [
@@ -61,6 +80,12 @@
       "to_state": "script_approval",
       "transitioned_at": "2026-11-05T01:06:28.632853Z",
       "reason": "원고 v1 확정(87문장, 린트 오류 0·경고 0) — 게이트 ① 사용자 승인(D-0290 §0)"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-11-05T03:37:55.662626Z",
+      "reason": "script_approval 승인 — user"
     }
   ],
   "rollbacks": [],
