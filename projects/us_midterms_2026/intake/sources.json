@@ -1,0 +1,1127 @@
+{
+ "schema_version": 1,
+ "sources": [
+  {
+   "id": "src_art_0001",
+   "url": "https://www.nbcnews.com/politics/2026-elections/senate-results",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:16"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "컨테이너 curl 로 페이지 구조 데이터(__NEXT_DATA__) 직접 대조",
+   "type": "article",
+   "publisher": "NBC News",
+   "headline_original": "U.S. Senate Election 2026 Live Results: Democrats Win Majority",
+   "headline_ko": "엔비씨 상원 결과 — 민주당 과반",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "NBC 집계 상원 민주 54·공화 44, 뒤집힘 7(민주 순증 7)",
+    "미시시피·알래스카 미확정",
+    "주별 득표율(구조 데이터, 컨테이너 curl 2026-11-05 09:30 KST)"
+   ]
+  },
+  {
+   "id": "src_art_0002",
+   "url": "https://www.nbcnews.com/politics/2026-elections/house-results",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:4"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "컨테이너 curl 대조",
+   "type": "article",
+   "publisher": "NBC News",
+   "headline_original": "U.S. House Elections 2026 Live Results: Democrats Win Control",
+   "headline_ko": "엔비씨 하원 결과 — 민주당 다수당",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "확정 민주 242·공화 151·미확정 42(11/5 09:30 KST)",
+    "민주 뒤집음 35(순증 34), 공화 뒤집음 1",
+    "결정데스크 추정: 민주 최소 258석"
+   ]
+  },
+  {
+   "id": "src_art_0003",
+   "url": "https://www.nbcnews.com/politics/2026-elections/governor-results",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:5"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "컨테이너 curl 대조",
+   "type": "article",
+   "publisher": "NBC News",
+   "headline_original": "U.S. Governor Midterm Elections 2026 Live Results",
+   "headline_ko": "엔비씨 주지사 결과",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "주지사 36곳 결과(주별 페이지 구조 데이터)",
+    "민주 뒤집음 TX·GA·OH·IA·NV, 캔자스·알래스카 미확정"
+   ]
+  },
+  {
+   "id": "src_art_0004",
+   "url": "https://www.nbcnews.com/politics/2026-election/nbc-news-exit-poll-democrats-victory-trump-economy-rcna607391",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NBC News",
+   "headline_original": "5 key insights from the NBC News Exit Poll about the blue tsunami",
+   "headline_ko": "엔비씨 출구조사 다섯 가지",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "경제 '좋지 않다·나쁘다' 약 75%",
+    "경제 신뢰 민주 43·공화 37(2024 트럼프 +7)"
+   ]
+  },
+  {
+   "id": "src_art_0005",
+   "url": "https://www.nbcnews.com/politics/2026-election/exit-poll-trump-midterms-voters-economy-disapproval-rcna607045",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:4"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NBC News",
+   "headline_original": "Many voters saw midterm election as a rebuke of Trump, NBC News Exit Poll shows",
+   "headline_ko": "출구조사 — 많은 유권자가 트럼프 심판으로 봤다",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "트럼프 정책이 경제를 악화 65%",
+    "높은 물가 책임 트럼프 62%",
+    "국정 지지 38%·반대 62%"
+   ]
+  },
+  {
+   "id": "src_art_0006",
+   "url": "https://www.nbcnews.com/politics/2026-election/democrats-capture-full-control-congress-nbc-news-projects-fueled-victo-rcna607042",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NBC News",
+   "headline_original": "Democrats capture full control of Congress, NBC News projects, fueled by victories in deeply Republican states",
+   "headline_ko": "민주당 의회 양원 장악",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "민주당 양원 장악(NBC 추정)"
+   ]
+  },
+  {
+   "id": "src_art_0007",
+   "url": "https://www.nbcnews.com/politics/2026-election/democrats-flip-governorships-extending-party-inroads-red-states-rcna607010",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NBC News",
+   "headline_original": "Democrats clinch a majority of governorships for first time in 16 years",
+   "headline_ko": "민주당 16년 만에 주지사 과반",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "민주당 16년 만에 주지사 과반"
+   ]
+  },
+  {
+   "id": "src_art_0008",
+   "url": "https://www.nbcnews.com/politics/2026-election/adam-hamilton-kansas-senate-democrat-winner-upset-roger-marshall-rcna603310",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NBC News",
+   "headline_original": "Democrat Adam Hamilton upsets GOP Sen. Roger Marshall in Kansas Senate race",
+   "headline_ko": "해밀턴, 캔자스 상원에서 마셜 꺾어",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "1932년 이후 첫 캔자스 민주 상원",
+    "트럼프 2024 캔자스 +16"
+   ]
+  },
+  {
+   "id": "src_art_0009",
+   "url": "https://www.nbcnews.com/politics/2026-election/mississippi-senate-race-heads-extended-vote-count-possible-ballot-batt-rcna607463",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NBC News",
+   "headline_original": "Mississippi Senate race heads to an extended vote count and possible ballot battle",
+   "headline_ko": "미시시피 상원, 긴 개표·법적 다툼 가능성",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "미집계 약 44,000표 추정",
+    "카운티 결과 보고 기한 11/13"
+   ]
+  },
+  {
+   "id": "src_art_0010",
+   "url": "https://www.nbcnews.com/politics/2026-election/missouri-voters-block-republican-drawn-congressional-map-rcna603390",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NBC News",
+   "headline_original": "Missouri voters block Republican-drawn congressional map",
+   "headline_ko": "미주리 유권자, 공화당 하원 지도 막아",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "미주리 공화 재획정 지도 주민투표 부결"
+   ]
+  },
+  {
+   "id": "src_art_0011",
+   "url": "https://www.nbcnews.com/politics/2026-election/ballot-measure-takeaways-voters-back-abortion-rights-photo-id-citizens-rcna607016",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NBC News",
+   "headline_original": "Ballot measure takeaways: Voters back abortion rights, along with photo ID and citizenship requirements at the polls",
+   "headline_ko": "주민투표 — 낙태권·사진 신분증",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "버지니아·네바다 낙태권 개헌 통과, 미주리 폐지안 부결, 아이다호 낙태 접근 회복안 부결",
+    "오하이오·노스캐롤라이나 사진 신분증 개헌 통과"
+   ]
+  },
+  {
+   "id": "src_art_0012",
+   "url": "https://www.nbcnews.com/politics/2026-election/democrats-house-control-midterm-election-wins-trump-check-rcna603397",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NBC News",
+   "headline_original": "Democrats win control of the House of Representatives with a vow to combat Trump",
+   "headline_ko": "민주당 하원 장악",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "제프리스 하원의장 예정"
+   ]
+  },
+  {
+   "id": "src_art_0013",
+   "url": "https://www.nbcnews.com/politics/2026-election/live-blog/midterm-election-results-2026-news-trump-live-updates-rcna605763",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NBC News",
+   "headline_original": "Midterms 2026 highlights: Democrats win control of Congress",
+   "headline_ko": "중간선거 하이라이트",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "트럼프, 민주당 통과 법안 거부권 언급"
+   ]
+  },
+  {
+   "id": "src_art_0014",
+   "url": "https://www.cbsnews.com/live-updates/senate-election-results-2026/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "컨테이너 curl 로 본문 인용 대조",
+   "type": "article",
+   "publisher": "CBS News",
+   "headline_original": "2026 Senate midterm election results as Democrats win control, Schumer vows \"legislative razor wire\" against Trump",
+   "headline_ko": "슈머 '입법 철조망' 경고",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "슈머: 'Whenever Trump defies the will of the American people or the law, we will launch investigations, take him to court, and entangle him in legislative razor wire.'"
+   ]
+  },
+  {
+   "id": "src_art_0015",
+   "url": "https://www.cbsnews.com/news/cbs-news-exit-polls-midterm-elections-2026/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "CBS News",
+   "headline_original": "See CBS News exit poll results for the 2026 midterm elections",
+   "headline_ko": "씨비에스 출구조사",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "트럼프 국정 지지 38% — CBS: 중간선거 때 대통령 지지율로는 가장 낮다"
+   ]
+  },
+  {
+   "id": "src_art_0016",
+   "url": "https://www.cbsnews.com/news/keisha-lance-bottoms-georgia-governor/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "CBS News",
+   "headline_original": "Keisha Lance Bottoms surprised by lopsided win in Georgia governor's race",
+   "headline_ko": "보텀스 조지아 주지사 당선",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "보텀스, 미국 첫 흑인 여성 주지사"
+   ]
+  },
+  {
+   "id": "src_art_0017",
+   "url": "https://www.npr.org/2026/11/03/g-s1-148943/texas-senate-race-james-talarico",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NPR",
+   "headline_original": "James Talarico wins Texas U.S. Senate race",
+   "headline_ko": "탈라리코, 텍사스 상원 승리",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "1988년 이후 첫 텍사스 민주 상원"
+   ]
+  },
+  {
+   "id": "src_art_0018",
+   "url": "https://www.npr.org/2026/11/04/nx-s1-6028587/adam-hamilton-is-the-first-democrat-since-1932-to-win-a-u-s-senate-seat-in-kansas",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NPR",
+   "headline_original": "Adam Hamilton is the first Democrat since 1932 to win a U.S. Senate seat in Kansas",
+   "headline_ko": "해밀턴, 1932년 이후 첫 캔자스 민주 상원",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "1932년 이후 첫 캔자스 민주 상원",
+    "해밀턴: 물가·관세·이란 전쟁이 승리 배경"
+   ]
+  },
+  {
+   "id": "src_art_0019",
+   "url": "https://www.npr.org/2026/11/03/g-s1-151666/south-carolina-senate-race-andrews-graham",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:3"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NPR",
+   "headline_original": "South Carolina Senate race: Annie Andrews defeats Darline Graham",
+   "headline_ko": "앤드루스, 사우스캐롤라이나 상원 승리",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "1998년 이후 첫 민주 상원, 첫 여성 상원 선거 승리"
+   ]
+  },
+  {
+   "id": "src_art_0020",
+   "url": "https://www.npr.org/2026/11/03/g-s1-148956/iowa-senate-race-josh-turek",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NPR",
+   "headline_original": "Democrat Josh Turek wins the Senate seat in Iowa",
+   "headline_ko": "투렉, 아이오와 상원 승리",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "언스트 은퇴 의석, 민주 뒤집음"
+   ]
+  },
+  {
+   "id": "src_art_0021",
+   "url": "https://www.npr.org/2026/11/04/g-s1-148952/maine-senate-race-susan-collins-troy-jackson",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:3"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NPR",
+   "headline_original": "Troy Jackson wins Maine Senate race over Susan Collins, in big victory for Democrats",
+   "headline_ko": "잭슨, 메인 상원에서 콜린스 꺾어",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "콜린스 약 30년 의회 생활 종료",
+    "1995년 이후 첫 메인 민주 상원",
+    "잭슨은 사퇴한 플래트너 대신 후보가 됨"
+   ]
+  },
+  {
+   "id": "src_art_0022",
+   "url": "https://www.npr.org/2026/11/03/g-s1-151040/georgia-elects-the-nations-first-black-female-governor",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NPR",
+   "headline_original": "Georgia elects Keisha Lance Bottoms the nation's first Black female governor",
+   "headline_ko": "조지아, 미국 첫 흑인 여성 주지사 선출",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "보텀스, 미국 첫 흑인 여성 주지사"
+   ]
+  },
+  {
+   "id": "src_art_0023",
+   "url": "https://www.npr.org/2026/11/03/g-s1-151260/florida-governor-donalds-jolly",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NPR",
+   "headline_original": "Republican Byron Donalds wins governor's race in Florida",
+   "headline_ko": "도널즈, 플로리다 주지사 승리",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "도널즈 50.0 대 졸리 48.7"
+   ]
+  },
+  {
+   "id": "src_art_0024",
+   "url": "https://www.npr.org/2026/11/04/g-s1-151138/midterms-ford-nevada-governor-lombardo",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NPR",
+   "headline_original": "Nevada governor race: Aaron Ford beats Republican incumbent",
+   "headline_ko": "포드, 네바다 현직 주지사 꺾어",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "포드, 현직 롬바르도 꺾음(AP 콜)"
+   ]
+  },
+  {
+   "id": "src_art_0025",
+   "url": "https://www.npr.org/2026/11/04/nx-s1-6028618/votes-are-still-being-counted-in-mississippi-u-s-senate-race",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NPR",
+   "headline_original": "Votes still being counted to see who will represent Mississippi in the Senate",
+   "headline_ko": "미시시피 상원 개표 계속",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "표 차 43표(보도 시점)",
+    "재검표 제도·기준 없음"
+   ]
+  },
+  {
+   "id": "src_art_0026",
+   "url": "https://www.npr.org/2026/11/04/nx-s1-6029306/democrats-won-big-in-the-midterms-and-president-trump-is-accepting-the-results",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "컨테이너 curl 로 제목 대조",
+   "type": "article",
+   "publisher": "NPR",
+   "headline_original": "Democrats won big in the midterms, and President Trump is accepting the results",
+   "headline_ko": "트럼프, 결과 수용",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "트럼프, 결과 수용"
+   ]
+  },
+  {
+   "id": "src_art_0027",
+   "url": "https://www.npr.org/2026/11/03/g-s1-150844/gina-hinojosa-texas-governor-abbott",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "NPR",
+   "headline_original": "Democrat Gina Hinojosa wins race for Texas governor, ousting Greg Abbott",
+   "headline_ko": "이노호사, 애벗 꺾고 텍사스 주지사",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "1995년 퇴임한 앤 리처즈 이후 첫 민주 주지사"
+   ]
+  },
+  {
+   "id": "src_art_0028",
+   "url": "https://www.texastribune.org/2026/11/03/texas-ken-paxton-james-talarico-us-senate-elections-2026/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:3"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "The Texas Tribune",
+   "headline_original": "James Talarico defeats Ken Paxton in Texas' U.S. Senate race",
+   "headline_ko": "탈라리코, 팩스턴 꺾어",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "AP 콜 22:04 CT, 팩스턴 22:20 승복",
+    "1988년 이후 첫 민주 상원"
+   ]
+  },
+  {
+   "id": "src_art_0029",
+   "url": "https://www.texastribune.org/2026/11/03/texas-governor-greg-abbott-gina-hinojosa-election/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "The Texas Tribune",
+   "headline_original": "Democrat Gina Hinojosa topples Greg Abbott to become first Latina governor of Texas",
+   "headline_ko": "이노호사, 텍사스 첫 라틴계 여성 주지사",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "텍사스 첫 라틴계 여성 주지사"
+   ]
+  },
+  {
+   "id": "src_art_0030",
+   "url": "https://www.texastribune.org/2026/11/03/texas-house-legislature-outcomes-control-republicans-democrats-2026/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "The Texas Tribune",
+   "headline_original": "Democrats flip Texas House amid generational wave",
+   "headline_ko": "민주당, 텍사스 주하원 뒤집어",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "AP 추정 민주 76석(13곳 미확정) — 2003년 이후 공화 다수 종료"
+   ]
+  },
+  {
+   "id": "src_art_0031",
+   "url": "https://www.texastribune.org/2026/11/03/texas-congress-us-house-redistricting-elections-2026/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "The Texas Tribune",
+   "headline_original": "Texas Republicans' gerrymander backfires as Democrats gain ground in U.S. House delegation",
+   "headline_ko": "텍사스 공화당 재획정, 역효과",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "텍사스 공화 하원 25석 → 24석(목표 30 대 8)"
+   ]
+  },
+  {
+   "id": "src_art_0032",
+   "url": "https://www.mainepublic.org/politics/2026-11-04/susan-collins-concedes-to-troy-jackson-in-maine-senate-race",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Maine Public",
+   "headline_original": "Troy Jackson unseats Susan Collins in Maine Senate race",
+   "headline_ko": "잭슨, 콜린스 꺾어",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "콜린스 승복"
+   ]
+  },
+  {
+   "id": "src_art_0033",
+   "url": "https://abcnews.com/Politics/recounts-mississippi-razor-thin-margin-senate-race/story?id=137844445",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "ABC News",
+   "headline_original": "What to know about recounts in Mississippi with razor-thin margin in Senate race",
+   "headline_ko": "미시시피 재검표 제도",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "미시시피는 재검표 요청·자동 재검표 제도 없음(주 국무장관실)",
+    "표 차 65표(보도 시점)"
+   ]
+  },
+  {
+   "id": "src_art_0034",
+   "url": "https://alaskabeacon.com/2026/11/03/democratic-candidate-mary-peltola-leads-in-early-vote-counts-for-alaskas-us-senate-election/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Alaska Beacon",
+   "headline_original": "Alaska's US Senate race a tossup, with many absentee and early votes to be counted",
+   "headline_ko": "알래스카 상원 접전",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "순위선택 집계 11/18 예정"
+   ]
+  },
+  {
+   "id": "src_art_0035",
+   "url": "https://kansasreflector.com/2026/11/04/trailing-by-5500-votes-ty-masterson-calls-for-another-look-at-results-in-kansas-governors-race-2/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Kansas Reflector",
+   "headline_original": "Trailing by 5,500 votes, Ty Masterson calls for 'another look' at results in Kansas governor's race",
+   "headline_ko": "캔자스 주지사, 5천5백 표 차",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "홀셔 약 5,500표 앞섬"
+   ]
+  },
+  {
+   "id": "src_art_0036",
+   "url": "https://stateline.org/2026/11/04/in-blue-wave-democrats-flipped-legislatures-won-trifectas-and-toppled-gop-supermajorities/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Stateline",
+   "headline_original": "In blue wave, Democrats flipped legislatures, won trifectas and toppled GOP supermajorities",
+   "headline_ko": "민주당, 주의회 뒤집고 트라이펙타",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "펜실베이니아 1993년 이후 첫 민주 트라이펙타"
+   ]
+  },
+  {
+   "id": "src_art_0037",
+   "url": "https://scdailygazette.com/2026/11/03/sc-elects-first-democrat-to-us-senate-in-28-years-in-stunning-win-over-trumps-pick/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:2"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "SC Daily Gazette",
+   "headline_original": "SC elects first Democrat to US Senate in 28 years in stunning win over Trump's pick",
+   "headline_ko": "사우스캐롤라이나, 28년 만에 민주 상원",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "28년 만의 민주 상원"
+   ]
+  },
+  {
+   "id": "src_art_0038",
+   "url": "https://www.ajc.com/politics/2026/11/keisha-lance-bottoms-elected-georgia-governor/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "AJC",
+   "headline_original": "Keisha Lance Bottoms elected Georgia governor, nation's first Black woman governor",
+   "headline_ko": "보텀스, 미국 첫 흑인 여성 주지사",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "미국 첫 흑인 여성 주지사"
+   ]
+  },
+  {
+   "id": "src_art_0039",
+   "url": "https://floridaphoenix.com/2026/11/03/donalds-defeats-jolly-becoming-floridas-first-black-governor/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Florida Phoenix",
+   "headline_original": "Donalds defeats Jolly, becoming Florida's first Black governor",
+   "headline_ko": "도널즈, 플로리다 첫 흑인 주지사",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "플로리다 첫 흑인 주지사"
+   ]
+  },
+  {
+   "id": "src_art_0040",
+   "url": "https://www.houstonpublicmedia.org/articles/news/politics/election-2026/2026/11/03/565938/talarico-paxton-senate-race-texas-results/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "Houston Public Media",
+   "headline_original": "Democrat James Talarico wins U.S. Senate seat, ending GOP's 32-year Texas statewide winning streak",
+   "headline_ko": "탈라리코 승리",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "공화 32년 주 전체 선거 연승 종료"
+   ]
+  },
+  {
+   "id": "src_art_0041",
+   "url": "https://www.kcur.org/politics-elections-and-government/2026-11-04/ty-masterson-trails-in-kansas-governor-race-by-5-500-votes-he-says-the-results-need-another-look",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "KCUR",
+   "headline_original": "Ty Masterson trails in Kansas governor race by 5,500 votes. He says results need 'another look'",
+   "headline_ko": "매스터슨, 결과 재검토 요구",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "매스터슨 재검토 요구"
+   ]
+  },
+  {
+   "id": "src_art_0042",
+   "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "CBS News",
+   "headline_original": "2026 midterm election updates as fallout begins over sweeping Democratic victories",
+   "headline_ko": "선거 뒤 여파",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "트럼프 폭스뉴스: 결과에 '조금 놀랐다', 자신에 대한 타격으로 보지 않는다"
+   ]
+  },
+  {
+   "id": "src_art_0043",
+   "url": "https://thehill.com/homenews/campaign/6198650-election-day-2026-gop-democrat-redistricting-war-outcomes/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "",
+   "type": "article",
+   "publisher": "The Hill",
+   "headline_original": "Here's how the 2026 midterm redistricting wars are playing out",
+   "headline_ko": "재획정 전쟁 결과",
+   "published_at": "2026-11-04",
+   "key_facts": [
+    "텍사스 새 지도에도 민주 순증 1"
+   ]
+  },
+  {
+   "id": "src_art_0044",
+   "url": "https://bridgemi.com/michigan-politics/house-results-tom-barrett-bill-huizenga-face-tough-re-election-bids/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "감독 조사표 D-0291 §4 — 제목·요지 대조(본문 미열람)",
+   "type": "article",
+   "publisher": "Bridge Michigan",
+   "headline_original": "House results: Tom Barrett, Bill Huizenga face tough re-election bids",
+   "headline_ko": "미시간 하원 결과",
+   "published_at": "2026-11-03",
+   "key_facts": [
+    "미시간 7선거구 — 하원 통제 벨웨더로 꼽힘"
+   ]
+  },
+  {
+   "id": "src_doc_0001",
+   "url": "https://www.presidency.ucsb.edu/statistics/data/seats-congress-gainedlost-the-presidents-party-mid-term-elections",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:6"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "컨테이너 curl 로 표 원문 열람(마지막 갱신 2026-07-13). 평균은 1934~2022 23회 값으로 계산(하원 −27.0·상원 −3.4)",
+   "type": "document",
+   "issuer": "The American Presidency Project(UC Santa Barbara)",
+   "title": "Seats in Congress Gained/Lost by the President's Party in Mid-Term Elections",
+   "published_at": null,
+   "key_facts": [
+    "1934 +9/+9 · 1938 −72/−7 · 1946 −56/−12 · 1958 −48/−13 · 1986 −5/−8 · 1994 −54/−8 · 1998 +4/0 · 2002 +8/+2 · 2006 −30/−6 · 2010 −63/−6 · 2014 −13/−9 · 2018 −41/+2 · 2022 −9/+1",
+    "하원 의석이 늘어난 해 1934·1998·2002",
+    "2026 트럼프 2기, 방어 하원 220·상원 20"
+   ]
+  },
+  {
+   "id": "src_doc_0002",
+   "url": null,
+   "retrieved_at": "2026-11-05",
+   "lang": "ko",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:19"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "프로젝트 데이터 파일 — NBC 결과 페이지 구조 데이터 정리본(D-0290 §4-3)",
+   "type": "document",
+   "issuer": "us_midterms_2026 (NBC 결과 정리)",
+   "title": "data/state_results.yaml — 주별 상원·주지사 결과와 하원 뒤집힘",
+   "published_at": "2026-11-05",
+   "file": "data/state_results.yaml",
+   "key_facts": [
+    "상원 35곳·주지사 36곳·하원 뒤집힘 19곳, status·called_by·출처 URL"
+   ]
+  }
+ ]
+}

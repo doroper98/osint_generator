@@ -1,0 +1,8 @@
+# 『뒤집힌 일곱 자리』 지도 라벨 (v7.4.0, D-0290) — 나라 관용명. 주 이름은 NE admin1 name_ko.
+schema_version: 1
+ko:
+  US: 미국
+  CA: 캐나다
+  MX: 멕시코
+  CU: 쿠바
+  RU: 러시아

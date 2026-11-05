@@ -1,0 +1,1179 @@
+{
+ "schema_version": 1,
+ "claims": [
+  {
+   "claim_id": "clm_0001",
+   "text": "11월 3일 밤 동부 주부터 투표가 끝나며 결과가 나오기 시작했다",
+   "source_ids": [
+    "src_art_0001",
+    "src_art_0006"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_art_0006",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0002",
+   "text": "민주당이 2026년 중간선거로 하원과 상원을 모두 차지했다(NBC·CBS 추정)",
+   "source_ids": [
+    "src_art_0006",
+    "src_art_0001",
+    "src_art_0002"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0006",
+    "quote_match:src_art_0001",
+    "quote_match:src_art_0002",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0003",
+   "text": "상원에서 공화당 의석 7곳(캔자스·아이오와·텍사스·오하이오·메인·노스캐롤라이나·사우스캐롤라이나)이 민주당으로 넘어갔다",
+   "source_ids": [
+    "src_art_0001",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_doc_0002",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0004",
+   "text": "2026년 중간선거는 트럼프 대통령 2기 첫 중간선거다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_doc_0001",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0005",
+   "text": "NBC 집계로 상원은 민주 54석·공화 44석, 미시시피·알래스카 두 곳 미확정",
+   "source_ids": [
+    "src_art_0001",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_doc_0002",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-05"
+  },
+  {
+   "claim_id": "clm_0006",
+   "text": "NBC 집계(11월 5일 오전)로 하원 확정 민주 242·공화 151·미확정 42, 과반 218",
+   "source_ids": [
+    "src_art_0002"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0002",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-05"
+  },
+  {
+   "claim_id": "clm_0007",
+   "text": "주지사 선거 36곳에서 민주당이 공화당 주지사 자리 5곳(텍사스·조지아·오하이오·아이오와·네바다)을 가져왔다",
+   "source_ids": [
+    "src_art_0003",
+    "src_art_0007",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0003",
+    "quote_match:src_art_0007",
+    "quote_match:src_doc_0002",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0008",
+   "text": "NBC 결정데스크는 민주당이 하원에서 최소 258석을 얻을 것으로 추정했다",
+   "source_ids": [
+    "src_art_0002"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0002",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-11-05"
+  },
+  {
+   "claim_id": "clm_0009",
+   "text": "민주당이 16년 만에 주지사 과반을 차지했다(NBC)",
+   "source_ids": [
+    "src_art_0007"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0007",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0010",
+   "text": "NBC 출구조사: 유권자 약 75%가 나라 경제를 '좋지 않다' 또는 '나쁘다'고 답했다",
+   "source_ids": [
+    "src_art_0004",
+    "src_art_0005"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0004",
+    "quote_match:src_art_0005",
+    "independent_origins:2"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0011",
+   "text": "NBC 출구조사: 62%가 높은 물가의 책임이 트럼프 대통령에게 있다고 답했다",
+   "source_ids": [
+    "src_art_0005"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0005",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0012",
+   "text": "NBC 출구조사: 경제를 맡길 정당 민주 43%·공화 37%, 2024년에는 트럼프가 7포인트 앞섰다",
+   "source_ids": [
+    "src_art_0004"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0004",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0013",
+   "text": "CBS 출구조사: 트럼프 대통령 국정 지지율 38% — CBS 는 중간선거 때 대통령 지지율로 가장 낮다고 전했다",
+   "source_ids": [
+    "src_art_0015",
+    "src_art_0005"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0015",
+    "quote_match:src_art_0005",
+    "independent_origins:2"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0014",
+   "text": "NBC 출구조사 분석: 많은 유권자가 이번 선거를 트럼프 대통령에 대한 심판으로 봤다",
+   "source_ids": [
+    "src_art_0005"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0005",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0015",
+   "text": "트럼프 대통령은 폭스뉴스 인터뷰에서 결과를 자신에 대한 타격으로 보지 않는다고 말했다",
+   "source_ids": [
+    "src_art_0042"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0042",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0016",
+   "text": "NBC: 민주당은 트럼프가 2024년 두 자릿수 차로 이긴 주(텍사스·캔자스 등)에서도 상원 자리를 가져왔다",
+   "source_ids": [
+    "src_art_0001"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0001",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0017",
+   "text": "텍사스 상원: 탈라리코(민주) 55.1 대 팩스턴(공화) 43.0(NBC 99% 집계)",
+   "source_ids": [
+    "src_art_0001",
+    "src_art_0028",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_art_0028",
+    "quote_match:src_doc_0002",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0018",
+   "text": "텍사스가 민주당 상원의원을 뽑은 것은 1988년 이후 처음이다",
+   "source_ids": [
+    "src_art_0017",
+    "src_art_0028"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0017",
+    "quote_match:src_art_0028",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0019",
+   "text": "AP 콜(22:04 CT) 16분 뒤 팩스턴이 패배를 인정했다",
+   "source_ids": [
+    "src_art_0028",
+    "src_art_0040"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0028",
+    "quote_match:src_art_0040",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0020",
+   "text": "캔자스 상원: 목사 출신 해밀턴(민주)이 현직 마셜(공화)을 51.0 대 46.0으로 이겼다(NBC)",
+   "source_ids": [
+    "src_art_0008",
+    "src_art_0001",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0008",
+    "quote_match:src_art_0001",
+    "quote_match:src_doc_0002",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0021",
+   "text": "캔자스 민주당 상원의원 당선은 1932년 이후 처음, 트럼프는 2024년 캔자스에서 16포인트 이겼다",
+   "source_ids": [
+    "src_art_0008",
+    "src_art_0018"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0008",
+    "quote_match:src_art_0018",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0022",
+   "text": "해밀턴은 물가·관세·이란 전쟁이 승리의 배경이라고 말했다",
+   "source_ids": [
+    "src_art_0018"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0018",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0023",
+   "text": "린지 그레이엄 의원이 7월 갑자기 숨진 뒤 주지사가 여동생 달린 그레이엄을 후임으로 임명했다",
+   "source_ids": [
+    "src_art_0019",
+    "src_art_0037"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0019",
+    "quote_match:src_art_0037",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-07-11"
+  },
+  {
+   "claim_id": "clm_0024",
+   "text": "사우스캐롤라이나 상원: 소아과 의사 앤드루스(민주) 51.1 대 달린 그레이엄(공화) 46.7(NBC)",
+   "source_ids": [
+    "src_art_0019",
+    "src_art_0001",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0019",
+    "quote_match:src_art_0001",
+    "quote_match:src_doc_0002",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0025",
+   "text": "앤드루스는 1998년 이후 첫 사우스캐롤라이나 민주 상원의원이자 이 주에서 상원 선거에 이긴 첫 여성이다",
+   "source_ids": [
+    "src_art_0019",
+    "src_art_0037"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0019",
+    "quote_match:src_art_0037",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0026",
+   "text": "아이오와 상원: 은퇴한 언스트 의원 자리를 투렉(민주)이 50.5 대 46.4로 가져갔다(NBC)",
+   "source_ids": [
+    "src_art_0020",
+    "src_art_0001",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0020",
+    "quote_match:src_art_0001",
+    "quote_match:src_doc_0002",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0027",
+   "text": "아이오와에서 민주당이 상원 선거에 이긴 것은 2008년 이후 처음이다(NBC·CBS)",
+   "source_ids": [
+    "src_art_0020",
+    "src_art_0001"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0020",
+    "quote_match:src_art_0001",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0028",
+   "text": "오하이오 상원 보궐(밴스 부통령 의석): 셰러드 브라운(민주) 50.0 대 현직 허스테드(공화) 45.2(NBC)",
+   "source_ids": [
+    "src_art_0001",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_doc_0002",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "브라운 2024 낙선(공개 기록) — 원고는 '다시 돌아왔다'만",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0029",
+   "text": "노스캐롤라이나 상원: 틸리스 의원이 물러난 자리를 로이 쿠퍼(민주) 전 주지사가 58.7 대 39.1로 차지했다(NBC)",
+   "source_ids": [
+    "src_art_0001",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_doc_0002",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0030",
+   "text": "메인 상원: 잭슨(민주) 53.4 대 현직 콜린스(공화) 46.5(NBC), 콜린스는 AP 콜 전에 승복했다",
+   "source_ids": [
+    "src_art_0021",
+    "src_art_0032",
+    "src_art_0001",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0021",
+    "quote_match:src_art_0032",
+    "quote_match:src_art_0001",
+    "quote_match:src_doc_0002",
+    "independent_origins:4"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0031",
+   "text": "잭슨은 당 후보가 선거운동을 접은 뒤 대신 나선 후보다",
+   "source_ids": [
+    "src_art_0021",
+    "src_art_0032"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0021",
+    "quote_match:src_art_0032",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0032",
+   "text": "콜린스의 약 30년 의회 생활이 끝났고, 잭슨은 메인의 1995년 이후 첫 민주 상원의원이다",
+   "source_ids": [
+    "src_art_0021"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0021",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0033",
+   "text": "조지아 상원: 현직 오소프(민주) 59.0 대 마이크 콜린스(공화) 41.0(NBC)",
+   "source_ids": [
+    "src_art_0001",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_doc_0002",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0034",
+   "text": "미시간 상원: 피터스 은퇴 의석을 엘사예드(민주)가 52.5 대 45.5로 지켰다(NBC)",
+   "source_ids": [
+    "src_art_0001",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_doc_0002",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0035",
+   "text": "미시시피 상원: 콜롬(민주)과 현직 하이드스미스(공화) 표 차가 집계 시각에 따라 수십 표(NPR 43·ABC 65)",
+   "source_ids": [
+    "src_art_0025",
+    "src_art_0033",
+    "src_art_0009",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0025",
+    "quote_match:src_art_0033",
+    "quote_match:src_art_0009",
+    "quote_match:src_doc_0002",
+    "independent_origins:4"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0036",
+   "text": "알래스카 상원: 펠톨라(민주) 48.2 대 현직 설리번(공화) 47.9(NBC 74% 집계)",
+   "source_ids": [
+    "src_art_0001",
+    "src_art_0034",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_art_0034",
+    "quote_match:src_doc_0002",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0037",
+   "text": "캔자스 주지사: 홀셔(민주)가 약 5,500표 앞서고 매스터슨(공화)은 결과를 다시 봐야 한다고 요구했다",
+   "source_ids": [
+    "src_art_0035",
+    "src_art_0041"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0035",
+    "quote_match:src_art_0041",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0038",
+   "text": "알래스카 주지사도 순위선택 집계 전으로 미확정이다",
+   "source_ids": [
+    "src_art_0003",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0003",
+    "quote_match:src_doc_0002",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0039",
+   "text": "미시시피에는 공식 재검표 제도가 없고, 카운티는 11월 13일까지 결과를 주 정부에 보내야 한다",
+   "source_ids": [
+    "src_art_0033",
+    "src_art_0025",
+    "src_art_0009"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0033",
+    "quote_match:src_art_0025",
+    "quote_match:src_art_0009",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0040",
+   "text": "과반 후보가 없으면 알래스카는 11월 18일 순위선택 집계로 당선자를 정한다",
+   "source_ids": [
+    "src_art_0034"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0034",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0041",
+   "text": "텍사스 공화당은 새 하원 지도로도 25석에서 24석으로 줄었다(Texas Tribune)",
+   "source_ids": [
+    "src_art_0031",
+    "src_art_0043"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0031",
+    "quote_match:src_art_0043",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0042",
+   "text": "미주리 공화당이 새로 그린 하원 지도가 주민투표에서 부결됐다",
+   "source_ids": [
+    "src_art_0010"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0010",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0043",
+   "text": "텍사스 주지사: 이노호사(민주)가 현직 애벗(공화)을 꺾었다 — 1995년 퇴임한 앤 리처즈 이후 첫 민주 주지사, 텍사스 첫 라틴계 여성 주지사",
+   "source_ids": [
+    "src_art_0027",
+    "src_art_0029"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0027",
+    "quote_match:src_art_0029",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0044",
+   "text": "조지아 주지사: 보텀스(민주) 54.3 대 릭 잭슨(공화) 45.7 — 미국 첫 흑인 여성 주지사",
+   "source_ids": [
+    "src_art_0022",
+    "src_art_0038",
+    "src_art_0016",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0022",
+    "quote_match:src_art_0038",
+    "quote_match:src_art_0016",
+    "quote_match:src_doc_0002",
+    "independent_origins:4"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0045",
+   "text": "오하이오 주지사: 의사 출신 액턴(민주) 52.3 대 라마스와미(공화) 44.4(NBC)",
+   "source_ids": [
+    "src_art_0003",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0003",
+    "quote_match:src_doc_0002",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0046",
+   "text": "네바다 주지사: 포드(민주)가 현직 롬바르도(공화)를 꺾었다(AP 콜)",
+   "source_ids": [
+    "src_art_0024",
+    "src_art_0003"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0024",
+    "quote_match:src_art_0003",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0047",
+   "text": "아이오와 주지사: 롭 샌드(민주) 55.5 대 란(공화) 44.5(NBC)",
+   "source_ids": [
+    "src_art_0003",
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0003",
+    "quote_match:src_doc_0002",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0048",
+   "text": "플로리다 주지사: 도널즈(공화) 50.0 대 졸리(민주) 48.7 — 플로리다 첫 흑인 주지사",
+   "source_ids": [
+    "src_art_0023",
+    "src_art_0039"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0023",
+    "quote_match:src_art_0039",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0049",
+   "text": "펜실베이니아 민주당이 주 상원을 가져와 1993년 이후 처음 주지사·양원을 모두 쥐었다",
+   "source_ids": [
+    "src_art_0036"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0036",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "Inquirer 도 1993(감독 조사표 D-0291) — 도메인 검색 불가, Stateline 1건 귀속",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0050",
+   "text": "AP 추정으로 텍사스 주하원은 민주당 다수(76석, 13곳 미확정) — 2003년 이후 공화 다수 종료",
+   "source_ids": [
+    "src_art_0030"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0030",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0051",
+   "text": "APP 표 1934~2022: 대통령의 당은 중간선거에서 하원 평균 27석, 상원 평균 약 3석을 잃었다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_doc_0001",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "23회 값으로 계산 −27.0·−3.4"
+  },
+  {
+   "claim_id": "clm_0052",
+   "text": "대통령의 당이 중간선거에서 하원 의석을 늘린 해는 1934·1998·2002년 세 번",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_doc_0001",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0053",
+   "text": "1994년 민주당 하원 −54, 2010년 민주당 하원 −63",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_doc_0001",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0054",
+   "text": "2018년(트럼프 1기) 공화당 하원 −41·상원 +2",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_doc_0001",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0055",
+   "text": "하원에서 확정된 자리 기준 민주 순증 34(NBC)",
+   "source_ids": [
+    "src_art_0002"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0002",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-05"
+  },
+  {
+   "claim_id": "clm_0056",
+   "text": "미시간 7선거구(로런스)·켄터키 6선거구(뎀보)가 민주당으로 넘어갔다(NBC)",
+   "source_ids": [
+    "src_doc_0002",
+    "src_art_0044"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_doc_0002",
+    "quote_match:src_art_0044",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0057",
+   "text": "1960년 이후 대통령의 당이 상원에서 7석 이상 잃은 해는 1986·1994·2014년",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_doc_0001",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0058",
+   "text": "새 의회는 2027년 1월에 열린다",
+   "source_ids": [
+    "src_art_0012"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0012",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2027-01-03"
+  },
+  {
+   "claim_id": "clm_0059",
+   "text": "제프리스 민주당 원내대표가 하원의장에 오를 예정이다(NBC)",
+   "source_ids": [
+    "src_art_0012"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0012",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0060",
+   "text": "슈머: 트럼프가 국민의 뜻이나 법을 거스르면 조사하고 법정에 세우고 입법 철조망으로 얽어매겠다",
+   "source_ids": [
+    "src_art_0014"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0014",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-11-04",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0014",
+     "text": "Whenever Trump defies the will of the American people or the law, we will launch investigations, take him to court, and entangle him in legislative razor wire."
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0061",
+   "text": "트럼프 대통령은 결과를 받아들이겠다고 하면서 민주당이 통과시키는 법안에는 거부권을 쓰겠다고 말했다",
+   "source_ids": [
+    "src_art_0026",
+    "src_art_0013"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0026",
+    "quote_match:src_art_0013",
+    "independent_origins:2"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "event_date": "2026-11-04"
+  },
+  {
+   "claim_id": "clm_0062",
+   "text": "버지니아·네바다는 낙태권 개헌안을 통과시켰고, 미주리는 낙태권 폐지안을, 아이다호는 낙태 접근 회복안을 부결했다",
+   "source_ids": [
+    "src_art_0011"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0011",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  },
+  {
+   "claim_id": "clm_0063",
+   "text": "오하이오·노스캐롤라이나는 투표 때 사진 신분증을 요구하는 개헌안을 통과시켰다",
+   "source_ids": [
+    "src_art_0011"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "checks": [
+    "quote_match:src_art_0011",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "",
+   "event_date": "2026-11-03"
+  }
+ ]
+}

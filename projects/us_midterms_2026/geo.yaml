@@ -1,0 +1,9 @@
+# 『뒤집힌 일곱 자리』 지오 설정 (v7.4.0, D-0290 §2) — 주 무대 메르카토르 light, admin1 US(주 채움 area — code = ISO 3166-2).
+# tiers: W 광역(본토·알래스카·하와이), U 본토(주 투어 근접). 새 무대(Albers)는 만들지 않는다(D515).
+schema_version: 1
+bbox: [-180, 10, -55, 75]
+admin1: [US]
+crimea_to_ua: false
+tiers:
+  - {name: W, ppd: 24, z: 5, bbox: [-172.0, 15.0, -60.0, 72.0]}
+  - {name: U, ppd: 64, z: 6, bbox: [-126.0, 24.0, -66.0, 50.0]}

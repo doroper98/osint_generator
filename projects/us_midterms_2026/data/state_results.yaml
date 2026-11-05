@@ -1,0 +1,1311 @@
+# us_midterms_2026 주별 결과 데이터 (v7.4.0, back_and_forth D-0290 §4-3) — 모델 schemas/election_models.py. area 검사·패널 수치·엔딩 출처의 기준(한 곳).
+# 출처: NBC 결과 페이지(__NEXT_DATA__ 구조 데이터, 컨테이너 curl 2026-11-05 09:30 KST) — 득표율은 카운티 합계로 재계산(소수 1자리).
+# status called = NBC 결정데스크 추정(projection) 또는 AP 콜(2차 보도 인용, called_by 에 적음). AP 사이트는 컨테이너·도구 모두 차단.
+# 콜 없음(미시시피·알래스카 상원, 캔자스·알래스카 주지사) = counting — 화면에 확정처럼 칠하지 않는다(D-0290 §7).
+schema_version: 1
+as_of: 2026-11-05T09:30+09:00
+country: US
+states:
+  US-AK:
+    name: 알래스카
+    governor:
+      winner_party: none
+      pct:
+      - 49.1
+      - 29.2
+      pct_as_of: NBC 집계 74%, 2026-11-05 09:30 KST
+      status: counting
+      source_url: https://www.nbcnews.com/politics/2026-elections/alaska-governor-results
+      retrieved_at: '2026-11-05'
+      leader: Jonathan Kreiss-Tomkins
+      note: 1순위 집계 — 순위선택 집계 전. 알래스카 출처는 미확정(MultiState 의 flip 집계는 쓰지 않는다)
+    senate:
+      winner_party: none
+      pct:
+      - 48.2
+      - 47.9
+      pct_as_of: NBC 집계 74.4%, 2026-11-05 09:30 KST
+      status: counting
+      source_url: https://www.nbcnews.com/politics/2026-elections/alaska-senate-results
+      retrieved_at: '2026-11-05'
+      leader: Mary Peltola
+      note: 1순위 집계. 과반 없으면 순위선택 집계 11/18 예정(Alaska Beacon). 미집계 부재자·조기투표 수천 표 · 현직 Dan S. Sullivan
+  US-AL:
+    name: 앨라배마
+    governor:
+      winner_party: rep
+      pct:
+      - 52.1
+      - 47.9
+      pct_as_of: NBC 집계 98.7%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/alabama-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Tommy Tuberville
+      loser: Doug Jones
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+    senate:
+      winner_party: rep
+      pct:
+      - 54.7
+      - 45.3
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/alabama-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Barry Moore
+      loser: Everett Wess
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+  US-AR:
+    name: 아칸소
+    governor:
+      winner_party: rep
+      pct:
+      - 53.9
+      - 38.6
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/arkansas-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Sarah Huckabee Sanders
+      loser: Fred Love
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Sarah Huckabee Sanders
+    senate:
+      winner_party: rep
+      pct:
+      - 54.3
+      - 42.4
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/arkansas-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Tom Cotton
+      loser: Hallie Shoffner
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Tom Cotton
+  US-AZ:
+    name: 애리조나
+    governor:
+      winner_party: dem
+      pct:
+      - 55.6
+      - 42.6
+      pct_as_of: NBC 집계 84.4%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/arizona-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Katie Hobbs
+      loser: Andy Biggs
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Katie Hobbs
+  US-CA:
+    name: 캘리포니아
+    governor:
+      winner_party: dem
+      pct:
+      - 64.2
+      - 35.8
+      pct_as_of: NBC 집계 60.6%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/california-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Xavier Becerra
+      loser: Steve Hilton
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+    house_flips:
+    - district: CA-22
+      winner: Villegas
+      winner_party: dem
+      loser: Valadao
+      pct:
+      - 66.4
+      - 33.6
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/california-house-results
+      retrieved_at: '2026-11-05'
+  US-CO:
+    name: 콜로라도
+    governor:
+      winner_party: dem
+      pct:
+      - 60.7
+      - 33.8
+      pct_as_of: NBC 집계 82.3%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/colorado-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Phil Weiser
+      loser: Victor Marx
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+    senate:
+      winner_party: dem
+      pct:
+      - 60.0
+      - 35.7
+      pct_as_of: NBC 집계 82.7%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/colorado-senate-results
+      retrieved_at: '2026-11-05'
+      winner: John Hickenlooper
+      loser: Mark Baisley
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 John Hickenlooper
+    house_flips:
+    - district: CO-8
+      winner: Rutinel
+      winner_party: dem
+      loser: Evans
+      pct:
+      - 55.0
+      - 41.2
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/colorado-house-results
+      retrieved_at: '2026-11-05'
+  US-CT:
+    name: 코네티컷
+    governor:
+      winner_party: dem
+      pct:
+      - 58.9
+      - 41.1
+      pct_as_of: NBC 집계 95.4%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/connecticut-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Ned Lamont
+      loser: Ryan Fazio
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Ned Lamont
+  US-DE:
+    name: 델라웨어
+    senate:
+      winner_party: dem
+      pct:
+      - 63.6
+      - 36.4
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/delaware-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Chris Coons
+      loser: Mike Katz
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Chris Coons
+  US-FL:
+    name: 플로리다
+    governor:
+      winner_party: rep
+      pct:
+      - 50.0
+      - 48.7
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/florida-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Byron Donalds
+      loser: David Jolly
+      called_by: AP(NPR 인용, 11/3)
+      flip: false
+    senate:
+      winner_party: rep
+      pct:
+      - 50.9
+      - 48.0
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-special-elections/florida-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Ashley Moody
+      loser: Angie Nixon
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Ashley Moody
+  US-GA:
+    name: 조지아
+    governor:
+      winner_party: dem
+      pct:
+      - 54.3
+      - 45.7
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/georgia-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Keisha Lance Bottoms
+      loser: Rick Jackson
+      called_by: AP(NPR·AJC 인용)
+      flip: true
+    senate:
+      winner_party: dem
+      pct:
+      - 59.0
+      - 41.0
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/georgia-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Jon Ossoff
+      loser: Mike Collins
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Jon Ossoff
+  US-HI:
+    name: 하와이
+    governor:
+      winner_party: dem
+      pct:
+      - 73.4
+      - 26.6
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/hawaii-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Josh Green
+      loser: Gary Cordery
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Josh Green
+  US-IA:
+    name: 아이오와
+    governor:
+      winner_party: dem
+      pct:
+      - 55.5
+      - 44.5
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/iowa-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Rob Sand
+      loser: Zach Lahn
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+    senate:
+      winner_party: dem
+      pct:
+      - 50.5
+      - 46.4
+      pct_as_of: NBC 집계 98.7%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/iowa-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Josh Turek
+      loser: Ashley Hinson
+      called_by: AP(NPR·CBS 인용)
+      flip: true
+    house_flips:
+    - district: IA-1
+      winner: Bohannan
+      winner_party: dem
+      loser: Miller-Meeks
+      pct:
+      - 52.8
+      - 43.6
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/iowa-house-results
+      retrieved_at: '2026-11-05'
+    - district: IA-3
+      winner: Trone Garriott
+      winner_party: dem
+      loser: Nunn
+      pct:
+      - 53.7
+      - 46.3
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/iowa-house-results
+      retrieved_at: '2026-11-05'
+  US-ID:
+    name: 아이다호
+    governor:
+      winner_party: rep
+      pct:
+      - 57.1
+      - 32.3
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/idaho-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Brad Little
+      loser: Terri Pickens
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Brad Little
+    senate:
+      winner_party: rep
+      pct:
+      - 56.5
+      - 33.5
+      pct_as_of: NBC 집계 98.9%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/idaho-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Jim Risch
+      loser: Todd Achilles
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Jim Risch
+  US-IL:
+    name: 일리노이
+    governor:
+      winner_party: dem
+      pct:
+      - 59.7
+      - 37.0
+      pct_as_of: NBC 집계 91.5%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/illinois-governor-results
+      retrieved_at: '2026-11-05'
+      winner: JB Pritzker
+      loser: Darren Bailey
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 JB Pritzker
+    senate:
+      winner_party: dem
+      pct:
+      - 60.8
+      - 37.6
+      pct_as_of: NBC 집계 93.2%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/illinois-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Juliana Stratton
+      loser: Don Tracy
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+  US-KS:
+    name: 캔자스
+    governor:
+      winner_party: none
+      pct:
+      - 50.3
+      - 49.7
+      pct_as_of: NBC 집계 98.8%, 2026-11-05 09:30 KST
+      status: counting
+      source_url: https://www.nbcnews.com/politics/2026-elections/kansas-governor-results
+      retrieved_at: '2026-11-05'
+      leader: Cindy Holscher
+      note: 약 5,500표 차(Kansas Reflector·KCUR 11/4). 1% 미만 차 감사 규정, 마스터슨 재검토 요구
+    senate:
+      winner_party: dem
+      pct:
+      - 51.0
+      - 46.0
+      pct_as_of: NBC 집계 98.8%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/kansas-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Adam Hamilton
+      loser: Roger Marshall
+      called_by: AP(NPR·KCUR 인용)
+      flip: true
+      note: 현직 Roger Marshall 낙선
+  US-KY:
+    name: 켄터키
+    senate:
+      winner_party: rep
+      pct:
+      - 55.0
+      - 42.9
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/kentucky-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Andy Barr
+      loser: Charles Booker
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+    house_flips:
+    - district: KY-6
+      winner: Dembo
+      winner_party: dem
+      loser: Alvarado
+      pct:
+      - 52.7
+      - 43.3
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/kentucky-house-results
+      retrieved_at: '2026-11-05'
+      note: 벨웨더로 꼽힌 지역구(D-0291)
+  US-LA:
+    name: 루이지애나
+    senate:
+      winner_party: rep
+      pct:
+      - 50.9
+      - 49.1
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/louisiana-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Julia Letlow
+      loser: Jamie Davis
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+  US-MA:
+    name: 매사추세츠
+    governor:
+      winner_party: dem
+      pct:
+      - 62.0
+      - 34.7
+      pct_as_of: NBC 집계 95.3%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/massachusetts-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Maura Healey
+      loser: Michael Minogue
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Maura Healey
+    senate:
+      winner_party: dem
+      pct:
+      - 63.3
+      - 32.3
+      pct_as_of: NBC 집계 95.3%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/massachusetts-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Ed Markey
+      loser: John Deaton
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Ed Markey
+  US-MD:
+    name: 메릴랜드
+    governor:
+      winner_party: dem
+      pct:
+      - 62.7
+      - 33.2
+      pct_as_of: NBC 집계 78.3%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/maryland-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Wes Moore
+      loser: Dan Cox
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Wes Moore
+  US-ME:
+    name: 메인
+    governor:
+      winner_party: dem
+      pct:
+      - 54.8
+      - 37.2
+      pct_as_of: NBC 집계 91%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/maine-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Hannah Pingree
+      loser: Bobby Charles
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+    senate:
+      winner_party: dem
+      pct:
+      - 53.4
+      - 46.5
+      pct_as_of: NBC 집계 91%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/maine-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Troy Jackson
+      loser: Susan Collins
+      called_by: AP(NPR·Maine Public 인용, 11/4 01:02 ET)
+      flip: true
+      note: 현직 Susan Collins 낙선
+  US-MI:
+    name: 미시간
+    governor:
+      winner_party: dem
+      pct:
+      - 54.5
+      - 43.8
+      pct_as_of: NBC 집계 97.6%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/michigan-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Jocelyn Benson
+      loser: John James
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+    senate:
+      winner_party: dem
+      pct:
+      - 52.5
+      - 45.5
+      pct_as_of: NBC 집계 97.5%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/michigan-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Abdul El-Sayed
+      loser: Mike Rogers
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+    house_flips:
+    - district: MI-7
+      winner: Lawrence
+      winner_party: dem
+      loser: Barrett
+      pct:
+      - 51.0
+      - 47.7
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/michigan-house-results
+      retrieved_at: '2026-11-05'
+      note: 벨웨더로 꼽힌 지역구(Bridge Michigan)
+    - district: MI-10
+      winner: Hines
+      winner_party: dem
+      loser: Bouchard
+      pct:
+      - 52.4
+      - 45.3
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/michigan-house-results
+      retrieved_at: '2026-11-05'
+    - district: MI-4
+      winner: McCann
+      winner_party: dem
+      loser: Huizenga
+      pct:
+      - 50.1
+      - 48.3
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/michigan-house-results
+      retrieved_at: '2026-11-05'
+  US-MN:
+    name: 미네소타
+    governor:
+      winner_party: dem
+      pct:
+      - 55.5
+      - 42.6
+      pct_as_of: NBC 집계 98.8%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/minnesota-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Amy Klobuchar
+      loser: Lisa Demuth
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+    senate:
+      winner_party: dem
+      pct:
+      - 53.7
+      - 43.6
+      pct_as_of: NBC 집계 98.9%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/minnesota-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Peggy Flanagan
+      loser: Michele Tafoya
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+  US-MS:
+    name: 미시시피
+    senate:
+      winner_party: none
+      pct:
+      - 49.0
+      - 48.9
+      pct_as_of: NBC 집계 95.6%, 2026-11-05 09:30 KST
+      status: counting
+      source_url: https://www.nbcnews.com/politics/2026-elections/mississippi-senate-results
+      retrieved_at: '2026-11-05'
+      leader: Scott Colom
+      note: 미시시피는 재검표 제도가 없다(주 국무장관실 → ABC). 표 차는 집계 시각에 따라 수십 표(NPR 43, MFP 28, ABC 65). 카운티 결과 보고 기한 11/13(NBC). 양측 모두 승리 선언 안 함 · 현직 Cindy Hyde-Smith
+  US-MT:
+    name: 몬태나
+    senate:
+      winner_party: rep
+      pct:
+      - 48.6
+      - 37.5
+      pct_as_of: NBC 집계 94.6%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/montana-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Kurt Alme
+      loser: Seth Bodnar
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+  US-NC:
+    name: 노스캐롤라이나
+    senate:
+      winner_party: dem
+      pct:
+      - 58.7
+      - 39.1
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/north-carolina-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Roy Cooper
+      loser: Michael Whatley
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+    house_flips:
+    - district: NC-11
+      winner: Ager
+      winner_party: dem
+      loser: Balkcom
+      pct:
+      - 57.1
+      - 41.3
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/north-carolina-house-results
+      retrieved_at: '2026-11-05'
+  US-NE:
+    name: 네브래스카
+    governor:
+      winner_party: rep
+      pct:
+      - 50.8
+      - 42.2
+      pct_as_of: NBC 집계 94.2%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/nebraska-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Jim Pillen
+      loser: Lynne Walz
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Jim Pillen
+    senate:
+      winner_party: rep
+      pct:
+      - 50.4
+      - 43.6
+      pct_as_of: NBC 집계 94.1%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/nebraska-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Pete Ricketts
+      loser: Dan Osborn
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Pete Ricketts
+    house_flips:
+    - district: NE-2
+      winner: Powell
+      winner_party: dem
+      loser: Harding
+      pct:
+      - 56.4
+      - 41.0
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/nebraska-house-results
+      retrieved_at: '2026-11-05'
+  US-NH:
+    name: 뉴햄프셔
+    governor:
+      winner_party: rep
+      pct:
+      - 51.4
+      - 47.1
+      pct_as_of: NBC 집계 93.9%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/new-hampshire-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Kelly Ayotte
+      loser: Cinde Warmington
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Kelly Ayotte
+    senate:
+      winner_party: dem
+      pct:
+      - 56.0
+      - 42.2
+      pct_as_of: NBC 집계 94%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/new-hampshire-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Chris Pappas
+      loser: John Sununu
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+  US-NJ:
+    name: 뉴저지
+    senate:
+      winner_party: dem
+      pct:
+      - 62.1
+      - 35.3
+      pct_as_of: NBC 집계 94.4%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/new-jersey-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Cory Booker
+      loser: Justin Murphy
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Cory Booker
+    house_flips:
+    - district: NJ-7
+      winner: Bennett
+      winner_party: dem
+      loser: Kean Jr.
+      pct:
+      - 57.1
+      - 41.4
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/new-jersey-house-results
+      retrieved_at: '2026-11-05'
+  US-NM:
+    name: 뉴멕시코
+    governor:
+      winner_party: dem
+      pct:
+      - 57.2
+      - 42.8
+      pct_as_of: NBC 집계 98%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/new-mexico-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Deb Haaland
+      loser: Greggory Hull
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+    senate:
+      winner_party: dem
+      pct:
+      - 63.2
+      - 36.8
+      pct_as_of: NBC 집계 98%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/new-mexico-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Ben Ray Lujan
+      loser: Larry Marker
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Ben Ray Lujan
+  US-NV:
+    name: 네바다
+    governor:
+      winner_party: dem
+      pct:
+      - 51.5
+      - 44.3
+      pct_as_of: NBC 집계 86.5%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/nevada-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Aaron Ford
+      loser: Joe Lombardo
+      called_by: AP(NPR 인용)
+      flip: true
+      note: 현직 Joe Lombardo 낙선
+  US-NY:
+    name: 뉴욕
+    governor:
+      winner_party: dem
+      pct:
+      - 60.0
+      - 39.8
+      pct_as_of: NBC 집계 92.6%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/new-york-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Kathy Hochul
+      loser: Bruce Blakeman
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Kathy Hochul
+  US-OH:
+    name: 오하이오
+    governor:
+      winner_party: dem
+      pct:
+      - 52.3
+      - 44.4
+      pct_as_of: NBC 집계 98%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/ohio-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Amy Acton
+      loser: Vivek Ramaswamy
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+    senate:
+      winner_party: dem
+      pct:
+      - 50.0
+      - 45.2
+      pct_as_of: NBC 집계 98%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-special-elections/ohio-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Sherrod Brown
+      loser: Jon Husted
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      note: 현직 Jon Husted 낙선
+    house_flips:
+    - district: OH-7
+      winner: Poindexter
+      winner_party: dem
+      loser: Miller
+      pct:
+      - 54.9
+      - 45.1
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/ohio-house-results
+      retrieved_at: '2026-11-05'
+  US-OK:
+    name: 오클라호마
+    governor:
+      winner_party: rep
+      pct:
+      - 51.9
+      - 45.9
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/oklahoma-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Mike Mazzei
+      loser: Cyndi Munson
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+    senate:
+      winner_party: rep
+      pct:
+      - 57.2
+      - 39.3
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/oklahoma-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Kevin Hern
+      loser: N'Kiyla Jasmine Thomas
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+  US-OR:
+    name: 오리건
+    governor:
+      winner_party: dem
+      pct:
+      - 52.2
+      - 45.1
+      pct_as_of: NBC 집계 77.3%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/oregon-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Tina Kotek
+      loser: Christine Drazan
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Tina Kotek
+    senate:
+      winner_party: dem
+      pct:
+      - 57.0
+      - 40.1
+      pct_as_of: NBC 집계 77.5%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/oregon-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Jeff Merkley
+      loser: David Brock Smith
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Jeff Merkley
+  US-PA:
+    name: 펜실베이니아
+    governor:
+      winner_party: dem
+      pct:
+      - 60.4
+      - 38.3
+      pct_as_of: NBC 집계 98.7%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/pennsylvania-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Josh Shapiro
+      loser: Stacy Garrity
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Josh Shapiro
+    house_flips:
+    - district: PA-1
+      winner: Harvie
+      winner_party: dem
+      loser: Fitzpatrick
+      pct:
+      - 52.7
+      - 47.3
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/pennsylvania-house-results
+      retrieved_at: '2026-11-05'
+    - district: PA-7
+      winner: Brooks
+      winner_party: dem
+      loser: Mackenzie
+      pct:
+      - 56.1
+      - 43.9
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/pennsylvania-house-results
+      retrieved_at: '2026-11-05'
+    - district: PA-8
+      winner: Cognetti
+      winner_party: dem
+      loser: Bresnahan
+      pct:
+      - 54.4
+      - 45.6
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/pennsylvania-house-results
+      retrieved_at: '2026-11-05'
+    - district: PA-10
+      winner: Stelson
+      winner_party: dem
+      loser: Perry
+      pct:
+      - 55.0
+      - 45.0
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/pennsylvania-house-results
+      retrieved_at: '2026-11-05'
+  US-RI:
+    name: 로드아일랜드
+    governor:
+      winner_party: dem
+      pct:
+      - 57.6
+      - 27.9
+      pct_as_of: NBC 집계 97.4%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/rhode-island-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Helena Foulkes
+      loser: Kenneth Block
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+    senate:
+      winner_party: dem
+      pct:
+      - 66.6
+      - 29.4
+      pct_as_of: NBC 집계 97.4%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/rhode-island-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Jack Reed
+      loser: Raymond McKay
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Jack Reed
+  US-SC:
+    name: 사우스캐롤라이나
+    governor:
+      winner_party: rep
+      pct:
+      - 51.6
+      - 47.1
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/south-carolina-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Alan Wilson
+      loser: Jermaine Johnson
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+    senate:
+      winner_party: dem
+      pct:
+      - 51.1
+      - 46.7
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/south-carolina-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Annie Andrews
+      loser: Darline Graham
+      called_by: AP(NPR 인용)
+      flip: true
+      note: 현직 Darline Graham 낙선
+  US-SD:
+    name: 사우스다코타
+    governor:
+      winner_party: rep
+      pct:
+      - 63.5
+      - 36.5
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/south-dakota-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Larry Rhoden
+      loser: Dan Ahlers
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Larry Rhoden
+    senate:
+      winner_party: rep
+      pct:
+      - 60.5
+      - 39.5
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/south-dakota-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Mike Rounds
+      loser: Brian Bengs
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Mike Rounds
+  US-TN:
+    name: 테네시
+    governor:
+      winner_party: rep
+      pct:
+      - 45.5
+      - 43.0
+      pct_as_of: NBC 집계 98.9%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/tennessee-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Marsha Blackburn
+      loser: Jerri Green
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+    senate:
+      winner_party: rep
+      pct:
+      - 55.1
+      - 42.9
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/tennessee-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Bill Hagerty
+      loser: Marquita Bradshaw
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Bill Hagerty
+  US-TX:
+    name: 텍사스
+    governor:
+      winner_party: dem
+      pct:
+      - 52.8
+      - 45.7
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/texas-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Gina Hinojosa
+      loser: Greg Abbott
+      called_by: AP(Texas Tribune 인용, 11/3 22:17 CT)
+      flip: true
+      note: 현직 Greg Abbott 낙선
+    senate:
+      winner_party: dem
+      pct:
+      - 55.1
+      - 43.0
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/texas-senate-results
+      retrieved_at: '2026-11-05'
+      winner: James Talarico
+      loser: Ken Paxton
+      called_by: AP(Texas Tribune·Houston Public Media 인용, 11/3 22:04 CT)
+      flip: true
+  US-VA:
+    name: 버지니아
+    senate:
+      winner_party: dem
+      pct:
+      - 61.2
+      - 38.6
+      pct_as_of: NBC 집계 97.5%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/virginia-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Mark Warner
+      loser: Bert Mizusawa
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Mark Warner
+    house_flips:
+    - district: VA-1
+      winner: Taylor
+      winner_party: dem
+      loser: Wittman
+      pct:
+      - 51.0
+      - 48.7
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/virginia-house-results
+      retrieved_at: '2026-11-05'
+    - district: VA-2
+      winner: Luria
+      winner_party: dem
+      loser: Kiggans
+      pct:
+      - 53.1
+      - 44.6
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/virginia-house-results
+      retrieved_at: '2026-11-05'
+  US-VT:
+    name: 버몬트
+    governor:
+      winner_party: rep
+      pct:
+      - 52.6
+      - 45.6
+      pct_as_of: NBC 집계 99%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/vermont-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Phil Scott
+      loser: Amanda Janoo
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Phil Scott
+  US-WI:
+    name: 위스콘신
+    governor:
+      winner_party: dem
+      pct:
+      - 54.1
+      - 45.9
+      pct_as_of: NBC 집계 98.5%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/wisconsin-governor-results
+      retrieved_at: '2026-11-05'
+      winner: David Crowley
+      loser: Tom Tiffany
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+    house_flips:
+    - district: WI-3
+      winner: Cooke
+      winner_party: dem
+      loser: Van Orden
+      pct:
+      - 52.4
+      - 45.8
+      pct_as_of: NBC 집계, 2026-11-05 09:30 KST
+      status: called
+      called_by: NBC 결정데스크 추정(projection)
+      flip: true
+      source_url: https://www.nbcnews.com/politics/2026-elections/wisconsin-house-results
+      retrieved_at: '2026-11-05'
+  US-WV:
+    name: 웨스트버지니아
+    senate:
+      winner_party: rep
+      pct:
+      - 58.3
+      - 37.9
+      pct_as_of: NBC 집계 98.9%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/west-virginia-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Shelley Moore Capito
+      loser: Rachel Fetty Anderson
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+      note: 현직 Shelley Moore Capito
+  US-WY:
+    name: 와이오밍
+    governor:
+      winner_party: rep
+      pct:
+      - 68.6
+      - 16.8
+      pct_as_of: NBC 집계 97%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/wyoming-governor-results
+      retrieved_at: '2026-11-05'
+      winner: Eric Barlow
+      loser: Rebecca Bextel
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false
+    senate:
+      winner_party: rep
+      pct:
+      - 65.2
+      - 34.8
+      pct_as_of: NBC 집계 97%, 2026-11-05 09:30 KST
+      status: called
+      source_url: https://www.nbcnews.com/politics/2026-elections/wyoming-senate-results
+      retrieved_at: '2026-11-05'
+      winner: Harriet Hageman
+      loser: James Byrd
+      called_by: NBC 결정데스크 추정(projection)
+      flip: false

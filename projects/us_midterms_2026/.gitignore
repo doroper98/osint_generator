@@ -1,0 +1,12 @@
+tts/
+out/
+prev/
+prev_*/
+assets/
+llm_calls/
+media/*.jpg
+media/*.png
+media/*.npy
+media/*.wav
+media/*.mp4
+media/*.f32

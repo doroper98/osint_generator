@@ -1,0 +1,40 @@
+# 『뒤집힌 일곱 자리』 엔딩 크레딧 (v7.4.0, D-0290). 보도 출처 = 장면별 인용 매체(auto: press, D243). 기사 카드·사진 행은 연출 뒤 실제로 쓴 미디어만 남긴다.
+schema_version: 1
+sections:
+- title: 보도 출처
+  column: 0
+  auto: press
+- title: 글꼴
+  column: 1
+  auto: fonts
+- title: 지도
+  column: 1
+  auto: map
+- title: 국기
+  column: 1
+  items:
+  - main: 국기
+    license: flag-icons · MIT
+    rights:
+    - flags.flag_icons
+- title: 인물 사진
+  column: 1
+  auto: people
+- title: 음악
+  column: 1
+  items:
+  - music: music.zabriskie_mario_bava
+- title: 음성
+  column: 1
+  items:
+  - main: 내레이션
+    license: AI 음성 합성
+    rights:
+    - narration.tts
+- title: 표기
+  column: 1
+  slot: notice
+  items:
+  - main: 집계는 2026년 11월 5일 오전 9시 30분(한국 시각) 기준 · 미시시피·알래스카 등 개표 중
+    license: 해석은 각 매체 견해 · 에이피 콜은 보도 인용
+    rights: []
