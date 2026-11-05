@@ -216,7 +216,7 @@ shots:
   camera:
     place: ms
     w: 12.0
-  reason: 미시시피 개표 중
+  reason: 미시시피 — 콜롬 유력
 - at:
     sid: act3_4
     'off': -0.5
@@ -224,7 +224,7 @@ shots:
   camera:
     place: ak
     w: 34.0
-  reason: 알래스카 개표 중(먼 거리 — 암전 전환)
+  reason: 알래스카 — 펠톨라 유력(먼 거리 — 암전 전환)
 - at:
     sid: act3_6
     'off': -0.5
@@ -232,7 +232,7 @@ shots:
   camera:
     place: ks
     w: 14.0
-  reason: 캔자스 주지사 개표 중(알래스카에서 — 암전 전환)
+  reason: 캔자스 주지사 — 홀셔 유력(알래스카에서 — 암전 전환)
 - at:
     sid: act4_0
     'off': -2.48
@@ -342,7 +342,7 @@ events:
     scene_end: act3
   country: US
   race: senate
-  src: NBC 집계 · 2026-11-05 09:30 KST
+  src: NBC 집계 · 2026-11-05 저녁(KST)
   items:
   - code: US-ME
     col: dem
@@ -529,7 +529,7 @@ events:
     scene_end: act4
   country: US
   race: governor
-  src: NBC 집계 · 2026-11-05 09:30 KST
+  src: NBC 집계 · 2026-11-05 저녁(KST)
   items:
   - code: US-ME
     col: dem
@@ -791,14 +791,14 @@ events:
       t:
         sid: act1_2
         'off': 0.3
-    src: NBC 집계 · 2026-11-05 09:30 KST
+    src: NBC 집계 · 2026-11-05 저녁(KST)
   - title: 공화당 44석
     items:
-    - text: 미확정 2곳 — 미시시피·알래스카
+    - text: 유력 2곳 — 미시시피·알래스카(민주)
       t:
         sid: act1_2
         'off': 2.5
-    src: NBC 집계 · 2026-11-05 09:30 KST
+    src: NBC 집계 · 2026-11-05 저녁(KST)
   claims:
   - clm_0013
 - type: panel
@@ -812,20 +812,20 @@ events:
     edge: end
   title: 하원 435석 · 과반 218
   sides:
-  - title: 민주당 242석 확정
+  - title: 민주당 259석
     items:
     - text: 과반 218 넘김
       t:
         sid: act1_3
         'off': 0.4
-    src: NBC 집계 · 2026-11-05 09:30 KST
-  - title: 공화당 151석 확정
+    src: NBC 집계 · 2026-11-05 저녁(KST)
+  - title: 공화당 176석
     items:
-    - text: 미확정 42곳
+    - text: 435석 모두 정해짐(NBC)
       t:
         sid: act1_4
         'off': 1.5
-    src: NBC 집계 · 2026-11-05 09:30 KST
+    src: NBC 집계 · 2026-11-05 저녁(KST)
   claims:
   - clm_0014
 - type: photo
@@ -1007,6 +1007,21 @@ events:
   - clm_0037
 - type: marker
   start:
+    sid: act3_1
+    'off': 0.8
+  end:
+    sid: act3_1
+    'off': 0.5
+    edge: end
+  at_place: ms
+  label: 미시시피 상원
+  sub: 콜롬 유력 · AP 발표 전
+  side: right
+  hl: true
+  claims:
+  - clm_0038
+- type: marker
+  start:
     sid: act3_2
     'off': 2.22
   end:
@@ -1015,7 +1030,7 @@ events:
     edge: end
   at_place: ms
   label: 미시시피
-  sub: 개표 중 — 표 차 수십~2천 표
+  sub: 콜롬 유력 · 표 차 약 1,100표
   side: left
   hl: true
   claims:
@@ -1030,7 +1045,7 @@ events:
     edge: end
   at_place: ak
   label: 알래스카
-  sub: 11월 18일 순위선택 집계
+  sub: 펠톨라 유력 · 11월 18일 순위선택 집계
   side: right
   hl: true
   claims:
@@ -1045,7 +1060,7 @@ events:
     edge: end
   at_place: ks
   label: 캔자스 주지사
-  sub: 약 5,500표 차 · 개표 중
+  sub: 홀셔 유력 · 약 7,000표 차
   side: top
   hl: true
   claims:
@@ -1294,8 +1309,8 @@ events:
   - year: '2026'
     title: 트럼프 2기 · 공화당
     lines:
-    - 하원 −34 이상
-    - 상원 −7 · 개표 중
+    - 하원 −34
+    - 상원 −7 · 유력 2 포함 −9
     t0:
       sid: act5_6
       'off': 1.0
@@ -1378,7 +1393,7 @@ events:
   race: senate
   code: US-TX
   status: called
-  src: NBC 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 저녁
   rows:
   - name: 탈라리코
     col: dem
@@ -1399,7 +1414,7 @@ events:
   race: senate
   code: US-KS
   status: called
-  src: NBC 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 저녁
   rows:
   - name: 해밀턴
     col: dem
@@ -1420,7 +1435,7 @@ events:
   race: senate
   code: US-SC
   status: called
-  src: NBC 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 저녁
   rows:
   - name: 앤드루스
     col: dem
@@ -1441,7 +1456,7 @@ events:
   race: senate
   code: US-IA
   status: called
-  src: NBC 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 저녁
   rows:
   - name: 투렉
     col: dem
@@ -1462,7 +1477,7 @@ events:
   race: senate
   code: US-OH
   status: called
-  src: NBC 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 저녁
   rows:
   - name: 브라운
     col: dem
@@ -1483,7 +1498,7 @@ events:
   race: senate
   code: US-NC
   status: called
-  src: NBC 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 저녁
   rows:
   - name: 쿠퍼
     col: dem
@@ -1504,7 +1519,7 @@ events:
   race: senate
   code: US-ME
   status: called
-  src: NBC 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 저녁
   rows:
   - name: 잭슨
     col: dem
@@ -1525,7 +1540,7 @@ events:
   race: senate
   code: US-GA
   status: called
-  src: NBC 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 저녁
   rows:
   - name: 오소프
     col: dem
@@ -1546,7 +1561,7 @@ events:
   race: senate
   code: US-MI
   status: called
-  src: NBC 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 저녁
   rows:
   - name: 엘사예드
     col: dem
@@ -1567,7 +1582,7 @@ events:
   race: senate
   code: US-MS
   status: counting
-  src: NBC 집계 · 11월 5일 오전 95.6%
+  src: NBC 집계 · 11월 5일 저녁 95.6%
   rows:
   - name: 콜롬
     col: dem
@@ -1588,7 +1603,7 @@ events:
   race: senate
   code: US-AK
   status: counting
-  src: NBC 집계 · 11월 5일 오전 74.4%
+  src: NBC 집계 · 11월 5일 저녁 75.5%
   rows:
   - name: 펠톨라
     col: dem
@@ -1609,7 +1624,7 @@ events:
   race: governor
   code: US-KS
   status: counting
-  src: NBC 집계 · 11월 5일 오전 98.8%
+  src: NBC 집계 · 11월 5일 저녁 98.8%
   rows:
   - name: 홀셔
     col: dem
@@ -1630,7 +1645,7 @@ events:
   race: governor
   code: US-TX
   status: called
-  src: NBC 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 저녁
   rows:
   - name: 이노호사
     col: dem
@@ -1651,14 +1666,14 @@ events:
   race: governor
   code: US-NV
   status: called
-  src: NBC 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 저녁
   rows:
   - name: 포드
     col: dem
     pct: 51.5
   - name: 롬바르도
     col: rep
-    pct: 44.3
+    pct: 44.2
 - type: bars
   start:
     sid: act4_6
@@ -1672,7 +1687,7 @@ events:
   race: governor
   code: US-IA
   status: called
-  src: NBC 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 저녁
   rows:
   - name: 샌드
     col: dem
@@ -1693,7 +1708,7 @@ events:
   race: governor
   code: US-FL
   status: called
-  src: NBC 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 저녁
   rows:
   - name: 도널즈
     col: rep
