@@ -354,7 +354,7 @@ direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문�
   - '가격·추이·통계 문장에는 알맞은 차트를 건다 — 시간에 따른 변화 = 선 차트(panel dual_line, 출처 있는 실측값, 촘촘한 날짜 라벨은 x_label_rotate), 전체 대비 비율 = 도트(panel dots), 단일 지표 = 큰 숫자 카드(bigs). 값은 출처가 있는 것만, 주장 수치는 주장 주체를 패널 문구에 적는다(v5.4.0, 사용자 지시 2026-10-02, 검사 정직성 4종 hard).'
   - '주문(order.yaml) data.series 에 있는 시리즈는 반드시 데이터 패널(dual_line 등 series[].record)로 그린다. 이전 승인 연출(track_v*)의 데이터 패널도 그대로 이어 간다. 일부러 빼려면 direction drops 에 {record, reason} 을 적는다(사용자 의견 UF-126, 검사 [series-unused]·[panel-dropped] hard).'
   - '패널(그래프·도표)이 떠 있는 동안에는 오른쪽 상단 카드·계단식 카드·기사·사진·인용·뱃지를 두지 않는다 — 패널 앞에 끝내거나 뒤에 시작한다. 같은 수치는 패널 점·자막이 맡는다(사용자 의견 UF-129, 검사 [card-over-panel] hard).'
-  - '주별(1급 행정구역) 결과는 area 로 칠한다 — src 출처 줄 필수(매체·집계 시각), race(senate·governor) 필수, AP 등 콜이 없는 주는 col muted·status counting(빗금), 확정 주만 dem·rep. 값은 프로젝트 data/state_results.yaml 과 같아야 한다(다르면 [area-data-mismatch] hard). 동→서 차례 등장은 items[].delay(초). 알파·두께 수치는 쓰지 않는다(rules area, band 이름만).'
+  - '주별(1급 행정구역) 결과는 area 로 칠한다 — src 출처 줄 필수(매체·집계 시각), race(senate·governor) 필수, AP 등 콜이 없는 주는 col muted·status counting(빗금), 확정 주만 dem·rep. 색·상태·band 는 프로젝트 data/state_results.yaml 과 같아야 한다 — band 는 데이터 득표 차로 정해진다(rules area.band_margin_pts, 다르면 [area-data-mismatch] hard). 동→서 차례 등장은 items[].delay(초). 알파·두께 수치는 쓰지 않는다(rules area, band 이름만).'
 
 shot_grammar:              # 05 §2
   camera_moves_per_scene_max: 1
@@ -1514,12 +1514,13 @@ flight:                    # v7.3.0 back_and_forth D-0206·D-0225(사용자 결�
     safe_margin_px: 6
     side_order: [up_right, up_left, down_right, down_left, right, left, up, down]
 area:                      # v7.4.0 back_and_forth D-0290 §3(감독 결정 D515) — 1급 행정구역(주) 채움 이벤트(engine/layers/areas.draw_area). 설계 px(480p).
-  # 값은 Opus 잠정(light 지도 눈 확인 컷 → R-0296, 감독 확정 대기). 연출은 band 이름만 쓴다(수치 금지, P8)
-  alpha_bands: {lean: 0.32, solid: 0.5, landslide: 0.68}   # 채움 알파(band 이름 → 값)
+  # 값 = 감독 확정 D518(R-0296 light·dark 컷 눈 확인). band 는 연출이 고르지 않는다 — 데이터 득표 차로 정해지고 [area-data-mismatch] 가 대조(P8, D-0293 §3)
+  alpha_bands: {lean: 0.32, solid: 0.5, landslide: 0.74}   # 채움 알파(band 이름 → 값). 감독 확정 D518(D-0293 §3 — landslide 0.68 → 0.74)
   outline: [[5.0, 0.08], [2.2, 0.22], [0.9, 0.85]]          # 외곽선 3단 [두께 px, 알파] — draw_country 와 같은 방식(글로우 → 선)
   fade_sec: 0.6            # 항목 등장(t0 + delay)·퇴장(t1) 페이드
   hatch: {spacing: 7.0, width: 1.1, alpha: 0.55}            # status counting = muted 채움 위 사선 빗금(개표 중)
   max_items_warn: 40       # 한 area 이벤트 항목이 이보다 많으면 [area-dense] 경고(감독 결정 D-0292 30 → 40 — 콜드 오픈 상원 35·주지사 36 이 한 이벤트인 설계)
+  band_margin_pts: {lean_below: 5, solid_below: 15}   # D518 — 득표 차(포인트) 5 미만 lean · 15 미만 solid · 그 이상 landslide. counting = lean 고정
   cols: [dem, rep, muted]  # [area-col] — area 가 쓸 수 있는 색(그 외 = hard)
   data_file: data/state_results.yaml   # [area-data-mismatch] 대조 기준(프로젝트 기준 상대 경로)
 
@@ -1878,6 +1879,8 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
     min_hold_sec: 6
     handoff_sec: 0.5
     handoff_types: [photo, clip, cutout]
+    exempt_projects:   # v7.4.0 감독 결정 D516(back_and_forth D-0293 §1) — 회귀 기준만(새 영상 면제 없음). 범위 = tests/test_feedback_guards_uf160_162.py 가 고정
+      hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 뱃지 t1 을 늘리면 골든이 바뀐다"
     director_line: "인물 뱃지는 {min_hold_sec}초 이상 띄운다 — 문장 끝에서 끊지 말고 다음 문장 끝이나 장면 끝까지. 같은 장면 사진·영상으로 곧바로 넘길 때만 예외(검사 [badge-hold] hard, UF-162)."
   card_over_panel: {min_overlap_sec: 0.3, panel_pad_px: 4, cover_types: [card, cascade, article, quote, primitive],
                     cover_types_on_data_panels: [photo, clip, cutout, badge],

@@ -1714,6 +1714,7 @@ class BadgeHold(_Strict):
     min_hold_sec: float = Field(gt=0)
     handoff_sec: float = Field(ge=0)
     handoff_types: list[str] = Field(default_factory=list)
+    exempt_projects: dict[str, str] = Field(default_factory=dict)   # v7.4.0 D516 — 골든 회귀 기준 pid → 사유
     director_line: str                                # {min_hold_sec} 자리
 
 
@@ -2328,6 +2329,11 @@ class AreaHatch(_Strict):
     alpha: float = Field(ge=0, le=1)
 
 
+class AreaBandMargin(_Strict):
+    lean_below: float = Field(gt=0)
+    solid_below: float = Field(gt=0)
+
+
 class AreaRules(_Strict):
     """v7.4.0 back_and_forth D-0290 §3 — 1급 행정구역 채움(area). 설계 px(480p). engine/layers/areas.draw_area·engine/checks 만 읽는다."""
 
@@ -2336,6 +2342,7 @@ class AreaRules(_Strict):
     fade_sec: float = Field(gt=0)
     hatch: AreaHatch
     max_items_warn: int = Field(ge=1)
+    band_margin_pts: AreaBandMargin
     cols: list[str] = Field(min_length=1)
     data_file: str = Field(min_length=1)
 

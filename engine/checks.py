@@ -2650,7 +2650,7 @@ def check_badge_hold(P) -> list[str]:  # noqa: ANN001, N803
     """[badge-hold] hard(v7.4.0 UF-162 "뱃지가 나오는데 너무 빨리 사라져") — 뱃지 노출 < min_hold_sec 면 실패.
     뱃지 끝 ±handoff_sec 안에 사진·영상(handoff_types)이 시작하면(같은 장면을 실사로 넘김) 예외."""
     C = QA.badge_hold  # noqa: N806
-    if C is None:
+    if C is None or P.root.name in C.exempt_projects:   # v7.4.0 D516 — 골든 회귀 기준만 면제
         return []
     starts = [e["t0"] for e in P.events if e["type"] in C.handoff_types]
     out = []
@@ -2667,6 +2667,14 @@ def area_codes(stage: object, country: str) -> "set[str] | None":
     """무대 admin1 의 code 집합 — 나라가 없으면 None, 옛 geo.pkl(code 없음)이면 빈 집합."""
     lst = getattr(stage, "adm", {}).get(country)
     return None if lst is None else {x["code"] for x in lst if x.get("code")}
+
+
+def area_band(pct: "tuple[float, float] | None") -> str:
+    """득표 차(포인트) → band(rules area.band_margin_pts, D518). 득표율이 없으면 lean."""
+    if not pct:
+        return "lean"
+    m, B = pct[0] - pct[1], R_.area.band_margin_pts  # noqa: N806
+    return "lean" if m < B.lean_below else ("solid" if m < B.solid_below else "landslide")
 
 
 def area_report(events: list[dict], codes: "Callable[[str], set[str] | None]", results: object, data_err: "str | None") -> list[str]:
@@ -2696,9 +2704,10 @@ def area_report(events: list[dict], codes: "Callable[[str], set[str] | None]", r
                 out.append(f"[area-data-mismatch] {tag} {c} — {A.data_file} 에 이 주·레이스가 없다")
                 continue
             want = "muted" if r.status == "counting" else r.winner_party
-            if it["status"] != r.status or it["col"] != want:
-                out.append(f"[area-data-mismatch] {tag} {c} — 연출 {it['col']}/{it['status']} ≠ 데이터 {want}/{r.status}"
-                           f"({r.called_by or '콜 없음'}) — 콜 없는 주는 muted·counting")
+            wb = area_band(r.pct) if r.status == "called" else "lean"   # D518 — band 는 데이터 득표 차로(연출이 고르지 않는다)
+            if it["status"] != r.status or it["col"] != want or it["band"] != wb:
+                out.append(f"[area-data-mismatch] {tag} {c} — 연출 {it['col']}/{it['status']}/{it['band']} ≠ 데이터 {want}/{r.status}/{wb}"
+                           f"({r.called_by or '콜 없음'}) — 콜 없는 주는 muted·counting, band = rules area.band_margin_pts")
     seen: list[tuple[str, float, float, float]] = []
     for e in ar:
         mine: set[str] = set()

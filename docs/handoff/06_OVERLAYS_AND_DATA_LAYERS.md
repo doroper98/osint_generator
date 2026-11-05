@@ -204,7 +204,7 @@ stroke 4px (#ff4d5e, 0.3a) + 1.4px (0.95a)
 | 지오 | `geo.prep` 가 NE `iso_3166_2` 를 admin1 항목 `code` 로 보존 → `MercatorStage.adm_rings(country, code)` | 옛 geo.pkl(code 없음)에 area 가 오면 `StageError` — 다시 `geo.prep`(P6) |
 | 필드 | `country`·`race`(senate·governor)·`src`(출처 줄 필수)·`items[code·col·band·status·delay]` | 연출은 band 이름만, 알파·두께 수치 금지(P8) |
 | 색 | `col` ∈ `rules area.cols`(dem·rep·muted). dem·rep = `registries.accents`·`colors`(+`themes.light`) — 채움 전용 | 글자 색 아님 |
-| 알파 | `area.alpha_bands[band]` | lean·solid·landslide |
+| 알파 | `area.alpha_bands[band]` — band 는 데이터 득표 차로 정해진다(`area.band_margin_pts`, D518) | 연출이 고르지 않는다(P8) |
 | 외곽선 | `area.outline` 3단(draw_country 와 같은 방식) | |
 | 개표 중 | `status: counting` = muted 채움 위 사선 빗금(`area.hatch`) | 콜 없는 결과를 확정처럼 칠하지 않는다 |
 | 등장 | 항목마다 t0 + `delay` 에 `area.fade_sec` 페이드 | 동→서 차례 등장 |

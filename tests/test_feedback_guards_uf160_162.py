@@ -91,6 +91,14 @@ class BadgeHoldTest(unittest.TestCase):
     def test_rules_key(self) -> None:
         self.assertEqual(Q.badge_hold.min_hold_sec, 6)
 
+    def test_exempt_only_golden(self) -> None:
+        """v7.4.0 D516(D-0293 §1) — 면제는 골든 회귀 기준(hormuz_korea)만. 새 영상이 몰래 면제되지 못하게 고정."""
+        self.assertLessEqual(set(Q.badge_hold.exempt_projects), {"hormuz_korea"})
+        self.assertLessEqual(set(Q.badge_hold.exempt_projects), set(Q.element_gap.exempt_projects))
+        ev = [{"type": "badge", "t0": 42.6, "t1": 44.2, "label": "울산"}]
+        self.assertEqual(checks.check_badge_hold(_P(ev, total=400.0, name="hormuz_korea")), [])
+        self.assertEqual(len(checks.check_badge_hold(_P(ev, total=400.0, name="us_midterms_2026"))), 1)
+
 
 class PromptLinesTest(unittest.TestCase):
     def test_director_and_revise_have_guard_lines(self) -> None:

@@ -101,7 +101,7 @@ class AreaRenderTest(unittest.TestCase):
 
 
 def results(**tx: object) -> StateResultsFile:
-    race = dict(winner="탈라리코", winner_party="dem", loser="팩스턴", status="called", called_by="AP",
+    race = dict(winner="탈라리코", winner_party="dem", loser="팩스턴", pct=(55.1, 43.0), status="called", called_by="AP",
                 source_url="https://www.texastribune.org/x", retrieved_at="2026-11-05") | tx
     ms = dict(winner_party="none", leader="콜롬", status="counting", source_url="https://abcnews.com/x", retrieved_at="2026-11-05")
     return StateResultsFile.model_validate(dict(schema_version=1, as_of="2026-11-05T09:00+09:00",
@@ -137,6 +137,13 @@ class AreaChecksTest(unittest.TestCase):
         # 데이터 파일 없음
         out = checks.area_report([ev()], lambda k: {"US-TX"}, None, "no file")
         self.tag(out, "[area-data-mismatch]")
+
+    def test_band_from_data(self) -> None:
+        """D518 — band 는 데이터 득표 차로(55.1−43.0 = 12.1 → solid). 연출이 landslide 를 고르면 hard."""
+        self.assertEqual(checks.area_band((55.1, 43.0)), "solid")
+        self.assertEqual(checks.area_band((60.0, 40.0)), "landslide")
+        self.assertEqual(checks.area_band((50.1, 48.0)), "lean")
+        self.tag(report([ev(items=[dict(code="US-TX", col="dem", band="landslide", status="called", delay=0.0)])]), "[area-data-mismatch]")
 
     def test_overlap(self) -> None:
         self.tag(report([ev(), ev(t0=5.0, t1=12.0)]), "[area-overlap]")
