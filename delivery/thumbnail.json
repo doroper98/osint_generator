@@ -1,0 +1,36 @@
+{
+ "schema_version": 1,
+ "frame_t": 24.009,
+ "title_card": [
+  21.209,
+  26.809
+ ],
+ "title": "뒤집힌 일곱 자리",
+ "title_lines": [
+  "뒤집힌 일곱 자리"
+ ],
+ "title_size_px": 73.6,
+ "title_scale": 1.6,
+ "group_shift_px": 10.35,
+ "border": {
+  "inset": 22.0,
+  "width": 1.2,
+  "radius": 2.0,
+  "alpha": 0.9,
+  "glow_width": 4.0,
+  "glow_alpha": 0.14
+ },
+ "size": [
+  1280,
+  720
+ ],
+ "png": {
+  "bytes": 287891,
+  "md5": "b8830301a0797db34309337d1358f2a7"
+ },
+ "jpg": {
+  "bytes": 98257,
+  "md5": "b87a7c04a288e03d9eee51355629ddf4",
+  "quality": 92
+ }
+}
