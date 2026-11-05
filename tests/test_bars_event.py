@@ -131,6 +131,10 @@ class BarsChecksTest(unittest.TestCase):
         self.assertTrue(any("[bars-data-mismatch]" in x for x in checks.bars_report([ev()], None, "파일 없음")))
         self.assertTrue(any("[bars-data-mismatch]" in x for x in checks.bars_report([ev()], results(names_ko=None, parties=None), None)))
 
+    def test_name_clip(self) -> None:
+        long = ev(rows=[dict(name="아주아주긴후보이름입니다", col="dem", pct=55.1), dict(name="팩스턴", col="rep", pct=43.0)])
+        self.assertTrue(any("[bars-name-clip]" in x for x in checks.bars_report([long], None, "x")))
+
     def test_data_model_pairs(self) -> None:
         with self.assertRaises(ValidationError):
             results(parties=["rep", "dem"])   # 1위 = 승자 정당

@@ -1542,11 +1542,11 @@ area:                      # v7.4.0 back_and_forth D-0290 §3(감독 결정 D515
 
 bars:                      # v7.4.0 back_and_forth D-0303 §3(사용자 의견 UF-170 "주별 선거 결과 … 막대그래프로 직관적으로", DECISIONS D525) — engine/layers/bars.py. 설계 px(480p)
   # 지도 위 작은 막대 상자(이야기 안에 박힌 데이터 — 기준 작품 문법). 막대 길이 = pct/100 × 막대 폭(모든 주 같은 축척). 연출은 side·rows 만(픽셀 금지, P8)
-  box_w: 196
+  box_w: 214
   pad: 7
   row_h: 17
   bar_h: 8
-  name_w: 52               # 이름 칸
+  name_w: 70               # 이름 칸(고정 — 모든 주 같은 막대 축척. 넘치면 [bars-name-clip] hard)
   pct_w: 34                # 숫자 칸(오른쪽 정렬)
   name_size: 10
   pct_size: 10

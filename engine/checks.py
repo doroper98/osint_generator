@@ -99,7 +99,7 @@ from engine.layers.media import KEN_BURNS_MAX
 from engine.media_plan import article_candidate_usage, density_report, placement_warnings
 from engine.projection import View
 from engine.style import FONT, FPS, H_OUT, ISLAND, TIMELINE, W_OUT
-from engine.typography import FontMissingError, family_found, fc_match, require_family
+from engine.typography import FontMissingError, family_found, fc_match, require_family, tw
 from rules import load_rules
 from script.schema import DATE_RE
 
@@ -2742,6 +2742,7 @@ def check_area(P) -> list[str]:  # noqa: ANN001, N803
     return area_report(P.events, lambda k: area_codes(P.R.stage, k), results, err)
 
 
+_MCTX = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))   # 글자 폭 측정용
 BARS_COVER_TYPES = ("panel", "photo", "clip", "article", "quote", "card", "cutout")   # bars 와 같은 시각에 뜨면 안 되는 화면 요소
 
 
@@ -2764,6 +2765,9 @@ def bars_report(events: list[dict], results: object, data_err: "str | None") -> 
         for r in e["rows"]:
             if r["col"] not in Bz.cols:
                 out.append(f"[bars-data-mismatch] {tag} {r['name']} col {r['col']!r} — bars 색은 {Bz.cols} 만")
+            nw = tw(_MCTX, r["name"], Bz.name_size, "sansb")   # 이름 칸 고정(모든 주 같은 막대 축척) — 이름이 막대를 덮으면 실패
+            if nw > Bz.name_w - 4:
+                out.append(f"[bars-name-clip] {tag} {r['name']!r} 폭 {nw:.0f}px > 이름 칸 {Bz.name_w - 4:g}px(rules bars.name_w)")
         for o in events:
             if o["type"] in BARS_COVER_TYPES and o["t0"] < e["t1"] and e["t0"] < o["t1"]:
                 out.append(f"[bars-overlap] {tag} — {o['type']} t={o['t0']:.1f}~{o['t1']:.1f} 와 같은 시각(앞에 끝내거나 뒤에 시작)")

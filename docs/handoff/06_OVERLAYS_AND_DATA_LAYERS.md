@@ -228,7 +228,7 @@ stroke 4px (#ff4d5e, 0.3a) + 1.4px (0.95a)
 | 데이터 | `data/state_results.yaml` 의 `names_ko`·`parties`·`pct`(1위·2위 차례) | `[bars-data-mismatch]` hard |
 
 - 레이어 순서: `marker` 뒤·`badge` 앞(`MAP_LAYER_ORDER`). 콘티 판·카탈로그 판도 같은 렌더러.
-- 검사(hard, 키 `bars`): `[bars-src-missing]` · `[bars-data-mismatch]` · `[bars-hold]`(< `bars.hold_min_sec`) · `[bars-overlap]`(같은 시각 패널·사진·영상·기사·인용·카드, 마커 이름표와 상자 겹침) · `[bars-offscreen]`. 경고 `bars_no_camera`(그 주가 화면 밖).
+- 검사(hard, 키 `bars`): `[bars-src-missing]` · `[bars-data-mismatch]` · `[bars-hold]`(< `bars.hold_min_sec`) · `[bars-overlap]`(같은 시각 패널·사진·영상·기사·인용·카드, 마커 이름표와 상자 겹침) · `[bars-offscreen]` · `[bars-name-clip]`(이름이 고정 이름 칸 `bars.name_w` 를 넘침 — 칸은 축척 동일 위해 고정). 자리 = `resolve_sides`(렌더 전, 마커 이름표·화면 밖 회피, provenance `side_auto`). 경고 `bars_no_camera`(그 주가 화면 밖).
 - provenance `features_used.bars` = {events, counting, codes}.
 
 ## v7.4.0 — 주 이름 표기 모드 `admin1_labels` (back_and_forth D-0303 §1, 사용자 의견 UF-167·168)
