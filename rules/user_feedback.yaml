@@ -2276,3 +2276,14 @@ entries:
   status: open
   decision: 사용자 결정 D519(DECISIONS) · D-0296(감독 — DNC 당나귀·RNC 코끼리 공식 로고를 emblem 뱃지로, 권리 기록 trademarked·private_only·사유 UF-165, provenance rights_exceptions. 내스트 만평은 유래 장면에 그대로)
   source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
+- id: UF-166
+  date: '2026-11-05'
+  project: us_midterms_2026
+  at: 게이트 ① 승인 직후(사용자 대화, 감독 세션) — 작업 순서
+  quote: 콘티 나한테 승인 받을 필요 없이 니가 검토해서 승인하고 완성본 직행해
+  quote_kind: verbatim
+  category: 작업 순서(사용자 위임) — 이 영상의 콘티 판 흐름 검토와 게이트 ② 승인을 감독(Fable)에게 위임, 완성본 직행. 콘티 판 자체는 코드 강제(require_animatic)라 만든다. 산출물은 그대로 사용자에게 전달(UF-144)
+  guards: []
+  status: open
+  decision: 사용자 결정 D521 · D-0299(감독 — 콘티 판 감독 검토 → 프리뷰 → 감독 approve --gate preview_approval --by fable '사용자 위임 UF-166' → 720p 전편 → 전달)
+  source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
