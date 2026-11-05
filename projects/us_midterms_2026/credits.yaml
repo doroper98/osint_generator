@@ -66,6 +66,34 @@ sections:
     license: Office of Senator Sherrod Brown · Public domain
     rights:
     - media.us_midterms_2026_brown
+  - main: 1937년 뉴욕 순위선택 개표
+    license: The Washington daily news · Public domain
+    rights:
+    - media.us_midterms_2026_rcv_count_1937
+  - main: 지나 이노호사 후보
+    license: RRC1701 (CC0)
+    rights:
+    - media.us_midterms_2026_hinojosa
+  - main: 키샤 랜스 보텀스 후보
+    license: Americandesigner (CC0)
+    rights:
+    - media.us_midterms_2026_bottoms
+  - main: 에이미 액턴 후보
+    license: U.S. Air National Guard photo by Senio… · Public domain
+    rights:
+    - media.us_midterms_2026_acton
+  - main: 바이런 도널즈 의원 공식 사진
+    license: United States Congress · Public domain
+    rights:
+    - media.us_midterms_2026_donalds
+  - main: 펜실베이니아 주 의사당
+    license: kev72 (CC BY 2.0)
+    rights:
+    - media.us_midterms_2026_pa_capitol
+  - main: 연방 상원 본회의장
+    license: United States Senate · Public domain
+    rights:
+    - media.us_midterms_2026_senate_floor
 - title: 정당 로고
   column: 1
   items:
