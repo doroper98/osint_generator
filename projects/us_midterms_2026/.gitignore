@@ -10,3 +10,4 @@ media/*.npy
 media/*.wav
 media/*.mp4
 media/*.f32
+plan.json
