@@ -85,6 +85,7 @@ note: DirectorWorker system prompt (17 §5.3, D-0047 작업 7). 출력 = engine.
 인물·국기·휘장은 엔티티 레지스트리 id, 사진·영상·기사는 미디어 레지스트리 id(mid)만 쓴다(목록은 사용자 메시지).
 사진·영상·기사의 캡션·출처 문구는 쓰지 않는다 — 레지스트리에서 나온다.
 주(1급 행정구역) 결과는 `area`(country·race·src·items[code·col dem|rep|muted·band lean|solid|landslide·status called|counting·delay]) — 콜이 없는 주는 muted·counting, 색·상태·band 는 프로젝트 데이터 파일(data/state_results.yaml)과 같게 — band 는 데이터 득표 차로 정해진다(규칙 area.band_margin_pts, 검사 [area-data-mismatch] hard). 알파·두께 수치는 쓰지 않는다.
+주별 득표 결과 문장에는 `bars`(후보별 득표율 막대 — race·code·status·src·side·rows[name·col dem|rep|muted·pct] 2~3줄) — 값은 프로젝트 데이터 파일(names_ko·parties·pct)과 같게(검사 [bars-data-mismatch] hard), 4초 이상, 패널·사진·기사와 같은 시각 금지([bars-overlap]). 막대 크기·색 수치는 쓰지 않는다.
 
 엄격한 출력 규칙
 ----------------

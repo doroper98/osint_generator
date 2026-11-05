@@ -262,6 +262,38 @@ class AreaEvent(_Event):
         return self
 
 
+class BarsRow(BaseModel):
+    """v7.4.0 D-0303 §3(UF-170) — 후보 한 줄. 이름·정당색·득표율은 data/state_results.yaml 과 같아야 한다([bars-data-mismatch])."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    name: str = Field(min_length=1)
+    col: Literal["dem", "rep", "muted"]
+    pct: float = Field(ge=0, le=100)
+
+
+class BarsEvent(_Event):
+    """v7.4.0 back_and_forth D-0303 §3(사용자 의견 UF-170 "주별 선거 결과 … 막대그래프로 직관적으로") — 지도 위 후보별 득표율 막대 상자.
+    막대 길이 = pct/100 × 막대 폭(모든 주 같은 축척 — 한 세계, UF-135·138). 자리 = side(rules bars.side_order 로 화면 안 첫 자리, 픽셀 금지).
+    src 출처 줄 필수, race·code·status 는 데이터 파일 대조 키(checks [bars-*])."""
+
+    type: Literal["bars"]
+    lon: float
+    lat: float
+    side: Literal["right", "left", "below", "above"] = "right"
+    race: Literal["senate", "governor"]
+    code: str = Field(pattern=r"^[A-Z]{2}-[A-Z0-9]{1,3}$")
+    status: Literal["called", "counting"]
+    src: str = Field(min_length=1)
+    rows: list[BarsRow] = Field(min_length=2, max_length=3)
+
+    @model_validator(mode="after")
+    def _src(self) -> "BarsEvent":
+        if not self.src.strip():
+            raise ValueError("[bars-src-missing] bars src(출처 줄)가 비었다")
+        return self
+
+
 class BadgeEvent(_Event):
     """뱃지. 지도 앵커 lon·lat, 또는 시간축 앵커 date·lane(v4.4.0 D-0090 작업 4 — 배치 슬롯이 시간축에서 date·lane 을 돌려준다). 한 쌍만."""
 

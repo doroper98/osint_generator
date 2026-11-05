@@ -1238,6 +1238,28 @@ class Fonts(_Strict):
     glyph_fallback: dict[str, str] = Field(default_factory=dict)   # v7.4.0 D-0250(UF-131) — 글꼴 키 → 그 글꼴에 없는 글자를 그릴 글꼴 키
 
 
+class Admin1Cities(_Strict):
+    """v7.4.0 D-0303 §1(UF-167·168) — prominent 모드의 도시 지명. 주 이름이 주인공이라 도시는 적게·작게·얇은 테두리."""
+
+    max_per_frame: int = Field(ge=0)
+    foreign: bool                      # False = province_countries(초점 나라) 밖 도시 제외
+    capitals_only_above_w: float       # 이 폭(도)보다 넓으면 수도(주도·나라 수도)만
+    size: float = Field(gt=0)
+    halo: float = Field(ge=0)          # 작은 글자 흰 테두리(UF-168 — 얇게)
+
+
+class Admin1Mode(_Strict):
+    """v7.4.0 D-0303 §1 — 1급 행정구역(주·도) 이름 표기 한 벌. subtle = v7.3 값 그대로(골든·옛 영상), prominent = 주 이름이 주인공(UF-167)."""
+
+    below_w: float = Field(gt=0)       # 화면 폭(도)이 이보다 좁을 때 표시
+    size: float = Field(gt=0)
+    font: Literal["sans", "sansm", "sansb"]
+    alpha: float = Field(gt=0, le=1)
+    halo: float = Field(ge=0)
+    halo_a: float = Field(ge=0, le=1)
+    cities: Optional[Admin1Cities] = None   # None = 도시 지명 기존 규칙 그대로(subtle)
+
+
 class LabelRules(_Strict):
     border_lod_w: float
     admin1_fade_w: Range2
@@ -1249,6 +1271,15 @@ class LabelRules(_Strict):
     # capital_always_max_w = 상시 표기를 이 폭(도) 이하로 제한(None = 폭 무관). 골든이 바뀌면 60 으로 제한(D-0229 §2.1-1)
     capital_always: bool = False
     capital_always_max_w: Optional[float] = None
+    # v7.4.0 back_and_forth D-0303 §1(사용자 의견 UF-167·168, DECISIONS D525) — 주 이름 표기 모드. 고르기 = direction stage_config.mercator.admin1_labels
+    admin1_modes: dict[str, Admin1Mode] = Field(default_factory=dict)
+    admin1_mode_default: str = "subtle"
+
+    @model_validator(mode="after")
+    def _admin1(self) -> "LabelRules":
+        if self.admin1_modes and self.admin1_mode_default not in self.admin1_modes:
+            raise ValueError(f"labels.admin1_mode_default {self.admin1_mode_default!r} 가 admin1_modes 에 없다")
+        return self
 
 
 class GazetteerRules(_Strict):
@@ -2334,6 +2365,35 @@ class AreaBandMargin(_Strict):
     solid_below: float = Field(gt=0)
 
 
+class BarsRules(_Strict):
+    """v7.4.0 back_and_forth D-0303 §3(UF-170) — 후보별 득표율 막대(bars). 설계 px(480p). engine/layers/bars.py·engine/checks 만 읽는다."""
+
+    box_w: float = Field(gt=0)
+    pad: float = Field(ge=0)
+    row_h: float = Field(gt=0)
+    bar_h: float = Field(gt=0)
+    name_w: float = Field(gt=0)
+    pct_w: float = Field(gt=0)
+    name_size: float = Field(gt=0)
+    pct_size: float = Field(gt=0)
+    src_size: float = Field(gt=0)
+    src_h: float = Field(gt=0)
+    radius: float = Field(ge=0)
+    gap_px: float = Field(ge=0)
+    bg_a: float = Field(ge=0, le=1)
+    track_a: float = Field(ge=0, le=1)
+    grow_sec: float = Field(gt=0)
+    row_stagger_sec: float = Field(ge=0)
+    fade_sec: float = Field(gt=0)
+    hold_min_sec: float = Field(gt=0)
+    counting_dash: tuple[float, float]
+    counting_note: str = Field(min_length=1)
+    side_order: list[Literal["right", "left", "below", "above"]] = Field(min_length=1)
+    safe_margin_px: float = Field(ge=0)
+    cols: list[str] = Field(min_length=1)
+    data_file: str = Field(min_length=1)
+
+
 class AreaRules(_Strict):
     """v7.4.0 back_and_forth D-0290 §3 — 1급 행정구역 채움(area). 설계 px(480p). engine/layers/areas.draw_area·engine/checks 만 읽는다."""
 
@@ -3279,6 +3339,7 @@ class VideoRules(_Strict):
     quote_center: QuoteCenterRules       # v5.3.1 — 인물 발언 중앙 인용(시안, valdai-2026 한정)
     flight: FlightRules                  # v7.3.0 — 비행·착탄·위성 인셋(D-0206)
     area: AreaRules                      # v7.4.0 — 주(1급 행정구역) 채움(D-0290)
+    bars: BarsRules                      # v7.4.0 — 후보별 득표율 막대(D-0303, UF-170)
     border_glow: BorderGlowRules         # v5.3.1 — 국경선 글로우(시안, direction stage_config.mercator.border_glow)
     data: DataRules                # v4.3.0 — D-0084 작업 1
     genre_prompt: GenrePromptRules  # v4.4.0 — D-0090 작업 1

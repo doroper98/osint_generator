@@ -1,0 +1,19 @@
+# 요소 예시 (v7.4.0, back_and_forth D-0303 §3, UF-170) — 레지스트리 모델을 그대로 통과한다(15 P4). prompts/examples/events/bars.yaml 와 tests/fixtures/preview/bars.yaml 은 같은 event.
+# 수치·문구는 예시다. 시각(t0·t1)은 hormuz_korea 연출의 실제 시각(첫 숏 한국 권역 w 6.4) — 요소 갤러리가 그 순간의 카메라로 그린다.
+schema_version: 1
+key: bars
+source: back_and_forth D-0303 §3(득표율 막대 첫 사용 = us_midterms_2026)
+event:
+  type: bars
+  t0: 0.2
+  t1: 4.6
+  lon: 126.98
+  lat: 37.57
+  side: right
+  race: governor
+  code: KR-11
+  status: called
+  src: 예시 출처 · 2026-11-05
+  rows:
+  - {name: 후보 가, col: dem, pct: 52.4}
+  - {name: 후보 나, col: rep, pct: 45.1}

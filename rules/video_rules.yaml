@@ -355,6 +355,7 @@ direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문�
   - '주문(order.yaml) data.series 에 있는 시리즈는 반드시 데이터 패널(dual_line 등 series[].record)로 그린다. 이전 승인 연출(track_v*)의 데이터 패널도 그대로 이어 간다. 일부러 빼려면 direction drops 에 {record, reason} 을 적는다(사용자 의견 UF-126, 검사 [series-unused]·[panel-dropped] hard).'
   - '패널(그래프·도표)이 떠 있는 동안에는 오른쪽 상단 카드·계단식 카드·기사·사진·인용·뱃지를 두지 않는다 — 패널 앞에 끝내거나 뒤에 시작한다. 같은 수치는 패널 점·자막이 맡는다(사용자 의견 UF-129, 검사 [card-over-panel] hard).'
   - '주별(1급 행정구역) 결과는 area 로 칠한다 — src 출처 줄 필수(매체·집계 시각), race(senate·governor) 필수, AP 등 콜이 없는 주는 col muted·status counting(빗금), 확정 주만 dem·rep. 색·상태·band 는 프로젝트 data/state_results.yaml 과 같아야 한다 — band 는 데이터 득표 차로 정해진다(rules area.band_margin_pts, 다르면 [area-data-mismatch] hard). 동→서 차례 등장은 items[].delay(초). 알파·두께 수치는 쓰지 않는다(rules area, band 이름만).'
+  - '주별 득표 결과 문장에는 bars(후보별 득표율 막대 — 2~3줄 rows[name·col·pct], race·code·status·src 필수)를 그 주 위에 둔다. 값은 프로젝트 data/state_results.yaml(names_ko·parties·pct)과 같게([bars-data-mismatch] hard), 축척은 모든 주 동일(코드가 정한다), 4초 이상([bars-hold]). 카메라가 그 주에 도착한 뒤, 마커 라벨·패널·사진·기사와 겹치지 않게(side 로 자리, [bars-overlap] hard). 픽셀·색 수치는 쓰지 않는다(v7.4.0 D-0303, UF-170).'
 
 shot_grammar:              # 05 §2
   camera_moves_per_scene_max: 1
@@ -404,6 +405,7 @@ pacing:                    # v4.11.0 back_and_forth D-0118 §1(사용자 위임 
       - article
       - post
       - area               # v7.4.0 D-0290 — 주 채움 등장
+      - bars               # v7.4.0 D-0303 — 득표율 막대 등장
       - country            # 강조·하이라이트(국가)
       - boom               # 강조(타격 링)
       - flight             # v7.3.0 비행·착탄
@@ -1028,6 +1030,20 @@ labels:                    # 04 §6·§7
   city_rank_thr: {60: 1, 25: 2, 12: 4, 5: 6, 0: 8}
   capital_always: true        # v7.4.0 D-0229 §2.1(UF-106) — 수도는 폭 LOD 와 무관하게 도시 후보(화면당 상한 city_labels_max 는 그대로)
   capital_always_max_w: null  # 상시 표기 폭 상한(도). null = 폭 무관
+  # v7.4.0 back_and_forth D-0303 §1(사용자 의견 UF-167 "도시 이름들 보다 주 이름" · UF-168 "흰색 테두리가 너무 작은 글씨에는 맞지 않는", DECISIONS D525).
+  # 주(1급 행정구역) 이름 표기 모드 — direction stage_config.mercator.admin1_labels 로 고른다(없으면 기본). subtle = v7.3 값 그대로(골든·옛 영상 불변).
+  # prominent = 주 이름 크게(본토 전체 w60 까지), 도시는 화면당 6개·초점 나라 안·넓은 화면에선 수도만·작은 글자 테두리 얇게. 대비 미달 글자는 기존 국소 보정(label_contrast_fix)이 다시 그린다
+  admin1_mode_default: subtle
+  admin1_modes:
+    subtle: {below_w: 8.5, size: 9.5, font: sans, alpha: 0.42, halo: 1.8, halo_a: 0.8}
+    prominent:
+      below_w: 61
+      size: 13
+      font: sansb
+      alpha: 0.9
+      halo: 0.9
+      halo_a: 0.5
+      cities: {max_per_frame: 6, foreign: false, capitals_only_above_w: 40, size: 9.5, halo: 0.6}
 
 geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계(geo.prep)
   land_miss_allow_px2: 16  # 국가 면적(deg²) × 티어 ppd² 가 이 값 미만이면 land-miss 를 small 로 허용(4×4 px). 이상 = drop
@@ -1115,7 +1131,7 @@ credits:                   # D-0030(D35) — 권리 레지스트리 종류별 �
   music_description: 'Music: "{name}" — {author} ({license})'          # 설명란 footer 의 {music} 자리(v3 description.yaml 문구와 같은 결과)
 
 registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 쓰면 오류, 있는데 렌더러가 없으면 오류
-  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, area, badge, card, panel, dip, photo, clip, cutout, article, post, primitive, series, backdrop, island, cascade, quote, flight]   # flight = v7.3.0 D-0206(비행·꼬리선·착탄 링·위성 인셋, 사용자 결정 D232). island = v5.1.0 D-0126 Q1(차트 아일랜드 — 뷰포트 카메라 = stage: timeline 숏), backdrop = v5.1.0 D-0121 §B·D-0123(backdrop 무대 배경 사진, 미디어 레지스트리 photo), post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives), series = v4.3.0 D-0084(시간축 무대, 데이터 레코드), cascade = v5.3.0 D-0139(겹침 카드, 사용자 결정 D116·D117), quote = v5.4.0 정규(인물 발언 인용, 사용자 결정 2026-10-02)
+  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, area, bars, badge, card, panel, dip, photo, clip, cutout, article, post, primitive, series, backdrop, island, cascade, quote, flight]   # flight = v7.3.0 D-0206(비행·꼬리선·착탄 링·위성 인셋, 사용자 결정 D232). island = v5.1.0 D-0126 Q1(차트 아일랜드 — 뷰포트 카메라 = stage: timeline 숏), backdrop = v5.1.0 D-0121 §B·D-0123(backdrop 무대 배경 사진, 미디어 레지스트리 photo), post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives), series = v4.3.0 D-0084(시간축 무대, 데이터 레코드), cascade = v5.3.0 D-0139(겹침 카드, 사용자 결정 D116·D117), quote = v5.4.0 정규(인물 발언 인용, 사용자 결정 2026-10-02)
   event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, line, arrow]   # v1/v2 이식 후보(미구현 = 사용 불가). movers = v7.3.0 flight 로 대체(D-0206 §1-2)
   panel_kinds: [relation, statement, timeline, precedent, versus, dots, gantt, dual_line, fork, checklist, network]   # relation = v3 refusal 일반화, 뒤 6종 = v2 차트 이식(D-0032)
   panel_kinds_planned: []
@@ -1516,13 +1532,40 @@ flight:                    # v7.3.0 back_and_forth D-0206·D-0225(사용자 결�
 area:                      # v7.4.0 back_and_forth D-0290 §3(감독 결정 D515) — 1급 행정구역(주) 채움 이벤트(engine/layers/areas.draw_area). 설계 px(480p).
   # 값 = 감독 확정 D518(R-0296 light·dark 컷 눈 확인). band 는 연출이 고르지 않는다 — 데이터 득표 차로 정해지고 [area-data-mismatch] 가 대조(P8, D-0293 §3)
   alpha_bands: {lean: 0.32, solid: 0.5, landslide: 0.74}   # 채움 알파(band 이름 → 값). 감독 확정 D518(D-0293 §3 — landslide 0.68 → 0.74)
-  outline: [[5.0, 0.08], [2.2, 0.22], [0.9, 0.85]]          # 외곽선 3단 [두께 px, 알파] — draw_country 와 같은 방식(글로우 → 선)
+  outline: [[2.4, 0.05], [1.1, 0.16], [0.55, 0.8]]         # 외곽선 3단 [두께 px, 알파] — draw_country 와 같은 방식(글로우 → 선). v7.4.0 D-0303 §2(사용자 의견 UF-169 "테두리 라인 두께 얇게, 투박") — 옛 [[5.0,0.08],[2.2,0.22],[0.9,0.85]]
   fade_sec: 0.6            # 항목 등장(t0 + delay)·퇴장(t1) 페이드
   hatch: {spacing: 7.0, width: 1.1, alpha: 0.55}            # status counting = muted 채움 위 사선 빗금(개표 중)
   max_items_warn: 40       # 한 area 이벤트 항목이 이보다 많으면 [area-dense] 경고(감독 결정 D-0292 30 → 40 — 콜드 오픈 상원 35·주지사 36 이 한 이벤트인 설계)
   band_margin_pts: {lean_below: 5, solid_below: 15}   # D518 — 득표 차(포인트) 5 미만 lean · 15 미만 solid · 그 이상 landslide. counting = lean 고정
   cols: [dem, rep, muted]  # [area-col] — area 가 쓸 수 있는 색(그 외 = hard)
   data_file: data/state_results.yaml   # [area-data-mismatch] 대조 기준(프로젝트 기준 상대 경로)
+
+bars:                      # v7.4.0 back_and_forth D-0303 §3(사용자 의견 UF-170 "주별 선거 결과 … 막대그래프로 직관적으로", DECISIONS D525) — engine/layers/bars.py. 설계 px(480p)
+  # 지도 위 작은 막대 상자(이야기 안에 박힌 데이터 — 기준 작품 문법). 막대 길이 = pct/100 × 막대 폭(모든 주 같은 축척). 연출은 side·rows 만(픽셀 금지, P8)
+  box_w: 176
+  pad: 7
+  row_h: 17
+  bar_h: 8
+  name_w: 52               # 이름 칸
+  pct_w: 34                # 숫자 칸(오른쪽 정렬)
+  name_size: 10
+  pct_size: 10
+  src_size: 7.5
+  src_h: 11
+  radius: 5
+  gap_px: 16               # 앵커 점 ↔ 상자 간격
+  bg_a: 0.9                # 바탕 = 지도 테마 halo 색(light 흰빛·dark 어둠)
+  track_a: 0.1             # 막대 바탕(100 % 자리) — 글자색 알파
+  grow_sec: 0.8            # 막대 자라기
+  row_stagger_sec: 0.15
+  fade_sec: 0.4
+  hold_min_sec: 4.0        # [bars-hold] hard — 보이는 시간 하한
+  counting_dash: [3.0, 2.0]   # status counting = 막대 끝 점선 덧그림 + 출처 줄에 counting_note
+  counting_note: "개표 중"
+  side_order: [right, left, below, above]   # 연출 side 가 화면 밖이면 이 차례로 첫 맞는 자리(결정적). 다 벗어나면 [bars-offscreen] hard
+  safe_margin_px: 6
+  cols: [dem, rep, muted]
+  data_file: data/state_results.yaml   # [bars-data-mismatch] 대조 기준(area 와 같은 파일)
 
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)

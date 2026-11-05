@@ -111,10 +111,10 @@ SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여�
 HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "element_gap", "label_banned_terms", "badge_hold", "area")   # area v7.4.0 D-0290 §3-5. element_gap·label_banned_terms·badge_hold v7.4.0 UF-160~162, cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "element_gap", "label_banned_terms", "badge_hold", "area", "bars")   # bars v7.4.0 D-0303 §3. area v7.4.0 D-0290 §3-5. element_gap·label_banned_terms·badge_hold v7.4.0 UF-160~162, cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
-        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "area_dense")   # area_dense v7.4.0 D-0290. ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
+        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "area_dense", "bars_no_camera")   # bars_no_camera v7.4.0 D-0303. area_dense v7.4.0 D-0290. ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
 
 def missing_fonts() -> list[str]:
@@ -2218,6 +2218,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "badge_hold": lambda: check_badge_hold(P),   # v7.4.0 UF-162(hard)
         "area": lambda: check_area(P),   # v7.4.0 D-0290 §3-5(hard) — 주 채움 정직성 5종
         "area_dense": lambda: area_dense(P.events),   # v7.4.0 D-0290 §3-5(warning)
+        "bars": lambda: check_bars(P),   # v7.4.0 D-0303 §3(hard, UF-170) — 득표율 막대 정직성·자리
+        "bars_no_camera": lambda: bars_no_camera(P),   # v7.4.0 D-0303 §3(warning)
         "plot_height": lambda: check_plot_height(P),
         "axis_empty_band": lambda: check_axis_empty_band(P),   # v7.4.0 D-0277 §3(hard, UF-142)
         "clip_frame": lambda: check_clip_frame(P),   # v7.4.0 D-0274 §2①②(hard, UF-141)
@@ -2738,6 +2740,97 @@ def check_area(P) -> list[str]:  # noqa: ANN001, N803
     except (OSError, ValueError) as ex:
         err = str(ex)[:200]
     return area_report(P.events, lambda k: area_codes(P.R.stage, k), results, err)
+
+
+BARS_COVER_TYPES = ("panel", "photo", "clip", "article", "quote", "card", "cutout")   # bars 와 같은 시각에 뜨면 안 되는 화면 요소
+
+
+def bars_report(events: list[dict], results: object, data_err: "str | None") -> list[str]:
+    """bars 정직성(v7.4.0 back_and_forth D-0303 §3, UF-170, hard). results = StateResultsFile|None.
+    [bars-src-missing] 출처 줄 없음 · [bars-data-mismatch] rows 의 이름·정당색·득표율(소수 1자리)·status 가 data/state_results.yaml 의
+    그 주·레이스(names_ko·parties·pct)와 다름 · [bars-hold] 보이는 시간 < rules bars.hold_min_sec ·
+    [bars-overlap] 같은 시각 패널·사진·영상·기사·인용·카드(BARS_COVER_TYPES)와 겹침(그 요소 앞에 끝내거나 뒤에 시작)."""
+    Bz = R_.bars  # noqa: N806
+    out: list[str] = []
+    bs = [e for e in events if e["type"] == "bars"]
+    if bs and results is None:
+        out.append(f"[bars-data-mismatch] bars 이벤트 {len(bs)}개인데 대조할 {Bz.data_file} 이 없다/틀렸다: {data_err}")
+    for e in bs:
+        tag = f"bars t={e['t0']:.1f} {e['code']} {e['race']}"
+        if not str(e.get("src") or "").strip():
+            out.append(f"[bars-src-missing] {tag} — src(매체·집계 시각) 출처 줄이 없다")
+        if e["t1"] - e["t0"] < Bz.hold_min_sec:
+            out.append(f"[bars-hold] {tag} — {e['t1'] - e['t0']:.1f}초 < {Bz.hold_min_sec:g}초(읽을 시간)")
+        for r in e["rows"]:
+            if r["col"] not in Bz.cols:
+                out.append(f"[bars-data-mismatch] {tag} {r['name']} col {r['col']!r} — bars 색은 {Bz.cols} 만")
+        for o in events:
+            if o["type"] in BARS_COVER_TYPES and o["t0"] < e["t1"] and e["t0"] < o["t1"]:
+                out.append(f"[bars-overlap] {tag} — {o['type']} t={o['t0']:.1f}~{o['t1']:.1f} 와 같은 시각(앞에 끝내거나 뒤에 시작)")
+        if results is None:
+            continue
+        rr = results.race(e["code"], e["race"])
+        if rr is None or rr.pct is None or rr.names_ko is None:
+            out.append(f"[bars-data-mismatch] {tag} — {Bz.data_file} 에 이 주·레이스의 pct·names_ko 가 없다")
+            continue
+        parties = rr.parties or ((rr.winner_party, "rep" if rr.winner_party == "dem" else "dem") if rr.status == "called" else None)
+        want = [(rr.names_ko[i], None if parties is None else parties[i], round(rr.pct[i], 1)) for i in range(2)]
+        got = [(r["name"], r["col"], round(r["pct"], 1)) for r in e["rows"][:2]]
+        if e["status"] != rr.status or any(g[0] != w[0] or g[2] != w[2] or (w[1] is not None and g[1] != w[1]) for g, w in zip(got, want)):
+            out.append(f"[bars-data-mismatch] {tag} — 연출 {got}/{e['status']} ≠ 데이터 {want}/{rr.status}")
+        if len(e["rows"]) > 2:
+            out.append(f"[bars-data-mismatch] {tag} — 3번째 줄은 데이터 파일에 값이 없다(두 후보만)")
+    return out
+
+
+def check_bars(P) -> list[str]:  # noqa: ANN001, N803
+    """bars hard(D-0303 §3) — bars_report + [bars-offscreen](rules bars.side_order 어느 자리도 화면 안이 아님) +
+    [bars-overlap] 마커 이름표(부제 포함)와 상자 겹침(다 자란 시각·가운데 시각에 잰다)."""
+    bs = [e for e in P.events if e["type"] == "bars"]
+    if not bs:
+        return []
+    from engine.layers.bars import bars_box  # noqa: PLC0415
+    from engine.layers.markers import marker_box  # noqa: PLC0415
+    from schemas.election_models import load_state_results  # noqa: PLC0415
+
+    results, err = None, None
+    try:
+        results = load_state_results(P.root / R_.bars.data_file)
+    except (OSError, ValueError) as ex:
+        err = str(ex)[:200]
+    out = bars_report(P.events, results, err)
+    ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+    for e in bs:
+        tag = f"bars t={e['t0']:.1f} {e['code']} {e['race']}"
+        for t in (min(e["t1"], e["t0"] + R_.bars.grow_sec + R_.bars.fade_sec), (e["t0"] + e["t1"]) / 2):
+            v = View(P.R.stage, P.cams[min(P.n_frames - 1, max(0, int(t * FPS)))])
+            b, ok = bars_box(v, e)
+            if not ok:
+                out.append(f"[bars-offscreen] {tag} t={t:.1f} — 어느 자리({R_.bars.side_order})도 화면 안이 아니다(카메라·앵커를 고친다)")
+                break
+            for m in P.events:
+                if m["type"] != "marker" or not (m["t0"] <= t <= m["t1"]) or "lon" not in m:
+                    continue
+                mx, my = v.to_screen(m["lon"], m["lat"])
+                mb = marker_box(ctx, m, mx, my, with_sub=True)
+                if mb[0] < b[2] and b[0] < mb[2] and mb[1] < b[3] and b[1] < mb[3]:
+                    out.append(f"[bars-overlap] {tag} t={t:.1f} — 마커 {m['label']!r} 이름표와 겹친다(side 를 바꾼다)")
+                    break
+    return out
+
+
+def bars_no_camera(P) -> list[str]:  # noqa: ANN001, N803
+    """[bars-no-camera] warning — bars 가운데 시각에 그 주(앵커)가 화면 밖(카메라가 그 주에 들어오지 않았다)."""
+    out = []
+    for e in P.events:
+        if e["type"] != "bars":
+            continue
+        t = (e["t0"] + e["t1"]) / 2
+        v = View(P.R.stage, P.cams[min(P.n_frames - 1, max(0, int(t * FPS)))])
+        x, y = v.to_screen(e["lon"], e["lat"])
+        if not (0 <= x <= W_OUT and 0 <= y <= H_OUT):
+            out.append(f"[bars-no-camera] bars t={e['t0']:.1f} {e['code']} — 그 주가 화면 밖({x:.0f},{y:.0f})")
+    return out
 
 
 def check_chart_edge_bleed(P) -> list[str]:  # noqa: ANN001, N803

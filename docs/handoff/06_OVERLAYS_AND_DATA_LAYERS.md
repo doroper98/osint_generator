@@ -212,3 +212,26 @@ stroke 4px (#ff4d5e, 0.3a) + 1.4px (0.95a)
 - 레이어 순서: `country` 바로 뒤(`engine.registry.MAP_LAYER_ORDER`). 콘티 판도 같은 기하.
 - 검사(hard, `engine/checks` 키 `area`): `[area-code-missing]` · `[area-src-missing]` · `[area-col]` · `[area-data-mismatch]`(프로젝트 `rules area.data_file` = `data/state_results.yaml`, 모델 `schemas/election_models.py`) · `[area-overlap]`. 경고 `area_dense`(`area.max_items_warn`).
 - provenance `features_used.area` = {events, items, counting}.
+- 외곽선 값은 v7.4.0 D-0303 §2(사용자 의견 UF-169 "테두리 라인 두께 얇게, 투박")로 얇아졌다 — `area.outline` 키를 본다.
+
+## v7.4.0 — 후보별 득표율 막대 `bars` (back_and_forth D-0303 §3, 사용자 의견 UF-170, DECISIONS D525)
+
+"주별 선거 결과를 … 막대그래프로 직관적으로" — 지도 위 그 주 옆 작은 상자에 후보 2~3줄 가로 막대(이야기 안에 박힌 데이터, 기준 작품 문법).
+렌더러 `engine/layers/bars.draw_bars`, 수치 `rules bars`(키만 인용).
+
+| 항목 | 규칙 | 근거 |
+|---|---|---|
+| 필드 | `lon·lat`(또는 `at_place`)·`side`·`race`·`code`·`status`·`src`(출처 줄 필수)·`rows[name·col·pct]` 2~3줄 | 연출은 side 이름만, 픽셀·색 수치 금지(P8) |
+| 축척 | 막대 길이 = pct/100 × 막대 폭 — 모든 주 같은 축척 | 한 세계(UF-135·138) |
+| 자리 | `bars_box` — 연출 side 가 화면 안이면 그대로, 아니면 `bars.side_order` 차례로 첫 맞는 자리. 상자는 `R.reserved`(지명이 피한다) | 다 벗어나면 `[bars-offscreen]` hard |
+| 개표 중 | `status: counting` = 막대 끝 점선 + 출처 줄에 `bars.counting_note` | 확정처럼 보이지 않게 |
+| 데이터 | `data/state_results.yaml` 의 `names_ko`·`parties`·`pct`(1위·2위 차례) | `[bars-data-mismatch]` hard |
+
+- 레이어 순서: `marker` 뒤·`badge` 앞(`MAP_LAYER_ORDER`). 콘티 판·카탈로그 판도 같은 렌더러.
+- 검사(hard, 키 `bars`): `[bars-src-missing]` · `[bars-data-mismatch]` · `[bars-hold]`(< `bars.hold_min_sec`) · `[bars-overlap]`(같은 시각 패널·사진·영상·기사·인용·카드, 마커 이름표와 상자 겹침) · `[bars-offscreen]`. 경고 `bars_no_camera`(그 주가 화면 밖).
+- provenance `features_used.bars` = {events, counting, codes}.
+
+## v7.4.0 — 주 이름 표기 모드 `admin1_labels` (back_and_forth D-0303 §1, 사용자 의견 UF-167·168)
+
+`rules labels.admin1_modes` 두 벌 — `subtle`(기본, v7.3 값 그대로 = 골든 불변) · `prominent`(주 이름이 주인공: 크게·본토 전체 폭까지, 도시는 화면당 적게·초점 나라 안만·넓은 화면은 수도만·작은 글자 흰 테두리 얇게).
+고르기 = direction `stage_config.mercator.admin1_labels`. 초점 나라 = 프로젝트 `labels.yaml province_countries`, 도시 iso 대조 = `labels.yaml iso3`(없으면 오류, P6). 대비 미달 도시 글자는 기존 국소 보정(`label_contrast_fix`)이 다시 그린다.

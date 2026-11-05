@@ -36,6 +36,7 @@ ACTIVE: dict[str, str] = {
 EXAMPLE_FILES: dict[str, str] = {
     "tests/fixtures/direction/minimal.yaml": "engine.direction:Direction",
     "tests/fixtures/direction/area_minimal.yaml": "engine.direction:Direction",   # v7.4.0 D-0290 §3-6 — area(주 채움)
+    "tests/fixtures/direction/bars_minimal.yaml": "engine.direction:Direction",   # v7.4.0 D-0303 §3 — bars(득표율 막대)
     "prompts/examples/hormuz_direction.yaml": "engine.direction:Direction",   # 17 §5.3 director 예시(변환기 산출)
     "tests/fixtures/facts_minimal.json": "script.schema:Facts",
 }

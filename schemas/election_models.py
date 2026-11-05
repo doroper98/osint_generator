@@ -31,6 +31,9 @@ class RaceResult(BaseModel):
     status: Status
     called_by: Optional[str] = None          # 콜 주체(AP·NBC·CNN 등). called 면 필수
     flip: bool = False                       # 당이 바뀐 자리(뒤집힘)
+    # v7.4.0 back_and_forth D-0303 §3(UF-170) — bars(후보별 득표율 막대)용. pct 와 같은 차례(1위·2위)의 한글 표기·정당
+    names_ko: Optional[tuple[str, str]] = None
+    parties: Optional[tuple[Party, Party]] = None
     source_url: str = Field(min_length=8)
     retrieved_at: str = Field(pattern=r"^\d{4}-\d{2}-\d{2}")
     note: Optional[str] = None
@@ -42,6 +45,10 @@ class RaceResult(BaseModel):
                 raise ValueError("status called 면 winner·winner_party(dem|rep)·called_by 필수")
         elif self.winner_party != "none" or self.winner:
             raise ValueError("status counting 이면 winner_party none·winner 없음(선두는 leader)")
+        if (self.names_ko is not None or self.parties is not None) and self.pct is None:
+            raise ValueError("names_ko·parties 는 pct(두 값)와 짝 — pct 가 없다")
+        if self.status == "called" and self.parties is not None and self.parties[0] != self.winner_party:
+            raise ValueError(f"parties[0] {self.parties[0]} ≠ winner_party {self.winner_party}(1위 = 승자)")
         return self
 
 

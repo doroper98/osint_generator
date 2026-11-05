@@ -42,6 +42,9 @@ def features(keys: list[CamKey], events: list[dict]) -> dict:
         **({"area": {"events": len(ar), "items": sum(len(e["items"]) for e in ar),
                      "counting": sum(1 for e in ar for i in e["items"] if i["status"] == "counting")}}
            if (ar := [e for e in events if e["type"] == "area"]) else {}),   # v7.4.0 D-0290 §3-7 — 주 채움 사용 수(없으면 기록 없음, P5)
+        **({"bars": {"events": len(bs), "counting": sum(1 for e in bs if e["status"] == "counting"),
+                     "codes": sorted({f"{e['code']}:{e['race']}" for e in bs})}}
+           if (bs := [e for e in events if e["type"] == "bars"]) else {}),   # v7.4.0 D-0303 §3 — 득표율 막대 사용 수(없으면 기록 없음, P5)
         **({"route_cross_exempt": ex} if (ex := [{"label": e.get("label"), **e["route_cross_exempt"]} for e in events
                                                   if e.get("route_cross_exempt")]) else {}),   # v5.21.11 D-0203 — 적용된 면제(P5)
     }

@@ -35,6 +35,7 @@ class Labels(BaseModel):
     ko: dict[str, str] = Field(default_factory=dict)
     seas: list[SeaLabel] = Field(default_factory=list)
     province_countries: list[str] = Field(default_factory=list)
+    iso3: dict[str, str] = Field(default_factory=dict)   # v7.4.0 D-0303 §1 — 나라 키(ISO A2) → 도시 iso(ADM0_A3). admin1 prominent 의 foreign: false 가 쓴다
     hide_country_label_below_w: dict[str, float] = Field(default_factory=dict)
 
 
@@ -113,6 +114,7 @@ class Assets:
         if plc and "cap0" not in plc[0]:   # v7.4.0 — 나라 수도 구분(labels.capital_always). 옛 geo.pkl 로 조용히 1급 행정 중심까지 상시 표기하지 않는다(P6)
             raise ValueError("geo.pkl places 에 cap0 이 없다 — `python -m geo.prep <프로젝트>` 로 다시 만든다(v7.4.0)")
         self.plc_cap0 = np.array([bool(p.get("cap0")) for p in plc])
+        self.plc_iso = np.array([str(p.get("iso") or "") for p in plc])   # v7.4.0 D-0303 §1 — 초점 나라 밖 도시 제외(admin1 prominent)
 
     def _load_registries(self, a: Path) -> None:
         # 권리·미디어 레지스트리: 파일이 없으면 빈 레지스트리 — 그 상태에서 인물·휘장·미디어를 쓰면

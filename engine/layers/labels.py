@@ -87,18 +87,25 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
         text(ctx, nm, x, y, size, "sansm", th.country_label, 0.55 * la, 2.2, "c", spacing=1.8, halo_rgb=hr, contrast="aux")
         placed.append((x - w / 2, y - 12, x + w / 2, y + 4))
         drawn.append(_lb(placed[-1], nm, "country"))
-    # admin-1 names (close zoom)
-    if view.w < LOD["admin_names_below_w"]:
+    # admin-1 names — v7.4.0 D-0303 §1(UF-167·168): 모드(rules labels.admin1_modes, direction stage_config.mercator.admin1_labels).
+    # subtle = v7.3 값(below_w 8.5·9.5px·alpha 0.42·halo 1.8) 그대로 — 골든 불변. prominent = 주 이름 크게, 도시는 아래 cities 규칙
+    md = getattr(stage, "admin1_mode", None)
+    if md is None:   # 모드 규칙이 없는 옛 규칙 파일 — v7.3 리터럴과 같은 값
+        md_below, md_size, md_font, md_alpha, md_halo, md_halo_a, mc = LOD["admin_names_below_w"], 9.5, "sans", 0.42, 1.8, 0.8, None
+    else:
+        md_below, md_size, md_font, md_alpha, md_halo, md_halo_a, mc = md.below_w, md.size, md.font, md.alpha, md.halo, md.halo_a, md.cities
+    if view.w < md_below:
         for k in lab.province_countries:
             for ad in stage.adm.get(k, []):
                 if ad["xy"] is None:
                     continue
                 x, y = view.to_screen(*ad["xy"])
                 if 20 < x < W_OUT - 20 and 60 < y < H_OUT - 70:
-                    w = tw(ctx, ad["name"], 9.5, "sans")
-                    if free(x - w / 2, y - 9, w, 12):
-                        text(ctx, ad["name"], x, y, 9.5, "sans", th.admin_label, 0.42 * la, 1.8, "c", halo_rgb=hr, contrast="aux")
-                        placed.append((x - w / 2, y - 9, x + w / 2, y + 3))
+                    w = tw(ctx, ad["name"], md_size, md_font)
+                    top, hh = round(md_size * 0.95), round(md_size * 1.26)   # subtle 9.5px → 9·12(v7.3 상자 그대로)
+                    if free(x - w / 2, y - top, w, hh):
+                        text(ctx, ad["name"], x, y, md_size, md_font, th.admin_label, md_alpha * la, md_halo, "c", 0.0, md_halo_a, halo_rgb=hr, contrast="aux")
+                        placed.append((x - w / 2, y - top, x + w / 2, y - top + hh))
                         drawn.append(_lb(placed[-1], ad["name"], "admin"))
     # cities
     rk = by_w(view.w, LOD["city_rank_max"])
@@ -108,15 +115,28 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
     cr = load_rules().labels   # v7.4.0 D-0229 §2.1(UF-106) — 수도 상시 표기(폭 LOD 무관, 화면당 상한은 그대로)
     if cr.capital_always and (cr.capital_always_max_w is None or view.w <= cr.capital_always_max_w):
         cand = cand | A.plc_cap0   # 나라 수도만(1급 행정 중심 제외)
+    if mc is not None:   # v7.4.0 D-0303 §1 — prominent: 초점 나라 밖 도시 제외, 넓은 화면에선 수도(주도·나라 수도)만
+        if not mc.foreign:
+            miss = [k for k in lab.province_countries if k not in lab.iso3]
+            if miss or not lab.province_countries:   # 초점 나라를 모르고 도시를 조용히 다 지우지 않는다(P6)
+                raise ValueError(f"labels.yaml province_countries {lab.province_countries} 의 iso3 가 없다 {miss} — admin1 prominent cities.foreign false")
+            iso3 = {lab.iso3[k] for k in lab.province_countries}
+            cand = cand & np.isin(A.plc_iso, list(iso3))
+        if view.w > mc.capitals_only_above_w:
+            cand = cand & A.plc_cap
     m = (xs > 12) & (xs < W_OUT - 12) & (ys > 58) & (ys < H_OUT - 72) & cand
     idx = np.where(m)[0]
     idx = idx[np.lexsort((-A.plc_pop[idx], A.plc_rank[idx]))][:40]
     n = 0
+    cmax = LOD["city_labels_max"] if mc is None else mc.max_per_frame
     for i in idx:
+        if n >= cmax:
+            break
         x, y = xs[i], ys[i]
         nm = A.plc[i]["ko"]
         cap = A.plc_cap[i]
-        size = 11.5 if cap else 10.5
+        size = (11.5 if cap else 10.5) if mc is None else mc.size
+        halo = 2.6 if mc is None else mc.halo
         w = tw(ctx, nm, size, "sansb" if cap else "sansm")
         if not free(x - 3, y - 8, w + 10, 13):
             continue
@@ -126,10 +146,8 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
         ctx.set_source_rgba(*th.city_dot.edge, th.city_dot.edge_alpha * la)
         ctx.set_line_width(0.8)
         ctx.stroke()
-        text(ctx, nm, x + 5, y + 4, size, "sansb" if cap else "sansm", th.city_label, 0.82 * la, 2.6, "l", halo_rgb=hr, contrast="required")
+        text(ctx, nm, x + 5, y + 4, size, "sansb" if cap else "sansm", th.city_label, 0.82 * la, halo, "l", halo_rgb=hr, contrast="required")
         placed.append((x - 3, y - 8, x + w + 7, y + 5))
         drawn.append(_lb(placed[-1], nm, "city"))
         n += 1
-        if n >= LOD["city_labels_max"]:
-            break
     return drawn

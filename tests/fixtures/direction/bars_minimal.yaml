@@ -1,0 +1,22 @@
+# direction.yaml bars 최소 예시(v7.4.0 back_and_forth D-0303 §3, UF-170) — 스키마 테스트용(test_prompt_schema_parity EXAMPLE_FILES).
+# 후보별 득표율 막대: rows 2~3줄(name·col·pct) — 값은 프로젝트 data/state_results.yaml(names_ko·parties·pct)과 같게. 자리는 side 만(픽셀 금지).
+version: 1
+places:
+  texas: [-99.3, 31.3]
+shots:
+  - {at: 0, mode: cut, dur: 0, camera: {lon: -97.0, lat: 38.5, w: 60}}
+  - {at: {sid: s_1, off: -0.6}, mode: move, dur: 3.0, camera: {place: texas, w: 16}}
+events:
+  - {type: marker, start: {sid: s_1, off: 0.3}, end: {sid: s_1, edge: end}, at_place: texas, label: 텍사스, sub: 1988년 이후 첫 민주 상원, side: right}
+  - type: bars
+    start: {sid: s_1, off: 0.6}
+    end: {sid: s_1, edge: end}
+    at_place: texas
+    side: below
+    race: senate
+    code: US-TX
+    status: called
+    src: "엔비씨 집계 · 2026-11-05 09:30 KST"
+    rows:
+      - {name: 탈라리코, col: dem, pct: 55.1}
+      - {name: 팩스턴, col: rep, pct: 43.0}

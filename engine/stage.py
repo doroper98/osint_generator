@@ -137,7 +137,7 @@ def by_w(w: float, rule: tuple[list[tuple[float, float]], float]) -> float:
     return last
 
 
-MERCATOR_CONFIG_KEYS = ("border_glow", "theme", "theme_reason", "map_layers", "map_layers_reason")   # theme_reason = v5.18.0 D-0161 §7(direction 이 테마를 고를 때 사유). map_layers = v7.4.0 D-0231
+MERCATOR_CONFIG_KEYS = ("border_glow", "theme", "theme_reason", "map_layers", "map_layers_reason", "admin1_labels")   # theme_reason = v5.18.0 D-0161 §7(direction 이 테마를 고를 때 사유). map_layers = v7.4.0 D-0231
 
 
 MAP_LAYERS = ("roads", "rivers")   # v7.4.0 D-0231 — 켜고 끌 수 있는 지도 레이어(레지스트리, 그 밖 = 오류 P10)
@@ -172,6 +172,9 @@ def mercator_theme(config: Optional[dict]) -> str:
     if not isinstance(config.get("theme_reason", ""), str):
         raise StageError("mercator stage_config.theme_reason 은 문자열(테마를 고른 사유)")
     map_layers(config)   # v7.4.0 D-0231 — 값 검사(없는 레이어 = 오류)
+    modes = load_rules().labels.admin1_modes   # v7.4.0 D-0303 §1(UF-167) — 주 이름 표기 모드
+    if "admin1_labels" in config and config["admin1_labels"] not in modes:
+        raise StageError(f"mercator stage_config.admin1_labels 는 {sorted(modes)} 중 하나 — 받은 값 {config['admin1_labels']!r}")
     th = load_rules().geo.themes
     name = config.get("theme", th.default)
     if name not in th.names():
@@ -190,6 +193,9 @@ class MercatorStage:
         self.theme_name = mercator_theme(config)
         self.map_layers = map_layers(config)   # v7.4.0 D-0231 — 도로·강 켜기(골든 hormuz = [])
         self.map_layers_reason = (config or {}).get("map_layers_reason")
+        lr = load_rules().labels   # v7.4.0 D-0303 §1(UF-167) — 주 이름 표기 모드(없으면 기본 subtle = v7.3 값)
+        self.admin1_mode_name = (config or {}).get("admin1_labels", lr.admin1_mode_default)
+        self.admin1_mode = lr.admin1_modes.get(self.admin1_mode_name)
         from engine.style import BORDER_GLOW  # noqa: PLC0415 — style → stage 순환 회피
 
         self.border_glow = bool((config or {}).get("border_glow", BORDER_GLOW.default_on))   # v5.4.0 국경선 글로우 — 지도 무대 기본(rules border_glow.default_on)

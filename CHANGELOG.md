@@ -19,6 +19,7 @@ released 항목은 **append-only**입니다.
 
 ### Added
 - (Unreleased — 병합 시 v7.5.0, back_and_forth D-0290) 새 이벤트 `area` — 주(1급 행정구역) 채움. `geo.prep` admin1 `code`(ISO 3166-2) 보존, `MercatorStage.adm_rings`, 렌더러 `engine/layers/areas.draw_area`(band 알파·3단 외곽선·개표 중 빗금·항목별 delay), 규칙 `rules area`·accents `dem`·`rep`, 검사 `area`(hard 5종)·`area_dense`(warning), 데이터 파일 모델 `schemas/election_models.py`(`data/state_results.yaml`), provenance `features_used.area`, 테스트 `tests/test_area_event.py`.
+- (Unreleased — back_and_forth D-0303, 사용자 의견 UF-167~170) 새 이벤트 `bars` — 후보별 득표율 막대(`engine/layers/bars.py`, 규칙 `rules bars`, 검사 `bars`(hard 5종)·`bars_no_camera`(warning), 데이터 `names_ko`·`parties`, provenance `features_used.bars`, 테스트 `tests/test_bars_event.py`). 주 이름 표기 모드 `rules labels.admin1_modes`(subtle 기본·prominent) + direction `stage_config.mercator.admin1_labels`. `rules area.outline` 얇게(UF-169).
 
 ### Changed
 -
