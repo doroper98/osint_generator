@@ -342,7 +342,7 @@ events:
     scene_end: act3
   country: US
   race: senate
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  src: NBC 집계 · 2026-11-05 09:30 KST
   items:
   - code: US-ME
     col: dem
@@ -529,7 +529,7 @@ events:
     scene_end: act4
   country: US
   race: governor
-  src: 엔비씨 집계 · 2026-11-05 09:30 KST
+  src: NBC 집계 · 2026-11-05 09:30 KST
   items:
   - code: US-ME
     col: dem
@@ -791,14 +791,14 @@ events:
       t:
         sid: act1_2
         'off': 0.3
-    src: 엔비씨 집계 · 2026-11-05 09:30 KST
+    src: NBC 집계 · 2026-11-05 09:30 KST
   - title: 공화당 44석
     items:
     - text: 미확정 2곳 — 미시시피·알래스카
       t:
         sid: act1_2
         'off': 2.5
-    src: 엔비씨 집계 · 2026-11-05 09:30 KST
+    src: NBC 집계 · 2026-11-05 09:30 KST
   claims:
   - clm_0013
 - type: panel
@@ -818,14 +818,14 @@ events:
       t:
         sid: act1_3
         'off': 0.4
-    src: 엔비씨 집계 · 2026-11-05 09:30 KST
+    src: NBC 집계 · 2026-11-05 09:30 KST
   - title: 공화당 151석 확정
     items:
     - text: 미확정 42곳
       t:
         sid: act1_4
         'off': 1.5
-    src: 엔비씨 집계 · 2026-11-05 09:30 KST
+    src: NBC 집계 · 2026-11-05 09:30 KST
   claims:
   - clm_0014
 - type: photo
@@ -1345,7 +1345,7 @@ events:
   speaker: 척 슈머
   role: 민주당 상원 원내대표
   text: 국민의 뜻이나 법을 거스르면 조사하고 법정에 세우겠다
-  src: 씨비에스 · 11월 4일
+  src: CBS · 11월 4일
   accent: dem
   pos: center
   claims:
@@ -1378,7 +1378,7 @@ events:
   race: senate
   code: US-TX
   status: called
-  src: 엔비씨 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 오전
   rows:
   - name: 탈라리코
     col: dem
@@ -1399,7 +1399,7 @@ events:
   race: senate
   code: US-KS
   status: called
-  src: 엔비씨 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 오전
   rows:
   - name: 해밀턴
     col: dem
@@ -1420,7 +1420,7 @@ events:
   race: senate
   code: US-SC
   status: called
-  src: 엔비씨 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 오전
   rows:
   - name: 앤드루스
     col: dem
@@ -1441,7 +1441,7 @@ events:
   race: senate
   code: US-IA
   status: called
-  src: 엔비씨 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 오전
   rows:
   - name: 투렉
     col: dem
@@ -1462,7 +1462,7 @@ events:
   race: senate
   code: US-OH
   status: called
-  src: 엔비씨 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 오전
   rows:
   - name: 브라운
     col: dem
@@ -1483,7 +1483,7 @@ events:
   race: senate
   code: US-NC
   status: called
-  src: 엔비씨 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 오전
   rows:
   - name: 쿠퍼
     col: dem
@@ -1504,7 +1504,7 @@ events:
   race: senate
   code: US-ME
   status: called
-  src: 엔비씨 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 오전
   rows:
   - name: 잭슨
     col: dem
@@ -1525,7 +1525,7 @@ events:
   race: senate
   code: US-GA
   status: called
-  src: 엔비씨 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 오전
   rows:
   - name: 오소프
     col: dem
@@ -1546,7 +1546,7 @@ events:
   race: senate
   code: US-MI
   status: called
-  src: 엔비씨 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 오전
   rows:
   - name: 엘사예드
     col: dem
@@ -1567,7 +1567,7 @@ events:
   race: senate
   code: US-MS
   status: counting
-  src: 엔비씨 집계 · 11월 5일 오전 95.6%
+  src: NBC 집계 · 11월 5일 오전 95.6%
   rows:
   - name: 콜롬
     col: dem
@@ -1588,7 +1588,7 @@ events:
   race: senate
   code: US-AK
   status: counting
-  src: 엔비씨 집계 · 11월 5일 오전 74.4%
+  src: NBC 집계 · 11월 5일 오전 74.4%
   rows:
   - name: 펠톨라
     col: dem
@@ -1609,7 +1609,7 @@ events:
   race: governor
   code: US-KS
   status: counting
-  src: 엔비씨 집계 · 11월 5일 오전 98.8%
+  src: NBC 집계 · 11월 5일 오전 98.8%
   rows:
   - name: 홀셔
     col: dem
@@ -1630,7 +1630,7 @@ events:
   race: governor
   code: US-TX
   status: called
-  src: 엔비씨 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 오전
   rows:
   - name: 이노호사
     col: dem
@@ -1651,7 +1651,7 @@ events:
   race: governor
   code: US-NV
   status: called
-  src: 엔비씨 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 오전
   rows:
   - name: 포드
     col: dem
@@ -1672,7 +1672,7 @@ events:
   race: governor
   code: US-IA
   status: called
-  src: 엔비씨 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 오전
   rows:
   - name: 샌드
     col: dem
@@ -1693,7 +1693,7 @@ events:
   race: governor
   code: US-FL
   status: called
-  src: 엔비씨 집계 · 11월 5일 오전
+  src: NBC 집계 · 11월 5일 오전
   rows:
   - name: 도널즈
     col: rep
