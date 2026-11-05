@@ -35,7 +35,7 @@
    "verification": {
     "status": "verified",
     "checks": [
-     "claims:4"
+     "claims:3"
     ],
     "notes": ""
    },
@@ -86,7 +86,7 @@
    "verification": {
     "status": "verified",
     "checks": [
-     "claims:2"
+     "claims:1"
     ],
     "notes": ""
    },
@@ -428,7 +428,7 @@
    "verification": {
     "status": "verified",
     "checks": [
-     "claims:2"
+     "claims:1"
     ],
     "notes": ""
    },
@@ -501,7 +501,7 @@
    "verification": {
     "status": "verified",
     "checks": [
-     "claims:3"
+     "claims:2"
     ],
     "notes": ""
    },
@@ -672,7 +672,7 @@
    "verification": {
     "status": "verified",
     "checks": [
-     "claims:3"
+     "claims:2"
     ],
     "notes": ""
    },
@@ -714,30 +714,6 @@
    ]
   },
   {
-   "id": "src_art_0030",
-   "url": "https://www.texastribune.org/2026/11/03/texas-house-legislature-outcomes-control-republicans-democrats-2026/",
-   "retrieved_at": "2026-11-05",
-   "lang": "en",
-   "verification": {
-    "status": "verified",
-    "checks": [
-     "claims:1"
-    ],
-    "notes": ""
-   },
-   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
-   "confirmed_at": "2026-11-05T01:30:00Z",
-   "note": "",
-   "type": "article",
-   "publisher": "The Texas Tribune",
-   "headline_original": "Democrats flip Texas House amid generational wave",
-   "headline_ko": "민주당, 텍사스 주하원 뒤집어",
-   "published_at": "2026-11-03",
-   "key_facts": [
-    "AP 추정 민주 76석(13곳 미확정) — 2003년 이후 공화 다수 종료"
-   ]
-  },
-  {
    "id": "src_art_0031",
    "url": "https://www.texastribune.org/2026/11/03/texas-congress-us-house-redistricting-elections-2026/",
    "retrieved_at": "2026-11-05",
@@ -769,7 +745,7 @@
    "verification": {
     "status": "verified",
     "checks": [
-     "claims:2"
+     "claims:1"
     ],
     "notes": ""
    },
@@ -955,30 +931,6 @@
    ]
   },
   {
-   "id": "src_art_0040",
-   "url": "https://www.houstonpublicmedia.org/articles/news/politics/election-2026/2026/11/03/565938/talarico-paxton-senate-race-texas-results/",
-   "retrieved_at": "2026-11-05",
-   "lang": "en",
-   "verification": {
-    "status": "verified",
-    "checks": [
-     "claims:1"
-    ],
-    "notes": ""
-   },
-   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
-   "confirmed_at": "2026-11-05T01:30:00Z",
-   "note": "",
-   "type": "article",
-   "publisher": "Houston Public Media",
-   "headline_original": "Democrat James Talarico wins U.S. Senate seat, ending GOP's 32-year Texas statewide winning streak",
-   "headline_ko": "탈라리코 승리",
-   "published_at": "2026-11-03",
-   "key_facts": [
-    "공화 32년 주 전체 선거 연승 종료"
-   ]
-  },
-  {
    "id": "src_art_0041",
    "url": "https://www.kcur.org/politics-elections-and-government/2026-11-04/ty-masterson-trails-in-kansas-governor-race-by-5-500-votes-he-says-the-results-need-another-look",
    "retrieved_at": "2026-11-05",
@@ -1051,30 +1003,6 @@
    ]
   },
   {
-   "id": "src_art_0044",
-   "url": "https://bridgemi.com/michigan-politics/house-results-tom-barrett-bill-huizenga-face-tough-re-election-bids/",
-   "retrieved_at": "2026-11-05",
-   "lang": "en",
-   "verification": {
-    "status": "verified",
-    "checks": [
-     "claims:1"
-    ],
-    "notes": ""
-   },
-   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
-   "confirmed_at": "2026-11-05T01:30:00Z",
-   "note": "감독 조사표 D-0291 §4 — 제목·요지 대조(본문 미열람)",
-   "type": "article",
-   "publisher": "Bridge Michigan",
-   "headline_original": "House results: Tom Barrett, Bill Huizenga face tough re-election bids",
-   "headline_ko": "미시간 하원 결과",
-   "published_at": "2026-11-03",
-   "key_facts": [
-    "미시간 7선거구 — 하원 통제 벨웨더로 꼽힘"
-   ]
-  },
-  {
    "id": "src_doc_0001",
    "url": "https://www.presidency.ucsb.edu/statistics/data/seats-congress-gainedlost-the-presidents-party-mid-term-elections",
    "retrieved_at": "2026-11-05",
@@ -1107,7 +1035,7 @@
    "verification": {
     "status": "verified",
     "checks": [
-     "claims:19"
+     "claims:18"
     ],
     "notes": ""
    },

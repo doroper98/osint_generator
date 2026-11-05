@@ -1,0 +1,277 @@
+{
+ "schema_version": 1,
+ "searches": [
+  {
+   "sid": "cold_1",
+   "query": "United States Capitol at night",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 8,
+   "passed": 6,
+   "top": [
+    "File:US Capitol Building at night Jan 2006.jpg",
+    "File:US Capitol dome Jan 2006.jpg",
+    "File:United States Capitol at Night (11487173253).jpg",
+    "File:United States Capitol at Night (49207005032).jpg",
+    "File:United States Capitol at night (53385131597).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act1_8",
+   "query": "polling place voters line election day",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 8,
+   "passed": 1,
+   "top": [
+    "File:Polling place, Melbourne Suburbs, Vic, jjron, 02.07.2016.jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_2",
+   "query": "Texas State Capitol Austin",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 8,
+   "passed": 4,
+   "top": [
+    "File:Bullock Museum Capitol Mall Austin Texas 2023.jpg",
+    "File:TexasStateCapitol-2010-01.JPG",
+    "File:Texas State Capitol - Austin, Texas - DSC07601.jpg",
+    "File:Texas State Capitol - Austin, Texas - DSC08268.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_5",
+   "query": "Kansas State Capitol Topeka",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 8,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0"
+   ]
+  },
+  {
+   "sid": "act2_7",
+   "query": "South Carolina State House Columbia",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 8,
+   "passed": 3,
+   "top": [
+    "File:Columbia - South Carolina State House, 1950s.jpg",
+    "File:Columbia - South Carolina State House.jpg",
+    "File:South Carolina State Capitol.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_10",
+   "query": "Iowa State Capitol Des Moines",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 8,
+   "passed": 6,
+   "top": [
+    "File:Capital City Pride 2023 (Des Moines, Iowa).jpg",
+    "File:Capitol building, Des Moines, Iowa.jpg",
+    "File:Des Moines 20090110 State Capitol.JPG",
+    "File:Des Moines in the Iowa State Atlas (1904).jpg",
+    "File:Iowa State Capitol Postcard (327798029).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_11",
+   "query": "Ohio Statehouse Columbus",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 8,
+   "passed": 1,
+   "top": [
+    "File:Women's suffrage representatives demonstrating on the steps of the Ohio Statehouse 1914.jpg"
+   ],
+   "rejected": [
+    "CC BY 2.0 제한",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_13",
+   "query": "North Carolina State Capitol Raleigh",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 8,
+   "passed": 3,
+   "top": [
+    "File:\"State Capitol\" Historical Marker.jpg",
+    "File:North Carolina State Capitol, Raleigh.jpg",
+    "File:Raleigh - North Carolina State Capitol.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_14",
+   "query": "Maine State House Augusta",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 8,
+   "passed": 1,
+   "top": [
+    "File:Maine state capitol.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0"
+   ]
+  },
+  {
+   "sid": "act3_2",
+   "query": "Mississippi State Capitol Jackson",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 8,
+   "passed": 3,
+   "top": [
+    "File:Mississippi State Capitol.jpg",
+    "File:Old Mississippi Capitol Building in Jackson Mississippi.jpg",
+    "File:Old State Capitol, 100 North State Street, Jackson (Hinds County, Mississippi).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act3_4",
+   "query": "Alaska State Capitol Juneau",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 8,
+   "passed": 6,
+   "top": [
+    "File:2019 pro-life rally, Alaska State Capitol 2.jpg",
+    "File:2019 pro-life rally, Alaska State Capitol 3.jpg",
+    "File:2019 pro-life rally, Alaska State Capitol 4.jpg",
+    "File:2019 pro-life rally, Alaska State Capitol 5.jpg",
+    "File:210103 Snowy capitol.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act3_5",
+   "query": "ballot counting election workers",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 8,
+   "passed": 5,
+   "top": [
+    "File:1937 election vote counting nyc stv.jpg",
+    "File:US Navy 090821-M-0440G-031 Afghan presidential election workers count and organize election ballots at a local school in the Nawa District.jpg",
+    "File:US Navy 090821-M-0440G-043 Voting ballots organized and arranged for counting by Afghan presidential election workers at a local school in the Nawa District.jpg",
+    "File:US Navy 090821-M-0440G-065 Afghanistan presidential election workers count and organize election ballots at a local school in the Nawa District.jpg",
+    "File:US Navy 090821-M-0440G-093 An Afghanistan presidential election worker displays ink on his hand from counting and organizing election ballots at a local school in the Nawa District.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_4",
+   "query": "Georgia State Capitol Atlanta",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 8,
+   "passed": 5,
+   "top": [
+    "File:Georgia State Capitol, Capitol Square, Atlanta, Fulton County, GA HABS GA,61-ATLA,3- (sheet 7 of 52).tif",
+    "File:The Georgia State Capitol Building.jpg",
+    "File:The Georgia State Capitol building.jpg",
+    "File:The front of the Georgia State Capitol building in Atlanta.jpg",
+    "File:The grounds of the Georgia State Capitol building.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act4_8",
+   "query": "Pennsylvania State Capitol Harrisburg",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 8,
+   "passed": 3,
+   "top": [
+    "File:Harrisburg, Pennsylvania State Capitol Building.jpg",
+    "File:Pennsylvania State Capitol, Harrisburg, PA, 1909.jpg",
+    "File:The Pennsylvania State Capitol in Fall (22158965144).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act5_2",
+   "query": "United States House of Representatives chamber",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 8,
+   "passed": 5,
+   "top": [
+    "File:House of Representatives Chamber 1865 (8617178858).jpg",
+    "File:Tennessee State Capitol House of Representatives Chamber c. 1884.png",
+    "File:U.S. House of Representatives Bill Hopper.png",
+    "File:United States House of Representatives, February 13, 2024.jpg",
+    "File:United States House of Representatives chamber.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "No restrictions"
+   ]
+  },
+  {
+   "sid": "act6_1",
+   "query": "United States Senate chamber",
+   "pool": "commons_cc",
+   "on": "2026-11-05",
+   "found": 8,
+   "passed": 7,
+   "top": [
+    "File:111th US Senate class photo.jpg",
+    "File:Collier's 1921 United States of America - Senate Chamber.jpg",
+    "File:Crop of Senate Chamber at United States Capitol, 1867 (27269170214).jpg",
+    "File:Senate chamber desks.jpg",
+    "File:US Senate - Ketanji Brown Jackson - Confirmation Vote - 7 April 2022.jpg"
+   ],
+   "rejected": [
+    "No restrictions"
+   ]
+  }
+ ]
+}

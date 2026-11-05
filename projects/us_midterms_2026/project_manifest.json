@@ -4,8 +4,8 @@
   "title": "뒤집힌 일곱 자리 — 2026 미국 중간선거",
   "category": "geopolitics",
   "created_at": "2026-11-05T00:40:19.301806Z",
-  "updated_at": "2026-11-05T00:40:19.302339Z",
-  "current_state": "created",
+  "updated_at": "2026-11-05T01:06:28.632943Z",
+  "current_state": "script_approval",
   "target_duration_min": 18,
   "topic_summary": "2026-11-03 미국 중간선거 결과 — 주별 상원·주지사·하원 결과, 격전지, 역사 맥락(대통령 당 중간선거 성적)",
   "initial_links": [],
@@ -31,7 +31,38 @@
   "gate_decisions": [],
   "stage_records": [],
   "final_outputs": {},
-  "state_history": [],
+  "state_history": [
+    {
+      "from_state": "created",
+      "to_state": "intake",
+      "transitioned_at": "2026-11-05T01:04:40.174296Z",
+      "reason": "D-0290 §4 — 세션 도구 조사(WebSearch 도메인 한정 + NBC·CBS·NPR·APP 컨테이너 curl)로 sources 46·claims 63 작성"
+    },
+    {
+      "from_state": "intake",
+      "to_state": "source_verify",
+      "transitioned_at": "2026-11-05T01:04:40.706289Z",
+      "reason": "확인 opus(D-0290·D-0291) — URL·매체·게시일·구조 데이터 대조"
+    },
+    {
+      "from_state": "source_verify",
+      "to_state": "research",
+      "transitioned_at": "2026-11-05T01:04:41.244350Z",
+      "reason": "claims 판정 수동(D-0291 감독 조사표 재확인 — 2차 확인 미달 행 제외)"
+    },
+    {
+      "from_state": "research",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-11-05T01:04:41.811087Z",
+      "reason": "원고 v1 — claims 63 에서 작성(D-0290 §4·D-0291 반영), lint 오류 0"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-11-05T01:06:28.632853Z",
+      "reason": "원고 v1 확정(87문장, 린트 오류 0·경고 0) — 게이트 ① 사용자 승인(D-0290 §0)"
+    }
+  ],
   "rollbacks": [],
   "reopens": []
 }

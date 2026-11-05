@@ -160,7 +160,7 @@ class StateResultsModelTest(unittest.TestCase):
     def test_project_file_validates(self) -> None:
         p = Path(__file__).resolve().parent.parent / "projects" / "us_midterms_2026" / "data" / "state_results.yaml"
         if not p.exists():
-            self.skipTest("us_midterms_2026 데이터 파일 아직 없음")
+            raise AssertionError("us_midterms_2026 데이터 파일이 없다")
         from schemas.election_models import load_state_results  # noqa: PLC0415
 
         load_state_results(p)
