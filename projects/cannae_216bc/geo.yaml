@@ -1,9 +1,15 @@
 # 칸나이 전투(기원전 216) 스케치 지오 설정 — 현대 국경·행정구역은 그리지 않는다(basemap_era ancient).
-# W = 지중해 서부(이베리아·카르타고·이탈리아 — 시작 화면), G = 아풀리아, K = 전장(아우피두스 강 하류)
+# W = 지중해 서부(이베리아·카르타고·이탈리아 — 시작 화면) → I·A·B(확대 단계, D-0630) → G = 아우피두스 하류, K = 전장
 schema_version: 1
 bbox: [-10, 28, 30, 49]
 admin1: []
 tiers:
   - {name: W, ppd: 40, z: 6, bbox: [-10.0, 28.0, 30.0, 49.0]}   # 콘티 판 v1 — 지중해 서부(이베리아·카르타고·이탈리아): 시작 화면 폭 ≥ 30°(opening_establish)
-  - {name: G, ppd: 1200, z: 11, bbox: [15.5, 40.9, 16.7, 41.75]}
-  - {name: K, ppd: 8000, z: 14, bbox: [16.0, 41.25, 16.22, 41.42]}   # 여백 0.05°(engine.stage tier_inside_margin)
+  # v7.4.0 D-0630 §2(UF-261 "지도가 확대될때 해상도가 크게 낮아지네") — 콘티 판 v2 는 3도 폭 6.8배·1.75도 12배로 W(40ppd)를 늘렸다([basemap-upscale]).
+  # 확대 단계마다 그 범위를 덮는 티어를 둔다(같은 Terrarium DEM, 높은 줌). 화면 실측 범위(폭 8~25·2.5~8·1.0~2.5·0.12~1.0도) + 여백.
+  # blend: relative — 아래 층이 모자라기 전(필요/실효 0.8)에 안에 들고 1.2 까지 섞여 줌 단계가 바뀌어도 튀지 않는다(rules geo.tier_blend_relative)
+  - {name: I, ppd: 120, z: 8, bbox: [-1.7, 36.0, 23.6, 46.7], blend: relative}    # 이탈리아·지중해 중부(폭 8~25도 화면)
+  - {name: A, ppd: 360, z: 10, bbox: [11.5, 39.5, 19.8, 43.3], blend: relative}   # 이탈리아 남부·아드리아(폭 2.5~8도)
+  - {name: B, ppd: 900, z: 11, bbox: [14.6, 40.6, 18.0, 42.0], blend: relative}   # 아풀리아(폭 1~2.5도)
+  - {name: G, ppd: 2400, z: 12, bbox: [15.5, 40.9, 16.7, 41.75], blend: relative}  # 아우피두스 하류(폭 0.12~1도, v2 1200·z11)
+  - {name: K, ppd: 8000, z: 14, bbox: [16.0, 41.25, 16.22, 41.42], blend: relative}   # 여백 0.05°(engine.stage tier_inside_margin)
