@@ -2331,3 +2331,14 @@ entries:
   status: open
   decision: D-0303(감독 — 새 이벤트 bars 신설, 주 투어·주지사·개표 중 주에 적용)
   source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
+- id: UF-171
+  date: '2026-11-05'
+  project: us_midterms_2026
+  at: 게이트 ② 승인 직후(사용자 대화, 감독 세션) — 자막·패널 출처 줄의 매체명이 "엔비씨 집계"·"씨비에스 출구조사" 같은 한글 음차
+  quote: 그리고 방송국 같은 명칭의 자막에는 엔비씨 가 아니라 NBC 로 표기 해줘
+  quote_kind: verbatim
+  category: 자막 표기 — 방송사·통신사 같은 매체 명칭은 화면(자막·패널·막대 출처 줄·엔딩 카드)에 라틴 표기(NBC·CBS·AP), 발음 텍스트(tts)는 한글 음차 그대로. 장치 = script 린트(text 의 매체 음차 금지, tts 는 반대) + 규칙 키 매체 표기표(전달 뒤)
+  guards: []
+  status: open
+  decision: 사용자 결정 D528 · D-0306(감독 — 표시 텍스트만 v1.3, tts·plan 불변, 렌더 재시작)
+  source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
