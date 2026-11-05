@@ -134,3 +134,9 @@ origin: claude.ai chat handoff bundle (2026-09-26 ~ 09-27), imported verbatim
 | `test_provenance_e2e` | 골든 프로젝트 렌더 후 `features_used`가 기대값과 일치, `drops == []` |
 | `test_no_silent_fallback` | 강제 오류 주입 시 옛 스타일 출력 없이 중단 |
 | `test_constitution` | CLAUDE.md/GOAL이 이 문서 묶음을 참조하고 byte-equal 비적용을 명시 |
+
+## v7.4.0 보충 — 골든 재기준과 프레임 루프 규칙 로드 (back_and_forth D-0311·D-0312)
+- **재기준은 증명 뒤에만.** 렌더 경로를 바꾸면 먼저 옛 경로(새 기능 끔)로 25/25 기준선 그대로임을 보이고, 새 경로의 차이 컷과 차이 요소(예: 지명 라벨 상자만)를 R 로 올린다.
+  감독이 교체를 결정하면 옛 기준선은 `*_pre_<사유>.json` 로 보존하고 `expected_deltas` 에 사유·컷 목록을 남긴다(D-0053 방식).
+- **프레임 루프 안에서 `load_rules()` 를 부르지 않는다.** 캐시가 없어 매번 YAML 을 다시 파싱한다(약 0.64초). 렌더러는 모듈 로드 때 한 번 읽는다(`engine/layers/labels.py LR`·`areas.py AREA`).
+

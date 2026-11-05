@@ -235,3 +235,15 @@ stroke 4px (#ff4d5e, 0.3a) + 1.4px (0.95a)
 
 `rules labels.admin1_modes` 두 벌 — `subtle`(기본, v7.3 값 그대로 = 골든 불변) · `prominent`(주 이름이 주인공: 크게·본토 전체 폭까지, 도시는 화면당 적게·초점 나라 안만·넓은 화면은 수도만·작은 글자 흰 테두리 얇게).
 고르기 = direction `stage_config.mercator.admin1_labels`. 초점 나라 = 프로젝트 `labels.yaml province_countries`, 도시 iso 대조 = `labels.yaml iso3`(없으면 오류, P6). 대비 미달 도시 글자는 기존 국소 보정(`label_contrast_fix`)이 다시 그린다.
+
+## v7.4.0 — 숏 단위 지명 라벨 일정 `labels_plan` (back_and_forth D-0311, 사용자 의견 UF-175)
+
+옛 방식은 프레임마다 LOD·충돌로 라벨 집합을 새로 골라, 확대·축소 중 지명이 나타났다 사라지고 새 라벨이 끼어들었다(깜빡임).
+지금은 렌더 전 한 번 `engine/labels_plan.build_plan` 이 숏(카메라 키 구간)마다 라벨이 보이는 구간을 정하고, `draw_labels(…, t)` 는 그 일정만 읽는다(결정적 — 병렬 구간 렌더도 같음).
+- 경계: `cut`(dip 포함) = 단단한 경계(라벨을 닫고 새로 시작, 페이드 없음) · `move`·`drift` = 부드러운 경계(라벨을 이어 간다).
+- 기존 라벨 유지: 폭 LOD 이력 `labels.stability.lod_hysteresis`. 화면 밖·마커/막대 상자에 덮이면 퇴장(페이드 `fade_sec`).
+- 새 라벨: 카메라가 멈춘 뒤에만(`still_eps`), 숏 끝까지 매 표본(`sample_every_frames`)에서 남을 때만 들인다. 퇴장한 라벨은 `min_hold_sec` 안에 다시 들이지 않는다.
+- 검사: `label_flicker`(hard — 재등장·`min_hold_sec` 미만 노출, 지도 무대에 일정이 없으면 실패) · `label_churn`(warning — 숏 안 새 등장 시각 > `max_events_per_shot`).
+- 산출: `out/labels_plan.json`(schema_version 1), provenance `features_used.label_plan` = {shots, labels, events}.
+- 시각 없는 호출(검사·아일랜드)은 옛 프레임 선택을 쓴다. 골든 기준선은 D-0312 로 교체(dark·light 각 8컷, 지명 상자만 차이, 옛 기준선 `*_pre_uf175.json`).
+

@@ -296,6 +296,9 @@ t += 1.2; 엔딩 카드 (t ~ t+11); total = t + 11 + 0.5
   패턴 = `rules script_grammar.uncertain_patterns`). 당사자가 그렇게 말한 것을 귀속해 전하는 문장은 된다.
 - **문장은 흐름으로 잇는다.** 연결어(`rules script_grammar.connectives` — 프롬프트에 목록 그대로 노출)로 시작하는 문장 비율이
   `connective_min_ratio` 미만이면 오류(`flow-sparse`), `connective_max_ratio` 초과면 경고(`flow-overuse`). 인과 연결어는 실제 인과가 출처로 확인될 때만.
+- **첫머리 군더더기 접속사 금지**(v7.4.0, 사용자 의견 UF-174 "무지성으로 한편같은거 넣지 말라고 하지 않았어?", D-0310). 문장 첫머리 '한편'은
+  금지 문구(`banned_phrases` `'^\s*한편[\s,]'`, slop 오류). '한편'은 `connectives` 목록에서 뺐고, 비율 상한 `connective_max_ratio` 를 낮췄다.
+  논리 관계가 꼭 필요한 접속사(반면·다만·하지만·이에 대해)만 쓴다. 습관처럼 붙이는 '또한·이어서·그리고·그래서'는 넘치면 `flow-overuse`.
 - **검사 시점**: 세 오류는 게이트 ① 진입 전에 막는다(`orchestrator/source_completeness_checker.BLOCKING`) — 승인 뒤 음성 단계에서 늦게 막히지 않는다.
 - **마무리는 확인된 사실의 정리.** "아직 정해지지 않은 것"으로 끝내던 v3 관행(골든 `now_3`)은 폐기. 골든 원고는 고치지 않는다(테스트가 오류 2를 고정).
 - 문안 SSOT = `rules script_grammar.lines` → 대본 프롬프트 `{{RULES.script_grammar}}`(P3).

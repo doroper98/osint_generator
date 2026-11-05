@@ -20,12 +20,18 @@ released 항목은 **append-only**입니다.
 ### Added
 - (Unreleased — 병합 시 v7.5.0, back_and_forth D-0290) 새 이벤트 `area` — 주(1급 행정구역) 채움. `geo.prep` admin1 `code`(ISO 3166-2) 보존, `MercatorStage.adm_rings`, 렌더러 `engine/layers/areas.draw_area`(band 알파·3단 외곽선·개표 중 빗금·항목별 delay), 규칙 `rules area`·accents `dem`·`rep`, 검사 `area`(hard 5종)·`area_dense`(warning), 데이터 파일 모델 `schemas/election_models.py`(`data/state_results.yaml`), provenance `features_used.area`, 테스트 `tests/test_area_event.py`.
 - (Unreleased — back_and_forth D-0303, 사용자 의견 UF-167~170) 새 이벤트 `bars` — 후보별 득표율 막대(`engine/layers/bars.py`, 규칙 `rules bars`, 검사 `bars`(hard 5종)·`bars_no_camera`(warning), 데이터 `names_ko`·`parties`, provenance `features_used.bars`, 테스트 `tests/test_bars_event.py`). 주 이름 표기 모드 `rules labels.admin1_modes`(subtle 기본·prominent) + direction `stage_config.mercator.admin1_labels`. `rules area.outline` 얇게(UF-169).
+- (Unreleased — back_and_forth D-0309 §1, 사용자 의견 UF-163~173 C12-2 장치) 린트 `[election-basics-missing]`·`[counting-wording]`·`[outlet-display]`(`rules script_vocab` election_markers·election_basics·counting_banned·counting_label '유력'·outlet_display), 검사 `screen_wording`·`symbol_media`(hard)·`admin1_label_missing`(warning), 규칙 상한 `labels.small_text_halo_max`·`area.outline_max_px`(넘으면 규칙 로드 오류). `screen_wording` 골든 면제 `script_vocab.wording_exempt_projects: [hormuz_korea]`(D-0312). 테스트 `tests/test_feedback_guards_uf163_173.py`.
+- (Unreleased — back_and_forth D-0311, 사용자 의견 UF-175) 숏 단위 지명 라벨 일정 `engine/labels_plan.py`(렌더 전 1회, `out/labels_plan.json`) — 이력 LOD·멈춘 뒤 진입·재등장 금지, `rules labels.stability`, 검사 `label_flicker`(hard)·`label_churn`(warning), provenance `features_used.label_plan`, 테스트 `tests/test_label_stability.py`.
+- (Unreleased — D519) 정당 로고(dem·rep) 공용 휘장 승격, 사용자 권리 예외(private_only 범위) 기록 · `rules data.units` '석'(D524).
 
 ### Changed
--
+- (Unreleased — back_and_forth D-0310, 사용자 의견 UF-174) 문장 첫머리 '한편' 금지 문구(`banned_phrases` `'^\s*한편[\s,]'`), `script_grammar.connectives` 에서 '한편' 제거, `connective_min/max_ratio` 0.1·0.35, contrast_hint·문안 개정, `prompts/script.md` 예시 수정.
+- (Unreleased — UF-169) `rules area.outline` 얇게 `[[2.4,0.05],[1.1,0.16],[0.55,0.8]]`. 마커 부제·주 이름 잉크(D526·D527).
+- (Unreleased — back_and_forth D-0312, DECISIONS D534) 골든 기준선 교체 — `phaseV3/hormuz_baseline.json`·`phaseQ3/hormuz_light_baseline.json` 각 8컷(지명 라벨 상자만), 옛 기준선 `*_pre_uf175.json` 보존, `expected_deltas.uf175_label_plan`.
 
 ### Fixed
--
+- (Unreleased) `draw_labels`·`draw_area` 가 프레임마다 `load_rules()`(YAML 재파싱 약 0.64초)를 부르던 것을 모듈 1회 로드로 — 전편 렌더 시간 단축.
+- (Unreleased) bars 앵커를 세계 좌표(`anchor_world`)로 — 원시 위도 사용 오류 수정.
 
 ---
 
