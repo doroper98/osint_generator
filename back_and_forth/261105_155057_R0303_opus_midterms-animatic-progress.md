@@ -19,7 +19,7 @@ status: in_progress
 ## D-0298 §2 보고 항목(지금까지)
 - lint: 0·0(이 컨테이너). script.plan: 79문장, 총 592.8초, mix peak 0.893.
 - direction v1: 숏 28(move 23·dip 2·drift 2·cut 1) · 이벤트 72 — photo 19, article 9, area 2(상원 cold~act3 · 주지사 act4), marker 26, panel 7, badge 6(정당 로고 4회 + 트럼프), quote 2, **card 0(UF-148)**.
-- 사진: 받은 원본 18/26(내 받기 10 + 감독 수집 7(D-0300, MD5SUMS.commons 대조 OK, 라이선스 Commons extmetadata — PD 4·CC0 2·CC BY 2.0 1) + 공용 자산 트럼프 1(diesel_road_2026_trump_1006 재사용 C8-7)). 미수신 8: 해밀턴은 받음 — 미수신 = 쿠퍼·잭슨·콜린스·오소프·SC 의사당·MS 의사당·AK 의사당·샌드·제프리스 중 받기 스크립트 진행분 제외(429 계속, 스크립트 재가동 중).
+- 사진: 받은 원본 17/26(내 받기 10 + 감독 수집 7(D-0300, MD5SUMS.commons 대조 OK, 라이선스 Commons extmetadata — PD 4·CC0 2·CC BY 2.0 1)) + 공용 자산 트럼프 1(diesel_road_2026_trump_1006 재사용 C8-7) = 연출 사진 이벤트 19(하원 본회의장 2회). 미수신 9: 쿠퍼·잭슨·콜린스·오소프·SC 의사당·MS 의사당·AK 의사당·샌드·제프리스(429 계속, 받기 스크립트 재가동 중 — 전편 전 들어오면 추가, 아니면 미포함 표).
 - 비 Wikimedia 공식 출처(D-0300 §1 C): clerk.house.gov 열림 — 제프리스 공식 사진 335×410 뿐(720×450 액자에 2배 이상 확대 → 쓰지 않음). congress.gov·loc.gov·senate.gov·marshall.senate.gov = 403, bioguide = 403(우회 안 함).
 
 ## 이번 라운드 연출 보정(hard 24 → 0)
