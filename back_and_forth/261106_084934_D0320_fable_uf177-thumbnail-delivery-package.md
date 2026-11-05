@@ -37,3 +37,8 @@ D-0319 보류(UF-176 '주가' 수정·교체본 3)는 그대로다 — **영상 
 ## 4. 절차·보고
 - 순서: 규칙 블록 → 도구 → 테스트 → `python tools/thumbnail.py projects/us_midterms_2026` → `python tools/deliver_package.py projects/us_midterms_2026` → artifacts `delivery/`(thumbnail.png·jpg, 네 txt, MD5SUMS) → R(phase_report: 썸네일 png 첨부 경로·수치·테스트 수) + send_message.
 - 영상 본편·음성·direction 은 수정하지 않는다. 커밋 prefix v7.4.0:, 모델명 기재 금지, PR 금지.
+
+## 5. 부칙(감독 실측 추가) — 기존 설명문 경로를 확장한다, 새 경로 금지(P2)
+- 설명문은 이미 `projects/{pid}/description.yaml`(headline·summary·chapters[at=장면 id|TITLE, label]) → `engine/mux.py` 가 `out/description.txt` 를 만든다. **publish.yaml 을 따로 만들지 말고 `description.yaml` 에 `title`·`alt_titles`·`tags`·`hashtags` 를 추가**하고(스키마는 그 파일의 Pydantic 모델 확장), `deliver_package.py` 는 mux 의 설명문 생성 함수를 호출한다.
+- 현재 `description.txt` 가 7,383자(출처 원문 52줄 전부)라 유튜브 한도 5,000자를 넘는다 → 규칙 `delivery_package.description_max_chars: 5000`. 출처 줄은 **매체명(날짜) 요약 + 주요 링크 N개(`delivery_package.key_links_max: 4`)** 로 줄이고, 전체 링크 목록은 `out/description_full.txt` 로 따로 남긴다(기록용). 사진 줄은 provenance `assets.images_used` 에 실제로 있는 것만(D-0314 교훈: 못 받은 9장 제외).
+- 챕터: `description.yaml chapters` 에 basics 장(중간선거란)이 빠져 있다 — 장면마다 한 줄이 기본값(장면 첫 문장 −1초, 장면 라벨은 description.yaml 에서).
