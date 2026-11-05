@@ -63,7 +63,7 @@ places:
   - 38.5
   gami:
   - -84.5
-  - 38.5
+  - 36.5
   gaus:
   - -89.0
   - 35.5
@@ -194,7 +194,7 @@ shots:
     sid: act2_17
     'off': -2.5
   mode: move
-  dur: 5.9
+  dur: 6.1
   camera:
     place: gami
     w: 40.0
@@ -978,7 +978,7 @@ events:
 - type: marker
   start:
     sid: act2_17
-    'off': 3.6
+    'off': 3.8000000000000003
   end:
     sid: act2_17
     'off': 0.5
@@ -986,14 +986,14 @@ events:
   at_place: ga
   label: 조지아
   sub: 오소프 재선
-  side: top
+  side: left
   hl: true
   claims:
   - clm_0036
 - type: marker
   start:
     sid: act2_17
-    'off': 3.6
+    'off': 3.8000000000000003
   end:
     sid: act2_17
     'off': 0.5
@@ -1136,7 +1136,7 @@ events:
   at_place: fl_n
   label: 플로리다
   sub: 플로리다 첫 흑인 주지사
-  side: top
+  side: right
   hl: true
   claims:
   - clm_0051
@@ -1515,13 +1515,13 @@ events:
 - type: bars
   start:
     sid: act2_17
-    'off': 3.9
+    'off': 4.1
   end:
     sid: act2_17
     'off': 0.8
     edge: end
   at_place: ga
-  side: below
+  side: right
   race: senate
   code: US-GA
   status: called
@@ -1536,7 +1536,7 @@ events:
 - type: bars
   start:
     sid: act2_17
-    'off': 3.9
+    'off': 4.1
   end:
     sid: act2_17
     'off': 0.8
@@ -1688,7 +1688,7 @@ events:
     sid: act4_7
     'off': 0.3
     edge: end
-  at_place: fl
+  at_place: fl_n
   side: left
   race: governor
   code: US-FL
