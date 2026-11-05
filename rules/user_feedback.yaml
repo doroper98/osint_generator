@@ -2265,3 +2265,14 @@ entries:
   status: open
   decision: D-0295(감독 — basics 막에 내스트 만평 2장(PD, 1870·1874)과 상징 유래 1~2문장, CC0 실루엣 emblem 뱃지로 파랑·빨강 범례. 공식 로고(상표)는 쓰지 않는다. 장치는 전달 뒤)
   source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
+- id: UF-165
+  date: '2026-11-05'
+  project: us_midterms_2026
+  at: 게이트 ① 원고 검토 중(사용자 대화, 감독 세션) — 감독이 D-0295 에서 공식 로고 대신 PD 만평·CC0 실루엣을 쓰겠다고 보고한 뒤
+  quote: 공식 로고를 띄워. 내가 지시한다
+  quote_kind: verbatim
+  category: 권리 예외(사용자 고유 결정) — 정당 공식 로고(상표)를 이 영상에 쓴다. D5(상표 휘장 대체) 의 사용자 예외, 권리는 D264 방식으로 기록(scope private_only, 상표 표기). 장치 = 예외는 레지스트리 권리 기록 + provenance 에 남는다(조용한 우회 금지)
+  guards: []
+  status: open
+  decision: 사용자 결정 D519(DECISIONS) · D-0296(감독 — DNC 당나귀·RNC 코끼리 공식 로고를 emblem 뱃지로, 권리 기록 trademarked·private_only·사유 UF-165, provenance rights_exceptions. 내스트 만평은 유래 장면에 그대로)
+  source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-05
