@@ -1,4 +1,4 @@
-# us_midterms_2026 미디어 사유(게이트 ① 미디어 계획 표) — 원고 v1.2(78문장) 문장 번호. D-0290 §2·§5, D-0292 §2.2(인물 사진 우선 — 의사당 사진은 후보 없는 주의 대체).
+# us_midterms_2026 미디어 사유(게이트 ① 미디어 계획 표) — 원고 v1.2(79문장) 문장 번호. D-0290 §2·§5, D-0292 §2.2(인물 사진 우선 — 의사당 사진은 후보 없는 주의 대체).
 # 게이트 ① 은 원본 받기와 분리 — 고른 후보(파일명·라이선스·사유)를 여기 적고, 원본 바이트·피사체·시기 대조는 승인 뒤 미디어 등록 단계에서(Wikimedia 429 지속).
 # 사진 밀도 하한: rules media_beats.min_density_per_min 1.5 × 예상 8분 20초 ≈ 13 → 22장 선택(D-0292 목표 16 이상). 인물 사진 = 가운데 큰 액자, 뱃지는 발언 문장에만.
 # 클립: c-span.org 컨테이너 403(봇 차단) — 우회 금지(D-0290 §7) → 클립 0, 사진 액자. 연방 공직자 공식 초상 = 미 정부 저작물 PD.
@@ -58,6 +58,8 @@ sentences:
     photo: "선택 — File:Harrisburg, Pennsylvania State Capitol Building.jpg (CC BY 2.0) — 펜실베이니아 주 의사당 자료사진"
   basics_1:
     photo: "선택 — File:United States House of Representatives chamber.jpg (Public domain) — 연방 하원 본회의장 자료사진(act5_2 에서 옮김, D-0294 §1)"
+  basics_7:
+    photo: "선택 2장 — File:Democraticjackass.jpg (Public domain, 토머스 내스트 'A Live Jackass Kicking a Dead Lion', 하퍼스 위클리 1870-01-15) · File:NastRepublicanElephant.jpg (Public domain, 'The Third-Term Panic', 1874-11-07, 의회도서관 소장본과 같은 판) — 자료사진 표기(연·월). 가운데 큰 액자 차례로(UF-164, D-0295 §1-2)"
   act5_2:
     photo: 고르지 않음 — 하원 본회의장 사진은 basics_1 로 옮겼다(D-0294). precedent 패널(지도 위)로
   act6_0:
@@ -66,3 +68,8 @@ sentences:
     photo: "선택 — File:Hakeem Jeffries official portrait.jpg (Public domain, 미 하원) — 제프리스 원내대표 공식 초상"
   act6_2:
     photo: "고르지 않음 — 슈머 발언 문장 = 인물 뱃지(File:Chuck Schumer official photo (cropped).jpg, PD) + quote"
+# 정당 공식 로고 emblem 뱃지 2(사용자 지시 UF-165 · D519 — D5 예외, 이 영상 한정, scope private_only D264). 문장 사진이 아니라 범례 뱃지라 sentences 표 밖에 적는다.
+#  민주당: File:US Democratic Party 2025 logo (profile).svg (Commons 'Public domain' 태그 + Restrictions trademarked, DNC 원본) — 당나귀 로고. 받기 실패 시 같은 계열 File:US Democratic Party 2025 logo.svg 의 당나귀 부분만 자른다(글자 'DEMOCRATS' 제외)
+#  공화당: File:Republicanlogo.svg (Commons 'Public domain' 태그 + Restrictions trademarked, RNC 별 셋 코끼리)
+#  자리(문장 사유): cold_2(일곱 곳 민주로 → 당나귀) · act1_2 상원 versus 앞뒤(패널 위 금지) · act2_2 텍사스(당나귀) · act4_7 플로리다(코끼리) — 라벨 "민주당"/"공화당"
+#  권리 기록: license 태그 그대로 + restrictions trademarked + user_exception {ref: "UF-165 D519", scope: private_only} + note "사용자 지시 UF-165 · D519 — D5 예외(이 영상 한정)". provenance 에 자산 id·사유

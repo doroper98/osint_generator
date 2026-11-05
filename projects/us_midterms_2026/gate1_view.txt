@@ -2,7 +2,7 @@
 
 장면 목록
   cold       문장  4  예상   26.8초
-  basics     문장  8  예상   90.0초
+  basics     문장  9  예상   94.3초
   act1       문장 13  예상  106.5초
   act2       문장 18  예상  181.9초
   act3       문장  8  예상   76.5초
@@ -10,7 +10,7 @@
   act5       문장  8  예상   86.8초
   act6       문장  6  예상   56.1초
   ending     문장  2  예상   18.2초
-  합계 78문장 · 예상 750.9초 (글자 수 추정 320자/분)
+  합계 79문장 · 예상 755.2초 (글자 수 추정 320자/분)
 
 원고 전문(자막) · [검증 라벨]
   cold_0       11월 3일 밤, 동부의 투표가 끝나자 지도 위의 주가 하나씩 색을 입기 시작했습니다.
@@ -21,10 +21,11 @@
   basics_1     중간선거라는 이름은 대통령 임기 4년의 한가운데에 치르는 선거라서 붙었고, 대통령은 투표용지에 없습니다.
   basics_2     헌법 1조에 따라 하원의원 임기는 2년이라 435석 전원을, 상원의원 임기는 6년이라 3분의 1씩을 2년마다 다시 뽑습니다.
   basics_3     1788년의 연방주의자 논설 52편은 하원이 국민에게 직접 기대고 국민과 긴밀히 공감해야 하며, 잦은 선거가 그 유일한 방법이라고 강조했습니다.
-  basics_4     그래서 이번에는 하원 435석과 상원 35석, 주지사 36곳이 걸렸고, 상원 35석은 정기 33석에 보궐 2석을 더한 수입니다.
+  basics_4     그래서 이번에는 하원 435석과 상원 35석, 주지사 36곳이 걸렸습니다.
   basics_5     투표일은 연방법에 따라 짝수 해 11월 첫 월요일 다음 화요일입니다.
-  basics_6     헌법에 따라 세입 법안은 하원에서 시작하고, 탄핵 소추는 하원이, 탄핵 재판과 조약·고위직 인준 동의는 상원이 맡습니다.
-  basics_7     그리고 대통령의 당이 중간선거에서 보통 의석을 잃는다는 것은 뒤에서 숫자로 확인합니다.
+  basics_6     헌법상 세입 법안과 탄핵 소추는 하원이, 탄핵 재판과 인준 동의는 상원이 맡습니다.
+  basics_7     한편 민주당의 당나귀와 공화당의 코끼리는 만평가 토머스 내스트가 하퍼스 위클리에 1870년과 1874년에 그린 만평으로 널리 알려졌습니다.
+  basics_8     그리고 대통령의 당이 중간선거에서 보통 의석을 잃는다는 것은 뒤에서 숫자로 확인합니다.
   act1_0       먼저 전국의 성적표부터 보겠습니다.
   act1_1       숫자는 11월 5일 아침 엔비씨 집계를 기준으로 합니다.  [<미검증>]
   act1_2       엔비씨 집계로는 상원이 민주당 54석, 공화당 44석이고, 두 곳은 아직 개표 중입니다.
@@ -105,72 +106,73 @@
   basics_5     clm_0009
   basics_6     clm_0010
   basics_7     clm_0011
-  act1_0       clm_0012
-  act1_1       clm_0012, clm_0013
-  act1_2       clm_0012
-  act1_3       clm_0013
-  act1_4       clm_0013
-  act1_5       clm_0014
-  act1_6       clm_0015
+  basics_8     clm_0012
+  act1_0       clm_0013
+  act1_1       clm_0013, clm_0014
+  act1_2       clm_0013
+  act1_3       clm_0014
+  act1_4       clm_0014
+  act1_5       clm_0015
+  act1_6       clm_0016
   act1_7       clm_0002
-  act1_8       clm_0016
-  act1_9       clm_0017
-  act1_10      clm_0018
-  act1_11      clm_0019
-  act1_12      clm_0020
+  act1_8       clm_0017
+  act1_9       clm_0018
+  act1_10      clm_0019
+  act1_11      clm_0020
+  act1_12      clm_0021
   act2_0       clm_0003
-  act2_1       clm_0021
-  act2_2       clm_0022
-  act2_3       clm_0022
-  act2_4       clm_0023
-  act2_5       clm_0024
-  act2_6       clm_0025
-  act2_7       clm_0026
-  act2_8       clm_0027
-  act2_9       clm_0028
-  act2_10      clm_0029, clm_0030
-  act2_11      clm_0031
-  act2_12      clm_0031
-  act2_13      clm_0032
-  act2_14      clm_0033
-  act2_15      clm_0033
-  act2_16      clm_0034
-  act2_17      clm_0035, clm_0036
-  act3_0       clm_0037, clm_0038
-  act3_1       clm_0037, clm_0038, clm_0039, clm_0040
-  act3_2       clm_0037
-  act3_3       clm_0041
-  act3_4       clm_0038
-  act3_5       clm_0042
-  act3_6       clm_0039
-  act3_7       clm_0037, clm_0038, clm_0039, clm_0040
-  act4_0       clm_0014
-  act4_1       clm_0043, clm_0044
-  act4_2       clm_0045
-  act4_3       clm_0045
-  act4_4       clm_0046
-  act4_5       clm_0047
-  act4_6       clm_0048, clm_0049
-  act4_7       clm_0050
-  act4_8       clm_0051
-  act4_9       clm_0043
-  act4_10      clm_0044
-  act5_0       clm_0011
-  act5_1       clm_0011
-  act5_2       clm_0011
-  act5_3       clm_0052
-  act5_4       clm_0053
-  act5_5       clm_0054
-  act5_6       clm_0055, clm_0011
-  act5_7       clm_0012, clm_0056
-  act6_0       clm_0057
-  act6_1       clm_0058
-  act6_2       clm_0059
-  act6_3       clm_0060
-  act6_4       clm_0061, clm_0062
-  act6_5       clm_0002, clm_0057
-  ending_0     clm_0012, clm_0013, clm_0015
-  ending_1     clm_0037, clm_0042
+  act2_1       clm_0022
+  act2_2       clm_0023
+  act2_3       clm_0023
+  act2_4       clm_0024
+  act2_5       clm_0025
+  act2_6       clm_0026
+  act2_7       clm_0027
+  act2_8       clm_0028
+  act2_9       clm_0029
+  act2_10      clm_0030, clm_0031
+  act2_11      clm_0032
+  act2_12      clm_0032
+  act2_13      clm_0033
+  act2_14      clm_0034
+  act2_15      clm_0034
+  act2_16      clm_0035
+  act2_17      clm_0036, clm_0037
+  act3_0       clm_0038, clm_0039
+  act3_1       clm_0038, clm_0039, clm_0040, clm_0041
+  act3_2       clm_0038
+  act3_3       clm_0042
+  act3_4       clm_0039
+  act3_5       clm_0043
+  act3_6       clm_0040
+  act3_7       clm_0038, clm_0039, clm_0040, clm_0041
+  act4_0       clm_0015
+  act4_1       clm_0044, clm_0045
+  act4_2       clm_0046
+  act4_3       clm_0046
+  act4_4       clm_0047
+  act4_5       clm_0048
+  act4_6       clm_0049, clm_0050
+  act4_7       clm_0051
+  act4_8       clm_0052
+  act4_9       clm_0044
+  act4_10      clm_0045
+  act5_0       clm_0012
+  act5_1       clm_0012
+  act5_2       clm_0012
+  act5_3       clm_0053
+  act5_4       clm_0054
+  act5_5       clm_0055
+  act5_6       clm_0056, clm_0012
+  act5_7       clm_0013, clm_0057
+  act6_0       clm_0058
+  act6_1       clm_0059
+  act6_2       clm_0060
+  act6_3       clm_0061
+  act6_4       clm_0062, clm_0063
+  act6_5       clm_0002, clm_0058
+  ending_0     clm_0013, clm_0014, clm_0016
+  ending_1     clm_0038, clm_0043
 
 린트 — 오류 0 · 경고 0
 
@@ -179,9 +181,9 @@
 미디어 후보 — 원고 media 필드 0건
   트리거 제안 — plan.json 이 생기면(voice_timeline 뒤) 표시
 
-검증 라벨 집계 {"verified": 37, "corroborated": 20, "unverified": 21, "disputed": 0}
+검증 라벨 집계 {"verified": 38, "corroborated": 20, "unverified": 21, "disputed": 0}
 
-미디어 계획 표 — 사진 0/12장(분당 1, 751초 추정) · 기사 카드 후보 0문장(60초당 2개까지 쓴다)
+미디어 계획 표 — 사진 0/12장(분당 1, 755초 추정) · 기사 카드 후보 0문장(60초당 2개까지 쓴다)
   문장         인용 출처              기사(등록/미등록)        사진 찾음/통과/선택      사유
   cold_0       clm_0001               - / 미등록 2                0/0/-                  
   cold_1       clm_0002               - / 미등록 3                8/6/-                  선택 — File:View of the United States Capitol at night from Union Square.jpg (CC0) — 연방 의사당 야경 자료사진(선거의 밤)
@@ -194,71 +196,72 @@
   basics_4     clm_0008               - / 미등록 3                0/0/-                  
   basics_5     clm_0009               -                        0/0/-                  
   basics_6     clm_0010               -                        0/0/-                  
-  basics_7     clm_0011               -                        0/0/-                  
-  act1_0       clm_0012               - / 미등록 1                0/0/-                  
-  act1_1       clm_0012,clm_0013      - / 미등록 2                0/0/-                  
-  act1_2       clm_0012               - / 미등록 1                0/0/-                  
-  act1_3       clm_0013               - / 미등록 1                0/0/-                  
-  act1_4       clm_0013               - / 미등록 1                0/0/-                  
-  act1_5       clm_0014               - / 미등록 2                0/0/-                  
-  act1_6       clm_0015               - / 미등록 1                0/0/-                  
+  basics_7     clm_0011               - / 미등록 2                0/0/-                  선택 2장 — File:Democraticjackass.jpg (Public domain, 토머스 내스트 'A Live Jackass Kicking a Dead Lion', 하퍼스 위클리 1870-01-15) · File:NastRepublicanElephant.jpg (Public domain, 'The Third-Term Panic', 1874-11-07, 의회도서관 소장본과 같은 판) — 자료사진 표기(연·월). 가운데 큰 액자 차례로(UF-164, D-0295 §1-2)
+  basics_8     clm_0012               -                        0/0/-                  
+  act1_0       clm_0013               - / 미등록 1                0/0/-                  
+  act1_1       clm_0013,clm_0014      - / 미등록 2                0/0/-                  
+  act1_2       clm_0013               - / 미등록 1                0/0/-                  
+  act1_3       clm_0014               - / 미등록 1                0/0/-                  
+  act1_4       clm_0014               - / 미등록 1                0/0/-                  
+  act1_5       clm_0015               - / 미등록 2                0/0/-                  
+  act1_6       clm_0016               - / 미등록 1                0/0/-                  
   act1_7       clm_0002               - / 미등록 3                0/0/-                  
-  act1_8       clm_0016               - / 미등록 2                8/1/-                  고르지 않음 — 통과 후보는 호주 투표소 사진 1장뿐(미국 아님). 출구조사 기사 카드(엔비씨)
-  act1_9       clm_0017               - / 미등록 1                0/0/-                  
-  act1_10      clm_0018               - / 미등록 2                0/0/-                  
-  act1_11      clm_0019               - / 미등록 1                0/0/-                  
-  act1_12      clm_0020               - / 미등록 1                0/0/- (타격)             고르지 않음 — 트럼프 대통령 발언 문장(폭스뉴스 인터뷰). 인물 뱃지(공용 라이브러리 trump)로. 인터뷰 화면은 권리 없음
+  act1_8       clm_0017               - / 미등록 2                8/1/-                  고르지 않음 — 통과 후보는 호주 투표소 사진 1장뿐(미국 아님). 출구조사 기사 카드(엔비씨)
+  act1_9       clm_0018               - / 미등록 1                0/0/-                  
+  act1_10      clm_0019               - / 미등록 2                0/0/-                  
+  act1_11      clm_0020               - / 미등록 1                0/0/-                  
+  act1_12      clm_0021               - / 미등록 1                0/0/- (타격)             고르지 않음 — 트럼프 대통령 발언 문장(폭스뉴스 인터뷰). 인물 뱃지(공용 라이브러리 trump)로. 인터뷰 화면은 권리 없음
   act2_0       clm_0003               - / 미등록 1                0/0/-                  
-  act2_1       clm_0021               - / 미등록 1                0/0/-                  
-  act2_2       clm_0022               - / 미등록 2                8/4/-                  고르지 않음 — 다음 문장(act2_3) 탈라리코 사진으로. 텍사스 의사당(CC0) 은 예비
-  act2_3       clm_0022               - / 미등록 2                6/1/-                  선택 — File:¡Viva Democracy! Awesome turnout last night at the James Talarico Rally at The Backyard.jpg (CC BY 4.0) — 탈라리코 유세 현장(피사체·시기 등록 때 대조, 안 맞으면 텍사스 의사당 CC0 로 대체)
-  act2_4       clm_0023               - / 미등록 2                0/0/-                  
-  act2_5       clm_0024               - / 미등록 2                14/4/-                 선택 — File:Adam Hamilton campaign rally, Newton, Kansas, 30 Oct 2026.jpg (CC0) — 해밀턴 유세(2026-10-30)
-  act2_6       clm_0025               - / 미등록 2                0/0/-                  선택 — File:Roger Marshall official portrait.jpg (Public domain, 미 상원) — 낙선한 현직 마셜 의원 공식 초상
-  act2_7       clm_0026               - / 미등록 2                8/3/-                  선택 — File:South Carolina State Capitol.jpg (Public domain) — 사우스캐롤라이나 주 의사당 자료사진(임명 문장)
-  act2_8       clm_0027               - / 미등록 2                6/5/-                  선택 — File:Annie Andrews Greenville.jpg (CC0) — 앤드루스 후보
-  act2_9       clm_0028               - / 미등록 2                0/0/-                  
-  act2_10      clm_0029,clm_0030      - / 미등록 2                12/6/-                 선택 — File:Capitol building, Des Moines, Iowa.jpg (Public domain) — 아이오와 주 의사당 자료사진. 투렉 사진은 'Copyrighted free use' 뿐(허용 라이선스 밖)
-  act2_11      clm_0031               - / 미등록 1                8/1/-                  고르지 않음 — 통과 후보는 1914년 여성 참정권 시위 사진뿐(문장과 무관). 다음 문장 브라운 공식 사진으로
-  act2_12      clm_0031               - / 미등록 1                6/3/-                  선택 — File:Sherrod Brown official photo 2009.jpg (Public domain, 미 상원) — 셰러드 브라운 전 의원 공식 사진
-  act2_13      clm_0032               - / 미등록 1                14/7/-                 선택 — File:Roy Cooper in November 2023.jpg (CC BY 2.0) — 로이 쿠퍼 전 주지사
-  act2_14      clm_0033               - / 미등록 3                8/1/-                  고르지 않음 — 다음 문장(act2_15) 잭슨 사진으로. 메인 의사당(PD)은 예비
-  act2_15      clm_0033               - / 미등록 3                6/5/- (발표)             선택 — File:Troy Jackson in the Senate Chamber.jpg (CC0) — 트로이 잭슨(메인 주 상원)
-  act2_16      clm_0034               - / 미등록 1                0/0/-                  선택 — File:Senator Susan Collins 2014 official portrait (1).jpg (Public domain, 미 상원) — 콜린스 의원 공식 초상
-  act2_17      clm_0035,clm_0036      - / 미등록 1                12/9/-                 선택 — File:Senator Jon Ossoff Addresses the Media, February 11, 2021.jpg (CC BY 2.0) — 오소프 의원. 엘사예드는 PD 청문회 사진(2024) 예비
-  act3_0       clm_0037,clm_0038      - / 미등록 6                0/0/-                  
-  act3_1       clm_0037,clm_0038,clm_0039,clm_0040 - / 미등록 9                0/0/-                  
-  act3_2       clm_0037               - / 미등록 4                14/9/-                 선택 — File:Mississippi State Capitol.jpg (CC BY 2.0) — 미시시피 주 의사당 자료사진(개표 중 — 한 후보 사진을 고르지 않는다)
-  act3_3       clm_0041               - / 미등록 3                0/0/-                  
-  act3_4       clm_0038               - / 미등록 2                14/12/-                선택 — File:210103 Snowy capitol.jpg (CC BY 2.0) — 알래스카 주 의사당(개표 중 — 후보 한쪽 사진을 고르지 않는다)
-  act3_5       clm_0042               - / 미등록 1                8/5/-                  선택 — File:1937 election vote counting nyc stv.jpg (Public domain) — 1937년 뉴욕 순위선택 개표 자료사진(연도 표기, D-0292)
-  act3_6       clm_0039               - / 미등록 2                0/0/-                  
-  act3_7       clm_0037,clm_0038,clm_0039,clm_0040 - / 미등록 9                0/0/-                  
-  act4_0       clm_0014               - / 미등록 2                0/0/-                  
-  act4_1       clm_0043,clm_0044      - / 미등록 3                0/0/-                  
-  act4_2       clm_0045               - / 미등록 2                6/3/-                  선택 — File:Gina Hinojosa at the AFL-CIO COPE convention in 2024.jpg (CC0) — 이노호사 후보(2024)
-  act4_3       clm_0045               - / 미등록 2                0/0/-                  
-  act4_4       clm_0046               - / 미등록 3                14/11/-                선택 — File:Keisha Lance Bottoms in 2025.jpg (CC0) — 보텀스 후보(2025)
-  act4_5       clm_0047               - / 미등록 1                6/6/-                  선택 — File:Amy Acton.jpg (Public domain, 오하이오 주 정부) — 액턴 후보
-  act4_6       clm_0048,clm_0049      - / 미등록 2                12/9/-                 선택 — File:Rob Sand For Iowa.jpg (CC0) — 롭 샌드 후보. 포드 후보는 PD(유엔 인권위원회 2023) 예비
-  act4_7       clm_0050               - / 미등록 2                6/1/-                  선택 — File:Rep. Byron Donalds official photo, 117th Congress.jpg (Public domain, 미 하원) — 도널즈 의원 공식 사진
-  act4_8       clm_0051               - / 미등록 1                8/3/-                  선택 — File:Harrisburg, Pennsylvania State Capitol Building.jpg (CC BY 2.0) — 펜실베이니아 주 의사당 자료사진
-  act4_9       clm_0043               - / 미등록 2                0/0/-                  
-  act4_10      clm_0044               - / 미등록 1                0/0/-                  
-  act5_0       clm_0011               -                        0/0/-                  
-  act5_1       clm_0011               -                        0/0/-                  
-  act5_2       clm_0011               -                        8/5/-                  고르지 않음 — 하원 본회의장 사진은 basics_1 로 옮겼다(D-0294). precedent 패널(지도 위)로
-  act5_3       clm_0052               -                        0/0/-                  
-  act5_4       clm_0053               -                        0/0/-                  
-  act5_5       clm_0054               -                        0/0/-                  
-  act5_6       clm_0055,clm_0011      - / 미등록 1                0/0/-                  
-  act5_7       clm_0012,clm_0056      - / 미등록 1                0/0/-                  
-  act6_0       clm_0057               - / 미등록 1                8/7/-                  선택 — File:United States Senate Floor.jpg (Public domain) — 연방 상원 본회의장 자료사진
-  act6_1       clm_0058               - / 미등록 1                6/6/-                  선택 — File:Hakeem Jeffries official portrait.jpg (Public domain, 미 하원) — 제프리스 원내대표 공식 초상
-  act6_2       clm_0059               - / 미등록 1                6/1/-                  고르지 않음 — 슈머 발언 문장 = 인물 뱃지(File:Chuck Schumer official photo (cropped).jpg, PD) + quote
-  act6_3       clm_0060               - / 미등록 2                0/0/-                  
-  act6_4       clm_0061,clm_0062      - / 미등록 1                0/0/-                  
-  act6_5       clm_0002,clm_0057      - / 미등록 4                0/0/-                  
-  ending_0     clm_0012,clm_0013,clm_0015 - / 미등록 3                0/0/-                  
-  ending_1     clm_0037,clm_0042      - / 미등록 5                0/0/-                  
+  act2_1       clm_0022               - / 미등록 1                0/0/-                  
+  act2_2       clm_0023               - / 미등록 2                8/4/-                  고르지 않음 — 다음 문장(act2_3) 탈라리코 사진으로. 텍사스 의사당(CC0) 은 예비
+  act2_3       clm_0023               - / 미등록 2                6/1/-                  선택 — File:¡Viva Democracy! Awesome turnout last night at the James Talarico Rally at The Backyard.jpg (CC BY 4.0) — 탈라리코 유세 현장(피사체·시기 등록 때 대조, 안 맞으면 텍사스 의사당 CC0 로 대체)
+  act2_4       clm_0024               - / 미등록 2                0/0/-                  
+  act2_5       clm_0025               - / 미등록 2                14/4/-                 선택 — File:Adam Hamilton campaign rally, Newton, Kansas, 30 Oct 2026.jpg (CC0) — 해밀턴 유세(2026-10-30)
+  act2_6       clm_0026               - / 미등록 2                0/0/-                  선택 — File:Roger Marshall official portrait.jpg (Public domain, 미 상원) — 낙선한 현직 마셜 의원 공식 초상
+  act2_7       clm_0027               - / 미등록 2                8/3/-                  선택 — File:South Carolina State Capitol.jpg (Public domain) — 사우스캐롤라이나 주 의사당 자료사진(임명 문장)
+  act2_8       clm_0028               - / 미등록 2                6/5/-                  선택 — File:Annie Andrews Greenville.jpg (CC0) — 앤드루스 후보
+  act2_9       clm_0029               - / 미등록 2                0/0/-                  
+  act2_10      clm_0030,clm_0031      - / 미등록 2                12/6/-                 선택 — File:Capitol building, Des Moines, Iowa.jpg (Public domain) — 아이오와 주 의사당 자료사진. 투렉 사진은 'Copyrighted free use' 뿐(허용 라이선스 밖)
+  act2_11      clm_0032               - / 미등록 1                8/1/-                  고르지 않음 — 통과 후보는 1914년 여성 참정권 시위 사진뿐(문장과 무관). 다음 문장 브라운 공식 사진으로
+  act2_12      clm_0032               - / 미등록 1                6/3/-                  선택 — File:Sherrod Brown official photo 2009.jpg (Public domain, 미 상원) — 셰러드 브라운 전 의원 공식 사진
+  act2_13      clm_0033               - / 미등록 1                14/7/-                 선택 — File:Roy Cooper in November 2023.jpg (CC BY 2.0) — 로이 쿠퍼 전 주지사
+  act2_14      clm_0034               - / 미등록 3                8/1/-                  고르지 않음 — 다음 문장(act2_15) 잭슨 사진으로. 메인 의사당(PD)은 예비
+  act2_15      clm_0034               - / 미등록 3                6/5/- (발표)             선택 — File:Troy Jackson in the Senate Chamber.jpg (CC0) — 트로이 잭슨(메인 주 상원)
+  act2_16      clm_0035               - / 미등록 1                0/0/-                  선택 — File:Senator Susan Collins 2014 official portrait (1).jpg (Public domain, 미 상원) — 콜린스 의원 공식 초상
+  act2_17      clm_0036,clm_0037      - / 미등록 1                12/9/-                 선택 — File:Senator Jon Ossoff Addresses the Media, February 11, 2021.jpg (CC BY 2.0) — 오소프 의원. 엘사예드는 PD 청문회 사진(2024) 예비
+  act3_0       clm_0038,clm_0039      - / 미등록 6                0/0/-                  
+  act3_1       clm_0038,clm_0039,clm_0040,clm_0041 - / 미등록 9                0/0/-                  
+  act3_2       clm_0038               - / 미등록 4                14/9/-                 선택 — File:Mississippi State Capitol.jpg (CC BY 2.0) — 미시시피 주 의사당 자료사진(개표 중 — 한 후보 사진을 고르지 않는다)
+  act3_3       clm_0042               - / 미등록 3                0/0/-                  
+  act3_4       clm_0039               - / 미등록 2                14/12/-                선택 — File:210103 Snowy capitol.jpg (CC BY 2.0) — 알래스카 주 의사당(개표 중 — 후보 한쪽 사진을 고르지 않는다)
+  act3_5       clm_0043               - / 미등록 1                8/5/-                  선택 — File:1937 election vote counting nyc stv.jpg (Public domain) — 1937년 뉴욕 순위선택 개표 자료사진(연도 표기, D-0292)
+  act3_6       clm_0040               - / 미등록 2                0/0/-                  
+  act3_7       clm_0038,clm_0039,clm_0040,clm_0041 - / 미등록 9                0/0/-                  
+  act4_0       clm_0015               - / 미등록 2                0/0/-                  
+  act4_1       clm_0044,clm_0045      - / 미등록 3                0/0/-                  
+  act4_2       clm_0046               - / 미등록 2                6/3/-                  선택 — File:Gina Hinojosa at the AFL-CIO COPE convention in 2024.jpg (CC0) — 이노호사 후보(2024)
+  act4_3       clm_0046               - / 미등록 2                0/0/-                  
+  act4_4       clm_0047               - / 미등록 3                14/11/-                선택 — File:Keisha Lance Bottoms in 2025.jpg (CC0) — 보텀스 후보(2025)
+  act4_5       clm_0048               - / 미등록 1                6/6/-                  선택 — File:Amy Acton.jpg (Public domain, 오하이오 주 정부) — 액턴 후보
+  act4_6       clm_0049,clm_0050      - / 미등록 2                12/9/-                 선택 — File:Rob Sand For Iowa.jpg (CC0) — 롭 샌드 후보. 포드 후보는 PD(유엔 인권위원회 2023) 예비
+  act4_7       clm_0051               - / 미등록 2                6/1/-                  선택 — File:Rep. Byron Donalds official photo, 117th Congress.jpg (Public domain, 미 하원) — 도널즈 의원 공식 사진
+  act4_8       clm_0052               - / 미등록 1                8/3/-                  선택 — File:Harrisburg, Pennsylvania State Capitol Building.jpg (CC BY 2.0) — 펜실베이니아 주 의사당 자료사진
+  act4_9       clm_0044               - / 미등록 2                0/0/-                  
+  act4_10      clm_0045               - / 미등록 1                0/0/-                  
+  act5_0       clm_0012               -                        0/0/-                  
+  act5_1       clm_0012               -                        0/0/-                  
+  act5_2       clm_0012               -                        8/5/-                  고르지 않음 — 하원 본회의장 사진은 basics_1 로 옮겼다(D-0294). precedent 패널(지도 위)로
+  act5_3       clm_0053               -                        0/0/-                  
+  act5_4       clm_0054               -                        0/0/-                  
+  act5_5       clm_0055               -                        0/0/-                  
+  act5_6       clm_0056,clm_0012      - / 미등록 1                0/0/-                  
+  act5_7       clm_0013,clm_0057      - / 미등록 1                0/0/-                  
+  act6_0       clm_0058               - / 미등록 1                8/7/-                  선택 — File:United States Senate Floor.jpg (Public domain) — 연방 상원 본회의장 자료사진
+  act6_1       clm_0059               - / 미등록 1                6/6/-                  선택 — File:Hakeem Jeffries official portrait.jpg (Public domain, 미 하원) — 제프리스 원내대표 공식 초상
+  act6_2       clm_0060               - / 미등록 1                6/1/-                  고르지 않음 — 슈머 발언 문장 = 인물 뱃지(File:Chuck Schumer official photo (cropped).jpg, PD) + quote
+  act6_3       clm_0061               - / 미등록 2                0/0/-                  
+  act6_4       clm_0062,clm_0063      - / 미등록 1                0/0/-                  
+  act6_5       clm_0002,clm_0058      - / 미등록 4                0/0/-                  
+  ending_0     clm_0013,clm_0014,clm_0016 - / 미등록 3                0/0/-                  
+  ending_1     clm_0038,clm_0043      - / 미등록 5                0/0/-                  
   표 판정 — 통과

@@ -1027,6 +1027,55 @@
    ]
   },
   {
+   "id": "src_art_0046",
+   "url": "https://www.smithsonianmag.com/arts-culture/political-animals-republican-elephants-and-democratic-donkeys-89241754/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "WebSearch 요약 대조",
+   "type": "article",
+   "publisher": "Smithsonian Magazine",
+   "headline_original": "Political Animals: Republican Elephants and Democratic Donkeys",
+   "headline_ko": "정치 동물: 공화당 코끼리와 민주당 당나귀",
+   "published_at": "2012-10-23",
+   "key_facts": [
+    "내스트 1870-01-15 하퍼스 위클리 만평 'A Live Jackass Kicking a Dead Lion'",
+    "1874 'The Third-Term Panic' — 공화당 코끼리"
+   ]
+  },
+  {
+   "id": "src_art_0047",
+   "url": "https://www.smithsonianmag.com/smart-news/third-term-controversy-gave-republican-party-its-symbol-180967079/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "WebSearch 요약 대조",
+   "type": "article",
+   "publisher": "Smithsonian Magazine",
+   "headline_original": "The Third-Term Controversy That Gave the Republican Party Its Symbol",
+   "headline_ko": "공화당 상징을 낳은 3선 논란",
+   "published_at": "2017-11-07",
+   "key_facts": [
+    "1874-11-07 하퍼스 위클리 'The Third-Term Panic' 에서 코끼리가 공화당과 처음 연결"
+   ]
+  },
+  {
    "id": "src_doc_0001",
    "url": "https://www.presidency.ucsb.edu/statistics/data/seats-congress-gainedlost-the-presidents-party-mid-term-elections",
    "retrieved_at": "2026-11-05",
@@ -1168,6 +1217,29 @@
    "published_at": null,
    "key_facts": [
     "midterm congressional elections take place halfway between presidential elections"
+   ]
+  },
+  {
+   "id": "src_doc_0008",
+   "url": "https://www.loc.gov/pictures/item/2004682001/",
+   "retrieved_at": "2026-11-05",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "claims:1"
+    ],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0290·D-0291 — WebSearch 도메인 한정 본문 요약 + NBC·CBS·NPR 페이지 컨테이너 curl 대조)",
+   "confirmed_at": "2026-11-05T01:30:00Z",
+   "note": "WebSearch 요약 대조(의회도서관 소장 목록)",
+   "type": "document",
+   "issuer": "미국 의회도서관(Library of Congress)",
+   "title": "The Third-term Panic (Th. Nast, Harper's Weekly, 1874-11-07) — 목판화 소장 기록",
+   "published_at": null,
+   "key_facts": [
+    "Harper's Weekly 1874-11-07 게재 목판화, 토머스 내스트"
    ]
   },
   {
