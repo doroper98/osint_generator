@@ -247,7 +247,7 @@
       "confirmed_at": "2026-11-01T14:28:48.353502Z",
       "note": "작품마다 미술사 한 문장(작가·연대·소장처)의 근거. 화면 자산 레코드 = projects/cannae_sketch/media.json(권리·사진 라이선스 기록)",
       "type": "document",
-      "issuer": "Wikimedia Commons(파일 정보 페이지 extmetadata 그대로)",
+      "issuer": "Wikimedia Commons(각 파일 정보 페이지)",
       "title": "Wikimedia Commons file information — 4 artworks for Cannae (coin, bust, Trumbull 1773, Closs 1885)",
       "published_at": "2026-11-01",
       "key_facts": [
@@ -316,7 +316,7 @@
       "confirmed_at": "2026-11-01T15:30:10.863336Z",
       "note": "카르타고 진영 휘장 재현(타니트 기호)의 근거 유물",
       "type": "document",
-      "issuer": "Wikimedia Commons(파일 정보 페이지 extmetadata 그대로)",
+      "issuer": "Wikimedia Commons(각 파일 정보 페이지)",
       "title": "Wikimedia Commons file information — Stele with the Tanit sign (Louvre AO 5244)",
       "published_at": "2026-11-01",
       "key_facts": [
