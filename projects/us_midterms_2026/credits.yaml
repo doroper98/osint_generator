@@ -86,7 +86,7 @@ sections:
   column: 1
   items:
   - main: 민주당·공화당 공식 로고
-    license: 각 당 상표 · 비공개 시청 한정(D264) · 사용자 지시 D519
+    license: 각 당의 상표, 정당 표시 목적으로만 사용   # 공개 문구(D-0323 §3). 내부 기록: 비공개 시청 한정(D264 private_only) · 사용자 지시 D519 — provenance rights.exceptions
     rights:
     - emblems.dem_party
     - emblems.rep_party
