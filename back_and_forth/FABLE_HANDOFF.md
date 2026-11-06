@@ -50,7 +50,7 @@
 - 골든 환경: 원인 = 표준 FONTCONFIG 누락(war R-0329). 장치 RENDER-AP-032 네 브랜치 반영 완료(war fddc5526·4562b172 / sweet 1402503d·2499f012 / iran e4ad493f·e409edcf / econ 31004550·597a2c1c). econ 골든 25컷 f70904e0 에서 25/25 일치(D358). 조각 캐시 키 보강 a2c612fc 반영(D347, 종결).
 - narration_clarity: 쇼케이스 3b2d1bb6·af0409ef·34dedc1c(전 장르 hard, D349). 경제(3b2d1bb6 → af0409ef → 34dedc1c)·전쟁사(af0409ef → 34dedc1c) 전파 지시, R 대기.
 - **AP 번호대(D361)**: 통합 sweet-galileo = 현재 최대+1~039(다음 PIPELINE-028·RENDER-034·RIGHTS-004), 전쟁사 040~059, 예산안·속도 060~079, 영상 분석 080~099, 이란 100~119 — 모든 범주 공통.
-- 다음 번호 UF-209·D-0356·DECISIONS D362·PIPELINE-AP-028·RENDER-AP-034·RIGHTS-AP-004.
+- 다음 번호 UF-209·D-0356·DECISIONS D363·PIPELINE-AP-028·RENDER-AP-034·RIGHTS-AP-004.
 
 ### 상태 갱신(2026-11-02 11:10Z, 최종 감독 — 사용자가 이 세션 모델을 Opus 5.5 로 전환)
 - 쇼케이스: 교체본 콘티 판 v2_animatic 게이트 ② **재승인 대기**. sweet-galileo 머리 b2d5f75a(UF-207 원장 정정 217c4525·PIPELINE-AP-026·5bdcd949·fed 데모 120).
