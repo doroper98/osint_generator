@@ -29,10 +29,10 @@ REPO = Path(__file__).resolve().parents[1]
 FIX = REPO / "tests" / "fixtures" / "terrain3d"
 SOURCE = "폴리비오스 『역사』 III.113~116(Paton 영역 1922)"
 
-COMPOSITE_MD5 = {
-    0: "501dbe3f3afdeeb2ed4c3093c45481f4",
-    1: "fcc6c04a0b583c7b3fef0deb5d1b3725",
-    2: "66b87f51ec33dafc5bed6e01d95370df",
+COMPOSITE_MD5 = {   # v7.4.0 D-0634 — e1004d8a(개략 출처 줄 글꼴 sansm)로 재고정. 이전 값과 다른 화소 = 왼쪽 아래 출처 줄 상자(19,234)~(168,238)뿐
+    0: "fa4d3d4baca3df4877a82d390fa5ebda",
+    1: "51a36ba7af0171f7d3b5ef97f84f6355",
+    2: "47b9baea5172dfd5458e8590851c2c06",
 }
 
 
