@@ -2835,3 +2835,14 @@ entries:
   status: open
   decision: "감독 판단(DECISIONS D749) — 칸나이: 30MB 이하 한 파일(final_deliver)과 고화질 원본(렌더 출력)의 30MB 이하 조각을 함께 보낸다. 전달 뒤 장치: 전달 도구가 30MB 초과 원본을 조각으로 나누고 조각마다 크기·이어 붙인 길이를 검사"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-06"
+- id: UF-269
+  date: '2026-11-06'
+  project: cannae_216bc
+  at: "UF-268 뒤 감독이 '30MB 이하 한 파일 + 원본 화질 조각 둘 다 보냄'을 알린 직후"
+  quote: "꼭 분할이 필요한 상황이라면 말이지"
+  quote_kind: verbatim
+  category: "전달 — UF-268 의 범위 한정. 분할은 보낼 파일이 30MB 를 넘을 때만 한다. 30MB 이하 한 파일로 보낼 수 있으면 조각을 따로 만들어 보내지 않는다"
+  guards: []
+  status: open
+  decision: "감독 판단(DECISIONS D750) — D749 의 '조각도 함께'를 취소. 칸나이는 final_deliver 30MB 이하 한 파일만. 전달 뒤 장치: 전달 도구가 30MB 초과일 때만 조각을 만들고, 이하이면 조각을 만들지 않음을 시험으로 고정"
+  source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-06"
