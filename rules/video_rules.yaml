@@ -1868,6 +1868,21 @@ thumbnail:                 # v7.4.0 back_and_forth D-0320(사용자 의견 UF-17
   jpg_max_bytes: 2000000     # 유튜브 썸네일 한도 2 MB
   width: 1280
   height: 720
+  # v7.4.0 back_and_forth D-0321(사용자 판정 UF-178 "썸네일 아주 만족해. 지정경제학적 테마와 전쟁사/역사물에 대한 테마는 색조만 살짝 다르게", CLAUDE.md C13).
+  # 테마 = 색 값만(그라데이션 색·금색·부제 색). 구성·크기·테두리 기하는 위 공통 값. geo_econ = us_midterms 합격본(md5 b8830301)과 바이트 동일.
+  # 영상 본편 타이틀 카드(engine.fullcards.draw_fullcards)는 테마를 쓰지 않는다 — 썸네일만
+  theme_default_by_genre: {geopolitics: geo_econ, macro_monetary: geo_econ, economy: geo_econ, earnings: geo_econ,
+                           military: war_history, war_history: war_history, history: war_history}
+  theme_fallback: geo_econ
+  themes:
+    geo_econ:        # 지정학·경제 — 현행 타이틀 카드 색
+      gradient_rgb: [0.01, 0.015, 0.03]
+      gold: null
+      subtitle_rgb: [0.92, 0.9, 0.88]
+    war_history:     # 전쟁사·역사 — 살짝 따뜻하게(색조만)
+      gradient_rgb: [0.03, 0.02, 0.012]
+      gold: [0.78, 0.63, 0.36]
+      subtitle_rgb: [0.93, 0.89, 0.84]
 
 delivery_package:          # v7.4.0 back_and_forth D-0320(UF-177 "영상 줄때 매번 … 제목, 설명, 태그, 썸네일") — tools/deliver_package.py. 한도 = 유튜브
   items: [title, description, tags, thumbnail]

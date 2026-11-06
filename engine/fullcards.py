@@ -341,12 +341,16 @@ def title_lines(ctx: cairo.Context, title: str, scale: float, line_gap: float, m
 
 
 def draw_title_card(ctx: cairo.Context, plan: object, a: float, lt: float, scale: float = 1.0, line_gap: float = 1.08,
-                    max_lines: int = 1, border: object = None, subtitle: "str | None" = None) -> dict:
+                    max_lines: int = 1, border: object = None, subtitle: "str | None" = None, theme: object = None) -> dict:
     """타이틀 카드 한 장(렌더·썸네일 공용, v7.4.0 D-0320 — 썸네일만 다른 모양 금지). scale = 1 이면 종전 바이트 그대로.
-    scale > 1(썸네일): 제목을 키우고 묶음(제목·금선·부제·날짜)을 세로 중심을 지킨 채 위아래로 벌린다. border = rules thumbnail.border."""
+    scale > 1(썸네일): 제목을 키우고 묶음(제목·금선·부제·날짜)을 세로 중심을 지킨 채 위아래로 벌린다. border = rules thumbnail.border.
+    theme = rules thumbnail.themes 하나(v7.4.0 D-0321, UF-178 — 색 값만: 그라데이션·금색·부제). None = 현행 색(영상 본편)."""
+    grad = (0.01, 0.015, 0.03) if theme is None else tuple(theme.gradient_rgb)
+    gold = C["gold"] if theme is None or theme.gold is None else tuple(theme.gold)
+    sub_rgb = (0.92, 0.9, 0.88) if theme is None else tuple(theme.subtitle_rgb)
     g = cairo.LinearGradient(0, 0, 0, H_OUT)
     for st, al in ((0, 0.86), (0.5, 0.7), (1, 0.92)):
-        g.add_color_stop_rgba(st, 0.01, 0.015, 0.03, al * a)
+        g.add_color_stop_rgba(st, *grad, al * a)
     ctx.set_source(g)
     ctx.paint()
     k = ease_out(lt / MOTION["title_settle_sec"])
@@ -360,19 +364,19 @@ def draw_title_card(ctx: cairo.Context, plan: object, a: float, lt: float, scale
         y = top + (size * TITLE_CAP - TITLE_CARD.title_size * TITLE_CAP if scale != 1.0 else 0.0) + i * size * line_gap
         text(ctx, ln, W_OUT / 2, y - (1 - k) * 10, size, "disp", (1, 1, 1), a * smooth((lt - 0.1) / MOTION["title_text_in_sec"]), 0, "c")
     sh = dh / 2
-    ctx.set_source_rgba(*C["gold"], 0.95 * a)
+    ctx.set_source_rgba(*gold, 0.95 * a)
     lw = TITLE_CARD.rule_w * ease_io((lt - 0.5) / MOTION["title_rule_in_sec"])
     ctx.rectangle(W_OUT / 2 - lw / 2, TITLE_RULE_Y + sh, lw, 1.6)
     ctx.fill()
-    text(ctx, plan.subtitle if subtitle is None else subtitle, W_OUT / 2, TITLE_SUB_Y + sh, TITLE_CARD.subtitle_size, "serifb", (0.92, 0.9, 0.88),
+    text(ctx, plan.subtitle if subtitle is None else subtitle, W_OUT / 2, TITLE_SUB_Y + sh, TITLE_CARD.subtitle_size, "serifb", sub_rgb,
          a * smooth((lt - 0.8) / MOTION["title_text_in_sec"]), 0, "c")
-    text(ctx, badge_text(plan.date), W_OUT / 2, TITLE_DATE_Y + sh, 12, "mono", C["gold"], a * smooth((lt - 1.1) / MOTION["title_text_in_sec"]), 0, "c")
+    text(ctx, badge_text(plan.date), W_OUT / 2, TITLE_DATE_Y + sh, 12, "mono", gold, a * smooth((lt - 1.1) / MOTION["title_text_in_sec"]), 0, "c")
     if border is not None:
-        draw_gold_border(ctx, border, a)
+        draw_gold_border(ctx, border, a, gold)
     return {"lines": lines, "size": round(size, 2), "shift_px": round(sh, 2)}
 
 
-def draw_gold_border(ctx: cairo.Context, b: object, a: float = 1.0) -> None:
+def draw_gold_border(ctx: cairo.Context, b: object, a: float = 1.0, gold: "tuple[float, float, float] | None" = None) -> None:
     """최외곽에서 inset 만큼 안쪽 금빛 얇은 한 줄 + 옅은 번짐(rules thumbnail.border)."""
     x0, y0, w, h = b.inset, b.inset, W_OUT - 2 * b.inset, H_OUT - 2 * b.inset
     r = b.radius
@@ -387,10 +391,10 @@ def draw_gold_border(ctx: cairo.Context, b: object, a: float = 1.0) -> None:
 
     if b.glow_width > 0 and b.glow_alpha > 0:
         path()
-        ctx.set_source_rgba(*C["gold"], b.glow_alpha * a)
+        ctx.set_source_rgba(*(gold or C["gold"]), b.glow_alpha * a)
         ctx.set_line_width(b.glow_width)
         ctx.stroke()
     path()
-    ctx.set_source_rgba(*C["gold"], b.alpha * a)
+    ctx.set_source_rgba(*(gold or C["gold"]), b.alpha * a)
     ctx.set_line_width(b.width)
     ctx.stroke()

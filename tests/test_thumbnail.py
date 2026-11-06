@@ -176,6 +176,63 @@ class PackageCheckTest(unittest.TestCase):
         self.assertIn("basics", [c.at for c in d.chapters])   # 중간선거란 장(D-0320 §5)
 
 
+class ThumbnailThemeTest(unittest.TestCase):
+    """v7.4.0 D-0321(사용자 판정 UF-178 "지정경제학적 테마와 전쟁사/역사물에 대한 테마는 색조만 살짝 다르게 … 일관된 디자인", CLAUDE.md C13)."""
+
+    T = load_rules().thumbnail
+
+    def _draw(self, theme: object) -> tuple[bytes, int]:
+        s, ctx = _ctx()
+        ctx.set_source_rgb(0.4, 0.45, 0.5)
+        ctx.paint()
+        F.draw_title_card(ctx, _plan("뒤집힌 일곱 자리"), 1.0, 99.0, scale=self.T.title_scale, line_gap=self.T.title_line_gap,
+                          max_lines=self.T.max_lines, border=self.T.border, theme=theme)
+        s.flush()
+        return bytes(s.get_data()), s.get_stride()
+
+    def test_geo_econ_equals_no_theme(self) -> None:
+        self.assertEqual(self._draw(self.T.themes["geo_econ"])[0], self._draw(None)[0])   # 합격본(md5 b8830301) 색 그대로
+
+    def test_themes_differ_only_in_color(self) -> None:
+        a, st = self._draw(self.T.themes["geo_econ"])
+        b, _ = self._draw(self.T.themes["war_history"])
+        self.assertNotEqual(a, b)
+
+        def white(buf: bytes) -> set[int]:   # 흰 제목 글자 픽셀 마스크
+            return {i for i in range(0, len(buf), 4) if min(buf[i], buf[i + 1], buf[i + 2]) > 235}
+
+        self.assertEqual(white(a), white(b))
+        inset = int(self.T.border.inset)
+        y = H_OUT // 2
+        for buf in (a, b):   # 테두리 자리 같음: inset 자리가 바로 안쪽보다 밝다
+            at, inside = sum(buf[y * st + inset * 4: y * st + inset * 4 + 3]), sum(buf[y * st + (inset + 12) * 4: y * st + (inset + 12) * 4 + 3])
+            self.assertGreater(at, inside)
+
+    def test_unmapped_genre_falls_back(self) -> None:
+        from tools.thumbnail import resolve_theme  # noqa: PLC0415
+
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "order.yaml").write_text("genre: no_such_genre\n", encoding="utf-8")
+            self.assertEqual(resolve_theme(Path(d))[0], self.T.theme_fallback)
+            (Path(d) / "order.yaml").write_text("genre: geopolitics\n", encoding="utf-8")
+            self.assertEqual(resolve_theme(Path(d))[:2], ("geo_econ", "genre:geopolitics"))
+            from tools.thumbnail import ThumbnailError  # noqa: PLC0415
+
+            with self.assertRaises(ThumbnailError):
+                resolve_theme(Path(d), "war_history")                 # 덮어쓰기 = 사유 필수
+            self.assertEqual(resolve_theme(Path(d), "war_history", "표본")[:2], ("war_history", "override"))
+
+    def test_geometry_key_in_theme_rejected(self) -> None:
+        raw = yaml.safe_load(RULES_PATH.read_text(encoding="utf-8"))["thumbnail"]
+        raw["themes"]["war_history"]["title_scale"] = 2.0   # 테마는 색만 — 기하·크기 키는 모델 오류
+        with self.assertRaises(ValidationError):
+            ThumbnailRules.model_validate(raw)
+        raw = yaml.safe_load(RULES_PATH.read_text(encoding="utf-8"))["thumbnail"]
+        raw["theme_default_by_genre"]["history"] = "sepia"   # 없는 테마 이름
+        with self.assertRaises(ValidationError):
+            ThumbnailRules.model_validate(raw)
+
+
 @pytest.mark.slow   # C8.3(D187) — 실제 프로젝트 720p 프레임
 class ThumbnailRunTest(unittest.TestCase):
     def test_thumbnail_output_and_provenance(self) -> None:

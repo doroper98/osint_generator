@@ -39,7 +39,33 @@ def title_card_time(plan: object) -> tuple[float, float, float]:
     return c.t0, c.t1, c.t0 + (c.t1 - c.t0) / 2
 
 
-def make_thumbnail(proj: Path) -> dict:
+def resolve_theme(proj: Path, theme: str | None = None, reason: str | None = None) -> tuple[str, str, str | None]:
+    """(테마 이름, 출처, 사유) — v7.4.0 D-0321(UF-178, CLAUDE.md C13). 기본 = order.yaml genre → rules thumbnail.theme_default_by_genre
+    (order.yaml 이 없으면 direction.yaml genre, 둘 다 없으면 genres.load.DEFAULT_GENRE). 매핑에 없는 장르 = theme_fallback.
+    --theme 로 덮어쓰면 사유 필수(provenance theme_reason)."""
+    import yaml  # noqa: PLC0415
+
+    from genres.load import DEFAULT_GENRE  # noqa: PLC0415
+    from rules import load_rules  # noqa: PLC0415
+
+    T = load_rules().thumbnail  # noqa: N806
+    if theme is not None:
+        if theme not in T.themes:
+            raise ThumbnailError(f"--theme {theme!r} 는 rules thumbnail.themes 에 없다: {sorted(T.themes)}")
+        if not (reason or "").strip():
+            raise ThumbnailError("--theme 로 장르 기본 테마를 덮어쓸 때는 --theme-reason 이 필요하다(C13)")
+        return theme, "override", reason
+    genre = None
+    for f in ("order.yaml", "direction.yaml"):
+        if (proj / f).exists():
+            genre = (yaml.safe_load((proj / f).read_text(encoding="utf-8")) or {}).get("genre")
+            if genre:
+                break
+    genre = genre or DEFAULT_GENRE
+    return T.theme_default_by_genre.get(genre, T.theme_fallback), f"genre:{genre}", None
+
+
+def make_thumbnail(proj: Path, theme: str | None = None, reason: str | None = None, name: str = "thumbnail") -> dict:
     from PIL import Image  # noqa: PLC0415
 
     from engine.project import load_project  # noqa: PLC0415
@@ -53,29 +79,31 @@ def make_thumbnail(proj: Path) -> dict:
         raise ThumbnailError(f"출력 프로파일 final {out.width}×{out.height} ≠ rules thumbnail {T.width}×{T.height}")
     P = load_project(proj, out=out)  # noqa: N806
     t0, t1, tm = title_card_time(P.plan)
-    thumb = {"scale": T.title_scale, "line_gap": T.title_line_gap, "max_lines": T.max_lines, "border": T.border}
+    th, th_src, th_reason = resolve_theme(proj, theme, reason)
+    thumb = {"scale": T.title_scale, "line_gap": T.title_line_gap, "max_lines": T.max_lines, "border": T.border, "theme": T.themes[th]}
     surf, buf = render_frame(P, min(P.n_frames - 1, int(tm * FPS)), thumb)
     if "drawn" not in thumb:
         raise ThumbnailError(f"{tm:.2f}초 프레임에 타이틀 카드가 그려지지 않았다")
     img = Image.frombuffer("RGBX", (out.width, out.height), bytes(buf), "raw", "BGRX", 0, 1).convert("RGB")
     od = proj / "out"
     od.mkdir(exist_ok=True)
-    png = od / "thumbnail.png"
+    png = od / f"{name}.png"
     img.save(png, optimize=True)
     b = io.BytesIO()
     img.save(b, "JPEG", quality=T.jpg_quality, optimize=True)
     if b.tell() > T.jpg_max_bytes:
         raise ThumbnailError(f"thumbnail.jpg {b.tell()} B > rules thumbnail.jpg_max_bytes {T.jpg_max_bytes}")
-    jpg = od / "thumbnail.jpg"
+    jpg = od / f"{name}.jpg"
     jpg.write_bytes(b.getvalue())
     rec = {"schema_version": 1, "frame_t": round(tm, 3), "title_card": [round(t0, 3), round(t1, 3)],
            "title": P.plan.title, "title_lines": thumb["drawn"]["lines"], "title_size_px": thumb["drawn"]["size"],
            "title_scale": T.title_scale, "group_shift_px": thumb["drawn"]["shift_px"], "border": T.border.model_dump(),
+           "theme": th, "theme_source": th_src, **({"theme_reason": th_reason} if th_reason else {}),
            "size": [out.width, out.height], "png": {"bytes": png.stat().st_size, "md5": hashlib.md5(png.read_bytes()).hexdigest()},
            "jpg": {"bytes": jpg.stat().st_size, "md5": hashlib.md5(jpg.read_bytes()).hexdigest(), "quality": T.jpg_quality}}
-    (od / "thumbnail.json").write_text(json.dumps(rec, ensure_ascii=False, indent=1), encoding="utf-8")
+    (od / f"{name}.json").write_text(json.dumps(rec, ensure_ascii=False, indent=1), encoding="utf-8")
     pv = od / "provenance.json"
-    if pv.exists():
+    if pv.exists() and name == "thumbnail":   # 확인용 표본(--name)은 provenance 에 넣지 않는다 — 전달본만
         prov = json.loads(pv.read_text(encoding="utf-8"))
         prov["thumbnail"] = rec
         pv.write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -89,12 +117,15 @@ def main(argv: list[str] | None = None) -> int:
 
     ap = argparse.ArgumentParser(description="썸네일(타이틀 카드 장면 + 큰 제목 + 금빛 테두리)")
     ap.add_argument("proj", type=Path)
+    ap.add_argument("--theme", default=None, help="rules thumbnail.themes 이름 — 장르 기본을 덮어쓸 때만(--theme-reason 필수)")
+    ap.add_argument("--theme-reason", default=None)
+    ap.add_argument("--name", default="thumbnail", help="출력 파일 이름(확인용 표본만 바꾼다 — provenance 에 넣지 않음)")
     a = ap.parse_args(argv)
     proj = a.proj.resolve()
     try:
-        rec = make_thumbnail(proj)
-        res = StageResult(ok=True, stage="thumbnail", artifacts={"png": str(proj / "out" / "thumbnail.png"),
-                                                                 "jpg": str(proj / "out" / "thumbnail.jpg")}, provenance={"thumbnail": rec})
+        rec = make_thumbnail(proj, a.theme, a.theme_reason, a.name)
+        res = StageResult(ok=True, stage="thumbnail", artifacts={"png": str(proj / "out" / f"{a.name}.png"),
+                                                                 "jpg": str(proj / "out" / f"{a.name}.jpg")}, provenance={"thumbnail": rec})
     except (ThumbnailError, TitleOverflowError, ProjectError, OSError, ValueError) as ex:
         res = StageResult(ok=False, stage="thumbnail", errors=[str(ex)])
     print(json.dumps(res.model_dump(), ensure_ascii=False))
