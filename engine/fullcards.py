@@ -295,7 +295,9 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
     text(ctx, version_stamp(), x1, y1 - STAMP.size * 0.25, STAMP.size, STAMP.font, C["muted"], a * STAMP.alpha, 0, "r", role="end_card")
 
 
-def draw_fullcards(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803
+def draw_fullcards(ctx: cairo.Context, R: RenderCtx, t: float, thumb: "dict | None" = None) -> None:  # noqa: N803
+    """thumb(v7.4.0 D-0320, tools/thumbnail.py) = draw_title_card 키워드(scale·line_gap·max_lines·border) — 타이틀 카드를 완전히 보이는 상태로,
+    그린 결과(줄·크기)는 thumb["drawn"] 에 남긴다. None 이면 영상 그대로."""
     plan = R.tb.plan
     for c in plan.cards:
         hold = c.kind == "end" and END_CARD.hold_black_after
@@ -303,21 +305,92 @@ def draw_fullcards(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa:
             continue
         a = window(t, c.t0, c.t1, *ELEM["fullcard"])   # v7.4.0 UF-159 ×1.5
         lt = t - c.t0
-        if c.kind == "title":
-            g = cairo.LinearGradient(0, 0, 0, H_OUT)
-            for st, al in ((0, 0.86), (0.5, 0.7), (1, 0.92)):
-                g.add_color_stop_rgba(st, 0.01, 0.015, 0.03, al * a)
-            ctx.set_source(g)
-            ctx.paint()
-            k = ease_out(lt / MOTION["title_settle_sec"])
-            text(ctx, plan.title, W_OUT / 2, 232 - (1 - k) * 10, title_fit_size(ctx, plan.title), "disp", (1, 1, 1),
-                 a * smooth((lt - 0.1) / MOTION["title_text_in_sec"]), 0, "c")
-            ctx.set_source_rgba(*C["gold"], 0.95 * a)
-            lw = TITLE_CARD.rule_w * ease_io((lt - 0.5) / MOTION["title_rule_in_sec"])
-            ctx.rectangle(W_OUT / 2 - lw / 2, 254, lw, 1.6)
-            ctx.fill()
-            text(ctx, title_subtitle(R), W_OUT / 2, 290, TITLE_CARD.subtitle_size, "serifb", (0.92, 0.9, 0.88),
-                 a * smooth((lt - 0.8) / MOTION["title_text_in_sec"]), 0, "c")
-            text(ctx, badge_text(plan.date), W_OUT / 2, 322, 12, "mono", C["gold"], a * smooth((lt - 1.1) / MOTION["title_text_in_sec"]), 0, "c")
+        if c.kind == "title" and thumb is not None:
+            thumb["drawn"] = draw_title_card(ctx, plan, 1.0, 99.0, subtitle=title_subtitle(R), **{k: v for k, v in thumb.items() if k != "drawn"})
+        elif c.kind == "title":
+            draw_title_card(ctx, plan, a, lt, subtitle=title_subtitle(R))
         else:
             draw_endcard(ctx, R, t, c, a)
+
+
+TITLE_BASE_Y = 232     # 타이틀 카드 제목 기준선(설계 px)
+TITLE_RULE_Y = 254     # 금선 위 끝
+TITLE_SUB_Y = 290      # 부제 기준선
+TITLE_DATE_Y = 322     # 날짜 기준선
+TITLE_CAP = 0.75       # 제목 글자 윗선 ≈ 기준선 − 크기 × 이 값(묶음 높이 계산용)
+
+
+def title_lines(ctx: cairo.Context, title: str, scale: float, line_gap: float, max_lines: int) -> tuple[list[str], float]:
+    """썸네일 제목 줄·크기(v7.4.0 D-0320, UF-177). 크기 = title_size × scale. 폭 > W × max_w_ratio 면 띄어쓰기 중 폭이 가장 고른 곳에서 2줄
+    (어절 안 자르기 금지), 그래도 넘으면 0.5px 씩 줄인다 — title_min_size 미만이면 TitleOverflowError(조용한 잘림 금지)."""
+    from engine.typography import tw  # noqa: PLC0415
+
+    size = TITLE_CARD.title_size * scale
+    room = W_OUT * TITLE_CARD.max_w_ratio
+    lines = [title]
+    if tw(ctx, title, size, "disp") > room and max_lines >= 2:
+        words = title.split(" ")
+        if len(words) > 1:
+            cands = [(" ".join(words[:i]), " ".join(words[i:])) for i in range(1, len(words))]
+            lines = list(min(cands, key=lambda ab: max(tw(ctx, ab[0], size, "disp"), tw(ctx, ab[1], size, "disp"))))
+    while max(tw(ctx, ln, size, "disp") for ln in lines) > room:
+        size -= 0.5
+        if size < TITLE_CARD.title_min_size:
+            raise TitleOverflowError(f"썸네일 제목 {title!r} — {max_lines}줄·{TITLE_CARD.title_min_size:g}px 로도 {room:.0f}px 를 넘는다. 원고 title 을 줄인다")
+    return lines, size
+
+
+def draw_title_card(ctx: cairo.Context, plan: object, a: float, lt: float, scale: float = 1.0, line_gap: float = 1.08,
+                    max_lines: int = 1, border: object = None, subtitle: "str | None" = None) -> dict:
+    """타이틀 카드 한 장(렌더·썸네일 공용, v7.4.0 D-0320 — 썸네일만 다른 모양 금지). scale = 1 이면 종전 바이트 그대로.
+    scale > 1(썸네일): 제목을 키우고 묶음(제목·금선·부제·날짜)을 세로 중심을 지킨 채 위아래로 벌린다. border = rules thumbnail.border."""
+    g = cairo.LinearGradient(0, 0, 0, H_OUT)
+    for st, al in ((0, 0.86), (0.5, 0.7), (1, 0.92)):
+        g.add_color_stop_rgba(st, 0.01, 0.015, 0.03, al * a)
+    ctx.set_source(g)
+    ctx.paint()
+    k = ease_out(lt / MOTION["title_settle_sec"])
+    if scale == 1.0:
+        lines, size, dh = [plan.title], title_fit_size(ctx, plan.title), 0.0
+    else:
+        lines, size = title_lines(ctx, plan.title, scale, line_gap, max_lines)
+        dh = (size * TITLE_CAP + (len(lines) - 1) * size * line_gap) - TITLE_CARD.title_size * TITLE_CAP   # 커진 제목 높이
+    top = TITLE_BASE_Y - dh / 2   # 첫 줄 기준선 — 위로 dh/2, 아래 요소는 아래로 dh/2(묶음 세로 중심 유지)
+    for i, ln in enumerate(lines):
+        y = top + (size * TITLE_CAP - TITLE_CARD.title_size * TITLE_CAP if scale != 1.0 else 0.0) + i * size * line_gap
+        text(ctx, ln, W_OUT / 2, y - (1 - k) * 10, size, "disp", (1, 1, 1), a * smooth((lt - 0.1) / MOTION["title_text_in_sec"]), 0, "c")
+    sh = dh / 2
+    ctx.set_source_rgba(*C["gold"], 0.95 * a)
+    lw = TITLE_CARD.rule_w * ease_io((lt - 0.5) / MOTION["title_rule_in_sec"])
+    ctx.rectangle(W_OUT / 2 - lw / 2, TITLE_RULE_Y + sh, lw, 1.6)
+    ctx.fill()
+    text(ctx, plan.subtitle if subtitle is None else subtitle, W_OUT / 2, TITLE_SUB_Y + sh, TITLE_CARD.subtitle_size, "serifb", (0.92, 0.9, 0.88),
+         a * smooth((lt - 0.8) / MOTION["title_text_in_sec"]), 0, "c")
+    text(ctx, badge_text(plan.date), W_OUT / 2, TITLE_DATE_Y + sh, 12, "mono", C["gold"], a * smooth((lt - 1.1) / MOTION["title_text_in_sec"]), 0, "c")
+    if border is not None:
+        draw_gold_border(ctx, border, a)
+    return {"lines": lines, "size": round(size, 2), "shift_px": round(sh, 2)}
+
+
+def draw_gold_border(ctx: cairo.Context, b: object, a: float = 1.0) -> None:
+    """최외곽에서 inset 만큼 안쪽 금빛 얇은 한 줄 + 옅은 번짐(rules thumbnail.border)."""
+    x0, y0, w, h = b.inset, b.inset, W_OUT - 2 * b.inset, H_OUT - 2 * b.inset
+    r = b.radius
+
+    def path() -> None:
+        ctx.new_path()
+        ctx.arc(x0 + w - r, y0 + r, r, -1.5708, 0)
+        ctx.arc(x0 + w - r, y0 + h - r, r, 0, 1.5708)
+        ctx.arc(x0 + r, y0 + h - r, r, 1.5708, 3.1416)
+        ctx.arc(x0 + r, y0 + r, r, 3.1416, 4.7124)
+        ctx.close_path()
+
+    if b.glow_width > 0 and b.glow_alpha > 0:
+        path()
+        ctx.set_source_rgba(*C["gold"], b.glow_alpha * a)
+        ctx.set_line_width(b.glow_width)
+        ctx.stroke()
+    path()
+    ctx.set_source_rgba(*C["gold"], b.alpha * a)
+    ctx.set_line_width(b.width)
+    ctx.stroke()

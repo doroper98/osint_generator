@@ -2741,6 +2741,43 @@ class FlightRules(_Strict):
     inset: FlightInsetRules
 
 
+class ThumbnailBorder(_Strict):
+    """금빛 얇은 테두리(설계 px, 색 C["gold"]). 최외곽에서 inset 만큼 안쪽에 한 줄 + 옅은 바깥 번짐."""
+
+    inset: float = Field(gt=0)
+    width: float = Field(gt=0, le=3.0)   # 얇은 선(UF-177 "금빛 얇은 선") — 3 설계px 넘으면 규칙 로드 오류
+    radius: float = Field(ge=0)
+    alpha: float = Field(gt=0, le=1)
+    glow_width: float = Field(ge=0)
+    glow_alpha: float = Field(ge=0, le=0.3)
+
+
+class ThumbnailRules(_Strict):
+    """v7.4.0 back_and_forth D-0320(사용자 의견 UF-177 "썸네일은 제목 페이지에서 제목을 좀 더 키우고 … 금빛 얇은 선 테두리") — tools/thumbnail.py.
+    장면·글자 배치 = 타이틀 카드(engine.fullcards.draw_title_card) 그대로, 제목만 title_scale 배."""
+
+    title_scale: float = Field(gt=1.0, le=2.5)
+    title_line_gap: float = Field(gt=0.8, le=1.6)   # 2줄 기준선 간격(em)
+    max_lines: Literal[1, 2] = 2
+    border: ThumbnailBorder
+    jpg_quality: int = Field(ge=60, le=100)
+    jpg_max_bytes: int = Field(gt=0)
+    width: int = Field(gt=0)
+    height: int = Field(gt=0)
+
+
+class DeliveryPackageRules(_Strict):
+    """v7.4.0 back_and_forth D-0320(UF-177 "영상 줄때 매번 만들어서 주는 규칙으로 하자. 제목, 설명, 태그, 썸네일") — tools/deliver_package.py.
+    네 항목 중 하나라도 없거나 한도를 넘으면 오류(P6)."""
+
+    items: list[Literal["title", "description", "tags", "thumbnail"]] = Field(min_length=4, max_length=4)
+    title_max_chars: int = Field(gt=0)
+    description_max_chars: int = Field(gt=0)
+    tags_max_chars: int = Field(gt=0)
+    hashtags_count: int = Field(ge=1)
+    key_links_max: int = Field(ge=1)
+
+
 class BorderGlowRules(_Strict):
     """v5.3.1 국경선 글로우(시안 — 사용자 제안 2026-10-02, valdai-2026 한정). 설계 px."""
 
@@ -4202,6 +4239,8 @@ class VideoRules(_Strict):
     cascade: CascadeRules                # v5.2.0 — 겹침 카드(사용자 재구성 2026-10-01, v5.3.0 D-0139 채택)
     quote_center: QuoteCenterRules       # v5.3.1 — 인물 발언 중앙 인용(시안, valdai-2026 한정)
     flight: FlightRules                  # v7.3.0 — 비행·착탄·위성 인셋(D-0206)
+    thumbnail: ThumbnailRules            # v7.4.0 — 썸네일(D-0320, UF-177)
+    delivery_package: DeliveryPackageRules   # v7.4.0 — 전달 패키지 네 항목(D-0320, UF-177)
     border_glow: BorderGlowRules         # v5.3.1 — 국경선 글로우(시안, direction stage_config.mercator.border_glow)
     data: DataRules                # v4.3.0 — D-0084 작업 1
     genre_prompt: GenrePromptRules  # v4.4.0 — D-0090 작업 1

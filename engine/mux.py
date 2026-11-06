@@ -42,9 +42,18 @@ class Description(BaseModel):
 
     schema_version: int = 1
     headline: str
-    summary: str
+    summary: str | list[str]                     # v7.4.0 D-0320 — 문단 목록 허용(전달 패키지 설명 요약 2문단)
     chapters: list[Chapter] = Field(min_length=1)
     footer: list[str] = Field(default_factory=list)
+    # v7.4.0 back_and_forth D-0320 §5(UF-177) — 전달 패키지(tools/deliver_package.py) 네 항목 중 제목·태그의 원천. 새 publish.yaml 대신 이 파일을 확장
+    title: str | None = None                     # 유튜브 제목(≤ rules delivery_package.title_max_chars)
+    alt_titles: list[str] = Field(default_factory=list)
+    tags: list[str] = Field(default_factory=list)
+    hashtags: list[str] = Field(default_factory=list)
+    key_links: list[str] = Field(default_factory=list)   # 설명 '주요 링크'(비면 매체별 첫 원문 링크 key_links_max 개)
+
+    def summary_paras(self) -> list[str]:
+        return [self.summary] if isinstance(self.summary, str) else list(self.summary)
 
 
 def srt_time(t: float) -> str:
@@ -83,7 +92,7 @@ def build_description(plan: Plan, d: Description, music: list[str] | None = None
     from audio.registry import description_line  # noqa: PLC0415
 
     ch = [f"{mmss(chapter_time(plan, c.at, i == 0))} {c.label}" for i, c in enumerate(d.chapters)]
-    parts = [d.headline, "", d.summary, "", "챕터", *ch]
+    parts = [d.headline, "", "\n\n".join(d.summary_paras()), "", "챕터", *ch]
     if d.footer:
         fmt = load_rules().credits.music_description
         mus = " · ".join(description_line(m, fmt) for m in music or [])

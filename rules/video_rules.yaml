@@ -1857,6 +1857,26 @@ flight:                    # v7.3.0 back_and_forth D-0206·D-0225(사용자 결�
     # 처음부터 고정(미끄러짐 0). 없을 때만 sticky + 보간. 표적 표지(같은 자리 marker) 라벨 상자는 늘 장애물(D-0305 ①)
     predict_keyframes: true
     move_headroom: 0.75          # 보간 시간은 move_sec 이 하한 — 거리가 길면 최고 속도 ≤ jump_px_max × 0.75 가 되게 늘린다(geo 콘티 판 v2.1: 0.6초 보간이 25px/프레임)
+thumbnail:                 # v7.4.0 back_and_forth D-0320(사용자 의견 UF-177, DECISIONS D540) — tools/thumbnail.py. 설계 px(480p)
+  # 타이틀 카드와 같은 장면·같은 그리기 함수(engine.fullcards.draw_title_card). 제목만 title_scale 배, 폭 > W × title_card.max_w_ratio 면 띄어쓰기에서 2줄
+  # (어절 안 자르기 금지), 2줄도 넘으면 줄임(title_card.title_min_size 미만 = 오류). 묶음(제목·금선·부제·날짜) 세로 중심은 타이틀 카드 그대로
+  title_scale: 1.6
+  title_line_gap: 1.08
+  max_lines: 2
+  border: {inset: 22, width: 1.2, radius: 2, alpha: 0.9, glow_width: 4, glow_alpha: 0.14}   # 금빛 얇은 한 줄 + 옅은 바깥 번짐(고급 = 절제)
+  jpg_quality: 92
+  jpg_max_bytes: 2000000     # 유튜브 썸네일 한도 2 MB
+  width: 1280
+  height: 720
+
+delivery_package:          # v7.4.0 back_and_forth D-0320(UF-177 "영상 줄때 매번 … 제목, 설명, 태그, 썸네일") — tools/deliver_package.py. 한도 = 유튜브
+  items: [title, description, tags, thumbnail]
+  title_max_chars: 100
+  description_max_chars: 5000
+  tags_max_chars: 500        # 유튜브 계산: 태그 글자 + 쉼표 + 띄어쓰기 있는 태그는 따옴표 2
+  hashtags_count: 3
+  key_links_max: 4           # 설명문 주요 링크 수(전체 목록은 out/description_full.txt)
+
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)
   # 겹침(checks island_overlap hard, Q3 A): 같은 순간 보이는 아일랜드 제자리 상자(그림자·슬라이드 경로 제외)끼리 교차 > 0, 자막 구역(reserved_zones.subtitle) 교차.
