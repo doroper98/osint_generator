@@ -2836,8 +2836,9 @@ entries:
   quote: "빨리 내놔 완성본"
   quote_kind: verbatim
   category: "전달 — 완성본 우선. 게이트 순서(프리뷰 승인 → 전편)는 지키되, 승인 전에 할 수 있는 준비(720p 3D 미리 그리기 등)는 미리 하고 기다리는 시간을 줄인다"
-  guards: []
-  status: open
+  guards:
+  - {kind: test, ref: tests/test_gate_packet.py::GatePacketTest::test_a_gate2_from_packet_without_out}
+  status: guarded
   decision: "D-0631(back_and_forth) — 완성본 단축 순서"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-05"
 - id: UF-265
@@ -2861,8 +2862,10 @@ entries:
   quote_kind: verbatim
   category: "전달 — 완성본 재촉(재발). 사전 승인을 받은 게이트를 다른 세션 권한 장치가 막아 사용자에게 세션을 옮겨 다시 입력하게 한 절차 마찰이 원인. 사전 승인은 처음부터 기록할 세션에서 받도록 절차를 고친다"
   recurs_of: UF-264
-  guards: []
-  status: open
+  guards:
+  - {kind: test, ref: tests/test_gate_packet.py::GatePacketTest::test_a_gate2_from_packet_without_out}
+  - {kind: test, ref: tests/test_gate_packet.py::GatePacketTest::test_b_digest_mismatch_or_missing_rejected}
+  status: guarded
   decision: "감독 판단(DECISIONS D747) — 이번 영상은 사용자가 구현 세션에 한 줄 입력하는 길만 남음(권한 장치 우회 금지). 전달 뒤 PIPELINE-AP 기록과 절차 장치(게이트 사전 승인은 기록 세션에서 직접 받기)"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-06"
 - id: UF-267
@@ -2873,8 +2876,11 @@ entries:
   quote_kind: verbatim
   category: "작업 순서 — 사용자 교신 창구는 감독 세션 하나. 사용자에게 다른 세션으로 옮겨 입력하게 하지 않는다. 사용자 게이트 승인은 사용자가 말한 세션(감독)에서 기록하고, 구현 세션은 그 기록을 읽어 진행한다"
   recurs_of: UF-266
-  guards: []
-  status: open
+  guards:
+  - {kind: test, ref: tests/test_gate_packet.py::GatePacketTest::test_a_gate2_from_packet_without_out}
+  - {kind: test, ref: tests/test_gate_packet.py::GatePacketTest::test_c_script_changed_rejected}
+  - {kind: test, ref: tests/test_gate_packet.py::GatePacketTest::test_e_gate1_from_packet}
+  status: guarded
   decision: "감독 판단(DECISIONS D748, back_and_forth D-0633) — 원인: 구현 세션 권한 장치는 그 세션에 사람이 직접 친 승인만 받는다(다른 세션 전달 = 사람 입력 아님). 감독 D-0632 가 승인을 감독 세션에서 받고 기록은 구현에 맡겼다. 장치: 게이트 자료와 함께 승인 검사 입력(gate packet)을 git 에 올리고, 감독 세션이 approve 를 직접 실행(code·test, 다음 영상 게이트 전 — C12-2). 절차 규칙은 back_and_forth/README.md §9 게이트 승인 기록 자리(실패를 내는 장치 아님 → status open 유지)"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-06"
 - id: UF-268
@@ -2884,8 +2890,9 @@ entries:
   quote: "30메가 넘으면 분할해서 보내줘"
   quote_kind: verbatim
   category: "전달 — 30MB 를 넘는 영상은 화질을 깎아 맞추지 말고 30MB 이하 조각으로 나눠 보낸다. 조각은 키프레임 경계에서 재인코딩 없이 자르고, 순서·길이·md5 를 함께 적는다"
-  guards: []
-  status: open
+  guards:
+  - {kind: test, ref: tests/test_final_deliver.py::DeliverTest::test_over_limit_splits_keyframe_pieces}
+  status: guarded
   decision: "감독 판단(DECISIONS D749) — 칸나이: 30MB 이하 한 파일(final_deliver)과 고화질 원본(렌더 출력)의 30MB 이하 조각을 함께 보낸다. 전달 뒤 장치: 전달 도구가 30MB 초과 원본을 조각으로 나누고 조각마다 크기·이어 붙인 길이를 검사"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-06"
 - id: UF-269
@@ -2895,7 +2902,9 @@ entries:
   quote: "꼭 분할이 필요한 상황이라면 말이지"
   quote_kind: verbatim
   category: "전달 — UF-268 의 범위 한정. 분할은 보낼 파일이 30MB 를 넘을 때만 한다. 30MB 이하 한 파일로 보낼 수 있으면 조각을 따로 만들어 보내지 않는다"
-  guards: []
-  status: open
+  guards:
+  - {kind: test, ref: tests/test_final_deliver.py::NeedsSplitTest::test_only_over_limit}
+  - {kind: test, ref: tests/test_final_deliver.py::DeliverTest::test_under_limit_makes_no_parts_and_clears_old}
+  status: guarded
   decision: "감독 판단(DECISIONS D750) — D749 의 '조각도 함께'를 취소. 칸나이는 final_deliver 30MB 이하 한 파일만. 전달 뒤 장치: 전달 도구가 30MB 초과일 때만 조각을 만들고, 이하이면 조각을 만들지 않음을 시험으로 고정"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-06"
