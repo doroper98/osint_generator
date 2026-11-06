@@ -3747,7 +3747,8 @@ def visual_voids(P) -> list[tuple[float, float]]:  # noqa: ANN001, N803
     moves = [(k.t, k.t + k.dur) for k in (getattr(P, "keys", None) or []) if k.mode == "move" and k.dur > 0]
     moves += [(e["t0"], e["t1"]) for e in P.events if e["type"] == "dip"]   # 어둡게 넘기는 전환(dip)도 전환 — 빈 구간이 아니다
     spans = [(e["t0"], e["t1"]) for e in P.events if e["type"] in kinds]
-    spans += [(s.t_in, s.t_out) for s in (P.R.cache.get("terrain3d_segments") or [])]   # v7.4.0 D-0615 — 구간 = 움직이는 부대 대형(빈 지도 아님)
+    half = load_rules().stage_terrain3d.seam_sec / 2   # v7.4.0 D-0634 §3-2 — 부대가 반쯤 떠오른 뒤부터(들어감 이음 동안은 지형만 보인다)
+    spans += [(s.t_in + half, s.t_out) for s in ((getattr(P.R, "cache", None) or {}).get("terrain3d_segments") or [])]   # v7.4.0 D-0615 — 구간 = 움직이는 부대 대형(빈 지도 아님)
     out: list[tuple[float, float]] = []
     run0 = None
     t = start
@@ -3800,7 +3801,8 @@ def check_scene_visual_void(P, provenance: dict | None = None) -> list[str]:  # 
     vs = visual_voids(P)
     if provenance is not None:
         provenance["visual_void"] = [list(v) for v in vs]
-    mx = QA.visual_void_max_sec
+    genre = ((getattr(P.R, "cache", None) or {}).get("genre") or {}).get("name")
+    mx = QA.visual_void_max_sec_by_genre.get(genre or "", QA.visual_void_max_sec)   # v7.4.0 D-0634 §3-2 — 장르별 상한
     return [f"[scene-visual-void] {a:.1f}~{b:.1f}초 ({b - a:.1f}초) 지도·배경만 보인다 — 상한 {mx:g}초. 그 문장이 말하는 대상의 마커·사진·기사·패널로"
             " 채운다(D-0312, 연출 revise_direction)" for a, b in vs if b - a >= mx]
 

@@ -28,7 +28,7 @@ shots:
   - {at: {sid: prelude_0}, mode: move, dur: 6.0, camera: {lon: 16.75, lat: 41.4, w: 3.2}, reason: 칸나이 지명 유래 줄이 오른쪽으로 길다 — 중심을 동쪽에}
   - {at: {sid: prelude_5}, mode: drift, dur: 10.0, camera: {lon: 16.85, lat: 41.38, w: 3.2}}
   - {at: {sid: prelude_10}, mode: move, dur: 5.2, camera: {lon: 16.111, lat: 41.335, w: 0.32}, reason: "D-0631 §2-3 — 확대를 G 원천(2400ppd) 안 폭 0.32까지만. 0.29~0.105 는 G 도 K 도 못 덮어(720p 3.0배) 속도 상한 1.3 으로는 0.75초 안에 못 지난다 — 나머지 확대는 deployment_1 의 3D 컷(같은 중심)이 맡는다([basemap-upscale])"}
-  - {at: {sid: deployment_0}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, reason: "D-0632 — 2D 안에서 폭 0.32 → 0.09 컷(같은 중심). 3D 들어감은 같은 화면에서 이어 받는다([terrain3d-seam] — 3D 입구에서 확대 컷을 하면 화소 차 19 > 12)"}
+  - {at: {sid: deployment_1, 'off': -0.5}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, reason: "D-0632 — 2D 안에서 폭 0.32 → 0.09 컷(같은 중심), 3D 들어감은 같은 화면에서([terrain3d-seam]). D-0634 §3-2 — 컷을 3D 들어감 0.5초 전으로(옛 deployment_0 컷은 지형만 3.4초, [scene-visual-void] 전쟁사 상한 2초)"}
   - {at: {sid: deployment_1}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, stage: terrain3d, reason: "진형 중심(16.111·41.335)이 화면 가운데 — UF-255·D-0625"}
   - {at: {sid: deployment_8, 'off': 0.4}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.09}, reason: "타니트 카드 — 3D 를 걷고 2D 지형 위 카드(전면 컷어웨이, D-0625 (나))"}
   - {at: {sid: deployment_10}, mode: cut, dur: 0.0, camera: {lon: 16.111, lat: 41.335, w: 0.1}, stage: terrain3d, reason: 카드가 걷힌 뒤 가운데 진형으로}
@@ -49,6 +49,7 @@ shots:
 events:
   - {type: marker, start: {sid: prelude_0, 'off': 6.2}, end: {sid: prelude_5, edge: end}, at_place: cannae, label: 칸나이, toponymy: cannae}
   - {type: marker, start: {sid: prelude_8, 'off': 0.4}, end: {sid: prelude_9, edge: end}, at_place: cannae, label: 칸나이}
+  - {type: marker, start: {sid: prelude_10, 'off': 4.6}, end: {sid: deployment_1, 'off': -0.6}, at_place: cannae, label: 칸나이}   # D-0634 §3-2 — 확대가 끝난 폭 0.32 화면에 전장 위치(빈 지형 구간 채움)
   - {type: photo, start: {sid: prelude_6, 'off': 0.2}, end: {sid: prelude_6, edge: end, 'off': 0.6}, mid: cannae_bust, for: 대리석 흉상, place: map_pair_right}
   - {type: photo, start: {sid: prelude_7, 'off': 0.2}, end: {sid: prelude_8, 'off': 0.3}, mid: cannae_coin, for: 은화}
   - {type: photo, start: {sid: deployment_8, 'off': 0.6}, end: {sid: deployment_9, edge: end, 'off': 0.6}, mid: cannae_tanit, for: 석회암 비석, place: map_pair_right}

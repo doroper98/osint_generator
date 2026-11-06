@@ -2059,6 +2059,7 @@ class QAChecks(_Strict):
     regression_refs: dict[str, str] = Field(default_factory=dict)
     # v7.4.0 D-0312 §1-1 — [scene-visual-void] hard: 요소 없는 구간 상한(초)·표본 간격·요소로 치는 이벤트 종류
     visual_void_max_sec: float = Field(default=5.0, gt=0)
+    visual_void_max_sec_by_genre: dict[str, float] = Field(default_factory=dict)   # v7.4.0 D-0634 §3-2 — 장르별 빈 구간 상한
     visual_void_step_sec: float = Field(default=0.1, gt=0)
     visual_void_types: list[str] = Field(default_factory=list)
     regression_ref_checks: list[str] = Field(default_factory=list)

@@ -2404,6 +2404,9 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # v7.4.0 back_and_forth D-0312 §1-1 — 지도·배경만 보이는 구간(아래 요소 하나도 안 보임)이 이 초 이상이면 [scene-visual-void] hard.
   # 콜드 오픈(타이틀 카드 전)·타이틀·엔딩 카드·카메라 이동(move)·dip 전환 중은 제외. provenance visual_void 에 구간 목록. 값 = 감독 제안(D-0312)
   visual_void_max_sec: 5
+  # v7.4.0 D-0634 §3-2(칸나이 v1 1:50~1:54 — 2D 컷 뒤 3D 부대가 떠오르기 전 지형만 약 4초) — 장르별 상한(초). terrain3d 구간은 부대가 반쯤 떠오른 뒤
+  # (t_in + stage_terrain3d.seam_sec / 2)부터 요소로 친다
+  visual_void_max_sec_by_genre: {war_history: 2.0}
   visual_void_step_sec: 0.1
   visual_void_types: [marker, route, flight, badge, photo, clip, cutout, article, post, quote, panel, island, cascade, primitive, series, boom, ships, tanker_loop, barrier]
   regression_refs:
