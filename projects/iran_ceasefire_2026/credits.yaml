@@ -1,0 +1,106 @@
+# 『휴전안』 엔딩 크레딧 (v7.4.0, D-0450). 보도 출처 = 장면별 인용 매체(auto: press, D243). 기사 카드·사진 행은 연출 뒤 실제로 쓴 미디어만 남긴다.
+schema_version: 1
+sections:
+- title: 보도 출처
+  column: 0
+  auto: press
+- title: 기사 카드
+  column: 0
+  items:
+  - main: 헤드라인 번역·요지 자체 조판(위 보도)
+    license: 기사 화면 캡처·로고 없음
+    rights:
+    - media.iran_ceasefire_2026_art_0005
+    - media.iran_ceasefire_2026_art_0043
+    - media.iran_ceasefire_2026_art_0047
+    - media.iran_ceasefire_2026_art_0057
+    - media.iran_ceasefire_2026_art_0071
+- title: 사진·영상
+  column: 0
+  items:
+  - main: 미 국방부 공개 영상 · '에픽 퓨리' 작전 타격 (2026. 03. 01)
+    license: 미 국방부 · Public domain
+    rights:
+    - media.iran_epic_fury_video
+  - main: 호르무즈 해협 위성 사진 (2020. 12. 04)
+    license: NASA · Public domain
+    rights:
+    - media.iran_hormuz_modis
+  - main: 이슬라마바드 회담장 입구(2026년 4월) (2026. 04. 11)
+    license: 메흐르통신 Hamed Malekpour (CC BY 4.0) · CC BY 4.0
+    rights:
+    - media.iran_islamabad_talks
+  - main: 미 해군 헬기의 이란 봉쇄 작전 감시(4월) (2026. 04. 25)
+    license: 미 해군 중부사령부 · Public domain
+    rights:
+    - media.iran_blockade_apr_video
+  - main: 이란 해상 봉쇄 작전 중인 미 해군 상륙함 뉴올리언스 (2026. 04. 28)
+    license: 미 국방부 · Public domain
+    rights:
+    - media.iran_uss_new_orleans_blockade
+  - main: 미 중부사령부 공개 영상 · 이란 군사 목표 보복 타격 (2026. 07. 07)
+    license: 미 중부사령부 · Public domain
+    rights:
+    - media.iran_strikes_jul_video
+  - main: 봉쇄 검문 — 유조선에 내리는 미 해병대 헬기 (2026. 07. 16)
+    license: 미 해군 중부사령부 · Public domain
+    rights:
+    - media.iran_marines_boarding
+  - main: 취재진 앞의 아라그치 이란 외무장관(모스크바) (2026. 04. 27)
+    license: kremlin.ru (CC BY 4.0) · CC BY 4.0
+    rights:
+    - media.iran_araghchi_moscow
+  - main: 국제우주정거장에서 본 호르무즈 해협과 오만만(야간) (2016. 01. 23)
+    license: NASA · Public domain
+    rights:
+    - media.iran_hormuz_night_iss
+  - main: 모흐센 레자이 최고국가안보회의 사무총장 (2020. 06. 26)
+    license: khamenei.ir (CC BY 4.0) · CC BY 4.0
+    rights:
+    - media.iran_rezaee_2020
+  - main: 페르시아만 원유 터미널에서 원유를 싣는 유조선 (2005. 11. 11)
+    license: 미 해군 · Public domain
+    rights:
+    - media.iran_tanker_abot_2005
+  - main: 파테메 모하제라니 이란 정부 대변인 브리핑 (2026. 01. 27)
+    license: Mehr News Agency · Fatemeh Mirahmadi (CC BY 4.0) · CC BY 4.0
+    rights:
+    - media.iran_mohajerani_0127
+  - main: 호르무즈 해협 일대 부대를 찾은 미 중부사령관 (2026. 10. 23)
+    license: 미 중부사령부 · Public domain
+    rights:
+    - media.iran_centcom_cdr_hormuz_1023
+- title: 글꼴
+  column: 1
+  auto: fonts
+- title: 지도
+  column: 1
+  auto: map
+- title: 국기
+  column: 1
+  items:
+  - main: 국기
+    license: flag-icons · MIT
+    rights:
+    - flags.flag_icons
+- title: 인물 사진
+  column: 1
+  auto: people
+- title: 음악
+  column: 1
+  items:
+  - music: music.zabriskie_mario_bava
+- title: 음성
+  column: 1
+  items:
+  - main: 내레이션
+    license: AI 음성 합성
+    rights:
+    - narration.tts
+- title: 표기
+  column: 1
+  slot: notice
+  items:
+  - main: 호르무즈 통항·기뢰 주장은 양측 발표로 독립 확인되지 않음
+    license: 카타르 초안 세부·공격 준비 보도는 익명 관리 인용 · 해석은 각 기관 견해
+    rights: []

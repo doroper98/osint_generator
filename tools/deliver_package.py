@@ -146,9 +146,12 @@ def make_package(proj: Path) -> dict:
     from engine.project import load_project  # noqa: PLC0415
 
     d = load_description(proj)
-    P = load_project(proj)  # noqa: N806 — 권리 점검을 다시 통과한 자산만 크레딧 줄에 오른다
     od = proj / "out"
-    desc = build_package_description(P, d)
+    if d.description_text:   # v7.4.0 D-0322 — 사람이 쓴 전문(지난 영상, 렌더 준비물 없음). 원문 링크 전부 기록은 그 영상 credits·고정 댓글
+        P, desc, src = None, d.description_text.strip() + "\n", "description_text"  # noqa: N806
+    else:
+        P = load_project(proj)  # noqa: N806 — 권리 점검을 다시 통과한 자산만 크레딧 줄에 오른다
+        desc, src = build_package_description(P, d), "generated"
     thumb = od / "thumbnail.jpg"
     errs = check_package(d.title, desc, d.tags, d.hashtags, thumb)
     if errs:
@@ -159,7 +162,8 @@ def make_package(proj: Path) -> dict:
     (dd / "description.txt").write_text(desc, encoding="utf-8")
     (dd / "tags.txt").write_text(", ".join(d.tags) + "\n", encoding="utf-8")
     shutil.copyfile(thumb, dd / "thumbnail.jpg")
-    (od / "description_full.txt").write_text(build_package_description(P, d, full=True), encoding="utf-8")
+    if P is not None:
+        (od / "description_full.txt").write_text(build_package_description(P, d, full=True), encoding="utf-8")
     names = ["title.txt", "description.txt", "tags.txt", "thumbnail.jpg"]
     md5 = {n: hashlib.md5((dd / n).read_bytes()).hexdigest() for n in names}
     (dd / "MD5SUMS").write_text("".join(f"{v}  {k}\n" for k, v in md5.items()), encoding="utf-8")
@@ -167,7 +171,7 @@ def make_package(proj: Path) -> dict:
 
     DP = load_rules().delivery_package  # noqa: N806
     rec = {"schema_version": 1, "items": DP.items, "title_chars": len(d.title), "alt_titles": len(d.alt_titles),
-           "description_chars": len(desc), "tags": len(d.tags), "tags_chars": tags_chars(d.tags), "hashtags": d.hashtags,
+           "description_chars": len(desc), "description_source": src, "tags": len(d.tags), "tags_chars": tags_chars(d.tags), "hashtags": d.hashtags,
            "limits": {"title": DP.title_max_chars, "description": DP.description_max_chars, "tags": DP.tags_max_chars},
            "chapters": len(d.chapters), "md5": md5}
     pv = od / "provenance.json"

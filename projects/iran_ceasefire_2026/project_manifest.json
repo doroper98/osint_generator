@@ -1,0 +1,625 @@
+{
+  "schema_version": 2,
+  "project_id": "iran_ceasefire_2026",
+  "title": "휴전안 — 미국과 이란, 무엇이 먼저 풀려야 하나",
+  "category": "geopolitics",
+  "created_at": "2026-11-01T00:29:59.874133Z",
+  "updated_at": "2026-11-02T11:47:29.181419Z",
+  "current_state": "done",
+  "target_duration_min": 18,
+  "topic_summary": "2026년 미국·이란 전쟁의 휴전안 정리(9월 말 이란 7일안~10/31 도하)와 휴전 가능성의 조건부 시나리오·신호",
+  "initial_links": [],
+  "paths": {
+    "sources": "intake/sources.json",
+    "claims": "intake/claims.json",
+    "screenshots": "intake/screenshots",
+    "script": "script.yaml",
+    "script_labels": "script_labels.json",
+    "plan": "plan.json",
+    "tts": "tts",
+    "assets": "assets",
+    "media": "media",
+    "direction": "direction.yaml",
+    "prev": "prev",
+    "prev_sheet": "prev/sheet.jpg",
+    "prev_provenance": "prev/provenance.json",
+    "out": "out",
+    "final": "out/final.mp4",
+    "provenance": "out/provenance.json"
+  },
+  "render_mode_status": {},
+  "gate_decisions": [
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-11-01T02:23:52.355835Z",
+      "comment": "사용자 위임 D-0334(원문 '완성본으로 바로 받을 수 있도록') · D-0453 조건 반영 v1.2(66문장, sha1 4a47c0a2) 감독 확인",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/iran_ceasefire_2026/script.yaml",
+        "lint_errors": "6",
+        "lint_warnings": "0",
+        "est_sec": "388.5",
+        "media_plan_errors": "0",
+        "script_sha1": "4a47c0a2fb8544a1af3ae8e4b78f33ba7f294305",
+        "media_plan": "사진 0/8 · 기사 후보 66문장 · 483초(plan)"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-11-01T09:19:36.997324Z",
+      "comment": "사용자 위임 D-0334(원문 '완성본으로 바로 받을 수 있도록') · D-0460 — 콘티 판 v4 md5 f89cd4b9 + 프리뷰 hard 0 감독 확인, 골든 25 환경 의존 미판정(D560)",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/sheet.jpg",
+        "cuts": "0",
+        "media_used": "quote 5 · article 6 · real 13",
+        "quote_candidates": "6",
+        "animatic": "out/animatic.mp4 · 483.031초 · direction 3525efd481a44b08f3197ac4b96172e4afcaaa80 · script 4a47c0a2fb",
+        "user_feedback": "사용자 의견 167건 모두 장치 있음(최근 UF-206)",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-11-01T13:38:07.451193Z",
+      "comment": "사용자 위임 D-0334 · D-0463(콘티 판 v5 f2796da0, 연출 v9, UF-171·172 반영) · 프리뷰 v2 hard 0(R-0316)",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/sheet.jpg",
+        "cuts": "0",
+        "media_used": "quote 4 · article 4 · real 13",
+        "quote_candidates": "6",
+        "animatic": "out/animatic.mp4 · 483.031초 · direction 74a78df029e265e85d4c2d1342d2e967340644e2 · script 4a47c0a2fb",
+        "user_feedback": "사용자 의견 169건 모두 장치 있음(최근 UF-206)",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-11-02T10:11:11.767547Z",
+      "comment": "사용자 위임 D-0334 · D-0470(콘티 판 v6 7a63dc52, 연출 v10, UF-173 반영) · 프리뷰 v3 hard 0(R-0323)",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/sheet.jpg",
+        "cuts": "0",
+        "media_used": "quote 4 · article 3 · real 13",
+        "quote_candidates": "6",
+        "animatic": "out/animatic.mp4 · 483.031초 · direction fc6f3e210b7476284c04ddffe2b26dc350b8fa86 · script 4a47c0a2fb",
+        "user_feedback": "경고: 이 영상 의견 1건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-173 \"아니 처음부터 사진을 띄워서 뒤에 지도가 안보이게 하면 뭐 어쩌자는거야?\"",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "fable",
+      "at": "2026-11-02T11:09:33.466387Z",
+      "comment": "사용자 위임 D-0334 · 크레딧 표기 정정만(트럼프·하메네이 초상 출처, 1f5e0987·da651f1) — 연출 53d1b3c2 불변, 콘티 판 v6 7a63dc52",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/sheet.jpg",
+        "cuts": "0",
+        "media_used": "quote 4 · article 3 · real 13",
+        "quote_candidates": "6",
+        "animatic": "out/animatic.mp4 · 483.031초 · direction fc6f3e210b7476284c04ddffe2b26dc350b8fa86 · script 4a47c0a2fb",
+        "user_feedback": "경고: 이 영상 의견 1건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-173 \"아니 처음부터 사진을 띄워서 뒤에 지도가 안보이게 하면 뭐 어쩌자는거야?\"",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    }
+  ],
+  "stage_records": [
+    {
+      "state": "voice_timeline",
+      "stage": "plan",
+      "ok": true,
+      "at": "2026-11-01T02:39:00.636133Z",
+      "artifacts": {
+        "plan": "/home/user/osint_generator/projects/iran_ceasefire_2026/plan.json",
+        "tts": "/home/user/osint_generator/projects/iran_ceasefire_2026/tts"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/01_plan.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets",
+      "ok": true,
+      "at": "2026-11-01T02:46:24.454277Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/iran_ceasefire_2026/assets",
+        "report": "/home/user/osint_generator/projects/iran_ceasefire_2026/assets/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/02_assets.json"
+    },
+    {
+      "state": "assets",
+      "stage": "assets_final",
+      "ok": true,
+      "at": "2026-11-01T02:47:53.912666Z",
+      "artifacts": {
+        "assets": "/home/user/osint_generator/projects/iran_ceasefire_2026/assets/res_720p",
+        "report": "/home/user/osint_generator/projects/iran_ceasefire_2026/assets/res_720p/geo_report.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/03_assets_final.json"
+    },
+    {
+      "state": "direction",
+      "stage": "director",
+      "ok": false,
+      "at": "2026-11-01T03:30:53.137718Z",
+      "artifacts": {},
+      "errors": [
+        "director 입력 오류: FileNotFoundError: [Errno 2] No such file or directory: '/home/user/osint_generator/projects/iran_ceasefire_2026/labels.yaml'"
+      ],
+      "drops": 0,
+      "log": "logs/stages/04_director.json"
+    },
+    {
+      "state": "direction",
+      "stage": "director",
+      "ok": false,
+      "at": "2026-11-01T03:59:08.312114Z",
+      "artifacts": {
+        "out0": "llm_calls/llm_20261101_034750_a7c8.json"
+      },
+      "errors": [
+        "check_parsed: 이벤트 검증 실패(렌더 시작 전):\n[39] panel: 1 validation error for PanelDualLine\n  Value error, dual_line unit '달러' 는 rules data.units 에 없다 [type=value_error, input_value={'type': 'panel', 't0': 2...17.64], 'decimals': 2}]}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error\n[44] panel: 1 validation error for PanelChecklist\nitems\n  List should have at most 4 items after validation, not 5 [type=too_long, input_value=['해협 통항 선박 ...', '레바논 전선'], input_type=list]\n    For further information visit https://errors.pydantic.dev/2.13/v/too_long"
+      ],
+      "drops": 0,
+      "log": "logs/stages/05_director.json"
+    },
+    {
+      "state": "direction",
+      "stage": "director",
+      "ok": false,
+      "at": "2026-11-01T04:29:13.953771Z",
+      "artifacts": {
+        "out0": "llm_calls/llm_20261101_041416_4de2.json"
+      },
+      "errors": [
+        "check_parsed: 크레딧·권리 점검 실패:\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0005\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0015\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0019\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0022\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0038\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0043\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0047\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0056\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0057\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0064\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0071\n엔딩 크레딧 누락: media.iran_doha_skyline_09\n엔딩 크레딧 누락: media.iran_hormuz_night_iss\n엔딩 크레딧 누락: media.iran_islamabad_talks\n엔딩 크레딧 누락: media.iran_tehran_2026\n엔딩 크레딧 누락: media.iran_uss_new_orleans_blockade"
+      ],
+      "drops": 0,
+      "log": "logs/stages/06_director.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-11-01T04:32:50.532537Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/iran_ceasefire_2026/script.yaml",
+        "label_counts": "{\"verified\": 12, \"corroborated\": 46, \"unverified\": 3, \"disputed\": 5}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/07_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": false,
+      "at": "2026-11-01T04:34:37.373735Z",
+      "artifacts": {},
+      "errors": [
+        "크레딧·권리 점검 실패:\n엔딩 크레딧 누락: media.iran_araghchi_moscow\n엔딩 크레딧 누락: media.iran_blockade_apr_video\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0005\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0015\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0019\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0022\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0038\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0043\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0047\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0056\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0057\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0064\n엔딩 크레딧 누락: media.iran_ceasefire_2026_art_0071\n엔딩 크레딧 누락: media.iran_doha_skyline\n엔딩 크레딧 누락: media.iran_doha_skyline_09\n엔딩 크레딧 누락: media.iran_epic_fury_video\n엔딩 크레딧 누락: media.iran_hormuz_modis\n엔딩 크레딧 누락: media.iran_hormuz_night_iss\n엔딩 크레딧 누락: media.iran_islamabad_talks\n엔딩 크레딧 누락: media.iran_marines_boarding\n엔딩 크레딧 누락: media.iran_strikes_jul_video\n엔딩 크레딧 누락: media.iran_tehran_2026\n엔딩 크레딧 누락: media.iran_uss_dextrous_mcm\n엔딩 크레딧 누락: media.iran_uss_new_orleans_blockade"
+      ],
+      "drops": 0,
+      "log": "logs/stages/08_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-11-01T04:36:19.735623Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/iran_ceasefire_2026/script.yaml",
+        "label_counts": "{\"verified\": 12, \"corroborated\": 46, \"unverified\": 3, \"disputed\": 5}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/09_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-11-01T04:38:49.785726Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/iran_ceasefire_2026/direction.yaml",
+        "summary": "{\"camera_keys\": 10, \"events\": 86, \"frames\": 11592}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/10_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": true,
+      "at": "2026-11-01T04:41:22.595328Z",
+      "artifacts": {
+        "camera_suggest": "/home/user/osint_generator/projects/iran_ceasefire_2026/prev/camera_suggest.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/11_camera_suggest.json"
+    },
+    {
+      "state": "render",
+      "stage": "render",
+      "ok": false,
+      "at": "2026-11-02T10:15:50.609602Z",
+      "artifacts": {},
+      "errors": [
+        "지형 티어 없음: /home/user/osint_generator/projects/iran_ceasefire_2026/assets/theme_light/res_720p/tiers.pkl — `python -m geo.prep /home/user/osint_generator/projects/iran_ceasefire_2026 --res 720p --theme light` 먼저"
+      ],
+      "drops": 0,
+      "log": "logs/stages/12_render.json"
+    },
+    {
+      "state": "render",
+      "stage": "render",
+      "ok": false,
+      "at": "2026-11-02T10:16:10.260805Z",
+      "artifacts": {},
+      "errors": [
+        "지형 티어 없음: /home/user/osint_generator/projects/iran_ceasefire_2026/assets/theme_light/res_720p/tiers.pkl — `python -m geo.prep /home/user/osint_generator/projects/iran_ceasefire_2026 --res 720p --theme light` 먼저"
+      ],
+      "drops": 0,
+      "log": "logs/stages/13_render.json"
+    },
+    {
+      "state": "render",
+      "stage": "render",
+      "ok": false,
+      "at": "2026-11-02T10:16:29.022535Z",
+      "artifacts": {},
+      "errors": [
+        "지형 티어 없음: /home/user/osint_generator/projects/iran_ceasefire_2026/assets/theme_light/res_720p/tiers.pkl — `python -m geo.prep /home/user/osint_generator/projects/iran_ceasefire_2026 --res 720p --theme light` 먼저"
+      ],
+      "drops": 0,
+      "log": "logs/stages/14_render.json"
+    },
+    {
+      "state": "render",
+      "stage": "render",
+      "ok": true,
+      "at": "2026-11-02T10:45:16.442848Z",
+      "artifacts": {
+        "video_noaudio": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/video_noaudio.mp4"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/15_render.json"
+    },
+    {
+      "state": "audio_mix",
+      "stage": "mix",
+      "ok": true,
+      "at": "2026-11-02T10:48:23.554079Z",
+      "artifacts": {
+        "mix": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/mix.f32",
+        "bed_stats": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/bed_stats.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/16_mix.json"
+    },
+    {
+      "state": "deliver",
+      "stage": "deliver",
+      "ok": true,
+      "at": "2026-11-02T10:56:11.170442Z",
+      "artifacts": {
+        "final": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/final.mp4",
+        "srt": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/final.srt",
+        "description": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/description.txt",
+        "credits": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/credits.txt",
+        "provenance": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/provenance.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/17_deliver.json"
+    },
+    {
+      "state": "render",
+      "stage": "render",
+      "ok": true,
+      "at": "2026-11-02T11:37:01.102743Z",
+      "artifacts": {
+        "video_noaudio": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/video_noaudio.mp4"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/18_render.json"
+    },
+    {
+      "state": "audio_mix",
+      "stage": "mix",
+      "ok": true,
+      "at": "2026-11-02T11:40:14.741607Z",
+      "artifacts": {
+        "mix": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/mix.f32",
+        "bed_stats": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/bed_stats.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/19_mix.json"
+    },
+    {
+      "state": "deliver",
+      "stage": "deliver",
+      "ok": true,
+      "at": "2026-11-02T11:47:29.177236Z",
+      "artifacts": {
+        "final": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/final.mp4",
+        "srt": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/final.srt",
+        "description": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/description.txt",
+        "credits": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/credits.txt",
+        "provenance": "/home/user/osint_generator/projects/iran_ceasefire_2026/out/provenance.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/20_deliver.json"
+    }
+  ],
+  "final_outputs": {},
+  "state_history": [
+    {
+      "from_state": "created",
+      "to_state": "intake",
+      "transitioned_at": "2026-11-01T00:45:08.374462Z",
+      "reason": "D-0450 §3 — 세션 도구(WebSearch) 조사로 sources 32·claims 39 작성(검색 요약 대조, 원문 호스트 차단)"
+    },
+    {
+      "from_state": "intake",
+      "to_state": "source_verify",
+      "transitioned_at": "2026-11-01T00:45:08.859287Z",
+      "reason": "확인 opus(사용자 위임 D-0334) — URL·매체·게시일 대조"
+    },
+    {
+      "from_state": "source_verify",
+      "to_state": "research",
+      "transitioned_at": "2026-11-01T00:45:09.537255Z",
+      "reason": "claims 판정 수동(D-0450 §3 보도 2건 이상·당사자 원문 대조, 감독 조사표 D-0451 대조 예정)"
+    },
+    {
+      "from_state": "research",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-11-01T00:56:54.220889Z",
+      "reason": "원고 v1 — claims 44 에서 작성(D-0450 §3·§4), lint 오류 0·경고 0, slop 0"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-11-01T00:58:49.809469Z",
+      "reason": "원고 v1 확정(82문장, 린트 오류 0·경고 0) — 게이트 ① 감독 위임(D-0334)"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-11-01T02:23:52.355911Z",
+      "reason": "script_approval 승인 — fable"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "assets",
+      "transitioned_at": "2026-11-01T02:39:00.639487Z",
+      "reason": "engine plan ok"
+    },
+    {
+      "from_state": "assets",
+      "to_state": "direction",
+      "transitioned_at": "2026-11-01T02:47:53.925526Z",
+      "reason": "engine assets, assets_final ok"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-11-01T04:41:22.597305Z",
+      "reason": "engine direction_validate, validate, camera_suggest ok"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-11-01T09:17:28.888294Z",
+      "reason": "프리뷰 --preview auto hard 0(구현 세션 R-0314, artifacts 5096dbf preview/) — 엔진 CLI 직접 실행이라 상태만 기록(중국 트랙 선례)"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-11-01T09:19:36.997369Z",
+      "reason": "preview_approval 승인 — fable"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-11-01T10:36:48.670921Z",
+      "reason": "engine render ok — engine.render --res final(720p, 483.0초)"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-11-01T10:36:49.287305Z",
+      "reason": "engine mix ok — audio.mix(peak 0.882) · engine.mux final.mp4 md5 80c1ed8a"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-11-01T10:36:49.871378Z",
+      "reason": "engine deliver ok — final_deliver.mp4 28.9MB md5 fd89a455(artifacts 424fb28)"
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "transitioned_at": "2026-11-01T11:20:45.458127Z",
+      "reason": "reopen → direction — opus: UF-171·172(D-0462) — 요소 노출 시간 전수 수정, 원고·음성 불변"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-11-01T13:35:54.891357Z",
+      "reason": "연출 v9(dd03b655) 콘티 판 v5 f2796da0 감독 통과(D-0463) — 엔진 CLI 직접 실행이라 상태만 기록"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-11-01T13:35:55.460131Z",
+      "reason": "프리뷰 v2 --preview auto hard 0(구현 세션 R-0316, artifacts 414ed10 preview_v2/) — 엔진 CLI 직접 실행이라 상태만 기록"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-11-01T13:38:07.451235Z",
+      "reason": "preview_approval 승인 — fable"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-11-01T14:24:07.390627Z",
+      "reason": "engine render ok — --res final 720p, 연출 v9(UF-171·172)"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-11-01T14:24:08.044000Z",
+      "reason": "engine mix ok — audio.mix peak 0.882 · engine.mux final.mp4 md5 4d65ad0d"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-11-01T14:24:08.717646Z",
+      "reason": "engine deliver ok — final_v2 final_deliver.mp4 28.9MB md5 d1c655d4(artifacts a3ffa45)"
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "transitioned_at": "2026-11-02T04:06:04.013703Z",
+      "reason": "reopen → direction — opus: D-0466 UF-173 — 교체본 탈락 2차(첫 화면 사진·1막 지도 매몰), 연출 v10"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-11-02T10:08:36.413327Z",
+      "reason": "연출 v10(53d1b3c2) 콘티 판 v6 7a63dc52 감독 통과(D-0470) — 엔진 CLI 직접 실행이라 상태만 기록"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-11-02T10:08:37.174343Z",
+      "reason": "프리뷰 v3 --preview auto hard 0(구현 세션 R-0323, artifacts 49e1d46 preview_v3/) — 엔진 CLI 직접 실행이라 상태만 기록"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-11-02T10:11:11.767590Z",
+      "reason": "preview_approval 승인 — fable"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-11-02T10:45:16.446819Z",
+      "reason": "engine render ok"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-11-02T10:48:23.557434Z",
+      "reason": "engine mix ok"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-11-02T10:56:11.174228Z",
+      "reason": "engine deliver ok"
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "transitioned_at": "2026-11-02T11:06:30.330442Z",
+      "reason": "reopen → direction — opus: 크레딧 표기 정정만(초상 2건 저작자 칸 — 라이브러리 1f5e0987 값 재반영), 연출 불변 53d1b3c2"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-11-02T11:06:31.033586Z",
+      "reason": "크레딧 표기 정정만(초상 2건 저작자 칸 — 라이브러리 1f5e0987 값 재반영), 연출 불변 53d1b3c2"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-11-02T11:06:31.683480Z",
+      "reason": "크레딧 표기 정정만(초상 2건 저작자 칸 — 라이브러리 1f5e0987 값 재반영), 연출 불변 53d1b3c2"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-11-02T11:09:33.466757Z",
+      "reason": "preview_approval 승인 — fable"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-11-02T11:37:01.174565Z",
+      "reason": "engine render ok"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-11-02T11:40:14.744711Z",
+      "reason": "engine mix ok"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-11-02T11:47:29.181352Z",
+      "reason": "engine deliver ok"
+    }
+  ],
+  "rollbacks": [],
+  "reopens": [
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "by": "opus",
+      "at": "2026-11-01T11:20:45.458106Z",
+      "reason": "UF-171·172(D-0462) — 요소 노출 시간 전수 수정, 원고·음성 불변",
+      "direction_version": 8
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "by": "opus",
+      "at": "2026-11-02T04:06:04.013680Z",
+      "reason": "D-0466 UF-173 — 교체본 탈락 2차(첫 화면 사진·1막 지도 매몰), 연출 v10",
+      "direction_version": 9
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "by": "opus",
+      "at": "2026-11-02T11:06:30.330420Z",
+      "reason": "크레딧 표기 정정만(초상 2건 저작자 칸 — 라이브러리 1f5e0987 값 재반영), 연출 불변 53d1b3c2",
+      "direction_version": 10
+    }
+  ]
+}

@@ -18,6 +18,7 @@ import argparse
 import hashlib
 import io
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -110,6 +111,69 @@ def make_thumbnail(proj: Path, theme: str | None = None, reason: str | None = No
     return rec
 
 
+def make_thumbnail_from_video(proj: Path, video: Path, theme: str | None = None, reason: str | None = None, name: str = "thumbnail",
+                              bg: str = "before") -> dict:
+    """--from-video(v7.4.0 back_and_forth D-0322) — out/ 준비물(geo·자산)이 없는 지난 영상. 바탕 = 전달본의 타이틀 카드 t0 − 1/fps 프레임
+    (카드 그라데이션이 아직 없는 원 장면), 그 위에 같은 draw_title_card(plan 의 제목·부제·날짜)를 alpha 1 로. 기하·색은 make_thumbnail 과 같다.
+    bg = "after" 면 카드가 끝난 직후(t1 + 1/fps) 프레임 — 카드 앞 장면이 글자 카드(인용 등)라 제목 뒤에 글자가 겹칠 때(provenance source.bg)."""
+    import subprocess  # noqa: PLC0415
+
+    import cairo  # noqa: PLC0415
+    from PIL import Image  # noqa: PLC0415
+
+    from engine.fullcards import draw_title_card  # noqa: PLC0415
+    from engine.project import load_plan  # noqa: PLC0415
+    from engine.style import FPS, output_profile  # noqa: PLC0415
+    from rules import load_rules  # noqa: PLC0415
+
+    T = load_rules().thumbnail  # noqa: N806
+    out = output_profile("final")
+    if (out.width, out.height) != (T.width, T.height):
+        raise ThumbnailError(f"출력 프로파일 final {out.width}×{out.height} ≠ rules thumbnail {T.width}×{T.height}")
+    if not video.exists():
+        raise ThumbnailError(f"전달본 영상 없음: {video}")
+    probe = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height", "-of", "csv=p=0",
+                            str(video)], capture_output=True, text=True, check=True).stdout.strip()
+    if probe != f"{out.width},{out.height}":
+        raise ThumbnailError(f"전달본 해상도 {probe} ≠ {out.width},{out.height}")
+    plan = load_plan(proj)
+    t0, t1, _ = title_card_time(plan)
+    if bg not in ("before", "after"):
+        raise ThumbnailError(f"--bg {bg!r} — before|after")
+    ft = max(0.0, t0 - 1.0 / FPS) if bg == "before" else t1 + 1.0 / FPS
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{ft:.4f}", "-i", str(video), "-frames:v", "1", "-f", "rawvideo",
+                          "-pix_fmt", "bgra", "-"], capture_output=True, check=True).stdout
+    if len(raw) != out.width * out.height * 4:
+        raise ThumbnailError(f"{ft:.3f}초 프레임을 읽지 못했다({len(raw)} B)")
+    buf = bytearray(raw)
+    surf = cairo.ImageSurface.create_for_data(buf, cairo.FORMAT_RGB24, out.width, out.height, out.width * 4)
+    ctx = cairo.Context(surf)
+    ctx.translate(out.pad_x, 0)
+    ctx.scale(out.k, out.k)
+    th, th_src, th_reason = resolve_theme(proj, theme, reason)
+    drawn = draw_title_card(ctx, plan, 1.0, 99.0, scale=T.title_scale, line_gap=T.title_line_gap, max_lines=T.max_lines,
+                            border=T.border, theme=T.themes[th])
+    surf.flush()
+    img = Image.frombuffer("RGBX", (out.width, out.height), bytes(buf), "raw", "BGRX", 0, 1).convert("RGB")
+    od = proj / "out"
+    od.mkdir(exist_ok=True)
+    png, jpg = od / f"{name}.png", od / f"{name}.jpg"
+    img.save(png, optimize=True)
+    b = io.BytesIO()
+    img.save(b, "JPEG", quality=T.jpg_quality, optimize=True)
+    if b.tell() > T.jpg_max_bytes:
+        raise ThumbnailError(f"{name}.jpg {b.tell()} B > rules thumbnail.jpg_max_bytes {T.jpg_max_bytes}")
+    jpg.write_bytes(b.getvalue())
+    rec = {"schema_version": 1, "frame_t": round(ft, 3), "title_card": [round(t0, 3), round(t1, 3)], "title": plan.title,
+           "title_lines": drawn["lines"], "title_size_px": drawn["size"], "title_scale": T.title_scale, "group_shift_px": drawn["shift_px"],
+           "border": T.border.model_dump(), "theme": th, "theme_source": th_src, **({"theme_reason": th_reason} if th_reason else {}),
+           "source": {"mode": "from_video", "file": video.name, "md5": hashlib.md5(video.read_bytes()).hexdigest(), "frame_t": round(ft, 3), "bg": bg},
+           "size": [out.width, out.height], "png": {"bytes": png.stat().st_size, "md5": hashlib.md5(png.read_bytes()).hexdigest()},
+           "jpg": {"bytes": jpg.stat().st_size, "md5": hashlib.md5(jpg.read_bytes()).hexdigest(), "quality": T.jpg_quality}}
+    (od / f"{name}.json").write_text(json.dumps(rec, ensure_ascii=False, indent=1), encoding="utf-8")
+    return rec
+
+
 def main(argv: list[str] | None = None) -> int:
     from engine.fullcards import TitleOverflowError  # noqa: PLC0415
     from engine.project import ProjectError  # noqa: PLC0415
@@ -120,13 +184,17 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--theme", default=None, help="rules thumbnail.themes 이름 — 장르 기본을 덮어쓸 때만(--theme-reason 필수)")
     ap.add_argument("--theme-reason", default=None)
     ap.add_argument("--name", default="thumbnail", help="출력 파일 이름(확인용 표본만 바꾼다 — provenance 에 넣지 않음)")
+    ap.add_argument("--from-video", type=Path, default=None,
+                    help="지난 영상(out/ 준비물 없음) — 전달본 mp4 의 타이틀 카드 직전 프레임을 바탕으로(D-0322)")
+    ap.add_argument("--bg", default="before", choices=["before", "after"], help="--from-video 바탕: 카드 직전(기본)·직후 프레임")
     a = ap.parse_args(argv)
     proj = a.proj.resolve()
     try:
-        rec = make_thumbnail(proj, a.theme, a.theme_reason, a.name)
+        rec = (make_thumbnail_from_video(proj, a.from_video.resolve(), a.theme, a.theme_reason, a.name, a.bg) if a.from_video
+               else make_thumbnail(proj, a.theme, a.theme_reason, a.name))
         res = StageResult(ok=True, stage="thumbnail", artifacts={"png": str(proj / "out" / f"{a.name}.png"),
                                                                  "jpg": str(proj / "out" / f"{a.name}.jpg")}, provenance={"thumbnail": rec})
-    except (ThumbnailError, TitleOverflowError, ProjectError, OSError, ValueError) as ex:
+    except (ThumbnailError, TitleOverflowError, ProjectError, OSError, ValueError, subprocess.CalledProcessError) as ex:
         res = StageResult(ok=False, stage="thumbnail", errors=[str(ex)])
     print(json.dumps(res.model_dump(), ensure_ascii=False))
     return 0 if res.ok else 1

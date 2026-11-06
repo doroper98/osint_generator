@@ -51,6 +51,7 @@ class Description(BaseModel):
     tags: list[str] = Field(default_factory=list)
     hashtags: list[str] = Field(default_factory=list)
     key_links: list[str] = Field(default_factory=list)   # 설명 '주요 링크'(비면 매체별 첫 원문 링크 key_links_max 개)
+    description_text: str | None = None          # v7.4.0 D-0322 — 사람이 쓴 유튜브 설명 전문(지난 영상 소급 — 렌더 준비물 없이). 있으면 도구 생성 대신, 한도 검사는 같다
 
     def summary_paras(self) -> list[str]:
         return [self.summary] if isinstance(self.summary, str) else list(self.summary)
