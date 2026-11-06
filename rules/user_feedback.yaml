@@ -2462,5 +2462,5 @@ entries:
   category: "합격 판정(썸네일 디자인 기준 확정 — 타이틀 카드 구성·제목 1.6배·금빛 얇은 선 inset) + 규칙: 장르 테마(지정학·경제 / 전쟁사·역사)는 색조만 살짝 다르고 구도·기하·글자 크기는 동일. 헌법 CLAUDE.md C13 + rules thumbnail.themes. 장치 = 두 테마의 기하 동일성 테스트 + 장르→테마 매핑 테스트"
   guards: []
   status: open
-  decision: 사용자 판정·지시 → CLAUDE.md C13(감독 기록), D-0322(구현 — thumbnail.themes 두 가지·장르 매핑·테스트), 전쟁사 감독 세션(session_017Yuw8i7EwyZ4z45Xtcvjkg)에 정책 전달. D542
+  decision: 사용자 판정·지시 → CLAUDE.md C13(감독 기록), D-0321(구현 — thumbnail.themes 두 가지·장르 매핑·테스트), 전쟁사 감독 세션(session_017Yuw8i7EwyZ4z45Xtcvjkg)에 정책 전달. D542
   source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-06
