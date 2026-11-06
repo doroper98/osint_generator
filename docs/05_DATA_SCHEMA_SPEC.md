@@ -281,3 +281,19 @@ last_review: 2026-09-29
 | `MediaAsset` 권리 칸(D-0606 §2) | `schemas/media_models.py` | `photo_license`(화면 판정)·`work_license`(유물 권리)·`license_tags`(Commons 분류, `sketch.war.fetch` 자동 기록). 대조 실패 = `[license-mismatch]`(RIGHTS-AP-001) |
 | `EmblemReconstruction` | `schemas/emblem_models.py` | `assets/emblems/registry.json` `reconstructions` — 유물 근거 진영 휘장 재작도(근거 사진 권리·`reconstruction: true`·"재현" 라벨, D-0606 A). spec `factions.<id>.emblem`·`emblem_absent_reason` |
 | `WarSymbolSets` | `schemas/rules_models.py` | 규칙 `war_history.symbol_sets` — 시대 세트(units·shapes·glyphs) + depth·rank_grid·glyph(D-0605) |
+
+## GatePacket — `projects/{pid}/gate_packet.json` (v7.4.0 back_and_forth D-0355, UF-267)
+
+사용자 게이트 승인은 감독 세션이 `orchestrator.main approve` 로 기록한다. 감독 작업 트리에는 `out/`(콘티 판 기록)·미추적 자산이 없으므로
+구현 세션이 `python tools/gate_packet.py projects/{pid}` 로 판정 입력을 묶어 git 에 올린다(`schemas.models.GatePacket`, schema_version 1).
+
+| 필드 | 뜻 |
+|---|---|
+| `project_id` · `created_at` · `created_by` · `commit` | 만든 프로젝트·시각·세션·작업 트리 HEAD |
+| `sources` | 추적 원천 파일(`script.yaml`·`direction.yaml`·`plan.json`) 바이트 sha1 — 승인 때 현재 파일과 같아야 한다 |
+| `script`(게이트 ①) | `script_sha1`(원고 지문) · `media_plan`(require_media_plan 통과 줄) |
+| `preview`(게이트 ②) | 콘티 판 기록 `animatic_provenance_sha1`·`total_sec`·`plan_total`·`animatic_script_sha1`·`output`·`direction_sha1`·`rendered_at`, 공용 자산 미승격 `pending_people`·`pending_emblems` |
+| `digest` | digest 를 뺀 정규 JSON sha1 — 손으로 고친 값 거부 |
+
+판정(`orchestrator.project_manager`): `out/` 이 있으면 지금처럼 `out/` 으로. `out/` 이 없으면 게이트 ② 는 packet 필수(없거나·digest·원천 지문이
+어긋나면 `GatePacketError`, 우회 없음). 게이트 ① 은 `out/` 이 없고 packet 이 있을 때 packet 으로(어긋나면 거부), packet 이 없으면 원래 미디어 계획 표 판정.
