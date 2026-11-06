@@ -62,6 +62,7 @@ class TestAssetLibraryGate(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             p = Path(d)
             (p / "assets" / "portraits").mkdir(parents=True)
+            (p / "out").mkdir()   # v7.4.0 D-0355 뒤 — out/ 있는 구현 작업 트리 판정(없으면 gate packet 경로, test_gate_packet 이 본다)
             self.assertIn("0", require_asset_library(p))
             (p / "assets" / "portraits" / "nobody_not_in_library_x.png").write_bytes(b"x")
             with self.assertRaises(AssetLibraryPendingError):
