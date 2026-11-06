@@ -64,6 +64,11 @@ class TitleLinesTest(unittest.TestCase):
         room = W_OUT * TITLE_CARD.max_w_ratio
         self.assertTrue(all(tw(ctx, ln, size, "disp") <= room for ln in lines))
 
+    def test_break_prefers_after_punctuation(self) -> None:
+        _, ctx = _ctx()
+        lines, _ = F.title_lines(ctx, "휴전안의 한 달 — 미국과 이란, 무엇이 먼저 풀려야 하나", self.T.title_scale, self.T.title_line_gap, 2)
+        self.assertEqual(lines, ["휴전안의 한 달 — 미국과 이란,", "무엇이 먼저 풀려야 하나"])   # 구 안("미국과 / 이란")에서 끊지 않는다
+
     def test_two_lines_still_wide_shrinks_then_errors(self) -> None:
         _, ctx = _ctx()
         long = "아주 긴 제목이 두 줄로 나눠도 화면 폭을 넘어서 글자를 줄여야만 들어가는 경우"
@@ -167,6 +172,25 @@ class PackageCheckTest(unittest.TestCase):
 
     def test_tags_chars_youtube_count(self) -> None:
         self.assertEqual(D.tags_chars(["가나", "다 라"]), 2 + (3 + 2) + 1)
+
+    def test_description_text_package_without_render_assets(self) -> None:
+        """D-0322 — 지난 영상 소급: description_text 가 있으면 렌더 준비물 없이 네 항목을 만든다(한도 검사 같음)."""
+        with tempfile.TemporaryDirectory() as d:
+            proj = Path(d)
+            (proj / "out").mkdir()
+            (proj / "out" / "thumbnail.jpg").write_bytes(b"x")
+            body = {"schema_version": 1, "headline": "h", "summary": "s", "chapters": [{"at": "cold", "label": "c"}],
+                    "title": "제목", "tags": ["가", "나 다"], "hashtags": ["#가", "#나", "#다"], "description_text": "설명 전문\n"}
+            (proj / "description.yaml").write_text(yaml.safe_dump(body, allow_unicode=True), encoding="utf-8")
+            rec = D.make_package(proj)
+            self.assertEqual(rec["description_source"], "description_text")
+            self.assertEqual((proj / "out" / "delivery" / "description.txt").read_text(encoding="utf-8"), "설명 전문\n")
+            self.assertEqual(sorted(p.name for p in (proj / "out" / "delivery").iterdir()),
+                             ["MD5SUMS", "description.txt", "tags.txt", "thumbnail.jpg", "title.txt"])
+            body["description_text"] = "가" * (load_rules().delivery_package.description_max_chars + 1)
+            (proj / "description.yaml").write_text(yaml.safe_dump(body, allow_unicode=True), encoding="utf-8")
+            with self.assertRaises(D.DeliveryError):
+                D.make_package(proj)
 
     def test_project_description_has_package_fields(self) -> None:
         from engine.mux import load_description  # noqa: PLC0415

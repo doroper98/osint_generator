@@ -281,10 +281,12 @@ TITLE_RULE_Y = 254     # 금선 위 끝
 TITLE_SUB_Y = 290      # 부제 기준선
 TITLE_DATE_Y = 322     # 날짜 기준선
 TITLE_CAP = 0.75       # 제목 글자 윗선 ≈ 기준선 − 크기 × 이 값(묶음 높이 계산용)
+TITLE_BREAK_AFTER = (",", "—", "–", "·", ":", "|")   # 썸네일 2줄 — 이 문자로 끝나는 어절 뒤가 있으면 그 중에서 고른다
 
 
 def title_lines(ctx: cairo.Context, title: str, scale: float, line_gap: float, max_lines: int) -> tuple[list[str], float]:
     """썸네일 제목 줄·크기(v7.4.0 D-0320, UF-177). 크기 = title_size × scale. 폭 > W × max_w_ratio 면 띄어쓰기 중 폭이 가장 고른 곳에서 2줄
+    (구두점 TITLE_BREAK_AFTER 뒤 띄어쓰기가 있으면 그 가운데서 — "휴전안의 한 달 — 미국과 / 이란," 같은 구 안 끊김 방지, D-0322)
     (어절 안 자르기 금지), 그래도 넘으면 0.5px 씩 줄인다 — title_min_size 미만이면 TitleOverflowError(조용한 잘림 금지)."""
     from engine.typography import tw  # noqa: PLC0415
 
@@ -295,7 +297,8 @@ def title_lines(ctx: cairo.Context, title: str, scale: float, line_gap: float, m
         words = title.split(" ")
         if len(words) > 1:
             cands = [(" ".join(words[:i]), " ".join(words[i:])) for i in range(1, len(words))]
-            lines = list(min(cands, key=lambda ab: max(tw(ctx, ab[0], size, "disp"), tw(ctx, ab[1], size, "disp"))))
+            punct = [ab for ab in cands if ab[0].endswith(TITLE_BREAK_AFTER)]   # 어색하지 않은 줄바꿈(UF-177) — 구두점 뒤를 먼저
+            lines = list(min(punct or cands, key=lambda ab: max(tw(ctx, ab[0], size, "disp"), tw(ctx, ab[1], size, "disp"))))
     while max(tw(ctx, ln, size, "disp") for ln in lines) > room:
         size -= 0.5
         if size < TITLE_CARD.title_min_size:

@@ -1,0 +1,1209 @@
+{
+ "schema_version": 1,
+ "searches": [
+  {
+   "sid": "cold_0",
+   "query": "Doha skyline hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "cold_0",
+   "query": "Doha skyline",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:Doha Skyline 01.jpg",
+    "File:Doha Skyline 09.jpg",
+    "File:Doha Skyline 10.jpg",
+    "File:Doha Skyline 13.jpg",
+    "File:Doha Skyline 14.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "cold_1",
+   "query": "Abbas Araghchi hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "cold_1",
+   "query": "Abbas Araghchi",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:Meeting Dr. Seyed Abbas Araghchi (01911589) (51160900217).jpg",
+    "File:Meeting Dr. Seyed Abbas Araghchi (01911590) (51162671880).jpg",
+    "File:Meeting Dr. Seyed Abbas Araghchi (01911591) (51161804258).jpg",
+    "File:Meeting Dr. Seyed Abbas Araghchi (01911592) (51161561281).jpg",
+    "File:Meeting Dr. Seyed Abbas Araghchi (01911595) (51162348604).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "cold_2",
+   "query": "Marco Rubio official portrait hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "cold_2",
+   "query": "Marco Rubio official portrait",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:Official portrait of Secretary Marco Rubio, January 2025.jpg",
+    "File:Official portrait of Secretary Marco Rubio.jpg",
+    "File:Official portrait of Secretary Marco Rubio (3x4 cropped).jpg",
+    "File:Official portrait of Secretary Marco Rubio (cropped)(2).jpg",
+    "File:Official portrait of the United States Secretary of State Marco Rubio, January 2025 (cropped).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_1",
+   "query": "Operation Epic Fury strike Iran 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:Epic Fury Strike compilation (997841).webm",
+    "File:Epic Fury Strike compilation (997847).webm",
+    "File:Epic Fury Strike compilation (997855).webm",
+    "File:U S Forces Conduct Precision Strikes During Operation Epic Fury (1001951).webm",
+    "File:U S Forces Conduct Precision Strikes During Operation Epic Fury (1001960).webm"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_1",
+   "query": "Operation Epic Fury strike Iran 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:Epic Fury Strike compilation (997841).webm",
+    "File:Epic Fury Strike compilation (997847).webm",
+    "File:Epic Fury Strike compilation (997855).webm",
+    "File:U S Forces Conduct Precision Strikes During Operation Epic Fury (1001960).webm",
+    "File:U S Forces Conduct Precision Strikes During Operation Epic Fury (999233).webm"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_3",
+   "query": "Strait of Hormuz satellite hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 1,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_3",
+   "query": "Strait of Hormuz satellite",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 4,
+   "top": [
+    "File:ISS-46 Gulf of Oman with Strait of Hormuz at night.jpg",
+    "File:STS004-37-716 - Strait of Hormuz.jpg",
+    "File:Strait of Hormuz (MODIS 2020-12-04).jpg",
+    "File:Strait of Hormuz and Musandam Peninsula (MODIS 2018-12-10).jpg"
+   ],
+   "rejected": [
+    "Attribution"
+   ]
+  },
+  {
+   "sid": "act1_4",
+   "query": "Shehbaz Sharif hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_4",
+   "query": "Shehbaz Sharif",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 4,
+   "top": [
+    "File:Ayatollah Ali Khamenei met with Pakistani Prime Minister Shehbaz Sharif 1404-3-9.jpg",
+    "File:CM Punjab Shehbaz Sharif (35871869445).jpg",
+    "File:Shehbaz Sharif in 2024.jpg",
+    "File:Shehbaz Sharif meets Putin (2024-07-03) (2) (cropped).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act1_5",
+   "query": "Islamabad talks April 2026 Vance hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_5",
+   "query": "Islamabad talks April 2026 Vance",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:Sidelines of Islamabad Talks 11.jpg",
+    "File:Sidelines of Islamabad Talks 13.jpg",
+    "File:Sidelines of Islamabad Talks 6.jpg",
+    "File:Sidelines of Islamabad Talks 7.jpg",
+    "File:Sidelines of Islamabad Talks 8.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_5",
+   "query": "US Navy blockade Iran 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:Michael Murphy Conducts Blockade Operations (9725690).jpg",
+    "File:USS New Orleans Enforces Maritime Blockade (9670518).jpg",
+    "File:USS Pinckney conducts Blockade Operations (9637702).jpg",
+    "File:USS Rafael Peralta Enforces Maritime Blockade (9670492).jpg",
+    "File:U S Forces Enforce Blockade Against Iran (1006058).webm"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_5",
+   "query": "US Navy blockade Iran 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:U S Forces Enforce Blockade Against Iran (1006029).webm",
+    "File:U S Forces Enforce Blockade Against Iran (1006041).webm",
+    "File:U S Forces Enforce Blockade Against Iran (1006042).webm",
+    "File:U S Forces Enforce Blockade Against Iran (1006057).webm",
+    "File:U S Forces Enforce Blockade Against Iran (1006058).webm"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_6",
+   "query": "Masoud Pezeshkian hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_6",
+   "query": "Masoud Pezeshkian",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 4,
+   "top": [
+    "File:Masoud Pezeshkian, 2024-6-12 (cropped).jpg",
+    "File:Masoud Pezeshkian 2024 (A) (cropped).jpg",
+    "File:Masoud Pezeshkian 20250202.jpg",
+    "File:Masoud Pezeshkian and Mohammed Shia' Al Sudani in 2025.jpg"
+   ],
+   "rejected": [
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act1_8",
+   "query": "U.S. Forces retaliatory strikes Iran July 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 1,
+   "passed": 1,
+   "top": [
+    "File:U S Forces Complete New Round of Retaliatory Strikes Against Iran (1013909).webm"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_8",
+   "query": "U.S. Forces retaliatory strikes Iran July 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 4,
+   "passed": 1,
+   "top": [
+    "File:U S Forces Complete New Round of Retaliatory Strikes Against Iran (1013909).webm"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_1",
+   "query": "Araghchi United Nations General Assembly 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_1",
+   "query": "Araghchi United Nations General Assembly 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 2,
+   "passed": 1,
+   "top": [
+    "File:Participation of Kaja Kallas, in the UNGA (P-070483-00-30).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_5",
+   "query": "JD Vance official portrait hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_5",
+   "query": "JD Vance official portrait",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 3,
+   "top": [
+    "File:January 2025 Official Vice Presidential Portrait of JD Vance (3x4 cropped).jpg",
+    "File:March 2026 Official Vice Presidential Portrait of JD Vance.jpg",
+    "File:March 2026 Official Vice Presidential Portrait of JD Vance (cropped).jpg"
+   ],
+   "rejected": [
+    "Public domain 제한"
+   ]
+  },
+  {
+   "sid": "act2_8",
+   "query": "Mohsen Rezaei hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_8",
+   "query": "Mohsen Rezaei",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 4,
+   "top": [
+    "File:Mahmoud Zarrabi speaking about Mohsen Rezaei - Mehr News Agency.webm",
+    "File:Mohsen Rezaee in 2020.jpg",
+    "File:Mohsen Rezaei in August 2026.jpg",
+    "File:Mohsen Rezaei in August 2026 (cropped).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0"
+   ]
+  },
+  {
+   "sid": "act2_12",
+   "query": "Sheikh Mohammed bin Abdulrahman Al Thani hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_12",
+   "query": "Sheikh Mohammed bin Abdulrahman Al Thani",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 4,
+   "top": [
+    "File:Mohammed bin Abdulrahman Al-Thani of Qatar on 25 January 2024 - 2 (cropped).jpg",
+    "File:Mohammed bin Abdulrahman al-Thani (cropped).jpg",
+    "File:Qatari Foreign Minister Sheikh Mohammed bin Abdulrahman Al Thani - 2017.jpg",
+    "File:Sheikh Mohammed bin Abdulrahman Al-Thani und Lyse Doucet MSC 2019.jpg"
+   ],
+   "rejected": [
+    "GODL-India"
+   ]
+  },
+  {
+   "sid": "act2_12",
+   "query": "Tehran skyline hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_12",
+   "query": "Tehran skyline",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act4_1",
+   "query": "oil tanker Persian Gulf hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_1",
+   "query": "oil tanker Persian Gulf",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 1,
+   "top": [
+    "File:Estimated oil tanker transit times between the Persian Gulf and the United States (32706711250).png"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act4_4",
+   "query": "CENTCOM commander 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:CENTCOM Commander Meets with U S Troops in Israel (9783204).jpg",
+    "File:CENTCOM Commander Meets with U S Troops in Israel (9783205).jpg",
+    "File:CENTCOM Commander Meets with U S Troops in Israel (9783206).jpg",
+    "File:CENTCOM Commander Visits Lebanon (9783207).jpg",
+    "File:CENTCOM Commander Visits Lebanon (9783208).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act4_4",
+   "query": "CENTCOM commander 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:CENTCOM Commander Visits Lebanon (9783207).jpg",
+    "File:CENTCOM Commander Visits Lebanon (9783208).jpg",
+    "File:CENTCOM commander visits Bahrain (9627263).jpg",
+    "File:CENTCOM commander visits Bahrain (9627269).jpg",
+    "File:CENTCOM commander visits Bahrain (9627273).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act6_5",
+   "query": "gas station prices Korea 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act6_5",
+   "query": "gas station prices Korea 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 3,
+   "top": [
+    "File:Hiller XHOE-1 Hornet - DPLA - cd5d7372b219be9958abee336fece0c3 (page 1).jpg",
+    "File:Hiller XHOE-1 Hornet - DPLA - cd5d7372b219be9958abee336fece0c3 (page 2).jpg",
+    "File:Hiller XHOE-1 Hornet - DPLA - cd5d7372b219be9958abee336fece0c3 (page 3).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_5",
+   "query": "naval blockade Iran 2026 US Navy hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:Michael Murphy Conducts Blockade Operations (9725690).jpg",
+    "File:USS New Orleans Enforces Maritime Blockade (9670518).jpg",
+    "File:USS Pinckney conducts Blockade Operations (9637702).jpg",
+    "File:USS Rafael Peralta Enforces Maritime Blockade (9670492).jpg",
+    "File:U S Forces Enforce Blockade Against Iran (1006058).webm"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_5",
+   "query": "naval blockade Iran 2026 US Navy",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:U S Forces Enforce Blockade Against Iran (1006029).webm",
+    "File:U S Forces Enforce Blockade Against Iran (1006041).webm",
+    "File:U S Forces Enforce Blockade Against Iran (1006042).webm",
+    "File:U S Forces Enforce Blockade Against Iran (1006057).webm",
+    "File:U S Forces Enforce Blockade Against Iran (1006058).webm"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_8",
+   "query": "U.S. Forces Complete New Round of Retaliatory Strikes hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 4,
+   "passed": 1,
+   "top": [
+    "File:U S Forces Complete New Round of Retaliatory Strikes Against Iran (1013909).webm"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_8",
+   "query": "U.S. Forces Complete New Round of Retaliatory Strikes",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 1,
+   "top": [
+    "File:U S Forces Complete New Round of Retaliatory Strikes Against Iran (1013909).webm"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_1",
+   "query": "United Nations General Assembly hall 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_1",
+   "query": "United Nations General Assembly hall 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 3,
+   "top": [
+    "File:President Ronald Reagan During His Trip to New York City and His Address to The 41St Session of The United Nations General Assembly Unga and Speaking at The Podium - DPLA - ee57def2a8327ae28c0e09b3626f3567.jpg",
+    "File:President Ronald Reagan Gives a Speech in The General Assembly Hall at The United Nations in New York City - DPLA - 875263932a50b3c5e2cf2e9fe9bd17fb.jpg",
+    "File:Prime Minister Takaichi delivering an address at the General Debate of the United Nations General Assembly in the General Assembly Hall (1).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_5",
+   "query": "JD Vance official portrait hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_5",
+   "query": "JD Vance official portrait",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 3,
+   "top": [
+    "File:January 2025 Official Vice Presidential Portrait of JD Vance (3x4 cropped).jpg",
+    "File:March 2026 Official Vice Presidential Portrait of JD Vance.jpg",
+    "File:March 2026 Official Vice Presidential Portrait of JD Vance (cropped).jpg"
+   ],
+   "rejected": [
+    "Public domain 제한"
+   ]
+  },
+  {
+   "sid": "act2_12",
+   "query": "Tehran skyline hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_12",
+   "query": "Tehran skyline",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act4_1",
+   "query": "oil tanker Strait of Hormuz hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_1",
+   "query": "oil tanker Strait of Hormuz",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 1,
+   "top": [
+    "File:Oil tanker Niovi seized by Iran's Islamic Revolutionary Guard Corps Navy.webm"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_4",
+   "query": "mine countermeasures ship Arabian Gulf hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_4",
+   "query": "mine countermeasures ship Arabian Gulf",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 5,
+   "top": [
+    "File:US Navy 030319-N-5319A-002 The mine countermeasure ship USS Dextrous (MCM 13) takes part in mine counter measure operations in the Arabian Gulf.jpg",
+    "File:US Navy 110816-N-YX920-055 The Royal Navy mine countermeasures ship HMS Ramsey (M110) transits the Arabian Gulf during a bilateral training exercis.jpg",
+    "File:US Navy 110816-N-YX920-249 The Royal Navy mine countermeasures ship HMS Quorn (M41) transits the Arabian Gulf during a bilateral training exercise.jpg",
+    "File:US Navy 110816-N-YX920-369 The Royal Navy mine countermeasures ship HMS Ramsey (M110) transits the Arabian Gulf during a bilateral training exercis.jpg",
+    "File:US Navy 110816-N-YX920-379 The Royal Navy mine countermeasures ship HMS Quorn (M41) transits the Arabian Gulf during a bilateral training exercise.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act4_5",
+   "query": "limpet mine tanker hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_5",
+   "query": "limpet mine tanker",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 1,
+   "top": [
+    "File:MV Kokuka Courageous with hull damage and mine.png"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act6_1",
+   "query": "Ulsan refinery hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act6_1",
+   "query": "Ulsan refinery",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 2,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act6_2",
+   "query": "Ulsan port oil tanker hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act6_2",
+   "query": "Ulsan port oil tanker",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 2,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act6_7",
+   "query": "Sinokor Merchant Marine ship hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act6_7",
+   "query": "Sinokor Merchant Marine ship",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 2,
+   "passed": 2,
+   "top": [
+    "File:ANTWERP BRIDGE. CONTAINER SHIP (51065452847).jpg",
+    "File:ANTWERP BRIDGE. CONTAINER SHIP (51088595279).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act3_1",
+   "query": "Abbas Araghchi 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act3_1",
+   "query": "Abbas Araghchi 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 4,
+   "top": [
+    "File:Meeting with Foreign Minister of Iran Abbas Araghchi (1).jpg",
+    "File:Meeting with Foreign Minister of Iran Abbas Araghchi (2).jpg",
+    "File:Meeting with Foreign Minister of Iran Abbas Araghchi (4).jpg",
+    "File:Meeting with Foreign Minister of Iran Abbas Araghchi (6).jpg"
+   ],
+   "rejected": [
+    "OGL-om 1.0"
+   ]
+  },
+  {
+   "sid": "act1_10",
+   "query": "Blockade Iran July 2026 Navy hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_10",
+   "query": "Blockade Iran July 2026 Navy",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 6,
+   "passed": 2,
+   "top": [
+    "File:U S Marines from the 11th Marine Expeditionary Unit Conduct Verification Boarding (9815000).jpg",
+    "File:U S Marines from the 11th Marine Expeditionary Unit Conduct Verification Boarding (9815001).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act5_6",
+   "query": "tanker transits Strait of Hormuz Navy escort 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act5_6",
+   "query": "tanker transits Strait of Hormuz Navy escort 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act6_1",
+   "query": "Onsan refinery Ulsan hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act6_1",
+   "query": "Onsan refinery Ulsan",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_0",
+   "query": "ISS Strait of Hormuz night hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_0",
+   "query": "ISS Strait of Hormuz night",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 6,
+   "passed": 6,
+   "top": [
+    "File:ISS-46 Gulf of Oman with Strait of Hormuz at night.jpg",
+    "File:ISS-49 Iran, United Arab Emirates and Oman at night.jpg",
+    "File:ISS-63 Persian Gulf at night.jpg",
+    "File:ISS-64 Persian Gulf and Gulf of Oman at night.jpg",
+    "File:ISS062-E-45333 - View of United Arab Emirates.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act5_6",
+   "query": "merchant vessel Strait of Hormuz transit 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act5_6",
+   "query": "merchant vessel Strait of Hormuz transit 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 1,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act5_6",
+   "query": "NAVCENT escort commercial vessel Strait of Hormuz hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act5_6",
+   "query": "NAVCENT escort commercial vessel Strait of Hormuz",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 1,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act5_6",
+   "query": "oil tanker Gulf of Oman hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 3,
+   "top": [
+    "File:Burning MV EVERTON in 2004.JPEG",
+    "File:U S Forces Disable 3rd Oil Tanker Violating Blockade in Gulf of Oman (1010393).webm",
+    "File:U S Marines board M-T Celestial Sea (1007639).webm"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act5_6",
+   "query": "oil tanker Gulf of Oman",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 8,
+   "passed": 4,
+   "top": [
+    "File:German oiler Spessart (A1442) underway in the Gulf of Oman on 4 October 2006 (061004-N-8547M-009).jpg",
+    "File:Iranian corvette Bayandor filmed by U.S. Navy near oil tanker Richmond Voyager.webm",
+    "File:Mike Pompeo talks about Gulf of Oman tanker attacks.jpg",
+    "File:U S Forces Disable 3rd Oil Tanker Violating Blockade in Gulf of Oman (1010393).webm"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act5_6",
+   "query": "Strait of Hormuz ships hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 8,
+   "passed": 3,
+   "top": [
+    "File:140614-N-EI510-217 (14310331669).jpg",
+    "File:2026 Iran war collage 3.jpg",
+    "File:The amphibious dock landing ship USS Rushmore (LSD 47) leads the amphibious assault ship USS Peleliu (LHA 5) and the amphibious transport dock ship USS Green Bay (LPD 20) in a transit of the Strait of Hormuz 130330-N-ER662-259.jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act5_6",
+   "query": "Strait of Hormuz ships",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 8,
+   "passed": 6,
+   "top": [
+    "File:Flickr - Official U.S. Navy Imagery - U.S. Navy ships transit the Strait of Hormuz..jpg",
+    "File:STS004-37-716 - Strait of Hormuz.jpg",
+    "File:Strait of Hormuz and Musandam Peninsula (MODIS 2018-12-10).jpg",
+    "File:The position of the city of Hormuz set on the strait at the bottom of the Persian Gulf-1572.jpg",
+    "File:USCGC Aquidneck in Strait of Hormuz 201202-N-IE405-2219.JPG"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0"
+   ]
+  },
+  {
+   "sid": "act2_1",
+   "query": "Araghchi New York September 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_1",
+   "query": "Araghchi New York September 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 1,
+   "passed": 1,
+   "top": [
+    "File:Participation of Kaja Kallas, in the UNGA (P-070483-00-30).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act6_6",
+   "query": "Qatar Central Bank Doha hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 1,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act6_6",
+   "query": "Qatar Central Bank Doha",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 8,
+   "passed": 3,
+   "top": [
+    "File:PIIGS Mk 4 map.png",
+    "File:Steven Mnuchin and Central Bank Governor Al Thani Feb 2020.jpg",
+    "File:Steven Mnuchin meets with Abdulla Bin Saoud Al-Thani at Doha.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_12",
+   "query": "Tehran 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 5,
+   "passed": 4,
+   "top": [
+    "File:2026 Iran war collage.jpg",
+    "File:2026 Iran war collage 2.jpg",
+    "File:2026 Iran war collage 3.jpg",
+    "File:Middle Eastern Crisis Collage.jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_12",
+   "query": "Tehran 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 8,
+   "passed": 7,
+   "top": [
+    "File:Damages in Tehran (26 March 2026) 14 Avash.webp",
+    "File:Pro Government demonstration on Enqelab Square (Tehran)-1 14 (Images published by Tasnim on 12 January 2026).jpg",
+    "File:Pro Government demonstration on Enqelab Square (Tehran)-1 49 (Images published by Tasnim on 12 January 2026).jpg",
+    "File:Pro Government demonstration on Enqelab Square (Tehran)-1 55 (Images published by Tasnim on 12 January 2026).jpg",
+    "File:Pro Government demonstration on Enqelab Square (Tehran)-1 5 (Images published by Tasnim on 12 January 2026).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_4",
+   "query": "mine countermeasures Bahrain 2019 Navy hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_4",
+   "query": "mine countermeasures Bahrain 2019 Navy",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 8,
+   "passed": 8,
+   "top": [
+    "File:Artemis Trident 19 (5256515).jpg",
+    "File:Artemis Trident 19 (5263731).jpg",
+    "File:Artemis Trident 19 (5278529).jpg",
+    "File:Artemis Trident 19 (5278532).jpg",
+    "File:Artemis Trident 19 (5278534).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act4_4",
+   "query": "minehunting Arabian Gulf 2021 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_4",
+   "query": "minehunting Arabian Gulf 2021",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_4",
+   "query": "Avenger-class mine countermeasures ship 2018 Arabian Gulf hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_4",
+   "query": "Avenger-class mine countermeasures ship 2018 Arabian Gulf",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_9",
+   "query": "Trump NATO summit Ankara 2026 hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_9",
+   "query": "Trump NATO summit Ankara 2026",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 8,
+   "passed": 8,
+   "top": [
+    "File:Donald Trump lands by plane for the 2026 Ankara NATO summit, 7072026.jpg",
+    "File:NATO Family Photo at the Presidential Palace in Ankara - 2026.jpg",
+    "File:Official photo - 2026 NATO Summit in Ankara.jpg",
+    "File:Official photo - 2026 NATO Summit in Ankara (cropped).jpg",
+    "File:President Donald J. Trump participates in a bilateral meeting with Ukraine’s President Volodymyr Zelenskyy at the 2026 NATO Summit (55382311762).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act1_9",
+   "query": "2026 NATO summit Ankara hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act1_9",
+   "query": "2026 NATO summit Ankara",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 8,
+   "passed": 8,
+   "top": [
+    "File:António Costa, Recep Tayyip Erdoğan and Ursula von der Leyen - NATO Summit 2026 in Ankara, Türkiye (03).jpg",
+    "File:Donald Trump lands by plane for the 2026 Ankara NATO summit, 7072026.jpg",
+    "File:Friedrich Merz und seine Frau beim NATO Family Photo at the Presidential Palace in Ankara - 2026 (cropped).jpg",
+    "File:Keir Starmer and Mark Carney at the Presidential Palace in Ankara - 2026 (cropped).jpg",
+    "File:Meeting between Ursula von der Leyen and Volodymyr Zelenskyy during the 2026 NATO Summit in Ankara, Türkiye.jpg"
+   ],
+   "rejected": []
+  }
+ ]
+}
