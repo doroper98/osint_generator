@@ -51,7 +51,7 @@
 - narration_clarity: 쇼케이스 3b2d1bb6·af0409ef·34dedc1c(전 장르 hard, D349). 경제(3b2d1bb6 → af0409ef → 34dedc1c)·전쟁사(af0409ef → 34dedc1c) 전파 지시, R 대기.
 - **사용자 게이트 승인 기록 절차(이 세션, D363)**: 사용자 원문을 받으면 UF 기록 → 그 프로젝트가 있는 브랜치를 worktree 로 꺼낸다 → `python -m orchestrator.main approve --project {pid} --gate script_approval|preview_approval --comment "사용자 원문 \"…\" (UF-…)"` → commit(첫 줄 v7.4.0: …) → 그 브랜치에 push → 구현 세션에 "pull 해서 진행" 알림. 게이트 ② 는 gate packet 의 ② 구역이 있어야 돈다(쇼케이스 econ 은 manifest done 이라 먼저 reopen). 게이트 ① 은 packet 없이 추적 파일로 돈다(삼성·인텔 실측 통과, econ 3034bc72).
 - **AP 번호대(D361)**: 통합 sweet-galileo = 현재 최대+1~039(다음 PIPELINE-028·RENDER-034·RIGHTS-004), 전쟁사 040~059, 예산안·속도 060~079, 영상 분석 080~099, 이란 100~119 — 모든 범주 공통.
-- 다음 번호 UF-209·D-0359·DECISIONS D373·PIPELINE-AP-028·RENDER-AP-035(034 = 쇼케이스 점↔점 겹침 예약)·RIGHTS-AP-004.
+- 다음 번호 UF-209·D-0359·DECISIONS D374·PIPELINE-AP-028·RENDER-AP-035·RIGHTS-AP-004.
 
 ### 상태 갱신(2026-11-02 11:10Z, 최종 감독 — 사용자가 이 세션 모델을 Opus 5.5 로 전환)
 - 쇼케이스: 교체본 콘티 판 v2_animatic 게이트 ② **재승인 대기**. sweet-galileo 머리 b2d5f75a(UF-207 원장 정정 217c4525·PIPELINE-AP-026·5bdcd949·fed 데모 120).
