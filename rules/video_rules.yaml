@@ -2364,6 +2364,8 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # 양쪽이 모두 바다(파랑 − 빨강 ≥ sea_blue_minus_red)인 줄이 min_run_px 넘게 이어지고 그 구간 밝기 차 중앙값 > max_step 이면 실패. 모든 테마·렌더 경로
   # sea_erode_px = 바다 판별을 해안에서 이만큼 안쪽으로(해안 광채·얕은 띠의 자연 기울기를 계단으로 보지 않게 — 콘티 판 v2 23.3초 오탐)
   # ctrl_px = 격자선에서 이만큼 떨어진 평행 대조선의 같은 띠 차. 판정 = 격자선 차 − 대조선 차 중 큰 것(해붕 가장자리 같은 자연 수심 기울기는 대조선에도 같은 차가 있어 빠진다)
+  # v7.4.0 D-0634(감독 02:15Z — 칸나이 v1 엔딩 카드 음악 줄에 'D-0630(UF-263)') — 공개 문안(엔딩 카드 크레딧 줄·설명문·제목·태그)에 내부 번호(결정·의견·보고·AP)가 있으면 hard
+  public_internal_id: {pattern: '(?<![A-Za-z0-9])(?:D-?\d{3,4}|UF-\d{2,4}|R-\d{3,4}|[A-Z]+-AP-\d{2,4})(?![0-9])'}
   sea_tile_step: {step_sec: 1.0, band_px: 2, gap_px: 1, min_run_px: 30, max_step: 8.0, sea_blue_minus_red: 25, sea_erode_px: 4, ctrl_px: 6}
   formation_centered: {center_tol_x: 0.10, center_tol_y: 0.10, safe_top_px: 22, safe_side_px: 8, max_sec: 0.5, step_sec: 0.25, sketch_tactical_max_w_deg: 0.5}
   card_over_panel: {min_overlap_sec: 0.3, panel_pad_px: 4, cover_types: [cascade, article, quote, primitive],

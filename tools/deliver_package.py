@@ -155,6 +155,11 @@ def check_package(title: str | None, desc: str, tags: list[str], hashtags: list[
         errs.append(f"tags {tags_chars(tags)}자 > {DP.tags_max_chars}")
     if len(hashtags) != DP.hashtags_count or not all(h.startswith("#") and " " not in h for h in hashtags):
         errs.append(f"hashtags {hashtags} — '#' 로 시작하는 띄어쓰기 없는 해시태그 {DP.hashtags_count}개")
+    from engine.checks import internal_ids  # noqa: PLC0415 — v7.4.0 D-0634 공개 문안 내부 번호(엔진 검사와 같은 정규식)
+
+    for where, s in (("title", title or ""), ("description", desc), ("tags", " ".join(tags + hashtags))):
+        if ids := internal_ids(s):
+            errs.append(f"{where} 에 내부 번호 {sorted(set(ids))} — 공개 문안에서 뺀다")
     if not thumb.exists():
         errs.append(f"thumbnail 없음 — python tools/thumbnail.py 먼저 ({thumb})")
     elif thumb.stat().st_size > T.jpg_max_bytes:

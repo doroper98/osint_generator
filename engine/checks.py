@@ -24,6 +24,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | bgm_edit_credit | hard | v7.4.0 D-0630 §4 — 연출 sound.bgm 에 곡 안 시작점(src, 악구 이어 붙이기)이 있으면 credits.yaml 그 곡 music 행에 edit(편집 사실)가 있어야 `[bgm-edit-credit]` |
 | basemap_upscale | hard | v7.4.0 D-0630 §2(UF-261 "지도가 확대될때 해상도가 크게 낮아지네") — 모든 테마·렌더 경로. 지도 무대 화면 장치 px/도 ÷ 지형 원천 실효 px/도(engine.stage.MercatorStage.upscale_ratio — 고른 티어 레벨과 타일 줌 고유 해상도 중 작은 값) > rules qa_checks.basemap_upscale.max_ratio 가 max_sec 넘게 이어지면 `[basemap-upscale]`. terrain3d 구간·패널 동안 제외 |
 | sea_tile_step | hard | v7.4.0 D-0634 §2(RENDER-AP-040, 칸나이 v1 아드리아해 9~36·306~318초) — 지도 무대 베이스에서 보이는 티어 줌의 원천 타일 격자선 양옆 바다(B−R ≥ rules qa_checks.sea_tile_step.sea_blue_minus_red) 띠 밝기 차 중앙값이 max_step 을 넘는 구간이 min_run_px 넘게 이어지면 `[sea-tile-step]`. 모든 테마·렌더 경로 |
+| public_internal_id | hard | v7.4.0 D-0634(칸나이 v1 엔딩 카드 음악 줄 'D-0630(UF-263)') — 엔딩 카드 크레딧 줄(engine.mux 와 같은 credit_lines)·description.yaml 공개 칸에 rules qa_checks.public_internal_id.pattern(결정·의견·보고·AP 번호)이 있으면 `[public-internal-id]` |
 | date_jump | hard | v7.4.0 D-0619 ⑤·D-0622 — 문장 날짜 표지가 앞뒤 문장 날짜 범위 밖으로 튀고, 그 문장 동안 뜬 작품·기록 카드의 연대(created)와도 겹치지 않으면 `[date-jump]`. 처음·끝 문장은 이웃이 하나라 대상 밖 |
 | formation_centered | hard | v7.4.0 D-0625(UF-255 "진형은 중앙에") — terrain3d 구간에서 보이는 전 부대 화면 상자 중심이 화면 중심에서 rules qa_checks.formation_centered.center_tol 안, 상자 전체가 안전 영역 안. 어긋남이 max_sec 넘게 이어지면 `[formation-centered]`. 이음 창·전 부대 등장 전 제외. 스케치 전쟁사 2D 전술 축척·3D 컷도 같은 함수(SK-W7) |
 | terrain3d_seam | hard | v7.4.0 D-0619 ① — terrain3d 구간 들어감·나옴 이음 창(rules stage_terrain3d.seam_sec 앞뒤)의 실제 렌더 이웃 프레임 평균 절대 화소 차 ≤ rules qa_checks.terrain3d_seam_mad_max `[terrain3d-seam]`. 컷처럼 꺾이는 경계(밝기·강·부대가 한 프레임에 바뀜)를 잡는다 |
@@ -131,6 +132,7 @@ from __future__ import annotations
 
 import math
 import re
+from pathlib import Path
 from functools import lru_cache
 from typing import Callable
 
@@ -162,6 +164,7 @@ HARD = ("license_mismatch",   # v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장�
         "battle_sfx_missing",  # v7.4.0 D-0630 §3(UF-262 "효과음까지 들리는 버전이 좋네" — 채택) — 전쟁사 terrain3d 구간에 전투 효과음 큐 없음
         "basemap_upscale",     # v7.4.0 D-0630 §2(UF-261) — 지도 확대 때 지형 원천 늘림 배율
         "sea_tile_step",       # v7.4.0 D-0634 §2(RENDER-AP-040) — 바다 면 원천 타일 경계 색 계단
+        "public_internal_id",  # v7.4.0 D-0634 — 공개 문안(엔딩 카드·설명문)의 내부 번호
         "bgm_edit_credit",     # v7.4.0 D-0630 §4 — 곡 편집(악구 이어 붙이기) 크레딧 표기
         "map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
@@ -1587,6 +1590,41 @@ def sea_tile_steps(img: "np.ndarray", xs: list[float], ys: list[float]) -> list[
                         out.append((axis, round(float(pos), 1), i, j, round(m, 1)))
                 i = j
     return out
+
+
+def internal_ids(text: str) -> list[str]:
+    """공개 문안에서 내부 번호(rules qa_checks.public_internal_id.pattern)를 찾는다(v7.4.0 D-0634)."""
+    cfg = QA.public_internal_id
+    return [] if cfg is None else re.findall(cfg.pattern, text or "")
+
+
+def public_texts(P) -> list[tuple[str, str]]:  # noqa: ANN001, N803
+    """(어디, 문자열) — 엔딩 카드 크레딧 줄(engine.mux 와 같은 credit_lines)과 description.yaml 의 공개 칸."""
+    from engine.credits import credit_lines  # noqa: PLC0415
+
+    cache = getattr(P.R, "cache", None) or {}
+    out = [("credits", ln) for ln in credit_lines(P.R.credits, P.R.assets.rights, P.R.assets.media, cache.get("credit_refs"),
+                                                  cache.get("cited_sources"), cache.get("series_records"), cache.get("press_by_scene"))]
+    dp = Path(P.root) / "description.yaml"
+    if dp.exists():
+        from engine.mux import load_description  # noqa: PLC0415
+
+        d = load_description(Path(P.root))
+        out += [("description.title", d.title or ""), ("description.headline", d.headline)]
+        out += [("description.summary", s) for s in d.summary_paras()]
+        out += [("description.chapter", c.label) for c in d.chapters] + [("description.footer", f) for f in d.footer]
+        out += [("description.alt_title", a) for a in d.alt_titles] + [("description.tag", g) for g in d.tags + d.hashtags]
+        if d.description_text:
+            out.append(("description.text", d.description_text))
+    return out
+
+
+def check_public_internal_id(P) -> list[str]:  # noqa: ANN001, N803
+    """[public-internal-id] hard(v7.4.0 D-0634) — 공개 문안(엔딩 카드·설명문·제목·태그)의 내부 번호."""
+    if QA.public_internal_id is None:
+        return []
+    return [f"[public-internal-id] {where}: 내부 번호 {ids} — 공개 문안에서 빼고 주석(#)·DECISIONS 로 옮긴다: {s[:80]!r}"
+            for where, s in public_texts(P) if (ids := internal_ids(s))]
 
 
 def check_sea_tile_step(P) -> list[str]:  # noqa: ANN001, N803
@@ -3244,6 +3282,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "battle_sfx": lambda: check_battle_sfx(P),                                # v7.4.0 D-0627 §2-5 [battle-sfx]
         "basemap_upscale": lambda: check_basemap_upscale(P),                      # v7.4.0 D-0630 §2 [basemap-upscale]
         "sea_tile_step": lambda: check_sea_tile_step(P),                          # v7.4.0 D-0634 §2 [sea-tile-step]
+        "public_internal_id": lambda: check_public_internal_id(P),                # v7.4.0 D-0634 [public-internal-id]
         "bgm_highlight": lambda: check_bgm_highlight(P),                          # v7.4.0 D-0630 §4 [bgm-highlight](warning)
         "bgm_edit_credit": lambda: check_bgm_edit_credit(P),                      # v7.4.0 D-0630 §4 [bgm-edit-credit]
         "battle_sfx_missing": lambda: check_battle_sfx_missing(P),                # v7.4.0 D-0627 §2-5(warning)

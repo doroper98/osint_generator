@@ -1541,6 +1541,12 @@ class BasemapUpscale(_Strict):
     step_sec: float = Field(gt=0)
 
 
+class PublicInternalId(_Strict):
+    """[public-internal-id] hard(v7.4.0 D-0634) — 공개 문안의 내부 번호 정규식."""
+
+    pattern: str = Field(min_length=3)
+
+
 class SeaTileStep(_Strict):
     """[sea-tile-step] hard(v7.4.0 D-0634 §2, RENDER-AP-040) — 바다 면 원천 타일 경계 색 계단."""
 
@@ -2030,6 +2036,7 @@ class QAChecks(_Strict):
     card_over_panel: Optional[CardOverPanel] = None   # v7.4.0 D-0248(UF-129)
     basemap_upscale: Optional[BasemapUpscale] = None   # v7.4.0 D-0630 §2(UF-261)
     sea_tile_step: Optional[SeaTileStep] = None   # v7.4.0 D-0634 §2(RENDER-AP-040)
+    public_internal_id: Optional[PublicInternalId] = None   # v7.4.0 D-0634 — 공개 문안 내부 번호
     label_under_media: Optional[LabelUnderMedia] = None   # v7.4.0 R-0294 판정
     formation_centered: Optional[FormationCentered] = None   # v7.4.0 D-0625(UF-255)
     outlet_min_overlap_sec: float = 0.5               # v7.4.0 D-0250(UF-130)
