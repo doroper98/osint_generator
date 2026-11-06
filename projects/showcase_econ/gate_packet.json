@@ -1,0 +1,28 @@
+{
+ "schema_version": 1,
+ "project_id": "showcase_econ",
+ "created_at": "2026-11-06T00:05:35.526332Z",
+ "created_by": "쇼케이스 구현 3 (session_017Yuw8mZjzL9rxkApRyBCoR)",
+ "commit": "7cac0977db257dc77645a0a722b55df276b7deda",
+ "sources": {
+  "script.yaml": "aa1ccc15ca0b4e991f95bacc974890a43db2d11e",
+  "direction.yaml": "51f0308050b719298a51f946ff2e1161683b543a",
+  "plan.json": "486e3cd3142a75321f96c18bab15af1fc7054b46"
+ },
+ "script": {
+  "script_sha1": "aa1ccc15ca0b4e991f95bacc974890a43db2d11e",
+  "media_plan": "사진 0/3 · 기사 후보 21문장 · 184초(plan)"
+ },
+ "preview": {
+  "animatic_provenance_sha1": "9e26bf66a8e026d0de78fbc525bed250cb53f984",
+  "total_sec": 184.132,
+  "plan_total": 184.1317006802722,
+  "animatic_script_sha1": "aa1ccc15ca0b4e991f95bacc974890a43db2d11e",
+  "output": "out/animatic.mp4",
+  "direction_sha1": "51f0308050b719298a51f946ff2e1161683b543a",
+  "rendered_at": "",
+  "pending_people": [],
+  "pending_emblems": []
+ },
+ "digest": "7148f3f9b95b4fa8f6f5d5792ac5bff4f42eb248"
+}
