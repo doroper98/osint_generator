@@ -23,6 +23,7 @@ DOT_PX = 7.0          # 핀 점(맥동 고리 안쪽 점 + 테두리) 반폭 —
 RING_PX = 24.0        # 핀 맥동 고리 최대 반지름(engine.layers.markers.draw_marker 4 + 20·ease_out) — 끝값 라벨 판이 덮지 않는다(D-0283 §2)
 GAP_PX = 6.0          # 라벨끼리 가로 최소 간격(맞닿은 라벨 "인하워시" 금지, D-0267)
 TOL_PX = 2.0          # 세로 경계 접촉(≤ 2px)은 겹침이 아니다
+COINCIDE_PX = 0.5     # v7.4.0 D372(RENDER-AP-034) — 점 중심 차가 이 안이면 같은 점(한 사건의 두 라벨) — 점 ↔ 점 겹침에서 뺀다
 LINE_STEP_PX = 2      # 계열 선·띠 교차 표본 간격(가로 px)
 LEAD_SEC = 0.6        # 핀이 나타난 뒤 라벨이 다 보인 시각(draw_marker 라벨 페이드 0.2+0.4초)
 ASSIGN_STEP_SEC = 0.25   # 단 고르기 표본 간격 — 이동 숏 중 전망 점 열을 스치는 순간을 놓치지 않게(econ 115초)
@@ -73,6 +74,13 @@ def plot_bounds(ctx: cairo.Context, view: object, stage: object, lane: str, rng:
 
 def _ov(a: Box, b: Box) -> bool:
     return min(a[2], b[2]) - max(a[0], b[0]) > -GAP_PX and min(a[3], b[3]) - max(a[1], b[1]) > TOL_PX
+
+
+def dots_touch(a: Box, b: Box) -> bool:
+    """두 핀 점 상자가 맞닿거나 겹친다(v7.4.0 D372, RENDER-AP-034) — 화면에서 '●●' 로 붙어 보인다.
+    중심이 같은 두 점(같은 레인·같은 날짜 = 한 사건에 단 두 라벨)은 화면에 점 하나라 겹침이 아니다(COINCIDE_PX 안)."""
+    same = abs((a[0] + a[2]) - (b[0] + b[2])) / 2 <= COINCIDE_PX and abs((a[1] + a[3]) - (b[1] + b[3])) / 2 <= COINCIDE_PX
+    return not same and min(a[2], b[2]) - max(a[0], b[0]) > 0 and min(a[3], b[3]) - max(a[1], b[1]) > 0
 
 
 def dot_box(x: float, y: float) -> Box:
@@ -281,11 +289,14 @@ def pin_label_check(scene: PinScene) -> list[dict]:
     f1 = int(max(p["t1"] for p in scene.pins) * FPS)
     for f in range(-(-f0 // STEP_FRAMES) * STEP_FRAMES, f1 + 1, STEP_FRAMES):
         t = f / FPS
-        for p, rect, _, hit in scene.frame(t, lambda q: q.get("pin_row")):
+        fr = scene.frame(t, lambda q: q.get("pin_row"))
+        for i, (p, rect, dot, hit) in enumerate(fr):
+            # v7.4.0 D372(RENDER-AP-034) — 점 ↔ 점: 같은 레인 위 두 핀의 점이 닿으면('●●') 라벨과 무관하게 겹침. 날짜를 옮기지 말고 연출이 자리·수명을 고른다
+            dots = [f"핀 {q['label']!r} 점과 점이 겹침" for j, (q, _, qd, _) in enumerate(fr) if j > i and dots_touch(dot, qd)]
             la = window(t, p["t0"], p["t1"], *ELEM["pin_label"]) * smooth((t - p["t0"] - MOTION["pin_label_delay_sec"]) / MOTION["pin_label_in_sec"])
             if rect is None or la <= 0.01:
-                continue
-            for h in hit:
+                hit = []
+            for h in list(hit) + dots:
                 prev = next((r for r in reversed(rows_out) if r["a"] == p["label"] and r["b"] == h), None)
                 if prev is not None and t - prev["t1"] <= STEP_FRAMES / FPS + 0.011:
                     prev["t1"] = round(t, 2)

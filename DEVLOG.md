@@ -3466,3 +3466,4 @@ last_review: 2026-06-06
 - 무엇을: process_lane·doc_excerpt 승인, political_history approved, tempo 현행 유지. 후속 장치 순서대로 — 뱃지 pulse·strike·question, checklist open, photo·clip spot, era_numeral, route flow, network drop·crowd. 모두 선택 필드(안 쓰면 dict 옛 모양), 수치는 rules, 요소 문법은 genre_prompt.element_grammar.
 - 왜: 사용자 결정 "동의 하고 순차적으로 다 반영해". 사실 경계(strike = 확인된 숙청·사망만, crowd 점 수 = 수치 아님, 연도 = 원고 날짜의 해만, dim = 덮개)를 문법과 검증에 같이 넣었다.
 - 시행착오: 시험이 도는 중 규칙 파일을 고쳐 콘티 판 렌더 조각이 반쯤 바뀐 규칙을 읽고 실패 — 현 코드 재현에서 정상 완료(fed_timeline_demo 2조각). 시험 중에는 규칙·엔진 파일을 고치지 않는다. 샘플에 실존 인물 초상을 썼다가 X 표시가 실존 인물 위에 그려져 폐기, 실루엣으로 다시 렌더.
+- v7.4.0 D372: [island-pin-collision] 점 ↔ 점 겹침 추가(RENDER-AP-034) — showcase_econ v4 127초 '●●'
