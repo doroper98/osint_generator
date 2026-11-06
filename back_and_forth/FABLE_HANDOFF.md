@@ -49,8 +49,9 @@
 - R-0321: A′ 뒤 geo 매체 5<7 → 사용자 결정(UF-139 대 UF-173). 비교 클립(artifacts 9d11bd07 d0353_compare/) 사용자 전달 14:28Z — **답 대기**: ① 지도 먼저(B: 이 영상만 매체 하한 면제, 5장) ② 사진 먼저(A: act2 2분할이 무대 도착을 덮음, 7장) ③ 원고 2막 도입 늘리기(게이트 ① 다시). A 를 고르면 하바롭스크 크레딧 "CC BY 3.0" 중복 표기도 고친다.
 - 골든 환경: 원인 = 표준 FONTCONFIG 누락(war R-0329). 장치 RENDER-AP-032 네 브랜치 반영 완료(war fddc5526·4562b172 / sweet 1402503d·2499f012 / iran e4ad493f·e409edcf / econ 31004550·597a2c1c). econ 골든 25컷 f70904e0 에서 25/25 일치(D358). 조각 캐시 키 보강 a2c612fc 반영(D347, 종결).
 - narration_clarity: 쇼케이스 3b2d1bb6·af0409ef·34dedc1c(전 장르 hard, D349). 경제(3b2d1bb6 → af0409ef → 34dedc1c)·전쟁사(af0409ef → 34dedc1c) 전파 지시, R 대기.
+- **사용자 게이트 승인 기록 절차(이 세션, D363)**: 사용자 원문을 받으면 UF 기록 → 그 프로젝트가 있는 브랜치를 worktree 로 꺼낸다 → `python -m orchestrator.main approve --project {pid} --gate script_approval|preview_approval --comment "사용자 원문 \"…\" (UF-…)"` → commit(첫 줄 v7.4.0: …) → 그 브랜치에 push → 구현 세션에 "pull 해서 진행" 알림. 게이트 ② 는 gate packet 의 ② 구역이 있어야 돈다(쇼케이스 econ 은 manifest done 이라 먼저 reopen). 게이트 ① 은 packet 없이 추적 파일로 돈다(삼성·인텔 실측 통과, econ 3034bc72).
 - **AP 번호대(D361)**: 통합 sweet-galileo = 현재 최대+1~039(다음 PIPELINE-028·RENDER-034·RIGHTS-004), 전쟁사 040~059, 예산안·속도 060~079, 영상 분석 080~099, 이란 100~119 — 모든 범주 공통.
-- 다음 번호 UF-209·D-0356·DECISIONS D363·PIPELINE-AP-028·RENDER-AP-034·RIGHTS-AP-004.
+- 다음 번호 UF-209·D-0356·DECISIONS D364·PIPELINE-AP-028·RENDER-AP-034·RIGHTS-AP-004.
 
 ### 상태 갱신(2026-11-02 11:10Z, 최종 감독 — 사용자가 이 세션 모델을 Opus 5.5 로 전환)
 - 쇼케이스: 교체본 콘티 판 v2_animatic 게이트 ② **재승인 대기**. sweet-galileo 머리 b2d5f75a(UF-207 원장 정정 217c4525·PIPELINE-AP-026·5bdcd949·fed 데모 120).
