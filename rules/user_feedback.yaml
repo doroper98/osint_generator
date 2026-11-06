@@ -2824,3 +2824,14 @@ entries:
   status: open
   decision: "감독 판단(DECISIONS D748, back_and_forth D-0633) — 원인: 구현 세션 권한 장치는 그 세션에 사람이 직접 친 승인만 받는다(다른 세션 전달 = 사람 입력 아님). 감독 D-0632 가 승인을 감독 세션에서 받고 기록은 구현에 맡겼다. 장치: 게이트 자료와 함께 승인 검사 입력(gate packet)을 git 에 올리고, 감독 세션이 approve 를 직접 실행(code·test, 다음 영상 게이트 전 — C12-2). 절차 규칙은 back_and_forth/README.md §9 게이트 승인 기록 자리(실패를 내는 장치 아님 → status open 유지)"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-06"
+- id: UF-268
+  date: '2026-11-06'
+  project: cannae_216bc
+  at: "칸나이 720p 전편 렌더 중(00:03Z 시작), 감독이 전달 예상 01:30~02:00Z 와 final_deliver(30MB 이하 2-pass) 계획을 알린 뒤"
+  quote: "30메가 넘으면 분할해서 보내줘"
+  quote_kind: verbatim
+  category: "전달 — 30MB 를 넘는 영상은 화질을 깎아 맞추지 말고 30MB 이하 조각으로 나눠 보낸다. 조각은 키프레임 경계에서 재인코딩 없이 자르고, 순서·길이·md5 를 함께 적는다"
+  guards: []
+  status: open
+  decision: "감독 판단(DECISIONS D749) — 칸나이: 30MB 이하 한 파일(final_deliver)과 고화질 원본(렌더 출력)의 30MB 이하 조각을 함께 보낸다. 전달 뒤 장치: 전달 도구가 30MB 초과 원본을 조각으로 나누고 조각마다 크기·이어 붙인 길이를 검사"
+  source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-06"
