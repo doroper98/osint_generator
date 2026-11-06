@@ -268,3 +268,19 @@ last_review: 2026-09-29
 - v7.4.0(D-0278 §4.2·E3): `source_kind: filing` + `filings[]`(`ValueFiling{date, form, number, filed_on, item, locator, url, raw_value, raw_unit, raw_md5}`) — transform `filing`·license `public_filing`, 값 = `rules data.filing_scales` 환산(로더가 다시 계산해 대조). `frequency: quarterly`(분기 마지막 날, 빈 분기 = missing)·`daily`(거래일, transform `chart_close`, raw `<id>.json` 대조, license `private_only_market_data`). `issued_on`(미래 분기 값 — 가이던스·예상치, as_of = 발표 달). 받기 = `tools/fetch_filing.py filing|price|scan`.
 - `engine/events.py:DualSeries` — `values` 에 null 허용(선을 끊는다), `record`(레코드 대조), `open_idx`(상·하한 표기 값 = 빈 점).
 - 모두 optional 추가라 `schema_version` 은 그대로(C3).
+
+## GatePacket — `projects/{pid}/gate_packet.json` (v7.4.0 back_and_forth D-0355, UF-267)
+
+사용자 게이트 승인은 감독 세션이 `orchestrator.main approve` 로 기록한다. 감독 작업 트리에는 `out/`(콘티 판 기록)·미추적 자산이 없으므로
+구현 세션이 `python tools/gate_packet.py projects/{pid}` 로 판정 입력을 묶어 git 에 올린다(`schemas.models.GatePacket`, schema_version 1).
+
+| 필드 | 뜻 |
+|---|---|
+| `project_id` · `created_at` · `created_by` · `commit` | 만든 프로젝트·시각·세션·작업 트리 HEAD |
+| `sources` | 추적 원천 파일(`script.yaml`·`direction.yaml`·`plan.json`) 바이트 sha1 — 승인 때 현재 파일과 같아야 한다 |
+| `script`(게이트 ①) | `script_sha1`(원고 지문) · `media_plan`(require_media_plan 통과 줄) |
+| `preview`(게이트 ②) | 콘티 판 기록 `animatic_provenance_sha1`·`total_sec`·`plan_total`·`animatic_script_sha1`·`output`·`direction_sha1`·`rendered_at`, 공용 자산 미승격 `pending_people`·`pending_emblems` |
+| `digest` | digest 를 뺀 정규 JSON sha1 — 손으로 고친 값 거부 |
+
+판정(`orchestrator.project_manager`): `out/` 이 있으면 지금처럼 `out/` 으로. `out/` 이 없으면 게이트 ② 는 packet 필수(없거나·digest·원천 지문이
+어긋나면 `GatePacketError`, 우회 없음). 게이트 ① 은 `out/` 이 없고 packet 이 있을 때 packet 으로(어긋나면 거부), packet 이 없으면 원래 미디어 계획 표 판정.
