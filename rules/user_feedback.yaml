@@ -2469,7 +2469,14 @@ entries:
   quote: "그리고 썸네일 아주 만족해. 지정경제학적 테마와 전쟁사/역사물에 대한 테마는 색조만 살짝 다르게 적용할 수 있도록 저장소 최상위 규칙에 적어두고, 일관된 디자인이 유지 될 수 있도록 해. 그리고 그것을 https://claude.ai/code/cshk_017Yuw8i7EwyZ4z45XtcvjkgQ576B51RVpfU32ZLBd8JCj 이 세션에 전달 해서 전쟁사 영상이 끝나면 우리 정책에 맞춘 썸네일 제목 설명 태그를 만들도록 지시해"
   quote_kind: verbatim
   category: "합격 판정(썸네일 디자인 기준 확정 — 타이틀 카드 구성·제목 1.6배·금빛 얇은 선 inset) + 규칙: 장르 테마(지정학·경제 / 전쟁사·역사)는 색조만 살짝 다르고 구도·기하·글자 크기는 동일. 헌법 CLAUDE.md C13 + rules thumbnail.themes. 장치 = 두 테마의 기하 동일성 테스트 + 장르→테마 매핑 테스트"
-  guards: []
-  status: open
+  guards:
+  - {kind: rule, ref: thumbnail.themes}
+  - {kind: rule, ref: thumbnail.theme_default_by_genre}
+  - {kind: code, ref: tools.thumbnail.resolve_theme}
+  - {kind: test, ref: tests/test_thumbnail.py::ThumbnailThemeTest::test_geo_econ_equals_no_theme}
+  - {kind: test, ref: tests/test_thumbnail.py::ThumbnailThemeTest::test_themes_differ_only_in_color}
+  - {kind: test, ref: tests/test_thumbnail.py::ThumbnailThemeTest::test_unmapped_genre_falls_back}
+  - {kind: test, ref: tests/test_thumbnail.py::ThumbnailThemeTest::test_geometry_key_in_theme_rejected}
+  status: guarded
   decision: 사용자 판정·지시 → CLAUDE.md C13(감독 기록), D-0321(구현 — thumbnail.themes 두 가지·장르 매핑·테스트), 전쟁사 감독 세션(session_017Yuw8i7EwyZ4z45Xtcvjkg)에 정책 전달. D542
   source: 감독 세션(Fable, 미국 중간선거 트랙) 사용자 대화 2026-11-06

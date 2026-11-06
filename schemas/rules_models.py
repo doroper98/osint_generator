@@ -2412,6 +2412,15 @@ class ThumbnailBorder(_Strict):
     glow_alpha: float = Field(ge=0, le=0.3)
 
 
+class ThumbnailTheme(_Strict):
+    """v7.4.0 back_and_forth D-0321(사용자 판정 UF-178 "색조만 살짝 다르게 … 일관된 디자인", CLAUDE.md C13) — 색 값만.
+    기하·크기 키는 _Strict(extra=forbid) 라 모델 오류. gold null = C["gold"](공통 금색)."""
+
+    gradient_rgb: tuple[float, float, float]
+    gold: Optional[tuple[float, float, float]] = None
+    subtitle_rgb: tuple[float, float, float]
+
+
 class ThumbnailRules(_Strict):
     """v7.4.0 back_and_forth D-0320(사용자 의견 UF-177 "썸네일은 제목 페이지에서 제목을 좀 더 키우고 … 금빛 얇은 선 테두리") — tools/thumbnail.py.
     장면·글자 배치 = 타이틀 카드(engine.fullcards.draw_title_card) 그대로, 제목만 title_scale 배."""
@@ -2424,6 +2433,16 @@ class ThumbnailRules(_Strict):
     jpg_max_bytes: int = Field(gt=0)
     width: int = Field(gt=0)
     height: int = Field(gt=0)
+    theme_default_by_genre: dict[str, str] = Field(default_factory=dict)   # 장르(order.yaml genre) → 테마. 없는 장르 = theme_fallback
+    theme_fallback: str
+    themes: dict[str, ThumbnailTheme] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def _theme_refs(self) -> "ThumbnailRules":
+        bad = sorted({v for v in self.theme_default_by_genre.values() if v not in self.themes} | ({self.theme_fallback} - set(self.themes)))
+        if bad:
+            raise ValueError(f"thumbnail 테마 이름이 themes 에 없다: {bad}")
+        return self
 
 
 class DeliveryPackageRules(_Strict):
