@@ -489,7 +489,7 @@ events:
   end:
     sid: act2_7
     'off': -0.1
-  date: '2026-08-31'
+  date: '2026-08-15'   # v7.4.0 D-0358 — 08-31 은 정책금리 끝값 라벨이 핀 고리를 덮었다([island-pin-collision] 125.9~130.0초)
   lane: policy_rate
   label: 8월 소비자물가 +3.4%
   sub: 전년 대비
@@ -504,8 +504,8 @@ events:
     'off': -0.1
   date: '2026-12-31'
   lane: policy_rate
-  label: 연내 +0.25%p 추가 인상
-  sub: 경제전망 중앙값
+  label: 연말 중앙값 4.125%   # v7.4.0 D-0358 — 옛 '연내 +0.25%p 추가 인상'은 act3_2 를 100% 되풀이([text-restates-narration]). 자막에 없는 연말 수준(SEP 2026 중앙값, data/series/SEP_20260916)
+  sub: +0.25%p 1회
   side: left
   hl: true
 sound:
