@@ -26,7 +26,8 @@ import yaml
 from pydantic import ValidationError
 
 from engine import fullcards as F
-from engine.style import C, H_OUT, TITLE_CARD, W_OUT
+from engine.style import C, H_OUT, MOTION, TITLE_CARD, W_OUT
+from schemas.era_date import badge_text
 from engine.timebase import ease_io, ease_out, smooth
 from engine.typography import text, tw
 from rules import RULES_PATH, load_rules
@@ -89,16 +90,16 @@ class SameCodeAsVideoTest(unittest.TestCase):
             g.add_color_stop_rgba(st, 0.01, 0.015, 0.03, al * a)
         ctx.set_source(g)
         ctx.paint()
-        k = ease_out(lt / 1.0)
+        k = ease_out(lt / MOTION["title_settle_sec"])   # 전쟁사 브랜치 반입(D-0634) — 이 브랜치 영상 코드의 옛 판(MOTION 시간·badge_text)
         text(ctx, plan.title, W_OUT / 2, 232 - (1 - k) * 10, F.title_fit_size(ctx, plan.title), "disp", (1, 1, 1),
-             a * smooth((lt - 0.1) / 0.6), 0, "c")
+             a * smooth((lt - 0.1) / MOTION["title_text_in_sec"]), 0, "c")
         ctx.set_source_rgba(*C["gold"], 0.95 * a)
-        lw = TITLE_CARD.rule_w * ease_io((lt - 0.5) / 0.9)
+        lw = TITLE_CARD.rule_w * ease_io((lt - 0.5) / MOTION["title_rule_in_sec"])
         ctx.rectangle(W_OUT / 2 - lw / 2, 254, lw, 1.6)
         ctx.fill()
         text(ctx, plan.subtitle, W_OUT / 2, 290, TITLE_CARD.subtitle_size, "serifb", (0.92, 0.9, 0.88),
-             a * smooth((lt - 0.8) / 0.6), 0, "c")
-        text(ctx, plan.date.replace(".", ". "), W_OUT / 2, 322, 12, "mono", C["gold"], a * smooth((lt - 1.1) / 0.6), 0, "c")
+             a * smooth((lt - 0.8) / MOTION["title_text_in_sec"]), 0, "c")
+        text(ctx, badge_text(plan.date), W_OUT / 2, 322, 12, "mono", C["gold"], a * smooth((lt - 1.1) / MOTION["title_text_in_sec"]), 0, "c")
 
     def test_scale_one_byte_equal(self) -> None:
         plan = _plan("뒤집힌 일곱 자리")
@@ -215,9 +216,13 @@ class PackageCheckTest(unittest.TestCase):
     def test_project_description_has_package_fields(self) -> None:
         from engine.mux import load_description  # noqa: PLC0415
 
-        d = load_description(MID)
-        self.assertEqual(D.check_package(d.title, "설명", d.tags, d.hashtags, REPO / "VERSION"), [])
-        self.assertIn("basics", [c.at for c in d.chapters])   # 중간선거란 장(D-0320 §5)
+        # 전쟁사 브랜치(D-0634): 이 브랜치에 있는 프로젝트만 본다 — us_midterms 는 없고 칸나이가 전달 패키지 첫 적용
+        cases = [(p, ch) for p, ch in ((MID, "basics"), (REPO / "projects" / "cannae_216bc", "encirclement")) if (p / "description.yaml").exists()]
+        self.assertTrue(cases)
+        for proj, chapter in cases:
+            d = load_description(proj)
+            self.assertEqual(D.check_package(d.title, "설명", d.tags, d.hashtags, REPO / "VERSION"), [], proj.name)
+            self.assertIn(chapter, [c.at for c in d.chapters])
 
 
 class ThumbnailThemeTest(unittest.TestCase):
@@ -272,6 +277,8 @@ class ThumbnailThemeTest(unittest.TestCase):
         from tools.thumbnail import fullscreen_card_at, title_card_time  # noqa: PLC0415
 
         iran, china = REPO / "projects" / "iran_ceasefire_2026", REPO / "projects" / "china_tech_export_controls_2026"
+        if not (china / "plan.json").exists():   # 전쟁사 브랜치(D-0634): china 프로젝트 폴더가 없다(반입은 설명만)
+            self.skipTest("china_tech_export_controls_2026 plan.json 이 이 브랜치에 없음")
         pi, pc = load_plan(iran), load_plan(china)
         self.assertEqual(fullscreen_card_at(iran, pi, title_card_time(pi)[0] - 1 / 24), "article")
         self.assertIsNone(fullscreen_card_at(china, pc, title_card_time(pc)[0] - 1 / 24))

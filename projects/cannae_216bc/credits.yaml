@@ -69,7 +69,7 @@ sections:
   column: 1
   items:
   - music: music.beethoven_coriolan   # UF-256 "coriolan"(D-0626)
-    edit: 악구 이어 붙임(원곡 8구간, 녹음 불변) — D-0630(UF-263)
+    edit: 악구 이어 붙임(원곡 8구간, 녹음 불변)   # D-0630(UF-263)
 - title: 효과음
   column: 1
   items:   # D-0630 §3(UF-262 채택) — 녹음 효과음 층. 문구는 효과음 레지스트리(assets/audio/sfx/registry.yaml). CC BY 는 의무, 나머지는 원작자 요청·감사
