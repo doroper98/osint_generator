@@ -32,7 +32,7 @@ from typing import TYPE_CHECKING, Any
 
 import yaml
 
-from engine.stage_terrain3d import Terrain3DError, build_scene, downsample_frames
+from engine.stage_terrain3d import Terrain3DError, build_scene, downsample_frames, seg_frames
 from engine.style import FPS
 from engine.timebase import smooth
 from rules import load_rules as _load_rules_uncached
@@ -187,7 +187,7 @@ def seg_dir(proj: Path, profile: str, seg: Segment) -> Path:
 
 def view_rows(P: "Project", seg: Segment) -> list[list[float]]:  # noqa: N803
     fps = FPS
-    i0, i1 = int(round(seg.t_in * fps)), int(round(seg.t_out * fps))
+    i0, i1 = seg_frames(seg.t_in, seg.t_out, fps)
     return [list(map(float, P.cams[i])) for i in range(i0, max(i0 + 1, i1))]   # 구간 전 프레임 — 3D 카메라가 따르는 mercator 카메라(D-0617)
 
 

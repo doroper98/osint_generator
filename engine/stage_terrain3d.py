@@ -105,6 +105,12 @@ def rank_posts(poly: list[list[float]], gap: float, limit: int) -> list[list[flo
     return [[round(float(a), 2), round(float(b), 2)] for a, b in inside_pts[:limit]]
 
 
+def seg_frames(t_in: float, t_out: float, fps: float) -> tuple[int, int]:
+    """구간 프레임 [i0, i1) — 프레임 i(시각 i/fps)가 t_in ≤ t < t_out 인 것만(v7.4.0 D-0634 §3-5).
+    옛 round(t_in × fps) 는 컷 직전 프레임 하나를 3D 로 넣었다(칸나이 seg00 2723번 = 113.458초 < t_in 113.4705초)."""
+    return math.ceil(t_in * fps - 1e-9), math.ceil(t_out * fps - 1e-9)
+
+
 class Terrain3DError(ValueError):
     """terrain3d 구간 구성 오류(15 P6 — 조용히 2D 로 바꾸지 않는다)."""
 
@@ -194,7 +200,7 @@ def build_scene(P: "Project", seg: "Segment", forces: WarForces, out: Path) -> d
     R = load_rules()  # noqa: N806
     T3, ST, WS = R.sketch.war.terrain3d, R.stage_terrain3d, R.war_history.symbol_sets  # noqa: N806
     from engine.style import FPS as fps  # noqa: PLC0415, N811
-    i0, i1 = int(round(seg.t_in * fps)), int(round(seg.t_out * fps))
+    i0, i1 = seg_frames(seg.t_in, seg.t_out, fps)
     stage = P.R.stage
     views = [View(stage, P.cams[i]) for i in range(i0, i1)]   # D-0617 — 3D 카메라는 프레임마다 mercator 카메라(숏 단위 push·pan)를 따른다
     x_lo, x_hi = min(v.x0 for v in views), max(v.x0 + v.w for v in views)
