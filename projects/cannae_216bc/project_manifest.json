@@ -4,8 +4,8 @@
   "title": "칸나이 — 기원전 216년 8월 2일",
   "category": "war_military",
   "created_at": "2026-11-01T14:26:10.379273Z",
-  "updated_at": "2026-11-06T00:03:33.941149Z",
-  "current_state": "render",
+  "updated_at": "2026-11-06T01:22:11.261526Z",
+  "current_state": "done",
   "target_duration_min": 5,
   "topic_summary": "제2차 포에니 전쟁 칸나이 전투(기원전 216년): 한니발의 초승달 진형과 양익 포위. 사료(폴리비오스 III·리비우스 XXII)·당대/후대 미술·지명 유래로 본 전투",
   "initial_links": [],
@@ -136,6 +136,59 @@
       "errors": [],
       "drops": 0,
       "log": "logs/stages/04_camera_suggest.json"
+    },
+    {
+      "state": "render",
+      "stage": "render",
+      "ok": true,
+      "at": "2026-11-06T01:06:41.250490Z",
+      "artifacts": {
+        "video_noaudio": "/home/user/osint_generator/projects/cannae_216bc/out/video_noaudio.mp4"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/05_render.json"
+    },
+    {
+      "state": "audio_mix",
+      "stage": "mix",
+      "ok": true,
+      "at": "2026-11-06T01:11:17.677649Z",
+      "artifacts": {
+        "mix": "/home/user/osint_generator/projects/cannae_216bc/out/mix.f32",
+        "bed_stats": "/home/user/osint_generator/projects/cannae_216bc/out/bed_stats.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/06_mix.json"
+    },
+    {
+      "state": "deliver",
+      "stage": "deliver",
+      "ok": false,
+      "at": "2026-11-06T01:14:49.631853Z",
+      "artifacts": {},
+      "errors": [
+        "[Errno 2] No such file or directory: '/home/user/osint_generator/projects/cannae_216bc/description.yaml'"
+      ],
+      "drops": 0,
+      "log": "logs/stages/07_deliver.json"
+    },
+    {
+      "state": "deliver",
+      "stage": "deliver",
+      "ok": true,
+      "at": "2026-11-06T01:22:11.174353Z",
+      "artifacts": {
+        "final": "/home/user/osint_generator/projects/cannae_216bc/out/final.mp4",
+        "srt": "/home/user/osint_generator/projects/cannae_216bc/out/final.srt",
+        "description": "/home/user/osint_generator/projects/cannae_216bc/out/description.txt",
+        "credits": "/home/user/osint_generator/projects/cannae_216bc/out/credits.txt",
+        "provenance": "/home/user/osint_generator/projects/cannae_216bc/out/provenance.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/08_deliver.json"
     }
   ],
   "final_outputs": {},
@@ -223,6 +276,24 @@
       "to_state": "render",
       "transitioned_at": "2026-11-06T00:03:33.941112Z",
       "reason": "preview_approval 승인 — user"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-11-06T01:06:41.252311Z",
+      "reason": "engine render ok"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-11-06T01:11:17.684339Z",
+      "reason": "engine mix ok"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-11-06T01:22:11.261441Z",
+      "reason": "engine deliver ok"
     }
   ],
   "rollbacks": [
