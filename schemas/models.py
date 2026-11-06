@@ -226,6 +226,48 @@ class RollbackRecord(BaseModel):
     script_fingerprint_before: Optional[str] = None   # 되돌리는 시점의 원고 지문(script_sha1) — 없으면 원고 파일 없음
 
 
+class GatePacketScript(BaseModel):
+    """gate packet 게이트 ① 구역(v7.4.0 D-0355, UF-267) — 원고 승인 판정 입력."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    script_sha1: str = Field(min_length=40, max_length=40)   # 만든 때 원고(script.yaml) 바이트 지문 — 승인 때 현재 원고와 같아야 한다
+    media_plan: str = Field(min_length=1)                     # require_media_plan 이 만든 때 돌려준 한 줄(통과한 표만 packet 에 들어간다)
+
+
+class GatePacketPreview(BaseModel):
+    """gate packet 게이트 ② 구역(v7.4.0 D-0355) — 콘티 판 기록(out/animatic_provenance.json) 요지와 자산 승격 상태."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    animatic_provenance_sha1: str = Field(min_length=40, max_length=40)   # 만든 때 out/animatic_provenance.json 바이트 지문
+    total_sec: float                     # 콘티 판 길이
+    plan_total: float                    # 만든 때 plan.json total
+    animatic_script_sha1: str            # 콘티 판을 만든 원고 지문(animatic_run.script_sha1)
+    output: str = ""                     # animatic_run.output
+    direction_sha1: str = ""             # animatic_run.direction_sha1(기록 그대로)
+    rendered_at: str = ""                # 콘티 판 provenance 기록 시각(있으면)
+    pending_people: list[str] = Field(default_factory=list)    # 공용 자산 미승격 초상(require_asset_library 와 같은 판정)
+    pending_emblems: list[str] = Field(default_factory=list)   # 공용 자산 미승격 휘장
+
+
+class GatePacket(VersionedModel):
+    """게이트 승인 입력 묶음(v7.4.0 D-0355, UF-267 "내가 너한테만 교신하면 되는데 왜 이렇게 됐지? 재발 방지해").
+    `projects/{pid}/gate_packet.json`(git 추적). 사용자 게이트 승인은 감독 세션이 approve 로 기록한다 — 감독 작업 트리에는 out/ 이 없으므로
+    approve 는 out/ 이 없을 때 이 파일로 같은 판정을 한다(orchestrator.project_manager). 지문이 어긋나거나 없으면 거부, 우회 없음.
+    sources = 만든 때 추적 파일(script.yaml·direction.yaml·plan.json) 바이트 지문 — 승인 때 현재 파일과 같아야 한다(바꿔치기 방지).
+    digest = 이 묶음(digest 빼고) 정규 JSON 의 sha1 — 손으로 고친 값을 거부한다."""
+
+    project_id: str = Field(min_length=1)
+    created_at: datetime = Field(default_factory=utc_now)
+    created_by: str = Field(min_length=1)          # 만든 세션(구현 세션 id 등)
+    commit: str = ""                               # 만든 때 작업 트리 HEAD
+    sources: dict[str, str] = Field(default_factory=dict)
+    script: Optional[GatePacketScript] = None      # 게이트 ① 구역
+    preview: Optional[GatePacketPreview] = None    # 게이트 ② 구역
+    digest: str = ""
+
+
 class ProjectManifest(VersionedModel):
     schema_version: Literal[2] = MANIFEST_SCHEMA_VERSION  # type: ignore[assignment]
     project_id: str
