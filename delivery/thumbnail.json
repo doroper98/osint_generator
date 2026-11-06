@@ -20,6 +20,8 @@
   "glow_width": 4.0,
   "glow_alpha": 0.14
  },
+ "theme": "geo_econ",
+ "theme_source": "genre:geopolitics",
  "size": [
   1280,
   720
