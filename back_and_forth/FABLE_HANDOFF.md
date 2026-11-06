@@ -33,6 +33,13 @@
 새 감독 세션은 이 문서를 먼저 읽고, 그 다음 `back_and_forth/README.md`·`CLAUDE.md`·`docs/handoff/15`·`docs/handoff/DECISIONS.md`(D169~D181)를 읽는다.
 사용자 사정(세션 한도)으로 감독 역할이 이 세션으로 옮겨졌다. **역할 이름은 그대로 "fable"** 이다(`check.py --me fable`, 문서 `from: fable`).
 
+### 0-3-b. 전달 패키지 트랙(2026-11-06, UF-177·178, C13 신설) — 종결
+- 사용자 지시: 영상마다 제목·설명·태그·썸네일. 썸네일 = 타이틀 카드 확대판(제목 1.6배·금선 inset 22), 장르 테마 색조만(geo_econ/war_history). 헌법 CLAUDE.md C13, rules `thumbnail:`·`delivery_package:`, 도구 `tools/thumbnail.py`·`tools/deliver_package.py`, 커밋 df51d6e3→1912150b→67ba071d→59712982→3ef61740.
+- 산출: artifacts/us-midterms-v7.4.0 `delivery/`(중간선거, 썸네일 b8830301 사용자 "아주 만족") · `retro/iran_ceasefire_2026/delivery/`(썸네일 19da1509, after 바탕 D544) · `retro/china_tech_export_controls_2026/delivery/`(b629954a). 제목·설명·태그는 감독 작성(D541 확정 제목 등).
+- 전쟁사 트랙 감독(session_017Yuw8i7EwyZ4z45Xtcvjkg)에 정책·커밋 목록 전달 — 칸나이 영상 전달 뒤 cherry-pick, war_history 테마로 네 항목 제작 예정.
+- 보류·대기: D-0319(UF-176 '주가' 경음화 수정·교체본 3 — 사용자 "일단 수정은 하지 말고"), 정당 로고 공개 배포 승인(D519 scope private_only). 교체본 2(1816baa5)가 현재 전달본.
+- back_and_forth 다음 번호: D-0326 / R-0317. DECISIONS 다음: D546. 원장 다음: UF-179(미보호: UF-176 1건 — 다음 영상 게이트 ② 전 장치 필요).
+
 ## 1. 역할
 - 구현 세션(Opus, cloud session `session_0157T2pwd4LG8dkkcvZACoWJ`)이 코드를 만든다. 감독은 **코드를 직접 고치지 않는다.** D 문서(지시·판정)를 쓰고, R 보고를 **자기 컨테이너에서 실측**해 판정하고, DECISIONS 에 한 줄 붙이고, 커밋·푸시하고, Opus 에 `send_message`(claude-code-remote MCP, session_id 위 값)로 알리고, 사용자에게 한국어(~습니다 체, 짧은 문장, 핵심 요약 1~3줄)로 보고한다.
 - 사용자 고유 결정(README §7: 주제·청취 합격·게이트 승인·권리 예외·색 선택)은 감독도 내리지 않는다 — 사용자에게 묻는다.
