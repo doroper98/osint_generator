@@ -1,0 +1,34 @@
+기원전 216년 칸나이에서 로마군과 한니발의 카르타고군이 맞섰습니다. 폴리비오스가 적은 로마군은 동맹군을 포함해 보병 약 8만 명, 기병 6천여 명이었고, 카르타고군은 보병 약 4만 명, 기병 약 1만 명이었습니다. 한니발은 중앙의 히스파니아·켈트 보병을 적 쪽으로 볼록하게 내민 초승달 진형으로 로마 보병을 끌어들였고, 양 측면의 아프리카 보병과 하스드루발의 기병이 측면과 후방을 에워쌌습니다. 집정관 아이밀리우스 파울루스는 전사했고, 바로는 베누시아로 달아났습니다.
+
+폴리비오스와 리비우스는 로마군 전사자와 포로를 서로 다른 숫자로 전했고, 영상은 두 사료의 숫자를 나란히 적었습니다. 부대 위치와 크기는 폴리비오스 『역사』 III.113~116(Paton 영역 1922)을 바탕으로 한 개략이며 축척이 아닙니다. 당대 주화와 비석, 후대의 회화와 조각, 1856년 지리 사전과 1885년 판화로 이 전투가 어떻게 기억돼 왔는지도 함께 살폈습니다.
+
+챕터
+0:00 기원전 216년, 8개 군단
+0:38 타이틀
+0:44 전투 전 — 로마 지휘부의 이견
+1:49 배치 — 두 군대가 진을 치다
+2:59 충돌과 포위
+4:14 전투 뒤
+5:20 정리
+
+자료
+Polybius (tr. W. R. Paton, Loeb Classical Library 1922, US public domain) · Livy (tr. B. O. Foster, Loeb Classical Library 1929, US public domain since 2025) · Wikimedia Commons(파일 정보 페이지 extmetadata 그대로) · Macrobius (Latin text, Teubner 1893, public domain) · W. Smith, Dictionary of Greek and Roman Geography (London 1856, public domain)
+
+주요 링크
+Polybius (tr. W. R. Paton, Loeb Classical Library 1922, US public domain) “Polybius, The Histories III.107-109 (tr. W. R. Paton, Loeb 1922)” — https://archive.org/details/polybiushistorie0000wrpa_v3i1
+Livy (tr. B. O. Foster, Loeb Classical Library 1929, US public domain since 2025) “Livy, History of Rome XXII.43-45 (tr. B. O. Foster, Loeb 1929)” — https://archive.org/details/livy-in-fourteen-volumes.-vol.-5-loeb-233
+Wikimedia Commons(파일 정보 페이지 extmetadata 그대로) “Wikimedia Commons file information — 4 artworks for Cannae (coin, bust, Trumbull 1773, Closs 1885)” — https://commons.wikimedia.org/
+Macrobius (Latin text, Teubner 1893, public domain) “Macrobius, Saturnalia I.16.26 (Latin, ed. F. Eyssenhardt, Teubner 1893)” — https://archive.org/details/macrobius00cicegoog
+
+사료(영역본): 폴리비오스 『역사』 III권 — W. R. Paton 영역(Loeb, 1922) — 퍼블릭 도메인 · archive.org polybiushistorie0000wrpa_v3i1 / 리비우스 『로마사』 XXII권 — B. O. Foster 영역(Loeb, 1929) — 퍼블릭 도메인(미국, 2025년부터) · archive.org livy-in-fourteen-volumes.-vol.-5-loeb-233 / 마크로비우스 『사투르날리아』 I.16.26(Teubner 1893) — 퍼블릭 도메인 · archive.org macrobius00cicegoog
+작품·기록: 대리석 흉상(나폴리 국립고고학박물관) — Fratelli Alinari 사진(1900년경) · Public domain / 카르타고 셰켈 은화 — Sailko · CC BY 3.0 / 타니트 기호를 새긴 석회암 비석(루브르 AO 5244) — Tangopaso · Public domain / 존 트럼불, 칸나이 전투에서 파울루스 아이밀리우스의 죽음(1773, 예일대학교 미술관) — Public domain / W. Smith 편, 그리스·로마 지리 사전(1856) 'CANNAE' — Public domain · archive.org india.history.resource.89510 / G. A. Closs, 칸나이 들판 판화(1885) — Public domain / 몬테포르티노형 청동 투구(메트로폴리탄 미술관) — Metropolitan Museum of Art · CC0 / 세바스티앵 슬로츠, 한니발 대리석상(루브르 MR 2093) — Jastrow 사진 · Public domain
+지도: Natural Earth — Natural Earth · Public domain / AWS Terrain Tiles — Mapzen · AWS Open Data · 구성 데이터별 조건(Mapzen terrarium)
+고대 지명: Pleiades(pleiades.stoa.org) — CC BY 3.0
+휘장: 타니트 기호 재현(코드 벡터) — 근거 사진 Tangopaso · Public domain
+글꼴: IBM Plex Sans KR — IBM · SIL OFL 1.1 / IBM Plex Mono — IBM · SIL OFL 1.1 / GmarketSans — Gmarket · G마켓 무료 폰트 / Noto Serif CJK KR — Google · Adobe · SIL OFL 1.1
+음악: Coriolan Overture, Op. 62 — Ludwig van Beethoven · Musopen Symphony · Public Domain · 편집: 악구 이어 붙임(원곡 8구간, 녹음 불변)
+효과음: Horse whinnies — Supplementary Audio S1 (Briefer et al. 2015) — 말 울음 녹음: Briefer E. et al.(2015) Scientific Reports 5:9989, doi:10.1038/srep09989 · CC BY 4.0(creativecommons.org/licenses/by/4.0) · 변경: 거리감 필터·잔향·음높이 ±5 % / Horse gallop, tall grass (#1850) — Joseph SARDIN · CC0 · BigSoundBank / Still North Media — Spear Spear Blade on Blade — Ben Jaszczak & Brian Nelson (Still North Media) · CC0 · OpenGameArt
+음성: 내레이션 — AI 음성 합성
+표기: 부대 위치·크기·간격은 사료 서술의 개략(축척 아님) — 날짜 8월 2일은 로마력 — 실제 계절과 어긋났을 수 있다(Smith 1856)
+
+#칸나이전투 #한니발 #전쟁사
