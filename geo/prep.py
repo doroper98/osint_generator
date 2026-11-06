@@ -27,7 +27,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from shapely.geometry import box
 
 from geo.prep_geometry import build_geo, coverage_reference
-from geo.prep_tiers import TierSpec, build_tier, terrain_theme, tier_record, tile_path, tile_range
+from geo.prep_tiers import TierSpec, build_tier, sea_spec, terrain_theme, tier_record, tile_path, tile_range
 from rules import load_rules
 
 REPO = Path(__file__).resolve().parent.parent
@@ -156,6 +156,8 @@ def prep(proj: Path, cache: Path = CACHE, res: str | None = None, k: float = 1.0
         T = res_spec(tc, k)  # noqa: N806
         t0 = time.time()
         n = ensure_tiles(tiles_dir, T)
+        if (ss := sea_spec(T)) is not None:   # v7.4.0 D-0634 §2 — 바다 수심 원천 줌 타일
+            ensure_tiles(tiles_dir, ss)
         t1 = time.time()
         ratios: dict[str, float] = {}
         lv, miss = build_tier(T, G, tiles_dir, out, k, ref, ratios, terrain)
@@ -163,7 +165,7 @@ def prep(proj: Path, cache: Path = CACHE, res: str | None = None, k: float = 1.0
         if tc.blend != "v3":
             tiers[T.name]["blend"] = tc.blend   # 기본 티어 기록은 v3 그대로(골든 tiers.pkl 불변)
         low = {k_: r for k_, r in sorted(ratios.items(), key=lambda kv: kv[1])[:5]}
-        report[T.name] = dict(tiles=n, levels=lv, land_miss=classify_miss(miss, G, tc.ppd, ref), ppd=T.ppd, z=T.z,
+        report[T.name] = dict(tiles=n, levels=lv, sea_z=(ss.z if (ss := sea_spec(T)) is not None else T.z), land_miss=classify_miss(miss, G, tc.ppd, ref), ppd=T.ppd, z=T.z,
                               fill_ratio=dict(checked=len(ratios), min_allowed=load_rules().geo.land_fill_min_ratio, lowest=low),
                               fetch_sec=round(t1 - t0, 1), build_sec=round(time.time() - t1, 1),
                               bytes=sum((out / f"base_{T.name}_{v}.png").stat().st_size for v in lv))

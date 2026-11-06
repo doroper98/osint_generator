@@ -23,6 +23,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | bgm_highlight | warning | v7.4.0 D-0630 §4(UF-263) — 전쟁사 영상에 깔린 곡 초마다 원곡 세기(녹음 RMS)를 재어 상위 rules audio.qa.bgm_highlight.top_frac 가 전투 구간(battle 큐가 든 terrain3d 구간 처음~끝, 사이 컷어웨이 포함)에 min_overlap 미만으로 들면 `[bgm-highlight]`(프리뷰 판정 뒤 hard 여부) |
 | bgm_edit_credit | hard | v7.4.0 D-0630 §4 — 연출 sound.bgm 에 곡 안 시작점(src, 악구 이어 붙이기)이 있으면 credits.yaml 그 곡 music 행에 edit(편집 사실)가 있어야 `[bgm-edit-credit]` |
 | basemap_upscale | hard | v7.4.0 D-0630 §2(UF-261 "지도가 확대될때 해상도가 크게 낮아지네") — 모든 테마·렌더 경로. 지도 무대 화면 장치 px/도 ÷ 지형 원천 실효 px/도(engine.stage.MercatorStage.upscale_ratio — 고른 티어 레벨과 타일 줌 고유 해상도 중 작은 값) > rules qa_checks.basemap_upscale.max_ratio 가 max_sec 넘게 이어지면 `[basemap-upscale]`. terrain3d 구간·패널 동안 제외 |
+| sea_tile_step | hard | v7.4.0 D-0634 §2(RENDER-AP-040, 칸나이 v1 아드리아해 9~36·306~318초) — 지도 무대 베이스에서 보이는 티어 줌의 원천 타일 격자선 양옆 바다(B−R ≥ rules qa_checks.sea_tile_step.sea_blue_minus_red) 띠 밝기 차 중앙값이 max_step 을 넘는 구간이 min_run_px 넘게 이어지면 `[sea-tile-step]`. 모든 테마·렌더 경로 |
 | date_jump | hard | v7.4.0 D-0619 ⑤·D-0622 — 문장 날짜 표지가 앞뒤 문장 날짜 범위 밖으로 튀고, 그 문장 동안 뜬 작품·기록 카드의 연대(created)와도 겹치지 않으면 `[date-jump]`. 처음·끝 문장은 이웃이 하나라 대상 밖 |
 | formation_centered | hard | v7.4.0 D-0625(UF-255 "진형은 중앙에") — terrain3d 구간에서 보이는 전 부대 화면 상자 중심이 화면 중심에서 rules qa_checks.formation_centered.center_tol 안, 상자 전체가 안전 영역 안. 어긋남이 max_sec 넘게 이어지면 `[formation-centered]`. 이음 창·전 부대 등장 전 제외. 스케치 전쟁사 2D 전술 축척·3D 컷도 같은 함수(SK-W7) |
 | terrain3d_seam | hard | v7.4.0 D-0619 ① — terrain3d 구간 들어감·나옴 이음 창(rules stage_terrain3d.seam_sec 앞뒤)의 실제 렌더 이웃 프레임 평균 절대 화소 차 ≤ rules qa_checks.terrain3d_seam_mad_max `[terrain3d-seam]`. 컷처럼 꺾이는 경계(밝기·강·부대가 한 프레임에 바뀜)를 잡는다 |
@@ -160,6 +161,7 @@ HARD = ("license_mismatch",   # v7.4.0 D-0606 §2(RIGHTS-AP-001) — 모든 장�
         "battle_sfx",          # v7.4.0 D-0627 §2-5·D-0629 §2(UF-258) — 녹음 효과음 큐 권리·병종·크레딧
         "battle_sfx_missing",  # v7.4.0 D-0630 §3(UF-262 "효과음까지 들리는 버전이 좋네" — 채택) — 전쟁사 terrain3d 구간에 전투 효과음 큐 없음
         "basemap_upscale",     # v7.4.0 D-0630 §2(UF-261) — 지도 확대 때 지형 원천 늘림 배율
+        "sea_tile_step",       # v7.4.0 D-0634 §2(RENDER-AP-040) — 바다 면 원천 타일 경계 색 계단
         "bgm_edit_credit",     # v7.4.0 D-0630 §4 — 곡 편집(악구 이어 붙이기) 크레딧 표기
         "map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
@@ -1520,6 +1522,107 @@ def check_basemap_upscale(P) -> list[str]:  # noqa: ANN001, N803
              "그 확대 범위를 덮는 더 고운 티어(geo.yaml, 높은 줌 DEM)를 두고 blend: relative 로 잇는다(UF-261)"
              for a, b, r, tier in basemap_upscale_runs(samples)]
     return waive_regression(P, "basemap_upscale", lines)   # 골든 v3(회귀 기준) 지형은 화소 고정 — 기록만(D-0251·D-0271 원칙)
+
+
+def tile_grid_screen(view: "View", z: int, w: int = W_OUT, h: int = H_OUT) -> tuple[list[float], list[float]]:
+    """줌 z 원천 타일 경계선의 화면 좌표(설계 px) — (세로선 x 목록, 가로선 y 목록). 월드 x = 경도, y = 메르카토르 도(engine.stage.ym)."""
+    n = 2 ** z
+    lon0, y_top = view.to_world(0, 0)
+    lon1, y_bot = view.to_world(w, h)
+    xs = [view.to_screen(i / n * 360 - 180, 0)[0] for i in range(int(np.floor((lon0 + 180) / 360 * n)), int(np.ceil((lon1 + 180) / 360 * n)) + 1)]
+    lo, hi = sorted((y_top, y_bot))
+    ys = [view.to_screen(0, 180 * (1 - 2 * j / n))[1] for j in range(int(np.floor((1 - hi / 180) / 2 * n)), int(np.ceil((1 - lo / 180) / 2 * n)) + 1)]
+    return [x for x in xs if 0 < x < w - 1], [y for y in ys if 0 < y < h - 1]
+
+
+def sea_tile_steps(img: "np.ndarray", xs: list[float], ys: list[float]) -> list[tuple[str, float, int, int, float]]:
+    """[sea-tile-step] 순수 판정(v7.4.0 D-0634 §2) — img(H×W×3) 격자선 양옆 띠 비교. (축, 선 위치, 구간 시작, 끝, 밝기 차 중앙값) 중 상한 넘는 것."""
+    cfg = QA.sea_tile_step
+    if cfg is None:
+        return []
+    a = np.asarray(img, np.float32)[..., :3]
+    H, W = a.shape[:2]  # noqa: N806
+    luma = a @ np.array([0.299, 0.587, 0.114], np.float32)
+    sea = (a[..., 2] - a[..., 0]) >= cfg.sea_blue_minus_red
+    for _ in range(cfg.sea_erode_px):   # 해안에서 안쪽으로 — 4방향 이웃이 모두 바다인 화소만 남긴다
+        e = sea.copy()
+        e[1:, :] &= sea[:-1, :]
+        e[:-1, :] &= sea[1:, :]
+        e[:, 1:] &= sea[:, :-1]
+        e[:, :-1] &= sea[:, 1:]
+        sea = e
+    g, b, o = cfg.gap_px, cfg.band_px, cfg.ctrl_px
+    out = []
+
+    def diff(axis: str, c: int) -> "tuple[np.ndarray, np.ndarray] | None":
+        lo0, lo1, hi0, hi1 = c - g - b, c - g, c + g + 1, c + g + 1 + b
+        size = W if axis == "x" else H
+        if lo0 < 0 or hi1 > size:
+            return None
+        if axis == "x":
+            return (np.abs(luma[:, lo0:lo1].mean(1) - luma[:, hi0:hi1].mean(1)),
+                    sea[:, lo0:lo1].all(1) & sea[:, hi0:hi1].all(1))
+        return (np.abs(luma[lo0:lo1, :].mean(0) - luma[hi0:hi1, :].mean(0)),
+                sea[lo0:lo1, :].all(0) & sea[hi0:hi1, :].all(0))
+
+    for axis, lines in (("x", xs), ("y", ys)):
+        for pos in lines:
+            c = int(round(pos))
+            mid, l_, r_ = diff(axis, c), diff(axis, c - o), diff(axis, c + o)
+            if mid is None or l_ is None or r_ is None:
+                continue
+            d = mid[0] - np.maximum(l_[0], r_[0])   # 격자선에서만 뛰는 몫(자연 기울기는 대조선에도 있다)
+            both = mid[1] & l_[1] & r_[1]
+            i, n = 0, len(both)
+            while i < n:
+                if not both[i]:
+                    i += 1
+                    continue
+                j = i
+                while j < n and both[j]:
+                    j += 1
+                if j - i >= cfg.min_run_px:
+                    m = float(np.median(d[i:j]))
+                    if m > cfg.max_step:
+                        out.append((axis, round(float(pos), 1), i, j, round(m, 1)))
+                i = j
+    return out
+
+
+def check_sea_tile_step(P) -> list[str]:  # noqa: ANN001, N803
+    """[sea-tile-step] hard(v7.4.0 D-0634 §2, RENDER-AP-040) — 지도 무대 표본마다 베이스(지형만)에서 보이는 티어 줌의 타일 격자선 양옆 바다 색 계단.
+    terrain3d 구간·패널 동안은 지도가 안 보여 뺀다. 모든 테마·렌더 경로(같은 베이스 함수 stage.base_image)."""
+    cfg = QA.sea_tile_step
+    st = P.R.stage
+    if cfg is None or getattr(st, "name", None) != "mercator" or not getattr(st, "tiers", None):
+        return []
+    segs = P.R.cache.get("terrain3d_segments") or []
+    panels = [(e["t0"], e["t1"]) for e in P.events if e["type"] == "panel"]
+    hits: list[tuple[float, int, str]] = []
+    for i in range(int(P.plan.total / cfg.step_sec)):
+        t = i * cfg.step_sec
+        if any(s.t_in <= t < s.t_out for s in segs) or any(a <= t < b for a, b in panels):
+            continue
+        view = View(st, P.cams[min(P.n_frames - 1, int(t * FPS))])
+        zs = sorted({int(st.tiers[n]["z"]) for n, a, _ in st.tier_plan(view) if a > 0.01})
+        img = np.asarray(st.base_image(view).convert("RGB"))
+        found = []
+        for z in zs:
+            xs, ys = tile_grid_screen(view, z, img.shape[1], img.shape[0])
+            found += [(z, r) for r in sea_tile_steps(img, xs, ys)]
+        if found:
+            z, r = max(found, key=lambda f: f[1][4])
+            hits.append((t, len(found), f"z{z} {r[0]}={r[1]:.0f} 밝기 차 {r[4]:.1f}"))
+    lines, k = [], 0
+    while k < len(hits):
+        j = k
+        while j + 1 < len(hits) and hits[j + 1][0] - hits[j][0] <= cfg.step_sec + 1e-6:
+            j += 1
+        worst = max(hits[k:j + 1], key=lambda h: h[1])
+        lines.append(f"[sea-tile-step] {hits[k][0]:.0f}~{hits[j][0]:.0f}초 바다 면이 원천 타일 경계에서 색 계단 {worst[1]}곳(예 {worst[2]} > "
+                     f"{cfg.max_step:g}) — 타일마다 해저 수심 원천이 다르다(geo.sea_bathymetry). 지형 티어를 다시 만든다(RENDER-AP-040)")
+        k = j + 1
+    return waive_regression(P, "sea_tile_step", lines)
 
 
 def bgm_source_times(segs: list[dict], ts: "np.ndarray") -> "np.ndarray":
@@ -3140,6 +3243,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "date_jump": lambda: check_date_jump(P),                                  # v7.4.0 D-0619 ⑤·D-0622 [date-jump]
         "battle_sfx": lambda: check_battle_sfx(P),                                # v7.4.0 D-0627 §2-5 [battle-sfx]
         "basemap_upscale": lambda: check_basemap_upscale(P),                      # v7.4.0 D-0630 §2 [basemap-upscale]
+        "sea_tile_step": lambda: check_sea_tile_step(P),                          # v7.4.0 D-0634 §2 [sea-tile-step]
         "bgm_highlight": lambda: check_bgm_highlight(P),                          # v7.4.0 D-0630 §4 [bgm-highlight](warning)
         "bgm_edit_credit": lambda: check_bgm_edit_credit(P),                      # v7.4.0 D-0630 §4 [bgm-edit-credit]
         "battle_sfx_missing": lambda: check_battle_sfx_missing(P),                # v7.4.0 D-0627 §2-5(warning)

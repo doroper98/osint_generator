@@ -1199,6 +1199,9 @@ geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계
   # v7.4.0 back_and_forth D-0630 §2(UF-261) — 겹친 상세 티어(geo.yaml tier blend: relative)의 LOD 이음. 아래 층 실효 ppd 대비 필요 ppd 비율이
   # from_ratio → to_ratio 사이에서 smooth 로 섞는다. 기본(v3) 티어 블렌딩(engine.stage MERCATOR_LOD tier_blend_ppd)은 그대로 — 골든 불변
   tier_blend_relative: {from_ratio: 0.8, to_ratio: 1.2}
+  # v7.4.0 D-0634 §2(RENDER-AP-040) — AWS terrarium z9 이상은 해안을 낀 타일의 바다가 0 m(수심 없음)이고 옆 먼바다 타일은 수심이 있어
+  # 바다 색이 타일 단위로 계단진다(칸나이 아드리아해, z9·z10 실측). 이 줌보다 높은 티어는 바다 수심·해저 음영만 이 줌 타일에서 가져온다(육지는 원래 줌)
+  sea_bathymetry_max_z: 8
   # v4.7.0 back_and_forth D-0107 D2(b) — 이 이름(부분 일치, 대소문자 무시)을 단 route 이벤트(label·{path:})·paths 키 = checks [boundary-as-route] hard(M8 재발 방지).
   # 경계선은 지도 경계 레이어가 그린다.
   boundary_names: [군사분계선, MDL, 국경, 휴전선, NLL, 북방한계선, 남방한계선, 경계선, 분계선, 접경선, border, boundary]
@@ -2353,6 +2356,12 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # 지도 무대 화면 장치 px/도 ÷ 지형 원천 실효 px/도(고른 티어 레벨과 타일 줌 고유 해상도 256·2^z/360 중 작은 값) > max_ratio 가 max_sec 넘게 이어지면 실패.
   # terrain3d 구간·패널 덮개 동안은 지도 무대가 아니다. 콘티 판 v2: 3도 폭 화면 6.8배·1.75도 12배(W 40ppd 늘림) — 실패해야 한다
   basemap_upscale: {max_ratio: 1.5, max_sec: 0.75, step_sec: 0.25}
+  # v7.4.0 D-0634 §2(RENDER-AP-040, 칸나이 v1 12·306초 아드리아해) — 바다 면이 원천 타일 격자선을 따라 계단처럼 색이 뛰면 [sea-tile-step] hard.
+  # 지도 무대 표본마다 베이스(지형만, 설계 854×480)에서 보이는 티어 줌의 타일 격자선 양옆 band_px 띠(선에서 gap_px 띄움)를 비교한다.
+  # 양쪽이 모두 바다(파랑 − 빨강 ≥ sea_blue_minus_red)인 줄이 min_run_px 넘게 이어지고 그 구간 밝기 차 중앙값 > max_step 이면 실패. 모든 테마·렌더 경로
+  # sea_erode_px = 바다 판별을 해안에서 이만큼 안쪽으로(해안 광채·얕은 띠의 자연 기울기를 계단으로 보지 않게 — 콘티 판 v2 23.3초 오탐)
+  # ctrl_px = 격자선에서 이만큼 떨어진 평행 대조선의 같은 띠 차. 판정 = 격자선 차 − 대조선 차 중 큰 것(해붕 가장자리 같은 자연 수심 기울기는 대조선에도 같은 차가 있어 빠진다)
+  sea_tile_step: {step_sec: 1.0, band_px: 2, gap_px: 1, min_run_px: 30, max_step: 8.0, sea_blue_minus_red: 25, sea_erode_px: 4, ctrl_px: 6}
   formation_centered: {center_tol_x: 0.10, center_tol_y: 0.10, safe_top_px: 22, safe_side_px: 8, max_sec: 0.5, step_sec: 0.25, sketch_tactical_max_w_deg: 0.5}
   card_over_panel: {min_overlap_sec: 0.3, panel_pad_px: 4, cover_types: [cascade, article, quote, primitive],
                     cover_types_on_data_panels: [photo, clip, cutout, badge],

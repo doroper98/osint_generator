@@ -1541,6 +1541,19 @@ class BasemapUpscale(_Strict):
     step_sec: float = Field(gt=0)
 
 
+class SeaTileStep(_Strict):
+    """[sea-tile-step] hard(v7.4.0 D-0634 §2, RENDER-AP-040) — 바다 면 원천 타일 경계 색 계단."""
+
+    step_sec: float = Field(gt=0)
+    band_px: int = Field(ge=1)
+    gap_px: int = Field(ge=0)
+    min_run_px: int = Field(ge=4)
+    max_step: float = Field(gt=0)            # 밝기(0~255) 차 중앙값 상한
+    sea_blue_minus_red: float = Field(gt=0)  # 바다 화소 판별(B − R)
+    sea_erode_px: int = Field(ge=0)          # 바다 판별을 해안에서 안쪽으로 깎는 px(해안 광채 오탐 방지)
+    ctrl_px: int = Field(ge=2)               # 대조선 거리 — 판정 = 격자선 띠 차 − 대조선 띠 차(자연 기울기 빼기)
+
+
 class GeoRules(_Strict):
     land_miss_allow_px2: float
     land_fill_min_ratio: float = Field(gt=0, le=1)   # v4.1.0 D-0078
@@ -1551,6 +1564,7 @@ class GeoRules(_Strict):
     country_polygons: str = "data/geo_flat/ne_110m_countries.json"   # v7.4.0 D-0241 §2 — 국가 폴리곤 자료(flag_territory·sea_only_frame)
     river_major_scalerank_max: int = Field(ge=0)      # v7.4.0 D-0229 §2.1-2 — NE 강 scalerank 이 값 이하 = 큰 강(geo.prep_geometry.load_rivers)
     basemap_era: Optional["BasemapEra"] = None
+    sea_bathymetry_max_z: Optional[int] = Field(default=None, ge=0)   # v7.4.0 D-0634 §2(RENDER-AP-040) — 이보다 높은 줌 티어의 바다 수심 원천 줌
     tier_blend_relative: Optional["TierBlendRelative"] = None   # v7.4.0 D-0630 §2(UF-261) — 겹친 상세 티어 이음(geo.yaml tier blend: relative)
     drainage: Optional["DrainageRules"] = None   # v7.4.0 D-0604 구상 컷 A         # v7.4.0 전쟁사 W3(D-0600 §5) — 시대별 기반 지도 층·고대 지리 자료 출처
 
@@ -2015,6 +2029,7 @@ class QAChecks(_Strict):
     chart_only_run: ChartOnlyRun                      # v7.4.0 D-0252 — [chart-only-run] hard
     card_over_panel: Optional[CardOverPanel] = None   # v7.4.0 D-0248(UF-129)
     basemap_upscale: Optional[BasemapUpscale] = None   # v7.4.0 D-0630 §2(UF-261)
+    sea_tile_step: Optional[SeaTileStep] = None   # v7.4.0 D-0634 §2(RENDER-AP-040)
     label_under_media: Optional[LabelUnderMedia] = None   # v7.4.0 R-0294 판정
     formation_centered: Optional[FormationCentered] = None   # v7.4.0 D-0625(UF-255)
     outlet_min_overlap_sec: float = 0.5               # v7.4.0 D-0250(UF-130)
