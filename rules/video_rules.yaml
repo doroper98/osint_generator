@@ -1557,6 +1557,26 @@ area:                      # v7.4.0 back_and_forth D-0290 §3(감독 결정 D515
   cols: [dem, rep, muted]  # [area-col] — area 가 쓸 수 있는 색(그 외 = hard)
   data_file: data/state_results.yaml   # [area-data-mismatch] 대조 기준(프로젝트 기준 상대 경로)
 
+thumbnail:                 # v7.4.0 back_and_forth D-0320(사용자 의견 UF-177, DECISIONS D540) — tools/thumbnail.py. 설계 px(480p)
+  # 타이틀 카드와 같은 장면·같은 그리기 함수(engine.fullcards.draw_title_card). 제목만 title_scale 배, 폭 > W × title_card.max_w_ratio 면 띄어쓰기에서 2줄
+  # (어절 안 자르기 금지), 2줄도 넘으면 줄임(title_card.title_min_size 미만 = 오류). 묶음(제목·금선·부제·날짜) 세로 중심은 타이틀 카드 그대로
+  title_scale: 1.6
+  title_line_gap: 1.08
+  max_lines: 2
+  border: {inset: 22, width: 1.2, radius: 2, alpha: 0.9, glow_width: 4, glow_alpha: 0.14}   # 금빛 얇은 한 줄 + 옅은 바깥 번짐(고급 = 절제)
+  jpg_quality: 92
+  jpg_max_bytes: 2000000     # 유튜브 썸네일 한도 2 MB
+  width: 1280
+  height: 720
+
+delivery_package:          # v7.4.0 back_and_forth D-0320(UF-177 "영상 줄때 매번 … 제목, 설명, 태그, 썸네일") — tools/deliver_package.py. 한도 = 유튜브
+  items: [title, description, tags, thumbnail]
+  title_max_chars: 100
+  description_max_chars: 5000
+  tags_max_chars: 500        # 유튜브 계산: 태그 글자 + 쉼표 + 띄어쓰기 있는 태그는 따옴표 2
+  hashtags_count: 3
+  key_links_max: 4           # 설명문 주요 링크 수(전체 목록은 out/description_full.txt)
+
 bars:                      # v7.4.0 back_and_forth D-0303 §3(사용자 의견 UF-170 "주별 선거 결과 … 막대그래프로 직관적으로", DECISIONS D525) — engine/layers/bars.py. 설계 px(480p)
   # 지도 위 작은 막대 상자(이야기 안에 박힌 데이터 — 기준 작품 문법). 막대 길이 = pct/100 × 막대 폭(모든 주 같은 축척). 연출은 side·rows 만(픽셀 금지, P8)
   box_w: 214

@@ -46,7 +46,7 @@ def log(msg: str) -> None:
 QA_CONTRAST = load_rules().qa_checks
 
 
-def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  # noqa: N803
+def render_frame(P: Project, i: int, thumb: "dict | None" = None) -> tuple[cairo.ImageSurface, bytearray]:  # noqa: N803
     """한 프레임. 모든 레이어는 설계 좌표(854×480)로 그리고, 장치 해상도는 여기서 한 번 건 변환(translate pad_x · scale k)이
     맡는다 — `px()` 의 전역 적용(v3.6.0 D-0067 A). k=1 이면 변환을 걸지 않는다(480p 항등)."""
     R = P.R  # noqa: N806
@@ -139,7 +139,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
         if e["type"] == "article":
             L.resolve(e).render(ctx, R, t, e)
     draw_date(ctx, R, t)
-    draw_fullcards(ctx, R, t)
+    draw_fullcards(ctx, R, t, thumb)   # thumb — v7.4.0 D-0320 썸네일(tools/thumbnail.py)만
     draw_subtitle(ctx, R, t)
     draw_source_note(ctx, R, t, R.cache.get("source_notes") or {})   # v5.6.0 — 참조 출처(위키백과 등) 아주 작게 왼쪽 아래
     for e in act:

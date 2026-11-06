@@ -124,6 +124,18 @@ python -m engine.render projects/{pid} --jobs 4 [--res 1080p]      # 전편 vide
 python -m engine.render projects/{pid} --animatic [--jobs 4]      # 콘티 판 out/animatic.mp4(W0, v4.9.0)
 ```
 
+### W3.1 전달 — 영상 + 전달 패키지 네 항목 (v7.4.0, 사용자 지시 UF-177 "영상 줄때 매번 만들어서 주는 규칙으로 하자. 제목, 설명, 태그, 썸네일")
+
+전달은 final_deliver 영상 하나가 아니라 **final_deliver + delivery 패키지 네 항목(제목·설명·태그·썸네일)** 이다. 넷 중 하나라도 없으면 전달하지 않는다.
+
+```bash
+python -m audio.mix projects/{pid} && python -m engine.mux projects/{pid}      # final.mp4 · description.txt · provenance
+python tools/thumbnail.py projects/{pid}         # out/thumbnail.png·jpg — 타이틀 카드 장면, 제목 rules thumbnail.title_scale 배, 금빛 테두리
+python tools/deliver_package.py projects/{pid}   # out/delivery/{title,description,tags}.txt·thumbnail.jpg·MD5SUMS(한도 = rules delivery_package)
+```
+
+원천은 프로젝트 `description.yaml`(title·alt_titles·summary·chapters·tags·hashtags·key_links). 원문 링크 전부는 `out/description_full.txt`(기록용).
+
 ## W4. Worker 추가
 
 1. `workers/{name}_worker.py`, `BaseWorker` 상속(CLAUDE.md C4).
