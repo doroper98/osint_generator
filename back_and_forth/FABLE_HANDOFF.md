@@ -54,7 +54,7 @@
 
 ## 0-6. 2026-11-01 — 병행 트랙: 전쟁사(E9) 『칸나이』→『인천 상륙·서울 수복』(사용자 결정 D-0337, UF-206)
 - 위임 감독(Fable 5.1) `session_017Yuw8i7EwyZ4z45Xtcvjkg`(2026-11-01 01:10Z, 최종 감독 `session_017Yuw8jLMWscY9bdVXTvddr` 이 D-0337 요지로 기동). 구현 세션 `session_017Yuw8iLVvjENvvmSwCZqkR`(Opus 5.5, env_01SnvGMv3UmrvejEraZxEACo, 2026-11-01 01:18Z, B 형 기동 프롬프트 = D-0600 요지). 브랜치 `claude/war-history-2026`(sweet-galileo 919b16f7 에서 분기), artifacts `artifacts/war-history-v7.4.0`.
-- 번호: 감독 D 파일 **D-0600~0699**(넘으면 D-0900~), DECISIONS 행 **D700~**, UF **UF-250~299**. 착수 지침 D-0600(d099af2). 둘째 사례 = 인천 상륙·서울 수복 1950.9(감독 결정 D700).
+- 번호: 감독 D 파일 **D-0600~0699**(넘으면 D-0900~), DECISIONS 행 **D700~**, UF **UF-250~299**. ANTIPATTERNS 번호대 **040~059**(모든 범주 공통, 최종 감독 D361 — 첫 번째 = PIPELINE-AP-040 게이트 승인 기록 사고, RIGHTS-AP-001 은 그대로). 착수 지침 D-0600(d099af2). 둘째 사례 = 인천 상륙·서울 수복 1950.9(감독 결정 D700).
 - **게이트 위임 없음**(D-0282 방식 아님). 사용자 판정 자리 넷: ① W4 스케치 컷(칸나이·인천 각 2~3컷) ② 칸나이 원고 gate-view ③ 콘티 판 ④ 게이트 ② 프리뷰 시트 — 위임 감독이 SendUserFile 로 보내고 최종 감독에게 send_message. 사용자 답은 어느 세션으로 와도 유효. 그 밖은 위임 감독 전결(README §6.4·§7), 사용자 의견은 UF-250~ 로 즉시 기록.
 - 순서 D-0307 §5: W1 EraDate → W2 규칙·장르·부호·증거 층 → W3 고대 지도·tactical → W4 스케치 → 사용자 ① → W5 시트 → W6 칸나이 W0(② ③ ④) → W7 인천(별도 D). 화면 재료 원칙 = D-0600 §2(미술·기록·사진·영상이 살, 당대/후대 라벨, 미술사 한 문장, PD-Art·CC0·CC BY 만).
 - 네트워크(감독 컨테이너 실측 2026-11-01): commons·upload 열림, en.wikipedia·pleiades 막힘 → 우회 경로 D-0600 §5(GitHub 공개 데이터 → Wikidata/Commons → 수동 입력 + 기록).
