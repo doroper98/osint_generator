@@ -179,6 +179,9 @@ def mercator_theme(config: Optional[dict]) -> str:
     return name
 
 
+TILE_PX = 256   # v7.4.0 D-0630 §2 — 지형 타일 한 변 px(실효 원천 해상도 = 256·2^z/360 px/도)
+
+
 class MercatorStage:
     """지도 무대(20 §2.1 `MercatorStage`). 앵커 = (lon, lat). assets 없이 만들면 좌표 변환만(tiers 가 있으면 경계까지) 쓴다."""
 
@@ -290,6 +293,35 @@ class MercatorStage:
                 if a > 0.01:
                     im = Image.blend(im, self._tier(view, n, need_dev, out if dev else None), a)
         return im
+
+    def tier_level(self, n: str, need: float) -> int:
+        """티어 n 에서 고를 레벨(장치 ppd) — v3 규칙(필요 ppd × 0.95 이상 중 가장 작은 것, 없으면 가장 큰 것)."""
+        lvs = sorted(self.tiers[n]["levels"])
+        return next((lv_ for lv_ in lvs if lv_ >= need * 0.95), lvs[-1])
+
+    def source_ppd(self, n: str, need: float) -> float:
+        """티어 n 의 실효 원천 ppd — 고른 레벨과 타일 줌 고유 해상도(256·2^z/360) 중 작은 값(v7.4.0 D-0630 §2, UF-261)."""
+        return min(float(self.tier_level(n, need)), TILE_PX * 2 ** self.tiers[n]["z"] / 360)
+
+    def tier_plan(self, view: "View", k: float = 1.0) -> list[tuple[str, float, float]]:
+        """[(티어, 섞는 비율, 장치 필요 ppd)] — base_image 와 같은 v3 블렌딩 smooth((설계 ppd − 26)/18). [basemap-upscale]·[sea-tile-step] 이 쓴다."""
+        tb = MERCATOR_LOD["tier_blend_ppd"]
+        need = W_OUT / view.w
+        need_dev = need * k
+        plan: list[tuple[str, float, float]] = [("W", 1.0, need_dev)]
+        for n in self.tiers:
+            if n == "W" or not self._inside(view, self.tiers[n]):
+                continue
+            a = smooth((need - tb["from"]) / tb["span"])
+            if a > 0.01:
+                plan.append((n, a, need_dev))
+        return plan
+
+    def upscale_ratio(self, view: "View", k: float = 1.0) -> tuple[float, str]:
+        """(장치 필요 ppd ÷ 화면을 주로 채우는 층의 실효 원천 ppd, 그 층 이름) — [basemap-upscale](UF-261)."""
+        plan = self.tier_plan(view, k)
+        top = next((n for n, a, _ in reversed(plan) if a >= 0.5), "W")
+        return plan[0][2] / self.source_ppd(top, plan[0][2]), top
 
     def _tier(self, view: "View", n: str, need: float, out: Optional[Output] = None) -> Image.Image:
         T = self.tiers[n]  # noqa: N806

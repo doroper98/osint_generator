@@ -1608,12 +1608,34 @@ class GeoThemes(_Strict):
         return getattr(self, name)
 
 
+class BasemapUpscale(_Strict):
+    """[basemap-upscale] hard(v7.4.0 D-0630 §2, UF-261 "지도가 확대될때 해상도가 크게 낮아지네") — 지형 원천 늘림 배율 상한."""
+
+    max_ratio: float = Field(gt=1)      # 화면 장치 px/도 ÷ 원천 실효 px/도(티어 레벨과 타일 줌 고유 해상도 중 작은 값)
+    max_sec: float = Field(ge=0)        # 이 길이 넘게 이어지면 실패(줌 이동 중 잠깐은 허용)
+    step_sec: float = Field(gt=0)
+
+
+class SeaTileStep(_Strict):
+    """[sea-tile-step] hard(v7.4.0 D-0634 §2, RENDER-AP-040) — 바다 면 원천 타일 경계 색 계단."""
+
+    step_sec: float = Field(gt=0)
+    band_px: int = Field(ge=1)
+    gap_px: int = Field(ge=0)
+    min_run_px: int = Field(ge=4)
+    max_step: float = Field(gt=0)            # 밝기(0~255) 차 중앙값 상한
+    sea_blue_minus_red: float = Field(gt=0)  # 바다 화소 판별(B − R)
+    sea_erode_px: int = Field(ge=0)          # 바다 판별을 해안에서 안쪽으로 깎는 px(해안 광채 오탐 방지)
+    ctrl_px: int = Field(ge=2)               # 대조선 거리 — 판정 = 격자선 띠 차 − 대조선 띠 차(자연 기울기 빼기)
+
+
 class GeoRules(_Strict):
     land_miss_allow_px2: float
     land_fill_min_ratio: float = Field(gt=0, le=1)   # v4.1.0 D-0078
     boundary_names: list[str] = Field(min_length=1)   # v4.7.0 D-0107 D2(b) — checks [boundary-as-route]
     gazetteer: GazetteerRules                         # v4.10.0 D-0116 — checks [geo-mismatch]
     themes: GeoThemes                                 # v5.13.0 D-0153 Q0-2 — 지도 테마(시안)
+    sea_bathymetry_max_z: Optional[int] = Field(default=None, ge=0)   # v7.4.0 D-0634 §2(RENDER-AP-040) — 이보다 높은 줌 티어의 바다 수심 원천 줌
     map_layers_default: list[Literal["roads", "rivers"]]   # v7.4.0 D-0231 — stage_config.mercator.map_layers 기본값
     country_polygons: str = "data/geo_flat/ne_110m_countries.json"   # v7.4.0 D-0241 §2 — 국가 폴리곤 자료(flag_territory·sea_only_frame)
     river_major_scalerank_max: int = Field(ge=0)      # v7.4.0 D-0229 §2.1-2 — NE 강 scalerank 이 값 이하 = 큰 강(geo.prep_geometry.load_rivers)
@@ -2016,6 +2038,8 @@ class QAChecks(_Strict):
     visual_void_step_sec: float = Field(default=0.1, gt=0)
     visual_void_types: list[str] = Field(default_factory=list)
     regression_ref_checks: list[str] = Field(default_factory=list)
+    basemap_upscale: Optional[BasemapUpscale] = None   # v7.4.0 D-0630 §2(UF-261)
+    sea_tile_step: Optional[SeaTileStep] = None   # v7.4.0 D-0634 §2(RENDER-AP-040)
     ratio_patterns: list[str] = Field(min_length=1)       # v7.4.0 D-0229 §2.6(UF-113) — "N 중 M" 문형(warning ratio_graphic)
     ratio_graphic_kinds: list[str] = Field(min_length=1)  # 그 문장 구간에 있어야 할 패널 종류(series 이벤트도 인정)
     cutaway_full_types: list[str] = Field(min_length=1)   # v7.4.0 D-0229 §2.3(UF-110) — 화면 전체를 덮는 컷어웨이 이벤트(hard cutaway_churn). 지도 복귀 ≥ shot_min_hold_sec

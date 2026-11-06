@@ -83,6 +83,22 @@ def tile_path(tiles_dir: Path, z: int, x: int, y: int) -> Path:
     return tiles_dir / f"z{z}" / f"{x}_{y}.png"
 
 
+def sea_spec(T: TierSpec) -> "TierSpec | None":  # noqa: N803
+    """바다 수심 원천 티어(v7.4.0 D-0634 §2, RENDER-AP-040) — T.z 가 rules geo.sea_bathymetry_max_z 보다 높으면 같은 상자·그 줌. 아니면 None."""
+    mz = load_rules().geo.sea_bathymetry_max_z
+    if mz is None or T.z <= mz:
+        return None
+    return TierSpec(f"{T.name}_sea", T.ppd, mz, T.lon0, T.lat0, T.lon1, T.lat1)
+
+
+def resample(M: np.ndarray, x0: int, y0: int, z: int, T: TierSpec, W: int, H: int) -> np.ndarray:  # noqa: N803
+    """타일 모자이크(줌 z) → 티어 화면(W×H) 고도. build_tier 와 같은 EXTENT 식."""
+    S = TILE * 2 ** z  # noqa: N806
+    ext = ((T.lon0 + 180) / 360 * S - x0 * TILE, (1 - ym(T.lat1) / 180) / 2 * S - y0 * TILE,
+           (T.lon1 + 180) / 360 * S - x0 * TILE, (1 - ym(T.lat0) / 180) / 2 * S - y0 * TILE)
+    return np.asarray(Image.fromarray(M, "F").transform((W, H), Image.EXTENT, ext, Image.BICUBIC), np.float32)
+
+
 def mosaic(tiles_dir: Path, T: TierSpec) -> tuple[np.ndarray, int, int]:  # noqa: N803
     """terrarium RGB → 고도(m). 범위 밖 타일은 읽지 않고, 범위 안 타일이 없으면 오류."""
     xr, yr = tile_range(T)
@@ -218,6 +234,12 @@ def build_tier(T: TierSpec, G: dict, tiles_dir: Path, out_dir: Path, k: float = 
     ext = ((T.lon0 + 180) / 360 * S - x0 * TILE, (1 - ym(T.lat1) / 180) / 2 * S - y0 * TILE,
            (T.lon1 + 180) / 360 * S - x0 * TILE, (1 - ym(T.lat0) / 180) / 2 * S - y0 * TILE)
     E = np.asarray(Image.fromarray(M, "F").transform((W, H), Image.EXTENT, ext, Image.BICUBIC), np.float32)  # noqa: N806
+    ss_spec = sea_spec(T)   # v7.4.0 D-0634 §2 — 높은 줌 타일의 0 m 바다(수심 없음)를 쓰지 않는다. 바다 색·해저 음영만 낮은 줌 수심으로
+    if ss_spec is not None:
+        Ms, sx0, sy0 = mosaic(tiles_dir, ss_spec)  # noqa: N806
+        E_sea = resample(Ms, sx0, sy0, ss_spec.z, T, W, H)  # noqa: N806
+    else:
+        E_sea = E  # noqa: N806
     lat_rows = np.degrees(2 * np.arctan(np.exp(np.radians(ym(T.lat1) - (np.arange(H) + 0.5) / ppd))) - np.pi / 2)
     mpp = (111320 * np.cos(np.radians(lat_rows)) / ppd)[:, None]
     mimg, miss = rasterize_land(G, T, W, H, dppd, ref, ratios)
@@ -229,9 +251,9 @@ def build_tier(T: TierSpec, G: dict, tiles_dir: Path, out_dir: Path, k: float = 
     ls, ss = th.land_stops, th.sea_stops
     lc = lerp_col([(v, hexc(c)) for v, c in ls], np.clip(E, ls[0][0], ls[-1][0]))
     lc = lc * shade(hs, alt, th.land_shade)
-    sc = lerp_col([(v, hexc(c)) for v, c in ss], np.clip(-E, ss[0][0], ss[-1][0]))
+    sc = lerp_col([(v, hexc(c)) for v, c in ss], np.clip(-E_sea, ss[0][0], ss[-1][0]))
     if th.sea_shade is not None:
-        sc = sc * shade(hillshade(np.minimum(E, 0), mpp, ex, az, alt), alt, th.sea_shade)
+        sc = sc * shade(hillshade(np.minimum(E_sea, 0), mpp, ex, az, alt), alt, th.sea_shade)
     if th.sea_tint is not None:
         sc = np.clip(sc[..., :1] + np.array(th.sea_tint, np.float32), 0, 255)
     cg = th.coast_glow
