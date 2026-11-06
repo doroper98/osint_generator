@@ -2801,6 +2801,21 @@ class ThumbnailRules(_Strict):
         return self
 
 
+class DeliverFileRules(_Strict):
+    """v7.4.0 D-0634 §3-3(UF-268·UF-269) — 전달 파일 한도. 넘을 때만 조각."""
+
+    max_bytes: int = Field(gt=0)
+    target_bytes: int = Field(gt=0)
+    piece_max_bytes: int = Field(gt=0)
+    preset: str = "slow"
+
+    @model_validator(mode="after")
+    def _target_under_max(self) -> "DeliverFileRules":
+        if self.target_bytes > self.max_bytes or self.piece_max_bytes > self.max_bytes:
+            raise ValueError("target_bytes·piece_max_bytes 는 max_bytes 이하")
+        return self
+
+
 class DeliveryPackageRules(_Strict):
     """v7.4.0 back_and_forth D-0320(UF-177 "영상 줄때 매번 만들어서 주는 규칙으로 하자. 제목, 설명, 태그, 썸네일") — tools/deliver_package.py.
     네 항목 중 하나라도 없거나 한도를 넘으면 오류(P6)."""
@@ -2811,6 +2826,7 @@ class DeliveryPackageRules(_Strict):
     tags_max_chars: int = Field(gt=0)
     hashtags_count: int = Field(ge=1)
     key_links_max: int = Field(ge=1)
+    deliver_file: Optional[DeliverFileRules] = None   # v7.4.0 D-0634 §3-3(UF-268·269)
 
 
 class BorderGlowRules(_Strict):

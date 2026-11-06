@@ -1894,6 +1894,9 @@ delivery_package:          # v7.4.0 back_and_forth D-0320(UF-177 "영상 줄때 
   tags_max_chars: 500        # 유튜브 계산: 태그 글자 + 쉼표 + 띄어쓰기 있는 태그는 따옴표 2
   hashtags_count: 3
   key_links_max: 4           # 설명문 주요 링크 수(전체 목록은 out/description_full.txt)
+  # v7.4.0 D-0634 §3-3(UF-268 "30메가 넘으면 분할해서 보내줘" · UF-269 "꼭 분할이 필요한 상황이라면 말이지") — tools/final_deliver.py.
+  # 전달본 = x264 2-pass(음성 복사)로 target_bytes 를 노린 한 파일. 그래도 max_bytes 를 넘을 때만 키프레임 경계 무재인코딩 조각(각 ≤ piece_max_bytes)
+  deliver_file: {max_bytes: 30000000, target_bytes: 29000000, piece_max_bytes: 29000000, preset: slow}
 
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)
