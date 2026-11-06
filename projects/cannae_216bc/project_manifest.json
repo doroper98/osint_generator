@@ -4,8 +4,8 @@
   "title": "칸나이 — 기원전 216년 8월 2일",
   "category": "war_military",
   "created_at": "2026-11-01T14:26:10.379273Z",
-  "updated_at": "2026-11-03T09:49:29.171270Z",
-  "current_state": "assets",
+  "updated_at": "2026-11-06T00:03:33.941149Z",
+  "current_state": "render",
   "target_duration_min": 5,
   "topic_summary": "제2차 포에니 전쟁 칸나이 전투(기원전 216년): 한니발의 초승달 진형과 양익 포위. 사료(폴리비오스 III·리비우스 XXII)·당대/후대 미술·지명 유래로 본 전투",
   "initial_links": [],
@@ -64,6 +64,25 @@
         "media_plan": "사진 0/6 · 기사 후보 0문장 · 372초(plan)"
       },
       "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "user",
+      "at": "2026-11-06T00:03:33.941074Z",
+      "comment": "사용자 승인(원문 '칸나이 게이트 ② 프리뷰 승인. 기록하고 720p 전편 진행해.' — UF-265·D-0632). 프리뷰 v1(720p) 렌더 전 검사 hard 0/140",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/cannae_216bc/prev/sheet.jpg",
+        "cuts": "0",
+        "media_used": "quote 2 · article 0 · real 8",
+        "quote_candidates": "0",
+        "camera_suggest": "5",
+        "animatic": "out/animatic.mp4 · 371.569초 · direction 0a261883306d0f176c72c1f4f02d0af0155a4fa3 · script 74d03aff0e",
+        "user_feedback": "경고: 이 영상 의견 5건 장치 없음 — 영상 전달 뒤 첫 작업으로 장치(D217·D218): UF-260 \"흐름 좋은데 진형에 대한 렌더링은 본 편에서는 더 고급지게 바꿀껀가?\" · UF-261 \"그리고 지도가 확대될때 해상도가 크게 낮아지네.\" · UF-262 \"그리고 효과음까지 들리는 버전이 좋네.\" · UF-263 \"코리올란의 하이라이트 부분이 전쟁 신에서 들리면 좋겠어.\" · UF-264 \"빨리 내놔 완성본\"",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
     }
   ],
   "stage_records": [
@@ -79,6 +98,44 @@
       "errors": [],
       "drops": 0,
       "log": "logs/stages/01_plan.json"
+    },
+    {
+      "state": "direction",
+      "stage": "direction_validate",
+      "ok": true,
+      "at": "2026-11-05T23:56:26.771040Z",
+      "artifacts": {
+        "script": "/home/user/osint_generator/projects/cannae_216bc/script.yaml",
+        "label_counts": "{\"verified\": 59, \"corroborated\": 0, \"unverified\": 0, \"disputed\": 5}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/02_direction_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "validate",
+      "ok": true,
+      "at": "2026-11-05T23:59:05.917309Z",
+      "artifacts": {
+        "direction": "/home/user/osint_generator/projects/cannae_216bc/direction.yaml",
+        "summary": "{\"camera_keys\": 24, \"events\": 18, \"frames\": 8917}"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/03_validate.json"
+    },
+    {
+      "state": "direction",
+      "stage": "camera_suggest",
+      "ok": true,
+      "at": "2026-11-06T00:01:37.284471Z",
+      "artifacts": {
+        "camera_suggest": "/home/user/osint_generator/projects/cannae_216bc/prev/camera_suggest.json"
+      },
+      "errors": [],
+      "drops": 0,
+      "log": "logs/stages/04_camera_suggest.json"
     }
   ],
   "final_outputs": {},
@@ -142,6 +199,30 @@
       "to_state": "assets",
       "transitioned_at": "2026-11-03T09:49:29.171188Z",
       "reason": "engine plan ok"
+    },
+    {
+      "from_state": "assets",
+      "to_state": "direction",
+      "transitioned_at": "2026-11-05T23:54:18.742769Z",
+      "reason": "geo.prep(480p·relief·720p) 기존 실행 — D-0630 티어 I·A·B·G·K, 3D 프레임 지문 보존을 위해 다시 돌리지 않음(D-0632)"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-11-06T00:01:37.286452Z",
+      "reason": "engine direction_validate, validate, camera_suggest ok"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-11-06T00:01:51.266516Z",
+      "reason": "프리뷰 v1(720p) checks hard 0/140·컷 이음 판 hard 0 — artifacts 450de338·8a3ad3aa preview_v1/, 감독 실물 검수 합격(D746·R-0336). AI 검수 루프 대신 감독 검수(gulf_china 선례), 480p 3D 프레임 무효라 엔진 preview 단계는 720p 로 실행"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-11-06T00:03:33.941112Z",
+      "reason": "preview_approval 승인 — user"
     }
   ],
   "rollbacks": [
