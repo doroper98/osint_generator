@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "frame_t": 22.78,
+ "frame_t": 28.463,
  "title_card": [
   22.822,
   28.422
@@ -27,19 +27,21 @@
   "mode": "from_video",
   "file": "iran.mp4",
   "md5": "0ec9d9f37ae91396628721ff7eafef68",
-  "frame_t": 22.78
+  "frame_t": 28.463,
+  "bg": "after",
+  "bg_reason": "auto: before 시각이 전면 카드 article 구간"
  },
  "size": [
   1280,
   720
  ],
  "png": {
-  "bytes": 74964,
-  "md5": "4668f0bb0ae2d269bee250a28367e267"
+  "bytes": 357811,
+  "md5": "19da15090643fd8d61478ebaad7a7370"
  },
  "jpg": {
-  "bytes": 84332,
-  "md5": "695c485cd700bb31c8b6796e38187169",
+  "bytes": 122200,
+  "md5": "f1bd32f81bd726643ed2365f6ddc3bd7",
   "quality": 92
  }
 }
