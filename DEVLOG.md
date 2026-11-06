@@ -3449,6 +3449,11 @@ last_review: 2026-06-06
 - 2026-11-02 v7.4.0 감독 원장 커밋(de537db6) UF-207 '장치 있음 + open' 으로 FeedbackLedger 검증 실패 → sweet-galileo 모든 렌더 rc=1 약 10시간(PIPELINE-AP-026) → 217c4525 정정, 감독 체크리스트에 load_user_feedback 확인 의무.
 - 2026-11-02 v7.4.0 iran_ceasefire_2026 UF-173 장치(D-0466 §6·D-0470) — [media-sentence-span]·[map-opening]·[map-cover-share] hard(연출 v9 고정본 실패·v10 통과 시험), [credit-garbled] hard(RIGHTS-AP-002: 엔딩 카드 초상 크레딧에 Commons 안내문·URL), 공용 초상 라이브러리 크레딧 10건 정리(원문 credit_raw). final_v3b 전달(0ec9d9f3).
 - 2026-11-02 v7.4.0 RENDER-AP-032 — 표준 글꼴 렌더 설정 장치(D-0624): config/fontconfig/fonts.conf(config.yaml engine.fontconfig) + engine.fontenv.ensure()(engine.style 맨 앞·conftest — FONTCONFIG_FILE 지정, 주 글꼴 hinting·hintstyle 다르면 멈춤), anti_inertia test_fontconfig_guard. 재시작으로 셸 설정이 사라져 골든 25컷 0/25 였던 사고.
+- v7.4.0 D613 — Flickr·Commons 사진 쪽 별도 이용 조건 거부(rules media.restriction_phrases), Flickr 11·12 추가 — RIGHTS-AP-003
+- 2026-11-03 v7.4.0 PIPELINE-AP-027 — 게이트 기록 정직성(감독 D621 ④⑤): 린트 실행 실패는 '오류 N' 대신 기록 거부(engine_service.is_crash·approve_gate), prev/ 없으면 cuts·밀도 '확인 불가', media_used 에 backdrop 수 — tests/test_gate_record_honesty.py
+- 2026-11-03 v7.4.0 감독 D621 ②③ — [backdrop-subject-background]·[backdrop-subject-unmatched] hard(backdrop for ↔ 레지스트리 main_subject, D616 ④), [island-text-contrast] hard(사진 배경 위 아일랜드 글자 대비, 렌더 경로 합성 97 백분위 ↔ qa_checks.map_contrast_text, D619·UF-304 장치) — tests/test_backdrop_subject_contrast.py
+- 2026-11-03 v7.4.0 감독 D622 — 구성 무대 강조 글자(초점 라벨·총지출 줄 강조) = stage_structure.focus_text(white), gold 글자 폐지(막대 면은 accent 그대로·전역 gold 무변경). [island-text-contrast] 글자색 = 무대별 목록 + 구성 focus_text·차트 그 시간 series col. 예산안 실측 3.93~4.15 → 최저 5.02(muted)
+- 2026-11-03 v7.4.0 RENDER-AP-033 — 예산안 완성본 345초 기사 번역 줄 '與' 두부(전달 뒤 발견): 글리프 검사·전수 검사가 레지스트리 문자열 포함(engine.checks.event_strings), art_0003 headline '여당' — tests/test_glyph_registry_strings.py
 
 ## 2026-11-02 v7.4.0 — 레퍼런스 영상 분석 → 정치사 템플릿·새 요소 둘(UF-400)
 

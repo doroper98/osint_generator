@@ -470,6 +470,8 @@ class BackdropEvent(_Event):
 
     type: Literal["backdrop"]
     img: str = Field(min_length=1)
+    # v7.4.0 감독 D621 ②(D616 ③④ — 지하철·아파트 사진이 개관·쟁점 막 배경) — 이 배경이 보여 주는 장면 주제(용어). 레지스트리 main_subject 에 있어야 한다
+    for_: Optional[str] = Field(default=None, alias="for", min_length=1)
 
 
 class IslandEvent(_Event):
@@ -477,7 +479,7 @@ class IslandEvent(_Event):
     box = rules island.boxes 이름(연출은 픽셀을 다루지 않는다 — place 는 배치 슬롯 키라 쓰지 않는다). 사진·기사·패널·프리미티브 아일랜드는 각자의 이벤트 타입이다."""
 
     type: Literal["island"]
-    kind: Literal["chart", "column_detail"]
+    kind: Literal["chart", "column_detail", "structure"]   # structure = v7.4.0 D-1003 §3(구성 무대 뷰포트 — 카메라 = stage: structure 숏)
     box: str = "center"
     # v7.4.0 D-0318·D-0319 ④ — kind column_detail(열 확대 인셋): 차트 아일랜드 안 lane 의 한 분기 열을 가리키는 인셋. 값은 레코드에서만.
     # style dumbbell(전분기→이번)·diverging(전년 동기 대비 %)·slope(1년 전→지금 값 — 구성비는 외부 매출 분모가 공시에 있을 때만, D-0320)·range(가이던스 범위 + 컨센서스 점).
@@ -497,9 +499,9 @@ class IslandEvent(_Event):
         if self.box not in boxes:
             raise ValueError(f"island box {self.box!r} 가 rules island.boxes {sorted(boxes)} 에 없다")
         detail = (self.lane, self.style, self.series_id, self.title)
-        if self.kind == "chart":
+        if self.kind in ("chart", "structure"):
             if any(v is not None for v in detail) or self.parts or self.upper_id or self.estimate_id or self.accent:
-                raise ValueError("island kind chart 는 lane·style·series_id·parts·upper_id·estimate_id·accent·title 을 쓰지 않는다(column_detail 전용)")
+                raise ValueError(f"island kind {self.kind} 는 lane·style·series_id·parts·upper_id·estimate_id·accent·title 을 쓰지 않는다(column_detail 전용)")
             return self
         if any(v is None for v in detail):
             raise ValueError("island column_detail 은 lane·style·series_id·title 이 필요하다")
@@ -511,6 +513,32 @@ class IslandEvent(_Event):
             raise ValueError("column_detail estimate_id(컨센서스 점)는 range 만")
         if self.accent is not None and self.accent not in {"none", *(p.label for p in self.parts)}:
             raise ValueError(f"column_detail accent {self.accent!r}: none · 부문 label 만")
+        return self
+
+
+class RankEvent(_Event):
+    """구성 무대 순위 막대 층(v7.4.0 back_and_forth D-1003 §3) — 구성 아일랜드(island kind structure) 안에서만 그린다.
+    layer = bars(막대·이름·금액) · prior(전년 속빈 눈금) · delta(±증감률·감소 행 손실 면) · focus(row 하나 accent). 값은 무대 레코드에서만(P8)."""
+
+    type: Literal["rank"]
+    layer: Literal["bars", "prior", "delta", "focus", "total"]   # total = v7.4.0 D-1009 — 머리 줄 오른쪽 총지출 "820.9조 · +12.8% · 2018~26 연평균 +6.8%"
+    row: Optional[str] = Field(default=None, min_length=1)
+    metric: Optional[Literal["amount", "rate"]] = None   # v7.4.0 D-1008 — focus 초점 라벨의 큰 숫자: amount = +증감액, rate = +증감률(문장이 말하는 쪽)
+    compare: Optional[Literal["other", "avg"]] = None    # v7.4.0 D-1009 — 초점 작은 줄: other(기본) = 다른 쪽 숫자, avg = 예년(레코드 avg_growth) 연평균
+    # v7.4.0 감독 지시(02:06Z, R-0615 뒤) — 초점 작은 줄을 그 문장이 말한 분야 안 사업 숫자로(예 SOC "고속도로 1조 239억 → 8,189억").
+    # 원고 문장·claims 의 숫자만 쓴다(연출이 새 숫자를 만들지 않는다). compare 와 함께 쓸 수 없다
+    note: Optional[str] = Field(default=None, min_length=1, max_length=40)
+
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("row", "metric", "compare", "note")
+
+    @model_validator(mode="after")
+    def _row(self) -> "RankEvent":
+        if (self.layer == "focus") != (self.row is not None) or (self.layer == "focus") != (self.metric is not None):
+            raise ValueError("rank row·metric 은 focus 층에만, focus 층은 row·metric 이 필요하다")
+        if self.compare is not None and self.layer != "focus":
+            raise ValueError("rank compare 는 focus 층에만")
+        if self.note is not None and (self.layer != "focus" or self.compare is not None):
+            raise ValueError("rank note 는 focus 층에만, compare 와 함께 쓸 수 없다")
         return self
 
 

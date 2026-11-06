@@ -65,8 +65,9 @@ class ScriptGrammar(_Strict):
 
     lines: list[str] = Field(min_length=1)
     connectives: list[str] = Field(min_length=1)
-    connective_min_ratio: float = Field(ge=0, le=1)
-    connective_max_ratio: float = Field(ge=0, le=1)
+    connective_initial_max_ratio: float = Field(ge=0, le=1)   # v7.4.0 D-1007(UF-303) — 첫머리 접속어 문장 비율 상한
+    connective_repeat_gap: int = Field(ge=1)                   # 같은 첫머리 접속어 재등장 최소 간격(문장)
+    estimate_markers: list[str] = Field(default_factory=list)   # v7.4.0 D-1007(UF-302) — 내레이터 목소리 '추정' 표지 금지
     uncertain_patterns: list[str] = Field(min_length=1)
     lint_waivable: list[str] = Field(min_length=1)   # v5.17.0 D-0168 — 프로젝트 면제 목록에 올릴 수 있는 린트 kind(문체·흐름만)
 
@@ -454,6 +455,11 @@ class MediaRules(_Strict):
     flickr: Optional[FlickrRules] = None   # v4.4.0
     photo_age_max_years: int = Field(default=15, gt=0)   # v7.4.0 D-0327 — [photo-age] warning
     file_clip_date_gap_days: int = Field(default=30, gt=0)   # v7.4.0 D-0283 §1 — [clip-date-mismatch] 촬영일 ↔ 문장 날짜 차 상한(자료 표기 없을 때)
+    sa_allowed: bool = False                     # v7.4.0 사용자 결정 D612 — 사진·영상 CC BY-SA 허용(휘장·초상은 그대로)
+    restriction_phrases: list[str] = Field(default_factory=list)   # v7.4.0 D613(RIGHTS-AP-003) — 사진 쪽 별도 이용 조건 조각(대소문자 무시)
+    sa_licenses: list[str] = Field(default_factory=list)
+    sa_screen_suffix: str = ""                   # 화면 출처 줄 끝 — "{modifications}"
+    sa_credit_line: str = ""                     # 엔딩 크레딧·설명란 — {author}{title}{license}{url}{modifications}
 
 
 class DateBadge(_Strict):
@@ -1964,8 +1970,18 @@ class ChartDepth(_Strict):
     sample_step_sec: float = Field(gt=0)                # 프레임을 그려 재는 검사(grid-text-cross·bar-border)의 표본 간격
 
 
+class SpokenNumber(_Strict):
+    """v7.4.0 D-1008 §3(UF-304) — [spoken-number-visible]."""
+
+    samples: int = Field(ge=1)
+    lead_sec: float = Field(ge=0)
+    amount_units: dict[str, float] = Field(min_length=1)
+    tolerance: float = Field(gt=0)
+
+
 class QAChecks(_Strict):
     overlap_core_elements: int
+    spoken_number: Optional[SpokenNumber] = None      # v7.4.0 D-1008 — [spoken-number-visible] hard
     chart_only_run: ChartOnlyRun                      # v7.4.0 D-0252 — [chart-only-run] hard
     card_over_panel: Optional[CardOverPanel] = None   # v7.4.0 D-0248(UF-129)
     label_under_media: Optional[LabelUnderMedia] = None   # v7.4.0 R-0294 판정
@@ -2257,6 +2273,7 @@ class TimelineSeries(_Strict):
     lane_pad_top: float = Field(ge=0, lt=0.5)
     lane_pad_bottom: float = Field(ge=0, lt=0.5)
     line_w: float
+    proposed_dash: tuple[float, float] = (5.0, 3.0)   # v7.4.0 D-1003 — 정부안 값으로 가는 선 조각 점선
     tip_r: float
     fade_sec: float
     min_alpha: float
@@ -2408,6 +2425,7 @@ class TimelineLaneRange(_Strict):
     flat_lane_min_ratio: float = Field(gt=0, lt=1)   # [flat-lane] hard — 그려진 세로 폭 ÷ 레인 값 영역 높이 하한
     empty_band_max_ratio: float = Field(gt=0, lt=0.5)   # v7.4.0 D-0277 §3 [axis-empty-band] hard — 데이터 극값 밖 빈 띠(한쪽) ÷ 축 범위 상한
     axis_range_note: str = Field(pattern=r"\{lo\}.*\{hi\}")   # 0 이 아닌 곳에서 시작하면 출처 줄 끝에 붙는 표기
+    zero_clamp: bool = True   # v7.4.0 back_and_forth D615 — 값이 모두 0 이하인 레인은 pad·올림을 0 바깥(위)으로 늘리지 않는다(모두 0 이상 쪽은 원래 0 하한)
 
 
 class TimelineProjection(_Strict):
@@ -2448,6 +2466,7 @@ class TimelineFrame(_Strict):
 
 class StageTimelineRules(_Strict):
     """v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시간축 무대·시리즈 레이어 토큰(engine/stage_timeline.py·engine/layers/series.py)."""
+    lane_preview: dict[str, float] = Field(default_factory=lambda: {"alpha": 0.0, "w": 1.0})   # v7.4.0 D-1010 §2(UF-306) — 레인 미리 보기 선 알파·굵기
 
     lane_h: float = Field(gt=0)
     area_top: float
@@ -2483,6 +2502,65 @@ class ReferenceClipRules(_Strict):
 
     director: list[str] = Field(min_length=1)
     script: list[str] = Field(min_length=1)
+
+
+class StageStructureRules(_Strict):
+    """v7.4.0 back_and_forth D-1003 §3 — 구성 무대·순위 가로 막대 층 토큰(engine/stage_structure.py·engine/layers/structure.py)."""
+
+    pad_top: float = Field(ge=0)
+    pad_bottom: float = Field(ge=0)
+    label_col: float = Field(gt=0)
+    label_gap: float = Field(ge=0)
+    value_col: float = Field(gt=0)
+    value_gap: float = Field(ge=0)
+    bar_h_ratio: float = Field(gt=0, lt=1)
+    row_h_max: float = Field(gt=0)
+    label_size: float = Field(gt=0)
+    label_font: str
+    value_size: float = Field(gt=0)
+    value_font: str
+    delta_size: float = Field(gt=0)
+    delta_font: str
+    label_halo: float = Field(ge=0)
+    prior_w: float = Field(gt=0)
+    prior_line_w: float = Field(gt=0)
+    prior_over: float = Field(ge=0)
+    prior_alpha: float = Field(gt=0, le=1)
+    grow_sec: float = Field(gt=0)
+    stagger_sec: float = Field(ge=0)
+    layer_in_sec: float = Field(gt=0)
+    source_size: float = Field(gt=0)
+    source_font: str
+    source_dy: float = Field(ge=0)
+    zero_alpha: float = Field(gt=0, le=1)
+    zero_w: float = Field(gt=0)
+    focus_dim: float = Field(gt=0, le=1)
+    max_rows: int = Field(ge=1)
+    camera_drift: bool
+    ladder: list[float] = Field(min_length=1)
+    head_size: float = Field(gt=0)
+    head_font: str
+    head_dy: float = Field(ge=0)
+    tag_size: float = Field(gt=0)
+    tag_font: str
+    tag_gap: float = Field(ge=0)
+    pct_digits: int = Field(ge=0, le=3)
+    value_digits: int = Field(ge=0, le=3)
+    value_step: float = Field(gt=0)
+    pct_step: float = Field(gt=0)
+    unit_suffix: dict[str, str] = Field(min_length=1)
+    stage_words: dict[Literal["proposed", "enacted", "settled", "planned"], str]
+    delta_seg_color: Literal["up"]
+    delta_seg_alpha: float = Field(gt=0, le=1)
+    delta_seg_dim: bool
+    avg_word: str = Field(min_length=1)
+    focus_base_alpha: float = Field(gt=0, le=1)
+    focus_text: str = Field(default="white", min_length=1)   # v7.4.0 감독 D622 — 구성 무대 강조 글자색(palette 키)
+    focus_value_size: float = Field(gt=0)
+    focus_value_font: str
+    focus_rest_size: float = Field(gt=0)
+    focus_rest_font: str
+    abs_digits: int = Field(ge=0, le=3)
 
 
 class StageBackdropRules(_Strict):
@@ -2793,6 +2871,8 @@ class IslandStageSurface(_Strict):
 class IslandRules(_Strict):
     """v5.1.0 D-0123 §1·D-0126 — backdrop 무대 위 아일랜드 공통 규칙(engine/island.py)."""
 
+    inner_pad: dict[str, float] = Field(default_factory=lambda: {"x": 0.0, "y": 0.0})   # v7.4.0 D-1010 §1(UF-305) — 내용 영역 안쪽 여백 x·y
+    text_colors: dict[str, list[str]] = Field(default_factory=dict)   # v7.4.0 감독 D621 ③(D619 후속) — 사진 배경 위 아일랜드 글자색(palette 키). 대비 하한 = qa_checks.map_contrast_text
     radius: float = Field(ge=0)
     fill_alpha: float = Field(ge=0, le=1)
     edge_alpha: float = Field(ge=0, le=1)
@@ -2804,7 +2884,7 @@ class IslandRules(_Strict):
     chart: IslandChart
     main_required: bool                  # v5.2.0 D-0129 §B — backdrop 무대에 주 아일랜드 상시(checks backdrop_main_missing)
     source_wrap_lines_max: int = Field(ge=1)   # v7.4.0 D-0265 §3 — 시간축 레인 출처 줄이 틀·상자 폭을 넘으면 " · " 경계에서 접는 최대 줄 수
-    main_kinds: list[Literal["chart", "primitive", "photo", "clip", "article", "panel"]] = Field(min_length=1)
+    main_kinds: list[Literal["chart", "structure", "primitive", "photo", "clip", "article", "panel"]] = Field(min_length=1)
     card_only_max_sec: float = Field(gt=0)   # 주 아일랜드 없는 구간 상한(전환 허용)
     column_detail: IslandColumnDetail        # v7.4.0 D-0318 — 열 확대 인셋
     stage_surface: IslandStageSurface        # v7.4.0 D-0328 — 차트 = 무대
@@ -2840,13 +2920,14 @@ class DataRules(_Strict):
     unit_ton_pattern: str = ""   # v7.4.0 D-0241 §3(UF-122) — 화면 문자열에 남으면 [unit-ton-glyph] hard(빈 값 = 검사 안 함)
     unit_prefixes: list[str] = Field(min_length=1)   # v4.3.0 D-0087 보정 1
     sources_allowed: list[str] = Field(min_length=1)
-    frequencies: list[Literal["monthly", "release", "quarterly", "daily"]] = Field(min_length=1)   # release = v4.4.0 scatter · quarterly·daily = v7.4.0 D-0278 §4.2 · daily 계단 = D-0326
+    frequencies: list[Literal["monthly", "release", "quarterly", "daily", "annual"]] = Field(min_length=1)   # release = v4.4.0 scatter · quarterly·daily = v7.4.0 D-0278 §4.2 · daily 계단 = D-0326
     transforms: dict[str, str] = Field(min_length=1)
-    source_kinds: list[Literal["fetched", "press_cited", "filing"]] = Field(min_length=1)   # v7.3.0 D232 U4 · filing = v7.4.0 D-0278 §4.2(E3)
+    source_kinds: list[Literal["fetched", "press_cited", "filing", "document"]] = Field(min_length=1)   # v7.3.0 D232 U4 · filing = v7.4.0 D-0278 §4.2(E3)
     filing_scales: dict[str, FilingScale] = Field(default_factory=dict)   # v7.4.0 D-0278 §4.2 — 공시 원단위 → 화면 단위
     price_outlier_pct: float = Field(default=10.0, gt=0)   # v7.4.0 — 일별 시세 하루 변동 상한(넘으면 cited 필수, [price-outlier])
     chart_null_note: str = Field(min_length=1)   # v7.4.0 D-0319 ① — 일별 종가 null → missing 사유
     series_dir: str
+    categorical_dir: str   # v7.4.0 D-1003 — 구성 레코드(CategoricalRecord)
 
     @model_validator(mode="after")
     def _scales_to_units(self) -> "DataRules":
@@ -3835,6 +3916,7 @@ class VideoRules(_Strict):
     primitives: PrimitivesRules = Field(default_factory=PrimitivesRules)   # v4.2.0 D-0081
     stage_timeline: StageTimelineRules   # v4.3.0 — D-0084 작업 3·D-0085
     stage_backdrop: StageBackdropRules   # v5.1.0 — D-0121 §B·D-0123
+    stage_structure: StageStructureRules   # v7.4.0 — D-1003 §3 구성 무대
     chart_world: ChartWorldRules   # v7.4.0 — D-0251 §6.2-4
     reference_clip: ReferenceClipRules   # v7.4.0 — D-0274 §2⑤
     island: IslandRules                  # v5.1.0 — D-0123 §1·D-0126

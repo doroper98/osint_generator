@@ -81,7 +81,7 @@ origin: claude.ai chat handoff bundle (2026-09-26 ~ 09-27), imported verbatim
 8. **"진짜 이유"류 메타 발언**: 앞 내용의 가치를 스스로 선언.
 
 ### 2.0 린트 면제 목록 (v5.17.0, back_and_forth D-0168, DECISIONS D162)
-원고가 승인된 **뒤에** 생긴 문체·흐름 규칙(`rules script_grammar.lint_waivable` = uncertain-phrase·flow-sparse·flow-overuse·tense-present)에
+원고가 승인된 **뒤에** 생긴 문체·흐름 규칙(`rules script_grammar.lint_waivable` = uncertain-phrase·connective-initial·connective-repeat·tense-present(v7.4.0 D-1007 — flow-sparse·flow-overuse 삭제))에
 걸린 승인 원고만 `projects/<pid>/lint_waivers.yaml`(git 추적, 항목마다 kind·sid·text_sha1·rule_since·script_approved·reason·decided_by)로
 면제한다. (kind, sid, 문장 text sha1) **정확 일치**만 통과하고, 낡은 면제(오류가 없거나 원고가 바뀜)는 오류다. AI 상투 문구·출처·수치·발음 규칙은
 면제할 수 없다. `script.plan`·`script.lint`(게이트 ① 화면) 같은 함수(`script/lint_waivers.py`), 게이트 ① 자료에 면제 표, provenance `features.lint.waived`.
@@ -294,9 +294,11 @@ t += 1.2; 엔딩 카드 (t ~ t+11); total = t + 11 + 0.5
 - **출처마다 조금 다른 수치**는 출처를 붙여 쓰거나("AP통신은 약 80km라고 보도했습니다") 숫자 없이 쓴다. 수치가 쟁점의 핵심이면 양측 수치를 각각 출처와 함께.
 - **내레이터의 미확인 결론 금지.** "엇갈립니다·아직 확인되지 않았습니다·정해지지 않았습니다"처럼 내용 없이 결론만 붙이는 문장은 오류(`uncertain-phrase`,
   패턴 = `rules script_grammar.uncertain_patterns`). 당사자가 그렇게 말한 것을 귀속해 전하는 문장은 된다.
-- **문장은 흐름으로 잇는다.** 연결어(`rules script_grammar.connectives` — 프롬프트에 목록 그대로 노출)로 시작하는 문장 비율이
-  `connective_min_ratio` 미만이면 오류(`flow-sparse`), `connective_max_ratio` 초과면 경고(`flow-overuse`). 인과 연결어는 실제 인과가 출처로 확인될 때만.
-- **검사 시점**: 세 오류는 게이트 ① 진입 전에 막는다(`orchestrator/source_completeness_checker.BLOCKING`) — 승인 뒤 음성 단계에서 늦게 막히지 않는다.
+- **흐름은 내용의 순서로 잇는다**(v7.4.0 D-1007, 사용자 의견 UF-303 — 옛 하한 `connective_min_ratio`·`flow-sparse` 삭제). 시점어·지시어·핵심어 반복·질문과 답으로 잇고,
+  첫머리 접속어(`rules script_grammar.connectives`)는 관계가 실제로 바뀌는 자리에만. 첫머리 접속어 문장 비율 > `connective_initial_max_ratio` = 오류(`connective-initial`),
+  같은 접속어의 재등장 간격 < `connective_repeat_gap`(최소 간격) = 오류(`connective-repeat`, D610). 인과 연결어는 실제 인과가 출처로 확인될 때만.
+- **영향은 가능성으로 말한다**(UF-302). 내레이터 목소리에 '추정' 표지(`script_grammar.estimate_markers`) = 오류(`estimate-marker`) — "~할 가능성이 있습니다"로 쓴다.
+- **검사 시점**: 이 오류들은 게이트 ① 진입 전에 막는다(`orchestrator/source_completeness_checker.BLOCKING`) — 승인 뒤 음성 단계에서 늦게 막히지 않는다.
 - **마무리는 확인된 사실의 정리.** "아직 정해지지 않은 것"으로 끝내던 v3 관행(골든 `now_3`)은 폐기. 골든 원고는 고치지 않는다(테스트가 오류 2를 고정).
 - 문안 SSOT = `rules script_grammar.lines` → 대본 프롬프트 `{{RULES.script_grammar}}`(P3).
 

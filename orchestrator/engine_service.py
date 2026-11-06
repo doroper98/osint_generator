@@ -105,6 +105,15 @@ def parse_result(stage: str, returncode: int, stdout: str, stderr: str) -> Stage
     return res
 
 
+CRASH_MARKS = ("StageResult JSON 없음", "마지막 줄이 StageResult 가 아님")
+
+
+def is_crash(res: StageResult) -> bool:
+    """CLI 가 StageResult JSON 없이 끝났는가(v7.4.0 감독 D621 ④, PIPELINE-AP-025) — 그때 errors 는 검사 결과가 아니라 stderr 꼬리다.
+    개수로 세어 기록하면 가짜 '오류 N' 이 남는다. 게이트 화면은 실행 실패로 보이고 승인 기록은 거부된다."""
+    return not res.ok and bool(res.errors) and any(m in res.errors[0] for m in CRASH_MARKS)
+
+
 def run_stage(project_dir: Path, stage: Stage, *, jobs: int | None = None, preview: str = "auto",
               extra: Sequence[str] = (), runner: Runner = subprocess.run) -> StageResult:
     """엔진 단계 하나를 서브프로세스로 돌려 StageResult 를 돌려준다(16 §4)."""
@@ -118,4 +127,4 @@ def stages_for(state: ProjectState | str) -> tuple[str, ...]:
     return STATE_STAGES.get(st, ())
 
 
-__all__ = ["STAGE_COMMANDS", "STATE_STAGES", "Stage", "build_command", "parse_result", "run_stage", "stages_for"]
+__all__ = ["CRASH_MARKS", "STAGE_COMMANDS", "STATE_STAGES", "Stage", "build_command", "is_crash", "parse_result", "run_stage", "stages_for"]

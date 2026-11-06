@@ -339,6 +339,38 @@ def starts_with_connective(text: str, connectives: list[str]) -> bool:
     return any(text.startswith(c) and (len(text) == len(c) or text[len(c)] in " ,") for c in connectives)
 
 
+def first_connective(text: str, connectives: list[str]) -> str | None:
+    """문장 첫머리 접속어(목록에서 가장 긴 일치) — 없으면 None."""
+    hits = [c for c in connectives if text.startswith(c) and (len(text) == len(c) or text[len(c)] in " ,")]
+    return max(hits, key=len) if hits else None
+
+
+def connective_issues(script: Script) -> list[LintIssue]:
+    """v7.4.0 back_and_forth D-1007 §2(사용자 의견 UF-303) — 문장 첫머리 접속어 남발.
+    [connective-initial] = 첫 어절이 접속어인 문장 비율 > script_grammar.connective_initial_max_ratio(원고 전체, 오류),
+    [connective-repeat] = 같은 첫머리 접속어의 재등장 간격 < connective_repeat_gap(최소 간격, D610 — 오류, 다시 나온 문장에)."""
+    sg = load_rules().script_grammar
+    sents = [s for sc in script.scenes for s in sc.sentences]
+    ids = [f"{sc.id}_{i}" for sc in script.scenes for i, _ in enumerate(sc.sentences)]
+    heads = [first_connective(s.text, sg.connectives) for s in sents]
+    out: list[LintIssue] = []
+    n = len(sents)
+    k = sum(h is not None for h in heads)
+    if n and k / n > sg.connective_initial_max_ratio:
+        out.append(LintIssue(kind="connective-initial", severity="error", sid="-", text="",
+                             detail=f"첫머리 접속어 문장 {k}/{n} = {k / n:.0%} > {sg.connective_initial_max_ratio:.0%} — 흐름은 내용 순서·지시어·핵심어 반복으로, "
+                                    "접속어는 관계가 바뀌는 자리에만(UF-303)"))
+    last: dict[str, int] = {}
+    for i, h in enumerate(heads):
+        if h is None:
+            continue
+        if h in last and i - last[h] < sg.connective_repeat_gap:
+            out.append(LintIssue(kind="connective-repeat", severity="error", sid=ids[i], text=sents[i].text,
+                                 detail=f"첫머리 '{h}' 가 {i - last[h]}문장 만에 다시 — 최소 간격 {sg.connective_repeat_gap} 미만(UF-303)"))
+        last[h] = i
+    return out
+
+
 def _press_relayed(text: str, markers: list[str], verbs: list[str]) -> bool:
     """v7.4.0 D-0234 — 귀속을 남기는 문장에 매체 전달이 겹쳤는가.
 
@@ -516,7 +548,6 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
     out: list[LintIssue] = []
     sg = r.script_grammar   # v5.5.0
     who_said = [m for m in attrib if not any(m in u or u in m for u in sg.uncertain_patterns)]   # "확인되지 않" 은 귀속이 아니다
-    total = flow = 0
     for sc in script.scenes:
         for k, s in enumerate(sc.sentences):
             sid = f"{sc.id}_{k}"
@@ -581,6 +612,9 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
             hit = next((u for u in sg.uncertain_patterns if u in s.text), None)
             if hit and not said:
                 add("uncertain-phrase", "error", f"미확인 결론 {hit!r} — 누가 무엇을 말했는지를 쓴다(script_grammar)")
+            est = next((m for m in sg.estimate_markers if m in s.text), None)
+            if est and not said:   # v7.4.0 D-1007(UF-302) — 영향은 "~할 가능성이 있습니다"로, '추정' 표지 금지(귀속해 전하는 것은 된다)
+                add("estimate-marker", "error", f"'{est}' 표지 — 영향은 '~할 가능성이 있습니다'·'~로 이어질 수 있습니다'로 쓴다(UF-302)")
             for a in r.tts_rules.acronyms:   # v5.6.0 사용자 결정 2026-10-04 — 약어 읽기 등재(TTS-AP-075)
                 if re.search(rf"(?<![A-Za-z]){re.escape(a.abbr)}(?![A-Za-z])", s.text):
                     said_ns = (s.tts or "").replace(" ", "")
@@ -592,20 +626,11 @@ def lint(script: Script, claims: "dict[str, str] | None" = None, *, check_source
                 add("reference-in-narration", "error", f"'{spoken_ref}' — 참조 출처는 내레이션에서 말하지 않는다(화면 출처 표기 source_note)")
             if s.date[:4].isdigit() and script.date[:4].isdigit() and int(s.date[:4]) < int(script.date[:4]) and ends_present(s.text):
                 add("tense-present", "warning", f"{s.date} 의 일인데 현재형으로 끝남 — 과거의 사건·상태는 과거형으로(script_grammar)")
-            total += 1
-            flow += starts_with_connective(s.text, sg.connectives)
     out += transition_issues(script)   # v7.4.0 D-0229 §2.2(UF-105)·D-0230
     out += vocab_issues(script)        # v7.4.0 D-0229 §2.8(UF-108·114)
     out += act_frame_issues(script)    # v7.4.0 D-0229 §2.9(UF-104·115)
     out += tensification_issues(script)   # v7.4.0 D-0246(UF-127)
-    if total >= 4:   # v5.5.0 — 문장 흐름: 연결어로 앞 문장을 받는 문장 비율
-        r_ = flow / total
-        if r_ < sg.connective_min_ratio:
-            out.append(LintIssue(kind="flow-sparse", severity="error", sid="-", text="",
-                                 detail=f"연결어로 잇는 문장 {flow}/{total} = {r_:.0%} < {sg.connective_min_ratio:.0%} — 나열이 아니라 흐름으로(script_grammar)"))
-        elif r_ > sg.connective_max_ratio:
-            out.append(LintIssue(kind="flow-overuse", severity="warning", sid="-", text="",
-                                 detail=f"연결어 문장 {r_:.0%} > {sg.connective_max_ratio:.0%} — 남발도 어색하다"))
+    out += connective_issues(script)   # v7.4.0 D-1007 §2(UF-303) — 첫머리 접속어 상한·반복 간격
     return LintReport(issues=out)
 
 

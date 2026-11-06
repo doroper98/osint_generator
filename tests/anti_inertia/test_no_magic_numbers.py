@@ -26,7 +26,9 @@ DATA_DRIVEN_MODULES: dict[str, frozenset[float]] = {   # 모듈 → 추가 허�
     "engine/shots.py": frozenset(),
     "engine/stage_timeline.py": frozenset({12, 4}),
     "engine/layers/series.py": frozenset({12, 31, 10, 6, 4, 1e-9, 30, 100, 0.5, 1e-6}),   # 12달 · 12월 31일(전망 열 연말, D-0260 §2) · v7.4.0 D-0263 10진 자릿수(가수 × 10^k, 가수는 rules lane_range.nice_mantissas)·round(·, 6)·가수 훑기 자릿수·부동소수 여유 · 30 = 6·9월 분기 말일(달력) · 100 = 퍼센트 정의(× 100, ÷ 100) · 0.5 = 칸 가운데(i + 0.5)·반 픽셀(선 스냅·반 픽셀 미만 막대 생략) · 1e-6 = 0 나누기 막기(페이드·자람 시간 하한). 조정 값은 rules stage_timeline.bars·text_metrics·island.column_detail
-    "engine/layers/flight.py": frozenset(),         # v7.3.0 D-0206 — 수치는 rules flight
+    "engine/layers/flight.py": frozenset(),
+    "engine/stage_structure.py": frozenset({100}),   # v7.4.0 D-1003 — 100 = 퍼센트 정의. 조정 값은 rules stage_structure
+    "engine/layers/structure.py": frozenset({0.5, 0.05, 0.01}),   # 0.5 = 반 픽셀(0 기준선 스냅) · 0.05 = 이벤트 구간 여유 · 0.01 = 보이지 않는 알파 문턱(island 렌더러와 같은 값)         # v7.3.0 D-0206 — 수치는 rules flight
     "engine/honesty.py": frozenset(),     # v4.3.0 — 달력 상수(12달). 레이어 수치는 rules stage_timeline.series  # v4.3.0 — 달력 상수(12달 · 4분기). 무대 수치는 rules stage_timeline
     "engine/camera_suggest.py": frozenset({4}),     # round(·, 4) 보고 자릿수
     "audio/mix.py": frozenset({44100, 10, 20}),     # SR 코덱 상수 — rules audio.sample_rate 와 일치 테스트(test_audio_rules) · dB 정의(10^(dB/20), v4.6.0 셸프)

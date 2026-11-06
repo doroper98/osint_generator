@@ -1,0 +1,184 @@
+{
+ "schema_version": 1,
+ "sources": [
+  {
+   "id": "src_doc_0001",
+   "url": "https://www.nabo.go.kr/board/file/down.do?fid=33319629",
+   "retrieved_at": "2026-11-02",
+   "lang": "ko",
+   "verification": {
+    "status": "verified",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus 구현 세션(원문 대조 — 문서는 PDF 해당 쪽 텍스트, 기사는 내려받은 본문)",
+   "confirmed_at": "2026-11-02T23:21:24.561718+00:00",
+   "note": "",
+   "type": "document",
+   "issuer": "국회예산정책처",
+   "title": "2027년도 예산안 분야별 재원 배분 분석",
+   "published_at": "2026-10-26",
+   "file": "artifacts/budget-2027-v7.4.0:sources/nabo_2027_sector_allocation.pdf (sha1 2f23e1ba64dc8ba6cd4f6e2eac04c5d4b78dfbe9)",
+   "key_facts": [
+    "p.6 발간사",
+    "p.14~15 12대 분야별 재원배분",
+    "p.29 미래대응기금 기능분류",
+    "p.375 관리재정수지·여유자금"
+   ]
+  },
+  {
+   "id": "src_doc_0002",
+   "url": "https://www.nabo.go.kr/board/file/down.do?fid=33319627",
+   "retrieved_at": "2026-11-02",
+   "lang": "ko",
+   "verification": {
+    "status": "verified",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus 구현 세션(원문 대조 — 문서는 PDF 해당 쪽 텍스트, 기사는 내려받은 본문)",
+   "confirmed_at": "2026-11-02T23:21:24.561718+00:00",
+   "note": "",
+   "type": "document",
+   "issuer": "국회예산정책처",
+   "title": "2027년도 예산안 재정총량 분석",
+   "published_at": "2026-10-26",
+   "file": "artifacts/budget-2027-v7.4.0:sources/nabo_2027_fiscal_aggregate.pdf (sha1 a045181c5af0cb8387d3209421663f713380249c)",
+   "key_facts": [
+    "p.12 총수입·총지출 정의",
+    "p.16 재정수지·국가채무 정의",
+    "p.17 국가채무 전망",
+    "p.20 2026~2030 국가재정운용계획 개요"
+   ]
+  },
+  {
+   "id": "src_doc_0003",
+   "url": "https://www.nabo.go.kr/board/file/down.do?fid=33319655",
+   "retrieved_at": "2026-11-02",
+   "lang": "ko",
+   "verification": {
+    "status": "verified",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus 구현 세션(원문 대조 — 문서는 PDF 해당 쪽 텍스트, 기사는 내려받은 본문)",
+   "confirmed_at": "2026-11-02T23:21:24.561718+00:00",
+   "note": "",
+   "type": "document",
+   "issuer": "국회예산정책처",
+   "title": "2027년 NABO 국세수입 전망 2026~2030",
+   "published_at": "2026-10-26",
+   "file": "artifacts/budget-2027-v7.4.0:sources/nabo_2027_tax_revenue_outlook_2026_2030.pdf (sha1 93881d0d60b0fd8ffc29ac48e320035732f8bb31)",
+   "key_facts": [
+    "p.7 발간사 — 2027 국세수입 593.7조 전망·반도체 업황 변동성",
+    "p.21 정부 예산안과의 비교 +9.3조(1.6%)"
+   ]
+  },
+  {
+   "id": "src_doc_0004",
+   "url": "https://ko.wikisource.org/wiki/%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD_%ED%97%8C%EB%B2%95",
+   "retrieved_at": "2026-11-02",
+   "lang": "ko",
+   "verification": {
+    "status": "verified",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus 구현 세션(원문 대조 — 문서는 PDF 해당 쪽 텍스트, 기사는 내려받은 본문)",
+   "confirmed_at": "2026-11-02T23:21:24.561718+00:00",
+   "note": "",
+   "type": "document",
+   "issuer": "대한민국 헌법",
+   "title": "대한민국 헌법 제54조",
+   "key_facts": [
+    "제54조 ② 국회는 회계연도 개시 30일전까지 예산안을 의결하여야 한다"
+   ]
+  },
+  {
+   "id": "src_doc_0005",
+   "url": "https://ko.wikisource.org/wiki/%EA%B5%AD%EA%B0%80%EC%9E%AC%EC%A0%95%EB%B2%95",
+   "retrieved_at": "2026-11-02",
+   "lang": "ko",
+   "verification": {
+    "status": "verified",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus 구현 세션(원문 대조 — 문서는 PDF 해당 쪽 텍스트, 기사는 내려받은 본문)",
+   "confirmed_at": "2026-11-02T23:21:24.561718+00:00",
+   "note": "",
+   "type": "document",
+   "issuer": "국가재정법",
+   "title": "국가재정법 제2조(회계연도)",
+   "key_facts": [
+    "국가의 회계연도는 매년 1월 1일에 시작하여 12월 31일에 종료한다"
+   ]
+  },
+  {
+   "id": "src_art_0001",
+   "url": "https://news.mtn.co.kr/news-detail/2026090412482890415",
+   "retrieved_at": "2026-11-03",
+   "lang": "ko",
+   "verification": {
+    "status": "verified",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus 구현 세션(원문 대조 — 문서는 PDF 해당 쪽 텍스트, 기사는 내려받은 본문)",
+   "confirmed_at": "2026-11-02T23:21:24.561718+00:00",
+   "note": "",
+   "type": "article",
+   "publisher": "머니투데이방송",
+   "headline_original": "안도걸 “2027년 예산, 재정 폭주 아닌 미래 위한 담대한 투자”",
+   "published_at": "2026-09-04",
+   "key_facts": [
+    "더불어민주당 안도걸 의원 — 미래대응기금 '쌈짓돈' 비판에 '재정 변동성을 줄이는 안전판' 반박, 법률 사용 제한·국회 심의·통제"
+   ],
+   "headline_ko": "안도걸 “2027년 예산, 재정 폭주 아닌 미래 위한 담대한 투자”"
+  },
+  {
+   "id": "src_art_0002",
+   "url": "https://newstomato.com/ReadNews.aspx?no=1313268",
+   "retrieved_at": "2026-11-03",
+   "lang": "ko",
+   "verification": {
+    "status": "verified",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus 구현 세션(원문 대조 — 문서는 PDF 해당 쪽 텍스트, 기사는 내려받은 본문)",
+   "confirmed_at": "2026-11-02T23:21:24.561718+00:00",
+   "note": "",
+   "type": "article",
+   "publisher": "뉴스토마토",
+   "headline_original": "\"104조 쌓고 100조 빚 늘려\"…국힘, 미래대응기금에 \"정권 쌈짓돈\" 비판",
+   "published_at": "2026-09-10",
+   "key_facts": [
+    "박수영 국민의힘 의원 토론회(9.10) — 미래대응기금 국회 통제 약화 우려"
+   ],
+   "headline_ko": "\"104조 쌓고 100조 빚 늘려\"…국힘, 미래대응기금에 \"정권 쌈짓돈\" 비판"
+  },
+  {
+   "id": "src_art_0003",
+   "url": "https://biz.sbs.co.kr/amp/article/20000343415",
+   "retrieved_at": "2026-11-03",
+   "lang": "ko",
+   "verification": {
+    "status": "verified",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus 구현 세션(원문 대조 — 문서는 PDF 해당 쪽 텍스트, 기사는 내려받은 본문)",
+   "confirmed_at": "2026-11-02T23:21:24.561718+00:00",
+   "note": "",
+   "type": "article",
+   "publisher": "SBS Biz",
+   "headline_original": "국힘 \"빚잔치\" vs. 與 \"성장동력 확보\"…'내년 예산안' 본격 공방",
+   "published_at": "2026-10-30",
+   "key_facts": [
+    "예결위 공청회(10.30) — 민주당 성장동력 확보, 국민의힘 국회 통제 무력화 우려·배준영 여유자금 104조 발언"
+   ],
+   "headline_ko": "국힘 \"빚잔치\" vs. 與 \"성장동력 확보\"…'내년 예산안' 본격 공방"
+  }
+ ]
+}

@@ -1,0 +1,22 @@
+# 구상 1프레임 연출(D-1006 §3·D-1008 §1) — 구성 무대 한 장면, 차례 강조: ① 증가액(일반·지방행정 +27.6조) → ② 증가율(산업·중소기업·에너지 +29.7%), 카메라 이동 없음.
+version: 1
+genre: fiscal
+stage: backdrop
+stage_config:
+  structure:
+    box: center_tall
+    record: BUDGET_2027_PROPOSED_SECTORS
+    prior: BUDGET_2026_ENACTED_SECTORS
+    title: 분야별 총지출
+shots:
+  - {at: 0, mode: cut, dur: 0, camera: {}}
+  - {at: {sid: frame_0, 'off': -0.6}, stage: structure, mode: cut, dur: 0, camera: {row: defense, w: 734}}
+events:
+  - {type: island, start: {sid: frame_0, 'off': -0.6}, end: {sid: frame_2, edge: end, 'off': 0.6}, kind: structure, box: center_tall}
+  - {type: rank, start: {sid: frame_0, 'off': -0.5}, end: {sid: frame_2, edge: end, 'off': 0.6}, layer: bars}
+  - {type: rank, start: {sid: frame_0, 'off': 0.6}, end: {sid: frame_2, edge: end, 'off': 0.6}, layer: prior}
+  - {type: rank, start: {sid: frame_0, 'off': 1.4}, end: {sid: frame_2, edge: end, 'off': 0.6}, layer: delta}
+  - {type: rank, start: {word: {sid: frame_0, text: 일반·지방행정은}}, end: {sid: frame_0, edge: end}, layer: focus, row: admin, metric: amount}
+  - {type: rank, start: {word: {sid: frame_1, text: 산업·중소기업·에너지는}}, end: {sid: frame_1, edge: end}, layer: focus, row: industry, metric: rate, compare: avg}
+  - {type: rank, start: {word: {sid: frame_2, text: 환경은}}, end: {sid: frame_2, edge: end, 'off': 0.6}, layer: focus, row: environment, metric: rate, compare: avg}
+  - {type: rank, start: {sid: frame_0, 'off': -0.5}, end: {sid: frame_2, edge: end, 'off': 0.6}, layer: total}

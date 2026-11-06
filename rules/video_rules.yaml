@@ -118,7 +118,7 @@ script_grammar:            # v5.5.0 사용자 결정(2026-10-02, 개정 2026-10-
     - '논쟁 중인 주장(claims status disputed)은 숨기지 않고 양측이 한 말을 나란히 쓴다 — "러시아는 ~라고 주장했습니다. 반면 나토는 ~라고 부인했습니다." 말한 사람(귀속) 없이 한쪽 주장을 사실처럼 쓰지 않는다(린트 [disputed-claim] 오류). 양측 병기 자체가 논쟁 중임을 보여 준다.'
     - '출처마다 조금 다른 수치는 출처를 붙여 쓰거나("AP통신은 약 80km라고 보도했습니다") 숫자 없이 쓴다. 수치 자체가 쟁점의 핵심이면 양측 수치를 각각 출처와 함께 쓴다.'
     - '"엇갈립니다·아직 확인되지 않았습니다·불분명합니다·정해지지 않았습니다"처럼 내용 없이 미확인이라는 결론만 붙이는 서술을 내레이터 목소리로 쓰지 않는다 — 누가 무엇을 말했는지를 쓴다. 당사자가 그렇게 말한 것을 귀속해 전하는 것은 된다("나토는 근거가 확인되지 않은 주장이라고 반박했습니다")(린트 [uncertain-phrase] 오류).'
-    - '문장과 문장 사이에 흐름을 만든다 — 앞 문장과의 관계를 드러내는 연결어로 문장을 시작해 잇고, 사실의 나열로 쓰지 않는다. 린트가 세는 연결어는 아래 목록이다(린트 [flow-sparse] 오류).'
+    - '흐름은 내용의 순서로 만든다 — 시점어, 지시어(이·그), 앞 문장 핵심어 반복, 질문과 답으로 잇는다. 접속어는 관계가 실제로 바뀌는 자리(대조·인과·양측 병기)에만 쓴다. 문장 첫머리 접속어는 원고의 일부에만(린트 [connective-initial]·[connective-repeat] 오류, 사용자 의견 UF-303).'
     - '과거의 사건과 과거 시점의 상태는 과거형으로 쓴다(…했습니다·…였습니다·…있었습니다). 현재형은 지금(영상 날짜)도 사실인 것만 — 시청자가 과거 일을 지금 일로 헷갈린다(린트 [tense-present] 경고, 사용자 결정 2026-10-04).'
     - '위키백과 같은 참조 출처는 내레이션에서 "위키백과에 따르면"·"위키백과는 전했습니다"로 읽지 않는다 — 그 문장 동안 화면 아래에 작게 링크가 자동으로 붙는다(rules source_note). 뉴스 매체·기관의 귀속("~가 보도했습니다")은 그대로 쓴다.'
     - '연결어는 관계가 사실일 때만 쓴다 — 인과(그래서·따라서·그러므로)는 출처가 그 인과를 말할 때만, 대조(그렇지만·하지만·반면)는 실제로 다른 입장·결과일 때만. 근거 없는 인과 연결은 사실 왜곡이다.'
@@ -130,12 +130,17 @@ script_grammar:            # v5.5.0 사용자 결정(2026-10-02, 개정 2026-10-
     - '막(장면 kind act)은 도입 → 본문 → 정리로 짓는다(사용자 의견 UF-104·UF-115). 도입 role intro 2~3문장: 왜 지금 이 이야기인가, 앞 막과의 연결(bridge 문장도 도입으로 센다). 정리 role outro 1~2문장: 무엇이 바뀌었나, 다음 막으로 넘기는 질문. 사건 문장 뒤에는 출처가 말하는 "왜"(동기·원인) 문장을 붙인다 — 출처 없는 "왜"는 쓰지 않는다. 콜드 오픈은 kind cold, 마무리는 kind ending(도입·정리 규칙 밖). 미달이면 린트 [act-frame] 오류.'
     - '보도 출처는 문장마다 붙이지 않는다(사용자 의견 UF-117, rules script_schema.attribution_mode: credits) — "~에 따르면", "~는 보도했습니다/전했습니다" 없이 "~했습니다", "~입니다"로 쓰고, 출처는 엔딩 크레딧의 장면별 "보도 출처"와 카드 출처 줄이 진다. 귀속을 남기는 것은 셋뿐이다: ① 당사자의 발언·주장·발표("러시아 국방부는 … 밝혔습니다", "트럼프 대통령은 … 말했습니다") ② 자료마다 다른 논쟁 수치의 자료 이름("케이플러 자료로는 …, 크레아 집계로는 …") ③ 분석·추정·전망의 기관("카네기 국제평화재단은 … 분석했습니다"). 실측 수치는 평서로 쓴다(린트 [press-attribution] 경고).'
   connectives: [그래서, 따라서, 그러므로, 그렇지만, 하지만, 그러나, 반면, 게다가, 또한, 그리고, 이어서, 이후, 그 뒤, 이에 대해, 이에, 그런데, 다만, 결국, 한편, 특히, 더욱이, 오히려, 물론, 즉, 이처럼, 이렇게, 그러면서, 동시에, 그 결과, 이 때문에, 이로 인해, 그러자, 그럼에도]   # v5.5.0 개정(2026-10-03) — 자연스러운 접속어 추가, 프롬프트에 이 목록 그대로 노출
-  connective_min_ratio: 0.3     # 원고 전체에서 연결어로 시작하거나 앞 문장을 받는 문장의 비율 하한(미만 = [flow-sparse] 오류)
-  connective_max_ratio: 0.7     # 상한(초과 = [flow-overuse] 경고 — 남발도 나열만큼 어색하다)
+  # v7.4.0 back_and_forth D-1007 §2(UF-303 "너무 접두사를 무분별하게 쓰는거 같은데 … 조정해") — 하한 강제(connective_min_ratio·[flow-sparse])와 [flow-overuse] 삭제(P2).
+  # 원인 실측: 이란 휴전 v3b 자막 55%·중국 수출통제 59% 가 접속어로 시작. 값은 임시(감독 — 날리지식 레퍼런스 실측이 오면 값만 바꾼다)
+  connective_initial_max_ratio: 0.15   # 첫 어절이 connectives 인 문장 비율 상한(초과 = [connective-initial] 오류). D610 — UF-303 · 날리지식 분석 §3.3(claude/video-analysis-2026 dd414e81) 실측 19/146 = 13.0%
+  connective_repeat_gap: 6            # 같은 첫머리 접속어 재등장 최소 간격(문장) — 간격 < 이 값 = [connective-repeat] 오류(6 통과·5 실패). D610 — UF-303 · 분석 §3.3(dd414e81) 실측 재등장 최소 6·중앙값 28
+  # v7.4.0 back_and_forth D-1007 §1-4·§2-6(UF-302 "“추정” 이런거 붙이지 말고 그럴 가능성이 있다 뭐 이런식으로") — 영향 서술은 "~할 가능성이 있습니다"로.
+  # 내레이터 목소리(귀속 없는 문장)에 이 표지가 있으면 [estimate-marker] 오류. 출처가 추정했다고 귀속해 전하는 것은 된다("국회예산정책처는 … 추정했습니다")
+  estimate_markers: ["추정", "추산"]
   uncertain_patterns: ["확인되지 않았", "확인된 바 없", "엇갈립니다", "엇갈린다", "엇갈렸습니다", "불분명합니다", "불분명하다", "알려지지 않았습니다", "알려지지 않았다", "정해지지 않았", "불확실합니다", "불확실하다"]   # 내레이터 목소리의 미확인 결론. 귀속 문장("~라고 반박했습니다")은 린트가 뺀다(v5.5.0 개정 2026-10-03)
   # v5.17.0 D-0168(DECISIONS D162) — projects/<pid>/lint_waivers.yaml 에 올릴 수 있는 kind. 문체·흐름 휴리스틱만.
   # AI 상투 문구(banned_phrases, C0)·출처·수치·발음(tts-*)·참조 출처 규칙은 면제 불가(목록 밖 = 로드 오류).
-  lint_waivable: [uncertain-phrase, flow-sparse, flow-overuse, tense-present, transition-bridge, act-frame]   # transition-bridge·act-frame = v7.4.0 D-0230 §3(옛 원고 면제)
+  lint_waivable: [uncertain-phrase, connective-initial, connective-repeat, tense-present, transition-bridge, act-frame]   # connective-* = v7.4.0 D-1007(UF-303 이전 원고 면제용)   # transition-bridge·act-frame = v7.4.0 D-0230 §3(옛 원고 면제)
 # v7.4.0 back_and_forth D-0229 §2.9(UF-115 "영상 길이를 늘리더라도 호흡을 천천히, 막전 막후 설명을 충실히", UF-104 "왜 그런 행위가 일어나는지").
 # 막(scene kind act — cold·ending 제외)마다 도입 role intro(bridge 도 도입으로 센다) ≥ act_intro_min, 정리 role outro ≥ act_outro_min — 미만 [act-frame] 오류.
 # 1분 창 사실 문장(script_schema.attribution_markers 귀속 문장) > fact_sentences_per_min_max = [tempo-density] 경고(plan·checks).
@@ -523,6 +528,17 @@ media:                     # v2.5.5 D-0037(D38) — 14 §10.1 밀도 경고. v3 
   # v7.4.0 back_and_forth D-0327(UF-201) — [photo-age] warning: 문장 날짜 − 사진 촬영일이 이 햇수를 넘으면 연출 photo age_reason 이 있어야 한다.
   # 장르 프로필 photo_age_check: false(역사 장르)면 보지 않는다. 값 = 감독 제안(사용자 합격 값 아님)
   photo_age_max_years: 15
+  # v7.4.0 사용자 결정 D612(2026-11-03) — 사진·영상(미디어 레지스트리 photo·video·backdrop)에 CC BY-SA 허용. 휘장(emblem)·초상 규칙은 그대로(schemas.emblem_models.license_allowed).
+  # NC·ND 는 여전히 불허(media_beats.sources_excluded_licenses). SA 자산은 고지 의무(작가·제목·라이선스·링크·변경 사항)를 화면 출처 줄·엔딩 크레딧·설명란에 남기고
+  # provenance rights.sa_obligations 에 기록한다 — 하나라도 빠지면 오류(schemas.media_models MediaAsset·checks [sa-obligation])
+  sa_allowed: true
+  # v7.4.0 back_and_forth D613(RIGHTS-AP-003) — 사진 쪽 설명란·태그·이용 조건에 이 조각이 있으면 라이선스 번호와 상관없이 거부(Flickr·Commons 같은 키).
+  # Korea.net Flickr 처럼 CC 표시 위에 "보도·공익 한정, 부분 복제·합성 금지" 별도 조건을 붙인 계정을 라이선스 번호만 보고 통과시키지 않는다
+  restriction_phrases: ["news organization", "public purposes", "strictly prohibited", "written permission", "non-commercial use only",
+                        "보도 혹은 공익", "공익목적", "부분 복제", "명시적인 허가", "사전 허가", "무단 전재", "재배포 금지"]
+  sa_licenses: ["CC BY-SA 2.0", "CC BY-SA 2.5", "CC BY-SA 3.0", "CC BY-SA 4.0"]
+  sa_screen_suffix: " · {modifications}"                 # 화면 출처 줄 끝(credit_formats 뒤) — 변경 사항
+  sa_credit_line: "{author} · {title} · {license} · {url} · {modifications}"   # 엔딩 크레딧·설명란 한 줄
   density:
     per_item_sec: [40, 60]
     per_scene_max: 1
@@ -548,7 +564,7 @@ media:                     # v2.5.5 D-0037(D38) — 14 §10.1 밀도 경고. v3 
       - "위성 인셋(flight.inset)은 이 상한 밖이다 — 장면당 {inset_per_scene_max}개 이하, 인셋 사이 {inset_min_gap_sec}초 이상. 시설이 식별되는 등록 인셋만 쓴다."
 
   flickr:                  # v4.4.0 D-0090 작업 4 — 기관 공식 Flickr(연준 이사회 등) 사진. 사진 페이지의 license 번호를 코드가 읽어 이 목록 밖이면 받지 않는다(07 §3.2·20 §8, C9)
-    licenses_allowed: {"8": United States Government Work, "9": Public Domain Dedication (CC0), "10": Public Domain Mark}
+    licenses_allowed: {"4": CC BY 2.0, "5": CC BY-SA 2.0, "11": CC BY 4.0, "12": CC BY-SA 4.0, "8": United States Government Work, "9": Public Domain Dedication (CC0), "10": Public Domain Mark}   # "11"(CC BY 4.0)·"12"(CC BY-SA 4.0) = v7.4.0 D613. "4"(Attribution 2.0) = v7.4.0 D611 — 07 §3.2 CC BY 허용·sources_order gov_flickr_ccby 와 맞춤(정부·군 공식 계정만). "5"(Attribution-ShareAlike 2.0) = D612(사용자 결정 — 사진·영상 SA 허용, 고지 의무). NC(1·2·3)·ND(6) 는 밖
     size_suffix: b         # 받을 크기(_b = 긴 변 1024)
 
 media_beats:               # 14 §10
@@ -1268,7 +1284,7 @@ credits:                   # D-0030(D35) — 권리 레지스트리 종류별 �
   music_description: 'Music: "{name}" — {author} ({license})'          # 설명란 footer 의 {music} 자리(v3 description.yaml 문구와 같은 결과)
 
 registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 쓰면 오류, 있는데 렌더러가 없으면 오류
-  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, panel, dip, photo, clip, cutout, article, post, primitive, series, backdrop, island, cascade, quote, flight]   # flight = v7.3.0 D-0206(비행·꼬리선·착탄 링·위성 인셋, 사용자 결정 D232). island = v5.1.0 D-0126 Q1(차트 아일랜드 — 뷰포트 카메라 = stage: timeline 숏), backdrop = v5.1.0 D-0121 §B·D-0123(backdrop 무대 배경 사진, 미디어 레지스트리 photo), post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives), series = v4.3.0 D-0084(시간축 무대, 데이터 레코드), cascade = v5.3.0 D-0139(겹침 카드, 사용자 결정 D116·D117), quote = v5.4.0 정규(인물 발언 인용, 사용자 결정 2026-10-02)
+  event_types: [marker, route, tanker_loop, barrier, ships, boom, country, badge, panel, dip, photo, clip, cutout, article, post, primitive, series, backdrop, island, cascade, quote, flight, rank]   # rank = v7.4.0 D-1003 §3(구성 무대 순위 막대 층 — 레코드 categorical에서 직접). flight = v7.3.0 D-0206(비행·꼬리선·착탄 링·위성 인셋, 사용자 결정 D232). island = v5.1.0 D-0126 Q1(차트 아일랜드 — 뷰포트 카메라 = stage: timeline 숏), backdrop = v5.1.0 D-0121 §B·D-0123(backdrop 무대 배경 사진, 미디어 레지스트리 photo), post = v3.2.0 복귀(D26, 18 §5), primitive = v4.2.0 D-0081(id → registries.primitives), series = v4.3.0 D-0084(시간축 무대, 데이터 레코드), cascade = v5.3.0 D-0139(겹침 카드, 사용자 결정 D116·D117), quote = v5.4.0 정규(인물 발언 인용, 사용자 결정 2026-10-02)
   event_types_planned: [occupied, arc, channel, shield, tl, particles, flash, dots, line, arrow]   # v1/v2 이식 후보(미구현 = 사용 불가). movers = v7.3.0 flight 로 대체(D-0206 §1-2)
   panel_kinds: [relation, statement, timeline, precedent, versus, dots, gantt, dual_line, fork, checklist, network]   # relation = v3 refusal 일반화, 뒤 6종 = v2 차트 이식(D-0032)
   panel_kinds_planned: []
@@ -1278,10 +1294,10 @@ registries:                # 15 §3 P10 — 여기 없는 타입을 연출이 �
   # detail_only = 열 확대 인셋(island kind column_detail)에서만 쓰는 스타일(D-0318 §1-3 — 열 안 직접 그리기 폐기)
   series_styles: [step, line, band, projection, bars, stack, range, dumbbell, diverging, slope]
   series_styles_detail_only: [dumbbell, diverging, slope]
-  island_kinds: [chart, column_detail]
+  island_kinds: [chart, column_detail, structure]   # structure = v7.4.0 D-1003 §3(구성 무대 뷰포트 — 카메라 = stage: structure 숏)
   accents: [gold, us, ru, teal, muted, green, amber]
-  stages: [mercator, timeline, backdrop]   # backdrop = v5.1.0 D-0123(사진 배경 무대, engine/stage_backdrop.py). v4.1.0 D-0076 — 무대(engine.stage). 없는 무대 = 오류, 있는데 구현(STAGE_CLASSES)이 없음 = 오류(P10). timeline = v4.3.0 D-0084 작업 3
-  stages_planned: [chart_wall, flow, structure, document]   # v4.2.0 D-0081 — 20 §2.1 무대 카탈로그(구현 전). 장르 프로필 proposed 만 참조 가능, 연출에서 쓰면 오류
+  stages: [mercator, timeline, backdrop, structure]   # structure = v7.4.0 D-1003 §3(구성 무대 — 순위 가로 막대, engine/stage_structure.py). backdrop = v5.1.0 D-0123(사진 배경 무대, engine/stage_backdrop.py). v4.1.0 D-0076 — 무대(engine.stage). 없는 무대 = 오류, 있는데 구현(STAGE_CLASSES)이 없음 = 오류(P10). timeline = v4.3.0 D-0084 작업 3
+  stages_planned: [chart_wall, flow, document]   # v4.2.0 D-0081 — 20 §2.1 무대 카탈로그(구현 전). 장르 프로필 proposed 만 참조 가능, 연출에서 쓰면 오류
   primitives: [statement_diff, dot_plot, site_diagram, process_lane, doc_excerpt, era_numeral]   # era_numeral = v7.4.0 UF-401 ③(큰 연도 숫자). process_lane·doc_excerpt = v7.4.0 UF-400(영상 분석 — 과정 도식·1차 문서 발췌), 실렌더 스케치 사용자 승인 UF-401(2026-11-02 "승인. 매우 만족"). site_diagram = v4.4.0 dmz_mine_2026 사용자 요청(현장 개념도, 벡터).  dot_plot = v4.4.0 D-0090 작업 3(사용자 승인 대기 — provenance elements.approval pending). v4.2.0 D-0081 — 새 시각 요소(engine/primitives/<id>.py, 20 §4.2). 이벤트 type: primitive + id. 없는 id = 오류, 있는데 모듈 없음 = 오류(P10)
   primitives_planned:     # v4.2.0 D-0082 쟁점 1 A — 구현 전 프리미티브. 장르 프로필 proposed 의 new 만 참조 가능, 연출에서 쓰면 오류
     - rate_step_line      # 20 §3 macro_monetary — v4.3.0: series 이벤트(style: step)가 대신한다. 만들지 않는다(사용자 결정 전이라 목록에서 지우지 않음, D-0084 작업 4·D-0090)
@@ -1341,7 +1357,7 @@ audio:                     # 10
     # 내레이션 대 (음악 + 효과음 + 클립 원음) 에너지 비(dB). 영상 값 = 가장 낮은 문장. min_db 미만이면 hard_genres 는 hard, 그 밖 장르는 warning(승격은 최종 감독).
     # 실측(R-0331): 호르무즈 골든 21.92 · 칸나이 v1(Zabriskie) 16.27 · 칸나이+코리올란(세기 조정 전) 12.24. 장르 하한을 푼 곡(UF-256)의 가림 위험을 실제 믹스에서 잰다
     # v7.4.0 D349(R-0324 실측: 골든 21.92 · showcase_geo 최저 16.50 · showcase_econ 최저 23.39) — 모든 장르 hard. 등록 장르(genres/*.yaml) ⊆ hard_genres 는 tests/test_narration_clarity 가 고정(새 장르가 조용히 warning 으로 빠지지 않게). war_history 는 전쟁사 브랜치 장르
-    narration_clarity: {min_db: 15.0, hard_genres: [earnings, geopolitics, macro_monetary, war_history]}
+    narration_clarity: {min_db: 15.0, hard_genres: [earnings, fiscal, geopolitics, macro_monetary, political_history, war_history]}   # fiscal·political_history = v7.4.0 sweet-galileo 병합(D349 모든 장르 hard, 예산안 실측 최저 22.33 dB)
     bed_bass_band_hz: [30, 120]
     bed_mid_band_hz: [200, 2000]
   crossfade_sec: 4.0        # v3.4.0 D-0060 작업 5 — 곡 교체 교차 페이드(경계 가운데 정렬, 선형 합 1). BGM 반복 교차 페이드(loop_xfade_sec)와 같은 값
@@ -1378,6 +1394,10 @@ audio:                     # 10
     scene_start: {lead_sec: 0.05, whoosh_dur_sec: 0.9, whoosh_v: 0.55}                  # sfx_policy: 장면 시작 휙(첫 장면 제외)
 
 stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시간축 무대(engine/stage_timeline.py)·시리즈 레이어(engine/layers/series.py). 설계 px(480p)
+  # v7.4.0 back_and_forth D-1010 §2(사용자 의견 UF-306 "빈 아래쪽 차트를 흐릿한 선으로라도 한번 보여주고") — 레인 미리 보기 선.
+  # 차트 아일랜드가 보이는 동안 레인마다 그 시리즈 경로를 흐리게(점·핀·끝값 라벨 없이, 본 선 모양 그대로 — 정부안·계획 점선 포함).
+  # 본 선은 문장이 도달하면 그 위에 그려진다. 값 = 미사일 궤적 미리 보기(sketch missile preview_alpha 0.35·preview_w 1.2) 준용. 검사 [lane-empty] hard
+  lane_preview: {alpha: 0.35, w: 1.2}
   # v7.4.0 back_and_forth D-0257(사용자 의견 UF-137 "금리 차트가 화면 좌우에 다 꽉차서 만드는 UI는 UX 측면에서 최악") — 시간축 주 무대는 화면을 채우지 않고
   # 안쪽 틀 안에 담는다. 세계는 하나 그대로(카메라가 그 안을 움직인다), 틀 밖은 그리지 않는다(클립). 상자 모양·레인 패딩 = 차트 아일랜드(island·island.chart).
   # 틀 = 날짜 뱃지(위 56) 아래·자막(2줄 위 끝 약 407) 위·좌우 60(D-0258). 레인 영역 = 틀 안 [island.chart.pad_top, 높이 − pad_bottom], 세로 척도 = min(lane_h, 영역 ÷ 레인 수). 검사 [chart-edge-bleed] hard
@@ -1431,6 +1451,7 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     lane_pad_top: 0.3      # 레인 띠 위 여백(레인 높이 비율) — 레인 이름 자리
     lane_pad_bottom: 0.22  # 레인 띠 아래 여백 — 출처·기준 시점 줄 자리
     line_w: 2.2
+    proposed_dash: [5, 3]   # v7.4.0 D-1003 — 예산 단계 proposed(정부안, 국회 확정 전) 값으로 가는 선 조각은 점선 [선, 틈] px. 끝값 라벨에 stage_structure.stage_words.proposed
     tip_r: 3.2
     fade_sec: 0.75   # UF-159 ×1.5(0.5)
     min_alpha: 0.01        # 이보다 흐리면 그리지 않는다(다른 레이어의 등장 문턱과 같은 값)
@@ -1573,6 +1594,7 @@ stage_timeline:            # v4.3.0 D-0084 작업 3·4·D-0085·D-0086 — 시�
     flat_lane_min_ratio: 0.35
     empty_band_max_ratio: 0.15   # v7.4.0 D-0277 §3 [axis-empty-band] hard — 데이터 극값 밖 빈 띠(한쪽) ÷ 축 범위 상한. 감독 제안 값(사용자 합격 값 아님)
     axis_range_note: "축 범위 {lo}~{hi}"
+    zero_clamp: true             # v7.4.0 back_and_forth D615(엔진 결함) — 값이 모두 0 이하인 레인(적자 등)은 축 위 끝 ≤ 0. pad 8%·half_step 올림이 0 위에 빈 칸(0~25)을 만들던 것. 모두 0 이상 레인의 0 하한과 대칭
   # v7.4.0 back_and_forth D-0260 §2·D-0264 — 전망 점: series style projection + scatter 레코드(예: SEP 점도표)를 같은 레인·같은 축척 위의 점으로.
   # 열 x = 그 해 12월 31일(column_date year_end), 장기(Longer run) = 마지막 연도 열 + longer_run_gap_days. 점 크기·간격·중앙값 선·열 이름·고정 문구는
   # primitive.dot_plot 값 재사용(dot_r·dot_gap·median_w·median_half·col_size·note). 색 = 장르 color_semantics.forecast(D-0264 — 기존 토큰 amber).
@@ -1612,6 +1634,68 @@ reference_clip:
     - "발언 클립을 쓸 때는 그 앞 문장에 hold_after {mid, sec, subtitle, sources} 를 단다 — sec = 레지스트리 구간 길이({main}초 안), subtitle = 발언의 한국어 번역 한두 줄, sources = 인용 원문(영문)·시각·녹취록 쪽을 담은 claims id. 원문에 없는 말을 번역에 넣지 않는다."
     - "발언 자리 앞 문장은 누가 어디서 말하는지 밝히고, 발언 내용을 미리 되풀이하지 않는다."
 
+stage_structure:           # v7.4.0 back_and_forth D-1003 §3 — 구성 무대(engine/stage_structure.py)·순위 가로 막대 층(engine/layers/structure.py, 이벤트 rank). 설계 px(480p)
+  # 형태 하나: 순위 가로 막대. 행 = 분야(금액 순, 큰 것이 위). 막대 = 이번 레코드(record) 값, 막대 위 속빈 세로 눈금 = 견줄 레코드(prior) 값 — 같은 축척(0 기준).
+  # 행 끝 직접 라벨 "금액 · ±증감률"(범례 없음). 바닥 조판 정본 D-0328·D-0330: 테두리 0, 바깥 끝 모서리만 stage_timeline.bars.top_radius, 잉크 사다리, 초점 행만 accent.
+  # 감소 행 = 손실 A(stage_timeline.bars.negative_fill muted_fill — UF-204). 층은 문장마다 하나(bars → prior → delta → focus). 카메라는 무대 안에서(월드 = 전체 보기 px, 등방 — 축척 불변).
+  # 감독 명세 값(D-1003) — 사용자 합격 값 아님(구상 1프레임 판정 전)
+  pad_top: 40              # 상자 위 → 첫 행 위 끝(px) — 머리 줄·총지출 줄·눈금 태그 자리(D-1009 태그 13 → 34 에서 넓힘)
+  pad_bottom: 26           # 마지막 행 아래 끝 → 상자 아래(출처 한 줄 자리)
+  label_col: 128           # 행 이름 열 폭(px, 왼쪽). 이름은 이 열 오른쪽 끝에 붙인다
+  label_gap: 10            # 행 이름 오른쪽 끝 → 0 기준선
+  value_col: 132           # 행 끝 라벨 열(px, 오른쪽) — 가장 긴 막대 끝 → 상자 오른쪽 끝 사이를 이만큼 비운다
+  value_gap: 7             # 막대 끝(또는 눈금) → 행 끝 라벨
+  bar_h_ratio: 0.56        # 막대 두께 = 행 높이 × 이 값
+  row_h_max: 30            # 행 높이 상한(px) — 행이 적으면 이 높이로 위에서부터
+  label_size: 14           # 행 이름(sansm, text) — D-1008 §2(UF-304 시인성) 12 → 14
+  label_font: sansm
+  value_size: 14           # 금액(sansb, text) — D-1008 12 → 14
+  value_font: sansb
+  delta_size: 13           # " · ±증감률"(sansm) — 증가 = up, 감소 = down 의미색. D-1008 11 → 13
+  delta_font: sansm
+  label_halo: 2.0
+  prior_w: 4               # 속빈 눈금 폭(px)
+  prior_line_w: 1.4        # 속빈 눈금 윤곽 굵기(px) — 막대 테두리가 아니라 견줄 값 표식
+  prior_over: 3            # 눈금이 막대 위·아래로 더 나오는 길이(px)
+  prior_alpha: 0.92
+  grow_sec: 0.9            # 막대가 0 에서 값까지 자라는 시간(초) — 행마다 stagger_sec 늦게
+  stagger_sec: 0.06
+  layer_in_sec: 0.5        # prior·delta·focus 층 등장 페이드(초)
+  source_size: 10.5        # 출처 한 줄(sans muted) — 상자 아래 끝에서 source_dy 위. D-1008 9.5 → 10.5
+  source_font: sans
+  source_dy: 8
+  zero_alpha: 0.7          # 0 기준선(막대 레인과 같은 값 — stage_timeline.bars.zero_alpha)
+  zero_w: 1.2
+  focus_dim: 0.55          # focus 층이 뜨면 초점 아닌 행의 잉크 농도에 곱하는 값(초점 행은 accent 솔리드)
+  max_rows: 14             # 한 무대 행 수 상한(12대 분야 + 여유). 넘으면 오류(P6)
+  camera_drift: false      # D-1006 — 구성 무대 카메라는 키 뒤 느린 푸시인(camera drift) 없음: 전체 보기 12행이 출처 줄 밑으로 밀리지 않게. 확대는 연출 숏으로만
+  # 행(막대·이름·금액·눈금·증감)은 머리 줄 아래 ~ 출처 줄 위 띠 안에만 그린다(확대해도 머리·출처와 겹침 0)
+  ladder: [0.42, 0.36, 0.3]   # 잉크 사다리 — 금액 순위 0·1·2 행, 그 아래는 마지막 값(초점 행은 accent 솔리드). D-1009 §2-1: 0.82·0.66·0.54 → 낮춰 늘어난 구간(up)과 휘도 차 ≥ 60
+  head_size: 13            # D-1008 12 → 13. 무대 머리 짧은 이름 한 줄("2027 정부안 분야별 총지출 · 조 원", sansm muted) — 카드 제목 줄 아님(D-0328 §3)
+  head_font: sansm
+  head_dy: 4               # 상자 위 끝 → 머리 줄 글자 위(px). pad_top 은 머리 줄 + 여백을 담는다
+  tag_size: 13             # D-1009(R-0609 판단 수용) 11 → 13. 견줄 눈금 직접 라벨("2026 본예산" — 첫 행 눈금 위, 범례 아님)
+  tag_font: sansm
+  tag_gap: 3               # 눈금 위 끝 → 태그 기준선
+  pct_digits: 1            # 증감률 소수 자리
+  value_digits: 1          # 금액 소수 자리
+  value_step: 0.1          # 레코드 금액의 반올림 단위(원문 표 0.1조) — 원문 증감률 대조 범위(D-1006)
+  pct_step: 0.1            # 원문 증감률의 반올림 단위(%)
+  unit_suffix: {"조 원": "조"}     # 행 끝 금액 꼬리(레코드 unit → 화면 꼬리). 없는 단위 = 오류(P6)
+  stage_words: {proposed: 정부안, enacted: 본예산, settled: 결산, planned: 계획}   # planned = 국가재정운용계획 연도(2028~).   레코드 budget_stage → 화면 낱말(D-1003 §2 — 정부안임을 화면에서 분명히)
+  # v7.4.0 back_and_forth D-1008 §1·§2(UF-304 "직관적이고 시인성을 갖춰야 되는게 가장 중요해") — 감독 명세, 사용자 합격 값 아님
+  delta_seg_color: up       # D-1009 §2-1 — delta 층: 늘어난 구간(눈금 → 막대 끝) = 증감 라벨과 같은 의미색(up) 면, 기본 구간과 휘도 차 ≥ 60 단계(감독 화소 실측 20~27 → 안 보임). 감소 구간 = 손실 A
+  delta_seg_alpha: 1.0
+  delta_seg_dim: false     # 초점이 다른 행에 있어도 늘어난 구간은 흐리게 하지 않는다(기본 구간만 focus_dim) — 휘도 차 유지
+  avg_word: 연평균            # 초점 작은 줄 "2018~26 연평균 +8.7%"(레코드 avg_growth 해 범위 + 이 낱말)
+  focus_base_alpha: 0.42     # focus 층: 초점 행 0 → 눈금 구간 = accent × 이 농도(옅게), 늘어난 구간 = accent 솔리드
+  focus_value_size: 18       # 초점 라벨 큰 숫자(sansb, accent) — 문장이 말하는 숫자(metric amount = +증감액, rate = +증감률)
+  focus_text: white          # v7.4.0 감독 D622 — 구성 무대 강조 글자(초점 라벨·총지출 줄 강조)의 색 하나(palette 키). 막대 accent(gold) 글자는 사진 배경 상자 위 대비 3.93~4.15 < 4.5([island-text-contrast]) — 강조는 크기·굵기로, 막대 면은 accent 그대로. 전역 gold 토큰 무변경
+  focus_value_font: sansb
+  focus_rest_size: 13        # 초점 라벨 뒤 작은 나머지(" · 다른 쪽 숫자", sansm)
+  focus_rest_font: sansm
+  abs_digits: 1              # 증감액 소수 자리
+
 stage_backdrop:            # v5.1.0 back_and_forth D-0121 §B·D-0123 §1(사용자 결정 D106·D108) — 사진 배경 무대(engine/stage_backdrop.py)·backdrop 이벤트(engine/layers/backdrop.py). 설계 px(480p)
   # 사진 = 미디어 레지스트리 kind photo·rights_clear 만(C9·G4-10 — AI 생성·출처 불명 금지). 배경은 장식이라 캡션 바 없음, 크레딧은 credits.yaml media 참조.
   # 연출(LLM)이 장면마다 {type: backdrop, start: {scene_start}, end: {scene_end}, img: <mid>} 로 고른다(P8). 전환은 crossfade 만(줌 범프 금지)
@@ -1631,6 +1715,7 @@ stage_backdrop:            # v5.1.0 back_and_forth D-0121 §B·D-0123 §1(사용
   grammar:
     - "사진 배경 무대: 최상위 `stage: backdrop`. 주 무대 카메라 숏은 `{\"at\": 0, \"mode\": \"cut\", \"dur\": 0, \"camera\": {}}` 하나(이동 없음)."
     - "배경 사진: 장면마다 `{\"type\": \"backdrop\", \"start\": {\"scene_start\": 장면}, \"end\": {\"scene_end\": 장면}, \"img\": 사진 id}`. img 는 사용자 메시지 미디어 목록의 사진(photo) id 만. 연속 같은 사진 금지, 영상 전체 서로 다른 사진 {min_photos}~{max_photos}장. 블러·어둡게·crossfade {crossfade}초는 코드가 한다(검사 [backdrop-repeat]·[backdrop-rights] hard)."
+    - "배경 사진의 장면 주제: backdrop 마다 `\"for\": 용어` 를 적는다 — 그 막이 다루는 대상(국회 심사 막 = 국회의사당, 정부 개관 막 = 정부청사 등)이며, 미디어 목록 그 사진의 주된 피사체(main_subject)에 있어야 한다. 배경에만 있거나 없으면 검사 [backdrop-subject-background]·[backdrop-subject-unmatched] hard. 개수를 채우려 주제 어긋난 사진을 깔지 않는다(v7.4.0 감독 D621 ②, D616·D617)."
     - "차트 아일랜드: `{\"type\": \"island\", \"kind\": \"chart\", \"box\": {boxes} 중 하나, start, end}` — 시간축 차트가 이 상자 안에 뜬다. 차트 카메라는 `\"stage\": \"timeline\"` 숏(camera {date, lane?, w}) — 시간축 축 스케일 규칙을 그대로 따른다. series·date 마커는 차트 아일랜드가 떠 있는 동안에만 쓴다. 같은 순간 차트 아일랜드는 하나 — 차트가 필요한 구간 전체에 하나를 길게 두는 것이 기본이고, 둘을 이을 때는 앞 것의 end 뒤에 다음 것의 start 를 둔다(시각이 겹치면 오류). 오른쪽 카드와 함께면 box left."
     - "아일랜드(차트·사진·영상·프리미티브·패널)는 같은 순간 {max_concurrent}개 이하, 서로 겹치지 않는다(검사 [island-overlap] hard). 뱃지는 화면 슬롯(map_*)에, 프리미티브(statement_diff·dot_plot 등)·카드는 카드 슬롯에 둔다 — backdrop 무대에서 date·lane 앵커는 series·marker 만(그 밖은 오류)."
     - "주 아일랜드 상시(v5.2.0): backdrop 무대에서는 주 아일랜드({main_kinds})가 항상 하나 보인다. 카드만 있는 구간(블러 배경 + 카드)은 {card_only_max}초 이하 — 넘으면 검사 [backdrop-main-missing] hard(타이틀·엔딩 카드·기사 구간 제외). 차트 아일랜드는 오프닝 첫 문장부터 띄운다. 보도를 인용하는 카드(출처가 매체)는 카드가 아니라 article 이벤트로 — 프레스 규약 v2(가운데·세리프 헤드라인)로 조판한다. 카드는 아일랜드 상자와 겹치지 않는 자리에(겹치면 [card-island] warning)."
@@ -1755,6 +1840,14 @@ flight:                    # v7.3.0 back_and_forth D-0206·D-0225(사용자 결�
     predict_keyframes: true
     move_headroom: 0.75          # 보간 시간은 move_sec 이 하한 — 거리가 길면 최고 속도 ≤ jump_px_max × 0.75 가 되게 늘린다(geo 콘티 판 v2.1: 0.6초 보간이 25px/프레임)
 island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) — backdrop 무대 위 내용물 상자(아일랜드) 공통 규칙. engine/island.py. 설계 px(480p)
+  # v7.4.0 back_and_forth D-1010 §1(사용자 의견 UF-305 "차트를 감싸는 외곽 라인이 너무 타이트하게 붙어있는 점") — 아일랜드 안쪽 여백(감독 명세).
+  # 상자 크기·자리(boxes)는 그대로, 내용 영역(구성 무대·시간축 뷰포트)을 이만큼 안으로. 글자·행 크기는 줄이지 않는다(UF-304). 검사 [island-inner-pad] hard
+  inner_pad: {x: 16, y: 12}
+  # v7.4.0 감독 D621 ③(D619 "글자 대비 측정 검사는 전달 뒤 첫 작업", UF-304 시인성) — 사진 배경(backdrop) 위 구성·차트 아일랜드의 글자색.
+  # 검사 [island-text-contrast] hard: 렌더와 같은 경로(backdrop_surface + draw_frame)로 상자 안 바탕을 합성해 밝은 쪽 97 백분위 휘도와
+  # 이 글자색들의 WCAG 대비를 잰다. 하한은 새 수치 없이 qa_checks.map_contrast_text(지도 글자 hard 와 같은 값). 이 목록 = 그 무대 글자색(D622 — 구성 무대 강조 글자는 gold 를 쓰지 않는다)
+  # 구성 = 고정 목록 + stage_structure.focus_text, 차트 = 고정 목록 + 그 아일랜드 시간에 뜬 series 이벤트 col(계열 끝 값 글자 = 계열색)
+  text_colors: {structure: [white, muted, green, ru], chart: [white, muted]}
   # 연출은 픽셀을 다루지 않는다 — 차트 아일랜드는 box(boxes 이름)만 고른다. 등장 = 슬라이드 layout_480p.card.slide_px + 페이드 card.fade_sec(카드 규칙 재사용)
   # 겹침(checks island_overlap hard, Q3 A): 같은 순간 보이는 아일랜드 제자리 상자(그림자·슬라이드 경로 제외)끼리 교차 > 0, 자막 구역(reserved_zones.subtitle) 교차.
   # 아일랜드 = island 이벤트(차트) · 사진·영상(media_box) · 프리미티브(primitive_box) · backdrop 무대 위 패널(panel_box, Q4 A). 카드·배지는 기존 예약 영역 규칙.
@@ -1770,6 +1863,7 @@ island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) �
     left: [24, 56, 540, 298]
     left_tall: [24, 52, 540, 344]   # v7.4.0 back_and_forth D-0268 — 레인 둘이면 금리 값 영역 ≈ 65px(left 는 46px). 위 52 = 날짜 뱃지 밑줄 아래, 아래 396 = 자막 2줄 위. 오른쪽 끝 564 = 카드·사진 열(x ≥ 594) 밖
     right: [290, 56, 540, 298]
+    center_tall: [60, 52, 734, 344]   # v7.4.0 D-1003 §3 — 구성 무대(12행) 상자 [x, y, 폭 734, 높이 344] — 전체 보기 카메라 w = 734. 위 52 = 날짜 뱃지 아래, 아래 396 = 자막 위. 카드 열을 쓰지 않는 장면 전용
   panel_box: [44, 40, 766, 362]   # backdrop 무대 위 패널 상자(패널 본문 x 80~774·제목 기준선 74 를 담고 자막 구역 410 위) — 패널 덮개(panel.cover_alpha) 대신(Q4 A)
   chart:                   # 차트 아일랜드 안 레인 영역(Q2 A): [pad_top, 상자 높이 − pad_bottom], 세로 척도 = min(lane_h_max, 영역 ÷ 레인 수) — v7.4.0 D-0269 전에는 stage_timeline.lane_h
     pad_top: 34            # 압축 라벨(wave.label_dy −7) 자리
@@ -1785,7 +1879,7 @@ island:                    # v5.1.0 back_and_forth D-0123 §1·D-0126(Q1~Q4 A) �
   # checks backdrop_main_missing hard: backdrop 무대에서 main_kinds(chart = island kind chart, 그 밖 = 이벤트 type)가 하나도 보이지 않는 구간 > card_only_max_sec
   # → `[backdrop-main-missing] t0-t1 {n}s`(타이틀·엔딩 카드·기사 구간 제외, provenance backdrop.main_missing[]). 코드는 카드를 기사로 바꾸지 않는다(P8) — 검사 + 문법 + 재연출
   main_required: true
-  main_kinds: [chart, primitive, photo, clip, article, panel]   # panel = D-0130 Q3 B(backdrop 패널 766×362 는 화면 대부분을 채우는 아일랜드)
+  main_kinds: [chart, structure, primitive, photo, clip, article, panel]   # structure = v7.4.0 D-1003(구성 무대 아일랜드)   # panel = D-0130 Q3 B(backdrop 패널 766×362 는 화면 대부분을 채우는 아일랜드)
   card_only_max_sec: 3.0   # 전환(앞 아일랜드 퇴장 ~ 다음 등장) 허용 폭
   # v7.4.0 back_and_forth D-0328(UF-202 "르포는 느낌만 — 영상에 맞춰 바닥에서 새로 조판") — 팔레트 surface: stage 일 때 차트는 카드가 아니라 무대.
   # 아일랜드 테두리·바탕·머리 띠 없음(바탕 위 바로), 레인 띠 칠 없음, 글자 위계 셋(큰 값·라벨·작은 출처 한 줄), 보조 축 숫자 없음(끝값 핀만). 감독 명세 값
@@ -1879,9 +1973,20 @@ genre_prompt:              # v4.4.0 D-0090 작업 1 — 장르 프롬프트 층(
       - "act4 주가 반응 — 같은 시간축의 주가 레인으로 이동: 발표 전 추세 → 발표일 핀 → 반응 라벨(시간외·종가 창 명시) · 이유를 전한 기사 카드. 20~30초"
       - "act5 지경학 — 지도 보조 무대(전환 1회): 관세·수출통제·정부 지분·공장·사고, 다른 회사와의 고리. 30~45초"
       - "ending — 한 문장 정리 + 엔딩 카드(출처·권리·투자 고지). 10초"
+    fiscal:   # v7.4.0 back_and_forth D-1003 §2 — 『예산안 분석』. 정부안은 정부안이라 말한다(국회 확정 전), 여야 쟁점은 같은 무게(G4)
+      - "cold — 총지출 총액과 증가율 한 줄(정부안임을 첫 문장에서 밝힌다). 사진 배경 + 큰 숫자 하나. 8~12초"
+      - "act1 어디에 쓰나 — 구성 무대(structure): 분야별 순위 가로 막대가 0에서 자란다. 용어(총지출·12대 분야)를 처음 나올 때 한 번 정의. 40~60초"
+      - "act2 무엇이 늘고 줄었나 — 같은 구성 무대의 두 번째 층: 전년 본예산 속빈 눈금 → 증감률 → 초점 행 하나씩. 40~60초"
+      - "act3 어디서 오나 — 시간축 레인(timeline): 총수입·총지출·관리재정수지·국가채무, 국세수입 전망·미래대응기금·국채. 결산·본예산·정부안 구분. 50~70초"
+      - "act4 쟁점 — versus 패널: 미래대응기금 등 여야(정부·여당 대 야당) 주장 같은 무게, 각 주장에 출처. 40~60초"
+      - "act5 일정 — timeline 패널: 국회 제출 → 예결위 심사 → 헌법상 의결 시한(12월 2일). 국회 확정 전임을 다시 말한다. 20~30초"
+      - "ending — 한 문장 정리 + 엔딩 카드(출처·권리). 투자 고지 없음. 10초"
   # v7.4.0 back_and_forth D-0304 ②(R-0291) — 장르별 데이터 보충 줄(공통 data_sources 뒤에 붙는다). 공통 둘째 줄("독점 데이터는 쓰지 않는다")은
   # 거시 지표 기준이다 — earnings 는 사용자 결정 D-0302 ②(Yahoo 시세 = private_only_market_data 레코드)가 아래 줄로 범위를 정한다
   data_sources_by_genre:
+    fiscal:   # v7.4.0 D-1003 §1·§2
+      - 예산 수치는 원문 문서(기획예산처 예산안·국회예산정책처 분석, 데이터 레코드 source_kind filing — 로컬 원본 sha1·페이지·표 줄)의 값만 쓴다. 검색 결과 요약으로 숫자를 만들지 않는다.
+      - 모든 예산 레코드는 budget_stage(proposed 정부안 · enacted 국회 확정 본예산 · settled 결산)를 가진다. 정부안 수치는 "정부안"이라 말하고 국회 확정 전임을 밝힌다.
     earnings:
       - 실적 수치는 공시 원문(DART·EDGAR, 데이터 레코드 source_kind filing)의 값만 쓴다. 회사 산정 지표(비GAAP·조정 EPS)는 회사 기준임을 밝힌다.
       - 예상치(컨센서스)는 보도 인용(press_cited) 레코드의 값만 — 집계 기관과 전한 매체를 귀속한다. 레코드가 없으면 예상치를 말하지 않는다.
@@ -1918,12 +2023,12 @@ data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs
   units: ["%", "%p", "bp", "억 달러", "지수", "명", "원", "달러/갤런", "mb/d", "kb/d", "건", "척", "ton", "조 원", "십억 달러", "달러", "곳", "배"]   # 건·척 = v7.4.0 D-0229 §4.3(점 패널 "몇 척 중 몇 척", UF-113). mb/d·kb/d = v7.3.0 D232 U4(하루 백만·천 배럴, 정제 처리량·경유 수출). v5.3.1 달러/갤런 = 미국 경유 소매가(EIA GASDESW, valdai-2026). 화면 단위(20 §5.3 "단위를 화면에 표시")
   # v7.4.0 D-0241 §3(UF-122 "십자가 처럼 보이는 t를 쓰지 말고 ton으로") — 화면 무게 단위는 ton. 숫자 뒤 t 가 화면 문자열에 남으면 [unit-ton-glyph] hard
   unit_ton_pattern: '(?<![A-Za-z])(\d|[만천억백])\s?t(?![A-Za-z])'
-  licenses_allowed: [us_gov_public_domain, cc_by_4, press_cited, public_filing, private_only_market_data]   # public_filing·private_only_market_data = v7.4.0 D-0278 §4.2(E3) — 공개 공시 기록(DART/EDGAR, 사실 데이터)·시세(재배포 제한 — 비공개 시청 D264, license_note 에 약관 메모). 재배포 가능한 공개 라이선스만(20 §5.1 "시리즈마다 이용 조건 확인"). press_cited = v7.3.0 D232 U4 — 보도 인용값(값 자체는 사실 인용, 값마다 cited 필수)
+  licenses_allowed: [us_gov_public_domain, cc_by_4, press_cited, public_filing, private_only_market_data, kogl_1, kr_public_work]   # kr_public_work = v7.4.0 D-1006(국가기관 업무상 공공저작물 — 저작권법 제24조의2, 공공누리 표시 없는 국회예산정책처 발간물. 수치만 레코드, 표 이미지는 옮기지 않는다). kogl_1 = v7.4.0 D-1003(공공누리 제1유형 — 출처 표시, 정부 예산 문서). public_filing·private_only_market_data = v7.4.0 D-0278 §4.2(E3) — 공개 공시 기록(DART/EDGAR, 사실 데이터)·시세(재배포 제한 — 비공개 시청 D264, license_note 에 약관 메모). 재배포 가능한 공개 라이선스만(20 §5.1 "시리즈마다 이용 조건 확인"). press_cited = v7.3.0 D232 U4 — 보도 인용값(값 자체는 사실 인용, 값마다 cited 필수)
   unit_prefixes: ["$", "₩", "€", "¥"]                    # v4.3.0 D-0087 보정 1 — 값 앞 통화 기호도 단위 표시로 인정(dual_line y_prefix)
   sources_allowed: [fred.stlouisfed.org, www.federalreserve.gov,
                     dart.fss.or.kr, opendart.fss.or.kr, www.sec.gov, news.samsung.com, images.samsung.com, www.intc.com, d1io3yog0oux5.cloudfront.net,
                     query1.finance.yahoo.com, query2.finance.yahoo.com, data.sec.gov]   # data.sec.gov = XBRL companyfacts(D-0303 이후 허용)   # 둘째·셋째 줄 = v7.4.0 D-0278 §4.2(E3 공시 원문·IR 자료·Yahoo chart 일별 시세). source_url 도메인(tools/fetch_series.py 가 받는 곳). federalreserve.gov = v4.4.0 SEP 점도표(D-0090 작업 2)
-  frequencies: [monthly, release, quarterly, daily]         # daily = 일별 원자료(v7.4.0 D-0326 UF-200 — 목표 범위는 발효일 계단·거래일 시세). quarterly = 분기 마지막 날(막대 중심은 분기 중앙), daily = 거래일(휴장일은 빈 날이 아니다) — v7.4.0 D-0278 §4.2. 값 날짜 간격 — monthly = 매월 1일, 한 달씩. release = 발표 한 번(scatter, v4.4.0)
+  frequencies: [monthly, release, quarterly, daily, annual]   # annual = v7.4.0 D-1003(회계연도 — 값 날짜 YYYY-01-01, 한 해씩)         # daily = 일별 원자료(v7.4.0 D-0326 UF-200 — 목표 범위는 발효일 계단·거래일 시세). quarterly = 분기 마지막 날(막대 중심은 분기 중앙), daily = 거래일(휴장일은 빈 날이 아니다) — v7.4.0 D-0278 §4.2. 값 날짜 간격 — monthly = 매월 1일, 한 달씩. release = 발표 한 번(scatter, v4.4.0)
   transforms:                                               # 코드가 하는 변환(명시된 것만). 레코드 transform.formula 는 이 문구와 같아야 한다
     raw: "원자료(변형 없음)"
     yoy_pct: "전년 동월 대비 % = (x_t / x_(t-12) - 1) * 100, 소수 둘째 자리 반올림"
@@ -1931,10 +2036,12 @@ data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs
     month_last: "일별 → 그 달의 마지막 관측값(값은 원자료 그대로, 날짜는 그 달 1일)"
     filing: "공시 표의 값 그대로(단위 환산만 — rules data.filing_scales)"   # v7.4.0 D-0278 §4.2(E3) — source_kind filing. 값마다 filings{form·번호·제출일·항목·위치·url·원값·원단위}, 환산은 로더가 다시 계산해 대조
     chart_close: "Yahoo chart API 일별 종가(indicators.quote close 값 그대로, 거래일만)"   # v7.4.0 D-0278 §4.2 — 주가 레인. raw/<id>.json 을 다시 읽어 대조
+    cagr: "연평균 증가율(%) = ((끝 해 값 / 처음 해 값) ^ (1 / (끝 해 − 처음 해)) − 1) × 100, 소수 첫째 자리 반올림"   # v7.4.0 D-1009 — 구성 레코드 avg_growth(원문 시계열의 두 해 값에서 코드가 계산)
+    document: "원문 문서 표의 값 그대로(단위 환산만 — rules data.filing_scales, 값마다 쪽·표 줄)"   # v7.4.0 D-1003 §1 — source_kind document(사용자 업로드 원본 등 로컬 원본 sha1). 예산 레코드는 값마다 budget_stage
     press_cited: "보도 인용값(매체·날짜)"   # v7.3.0 D232 U4 — 1차 표를 열지 못한 값. 코드가 받지 않는다(source_kind press_cited, 값마다 cited)   # v4.4.0 D-0090 작업 2 — DFEDTARU·DFEDTARL(목표 범위 상·하한)
   # v7.3.0 사용자 결정 D232 U4 — 출처 종류. fetched = 코드가 source_url 에서 받은 값(sources_allowed 도메인), press_cited = 보도 인용값(IEA·Vortexa·Kpler·LSEG 등을
   # 언론·보고서가 인용한 값 — 레코드 values 마다 cited{outlet, date, url} 필수, transform press_cited, license press_cited). 추정치 없는 달은 missing(보간 금지 — 선을 끊는다)
-  source_kinds: [fetched, press_cited, filing]             # filing = v7.4.0 D-0278 §4.2(E3) — 공시 원문 표의 값(값마다 filings, transform·license filing·public_filing)
+  source_kinds: [fetched, press_cited, filing, document]   # document = v7.4.0 D-1003 §1(로컬 원본 문서 표 — source_file sha1·값마다 쪽·표 줄)             # filing = v7.4.0 D-0278 §4.2(E3) — 공시 원문 표의 값(값마다 filings, transform·license filing·public_filing)
   # v7.4.0 D-0278 §4.2 — 공시 원단위 → 화면 단위(factor 곱, digits 자리 반올림). 이 표 밖 원단위 = 오류(P6)
   filing_scales:
     "백만 달러": {to: "십억 달러", factor: 0.001, digits: 1}
@@ -1952,6 +2059,7 @@ data:                      # v4.3.0 D-0084 작업 1 — 데이터 레코드(docs
   price_outlier_pct: 10
   # v7.4.0 D-0319 ① — 일별 종가 null(Yahoo 응답 행은 있으나 close 없음)은 오류가 아니라 missing(이 사유)으로 적는다. 채우지 않는다(P6)
   chart_null_note: "원 응답 null"
+  categorical_dir: data/categorical   # v7.4.0 D-1003 — 구성 레코드(분야별 금액 한 벌, schemas.data_models.CategoricalRecord) <record_id>.yaml
   series_dir: data/series                                   # <series_id>.yaml(레코드) + <series_id>.csv(값) + raw/<series_id>.csv(받은 그대로)
 
 primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/primitives/<id>.py) 레이아웃 토큰. registries.primitives 마다 한 블록(20 §4.2 "색·크기는 토큰만")
@@ -2370,7 +2478,7 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   regression_refs:
     hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
     fed_timeline_demo: "시간축 엔진 검증용 데모(배포 영상 아님) — 미디어 없는 순수 차트 픽스처"
-  regression_ref_checks: [media_density, chart_only_run, plot_height, axis_empty_band, text_restates_narration, photo_subject_unmatched, photo_subject_background, chart_overload, element_hold, media_overlap, media_sentence_span, map_opening, map_cover_share, map_event_covered]   # map_event_covered = v7.4.0 D-1000 S3 — 골든 route teal 142.8초·marker 아덴만 147.1초가 사진 밑(골든 연출 불변, 기록만). media_sentence_span·map_opening·map_cover_share = v7.4.0 D-0470(UF-173) 골든 연출 불변. element_hold·media_overlap = v7.4.0 D-0462(UF-171·172) 골든 연출 불변(회귀 기준). text_restates_narration = v7.4.0 D-0316 ② 조사 떼기 뒤 골든 핀 '9월 8일 파병 반대 집회' 60%(골든 연출 불변)   # chart_overload = v7.4.0 D-0344 — fed 데모 두 층 0.30초 동시(데모 연출 불변, 기록만)
+  regression_ref_checks: [media_density, chart_only_run, plot_height, axis_empty_band, text_restates_narration, photo_subject_unmatched, photo_subject_background, chart_overload, element_hold, media_overlap, media_sentence_span, map_opening, map_cover_share, map_event_covered, spoken_number_visible]   # spoken_number_visible = v7.4.0 UF-304·R-0611(감독 수용) — 검사는 약화하지 않고 데모 고정물만 예외. 합성 fed 데모(음성 없음, 합성 시각)에서 핀 3개가 단 없이 점만(pin_labels.dropped)·카메라가 다른 해를 비춰 8.98%·5.33%·3.35% 가 라벨에 없음(데모 연출 불변, 기록만). map_event_covered = v7.4.0 D-1000 S3 — 골든 route teal 142.8초·marker 아덴만 147.1초가 사진 밑(골든 연출 불변, 기록만). media_sentence_span·map_opening·map_cover_share = v7.4.0 D-0470(UF-173) 골든 연출 불변. element_hold·media_overlap = v7.4.0 D-0462(UF-171·172) 골든 연출 불변(회귀 기준). text_restates_narration = v7.4.0 D-0316 ② 조사 떼기 뒤 골든 핀 '9월 8일 파병 반대 집회' 60%(골든 연출 불변)   # chart_overload = v7.4.0 D-0344 — fed 데모 두 층 0.30초 동시(데모 연출 불변, 기록만)
   # v7.4.0 D-0229 §2.6(UF-113 "몇 척중 몇척은 제재 대상임을 그래픽으로") — 문장에 "N 척 중·가운데 M" 문형이 있는데 그 문장 구간에 dots·versus 패널·series 가 없으면 warning ratio_graphic
   ratio_patterns:
     - '(\d+|[일이삼사오육칠팔구십백천만]+|한|두|세|네|다섯|여섯|일곱|여덟|아홉|열|스무|스물)\s*(척|곳|건|명|개|대|기)\s*(중|가운데)'
@@ -2426,6 +2534,14 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   # v7.4.0 back_and_forth D-0344(UF-155) — [grid-text-cross] 가림 조건: 글자 아래 실제로 그린 판(렌더러가 기록한 알파·상자)이 이 알파 이상이면
   # 그 판 안의 격자 조각은 가려진 것으로 센다(라벨 종류로 건너뛰는 예외가 아니라 그린 판의 측정값). 감독 제안 값
   grid_text_cross: {occluder_alpha_min: 0.98}
+  # v7.4.0 back_and_forth D-1008 §3(UF-304 "직관적이고 시인성을 갖춰야 되는게 가장 중요해") — [spoken-number-visible] hard:
+  # 데이터 무대(구성·시간축 아일랜드, 시간축 주 무대, 값 축 패널) 위 문장이 말한 금액·비율은 그 문장 동안 화면 라벨 중 하나여야 한다.
+  # 표본 = 문장 [t0 + lead_sec, t1] 를 samples 등분한 시각의 실제 프레임(typography.GLYPH_LOG). 연도·날짜·서수·개수는 대상 밖(금액 = 조·억·원, 비율 = %·%p만)
+  spoken_number:
+    samples: 5
+    lead_sec: 0.2
+    amount_units: {조: 1.0, 억: 0.0001}   # 말한 금액 → 조 단위 값(라벨 "27.6조"와 같은 축척)
+    tolerance: 0.051                       # 정규화 값 비교 허용 차(0.1 단위 반올림 표기)
   chart_depth:
     layers_min: 3              # [chart-layers-min] hard — 아래 장르 영상의 차트 아일랜드 중 하나는 층(계열·부문·보조 계열·예상·열 확대 인셋) ≥ 이 값(UF-151 "하나의 차트에 하나의 정보만 제공하는게 아니고")
     layers_min_genres: [earnings]

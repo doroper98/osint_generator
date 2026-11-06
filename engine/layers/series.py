@@ -226,12 +226,17 @@ def lane_range(events: list[dict], lane: str, stage: "TimelineStage | None" = No
     a, b = fit_extent(dmin, dmax, unit)
     pad = (b - a) * cfg.pad_ratio
     lo, hi = a - pad, b + pad
+    neg = cfg.zero_clamp and dmax <= 0   # v7.4.0 D615 — 모두 0 이하: 0 위로 늘리지 않는다(모두 0 이상의 0 하한과 대칭)
     if dmin >= 0 and lo < 0:
         lo, hi = 0.0, hi - lo
+    if neg and hi > 0:
+        lo, hi = lo - hi, 0.0
     unit_r = nice_step(hi - lo) / (2 if cfg.end_round == "half_step" else 1)
     lo, hi = math.floor(lo / unit_r + EPS) * unit_r, math.ceil(hi / unit_r - EPS) * unit_r
     if dmin >= 0:
         lo = max(lo, 0.0)
+    if neg:
+        hi = min(hi, 0.0)
     return round(lo, ROUND_DP), round(hi, ROUND_DP)
 
 
@@ -250,6 +255,8 @@ def fit_extent(dmin: float, dmax: float, unit: str | None) -> tuple[float, float
     a, b = min(dmin, mid - span / 2), max(dmax, mid + span / 2)
     if dmin >= 0 and a < 0:
         a, b = 0.0, b - a
+    if cfg.zero_clamp and dmax <= 0 and b > 0:   # v7.4.0 D615 — 대칭
+        a, b = a - b, 0.0
     return a, b
 
 
@@ -481,11 +488,73 @@ def place_end_label(R: "RenderCtx", t: float, lane: str, y: float, v: float) -> 
     return y
 
 
+def budget_stage_of(rec: object, d: date) -> str | None:
+    """레코드 값 하나의 예산 단계(v7.4.0 D-1003 — document 레코드 doc_values.budget_stage). 없으면 None."""
+    for dv in getattr(rec, "doc_values", None) or []:
+        if dv.date == d:
+            return dv.budget_stage
+    return None
+
+
+UNSETTLED = ("proposed", "planned")   # 확정 전 값 — 정부안(국회 확정 전)·국가재정운용계획 연도
+
+
+def proposed_from(rec: object, dates: list[date]) -> int:
+    """dates 중 처음으로 확정 전(정부안·계획)인 자리(없으면 len). 그 앞 점 → 그 점부터는 점선."""
+    return next((i for i, d in enumerate(dates) if budget_stage_of(rec, d) in UNSETTLED), len(dates))
+
+
+def proposed_tag(rec: object, d: "date | None") -> str:
+    """끝값이 확정 전이면 " · 정부안"/" · 계획"(rules stage_structure.stage_words — 낱말 표 하나)."""
+    from rules import load_rules  # noqa: PLC0415
+
+    st = budget_stage_of(rec, d) if d is not None else None
+    return f" · {load_rules().stage_structure.stage_words[st]}" if st in UNSETTLED else ""
+
+
+def _date_at(stage: "TimelineStage", x: float, rec: object) -> "date | None":
+    """월드 x 에 놓인 레코드 값 날짜(끝값 점 = 값 점 그대로라 정확히 같다)."""
+    return next((d for d, _ in rec.values if abs(stage.x_of(d) - x) < 1e-6), None)  # type: ignore[attr-defined]
+
+
 def value_text(e: dict, v: float, unit: str, hi: float | None = None) -> str:
     """끝점 값 라벨 — band 는 "아래–위단위"(rules stage_timeline.band.sep)."""
     if hi is None:
         return fmt_value(v, unit)
     return fmt_value(v, "") + TIMELINE.band.sep + fmt_value(hi, unit)
+
+
+def draw_lane_preview(ctx: cairo.Context, R: "RenderCtx", view: "View", e: dict, a: float) -> None:  # noqa: N803
+    """레인 미리 보기 선(v7.4.0 D-1010 §2, UF-306) — 그 시리즈 경로 전체를 rules stage_timeline.lane_preview 알파·굵기로(점·핀·끝값 없이).
+    선 모양은 본 선과 같다(정부안·계획 조각 점선). line·step 만(막대·띠·쌓임은 본 문법 그대로)."""
+    LP = TIMELINE.lane_preview  # noqa: N806
+    if e["style"] not in ("line", "step") or e.get("detail") or e.get("secondary") or LP["alpha"] <= 0:
+        return
+    stage: "TimelineStage" = view.stage  # type: ignore[assignment]
+    rec = load_series(e["series_id"])
+    rng = R.cache["series_range"][e["lane"]]
+    pr = plot_right(ctx, view, stage, e["lane"], rng, rec.unit)
+    pl = plot_left(ctx, view, e["lane"], R)
+    ctx.save()
+    ctx.rectangle(pl, view.oy, max(0.0, pr - pl), stage.area_bottom + TIMELINE.series.clip_below_px)
+    ctx.clip()
+    gaps = None if rec.frequency == "monthly" else rec.missing_dates()
+    for seg in segments(rec.values, gaps):
+        pts = [(stage.x_of(d), value_y(stage, e["lane"], rng, v)) for d, v in seg]
+        k = proposed_from(rec, [d for d, _ in seg]) if e["style"] == "line" else len(pts)
+        for part, dash in ((pts[:k], False), (pts[max(0, k - 1):], True)):
+            if len(part) < 2:
+                continue
+            ctx.new_path()
+            for i, (x, y) in enumerate(part):
+                sx, sy = view.to_screen(x, y)
+                (ctx.move_to if i == 0 else ctx.line_to)(sx, sy)
+            ctx.set_source_rgba(*C[e["col"]], LP["alpha"] * a)
+            ctx.set_line_width(LP["w"])
+            ctx.set_dash(list(TIMELINE.series.proposed_dash) if dash else [])
+            ctx.stroke()
+            ctx.set_dash([])
+    ctx.restore()
 
 
 def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: dict) -> None:  # noqa: N803
@@ -554,14 +623,20 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
                     st.append((p[0], pts[i - 1][1], pts[i - 1][2]))
                 st.append(p)
             pts = st + [(nxt, pts[-1][1], pts[-1][2])]
-        ctx.new_path()
-        for i, (x, y, _) in enumerate(pts):
-            sx, sy = view.to_screen(x, y)
-            (ctx.move_to if i == 0 else ctx.line_to)(sx, sy)
-        ctx.set_source_rgba(*col, (TIMELINE.secondary.alpha if sec else 1.0) * a)
-        ctx.set_line_width(TIMELINE.secondary.line_w if sec else S.line_w)
-        ctx.set_line_join(cairo.LINE_JOIN_ROUND)
-        ctx.stroke()
+        k = proposed_from(rec, [d for d, _ in seg]) if e["style"] == "line" else len(pts)   # v7.4.0 D-1003 — 정부안 값으로 가는 조각은 점선
+        for part, dash in ((pts[:k], False), (pts[max(0, k - 1):], True)):
+            if len(part) < 2:
+                continue
+            ctx.new_path()
+            for i, (x, y, _) in enumerate(part):
+                sx, sy = view.to_screen(x, y)
+                (ctx.move_to if i == 0 else ctx.line_to)(sx, sy)
+            ctx.set_source_rgba(*col, (TIMELINE.secondary.alpha if sec else 1.0) * a)
+            ctx.set_line_width(TIMELINE.secondary.line_w if sec else S.line_w)
+            ctx.set_line_join(cairo.LINE_JOIN_ROUND)
+            ctx.set_dash(list(S.proposed_dash) if dash else [])
+            ctx.stroke()
+            ctx.set_dash([])
         for x, y, v in pts:
             if x <= shown:
                 last = (x, y, v)
@@ -579,7 +654,7 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
             ctx.arc(sx, sy, S.tip_r, 0, 2 * math.pi)
             ctx.set_source_rgba(*tip, a)
             ctx.fill()
-            s = value_text(e, last[2], rec.unit, last_hi)
+            s = value_text(e, last[2], rec.unit, last_hi) + proposed_tag(rec, _date_at(stage, last[0], rec))
             lw = tw(ctx, s, S.value_size, S.value_font)
             x0 = sx + S.value_dx if sx + S.value_dx + lw <= view.right - S.axis_zone_px else sx - S.value_dx - lw   # 오른쪽 축 값 자리를 비킨다
             by = place_end_label(R, t, e["lane"], sy + S.value_dy, last[2])

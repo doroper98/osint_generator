@@ -1,0 +1,30 @@
+# 『2027년 예산안 분석』 기사 카드 후보(R-0611 §5, 게이트 ① 승인 대기 중 준비 — 승인 뒤 연출에서 레지스트리 kind article 로 등재).
+# 헤드라인 원문 = 기사 페이지 og:title 그대로(2026-11-03 받음). 화면은 우리 타이포로 매체명·날짜·헤드라인만 조판(화면 캡처 금지, 14 §9).
+# 균형(G4): 여야 각 1건 + 양측을 함께 다룬 1건 — act4 쟁점 문장에 같은 무게로 배치한다.
+schema_version: 1
+candidates:
+  - source: src_art_0002
+    outlet: 뉴스토마토
+    date: 2026-09-10
+    url: https://newstomato.com/ReadNews.aspx?no=1313268
+    headline_original: '"104조 쌓고 100조 빚 늘려"…국힘, 미래대응기금에 "정권 쌈짓돈" 비판'
+    sub_original: '140개 사업 중 성과관리 대상 ''0''…"국회 사전 심의 강화해야"'
+    side: 국민의힘
+    sids: [act4_6, act4_7]
+  - source: src_art_0001
+    outlet: 머니투데이방송
+    date: 2026-09-04
+    url: https://news.mtn.co.kr/news-detail/2026090412482890415
+    headline_original: '안도걸 “2027년 예산, 재정 폭주 아닌 미래 위한 담대한 투자”'
+    side: 더불어민주당
+    sids: [act4_9]
+  - source: src_art_0003
+    outlet: SBS Biz
+    date: 2026-10-30
+    url: https://biz.sbs.co.kr/amp/article/20000343415
+    headline_original: '국힘 "빚잔치" vs. 與 "성장동력 확보"…''내년 예산안'' 본격 공방'
+    side: 양측
+    sids: [act4_5, act4_8]
+notes:
+  - 기사 카드는 매체 밀도(media_density) 계산에서 빠진다 — 사진·영상 부족분을 메우지 못한다(R-0611 §5).
+  - 한쪽 표현("정권 쌈짓돈"·"빚잔치")은 헤드라인 원문 인용이다. 내레이션은 주장 귀속으로만 전한다.

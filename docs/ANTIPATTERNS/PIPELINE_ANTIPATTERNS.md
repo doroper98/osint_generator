@@ -225,3 +225,11 @@ last_review: 2026-05-19
 - **원칙**: ① 원장(`rules/user_feedback.yaml`)을 고친 커밋은 언제나 `python -c "from rules import load_user_feedback; load_user_feedback()"` 와 doc 장치 문구 존재 확인을 거친다(cairo 없이 돈다). ② 장치를 아직 못 단 의견은 `guards` 를 비우고 open — 장치 후보는 `decision` 칸에 적는다. ③ doc 장치는 ref 문구를 같은 커밋에서 그 문서에 실제로 넣는다.
 - **자동 조치**: 217c4525 로 정정(doc 문구 FABLE_HANDOFF 추가, status guarded, 원장 표 170·미보호 0). 감독 체크리스트(FABLE_HANDOFF §0-4 규칙)에 ① 을 한 줄로 추가.
 - **발견 버전**: v7.4.0 · **상태**: active
+
+## PIPELINE-AP-027 — 게이트 기록이 확인하지 못한 값을 숫자로 남겼다(린트 실행 실패 = '오류 6', prev/ 없음 = 컷 0)
+
+- **증상(실제 현상)**: v7.4.0 budget_2027 — 감독 컨테이너(cairo 없음)에서 게이트 기록을 남길 때 린트 서브프로세스가 StageResult JSON 없이 죽었다. `parse_result` 는 오류 1줄 + stderr 꼬리 5줄을 errors 로 돌려주고, `script_gate_view` 가 그 개수를 세어 `lint_errors: "6"` 을 기록했다(실제 린트 오류는 0). 게이트 ② 기록(49b0e912)도 prev/ 가 없는 체크아웃이라 `cuts: "0"`, `media_used: real 5` 로 남았다(실제 프리뷰 컷 있음, 실사 11 = 배경 6 + 인셋 5).
+- **원리**: 화면 요약 함수가 "읽지 못함"과 "0"을 구분하지 않았다. 실행 실패를 결과처럼 세고, 없는 폴더를 빈 폴더처럼 셌다. media_used 는 photo·clip·cutout 만 세어 밀도 검사(배경 포함)와 다른 셈을 했다.
+- **원칙**: ① 서브프로세스 결과가 StageResult 가 아니면 개수가 아니라 실행 실패다 — 화면은 "확인 불가", 승인 기록은 거부(우회 플래그 없음). ② 입력 폴더·파일이 없으면 "확인 불가(사유)"로 적는다. 0 은 실제로 세어 0일 때만. ③ 같은 대상을 세는 두 곳은 같은 셈을 쓰거나 둘 다 적는다.
+- **자동 조치**: `orchestrator.engine_service.is_crash`, `script_gate_view` 의 `lint_crash`·`lint_errors "확인 불가"`, `approve_gate` 거부. `preview_gate_view` cuts·sheet "확인 불가(prev/ 없음)", `media_summary` media_used 에 backdrop 수 + 밀도 검사 값(prev/provenance media_density, 없으면 확인 불가). 시험 `tests/test_gate_record_honesty.py`.
+- **발견 버전**: v7.4.0 · **상태**: active

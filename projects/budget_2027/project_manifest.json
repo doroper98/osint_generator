@@ -1,0 +1,186 @@
+{
+  "schema_version": 2,
+  "project_id": "budget_2027",
+  "title": "2027년 예산안, 820조 원은 어디로 가나",
+  "category": "economy",
+  "created_at": "2026-11-03T01:37:58.373536Z",
+  "updated_at": "2026-11-03T10:10:09.743936Z",
+  "current_state": "render",
+  "target_duration_min": 9,
+  "topic_summary": "2027년도 정부 예산안(총지출 820.9조)의 분야별 증감·재원·국회 쟁점",
+  "initial_links": [],
+  "paths": {
+    "sources": "intake/sources.json",
+    "claims": "intake/claims.json",
+    "screenshots": "intake/screenshots",
+    "script": "script.yaml",
+    "script_labels": "script_labels.json",
+    "plan": "plan.json",
+    "tts": "tts",
+    "assets": "assets",
+    "media": "media",
+    "direction": "direction.yaml",
+    "prev": "prev",
+    "prev_sheet": "prev/sheet.jpg",
+    "prev_provenance": "prev/provenance.json",
+    "out": "out",
+    "final": "out/final.mp4",
+    "provenance": "out/provenance.json"
+  },
+  "render_mode_status": {},
+  "gate_decisions": [
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "user",
+      "at": "2026-11-03T01:40:42.808106Z",
+      "comment": "사용자 승인(감독 세션 session_017Yuw8kbxf9Vxri6LoH5Je4 질의에 사용자가 직접 답함, 2026-11-03 01:33Z): 선택 '승인 + 반복 두 곳 수정 (Recommended)' — act2_15·act2_17 앞쪽 '가능성이 있고' → '~할 수 있고' 두 곳만 수정한 원고(sha1 c0e6b536). DECISIONS D612.",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/budget_2027/script.yaml",
+        "lint_errors": "0",
+        "lint_warnings": "0",
+        "est_sec": "509.6",
+        "media_plan_errors": "0",
+        "script_sha1": "c0e6b536e6735488280a74d48b99f24ad9da6484",
+        "media_plan": "사진 0/8 · 기사 후보 0문장 · 510초(chars)"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "user",
+      "at": "2026-11-03T04:29:33.848861Z",
+      "comment": "사용자 재승인(감독 세션 session_017Yuw8kbxf9Vxri6LoH5Je4, 2026-11-03 04:1xZ): 사용자 답 원문 '통과' — 감독 직전 안내 \"'통과'라고만 답해 주시면 흐름 통과와 마무리 부분 날짜 수정(12월 2일 → 11월 3일)에 대한 원고 재승인을 함께 기록\". 변경은 act5_0~2 date 세 줄뿐(text·tts 불변), 원고 sha1 1dc67dcb. DECISIONS D618.",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/budget_2027/script.yaml",
+        "lint_errors": "0",
+        "lint_warnings": "0",
+        "est_sec": "509.6",
+        "media_plan_errors": "0",
+        "script_sha1": "1dc67dcbc5a22e8b777c4c96b514a376c4f232cf",
+        "media_plan": "사진 0/8 · 기사 후보 6문장 · 510초(chars)"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "user",
+      "at": "2026-11-03T10:10:09.743514Z",
+      "comment": "사용자 게이트 ② 승인(감독 세션 session_017Yuw8kbxf9Vxri6LoH5Je4, 2026-11-03 09:5xZ) 원문: '콘티 합격인데 차트를 감싸는 외곽 라인이 너무 타이트하게 붙어있는 점, 그리고 첨부한 이미지의 빈 아래쪽 차트를 흐릿한 선으로라도 한번 보여주고 있으면 좋을것 같다는 점 개선 하고 완성본 만들어' — 대상 프리뷰 v2(+t≈158초 초점 줄 수정), 개선 UF-305(island.inner_pad)·UF-306(lane_preview) 반영 콘티 판 md5 2b299593(44948d93) 감독 눈 확인. 콘티 판 기록은 구현 컨테이너 원본(artifacts aea2f64a gate2_inputs/). D620.",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/budget_2027/prev/sheet.jpg",
+        "cuts": "0",
+        "media_used": "quote 0 · article 4 · real 5",
+        "quote_candidates": "0",
+        "animatic": "out/animatic.mp4 · 405.077초 · direction 32204d09846bbe9c12b883b056f142eefd46041b · script 1dc67dcbc5",
+        "user_feedback": "사용자 의견 178건 모두 장치 있음(최근 UF-306)",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    }
+  ],
+  "stage_records": [],
+  "final_outputs": {},
+  "state_history": [
+    {
+      "from_state": "created",
+      "to_state": "intake",
+      "transitioned_at": "2026-11-03T01:38:03.301982Z",
+      "reason": "W0a 단일 구현(D-1003) — 산출물 기존 작성, 매니페스트 재생성(컨테이너 재시작 소실)"
+    },
+    {
+      "from_state": "intake",
+      "to_state": "source_verify",
+      "transitioned_at": "2026-11-03T01:38:03.764047Z",
+      "reason": "W0a 단일 구현(D-1003) — 산출물 기존 작성, 매니페스트 재생성(컨테이너 재시작 소실)"
+    },
+    {
+      "from_state": "source_verify",
+      "to_state": "research",
+      "transitioned_at": "2026-11-03T01:38:04.244196Z",
+      "reason": "W0a 단일 구현(D-1003) — 산출물 기존 작성, 매니페스트 재생성(컨테이너 재시작 소실)"
+    },
+    {
+      "from_state": "research",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-11-03T01:38:04.711174Z",
+      "reason": "W0a 단일 구현(D-1003) — 산출물 기존 작성, 매니페스트 재생성(컨테이너 재시작 소실)"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-11-03T01:38:05.499842Z",
+      "reason": "W0a 단일 구현(D-1003) — 산출물 기존 작성, 매니페스트 재생성(컨테이너 재시작 소실)"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-11-03T01:40:42.808146Z",
+      "reason": "script_approval 승인 — user"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-11-03T04:29:00.704645Z",
+      "reason": "rollback → script_draft — opus: D616 ⑤ — act5_0~2 날짜 2026.12.02 → 2026.11.03(원고 date 세 줄, 문장 불변), 콘티 판 v1 흐름 통과(사용자 '통과') 뒤 게이트 ① 재승인용"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-11-03T04:29:01.649664Z",
+      "reason": "날짜 세 줄 수정 원고 — 게이트 ① 재승인 대기"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-11-03T04:29:33.848928Z",
+      "reason": "script_approval 승인 — user"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "assets",
+      "transitioned_at": "2026-11-03T10:08:23.518512Z",
+      "reason": "D-1010 — 음성·자산(실사 11·기사 3)·연출(변형 A + D616·D619·UF-305·306)·프리뷰 v3 checks hard 0 완료, 게이트 ② 기록 대기"
+    },
+    {
+      "from_state": "assets",
+      "to_state": "direction",
+      "transitioned_at": "2026-11-03T10:08:23.989022Z",
+      "reason": "D-1010 — 음성·자산(실사 11·기사 3)·연출(변형 A + D616·D619·UF-305·306)·프리뷰 v3 checks hard 0 완료, 게이트 ② 기록 대기"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-11-03T10:08:24.467880Z",
+      "reason": "D-1010 — 음성·자산(실사 11·기사 3)·연출(변형 A + D616·D619·UF-305·306)·프리뷰 v3 checks hard 0 완료, 게이트 ② 기록 대기"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-11-03T10:08:24.993676Z",
+      "reason": "D-1010 — 음성·자산(실사 11·기사 3)·연출(변형 A + D616·D619·UF-305·306)·프리뷰 v3 checks hard 0 완료, 게이트 ② 기록 대기"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-11-03T10:10:09.743871Z",
+      "reason": "preview_approval 승인 — user"
+    }
+  ],
+  "rollbacks": [
+    {
+      "from_state": "voice_timeline",
+      "to_state": "script_draft",
+      "by": "opus",
+      "at": "2026-11-03T04:29:00.704590Z",
+      "reason": "D616 ⑤ — act5_0~2 날짜 2026.12.02 → 2026.11.03(원고 date 세 줄, 문장 불변), 콘티 판 v1 흐름 통과(사용자 '통과') 뒤 게이트 ① 재승인용",
+      "script_fingerprint_before": "1dc67dcbc5a22e8b777c4c96b514a376c4f232cf"
+    }
+  ],
+  "reopens": []
+}

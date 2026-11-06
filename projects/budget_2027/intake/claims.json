@@ -1,0 +1,516 @@
+{
+ "schema_version": 1,
+ "claims": [
+  {
+   "claim_id": "clm_0001",
+   "text": "정부는 2026년 9월 3일 총수입 880.8조원, 총지출 820.9조원 규모의 2027년도 예산안을 국회에 제출했다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.6 발간사"
+  },
+  {
+   "claim_id": "clm_0002",
+   "text": "2027년도 예산안 총지출 820.9조원은 2026년 본예산 727.9조원보다 93.0조원(12.8%) 많다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.15 표"
+  },
+  {
+   "claim_id": "clm_0003",
+   "text": "국회는 회계연도 개시 30일 전까지 예산안을 의결해야 하고(헌법 제54조 ②), 회계연도는 1월 1일에 시작한다(국가재정법 제2조) — 2027년도 예산안의 의결 시한은 2026년 12월 2일이다",
+   "source_ids": [
+    "src_doc_0004",
+    "src_doc_0005"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "official:src_doc_0004",
+    "official:src_doc_0005"
+   ],
+   "attributed_only": false,
+   "notes": "날짜는 두 조문에서 계산"
+  },
+  {
+   "claim_id": "clm_0004",
+   "text": "2027년도 예산안 12대 분야 중 보건·복지·고용이 289.0조원으로 가장 크고, 전년보다 24.6조원 늘었다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.14~15"
+  },
+  {
+   "claim_id": "clm_0005",
+   "text": "일반·지방행정 분야는 121.4조원에서 149.0조원으로 27.6조원(22.8%) 늘어 증가액이 가장 크다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.15 표"
+  },
+  {
+   "claim_id": "clm_0006",
+   "text": "산업·중소기업·에너지 분야는 29.7% 늘어 증가율이 가장 높다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.14"
+  },
+  {
+   "claim_id": "clm_0007",
+   "text": "외교·통일 분야 증가율은 1.1%로 가장 낮다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.14"
+  },
+  {
+   "claim_id": "clm_0008",
+   "text": "미래대응기금 4개 계정 사업 중 13조 788억원이 기능분류상 일반·지방행정 분야로 분류돼, 이 분야 지출이 가장 크게 늘어나는 구조다(국회예산정책처)",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.29"
+  },
+  {
+   "claim_id": "clm_0009",
+   "text": "정부는 2027년도 예산안부터 군인연금기금을 보건·복지·고용 분야에서 국방 분야로 옮기고 국방 지출을 총지출 기준으로 바꿨다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.14"
+  },
+  {
+   "claim_id": "clm_0010",
+   "text": "2027년 국세수입은 584.4조원으로 2026년 본예산보다 194.2조원(49.8%) 늘어나게 편성됐고, 반도체 호황이 배경으로 꼽힌다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.6 발간사"
+  },
+  {
+   "claim_id": "clm_0011",
+   "text": "예산안은 158.5조원 규모의 추가세수를 주요 재원으로 미래대응기금을 신설하고, 청년·성장동력·지방·교육·인재 4대 분야에 45.4조원을 투자한다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.6 발간사"
+  },
+  {
+   "claim_id": "clm_0012",
+   "text": "관리재정수지는 2027년 △3.1조원(GDP 대비 △0.1%)으로 계획돼 2026년 추경 △107.6조원(△3.8%)보다 크게 개선된다",
+   "source_ids": [
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0002"
+   ],
+   "attributed_only": false,
+   "notes": "p.20 표"
+  },
+  {
+   "claim_id": "clm_0013",
+   "text": "관리재정수지 적자는 GDP 대비 2028년 1.5%, 2029년 2.5%, 2030년 2.9%로 다시 커지게 계획돼 있다",
+   "source_ids": [
+    "src_doc_0002",
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "official:src_doc_0002",
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.20 표 · 분야별 p.375"
+  },
+  {
+   "claim_id": "clm_0014",
+   "text": "국가채무는 2027년 1,519.8조원으로 2026년 추경보다 107.0조원 늘지만, GDP 대비 비율은 48.3%로 2.3%p 낮아지게 계획돼 있다",
+   "source_ids": [
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0002"
+   ],
+   "attributed_only": false,
+   "notes": "p.17·p.20"
+  },
+  {
+   "claim_id": "clm_0015",
+   "text": "관리재정수지는 총수입에서 총지출을 뺀 통합재정수지에서 국민연금 등 4대 사회보장성기금 수지를 뺀 값이다",
+   "source_ids": [
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "official:src_doc_0002"
+   ],
+   "attributed_only": false,
+   "notes": "p.16 주 2"
+  },
+  {
+   "claim_id": "clm_0016",
+   "text": "국가채무(D1)는 현금주의 기준으로 중앙·지방정부의 금전채무를 합한 지표다",
+   "source_ids": [
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "official:src_doc_0002"
+   ],
+   "attributed_only": false,
+   "notes": "p.16 주 3"
+  },
+  {
+   "claim_id": "clm_0017",
+   "text": "총수입과 총지출은 예산·기금 총계에서 내부거래와 보전거래(국공채 발행·차입 등)를 뺀 재정총량 지표다",
+   "source_ids": [
+    "src_doc_0002"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "official:src_doc_0002"
+   ],
+   "attributed_only": false,
+   "notes": "p.12 주 1"
+  },
+  {
+   "claim_id": "clm_0018",
+   "text": "국회예산정책처는 2027년 국세수입을 593.7조원으로 전망해 정부 예산안보다 9.3조원(1.6%) 많게 봤지만, 반도체 업황에 따라 법인세를 중심으로 세수 변동성이 커질 수 있다고 했다",
+   "source_ids": [
+    "src_doc_0003"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-10-26",
+   "checks": [
+    "official:src_doc_0003"
+   ],
+   "attributed_only": false,
+   "notes": "p.7·p.21"
+  },
+  {
+   "claim_id": "clm_0019",
+   "text": "국회예산정책처는 2027년 관리재정수지 개선에는 미래대응기금 수입 162.3조원 중 사업비를 뺀 여유자금 104.4조원이 총지출에 계상되지 않는 측면이 있고, 이 여유자금이 2028년 이후 사업비로 집행되면 지출이 늘어나는 구조라고 분석했다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-10-26",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.375"
+  },
+  {
+   "claim_id": "clm_0020",
+   "text": "2026년 10월 30일 국회 예산결산특별위원회 공청회에서 여야가 예산안과 미래대응기금을 놓고 공방을 벌였다",
+   "source_ids": [
+    "src_art_0003"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-10-30",
+   "checks": [
+    "quote_match:src_art_0003"
+   ],
+   "attributed_only": false,
+   "notes": "SBS Biz"
+  },
+  {
+   "claim_id": "clm_0021",
+   "text": "정부는 총지출 증가율을 2026년 8.1%에서 2027년 12.8%로 높였다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.6 발간사"
+  },
+  {
+   "claim_id": "clm_0022",
+   "text": "미래대응기금을 두고 국민의힘은 국회 통제를 우회할 수 있다고 비판하고, 더불어민주당은 재정 변동성을 줄이는 안전판이라고 반박한다",
+   "source_ids": [
+    "src_art_0001",
+    "src_art_0002",
+    "src_art_0003"
+   ],
+   "status": "verified",
+   "contested": true,
+   "sides": [
+    {
+     "party": "국민의힘",
+     "text": "미래대응기금이 국회 통제를 우회하는 출구가 될 수 있다(예결위 공청회, 10.30). 여유자금 104조원을 쌓으면서 채권을 더 발행한다(배준영 의원)",
+     "source_ids": [
+      "src_art_0003",
+      "src_art_0002"
+     ]
+    },
+    {
+     "party": "더불어민주당",
+     "text": "재정 변동성을 줄이는 안전판이며, 정부가 임의로 쓸 수 있는 돈이 아니라 법률에 따른 사용 제한과 국회 심의·통제를 받는다(안도걸 의원, 9.4)",
+     "source_ids": [
+      "src_art_0001"
+     ]
+    }
+   ],
+   "event_date": "2026-10-30",
+   "checks": [
+    "quote_match:src_art_0001",
+    "quote_match:src_art_0002",
+    "quote_match:src_art_0003"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "양측 같은 무게(G4)"
+  },
+  {
+   "claim_id": "clm_0023",
+   "text": "국회예산정책처는 2027년도 예산안을 두고 세수 전망의 불확실성, 신설 기금의 운용 방식, 국회 통제 장치의 적정성에 대한 논의가 제기되고 있다고 했다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-10-26",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.6 발간사"
+  },
+  {
+   "claim_id": "clm_0024",
+   "text": "10월 30일 예결위 공청회에서 더불어민주당은 예산안과 미래대응기금을 두고 미래 성장동력 확보를 위한 적극적인 재정 투자를 강조했다",
+   "source_ids": [
+    "src_art_0003"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-10-30",
+   "checks": [
+    "quote_match:src_art_0003"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "SBS Biz"
+  },
+  {
+   "claim_id": "clm_0025",
+   "text": "2019년부터 2026년까지 매년 본예산 총지출 증가율은 모두 10% 미만이었다(2019 9.5%·2020 9.1%·2021 8.9%·2022 8.9%·2023 5.1%·2024 2.8%·2025 2.5%·2026 8.1%)",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.16 표 총지출 행에서 계산(코드 전 반올림 값 — 2026 8.1%는 발간사 p.6 과 같음)"
+  },
+  {
+   "claim_id": "clm_0026",
+   "text": "외교·통일(1.1%)·SOC(4.0%)·환경(5.2%)·공공질서·안전(5.3%)은 총지출 증가율보다 덜 늘어 총지출 대비 비중이 줄어든다(예: SOC 2026년 3.8% → 2027년 3.5%)",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.14 본문·p.16 표 비중(종전 기준)"
+  },
+  {
+   "claim_id": "clm_0027",
+   "text": "2026년 추경 대비 2027년도 예산안에서 주택구입·전세자금 융자는 5조 216억원(△48.7%) 감액되고, 보편형 건설임대(출자·융자) 4조 7,719억원이 신규 편성돼 공공임대주택 공급 중심으로 재편됐다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.48"
+  },
+  {
+   "claim_id": "clm_0028",
+   "text": "정부는 구직급여 지급방식 조정(무급휴일 제외, 주 7일→6일) 등으로 구직급여 1.4조원을 절감해 모성보호 등 저출생 대응에 재투자했다고 설명하며, 모성보호육아지원은 1,982억원 늘었다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.48 — 정부 설명은 귀속"
+  },
+  {
+   "claim_id": "clm_0029",
+   "text": "정부는 2027년도 지방교육재정교부금 산정방식을 내국세 연동에서 경상성장률·학령인구 감소율 반영 방식으로 바꾸는 개편을 계획했고, 2026~2030년 계획에서 영유아·초중등교육 부문 연평균 증가율은 6.5%, 고등교육 부문은 10.7%다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.120"
+  },
+  {
+   "claim_id": "clm_0030",
+   "text": "2026년 통합재정사업 성과평가에서 2,487개 세부사업 중 901개(36.2%)가 감액·폐지·통합 대상으로 판정됐다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.31"
+  },
+  {
+   "claim_id": "clm_0031",
+   "text": "2018~2026년(본예산) 총지출 연평균 증가율은 6.8%, 같은 기간 산업·중소기업·에너지 8.7%·환경 9.1%·외교·통일 5.1%다(종전 기준)",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.16 표 2018·2026 값에서 연평균 = (끝/처음)^(1/8) − 1 계산(rules data.transforms.cagr, 레코드 avg_growth). 보건·복지·고용·국방은 기준이 달라 제외"
+  },
+  {
+   "claim_id": "clm_0032",
+   "text": "일반·지방행정 분야 증가액 27조 6,641억원 중 미래대응기금 사업 순증분(40.9%)·지방교부세 증가분(28.3%)·국고채 이자상환 증가분(21.1%)이 90.4%를 차지해 분야 차원의 정책 우선순위 변화로 해석하기 어렵고, 보건·복지·고용 분야도 군인연금기금 이관분을 제외하면 복지분야 법정지출이 약 16.6조원 증가해 분야 증가의 상당 부분이 법정급여의 단가 인상과 수급자 증가에 따른 것이다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.402 결론"
+  },
+  {
+   "claim_id": "clm_0033",
+   "text": "SOC 분야는 미래대응기금으로 편성된 1조 5,937억원이 분야 전체 증가액(1조 1,209억원)보다 많아 동 기금을 제외하면 전년 대비 감소한 수준이며, 2026년 추경 대비 고속도로건설 1조 239억원→8,189억원·국도건설 1조 6,695억원→1조 2,335억원·일반공항건설 1조 1,496억원→8,046억원으로 줄고, 자율주행 실증도시·대중교통비 환급 등이 포함된 부문에 증가분이 집중됐다",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-03",
+   "checks": [
+    "official:src_doc_0001"
+   ],
+   "attributed_only": false,
+   "notes": "p.252·p.255"
+  }
+ ]
+}

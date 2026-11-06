@@ -338,3 +338,32 @@ class AxisLabelColumnTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ZeroClampTest(unittest.TestCase):
+    """v7.4.0 back_and_forth D615 — 값이 모두 0 이하인 레인은 축 위 끝이 0 을 넘지 않는다(적자 레인 -107.6~-3.1 → -125~0, 옛 -125~25).
+    모두 0 이상 레인은 원래대로 아래 끝 0 하한(대칭)."""
+
+    def _rng(self, lo: float, hi: float, unit: str = "조 원") -> tuple[float, float]:
+        with mock.patch("engine.layers.series.lane_extent", return_value=(lo, hi, unit)):
+            return lane_range([], "bal")
+
+    def test_all_negative_top_is_zero(self) -> None:
+        self.assertTrue(LR.zero_clamp)
+        lo, hi = self._rng(-107.6, -3.1)
+        self.assertEqual(hi, 0.0)
+        self.assertLessEqual(lo, -107.6)
+        with mock.patch("engine.layers.series.lane_extent", return_value=(-107.6, -3.1, "조 원")):
+            from engine.layers.series import empty_bands  # noqa: PLC0415
+
+            self.assertLessEqual(max(empty_bands([], "bal", (lo, hi))), LR.empty_band_max_ratio)
+
+    def test_all_positive_bottom_is_zero_unchanged(self) -> None:
+        lo, hi = self._rng(3.1, 107.6)
+        self.assertEqual(lo, 0.0)
+        self.assertGreaterEqual(hi, 107.6)
+
+    def test_crossing_zero_untouched(self) -> None:
+        lo, hi = self._rng(-20.0, 30.0)
+        self.assertLess(lo, -20.0)
+        self.assertGreater(hi, 30.0)

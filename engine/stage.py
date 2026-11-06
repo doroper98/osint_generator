@@ -338,9 +338,10 @@ class MercatorStage:
 
 from engine.stage_backdrop import BackdropStage  # noqa: E402 — 사진 배경 무대(v5.1.0 D-0123)
 from engine.stage_timeline import TimelineStage  # noqa: E402 — 시간축 무대(v4.3.0 D-0084 작업 3)
+from engine.stage_structure import StructureStage  # noqa: E402 — 구성 무대(v7.4.0 D-1003 §3)
 
 STAGE_CLASSES: dict[str, type] = {"mercator": MercatorStage, "timeline": TimelineStage,   # 구현 — rules registries.stages 와 같아야 한다(P10)
-                                  "backdrop": BackdropStage}
+                                  "backdrop": BackdropStage, "structure": StructureStage}
 # direction.yaml 에 stage 가 없을 때의 무대 = 장르 프로필 stage.primary(v4.2.0 D-0081 작업 3, 기본 장르 geopolitics → mercator).
 
 

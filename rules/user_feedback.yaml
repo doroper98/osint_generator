@@ -894,7 +894,7 @@ entries:
   - kind: test
     ref: tests/test_v531_quote_glow.py::ScriptGrammarTest::test_gate1_blocks_script_grammar
   - kind: rule
-    ref: script_grammar.connective_min_ratio
+    ref: script_grammar.uncertain_patterns
   status: guarded
   decision: R-0167 · LLM-AP-013
   source: LLM-AP-013 · R-0167
@@ -2623,6 +2623,109 @@ entries:
   status: guarded
   decision: "D-1000 §B — 장르 fiscal·구성 무대(순위 가로 막대) 구상 1프레임 → 사용자 판정 → S 체계로 제작"
   source: 감독 세션 사용자 대화 2026-11-02
+- id: UF-302
+  date: '2026-11-02'
+  project: budget_2027
+  at: "감독의 예산안 1차 자료(국회예산정책처 분야별 재원 배분 분석) 확보 보고 직후"
+  quote: "단순한 정보 나열보다 예년에 비해 늘어난 혹은 줄어난, 그리고 그로인해 타격 수혜받는 영역은 어디일지도 “추정” 이런거 붙이지 말고 그럴 가능성이 있다 뭐 이런식으로 이야기 해줘."
+  quote_kind: verbatim
+  category: "원고 — 예년 대비 증감과 그로 인한 수혜·타격 가능 영역을 서술(정보 나열 금지), 영향은 '추정' 표지 대신 '~할 가능성이 있습니다' 서술로"
+  guards:
+  - kind: rule
+    ref: script_grammar.estimate_markers
+  - kind: code
+    ref: script.lint.lint
+  - kind: test
+    ref: tests/test_v531_quote_glow.py::ScriptGrammarTest::test_estimate_marker
+  status: guarded
+  decision: "D-1007 — 증감(예년 대비) → 근거 → 영향 가능 영역 순서. 영향 문장은 1차 자료 근거 필수, 화면·내레이션에 '추정' 표지 금지"
+  source: 감독 세션 사용자 대화 2026-11-02
+- id: UF-303
+  date: '2026-11-02'
+  project: budget_2027
+  at: "UF-302 와 같은 메시지"
+  quote: "그리고 전반적으로 너무 접두사를 무분별하게 쓰는거 같은데 그런거도 좀 조정해. 날리지식 영상 분석 결과들을 참고 해서 말이야"
+  quote_kind: verbatim
+  category: "원고 문체 — 문장 첫머리 접속어(그리고·이에·이어서·한편·다만·또한 등) 남발 조정, 날리지식 레퍼런스 분석 기준. 원인 = script_grammar.connective_min_ratio 0.3 하한 강제(이란 v3b 55%·중국 59%)"
+  guards:
+  - kind: rule
+    ref: script_grammar.connective_initial_max_ratio
+  - kind: rule
+    ref: script_grammar.connective_repeat_gap
+  - kind: code
+    ref: script.lint.connective_issues
+  - kind: test
+    ref: tests/test_v531_quote_glow.py::ScriptGrammarTest::test_connective_guards
+  - kind: test
+    ref: tests/test_v531_quote_glow.py::ScriptGrammarTest::test_gate1_blocks_script_grammar
+  status: guarded
+  decision: "D-1007 — 첫머리 접속어 상한·같은 접속어 반복 간격 장치, 흐름은 내용 순서·지시어·핵심어 반복으로. 하한 강제 삭제"
+  source: 감독 세션 사용자 대화 2026-11-02
+- id: UF-304
+  date: '2026-11-02'
+  project: budget_2027
+  at: "구상 1프레임 두 장(일반·지방행정 강조·산업 강조) 전달 뒤 강조 방식 선택 질문에"
+  quote: "알아서 해. 근데 직관적이고 시인성을 갖춰야 되는게 가장 중요해"
+  quote_kind: verbatim
+  category: "화면 — 직관성·시인성 최우선. 내레이션이 말하는 숫자가 그 문장 동안 화면에 크게 보여야 한다(구성 무대 강조 방식 선택은 감독 위임)"
+  guards:
+  - kind: check
+    ref: spoken_number_visible
+  - kind: rule
+    ref: qa_checks.spoken_number
+  - kind: rule
+    ref: stage_structure.focus_value_size
+  - kind: check
+    ref: data_stage_bare_on_backdrop
+  - kind: test
+    ref: tests/test_data_stage_on_backdrop.py::DataStageOnBackdropTest::test_r0618_state_fails
+  - kind: check
+    ref: structure_text_offscreen
+  - kind: test
+    ref: tests/test_spoken_number_visible.py::SpokenNumberVisibleTest::test_r0608_state_fails
+  - kind: test
+    ref: tests/test_stage_structure.py::StructureStageTest::test_focus_label_says_spoken_number
+  - kind: check
+    ref: island_text_contrast
+  - kind: test
+    ref: tests/test_backdrop_subject_contrast.py::IslandTextContrastTest::test_bare_island_fails
+  status: guarded
+  decision: "D-1008 — 한 장면 차례 강조(증가액 → 증가율), 초점 행은 문장이 말하는 숫자를 크게, 늘어난 구간을 막대 위에 색으로, 구성 무대 글자 크기 상향, 말한 숫자 화면 표시 검사 신설"
+  source: 감독 세션 사용자 대화 2026-11-02
+- id: UF-305
+  date: '2026-11-03'
+  project: budget_2027
+  at: "프리뷰 v2(사진 배경 위 차트 아일랜드) 검토 뒤, 시간축 2레인 아일랜드 화면 캡처 첨부"
+  quote: "콘티 합격인데 차트를 감싸는 외곽 라인이 너무 타이트하게 붙어있는 점, 그리고 첨부한 이미지의 빈 아래쪽 차트를 흐릿한 선으로라도 한번 보여주고 있으면 좋을것 같다는 점 개선 하고 완성본 만들어"
+  quote_kind: verbatim
+  category: "화면 — 차트 아일랜드 상자 외곽선이 내용(축 라벨·머리 줄·행 이름)에 너무 붙음. 상자 안쪽 여백 확보"
+  guards:
+  - kind: check
+    ref: island_inner_pad
+  - kind: rule
+    ref: island.inner_pad
+  - kind: test
+    ref: tests/test_uf305_306.py::InnerPadTest::test_preview_v2_flush_header_fails
+  status: guarded
+  decision: "D-1010 — 아일랜드 안쪽 여백 규칙 키 신설(내용 ↔ 상자 테두리 최소 간격), 검사로 강제"
+  source: 감독 세션 사용자 대화 2026-11-03
+- id: UF-306
+  date: '2026-11-03'
+  project: budget_2027
+  at: "UF-305 와 같은 메시지(첨부 캡처 = act3_4 관리재정수지 정의 문장, 아래 국가채무 레인이 빈 칸)"
+  quote: "첨부한 이미지의 빈 아래쪽 차트를 흐릿한 선으로라도 한번 보여주고 있으면 좋을것 같다는 점 개선 하고 완성본 만들어"
+  quote_kind: verbatim
+  category: "화면 — 시간축 레인이 데이터 등장 전 빈 칸으로 보임. 해당 문장 전에도 흐릿한 선(미리 보기)으로 레인 내용을 보여 줄 것"
+  guards:
+  - kind: check
+    ref: lane_empty
+  - kind: rule
+    ref: stage_timeline.lane_preview
+  - kind: test
+    ref: tests/test_uf305_306.py::LanePreviewTest::test_preview_v2_act3_4_state_fails
+  status: guarded
+  decision: "D-1010 — 레인 미리 보기 선(낮은 알파, 라벨 없음) 후 문장 도달 시 본 선, 빈 레인 노출 검사"
+  source: 감독 세션 사용자 대화 2026-11-03
 - id: UF-400
   date: '2026-11-02'
   project: video_analysis_nk_succession

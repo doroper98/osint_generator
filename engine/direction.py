@@ -80,15 +80,18 @@ class Camera(_Strict):
     place: Optional[str] = None
     date: Optional[str] = None
     lane: Optional[str] = None
+    row: Optional[str] = None      # v7.4.0 D-1003 §3 — 구성 무대: 행 id(그 행 가운데)
+    value: Optional[float] = None  # 구성 무대: 값 축 위치(그 값의 x)
     w: Optional[float] = Field(default=None, gt=0)   # v5.1.0 D-0123 — backdrop 무대 카메라 `{}`(이동 없음)는 w 도 없다
 
     @model_validator(mode="after")
     def _where(self) -> "Camera":
-        kinds = [self.place is not None, self.lon is not None or self.lat is not None, self.date is not None]
+        kinds = [self.place is not None, self.lon is not None or self.lat is not None, self.date is not None,
+                 self.row is not None or self.value is not None]
         if sum(kinds) == 0 and self.w is None and self.lane is None:
             return self   # backdrop 무대 `{}` — 무대 앵커 키 검사(Direction)가 다른 무대의 빈 카메라를 막는다(P10)
         if sum(kinds) != 1:
-            raise ValueError("camera 는 lon·lat · place · date(시간축) 중 하나(backdrop 무대는 빈 카메라 {})")
+            raise ValueError("camera 는 lon·lat · place · date(시간축) · row·value(구성 무대) 중 하나(backdrop 무대는 빈 카메라 {})")
         if self.w is None:
             raise ValueError("camera w 가 없다(backdrop 무대의 빈 카메라 {} 만 w 없음)")
         if kinds[1] and (self.lon is None or self.lat is None):
@@ -103,6 +106,8 @@ class Camera(_Strict):
             return set()
         if self.date is not None:
             return {"date"} | ({"lane"} if self.lane is not None else set())
+        if self.row is not None or self.value is not None:
+            return ({"row"} if self.row is not None else set()) | ({"value"} if self.value is not None else set())
         return {"lon", "lat"}
 
 
@@ -405,6 +410,8 @@ def _where(c: Camera, doc: Direction) -> dict[str, Any]:
         return {"lon": lon, "lat": lat}
     if c.date is not None:
         return {"date": c.date, **({"lane": c.lane} if c.lane is not None else {})}
+    if c.row is not None or c.value is not None:   # v7.4.0 D-1003 — 구성 무대
+        return {**({"row": c.row} if c.row is not None else {}), **({"value": c.value} if c.value is not None else {})}
     if c.w is None:
         return {}   # backdrop 빈 카메라(v5.1.0 D-0123)
     assert c.lon is not None and c.lat is not None
@@ -422,18 +429,22 @@ def _cam_w(s: Shot, stage: "Stage") -> float:
 
 
 ISLAND_STAGE = "timeline"   # v5.1.0 D-0126 Q1 A — backdrop 주 무대에서 이 무대의 숏 = 차트 아일랜드 뷰포트 카메라
+STRUCTURE_STAGE = "structure"   # v7.4.0 D-1003 §3 — backdrop 주 무대에서 이 무대의 숏 = 구성 아일랜드 뷰포트 카메라
+ISLAND_STAGES: tuple[str, ...] = (ISLAND_STAGE, STRUCTURE_STAGE)
 
 
-def is_island_shot(doc: Direction, s: Shot, main: str) -> bool:
-    """주 무대 backdrop 의 `stage: timeline` 숏 = 차트 아일랜드 카메라(D-0126 Q1 A — "숏 무대 ≠ 주 무대"를 아일랜드 뷰포트로 좁힌다)."""
-    return main == "backdrop" and doc.shot_stage(s) == ISLAND_STAGE
+def is_island_shot(doc: Direction, s: Shot, main: str, name: Optional[str] = None) -> bool:
+    """주 무대 backdrop 의 아일랜드 무대 숏 = 아일랜드 뷰포트 카메라(D-0126 Q1 A — "숏 무대 ≠ 주 무대"를 아일랜드 뷰포트로 좁힌다).
+    name 을 주면 그 아일랜드 무대(timeline = 차트 아일랜드, structure = 구성 아일랜드)의 숏만."""
+    st = doc.shot_stage(s)
+    return main == "backdrop" and st in ISLAND_STAGES and (name is None or st == name)
 
 
 def island_keys(doc: Direction, tb: Timebase, chart_stage: "Stage") -> list[CamKey]:
-    """차트 아일랜드 뷰포트 카메라 키(시간축 월드 좌표, w = 뷰포트 폭이 덮는 일수). 주 무대가 backdrop 이 아니면 []."""
+    """아일랜드 뷰포트 카메라 키(그 아일랜드 무대의 월드 좌표, w = 뷰포트 폭이 덮는 월드 폭). 주 무대가 backdrop 이 아니면 []."""
     keys: list[CamKey] = []
     for s in doc.shots:
-        if not is_island_shot(doc, s, doc.main_stage()):
+        if not is_island_shot(doc, s, doc.main_stage(), chart_stage.name):
             continue
         t = resolve_anchor(s.at, tb)
         xy = chart_stage.to_world(**_where(s.camera, doc))

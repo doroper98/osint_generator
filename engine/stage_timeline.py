@@ -56,15 +56,17 @@ def grid_segments(x: float, y0: float, y1: float, boxes: list[tuple[float, float
     if y < y1:
         out.append((y, y1))
     return out
-def grid_source_band() -> float:
+def grid_source_band(island: bool = False) -> float:
     """레인 아래 끝에서 세로 격자선을 끊는 높이(px) — 출처 줄 띠: source_dy + (접힌 줄 수 상한 − 1) × source_step + 글자 높이 + 2.
-    rules stage_timeline.grid.stop_at_source through 면 0(옛 동작)."""
+    rules stage_timeline.grid.stop_at_source through 면 0(옛 동작).
+    island = 차트 아일랜드 — 출처 줄 접기(series.source_lines)와 같은 상한 source_wrap_lines_max(v7.4.0 D-1010 — 안쪽 여백으로 폭이 줄면
+    무대 표면 팔레트여도 두 줄로 접혀, 한 줄 띠면 격자선이 둘째 줄을 가로지른다 [grid-text-cross])."""
     if TIMELINE.grid.stop_at_source == "through":
         return 0.0
     from engine.style import stage_surface  # noqa: PLC0415
 
     isl = _rules().island
-    n = isl.stage_surface.source_lines if stage_surface() else isl.source_wrap_lines_max   # D-0328 — 무대 표면은 출처 한 줄
+    n = isl.stage_surface.source_lines if stage_surface() and not island else isl.source_wrap_lines_max   # D-0328 — 무대 표면 주 무대는 출처 한 줄
     S = TIMELINE.series  # noqa: N806
     return S.source_dy + (n - 1) * S.source_step + S.source_size + 2
 
@@ -334,7 +336,7 @@ class TimelineStage:
             x, _ = view.to_screen(self.x_of(d), 0.0)
             for i in range(self.n):   # 레인마다 — 출처 줄 띠 위에서 끊는다(v7.4.0 D-0321 §4, rules stage_timeline.grid.stop_at_source)
                 ltop, lbot = self.lane_screen(view, i)
-                for ya, yb in grid_segments(x, ltop, lbot - grid_source_band(), keep):   # v7.4.0 D-0339(UF-155) — 글자 상자 앞에서 끊는다
+                for ya, yb in grid_segments(x, ltop, lbot - grid_source_band(bool(self.island)), keep):   # v7.4.0 D-0339(UF-155) — 글자 상자 앞에서 끊는다
                     ctx.move_to(x, ya)
                     ctx.line_to(x, yb)
                     DRAWN_GRID.append((x, ya, yb))

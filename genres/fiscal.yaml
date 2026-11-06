@@ -1,0 +1,43 @@
+# 장르 프로필 — 재정·예산안 분석(fiscal) (v7.4.0, back_and_forth D-1003 §2 · D-1000 §B0)
+# 사용자 요청(2026-11-02, UF-301): "그 뒤에 예산안에 대한 분석 영상을 만들어." 첫 사례 『2027년 예산안 분석』(budget_2027).
+# 막 구성(고정 막)은 rules genre_prompt.acts.fiscal — 콜드 오픈 · 어디에 쓰나(구성 무대) · 무엇이 늘고 줄었나(같은 구성 무대 두 번째 층) ·
+# 어디서 오나(시간축 레인) · 쟁점(versus, 여야 같은 무게 G4) · 일정(timeline 패널).
+# 지도 무대 없음 — 지도 중심이 아닌 주제가 사진 배경 + 아일랜드(구성 무대·시간축)로 서는지가 이 장르의 시험이다(D-1003 §2).
+# status proposed: 사용자 승인 전(20 §3). approved 로 바꾸는 것은 사용자 결정이다.
+schema_version: 1
+genre: fiscal
+status: proposed
+template_label: 예산안 분석          # UF-147 — 타이틀 카드 부제 앞·엔딩 카드 머리 줄
+invest_notice: false                  # D-1003 §2 — 재정은 투자 권유가 아니다(고지 없음)
+palette: noturno                      # 경제 장르 정본 조판(D-0330·D-0336, UF-203·UF-206) — noturno 토큰·무대 표면
+stage:
+  primary: backdrop                   # 사진 배경 + 아일랜드(D-0330 무대 조판)
+  secondary: []                       # 지도 무대 없음(mercator 를 쓰지 않는다)
+  island_stages: [timeline, structure]   # timeline = 총수입·총지출·재정수지·국가채무 레인, structure = 12대 분야 순위 가로 막대(D-1003 §3)
+  mercator: {theme: light}           # v7.4.0 UF-403 병합 — 어떤 장르든 지도 무대를 고를 수 있게 기본 테마(D154 지정학·경제 = light). 이 장르 기본 무대는 그대로 backdrop
+  timeline:
+    lanes:
+      - {id: totals, label: 총수입·총지출, kind: line}
+      - {id: debt,   label: 국가채무,      kind: line}
+color_semantics:
+  proposed: gold                      # 정부안(국회 확정 전) 강조
+  enacted: muted                      # 본예산·결산
+  increase: green                     # 증가
+  decrease: ru                        # 감소(손실 A 면, UF-204)
+primitives:
+  reuse: [article, badge, person, photo, clip, quote, series, marker, backdrop, island, rank, versus, timeline]   # card 없음(D-0306)
+  new: []
+badges:
+  people: from_library
+  institutions: rights_check
+data_sources:
+  required_fields: [series_id, source, retrieved_at, transform, as_of, budget_stage]   # budget_stage = 정부안/국회 확정 구분(D-1003 §2 필수)
+narration:
+  define_terms_once: true             # 총지출·총수입·관리재정수지·국가채무·미래대응기금·정부안과 국회 확정 — 첫 등장 때 한 문장
+  attribute_causality: true
+  numbers_per_sentence_max: 2
+  forecast_attribution: true          # 국세수입 전망·중기 재정 전망 = 정부 전망임을 귀속
+  avoid: [투자 권유, 국회 확정 단정, 한쪽 주장만]
+media:
+  preferred: [official_photo, press_video, article]
+qa_extra: [template_label, units_visible, as_of_visible]
