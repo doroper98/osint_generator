@@ -629,6 +629,10 @@ def build_gate_packet(pdir: Path, created_by: str, script: bool = True, preview:
         run = prov.get("animatic_run")
         if not prov.get("animatic") or not isinstance(run, dict):
             raise AnimaticMissingError(f"{pp.name} 에 animatic_run 기록이 없다 — 콘티 판 렌더가 끝나지 않았다")
+        dp = pdir / "direction.yaml"
+        if run.get("direction_sha1") and dp.exists() and run["direction_sha1"] != _file_sha1(dp):
+            raise AnimaticMissingError(f"콘티 판을 만든 연출 {str(run['direction_sha1'])[:10]} ≠ 현재 direction.yaml {_file_sha1(dp)[:10]} — "
+                                       "지금 연출로 콘티 판을 다시 만든 뒤 게이트 ② 구역을 만든다(옛 콘티 판으로 승인받지 않는다)")
         plan_total = float(json.loads((pdir / "plan.json").read_text(encoding="utf-8"))["total"]) if (pdir / "plan.json").exists() else -1.0
         pend = pending(pdir)
         sec_preview = GatePacketPreview(animatic_provenance_sha1=_file_sha1(pp), total_sec=float(prov.get("total_sec", -1.0)),

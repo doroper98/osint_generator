@@ -122,6 +122,19 @@ class GatePacketTest(_Proj):
         self.assertEqual(shown["script_sha1"], pkt.script.script_sha1)
         self.assertIn(f"gate packet {pkt.digest[:10]}", shown["media_plan"])
 
+    def test_build_refuses_animatic_of_other_direction(self) -> None:
+        """콘티 판을 만든 뒤 연출을 바꾸면 게이트 ② 구역을 만들지 않는다(옛 콘티 판으로 승인 방지). 게이트 ① 구역만은 된다."""
+        import hashlib  # noqa: PLC0415
+
+        (self.pdir / "direction.yaml").write_text("events: []\n", encoding="utf-8")
+        prov = self.pdir / "out" / "animatic_provenance.json"
+        d = json.loads(prov.read_text(encoding="utf-8"))
+        d["animatic_run"]["direction_sha1"] = hashlib.sha1(b"old direction").hexdigest()
+        prov.write_text(json.dumps(d), encoding="utf-8")
+        with self.assertRaisesRegex(AnimaticMissingError, "현재 direction.yaml"):
+            build_gate_packet(self.pdir, created_by="impl")
+        self.assertIsNone(build_gate_packet(self.pdir, created_by="impl", preview=False).preview)
+
     def test_build_requires_out(self) -> None:
         self._drop_out()
         with self.assertRaisesRegex(GatePacketError, "out 이 없다"):
