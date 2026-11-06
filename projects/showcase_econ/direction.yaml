@@ -363,15 +363,19 @@ events:
   sub: 3.5~3.75% · 9대 3
   side: left
   hl: true
-- type: article
+- type: marker   # v7.4.0 D371(D-0358 A1) — act2_3 '0.25%p'(clm_0007). 옛 CNN 7.29 기사 카드(act2_2 +0.1 ~ act2_4 +0.3)가 문장 전체를 덮어 숫자가 안 보였다 → 기사를 빼고 시간축 표지로
   start:
     sid: act2_2
     'off': 0.1
   end:
     sid: act2_4
-    'off': 0.3
-  mid: cnn_0729
-  theme: dark
+    'off': -0.1
+  date: '2026-07-29'
+  lane: policy_rate
+  label: 반대 3인
+  sub: +0.25%p 인상 주장
+  side: right
+  hl: true
 - type: marker
   start:
     sid: act2_4
@@ -527,6 +531,10 @@ sound:
   cues: []
   no_music_decision: null
 drops:
+- record: article cnn_0729 act2_2
+  reason: "D371(D-0358 A1) — act2_2~act2_3 전체를 덮는 전면 기사 카드라 act2_3 이 말한 '0.25%p'(반대 3인의 인상 주장, clm_0007)가 화면에 안 보였다([spoken-number-visible]). 번역 카드는 레지스트리 sub 를 그리지 않는다. 기사를 빼고 시간축 표지 '반대 3인 · +0.25%p 인상 주장'으로. 9대 3 표결은 act2_1 표결 영상이 보인다"
+- record: article cnn_0729 act2_2
+  reason: "D371(D-0358 A1) — act2_2~act2_3 전체를 덮는 전면 기사 카드라 act2_3 이 말한 '0.25%p'(반대 3인의 인상 주장, clm_0007)가 화면에 안 보였다([spoken-number-visible]). 번역 카드는 레지스트리 sub 를 그리지 않는다. 기사를 빼고 시간축 표지 '반대 3인 · +0.25%p 인상 주장'으로. 9대 3 표결은 act2_1 표결 영상이 보인다"
 - record: photo econ_warsh_swearing_5 act1_6
   reason: "D-0349(UF-173) — act1_6(2026.05) 날짜 창이 옆 문장 0.5초씩 넣어도 4.8초(< span 7.5). 다음 문장(2026.06 '반년 멈춘 금리 선')으로 늘리지 않는다 — 취임은 자막·날짜가 맡는다"
 - record: photo econ_walmart_2508 act2_6
