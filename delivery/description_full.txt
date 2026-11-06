@@ -1,4 +1,4 @@
-2026년 11월 3일 미국 중간선거에서 민주당이 하원과 상원을 모두 되찾았습니다. 상원에서는 텍사스·캔자스·사우스캐롤라이나·아이오와·오하이오·노스캐롤라이나·메인 일곱 곳이 공화당에서 민주당으로 넘어갔고, 미시시피와 알래스카는 AP 승자 발표 전이지만 민주당 후보가 사실상 유력합니다. 주지사는 텍사스·조지아·오하이오·아이오와·네바다 다섯 곳이 바뀌었습니다. 중간선거가 무엇인지, 주별 결과와 격전지, 1934년 이후 90년의 중간선거 성적을 지도 위에서 정리했습니다.
+2026년 11월 3일 미국 중간선거에서 민주당이 하원과 상원을 모두 되찾았습니다. 상원에서는 텍사스·캔자스·사우스캐롤라이나·아이오와·오하이오·노스캐롤라이나·메인 일곱 곳이 공화당에서 민주당으로 넘어갔습니다. 주지사는 텍사스·조지아·오하이오·아이오와·네바다 다섯 곳이 바뀌었습니다. 중간선거가 무엇인지, 주별 결과와 격전지, 1934년 이후 90년의 중간선거 성적을 지도 위에서 정리했습니다.
 
 수치는 11월 5일 저녁 NBC 집계 기준입니다. 미시시피·알래스카 상원과 캔자스·알래스카 주지사는 AP 발표 전이라 선두 후보를 '유력'으로 표기했고, 결과는 바뀔 수 있습니다.
 
@@ -69,9 +69,9 @@ The Federalist Papers(예일 로스쿨 아발론 프로젝트 원문) “The Fed
 us_midterms_2026 (NBC 결과 정리) “data/state_results.yaml — 주별 상원·주지사 결과와 하원 뒤집힘” — 원문 URL 미확보
 
 기사 카드: 헤드라인 번역·요지 자체 조판(위 보도) — 기사 화면 캡처·로고 없음
-사진: 백악관 남쪽 잔디밭의 트럼프 대통령 — 백악관 · Public domain / 연방 하원 본회의장 — United States House of Representatives… · Public domain / 미국 연방 의사당 야경 — Otávio Astor Vaz Costa (CC0) / 토머스 내스트 만평 2점(하퍼스 위클리, 1870·1874) — Thomas Nast · Public domain / 제임스 탈라리코 유세 — H. Michael Karshis (CC BY 4.0) / 로저 마셜 의원 공식 사진 — Eric Connolly, U.S. House Office of Ph… · Public domain / 애니 앤드루스 후보 — Stimpus1 (CC0) / 셰러드 브라운 전 의원 공식 사진 — Office of Senator Sherrod Brown · Public domain
-사진(이어서): 1937년 뉴욕 순위선택 개표 — The Washington daily news · Public domain / 지나 이노호사 후보 — RRC1701 (CC0) / 키샤 랜스 보텀스 후보 — Americandesigner (CC0) / 에이미 액턴 후보 — U.S. Air National Guard photo by Senio… · Public domain / 바이런 도널즈 의원 공식 사진 — United States Congress · Public domain / 펜실베이니아 주 의사당 — kev72 (CC BY 2.0) / 연방 상원 본회의장 — United States Senate · Public domain
-정당 로고: 민주당·공화당 공식 로고 — 각 당 상표 · 비공개 시청 한정(D264) · 사용자 지시 D519
+사진: 백악관 남쪽 잔디밭의 트럼프 대통령 — 백악관 · Public domain / 연방 하원 본회의장 — United States House of Representatives or Office of the Speaker of the House · Public domain / 미국 연방 의사당 야경 — Otávio Astor Vaz Costa (CC0) / 토머스 내스트 만평 2점(하퍼스 위클리, 1870·1874) — Thomas Nast · Public domain / 제임스 탈라리코 유세 — H. Michael Karshis (CC BY 4.0) / 로저 마셜 의원 공식 사진 — Eric Connolly, U.S. House Office of Photography · Public domain / 애니 앤드루스 후보 — Stimpus1 (CC0) / 셰러드 브라운 전 의원 공식 사진 — Office of Senator Sherrod Brown · Public domain
+사진(이어서): 1937년 뉴욕 순위선택 개표 — The Washington daily news · Public domain / 지나 이노호사 후보 — RRC1701 (CC0) / 키샤 랜스 보텀스 후보 — Americandesigner (CC0) / 에이미 액턴 후보 — U.S. Air National Guard photo by Senior Airman Gwendalyn Smith · Public domain / 바이런 도널즈 의원 공식 사진 — United States Congress · Public domain / 펜실베이니아 주 의사당 — kev72 (CC BY 2.0) / 연방 상원 본회의장 — United States Senate · Public domain
+정당 로고: 민주당·공화당 공식 로고 — 각 당의 상표, 정당 표시 목적으로만 사용
 글꼴: IBM Plex Sans KR — IBM · SIL OFL 1.1 / IBM Plex Mono — IBM · SIL OFL 1.1 / GmarketSans — Gmarket · G마켓 무료 폰트 / Noto Serif CJK KR — Google · Adobe · SIL OFL 1.1
 지도: Natural Earth — Natural Earth · Public domain / AWS Terrain Tiles — Mapzen · AWS Open Data · 구성 데이터별 조건(Mapzen terrarium)
 국기: 국기 — flag-icons · MIT
