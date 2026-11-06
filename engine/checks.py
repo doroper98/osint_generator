@@ -15,6 +15,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | media_upscaled | warning | 사진·영상·컷아웃 원본 픽셀 폭 < 출력 프로파일의 장치 폭(설계 폭 × k) — 추측 보간 금지, 알리기만(v3.6.0 D-0067 요건 3) |
 | labels | hard | 샘플 시각마다 도시 라벨 수 ≤ labels_per_frame_max |
 | date | hard | 문장 date 형식(YYYY / YYYY.MM / YYYY.MM.DD) — 날짜 배지는 이 값으로만 그린다 |
+| basemap_upscale | hard | v7.4.0 D-0630 §2(UF-261 "지도가 확대될때 해상도가 크게 낮아지네") — 모든 테마·렌더 경로. 지도 무대 화면 장치 px/도 ÷ 지형 원천 실효 px/도(engine.stage.MercatorStage.upscale_ratio — 고른 티어 레벨과 타일 줌 고유 해상도 중 작은 값) > rules qa_checks.basemap_upscale.max_ratio 가 max_sec 넘게 이어지면 `[basemap-upscale]`. terrain3d 구간·패널 동안 제외 |
+| sea_tile_step | hard | v7.4.0 D-0634 §2(RENDER-AP-040, 칸나이 v1 아드리아해 9~36·306~318초) — 지도 무대 베이스에서 보이는 티어 줌의 원천 타일 격자선 양옆 바다(B−R ≥ rules qa_checks.sea_tile_step.sea_blue_minus_red) 띠 밝기 차 중앙값이 max_step 을 넘는 구간이 min_run_px 넘게 이어지면 `[sea-tile-step]`. 모든 테마·렌더 경로 |
 | narration_clarity | hard | v7.4.0 D-0626·D-0628 — out/mix.f32 의 문장마다 목소리 음역 내레이션 대 (음악+효과음+클립 원음) 에너지 비 최저가 rules audio.qa.narration_clarity.min_db 미만 `[narration-clarity]`. hard_genres 영상만 hard — v7.4.0 D349 부터 등록 장르 전부(tests/test_narration_clarity 가 등록 장르 ⊆ hard_genres 고정). mix.f32 가 없으면 잴 것 없음(provenance 기록) |
 | narration_clarity_note | warning | 위와 같은 판정 — hard_genres 밖 장르. D349 뒤 등록 장르에서는 0(경로는 남김) |
 | subtitles | hard | 자막 줄 수 ≤ subtitle_lines_max(렌더러와 같은 wrap) |
@@ -148,7 +150,9 @@ QA = R_.qa_checks
 SG = R_.shot_grammar
 SAMPLE_SEC = 1.0          # 뱃지·라벨 샘플 간격
 SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여백 — 이만큼 잘리는 것은 허용
-HARD = ("narration_clarity",   # v7.4.0 D-0626·D-0628 — 내레이션 명료도(rules audio.qa.narration_clarity.hard_genres 장르만)
+HARD = ("basemap_upscale",     # v7.4.0 D-0630 §2(UF-261) — 지도 확대 때 지형 원천 늘림 배율
+        "sea_tile_step",       # v7.4.0 D-0634 §2(RENDER-AP-040) — 바다 면 원천 타일 경계 색 계단
+        "narration_clarity",   # v7.4.0 D-0626·D-0628 — 내레이션 명료도(rules audio.qa.narration_clarity.hard_genres 장르만)
         "map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
@@ -3075,6 +3079,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "backdrop_subject": lambda: check_backdrop_subject(P),                   # v7.4.0 감독 D621 ②(hard, D616 ④)
         "island_text_contrast": lambda: check_island_text_contrast(P),           # v7.4.0 감독 D621 ③(hard, D619·UF-304)
         "photo_age": lambda: check_photo_age(P),                                 # v7.4.0 D-0327(warning)
+        "basemap_upscale": lambda: check_basemap_upscale(P),                      # v7.4.0 D-0630 §2 [basemap-upscale]
+        "sea_tile_step": lambda: check_sea_tile_step(P),                          # v7.4.0 D-0634 §2 [sea-tile-step]
         "narration_clarity": lambda: check_narration_clarity(P, hard=True),       # v7.4.0 D-0626·D-0628 [narration-clarity]
         "narration_clarity_note": lambda: check_narration_clarity(P, hard=False),
         "series_date_convention": lambda: check_series_date_convention(P),   # v7.4.0 D-0326(warning)
@@ -3875,6 +3881,146 @@ def regression_ref(P) -> "str | None":  # noqa: ANN001, N803
     R.cache project_id 에 둔다), 없으면 폴더 이름 — 폴더 이름만 보면 합성 사본(demo)이 면제를 못 받는다."""
     pid = (getattr(P, "R", None) and P.R.cache.get("project_id")) or getattr(getattr(P, "root", None), "name", None)
     return pid if pid in QA.regression_refs else None
+
+
+def basemap_upscale_runs(samples: list[tuple[float, float, str]]) -> list[tuple[float, float, float, str]]:
+    """[basemap-upscale] 순수 판정(v7.4.0 D-0630 §2, UF-261) — samples = (초, 늘림 배율, 층). (시작, 끝, 최대 배율, 층) 중 max_sec 넘는 것."""
+    cfg = QA.basemap_upscale
+    if cfg is None:
+        return []
+    out, run = [], None
+    for t, r, n in list(samples) + [(float("inf"), 0.0, "")]:
+        if r > cfg.max_ratio:
+            run = [t, t, r, n] if run is None else [run[0], t, max(run[2], r), n if r >= run[2] else run[3]]
+        elif run is not None:
+            if run[1] - run[0] + cfg.step_sec > cfg.max_sec:
+                out.append((run[0], run[1], run[2], run[3]))
+            run = None
+    return out
+
+
+def check_basemap_upscale(P) -> list[str]:  # noqa: ANN001, N803
+    """[basemap-upscale] hard — 지도 무대 표본(terrain3d 구간·패널 동안 제외). 장치 배율 = 이 렌더의 출력 프로파일."""
+    cfg = QA.basemap_upscale
+    st = P.R.stage
+    if cfg is None or getattr(st, "name", None) != "mercator" or not getattr(st, "tiers", None):
+        return []
+    k = float(getattr(getattr(P.R, "out", None), "k", 1.0) or 1.0)
+    segs = P.R.cache.get("terrain3d_segments") or []
+    panels = [(e["t0"], e["t1"]) for e in P.events if e["type"] == "panel"]
+    samples = []
+    n = int(P.plan.total / cfg.step_sec)
+    for i in range(n):
+        t = i * cfg.step_sec
+        if any(s.t_in <= t < s.t_out for s in segs) or any(a <= t < b for a, b in panels):
+            continue
+        r, tier = st.upscale_ratio(View(st, P.cams[min(P.n_frames - 1, int(t * FPS))]), k)
+        samples.append((t, r, tier))
+    lines = [f"[basemap-upscale] {a:.1f}~{b:.1f}초 지형 원천 늘림 최대 {r:.1f}배 > {cfg.max_ratio:g}(층 {tier}, 장치 배율 k {k:g}) — "
+             "그 확대 범위를 덮는 더 고운 티어(geo.yaml, 높은 줌 DEM)를 두고 blend: relative 로 잇는다(UF-261)"
+             for a, b, r, tier in basemap_upscale_runs(samples)]
+    return waive_regression(P, "basemap_upscale", lines)   # 골든 v3(회귀 기준) 지형은 화소 고정 — 기록만(D-0251·D-0271 원칙)
+
+
+def tile_grid_screen(view: "View", z: int, w: int = W_OUT, h: int = H_OUT) -> tuple[list[float], list[float]]:
+    """줌 z 원천 타일 경계선의 화면 좌표(설계 px) — (세로선 x 목록, 가로선 y 목록). 월드 x = 경도, y = 메르카토르 도(engine.stage.ym)."""
+    n = 2 ** z
+    lon0, y_top = view.to_world(0, 0)
+    lon1, y_bot = view.to_world(w, h)
+    xs = [view.to_screen(i / n * 360 - 180, 0)[0] for i in range(int(np.floor((lon0 + 180) / 360 * n)), int(np.ceil((lon1 + 180) / 360 * n)) + 1)]
+    lo, hi = sorted((y_top, y_bot))
+    ys = [view.to_screen(0, 180 * (1 - 2 * j / n))[1] for j in range(int(np.floor((1 - hi / 180) / 2 * n)), int(np.ceil((1 - lo / 180) / 2 * n)) + 1)]
+    return [x for x in xs if 0 < x < w - 1], [y for y in ys if 0 < y < h - 1]
+
+
+def sea_tile_steps(img: "np.ndarray", xs: list[float], ys: list[float]) -> list[tuple[str, float, int, int, float]]:
+    """[sea-tile-step] 순수 판정(v7.4.0 D-0634 §2) — img(H×W×3) 격자선 양옆 띠 비교. (축, 선 위치, 구간 시작, 끝, 밝기 차 중앙값) 중 상한 넘는 것."""
+    cfg = QA.sea_tile_step
+    if cfg is None:
+        return []
+    a = np.asarray(img, np.float32)[..., :3]
+    H, W = a.shape[:2]  # noqa: N806
+    luma = a @ np.array([0.299, 0.587, 0.114], np.float32)
+    sea = (a[..., 2] - a[..., 0]) >= cfg.sea_blue_minus_red
+    for _ in range(cfg.sea_erode_px):   # 해안에서 안쪽으로 — 4방향 이웃이 모두 바다인 화소만 남긴다
+        e = sea.copy()
+        e[1:, :] &= sea[:-1, :]
+        e[:-1, :] &= sea[1:, :]
+        e[:, 1:] &= sea[:, :-1]
+        e[:, :-1] &= sea[:, 1:]
+        sea = e
+    g, b, o = cfg.gap_px, cfg.band_px, cfg.ctrl_px
+    out = []
+
+    def diff(axis: str, c: int) -> "tuple[np.ndarray, np.ndarray] | None":
+        lo0, lo1, hi0, hi1 = c - g - b, c - g, c + g + 1, c + g + 1 + b
+        size = W if axis == "x" else H
+        if lo0 < 0 or hi1 > size:
+            return None
+        if axis == "x":
+            return (np.abs(luma[:, lo0:lo1].mean(1) - luma[:, hi0:hi1].mean(1)),
+                    sea[:, lo0:lo1].all(1) & sea[:, hi0:hi1].all(1))
+        return (np.abs(luma[lo0:lo1, :].mean(0) - luma[hi0:hi1, :].mean(0)),
+                sea[lo0:lo1, :].all(0) & sea[hi0:hi1, :].all(0))
+
+    for axis, lines in (("x", xs), ("y", ys)):
+        for pos in lines:
+            c = int(round(pos))
+            mid, l_, r_ = diff(axis, c), diff(axis, c - o), diff(axis, c + o)
+            if mid is None or l_ is None or r_ is None:
+                continue
+            d = mid[0] - np.maximum(l_[0], r_[0])   # 격자선에서만 뛰는 몫(자연 기울기는 대조선에도 있다)
+            both = mid[1] & l_[1] & r_[1]
+            i, n = 0, len(both)
+            while i < n:
+                if not both[i]:
+                    i += 1
+                    continue
+                j = i
+                while j < n and both[j]:
+                    j += 1
+                if j - i >= cfg.min_run_px:
+                    m = float(np.median(d[i:j]))
+                    if m > cfg.max_step:
+                        out.append((axis, round(float(pos), 1), i, j, round(m, 1)))
+                i = j
+    return out
+
+
+def check_sea_tile_step(P) -> list[str]:  # noqa: ANN001, N803
+    """[sea-tile-step] hard(v7.4.0 D-0634 §2, RENDER-AP-040) — 지도 무대 표본마다 베이스(지형만)에서 보이는 티어 줌의 타일 격자선 양옆 바다 색 계단.
+    terrain3d 구간·패널 동안은 지도가 안 보여 뺀다. 모든 테마·렌더 경로(같은 베이스 함수 stage.base_image)."""
+    cfg = QA.sea_tile_step
+    st = P.R.stage
+    if cfg is None or getattr(st, "name", None) != "mercator" or not getattr(st, "tiers", None):
+        return []
+    segs = P.R.cache.get("terrain3d_segments") or []
+    panels = [(e["t0"], e["t1"]) for e in P.events if e["type"] == "panel"]
+    hits: list[tuple[float, int, str]] = []
+    for i in range(int(P.plan.total / cfg.step_sec)):
+        t = i * cfg.step_sec
+        if any(s.t_in <= t < s.t_out for s in segs) or any(a <= t < b for a, b in panels):
+            continue
+        view = View(st, P.cams[min(P.n_frames - 1, int(t * FPS))])
+        zs = sorted({int(st.tiers[n]["z"]) for n, a, _ in st.tier_plan(view) if a > 0.01})
+        img = np.asarray(st.base_image(view).convert("RGB"))
+        found = []
+        for z in zs:
+            xs, ys = tile_grid_screen(view, z, img.shape[1], img.shape[0])
+            found += [(z, r) for r in sea_tile_steps(img, xs, ys)]
+        if found:
+            z, r = max(found, key=lambda f: f[1][4])
+            hits.append((t, len(found), f"z{z} {r[0]}={r[1]:.0f} 밝기 차 {r[4]:.1f}"))
+    lines, k = [], 0
+    while k < len(hits):
+        j = k
+        while j + 1 < len(hits) and hits[j + 1][0] - hits[j][0] <= cfg.step_sec + 1e-6:
+            j += 1
+        worst = max(hits[k:j + 1], key=lambda h: h[1])
+        lines.append(f"[sea-tile-step] {hits[k][0]:.0f}~{hits[j][0]:.0f}초 바다 면이 원천 타일 경계에서 색 계단 {worst[1]}곳(예 {worst[2]} > "
+                     f"{cfg.max_step:g}) — 타일마다 해저 수심 원천이 다르다(geo.sea_bathymetry). 지형 티어를 다시 만든다(RENDER-AP-040)")
+        k = j + 1
+    return waive_regression(P, "sea_tile_step", lines)
 
 
 def waive_regression(P, cid: str, lines: list[str]) -> list[str]:  # noqa: ANN001, N803
