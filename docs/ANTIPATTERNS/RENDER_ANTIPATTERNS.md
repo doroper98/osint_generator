@@ -318,3 +318,11 @@ last_review: 2026-05-23
 - **원칙**: 화소를 정하는 환경 값은 저장소 추적 파일 + 코드 한 곳에서 정하고, 시작에서 실제 값을 확인한다. 셸 설정에 기대지 않는다. 다르면 멈춘다(P6).
 - **자동 조치**: `config/fontconfig/fonts.conf`(시스템 fonts.conf include + 렌더 속성 일곱 개 assign), 경로 `config.yaml engine.fontconfig.file`. `engine/fontenv.py` `ensure()` 를 `engine.style` import 맨 앞(모든 렌더 경로)·`tests/conftest.py`·엔진 밖 글자 도구(tools/strike_demo)가 부른다 — FONTCONFIG_FILE 지정(다른 값은 덮어쓰고 1줄 로그), `fc-match -v` 주 글꼴 hinting·hintstyle 이 `engine.fontconfig.expect` 와 다르면 `FontRenderConfigError`. 시험 `tests/anti_inertia/test_fontconfig_guard.py`(비표준 설정 실패·글자 그리는 모듈 전수).
 - **발견 버전**: v7.4.0 · **상태**: active
+
+## RENDER-AP-040 — 지도 고해상도 원천 교체 뒤 바다에 타일 경계 사각 얼룩, 검사 없음 + 감독이 프리뷰 시트 전부를 보지 않아 놓쳤다(칸나이 v1)
+
+- **증상(실제 현상)**: v7.4.0 칸나이 완성본 v1(md5 712cceb0) 9~36초(아드리아해)·306~318초(이탈리아 전경) — 바다 색이 원천 타일 단위 사각형으로 진하거나 옅게 보인다. 콘티 판 v2(ed01e6d4) 23.3초에는 없었고, 프리뷰 v1(450de338) p_0014·p_0031 에 이미 있었다.
+- **원리**: D-0630(UF-261) 지도 해상도 대책으로 relief 원천 티어를 늘렸다. 바다 면 원천이 타일마다 다르게 섞인 것으로 추정한다(원인 확정은 D-0634 §2). basemap_upscale 은 늘림 배율만 보고 타일 사이 색 불연속은 보지 않는다. 감독은 프리뷰를 전후 비교 시트와 고른 프레임으로만 보고, 자동 프레임 시트(sheet.jpg) 전부를 보지 않았다.
+- **원칙**: ① 지도 원천을 바꾸면 그 원천이 보이는 모든 구간(특히 넓은 축척의 바다·평지)을 시트로 본다. ② 프리뷰 실물 확인은 전후 비교만으로 끝내지 않는다. 자동 시트 전 칸을 본다. ③ 타일 경계 색 불연속은 검사로 잡는다.
+- **자동 조치**: (예정, D-0634 §2) 바다 타일 경계 색 계단 검사(hard, 모든 테마·경로, 값은 규칙 키). 시험 기준 프레임: 프리뷰 v1 14·31초, final 12·306초 = 실패, 콘티 판 v2 23.3초 = 통과.
+- **발견 버전**: v7.4.0 · **상태**: active
