@@ -1,0 +1,18 @@
+{
+ "schema_version": 1,
+ "project_id": "showcase_geo",
+ "created_at": "2026-11-06T00:05:38.547438Z",
+ "created_by": "쇼케이스 구현 3 (session_017Yuw8mZjzL9rxkApRyBCoR)",
+ "commit": "7cac0977db257dc77645a0a722b55df276b7deda",
+ "sources": {
+  "script.yaml": "9e9ee0b613bf8165f7b63b77bfbe9c6eae01c77d",
+  "direction.yaml": "b4f23919cecd915349cfca53945c36af793f311a",
+  "plan.json": "41dd10d2908952ca400d842a103c730c393ba160"
+ },
+ "script": {
+  "script_sha1": "9e9ee0b613bf8165f7b63b77bfbe9c6eae01c77d",
+  "media_plan": "사진 0/4 · 기사 후보 29문장 · 241초(plan)"
+ },
+ "preview": null,
+ "digest": "8333176942f4c5e4fa8d8c0f67e7fd778c04fc2c"
+}
