@@ -2777,8 +2777,10 @@ entries:
   quote: "흐름 좋은데 진형에 대한 렌더링은 본 편에서는 더 고급지게 바꿀껀가?"
   quote_kind: verbatim
   category: "전쟁사 전술 화면 — 흐름 합격. 진형(부대 블록) 렌더링을 본편에서 더 고급스럽게(재질·빛·그림자·가장자리 선명도). 콘티 판 화질 탓만으로 넘기지 않는다"
-  guards: []
-  status: open
+  guards:
+  - {kind: test, ref: tests/test_d0630_devices.py::FinishTest::test_supersample_floor}
+  - {kind: test, ref: tests/test_d0630_devices.py::FinishTest::test_tools_read_supersample}
+  status: guarded
   decision: "D-0630(back_and_forth) — 진형 렌더 고급화(본편·프리뷰), 전후 비교 프레임을 프리뷰와 함께"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-05"
 - id: UF-261
@@ -2788,8 +2790,14 @@ entries:
   quote: "그리고 지도가 확대될때 해상도가 크게 낮아지네."
   quote_kind: verbatim
   category: "지도 해상도 — 카메라가 확대될 때 바탕 지도(지형 음영·색)가 늘려져 흐려지지 않는다. 확대 배율에 맞는 고해상도 원천을 쓴다(모든 테마·모든 렌더 경로)"
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: basemap_upscale}
+  - {kind: check, ref: sea_tile_step}
+  - {kind: rule, ref: qa_checks.basemap_upscale}
+  - {kind: rule, ref: qa_checks.sea_tile_step}
+  - {kind: test, ref: tests/test_basemap_upscale.py::StageRatioTest::test_v2_cannae_views_fail_with_w_only}
+  - {kind: test, ref: tests/test_sea_tile_step.py::SeaTileStepPure::test_step_on_grid_line_fails}
+  status: guarded
   decision: "D-0630(back_and_forth) — 바탕 지도 늘림 배율 검사(hard) + 확대 구간 고해상도 원천"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-05"
 - id: UF-262
@@ -2799,8 +2807,11 @@ entries:
   quote: "그리고 효과음까지 들리는 버전이 좋네."
   quote_kind: verbatim
   category: "전쟁사 전투 효과음 채택 — 효과음 있는 판. 3D 접전 구간에 녹음 효과음 층을 넣는다(D-0627·D-0629 원칙 그대로)"
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: battle_sfx_missing}
+  - {kind: test, ref: tests/test_battle_sfx.py::BattleSfxCheckTest::test_unit_missing_or_wrong_sound}
+  - {kind: test, ref: tests/test_battle_sfx.py::BattleSfxCheckTest::test_registered_as_hard_and_warning}
+  status: guarded
   decision: "D-0630(back_and_forth) — 본 연출에 battle 큐, battle_sfx_missing 전쟁사 hard, docs/handoff/10 §4 battle 줄"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-05"
 - id: UF-263
@@ -2810,8 +2821,12 @@ entries:
   quote: "코리올란의 하이라이트 부분이 전쟁 신에서 들리면 좋겠어."
   quote_kind: verbatim
   category: "음악 배치 — 곡의 하이라이트(가장 극적인 대목)가 전투 장면(3D 접전·포위)에 오게 한다. 내레이션 명료도 15 dB 는 그대로 지킨다"
-  guards: []
-  status: open
+  guards:
+  - {kind: check, ref: bgm_highlight}
+  - {kind: check, ref: bgm_edit_credit}
+  - {kind: test, ref: tests/test_d0630_devices.py::BgmHighlightTest::test_battle_window}
+  - {kind: test, ref: tests/test_d0630_devices.py::BgmHighlightTest::test_edit_credit}
+  status: guarded
   decision: "D-0630(back_and_forth) — 곡 시작점·악구 경계 편집으로 하이라이트를 전투 구간에, 측정 장치"
   source: "위임 감독 세션(전쟁사 트랙) 사용자 대화 2026-11-05"
 - id: UF-264
