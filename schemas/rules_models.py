@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Literal, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
 class _Strict(BaseModel):
@@ -364,8 +364,24 @@ class StaticWindow(_Strict):
     ladder: str = Field(min_length=1)                # 연출 프롬프트 변화 사다리({{RULES.pacing.static_window}}), {window_sec} 자리
 
 
+class SentenceChange(_Strict):
+    """문장 단위 변화 `[sentence-still]`(v7.4.0 UF-400 영상 분석) — 문장 동안 change_kinds 등장 0 = warning. camera 는 넣지 않는다(C0)."""
+
+    lead_sec: float = Field(ge=0)
+    min_sentence_sec: float = Field(ge=0)
+    change_kinds: list[str] = Field(min_length=1)
+
+    @field_validator("change_kinds")
+    @classmethod
+    def _no_camera(cls, v: list[str]) -> list[str]:
+        if "camera" in v:
+            raise ValueError("sentence_change 는 카메라 이동을 세지 않는다 — C0 '문장마다 카메라 이동' 금지")
+        return v
+
+
 class PacingRules(_Strict):
     static_window: StaticWindow
+    sentence_change: SentenceChange   # v7.4.0 UF-400
 
 
 class MediaBeats(_Strict):
@@ -813,6 +829,31 @@ class BadgeRing(_Strict):
     inner_alpha: float = Field(ge=0, le=1)
 
 
+class BadgeCue(_Strict):
+    """v7.4.0 UF-400·UF-401 — 뱃지 신호(재언급 맥동·숙청 X·물음표 말풍선). 설계 px(480p)."""
+
+    pulse_sec: float = Field(gt=0)
+    pulse_grow: float = Field(gt=0)
+    pulse_w: float = Field(gt=0)
+    pulse_alpha: float = Field(ge=0, le=1)
+    pulse_rings: int = Field(ge=1)
+    pulse_stagger_sec: float = Field(ge=0)
+    mark_draw_sec: float = Field(gt=0)
+    strike_w: float = Field(gt=0)
+    strike_extent: float = Field(gt=0)
+    strike_alpha: float = Field(ge=0, le=1)
+    strike_color: str
+    q_r: float = Field(gt=0)
+    q_dx: float
+    q_dy: float
+    q_size: float
+    q_baseline: float               # '?' 기준선 = 중심 + 크기 × 이 값
+    q_pop_sec: float = Field(gt=0)
+    q_tail: list[tuple[float, float]] = Field(min_length=3, max_length=3)   # 말풍선 꼬리 세 점(q_r 배수)
+    q_bg: RGB
+    q_ink: RGB
+
+
 class BadgeLayout(_Strict):
     R_person_solo: float
     R_person_group: Range2
@@ -840,6 +881,7 @@ class BadgeLayout(_Strict):
     portrait: BadgePortrait           # v5.15.0 D-0153 §5 — 인물 초상 배치(head_inside_max 대체)
     flag_wave: BadgeFlagWave          # v5.15.0 — 인물 뒤 국기 물결
     ring: BadgeRing                   # v5.15.0 — 인물 뱃지 링
+    cue: BadgeCue                     # v7.4.0 UF-400·UF-401 — 재언급 맥동·숙청 X·물음표
 
 
 class TimelineGaps(_Strict):
@@ -868,6 +910,29 @@ class ReservedZones(_Strict):
     subtitle: SubtitleZone
 
 
+class MediaSpotLayout(_Strict):
+    """v7.4.0 UF-400·UF-401(영상 분석 D15) — 사진·영상 속 점선 원."""
+
+    draw_sec: float = Field(gt=0)
+    line_w: float = Field(gt=0)
+    dash: list[float] = Field(min_length=2)
+    line_rgb: RGB
+    line_alpha: float = Field(ge=0, le=1)
+    dim_alpha: float = Field(ge=0, le=1)
+    dim_fade_sec: float = Field(ge=0.55)
+
+
+class RouteFlowLayout(_Strict):
+    """v7.4.0 UF-400·UF-401(영상 분석 D3) — route flow 점 흐름."""
+
+    dots: int = Field(ge=1)
+    speed: float = Field(gt=0)        # 곡선 길이 비율/초
+    r: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+    fade_in_sec: float = Field(ge=0.55)
+    edge_fade: float = Field(ge=0, lt=0.5)   # 출발·도착 근처 이 비율 구간에서 점이 옅어진다
+
+
 class Layout480p(_Strict):
     base: LayoutBase
     subtitle: SubtitleLayout
@@ -880,6 +945,8 @@ class Layout480p(_Strict):
     panel: PanelLayout
     badge: BadgeLayout
     media_caption: MediaCaptionLayout      # v4.8.0 D-0101 §3
+    media_spot: MediaSpotLayout            # v7.4.0 UF-401 — 사진·영상 속 점선 원
+    route_flow: RouteFlowLayout            # v7.4.0 UF-401 — 선 위를 흐르는 점
     marker: MarkerLayout
     route_label: RouteLabelLayout
     timeline_gaps: TimelineGaps
@@ -1207,6 +1274,57 @@ class ChecklistRules(_Strict):
     footer_sec: float
     footer_fade_sec: float
     max_items: int
+    open: "ChecklistOpen"            # v7.4.0 UF-400·UF-401 — 열린 가설 칸
+
+
+class ChecklistOpen(_Strict):
+    """v7.4.0 UF-400·UF-401(영상 분석 D11) — checklist style open(빈 번호 칸 → 채움, 체크 없음). 설계 px."""
+
+    slot_w: float = Field(gt=0)
+    slot_h: float = Field(gt=0)
+    slot_r: float
+    slot_dash: list[float] = Field(min_length=2)
+    slot_line_alpha: float = Field(ge=0, le=1)
+    slot_line_w: float = Field(gt=0)
+    fill_alpha: float = Field(ge=0, le=1)
+    num_size: float
+    reveal_start_sec: float = Field(ge=0)
+    reveal_step_sec: float = Field(ge=0)
+    reveal_fade_sec: float = Field(ge=0.55)
+    fill_fade_sec: float = Field(ge=0.55)
+
+
+class NetworkDrop(_Strict):
+    """v7.4.0 UF-400·UF-401(영상 분석 D13) — network 선 shape drop(곧은 내림선)."""
+
+    pad: float
+    width: float = Field(gt=0)
+    dy_scale: float = Field(ge=1)
+    label_clear: float
+    label_dx: float
+
+
+class NetworkCrowd(_Strict):
+    """v7.4.0 UF-400·UF-401(영상 분석 D4) — network 노드 crowd(점 고리 후광). 점 수는 장식 — 수치를 뜻하지 않는다."""
+
+    rings: int = Field(ge=1)
+    per_ring: list[int] = Field(min_length=1)
+    start_pad: float
+    gap: float
+    dot_r: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+    outer_fade: float = Field(ge=0, le=1)
+    color: str
+    delay_sec: float = Field(ge=0)
+    ring_step_sec: float = Field(ge=0)
+    appear_fade_sec: float = Field(ge=0.55)
+    ring_twist: float
+
+    @model_validator(mode="after")
+    def _rings(self) -> "NetworkCrowd":
+        if len(self.per_ring) != self.rings:
+            raise ValueError(f"crowd per_ring {len(self.per_ring)}개 ≠ rings {self.rings}")
+        return self
 
 
 class NetworkRules(_Strict):
@@ -1232,6 +1350,8 @@ class NetworkRules(_Strict):
     mention_hold_sec: float
     mention_lead_sec: float
     max_edges: int
+    drop: "NetworkDrop"            # v7.4.0 UF-401 — 내림선(가계·후견)
+    crowd: "NetworkCrowd"          # v7.4.0 UF-401 — 점 고리 후광(지지 기반)
 
 
 class ChartRules(_Strict):
@@ -1597,6 +1717,13 @@ class SfxRules(_Strict):
     scene_start: SceneStartSfx
 
 
+class NarrationClarity(_Strict):
+    """v7.4.0 D-0626·D-0628 — 내레이션 명료도 하한(목소리 음역 에너지 비, dB)."""
+
+    min_db: float
+    hard_genres: list[str] = Field(default_factory=list)
+
+
 class AudioQARules(_Strict):
     i_tol_lu: float = Field(gt=0)
     music_under_narration_db: tuple[float, float]
@@ -1607,6 +1734,7 @@ class AudioQARules(_Strict):
     bed_bass_rise_db: tuple[float, float]            # v4.6.0 D-0097 작업 3·D-0102 1-A(판정 = 상승폭)
     bed_bass_band_hz: tuple[float, float]
     bed_mid_band_hz: tuple[float, float]
+    narration_clarity: Optional[NarrationClarity] = None   # v7.4.0 D-0626·D-0628
 
     @model_validator(mode="after")
     def _bands(self) -> "AudioQARules":
@@ -1796,6 +1924,7 @@ class CardOverPanel(_Strict):
     cover_types: list[str] = Field(min_length=1)               # 모든 패널 위 덮개(D-0249)
     cover_types_on_data_panels: list[str] = Field(default_factory=list)   # 데이터 패널(series record) 위에서만 더 세는 덮개
     timeline_frame_cover_types: list[str] = Field(default_factory=list)   # v7.4.0 D-0259 — 시간축 틀 안 시리즈 레인 위에서 세는 덮개(사건 레인 허용)
+    cover_types_on_versus_panels: list[str] = Field(default_factory=list)  # v7.4.0 D-0629 §3 — 사료·입장 대조(versus) 패널 위에서 더 세는 덮개(제자리 상자로 판정)
 
 
 class LabelUnderMedia(_Strict):
@@ -2767,7 +2896,7 @@ class GenrePromptRules(_Strict):
 
     base_genre: str
     narration: dict[str, str] = Field(min_length=1)
-    acts_head: str = ""                                            # v7.4.0 D-0278 §3 — 템플릿 고정 막 머리 줄
+    acts_head: str = ""                                            # v7.4.0 D-0278 §3 — 장르별 흔한 흐름 머리 줄(UF-403: 참고, 고정 막 아님)
     acts: dict[str, list[str]] = Field(default_factory=dict)       # v7.4.0 D-0278 §3 — 장르 이름 → 막 줄
     data_sources_by_genre: dict[str, list[str]] = Field(default_factory=dict)   # v7.4.0 D-0304 ② — 공통 data_sources 뒤 장르 보충 줄
     data_sources: list[str] = Field(min_length=1)
@@ -2952,12 +3081,146 @@ class SiteDiagramLayout(_Strict):
     pad_x: float
 
 
+class ProcessLaneLayout(_Strict):
+    """v7.4.0 UF-400 — process_lane(과정 도식) 레이아웃 토큰(설계 px)."""
+
+    x: float
+    y: float
+    w: float = Field(gt=0)
+    head_h: float
+    row_h: float
+    foot_h: float
+    pad_x: float
+    label_col_w: float
+    radius: float
+    title_dy: float
+    title_size: float
+    src_dy: float
+    steps_min: int = Field(ge=2)
+    steps_max: int = Field(ge=2)
+    step_chars_max: int = Field(ge=1)
+    step_lines_max: int = Field(ge=1)
+    rows_max: int = Field(ge=1)
+    pill_h: float
+    pill_dy: float
+    pill_gap: float
+    pill_pad_x: float
+    pill_base_alpha: float = Field(ge=0, le=1)
+    pill_fill_alpha: float = Field(ge=0, le=1)
+    pill_line_alpha: float = Field(ge=0, le=1)
+    pill_line_w: float
+    step_size: float
+    step_line_h: float
+    step_baseline: float
+    ghost_alpha: float = Field(ge=0, le=1)
+    reach_eps: float
+    step_stagger_sec: float = Field(ge=0)
+    step_fade_sec: float = Field(ge=0.55)
+    hidden_pad: float
+    hidden_top: float
+    hidden_gap: float
+    hidden_alpha: float = Field(ge=0, le=1)
+    hidden_label_dx: float
+    hidden_label_dy: float
+    hidden_label_size: float
+    axis_w: float
+    axis_alpha: float = Field(ge=0, le=1)
+    arrow_len: float
+    arrow_half: float
+    gate_delay_sec: float = Field(ge=0)
+    gate_grow_sec: float = Field(gt=0)
+    gate_over: float
+    gate_under: float
+    gate_w: float
+    gate_label_size: float
+    gate_label_dy: float
+    row_label_size: float
+    row_label_dy: float
+    token_r: float
+    token_dy: float
+    token_delay_sec: float = Field(ge=0)
+    token_label_dx: float
+    token_label_dy: float
+    token_label_size: float
+    move_sec: float = Field(gt=0)
+    span_dy: float
+    span_tick: float
+    span_w: float
+    span_size: float
+    span_label_dy: float
+    span_fade_sec: float = Field(ge=0.55)
+    fade_sec: float = Field(ge=0.6, le=0.9)   # statement_diff 와 같은 범위(UF-159)
+
+
+class DocExcerptLayout(_Strict):
+    """v7.4.0 UF-400 — doc_excerpt(1차 문서 발췌) 레이아웃 토큰(설계 px)."""
+
+    x: float
+    y: float
+    w: float = Field(gt=0)
+    pad_x: float
+    pad_top: float
+    pad_bottom: float
+    radius: float
+    paper: str
+    ink: str
+    ink_muted: str
+    ghost: str
+    head_size: float
+    head_gap: float
+    ghost_before: int = Field(ge=0)
+    ghost_after: int = Field(ge=0)
+    ghost_h: float
+    ghost_gap: float
+    ghost_widths: list[float] = Field(min_length=1)
+    orig_size: float
+    orig_line_h: float
+    orig_gap: float
+    orig_lines_max: int = Field(ge=1)
+    trans_gap: float
+    trans_size: float
+    trans_line_h: float
+    trans_lines_max: int = Field(ge=1)
+    trans_pad_x: float
+    trans_bar_w: float
+    trans_bar_pad: float
+    trans_delay_sec: float = Field(ge=0)
+    trans_fade_sec: float = Field(ge=0.55)
+    trans_rise_px: float
+    alpha_floor: float = Field(gt=0)
+    after_gap: float
+    underline_delay_sec: float = Field(ge=0)
+    underline_grow_sec: float = Field(gt=0)
+    underline_w: float
+    underline_dy: float
+    src_gap: float
+    scale_from: float = Field(gt=0, le=1)
+    fade_sec: float = Field(ge=0.6, le=0.9)
+
+
+class EraNumeralLayout(_Strict):
+    """v7.4.0 UF-401 ③ — era_numeral(큰 연도 숫자) 레이아웃 토큰(설계 px)."""
+
+    x: float
+    y: float
+    size: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+    roll_sec: float = Field(gt=0)
+    roll_px: float
+    label_chars_max: int = Field(ge=4)
+    steps_max: int = Field(ge=1)
+    fade_sec: float = Field(ge=0.6, le=0.9)
+
+
 class PrimitivesRules(_Strict):
     """v4.2.0 D-0081 작업 4 — 프리미티브별 레이아웃 토큰(engine.style.PRIMITIVES). 요소가 등록될 때 필드를 더한다."""
 
     statement_diff: Optional[StatementDiffLayout] = None
     dot_plot: Optional[DotPlotLayout] = None   # v4.4.0 D-0090 작업 3
     site_diagram: Optional[SiteDiagramLayout] = None   # v4.4.0 dmz_mine_2026 사용자 요청(현장 개념도)
+    process_lane: Optional[ProcessLaneLayout] = None   # v7.4.0 UF-400 과정 도식(영상 분석)
+    doc_excerpt: Optional[DocExcerptLayout] = None   # v7.4.0 UF-400 1차 문서 발췌(영상 분석)
+    era_numeral: Optional[EraNumeralLayout] = None   # v7.4.0 UF-401 ③ 큰 연도 숫자
 
 
 # ---------------------------------------------------------------- v5.7.0 스케치 계층(sketch/, D-0140 D130)
@@ -3682,6 +3945,10 @@ class VideoRules(_Strict):
         bad = sorted(set(self.genre_prompt.stage_grammar) - set(self.registries.stages))
         if bad:
             raise ValueError(f"genre_prompt.stage_grammar 의 무대가 registries.stages 에 없다: {bad}")
+        reg = self.registries
+        bad = sorted(set(self.pacing.sentence_change.change_kinds) - set(reg.event_types))
+        if bad:
+            raise ValueError(f"pacing.sentence_change.change_kinds 가 registries.event_types 에 없다: {bad}")   # v7.4.0 UF-400
         bad = sorted(f"{n}→{st}" for n, sl in self.placement.slots.items() for st in (sl.stages or []) if st not in self.registries.stages)
         if bad:
             raise ValueError(f"placement.slots 의 stages 가 registries.stages 에 없다: {bad}")   # v5.2.0 D-0132

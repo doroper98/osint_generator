@@ -3454,3 +3454,15 @@ last_review: 2026-06-06
 - 2026-11-03 v7.4.0 감독 D621 ②③ — [backdrop-subject-background]·[backdrop-subject-unmatched] hard(backdrop for ↔ 레지스트리 main_subject, D616 ④), [island-text-contrast] hard(사진 배경 위 아일랜드 글자 대비, 렌더 경로 합성 97 백분위 ↔ qa_checks.map_contrast_text, D619·UF-304 장치) — tests/test_backdrop_subject_contrast.py
 - 2026-11-03 v7.4.0 감독 D622 — 구성 무대 강조 글자(초점 라벨·총지출 줄 강조) = stage_structure.focus_text(white), gold 글자 폐지(막대 면은 accent 그대로·전역 gold 무변경). [island-text-contrast] 글자색 = 무대별 목록 + 구성 focus_text·차트 그 시간 series col. 예산안 실측 3.93~4.15 → 최저 5.02(muted)
 - 2026-11-03 v7.4.0 RENDER-AP-033 — 예산안 완성본 345초 기사 번역 줄 '與' 두부(전달 뒤 발견): 글리프 검사·전수 검사가 레지스트리 문자열 포함(engine.checks.event_strings), art_0003 headline '여당' — tests/test_glyph_registry_strings.py
+
+## 2026-11-02 v7.4.0 — 레퍼런스 영상 분석 → 정치사 템플릿·새 요소 둘(UF-400)
+
+- 무엇을: 사용자 업로드 해설 영상(12:04) 실측 — 하드 컷 0, 최장 정지 2.4초, 자막 덩어리 분당 17.1, 말하는 동안 분당 약 409음절(우리 기준 작품 367), 쉼 중앙값 0.25~0.30초(우리 0.9). 장치 19종 대조 → 신설 process_lane·doc_excerpt·political_history·genre_map 프롬프트 층·recurring_model, 보완 sentence_still 검사.
+- 왜: 사용자 지시 UF-400. 레퍼런스의 강점은 '설명 모형을 한 번 세우고 사례마다 되부르는' 서사와 문장마다 요소가 바뀌는 밀도. 겉모양(색·글꼴·조판)은 우리 토큰으로 새로 짰다(LLM-AP-022·UF-202).
+- 막힌 것: anti_inertia 6건 실패 = 골든 자산 부재 3(환경) + 원장 기존 문제 1(UF-203·204 분류) + 이 브랜치 원장의 samsung open 10건 경보 1(경제 브랜치에선 guarded) + 장부 표 재생성 1(해결).
+
+## 2026-11-03 v7.4.0 — UF-401 사용자 결정 반영: 정치사 템플릿 승인·후속 장치 7종
+
+- 무엇을: process_lane·doc_excerpt 승인, political_history approved, tempo 현행 유지. 후속 장치 순서대로 — 뱃지 pulse·strike·question, checklist open, photo·clip spot, era_numeral, route flow, network drop·crowd. 모두 선택 필드(안 쓰면 dict 옛 모양), 수치는 rules, 요소 문법은 genre_prompt.element_grammar.
+- 왜: 사용자 결정 "동의 하고 순차적으로 다 반영해". 사실 경계(strike = 확인된 숙청·사망만, crowd 점 수 = 수치 아님, 연도 = 원고 날짜의 해만, dim = 덮개)를 문법과 검증에 같이 넣었다.
+- 시행착오: 시험이 도는 중 규칙 파일을 고쳐 콘티 판 렌더 조각이 반쯤 바뀐 규칙을 읽고 실패 — 현 코드 재현에서 정상 완료(fed_timeline_demo 2조각). 시험 중에는 규칙·엔진 파일을 고치지 않는다. 샘플에 실존 인물 초상을 썼다가 X 표시가 실존 인물 위에 그려져 폐기, 실루엣으로 다시 렌더.

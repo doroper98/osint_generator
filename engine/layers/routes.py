@@ -95,6 +95,40 @@ def log_shape(ctx: cairo.Context, pts: "np.ndarray", col: tuple, a: float, name:
         typography.CONTRAST_LOG.append(("shape", (px, py, -dy / n, dx / n), tuple(col[:3]), a, name))
 
 
+FLOW = load_rules().layout_480p.route_flow   # v7.4.0 UF-401
+
+
+def flow_points(S_: np.ndarray, lt: float) -> list[tuple[float, float, float]]:  # noqa: N803
+    """선 위를 흐르는 점 [(x, y, 알파 배율)] — 곡선 길이 비율 위치 = (lt × speed + i / dots) mod 1. 출발·도착 근처는 edge_fade 로 옅게."""
+    seg = np.hypot(*np.diff(S_, axis=0).T)
+    cum = np.concatenate([[0.0], np.cumsum(seg)])
+    total = float(cum[-1])
+    if total <= 0 or lt <= 0:
+        return []
+    out = []
+    for i in range(FLOW.dots):
+        u = (lt * FLOW.speed + i / FLOW.dots) % 1.0
+        d = u * total
+        j = int(np.clip(np.searchsorted(cum, d) - 1, 0, len(seg) - 1))
+        f = 0.0 if seg[j] == 0 else (d - cum[j]) / seg[j]
+        x, y = S_[j] + (S_[j + 1] - S_[j]) * f
+        edge = min(u, 1 - u)
+        out.append((float(x), float(y), min(1.0, edge / FLOW.edge_fade) if FLOW.edge_fade > 0 else 1.0))
+    return out
+
+
+def draw_flow(ctx: cairo.Context, S_: np.ndarray, col: tuple, a: float, lt: float) -> None:  # noqa: N803
+    """선이 다 그려진 뒤(lt = 그 뒤 경과) 점들이 출발 → 도착으로 흐른다(v7.4.0 UF-400·UF-401, 영상 분석 D3)."""
+    fa = a * smooth(lt / FLOW.fade_in_sec)
+    if fa <= 0:
+        return
+    for x, y, k in flow_points(S_, lt):
+        ctx.new_path()
+        ctx.arc(x, y, FLOW.r, 0, 2 * math.pi)
+        ctx.set_source_rgba(*col, FLOW.alpha * fa * k)
+        ctx.fill()
+
+
 def draw_route(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
     a = window(t, e["t0"], e["t1"], *ELEM["route"])
     if a <= 0.01:
@@ -122,6 +156,8 @@ def draw_route(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) 
         glow_line(ctx, sub, col, a * (0.75 if e.get("glow_only") else 1), 1.9, dash=[5, 4] if e.get("dashed") else None,
                   casing=casing)
     log_shape(ctx, sub, col, a, e.get("label") or e.get("col", "route"))   # v5.18.0 D-0161 §4 — 도형 대비 측정 표본
+    if e.get("flow") and prog >= 1:
+        draw_flow(ctx, S_, col, a, t - e["t0"] - e["grow"])
     if e.get("ship") and len(sub) > 1:
         (x0, y0), (x1, y1) = sub[-2], sub[-1]
         tanker(ctx, x1, y1, math.atan2(y1 - y0, x1 - x0), a)

@@ -191,6 +191,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     prov["reserved"] = {"avoidance": avoidance_report(P), "badge_delays": P.R.cache.get("badge_delays") or []}   # D-0033 §2 — 카드 영역 때문에 비킨·흐린 뱃지. badge_delays = v7.4.0 D-0329 ② 전면 덮개 뒤로 미룬 배지
     mus = sorted(r for r in (P.R.cache.get("credit_refs") or set()) if r.startswith("music."))
     segs = P.R.cache.get("bgm_segments", 1 if mus else 0)
+    prov["narration_clarity"] = P.R.cache.get("narration_clarity")   # v7.4.0 D-0626·D-0628 — 검사가 잰 경우만(mix 없으면 None)
     prov["audio"] = {"bgm": mus or None, "bed_gain": load_rules().audio.bed_gain,    # v3.4.0 — bgm null = 음악 없음(명시 상태, F1)
                      "crossfades": max(0, segs - 1),
                      **({"no_music_decision": nd} if (nd := (P.R.cache.get("music") or {}).get("no_music_decision")) else {})}   # v5.22.2 UF-16

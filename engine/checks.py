@@ -15,6 +15,8 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | media_upscaled | warning | 사진·영상·컷아웃 원본 픽셀 폭 < 출력 프로파일의 장치 폭(설계 폭 × k) — 추측 보간 금지, 알리기만(v3.6.0 D-0067 요건 3) |
 | labels | hard | 샘플 시각마다 도시 라벨 수 ≤ labels_per_frame_max |
 | date | hard | 문장 date 형식(YYYY / YYYY.MM / YYYY.MM.DD) — 날짜 배지는 이 값으로만 그린다 |
+| narration_clarity | hard | v7.4.0 D-0626·D-0628 — out/mix.f32 의 문장마다 목소리 음역 내레이션 대 (음악+효과음+클립 원음) 에너지 비 최저가 rules audio.qa.narration_clarity.min_db 미만 `[narration-clarity]`. hard_genres 영상만 hard — v7.4.0 D349 부터 등록 장르 전부(tests/test_narration_clarity 가 등록 장르 ⊆ hard_genres 고정). mix.f32 가 없으면 잴 것 없음(provenance 기록) |
+| narration_clarity_note | warning | 위와 같은 판정 — hard_genres 밖 장르. D349 뒤 등록 장르에서는 0(경로는 남김) |
 | subtitles | hard | 자막 줄 수 ≤ subtitle_lines_max(렌더러와 같은 wrap) |
 | rights | hard | 권리 점검(load_project 의 check_credits·validate_media)이 통과했으면 0 |
 | forbidden | hard | 도장·비네팅·모서리 브랜드: 레지스트리 밖 이벤트 타입 0, vignette 끔, 모서리 요소 = 날짜뿐. v4.5.0(D85): 프리뷰 컷에 그린 글자 중 검증 라벨 문구(`script_schema.labels`) 0 `[label-in-body]` |
@@ -61,7 +63,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | article_press_missing | warning | 인물 발언·발표 문장 구간 기사 카드에 press 사진 없음 `[article-press-missing]`(v7.4.0 UF-109·D-0229 §6) |
 | camera_bounds | hard | 요청 카메라가 무대 경계 밖이라 렌더 View 가 잘랐다 — 화면이 멈췄다가 이동 중간에 꺾임(지도·시간축·차트 아일랜드). camera_continuity·camera_speed 는 화면 궤적(`engine.camera.screen_track`)을 잰다(v7.1.0 UF-99·D-0220) |
 | portrait_unused | warning | 인물 이름이 나오고 초상이 있는데 그 인물 뱃지·인용 없음(v5.22.0 D-0200 UF-10) |
-| genre_elements | hard | 장르 요소(v4.2.0 D-0081 작업 3, GOAL G3-17): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 장르 프로필 primitives.reuse ∪ new |
+| genre_elements | hard | 요소 등록(v4.2.0 D-0081 작업 3, GOAL G3-17 · v7.4.0 UF-403 개정): direction 이 쓴 이벤트·패널·뱃지·프리미티브 종류(genres.elements) ⊆ 등록 요소 전부. 장르 프로필 primitives 는 추천 목록(장르 = 톤 프리셋) |
 | chart_honesty | hard | 차트 정직성(v4.3.0 D-0084 작업 5·D-0087, 20 §5.3): 막대 0 기준선·압축 구간 ↔ 물결 라벨·%/%p·이중 축 라벨·색·로그 척도 표기 (`engine.honesty`) |
 | series_limit_3 | hard | 한 차트(레인·패널)의 계열 ≤ qa_checks.series_max |
 | units_visible | hard | 화면 단위(레인 이름·패널 unit·y_prefix) ∈ rules data.units·unit_prefixes |
@@ -69,6 +71,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | geo_unsourced | warning | v4.7.0(D-0107 D2(b)): 지도 무대 places·paths·인라인 좌표 marker·route 가 지명 사전과 대조되지 않음 `[geo-unsourced]`(provenance geo.unsourced[]). v4.10.0: 사전(`data/gazetteer.yaml`)에 없는 이름·paths·route 만 |
 | geo_mismatch | hard | v4.10.0(D-0116 B-1): place 키·그 place 를 쓰는 marker label·인라인 marker label 이 지명 사전과 맞는데 좌표가 맞은 항목 모두의 tol_km 밖 `[geo-mismatch]`(provenance geo.mismatch[]) — `geo.gazetteer` |
 | static_window | warning | v4.11.0(D-0118 §1): 지도 무대(전면 카드·패널 덮개 밖)의 어떤 pacing.static_window.window_sec 창이든 change_kinds 변화(이벤트 등장 t0·카메라 키) < min_changes `[static-window] t0-t1 changes=n`(provenance pacing.static_windows[]). 표시된 범위에는 느린 푸시인(creep). `engine.pacing` |
+| sentence_still | warning | v7.4.0(UF-400 영상 분석): min_sentence_sec 이상 문장 동안 pacing.sentence_change.change_kinds 이벤트 등장(t0 ∈ [시작 − lead_sec, 끝])이 0 `[sentence-still] sid t0-t1`. 카메라 이동은 세지 않는다(C0). `engine.pacing.still_sentences` |
 | timeline_rescale | hard | v5.1.0(D-0121 §A): 시간축 무대 숏의 w 변화가 장면 안(scene_fixed)·영상당 > axis_scale.w_changes_per_video_max·비율 < w_change_ratio_min `[timeline-rescale] t w a→b (이유)`(provenance timeline.w_changes[]). 지도 무대 제외 `engine.shots` |
 | backdrop_rights | hard | v5.1.0(D-0123 §3): backdrop 배경 사진이 미디어 레지스트리 kind photo·rights_clear·파일 있음이 아님 `[backdrop-rights]`(렌더 전 preflight 도 같은 게이트) `engine.layers.backdrop` |
 | backdrop_repeat | hard | v5.1.0(D-0123 §3): 연속 두 배경이 같은 사진 `[backdrop-repeat]`, 서로 다른 사진 수가 stage_backdrop.min_photos~max_photos 밖 `[backdrop-photos]`(provenance backdrop.photos[]) |
@@ -145,13 +148,14 @@ QA = R_.qa_checks
 SG = R_.shot_grammar
 SAMPLE_SEC = 1.0          # 뱃지·라벨 샘플 간격
 SHADOW_PX = 7             # badge_box 가 원 둘레에 더하는 그림자 여백 — 이만큼 잘리는 것은 허용
-HARD = ("map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
+HARD = ("narration_clarity",   # v7.4.0 D-0626·D-0628 — 내레이션 명료도(rules audio.qa.narration_clarity.hard_genres 장르만)
+        "map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
         "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled", "map_event_covered", "spoken_number_visible", "sa_obligation", "structure_text_offscreen", "data_stage_bare_on_backdrop", "island_inner_pad", "lane_empty", "backdrop_subject", "island_text_contrast")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
-        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age")   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
+        "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age", "narration_clarity_note", "sentence_still")   # sentence_still v7.4.0 UF-400   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
 
 
 def missing_fonts() -> list[str]:
@@ -865,6 +869,14 @@ def check_static_window(P) -> list[str]:  # noqa: ANN001, N803
             f"종류 {', '.join(w['kinds']) or '없음'})" for w in pc.get("static_windows") or []]
 
 
+def check_sentence_still(P) -> list[str]:  # noqa: ANN001, N803
+    """문장 단위 변화(v7.4.0 UF-400) — warning. 계산은 engine.pacing.still_sentences 한 곳."""
+    from engine.pacing import still_sentences  # noqa: PLC0415
+
+    return [f"[sentence-still] {s['sid']} {s['t0']:.1f}-{s['t1']:.1f} — 문장 동안 화면 요소 변화 0(카메라 이동은 세지 않는다 — 요소 등장·강조로)"
+            for s in still_sentences(P.plan.sentences, P.events)]
+
+
 def check_timeline_rescale(P) -> list[str]:  # noqa: ANN001, N803
     """시간축 축 스케일(v5.1.0 D-0121 §A) — engine.shots.timeline_rescale 한 곳, 입력 = provenance timeline.w_changes 와 같은 값."""
     from engine.shots import timeline_rescale  # noqa: PLC0415
@@ -1300,6 +1312,39 @@ def static_windows(times: list[float], track: list[tuple[float, float, float]], 
     return out
 
 
+def narration_clarity_report(P) -> "dict | None":  # noqa: ANN001, N803
+    """out/mix.f32 의 문장별 명료도(audio.qa.narration_clarity) — 한 번만 재고 P.R.cache 에. mix 가 없으면 None."""
+    if "narration_clarity" in P.R.cache:
+        return P.R.cache["narration_clarity"]
+    from audio.qa import narration_clarity, stems  # noqa: PLC0415
+
+    f = P.root / "out" / "mix.f32"
+    rep = None
+    if f.exists():
+        mix, vo, _ = stems(f, P.plan.sentences)
+        per = narration_clarity(mix, vo, P.plan.sentences)
+        worst = sorted(per.items(), key=lambda kv: kv[1])
+        rep = {"min_db": worst[0][1] if worst else None, "worst": worst[:3], "sentences": len(per)}
+    P.R.cache["narration_clarity"] = rep
+    return rep
+
+
+def check_narration_clarity(P, hard: bool) -> list[str]:  # noqa: ANN001, N803
+    """[narration-clarity] — 장르가 rules hard_genres 안이면 hard 쪽(hard=True)에서, 밖이면 warning 쪽(hard=False)에서만 낸다."""
+    cfg = R_.audio.qa.narration_clarity
+    if cfg is None:
+        return []
+    genre = (P.R.cache.get("genre") or {}).get("name")
+    if (genre in cfg.hard_genres) != hard:
+        return []
+    rep = narration_clarity_report(P)
+    if not rep or rep["min_db"] is None or rep["min_db"] >= cfg.min_db:
+        return []
+    ws = " · ".join(f"{s} {v:+.1f}" for s, v in rep["worst"])
+    return [f"[narration-clarity] 목소리 음역 내레이션 대 음악·효과음 최저 {rep['min_db']:.1f} dB < {cfg.min_db:g} — 가장 낮은 문장 {ws}. "
+            "bed_gain 은 그대로 두고 연출 sound.intensity·효과음 세기로 그 구간을 낮춘다(D-0626·D-0628)"]
+
+
 def check_static_camera(P) -> list[str]:  # noqa: ANN001, N803
     """v7.4.0 D-0241 §1 — [static-camera] hard(정지 구간) + [drift-too-fast] hard(drift 숏 속도 > rules camera.drift_speed_max)."""
     from engine.camera import screen_track, speed  # noqa: PLC0415
@@ -1640,8 +1685,19 @@ def panel_box() -> tuple[float, float, float, float]:
     return m, pl.title_y - pl.title_size, W_OUT - m, R_.layout_480p.reserved_zones.subtitle.y_from
 
 
-def cards_over_panel(events: list[dict], boxes: "Callable[[dict], list[tuple] | None]") -> list[tuple[dict, dict, float]]:
-    """(덮는 요소, 패널, 겹친 시작 시각). boxes(e) = 그 요소의 제자리 화면 상자들(None = 화면 전체 덮개로 본다)."""
+def placed_media_box(e: dict, media_assets: "dict | None") -> "list[tuple] | None":
+    """배치된 사진·영상(x·y·w)의 제자리 상자. 배치가 없거나 레코드가 없으면 None(화면 덮개로 본다)."""
+    from engine.media_plan import media_box  # noqa: PLC0415
+
+    if e["type"] in ("photo", "clip") and "x" in e and media_assets and e.get("mid") in media_assets:
+        return [tuple(media_box(e, media_assets))]
+    return None
+
+
+def cards_over_panel(events: list[dict], boxes: "Callable[[dict], list[tuple] | None]",
+                     media_boxes: "Callable[[dict], list[tuple] | None] | None" = None) -> list[tuple[dict, dict, float]]:
+    """(덮는 요소, 패널, 겹친 시작 시각). boxes(e) = 그 요소의 제자리 화면 상자들(None = 화면 전체 덮개로 본다).
+    media_boxes(e) = versus 패널 위 사진·영상의 제자리 상자(v7.4.0 D-0629 §3, 없으면 화면 덮개)."""
     cfg = R_.qa_checks.card_over_panel
     if cfg is None:
         return []
@@ -1652,15 +1708,18 @@ def cards_over_panel(events: list[dict], boxes: "Callable[[dict], list[tuple] | 
     for p in (e for e in events if e["type"] == "panel"):
         a, b = p["t0"] + fade, p["t1"] - fade
         kinds = set(cfg.cover_types) | (set(cfg.cover_types_on_data_panels) if data_records([p]) else set())
+        versus_media = set()
         if p.get("kind") == "versus":
             kinds.discard("badge")   # badge_over_panel 이 보고한다(중복 없음)
+            versus_media = set(cfg.cover_types_on_versus_panels) - kinds
+            kinds |= versus_media
         for e in events:
             if e["type"] not in kinds:
                 continue
             ov = min(b, e["t1"]) - max(a, e["t0"])
             if ov <= cfg.min_overlap_sec:
                 continue
-            bx = boxes(e)
+            bx = (media_boxes(e) if media_boxes else None) if e["type"] in versus_media else boxes(e)
             if bx is None or any(x0 < px1 + pad and x1 > px0 - pad and y0 < py1 + pad and y1 > py0 - pad for x0, y0, x1, y1 in bx):
                 out.append((e, p, max(a, e["t0"])))
     return out
@@ -1681,7 +1740,8 @@ def check_card_over_panel(P) -> list[str]:  # noqa: ANN001, N803
         return None   # 기사·인용·사진·영상·컷아웃·뱃지 = 화면 덮개로 본다(시간 겹침, D-0249)
 
     return [f"[card-over-panel] {e['type']} {e.get('tag') or e.get('mid') or e.get('title') or ''!s} t={t:.1f} — 패널 {p.get('kind')} {p.get('title')!r} 위. "
-            "패널 앞에 끝내거나 뒤에 시작한다(UF-129)" for e, p, t in cards_over_panel(P.events, boxes)] + [
+            "패널 앞에 끝내거나 뒤에 시작한다(UF-129). versus 패널이면 두 기둥을 다 보이게 한다(D-0629 §3, C0 같은 무게)"
+            for e, p, t in cards_over_panel(P.events, boxes, lambda e: placed_media_box(e, P.R.assets.media_assets))] + [
         f"[card-over-panel] {e['type']} {e.get('tag') or e.get('label') or e.get('mid') or e.get('title') or ''!s} t={t:.1f} — 시간축 틀 안 시리즈 레인 "
         f"{lane} 위({ov:.1f}초). 사건 레인·틀 밖 자리로 옮기거나 뺀다(UF-129, D-0259)" for e, lane, t, ov in timeline_lanes_covered(P)]
 
@@ -2764,14 +2824,14 @@ def check_stage_continuity(P) -> list[str]:  # noqa: ANN001, N803
 
 
 def check_genre_elements(P) -> list[str]:  # noqa: ANN001, N803
-    """장르 요소 — 연출이 쓴 요소가 장르 프로필(reuse ∪ new) 밖이면 요소마다 한 줄. 상세는 "[genre-element] …"."""
+    """요소 등록 — 연출이 쓴 요소가 등록 요소(registries event_types·panel_kinds·badge_kinds·primitives) 밖이면 요소마다 한 줄.
+    v7.4.0 UF-403: 장르는 톤 프리셋이다 — 장르 프로필 primitives(reuse ∪ new)는 추천 목록이지 허용 목록이 아니다. 어떤 장르든 등록 요소는 모두 쓴다."""
     from genres.elements import outside  # noqa: PLC0415
-    from genres.load import load_genre  # noqa: PLC0415
+    from schemas.genre_models import registered_elements  # noqa: PLC0415
 
     g = P.R.cache["genre"]
-    prof = load_genre(g["name"])
-    return [f"[genre-element] {name!r} ×{n} — 장르 {prof.genre!r} 프로필 primitives(reuse ∪ new)에 없다"
-            for name, n in outside(g["elements_used"], prof.elements()).items()]
+    return [f"[genre-element] {name!r} ×{n} — 등록 요소가 아니다(registries)"
+            for name, n in outside(g["elements_used"], registered_elements()).items()]
 
 
 def check_subtitles(P) -> list[str]:  # noqa: ANN001, N803
@@ -3015,6 +3075,8 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "backdrop_subject": lambda: check_backdrop_subject(P),                   # v7.4.0 감독 D621 ②(hard, D616 ④)
         "island_text_contrast": lambda: check_island_text_contrast(P),           # v7.4.0 감독 D621 ③(hard, D619·UF-304)
         "photo_age": lambda: check_photo_age(P),                                 # v7.4.0 D-0327(warning)
+        "narration_clarity": lambda: check_narration_clarity(P, hard=True),       # v7.4.0 D-0626·D-0628 [narration-clarity]
+        "narration_clarity_note": lambda: check_narration_clarity(P, hard=False),
         "series_date_convention": lambda: check_series_date_convention(P),   # v7.4.0 D-0326(warning)
         "chart_world_split": lambda: check_chart_world_split(P),   # v7.4.0 D-0251 §6.2-2(hard, UF-135 ②)
         "series_label_overlap": lambda: check_series_label_overlap(P),   # v7.4.0 D-0256(hard)
@@ -3044,6 +3106,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "geo_unsourced": lambda: check_geo_unsourced(P),
         "geo_mismatch": lambda: check_geo_mismatch(P),
         "static_window": lambda: check_static_window(P),
+        "sentence_still": lambda: check_sentence_still(P),   # v7.4.0 UF-400(warning, 영상 분석)
         "timeline_rescale": lambda: check_timeline_rescale(P),
         "backdrop_rights": lambda: list((P.R.cache.get("backdrop") or {}).get("rights") or []),
         "backdrop_repeat": lambda: list((P.R.cache.get("backdrop") or {}).get("repeat") or []),

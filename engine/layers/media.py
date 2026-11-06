@@ -141,6 +141,42 @@ def ken_burns_source(ctx: cairo.Context, src: cairo.ImageSurface, x: float, y: f
     ctx.set_source(pat)
 
 
+SPOT = load_rules().layout_480p.media_spot   # v7.4.0 UF-401
+
+
+def draw_spot(ctx: cairo.Context, t: float, e: dict, x: float, y: float, w: float, h: float, a: float) -> None:
+    """사진·영상 속 한 사람 점선 원(v7.4.0 UF-400·UF-401, 영상 분석 D15). 그림 영역 (x, y, w, h) 안 좌표.
+    원은 12시 방향부터 draw_sec 동안 그어지고, dim 이면 원 밖이 dim_fade_sec 동안 어두워진다(화면 덮개 — 원본 화소 가공 아님)."""
+    sp = e.get("spot")
+    if not sp:
+        return
+    st = e["t0"] if sp.get("t") is None else sp["t"]
+    lt = t - st
+    if lt <= 0:
+        return
+    cx, cy, r = x + sp["x"] * w, y + sp["y"] * h, sp["r"] * w
+    ctx.save()
+    ctx.rectangle(x, y, w, h)
+    ctx.clip()
+    if sp.get("dim"):
+        ctx.set_fill_rule(cairo.FILL_RULE_EVEN_ODD)
+        ctx.rectangle(x, y, w, h)
+        ctx.new_sub_path()
+        ctx.arc(cx, cy, r, 0, 2 * math.pi)
+        ctx.set_source_rgba(0, 0, 0, SPOT.dim_alpha * smooth(lt / SPOT.dim_fade_sec) * a)
+        ctx.fill()
+        ctx.set_fill_rule(cairo.FILL_RULE_WINDING)
+    g = ease_out(lt / SPOT.draw_sec)
+    ctx.new_path()
+    ctx.arc(cx, cy, r, -math.pi / 2, -math.pi / 2 + 2 * math.pi * g)
+    ctx.set_source_rgba(*SPOT.line_rgb, SPOT.line_alpha * a)
+    ctx.set_line_width(SPOT.line_w)
+    ctx.set_dash(SPOT.dash)
+    ctx.stroke()
+    ctx.set_dash([])
+    ctx.restore()
+
+
 def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
     a = window(t, e["t0"], e["t1"], *ELEM["photo"])   # v7.4.0 UF-159 ×1.5
     if a <= 0.01:
@@ -158,6 +194,7 @@ def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     ken_burns_source(ctx, R.assets.original(f"media:{m.file}"), x, y, w, h, k)
     ctx.paint_with_alpha(a)
     ctx.restore()
+    draw_spot(ctx, t, e, x, y, w, h, a)
     ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + bar - 1)
     ctx.set_source_rgba(1, 1, 1, 0.22 * a)
     ctx.set_line_width(1)
@@ -186,6 +223,7 @@ def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
     media_frame(ctx, x, y, w, h + bar, a)
     set_raster(ctx, surf, OP.k, x, y)
     ctx.paint_with_alpha(a)
+    draw_spot(ctx, t, e, x, y, w, h, a)
     ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + bar - 1)
     ctx.set_source_rgba(1, 1, 1, 0.22 * a)
     ctx.set_line_width(1)

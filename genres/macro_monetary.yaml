@@ -15,6 +15,7 @@ status: proposed                 # proposed | approved (사용자 승인 후)
 stage:
   primary: backdrop              # v5.1.0 D-0123 §2(사용자 확인 D108) — 기본 무대(default_stage) = 사진 배경 + 차트 아일랜드. 옛 값 timeline(§2.1)
   secondary: [timeline]          # 차트 아일랜드·순수 차트 영상(데모). 옛 값 chart_wall(구현 전, registries.stages_planned) — 보조 무대 상한 1(rules stage.max_secondary)
+  mercator: {theme: light}       # v7.4.0 UF-403 — 장르 = 톤 프리셋: 연출이 지도 무대를 고르면 이 기본 테마(D154 지정학·경제 = light)
   timeline:
     lanes:
       - {id: policy_rate, label: 기준금리, kind: step, unit: "%"}

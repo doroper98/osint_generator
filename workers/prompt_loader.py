@@ -176,7 +176,7 @@ def _genre_placeholders(rules: VideoRules, g: GenreProfile) -> dict[str, str]:
     """`{{GENRE.<키>}}` → 치환 문자열. 문장은 규칙 파일(rules genre_prompt), 켜고 끄는 것은 장르 프로필(15 P3 — 코드 문장 0)."""
     gp = rules.genre_prompt
     primary = g.stage.primary
-    if primary not in gp.stage_grammar:
+    if primary not in gp.stage_grammar and primary != "mercator":   # v7.4.0 UF-400 — 지도 주 무대의 문법은 기본 프롬프트 본문(지도 문법)이 맡는다
         raise PromptTemplateError(f"장르 {g.genre}: 주 무대 {primary!r} 의 문법이 rules genre_prompt.stage_grammar 에 없다")
     tl = g.stage.timeline
     lanes = (_bullets([f"{ln.id} — {ln.label} ({ln.kind}{', 단위 ' + ln.unit if ln.unit else ''})" for ln in tl.lanes])
@@ -195,7 +195,7 @@ def _genre_placeholders(rules: VideoRules, g: GenreProfile) -> dict[str, str]:
         "{{GENRE.name}}": g.genre,
         "{{GENRE.status}}": g.status,
         "{{GENRE.stages}}": primary + (f" (보조: {', '.join(sec)})" if (sec := [x for x in g.stage.secondary if x in rules.registries.stages]) else ""),   # 구현 전 무대(planned)는 보이지 않는다
-        "{{GENRE.stage_grammar}}": _bullets(gp.stage_grammar[primary]),
+        "{{GENRE.stage_grammar}}": _bullets(gp.stage_grammar[primary]) if primary in gp.stage_grammar else "(위 지도 문법)",
         "{{GENRE.lanes}}": lanes,
         "{{GENRE.colors}}": _bullets([f"{k}: {v}" for k, v in g.color_semantics.items()]),
         "{{GENRE.elements}}": ", ".join(sorted(g.elements() & set(_registered(rules)))),
@@ -226,7 +226,8 @@ def genre_block(name: str, rules: VideoRules, genre: GenreProfile | None) -> str
     """`{{GENRE_BLOCK}}` 의 내용. 기본 장르·미지정 = ""(바이트 동일). 그 밖은 `prompts/genre_<name>.md`(없으면 오류)."""
     if genre is None or genre.genre == rules.genre_prompt.base_genre:
         return ""
-    path = prompt_path(f"genre_{name}")
+    # v7.4.0 UF-400 — 지도가 주 무대인 장르(정치사 등)는 지도 문법을 그대로 쓰고 장르 요소·서술만 더하는 지도형 문단(prompts/genre_map_<name>.md)
+    path = prompt_path(f"genre_map_{name}" if genre.stage.primary == "mercator" else f"genre_{name}")
     if not path.exists():
         raise PromptTemplateError(f"{name}: 장르 {genre.genre} 문단 템플릿이 없다 — {path}")
     ph = _genre_placeholders(rules, genre)

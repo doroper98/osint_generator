@@ -226,6 +226,28 @@ def sentence_rms(sentences: list) -> dict[str, float]:  # noqa: ANN001
     return out
 
 
+def band_energy(x: np.ndarray, lo: float, hi: float) -> float:
+    """목소리 음역(lo~hi Hz) 파워 합(FFT)."""
+    X = np.fft.rfft(x)
+    fr = np.fft.rfftfreq(len(x), 1 / SR)
+    return float(np.sum(np.abs(X[(fr >= lo) & (fr <= hi)]) ** 2))
+
+
+def narration_clarity(mix: np.ndarray, vo: np.ndarray, sentences: list) -> dict[str, float]:  # noqa: ANN001
+    """v7.4.0 D-0626·D-0628 — 문장마다 목소리 음역(rules audio.bgm_floor.voice_band_hz)에서 내레이션 대 나머지(음악+효과음+클립 원음) 에너지 비(dB).
+    mix·vo = stems() 결과(같은 스케일). 나머지 = mix − vo — 효과음이 들어간 믹스면 효과음도 내레이션을 가리는 쪽으로 센다."""
+    lo, hi = AU.bgm_floor.voice_band_hz
+    rest = mix - vo
+    out: dict[str, float] = {}
+    for i, x in enumerate(sentences):
+        g = (lambda k: x.get(k)) if isinstance(x, dict) else (lambda k: getattr(x, k, None))  # noqa: E731
+        a, b = int(g("t0") * SR), int(g("t1") * SR)
+        if b - a < SR // 10:
+            continue
+        out[str(g("sid") or i)] = round(10 * math.log10(band_energy(vo[a:b], lo, hi) / max(band_energy(rest[a:b], lo, hi), AU.norm_eps)), 2)
+    return out
+
+
 def rms_outliers(srms: dict[str, float]) -> list[str]:
     """평균에서 audio.qa.sentence_rms_dev_db 넘게 벗어난 문장(warning 대상)."""
     if not srms:
@@ -265,4 +287,4 @@ def audio_qa(out_dir: Path, sentences: list, has_music: bool = True) -> AudioQA:
                    sentence_rms_db=srms, sentence_rms_outliers=rms_outliers(srms), **bb)
 
 
-__all__ = ["AudioQA", "BedStats", "Loudness", "audio_qa", "band_rms_db", "bed_stats", "load_bed_stats", "loudnorm_two_pass", "measure_loudnorm", "stems"]
+__all__ = ["band_energy", "narration_clarity", "AudioQA", "BedStats", "Loudness", "audio_qa", "band_rms_db", "bed_stats", "load_bed_stats", "loudnorm_two_pass", "measure_loudnorm", "stems"]

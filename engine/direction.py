@@ -316,14 +316,13 @@ class Direction(_Strict):
         for i, s in enumerate(self.shots):
             if s.camera.place is not None and s.camera.place not in self.places:
                 errs.append(f"shots[{i}]: camera.place {s.camera.place!r} 가 places 에 없다")
-        allowed = self.genre_profile().stage.names()   # v4.2.0 D-0081 작업 3 — 무대는 장르 프로필 안에서만
+        # v7.4.0 UF-403(사용자 "룩앤필을 만들어 두는거지 거기에 우겨넣는걸 원하는건 아니거든") — 장르는 톤 프리셋: 무대는 등록 무대 전부.
+        # 장르 stage.primary 는 기본값(다르면 stage_reason — checks stage_choice), 무대 전환·아일랜드 문법은 장르와 무관하게 같다(engine.shots)
+        allowed = list(load_rules().registries.stages)
         if self.stage is not None and self.stage not in allowed:
-            errs.append(f"stage {self.stage!r} 가 장르 {self.genre_name()!r} 프로필 무대 {allowed} 밖이다")
-        isl = self.genre_profile().stage.island_stages   # v7.4.0 D-0304 — 아일랜드 숏에만 허용
-        errs += [f"shots[{i}].stage {s.stage!r} 가 장르 {self.genre_name()!r} 프로필 무대 {allowed} 밖이다"
-                 + (f"(아일랜드 전용 {isl} 은 주 무대 backdrop 의 차트 아일랜드 숏만)" if s.stage in isl else "")
-                 for i, s in enumerate(self.shots) if s.stage is not None and s.stage not in allowed
-                 and not (s.stage in isl and is_island_shot(self, s, self.main_stage()))]
+            errs.append(f"stage {self.stage!r} 가 등록 무대 {allowed} 밖이다")
+        errs += [f"shots[{i}].stage {s.stage!r} 가 등록 무대 {allowed} 밖이다"
+                 for i, s in enumerate(self.shots) if s.stage is not None and s.stage not in allowed]
         from engine.stage import stage_class  # noqa: PLC0415
 
         used = {self.main_stage()} | {self.shot_stage(s) for s in self.shots}

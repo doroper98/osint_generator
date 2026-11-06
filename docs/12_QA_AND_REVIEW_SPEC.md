@@ -82,6 +82,8 @@ preview → prev/checks.json(결정적 검사 18항목)
 ### 2.2 장르 요소 검사 — v4.2.0
 
 `genre_elements`(hard)는 연출이 쓴 요소 종류(패널은 kind, 프리미티브는 id, 뱃지는 badge와 kind)가 장르 프로필의 reuse ∪ new 안인지 본다. 프로필 밖 요소는 요소마다 `[genre-element]` 한 줄이다.
+
+**v7.4.0 개정(UF-403, 사용자 "룩앤필을 만들어 두는거지 거기에 우겨넣는걸 원하는건 아니거든")**: 장르는 톤 프리셋이다. `genre_elements` 의 허용 집합은 장르 프로필이 아니라 **등록 요소 전부**(registries)다 — 장르 프로필 primitives 는 추천 목록이다. 무대도 등록 무대 전부를 고를 수 있고(장르 stage.primary = 기본값, 다르면 stage_reason — `stage_choice` 경고), 장르별 막 구성(`genre_prompt.acts`)은 참고 흐름이지 고정 막이 아니다.
 **게이트 ② 선행 조건(v5.2.0, PIPELINE-AP-014)**: 현재 `plan.json` 길이와 같은 콘티 판 기록(`out/animatic_provenance.json`, `animatic_run`)이 있어야
 `preview_approval` 승인이 된다(`orchestrator.project_manager.require_animatic`, 우회 없음). 게이트 기록 `shown.animatic` 에 경로·길이·연출 판 sha1.
 

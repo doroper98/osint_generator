@@ -16,13 +16,14 @@ from engine.assets import set_raster
 from engine.context import RenderCtx
 from engine.projection import View
 from engine.style import BADGE, BADGE_BG, C, H_OUT, MOTION, W_OUT
-from engine.timebase import ease_back, smooth, window
+from engine.timebase import ease_back, ease_out, smooth, window
 from engine.typography import rrect, text, tw
 
 
 FW = BADGE.flag_wave
 PT = BADGE.portrait
 RING = BADGE.ring
+CUE = BADGE.cue   # v7.4.0 UF-400·UF-401 — 재언급 맥동·숙청 X·물음표
 
 
 def wave_strips(dev_w: int) -> int:
@@ -345,6 +346,7 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
     ctx.set_source_rgba(*acc, RING.inner_alpha * a)
     ctx.set_line_width(RING.inner_w)
     ctx.stroke()
+    draw_cues(ctx, e, t, Rr, acc, a)
     ctx.restore()
     la = a * smooth((lt - 0.3) / MOTION["badge_label_in_sec"])   # v7.4.0 UF-159 ×1.5
     if e.get("label") and la > 0.01:
@@ -367,6 +369,60 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
                 text(ctx, e["role"], x, base + rs + LB.role_gap, rs, "sansm", acc, la, 2.6, "c")
     R.reserved.append((x - Rr - 10, y - Rr * (head_factor(e) if e["kind"] == "person" else BADGE.reserve_top_factor), x + Rr + 10,
                        y + Rr + BADGE.reserve_bottom_px))
+
+
+def draw_cues(ctx: cairo.Context, e: dict, t: float, Rr: float, acc: tuple, a: float) -> None:  # noqa: N803
+    """뱃지 신호(v7.4.0 UF-400·UF-401, 영상 분석 D1·D9·D10) — 뱃지 중심 원점 좌표에서 그린다(badge_at 의 변환 안).
+    pulse: 재언급 시각마다 accent 고리 pulse_rings 개가 pulse_grow 만큼 퍼지며 사라진다. strike: 붉은 X 두 획이 차례로 그어진다.
+    question: 오른쪽 위 말풍선 '?' 가 튀어나온다. 뱃지 자체는 다시 띄우지 않는다(머문다)."""
+    for p in e.get("pulse") or []:
+        for i in range(CUE.pulse_rings):
+            f = (t - p - i * CUE.pulse_stagger_sec) / CUE.pulse_sec
+            if 0 < f < 1:
+                ctx.new_path()
+                ctx.arc(0, 0, Rr + CUE.pulse_grow * ease_out(f), 0, 2 * math.pi)
+                ctx.set_source_rgba(*acc, CUE.pulse_alpha * (1 - f) * a)
+                ctx.set_line_width(CUE.pulse_w)
+                ctx.stroke()
+    mark = e.get("mark")
+    if mark is None:
+        return
+    mt = e.get("mark_t")
+    lt = t - (e["t0"] if mt is None else mt)
+    if lt <= 0:
+        return
+    if mark == "strike":
+        col = C[CUE.strike_color]
+        h = Rr * CUE.strike_extent
+        for i, (sx, sy) in enumerate(((-1, -1), (1, -1))):
+            g = ease_out((lt - i * CUE.mark_draw_sec / 2) / (CUE.mark_draw_sec / 2))
+            if g <= 0:
+                continue
+            ctx.new_path()
+            ctx.move_to(sx * h, sy * h)
+            ctx.line_to(sx * h - sx * 2 * h * g, sy * h - sy * 2 * h * g)
+            ctx.set_source_rgba(*col, CUE.strike_alpha * a)
+            ctx.set_line_width(CUE.strike_w)
+            ctx.set_line_cap(cairo.LINE_CAP_ROUND)
+            ctx.stroke()
+        return
+    k = ease_back(lt / CUE.q_pop_sec)
+    if k <= 0.01:
+        return
+    qx, qy = Rr * CUE.q_dx, Rr * CUE.q_dy
+    ctx.save()
+    ctx.translate(qx, qy)
+    ctx.scale(k, k)
+    ctx.new_path()
+    ctx.arc(0, 0, CUE.q_r, 0, 2 * math.pi)
+    (ax, ay), (bx, by), (cx, cy) = CUE.q_tail                # 말풍선 꼬리(뱃지 쪽)
+    ctx.move_to(CUE.q_r * ax, CUE.q_r * ay)
+    ctx.line_to(CUE.q_r * bx, CUE.q_r * by)
+    ctx.line_to(CUE.q_r * cx, CUE.q_r * cy)
+    ctx.set_source_rgba(*CUE.q_bg, a)
+    ctx.fill()
+    ctx.restore()
+    text(ctx, "?", qx, qy + CUE.q_size * CUE.q_baseline * k, CUE.q_size * k, "sansb", CUE.q_ink, a, 0, "c")
 
 
 def badge_box(ctx: cairo.Context, e: dict, x: float, y: float, t: float | None = None) -> tuple[float, float, float, float]:

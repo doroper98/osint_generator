@@ -75,9 +75,7 @@ class GenreStage(_Strict):
             raise ValueError(f"stage.island_stages {self.island_stages} 는 주·보조 무대와 겹치지 않고 중복 없음")
         if self.island_stages and self.primary != "backdrop":
             raise ValueError("stage.island_stages 는 주 무대 backdrop 에서만(차트 아일랜드 = 사진 배경 위 뷰포트, D-0126 Q1)")
-        stray = sorted(set(self.settings()) - set(self.all_names()))
-        if stray:
-            raise ValueError(f"stage: 주·보조·아일랜드 무대가 아닌 무대의 설정 {stray}")
+        # v7.4.0 UF-403 — 장르는 톤 프리셋: 무대별 기본 설정(예: 지도 테마)은 주·보조 무대가 아니어도 둔다(연출이 그 무대를 고르면 기본값이 된다)
         return self
 
 
@@ -111,6 +109,7 @@ class GenreNarration(_Strict):
     company_metric_attribution: bool = False     # v7.4.0 D-0278 §4.3 — 회사 산정 지표(비GAAP·가이던스) 귀속
     consensus_attribution: bool = False          # v7.4.0 D-0278 §4.3 — 예상치 = 집계 기관 + 매체 귀속
     price_window_attribution: bool = False       # v7.4.0 D-0278 §4.3 — 주가 반응 창(시간외·종가) 명시
+    recurring_model: bool = False                # v7.4.0 UF-400 — 설명 모형을 한 번 세우고 사례마다 되부른다(영상 분석 §5.3)
     avoid: list[str] = Field(default_factory=list)
 
 
@@ -148,7 +147,7 @@ class GenreProfile(_Strict):
         return v
 
     def elements(self) -> set[str]:
-        """이 장르에서 연출이 쓸 수 있는 요소 이름(reuse ∪ new) — checks genre_elements 의 허용 집합."""
+        """이 장르의 추천 요소 이름(reuse ∪ new) — 프롬프트 안내용. v7.4.0 UF-403: 허용 집합이 아니다(연출은 등록 요소 전부를 쓴다, checks genre_elements)."""
         return set(self.primitives.reuse) | set(self.primitives.new)
 
     @model_validator(mode="after")
