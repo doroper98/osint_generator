@@ -170,6 +170,26 @@ class PackageCheckTest(unittest.TestCase):
             self.assertTrue(D.check_package("제목", "설명", ["가나다라마바사"] * 70, h, thumb))
             self.assertTrue(D.check_package("제목", "설명", ["태그"], ["#가", "#나"], thumb))
 
+    def test_full_authors_replace_card_ellipsis(self) -> None:
+        """D-0323 §2 — 엔딩 카드 폭 때문에 자른 credit_author '…' 는 설명문에서 레지스트리 원본 author 로."""
+        m = types.SimpleNamespace(credit_author="U.S. Air National Guard photo by Senio… · Public domain",
+                                  author="U.S. Air National Guard photo by Senior Airman Gwendalyn Smith")
+        got = D.full_authors(["사진: 에이미 액턴 후보 — U.S. Air National Guard photo by Senio… · Public domain"], {"media.x"}, {"x": m})
+        self.assertEqual(got, ["사진: 에이미 액턴 후보 — U.S. Air National Guard photo by Senior Airman Gwendalyn Smith · Public domain"])
+        self.assertEqual(D.full_authors(["a — b…"], {"media.y"}, {"x": m}), ["a — b…"])   # 이번 영상이 쓰지 않은 자산은 손대지 않는다
+
+    def test_key_links_by_id_or_url(self) -> None:
+        a = types.SimpleNamespace(id="src_1", url="https://a.example/1", type="article", publisher="A",
+                                  published_at=types.SimpleNamespace(month=11, day=4))
+        b = types.SimpleNamespace(id="src_2", url="https://b.example/2", type="article", publisher="B",
+                                  published_at=types.SimpleNamespace(month=11, day=3))
+        self.assertEqual(D.key_links([a, b], ["src_2", "https://a.example/1"], 4), ["B (11.3) — https://b.example/2", "A (11.4) — https://a.example/1"])
+        self.assertEqual(D.key_links([a, b], [], 1), ["A (11.4) — https://a.example/1"])
+        with self.assertRaises(D.DeliveryError):
+            D.key_links([a, b], ["src_9"], 4)
+        with self.assertRaises(D.DeliveryError):
+            D.key_links([a, b], ["src_1", "src_2"], 1)
+
     def test_tags_chars_youtube_count(self) -> None:
         self.assertEqual(D.tags_chars(["가나", "다 라"]), 2 + (3 + 2) + 1)
 

@@ -67,17 +67,18 @@ def outlet_summary(cited: list) -> list[str]:
 
 
 def key_links(cited: list, chosen: list[str], n: int) -> list[str]:
-    """설명 주요 링크 — description.yaml key_links(인용 소스 안의 URL 만), 비면 매체별 첫 원문 링크 n 개."""
+    """설명 주요 링크 — description.yaml key_links(소스 id 또는 URL, 이번 영상 인용 소스 안의 것만 — 감독이 고른 링크, D-0323 §5),
+    비면 매체별 첫 원문 링크 n 개."""
     from engine.credits import source_label  # noqa: PLC0415
 
-    by_url = {s.url: s for s in cited if s.url}
+    by_key = {**{s.url: s for s in cited if s.url}, **{s.id: s for s in cited if s.url and getattr(s, "id", None)}}
     if chosen:
-        bad = [u for u in chosen if u not in by_url]
+        bad = [u for u in chosen if u not in by_key]
         if bad:
-            raise DeliveryError(f"description.yaml key_links 가 이번 영상 인용 소스에 없다: {bad}")
+            raise DeliveryError(f"description.yaml key_links 가 이번 영상 인용 소스(원문 URL 있는 것)에 없다: {bad}")
         if len(chosen) > n:
             raise DeliveryError(f"description.yaml key_links {len(chosen)}개 > rules delivery_package.key_links_max {n}")
-        return [f"{source_label(by_url[u])} — {u}" for u in chosen]
+        return [f"{source_label(by_key[k])} — {by_key[k].url}" for k in chosen]
     out, seen = [], set()
     for s in cited:
         k = getattr(s, "publisher", None) or getattr(s, "issuer", None)
@@ -86,6 +87,25 @@ def key_links(cited: list, chosen: list[str], n: int) -> list[str]:
             out.append(f"{source_label(s)} — {s.url}")
         if len(out) == n:
             break
+    return out
+
+
+def full_authors(lines: list[str], used: set[str], media: dict) -> list[str]:
+    """크레딧 줄의 말줄임(엔딩 카드 폭 때문에 자른 credit_author '…')을 미디어 레지스트리 원본 author 로 되돌린다 — 설명문은 폭 제한이 없다
+    (D-0323 §2). 자르는 쪽은 엔딩 카드 조판만."""
+    rep: dict[str, str] = {}
+    for ref in used:
+        if not ref.startswith("media."):
+            continue
+        m = media.get(ref[len("media."):])
+        cut = (getattr(m, "credit_author", None) or "").split(" · ")[0]
+        if m is not None and cut.endswith("…") and m.author:
+            rep[cut] = m.author
+    out = []
+    for ln in lines:
+        for a, b in rep.items():
+            ln = ln.replace(a, b)
+        out.append(ln)
     return out
 
 
@@ -108,6 +128,7 @@ def build_package_description(P, d, full: bool = False) -> str:  # noqa: ANN001,
         parts += [SOURCES_HEADING, " · ".join(outlet_summary(cited)), "", KEY_LINKS_HEADING, *key_links(cited, d.key_links, DP.key_links_max), ""]
     lines = credit_lines(P.R.credits, P.R.assets.rights, P.R.assets.media, P.R.cache.get("credit_refs"), cited,
                          P.R.cache.get("series_records"), P.R.cache.get("press_by_scene"))
+    lines = full_authors(lines, P.R.cache.get("credit_refs") or set(), P.R.assets.media_assets)
     parts += [ln for ln in lines if not ln.startswith(CREDITS_SKIP)]
     parts += ["", " ".join(d.hashtags)]
     return "\n".join(parts).strip() + "\n"
