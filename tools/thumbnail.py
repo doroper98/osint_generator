@@ -111,8 +111,34 @@ def make_thumbnail(proj: Path, theme: str | None = None, reason: str | None = No
     return rec
 
 
+FULLSCREEN_EVENTS = ("quote", "article")   # 화면 전체를 덮는 글자 카드 — 썸네일 바탕이면 큰 제목 뒤로 글자가 비친다(D-0324)
+
+
+def fullscreen_card_at(proj: Path, plan: object, t: float) -> str | None:
+    """시각 t 에 보이는 전면 카드 종류(quote·article 이벤트, plan 엔딩 카드) — 없으면 None. 연출 원본에서 그 두 종류의 시작·끝 앵커만
+    plan 시각으로 푼다(지난 영상은 정렬 파일·자산이 없어 연출 전체를 빌드할 수 없다). 앵커를 못 풀면 오류(추정 금지, P6)."""
+    from engine.direction import resolve_anchor  # noqa: PLC0415
+    from engine.project import read_direction  # noqa: PLC0415
+    from engine.timebase import Timebase  # noqa: PLC0415
+
+    for c in plan.cards:
+        if c.kind == "end" and c.t0 <= t <= c.t1:
+            return "end"
+    tb = Timebase(plan)
+    for e in read_direction(proj).events:
+        if e["type"] not in FULLSCREEN_EVENTS:
+            continue
+        try:
+            a, b = resolve_anchor(e["start"], tb), resolve_anchor(e["end"], tb)
+        except Exception as ex:  # noqa: BLE001 — 앵커 종류별 오류를 한 가지로
+            raise ThumbnailError(f"전면 카드 {e['type']} 시각을 풀 수 없다({ex}) — --bg 를 명시한다") from ex
+        if a <= t <= b:
+            return e["type"]
+    return None
+
+
 def make_thumbnail_from_video(proj: Path, video: Path, theme: str | None = None, reason: str | None = None, name: str = "thumbnail",
-                              bg: str = "before") -> dict:
+                              bg: str | None = None) -> dict:
     """--from-video(v7.4.0 back_and_forth D-0322) — out/ 준비물(geo·자산)이 없는 지난 영상. 바탕 = 전달본의 타이틀 카드 t0 − 1/fps 프레임
     (카드 그라데이션이 아직 없는 원 장면), 그 위에 같은 draw_title_card(plan 의 제목·부제·날짜)를 alpha 1 로. 기하·색은 make_thumbnail 과 같다.
     bg = "after" 면 카드가 끝난 직후(t1 + 1/fps) 프레임 — 카드 앞 장면이 글자 카드(인용 등)라 제목 뒤에 글자가 겹칠 때(provenance source.bg)."""
@@ -138,6 +164,10 @@ def make_thumbnail_from_video(proj: Path, video: Path, theme: str | None = None,
         raise ThumbnailError(f"전달본 해상도 {probe} ≠ {out.width},{out.height}")
     plan = load_plan(proj)
     t0, t1, _ = title_card_time(plan)
+    bg_reason = "explicit" if bg is not None else "default"
+    if bg is None:   # D-0324(D544) — 기본 before, 그 시각이 전면 카드(quote·article·엔딩) 구간이면 자동 after
+        hit = fullscreen_card_at(proj, plan, max(0.0, t0 - 1.0 / FPS))
+        bg, bg_reason = ("after", f"auto: before 시각이 전면 카드 {hit} 구간") if hit else ("before", "default")
     if bg not in ("before", "after"):
         raise ThumbnailError(f"--bg {bg!r} — before|after")
     ft = max(0.0, t0 - 1.0 / FPS) if bg == "before" else t1 + 1.0 / FPS
@@ -167,7 +197,7 @@ def make_thumbnail_from_video(proj: Path, video: Path, theme: str | None = None,
     rec = {"schema_version": 1, "frame_t": round(ft, 3), "title_card": [round(t0, 3), round(t1, 3)], "title": plan.title,
            "title_lines": drawn["lines"], "title_size_px": drawn["size"], "title_scale": T.title_scale, "group_shift_px": drawn["shift_px"],
            "border": T.border.model_dump(), "theme": th, "theme_source": th_src, **({"theme_reason": th_reason} if th_reason else {}),
-           "source": {"mode": "from_video", "file": video.name, "md5": hashlib.md5(video.read_bytes()).hexdigest(), "frame_t": round(ft, 3), "bg": bg},
+           "source": {"mode": "from_video", "file": video.name, "md5": hashlib.md5(video.read_bytes()).hexdigest(), "frame_t": round(ft, 3), "bg": bg, "bg_reason": bg_reason},
            "size": [out.width, out.height], "png": {"bytes": png.stat().st_size, "md5": hashlib.md5(png.read_bytes()).hexdigest()},
            "jpg": {"bytes": jpg.stat().st_size, "md5": hashlib.md5(jpg.read_bytes()).hexdigest(), "quality": T.jpg_quality}}
     (od / f"{name}.json").write_text(json.dumps(rec, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -186,7 +216,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--name", default="thumbnail", help="출력 파일 이름(확인용 표본만 바꾼다 — provenance 에 넣지 않음)")
     ap.add_argument("--from-video", type=Path, default=None,
                     help="지난 영상(out/ 준비물 없음) — 전달본 mp4 의 타이틀 카드 직전 프레임을 바탕으로(D-0322)")
-    ap.add_argument("--bg", default="before", choices=["before", "after"], help="--from-video 바탕: 카드 직전(기본)·직후 프레임")
+    ap.add_argument("--bg", default=None, choices=["before", "after"],
+                    help="--from-video 바탕: 카드 직전·직후 프레임. 생략 = 직전, 단 직전이 전면 카드(quote·article·엔딩)면 직후(D-0324)")
     a = ap.parse_args(argv)
     proj = a.proj.resolve()
     try:

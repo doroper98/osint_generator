@@ -266,6 +266,18 @@ class ThumbnailThemeTest(unittest.TestCase):
                 resolve_theme(Path(d), "war_history")                 # 덮어쓰기 = 사유 필수
             self.assertEqual(resolve_theme(Path(d), "war_history", "표본")[:2], ("war_history", "override"))
 
+    def test_from_video_auto_after_on_fullscreen_card(self) -> None:
+        """D-0324(D544) — --from-video 기본 before, 그 시각이 전면 카드(quote·article·엔딩)면 자동 after. 이란 = 기사 카드 위(탈락한 before)."""
+        from engine.project import load_plan  # noqa: PLC0415
+        from tools.thumbnail import fullscreen_card_at, title_card_time  # noqa: PLC0415
+
+        iran, china = REPO / "projects" / "iran_ceasefire_2026", REPO / "projects" / "china_tech_export_controls_2026"
+        pi, pc = load_plan(iran), load_plan(china)
+        self.assertEqual(fullscreen_card_at(iran, pi, title_card_time(pi)[0] - 1 / 24), "article")
+        self.assertIsNone(fullscreen_card_at(china, pc, title_card_time(pc)[0] - 1 / 24))
+        end = next(c for c in pc.cards if c.kind == "end")
+        self.assertEqual(fullscreen_card_at(china, pc, (end.t0 + end.t1) / 2), "end")
+
     def test_geometry_key_in_theme_rejected(self) -> None:
         raw = yaml.safe_load(RULES_PATH.read_text(encoding="utf-8"))["thumbnail"]
         raw["themes"]["war_history"]["title_scale"] = 2.0   # 테마는 색만 — 기하·크기 키는 모델 오류
