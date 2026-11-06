@@ -1,0 +1,45 @@
+{
+ "schema_version": 1,
+ "frame_t": 22.78,
+ "title_card": [
+  22.822,
+  28.422
+ ],
+ "title": "휴전안의 한 달 — 미국과 이란, 무엇이 먼저 풀려야 하나",
+ "title_lines": [
+  "휴전안의 한 달 — 미국과 이란,",
+  "무엇이 먼저 풀려야 하나"
+ ],
+ "title_size_px": 57.6,
+ "title_scale": 1.6,
+ "group_shift_px": 35.45,
+ "border": {
+  "inset": 22.0,
+  "width": 1.2,
+  "radius": 2.0,
+  "alpha": 0.9,
+  "glow_width": 4.0,
+  "glow_alpha": 0.14
+ },
+ "theme": "geo_econ",
+ "theme_source": "genre:geopolitics",
+ "source": {
+  "mode": "from_video",
+  "file": "iran.mp4",
+  "md5": "0ec9d9f37ae91396628721ff7eafef68",
+  "frame_t": 22.78
+ },
+ "size": [
+  1280,
+  720
+ ],
+ "png": {
+  "bytes": 74964,
+  "md5": "4668f0bb0ae2d269bee250a28367e267"
+ },
+ "jpg": {
+  "bytes": 84332,
+  "md5": "695c485cd700bb31c8b6796e38187169",
+  "quality": 92
+ }
+}
