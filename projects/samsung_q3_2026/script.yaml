@@ -254,6 +254,7 @@ scenes:
     sources:
     - clm_0007
     - clm_0019
+    - clm_0022
 - id: ending
   kind: ending
   stage: 서울

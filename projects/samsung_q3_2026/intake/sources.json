@@ -187,6 +187,29 @@
       "key_facts": [
         "3분기 실적 보도자료(회사 공식)"
       ]
+    },
+    {
+      "id": "src_art_0006",
+      "url": "https://www.hankookilbo.com/news/article/A2026103014420002626",
+      "retrieved_at": "2026-11-01",
+      "lang": "ko",
+      "verification": {
+        "status": "verified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(구현 세션 대행 — 발행처·제목·게시일을 원문 첫머리와 대조. 게이트 ① 에서 사용자가 출처 표로 확인)",
+      "confirmed_at": "2026-11-01T04:55:16.534056Z",
+      "note": "",
+      "type": "article",
+      "publisher": "한국일보",
+      "headline_original": "인텔 주가 털리고 삼성전자 가전도 적자… 반도체 초호황 속 'IT 잔혹사'",
+      "published_at": "2026-10-31",
+      "key_facts": [
+        "인텔 주가 털리고 삼성전자 가전도 적자… 반도체 초호황 속 'IT 잔혹사'"
+      ]
     }
   ]
 }

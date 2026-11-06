@@ -403,6 +403,23 @@
       "attributed_only": false,
       "claim_kind": "fact",
       "notes": ""
+    },
+    {
+      "claim_id": "clm_0022",
+      "text": "메모리 제조사의 HBM·서버용 D램 집중으로 PC용 메모리 공급이 부족해져 PC 시장이 침체했다(보도 분석)",
+      "source_ids": [
+        "src_art_0006"
+      ],
+      "status": "unverified",
+      "contested": false,
+      "event_date": "2026-10-29",
+      "checks": [
+        "quote_match:src_art_0006",
+        "independent_origins:1"
+      ],
+      "attributed_only": false,
+      "claim_kind": "fact",
+      "notes": ""
     }
   ]
 }
