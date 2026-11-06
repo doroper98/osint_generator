@@ -533,8 +533,6 @@ sound:
 drops:
 - record: article cnn_0729 act2_2
   reason: "D371(D-0358 A1) — act2_2~act2_3 전체를 덮는 전면 기사 카드라 act2_3 이 말한 '0.25%p'(반대 3인의 인상 주장, clm_0007)가 화면에 안 보였다([spoken-number-visible]). 번역 카드는 레지스트리 sub 를 그리지 않는다. 기사를 빼고 시간축 표지 '반대 3인 · +0.25%p 인상 주장'으로. 9대 3 표결은 act2_1 표결 영상이 보인다"
-- record: article cnn_0729 act2_2
-  reason: "D371(D-0358 A1) — act2_2~act2_3 전체를 덮는 전면 기사 카드라 act2_3 이 말한 '0.25%p'(반대 3인의 인상 주장, clm_0007)가 화면에 안 보였다([spoken-number-visible]). 번역 카드는 레지스트리 sub 를 그리지 않는다. 기사를 빼고 시간축 표지 '반대 3인 · +0.25%p 인상 주장'으로. 9대 3 표결은 act2_1 표결 영상이 보인다"
 - record: photo econ_warsh_swearing_5 act1_6
   reason: "D-0349(UF-173) — act1_6(2026.05) 날짜 창이 옆 문장 0.5초씩 넣어도 4.8초(< span 7.5). 다음 문장(2026.06 '반년 멈춘 금리 선')으로 늘리지 않는다 — 취임은 자막·날짜가 맡는다"
 - record: photo econ_walmart_2508 act2_6
