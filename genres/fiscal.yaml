@@ -14,6 +14,7 @@ stage:
   primary: backdrop                   # 사진 배경 + 아일랜드(D-0330 무대 조판)
   secondary: []                       # 지도 무대 없음(mercator 를 쓰지 않는다)
   island_stages: [timeline, structure]   # timeline = 총수입·총지출·재정수지·국가채무 레인, structure = 12대 분야 순위 가로 막대(D-1003 §3)
+  mercator: {theme: light}           # v7.4.0 UF-403 병합 — 어떤 장르든 지도 무대를 고를 수 있게 기본 테마(D154 지정학·경제 = light). 이 장르 기본 무대는 그대로 backdrop
   timeline:
     lanes:
       - {id: totals, label: 총수입·총지출, kind: line}

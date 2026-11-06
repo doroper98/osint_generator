@@ -1320,7 +1320,7 @@ def narration_clarity_report(P) -> "dict | None":  # noqa: ANN001, N803
 
     f = P.root / "out" / "mix.f32"
     rep = None
-    if f.exists():
+    if f.exists() and P.plan.voice != "synthetic":   # 합성 plan(시험 고정물, TTS 없음 — 문장 npy 없음) = 잴 내레이션이 없다(P5, 기록 안 함)
         mix, vo, _ = stems(f, P.plan.sentences)
         per = narration_clarity(mix, vo, P.plan.sentences)
         worst = sorted(per.items(), key=lambda kv: kv[1])
