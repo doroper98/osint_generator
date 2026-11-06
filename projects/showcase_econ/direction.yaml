@@ -144,6 +144,7 @@ events:
     scene_start: act1
     'off': 0.6
   img: fed_presser_0916
+  for: 케빈 워시 연준 의장 기자회견   # v7.4.0 D-0358 [backdrop-subject] — 장면 주제, 레지스트리 main_subject
 - type: backdrop
   start:
     scene_start: act1
@@ -151,6 +152,7 @@ events:
     scene_start: act2
     'off': 0.6
   img: fed_eccles_ext
+  for: 연준   # v7.4.0 D-0358 [backdrop-subject] — 장면 주제, 레지스트리 main_subject
 - type: backdrop
   start:
     scene_start: act2
@@ -158,6 +160,7 @@ events:
     scene_start: act3
     'off': 0.6
   img: fed_boardroom
+  for: 연준 이사회 회의실   # v7.4.0 D-0358 [backdrop-subject] — 장면 주제, 레지스트리 main_subject
 - type: backdrop
   start:
     scene_start: act3
@@ -165,12 +168,14 @@ events:
     scene_start: ending
     'off': 0.6
   img: fed_eccles_atrium
+  for: 연준   # v7.4.0 D-0358 [backdrop-subject] — 장면 주제, 레지스트리 main_subject
 - type: backdrop
   start:
     scene_start: ending
   end:
     scene_end: ending
   img: fed_presser_0916
+  for: 케빈 워시 연준 의장 기자회견   # v7.4.0 D-0358 [backdrop-subject] — 장면 주제, 레지스트리 main_subject
 # v7.4.0 D-0274 §2·D-0280 — 발언 자리 두 곳(cold_0·act2_1 뒤)은 액자 클립이 주 요소 — 그동안 차트 아일랜드는 비킨다(배경 사진 위 액자만)
 - type: island
   kind: chart
@@ -279,7 +284,7 @@ events:
   date: '2025-10-29'
   lane: policy_rate
   label: 10월 29일 인하
-  sub: 3.75~4%
+  sub: −0.25%p · 목표 3.75~4%   # v7.4.0 D-0358 [spoken-number-visible] act1_2 '0.25%p'·'4%'(clm_0014)(옛 '3.75~4%')
   side: right
   hl: true
 - type: photo
@@ -303,7 +308,7 @@ events:
   date: '2025-12-10'
   lane: policy_rate
   label: 12월 10일 인하
-  sub: 3.5~3.75%
+  sub: −0.25%p · 목표 3.5~3.75%   # v7.4.0 D-0358 [spoken-number-visible] act1_3 '3.75%'(clm_0015)(옛 '3.5~3.75%')
   side: right
   hl: true
 - type: marker
@@ -455,7 +460,7 @@ events:
     'off': 0.5
   date: '2025-10-29'
   lane: policy_rate
-  label: 3.75~4%
+  label: 목표 3.75~4%   # v7.4.0 D-0358 [spoken-number-visible] ending_0 '4%'(옛 '3.75~4%')
   sub: 2025년 10월
   side: right
   hl: true
@@ -469,8 +474,34 @@ events:
     'off': 0.5
   date: '2026-09-16'
   lane: policy_rate
-  label: 3.75~4%
+  label: 목표 3.75~4%   # v7.4.0 D-0358 [spoken-number-visible] ending_0 '4%'(옛 '3.75~4%')
   sub: 2026년 9월
+  side: left
+  hl: true
+- type: marker   # v7.4.0 D-0358 [spoken-number-visible] act2_6 '3.4%' — 8월 소비자물가 전년 대비(clm_0022, src_art_0005·0006). 자료 달(8월) 자리
+  start:
+    sid: act2_6
+    'off': 0.2
+  end:
+    sid: act2_7
+    'off': -0.1
+  date: '2026-08-31'
+  lane: policy_rate
+  label: 8월 소비자물가 +3.4%
+  sub: 전년 대비
+  side: left
+  hl: true
+- type: marker   # v7.4.0 D-0358 [spoken-number-visible] act3_2 '0.25%p' — 9월 경제전망(SEP) 중앙값 연내 추가 인상 1회(clm_0027, src_doc_0009)
+  start:
+    sid: act3_2
+    'off': 0.2
+  end:
+    sid: act3_3
+    'off': -0.1
+  date: '2026-12-31'
+  lane: policy_rate
+  label: 연내 +0.25%p 추가 인상
+  sub: 경제전망 중앙값
   side: left
   hl: true
 sound:

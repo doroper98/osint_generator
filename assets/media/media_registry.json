@@ -362,7 +362,15 @@
     }
    },
    "source_hash": "04043b484e3f88e8469e867f08a834f9",
-   "file": "fed_presser_0916_720.jpg"
+   "file": "fed_presser_0916_720.jpg",
+   "main_subject": [
+    "케빈 워시 연준 의장 기자회견",
+    "연준"
+   ],
+   "background": [
+    "질문하는 기자들",
+    "연준 휘장·성조기"
+   ]
   },
   "fed_presser_0916_b": {
    "kind": "photo",
@@ -1408,7 +1416,12 @@
     }
    },
    "source_hash": "595d32629aa0867fc94cb52623c669a7",
-   "file": "fed_eccles_atrium_720.jpg"
+   "file": "fed_eccles_atrium_720.jpg",
+   "main_subject": [
+    "연준 에클스 빌딩 중앙홀",
+    "연준"
+   ],
+   "background": []
   },
   "aj_0926_reject": {
    "kind": "article",
