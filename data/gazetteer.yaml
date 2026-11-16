@@ -20,6 +20,7 @@ manual:
   - {id: cheongwadae, names: [Cheong Wa Dae, Blue House, cheongwadae, 청와대], lonlat: [126.9763, 37.5867], tol_km: 1.5, kind: landmark, src: Wikipedia 'Cheong Wa Dae' API coordinates 37.5867N 126.9763E (2026-09-30 조회)}
   - {id: yeouido, names: [Yeouido, 여의도], lonlat: [126.9267, 37.5239], tol_km: 3.0, kind: island, src: Wikipedia 'Yeouido' API coordinates 37.5239N 126.9267E (2026-09-30 조회) — 섬 길이 약 3km}
   - {id: strait_of_malacca, names: [Strait of Malacca, 믈라카 해협, 말라카 해협], lonlat: [101.037, 2.833], tol_km: 300.0, kind: strait, src: Wikidata Q48359 P625 2.833N 101.037E (2026-09-30 조회) — 해협 길이 약 900km}
+  - {id: fujairah, names: [Fujairah, fujairah, 푸자이라], lonlat: [56.3265, 25.1288], tol_km: 15.0, kind: city, src: "Wikipedia 'Fujairah' coordinates 25.1288N 56.3265E (2026-11-01 WebSearch 대조 — iran_ceasefire_2026 D-0458 §5)"}
 ne:
   - {id: tay_ninh_vnm, names: [Tây Ninh, Tay Ninh, 떠이닌], lonlat: [106.147, 11.323], tol_km: 25.0, kind: city, src: ne}
   - {id: lang_son_vnm, names: [Lạng Sơn, Lang Son, 랑선], lonlat: [106.757, 21.846], tol_km: 25.0, kind: city, src: ne}

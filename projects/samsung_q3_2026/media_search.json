@@ -1,0 +1,97 @@
+{
+ "schema_version": 1,
+ "searches": [
+  {
+   "sid": "cold_0",
+   "query": "Samsung Electronics Seocho hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "cold_0",
+   "query": "Samsung Electronics Seocho",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "cold_0",
+   "query": "Samsung Town",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 6,
+   "passed": 1,
+   "top": [
+    "File:Gangnam Seoul January 2009.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act1_0",
+   "query": "Samsung Electronics headquarters",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 6,
+   "passed": 1,
+   "top": [
+    "File:Samsung Digital Complex, Suwon - panoramio.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act4_1",
+   "query": "Korea Exchange",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 6,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act4_2",
+   "query": "Korea Exchange Yeouido",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act5_0",
+   "query": "Samsung Taylor Texas",
+   "pool": "commons_cc",
+   "on": "2026-11-01",
+   "found": 6,
+   "passed": 3,
+   "top": [
+    "File:Dr James L Dickey House Taylor Texas 2021.jpg",
+    "File:Dr James Lee Dickey Historical Marker.jpg",
+    "File:EF3 damage in Taylor Landing, TX 2024.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "문서·도식(application/pdf)"
+   ]
+  }
+ ]
+}

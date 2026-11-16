@@ -1,0 +1,1687 @@
+version: 1
+places:
+  doha:
+  - 51.53
+  - 25.29
+  tehran:
+  - 51.39
+  - 35.69
+  hormuz:
+  - 56.35
+  - 26.55
+  islamabad:
+  - 73.05
+  - 33.68
+  ulsan:
+  - 129.31
+  - 35.54
+  yanbu:
+  - 38.06
+  - 24.09
+  fujairah:
+  - 56.33
+  - 25.12
+  beirut:
+  - 35.5
+  - 33.89
+paths:
+  israel_iran:
+  - - 35.0
+    - 31.7
+  - - 44.0
+    - 33.2
+  - - 53.3
+    - 32.5
+  gulf_in:
+  - - 51.0
+    - 27.0
+  - - 54.0
+    - 26.3
+  - - 56.35
+    - 26.55
+  doha_tehran:
+  - - 51.53
+    - 25.29
+  - - 51.1
+    - 30.5
+  - - 51.39
+    - 35.69
+  hz_ulsan:
+  - - 56.35
+    - 26.55
+  - - 57.6
+    - 25.5
+  - - 59.2
+    - 24.3
+  - - 62.0
+    - 22.2
+  - - 65.0
+    - 18.6
+  - - 67.0
+    - 15.5
+  - - 74.0
+    - 9.0
+  - - 80.5
+    - 5.3
+  - - 88.0
+    - 5.8
+  - - 95.0
+    - 6.2
+  - - 98.6
+    - 4.9
+  - - 101.3
+    - 2.8
+  - - 103.9
+    - 1.3
+  - - 106.8
+    - 4.5
+  - - 110.5
+    - 10.0
+  - - 115.5
+    - 16.0
+  - - 121.0
+    - 20.8
+  - - 122.6
+    - 24.0
+  - - 124.2
+    - 28.8
+  - - 126.6
+    - 32.6
+  - - 129.0
+    - 34.8
+  - - 129.31
+    - 35.54
+  fuj_ulsan:
+  - - 56.33
+    - 25.12
+  - - 57.6
+    - 25.0
+  - - 59.0
+    - 23.95
+  - - 62.0
+    - 22.4
+  - - 65.0
+    - 18.6
+  - - 67.0
+    - 15.5
+  - - 74.0
+    - 9.0
+  - - 80.5
+    - 5.3
+  - - 88.0
+    - 5.8
+  - - 95.0
+    - 6.2
+  - - 98.6
+    - 4.9
+  - - 101.3
+    - 2.8
+  - - 103.9
+    - 1.3
+  - - 106.8
+    - 4.5
+  - - 110.5
+    - 10.0
+  - - 115.5
+    - 16.0
+  - - 121.0
+    - 20.8
+  - - 122.6
+    - 24.0
+  - - 124.2
+    - 28.8
+  - - 126.6
+    - 32.6
+  - - 129.0
+    - 34.8
+  - - 129.31
+    - 35.54
+  yanbu_ulsan:
+  - - 38.06
+    - 24.09
+  - - 38.5
+    - 22.0
+  - - 40.0
+    - 18.5
+  - - 41.8
+    - 15.2
+  - - 43.3
+    - 12.7
+  - - 45.5
+    - 11.9
+  - - 51.5
+    - 12.6
+  - - 58.0
+    - 12.8
+  - - 66.0
+    - 10.5
+  - - 74.0
+    - 8.5
+  - - 80.5
+    - 5.3
+  - - 88.0
+    - 5.8
+  - - 95.0
+    - 6.2
+  - - 98.6
+    - 4.9
+  - - 101.3
+    - 2.8
+  - - 103.9
+    - 1.3
+  - - 106.8
+    - 4.5
+  - - 110.5
+    - 10.0
+  - - 115.5
+    - 16.0
+  - - 121.0
+    - 20.8
+  - - 122.6
+    - 24.0
+  - - 124.2
+    - 28.8
+  - - 126.6
+    - 32.6
+  - - 129.0
+    - 34.8
+  - - 129.31
+    - 35.54
+  korea_doha:
+  - - 126.9
+    - 37.4
+  - - 105.0
+    - 35.5
+  - - 80.0
+    - 32.5
+  - - 62.0
+    - 28.8
+  - - 51.53
+    - 25.29
+  tehran_doha:
+  - - 51.39
+    - 35.69
+  - - 51.1
+    - 30.5
+  - - 51.53
+    - 25.29
+shots:
+- at: 0
+  mode: cut
+  dur: 0
+  camera:
+    lon: 60.0
+    lat: 29.0
+    w: 60.0
+- at:
+    sid: cold_0
+    'off': -0.6
+  mode: move
+  dur: 6.0
+  camera:
+    lon: 51.8
+    lat: 28.5
+    w: 24.0
+- at:
+    card: title
+    'off': 2.9
+  mode: dip
+  camera:
+    lon: 54.0
+    lat: 29.0
+    w: 46.0
+  under: true
+- at:
+    scene_start: act2
+    'off': -1.0
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 46.5
+    lat: 29.5
+    w: 32.0
+- at:
+    scene_start: act3
+    'off': -1.0
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 52.0
+    lat: 27.8
+    w: 24.0
+- at:
+    scene_start: act4
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 55.5
+    lat: 28.0
+    w: 22.0
+- at:
+    scene_start: act5
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 50.0
+    lat: 28.5
+    w: 34.0
+- at:
+    scene_start: act6
+    'off': -1.2
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 83.6
+    lat: 22.0
+    w: 104.0
+- at:
+    scene_start: ending
+    'off': -0.55
+  mode: dip
+  camera:
+    lon: 78.0
+    lat: 25.0
+    w: 88.0
+- at:
+    sid: ending_2
+    'off': 0.5
+  mode: move
+  dur: 9.0
+  camera:
+    lon: 84.0
+    lat: 22.0
+    w: 96.0
+- at:
+    sid: act1_1
+    'off': -0.3
+  mode: move
+  dur: 3.2
+  camera:
+    lon: 52.5
+    lat: 31.0
+    place: null
+    date: null
+    lane: null
+    w: 24.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act1_1 2/28 공습 — 이란 본토로 다가간다
+- at:
+    sid: act1_3
+    'off': -0.3
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 56.4
+    lat: 26.7
+    place: null
+    date: null
+    lane: null
+    w: 12.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act1_3 3/2 해협 위협 — 호르무즈 해협 확대
+- at:
+    sid: act1_4
+    'off': -0.3
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 62.5
+    lat: 29.5
+    place: null
+    date: null
+    lane: null
+    w: 34.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act1_4 파키스탄 중재 휴전 — 이슬라마바드까지 넓힌다
+- at:
+    sid: act1_6
+    'off': -0.3
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 57.0
+    lat: 28.5
+    place: null
+    date: null
+    lane: null
+    w: 40.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act1_6 양해각서 — 걸프~파키스탄 전체
+- at:
+    sid: act1_8
+    'off': -0.3
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 57.6
+    lat: 25.6
+    place: null
+    date: null
+    lane: null
+    w: 16.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act1_8 오만 연안 상선 공격·미 공습 — 오만만 권역(지점 표시 없음)
+- at:
+    sid: act1_11
+    'off': -0.3
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 48.5
+    lat: 31.5
+    place: null
+    date: null
+    lane: null
+    w: 40.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act1_11 이란 7/18 이행 중단·레바논 — 레바논까지 서쪽으로
+- at:
+    sid: act2_11
+    'off': -0.3
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 52.0
+    lat: 29.5
+    place: null
+    date: null
+    lane: null
+    w: 36.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act2_11~12 서한·테헤란 협의 — 도하와 테헤란 한 화면
+- at:
+    sid: act5_7
+    'off': -0.3
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 47.0
+    lat: 29.5
+    place: null
+    date: null
+    lane: null
+    w: 36.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act5_7 신호 — 걸프에서 레바논까지
+- at:
+    sid: act5_8
+    'off': -0.3
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 55.0
+    lat: 29.0
+    place: null
+    date: null
+    lane: null
+    w: 44.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: act5_8 중재국(카타르·파키스탄·오만)과 레바논 — 한 화면
+events:
+- type: marker
+  start:
+    sid: cold_1
+    'off': 0.1
+  end:
+    scene_end: cold
+  at_place: doha
+  label: 도하
+  side: left
+  hl: true
+- type: quote
+  start:
+    sid: cold_1
+    'off': 0.2
+  end:
+    sid: cold_1
+    edge: end
+    'off': 0.5
+  pid: araghchi
+  flag: ir
+  speaker: 아라그치
+  role: 이란 외무장관
+  text: 긍정적 조치
+  src: Al Jazeera
+  date: 2026.10.31
+  accent: ru
+  pos: center
+- type: article
+  start:
+    sid: cold_2
+    'off': 2.9
+  end:
+    sid: cold_3
+    'off': 2.2
+  mid: iran_ceasefire_2026_art_0005
+  theme: dark
+- type: country
+  start:
+    sid: act1_0
+    'off': 0.2
+  end:
+    scene_end: act1
+  codes:
+  - IR
+  col: ru
+  a: 0.07
+- type: badge
+  start:
+    sid: act1_2
+    'off': 0.3
+  end:
+    sid: act1_2
+    edge: end
+    'off': 0.4
+  lon: 59.5
+  lat: 32.0
+  kind: person
+  pid: khamenei
+  flag: ir
+  R: 30
+  label: 알리 하메네이
+  role: 이란 최고지도자
+  accent: ru
+- type: route
+  start:
+    sid: act1_3
+    'off': 0.4
+  end:
+    sid: act1_4
+    'off': 0.3
+    edge: end
+  pts:
+    path: gulf_in
+  grow: 9.0
+  col: gold
+  ship: true
+- type: marker
+  start:
+    sid: act1_3
+    'off': 4.0
+  end:
+    sid: act1_4
+    'off': 0.3
+    edge: end
+  at_place: hormuz
+  label: 호르무즈 해협
+  side: top
+  hl: true
+- type: marker
+  start:
+    word:
+      sid: act1_5
+      text: 4월
+    'off': 0.1
+  end:
+    sid: act1_5
+    edge: end
+    'off': 0.5
+  at_place: islamabad
+  label: 이슬라마바드
+  side: right
+- type: badge
+  start:
+    word:
+      sid: act1_6
+      text: 트럼프
+  end:
+    sid: act1_6
+    edge: end
+    'off': 0.4
+  lon: 47.0
+  lat: 33.5
+  kind: person
+  pid: trump
+  flag: us
+  R: 30
+  label: 트럼프
+  role: 미국 대통령
+  accent: us
+- type: badge
+  start:
+    word:
+      sid: act1_6
+      text: 페제시키안
+  end:
+    sid: act1_6
+    edge: end
+    'off': 0.4
+  lon: 58.5
+  lat: 33.5
+  kind: person
+  pid: pezeshkian
+  flag: ir
+  R: 30
+  label: 페제시키안
+  role: 이란 대통령
+  accent: ru
+- type: article
+  start:
+    sid: act1_7
+    'off': 0.1
+  end:
+    sid: act1_7
+    edge: end
+    'off': 0.4
+  mid: iran_ceasefire_2026_art_0038
+  theme: dark
+- type: quote
+  start:
+    sid: act1_9
+    'off': 2.1
+  end:
+    sid: act1_10
+    'off': 1.6
+  pid: trump
+  flag: us
+  speaker: 트럼프
+  role: 미국 대통령
+  text: 휴전은 끝났다
+  src: Al Jazeera
+  date: 2026.07.08
+  accent: us
+  pos: center
+- type: article
+  start:
+    sid: act1_11
+    'off': 0.2
+  end:
+    sid: act1_11
+    'off': 6.4
+  mid: iran_ceasefire_2026_art_0043
+  theme: dark
+- type: marker
+  start:
+    sid: act2_2
+    'off': 0.6
+  end:
+    sid: act2_2
+    edge: end
+    'off': 0.5
+  at_place: beirut
+  label: 레바논
+  side: right
+- type: marker
+  start:
+    word:
+      sid: act2_2
+      text: 엿새째
+  end:
+    sid: act2_4
+    'off': 0.0
+  at_place: hormuz
+  label: 호르무즈 해협
+  side: right
+  hl: true
+- type: marker
+  start:
+    sid: act3_1
+    'off': 0.5
+  end:
+    scene_end: act3
+  at_place: doha
+  label: 도하
+  side: left
+  hl: true
+- type: marker
+  start:
+    sid: act2_0
+    'off': 0.2
+  end:
+    scene_end: act2
+  at_place: doha
+  label: 도하
+  side: left
+  hl: true
+- type: marker
+  start:
+    sid: act2_0
+    'off': 0.2
+  end:
+    scene_end: act2
+  at_place: tehran
+  label: 테헤란
+  side: right
+- type: route
+  start:
+    sid: act2_4
+    'off': 1.2
+  end:
+    scene_end: act2
+  pts:
+    path: doha_tehran
+  grow: 9.0
+  col: teal
+  ship: false
+  dashed: true
+  label: 카타르 경유
+- type: panel
+  start:
+    sid: act3_1
+    'off': 0.4
+  end:
+    sid: act3_5
+    edge: end
+    'off': 0.5
+  kind: versus
+  claims:
+  - clm_0024
+  - clm_0026
+  - clm_0028
+  - clm_0034
+  - clm_0036
+  - clm_0037
+  - clm_0058
+  data:
+    title: 양측 조건
+    sides:
+    - title: 이란 — 아라그치 외무장관
+      src: 아라그치 외무장관 · 10월 31일
+      items:
+      - text: 미 해군의 항만 봉쇄 해제
+        t:
+          sid: act3_1
+          'off': 2.4
+      - text: 원유 제재 면제 복원·양해각서 뒤 제재 해제
+        t:
+          sid: act3_1
+          'off': 4.6
+      - text: 동결 자금 전액(카타르분 포함)
+        t:
+          sid: act3_2
+          'off': 1.6
+      - text: 역내 미군 축소·오만 합의 항로 인정
+        t:
+          sid: act3_2
+          'off': 4.0
+    - title: 미국
+      src: 미 관리·밴스·트럼프 발언, 레자이 전언 · 9~10월
+      items:
+      - text: 핵 문제 빠진 합의 없음(미 관리)
+        t:
+          sid: act3_3
+          'off': 0.6
+      - text: 농축 능력 '의미 있는' 감축(밴스 10/6)
+        t:
+          sid: act3_3
+          'off': 2.4
+      - text: 이란·오만 공동 관리 거부·봉쇄 유지
+        t:
+          sid: act3_4
+          'off': 1.2
+      - text: 제재 완화는 핵 진전의 대가(보도, 트럼프 부인)
+        t:
+          sid: act3_5
+          'off': 0.4
+- type: marker
+  start:
+    sid: act4_4
+    'off': 0.1
+  end:
+    scene_end: act4
+  at_place: hormuz
+  label: 호르무즈 해협
+  side: left
+  hl: true
+- type: marker
+  start:
+    sid: act4_2
+    'off': 0.1
+  end:
+    sid: act4_3
+    'off': 0.0
+  at_place: hormuz
+  label: 호르무즈 해협
+  side: left
+  hl: true
+- type: ships
+  start:
+    sid: act4_1
+    'off': 0.2
+  end:
+    sid: act4_2
+    'off': 3.0
+  box:
+  - 51.0
+  - 58.8
+  - 24.6
+  - 27.4
+  n: 120
+  seed: 7
+- type: ships
+  start:
+    sid: act4_2
+    'off': 3.0
+  end:
+    scene_end: act4
+  box:
+  - 51.0
+  - 58.8
+  - 24.6
+  - 27.4
+  n: 36
+  seed: 7
+- type: article
+  start:
+    sid: act4_4
+    'off': 0.1
+  end:
+    sid: act4_4
+    edge: end
+    'off': 0.4
+  mid: iran_ceasefire_2026_art_0047
+  theme: dark
+- type: marker
+  start:
+    sid: act5_1
+    'off': 0.4
+  end:
+    scene_end: act5
+  at_place: hormuz
+  label: 호르무즈 해협
+  side: right
+  hl: true
+- type: country
+  start:
+    sid: act5_3
+    'off': 2.0
+  end:
+    sid: act5_4
+    edge: end
+    'off': 0.3
+  codes:
+  - SA
+  - AE
+  - QA
+  - KW
+  - BH
+  - OM
+  col: gold
+  a: 0.08
+- type: quote
+  start:
+    sid: act5_4
+    'off': 0.2
+  end:
+    sid: act5_4
+    edge: end
+    'off': 0.5
+  flag: ir
+  speaker: 모즈타바 하메네이
+  role: 이란 최고지도자
+  text: 지리적 제한 없는 대응
+  src: South China Morning Post
+  date: 2026.10.31
+  accent: ru
+  pos: center
+- type: ships
+  start:
+    sid: act5_6
+    'off': 0.3
+  end:
+    sid: act5_8
+    'off': 0.0
+  box:
+  - 51.5
+  - 58.5
+  - 24.8
+  - 27.0
+  n: 30
+  seed: 11
+- type: marker
+  start:
+    sid: act5_8
+    'off': 5.8
+  end:
+    sid: act5_8
+    edge: end
+    'off': 0.4
+  at_place: beirut
+  label: 레바논
+  side: right
+- type: article
+  start:
+    sid: act5_9
+    'off': 0.1
+  end:
+    sid: act5_9
+    edge: end
+    'off': 0.4
+  mid: iran_ceasefire_2026_art_0057
+  theme: dark
+- type: route
+  start:
+    sid: act6_1
+    'off': 0.4
+  end:
+    scene_end: act6
+  pts:
+    path: hz_ulsan
+  grow: 22.0
+  col: gold
+  ship: true
+- type: marker
+  start:
+    sid: act6_2
+    'off': 0.3
+  end:
+    scene_end: act6
+  at_place: ulsan
+  label: 울산
+  side: right
+  hl: true
+- type: barrier
+  start:
+    sid: act6_2
+    'off': 4.5
+  end:
+    sid: act6_3
+    'off': 0.0
+  p0:
+  - 56.1
+  - 27.2
+  p1:
+  - 56.6
+  - 26.0
+  label: 해협 안쪽
+- type: marker
+  start:
+    sid: act6_3
+    'off': 1.4
+  end:
+    sid: act6_4
+    edge: end
+    'off': 0.3
+  at_place: yanbu
+  label: 얀부
+  side: right
+- type: route
+  start:
+    sid: act6_3
+    'off': 1.6
+  end:
+    scene_end: act6
+  pts:
+    path: yanbu_ulsan
+  grow: 26.0
+  col: teal
+  ship: true
+- type: marker
+  start:
+    sid: act6_3
+    'off': 2.1
+  end:
+    sid: act6_4
+    edge: end
+    'off': 0.3
+  at_place: fujairah
+  label: 푸자이라
+  side: left
+- type: route
+  start:
+    sid: act6_3
+    'off': 2.3
+  end:
+    scene_end: act6
+  pts:
+    path: fuj_ulsan
+  grow: 26.0
+  col: teal
+  ship: true
+- type: route
+  start:
+    sid: act6_6
+    'off': 0.4
+  end:
+    sid: act6_8
+    'off': 0.3
+    edge: end
+  pts:
+    path: korea_doha
+  grow: 17.0
+  col: gold
+  ship: false
+  dashed: true
+- type: marker
+  start:
+    sid: act6_6
+    'off': 2.6
+  end:
+    sid: act6_6
+    edge: end
+    'off': 0.6
+  at_place: doha
+  label: 카타르
+  side: left
+  hl: true
+- type: article
+  start:
+    sid: act6_7
+    'off': 0.1
+  end:
+    sid: act6_7
+    edge: end
+    'off': 0.4
+  mid: iran_ceasefire_2026_art_0071
+  theme: dark
+- type: marker
+  start:
+    sid: ending_1
+    'off': 0.2
+  end:
+    total: true
+  at_place: doha
+  label: 도하
+  side: left
+  hl: true
+- type: marker
+  start:
+    sid: ending_2
+    'off': 0.2
+  end:
+    total: true
+  at_place: hormuz
+  label: 호르무즈 해협
+  side: right
+  hl: true
+- type: photo
+  start:
+    sid: cold_0
+    'off': 0.3
+  end:
+    sid: cold_0
+    'off': 3.6
+  mid: iran_doha_skyline
+  for: 도하
+- type: clip
+  start:
+    sid: act1_1
+    'off': 0.6
+  end:
+    sid: act1_1
+    'off':
+    - 0.6
+    - 5.0
+  mid: iran_epic_fury_video
+  audio: broll
+  role: broll
+- type: photo
+  start:
+    sid: act1_3
+    'off': 0.3
+  end:
+    sid: act1_3
+    'off': 3.8
+  mid: iran_hormuz_modis
+  for: 호르무즈 해협
+- type: photo
+  start:
+    sid: act1_5
+    'off': 0.2
+  end:
+    word:
+      sid: act1_5
+      text: 4월
+  mid: iran_islamabad_talks
+  for: Islamabad Talks April 2026 현수막이 걸린 회담장 입구
+- type: clip
+  start:
+    sid: act1_5
+    'off': 3.4
+  end:
+    sid: act1_5
+    'off':
+    - 3.4
+    - 5.0
+  mid: iran_blockade_apr_video
+  audio: broll
+  role: broll
+- type: photo
+  start:
+    sid: act1_7
+    'off': 0.2
+  end:
+    sid: act1_7
+    'off': 2.6
+  mid: iran_uss_new_orleans_blockade
+  for: 봉쇄 작전 중인 미 해군 함정
+- type: clip
+  start:
+    sid: act1_8
+    'off': 1.0
+  end:
+    sid: act1_8
+    'off':
+    - 1.0
+    - 5.0
+  mid: iran_strikes_jul_video
+  audio: broll
+  role: broll
+- type: photo
+  start:
+    sid: act1_10
+    'off': 1.7
+  end:
+    sid: act1_10
+    'off': 0.3
+    edge: end
+  mid: iran_marines_boarding
+  for: 검문 대상 유조선과 헬기
+- type: photo
+  start:
+    sid: ending_0
+    'off': 0.4
+  end:
+    sid: ending_0
+    'off': 0.3
+    edge: end
+  mid: iran_tehran_2026
+  for: 테헤란 도심
+- type: photo
+  start:
+    sid: act3_0
+    'off': 0.2
+  end:
+    sid: act3_1
+    'off': 0.3
+  mid: iran_araghchi_moscow
+  for: 아라그치 외무장관
+- type: photo
+  start:
+    sid: act4_0
+    'off': 0.4
+  end:
+    sid: act4_1
+    'off': 0.2
+    edge: end
+  mid: iran_hormuz_night_iss
+  for: 호르무즈 해협
+- type: photo
+  start:
+    sid: ending_1
+    'off': 0.2
+  end:
+    sid: ending_1
+    'off': 0.3
+    edge: end
+  mid: iran_doha_skyline_09
+  for: 도하
+- type: marker
+  start:
+    sid: act1_0
+    'off': 0.2
+  end:
+    sid: act1_2
+    'off': 0.3
+    edge: end
+  at_place: tehran
+  label: 테헤란
+  side: right
+  hl: true
+- type: route
+  start:
+    sid: cold_0
+    'off': 0.2
+  end:
+    sid: cold_3
+    'off': 0.3
+    edge: end
+  pts:
+    path: tehran_doha
+  grow: 12.5
+  col: ru
+  ship: false
+  dashed: true
+- type: marker
+  start:
+    sid: act1_12
+    'off': 0.2
+  end:
+    sid: act1_12
+    'off': 0.5
+    edge: end
+  at_place: tehran
+  label: 테헤란
+  sub: 양해각서 만료 · 2026.08.17
+  side: right
+- type: marker
+  start:
+    sid: ending_0
+    'off': 0.4
+  end:
+    sid: ending_1
+    'off': 0.0
+  at_place: doha
+  label: 도하
+  side: left
+  hl: true
+- type: panel
+  start:
+    sid: act2_0
+    'off': 0.3
+  end:
+    sid: act2_12
+    'off': 0.4
+    edge: end
+  kind: timeline
+  claims: &id001
+  - clm_0021
+  - clm_0022
+  - clm_0023
+  - clm_0024
+  - clm_0026
+  - clm_0027
+  - clm_0029
+  - clm_0031
+  - clm_0033
+  - clm_0001
+  - clm_0004
+  data:
+    title: 휴전안의 한 달
+    subtitle: 2026년 9월 – 11월
+    start: '2026-09-15'
+    end: '2026-11-15'
+    events:
+    - date: '2026-09-24'
+      label: 이란 7일안
+      col: ru
+      side: -1
+      t:
+        sid: act2_1
+        'off': 0.4
+    - date: '2026-09-26'
+      label: 트럼프 거부
+      col: ru
+      side: 1
+      t:
+        sid: act2_3
+        'off': 0.4
+    - date: '2026-09-30'
+      label: 미 역제안
+      col: ru
+      side: -2
+      t:
+        sid: act2_4
+        'off': 0.4
+    - date: '2026-10-07'
+      label: 밴스 요구·선거 전 공격 없음
+      col: ru
+      side: 2
+      t:
+        sid: act2_5
+        'off': 0.4
+    - date: '2026-11-03'
+      label: 미 중간선거
+      col: ru
+      side: -1
+      t:
+        sid: act2_7
+        'off': 1.5
+    - date: '2026-10-11'
+      label: 레자이 '불충분'
+      col: ru
+      side: -2
+      t:
+        sid: act2_8
+        'off': 0.4
+    - date: '2026-10-25'
+      label: 카타르 초안
+      col: ru
+      side: 1
+      t:
+        sid: act2_9
+        'off': 0.4
+    - date: '2026-10-29'
+      label: 밴스 서한·테헤란 협의
+      col: ru
+      side: -2
+      t:
+        sid: act2_11
+        'off': 0.4
+    - date: '2026-10-31'
+      label: 도하
+      col: ru
+      side: 3
+      t:
+        sid: act2_12
+        'off': 2.5
+- type: panel
+  start:
+    sid: act5_0
+    'off': 0.3
+  end:
+    sid: act5_3
+    'off': 0.4
+    edge: end
+  kind: timeline
+  claims: *id001
+  data:
+    title: 휴전안의 한 달
+    subtitle: 2026년 9월 – 11월
+    start: '2026-09-15'
+    end: '2026-11-15'
+    events:
+    - date: '2026-09-24'
+      label: 이란 7일안
+      col: ru
+      side: -1
+      t:
+        sid: act5_0
+        'off': 0.6
+    - date: '2026-09-26'
+      label: 트럼프 거부
+      col: ru
+      side: 1
+      t:
+        sid: act5_0
+        'off': 0.6
+    - date: '2026-09-30'
+      label: 미 역제안
+      col: ru
+      side: -2
+      t:
+        sid: act5_0
+        'off': 0.6
+    - date: '2026-10-07'
+      label: 밴스 요구·선거 전 공격 없음
+      col: ru
+      side: 2
+      t:
+        sid: act5_0
+        'off': 0.6
+    - date: '2026-11-03'
+      label: 미 중간선거
+      col: gold
+      side: -1
+      t:
+        sid: act5_0
+        'off': 0.6
+    - date: '2026-10-11'
+      label: 레자이 '불충분'
+      col: ru
+      side: -2
+      t:
+        sid: act5_0
+        'off': 0.6
+    - date: '2026-10-25'
+      label: 카타르 초안
+      col: ru
+      side: 1
+      t:
+        sid: act5_0
+        'off': 0.6
+    - date: '2026-10-29'
+      label: 밴스 서한·테헤란 협의
+      col: ru
+      side: -2
+      t:
+        sid: act5_0
+        'off': 0.6
+    - date: '2026-10-31'
+      label: 도하
+      col: ru
+      side: 3
+      t:
+        sid: act5_0
+        'off': 0.6
+- type: panel
+  start:
+    sid: act4_2
+    'off': 0.2
+  end:
+    sid: act4_2
+    'off': 0.5
+    edge: end
+  kind: dots
+  claims:
+  - clm_0041
+  data:
+    title: 호르무즈 통항
+    subtitle: 영국 해사무역기구 주간 집계 · 10월 28일 주
+    provenance:
+      verification: estimated
+      sources:
+      - clm_0041
+    highlight: 70
+    accent: ru
+    big: '70'
+    unit: '%'
+    caption: 전쟁 전보다 줄어든 통항
+    detail: 미국 제공 수치는 독립 검증 불가
+- type: panel
+  start:
+    sid: act4_6
+    'off': 0.2
+  end:
+    sid: act4_6
+    'off': 0.5
+    edge: end
+  kind: dual_line
+  claims:
+  - clm_0045
+  data:
+    title: 브렌트유
+    subtitle: CNBC · 12월물 마감(10/30), 전쟁 직전 약 72달러(2/27)
+    provenance:
+      verification: verified
+      sources:
+      - clm_0045
+    y_min: 0
+    y_max: 140
+    y_step: 20
+    y_prefix: $
+    x_labels:
+    - 2월 27일
+    - 10월 30일
+    series:
+    - label: 브렌트유(달러/배럴)
+      col: gold
+      values:
+      - 72.0
+      - 117.64
+      decimals: 2
+- type: panel
+  start:
+    sid: act5_5
+    'off': 0.2
+  end:
+    sid: act5_6
+    'off': 0.5
+    edge: end
+  kind: checklist
+  claims:
+  - clm_0041
+  - clm_0046
+  - clm_0052
+  - clm_0033
+  data:
+    title: 지켜볼 신호
+    items:
+    - 해협을 지나는 배의 수
+    - 전쟁 위험 보험료
+    - 카타르에 묶인 자금
+    - 카타르·파키스탄·오만 중재 일정
+    footer: 그리고 레바논 전선
+- type: panel
+  start:
+    sid: act5_7
+    'off': 0.2
+  end:
+    sid: act5_7
+    'off': 0.5
+    edge: end
+  kind: dual_line
+  claims:
+  - clm_0046
+  data:
+    title: 전쟁 위험 보험료
+    subtitle: 보험 중개사(FT·Marsh) · 선가 대비, 10월 6~10%
+    provenance:
+      verification: verified
+      sources:
+      - clm_0046
+    y_min: 0
+    y_max: 12
+    y_step: 2
+    y_prefix: ''
+    x_labels:
+    - 전쟁 전
+    - 10월
+    series:
+    - label: 하단
+      col: teal
+      values:
+      - 0.25
+      - 6.0
+      decimals: 2
+    - label: 상단
+      col: ru
+      values:
+      - 0.25
+      - 10.0
+      decimals: 2
+    unit: '%'
+- type: panel
+  start:
+    sid: act6_2
+    'off': 0.2
+  end:
+    sid: act6_3
+    'off': 0.5
+    edge: end
+  kind: dual_line
+  claims:
+  - clm_0049
+  data:
+    title: 울산 반입 원유의 선적지
+    subtitle: 울산세관 1~9월 · 해협 밖 선적에도 걸프 원유 환적분 가능
+    provenance:
+      verification: verified
+      sources:
+      - clm_0049
+    y_min: 0
+    y_max: 100
+    y_step: 20
+    y_prefix: ''
+    x_labels:
+    - 1월
+    - 9월
+    series:
+    - label: 해협 안쪽
+      col: ru
+      values:
+      - 79.5
+      - 0.0
+      decimals: 1
+    - label: 해협 밖 중동 항
+      col: teal
+      values:
+      - 8.4
+      - 70.6
+      decimals: 1
+    unit: '%'
+- type: panel
+  start:
+    sid: act6_5
+    'off': 0.2
+  end:
+    sid: act6_5
+    'off': 0.5
+    edge: end
+  kind: dual_line
+  claims:
+  - clm_0050
+  data:
+    title: 휘발유 전국 평균
+    subtitle: 오피넷 · 2월 4주 ↔ 10월 4주
+    provenance:
+      verification: verified
+      sources:
+      - clm_0050
+    y_min: 1500
+    y_max: 1900
+    y_step: 100
+    y_prefix: ''
+    x_labels:
+    - 2월 4주
+    - 10월 4주
+    series:
+    - label: 휘발유(리터당)
+      col: gold
+      values:
+      - 1691.3
+      - 1855.7
+      decimals: 1
+    unit: 원
+- type: photo
+  start:
+    sid: act1_9
+    'off': 0.2
+  end:
+    sid: act1_9
+    'off': 2.0
+  mid: iran_trump_ankara
+  for: 착륙하는 대통령 전용기
+- type: country
+  start:
+    sid: act6_0
+    'off': 0.2
+  end:
+    sid: act6_1
+    'off': 0.3
+    edge: end
+  codes:
+  - KR
+  col: gold
+  a: 0.08
+- type: quote
+  start:
+    sid: act4_3
+    'off': 0.4
+  end:
+    sid: act4_3
+    'off': 0.4
+    edge: end
+  flag: ir
+  speaker: 이란 혁명수비대
+  role: 해군
+  text: 남쪽 항로에서 유조선 세 척이 기뢰에 맞았다
+  src: CNBC · The New Arab
+  date: 2026.10.29
+  accent: ru
+  pos: center
+  claims:
+  - clm_0042
+- type: quote
+  start:
+    sid: act4_4
+    'off': 0.4
+  end:
+    sid: act4_4
+    'off': 0.4
+    edge: end
+  flag: us
+  speaker: 미 중부사령부
+  role: ''
+  text: 국제적으로 인정된 주요 통항로의 기뢰는 모두 제거했다
+  src: Middle East Eye · Gulf News
+  date: 2026.10.28
+  accent: us
+  pos: center
+  claims:
+  - clm_0042
+- type: badge
+  start:
+    sid: cold_2
+    'off': 0.3
+  end:
+    sid: cold_2
+    'off': 2.8
+  lon: 47.5
+  lat: 31.5
+  kind: person
+  pid: rubio
+  flag: us
+  label: 루비오
+  role: 미국 국무장관
+  accent: us
+- type: badge
+  start:
+    sid: act1_4
+    'off': 3.6
+  end:
+    sid: act1_4
+    'off': 0.4
+    edge: end
+  lon: 70.0
+  lat: 30.5
+  kind: person
+  pid: sharif
+  flag: pk
+  label: 샤리프
+  role: 파키스탄 총리
+  accent: green
+sound:
+  bgm: music.zabriskie_mario_bava
+  intensity:
+  - - 0
+    - 0.55
+  - - scene_start: act1
+    - 0.68
+  - - scene_start: act2
+    - 0.6
+  - - scene_start: act3
+    - 0.55
+  - - scene_start: act4
+    - 0.66
+  - - scene_start: act5
+    - 0.62
+  - - scene_start: act6
+    - 0.58
+  - - scene_start: ending
+    - 0.55
+  - - total: true
+      'off':
+      - 0.5
+      - -7.0
+    - 0.52
+  - - total: true
+      'off': 0.5
+    - 0.0
+  cues:
+  - kind: boom
+    t:
+      sid: act1_1
+      'off': 3.0
+    v: 0.45
+  - kind: boom
+    t:
+      sid: act1_8
+      'off': 3.0
+    v: 0.4
+  - kind: boom
+    t:
+      sid: act1_8
+      'off': 6.0
+    v: 0.5
+stage_config:
+  mercator:
+    theme: light
+    theme_reason: 지정학 — 장르 기본 D154, 감독 결정 D550
+media_note: 'v2(구현 세션 손질, AI 초안 v1 바탕): 출처 없는 좌표(오만 연안·이란 남부·기뢰 남쪽 항로·이란 중심점)와 그 위 boom·경로, 봉쇄선 barrier(좌표 출처 없음), 밴스 서한 경로(출발점 무의미) 삭제(W1.1 M5·D-0450 §8). 실사 13(사진 10·영상 3 — media_beats 하한 13): 도하·에픽 퓨리
+  영상·MODIS·이슬라마바드 회담장·4월 봉쇄 영상·뉴올리언스·7월 공습 영상·7/16 검문·테헤란·아라그치·해협 야간·덱스트러스·도하 2. versus 5행 대 5행(D-0453 §3, 미국 5행째 ''보도, 트럼프 부인''). 시간축 panel timeline 두 번(act2 도입·act5 재진입, 축 2026-09-15→11-15 같게, 핀 9 — 10/6~8·10/28~30
+  묶음). 유튜브 공식 클립은 봇 검사로 실패(우회 안 함, D551). 휘장 0(중부사령부 휘장 Commons Restrictions). UF-170 — 화면 라벨 0. · v3(콘티 판 사전 검사 hard 46 정리): 국기 뱃지 정리(한국만), 사진↔마커 시간 분리, 경로 grow ≥ 속도 상한, act2_11·act4·act6 구도 넓힘, 사진 for
+  = 레지스트리 main_subject, 테헤란→도하 경로(cold_0 도착), 빈 지도 구간 마커·기사. · v4: 오프닝 첫 폭 60, ''선박 위협'' 경계선·소하르 마커 삭제(라벨 겹침), 기사 2(8/17 만료·해운협회 반박). · v5: 기사 이웃 연속 정리(8/17·해운협회 기사 대신 테헤란 마커 부제·도하 마커), act5_1 아라그치 뱃지,
+  도하 마커 왼쪽, 오프닝 중심 60E. · v6(D-0457): 시간축 패널 act2 전체(act2_0→act2_12, 핀 9 문장마다)·act5 재진입(act5_0→act5_3, 11/3 강조 — act5_4 하메네이 인용은 패널 뒤 지도에서), act2 의 뱃지·인용·기사·사진은 패널을 덮어 걷어냄(테헤란 사진 → ending_0). 데이터 패널: dots
+  70%·dual_line 2점(브렌트·보험료·울산 선적지·휘발유 — 레지스트리에 bars 패널 없음)·checklist 4+꼬리 줄(레바논). · v6.1: versus 4행 대 4행(5행이 상자 밖으로 넘침 — 합친 행), 10/11 핀 아래쪽. · v7(D-0458): 덱스트러스 2003 사진 삭제(23년 전 자료, photo-age) → act4_3·act4_4
+  양측 quote 두 줄(같은 무게). 실사 13 유지: act1_9 앙카라 나토 도착 사진(2026-07-07, CC BY 4.0). 한국 국기 뱃지 → country KR 강조. 초상 뱃지 루비오(cold_2)·샤리프(act1_4) 추가. 밴스·레자이 뱃지는 act2 시간축 패널 위라 넣지 않음(badge-over-panel). 푸자이라 지명 사전 등재(data/gazetteer.yaml
+  manual).'

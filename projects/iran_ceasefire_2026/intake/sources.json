@@ -1,0 +1,1793 @@
+{
+ "schema_version": 1,
+ "sources": [
+  {
+   "id": "src_art_0001",
+   "url": "https://www.aljazeera.com/news/2026/10/31/iran-fm-says-us-outreach-a-positive-step-as-delegation-in-qatar-for-talks",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "Iran FM says US outreach a 'positive step' as delegation in Qatar for talks",
+   "headline_ko": "이란 외무장관 \"미국의 접촉은 긍정적 조치\"…대표단 카타르로",
+   "published_at": "2026-10-31",
+   "key_facts": [
+    "Araghchi: US attempt to open dialogue 'a positive step'; no need to meet US 'at this stage'",
+    "Iranian delegation in Doha a day after Qatari mediators were in Tehran",
+    "Araghchi: Qatar proposed five-day implementation; Iran reached a proposal reducing it to two days",
+    "Conditions: lift sanctions imposed after the Islamabad memorandum, smaller US military presence, restore oil waivers, release all frozen funds incl. those in Qatar, recognition of Oman-agreed route"
+   ]
+  },
+  {
+   "id": "src_art_0002",
+   "url": "https://www.cnbc.com/2026/10/31/qatar-iran-us-talks-mediation.html",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "CNBC",
+   "headline_original": "Qatari mediators held talks in Tehran aimed at restarting direct U.S.-Iran negotiations, source says",
+   "headline_ko": "카타르 중재단, 테헤란서 미·이란 직접 협상 재개 위한 협의",
+   "published_at": "2026-10-31",
+   "key_facts": [
+    "Qatari delegation held more than 12 hours of talks in Tehran on Oct 30 (Axios)",
+    "Talks to continue in Doha on Oct 31"
+   ]
+  },
+  {
+   "id": "src_art_0003",
+   "url": "https://www.bloomberg.com/news/articles/2026-10-30/qatari-delegation-in-tehran-for-talks-as-us-strike-fears-mount",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "Bloomberg",
+   "headline_original": "Qatari Delegation in Tehran for Talks as US Strike Fears Mount",
+   "headline_ko": "카타르 대표단 테헤란서 협의…미 공격 우려 속",
+   "published_at": "2026-10-30",
+   "key_facts": [
+    "Qatari delegation in Tehran, in contact with the White House"
+   ]
+  },
+  {
+   "id": "src_art_0004",
+   "url": "https://khan.co.kr/article/202610311702001",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "경향신문",
+   "headline_original": "커지는 미 공격 재개 우려···중재국 카타르, 이란과 마라톤 협상 '돌파구' 찾을까",
+   "headline_ko": "커지는 미 공격 재개 우려…카타르, 이란과 마라톤 협상",
+   "published_at": "2026-10-31",
+   "key_facts": [
+    "카타르 중재단 테헤란에서 12시간 넘게 협상, 도하에서 이어질 예정",
+    "미국은 핵 양보, 이란은 봉쇄 해제·동결 자금·원유 판매 먼저 요구"
+   ]
+  },
+  {
+   "id": "src_art_0005",
+   "url": "https://www.thenationalnews.com/news/us/2026/10/31/us-iran-strikes-g20-rubio/",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "The National",
+   "headline_original": "Rubio says US has yet to decide on new Iran strikes",
+   "headline_ko": "루비오 \"새 이란 공격 아직 결정 안 해\"",
+   "published_at": "2026-10-31",
+   "key_facts": [
+    "Rubio at G20 foreign ministers meeting (Atlanta): Trump 'hasn't made a decision'; prefers to solve it diplomatically; no deadline"
+   ]
+  },
+  {
+   "id": "src_art_0006",
+   "url": "https://english.aawsat.com/world/5336063-rubio-says-us-yet-decide-new-iran-strikes",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Asharq Al-Awsat",
+   "headline_original": "Rubio Says US Yet to Decide on New Iran Strikes",
+   "headline_ko": "루비오 \"미국, 새 이란 공격 결정 안 해\"",
+   "published_at": "2026-10-31",
+   "key_facts": [
+    "Rubio: Trump has not decided on new strikes"
+   ]
+  },
+  {
+   "id": "src_art_0007",
+   "url": "https://www.france24.com/en/middle-east/20261031-iran-s-khamenei-warns-us-and-israel-against-new-attacks",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "France 24(AFP)",
+   "headline_original": "Iran's Khamenei warns US and Israel against new attacks",
+   "headline_ko": "이란 최고지도자 하메네이, 미·이스라엘에 새 공격 경고",
+   "published_at": "2026-10-31",
+   "key_facts": [
+    "Supreme leader Mojtaba Khamenei warned the US and Israel against returning to war (written statement)",
+    "Any threat must be met with an immediate, impactful and geographically unrestricted response",
+    "War began Feb 28 with US-Israeli strikes that killed his father Ali Khamenei"
+   ]
+  },
+  {
+   "id": "src_art_0008",
+   "url": "https://www.scmp.com/news/world/middle-east/article/3372847/irans-supreme-leader-warns-us-israel-against-war",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "South China Morning Post",
+   "headline_original": "Iran's supreme leader warns US, Israel against war",
+   "headline_ko": "이란 최고지도자, 미·이스라엘에 전쟁 경고",
+   "published_at": "2026-10-31",
+   "key_facts": [
+    "Mojtaba Khamenei ordered 'an immediate, impactful, and geographically unrestricted response' to any attack"
+   ]
+  },
+  {
+   "id": "src_art_0009",
+   "url": "https://english.news.cn/20261101/2bef8f3320064f498aef8b05c1cf7949/c.html",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Xinhua",
+   "headline_original": "Iran's security chief says US tone changed in Vance letter",
+   "headline_ko": "이란 안보 수장 \"밴스 서한, 미국 어조 바뀌어\"",
+   "published_at": "2026-11-01",
+   "key_facts": [
+    "Rezaei: read Vance letter, not replied; US tone 'changed completely' — a good sign — but no concrete proposals"
+   ]
+  },
+  {
+   "id": "src_art_0010",
+   "url": "https://www.aljazeera.com/news/2026/10/29/what-we-know-of-vances-letter-to-rezaei-as-trump-warns-gulf-to-prepare",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "What we know of Vance's letter to Rezaei, as Trump warns Gulf to 'prepare'",
+   "headline_ko": "밴스가 레자이에게 보낸 서한에 대해 알려진 것",
+   "published_at": "2026-10-29",
+   "key_facts": [
+    "Vance wrote to SNSC secretary Mohsen Rezaei (WSJ, NYT)",
+    "Trump described the outreach as about medical supplies",
+    "Letter not published"
+   ]
+  },
+  {
+   "id": "src_art_0011",
+   "url": "https://www.thenationalnews.com/news/gulf/2026/10/29/trump-downplays-vance-letter-sent-to-iran/",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "The National",
+   "headline_original": "Trump downplays Vance letter sent to Iran",
+   "headline_ko": "트럼프, 이란에 보낸 밴스 서한 의미 축소",
+   "published_at": "2026-10-29",
+   "key_facts": [
+    "Trump: 'They need help with medical supplies'; asked whether he directed talks restart: 'No'"
+   ]
+  },
+  {
+   "id": "src_art_0012",
+   "url": "https://www.axios.com/2026/10/28/vance-iran-nuclear-talks-letter",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Axios",
+   "headline_original": "Vance letter to Iran: talks must address nuclear issue",
+   "headline_ko": "밴스 서한 \"협상은 핵 문제 다뤄야\"",
+   "published_at": "2026-10-28",
+   "key_facts": [
+    "Axios: Vance letter premised on talks addressing the nuclear issue"
+   ]
+  },
+  {
+   "id": "src_art_0013",
+   "url": "https://www.haaretz.com/middle-east-news/2026-10-28/ty-article/report-u-s-prepares-gulf-allies-for-short-post-midterm-conflict-with-iran/000001a1-81b7-db17-a3ff-d7b721580000",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Haaretz",
+   "headline_original": "Report: U.S. Prepares Gulf Allies for Short, Post-midterm Conflict With Iran",
+   "headline_ko": "보도 \"미국, 걸프 동맹에 중간선거 뒤 짧은 전쟁 대비 통보\"",
+   "published_at": "2026-10-28",
+   "key_facts": [
+    "WSJ: US told Gulf states to prepare for a short, intense campaign after Nov 3"
+   ]
+  },
+  {
+   "id": "src_art_0014",
+   "url": "https://www.arabnews.com/middle-east/iran-says-discussing-plan-with-mediators-to-end-war-reopen-hormuz-3008650",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Arab News(Reuters)",
+   "headline_original": "Iran says discussing plan with mediators to end war, reopen Hormuz",
+   "headline_ko": "이란 \"종전·호르무즈 재개방 방안 중재국과 논의\"",
+   "published_at": "2026-10-28",
+   "key_facts": [
+    "Senior Iranian official: Qatar offered 'unacceptable ideas and not an offer'",
+    "Araghchi: reviewing ideas to implement 7-day plan in even less than a week"
+   ]
+  },
+  {
+   "id": "src_art_0015",
+   "url": "https://www.iranintl.com/en/202610288735",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Iran International(Reuters)",
+   "headline_original": "Qatar hands Iran seven-day draft",
+   "headline_ko": "카타르, 이란에 7일 초안 전달",
+   "published_at": "2026-10-28",
+   "key_facts": [
+    "Qatari mediators handed Tehran a draft with a seven-day timeline of daily confidence-building steps on Oct 25 (Reuters, non-Iranian official)",
+    "Details unclear"
+   ]
+  },
+  {
+   "id": "src_art_0016",
+   "url": "https://www.thenationalnews.com/news/mena/2026/10/28/iran-welcomes-negotiations-after-reported-qatari-mediated-draft-deal/",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "The National",
+   "headline_original": "Iran welcomes negotiations after reported Qatari-mediated draft deal",
+   "headline_ko": "이란, 카타르 중재 초안 보도 뒤 \"협상 환영\"",
+   "published_at": "2026-10-28",
+   "key_facts": [
+    "Qatar presented a seven-day draft on Oct 25 with daily confidence-building steps (official briefed on talks)",
+    "Senior Iranian official: 'unacceptable ideas and not an offer'"
+   ]
+  },
+  {
+   "id": "src_art_0017",
+   "url": "https://english.alarabiya.net/News/middle-east/2026/10/11/iran-says-us-response-to-its-proposal-to-reopen-strait-of-hormuz-was-insufficient-",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Al Arabiya(Reuters)",
+   "headline_original": "Iran says US response to its proposal to reopen Strait of Hormuz was insufficient",
+   "headline_ko": "이란 \"호르무즈 재개방 제안에 대한 미국 답변 불충분\"",
+   "published_at": "2026-10-11",
+   "key_facts": [
+    "Rezaei: US reply to Iran's seven conditions insufficient; US accepted some conditions, others unresolved",
+    "US rejected joint Iran-Oman management of the strait"
+   ]
+  },
+  {
+   "id": "src_art_0018",
+   "url": "https://en.irna.ir/news/86289861/Security-chief-US-response-to-Iran-s-7-conditions-insufficient",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "IRNA",
+   "headline_original": "Security chief: US response to Iran's 7 conditions insufficient",
+   "headline_ko": "안보 수장 \"이란 7개 조건에 대한 미국 답변 불충분\"",
+   "published_at": "2026-10-11",
+   "key_facts": [
+    "Rezaei: US response insufficient"
+   ]
+  },
+  {
+   "id": "src_art_0019",
+   "url": "https://www.cnn.com/2026/10/08/politics/trump-iran-attack-election",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "CNN",
+   "headline_original": "Trump says he will not attack Iran before the midterm election",
+   "headline_ko": "트럼프 \"중간선거 전에는 이란 공격 안 해\"",
+   "published_at": "2026-10-08",
+   "key_facts": [
+    "Trump: US will not attack Iran before the November 3 midterms",
+    "Blockade remains in full force"
+   ]
+  },
+  {
+   "id": "src_art_0020",
+   "url": "https://www.aljazeera.com/news/2026/10/9/trump-says-us-will-not-strike-iran-before-midterm-elections",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "Trump says US will not strike Iran before midterm elections",
+   "headline_ko": "트럼프 \"중간선거 전 이란 타격 없다\"",
+   "published_at": "2026-10-09",
+   "key_facts": [
+    "Trump said the US will not strike Iran before the midterm elections"
+   ]
+  },
+  {
+   "id": "src_art_0021",
+   "url": "https://www.usnews.com/news/top-news/articles/2026-10-06/exclusive-in-interview-us-vice-president-vance-says-iran-must-cut-enrichment-to-end-war",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "U.S. News(Reuters)",
+   "headline_original": "Exclusive: In interview, US Vice President Vance says Iran must cut enrichment to end war",
+   "headline_ko": "밴스 부통령 \"종전하려면 이란 농축 줄여야\"",
+   "published_at": "2026-10-06",
+   "key_facts": [
+    "Vance: Iran must make a 'meaningful' reduction in enrichment capacity",
+    "Vance: why do you need 60% enriched fuel"
+   ]
+  },
+  {
+   "id": "src_art_0022",
+   "url": "https://www.aljazeera.com/news/2026/10/7/us-sets-new-demands-for-iran-deal-what-are-they",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "US sets new demands for Iran deal: What are they?",
+   "headline_ko": "미국, 이란 합의에 새 요구…무엇인가",
+   "published_at": "2026-10-07",
+   "key_facts": [
+    "Vance asked Iran for a 'meaningful' reduction in uranium enrichment capacity",
+    "Iranian official: recognition of enrichment right is a red line"
+   ]
+  },
+  {
+   "id": "src_art_0023",
+   "url": "https://www.aljazeera.com/news/2026/9/25/whats-in-irans-seven-day-plan-to-reopen-the-strait-of-hormuz",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "What's in Iran's seven-day plan to reopen the Strait of Hormuz?",
+   "headline_ko": "이란의 '호르무즈 재개방 7일안'에는 무엇이 들었나",
+   "published_at": "2026-09-25",
+   "key_facts": [
+    "Araghchi presented the plan at the UN General Assembly (New York)",
+    "US ceases hostilities on all fronts incl. Lebanon, lifts naval blockade, waives oil sanctions, releases frozen assets (estimated $12bn)",
+    "Strait reopens on day six; talks start on day seven"
+   ]
+  },
+  {
+   "id": "src_art_0024",
+   "url": "https://thehill.com/policy/international/6112561-iran-us-seven-day-peace-plan/",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "The Hill",
+   "headline_original": "Iran pitches US seven-day peace plan",
+   "headline_ko": "이란, 미국에 7일 평화안 제시",
+   "published_at": "2026-09-25",
+   "key_facts": [
+    "Seven days cessation incl. Lebanon, lift blockade, release frozen assets, lift oil sanctions; strait reopens day 6, comprehensive talks day 7"
+   ]
+  },
+  {
+   "id": "src_art_0025",
+   "url": "https://www.aljazeera.com/news/2026/9/26/trump-rejects-irans-seven-day-roadmap-to-reopen-strait-of-hormuz",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "Trump rejects Iran's seven-day roadmap to end war and reopen Hormuz",
+   "headline_ko": "트럼프, 이란의 '7일 로드맵' 거부",
+   "published_at": "2026-09-26",
+   "key_facts": [
+    "Trump: 'that deal would not be acceptable'"
+   ]
+  },
+  {
+   "id": "src_art_0026",
+   "url": "https://www.washingtonpost.com/national-security/2026/09/26/trump-rejects-iran-proposal-reopen-strait-hormuz-restart-peace-talks/",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "The Washington Post",
+   "headline_original": "Trump rejects Iran proposal to reopen Strait of Hormuz, restart peace talks",
+   "headline_ko": "트럼프, 해협 재개방·협상 재개 이란 제안 거부",
+   "published_at": "2026-09-26",
+   "key_facts": [
+    "Trump rejected the plan; 'We have total control of the Hormuz Strait'"
+   ]
+  },
+  {
+   "id": "src_art_0027",
+   "url": "https://www.cnbc.com/2026/09/30/us-iran-war-trump-hormuz.html",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "CNBC",
+   "headline_original": "Iran receives US counterproposal via Qatar",
+   "headline_ko": "이란, 카타르 거쳐 미국 역제안 받아",
+   "published_at": "2026-09-30",
+   "key_facts": [
+    "Iran govt spokeswoman: US counterproposal presented to cabinet, substance not described",
+    "Reuters: sequencing the sticking point"
+   ]
+  },
+  {
+   "id": "src_art_0028",
+   "url": "https://www.aljazeera.com/news/2026/2/28/us-israel-bomb-iran-a-timeline-of-talks-and-threats-leading-up-to-attacks",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "US, Israel bomb Iran: A timeline of talks and threats leading up to attacks",
+   "headline_ko": "미국·이스라엘 이란 폭격 — 공격까지의 협상·위협 연표",
+   "published_at": "2026-02-28",
+   "key_facts": [
+    "US and Israel began joint strikes on Iran on Feb 28"
+   ]
+  },
+  {
+   "id": "src_art_0029",
+   "url": "https://www.aljazeera.com/news/2026/3/2/iran-says-will-attack-any-ship-trying-to-pass-through-strait-of-hormuz",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "Iran says will attack any ship trying to pass through Strait of Hormuz",
+   "headline_ko": "이란 \"호르무즈 통과 선박 공격하겠다\"",
+   "published_at": "2026-03-02",
+   "key_facts": [
+    "IRGC: strait closed, any ship trying to pass will be attacked"
+   ]
+  },
+  {
+   "id": "src_art_0030",
+   "url": "https://www.aljazeera.com/features/2026/3/8/who-is-mojtaba-khamenei-a-contender-for-irans-leadership-amid-war",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "Who is Mojtaba Khamenei?",
+   "headline_ko": "모즈타바 하메네이는 누구인가",
+   "published_at": "2026-03-08",
+   "key_facts": [
+    "Ali Khamenei killed in Feb 28 strikes; son Mojtaba Khamenei succeeded"
+   ]
+  },
+  {
+   "id": "src_art_0031",
+   "url": "https://www.tehrantimes.com/news/524572/Assembly-of-Experts-elects-Ayatollah-Mojtaba-Khamenei-as-Iran-s",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Tehran Times",
+   "headline_original": "Assembly of Experts elects Ayatollah Mojtaba Khamenei as Iran's Leader",
+   "headline_ko": "전문가회의, 모즈타바 하메네이를 최고지도자로 선출",
+   "published_at": "2026-03-09",
+   "key_facts": [
+    "Assembly of Experts elected Mojtaba Khamenei third Supreme Leader"
+   ]
+  },
+  {
+   "id": "src_art_0032",
+   "url": "https://www.cnbc.com/2026/04/07/trump-iran-ceasefire-hormuz-strait.html",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "CNBC",
+   "headline_original": "Trump announces two-week ceasefire with Iran",
+   "headline_ko": "트럼프, 이란과 2주 휴전 발표",
+   "published_at": "2026-04-07",
+   "key_facts": [
+    "Trump announced two-week ceasefire crediting Pakistan PM Shehbaz Sharif and Field Marshal Asim Munir"
+   ]
+  },
+  {
+   "id": "src_art_0033",
+   "url": "https://www.aljazeera.com/features/2026/4/8/how-pakistan-managed-to-get-the-us-and-iran-to-a-ceasefire",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "How Pakistan managed to get the US and Iran to a ceasefire",
+   "headline_ko": "파키스탄은 어떻게 미국과 이란을 휴전으로 이끌었나",
+   "published_at": "2026-04-08",
+   "key_facts": [
+    "Two-week truce took effect; proposed by Pakistan PM Sharif"
+   ]
+  },
+  {
+   "id": "src_art_0034",
+   "url": "https://www.npr.org/2026/04/12/nx-s1-5782538/u-s-iran-peace-talks-islamabad-collapse",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "NPR",
+   "headline_original": "U.S.-Iran peace talks in Islamabad collapse",
+   "headline_ko": "이슬라마바드 미·이란 평화 회담 결렬",
+   "published_at": "2026-04-12",
+   "key_facts": [
+    "Islamabad talks (Vance, Witkoff, Kushner vs Ghalibaf, Araghchi) ended without agreement"
+   ]
+  },
+  {
+   "id": "src_art_0035",
+   "url": "https://www.euronews.com/2026/04/13/us-blockade-of-iranian-ports-come-into-effect-as-trump-threatens-to-destroy-attack-ships",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Euronews",
+   "headline_original": "US blockade of Iranian ports comes into effect",
+   "headline_ko": "미국의 이란 항만 봉쇄 발효",
+   "published_at": "2026-04-13",
+   "key_facts": [
+    "CENTCOM blockade of traffic to and from Iranian ports from Apr 13"
+   ]
+  },
+  {
+   "id": "src_art_0036",
+   "url": "https://www.cnbc.com/2026/06/17/trump-vance-iran-deal-nuclear-g7.html",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "CNBC",
+   "headline_original": "Trump, Iran's President sign memorandum of understanding",
+   "headline_ko": "트럼프·이란 대통령, 양해각서 서명",
+   "published_at": "2026-06-17",
+   "key_facts": [
+    "Trump and Pezeshkian signed a 14-point memorandum; Pezeshkian signed remotely",
+    "Final deal within 60 days"
+   ]
+  },
+  {
+   "id": "src_art_0037",
+   "url": "https://www.middleeasteye.net/explainers/us-iran-peace-deal-memorandum-six-things-learned",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Middle East Eye",
+   "headline_original": "US-Iran peace deal memorandum: six things we learned",
+   "headline_ko": "미·이란 양해각서에서 알게 된 여섯 가지",
+   "published_at": "2026-06-17",
+   "key_facts": [
+    "Islamabad MoU signed electronically: Trump at Versailles, Pezeshkian in Tehran, Sharif mediator; 14 points incl. 60-day negotiation"
+   ]
+  },
+  {
+   "id": "src_art_0038",
+   "url": "https://www.cnbc.com/2026/06/18/us-navy-blockade-iran-trump-oil.html",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "CNBC",
+   "headline_original": "U.S. Navy ends blockade of Iran's ports and coastal areas",
+   "headline_ko": "미 해군, 이란 항만 봉쇄 해제",
+   "published_at": "2026-06-18",
+   "key_facts": [
+    "US Navy lifted the blockade"
+   ]
+  },
+  {
+   "id": "src_art_0039",
+   "url": "https://www.cbsnews.com/live-updates/iran-war-us-deal-peace-israel-lebanon-hezbollah-strait-of-hormuz/",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "CBS News",
+   "headline_original": "Iran warns Israeli attack on Lebanon would violate memorandum",
+   "headline_ko": "이란 \"이스라엘의 레바논 공격은 양해각서 위반\"",
+   "published_at": "2026-06-16",
+   "key_facts": [
+    "Araghchi: any Israeli attack on Lebanon will be regarded as a violation of the memorandum"
+   ]
+  },
+  {
+   "id": "src_art_0040",
+   "url": "https://www.britannica.com/event/2026-Iran-war",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL) — 게시일은 항목 갱신일 미확인",
+   "type": "article",
+   "publisher": "Encyclopaedia Britannica",
+   "headline_original": "2026 Iran war",
+   "headline_ko": "2026년 이란 전쟁",
+   "published_at": "2026-10-01",
+   "key_facts": [
+    "Jul 6-7: IRGC struck three commercial ships along Omani coast incl. a Qatari LNG tanker; US retaliatory strikes; US reinstated oil sanctions"
+   ]
+  },
+  {
+   "id": "src_art_0041",
+   "url": "https://www.aljazeera.com/news/2026/7/7/us-says-strikes-launched-as-explosions-heard-in-southern-iran",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "US says strikes launched as explosions heard in southern Iran",
+   "headline_ko": "미국 \"공습 개시\"…이란 남부서 폭발음",
+   "published_at": "2026-07-07",
+   "key_facts": [
+    "US retaliatory strikes on southern Iran after ship attacks"
+   ]
+  },
+  {
+   "id": "src_art_0042",
+   "url": "https://www.aljazeera.com/news/2026/7/8/trump-says-ceasefire-over-after-us-iran-trade-attacks",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "Trump says ceasefire 'over' after US, Iran trade attacks",
+   "headline_ko": "트럼프 \"휴전은 끝났다\"",
+   "published_at": "2026-07-08",
+   "key_facts": [
+    "Trump at NATO summit (Ankara): 'the Cease Fire is OVER'"
+   ]
+  },
+  {
+   "id": "src_art_0043",
+   "url": "https://www.middleeasteye.net/live-blog/live-blog-update/iran-declares-islamabad-agreement-suspended-blames-us-violations",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Middle East Eye",
+   "headline_original": "Iran declares Islamabad agreement suspended, blames US violations",
+   "headline_ko": "이란 \"이슬라마바드 합의 중단\"…미국 위반 탓",
+   "published_at": "2026-07-18",
+   "key_facts": [
+    "Deputy FM Gharibabadi: Iran suspended all commitments, citing US strikes as violation of Article 1"
+   ]
+  },
+  {
+   "id": "src_art_0044",
+   "url": "https://www.cnbc.com/2026/08/17/us-iran-war-trump-hormuz.html",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "CNBC",
+   "headline_original": "US-Iran memorandum expires without final deal",
+   "headline_ko": "미·이란 양해각서, 최종 합의 없이 만료",
+   "published_at": "2026-08-17",
+   "key_facts": [
+    "60-day MoU window expired; Trump 'No' to extension"
+   ]
+  },
+  {
+   "id": "src_art_0045",
+   "url": "https://www.aljazeera.com/news/2026/8/17/us-iran-memorandum-of-understanding-expires-how-and-why-it-fell-apart",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "US-Iran Memorandum of Understanding expires: How and why it fell apart",
+   "headline_ko": "미·이란 양해각서 만료 — 어떻게, 왜 무너졌나",
+   "published_at": "2026-08-17",
+   "key_facts": [
+    "MoU expired Aug 17",
+    "Blockade reinstated Jul 14"
+   ]
+  },
+  {
+   "id": "src_art_0046",
+   "url": "https://www.middleeasteye.net/live-blog/live-blog-update/us-centcom-rejects-iranian-reports-vessels-hitting-hormuz-sea-mines",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Middle East Eye",
+   "headline_original": "US CENTCOM rejects Iranian reports of vessels hitting Hormuz sea mines",
+   "headline_ko": "미 중부사령부, 이란의 기뢰 피격 발표 부인",
+   "published_at": "2026-10-28",
+   "key_facts": [
+    "CENTCOM: Iranian claims false; primary transit lanes cleared of mines"
+   ]
+  },
+  {
+   "id": "src_art_0047",
+   "url": "https://gulfnews.com/world/mena/us-military-rejects-iranian-mine-strike-claims-says-hormuz-transit-lanes-remain-clear-1.500727648",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "Gulf News",
+   "headline_original": "US military rejects Iranian mine-strike claims, says Hormuz transit lanes remain 'clear'",
+   "headline_ko": "미군, 이란의 기뢰 피격 주장 부인…\"통항로 깨끗\"",
+   "published_at": "2026-10-30",
+   "key_facts": [
+    "IRGC: three tankers hit mines on a southern route it calls unauthorised; army added a fourth",
+    "CENTCOM: primary routes cleared",
+    "Iran did not name the vessels"
+   ]
+  },
+  {
+   "id": "src_art_0048",
+   "url": "https://www.cnbc.com/2026/10/30/iran-trump-hormuz-oil-middle-east-.html",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "CNBC",
+   "headline_original": "Iran says tankers hit mines in Strait of Hormuz",
+   "headline_ko": "이란 \"유조선들 호르무즈서 기뢰 피격\"",
+   "published_at": "2026-10-30",
+   "key_facts": [
+    "IRGC Navy: three tankers hit mines on 'unauthorised southern route'"
+   ]
+  },
+  {
+   "id": "src_art_0049",
+   "url": "https://www.newarab.com/news/iran-says-four-tankers-fire-after-hitting-mines-hormuz",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "The New Arab",
+   "headline_original": "Iran says four tankers on fire after hitting mines in Hormuz",
+   "headline_ko": "이란 \"유조선 네 척 기뢰 맞고 화재\"",
+   "published_at": "2026-10-30",
+   "key_facts": [
+    "Army: fourth tanker; vessels not identified"
+   ]
+  },
+  {
+   "id": "src_art_0050",
+   "url": "https://www.sofx.com/iran-says-four-tankers-struck-mines-in-strait-of-hormuz-on-route-u-s-calls-mine-free/",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "SOFX",
+   "headline_original": "Iran says four tankers struck mines on route U.S. calls mine-free",
+   "headline_ko": "이란 \"유조선 네 척 기뢰\"…미국 \"기뢰 없는 항로\"",
+   "published_at": "2026-10-30",
+   "key_facts": [
+    "Reuters maritime security sources: Panama-flagged Louise 1 damaged by limpet mines"
+   ]
+  },
+  {
+   "id": "src_art_0051",
+   "url": "https://www.middleeasteye.net/live-blog/live-blog-update/hormuz-shipping-traffic-remains-70-below-pre-war-levels-ukmto-says",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Middle East Eye",
+   "headline_original": "Hormuz shipping traffic remains 70% below pre-war levels, UKMTO says",
+   "headline_ko": "UKMTO \"호르무즈 통항 전쟁 전보다 70% 적어\"",
+   "published_at": "2026-10-30",
+   "key_facts": [
+    "UKMTO weekly (week to Oct 28): traffic about 70% below pre-war; US-reported figures cannot be independently verified"
+   ]
+  },
+  {
+   "id": "src_art_0052",
+   "url": "https://www.thenationalnews.com/news/mena/2026/10/31/attacks-on-ships-transiting-hormuz-in-october-highest-since-start-of-war/",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "The National",
+   "headline_original": "Attacks on ships transiting Hormuz in October highest since start of war",
+   "headline_ko": "10월 호르무즈 선박 공격, 개전 뒤 최다",
+   "published_at": "2026-10-31",
+   "key_facts": [
+    "More than 30 incidents in October"
+   ]
+  },
+  {
+   "id": "src_art_0053",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=65504",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL) — 게시일 검색 요약 기준",
+   "type": "article",
+   "publisher": "U.S. EIA",
+   "headline_original": "Amid regional conflict, the Strait of Hormuz remains critical oil chokepoint",
+   "headline_ko": "호르무즈 해협, 핵심 원유 길목",
+   "published_at": "2025-06-16",
+   "key_facts": [
+    "2024 Hormuz oil flow 20 million b/d ≈ 20% of global petroleum liquids consumption"
+   ]
+  },
+  {
+   "id": "src_art_0054",
+   "url": "https://www.cnbc.com/2026/10/30/oil-rises-on-supply-concerns-as-houthis-attack-saudi-arabia.html",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "CNBC",
+   "headline_original": "Oil rises on supply concerns",
+   "headline_ko": "공급 우려에 유가 상승",
+   "published_at": "2026-10-30",
+   "key_facts": [
+    "Brent December contract settled at $117.64 (highest since April); October +13.6%"
+   ]
+  },
+  {
+   "id": "src_art_0055",
+   "url": "https://www.cnbc.com/2026/04/21/oil-price-iran-war-middle-east.html",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "CNBC",
+   "headline_original": "Oil prices and the Iran war",
+   "headline_ko": "이란 전쟁과 유가",
+   "published_at": "2026-04-21",
+   "key_facts": [
+    "Pre-war Brent about $72 a barrel (Feb 27)"
+   ]
+  },
+  {
+   "id": "src_art_0056",
+   "url": "https://www.insurancebusinessmag.com/us/news/breaking-news/hormuz-warrisk-rates-surge-again-as-ceasefire-collapses-581988.aspx",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Insurance Business",
+   "headline_original": "Hormuz war-risk rates surge again as ceasefire collapses",
+   "headline_ko": "휴전 붕괴에 호르무즈 전쟁위험 보험료 다시 급등",
+   "published_at": "2026-10-14",
+   "key_facts": [
+    "Pre-war war-risk premium about 0.25% of hull value (Marsh)",
+    "October 6-10% per voyage (FT, brokers)",
+    "Marsh: rates won't come down until market believes risk has changed"
+   ]
+  },
+  {
+   "id": "src_art_0057",
+   "url": "https://www.news1.kr/local/busan-gyeongnam/6123848",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "뉴스1",
+   "headline_original": "해진공 \"호르무즈 통항 재개돼도 시장 정상화까지 최장 2년\"",
+   "headline_ko": "해양진흥공사 \"통항 재개 뒤 시장 정상화 최장 2년\"",
+   "published_at": "2026-04-02",
+   "key_facts": [
+    "한국해양진흥공사: 통항 재개 뒤 정상화 최장 2년 — 출항 러시 1~8주, 재균형 2~6개월, 구조 정상화 6~24개월"
+   ]
+  },
+  {
+   "id": "src_art_0058",
+   "url": "https://v.daum.net/v/20260304145729364",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "연합뉴스(다음)",
+   "headline_original": "작년 원유 수입 69.6% 호르무즈 경유",
+   "headline_ko": "작년 원유 수입 69.6% 호르무즈 경유",
+   "published_at": "2026-03-04",
+   "key_facts": [
+    "한국해양진흥공사: 2025년 원유 수입의 69.6%가 호르무즈 경유"
+   ]
+  },
+  {
+   "id": "src_art_0059",
+   "url": "https://www.seoul.co.kr/news/society/2026/03/04/20260304500263",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "서울신문",
+   "headline_original": "원유 수입 70% 호르무즈 경유",
+   "headline_ko": "원유 수입 70% 호르무즈 경유",
+   "published_at": "2026-03-04",
+   "key_facts": [
+    "한국해양진흥공사 보고서: 2025년 원유 수입의 69.6% 호르무즈 경유"
+   ]
+  },
+  {
+   "id": "src_art_0060",
+   "url": "https://m.sedaily.com/article/20100867",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "서울경제",
+   "headline_original": "울산 원유 반입, 호르무즈 안쪽 선적 0%",
+   "headline_ko": "울산 원유 반입, 호르무즈 안쪽 선적 0%",
+   "published_at": "2026-10-13",
+   "key_facts": [
+    "울산세관: 1~9월 울산 원유 반입 중 호르무즈 안쪽 선적 비중 1월 79.5% → 9월 0%",
+    "해협 밖 중동 항(얀부·푸자이라·소하르) 8.4% → 70.6%"
+   ]
+  },
+  {
+   "id": "src_art_0061",
+   "url": "https://www.iusm.co.kr/news/articleView.html?idxno=1069063",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "울산매일",
+   "headline_original": "울산 원유 수입선 변화",
+   "headline_ko": "울산 원유 수입선 변화",
+   "published_at": "2026-10-13",
+   "key_facts": [
+    "울산세관 집계 — 호르무즈 안쪽 선적 79.5%→0%, 해협 밖 선적도 걸프 원유 환적분 가능"
+   ]
+  },
+  {
+   "id": "src_art_0062",
+   "url": "https://www.ksilbo.co.kr/news/articleView.html?idxno=1055894",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "경상일보",
+   "headline_original": "울산 원유 호르무즈 우회",
+   "headline_ko": "울산 원유 호르무즈 우회",
+   "published_at": "2026-10-13",
+   "key_facts": [
+    "울산세관: 해협 밖 중동 항구 선적 70.6%"
+   ]
+  },
+  {
+   "id": "src_art_0063",
+   "url": "https://m.news.nate.com/view/20260228n03978",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "연합뉴스(네이트)",
+   "headline_original": "휘발유 전국 평균 1,691.3원",
+   "headline_ko": "휘발유 전국 평균 1,691.3원",
+   "published_at": "2026-02-28",
+   "key_facts": [
+    "오피넷: 2월 4주 휘발유 전국 평균 1,691.3원/L"
+   ]
+  },
+  {
+   "id": "src_art_0064",
+   "url": "https://www.fnnews.com/news/202610310605299399",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "파이낸셜뉴스",
+   "headline_original": "휘발유 1,855.7원",
+   "headline_ko": "휘발유 전국 평균 1,855.7원",
+   "published_at": "2026-10-31",
+   "key_facts": [
+    "오피넷: 10월 4주 휘발유 1,855.7원/L, 전쟁 전 대비 +164.4원"
+   ]
+  },
+  {
+   "id": "src_art_0065",
+   "url": "https://m.news.nate.com/view/20261031n07100",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "연합뉴스(네이트)",
+   "headline_original": "주유소 휘발유 가격",
+   "headline_ko": "주유소 휘발유 가격",
+   "published_at": "2026-10-31",
+   "key_facts": [
+    "10월 4주 휘발유 1,855.7원"
+   ]
+  },
+  {
+   "id": "src_art_0066",
+   "url": "https://m.news.nate.com/view/20260312n36943",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "연합뉴스(네이트)",
+   "headline_original": "비축유 2,246만 배럴 방출",
+   "headline_ko": "비축유 2,246만 배럴 방출",
+   "published_at": "2026-03-12",
+   "key_facts": [
+    "정부 비축유 2,246만 배럴 방출, 석유 최고가격제 발표"
+   ]
+  },
+  {
+   "id": "src_art_0067",
+   "url": "https://www.news1.kr/economy/idustry-trade/6099761",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "뉴스1",
+   "headline_original": "비축유 방출·최고가격제",
+   "headline_ko": "비축유 방출·최고가격제",
+   "published_at": "2026-03-12",
+   "key_facts": [
+    "비축유 2,246만 배럴(IEA 공동 행동), 최고가격제"
+   ]
+  },
+  {
+   "id": "src_art_0068",
+   "url": "https://www.korea.kr/news/policyNewsView.do?newsId=148960757",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "대한민국 정책브리핑",
+   "headline_original": "13일부터 석유 최고가격제 시행…휘발유 출고가 리터 당 1724원",
+   "headline_ko": "13일부터 석유 최고가격제 시행",
+   "published_at": "2026-03-12",
+   "key_facts": [
+    "3월 13일부터 석유 최고가격제 시행, 1997년 유가 자유화 이후 처음"
+   ]
+  },
+  {
+   "id": "src_art_0069",
+   "url": "https://segye.com/newsView/20260623515901",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "세계일보",
+   "headline_original": "[단독] 미·이란 협상 핵심 된 韓 반환 자금… 65억불, 독일 거쳐 카타르로",
+   "headline_ko": "미·이란 협상 핵심 된 한국 반환 자금",
+   "published_at": "2026-06-23",
+   "key_facts": [
+    "국내 은행에 동결돼 있던 이란 원유 대금이 2023년 카타르로 이전",
+    "일반적으로 알려진 약 60억 달러"
+   ]
+  },
+  {
+   "id": "src_art_0070",
+   "url": "https://english.alarabiya.net/News/middle-east/2023/09/19/Iranian-funds-successfully-transferred-in-US-Iran-prisoner-swap",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "Al Arabiya",
+   "headline_original": "Iranian funds successfully transferred in US-Iran prisoner swap",
+   "headline_ko": "미·이란 수감자 교환으로 이란 자금 이전 완료",
+   "published_at": "2023-09-19",
+   "key_facts": [
+    "About $6 billion in Iranian funds moved from restricted accounts in South Korea to Qatar, tied to the prisoner exchange",
+    "Funds available only for humanitarian trade"
+   ]
+  },
+  {
+   "id": "src_art_0071",
+   "url": "https://newarab.com/news/irans-frozen-funds-transferred-third-country-s-korea",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "The New Arab",
+   "headline_original": "Iran's frozen funds transferred to a third country, South Korea says",
+   "headline_ko": "한국 \"이란 동결 자금 제3국으로 이전\"",
+   "published_at": "2023-09-18",
+   "key_facts": [
+    "South Korea's foreign ministry: Iranian funds frozen in South Korea transferred to a third country"
+   ]
+  },
+  {
+   "id": "src_art_0072",
+   "url": "https://www.koreadaily.com/article/20260618234341853",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조",
+   "type": "article",
+   "publisher": "미주중앙일보",
+   "headline_original": "한국에 동결됐던 이란 자금 9조원 풀린다",
+   "headline_ko": "한국에 동결됐던 이란 자금 9조원 풀린다",
+   "published_at": "2026-06-18",
+   "key_facts": [
+    "양해각서 뒤 카타르 예치 이란 자금 단계적 해제 방침"
+   ]
+  },
+  {
+   "id": "src_art_0073",
+   "url": "https://www.hankookilbo.com/news/article/A2026102720560003175",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "한국일보",
+   "headline_original": "이란, 장금상선 선박에 11월부터 법적 조치",
+   "headline_ko": "이란, 장금상선 선박에 11월부터 법적 조치",
+   "published_at": "2026-10-27",
+   "key_facts": [
+    "이란 페르시아만 해협청: 장금상선 선박 11/1부터 법적 조치(벌금·억류·몰수)"
+   ]
+  },
+  {
+   "id": "src_art_0074",
+   "url": "https://www.news1.kr/world/middleeast-africa/6333997",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "뉴스1",
+   "headline_original": "이란 해협청, 장금상선 지목",
+   "headline_ko": "이란 해협청, 장금상선 지목",
+   "published_at": "2026-10-27",
+   "key_facts": [
+    "장금상선 선박 통과 위반 최다, 11월 1일부터 조치"
+   ]
+  },
+  {
+   "id": "src_art_0075",
+   "url": "https://www.fnnews.com/news/202610281348448725",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "파이낸셜뉴스",
+   "headline_original": "해운협회 \"지목 선박은 외국 석유사 재용선\"",
+   "headline_ko": "해운협회 \"지목 선박은 외국 석유사 재용선\"",
+   "published_at": "2026-10-28",
+   "key_facts": [
+    "한국해운협회: 지목 선박은 외국 석유사 재용선; 장금 '통보 받은 바 없다'"
+   ]
+  },
+  {
+   "id": "src_art_0076",
+   "url": "https://www.fnnews.com/news/202610301026101998",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "파이낸셜뉴스",
+   "headline_original": "위성락 \"청해부대 강화 검토\"",
+   "headline_ko": "위성락 \"청해부대 강화 검토\"",
+   "published_at": "2026-10-30",
+   "key_facts": [
+    "위성락 안보실장: 청해부대 강화·확대 방안 검토, 미결"
+   ]
+  },
+  {
+   "id": "src_art_0077",
+   "url": "https://www.ytn.co.kr/_ln/0134_202610311418476896",
+   "retrieved_at": "2026-11-01",
+   "lang": "ko",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "YTN",
+   "headline_original": "청해부대 강화 검토",
+   "headline_ko": "청해부대 강화 검토",
+   "published_at": "2026-10-31",
+   "key_facts": [
+    "국가안보실 청해부대 강화 검토"
+   ]
+  },
+  {
+   "id": "src_art_0078",
+   "url": "https://www.cfr.org/articles/will-the-united-states-attack-iran-after-the-midterms",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조 — 게시일 검색 요약상 10월 하순(일자 미확인)",
+   "type": "article",
+   "publisher": "Council on Foreign Relations",
+   "headline_original": "Escalate, Negotiate, or Wait: Trump's Iran Options After the Midterms",
+   "headline_ko": "확전·협상·관망 — 중간선거 뒤 트럼프의 이란 선택지",
+   "published_at": "2026-10-20",
+   "key_facts": [
+    "After November 3 the political constraints on Trump will ease"
+   ]
+  },
+  {
+   "id": "src_art_0079",
+   "url": "https://www.axios.com/2026/09/28/trump-iran-war-sanctions-blockade-nuclear",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL)",
+   "type": "article",
+   "publisher": "Axios",
+   "headline_original": "Trump open to Iran sanctions relief for nuclear steps, officials say",
+   "headline_ko": "미 관리 \"트럼프, 핵 진전 대가로 제재 완화 용의\"",
+   "published_at": "2026-09-28",
+   "key_facts": [
+    "US officials: Trump willing to give sanctions relief and frozen funds for concrete nuclear steps"
+   ]
+  },
+  {
+   "id": "src_art_0080",
+   "url": "https://www.cnbc.com/2026/09/30/us-iran-war-trump-hormuz.html#hoax",
+   "retrieved_at": "2026-11-01",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [],
+    "notes": ""
+   },
+   "confirmed_by": "opus(D-0450 — 사용자 위임 D-0334, 검색 요약·URL·매체·게시일 대조. 원문 열람 불가: 컨테이너 curl·WebFetch 차단)",
+   "confirmed_at": "2026-11-01T02:30:00Z",
+   "note": "컨테이너·WebFetch 차단 — WebSearch 본문 발췌 대조(감독 조사표 D-0451 원자료 표 URL) — 9/30 CNBC 같은 기사(트럼프 부인 대목)",
+   "type": "article",
+   "publisher": "CNBC",
+   "headline_original": "Trump calls report on Iran sanctions relief a 'HOAX'",
+   "headline_ko": "트럼프, 이란 제재 완화 보도에 \"거짓\"",
+   "published_at": "2026-09-30",
+   "key_facts": [
+    "Trump called the Axios report a 'HOAX'"
+   ]
+  }
+ ]
+}

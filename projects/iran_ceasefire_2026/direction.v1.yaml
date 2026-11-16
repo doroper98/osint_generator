@@ -1,0 +1,1563 @@
+version: 1
+places:
+  doha:
+  - 51.53
+  - 25.29
+  tehran:
+  - 51.39
+  - 35.69
+  hormuz:
+  - 56.35
+  - 26.55
+  islamabad:
+  - 73.05
+  - 33.68
+  lebanon:
+  - 35.85
+  - 33.9
+  iran_center:
+  - 53.3
+  - 32.5
+  oman_coast:
+  - 57.0
+  - 24.45
+  iran_south:
+  - 57.1
+  - 27.25
+  mine_south:
+  - 56.75
+  - 26.25
+  ulsan:
+  - 129.31
+  - 35.54
+  yanbu:
+  - 38.06
+  - 24.09
+  fujairah:
+  - 56.33
+  - 25.12
+  sohar:
+  - 56.75
+  - 24.35
+paths:
+  israel_iran:
+  - - 35.0
+    - 31.7
+  - - 44.0
+    - 33.2
+  - - 53.3
+    - 32.5
+  gulf_in:
+  - - 51.0
+    - 27.0
+  - - 54.0
+    - 26.3
+  - - 56.35
+    - 26.55
+  irgc_att:
+  - - 57.75
+    - 25.5
+  - - 57.3
+    - 24.9
+  - - 57.0
+    - 24.45
+  us_strike:
+  - - 61.5
+    - 21.0
+  - - 59.2
+    - 24.2
+  - - 57.1
+    - 27.25
+  doha_tehran:
+  - - 51.53
+    - 25.29
+  - - 51.1
+    - 30.5
+  - - 51.39
+    - 35.69
+  letter:
+  - - 34.4
+    - 32.9
+  - - 42.5
+    - 34.6
+  - - 51.39
+    - 35.69
+  hz_ulsan:
+  - - 56.35
+    - 26.55
+  - - 57.6
+    - 25.5
+  - - 59.2
+    - 24.3
+  - - 62.0
+    - 22.2
+  - - 65.0
+    - 18.6
+  - - 67.0
+    - 15.5
+  - - 74.0
+    - 9.0
+  - - 80.5
+    - 5.3
+  - - 88.0
+    - 5.8
+  - - 95.0
+    - 6.2
+  - - 98.6
+    - 4.9
+  - - 101.3
+    - 2.8
+  - - 103.9
+    - 1.3
+  - - 106.8
+    - 4.5
+  - - 110.5
+    - 10.0
+  - - 115.5
+    - 16.0
+  - - 121.0
+    - 20.8
+  - - 122.6
+    - 24.0
+  - - 124.2
+    - 28.8
+  - - 126.6
+    - 32.6
+  - - 129.0
+    - 34.8
+  - - 129.31
+    - 35.54
+  fuj_ulsan:
+  - - 56.33
+    - 25.12
+  - - 57.6
+    - 25.0
+  - - 59.0
+    - 23.95
+  - - 62.0
+    - 22.4
+  - - 65.0
+    - 18.6
+  - - 67.0
+    - 15.5
+  - - 74.0
+    - 9.0
+  - - 80.5
+    - 5.3
+  - - 88.0
+    - 5.8
+  - - 95.0
+    - 6.2
+  - - 98.6
+    - 4.9
+  - - 101.3
+    - 2.8
+  - - 103.9
+    - 1.3
+  - - 106.8
+    - 4.5
+  - - 110.5
+    - 10.0
+  - - 115.5
+    - 16.0
+  - - 121.0
+    - 20.8
+  - - 122.6
+    - 24.0
+  - - 124.2
+    - 28.8
+  - - 126.6
+    - 32.6
+  - - 129.0
+    - 34.8
+  - - 129.31
+    - 35.54
+  sohar_ulsan:
+  - - 56.75
+    - 24.35
+  - - 57.8
+    - 24.5
+  - - 59.0
+    - 23.95
+  - - 62.0
+    - 22.4
+  - - 65.0
+    - 18.6
+  - - 67.0
+    - 15.5
+  - - 74.0
+    - 9.0
+  - - 80.5
+    - 5.3
+  - - 88.0
+    - 5.8
+  - - 95.0
+    - 6.2
+  - - 98.6
+    - 4.9
+  - - 101.3
+    - 2.8
+  - - 103.9
+    - 1.3
+  - - 106.8
+    - 4.5
+  - - 110.5
+    - 10.0
+  - - 115.5
+    - 16.0
+  - - 121.0
+    - 20.8
+  - - 122.6
+    - 24.0
+  - - 124.2
+    - 28.8
+  - - 126.6
+    - 32.6
+  - - 129.0
+    - 34.8
+  - - 129.31
+    - 35.54
+  yanbu_ulsan:
+  - - 38.06
+    - 24.09
+  - - 38.5
+    - 22.0
+  - - 40.0
+    - 18.5
+  - - 41.8
+    - 15.2
+  - - 43.3
+    - 12.7
+  - - 45.5
+    - 11.9
+  - - 51.5
+    - 12.6
+  - - 58.0
+    - 12.8
+  - - 66.0
+    - 10.5
+  - - 74.0
+    - 8.5
+  - - 80.5
+    - 5.3
+  - - 88.0
+    - 5.8
+  - - 95.0
+    - 6.2
+  - - 98.6
+    - 4.9
+  - - 101.3
+    - 2.8
+  - - 103.9
+    - 1.3
+  - - 106.8
+    - 4.5
+  - - 110.5
+    - 10.0
+  - - 115.5
+    - 16.0
+  - - 121.0
+    - 20.8
+  - - 122.6
+    - 24.0
+  - - 124.2
+    - 28.8
+  - - 126.6
+    - 32.6
+  - - 129.0
+    - 34.8
+  - - 129.31
+    - 35.54
+  korea_doha:
+  - - 126.9
+    - 37.4
+  - - 105.0
+    - 35.5
+  - - 80.0
+    - 32.5
+  - - 62.0
+    - 28.8
+  - - 51.53
+    - 25.29
+shots:
+- at: 0
+  mode: cut
+  dur: 0
+  camera:
+    lon: 52.0
+    lat: 29.0
+    w: 40.0
+- at:
+    sid: cold_0
+    'off': -0.6
+  mode: move
+  dur: 6.0
+  camera:
+    lon: 51.8
+    lat: 27.5
+    w: 20.0
+- at:
+    card: title
+    'off': 2.9
+  mode: dip
+  camera:
+    lon: 54.0
+    lat: 29.0
+    w: 46.0
+  under: true
+- at:
+    scene_start: act2
+    'off': -1.0
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 46.5
+    lat: 30.0
+    w: 28.0
+- at:
+    scene_start: act3
+    'off': -1.0
+  mode: move
+  dur: 3.0
+  camera:
+    lon: 52.0
+    lat: 27.8
+    w: 24.0
+- at:
+    scene_start: act4
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 56.6
+    lat: 26.0
+    w: 14.0
+- at:
+    scene_start: act5
+    'off': -1.0
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 50.0
+    lat: 28.5
+    w: 34.0
+- at:
+    scene_start: act6
+    'off': -1.2
+  mode: move
+  dur: 3.4
+  camera:
+    lon: 84.5
+    lat: 22.0
+    w: 94.0
+- at:
+    scene_start: ending
+    'off': -0.55
+  mode: dip
+  camera:
+    lon: 78.0
+    lat: 25.0
+    w: 88.0
+- at:
+    sid: ending_2
+    'off': 0.5
+  mode: move
+  dur: 9.0
+  camera:
+    lon: 84.0
+    lat: 22.0
+    w: 96.0
+events:
+- type: marker
+  start:
+    sid: cold_0
+    'off': 0.3
+  end:
+    scene_end: cold
+  at_place: doha
+  label: 도하
+  side: right
+  hl: true
+- type: quote
+  start:
+    sid: cold_1
+    'off': 0.2
+  end:
+    sid: cold_1
+    edge: end
+    'off': 0.5
+  pid: araghchi
+  flag: ir
+  speaker: 아라그치
+  role: 이란 외무장관
+  text: 긍정적 조치
+  src: Al Jazeera
+  date: 2026.10.31
+  accent: ru
+  pos: center
+- type: article
+  start:
+    sid: cold_2
+    'off': 0.1
+  end:
+    sid: cold_2
+    edge: end
+    'off': 0.5
+  mid: iran_ceasefire_2026_art_0005
+  theme: dark
+- type: article
+  start:
+    sid: cold_3
+    'off': 0.1
+  end:
+    card: title
+    edge: end
+  mid: iran_ceasefire_2026_art_0019
+  theme: dark
+- type: country
+  start:
+    sid: act1_0
+    'off': 0.2
+  end:
+    scene_end: act1
+  codes:
+  - IR
+  col: ru
+  a: 0.07
+- type: badge
+  start:
+    sid: act1_1
+    'off': 0.6
+  end:
+    sid: act1_1
+    edge: end
+    'off': 0.6
+  lon: 31.8
+  lat: 33.9
+  kind: flag
+  flag: us
+  R: 17
+  label: 미국
+  accent: us
+- type: badge
+  start:
+    sid: act1_1
+    'off': 0.9
+  end:
+    sid: act1_1
+    edge: end
+    'off': 0.6
+  lon: 35.3
+  lat: 30.6
+  kind: flag
+  flag: il
+  R: 17
+  label: 이스라엘
+  accent: us
+- type: route
+  start:
+    sid: act1_1
+    'off': 1.2
+  end:
+    sid: act1_1
+    edge: end
+    'off': 0.6
+  pts:
+    path: israel_iran
+  grow: 2.0
+  col: us
+  ship: false
+- type: marker
+  start:
+    sid: act1_1
+    'off': 3.0
+  end:
+    sid: act1_1
+    edge: end
+    'off': 0.6
+  at_place: iran_center
+  label: 이란
+  side: right
+  icon: boom
+- type: badge
+  start:
+    sid: act1_2
+    'off': 0.3
+  end:
+    sid: act1_2
+    edge: end
+    'off': 0.4
+  lon: 59.5
+  lat: 32.0
+  kind: person
+  pid: khamenei
+  flag: ir
+  R: 30
+  label: 알리 하메네이
+  role: 이란 최고지도자
+  accent: ru
+- type: route
+  start:
+    sid: act1_3
+    'off': 0.4
+  end:
+    sid: act1_4
+    'off': 0.0
+  pts:
+    path: gulf_in
+  grow: 2.0
+  col: gold
+  ship: true
+- type: marker
+  start:
+    sid: act1_3
+    'off': 0.2
+  end:
+    sid: act1_4
+    'off': 0.0
+  at_place: hormuz
+  label: 호르무즈 해협
+  side: right
+  hl: true
+- type: barrier
+  start:
+    sid: act1_3
+    'off': 1.4
+  end:
+    sid: act1_4
+    'off': 0.0
+  p0:
+  - 56.2
+  - 26.95
+  p1:
+  - 56.5
+  - 26.2
+  label: 선박 위협
+- type: badge
+  start:
+    sid: act1_4
+    'off': 1.0
+  end:
+    sid: act1_5
+    edge: end
+    'off': 0.3
+  lon: 68.5
+  lat: 28.5
+  kind: flag
+  flag: pk
+  R: 17
+  label: 파키스탄
+  accent: green
+- type: marker
+  start:
+    sid: act1_5
+    'off': 0.3
+  end:
+    sid: act1_5
+    edge: end
+    'off': 0.5
+  at_place: islamabad
+  label: 이슬라마바드
+  side: left
+- type: photo
+  start:
+    sid: act1_5
+    'off': 0.6
+  end:
+    sid: act1_5
+    edge: end
+    'off': 0.3
+  mid: iran_islamabad_talks
+  place: map_left
+- type: barrier
+  start:
+    sid: act1_5
+    'off': 4.2
+  end:
+    sid: act1_7
+    'off': 1.0
+  p0:
+  - 58.8
+  - 23.75
+  p1:
+  - 59.5
+  - 25.2
+  label: 미 해상 봉쇄
+- type: badge
+  start:
+    word:
+      sid: act1_6
+      text: 트럼프
+  end:
+    sid: act1_6
+    edge: end
+    'off': 0.4
+  lon: 63.0
+  lat: 20.5
+  kind: person
+  pid: trump
+  flag: us
+  R: 30
+  label: 트럼프
+  role: 미국 대통령
+  accent: us
+- type: badge
+  start:
+    word:
+      sid: act1_6
+      text: 페제시키안
+  end:
+    sid: act1_6
+    edge: end
+    'off': 0.4
+  lon: 55.0
+  lat: 32.5
+  kind: person
+  pid: pezeshkian
+  flag: ir
+  R: 30
+  label: 페제시키안
+  role: 이란 대통령
+  accent: ru
+- type: article
+  start:
+    sid: act1_7
+    'off': 0.1
+  end:
+    sid: act1_7
+    edge: end
+    'off': 0.4
+  mid: iran_ceasefire_2026_art_0038
+  theme: dark
+- type: route
+  start:
+    sid: act1_8
+    'off': 1.8
+  end:
+    sid: act1_8
+    edge: end
+    'off': 0.8
+  pts:
+    path: irgc_att
+  grow: 1.2
+  col: ru
+  ship: false
+- type: marker
+  start:
+    sid: act1_8
+    'off': 2.6
+  end:
+    sid: act1_10
+    'off': 0.0
+  at_place: oman_coast
+  label: 오만 연안
+  sub: 근사 위치
+  side: left
+  icon: boom
+- type: boom
+  start:
+    sid: act1_8
+    'off': 3.0
+  end:
+    sid: act1_8
+    'off': 5.2
+  at_place: oman_coast
+- type: route
+  start:
+    sid: act1_8
+    'off': 4.4
+  end:
+    sid: act1_8
+    edge: end
+    'off': 0.8
+  pts:
+    path: us_strike
+  grow: 1.6
+  col: us
+  ship: false
+- type: marker
+  start:
+    sid: act1_8
+    'off': 5.8
+  end:
+    sid: act1_10
+    'off': 0.0
+  at_place: iran_south
+  label: 이란 남부
+  sub: 근사 위치
+  side: left
+  icon: boom
+- type: boom
+  start:
+    sid: act1_8
+    'off': 6.0
+  end:
+    sid: act1_8
+    'off': 8.0
+  at_place: iran_south
+- type: quote
+  start:
+    sid: act1_9
+    'off': 0.1
+  end:
+    sid: act1_10
+    'off': 0.4
+  pid: trump
+  flag: us
+  speaker: 트럼프
+  role: 미국 대통령
+  text: 휴전은 끝났다
+  src: Al Jazeera
+  date: 2026.07.08
+  accent: us
+  pos: center
+- type: barrier
+  start:
+    sid: act1_10
+    'off': 0.8
+  end:
+    scene_end: act1
+  p0:
+  - 58.8
+  - 23.75
+  p1:
+  - 59.5
+  - 25.2
+  label: 미 해상 봉쇄
+- type: article
+  start:
+    sid: act1_11
+    'off': 0.2
+  end:
+    sid: act1_11
+    'off': 5.6
+  mid: iran_ceasefire_2026_art_0043
+  theme: dark
+- type: marker
+  start:
+    sid: act1_11
+    'off': 5.8
+  end:
+    scene_end: act1
+  at_place: lebanon
+  label: 레바논
+  side: right
+- type: badge
+  start:
+    sid: act2_1
+    'off': 0.3
+  end:
+    sid: act2_2
+    edge: end
+    'off': 0.3
+  lon: 54.0
+  lat: 33.0
+  kind: person
+  pid: araghchi
+  flag: ir
+  R: 30
+  label: 아라그치
+  role: 이란 외무장관
+  accent: ru
+- type: marker
+  start:
+    sid: act2_2
+    'off': 0.6
+  end:
+    sid: act2_2
+    edge: end
+    'off': 0.5
+  at_place: lebanon
+  label: 레바논
+  side: right
+- type: marker
+  start:
+    word:
+      sid: act2_2
+      text: 엿새째
+  end:
+    sid: act2_4
+    'off': 0.0
+  at_place: hormuz
+  label: 호르무즈 해협
+  side: right
+  hl: true
+- type: quote
+  start:
+    sid: act2_3
+    'off': 0.2
+  end:
+    sid: act2_3
+    edge: end
+    'off': 0.5
+  pid: trump
+  flag: us
+  speaker: 트럼프
+  role: 미국 대통령
+  text: 그 합의는 받아들일 수 없다
+  src: Al Jazeera
+  date: 2026.09.26
+  accent: us
+  pos: center
+- type: marker
+  start:
+    sid: act2_4
+    'off': 0.3
+  end:
+    sid: act3_1
+    'off': 0.3
+  at_place: doha
+  label: 도하
+  side: right
+  hl: true
+- type: marker
+  start:
+    sid: act2_4
+    'off': 0.6
+  end:
+    scene_end: act2
+  at_place: tehran
+  label: 테헤란
+  side: right
+- type: route
+  start:
+    sid: act2_4
+    'off': 1.2
+  end:
+    scene_end: act2
+  pts:
+    path: doha_tehran
+  grow: 1.6
+  col: teal
+  ship: false
+  dashed: true
+  label: 카타르 경유
+- type: quote
+  start:
+    sid: act2_5
+    'off': 0.2
+  end:
+    sid: act2_5
+    edge: end
+    'off': 0.5
+  pid: vance
+  flag: us
+  speaker: 밴스
+  role: 미국 부통령
+  text: 의미 있게
+  src: U.S. News(Reuters)
+  date: 2026.10.06
+  accent: us
+  pos: center
+- type: article
+  start:
+    sid: act2_6
+    'off': 0.1
+  end:
+    sid: act2_6
+    edge: end
+    'off': 0.4
+  mid: iran_ceasefire_2026_art_0022
+  theme: dark
+- type: badge
+  start:
+    sid: act2_7
+    'off': 0.3
+  end:
+    sid: act2_7
+    edge: end
+    'off': 0.4
+  lon: 34.0
+  lat: 33.0
+  kind: person
+  pid: trump
+  flag: us
+  R: 30
+  label: 트럼프
+  role: 미국 대통령
+  accent: us
+- type: barrier
+  start:
+    sid: act2_7
+    'off': 4.5
+  end:
+    scene_end: act2
+  p0:
+  - 58.8
+  - 23.75
+  p1:
+  - 59.5
+  - 25.2
+  label: 미 해상 봉쇄
+- type: badge
+  start:
+    sid: act2_8
+    'off': 0.3
+  end:
+    sid: act2_8
+    edge: end
+    'off': 0.4
+  lon: 55.5
+  lat: 32.5
+  kind: person
+  pid: rezaei
+  flag: ir
+  R: 30
+  label: 레자이
+  role: 이란 최고국가안보회의 사무총장
+  accent: ru
+- type: article
+  start:
+    sid: act2_9
+    'off': 0.1
+  end:
+    sid: act2_9
+    edge: end
+    'off': 0.4
+  mid: iran_ceasefire_2026_art_0015
+  theme: dark
+- type: quote
+  start:
+    sid: act2_10
+    'off': 0.2
+  end:
+    sid: act2_10
+    edge: end
+    'off': 0.5
+  flag: ir
+  speaker: 이란 고위 관리
+  text: 제안이 아니라 받아들일 수 없는 아이디어
+  src: Arab News(Reuters)
+  date: 2026.10.28
+  accent: ru
+  pos: center
+- type: badge
+  start:
+    sid: act2_11
+    'off': 0.3
+  end:
+    word:
+      sid: act2_11
+      text: 트럼프
+    'off': -0.2
+  lon: 34.0
+  lat: 33.0
+  kind: person
+  pid: vance
+  flag: us
+  R: 30
+  label: 밴스
+  role: 미국 부통령
+  accent: us
+- type: route
+  start:
+    sid: act2_11
+    'off': 0.8
+  end:
+    scene_end: act2
+  pts:
+    path: letter
+  grow: 1.8
+  col: us
+  ship: false
+  dashed: true
+  label: 밴스 서한
+- type: badge
+  start:
+    word:
+      sid: act2_11
+      text: 트럼프
+  end:
+    sid: act2_11
+    edge: end
+    'off': 0.4
+  lon: 34.0
+  lat: 33.0
+  kind: person
+  pid: trump
+  flag: us
+  R: 30
+  label: 트럼프
+  role: 미국 대통령
+  accent: us
+- type: photo
+  start:
+    sid: act2_12
+    'off': 0.3
+  end:
+    sid: act2_12
+    edge: end
+    'off': 0.3
+  mid: iran_tehran_2026
+  place: map_left
+- type: photo
+  start:
+    sid: act3_0
+    'off': 0.2
+  end:
+    sid: act3_1
+    'off': 0.2
+  mid: iran_doha_skyline_09
+  place: map_right_low
+- type: panel
+  start:
+    sid: act3_1
+    'off': 0.4
+  end:
+    sid: act3_5
+    edge: end
+    'off': 0.5
+  kind: versus
+  claims:
+  - clm_0034
+  - clm_0036
+  - clm_0028
+  data:
+    title: 양측 조건
+    sides:
+    - title: 이란 — 아라그치 외무장관
+      src: Al Jazeera · 10월 31일
+      items:
+      - text: 봉쇄 해제
+        t:
+          sid: act3_1
+          'off': 3.0
+      - text: 원유 제재 면제 복원
+        t:
+          sid: act3_1
+          'off': 4.3
+      - text: 양해각서 뒤 제재 해제
+        t:
+          sid: act3_1
+          'off': 5.8
+      - text: 동결 자금 전액 (카타르분 포함)
+        t:
+          sid: act3_2
+          'off': 2.4
+      - text: 역내 미군 축소
+        t:
+          sid: act3_2
+          'off': 4.2
+      - text: 오만과 합의한 항로 인정
+        t:
+          sid: act3_2
+          'off': 5.4
+    - title: 미국 — 미국 관리들
+      src: Axios · 10월 28일 / Al Arabiya(Reuters) · 10월 11일
+      items:
+      - text: 핵 문제 빠진 합의 없음
+        t:
+          sid: act3_3
+          'off': 0.6
+      - text: 이란·오만 해협 공동 관리안 거부 (레자이 전언)
+        t:
+          sid: act3_4
+          'off': 1.5
+- type: marker
+  start:
+    sid: act4_0
+    'off': 0.2
+  end:
+    sid: act4_3
+    'off': 1.8
+  at_place: hormuz
+  label: 호르무즈 해협
+  side: left
+  hl: true
+- type: ships
+  start:
+    sid: act4_1
+    'off': 0.2
+  end:
+    sid: act4_2
+    'off': 3.0
+  box:
+  - 51.0
+  - 58.8
+  - 24.6
+  - 27.4
+  n: 120
+  seed: 7
+- type: photo
+  start:
+    sid: act4_1
+    'off': 0.4
+  end:
+    sid: act4_2
+    'off': 0.5
+  mid: iran_hormuz_night_iss
+  age_reason: 해협 위치를 보여 주는 위성 자료사진
+  place: map_right_low
+- type: ships
+  start:
+    sid: act4_2
+    'off': 3.0
+  end:
+    scene_end: act4
+  box:
+  - 51.0
+  - 58.8
+  - 24.6
+  - 27.4
+  n: 36
+  seed: 7
+- type: marker
+  start:
+    sid: act4_3
+    'off': 2.0
+  end:
+    scene_end: act4
+  at_place: mine_south
+  label: 남쪽 항로
+  sub: 근사 위치 · 이란 발표
+  side: bottom
+  hl: true
+- type: article
+  start:
+    sid: act4_4
+    'off': 0.1
+  end:
+    sid: act4_4
+    edge: end
+    'off': 0.4
+  mid: iran_ceasefire_2026_art_0047
+  theme: dark
+- type: marker
+  start:
+    sid: act5_1
+    'off': 0.4
+  end:
+    scene_end: act5
+  at_place: hormuz
+  label: 호르무즈 해협
+  side: right
+  hl: true
+- type: badge
+  start:
+    sid: act5_1
+    'off': 0.3
+  end:
+    sid: act5_1
+    edge: end
+    'off': 0.3
+  lon: 54.0
+  lat: 33.0
+  kind: person
+  pid: araghchi
+  flag: ir
+  R: 30
+  label: 아라그치
+  role: 이란 외무장관
+  accent: ru
+- type: photo
+  start:
+    sid: act5_1
+    'off': 1.0
+  end:
+    sid: act5_1
+    edge: end
+    'off': 0.3
+  mid: iran_uss_new_orleans_blockade
+  place: map_right_low
+- type: badge
+  start:
+    sid: act5_2
+    'off': 0.2
+  end:
+    sid: act5_3
+    edge: end
+    'off': 0.3
+  lon: 62.0
+  lat: 21.0
+  kind: flag
+  flag: us
+  R: 18
+  label: 미국
+  accent: us
+- type: country
+  start:
+    sid: act5_3
+    'off': 2.0
+  end:
+    sid: act5_4
+    edge: end
+    'off': 0.3
+  codes:
+  - SA
+  - AE
+  - QA
+  - KW
+  - BH
+  - OM
+  col: gold
+  a: 0.08
+- type: quote
+  start:
+    sid: act5_4
+    'off': 0.2
+  end:
+    sid: act5_4
+    edge: end
+    'off': 0.5
+  flag: ir
+  speaker: 모즈타바 하메네이
+  role: 이란 최고지도자
+  text: 지리적 제한 없는 대응
+  src: South China Morning Post
+  date: 2026.10.31
+  accent: ru
+  pos: center
+- type: ships
+  start:
+    sid: act5_6
+    'off': 0.3
+  end:
+    sid: act5_8
+    'off': 0.0
+  box:
+  - 51.5
+  - 58.5
+  - 24.8
+  - 27.0
+  n: 30
+  seed: 11
+- type: article
+  start:
+    sid: act5_7
+    'off': 0.1
+  end:
+    sid: act5_7
+    edge: end
+    'off': 0.4
+  mid: iran_ceasefire_2026_art_0056
+  theme: dark
+- type: badge
+  start:
+    sid: act5_8
+    'off': 0.6
+  end:
+    sid: act5_8
+    edge: end
+    'off': 0.4
+  lon: 51.2
+  lat: 25.3
+  kind: flag
+  flag: qa
+  R: 16
+  label: 카타르
+  accent: teal
+- type: badge
+  start:
+    sid: act5_8
+    'off': 3.4
+  end:
+    sid: act5_8
+    edge: end
+    'off': 0.4
+  lon: 64.5
+  lat: 27.0
+  kind: flag
+  flag: pk
+  R: 16
+  label: 파키스탄
+  accent: teal
+- type: badge
+  start:
+    sid: act5_8
+    'off': 4.1
+  end:
+    sid: act5_8
+    edge: end
+    'off': 0.4
+  lon: 56.8
+  lat: 21.0
+  kind: flag
+  flag: om
+  R: 16
+  label: 오만
+  accent: teal
+- type: marker
+  start:
+    sid: act5_8
+    'off': 5.8
+  end:
+    sid: act5_8
+    edge: end
+    'off': 0.4
+  at_place: lebanon
+  label: 레바논
+  side: right
+- type: article
+  start:
+    sid: act5_9
+    'off': 0.1
+  end:
+    sid: act5_9
+    edge: end
+    'off': 0.4
+  mid: iran_ceasefire_2026_art_0057
+  theme: dark
+- type: badge
+  start:
+    sid: act6_0
+    'off': 0.2
+  end:
+    sid: act6_1
+    edge: end
+    'off': 0.3
+  lon: 127.9
+  lat: 36.3
+  kind: flag
+  flag: kr
+  R: 18
+  label: 한국
+  accent: gold
+- type: route
+  start:
+    sid: act6_1
+    'off': 0.4
+  end:
+    sid: act6_2
+    edge: end
+    'off': 0.3
+  pts:
+    path: hz_ulsan
+  grow:
+    span:
+    - sid: act6_1
+      'off': 0.4
+    - sid: act6_1
+      edge: end
+      'off': -0.4
+  col: gold
+  ship: true
+- type: marker
+  start:
+    sid: act6_2
+    'off': 0.3
+  end:
+    scene_end: act6
+  at_place: ulsan
+  label: 울산
+  side: right
+  hl: true
+- type: barrier
+  start:
+    sid: act6_2
+    'off': 4.5
+  end:
+    sid: act6_4
+    edge: end
+    'off': 0.3
+  p0:
+  - 56.1
+  - 27.2
+  p1:
+  - 56.6
+  - 26.0
+  label: 해협 안쪽
+- type: marker
+  start:
+    sid: act6_3
+    'off': 1.4
+  end:
+    sid: act6_4
+    edge: end
+    'off': 0.3
+  at_place: yanbu
+  label: 얀부
+  side: right
+- type: route
+  start:
+    sid: act6_3
+    'off': 1.6
+  end:
+    scene_end: act6
+  pts:
+    path: yanbu_ulsan
+  grow: 2.6
+  col: teal
+  ship: true
+- type: marker
+  start:
+    sid: act6_3
+    'off': 2.1
+  end:
+    sid: act6_4
+    edge: end
+    'off': 0.3
+  at_place: fujairah
+  label: 푸자이라
+  side: left
+- type: route
+  start:
+    sid: act6_3
+    'off': 2.3
+  end:
+    scene_end: act6
+  pts:
+    path: fuj_ulsan
+  grow: 2.4
+  col: teal
+  ship: true
+- type: marker
+  start:
+    sid: act6_3
+    'off': 2.8
+  end:
+    sid: act6_4
+    edge: end
+    'off': 0.3
+  at_place: sohar
+  label: 소하르
+  side: bottom
+- type: route
+  start:
+    sid: act6_3
+    'off': 3.0
+  end:
+    scene_end: act6
+  pts:
+    path: sohar_ulsan
+  grow: 2.4
+  col: teal
+  ship: true
+- type: article
+  start:
+    sid: act6_5
+    'off': 0.1
+  end:
+    sid: act6_5
+    edge: end
+    'off': 0.4
+  mid: iran_ceasefire_2026_art_0064
+  theme: dark
+- type: route
+  start:
+    sid: act6_6
+    'off': 0.4
+  end:
+    sid: act6_6
+    edge: end
+    'off': 0.6
+  pts:
+    path: korea_doha
+  grow: 2.4
+  col: gold
+  ship: false
+  dashed: true
+- type: marker
+  start:
+    sid: act6_6
+    'off': 2.6
+  end:
+    sid: act6_6
+    edge: end
+    'off': 0.6
+  at_place: doha
+  label: 카타르
+  side: left
+  hl: true
+- type: article
+  start:
+    sid: act6_7
+    'off': 0.1
+  end:
+    sid: act6_7
+    edge: end
+    'off': 0.4
+  mid: iran_ceasefire_2026_art_0071
+  theme: dark
+- type: badge
+  start:
+    sid: ending_0
+    'off': 0.4
+  end:
+    sid: ending_0
+    edge: end
+    'off': 0.6
+  lon: 55.0
+  lat: 32.0
+  kind: flag
+  flag: ir
+  R: 18
+  label: 이란
+  accent: ru
+- type: badge
+  start:
+    sid: ending_0
+    'off': 0.8
+  end:
+    sid: ending_0
+    edge: end
+    'off': 0.6
+  lon: 66.0
+  lat: 14.0
+  kind: flag
+  flag: us
+  R: 18
+  label: 미국
+  accent: us
+- type: marker
+  start:
+    sid: ending_1
+    'off': 0.2
+  end:
+    total: true
+  at_place: doha
+  label: 도하
+  side: left
+  hl: true
+- type: marker
+  start:
+    sid: ending_2
+    'off': 0.2
+  end:
+    total: true
+  at_place: hormuz
+  label: 호르무즈 해협
+  side: right
+  hl: true
+sound:
+  bgm: music.zabriskie_mario_bava
+  intensity:
+  - - 0
+    - 0.55
+  - - scene_start: act1
+    - 0.68
+  - - scene_start: act2
+    - 0.6
+  - - scene_start: act3
+    - 0.55
+  - - scene_start: act4
+    - 0.66
+  - - scene_start: act5
+    - 0.62
+  - - scene_start: act6
+    - 0.58
+  - - scene_start: ending
+    - 0.55
+  - - total: true
+      'off':
+      - 0.5
+      - -7.0
+    - 0.52
+  - - total: true
+      'off': 0.5
+    - 0.0
+  cues:
+  - kind: boom
+    t:
+      sid: act1_1
+      'off': 3.0
+    v: 0.45
+  - kind: boom
+    t:
+      sid: act1_8
+      'off': 3.0
+    v: 0.4
+  - kind: boom
+    t:
+      sid: act1_8
+      'off': 6.0
+    v: 0.5

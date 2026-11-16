@@ -1,0 +1,264 @@
+# 『인텔 2026년 3분기 실적』 원고 v1 (v7.4.0, back_and_forth D-0342 T5 · D-0278 §3 막 구성). 실적 발표 템플릿(earnings) 둘째 사례.
+# 사실 = intake/claims.json(인텔 8-K Ex.99.1·글로벌이코노믹 2·한국일보 1) + data/series 레코드(INTC_*). 새 수치 없음.
+# 주가 등락(%)·예상 대비 차이는 화면 라벨(코드 계산)이 말하고, 내레이션의 % 는 보도 인용 claims(CNBC 인용 귀속)다.
+schema_version: 1
+title: 인텔 2026년 3분기 실적
+subtitle: 예상을 넘은 3분기, 예상에 못 미친 4분기 전망
+date: 2026.10.29
+scenes:
+- id: cold
+  kind: cold
+  stage: 산타클라라
+  sentences:
+  - date: 2026.10.29
+    text: 10월 29일 장 마감 뒤, 인텔이 3분기 매출 165억 달러를 발표했습니다.
+    tts: 시월 이십구일 장 마감 뒤, 인텔이 삼분기 매출 백육십오억 달러를 발표했습니다.
+    emphasis:
+    - 165억 달러
+    sources:
+    - clm_0001
+  - date: 2026.10.30
+    text: 그러나 다음 날 정규장에서 인텔 주가는 28.58% 내렸습니다.
+    tts: 그러나 다음 날 정규장에서 인텔 주가는 이십팔 점 오팔 퍼센트 내렸습니다.
+    emphasis:
+    - 28.58% 내렸습니다
+    sources:
+    - clm_0011
+- id: act1
+  kind: act
+  stage: 산타클라라
+  sentences:
+  - date: 2026.10.29
+    text: 3분기 실적은 시장의 예상을 넘었습니다.
+    tts: 삼분기 실적은 시장의 예상을 넘었습니다.
+    role: intro
+    emphasis: []
+    sources:
+    - clm_0003
+  - date: 2026.10.29
+    text: 매출은 1년 전보다 21% 늘었습니다.
+    tts: 매출은 일 년 전보다 이십일 퍼센트 늘었습니다.
+    role: intro
+    emphasis: []
+    sources:
+    - clm_0001
+  - date: 2026.10.29
+    text: 회사 기준 조정 주당순이익은 0.52달러였습니다.
+    tts: 회사 기준 조정 주당순이익은 영 점 오이 달러였습니다.
+    emphasis:
+    - 0.52달러
+    sources:
+    - clm_0002
+  - date: 2026.10.29
+    text: 글로벌이코노믹이 전한 시장 예상치는 0.40달러였습니다.
+    tts: 글로벌이코노믹이 전한 시장 예상치는 영 점 사 달러였습니다.
+    emphasis:
+    - 예상치
+    sources:
+    - clm_0003
+  - date: 2026.10.29
+    text: 결국 3분기 이익은 예상을 크게 웃돌았습니다.
+    tts: 결국 삼분기 이익은 예상을 크게 웃돌았습니다.
+    role: outro
+    emphasis: []
+    sources:
+    - clm_0003
+- id: act2
+  kind: act
+  stage: 산타클라라
+  sentences:
+  - date: 2026.10.29
+    text: 이 성적을 끌어올린 곳은 데이터센터였습니다.
+    tts: 이 성적을 끌어올린 곳은 데이터센터였습니다.
+    role: intro
+    emphasis: []
+    sources:
+    - clm_0006
+  - date: 2026.10.29
+    text: 데이터센터와 AI 부문 매출은 73억 달러로, 1년 전보다 78% 늘었습니다.
+    tts: 데이터센터와 에이아이 부문 매출은 칠십삼억 달러로, 일 년 전보다 칠십팔 퍼센트 늘었습니다.
+    role: intro
+    emphasis:
+    - 78% 늘었습니다
+    sources:
+    - clm_0006
+  - date: 2026.10.29
+    text: 또한 파운드리 매출도 67억 달러로 58% 늘었습니다.
+    tts: 또한 파운드리 매출도 육십칠억 달러로 오십팔 퍼센트 늘었습니다.
+    emphasis: []
+    sources:
+    - clm_0008
+  - date: 2026.10.29
+    text: 반면 PC용 칩을 맡은 부문 매출은 81억 달러로 5% 줄었습니다.
+    tts: 반면 피시용 칩을 맡은 부문 매출은 팔십일억 달러로 오 퍼센트 줄었습니다.
+    emphasis:
+    - 5% 줄었습니다
+    sources:
+    - clm_0007
+  - date: 2026.10.29
+    text: 결국 서버는 달리고 PC는 멈춘 분기였습니다.
+    tts: 결국 서버는 달리고 피시는 멈춘 분기였습니다.
+    role: outro
+    emphasis: []
+    sources:
+    - clm_0006
+    - clm_0007
+- id: act3
+  kind: act
+  stage: 산타클라라
+  sentences:
+  - date: 2026.10.29
+    text: 문제는 다음 분기 전망이었습니다.
+    tts: 문제는 다음 분기 전망이었습니다.
+    role: bridge
+    emphasis: []
+    sources: []
+  - date: 2026.10.29
+    text: 인텔은 4분기 매출을 150억에서 160억 달러로 내다봤다고 밝혔습니다.
+    tts: 인텔은 사분기 매출을 백오십억에서 백육십억 달러로 내다봤다고 밝혔습니다.
+    role: intro
+    emphasis:
+    - 150억에서 160억 달러
+    sources:
+    - clm_0004
+  - date: 2026.10.29
+    text: LSEG 집계로는 월가 예상치가 171억 달러였습니다.
+    tts: 엘에스이지 집계로는 월가 예상치가 백칠십일억 달러였습니다.
+    emphasis: []
+    sources:
+    - clm_0005
+  - date: 2026.10.29
+    text: 또한 회사 기준 조정 주당순이익 전망은 0.25달러로, 예상치 0.43달러에 못 미쳤습니다.
+    tts: 또한 회사 기준 조정 주당순이익 전망은 영 점 이오 달러로, 예상치 영 점 사삼 달러에 못 미쳤습니다.
+    emphasis: []
+    sources:
+    - clm_0004
+    - clm_0005
+  - date: 2026.10.29
+    text: 진스너 최고재무책임자는 PC 둔화가 적어도 내년 상반기까지 이어진다고 밝혔습니다.
+    tts: 진스너 최고재무책임자는 피시 둔화가 적어도 내년 상반기까지 이어진다고 밝혔습니다.
+    emphasis: []
+    sources:
+    - clm_0009
+  - date: 2026.10.29
+    text: 그래서 4분기 전망은 시장 예상에 크게 못 미쳤습니다.
+    tts: 그래서 사분기 전망은 시장 예상에 크게 못 미쳤습니다.
+    role: outro
+    emphasis: []
+    sources:
+    - clm_0004
+    - clm_0005
+- id: act4
+  kind: act
+  stage: 뉴욕
+  sentences:
+  - date: 2026.10.29
+    text: 시장은 지난 분기보다 다음 분기에 반응했습니다.
+    tts: 시장은 지난 분기보다 다음 분기에 반응했습니다.
+    role: bridge
+    emphasis: []
+    sources: []
+  - date: 2026.10.29
+    text: 발표 당일 정규장 종가는 92.07달러였습니다.
+    tts: 발표 당일 정규장 종가는 구십이 점 영칠 달러였습니다.
+    role: intro
+    emphasis: []
+    sources:
+    - series:INTC_PX_D
+  - date: 2026.10.29
+    text: 그런데 발표 직후 시간외 거래에서 주가는 약 21% 떨어졌습니다.
+    tts: 그런데 발표 직후 시간외 거래에서 주가는 약 이십일 퍼센트 떨어졌습니다.
+    emphasis:
+    - 시간외 거래
+    sources:
+    - clm_0010
+  - date: 2026.10.30
+    text: 이어서 10월 30일 정규장 종가는 65.76달러였습니다.
+    tts: 이어서 시월 삼십일 정규장 종가는 육십오 점 칠육 달러였습니다.
+    emphasis:
+    - 65.76달러
+    sources:
+    - series:INTC_PX_D
+  - date: 2026.10.30
+    text: 결국 하루 만에 주가의 4분의 1 넘게 빠졌습니다.
+    tts: 결국 하루 만에 주가의 사분의 일 넘게 빠졌습니다.
+    role: outro
+    emphasis: []
+    sources:
+    - clm_0011
+- id: act5
+  kind: act
+  stage: 이스라엘
+  sentences:
+  - date: 2026.10.29
+    text: 한편 전망을 끌어내린 이유 하나는 이스라엘 공장에 있었습니다.
+    tts: 한편 전망을 끌어내린 이유 하나는 이스라엘 공장에 있었습니다.
+    role: bridge
+    emphasis: []
+    sources:
+    - clm_0013
+  - date: 2026.10.29
+    text: 10월 초 이 공장에서 폭발 사고로 작업자 2명이 숨지고 가동이 멈췄습니다.
+    tts: 시월 초 이 공장에서 폭발 사고로 작업자 두 명이 숨지고 가동이 멈췄습니다.
+    role: intro
+    emphasis: []
+    sources:
+    - clm_0012
+  - date: 2026.10.29
+    text: 회사는 이 사고로 두 분기 동안 약 6억 달러의 매출 차질을 예상했습니다.
+    tts: 회사는 이 사고로 두 분기 동안 약 육억 달러의 매출 차질을 예상했습니다.
+    emphasis: []
+    sources:
+    - clm_0013
+  - date: 2026.10.29
+    text: 또 다른 이유는 메모리였습니다.
+    tts: 또 다른 이유는 메모리였습니다.
+    emphasis: []
+    sources:
+    - clm_0015
+  - date: 2026.10.29
+    text: 인텔은 실적 자료에서 업계 전반의 메모리 부족을 공급망 위험으로 밝혔습니다.
+    tts: 인텔은 실적 자료에서 업계 전반의 메모리 부족을 공급망 위험으로 밝혔습니다.
+    emphasis:
+    - 메모리 부족
+    sources:
+    - clm_0015
+  - date: 2026.10.29
+    text: 메모리 제조사들이 HBM과 서버용 D램에 집중하면서 PC용 메모리가 부족해졌습니다.
+    tts: 메모리 제조사들이 에이치비엠과 서버용 디램에 집중하면서 피시용 메모리가 부족해졌습니다.
+    emphasis: []
+    sources:
+    - clm_0014
+  - date: 2026.10.29
+    text: 특히 같은 주 삼성전자 완제품 부문도 부품 원가 상승으로 8천억 원 손실을 냈습니다.
+    tts: 특히 같은 주 삼성전자 완제품 부문도 부품 원가 상승으로 팔천억 원 손실을 냈습니다.
+    emphasis: []
+    sources:
+    - clm_0017
+  - date: 2026.10.29
+    text: 이처럼 메모리 호황의 반대편에는 PC와 인텔이 있었습니다.
+    tts: 이처럼 메모리 호황의 반대편에는 피시와 인텔이 있었습니다.
+    role: outro
+    emphasis: []
+    sources:
+    - clm_0014
+    - clm_0015
+- id: ending
+  kind: ending
+  stage: 산타클라라
+  sentences:
+  - date: 2026.10.29
+    text: 다시 숫자로 돌아오면, 3분기는 예상을 넘었고 4분기 전망은 예상에 못 미쳤습니다.
+    tts: 다시 숫자로 돌아오면, 삼분기는 예상을 넘었고 사분기 전망은 예상에 못 미쳤습니다.
+    role: bridge
+    emphasis: []
+    sources:
+    - clm_0003
+    - clm_0005
+  - date: 2026.10.29
+    text: 그리고 다음 실적 발표에서는 150억에서 160억 달러 범위를 지켰는지가 먼저 확인됩니다.
+    tts: 그리고 다음 실적 발표에서는 백오십억에서 백육십억 달러 범위를 지켰는지가 먼저 확인됩니다.
+    role: outro
+    emphasis: []
+    sources:
+    - clm_0004

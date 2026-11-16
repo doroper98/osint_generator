@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "src_doc_0001",
+      "url": "https://images.samsung.com/kdp/ir/events/2026/2026_3Q_conference_kor.pdf",
+      "retrieved_at": "2026-11-01",
+      "lang": "ko",
+      "verification": {
+        "status": "verified",
+        "checks": [
+          "claims:8"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(구현 세션 대행 — 발행처·제목·게시일을 원문 첫머리와 대조. 게이트 ① 에서 사용자가 출처 표로 확인)",
+      "confirmed_at": "2026-11-01T03:50:04.208669Z",
+      "note": "원문 PDF md5 dfc2fa1ed929bc5be33d78092618c7f6",
+      "type": "document",
+      "issuer": "삼성전자 IR",
+      "title": "2026년 3분기 실적발표(컨퍼런스콜 자료)",
+      "published_at": "2026-10-29",
+      "file": "intake/files/ir.pdf",
+      "key_facts": [
+        "3분기 매출 195.3조원, 영업이익 107.4조원",
+        "DS 영업이익 106.5조원, DX 영업이익 -0.8조원",
+        "3분기 현금배당 총 30조원, 잔여재원 55~75조원"
+      ]
+    },
+    {
+      "id": "src_art_0001",
+      "url": "https://www.thelec.kr/news/articleView.html?idxno=64531",
+      "retrieved_at": "2026-11-01",
+      "lang": "ko",
+      "verification": {
+        "status": "verified",
+        "checks": [
+          "claims:10"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(구현 세션 대행 — 발행처·제목·게시일을 원문 첫머리와 대조. 게이트 ① 에서 사용자가 출처 표로 확인)",
+      "confirmed_at": "2026-11-01T03:50:04.213116Z",
+      "note": "회사 발언 전문 — 매체 녹취",
+      "type": "article",
+      "publisher": "디일렉",
+      "headline_original": "삼성전자 2026년 3분기 실적발표 컨퍼런스콜 전문",
+      "published_at": "2026-10-29",
+      "key_facts": [
+        "컨퍼런스콜 전문(회사 발언 녹취)"
+      ]
+    },
+    {
+      "id": "src_art_0002",
+      "url": "https://www.hankookilbo.com/news/article/A2026102916580005679",
+      "retrieved_at": "2026-11-01",
+      "lang": "ko",
+      "verification": {
+        "status": "verified",
+        "checks": [
+          "claims:4"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(구현 세션 대행 — 발행처·제목·게시일을 원문 첫머리와 대조. 게이트 ① 에서 사용자가 출처 표로 확인)",
+      "confirmed_at": "2026-11-01T03:50:04.214052Z",
+      "note": "",
+      "type": "article",
+      "publisher": "한국일보",
+      "headline_original": "삼성전자 '역대급 실적'에도… 코스피 하루 만에 6000선 반납",
+      "published_at": "2026-10-29",
+      "key_facts": [
+        "삼성전자 '역대급 실적'에도… 코스피 하루 만에 6000선 반납"
+      ]
+    },
+    {
+      "id": "src_art_0003",
+      "url": "https://www.hankookilbo.com/news/article/A2026102914400002086",
+      "retrieved_at": "2026-11-01",
+      "lang": "ko",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(구현 세션 대행 — 발행처·제목·게시일을 원문 첫머리와 대조. 게이트 ① 에서 사용자가 출처 표로 확인)",
+      "confirmed_at": "2026-11-01T03:50:04.217048Z",
+      "note": "",
+      "type": "article",
+      "publisher": "한국일보",
+      "headline_original": "삼성전자, 30조원 배당에 싸늘한 시장 반응… 남은 재원 \"우선주 중심\" 방침",
+      "published_at": "2026-10-29",
+      "key_facts": [
+        "삼성전자, 30조원 배당에 싸늘한 시장 반응… 남은 재원 \"우선주 중심\" 방침"
+      ]
+    },
+    {
+      "id": "src_art_0004",
+      "url": "https://www.g-enews.com/article/Industry/2026/10/20261008083521744027fa31d75c_1",
+      "retrieved_at": "2026-11-01",
+      "lang": "ko",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:0"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(구현 세션 대행 — 발행처·제목·게시일을 원문 첫머리와 대조. 게이트 ① 에서 사용자가 출처 표로 확인)",
+      "confirmed_at": "2026-11-01T03:50:04.221068Z",
+      "note": "",
+      "type": "article",
+      "publisher": "글로벌이코노믹",
+      "headline_original": "삼성전자, 분기 실적 100조 시대 열었다…3Q 영업익 107.4조 (종합)",
+      "published_at": "2026-10-08",
+      "key_facts": [
+        "삼성전자, 분기 실적 100조 시대 열었다…3Q 영업익 107.4조 (종합)"
+      ]
+    },
+    {
+      "id": "src_art_0005",
+      "url": "https://www.g-enews.com/article/Securities/2026/10/20261029103706896244093b5d4e_1",
+      "retrieved_at": "2026-11-01",
+      "lang": "ko",
+      "verification": {
+        "status": "corroborated",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(구현 세션 대행 — 발행처·제목·게시일을 원문 첫머리와 대조. 게이트 ① 에서 사용자가 출처 표로 확인)",
+      "confirmed_at": "2026-11-01T03:50:04.225044Z",
+      "note": "",
+      "type": "article",
+      "publisher": "글로벌이코노믹",
+      "headline_original": "[특징주] 삼성전자, 3분기 사상 최대 영업이익에도 주가는 '하락'",
+      "published_at": "2026-10-29",
+      "key_facts": [
+        "[특징주] 삼성전자, 3분기 사상 최대 영업이익에도 주가는 '하락'"
+      ]
+    },
+    {
+      "id": "src_doc_0002",
+      "url": "https://www.intc.com/filings-reports/all-sec-filings/content/0000050863-26-000188/q326earningsrelease.htm",
+      "retrieved_at": "2026-11-01",
+      "lang": "en",
+      "verification": {
+        "status": "verified",
+        "checks": [
+          "claims:1"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(구현 세션 대행 — 발행처·제목·게시일을 원문 첫머리와 대조. 게이트 ① 에서 사용자가 출처 표로 확인)",
+      "confirmed_at": "2026-11-01T03:50:04.229064Z",
+      "note": "",
+      "type": "document",
+      "issuer": "Intel Corporation",
+      "title": "Intel Reports Third-Quarter 2026 Financial Results (8-K Ex.99.1)",
+      "published_at": "2026-10-29",
+      "key_facts": [
+        "Q3 2026 earnings release"
+      ]
+    },
+    {
+      "id": "src_doc_0003",
+      "url": "https://news.samsung.com/kr/%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90-2026%EB%85%84-3%EB%B6%84%EA%B8%B0-%EC%8B%A4%EC%A0%81-%EB%B0%9C%ED%91%9C",
+      "retrieved_at": "2026-11-01",
+      "lang": "ko",
+      "verification": {
+        "status": "verified",
+        "checks": [
+          "claims:7"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(구현 세션 대행 — 발행처·제목·게시일을 원문 첫머리와 대조. 게이트 ① 에서 사용자가 출처 표로 확인)",
+      "confirmed_at": "2026-11-01T04:53:49.722291Z",
+      "note": "",
+      "type": "document",
+      "issuer": "삼성전자 뉴스룸",
+      "title": "삼성전자, 2026년 3분기 실적 발표",
+      "published_at": "2026-10-29",
+      "key_facts": [
+        "3분기 실적 보도자료(회사 공식)"
+      ]
+    }
+  ]
+}

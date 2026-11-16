@@ -1,0 +1,10 @@
+# samsung_q3_2026 미디어 사유(게이트 ① 미디어 계획 표, D-0163 §2). 사진 등록·선택은 음성 뒤 미디어 단계에서 한다(레지스트리 + 권리 기록).
+schema_version: 1
+project_photo: 실적 발표 영상이라 타격·현장 사진 트리거가 거의 없다. Commons 검색 통과 후보 중 피사체가 맞는 것은 삼성 수원 디지털시티 1장뿐이다. 나머지 사진 자리는 연출 단계에서 차트 아일랜드 배경(backdrop)과 기사 카드가 맡는다.
+sentences:
+  cold_0:
+    photo: 고르지 않음 — 통과 후보 1건(File:Gangnam Seoul January 2009.jpg)은 강남 거리 전경이라 삼성전자 피사체가 아니다. 이 문장 배경은 act1_0 의 수원 디지털시티 후보를 미디어 단계에서 등록해 쓴다
+  act1_0:
+    photo: 후보 보류 — File:Samsung Digital Complex, Suwon - panoramio.jpg(CC, 수원 디지털시티 = IR 자료 표지 배경과 같은 사업장)를 미디어 단계에서 레지스트리에 권리 기록과 함께 등록·선택한다
+  act5_0:
+    photo: 고르지 않음 — 통과 후보 3건(Taylor 의 옛 주택·역사 표지·토네이도 피해)은 삼성 테일러 공장이 아니다. 지도 무대(mercator) 테일러 핀이 이 자리를 맡는다

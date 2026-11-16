@@ -1,0 +1,27 @@
+# 『인텔 2026년 3분기 실적』 주문 (v7.4.0, back_and_forth D-0278 §3·§7, D-0342 T5). 실적 발표 템플릿(earnings) 둘째 사례.
+schema_version: 1
+tempo: breath
+topic: 인텔 2026년 3분기 실적(10월 29일 장 마감 뒤) — 예상치·실제·부문·4분기 가이던스·주가 반응(시간외·10월 30일 종가)·지경학
+genre: earnings
+invariant_layer: docs/handoff/20 §1.1
+length: 내용이 정한다   # D-0278 §3 제안 2.5~3.5분
+instructions:
+  - "막 구성 = 장르 earnings 고정 막(rules genre_prompt.acts.earnings): cold → TITLE → act1 예상 vs 실제 → act2 부문 → act3 가이던스 → act4 주가 → act5 지경학 → ending."
+  - "차트는 하나의 시간축 세계(C0·UF-135): 분기 매출 막대 + 예상 표식 + 4분기 가이던스 띠(INTC_GUIDE_REV_LO/HI) + 주가 선(보조 계열 끝값 핀). 차트 아일랜드 하나에 층 3 이상, 새 층 간격 4초 이상. 무대 조판 정본 D-0330(손실 막대 A, noturno)."
+  - "주가 반응은 창을 밝힌다: 시간외(보도 인용) / 10월 30일 정규장 종가(레코드)."
+  - "act5 는 mercator 보조 무대 전환 1회: 미국(본사·공장) · 이스라엘 공장 사고 · 한국 메모리(삼성 편과의 고리)."
+  - 투자 권유 표현 금지, 엔딩 카드 투자 고지 줄. 화면 조작 해설 문구 금지(UF-202). 사고 사망자는 숫자만, 자극적 묘사 금지.
+data:
+  series: [INTC_REV_Q, INTC_REV_Q_EST, INTC_EPS_Q, INTC_EPS_Q_EST, INTC_GUIDE_REV_LO, INTC_GUIDE_REV_HI, INTC_SEG_DCAI_Q, INTC_SEG_CCG_Q, INTC_SEG_FOUNDRY_Q, INTC_PX_D]
+  documents: [src_doc_0001]
+  notes:
+    - 실적 수치는 8-K Ex.99.1 레코드 값 그대로. 비GAAP 지표는 회사 기준임을 밝힌다(company_metric_attribution).
+    - 4분기 예상치(매출 171억 달러·EPS 0.43달러)는 LSEG 집계·글로벌이코노믹 보도(claims) — INTC_REV_Q_EST 2026-12-31 값 17.1 과 같다.
+media:
+  wanted: [인텔 사업장 사진(Commons PD·CC 우선), 기사 카드(글로벌이코노믹 2·한국일보 1)]
+  rights: 비공개 시청 전제(D264) — 권리는 기록만.
+decisions:
+  topic: {value: 인텔 3분기 실적, by: user, ref: "D274 · D-0278"}
+  genre_status: {value: proposed, by: default, ref: "genres/earnings.yaml"}
+  bgm: {value: music.zabriskie_patriarch, by: default, ref: showcase_econ credits 선례}
+  resolution: {value: 720p, by: user, ref: 사용자 결정 2026-10-04}

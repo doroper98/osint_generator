@@ -1,0 +1,14 @@
+# intel_q3_2026 미디어 사유(게이트 ① 미디어 계획 표, D-0163 §2). 사진 등록·선택은 음성 뒤 미디어 단계(레지스트리 + 권리 기록).
+schema_version: 1
+project_photo: 실적 발표 영상이라 현장 사진 트리거가 적다. Commons 통과 후보 중 피사체가 맞는 것(인텔 본사·로버트 노이스 빌딩·키르야트가트 공장·나스닥 타임스스퀘어)을 미디어 단계에서 등록한다.
+sentences:
+  cold_0:
+    photo: 후보 보류 — File:Intel headquarters in Santa Clara.jpg 를 미디어 단계에서 레지스트리에 권리 기록과 함께 등록·선택한다
+  act4_1:
+    photo: 고르지 않음 — 통과 후보 6건은 NASA 아르테미스 II 승무원 나스닥 행사 사진이라 이 문장(인텔 종가)의 피사체가 아니다. act4_2 의 나스닥 타임스스퀘어 후보를 쓴다
+  act4_2:
+    photo: 후보 보류 — File:NASDAQ Times Square - panoramio.jpg(나스닥 전광판 외관)를 미디어 단계에서 등록·선택한다
+  ending_1:
+    photo: 후보 보류 — File:Robert Noyce Building in Santa Clara.jpg(인텔 본사 건물)는 cold_0 후보와 같은 장소라 한 장만 쓴다. 미디어 단계에서 둘 중 해상도 높은 쪽을 고른다
+  act5_0:
+    photo: 후보 보류 — File:Intel factory, Kiryat Gat industry zone.jpg(이스라엘 공장 외관)를 미디어 단계에서 등록해 지도 무대 핀과 함께 쓴다(사고 장면 사진이 아니다 — 자막·캡션에 사고 현장이라고 쓰지 않는다)

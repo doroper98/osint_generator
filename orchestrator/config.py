@@ -123,6 +123,25 @@ class FontconfigConfig(BaseModel):
     expect: FontconfigExpect
 
 
+class FontconfigExpect(BaseModel):
+    """표준 글꼴 렌더 속성(fc-match -v 의 hinting·hintstyle) — v7.4.0 RENDER-AP-032."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    hinting: bool
+    hintstyle: int = Field(ge=0, le=3)
+
+
+class FontconfigConfig(BaseModel):
+    """엔진 글꼴 렌더 설정 파일(저장소 추적, 저장소 기준 상대 경로)과 시작 점검 — v7.4.0 RENDER-AP-032(D-0624)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    file: str = Field(min_length=1)
+    probe_family: str = Field(min_length=1)
+    expect: FontconfigExpect
+
+
 class EngineConfig(BaseModel):
     """새 엔진 렌더 설정 (v2.0.0, docs/handoff/19 §5.4; v3.6.0 출력 프로파일)."""
 
