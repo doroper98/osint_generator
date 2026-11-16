@@ -44,6 +44,7 @@ class CommandTest(unittest.TestCase):
         self.assertEqual(es.build_command(p, "assets_final")[2:], ["geo.prep", "/p", "--res", "final"])
         self.assertEqual(es.build_command(p, "mix")[2:], ["audio.mix", "/p"])
         self.assertEqual(es.build_command(p, "deliver")[2:], ["engine.mux", "/p"])
+        self.assertEqual(es.build_command(p, "upload")[2:], ["publish.youtube", "/p"])   # v7.4.0 D-1200
         self.assertEqual(es.build_command(p, "validate")[2:], ["engine.validate", "/p"])   # v3.1.0 17 §1
 
     def test_unknown_stage_is_error(self) -> None:

@@ -77,6 +77,7 @@ user command
                                                         ─── ★ 게이트 ② PREVIEW_APPROVAL
   → out/video_noaudio.mp4 (engine.render) → out/mix.f32 (audio.mix)
   → out/{final.mp4, final.srt, description.txt, provenance.json} (engine.mux)
+  → 유튜브 비공개 업로드 → out/youtube_upload.json (publish.youtube, v7.4.0 D-1200 — docs/YOUTUBE_UPLOAD.md)
 ```
 
 ## 4. 상태 머신 (project_manifest.current_state)
