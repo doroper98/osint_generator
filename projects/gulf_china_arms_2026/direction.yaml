@@ -192,18 +192,6 @@ events:
   R: 18
   label: 사우디아라비아
   accent: green
-- type: card
-  start:
-    sid: open_0
-    'off': 2.5
-  end:
-    sid: open_0
-    edge: end
-    'off': 0.3
-  tag: 5월 18일 · 로이터 보도
-  lines:
-  - 사우디아라비아에 중국산 방공체계
-  accent: ru
 - type: country
   start:
     word:
@@ -230,30 +218,6 @@ events:
   R: 18
   label: 파키스탄
   accent: teal
-- type: card
-  start:
-    sid: open_1
-    'off': 0.4
-  end:
-    sid: open_1
-    edge: end
-    'off': 0.3
-  tag: 로이터 인용 소식통
-  lines:
-  - 운용은 사우디군이 아니라 파키스탄군
-  accent: teal
-- type: card
-  start:
-    sid: open_2
-    'off': 0.1
-  end:
-    sid: open_2
-    edge: end
-    'off': 0.3
-  tag: 로이터 인용 소식통
-  lines:
-  - 비용은 사우디가 댄다
-  accent: green
 - type: article
   start:
     sid: open_3
@@ -320,22 +284,6 @@ events:
   R: 18
   label: 파키스탄
   accent: teal
-- type: card
-  start:
-    sid: what_0
-    'off': 0.4
-  end:
-    sid: what_1
-    edge: end
-    'off': 0.2
-  tag: 배치 규모
-  bigs:
-  - - 약 8,000명
-    - 병력
-  - - 약 16대
-    - 전투기
-  accent: teal
-  src: 로이터 보도
 - type: route
   start:
     sid: what_1
@@ -373,29 +321,6 @@ events:
     'off': 5.0
   mid: gulf_china_arms_2026_art_0011
   theme: dark
-- type: card
-  start:
-    sid: what_3
-    'off': 0.3
-  end:
-    sid: what_3
-    edge: end
-    'off': 0.3
-  tag: 로이터 보도
-  lines:
-  - 여기에 중국산 HQ-9 방공체계
-  accent: ru
-- type: card
-  start:
-    sid: what_4
-    'off': 0.2
-  end:
-    scene_end: what
-    'off': 0.3
-  tag: 안보 관리 두 명
-  lines:
-  - 무인기 2개 대대도 함께
-  accent: teal
 - type: article
   start:
     sid: official_1
@@ -444,69 +369,6 @@ events:
     'off': 0.3
   mid: gulf_pact_2026_art_0001
   theme: dark
-- type: card
-  start:
-    sid: official_3
-    'off': 0.3
-  end:
-    sid: official_3
-    edge: end
-    'off': 0.5
-  tag: HQ-9 · JF-17 배치
-  lines:
-  - 두 나라 정부가 확인하지 않은 보도
-  accent: muted
-- type: card
-  start:
-    sid: pact_0
-    'off': 0.4
-  end:
-    sid: pact_0
-    edge: end
-    'off': 0.3
-  tag: 로이터 보도
-  lines:
-  - 2025년 9월 상호방위협정에 따른 배치
-  accent: teal
-- type: card
-  start:
-    sid: pact_1
-    'off': 0.2
-  end:
-    sid: pact_1
-    edge: end
-    'off': 0.3
-  tag: 2025년 9월 · 두 나라 발표
-  lines:
-  - 한쪽에 대한 공격을
-  - 양국 모두에 대한 공격으로 간주
-  accent: teal
-- type: card
-  start:
-    sid: pact_2
-    'off': 0.2
-  end:
-    sid: pact_2
-    edge: end
-    'off': 0.3
-  tag: 협정 전문 비공개
-  bigs:
-  - - 최대 8만 명
-    - 배치 가능성
-  accent: muted
-  src: 로이터 소식통
-- type: card
-  start:
-    sid: pact_3
-    'off': 0.3
-  end:
-    scene_end: pact
-    'off': 0.3
-  tag: 소식통 설명
-  lines:
-  - 사람과 장비 — 파키스탄
-  - 돈 — 사우디
-  accent: gold
 - type: country
   start:
     scene_start: us_arms
@@ -529,31 +391,6 @@ events:
   R: 18
   label: 사우디아라비아
   accent: green
-- type: card
-  start:
-    sid: us_arms_0
-    'off': 0.4
-  end:
-    sid: us_arms_0
-    edge: end
-    'off': 0.3
-  tag: 사우디 방공 · 미들이스트아이
-  lines:
-  - 미국산 패트리어트
-  - 미국산 사드
-  accent: us
-- type: card
-  start:
-    sid: us_arms_1
-    'off': 0.2
-  end:
-    sid: us_arms_1
-    edge: end
-    'off': 0.3
-  tag: 로이터 보도대로라면
-  lines:
-  - 그 옆에 중국산 HQ-9
-  accent: ru
 - type: route
   start:
     sid: us_arms_2
@@ -566,32 +403,6 @@ events:
   col: teal
   ship: false
   label: 동맹국 군대
-- type: card
-  start:
-    sid: us_arms_2
-    'off': 0.3
-  end:
-    scene_end: us_arms
-    'off': 0.4
-  tag: 다른 점
-  lines:
-  - 사우디가 직접 산 것이 아니라
-  - 동맹국 군대가 들여와 운용
-  - 비용은 사우디
-  accent: gold
-- type: card
-  start:
-    sid: scale_0
-    'off': 3.2
-  end:
-    sid: scale_0
-    edge: end
-    'off': 0.3
-  tag: 10월 2일 · 로이터 보도
-  bigs:
-  - - 3만~4만 명
-    - 파키스탄 병력
-  accent: teal
 - type: article
   start:
     sid: scale_1
@@ -697,35 +508,6 @@ events:
     'off': 5.2
   mid: gulf_china_arms_2026_art_0012
   theme: dark
-- type: card
-  start:
-    sid: korea_4
-    'off': 5.4
-  end:
-    sid: korea_4
-    edge: end
-    'off': 0.4
-  tag: 요격탄 1발 가격
-  bigs:
-  - - 약 110만 달러
-    - 천궁-II
-  - - 약 370만 달러
-    - 패트리어트 PAC-3
-  accent: gold
-  src: 더프린트 · 뉴욕타임스 인용
-- type: card
-  start:
-    sid: korea_5
-    'off': 0.4
-  end:
-    scene_end: korea
-    'off': 0.5
-  tag: 사우디 하늘의 방공체계
-  lines:
-  - 미국산 — 패트리어트·사드
-  - 한국산 — 천궁-II · 계약대로라면
-  - 중국산 — HQ-9 · 로이터 보도대로라면
-  accent: gold
 - type: country
   start:
     scene_start: briefing
@@ -778,19 +560,6 @@ events:
   sub: 전투기 도착 · 공식 발표
   side: left
   hl: true
-- type: card
-  start:
-    sid: briefing_1
-    'off': 0.2
-  end:
-    sid: briefing_1
-    edge: end
-    'off': 0.2
-  tag: 보도대로라면 이번에는
-  lines:
-  - 사우디가 사들인 것이 아니라
-  - 동맹국 군대가 들여와 운용
-  accent: teal
 - type: panel
   start:
     sid: briefing_2
@@ -836,17 +605,6 @@ events:
   - CN
   col: ru
   a: 0.07
-- type: card
-  start:
-    sid: briefing_4
-    'off': 0.3
-  end:
-    total: true
-  tag: 로이터 보도대로라면
-  lines:
-  - 미국산 패트리어트·사드를 갖춘 사우디 하늘
-  - 중국산 체계가 동맹국 군대를 통해
-  accent: gold
 - type: route
   start:
     sid: what_2

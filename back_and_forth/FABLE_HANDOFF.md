@@ -1,8 +1,111 @@
 # 감독(Fable 역할) 세션 인수인계 — 2026-10-11 (v5.21.0)
 
+## 0-4. 2026-10-31 23:40Z — 감독 승계(사용자 지시 "새로운 감독 세션을 띄워서 인수인계시켜")
+
+이 블록이 새 감독 세션의 **출발점**이다. 옛 감독 = `session_017Yuw8kbxf9Vxri6LoH5Je4`(Fable 5.1, sweet-galileo). **새 감독(최종) = `session_017Yuw8jLMWscY9bdVXTvddr`(Fable 5.1, 2026-11-01 00:10Z 생성 — 사용자가 네트워크 허용 목록(en.wikipedia.org·www.aljazeera.com·www.cbsnews.com·apnews.com·commons.wikimedia.org·upload.wikimedia.org·fred.stlouisfed.org·doroper98.github.io·analysis-reports.pages.dev)을 추가한 뒤 띄움). 중간 승계 세션 `session_017Yuw8iKFWUG9yMqoGHN39V`(23:53Z)는 대체·보관, 그 점검 트리거 trig_011g2r2iF93joBssYXSawwdo 는 껐다.** 옛 감독 점검 트리거 `trig_011XELpyTdKrmNeGj35Y9DEk` 는 23:53Z 에 껐다. 구현 세션 3·2 에는 새 id 를 통보했다. 읽는 순서: 이 블록 → 0-3·0-2·0-1 → `back_and_forth/README.md` → `CLAUDE.md` → `docs/handoff/15` → DECISIONS D299~D312 → D-0318~D-0333.
+
+### 세션 목록(이 감독이 잡고 있던 것)
+| 역할 | 세션 id | 브랜치 | 상태(23:40Z) |
+|---|---|---|---|
+| 쇼케이스 구현 3(Opus 5.5) | `session_017Yuw8mZjzL9rxkApRyBCoR` | `claude/sweet-galileo-7yok3b` | **게이트 ② 사용자 답 대기**. 패키지 v5 = artifacts/showcase-v7.4.0 47427cc(프리뷰·카탈로그 hard 0, 골든 12, 검사 109). D-0325~D-0333 전부 적용·커밋(마지막 a10c1323 R-0295). 사용자 승인 + econ A/B(감독 추천 A)가 오면 D(from: user) 로 final 렌더 신호 → geo final·catalog → econ → 결합본. |
+| 경제 템플릿 구현 2(Opus 5.5) | `session_017Yuw8kbeoYpfyG3k9TfnLQ` | `claude/econ-template-2026` (artifacts/econ-template-2026) | **요소 넷 사용자 승인 대기**(가이던스 인셋·slope·덤벨·diverging, 사용자에게 보냄). 바닥 조판 정본 승인됨(D-0330, 손실 막대 A = UF-204). T3 준비분 WIP 커밋 6ccea7d. 승인 오면 D(from: user) → T3 한 커밋(세 곳 등록, princess 기본값·ink_light 대안 키 삭제, surface stage·noturno 경제 기본) → T4 → T5 삼성·인텔 영상. 컨텍스트 70만/100만 — 인계 임박 시 OPUS_RESTART_PROMPT 방식. |
+| 중국 트랙 감독(Fable 5.1) | `session_017Yuw8hTb2zPgG7PvjAbjyu` | `claude/china-export-controls-2026` | **완료**(사용자 95점, UF-158·D-0324). 손대지 않는다. main 병합은 사용자 지시 대기. |
+| 옛 쇼케이스 구현 1·2, 옛 경제 구현 1 | `session_017Yuw8k4hDAiSpVRGtFv4Lu`·`session_017Yuw8mVchPLgYxtnfEwjjh`·`session_017Yuw8hgL1EgKn1qUsDZQz2` | — | 종료(한도·컨텍스트). 깨우지 않는다. |
+
+### 세션 갱신(2026-11-01 02:30Z, 최종 감독)
+| 역할 | 세션 id | 브랜치 | 상태 |
+|---|---|---|---|
+| 쇼케이스 구현 3 | `session_017Yuw8mZjzL9rxkApRyBCoR` | claude/sweet-galileo-7yok3b | D-0335(게이트 ② 승인·econ A) 수신. approve 가 `require_feedback_guards` 에 막힘(R-0296, samsung_q3_2026 open 10건) → D-0338 (a): 경제 트랙 장치 완료까지 대기, 편집 없음 |
+| 경제 템플릿 구현 4(Opus 5.5) | `session_017Yuw8kfAdjmXc7uNhtwomZ` | claude/econ-template-2026 | 세션 3(`…mPogwrWT2H4raHmJ5`)이 D-0339 완료(R-0309: T3·장치 10건·원장 open 0, 머리 30d6da48) 뒤 컨텍스트 한계로 R-0310 인계. D-0342: T4(시트·골든 실측) → T5 삼성·인텔 W0(게이트 ① 사용자). 03:39Z 기동 |
+| 쇼케이스 구현 3 (갱신 03:40Z) | 같은 세션 | sweet-galileo | D-0340 진행 중: econ 30d6da48 병합(DECISIONS 네 줄 보존) → open 0·골든 12·프리뷰 hard 0 → D-0335 approve·전편 |
+| 전쟁사 트랙 위임 감독(Fable 5.1) | `session_017Yuw8i7EwyZ4z45Xtcvjkg` | claude/war-history-2026 | D-0337 기동. 구현 `session_017Yuw8iLVvjENvvmSwCZqkR`(Opus 5.5). D-0600 착수 지침, D700 둘째 사례 = 인천 상륙·서울 수복 1950.9. 번호 D-0600~·D700~·UF-250~. 게이트 위임 없음(사용자 판정 4자리). §0-6 은 그 브랜치에 |
+| 이란 휴전안 위임 감독(Fable 5.1) | `session_017Yuw8hAgYiuiC4hYCHXB27` | claude/iran-ceasefire-2026 | 게이트 ① 감독 승인(원고 v1.2 66문장, 제목 『휴전안의 한 달 — 미국과 이란, 무엇이 먼저 풀려야 하나』, ffa57628). 콘티 판 진행. 다음 통보 = 완성본 |
+- main: 중국 트랙 `merge --no-ff` 완료 0777833c(사용자 승인 UF-206·D314).
+- 미결: 사용자 지시 '미국·이란 휴전 협상 분석 영상 별도 트랙' 은 D-0334 트랙과 범위 중복 → 사용자에게 (가) 기존 트랙 범위 확대 (나) 별도 2편 (다) 대체 를 물었다. 답 전까지 새 세션을 띄우지 않는다.
+
+### 상태 갱신(2026-11-01 09:55Z, 최종 감독)
+- **쇼케이스 완료**: artifacts/showcase-v7.4.0 57b4fc1a final/ (geo 4:01 md5 13348505 · econ 3:04 md5 77876ca3 · 결합본 7:05 md5 18f84216, provenance 승인 실값). 리뷰 D-0345 pass(D323). 사용자 전달 09:50Z. **main 병합은 사용자 결정 대기.** 세션 3 대기(병합 직전 전체 pytest 1회).
+- 경제 구현 4(`session_017Yuw8kfAdjmXc7uNhtwomZ`): 삼성(35문장)·인텔(33문장) 게이트 ① 자료 사용자 전달(D-0343·D321) — **사용자 답 대기**. UF-170 gate-view 장치 cherry-pick, column_detail lru_cache(6299f295). 답 오면 D(from: user) + 인텔 act5_1 CNBC 귀속·삼성 act5_5 근거 같은 커밋.
+- 전쟁사 위임 감독: 스케치 v1(da627244)·구상 컷 A 릴리프/B terrain3d(f0ba9edb) 사용자 전달 — **판정 대기**(테마 기본값 relief/dark·terrain3d 채택·CC BY-SA). 사용자가 그 세션에 직접 UF-250·251 줌(D-0604). 둘째 사례 인천 상륙(D700).
+- 이란 위임 감독: 게이트 ① ffa57628 → 콘티 판 v1~v4 → 게이트 ② 승인 D-0460 → 720p 전편 렌더 + 전체 pytest 진행 중(09:38Z), 유튜브 문안 초안 783aaf96. 컨텍스트 67만/100만. 완성본 종료 보고가 이 세션으로 온다.
+- 미결 사용자 결정: ① 삼성·인텔 게이트 ① ② 전쟁사 스케치 v1·구상 컷 ③ 이란 협상 분석 영상 범위(기존 D-0334 확대 / 별도 2편 / 대체) ④ 쇼케이스 main 병합. 다음 번호 UF-207·D-0346·DECISIONS D324.
+
+### 상태 갱신(2026-11-01 17:05Z, 최종 감독)
+- 쇼케이스: 전달본 final/(57b4fc1a) 보존. 이란 의견 UF-171·172 가 재발 상태라(R-0314 실측) 교체본 작업 — 25bc3915(이란 장치)·b69d2eb8(backdrop 제외)·bcb3f774(UF-170) 포함, 콘티 판 두 편 v2_animatic(4220c83, hard 0·120) 사용자 전달 14:20Z → **게이트 ② 재승인 대기**. 승인 오면 D(from: user) → 전편 → final_v2 → f3910e2b cherry-pick·license_tags 3건.
+- 경제 구현 4: 삼성(35)·인텔(33) 게이트 ① **사용자 답 대기**. 그동안 UF-170·25bc3915·audio.mix no_music_decision·스케치 mux(6a3c4b0f) 정리. UF-207(샘플 영상) 기록 — 판정 R 에 짧은 렌더 mp4 동봉.
+- 전쟁사: 사용자 D-0607("좋네")·UF-252 반영 스케치 v2(b49c90d3), 칸나이 원고 v3.1 게이트 ① 자료 사용자 전달(라벨 없는 판, 판정 자리 ②) → **답 대기**. 권리 장치 f3910e2b·RIGHTS-AP-001.
+- 이란: **종료**(17:26Z 종료 보고, D329). 완성본 1차 탈락(UF-171·172) → 교체 완성본 final_v2(a3ffa45f, md5 d1c655d4) 전달. 브랜치 최신 f981ff24(공용 시험 보강 — 다른 브랜치 cherry-pick). main 병합은 사용자 결정. 위임 감독 세션은 두고, 구현 세션 session_017Yuw8kfoLTzsBrmCXnBDdk 는 보관.
+- 미결 사용자 결정: ① 쇼케이스 게이트 ② 재승인 ② 삼성·인텔 게이트 ① ③ 칸나이 게이트 ① ④ 이란 협상 분석 영상 범위 ⑤ 쇼케이스 main 병합. 다음 번호 UF-208·D-0349·DECISIONS D329.
+
+### 상태 갱신(2026-11-02 12:15Z, 최종 감독)
+- 쇼케이스: v2_animatic **보류**(D-0349, UF-173 재발 실측 R-0317 — 날짜 넘김 geo 6·econ 2, econ act2 매체 94%). D-0350(67d8c714) = 장치 세 커밋 1f5e0987 → 68ac3797 → 96d0360b cherry-pick 해결법(감독 시험: 원장 171·검사 120→124) → 재설계 → 두 콘티 판 다시 → 사용자 게이트 ② 재승인 요청.
+- 경제 구현 4·전쟁사 위임 감독에도 D-0350 전달(콘티 판·프리뷰 전에 가져온다). 이란 감독에 남은 주석 옛 번호 2곳(test_provenance_e2e:77·test_checks:127) 정정 요청.
+- 경제 구현 4: D-0350 적용 완료(econ R-0315, 5797d2d7, 검사 124). 경제 R 보고는 다음부터 R-0400~(D335 — 쇼케이스 R-031x 와 겹침 정리).
+- 쇼케이스: 재설계 콘티 판 v3_animatic(R-0318, 5aade897) 감독 pass(D-0351) → 사용자 전달(13:5xZ)·**게이트 ② 재승인 대기**. 전편 전 dmz_fence 사진 연도 처리(D-0351 §1).
+- 전쟁사: 이란 장치 넷 반영(검사 131). 골든 25/25 md5 불일치는 구현 컨테이너 환경 차 — **war main 병합 전 골든이 통과하는 환경에서 재확인**(D337). 칸나이 판정 ③ 답 대기.
+- 속도 트랙 sweet-galileo 병합 73713f0d(14:14Z). 새 hard [map-event-covered] 가 showcase_geo v3 3건 → D-0352(geo v4_animatic + 세 컷 mp4 + §6.3a 시트·점검표). 사용자 게이트 ② 답은 v3 로 받아도 유효, 고친 세 컷은 따로 보낸다.
+- **README §6.3a(사용자 전달 전 review_sheet·uf_checklist 의무)** — 다음 전달부터 적용.
+- R-0320 → D-0353(A′: 장면 첫 화면 지도 1.5초 이상 → 사진 → 사건). geo v4_animatic A′ 로 재렌더 대기.
+- R-0321: A′ 뒤 geo 매체 5<7 → 사용자 결정(UF-139 대 UF-173). 비교 클립(artifacts 9d11bd07 d0353_compare/) 사용자 전달 14:28Z — **답 대기**: ① 지도 먼저(B: 이 영상만 매체 하한 면제, 5장) ② 사진 먼저(A: act2 2분할이 무대 도착을 덮음, 7장) ③ 원고 2막 도입 늘리기(게이트 ① 다시). A 를 고르면 하바롭스크 크레딧 "CC BY 3.0" 중복 표기도 고친다.
+- 골든 환경: 원인 = 표준 FONTCONFIG 누락(war R-0329). 장치 RENDER-AP-032 네 브랜치 반영 완료(war fddc5526·4562b172 / sweet 1402503d·2499f012 / iran e4ad493f·e409edcf / econ 31004550·597a2c1c). econ 골든 25컷 f70904e0 에서 25/25 일치(D358). 조각 캐시 키 보강 a2c612fc 반영(D347, 종결).
+- narration_clarity: 쇼케이스 3b2d1bb6·af0409ef·34dedc1c(전 장르 hard, D349). 경제(3b2d1bb6 → af0409ef → 34dedc1c)·전쟁사(af0409ef → 34dedc1c) 전파 지시, R 대기.
+- **사용자 게이트 승인 기록 절차(이 세션, D363)**: 사용자 원문을 받으면 UF 기록 → 그 프로젝트가 있는 브랜치를 worktree 로 꺼낸다 → `python -m orchestrator.main approve --project {pid} --gate script_approval|preview_approval --comment "사용자 원문 \"…\" (UF-…)"` → commit(첫 줄 v7.4.0: …) → 그 브랜치에 push → 구현 세션에 "pull 해서 진행" 알림. 게이트 ② 는 gate packet 의 ② 구역이 있어야 돈다(쇼케이스 econ 은 manifest done 이라 먼저 reopen). 게이트 ① 은 packet 없이 추적 파일로 돈다(삼성·인텔 실측 통과, econ 3034bc72).
+- **AP 번호대(D361)**: 통합 sweet-galileo = 현재 최대+1~039(다음 PIPELINE-028·RENDER-034·RIGHTS-004), 전쟁사 040~059, 예산안·속도 060~079, 영상 분석 080~099, 이란 100~119 — 모든 범주 공통.
+- 다음 번호 UF-209·D-0359·DECISIONS D374·PIPELINE-AP-028·RENDER-AP-035·RIGHTS-AP-004.
+
+### 상태 갱신(2026-11-02 11:10Z, 최종 감독 — 사용자가 이 세션 모델을 Opus 5.5 로 전환)
+- 쇼케이스: 교체본 콘티 판 v2_animatic 게이트 ② **재승인 대기**. sweet-galileo 머리 b2d5f75a(UF-207 원장 정정 217c4525·PIPELINE-AP-026·5bdcd949·fed 데모 120).
+- 경제 구현 4: 삼성·인텔 게이트 ① **답 대기**.
+- 전쟁사(위임 감독 session_017Yuw8i7EwyZ4z45Xtcvjkg, Opus 전환·자동 압축 21만): 칸나이 게이트 ① 사용자 승인(UF-254) → 콘티 판 v1(78158fa8, md5 c092ee46) 사용자 전달·내 세션에서도 08:50Z → **판정 ③ 대기(흐름 + 음악 Zabriskie/코리올란)**. D-0619 결함 넷 수정 중. 승계 명세 §0-6(그 브랜치).
+- 이란: **사용자가 다시 엶** — final_v2 2차 탈락(UF-173 기계적 연장·첫 화면 지도 가림·도하 사진) → 연출 v10 → final_v3b(09246f3, md5 0ec9d9f3) 전달(그 세션). 장치 커밋([credit-garbled]·library credit 9건·media-sentence-span·map-opening·map-cover-share) 대기 → 쇼케이스·경제·전쟁사 cherry-pick. 쇼케이스 교체본은 같은 연장 방식이라 보류(D-0349·D332).
+- **새 트랙(옛 감독 session_017Yuw8kbxf9Vxri6LoH5Je4 이 맡음, UF-300·301)**: 제작 시간 단축 S0~S6 → 『2027년 예산안』. 브랜치 claude/speed-pipeline-2026, 번호 D-1000~·DECISIONS D600~·UF-300~·R-0600~, 절 §0-7. S 끝나면 sweet-galileo 로 merge --no-ff — 직전 통보 오면 이쪽 렌더 상태 회신(D331).
+- 미결 사용자 결정: ① 쇼케이스 게이트 ② 재승인 ② 삼성·인텔 게이트 ① ③ 칸나이 콘티 판 판정(흐름·음악) ④ 이란 협상 분석 영상 범위 ⑤ 쇼케이스·이란 main 병합. 다음 번호 UF-208·D-0349·DECISIONS D332. 커밋 트레일러는 시스템 지정 값(현재 Opus 5.5).
+
+### 사용자 결정 대기(그대로 묻지 말고, 답이 오면 바로 실행)
+- **2026-11-01 00:30Z 사용자 답(UF-206) "1~4까지 승인"** → 1·2 = D-0335(세션 3 렌더)·D-0336(세션 2 T3) 발송, 3 = CLAUDE.md C0 표제 정정 커밋, 4 = 중국 브랜치 main merge --no-ff. 5 = D-0337 전쟁사 트랙 착수(위임 감독 세션은 §0-6). 추가 지시 '이란 협상 분석 영상 별도 트랙' 은 D-0334 와 범위 중복 → 사용자 확인 중.
+1. 쇼케이스 게이트 ② 승인 + showcase_econ A/B(감독 추천 A = 사진 배경 + 아일랜드). → 세션 3 에 D(from: user) 로 렌더 시작.
+2. 경제 템플릿 요소 넷 승인. → 세션 2 에 D(from: user) 로 T3.
+3. CLAUDE.md C0 표제 정정("다시 들여오면 안 되는 것") — 헌법 개정이라 사용자 결정(LLM-AP-021).
+4. 중국 브랜치 main 병합 여부.
+5. 전쟁사(E9, 우선 1)·미술사(E10) 트랙 — 쇼케이스 게이트 ② 뒤 착수, 계획 D-0307, 첫 사례 칸나에 가정. 전용 구현 세션을 `claude/war-history-2026` 에 띄운다.
+
+### 번호·규칙(충돌 방지)
+- D 다음 번호 **D-0334**(sweet-galileo), DECISIONS 다음 행 **D313**, UF 다음 **UF-205**(이 트랙 UF-200~ 사용 중; 중국 트랙 UF-160~162 별도). R 은 구현 세션이 올린다(세션 3 R-0295 까지, 세션 2 R-0306 까지).
+- 커밋 첫 줄 `v7.4.0: …`, 트레일러 Co-Authored-By: Claude Fable 5.1 + Claude-Session(새 세션 URL). PR 금지(C8-5), main push 금지, 모델 식별자 저장소 기록 금지, 표준 음성 재질문 금지(C0.2), 게이트 장치 우회 금지, 조용한 드롭 금지(P6).
+- 사용자 의견은 받은 즉시 `rules/user_feedback.yaml` 에 원문 그대로 UF 로(C12). 보고문은 `python tools/slop_check.py <file>` 통과 뒤 보낸다(UF-145·UF-202 금지어 — "~축에 겹칩니다" 류 화면 조작 해설 포함).
+- 레퍼런스는 느낌만, 요소 이식 지시 금지(LLM-AP-022). 렌더 전 구상 1프레임으로 판정. 샘플은 나오는 대로 바로 사용자에게(UF-144).
+- 요소·조판 판정 요청에는 해당 컷의 짧은 실제 렌더 mp4 를 함께 보낸다(UF-207, UF-144 재발 — 정지 시트만 보내지 않는다).
+- 사용자 게이트 승인은 이 감독 세션에서 `approve` 로 기록하고 push 한다(README §9, UF-267). 구현 세션에 승인 기록을 맡기지 않는다(세션 간 메시지는 사람 입력이 아니라 권한 장치가 막는다). 사용자에게 다른 세션으로 가서 입력하라고 하지 않는다. gate packet(D-0355) 전에는 감독 컨테이너에 out/ 이 없어 approve 가 못 도니 gate packet 을 먼저 갖춘다.
+- 사용자에게 결정을 물을 때는 그 세션 것만이 아니라 남은 사용자 결정 전체를 번호 목록(트랙·질문·선택지·자료 위치)으로 한 번에 안내한다(UF-208 — "내가 뭘 결정 하면 되는거야?"). 구현 세션이 사용자 질문을 받으면 감독에게 넘기고, 감독이 전체 목록으로 답한다.
+- 원장(`rules/user_feedback.yaml`)을 고친 커밋은 `python -c "from rules import load_user_feedback; load_user_feedback()"` 와 doc 장치 문구 존재 확인을 반드시 거친다(PIPELINE-AP-026 — 감독 컨테이너는 cairo 가 없어 시험을 못 돌린다). 장치 없는 의견은 guards 비우고 open.
+- 점검: 옛 감독의 send_later 트리거 `trig_011XELpyTdKrmNeGj35Y9DEk` 는 승계 시 옛 감독이 끈다. 새 감독은 자기 점검(60~120분, 사용자 결정 대기 중엔 2~4시간)을 건다.
+  - **승계 완료(2026-10-31 23:57Z)**: 새 감독이 §0-4 ·README·CLAUDE.md·15·DECISIONS D299~D312·D-0318~D-0333 을 읽고, 세션 3·2 에 새 id 통보, 자기 점검 `trig_011g2r2iF93joBssYXSawwdo`(3시간 간격, 02:58Z 첫 발화)를 걸었다. 세션 2 컨텍스트 71만/100만 — 인계 임박.
+  - **승계 완료(최종, 2026-11-01 00:15Z)**: 최종 감독 `session_017Yuw8jLMWscY9bdVXTvddr` 가 §0-4·0-3·0-2·0-1·README §6·CLAUDE.md·15·DECISIONS D299~D312·R-0295·D-0321 을 읽고, 네 브랜치 fetch(sweet-galileo 5f2f5b8c·econ 6ccea7d·artifacts 47427cc·98c020b4), 세션 3·2 에 최종 id 통보(중간 세션 id 무효 명시), 자기 점검 `trig_015VQmUZd2C9VoKfnANtunEr`(03:15Z, 3시간 간격)를 걸었다. 중간 세션 트리거 `trig_011g2r2iF93joBssYXSawwdo` 는 꺼져 있음 확인. **네트워크 실측**: 허용 목록 추가 뒤에도 이 컨테이너는 commons.wikimedia.org·upload.wikimedia.org 만 200, en.wikipedia.org·www.aljazeera.com·doroper98.github.io·analysis-reports.pages.dev·fred.stlouisfed.org·www.cbsnews.com·apnews.com 은 CONNECT 403(정책 거부). 사용자에게 보고.
+- 네트워크: 이 컨테이너는 doroper98.github.io·analysis-reports.pages.dev·en.wikipedia.org·www.aljazeera.com 이 막혔다(정책은 세션 시작 시 굳음). 사용자가 허용 목록에 넣은 뒤 새 세션부터 열린다. agents_reviewer 는 public 저장소라 `GIT_LFS_SKIP_SMUDGE=1 git clone --depth 1 https://github.com/doroper98/agents_reviewer` 로 받아 로컬에서 본다(reports/*.html + src/templates/static/charts.js·charts.css·d3 를 같은 폴더에 두고 Playwright 로 스크롤 뒤 캡처).
+- 최근 산출: 유튜브 문안 `docs/handoff/reports/china_youtube_meta_2026-10-31.md`, 르포 참고 캡처 `docs/handoff/reports/reportage_ref_2026-10-31/`.
+
+### 새 감독이 처음 할 일(순서)
+(1) 이 블록·README·CLAUDE.md·15·DECISIONS D299~ 읽기 (2) `git fetch` 로 sweet-galileo·econ-template-2026·artifacts 두 브랜치 확인 (3) 세션 3·세션 2 에 send_message("감독 승계, 이후 R·결정 요청은 이 세션으로") (4) 자기 점검 send_later 걸기 (5) 사용자에게 한 줄 보고(대기 중인 결정 1·2 를 다시 묻지 말고 목록만).
+
+## 0-7. 2026-11-02 — 병행 트랙: 제작 시간 단축 체계(S) → 『2027년 예산안 분석』(B) (사용자 결정 D-1000, UF-300·UF-301)
+- 감독 = `session_017Yuw8kbxf9Vxri6LoH5Je4`(사용자가 이 세션에서 지시). 구현 = `session_017Yuw8jc17NfDj2aRZAmvTu`(Opus 5.5, 2026-11-02 10:00Z). 브랜치 `claude/speed-pipeline-2026`(sweet-galileo 935908fc 에서 분기). 번호 D-1000~(넘으면 D-1100~)·DECISIONS D600~·UF-300~·R-0600~. S 끝나면 sweet-galileo 로 merge --no-ff(골든 바이트 동일 조건), 최종 감독에 사전 통보. B 는 새 세션·새 브랜치 `claude/budget-2027-video`, 재정 출처 호스트 허용이 먼저.
+- 네트워크 주의: 사용자가 허용 목록을 넣었다고 한 뒤 만든 세션들(이란 구현 R-0296, 최종 감독 실측)에서도 en.wikipedia.org·www.aljazeera.com·apnews.com·www.cbsnews.com·fred.stlouisfed.org·doroper98.github.io·analysis-reports.pages.dev 는 CONNECT 403. commons·upload.wikimedia 만 열림. 환경 env_01SnvGMv3UmrvejEraZxEACo 설정 저장 여부를 사용자가 확인해야 한다.
+
+## 0-5. 2026-11-01 — 병행 트랙: 『미국·이란 휴전안 — 정리와 가능성 타진』(사용자 결정 D-0334, UF-205)
+- 위임 감독(Fable 5.1) `session_017Yuw8hAgYiuiC4hYCHXB27`(2026-11-01 00:13Z, 옛 감독이 D-0334 요지로 기동). D-0282 방식 — 게이트 ①·② 위임, 질문 없이 완성본(final_deliver.mp4 ≤30MB + srt·description·credits·provenance·유튜브 문안)을 사용자에게 직접 전달. 브랜치 `claude/iran-ceasefire-2026`(sweet-galileo 41e00a99 에서 분기), artifacts `artifacts/iran-ceasefire-v7.4.0`. 번호 D-0450~(넘으면 D-0800~)·DECISIONS D550~·UF-170~199. 종료 보고는 최종 감독 `session_017Yuw8jLMWscY9bdVXTvddr` 로.
+
 ## 0-2. 2026-10-30 — 병행 트랙: 『중국의 기술 수출통제 확대(2026.10)』(사용자 결정 D-0282)
-- **상태(2026-10-30 16:00Z)**: 전편 전달 완료 — `artifacts/china-export-controls-v7.4.0` 95148beb `final/final_deliver.mp4`(md5 02ccbde3, 397.1초, 28.9 MB), DECISIONS D500~D510, 게이트 ①·② 감독 승인(D-0282 위임, 사용자 결정 D-0289). 구현 세션 `session_017Yuw8kwTv8PML5DnvDiExD`. 남은 것: 전체 pytest 결과·UF-160~162 장치 3건(D-0289 §장치).
-- 사용자 지시로 **별도 감독(Fable) 세션**이 이 영상을 묻지 않고 완성본까지 만든다. 브랜치 `claude/china-export-controls-2026`. 감독 세션 `session_017Yuw8hTb2zPgG7PvjAbjyu`(Fable 5.1, 2026-10-30 15:31 KST 기동, DECISIONS D500, 기동 지시 D-0283). 쇼케이스 트랙(0-1)과 독립 — 이 세션(sweet-galileo)은 쇼케이스·E7 만.
+- **완성 확정(2026-10-31, 사용자 판정 95점 — UF-158·D-0324·D302)**. main 병합은 별도 지시 대기.
+- **종결(2026-10-30 15:52Z)**: 완성본 전달 — artifacts/china-export-controls-v7.4.0 95148beb `china_tech_export_controls_2026/final/final_deliver.mp4`(720p·397.08초·md5 02ccbde3·hard 0). 원고 56문장, 게이트 ①·② 위임 승인, 콘티 판 v2 사용자 "아주 만족" + UF-160~162 반영. 교정 사실: 드론 공고 10/19 제49호(감독 메모의 10/14 는 오류), 공고 5건(10/16~10/26). 후속 후보: mercator 주 무대 + 시간축 아일랜드(D504 C안). 브랜치 claude/china-export-controls-2026 — main 병합은 사용자 결정.
+- 사용자 지시로 **별도 감독(Fable) 세션**이 이 영상을 묻지 않고 완성본까지 만든다. 브랜치 `claude/china-export-controls-2026`. 감독 세션 `session_017Yuw8hTb2zPgG7PvjAbjyu`(Fable 5.1, env_01SnvGMv3UmrvejEraZxEACo, 2026-10-30 06:31Z 생성, 기동 프롬프트 = 부모 감독이 D-0282 §1~§4 요지로 작성). 쇼케이스 트랙(0-1)과 독립 — 이 세션(sweet-galileo)은 쇼케이스·E7 만.
+- **D 번호 분리(충돌 방지)**: 중국 트랙 감독은 D-0285~D-0299(넘으면 D-0400~), 쇼케이스 트랙(이 세션)은 **D-0300~**(2026-10-30 D-0300 부터). 두 브랜치를 합칠 때 번호가 겹치지 않는다.
+- **DECISIONS.md 행 번호도 분리**(2026-10-30): 부모 감독(이 세션) 순번 D28x~ · 경제 템플릿 트랙 D400~ · 중국 트랙 D500~. 합칠 때 행은 날짜순으로 끼워 넣는다.
+- **원장 UF 번호 분리**(2026-10-30, 중국 트랙 감독 통보): 쇼케이스·경제 트랙(이 세션) UF-146~159 · 중국 트랙 UF-160~(사용자가 중국 콘티 판에 준 의견 3건 = UF-160~162). 이 세션이 159 를 넘기면 UF-200~ 으로 건너뛴다.
+
+## 0-3. 2026-10-30 — 경제 템플릿 트랙(E3·E4·E5·E7, D-0301)
+- **상태(2026-10-31 12:00Z)**: 쇼케이스 = 게이트 ② 패키지 v5 준비 완료(artifacts/showcase-v7.4.0 47427cc, 프리뷰·카탈로그 hard 0, 골든 12 통과, 검사 109; D-0325~D-0333 적용 — 전환 ×1.5·연준 band 일별·사진 교체·배지 덮임·라벨/캡션 검사). final 렌더는 **사용자 게이트 ② 승인 + econ A/B**(감독 추천 A)가 와야 시작, 세션 3 대기. 경제 템플릿 = 바닥 조판 정본 승인(D-0330, 손실 A UF-204), 요소 넷(가이던스·slope·덤벨·diverging) **사용자 승인 대기**, T3 준비분 WIP 커밋 claude/econ-template-2026 6ccea7d, 세션 2 대기. 중국 트랙 완성 확정(95점). 유튜브 문안 docs/handoff/reports/china_youtube_meta_2026-10-31.md.
+- 사용자 지시로 착수. 감독 = 이 세션(별도 Fable 없음). 전용 구현 세션 `session_017Yuw8hgL1EgKn1qUsDZQz2`(Opus 5.5, 2026-10-30 08:50Z, B 형 기동 프롬프트 = D-0301 §1~§2 요지).
+- **구현 세션 2(인계, 2026-10-30 18:39Z)**: `session_017Yuw8kbeoYpfyG3k9TfnLQ`(Opus 5.5). 세션 1 은 컨텍스트 한계로 d8044300(R-0297, bullet 스케치)에서 인계 — 작업 트리 깨끗, 미등록 패치는 artifacts/econ-template-2026 `t2_bullet/econ_sketch_v4.patch`. 남은 순서: 안 A(시세 2025-07~) → 덤벨 → diverging → slope → 가이던스 → (사용자 요소 승인 뒤) T3 → T5. 브랜치 `claude/econ-template-2026`. 정본 D-0251 §2·D-0278·D-0301. 쇼케이스 세션 3 은 E7 에서 손을 뗐다.
 
 ## 0-1. 2026-10-28 갱신 — E0 쇼케이스 트랙(감독 세션 `session_017Yuw8kbxf9Vxri6LoH5Je4`, Fable 5.1)
 - **현재 트랙**: E0 쇼케이스 데모 2편 + 카탈로그 층(back_and_forth D-0251 §1·§5·§6·§7). 브랜치 `claude/sweet-galileo-7yok3b`(main 8d93103 위), 버전 v7.4.0.
@@ -60,6 +163,7 @@
 D169 믹스 OK·시안 C / D171 정렬 모델 CC BY-NC 유지 / D172 통신사 사진 B / D173 light A / D174 순서(P1-1 을 V5 뒤) / D180 게이트 ① "대본 오케이". ElevenLabs 금지(D127), edge 삭제는 V4.
 
 ## 6. 사용자 소통
+- **레퍼런스는 느낌만**(UF-202, LLM-AP-022): 사용자가 '참고' 로 준 디자인은 인상(여백·절제·강조 1색·직접 라벨)만 가져온다. 머리·캡션·푸터 같은 구성 요소 이식 지시는 쓰지 않는다. 렌더 전 구상 1프레임으로 판정을 받는다.
 - 한국어, 공손·명료, 한 문장 60자 이내, 문단 3~4문장, 말미 "기억해야 할 핵심 요약" 1~3줄.
 - 사용자가 결정할 것만 묻는다. 파일은 SendUserFile(scratch 경로 가능). 영상은 30 MB 이하로 재인코딩(`-c:a copy` 로 음성은 원본 유지).
 - **보고문을 보내기 전에 금지 문구 패턴으로 자기 점검**(UF-145, 사용자 원문 2026-10-30 "니가 작성하는 문구에 이런내용이 없도록 강하게 쪼여"): `rules banned_phrases.patterns`(수렴 은유·승부 은유·"남는다/올라온다" 마무리·청구서 의인화 등)를 사용자에게 가는 모든 글·원고·화면 문자열에 적용한다. 도구 `tools/slop_check.py`(D-0281) 가 생기기 전에는 python 한 줄로 돌린다.

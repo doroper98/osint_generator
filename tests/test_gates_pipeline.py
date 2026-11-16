@@ -59,7 +59,8 @@ def write_animatic(pdir: Path, total_sec: float = 292.44, animatic: bool = True)
 
 
 def _v550_script(src: Path, dst: Path) -> None:
-    """기준 원고(v3)를 v5.5.0 서술 규약(+ v7.4.0 막 구조·전환 role)에 맞춘 사본 — 미확인 마무리를 확인된 사실로, 문장 둘에 하나는 연결어로(게이트 ① 차단 방지).
+    """기준 원고(v3)를 v5.5.0 서술 규약(+ v7.4.0 막 구조·전환 role)에 맞춘 사본 — 미확인 마무리를 확인된 사실로(게이트 ① 차단 방지).
+    접속어 덧붙이기는 뺐다(v7.4.0 D-1007 하한 삭제·D610 첫머리 비율 상한 0.15·재등장 간격 6 — 문장 둘에 하나 '또한' 은 [connective-repeat]).
     기준 원고 자체는 고치지 않는다(골든)."""
     import yaml  # noqa: PLC0415
 
@@ -69,10 +70,6 @@ def _v550_script(src: Path, dst: Path) -> None:
         for s in sc["sentences"]:
             if "정해지지 않았" in s["text"]:
                 s["text"] = s["tts"] = "결국 파병 여부는 국회 동의 절차를 거쳐 결정됩니다."
-            elif k % 2 and not s["text"].startswith("결국"):
-                s["text"] = "또한 " + s["text"]
-                if s.get("tts"):
-                    s["tts"] = "또한 " + s["tts"]
             k += 1
         if sc.get("kind", "act") == "act":   # v7.4.0 D-0229 §2.9·D-0230 — 막 도입 2(bridge 포함)·정리 1, 장면 경계 bridge
             if len(sc["sentences"]) >= 3:
@@ -234,6 +231,18 @@ class GateViewTest(_Proj):
             self.assertIn(part, text)
         self.assertIn("open_0", text)
         self.assertEqual(shown["lint_errors"], "0")   # v5.5.0 — 규약에 맞춘 사본
+
+    @unittest.skipUnless(fonts_ready(), NO_FONTS_REASON)
+    def test_script_gate_view_no_status_labels(self) -> None:
+        """v7.4.0 D-0454(UF-170) — 원고 전문 블록에 검증 라벨(`script_schema.labels` 값)을 붙이지 않는다. 상태는 출처 표 열로만."""
+        from orchestrator.gate_view import gate_view  # noqa: PLC0415
+        from rules import load_rules  # noqa: PLC0415
+
+        text, _ = gate_view(self.root / "p", "script_approval")
+        body = text.split("원고 전문(자막)", 1)[1].split("출처 표", 1)[0]
+        for lab in (v for v in load_rules().script_schema.labels.values() if v):
+            self.assertNotIn(lab, body)
+        self.assertNotIn("[검증 라벨]", text)
 
     def test_preview_gate_view_reads_prev(self) -> None:
         from orchestrator.gate_view import gate_view  # noqa: PLC0415

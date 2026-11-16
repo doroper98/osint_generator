@@ -310,3 +310,34 @@ last_review: 2026-05-23
 - **원칙**: 글꼴에 없는 글자는 같은 굵기 대체 글꼴로 그린다(원고·데이터 불변). 글리프 대조는 표본 시각과 상관없이 위험 문자열을 가진 모든 이벤트를 실제로 그려 본다.
 - **자동 조치**: rules `fonts.glyph_fallback {disp: sansbb, dispm: sansb}`(typography.fallback_runs), 프리뷰·콘티 판 `glyph_sweep`(공통 cmap 밖 글자를 가진 이벤트마다 한 프레임, 파일 저장 없음) → checks glyphs hard. 시험 `tests/test_v740_outlet_glyph.py::GlyphFallbackTest`.
 - **발견 버전**: v7.4.0 · **상태**: active
+
+## RENDER-AP-032 — 표준 글꼴 렌더 설정(FONTCONFIG_FILE)이 컨테이너 재시작으로 사라져 힌팅 꺼진 화소가 조용히 나옴
+
+- **증상(실제 현상)**: v7.4.0 claude/war-history-2026 — 컨테이너 재시작(2026-11-02 12:14Z, worker_epoch 4) 뒤 호르무즈 골든 25컷이 0/25 로 어긋났다(R-0327). 같은 코드를 예전 커밋에서 돌려도 25/25 어긋났다. terrain3d 합성 골든(c4971802)은 그 상태에서 고정됐다. 오류는 하나도 없었다.
+- **원리**: 엔진 글자 화소는 fontconfig 렌더 속성(hinting·hintstyle·rgba·lcdfilter …)에 달려 있다. 이 컨테이너의 시스템 conf.d 에는 `12-unhinted-grayscale.conf`(hinting false·hintnone·rgba none·lcdnone)가 있다. 표준(골든을 고정한 설정)은 이 파일을 뺀 사본을 `FONTCONFIG_FILE` 로 가리켜 썼다(R-0310 §3). 그 값은 셸 환경과 `/root/.config` 에만 있었고, 재시작 때 사라졌다. 렌더·시험은 설정을 읽지도 확인하지도 않았다.
+- **원칙**: 화소를 정하는 환경 값은 저장소 추적 파일 + 코드 한 곳에서 정하고, 시작에서 실제 값을 확인한다. 셸 설정에 기대지 않는다. 다르면 멈춘다(P6).
+- **자동 조치**: `config/fontconfig/fonts.conf`(시스템 fonts.conf include + 렌더 속성 일곱 개 assign), 경로 `config.yaml engine.fontconfig.file`. `engine/fontenv.py` `ensure()` 를 `engine.style` import 맨 앞(모든 렌더 경로)·`tests/conftest.py`·엔진 밖 글자 도구(tools/strike_demo)가 부른다 — FONTCONFIG_FILE 지정(다른 값은 덮어쓰고 1줄 로그), `fc-match -v` 주 글꼴 hinting·hintstyle 이 `engine.fontconfig.expect` 와 다르면 `FontRenderConfigError`. 시험 `tests/anti_inertia/test_fontconfig_guard.py`(비표준 설정 실패·글자 그리는 모듈 전수).
+- **발견 버전**: v7.4.0 · **상태**: active
+
+## RENDER-AP-033 — 기사 카드 번역 줄의 '與' 가 두부로 전달됨: 글리프 검사가 레지스트리 문자열을 보지 않았다 (recurs_of RENDER-AP-031 부류)
+
+- **증상(실제 현상)**: v7.4.0 budget_2027 완성본(md5 13f36298, 사용자 전달) 345초 SBS Biz 기사 카드. 위 원문 헤드라인(세리프, headline_original)은 '與' 가 보이지만 아래 번역 줄(산스, 레지스트리 headline)은 '▯'. 프리뷰 v3 checks glyphs 0, 게이트 ② 통과. 전달 뒤 D622 확인용 프리뷰(128·215초)에서 [glyphs] hard 로 처음 잡혔다 — 배경 이벤트에 `for` 문자열이 생겨 glyph_sweep 이 우연히 344.38초를 그렸기 때문.
+- **원리**: `check_glyphs` 와 `glyph_sweep` 의 문자열 목록이 `_strings(이벤트)` — 이벤트 필드만이다. 기사·사진 이벤트는 mid 만 갖고, 화면 글자(헤드라인·번역 줄·부제·캡션)는 미디어 레지스트리에서 온다. 그래서 그 카드 시각을 그리지 않았고, 프리뷰 표본(340.42초)은 카드 전이었다. 68488905 에서 등재 제목(title)의 '與' 만 고치고 번역 줄(headline)은 남겼다.
+- **원칙**: 글자 검사는 "화면에 그리는 문자열" 전부를 본다 — 이벤트 필드 + 레지스트리 문자열. 한자 약칭(與·野 등)은 번역 줄에서 한글(여당·야당)로, 원문 헤드라인은 그대로 둔다.
+- **자동 조치**: `engine.checks.event_strings`(이벤트 + 레지스트리 headline·headline_original·sub·caption·file_note, mid·press) — `check_glyphs`·`glyph_sweep` 이 쓴다. 레지스트리 art_0003 headline '與' → '여당'. 시험 `tests/test_glyph_registry_strings.py`(옛 경로 = 문자열 없음, 지금 = 카드 시각을 그림). 예산안 실측 sweep 0·glyphs 0, 프리뷰 345.5초 번역 줄 '여당' 눈 확인. 감독 D623 장치: 전편 렌더 전 글리프 관문(`engine.render.final_glyph_gate` = glyph_sweep + check_glyphs, 하나라도 있으면 render_full 을 부르지 않음, 우회 없음). 감독 눈 검수도 345초 카드 번역 줄을 놓쳤다(D623 기록).
+- **발견 버전**: v7.4.0 · **상태**: active
+
+## RENDER-AP-034 — 시간축 핀 점끼리 붙어 '●●' 로 보임: 핀 겹침 검사가 라벨만 보고 점 ↔ 점은 재지 않았다
+
+- **증상**: showcase_econ 콘티 판 v4 127초. 7.29 동결 핀과 '8월 소비자물가 +3.4%' 핀(2026-08-01, 3일 차)의 점이 붙어 '●●' 로 보였다. 감독이 실물을 3배로 키워 찾았다(D372).
+  - [island-pin-collision] 은 통과했다. 사용자는 글자·표지 겹침에 민감하다(UF-257).
+- **원인**:
+  - `engine.pin_labels.pin_label_check` 는 핀 **라벨** 상자를 다른 핀의 라벨·점·계열 선·끝값에 대어 봤다.
+  - 라벨이 다른 단에 있으면 두 점이 맞닿아도 아무것도 걸리지 않았다.
+  - 연출은 충돌을 피하려 핀 날짜를 옮겼다(08-31 → 08-15 → 08-01). 그 결과 점이 앞 핀에 붙었다.
+- **구조적 조치**(D372):
+  - `dots_touch` 를 더했다. 같은 표본 프레임에 보이는 두 핀의 점 상자(DOT_PX)가 맞닿으면 `[island-pin-collision]` "점과 점이 겹침" 이다. 라벨 유무와 무관하다. 검사 id 는 같다(개수 138 그대로).
+  - 중심이 같은 두 점(같은 레인·같은 날짜, COINCIDE_PX 0.5)은 화면에 점 하나라 뺀다.
+  - 시험 `tests/test_pin_dot_collision.py` 가 있다. 실측은 v4 연출 1건(125.42~130.00초), v4.1 연출 0건이다.
+- **연출 원칙**: 핀 날짜는 그 값의 의미 있는 자리에 둔다. 충돌 회피용으로 날짜를 옮기지 않는다. 겹침은 라벨 문구·단·수명으로 푼다. 자리가 없으면 decision_request 로 올린다.
+- **발견 버전**: v7.4.0 · **상태**: active

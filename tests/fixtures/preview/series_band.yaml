@@ -1,0 +1,5 @@
+# 레지스트리 프리뷰 예제(v4.4.0 D-0090 작업 2 · v7.4.0 D-0339 T3 등록, 15 P10) — series style band: 두 레코드 사이 띠(목표 범위).
+schema_version: 1
+key: series_band
+source: projects/showcase_econ (연준 목표 범위 일별 — D-0326)
+event: {type: series, t0: 0.5, t1: 20.0, lane: policy_rate, series_id: DFEDTARL, upper_id: DFEDTARU, style: band, col: gold}

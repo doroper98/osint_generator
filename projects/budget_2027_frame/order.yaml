@@ -1,0 +1,11 @@
+# 『2027년 예산안 분석』 구상 1프레임 전용 프로젝트 (v7.4.0, back_and_forth D-1006 §3). 본편(projects/budget_2027)과 따로 — 원고 게이트 전.
+schema_version: 1
+topic: 2027년도 예산안 12대 분야 구성 무대 구상 1프레임(정부안·국회 확정 전)
+genre: fiscal
+instructions:
+  - "구상 1프레임: structure 무대에 p.15 실데이터 12행, 2027 정부안 막대 + 2026 본예산 속빈 눈금, 직접 라벨, 강조 하나(D-1006 §3)."
+data:
+  notes: [국회예산정책처 「2027년도 예산안 분야별 재원 배분 분석」 p.15 — data/categorical BUDGET_2027_PROPOSED_SECTORS·BUDGET_2026_ENACTED_SECTORS]
+media:
+  wanted: [없음(구상 프레임 — 배경 사진은 본편에서)]
+  rights: 레코드 출처만

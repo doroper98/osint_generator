@@ -1,0 +1,86 @@
+# 구성 레코드 (v7.4.0, back_and_forth D-1006) — 원본 = artifacts/budget-2027-v7.4.0 sources/nabo_2027_sector_allocation.pdf (sha1 2f23e1ba64dc8ba6cd4f6e2eac04c5d4b78dfbe9)
+kind: categorical
+source_kind: document
+source: 국회예산정책처 「2027년도 예산안 분야별 재원 배분 분석」
+source_url: https://www.nabo.go.kr/board/file/down.do?fid=33319629
+source_file:
+  path: nabo_2027_sector_allocation.pdf
+  sha1: 2f23e1ba64dc8ba6cd4f6e2eac04c5d4b78dfbe9
+  title: 2027년도 예산안 분야별 재원 배분 분석(예산안분석시리즈 Ⅱ)
+  publisher: 국회예산정책처
+  published_on: '2026-10-26'
+retrieved_at: '2026-11-02'
+transform:
+  op: document
+  formula: 원문 문서 표의 값 그대로(단위 환산만 — rules data.filing_scales, 값마다 쪽·표 줄)
+as_of: 2026-10
+unit: 조 원
+license: kr_public_work
+license_note: 국회예산정책처 발간물(국가기관 공공저작물, 공공누리 표시 없음) — 수치만 인용, 출처 표시. 표 이미지는 옮기지 않는다
+total_note: 원문 표의 12대 분야 합계는 총지출과 같지 않다(원문 표에 사유 미기재 — 표 값 그대로 둔다)
+note: '표 주 2(원문): 보건·복지·고용 및 국방 분야는 군인연금기금 이관 및 국방 분야 총지출 기준 개편 이후 기준으로, 종전 기준으로는 보건·복지·고용 269.1→293.9조원(9.2%), 국방 65.9→71.8조원(9.0%). 이 레코드는 새 기준(p.15 표) 값이다 — p.16 종전 기준 시계열과 섞지 않는다(D-1006).'
+record_id: BUDGET_2026_ENACTED_SECTORS
+budget_stage: enacted
+fiscal_year: 2026
+total: 727.9
+rows:
+- id: welfare
+  label: 보건·복지·고용
+  value: 264.4
+  page: 15
+  locator: 'p.15 [2027년도 예산안 12대 분야별 재원배분] · 1. 보건 ․ 복지 ․ 고용 · 2026 본예산(A)(주 1: 국회 확정 본예산 기준)'
+- id: education
+  label: 교육
+  value: 99.9
+  page: 15
+  locator: 'p.15 [2027년도 예산안 12대 분야별 재원배분] · 2. 교육 · 2026 본예산(A)(주 1: 국회 확정 본예산 기준)'
+- id: culture
+  label: 문화·체육·관광
+  value: 9.6
+  page: 15
+  locator: 'p.15 [2027년도 예산안 12대 분야별 재원배분] · 3. 문화 ․ 체육 ․ 관광 · 2026 본예산(A)(주 1: 국회 확정 본예산 기준)'
+- id: environment
+  label: 환경
+  value: 13.9
+  page: 15
+  locator: 'p.15 [2027년도 예산안 12대 분야별 재원배분] · 4. 환경 · 2026 본예산(A)(주 1: 국회 확정 본예산 기준)'
+- id: rnd
+  label: R&D
+  value: 35.5
+  page: 15
+  locator: 'p.15 [2027년도 예산안 12대 분야별 재원배분] · 5. R&D · 2026 본예산(A)(주 1: 국회 확정 본예산 기준)'
+- id: industry
+  label: 산업·중소기업·에너지
+  value: 31.8
+  page: 15
+  locator: 'p.15 [2027년도 예산안 12대 분야별 재원배분] · 6. 산업 ․ 중소기업 ․ 에너지 · 2026 본예산(A)(주 1: 국회 확정 본예산 기준)'
+- id: soc
+  label: SOC
+  value: 27.7
+  page: 15
+  locator: 'p.15 [2027년도 예산안 12대 분야별 재원배분] · 7. SOC · 2026 본예산(A)(주 1: 국회 확정 본예산 기준)'
+- id: agri
+  label: 농림·수산·식품
+  value: 28.0
+  page: 15
+  locator: 'p.15 [2027년도 예산안 12대 분야별 재원배분] · 8. 농림 ․ 수산 ․ 식품 · 2026 본예산(A)(주 1: 국회 확정 본예산 기준)'
+- id: defense
+  label: 국방
+  value: 67.7
+  page: 15
+  locator: 'p.15 [2027년도 예산안 12대 분야별 재원배분] · 9. 국방 · 2026 본예산(A)(주 1: 국회 확정 본예산 기준)'
+- id: diplomacy
+  label: 외교·통일
+  value: 7.0
+  page: 15
+  locator: 'p.15 [2027년도 예산안 12대 분야별 재원배분] · 10. 외교 ․ 통일 · 2026 본예산(A)(주 1: 국회 확정 본예산 기준)'
+- id: safety
+  label: 공공질서·안전
+  value: 27.3
+  page: 15
+  locator: 'p.15 [2027년도 예산안 12대 분야별 재원배분] · 11. 공공질서 ․ 안전 · 2026 본예산(A)(주 1: 국회 확정 본예산 기준)'
+- id: admin
+  label: 일반·지방행정
+  value: 121.4
+  page: 15
+  locator: 'p.15 [2027년도 예산안 12대 분야별 재원배분] · 12. 일반 ․ 지방행정 · 2026 본예산(A)(주 1: 국회 확정 본예산 기준)'

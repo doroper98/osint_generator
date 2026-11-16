@@ -10,6 +10,9 @@ from pathlib import Path
 import cairo
 
 import render_demo as R
+from engine.fontenv import ensure  # noqa: E402 — v7.4.0 RENDER-AP-032(render_demo 가 저장소 경로를 넣는다)
+
+ensure()
 from render_demo import (AMBER, BG, FLIGHT, INK, K, MONO, TEAL, W, H, FPS, clamp01, draw_boom, draw_flight, draw_inset,
                          ease_out, text, vignette, window)
 

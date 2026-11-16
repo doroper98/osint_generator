@@ -98,6 +98,29 @@ class RenderConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     jobs: int | None = Field(default=None, gt=0)   # None = os.cpu_count()
+    # v7.4.0 back_and_forth D-1000 S2 — 고정 격자 조각 캐시(부분 재렌더). 값은 config.yaml 에만(P3)
+    # None = config.yaml 에 없음 → engine.chunk_cache 가 오류(기본값으로 조용히 채우지 않는다, P6). AppConfig() 시험 생성용으로만 Optional
+    chunk_sec: float | None = Field(default=None, gt=0)        # 조각 길이(초, t=0 정렬) — jobs 와 무관한 고정 경계
+    probe_step_sec: float | None = Field(default=None, gt=0)   # 조각 탐침 시각 간격(초)
+
+
+class FontconfigExpect(BaseModel):
+    """표준 글꼴 렌더 속성(fc-match -v 의 hinting·hintstyle) — v7.4.0 RENDER-AP-032."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    hinting: bool
+    hintstyle: int = Field(ge=0, le=3)
+
+
+class FontconfigConfig(BaseModel):
+    """엔진 글꼴 렌더 설정 파일(저장소 추적, 저장소 기준 상대 경로)과 시작 점검 — v7.4.0 RENDER-AP-032(D-0624)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    file: str = Field(min_length=1)
+    probe_family: str = Field(min_length=1)
+    expect: FontconfigExpect
 
 
 class EngineConfig(BaseModel):
@@ -105,6 +128,7 @@ class EngineConfig(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
+    fontconfig: FontconfigConfig | None = None   # v7.4.0 RENDER-AP-032 — 없으면 engine.fontenv 가 오류(P6)
     output: OutputConfig = Field(default_factory=OutputConfig)
     trial: str = "480p"     # 프로파일 별칭
     final: str = "1080p"
@@ -204,6 +228,18 @@ class MediaConfig(BaseModel):
     video_fetch: VideoFetchConfig | None = None   # 없으면 영상 받기가 오류(P6)
 
 
+class DataFetchConfig(BaseModel):
+    """v7.4.0 D-0278 §4.2(E3) — 공시·시세 받기(tools/fetch_filing.py). 키는 .env(DART_API_KEY, C9) — 여기 두지 않는다."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    edgar_user_agent: str = Field(min_length=1)       # SEC 공정 접근 규칙 — 이름·연락처가 있는 User-Agent
+    opendart_base: str = Field(min_length=1)
+    yahoo_chart_base: str = Field(min_length=1)
+    timeout_sec: float = Field(gt=0)
+    gap_sec: float = Field(ge=0)                       # 요청 간격(SEC 초당 10회 상한보다 넉넉하게)
+
+
 class CommonsConfig(BaseModel):
     """위키미디어 공용 요청 설정 (v2.5.5, D-0031 NB4) — tools/commons_fetch·media_fetch·fetch_data 가 공유.
     14 §10.4: 요청 간격 15초, 429 는 60초부터 지수 대기(최대 600초, Retry-After 우선), 시도 상한."""
@@ -247,6 +283,7 @@ class AppConfig(BaseModel):
     llm: LLMConfig = Field(default_factory=LLMConfig)
     commons: CommonsConfig = Field(default_factory=CommonsConfig)
     media: MediaConfig = Field(default_factory=MediaConfig)
+    data_fetch: DataFetchConfig | None = None   # v7.4.0 — 없으면 fetch_filing 이 오류(P6)
     review_gates: ReviewGatesConfig = Field(default_factory=ReviewGatesConfig)
 
 

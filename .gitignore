@@ -292,3 +292,31 @@ projects/gulf_pact_2026/assets/
 projects/gulf_pact_2026/media/
 projects/gulf_pact_2026/prev/
 projects/gulf_pact_2026/out/
+
+# v7.4.0 — E0 쇼케이스 두 편 생성물(음성·자산·미디어·프리뷰·렌더). 복원은 artifacts/showcase-v7.4.0(media_src) + 레지스트리 재현 정보
+projects/showcase_econ/tts/
+projects/showcase_econ/assets/
+projects/showcase_econ/media/
+projects/showcase_econ/prev/
+projects/showcase_econ/out/
+projects/showcase_geo/tts/
+projects/showcase_geo/assets/
+projects/showcase_geo/media/
+projects/showcase_geo/prev/
+projects/showcase_geo/out/
+
+# v7.4.0 D-0278 §4.2 — 공시·IR 원문(회사 저작물)은 저장소에 싣지 않는다. 레코드 filings 에 url·raw_md5 가 남고 tools/fetch_filing.py 가 다시 받는다(C9)
+data/series/raw/filing_*
+
+# v7.4.0 D-1006 — 구성 레코드 원본 PDF(5 MB)는 artifacts/budget-2027-v7.4.0 sources/ 에 보관(sha1 은 레코드에). 로컬 사본은 추적하지 않는다
+data/categorical/raw/*.pdf
+# v7.4.0 D-1006 — 예산안 프로젝트 생성물(plan·음성·자산·렌더)
+projects/budget_2027*/plan.json
+projects/budget_2027*/tts/
+projects/budget_2027*/assets/
+projects/budget_2027*/media/
+projects/budget_2027*/prev/
+projects/budget_2027*/out/
+projects/budget_2027*/logs/
+projects/budget_2027*/03_tasks/
+projects/budget_2027*/llm_calls/

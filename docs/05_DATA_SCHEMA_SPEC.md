@@ -51,7 +51,7 @@ last_review: 2026-09-29
 
 `direction.yaml` 무대 표기(v4.1.0, back_and_forth D-0076 작업 4·D-0077): 최상위 `stage`(주 무대)와 숏 단위 `shots[].stage`(선택). 없으면 장르 프로필의 `stage.primary`(기본 장르 geopolitics = mercator, v4.2.0)이고 provenance `stage.declared` 가 false 다. 있으면 장르 프로필 주·보조 무대 안이어야 한다. 이름은 `rules:registries.stages` 에 있어야 한다(없으면 스키마 오류). 무대마다 프리뷰 예제 `tests/fixtures/preview/stage_{이름}.yaml`.
 
-`direction.yaml` 장르(v4.2.0, back_and_forth D-0081 작업 3): 최상위 `genre`(선택, 없으면 geopolitics — provenance `genre.declared` false). 장르 프로필 `genres/<genre>.yaml` = `schemas.genre_models.GenreProfile`(extra forbid, `rules:registries` 이름만). 프리미티브 이벤트 `{type: primitive, id}` 의 데이터 모델 = `engine/primitives/<id>.py` `SCHEMA`(봉투 `engine.events._Primitive` 와 합쳐 검증).
+`direction.yaml` 장르(v4.2.0, back_and_forth D-0081 작업 3): 최상위 `genre`(선택, 없으면 geopolitics — provenance `genre.declared` false). 장르 프로필 `genres/<genre>.yaml` = `schemas.genre_models.GenreProfile`(extra forbid, `rules:registries` 이름만). v7.4.0: `template_label`(UF-147 — 타이틀 부제 앞·엔딩 카드 머리 줄, 검사 template_label)·`invest_notice`(엔딩 카드 투자 고지, 검사 invest_notice)·narration `company_metric_attribution`·`consensus_attribution`·`price_window_attribution`, 레인 kind `bars`(genres/earnings.yaml, D-0278 §4.3). `stage.island_stages`(v7.4.0 D-0304 ① — 주 무대 backdrop 의 차트 아일랜드 숏 전용 무대, 보조 무대 수에 세지 않음, Direction 은 아일랜드 숏에만 허용). 프리미티브 이벤트 `{type: primitive, id}` 의 데이터 모델 = `engine/primitives/<id>.py` `SCHEMA`(봉투 `engine.events._Primitive` 와 합쳐 검증).
 
 `direction.yaml` 시간축(v4.3.0, back_and_forth D-0084·D-0085·D-0088): `stage_config.timeline`(`engine/stage_timeline.py:TimelineConfig` — start·end·lanes·compress, 레인 기본값 = 장르 프로필), 카메라 `{date, lane?, w}`, 핀 `marker {date, lane}`, `series` 이벤트(`engine.events.SeriesEvent` — lane·series_id·style·grow·col, 값 필드 없음), 숏 `reason`. 데이터 레코드 `data/series/<id>.yaml`+`.csv`(+`raw/`) = `schemas.data_models.SeriesRecord`(extra forbid, 허용 목록 `rules:data`, 빈 달 `missing`). 원고 `sources` 의 `series:<id>` 는 레코드 참조(claim 아님). 엔딩 크레딧 절 `auto: series`.
 
@@ -208,7 +208,7 @@ last_review: 2026-09-29
 
 | 파일 | 모델 | 규칙 |
 |---|---|---|
-| `assets/entities.yaml` | `schemas/entity_models.py` `EntitiesFile`·`Entity` | 인물·기관·국가. 라이브러리 24인(`library_manifest.json`) 자동 조인. 별칭 중복·미등재 참조 = `RegistryError`(15 P10) |
+| `assets/entities.yaml` | `schemas/entity_models.py` `EntitiesFile`·`Entity` | 인물·기관·국가·기업(v7.4.0 `kind: company` — flag·ticker·exchange 필수, 뱃지 = flag 뱃지 + 회사명, D-0278 §4.3). 라이브러리 24인(`library_manifest.json`) 자동 조인. 별칭 중복·미등재 참조 = `RegistryError`(15 P10) |
 | `assets/emblems/registry.json` | `schemas/emblem_models.py` `EmblemRegistry`·`EmblemEntry` | `decision ∈ {use, flag_fallback}` 은 코드 규칙(`decide_emblem`)과 같아야 로드된다. Restrictions 하나라도 → `flag_fallback`(D5) |
 | 프로젝트 `assets/rights_registry.json` | `schemas/engine_models.py` `RightsRegistry` | people·emblems + (선택) flags·music·fonts·map·narration(`AssetRights`). `rights_status`·`retrieved_at`·`processing` 선택 필드 추가(C3 호환). v5.15.0: `PersonRights.user_exception`·`exception`(선택, 사용자 예외 — D-0160), `RightsStatus` 에 `restricted` |
 | `assets/rights_bundles.yaml` | `AssetRights` | 묶음 자산 권리 원본. `fetch_data people` 이 프로젝트 레지스트리에 병합 |
@@ -265,5 +265,22 @@ last_review: 2026-09-29
 - `engine/events.py:FlightEvent` — `type: flight`, `kind: drone|missile|jet`, `origin{lon, lat}`(개략), `lon·lat`(표적), `col`(accent), `impact`, `inset{mid, side}`(선택). 착탄 시각은 코드 계산.
 - `schemas/media_models.py:MediaAsset` — `kind` 에 `inset`, 선택 필드 `scope: private_only`(D234). kind inset 은 `rules media_beats.inset_licenses` 라이선스만.
 - `schemas/data_models.py:SeriesRecord` — `source_kind: fetched|press_cited`, `cited[]`(`ValueCitation{date, outlet, pub_date, url, note, open}`). press_cited 는 값마다 cited·transform/license `press_cited`(보간 금지 — 빈 달은 missing).
+- v7.4.0(D-0278 §4.2·E3): `source_kind: filing` + `filings[]`(`ValueFiling{date, form, number, filed_on, item, locator, url, raw_value, raw_unit, raw_md5}`) — transform `filing`·license `public_filing`, 값 = `rules data.filing_scales` 환산(로더가 다시 계산해 대조). `frequency: quarterly`(분기 마지막 날, 빈 분기 = missing)·`daily`(거래일, transform `chart_close`, raw `<id>.json` 대조, license `private_only_market_data`). `issued_on`(미래 분기 값 — 가이던스·예상치, as_of = 발표 달). 받기 = `tools/fetch_filing.py filing|price|scan`.
 - `engine/events.py:DualSeries` — `values` 에 null 허용(선을 끊는다), `record`(레코드 대조), `open_idx`(상·하한 표기 값 = 빈 점).
 - 모두 optional 추가라 `schema_version` 은 그대로(C3).
+
+## GatePacket — `projects/{pid}/gate_packet.json` (v7.4.0 back_and_forth D-0355, UF-267)
+
+사용자 게이트 승인은 감독 세션이 `orchestrator.main approve` 로 기록한다. 감독 작업 트리에는 `out/`(콘티 판 기록)·미추적 자산이 없으므로
+구현 세션이 `python tools/gate_packet.py projects/{pid}` 로 판정 입력을 묶어 git 에 올린다(`schemas.models.GatePacket`, schema_version 1).
+
+| 필드 | 뜻 |
+|---|---|
+| `project_id` · `created_at` · `created_by` · `commit` | 만든 프로젝트·시각·세션·작업 트리 HEAD |
+| `sources` | 추적 원천 파일(`script.yaml`·`direction.yaml`·`plan.json`) 바이트 sha1 — 승인 때 현재 파일과 같아야 한다 |
+| `script`(게이트 ①) | `script_sha1`(원고 지문) · `media_plan`(require_media_plan 통과 줄) |
+| `preview`(게이트 ②) | 콘티 판 기록 `animatic_provenance_sha1`·`total_sec`·`plan_total`·`animatic_script_sha1`·`output`·`direction_sha1`·`rendered_at`, 공용 자산 미승격 `pending_people`·`pending_emblems` |
+| `digest` | digest 를 뺀 정규 JSON sha1 — 손으로 고친 값 거부 |
+
+판정(`orchestrator.project_manager`): `out/` 이 있으면 지금처럼 `out/` 으로. `out/` 이 없으면 게이트 ② 는 packet 필수(없거나·digest·원천 지문이
+어긋나면 `GatePacketError`, 우회 없음). 게이트 ① 은 `out/` 이 없고 packet 이 있을 때 packet 으로(어긋나면 거부), packet 이 없으면 원래 미디어 계획 표 판정.

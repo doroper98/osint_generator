@@ -1,0 +1,65 @@
+source_kind: filing
+series_id: INTC_SEG_CCG_Q
+source: 인텔 실적 보도자료(SEC 8-K Ex.99.1, intc.com 사본) · 부문 매출
+source_url: https://www.intc.com/filings-reports/all-sec-filings/content/0000050863-26-000188/q326earningsrelease.htm
+retrieved_at: '2026-10-30'
+transform:
+  op: filing
+  formula: 공시 표의 값 그대로(단위 환산만 — rules data.filing_scales)
+as_of: 2026-09
+revision_note: 2026년 2분기부터 부문 이름 CCG → CCPG(Client Computing and Physical AI Group)
+unit: 십억 달러
+frequency: quarterly
+license: public_filing
+license_note: 공개 공시 기록(DART/EDGAR) — 사실 데이터, 저작권 대상 아님
+filings:
+- date: '2025-09-30'
+  form: 8-K Ex.99.1
+  number: 0000050863-25-000169
+  filed_on: '2025-10-23'
+  item: Client Computing Group (CCG)
+  locator: 표 1 · 행 'Client Computing Group (CCG)' · 열 6
+  url: https://www.intc.com/filings-reports/all-sec-filings/content/0000050863-25-000169/q325earningsrelease.htm
+  raw_value: 8.5
+  raw_unit: 십억 달러
+  raw_md5: fa812cc766ab4386e20e34833c26de60
+- date: '2025-12-31'
+  form: 8-K Ex.99.1
+  number: 0000050863-26-000009
+  filed_on: '2026-01-22'
+  item: Client Computing Group (CCG)
+  locator: 표 2 · 행 'Client Computing Group (CCG)' · 열 6
+  url: https://www.intc.com/filings-reports/all-sec-filings/content/0000050863-26-000009/q425earningsrelease.htm
+  raw_value: 8.2
+  raw_unit: 십억 달러
+  raw_md5: 31b6a3383105fc44ebbf014da5842014
+- date: '2026-03-31'
+  form: 8-K Ex.99.1
+  number: 0000050863-26-000077
+  filed_on: '2026-04-23'
+  item: Client Computing Group (CCG)
+  locator: 표 1 · 행 'Client Computing Group (CCG)' · 열 6
+  url: https://www.intc.com/filings-reports/all-sec-filings/content/0000050863-26-000077/q126earningsrelease.htm
+  raw_value: 7.7
+  raw_unit: 십억 달러
+  raw_md5: b2decf4a9ae23edc7c539a4e143ae31a
+- date: '2026-06-30'
+  form: 8-K Ex.99.1
+  number: 0000050863-26-000155
+  filed_on: '2026-07-23'
+  item: Client Computing and Physical AI Group (CCPG)2
+  locator: 표 1 · 행 'Client Computing and Physical AI Group (CCPG)2' · 열 6
+  url: https://www.intc.com/filings-reports/all-sec-filings/content/0000050863-26-000155/q226earningsrelease.htm
+  raw_value: 8.9
+  raw_unit: 십억 달러
+  raw_md5: 026523e8ab7757d331d472ed113b5695
+- date: '2026-09-30'
+  form: 8-K Ex.99.1
+  number: 0000050863-26-000188
+  filed_on: '2026-10-29'
+  item: Client Computing and Physical AI Group (CCPG)2
+  locator: 표 1 · 행 'Client Computing and Physical AI Group (CCPG)2' · 열 6
+  url: https://www.intc.com/filings-reports/all-sec-filings/content/0000050863-26-000188/q326earningsrelease.htm
+  raw_value: 8.1
+  raw_unit: 십억 달러
+  raw_md5: 8aa1baaf2388e1e513e5aef637b1b8bf

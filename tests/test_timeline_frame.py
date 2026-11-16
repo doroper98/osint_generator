@@ -93,7 +93,7 @@ class TimelineFrameCoverTest(unittest.TestCase):
 
     def test_cover_on_series_lane_is_hard(self) -> None:
         P = self._P()
-        card = {"type": "card", "tag": "수치", "t0": 2.0, "t1": 5.0}
+        card = {"type": "cascade", "tag": "수치", "t0": 2.0, "t1": 5.0}   # v7.4.0 D-0306 — card 폐지
         P.events.append(card)
         box = self._lane(P, "policy_rate")
         got = checks.timeline_lanes_covered(P, lambda e, t: [box])
@@ -104,7 +104,7 @@ class TimelineFrameCoverTest(unittest.TestCase):
         from unittest import mock  # noqa: PLC0415
 
         P = self._P()
-        P.events.append({"type": "card", "tag": "걸침", "t0": 2.0, "t1": 5.0})
+        P.events.append({"type": "cascade", "tag": "걸침", "t0": 2.0, "t1": 5.0})   # v7.4.0 D-0306 — card 폐지
         fx, fy, fw, _ = P.R.stage.frame
         with mock.patch.object(checks, "timeline_cover_box", return_value=[(fx + fw - 40, fy + 20, fx + fw + 30, fy + 90)]):
             self.assertTrue(any("걸침" in s for s in checks.check_chart_edge_bleed(P)))

@@ -30,9 +30,13 @@ _KIND = {"photo": "photo", "clip": "clip", "cutout": "cutout", "article": "artic
 
 def media_box(e: dict, assets: dict) -> tuple[float, float, float, float]:
     """사진·영상 상자(캡션 바 포함). 높이 비율은 레지스트리 가공 파라미터(크롭·스케일)에서."""
-    prm = assets[e["mid"]].tool.params
+    from engine.layers.media import caption_bar_h  # noqa: PLC0415
+    from engine.media_registry import credit_line  # noqa: PLC0415
+
+    m = assets[e["mid"]]
+    prm = m.tool.params
     w_, h_ = prm.get("crop") or prm.get("scale")
-    h = e["w"] * h_ / w_ + (0 if e.get("frame") else MB.caption_bar_px)   # 액자(clip_frame)는 캡션 줄이 상자 안
+    h = e["w"] * h_ / w_ + (0 if e.get("frame") else caption_bar_h(m.caption, credit_line(m), e["w"]))   # 액자(clip_frame)는 캡션 줄이 상자 안 · v7.4.0 D-0333 접힌 출처 줄만큼
     return e["x"], e["y"], e["x"] + e["w"], e["y"] + h
 
 
@@ -46,7 +50,7 @@ def card_zone_warnings(ctx: cairo.Context, events: list[dict]) -> list[str]:
     date_box = _date_box()
     out: list[str] = []
     for e in events:
-        if e["type"] not in ("card", "article", "post", "primitive") or (e["type"] == "post" and "post_box" not in e):   # primitive = v4.2.0
+        if e["type"] not in ("article", "post", "primitive") or (e["type"] == "post" and "post_box" not in e):   # primitive = v4.2.0
             continue
         box = card_box(ctx, e)
         where = f"{e['type']} {e.get('tag') or e.get('src') or e.get('mid') or ''} t0={e['t0']:.2f}"
@@ -121,7 +125,7 @@ def density_report(events: list[dict], tb: Timebase, total: float) -> dict:
         inside = [b for b in win[k:] if b["t0"] - a["t0"] < D.window_sec]
         if len(inside) > worst["count"]:
             worst = {"t0": a["t0"], "count": len(inside), "mids": [b["mid"] for b in inside]}
-    if worst["count"] > D.window_max:
+    if worst["count"] > D.window_max:   # 경고 유지(v7.4.0 D-1001 B2 — 덮임은 [map-cover-share] hard 가 시간 비율로 잡는다)
         warns.append(f"[media-burst-window] {worst['t0']}초부터 {D.window_sec:g}초 안 {worst['count']}개 {worst['mids']} > "
                      f"{D.window_max} (14 §10.1 하한, D38)")
     # v7.3.0 사용자 결정 D232 U2 — 위성 인셋(flight.inset)은 미디어 비트 상한 밖, 자기 상한(장면당·간격)만

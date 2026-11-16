@@ -79,15 +79,18 @@ class Camera(_Strict):
     place: Optional[str] = None
     date: Optional[str] = None
     lane: Optional[str] = None
+    row: Optional[str] = None      # v7.4.0 D-1003 §3 — 구성 무대: 행 id(그 행 가운데)
+    value: Optional[float] = None  # 구성 무대: 값 축 위치(그 값의 x)
     w: Optional[float] = Field(default=None, gt=0)   # v5.1.0 D-0123 — backdrop 무대 카메라 `{}`(이동 없음)는 w 도 없다
 
     @model_validator(mode="after")
     def _where(self) -> "Camera":
-        kinds = [self.place is not None, self.lon is not None or self.lat is not None, self.date is not None]
+        kinds = [self.place is not None, self.lon is not None or self.lat is not None, self.date is not None,
+                 self.row is not None or self.value is not None]
         if sum(kinds) == 0 and self.w is None and self.lane is None:
             return self   # backdrop 무대 `{}` — 무대 앵커 키 검사(Direction)가 다른 무대의 빈 카메라를 막는다(P10)
         if sum(kinds) != 1:
-            raise ValueError("camera 는 lon·lat · place · date(시간축) 중 하나(backdrop 무대는 빈 카메라 {})")
+            raise ValueError("camera 는 lon·lat · place · date(시간축) · row·value(구성 무대) 중 하나(backdrop 무대는 빈 카메라 {})")
         if self.w is None:
             raise ValueError("camera w 가 없다(backdrop 무대의 빈 카메라 {} 만 w 없음)")
         if kinds[1] and (self.lon is None or self.lat is None):
@@ -102,6 +105,8 @@ class Camera(_Strict):
             return set()
         if self.date is not None:
             return {"date"} | ({"lane"} if self.lane is not None else set())
+        if self.row is not None or self.value is not None:
+            return ({"row"} if self.row is not None else set()) | ({"value"} if self.value is not None else set())
         return {"lon", "lat"}
 
 
@@ -208,6 +213,8 @@ class Direction(_Strict):
     media_note: Optional[str] = None       # v5.6.0 PIPELINE-AP-019 — 인용·기사 조판·실사를 0건으로 둔 이유(게이트 ② 미디어 요약에 보인다)
     story_geo_exempt: Optional[dict[str, str]] = None   # v5.22.1 D-0205 — 골든 기준 연출만 {reason, decision}: route_missing·frame_missing 면제(테스트가 범위 강제)
     opening_exempt: Optional[str] = None   # v5.6.0 RENDER-AP-016 — 넓은 지도 오프닝을 하지 않는 이유(없으면 검사 opening_establish hard)
+    template_label: Optional[str] = Field(default=None, min_length=1)   # v7.4.0 D-0312 ③(UF-147) — 영상 단위 템플릿 표시 줄(장르 template_label 보다 앞). 쇼케이스용
+    project_id: Optional[str] = None   # v7.4.0 D-0311 — 프로젝트 id(회귀 기준 판정 qa_checks.regression_refs). 없으면 폴더 이름
     stage_reason: Optional[str] = None   # v5.1.0 D-0123 §2 — 장르 기본 무대(default_stage)와 다른 무대를 고른 이유(없으면 checks stage_choice warning)
     stage_config: dict[str, dict[str, Any]] = Field(default_factory=dict)   # v4.3.0 D-0084 작업 3 — 무대 이름 → 설정
     places: dict[str, tuple[float, float]] = Field(default_factory=dict)
@@ -309,10 +316,12 @@ class Direction(_Strict):
         for i, s in enumerate(self.shots):
             if s.camera.place is not None and s.camera.place not in self.places:
                 errs.append(f"shots[{i}]: camera.place {s.camera.place!r} 가 places 에 없다")
-        allowed = self.genre_profile().stage.names()   # v4.2.0 D-0081 작업 3 — 무대는 장르 프로필 안에서만
+        # v7.4.0 UF-403(사용자 "룩앤필을 만들어 두는거지 거기에 우겨넣는걸 원하는건 아니거든") — 장르는 톤 프리셋: 무대는 등록 무대 전부.
+        # 장르 stage.primary 는 기본값(다르면 stage_reason — checks stage_choice), 무대 전환·아일랜드 문법은 장르와 무관하게 같다(engine.shots)
+        allowed = list(load_rules().registries.stages)
         if self.stage is not None and self.stage not in allowed:
-            errs.append(f"stage {self.stage!r} 가 장르 {self.genre_name()!r} 프로필 무대 {allowed} 밖이다")
-        errs += [f"shots[{i}].stage {s.stage!r} 가 장르 {self.genre_name()!r} 프로필 무대 {allowed} 밖이다"
+            errs.append(f"stage {self.stage!r} 가 등록 무대 {allowed} 밖이다")
+        errs += [f"shots[{i}].stage {s.stage!r} 가 등록 무대 {allowed} 밖이다"
                  for i, s in enumerate(self.shots) if s.stage is not None and s.stage not in allowed]
         from engine.stage import stage_class  # noqa: PLC0415
 
@@ -400,6 +409,8 @@ def _where(c: Camera, doc: Direction) -> dict[str, Any]:
         return {"lon": lon, "lat": lat}
     if c.date is not None:
         return {"date": c.date, **({"lane": c.lane} if c.lane is not None else {})}
+    if c.row is not None or c.value is not None:   # v7.4.0 D-1003 — 구성 무대
+        return {**({"row": c.row} if c.row is not None else {}), **({"value": c.value} if c.value is not None else {})}
     if c.w is None:
         return {}   # backdrop 빈 카메라(v5.1.0 D-0123)
     assert c.lon is not None and c.lat is not None
@@ -417,18 +428,22 @@ def _cam_w(s: Shot, stage: "Stage") -> float:
 
 
 ISLAND_STAGE = "timeline"   # v5.1.0 D-0126 Q1 A — backdrop 주 무대에서 이 무대의 숏 = 차트 아일랜드 뷰포트 카메라
+STRUCTURE_STAGE = "structure"   # v7.4.0 D-1003 §3 — backdrop 주 무대에서 이 무대의 숏 = 구성 아일랜드 뷰포트 카메라
+ISLAND_STAGES: tuple[str, ...] = (ISLAND_STAGE, STRUCTURE_STAGE)
 
 
-def is_island_shot(doc: Direction, s: Shot, main: str) -> bool:
-    """주 무대 backdrop 의 `stage: timeline` 숏 = 차트 아일랜드 카메라(D-0126 Q1 A — "숏 무대 ≠ 주 무대"를 아일랜드 뷰포트로 좁힌다)."""
-    return main == "backdrop" and doc.shot_stage(s) == ISLAND_STAGE
+def is_island_shot(doc: Direction, s: Shot, main: str, name: Optional[str] = None) -> bool:
+    """주 무대 backdrop 의 아일랜드 무대 숏 = 아일랜드 뷰포트 카메라(D-0126 Q1 A — "숏 무대 ≠ 주 무대"를 아일랜드 뷰포트로 좁힌다).
+    name 을 주면 그 아일랜드 무대(timeline = 차트 아일랜드, structure = 구성 아일랜드)의 숏만."""
+    st = doc.shot_stage(s)
+    return main == "backdrop" and st in ISLAND_STAGES and (name is None or st == name)
 
 
 def island_keys(doc: Direction, tb: Timebase, chart_stage: "Stage") -> list[CamKey]:
-    """차트 아일랜드 뷰포트 카메라 키(시간축 월드 좌표, w = 뷰포트 폭이 덮는 일수). 주 무대가 backdrop 이 아니면 []."""
+    """아일랜드 뷰포트 카메라 키(그 아일랜드 무대의 월드 좌표, w = 뷰포트 폭이 덮는 월드 폭). 주 무대가 backdrop 이 아니면 []."""
     keys: list[CamKey] = []
     for s in doc.shots:
-        if not is_island_shot(doc, s, doc.main_stage()):
+        if not is_island_shot(doc, s, doc.main_stage(), chart_stage.name):
             continue
         t = resolve_anchor(s.at, tb)
         xy = chart_stage.to_world(**_where(s.camera, doc))
@@ -489,6 +504,9 @@ def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], l
             d[k] = _resolve(v, tb, doc)
         if d["type"] == "flight":
             hold_same_place(d, tb)
+        if d["type"] == "island" and d.get("kind") == "column_detail":   # v7.4.0 D-0318 — 열 확대 인셋 = 차트 아일랜드 안 레인 열에 매달린 층(같은 뷰·카메라)
+            d = {**{k: v for k, v in d.items() if k not in ("kind", "box")}, "type": "series", "detail": True, "grow": False,
+                 "col": "gold", "parts": d.get("parts") or []}
         events.append(d)
     sound = None
     if doc.sound is not None:

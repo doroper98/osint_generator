@@ -33,7 +33,7 @@ from engine.layers.badges import badge_R, place_badge, resolve_kind
 from engine.layers.borders import path_rings
 from engine.projection import View
 from engine.registry import Entry, LayerSet, resolve
-from engine.style import ANIMATIC, BADGE, CARD, W_OUT
+from engine.style import ANIMATIC, BADGE, CARD, ELEM, MOTION, W_OUT
 from engine.timebase import ease_back, ease_out, window
 from engine.typography import rrect, text, tw
 
@@ -136,7 +136,7 @@ def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     """media.draw_photo 와 같은 페이드(0.5)·올라옴(0.6초 12px), 상자 = media_box(캡션 바 포함)."""
     from engine.media_plan import media_box  # noqa: PLC0415
 
-    a = window(t, e["t0"], e["t1"], 0.5, 0.5)
+    a = window(t, e["t0"], e["t1"], *ELEM["photo"])   # v7.4.0 UF-159 — 전편과 같은 키
     x0, y0, x1, y1 = media_box(e, R.assets.media_assets)
     dy = (1 - ease_out((t - e["t0"]) / 0.6)) * 12
     box(ctx, x0, y0 + dy, x1 - x0, y1 - y0, [label("photo", R.assets.media_assets[e["mid"]].caption)], a)
@@ -157,7 +157,7 @@ def draw_backdrop(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dic
 def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
     from engine.media_plan import media_box  # noqa: PLC0415
 
-    a = window(t, e["t0"], e["t1"], 0.35, 0.45)
+    a = window(t, e["t0"], e["t1"], *ELEM["clip"])
     x0, y0, x1, y1 = media_box(e, R.assets.media_assets)
     tail = f" · {round(e['t1'] - e['t0'])}초 · 원음"   # v7.4.0 D-0274 §2④ — 콘티 판도 원음을 재생한다(소리만, mix.f32) — 상자에 길이·원음 표기
     cap = " ".join(R.assets.media_assets[e["mid"]].caption.split())
@@ -169,7 +169,7 @@ def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
 def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
     """media.draw_cutout 와 같은 페이드·옆에서 들어옴·흔들림. 높이 = 폭 × rules cutout_h_ratio(레지스트리에 비율이 없어 근사 —
     파일을 열지 않는다)."""
-    a = window(t, e["t0"], e["t1"], 0.6, 0.5)
+    a = window(t, e["t0"], e["t1"], *ELEM["cutout"])
     if a <= 0.01:
         return
     m = R.assets.media_assets[e["mid"]]
@@ -177,7 +177,7 @@ def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     h = w * PH.cutout_h_ratio
     lt = t - e["t0"]
     x, y = view.to_screen(*e["world"])
-    x -= (1 - ease_out(lt / 1.2)) * 40
+    x -= (1 - ease_out(lt / MOTION["cutout_slide_sec"])) * 40
     y += math.sin(t * 1.3) * 2.2
     box(ctx, x - w / 2, y - h / 2, w, h, [label("cutout", m.caption)], a)
     R.reserved.append((x - w / 2, y - h / 2, x + w / 2, y + h / 2))

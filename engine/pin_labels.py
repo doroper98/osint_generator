@@ -13,15 +13,17 @@ from typing import Callable, Optional
 
 import cairo
 
-from engine.style import FPS, ISLAND, TIMELINE
+from engine.style import ELEM, FPS, ISLAND, MOTION, TIMELINE
 from engine.typography import tw
 from rules import load_rules
 
 MK = load_rules().layout_480p.marker
 Box = tuple[float, float, float, float]
 DOT_PX = 7.0          # 핀 점(맥동 고리 안쪽 점 + 테두리) 반폭 — 라벨이 다른 핀의 점을 덮으면 겹침(D-0267)
+RING_PX = 24.0        # 핀 맥동 고리 최대 반지름(engine.layers.markers.draw_marker 4 + 20·ease_out) — 끝값 라벨 판이 덮지 않는다(D-0283 §2)
 GAP_PX = 6.0          # 라벨끼리 가로 최소 간격(맞닿은 라벨 "인하워시" 금지, D-0267)
 TOL_PX = 2.0          # 세로 경계 접촉(≤ 2px)은 겹침이 아니다
+COINCIDE_PX = 0.5     # v7.4.0 D372(RENDER-AP-034) — 점 중심 차가 이 안이면 같은 점(한 사건의 두 라벨) — 점 ↔ 점 겹침에서 뺀다
 LINE_STEP_PX = 2      # 계열 선·띠 교차 표본 간격(가로 px)
 LEAD_SEC = 0.6        # 핀이 나타난 뒤 라벨이 다 보인 시각(draw_marker 라벨 페이드 0.2+0.4초)
 ASSIGN_STEP_SEC = 0.25   # 단 고르기 표본 간격 — 이동 숏 중 전망 점 열을 스치는 순간을 놓치지 않게(econ 115초)
@@ -74,20 +76,31 @@ def _ov(a: Box, b: Box) -> bool:
     return min(a[2], b[2]) - max(a[0], b[0]) > -GAP_PX and min(a[3], b[3]) - max(a[1], b[1]) > TOL_PX
 
 
+def dots_touch(a: Box, b: Box) -> bool:
+    """두 핀 점 상자가 맞닿거나 겹친다(v7.4.0 D372, RENDER-AP-034) — 화면에서 '●●' 로 붙어 보인다.
+    중심이 같은 두 점(같은 레인·같은 날짜 = 한 사건에 단 두 라벨)은 화면에 점 하나라 겹침이 아니다(COINCIDE_PX 안)."""
+    same = abs((a[0] + a[2]) - (b[0] + b[2])) / 2 <= COINCIDE_PX and abs((a[1] + a[3]) - (b[1] + b[3])) / 2 <= COINCIDE_PX
+    return not same and min(a[2], b[2]) - max(a[0], b[0]) > 0 and min(a[3], b[3]) - max(a[1], b[1]) > 0
+
+
 def dot_box(x: float, y: float) -> Box:
     return x - DOT_PX, y - DOT_PX, x + DOT_PX, y + DOT_PX
 
 
 def series_hit(box: Box, view: object, stage: object, evs: list[dict], rng: tuple[float, float], t: float,
-               fronts: dict) -> Optional[str]:
+               fronts: dict, rng2: Optional[tuple[float, float]] = None) -> Optional[str]:
     """라벨 상자가 그 순간 보이는 계열 선·띠·전망 점과 겹치면 그 계열 id. 선은 굵기 절반, 띠는 아래~위 구간."""
     from data.series import load_series  # noqa: PLC0415
     from engine.layers.series import band_pairs, projection_dots, value_y  # noqa: PLC0415
 
     lane = evs[0]["lane"] if evs else None
     half = TIMELINE.series.line_w / 2
+    rng1 = rng
     for e in evs:
         if not e["t0"] <= t <= e["t1"]:
+            continue
+        rng = rng2 if e.get("secondary") and rng2 is not None else rng1   # v7.4.0 D-0315 ① — 보조 축 계열은 자기 범위로(주 축 범위로 재면 선을 못 본다)
+        if e["style"] in ("bars", "stack", "dumbbell", "diverging", "range"):   # 막대·쌓임은 선이 아니다(합계 레코드를 계단 선으로 재면 없는 선이 단을 막는다)
             continue
         if e["style"] == "projection":
             rec = load_series(e["series_id"])
@@ -194,6 +207,7 @@ class PinScene:
         from data.series import load_series  # noqa: PLC0415
 
         self.stage, self.ranges, self.fronts, self.view_at = stage, ranges, fronts, view_at
+        self.ranges2: dict = {}   # 보조 축 범위(engine.project 가 채운다, D-0315 ①)
         self.ser: dict[str, list[dict]] = {}
         for e in events:
             if e["type"] == "series":
@@ -231,7 +245,7 @@ class PinScene:
             src = next((s for s in evs if not s.get("slot", 0) and s["t0"] <= t <= s["t1"]), None)   # 레인당 출처 한 줄(D-0256)
             others += static_boxes(self.ctx, v, self.stage, lane, self.ranges[lane], self.units[lane], ends, src)
             hit = conflicts(self.ctx, rect, b, others,
-                            lambda r_: series_hit(r_, v, self.stage, evs, self.ranges[lane], t, self.fronts))
+                            lambda r_: series_hit(r_, v, self.stage, evs, self.ranges[lane], t, self.fronts, self.ranges2.get(lane)))
             out.append((p, rect, dot, hit))
         return out
 
@@ -275,11 +289,14 @@ def pin_label_check(scene: PinScene) -> list[dict]:
     f1 = int(max(p["t1"] for p in scene.pins) * FPS)
     for f in range(-(-f0 // STEP_FRAMES) * STEP_FRAMES, f1 + 1, STEP_FRAMES):
         t = f / FPS
-        for p, rect, _, hit in scene.frame(t, lambda q: q.get("pin_row")):
-            la = window(t, p["t0"], p["t1"], 0.35, 0.5) * smooth((t - p["t0"] - 0.2) / 0.4)
+        fr = scene.frame(t, lambda q: q.get("pin_row"))
+        for i, (p, rect, dot, hit) in enumerate(fr):
+            # v7.4.0 D372(RENDER-AP-034) — 점 ↔ 점: 같은 레인 위 두 핀의 점이 닿으면('●●') 라벨과 무관하게 겹침. 날짜를 옮기지 말고 연출이 자리·수명을 고른다
+            dots = [f"핀 {q['label']!r} 점과 점이 겹침" for j, (q, _, qd, _) in enumerate(fr) if j > i and dots_touch(dot, qd)]
+            la = window(t, p["t0"], p["t1"], *ELEM["pin_label"]) * smooth((t - p["t0"] - MOTION["pin_label_delay_sec"]) / MOTION["pin_label_in_sec"])
             if rect is None or la <= 0.01:
-                continue
-            for h in hit:
+                hit = []
+            for h in list(hit) + dots:
                 prev = next((r for r in reversed(rows_out) if r["a"] == p["label"] and r["b"] == h), None)
                 if prev is not None and t - prev["t1"] <= STEP_FRAMES / FPS + 0.011:
                     prev["t1"] = round(t, 2)

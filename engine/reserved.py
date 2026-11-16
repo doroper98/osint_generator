@@ -15,7 +15,6 @@ from dataclasses import dataclass
 
 import cairo
 
-from engine.cards import card_geom
 from engine.layers.article import article_box
 from engine.style import CARD
 from engine.timebase import window
@@ -44,8 +43,6 @@ def card_box(ctx: cairo.Context, e: dict) -> Box:
     """카드·기사 카드·게시물 카드의 제자리 상자(x0, y0, x1, y1). 예약 영역과 checks overlap(NB23)이 같이 쓴다."""
     if e["type"] == "post":             # v3.2.0 — 상자는 load_project 가 소스 레코드로 미리 계산(post_box)
         x, y, w, h = e["post_box"]
-    elif e["type"] == "card":
-        x, y, w, h, _ = card_geom(ctx, e)
     elif e["type"] == "primitive":      # v4.2.0 D-0081 — 프리미티브 draw 가 돌려주는 제자리 상자
         from engine.primitives import primitive_box  # noqa: PLC0415 — primitives → events → style 순환 회피
 
@@ -65,12 +62,12 @@ def card_zones(ctx: cairo.Context, events: list[dict], t: float) -> list[Zone]:
             if ca > RES.min_zone_alpha:
                 out += [Zone(b, ca, f"cascade:{e['items'][0]['title']}") for b in cascade_boxes(t, e)]
             continue
-        if e["type"] not in ("card", "post", "primitive"):   # 기사(v5.1.0 프레스 v2)는 화면 전체 덮개 — 뱃지가 비킬 카드 자리가 아니다
+        if e["type"] not in ("post", "primitive"):   # 기사(v5.1.0 프레스 v2)는 화면 전체 덮개 — 뱃지가 비킬 카드 자리가 아니다
             continue
         a = presence(t, e, CARD.fade_sec)   # 게시물 카드도 같은 0.45초 페이드(post.post_alpha)
         if a <= RES.min_zone_alpha:
             continue
-        ref = (f"post:{e['src']}" if e["type"] == "post" else f"card:{e['tag']}" if e["type"] == "card"
+        ref = (f"post:{e['src']}" if e["type"] == "post"
                else f"primitive:{e['id']}")
         out.append(Zone(card_box(ctx, e), a, ref))
     return out
@@ -212,7 +209,7 @@ def hold_pushes(P) -> None:  # noqa: ANN001 — engine.project.Project
     from engine.style import FPS  # noqa: PLC0415
 
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
-    cards = [e for e in P.events if e["type"] in ("card", "post", "primitive")]
+    cards = [e for e in P.events if e["type"] in ("post", "primitive")]
     for e in P.events:
         if e["type"] != "badge" or e.get("over_panel"):
             continue
@@ -247,3 +244,34 @@ def hold_pushes(P) -> None:  # noqa: ANN001 — engine.project.Project
         if best is not None:
             e["push_hold"] = (best[0], best[1])
 
+
+
+FULL_COVER_TYPES = ("article", "quote")   # 화면 전체 불투명 덮개 — 지도 층 배지 위에 그려진다(render.py 층 순서). 패널(덮개 알파 0.8)은 over_panel 배지 규칙(D-0104)이 따로 맡는다
+
+
+def full_cover_spans(events: list[dict]) -> list[tuple[float, float]]:
+    """전면 덮개(기사 카드·인용) 구간 [(t0, t1)] — 시간순. 패널 위 배지(over_panel)는 덮개 위라 따로 본다."""
+    return sorted((e["t0"], e["t1"]) for e in events if e["type"] in FULL_COVER_TYPES)
+
+
+def delay_covered_badges(events: list[dict]) -> list[dict]:
+    """v7.4.0 back_and_forth D-0329 ② — 지도 층 배지의 시작이 전면 덮개 안이면 덮개 끝으로 미룬다(at_word 계획 시각은 t0_planned 로 남는다).
+    덮개가 이어지면 계속 민다. 미룬 기록 [{label, t0_planned, t0, delay}] — provenance reserve.badge_delays. 끝(t1)은 그대로라 남는 시간이 짧으면
+    checks [badge-covered] 가 잡는다(조용한 드롭 금지, P6)."""
+    spans = full_cover_spans(events)
+    out = []
+    for e in events:
+        if e["type"] != "badge" or e.get("over_panel"):
+            continue
+        e.setdefault("t0_planned", e["t0"])
+        t0 = e["t0"]
+        moved = True
+        while moved:
+            moved = False
+            for a, b in spans:
+                if a <= t0 < b:
+                    t0, moved = b, True
+        if t0 > e["t0"]:
+            out.append({"label": e.get("label"), "t0_planned": round(e["t0_planned"], 2), "t0": round(t0, 2), "delay": round(t0 - e["t0_planned"], 2)})
+            e["t0"] = min(t0, e["t1"])
+    return out

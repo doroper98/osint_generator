@@ -80,6 +80,7 @@ class MarkerEvent(_Event):
     side: Literal["right", "left", "top", "bottom"] = "right"
     hl: bool = False
     icon: Literal["dot", "boom"] = "dot"
+    vline: bool = False   # v7.4.0 D-0309 §1-5 — 시간축 핀: 레인 세로 전체 점선(발표일). 지도 마커는 쓰지 않는다
     route_cross_exempt: Optional[RouteCrossExempt] = None   # v5.21.11 D-0203 — 골든 기준 프로젝트만(테스트가 강제)
 
     @model_validator(mode="after")
@@ -94,6 +95,22 @@ class MarkerEvent(_Event):
 
 
 
+class StackPart(BaseModel):
+    """v7.4.0 D-0309 — 쌓임 부문 하나. ids 레코드 값의 합(코드 계산)을 label 이름으로 그린다(직접 라벨, 범례 없음)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    ids: list[str] = Field(min_length=1)
+    label: str = Field(min_length=1)
+
+
+# v7.4.0 D-0309·D-0315 §1-3 — 부문(parts)을 읽는 스타일. stack = 쌓임(series_id = 합계), dumbbell = 그 분기 열 안 부문별 전분기 → 이번 분기,
+# diverging = 그 분기 열 안 부문별 전년 동기 대비 ±%(코드 계산, 0 기준). dumbbell·diverging 의 series_id = 열 날짜 기준 레코드(무대 안 마지막 분기)
+# 열 확대 인셋 전용 스타일 = rules registries.series_styles_detail_only(v7.4.0 D-0336 T3 — 레지스트리 한 곳, P10)
+DETAIL_STYLES: tuple[str, ...] = tuple(load_rules().registries.series_styles_detail_only)
+PART_STYLES = ("stack", *DETAIL_STYLES)   # dumbbell·diverging·slope = 열 확대 인셋 전용(island column_detail, D-0318 §1-3)
+
+
 class SeriesEvent(_Event):
     """시리즈 레이어(v4.3.0 D-0084 작업 4) — 값은 데이터 레코드 data/series/<series_id> 에서만(연출은 숫자를 주지 않는다, 20 §5.1).
     시간축 무대 전용. key·axis·slot 은 load_project 가 채운다(레인 안 순번 — 연출이 쓰면 오류)."""
@@ -101,10 +118,21 @@ class SeriesEvent(_Event):
     type: Literal["series"]
     lane: str
     series_id: str
-    style: Literal["step", "line", "band", "projection"]   # projection = v7.4.0 D-0260 §2 — scatter 레코드(전망 점, rules stage_timeline.projection)
+    style: Literal["step", "line", "band", "projection", "bars", "stack", "range", "dumbbell", "diverging", "slope"]   # projection = v7.4.0 D-0260 §2 — scatter 레코드(전망 점, rules stage_timeline.projection). bars = v7.4.0 D-0278 §4.1(분기 막대, 스케치)
     color_by: Literal["fixed", "change"] = "fixed"   # v4.4.0 D-0091 ② — change: 레코드 값 변화로 달마다 장르 색 의미 hike·cut·hold(코드 계산)
+    parts: list[StackPart] = Field(default_factory=list)   # v7.4.0 D-0309 — stack: 부문(아래 → 위), series_id = 합계 레코드
+    secondary: bool = False          # v7.4.0 D-0309 §1-4 — 같은 레인 보조 축(레인당 하나, line·step 만)
     upper_id: Optional[str] = None   # v4.4.0 D-0090 작업 2 — band: series_id = 아래 끝 레코드, upper_id = 위 끝 레코드(목표 범위 띠)
     grow: bool = True
+    # v7.4.0 D-0310 감독 지시 ① — accent 대상 하나(그 순간 내레이션이 말하는 층·부문): latest(최신 열·최신 합계, 기본) · total(합계 선·점) ·
+    # none · stack 부문 label. 문장마다 accent 를 옮기려면 같은 레이어를 문장 경계에서 이어 붙이고 뒤 이벤트는 grow false
+    accent: Optional[str] = Field(default=None, min_length=1)
+    estimate_id: Optional[str] = None   # v7.4.0 D-0308 §1-1·D-0315 ② — bars: 예상치 레코드(속빈 막대, 같은 열). 차이 % 는 코드 계산
+    # v7.4.0 D-0318 — 열 확대 인셋 층(island kind column_detail 을 engine.direction.build 가 바꾼 것 — 연출이 직접 쓰지 않는다).
+    # dumbbell·diverging·slope 는 이 층에서만(열 안 직접 그리기 폐기, D-0318 §1-3). title = 인셋 머리 줄 이름
+    detail: bool = False
+    title: Optional[str] = Field(default=None, min_length=1)
+    total: bool = True               # v7.4.0 D-0309 §1-3 — stack 합계 점·선 층(문장마다 켜려면 앞 이벤트는 false)
     col: ColorName = "gold"
     key: Optional[int] = None      # 코드가 채움(load_project.prepare_series)
     axis: Optional[bool] = None
@@ -112,14 +140,32 @@ class SeriesEvent(_Event):
 
     @model_validator(mode="after")
     def _band(self) -> "SeriesEvent":
-        if (self.style == "band") != (self.upper_id is not None):
-            raise ValueError("series: style band 는 upper_id(위 끝 레코드)가 필요하고, step·line 은 upper_id 를 쓰지 않는다")
+        if (self.style in ("band", "range")) != (self.upper_id is not None):   # range = v7.4.0 D-0315 §1-3 가이던스 속빈 범위(분기 열)
+            raise ValueError("series: style band·range 는 upper_id(위 끝 레코드)가 필요하고, 다른 스타일은 upper_id 를 쓰지 않는다")
         if self.upper_id == self.series_id:
             raise ValueError("series band: upper_id 가 series_id 와 같다")
+        if (self.style in PART_STYLES) != bool(self.parts):
+            raise ValueError(f"series: style {'·'.join(PART_STYLES)} 은 parts(부문)가 필요하고, 다른 스타일은 parts 를 쓰지 않는다")
+        if self.style in DETAIL_STYLES and not self.detail:
+            raise ValueError(f"series style {self.style} 은 열 확대 인셋 전용 — island kind column_detail 로 쓴다(D-0318 §1-3)")
+        if self.detail and (self.style not in (*DETAIL_STYLES, "range") or self.title is None):
+            raise ValueError("series detail(열 확대 인셋)은 style dumbbell·diverging·slope·range + title")
+        if self.secondary and self.style not in ("line", "step"):
+            raise ValueError("series secondary(보조 축)는 line·step 만 — 막대·쌓임은 주 축")
+        if self.estimate_id is not None and self.style not in ("bars", "range"):
+            raise ValueError("series estimate_id 는 bars(예상 = 속빈 막대)·range(컨센서스 = 속빈 점)만")
+        if not self.total and self.style != "stack":
+            raise ValueError("series total false 는 stack 만(합계 층)")
+        if self.accent is not None:
+            ok = {"latest", "total", "none"} | {p.label for p in self.parts}
+            if self.style not in ("bars", "range", *PART_STYLES) or self.accent not in ok or (self.accent == "total" and self.style != "stack"):
+                raise ValueError(f"series accent {self.accent!r}: bars 는 latest·none, stack 은 latest·total·none·부문 label, "
+                                 f"dumbbell·diverging 은 none·부문 label({sorted(ok)}) 만")
         return self
 
     def record_ids(self) -> list[str]:
-        return [self.series_id] + ([self.upper_id] if self.upper_id else [])
+        return ([self.series_id] + ([self.upper_id] if self.upper_id else []) + [i for p in self.parts for i in p.ids]
+                + ([self.estimate_id] if self.estimate_id else []))
 
 
 class DeclaredLeg(BaseModel):
@@ -134,6 +180,8 @@ class DeclaredLeg(BaseModel):
 
 
 class RouteEvent(_Event):
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("flow",)   # v7.4.0 UF-401 — 안 쓰면 dict 옛 모양
+
     type: Literal["route"]
     pts: list[LonLat] = Field(min_length=2)
     grow: float
@@ -143,6 +191,8 @@ class RouteEvent(_Event):
     glow_only: bool = False
     label: str = ""
     declared: Optional[DeclaredLeg] = None   # v7.4.0 D-0229 §2.5(UF-112)
+    # v7.4.0 UF-400·UF-401(영상 분석 D3) — 관계·영향이 한쪽으로 흐르는 선(지원·지시·자금): 다 그려진 선 위를 점들이 출발 → 도착으로 흐른다
+    flow: Optional[bool] = Field(default=None, description="true = 선이 다 그려진 뒤 점들이 출발→도착으로 흐름(관계·영향의 방향). 이동 경로·항로엔 쓰지 않는다")
 
     @model_validator(mode="after")
     def _bend(self) -> "RouteEvent":
@@ -211,6 +261,9 @@ class FlightEvent(_Event):
     col: Accent = "amber"
     impact: bool = True
     inset: Optional[FlightInset] = None
+    # v7.4.0 back_and_forth D-0316 ① — 이 비행이 그리는 특정 타격의 원고 claim id(intake/claims.json, 원고 문장이 인용한 것).
+    # 비행은 출처 있는 특정 타격에만 — 없으면 checks [flight-unsourced] hard. 총괄 문장 구간은 날짜 있는 마커로
+    claim: Optional[str] = Field(default=None, min_length=1)
 
     @model_validator(mode="after")
     def _long_enough(self) -> "FlightEvent":
@@ -234,7 +287,7 @@ class CountryEvent(_Event):
 class BadgeEvent(_Event):
     """뱃지. 지도 앵커 lon·lat, 또는 시간축 앵커 date·lane(v4.4.0 D-0090 작업 4 — 배치 슬롯이 시간축에서 date·lane 을 돌려준다). 한 쌍만."""
 
-    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane", "over_panel", "screen")   # 쓰지 않은 앵커 쌍·패널 위 자리는 dict 에 남기지 않는다(지도 뱃지 dict = v4.3.0 과 같음)
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane", "over_panel", "screen", "pulse", "mark", "mark_t")   # 쓰지 않은 앵커 쌍·패널 위 자리·신호는 dict 에 남기지 않는다(지도 뱃지 dict = v4.3.0 과 같음)
 
     type: Literal["badge"]
     lon: Optional[float] = None
@@ -252,6 +305,19 @@ class BadgeEvent(_Event):
     side: Optional[Literal["right"]] = None
     over_panel: Optional[bool] = None                     # v4.8.0 D-0104 D2(c) — 배치 슬롯(panel_badge)이 채운다: 패널 층 위, 화면 고정
     screen: Optional[tuple[float, float]] = None
+    # v7.4.0 UF-400·UF-401(영상 분석 D1·D9·D10) — 뱃지 신호. 뱃지는 머물고 신호만 더한다(다시 띄우지 않는다)
+    pulse: Optional[list[float]] = Field(default=None, description="재언급 시각 목록(word 앵커) — 그 순간 고리가 퍼진다. 뱃지 [t0, t1] 안")
+    mark: Optional[Literal["strike", "question"]] = Field(default=None, description="strike = 숙청·사망 사실 문장의 붉은 X, question = 의문·미확인의 '?' 말풍선")
+    mark_t: Optional[float] = Field(default=None, description="표시 시각(word 앵커). 없으면 t0")
+
+    @model_validator(mode="after")
+    def _cues(self) -> "BadgeEvent":
+        out = [p for p in (self.pulse or []) if not self.t0 <= p <= self.t1]
+        if out:
+            raise ValueError(f"badge pulse {out} 가 뱃지 구간 [{self.t0}, {self.t1}] 밖")
+        if self.mark_t is not None and (self.mark is None or not self.t0 <= self.mark_t <= self.t1):
+            raise ValueError("badge mark_t 는 mark 가 있을 때만, 뱃지 구간 안")
+        return self
 
     @model_validator(mode="after")
     def _anchor(self) -> "BadgeEvent":
@@ -288,17 +354,6 @@ class CutoutEvent(_Event):
 class DipEvent(_Event):
     type: Literal["dip"]
     under: bool = False
-
-
-class CardEvent(_Event):
-    type: Literal["card"]
-    tag: str
-    lines: list[str] = Field(default_factory=list)
-    bigs: list[tuple[str, str]] = Field(default_factory=list)
-    accent: Accent
-    src: Optional[str] = None
-    quote: bool = False
-    y: Optional[float] = None
 
 
 class CascadeItem(BaseModel):
@@ -354,14 +409,33 @@ class QuoteEvent(_Event):
         return self
 
 
+class MediaSpot(BaseModel):
+    """v7.4.0 UF-400·UF-401(영상 분석 D15) — 사진·영상 속 한 사람을 가리키는 점선 원. x·y = 그림 안 중심(폭·높이 비율 0~1), r = 반지름(그림 폭 비율).
+    dim = 원 밖을 어둡게(화면 덮개 — 원본 화소 가공 아님). t = 나타나는 시각(word 앵커, 없으면 이벤트 t0)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    x: float = Field(ge=0, le=1)
+    y: float = Field(ge=0, le=1)
+    r: float = Field(gt=0, le=0.5)
+    dim: bool = False
+    t: Optional[float] = None
+
+
 class PhotoEvent(_Event):
     """사진 카드 — 파일·캡션·출처 줄은 미디어 레지스트리에서만. 연출이 문자열을 주면 모델 오류(extra=forbid, D-0036)."""
 
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("spot",)   # v7.4.0 UF-401 — 안 쓰면 dict 옛 모양
+
     type: Literal["photo"]
     mid: str
+    # v7.4.0 D-0327(UF-201) — 이 사진이 보여 주는 문장 대상(용어). 레지스트리 main_subject 에 있어야 한다. age_reason = 오래된 사진을 쓰는 이유([photo-age])
+    for_: Optional[str] = Field(default=None, alias="for", min_length=1)
+    age_reason: Optional[str] = Field(default=None, min_length=4)
     x: Optional[float] = None      # 없으면 배치 슬롯 기본값(engine.placement, rules placement.auto_media — 14 §10.3-5)
     y: Optional[float] = None
     w: Optional[float] = None
+    spot: Optional[MediaSpot] = Field(default=None, description="사진 속 한 사람 점선 원 {x, y, r(그림 비율), dim, t}")
 
     @model_validator(mode="after")
     def _xyw_together(self) -> "PhotoEvent":
@@ -371,9 +445,13 @@ class PhotoEvent(_Event):
 
 
 class ClipEvent(_Event):
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("spot",)   # v7.4.0 UF-401 — 안 쓰면 dict 옛 모양
+
     type: Literal["clip"]
     mid: str
     role: Literal["main", "broll"] = "main"   # v7.4.0 D-0274 §2① — main = 주 요소(액자 clip_frame·원음), broll = 현장 보조(구석 슬롯)
+    frame: Optional[Literal["clip_frame"]] = None   # v7.4.0 D-0274 §2① — 코드(engine.placement)가 main 클립에 붙이는 액자 슬롯 표시. 연출이 쓰지 않는다
+    spot: Optional[MediaSpot] = Field(default=None, description="영상 속 한 사람 점선 원 {x, y, r(그림 비율), dim, t}")   # v7.4.0 UF-401
     audio: Optional[Literal["main", "broll"]] = None   # v7.4.0 D-0276 — 원음 이득을 배치 role 과 따로: None=role 과 같게, broll=현장음(발언이 아닌 전투·현장 영상을 액자(main)로 크게 보이되 소리는 낮게, geo strikes)
     x: Optional[float] = None
     y: Optional[float] = None
@@ -392,6 +470,8 @@ class BackdropEvent(_Event):
 
     type: Literal["backdrop"]
     img: str = Field(min_length=1)
+    # v7.4.0 감독 D621 ②(D616 ③④ — 지하철·아파트 사진이 개관·쟁점 막 배경) — 이 배경이 보여 주는 장면 주제(용어). 레지스트리 main_subject 에 있어야 한다
+    for_: Optional[str] = Field(default=None, alias="for", min_length=1)
 
 
 class IslandEvent(_Event):
@@ -399,14 +479,66 @@ class IslandEvent(_Event):
     box = rules island.boxes 이름(연출은 픽셀을 다루지 않는다 — place 는 배치 슬롯 키라 쓰지 않는다). 사진·기사·패널·프리미티브 아일랜드는 각자의 이벤트 타입이다."""
 
     type: Literal["island"]
-    kind: Literal["chart"]
+    kind: Literal["chart", "column_detail", "structure"]   # structure = v7.4.0 D-1003 §3(구성 무대 뷰포트 — 카메라 = stage: structure 숏)
     box: str = "center"
+    # v7.4.0 D-0318·D-0319 ④ — kind column_detail(열 확대 인셋): 차트 아일랜드 안 lane 의 한 분기 열을 가리키는 인셋. 값은 레코드에서만.
+    # style dumbbell(전분기→이번)·diverging(전년 동기 대비 %)·slope(1년 전→지금 값 — 구성비는 외부 매출 분모가 공시에 있을 때만, D-0320)·range(가이던스 범위 + 컨센서스 점).
+    # 열 = series_id 레코드의 마지막 분기(range 는 아래 끝 레코드의 분기). title = 머리 줄 이름(분기·단위는 코드가 붙인다)
+    lane: Optional[str] = None
+    style: Optional[Literal["dumbbell", "diverging", "slope", "range"]] = None
+    series_id: Optional[str] = None
+    parts: list[StackPart] = Field(default_factory=list)
+    upper_id: Optional[str] = None
+    estimate_id: Optional[str] = None
+    accent: Optional[str] = Field(default=None, min_length=1)
+    title: Optional[str] = Field(default=None, min_length=1)
 
     @model_validator(mode="after")
     def _box(self) -> "IslandEvent":
         boxes = load_rules().island.boxes
         if self.box not in boxes:
             raise ValueError(f"island box {self.box!r} 가 rules island.boxes {sorted(boxes)} 에 없다")
+        detail = (self.lane, self.style, self.series_id, self.title)
+        if self.kind in ("chart", "structure"):
+            if any(v is not None for v in detail) or self.parts or self.upper_id or self.estimate_id or self.accent:
+                raise ValueError(f"island kind {self.kind} 는 lane·style·series_id·parts·upper_id·estimate_id·accent·title 을 쓰지 않는다(column_detail 전용)")
+            return self
+        if any(v is None for v in detail):
+            raise ValueError("island column_detail 은 lane·style·series_id·title 이 필요하다")
+        if (self.style in DETAIL_STYLES) != bool(self.parts):
+            raise ValueError("column_detail dumbbell·diverging·slope 는 parts 가 필요하고, range 는 parts 를 쓰지 않는다")
+        if (self.style == "range") != (self.upper_id is not None):
+            raise ValueError("column_detail range 는 upper_id(위 끝)가 필요하고, 다른 스타일은 쓰지 않는다")
+        if self.estimate_id is not None and self.style != "range":
+            raise ValueError("column_detail estimate_id(컨센서스 점)는 range 만")
+        if self.accent is not None and self.accent not in {"none", *(p.label for p in self.parts)}:
+            raise ValueError(f"column_detail accent {self.accent!r}: none · 부문 label 만")
+        return self
+
+
+class RankEvent(_Event):
+    """구성 무대 순위 막대 층(v7.4.0 back_and_forth D-1003 §3) — 구성 아일랜드(island kind structure) 안에서만 그린다.
+    layer = bars(막대·이름·금액) · prior(전년 속빈 눈금) · delta(±증감률·감소 행 손실 면) · focus(row 하나 accent). 값은 무대 레코드에서만(P8)."""
+
+    type: Literal["rank"]
+    layer: Literal["bars", "prior", "delta", "focus", "total"]   # total = v7.4.0 D-1009 — 머리 줄 오른쪽 총지출 "820.9조 · +12.8% · 2018~26 연평균 +6.8%"
+    row: Optional[str] = Field(default=None, min_length=1)
+    metric: Optional[Literal["amount", "rate"]] = None   # v7.4.0 D-1008 — focus 초점 라벨의 큰 숫자: amount = +증감액, rate = +증감률(문장이 말하는 쪽)
+    compare: Optional[Literal["other", "avg"]] = None    # v7.4.0 D-1009 — 초점 작은 줄: other(기본) = 다른 쪽 숫자, avg = 예년(레코드 avg_growth) 연평균
+    # v7.4.0 감독 지시(02:06Z, R-0615 뒤) — 초점 작은 줄을 그 문장이 말한 분야 안 사업 숫자로(예 SOC "고속도로 1조 239억 → 8,189억").
+    # 원고 문장·claims 의 숫자만 쓴다(연출이 새 숫자를 만들지 않는다). compare 와 함께 쓸 수 없다
+    note: Optional[str] = Field(default=None, min_length=1, max_length=40)
+
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("row", "metric", "compare", "note")
+
+    @model_validator(mode="after")
+    def _row(self) -> "RankEvent":
+        if (self.layer == "focus") != (self.row is not None) or (self.layer == "focus") != (self.metric is not None):
+            raise ValueError("rank row·metric 은 focus 층에만, focus 층은 row·metric 이 필요하다")
+        if self.compare is not None and self.layer != "focus":
+            raise ValueError("rank compare 는 focus 층에만")
+        if self.note is not None and (self.layer != "focus" or self.compare is not None):
+            raise ValueError("rank note 는 focus 층에만, compare 와 함께 쓸 수 없다")
         return self
 
 
@@ -763,11 +895,27 @@ class PanelFork(_Panel):
 
 
 class PanelChecklist(_Panel):
+    DROP_NONE: ClassVar[tuple[str, ...]] = (*_Panel.DROP_NONE, "style", "at")   # v7.4.0 UF-401 — 안 쓰면 dict 옛 모양(부모 chart 유지)
+
     kind: Literal["checklist"]
     subtitle: Optional[str] = None
     items: list[str] = Field(min_length=1, max_length=4)
     footer: str = ""
     provenance: Optional[ChartProvenance] = None
+    # v7.4.0 UF-400·UF-401(영상 분석 D11) — open = 가설·후보처럼 '확인되지 않은 목록': 번호 칸을 먼저 비워 보이고 at 시각에 채운다. 체크 표시 없음
+    style: Optional[Literal["check", "open"]] = Field(default=None, description="check(기본) = 확인된 사실 체크, open = 가설·후보 — 빈 번호 칸을 먼저 보이고 at 에 채운다(체크 없음)")
+    at: Optional[list[float]] = Field(default=None, description="open 칸마다 채우는 시각(word 앵커) — items 와 같은 개수, 시간 순")
+
+    @model_validator(mode="after")
+    def _open(self) -> "PanelChecklist":
+        if self.at is not None:
+            if self.style != "open":
+                raise ValueError("checklist at 은 style open 에서만")
+            if len(self.at) != len(self.items):
+                raise ValueError(f"checklist at {len(self.at)}개 ≠ items {len(self.items)}개")
+            if any(b < a for a, b in zip(self.at, self.at[1:])) or not all(self.t0 <= x <= self.t1 for x in self.at):
+                raise ValueError("checklist at 은 시간 순, 패널 구간 안")
+        return self
 
 
 class NetworkNode(_Strict):
@@ -783,6 +931,7 @@ class NetworkNode(_Strict):
     role: Optional[str] = None
     accent: Accent = "muted"
     big: bool = False              # 중심 인물(뱃지 크게)
+    crowd: Optional[bool] = None   # v7.4.0 UF-401(영상 분석 D4) — 둘레 점 고리(지지 기반 표지, 수치 아님)
 
     @model_validator(mode="after")
     def _kind_fields(self) -> "NetworkNode":
@@ -805,6 +954,8 @@ class NetworkEdge(_Strict):
     dst: str
     type: Annotated[str, AfterValidator(_network_style)]
     label: str = ""
+    # v7.4.0 UF-400·UF-401(영상 분석 D13) — drop = 위 노드 아래 끝에서 아래 노드 위 끝으로 곧게 내리는 선(가계·후견). 같은 열끼리도 허용
+    shape: Optional[Literal["drop"]] = None
 
 
 class NetworkMention(_Strict):
@@ -829,7 +980,7 @@ class PanelNetwork(_Chart):
             for end in (e.src, e.dst):
                 if end not in col:
                     raise ValueError(f"network 선 끝 {end!r} 가 노드에 없다")
-            if col[e.src] == col[e.dst]:
+            if col[e.src] == col[e.dst] and e.shape != "drop":
                 raise ValueError(f"network 선 {e.src}→{e.dst}: 같은 열끼리는 잇지 않는다(수평 접선 곡선, 08 §3 규칙 3)")
         for m in self.mentions:
             if m.node not in col:

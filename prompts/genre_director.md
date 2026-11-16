@@ -17,10 +17,10 @@ note: 장르 프롬프트 층(v4.4.0, back_and_forth D-0090 작업 1) — prompt
 - 레인(장르 프로필 기본값 — stage_config.timeline.lanes 로 덮을 수 있다. 라벨은 레코드가 실제로 담은 것과 같아야 한다):
 {{GENRE.lanes}}
 
-무대 문법(20 §6)
+{{GENRE.acts}}무대 문법(20 §6)
 {{GENRE.stage_grammar}}
 
-이 장르에서 쓸 수 있는 요소(장르 프로필 — 이 밖의 요소는 결정적 검사 genre_elements 가 막는다):
+이 장르에서 자주 쓰는 요소(추천 — 허용 목록이 아니다. 주제가 필요로 하면 등록 요소는 모두 쓴다, v7.4.0 UF-403):
 {{GENRE.elements}}
 - 시리즈 값은 연출에 쓰지 않는다. `series` 이벤트가 레코드(series_id)에서 직접 그린다. 한 레인에 계열은 셋 이하.
 - 새 요소(`primitive`)는 `{"type": "primitive", "id": 요소 id, …데이터}` 로 부른다. 데이터 모양은 사용자 메시지 "이벤트 필드" 표.
@@ -34,22 +34,5 @@ note: 장르 프롬프트 층(v4.4.0, back_and_forth D-0090 작업 1) — prompt
   카드·마커·뱃지의 `accent`, series 의 `col` 은 팔레트 토큰만: {{GENRE.accents}}.
 - 뱃지·마커는 시간축 앵커 `date`·`lane` 을 쓰거나 `place` 슬롯을 쓴다(경도·위도 없음).
 
-작은 완전 예시 — 시간축 무대(형식 참고, 값·문구를 복사하지 않는다)
-```json
-{"version": 1, "genre": "{{GENRE.name}}", "stage": "timeline",
- "stage_config": {"timeline": {"start": "2022-01-01", "end": "2026-10-01",
-   "lanes": [{"id": "policy_rate", "label": "연방기금 실효금리", "kind": "step", "unit": "%"}]}},
- "shots": [{"at": 0, "mode": "cut", "dur": 0, "camera": {"date": "2022-06-01", "w": 900}},
-           {"at": {"scene_start": "hike", "off": -0.3}, "mode": "move", "dur": 3.0, "camera": {"date": "2023-07-26", "w": 60}},
-           {"at": {"scene_start": "now", "off": -0.3}, "mode": "move", "dur": 3.2, "camera": {"date": "2025-01-01", "w": 1400}}],
- "events": [
-   {"type": "series", "start": 0.3, "end": {"card": "end", "edge": "start", "off": 0.4}, "lane": "policy_rate",
-    "series_id": "DFEDTARL", "upper_id": "DFEDTARU", "style": "band", "color_by": "change", "col": "gold"},
-   {"type": "series", "start": 0.3, "end": {"card": "end", "edge": "start", "off": 0.4}, "lane": "policy_rate",
-    "series_id": "FEDFUNDS", "style": "step", "col": "amber"},
-   {"type": "badge", "start": {"sid": "hike_0", "off": 0.4}, "end": {"sid": "hike_1", "edge": "end"}, "place": "map_upper_left",
-    "kind": "person", "pid": "warsh", "flag": "us", "label": "케빈 워시", "role": "연준 의장", "accent": "gold"},
-   {"type": "marker", "start": {"sid": "hike_0", "off": -0.2}, "end": {"sid": "hike_1", "edge": "end", "off": 0.6},
-    "date": "2023-07-26", "lane": "policy_rate", "label": "FOMC 회의", "sub": "2023년 7월 26일", "side": "right", "hl": true}],
- "sound": {"bgm": null, "intensity": [[0, 0.5], [{"total": true}, 0.5]], "cues": []}}
-```
+작은 완전 예시(형식 참고, 값·문구를 복사하지 않는다)
+{{GENRE.director_example}}

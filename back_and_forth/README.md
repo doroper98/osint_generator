@@ -153,6 +153,19 @@ python back_and_forth/check.py --me opus --next-id         # 내가 쓸 다음 �
    — 테스트 기준선은 **삭제 조정 기준선**이다(D-0053): 합격 = passed ≥ (직전 기준 − P2로 삭제한 옛 테스트 수) + 새 테스트 요구치, failed 0·xfail 0. 삭제 목록을 표로 적는다.
 4. provenance 요약 5. 다음 Phase 계획 — 그리고 **이번 Phase의 DECISIONS 새 행 요약**.
 
+### 6.3a 사용자에게 보내기 전 — 눈 검수 시트·의견 점검표 (v7.4.0 D-1000 S4, LLM-AP-023)
+
+콘티 판·프리뷰·완성본·교체본 등 **사용자에게 무엇이든 보내기 전** 감독은 아래 둘을 만들어 R/D 에 붙이고 **모든 줄을 채운다. 비어 있으면 보내지 않는다.**
+"노출 표만 보고 통과"(D-0463) 사고를 막는 절차다 — 표는 잰 것만 보여 준다.
+
+```bash
+python tools/review_sheet.py projects/{pid} --src animatic|final|preview --every 3   # 3초 간격 프레임 시트(시각·문장 id·날짜 HUD) + 요소 노출·지도 가림 표
+python tools/uf_checklist.py projects/{pid} --src animatic|final|preview            # 사용자 의견 원장 전부: 자동 검사 결과·눈 확인 [ ]·볼 시각
+```
+
+- 시트는 다시 렌더하지 않는다(마지막 산출 mp4 에서 뽑는다). 요소 표의 빨간 줄 = 노출 하한 미만 또는 지도 사건 가림 상한 초과.
+- 점검표의 `[ ]` 는 시트의 해당 시각 칸을 실제로 보고 `[x]`(또는 사유)로 채운다. 자동 검사 fail 이 하나라도 있으면 보내지 않는다.
+
 ### 6.4 결정 위임 — 결정은 Fable이 내린다 (사용자 지시 2026-09-27)
 
 **결정의 범위**: `docs/handoff/DECISIONS.md`에 한 줄로 남을 만한 것 전부다.
@@ -253,6 +266,7 @@ python back_and_forth/check.py --me opus --next-id         # 내가 쓸 다음 �
 
 - 사용자는 이 폴더에 `D` 파일을 직접 쓸 수 있다(`from: user`). 번호는 Fable의 D 번호를 이어서 쓴다.
 - 사용자가 대화로 준 지시는 파일보다 우선한다. Opus는 그 지시를 다음 `progress`에 인용해 Fable도 알게 한다.
+- **게이트 승인 기록 자리**(UF-267, 전쟁사 브랜치 PIPELINE-AP-040(D361 번호대), war D-0633·최종 감독 D-0355): 사용자의 교신 창구는 감독 세션 하나다. 사용자 게이트 승인(①·②·사전 승인 포함)은 사용자가 말한 세션, 곧 감독 세션에서 `approve` 로 기록하고 push 한다. 구현 세션은 사용자 승인을 대신 기록하지 않는다. git 에 기록된 승인을 pull 해서 진행만 한다. 구현은 게이트 자료와 함께 승인 검사 입력(gate packet)을 git 에 올린다. 사용자에게 다른 세션으로 옮겨 입력하라고 요청하지 않는다. 권한 장치에 막히면 장치를 넓히거나 우회하지 않고 이 경로로 돌린다.
 - 사용자 의견(영상·화면·소리·작업 순서)은 받은 쪽(감독·구현 세션 누구든)이 그 자리에서 `rules/user_feedback.yaml` 에 원문 그대로 UF 번호로 기록한다(CLAUDE.md C12, D-0200). 장치 없는 의견이 있으면 게이트 ② 가 거부된다.
 
 ## 10. 세션 생존과 재기동 — 정본은 `docs/handoff/21_SESSION_LIVENESS_AND_RECOVERY.md`

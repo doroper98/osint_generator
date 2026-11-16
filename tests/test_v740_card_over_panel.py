@@ -13,17 +13,17 @@ TOP_RIGHT = (560.0, 60.0, 840.0, 160.0)   # 오른쪽 상단 카드 자리
 
 
 def _boxes(e: dict) -> list[tuple] | None:
-    return [TOP_RIGHT] if e["type"] == "card" else None
+    return [TOP_RIGHT] if e["type"] == "cascade" else None
 
 
 class CardOverPanelTest(unittest.TestCase):
     def test_card_on_panel_is_hard(self) -> None:
-        card = {"type": "card", "tag": "수치", "t0": 12.0, "t1": 16.0}
+        card = {"type": "cascade", "tag": "수치", "t0": 12.0, "t1": 16.0}
         self.assertEqual(len(C.cards_over_panel([PANEL, card], _boxes)), 1)
         self.assertIn("card_over_panel", C.HARD)
 
     def test_card_ending_before_panel_passes(self) -> None:
-        card = {"type": "card", "tag": "수치", "t0": 6.0, "t1": 10.5}   # 패널 페이드 안에서 끝남
+        card = {"type": "cascade", "tag": "수치", "t0": 6.0, "t1": 10.5}   # 패널 페이드 안에서 끝남
         self.assertEqual(C.cards_over_panel([PANEL, card], _boxes), [])
 
     def test_date_badge_and_subtitles_only(self) -> None:
@@ -37,6 +37,16 @@ class CardOverPanelTest(unittest.TestCase):
         self.assertEqual(len(C.cards_over_panel([PANEL, badge], _boxes)), 1)
         vs = {"type": "panel", "kind": "versus", "title": "양측", "t0": 10.0, "t1": 20.0, "series": [{"record": "X"}]}
         self.assertEqual(C.cards_over_panel([vs, badge], _boxes), [])   # versus 위 뱃지는 badge_over_panel 이 보고
+
+    def test_media_on_versus_panel(self) -> None:   # v7.4.0 back_and_forth D-0629 §3 — 두 사료 패널 한쪽 기둥 가림 = C0 같은 무게 위반
+        vs = {"type": "panel", "kind": "versus", "title": "로마군 손실 — 두 사료", "t0": 10.0, "t1": 20.0}
+        photo = {"type": "photo", "mid": "cannae_slodtz", "t0": 12.0, "t1": 16.0, "x": 436.0, "y": 100.0, "w": 376.0}
+        right_pair = lambda e: [(436.0, 100.0, 812.0, 389.0)]   # noqa: E731 — 15cf1736 배치(map_pair_right, 리비우스 기둥 위)
+        self.assertEqual(len(C.cards_over_panel([vs, photo], _boxes, right_pair)), 1)
+        self.assertEqual(len(C.cards_over_panel([vs, photo], _boxes)), 1)   # 제자리 상자를 모르면 화면 덮개
+        outside = lambda e: [(740.0, 300.0, 850.0, 400.0)]   # noqa: E731 — 패널 상자 밖
+        self.assertEqual(C.cards_over_panel([vs, photo], _boxes, outside), [])
+        self.assertEqual(C.cards_over_panel([STORY, photo], _boxes, right_pair), [])   # 서사 패널은 그대로(D-0249)
 
     def test_article_counts_as_cover(self) -> None:
         art = {"type": "article", "mid": "a", "t0": 11.0, "t1": 15.0}

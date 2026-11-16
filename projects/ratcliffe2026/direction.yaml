@@ -153,31 +153,6 @@ events:
   label: 존 랫클리프
   role: CIA 국장
   accent: us
-- type: card
-  start:
-    sid: open_2
-    'off': 0.3
-  end:
-    sid: open_2
-    edge: end
-    'off': 0.8
-  tag: 여러 매체 보도
-  lines:
-  - 2021년 이후 CIA 국장의 첫 러시아 방문
-  accent: gold
-- type: card
-  start:
-    sid: flight_0
-    'off': 0.3
-  end:
-    sid: flight_0
-    edge: end
-    'off': 0.4
-  tag: 보도 · 수송기 기종
-  bigs:
-  - - C-17
-    - 미 공군 수송기
-  accent: us
 - type: marker
   start:
     word:
@@ -243,19 +218,6 @@ events:
   sub: 공격 중단 요청 지역
   side: right
   hl: true
-- type: card
-  start:
-    sid: before_visit_1
-    'off': 0.2
-  end:
-    sid: before_visit_1
-    edge: end
-    'off': 0.3
-  tag: 방문 앞두고 · 보도
-  lines:
-  - 미국, 우크라이나에 요청
-  - 모스크바 등지 공격을 멈춰 달라
-  accent: us
 - type: badge
   start:
     sid: before_visit_2
@@ -270,29 +232,6 @@ events:
   R: 32
   label: 볼로디미르 젤렌스키
   role: 우크라이나 대통령
-  accent: teal
-- type: card
-  start:
-    sid: before_visit_2
-    'off': 0.5
-  end:
-    sid: before_visit_2
-    edge: end
-    'off': 0.3
-  tag: 키이우포스트 인용
-  lines:
-  - 이 회동에 관해 미국에서 정보를 받았다
-  accent: teal
-- type: card
-  start:
-    sid: before_visit_3
-    'off': 0.2
-  end:
-    scene_end: before_visit
-    'off': 0.3
-  tag: 젤렌스키 대통령
-  lines:
-  - 회동 상대는 러시아 정보당국자들
   accent: teal
 - type: country
   start:
@@ -417,18 +356,6 @@ events:
   R: 18
   label: 이란
   accent: ru
-- type: card
-  start:
-    sid: iran_dispute_1
-    'off': 0.3
-  end:
-    sid: iran_dispute_1
-    edge: end
-    'off': 0.3
-  tag: CNN·CBS 인용 익명 소식통
-  lines:
-  - 랫클리프, 이란 지원을 끊으라고 촉구
-  accent: teal
 - type: marker
   start:
     word:
@@ -441,18 +368,6 @@ events:
   sub: ''
   side: right
   hl: true
-- type: card
-  start:
-    sid: iran_dispute_2
-    'off': 0.3
-  end:
-    sid: iran_dispute_2
-    edge: end
-    'off': 0.3
-  tag: 익명 소식통
-  lines:
-  - 해협이 다시 열리지 않으면 추가 제재 경고
-  accent: teal
 - type: badge
   start:
     sid: iran_dispute_3
@@ -467,17 +382,6 @@ events:
   label: 도널드 트럼프
   role: 미국 대통령
   accent: us
-- type: card
-  start:
-    sid: iran_dispute_3
-    'off': 0.3
-  end:
-    scene_end: iran_dispute
-    'off': 0.2
-  tag: 트럼프 대통령
-  lines:
-  - 이번 방문은 이란과 관련이 없다
-  accent: us
 - type: marker
   start:
     sid: intel_dispute_0
@@ -489,18 +393,6 @@ events:
   sub: ''
   side: left
   hl: true
-- type: card
-  start:
-    sid: intel_dispute_1
-    'off': 0.3
-  end:
-    sid: intel_dispute_1
-    edge: end
-    'off': 0.3
-  tag: CNN·CBS · 미국 정보당국 평가
-  lines:
-  - 푸틴, 나토 결속을 시험하는 도발에 나설 수 있다
-  accent: teal
 - type: badge
   start:
     sid: intel_dispute_1
@@ -532,29 +424,6 @@ events:
   label: 도널드 트럼프
   role: 미국 대통령
   accent: us
-- type: card
-  start:
-    sid: intel_dispute_2
-    'off': 0.3
-  end:
-    sid: intel_dispute_2
-    edge: end
-    'off': 0.3
-  tag: 트럼프 대통령
-  lines:
-  - 푸틴은 나토 영토를 공격하지 않을 것
-  accent: us
-- type: card
-  start:
-    sid: intel_dispute_3
-    'off': 0.3
-  end:
-    scene_end: intel_dispute
-    'off': 0.2
-  tag: 크렘린 · 페스코프 대변인
-  lines:
-  - 평가가 러시아의 의도를 반영하지 않는다
-  accent: ru
 - type: badge
   start:
     sid: confirmed_1
@@ -632,18 +501,6 @@ events:
   sub: ''
   side: right
   hl: true
-- type: card
-  start:
-    sid: open_questions_0
-    'off': 0.4
-  end:
-    sid: open_questions_0
-    edge: end
-    'off': 0.3
-  tag: 아직 확정되지 않은 것
-  lines:
-  - 나토에 대한 경고가 실제로 전달됐는지
-  accent: muted
 - type: marker
   start:
     word:
@@ -656,28 +513,6 @@ events:
   sub: ''
   side: right
   hl: false
-- type: card
-  start:
-    sid: open_questions_1
-    'off': 0.3
-  end:
-    sid: open_questions_1
-    edge: end
-    'off': 0.3
-  tag: 여전히 엇갈리는 것
-  lines:
-  - 이란·호르무즈가 회담 의제였는지
-  accent: muted
-- type: card
-  start:
-    sid: open_questions_2
-    'off': 0.3
-  end:
-    total: true
-  tag: 공개되지 않은 것
-  lines:
-  - 그날 모스크바에서 오간 말의 목록
-  accent: muted
 sound:
   bgm: null
   intensity:

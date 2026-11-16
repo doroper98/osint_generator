@@ -46,8 +46,9 @@ def cam(t: float, x: float, y: float, w: float, dur: float = 3.0, mode: Literal[
 
 
 def build_camera(keys: list[CamKey], n_frames: int, fps: int,
-                 creep: Sequence[tuple[float, float]] = ()) -> "np.ndarray":
-    """프레임별 (x, y, w) 배열. creep = 느린 푸시인 범위(v4.11.0 D-0118 §1, engine.pacing.creep_ranges) — 드리프트와 곱한다."""
+                 creep: Sequence[tuple[float, float]] = (), drift: bool = True) -> "np.ndarray":
+    """프레임별 (x, y, w) 배열. creep = 느린 푸시인 범위(v4.11.0 D-0118 §1, engine.pacing.creep_ranges) — 드리프트와 곱한다.
+    drift False = 키 뒤 느린 푸시인 없음(v7.4.0 D-1006 — 구성 무대: rules stage_structure.camera_drift)."""
     cams = sorted(keys, key=lambda c: c.t)
     out = np.zeros((n_frames, 3))
     cur = np.array([cams[0].x, cams[0].y, cams[0].w], float)
@@ -72,7 +73,7 @@ def build_camera(keys: list[CamKey], n_frames: int, fps: int,
                 f = (w - frm[2]) / (act.w - frm[2])   # v5.5.0 — 중심을 폭에 비례로 → 고정점 기준 닮음 변환(지도 흐름 직선)
             v = np.array([frm[0] + (act.x - frm[0]) * f, frm[1] + (act.y - frm[1]) * f, w])
             da = t - (act.t + act.dur)
-        if da > 0:
+        if da > 0 and drift:
             v[2] *= 1 - _DRIFT.amount * (1 - math.exp(-da / _DRIFT.tau_sec))
         if creep:
             v[2] *= creep_factor(t, 0.0 if act is None else act.t + act.dur, creep)

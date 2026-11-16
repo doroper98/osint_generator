@@ -18,7 +18,7 @@ from engine.context import RenderCtx
 from engine.credits import RightsError
 from engine.media_registry import credit_line, load_media_registry
 from engine.projection import View
-from engine.style import C, FPS
+from engine.style import C, ELEM, FPS, MOTION
 from rules import load_rules
 from engine.timebase import clamp01, ease_out, smooth, window
 from engine.typography import rrect, text, tw
@@ -60,18 +60,61 @@ def media_frame(ctx: cairo.Context, x: float, y: float, w: float, h: float, a: f
         ctx.fill()
 
 
+_MCTX = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))   # 글자 폭 재기 전용
+ELLIPSIS = "…"
+
+
+def _ellipsis(s: str, size: float, font: str, maxw: float) -> str:
+    if tw(_MCTX, s, size, font) <= maxw:
+        return s
+    while s and tw(_MCTX, s.rstrip() + ELLIPSIS, size, font) > maxw:
+        s = s[:-1]
+    return s.rstrip() + ELLIPSIS
+
+
+def _wrap(s: str, size: float, font: str, maxw: float) -> list[str]:
+    """출처 줄 접기 — ' · ' 마디 단위로 채우고, 한 마디가 바보다 길면 빈칸 단위로. 한 낱말이 바보다 길면 그대로 둔다(검사가 잡는다)."""
+    def fits(t: str) -> bool:
+        return tw(_MCTX, t, size, font) <= maxw
+
+    units: list[tuple[str, str]] = []   # (조각, 앞 구분자)
+    for i, part in enumerate(s.split(" · ")):
+        words = [part] if fits(part) else part.split(" ")
+        units += [(wd, (" · " if i else "") if j == 0 else " ") for j, wd in enumerate(words)]
+    lines: list[str] = []
+    for wd, sep in units:
+        if lines and fits(lines[-1] + sep + wd):
+            lines[-1] += sep + wd
+        else:
+            lines.append(wd)
+    return lines or [s]
+
+
+def caption_layout(cap: str, credit: str, w: float) -> tuple[str, list[str], bool]:
+    """(그릴 캡션 줄, 출처 줄들, 바 폭 안에 다 들어갔나) — v7.4.0 back_and_forth D-0333. 들어가면 옛 그림 그대로(한 줄씩)."""
+    ov = MC.overflow
+    maxw = w - 2 * MC.pad_x
+    c = _ellipsis(cap, MC.caption_size, "sansm", maxw) if ov.caption == "ellipsis" else cap
+    src = _wrap(credit, MC.credit_size, "monom", maxw) if ov.source == "wrap" else [credit]
+    ok = (tw(_MCTX, c, MC.caption_size, "sansm") <= maxw and len(src) <= ov.source_max_lines
+          and all(tw(_MCTX, ln, MC.credit_size, "monom") <= maxw for ln in src))
+    return c, src, ok
+
+
+def caption_bar_h(cap: str, credit: str, w: float) -> float:
+    """캡션 바 높이 — 접힌 출처 줄마다 + rules media_caption.overflow.source_line_px(media_plan 상자 계산도 이 값)."""
+    return BAR + (len(caption_layout(cap, credit, w)[1]) - 1) * MC.overflow.source_line_px
+
+
 def media_caption(ctx: cairo.Context, x: float, y: float, w: float, cap: str, credit: str, a: float) -> None:
-    ctx.rectangle(x, y, w, BAR)
+    c, src, _ = caption_layout(cap, credit, w)
+    ctx.rectangle(x, y, w, BAR + (len(src) - 1) * MC.overflow.source_line_px)
     ctx.set_source_rgba(0.04, 0.05, 0.07, 0.9 * a)
     ctx.fill()
-    text(ctx, cap, x + MC.pad_x, y + MC.caption_dy, MC.caption_size, "sansm", (1, 1, 1), a, 0, "l")
-    text(ctx, credit, x + MC.pad_x, y + MC.credit_dy, MC.credit_size, "monom", C["muted"], a * 0.95, 0, "l", role="media_meta")
-
-
-def caption_width(ctx: cairo.Context, cap: str, credit: str) -> float:
-    """`media_caption` 글자가 실제로 차지하는 폭(왼쪽 여백 10 + 글자 + 오른쪽 여백 10). 바는 미디어 폭이지만 글자는 넘칠 수 있다 —
-    패널 옆 슬롯(D-0050 NB9)이 출처 줄 잘림을 막으려고 이 폭까지 화면 안·장애물 밖을 요구한다."""
-    return MC.pad_x * 2 + max(tw(ctx, cap, MC.caption_size, "sansm"), tw(ctx, credit, MC.credit_size, "monom"))
+    text(ctx, c, x + MC.pad_x, y + MC.caption_dy, MC.caption_size, "sansm", (1, 1, 1), a, 0, "l")
+    for i, ln in enumerate(src):
+        text(ctx, ln, x + MC.pad_x, y + MC.credit_dy + i * MC.overflow.source_line_px, MC.credit_size, "monom", C["muted"], a * 0.95, 0, "l",
+             role="media_meta")
 
 
 KEN_BURNS_MAX = 1.07   # 사진 켄 번스 끝 배율(v3 합격 값) — checks media_upscaled 도 이 값으로 필요한 폭을 잰다
@@ -98,15 +141,52 @@ def ken_burns_source(ctx: cairo.Context, src: cairo.ImageSurface, x: float, y: f
     ctx.set_source(pat)
 
 
+SPOT = load_rules().layout_480p.media_spot   # v7.4.0 UF-401
+
+
+def draw_spot(ctx: cairo.Context, t: float, e: dict, x: float, y: float, w: float, h: float, a: float) -> None:
+    """사진·영상 속 한 사람 점선 원(v7.4.0 UF-400·UF-401, 영상 분석 D15). 그림 영역 (x, y, w, h) 안 좌표.
+    원은 12시 방향부터 draw_sec 동안 그어지고, dim 이면 원 밖이 dim_fade_sec 동안 어두워진다(화면 덮개 — 원본 화소 가공 아님)."""
+    sp = e.get("spot")
+    if not sp:
+        return
+    st = e["t0"] if sp.get("t") is None else sp["t"]
+    lt = t - st
+    if lt <= 0:
+        return
+    cx, cy, r = x + sp["x"] * w, y + sp["y"] * h, sp["r"] * w
+    ctx.save()
+    ctx.rectangle(x, y, w, h)
+    ctx.clip()
+    if sp.get("dim"):
+        ctx.set_fill_rule(cairo.FILL_RULE_EVEN_ODD)
+        ctx.rectangle(x, y, w, h)
+        ctx.new_sub_path()
+        ctx.arc(cx, cy, r, 0, 2 * math.pi)
+        ctx.set_source_rgba(0, 0, 0, SPOT.dim_alpha * smooth(lt / SPOT.dim_fade_sec) * a)
+        ctx.fill()
+        ctx.set_fill_rule(cairo.FILL_RULE_WINDING)
+    g = ease_out(lt / SPOT.draw_sec)
+    ctx.new_path()
+    ctx.arc(cx, cy, r, -math.pi / 2, -math.pi / 2 + 2 * math.pi * g)
+    ctx.set_source_rgba(*SPOT.line_rgb, SPOT.line_alpha * a)
+    ctx.set_line_width(SPOT.line_w)
+    ctx.set_dash(SPOT.dash)
+    ctx.stroke()
+    ctx.set_dash([])
+    ctx.restore()
+
+
 def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
-    a = window(t, e["t0"], e["t1"], 0.5, 0.5)
+    a = window(t, e["t0"], e["t1"], *ELEM["photo"])   # v7.4.0 UF-159 ×1.5
     if a <= 0.01:
         return
     m = R.assets.media_assets[e["mid"]]
     lt = t - e["t0"]
-    x, y, w = e["x"], e["y"] + (1 - ease_out(lt / 0.6)) * 12, e["w"]
+    x, y, w = e["x"], e["y"] + (1 - ease_out(lt / MOTION["photo_rise_sec"])) * 12, e["w"]
     h = w * 0.625
-    media_frame(ctx, x, y, w, h + BAR, a)
+    bar = caption_bar_h(m.caption, credit_line(m), w)   # v7.4.0 D-0333 — 출처 줄 접힘만큼 바가 길다
+    media_frame(ctx, x, y, w, h + bar, a)
     k = 1.0 + (KEN_BURNS_MAX - 1.0) * clamp01(lt / (e["t1"] - e["t0"]))  # Ken Burns
     ctx.save()
     ctx.rectangle(x, y, w, h)
@@ -114,7 +194,8 @@ def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     ken_burns_source(ctx, R.assets.original(f"media:{m.file}"), x, y, w, h, k)
     ctx.paint_with_alpha(a)
     ctx.restore()
-    ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + BAR - 1)
+    draw_spot(ctx, t, e, x, y, w, h, a)
+    ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + bar - 1)
     ctx.set_source_rgba(1, 1, 1, 0.22 * a)
     ctx.set_line_width(1)
     ctx.stroke()
@@ -123,7 +204,7 @@ def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
 
 
 def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
-    a = window(t, e["t0"], e["t1"], 0.35, 0.45)
+    a = window(t, e["t0"], e["t1"], *ELEM["clip"])
     if a <= 0.01:
         return
     m = R.assets.media_assets[e["mid"]]
@@ -138,10 +219,11 @@ def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
     img = Image.fromarray(rgb).resize(size, Image.BILINEAR).convert("RGBA")
     surf, buf = surf_from_pil(img)
     R.cache["clip_buf"] = buf  # 표면이 칠해질 때까지 버퍼를 붙잡아 둔다
-    bar = 0 if e.get("frame") else BAR   # v7.4.0 D-0274 §2① — 액자(clip_frame): 캡션 줄은 상자 안 위쪽 띠(아래는 자막 자리)
+    bar = 0 if e.get("frame") else caption_bar_h(m.caption, credit_line(m), w)   # v7.4.0 D-0333 접힘 · v7.4.0 D-0274 §2① — 액자(clip_frame): 캡션 줄은 상자 안 위쪽 띠(아래는 자막 자리)
     media_frame(ctx, x, y, w, h + bar, a)
     set_raster(ctx, surf, OP.k, x, y)
     ctx.paint_with_alpha(a)
+    draw_spot(ctx, t, e, x, y, w, h, a)
     ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + bar - 1)
     ctx.set_source_rgba(1, 1, 1, 0.22 * a)
     ctx.set_line_width(1)
@@ -154,12 +236,12 @@ def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
 
 
 def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
-    a = window(t, e["t0"], e["t1"], 0.6, 0.5)
+    a = window(t, e["t0"], e["t1"], *ELEM["cutout"])
     if a <= 0.01:
         return
     lt = t - e["t0"]
     x, y = view.to_screen(*e["world"])
-    x -= (1 - ease_out(lt / 1.2)) * 40
+    x -= (1 - ease_out(lt / MOTION["cutout_slide_sec"])) * 40
     y += math.sin(t * 1.3) * 2.2
     m = R.assets.media_assets[e["mid"]]
     fs, fw, fh = R.assets.raster(f"media:{m.file}", e["w"], R.out.k)

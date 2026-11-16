@@ -1,0 +1,15 @@
+# 구상 1프레임 크레딧(D-1006) — 자료·글꼴·내레이션만
+schema_version: 1
+sections:
+  - title: 자료
+    column: 0
+    auto: sources
+  - title: 글꼴
+    column: 0
+    auto: fonts
+  - title: 음성
+    column: 1
+    items:
+      - main: 내레이션
+        license: AI 음성 합성
+        rights: [narration.tts]

@@ -49,8 +49,16 @@ class ElementGapTest(unittest.TestCase):
     def test_fullcard_breaks_gap_and_exempt(self) -> None:
         ev = [{"type": "photo", "t0": 0.0, "t1": 5.0}]
         self.assertEqual(checks.check_element_gap(_P(ev, total=30.0, fullcard=(14.0, 30.0))), [])
-        self.assertEqual(sorted(Q.element_gap.exempt_projects), ["hormuz_korea"])
-        self.assertEqual(checks.check_element_gap(_P(ev, name="hormuz_korea")), [])
+        # 회귀 기준 면제 = qa_checks.regression_refs 한 곳(D-0311, main 병합) — 검사는 돌고 hard 줄만 regression_waived 로 옮긴다
+        self.assertIn("element_gap", Q.regression_ref_checks)
+        self.assertIn("hormuz_korea", Q.regression_refs)
+        ref = _P(ev, name="hormuz_korea")
+        ref.R.cache = {}
+        self.assertEqual(checks.waive_regression(ref, "element_gap", checks.check_element_gap(ref)), [])
+        self.assertEqual(len(ref.R.cache["regression_waived"]["element_gap"]), 1)
+        new = _P(ev)   # 새 영상은 면제 없음
+        new.R.cache = {}
+        self.assertEqual(len(checks.waive_regression(new, "element_gap", checks.check_element_gap(new))), 1)
 
     def test_rules_key(self) -> None:
         self.assertEqual(Q.element_gap.max_sec, 18)   # v2 21.7초 실패 · 전달본 16.2초 통과 — 바꾸면 결정 기록과 함께

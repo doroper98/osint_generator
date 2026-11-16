@@ -66,7 +66,7 @@ def element_boxes(proj: Path) -> dict[str, list[list[float]]]:
                         dx, dy, _, _ = avoid_badge(b0, zones)
                         b = (b0[0] + dx, b0[1] + dy, b0[2] + dx, b0[3] + dy)
                     b = (b[0] - PAD, b[1] - PAD, b[2] + PAD, b[3] + PAD)
-                elif typ in ("card", "article", "post", "primitive"):
+                elif typ in ("article", "post", "primitive"):
                     b = card_box(ctx, e)
                     b = (b[0] - SHADOW, b[1] - SHADOW, b[2] + SHADOW, b[3] + SHADOW)   # 카드 그림자(번짐 6 + 이동 2·4)
                     if e.get("align") == "center":          # 가운데 기사 = 아래 무대 어둡게(화면 전체)

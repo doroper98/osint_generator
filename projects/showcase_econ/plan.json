@@ -4,35 +4,35 @@
    "sid": "cold_0",
    "scene": "cold",
    "date": "2026.09.16",
-   "text": "9월 16일, 미국 연준이 기준금리 목표 범위를 0.25%p 올려 3.75~4%로 정했습니다.",
-   "tts": "구월 십육일, 미국 연준이 기준금리 목표 범위를 영점이오 퍼센트포인트 올려 삼점칠오에서 사 퍼센트로 정했습니다.",
+   "text": "9월 16일, 미국 연준의 워시 의장이 기자회견에서 회의 결과를 발표했습니다.",
+   "tts": "구월 십육일, 미국 연준의 워시 의장이 기자회견에서 회의 결과를 발표했습니다.",
    "segments": [
     [
-     "9월 16일, 미국 연준이 기준금리 목표 범위를 0.25%p 올려 ",
+     "9월 16일, 미국 연준의 ",
      0
     ],
     [
-     "3.75~4%",
+     "워시 의장",
      1
     ],
     [
-     "로 정했습니다.",
+     "이 기자회견에서 회의 결과를 발표했습니다.",
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/cold_0_0c7320394f.mp3",
-   "npy": "/home/user/osint_generator/projects/showcase_econ/tts/cold_0_0c7320394f.npy",
-   "dur": 7.83952380952381,
+   "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/cold_0_be15baebe2.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_econ/tts/cold_0_be15baebe2.npy",
+   "dur": 5.024149659863945,
    "t0": 1.2,
-   "t1": 9.039523809523809,
-   "trim_offset": 0.447846,
+   "t1": 6.224149659863945,
+   "trim_offset": 0.52932,
    "chunks": [
-    "구월 십육일, 미국 연준이 기준금리 목표 범위를 영점이오 퍼센트포인트 올려 삼점칠오에서 사 퍼센트로 정했습니다."
+    "구월 십육일, 미국 연준의 워시 의장이 기자회견에서 회의 결과를 발표했습니다."
    ],
    "alignment": {
     "source": "mms_forced_alignment",
-    "score_mean": 0.8657,
-    "elapsed_ms": 33022,
+    "score_mean": 0.8704,
+    "elapsed_ms": 124175,
     "realigned_from": null
    },
    "prosody": {
@@ -40,12 +40,12 @@
      "applied": true,
      "reason": null,
      "region_sec": [
-      7.86,
-      8.385
+      5.065,
+      5.73
      ],
      "semitones": 4.0,
-     "f0_start_hz": 89.54,
-     "f0_end_hz": 81.28,
+     "f0_start_hz": 95.82,
+     "f0_end_hz": 69.66,
      "octave_fixed_n": 40
     }
    },
@@ -74,8 +74,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/cold_1_fd1c3eae8c.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/cold_1_fd1c3eae8c.npy",
    "dur": 2.453560090702948,
-   "t0": 9.93952380952381,
-   "t1": 12.393083900226756,
+   "t0": 24.524149659863944,
+   "t1": 26.97770975056689,
    "trim_offset": 0.466259,
    "chunks": [
     "이천이십삼년 이후 첫 금리 인상이었습니다."
@@ -83,7 +83,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.806,
-    "elapsed_ms": 968,
+    "elapsed_ms": 814,
     "realigned_from": null
    },
    "prosody": {
@@ -117,8 +117,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act1_0_85228344c8.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act1_0_85228344c8.npy",
    "dur": 5.125079365079365,
-   "t0": 20.993083900226758,
-   "t1": 26.118163265306123,
+   "t0": 35.57770975056689,
+   "t1": 40.702789115646254,
    "trim_offset": 0.568662,
    "chunks": [
     "시간을 일 년 전으로 돌려, 연준의 금리를 한 줄의 시간축 위에서 따라가 보겠습니다."
@@ -126,7 +126,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9379,
-    "elapsed_ms": 1429,
+    "elapsed_ms": 1104,
     "realigned_from": null
    },
    "prosody": {
@@ -168,8 +168,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act1_1_78ae0b33fe.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act1_1_78ae0b33fe.npy",
    "dur": 1.9639455782312925,
-   "t0": 27.01816326530612,
-   "t1": 28.982108843537414,
+   "t0": 41.60278911564625,
+   "t1": 43.56673469387754,
    "trim_offset": 0.480884,
    "chunks": [
     "그때 연준은 금리를 내리고 있었습니다."
@@ -177,7 +177,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9684,
-    "elapsed_ms": 1040,
+    "elapsed_ms": 752,
     "realigned_from": null
    },
    "prosody": {
@@ -211,8 +211,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act1_2_3b7b7f8528.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act1_2_3b7b7f8528.npy",
    "dur": 7.549024943310657,
-   "t0": 29.882108843537413,
-   "t1": 37.43113378684807,
+   "t0": 44.46673469387754,
+   "t1": 52.0157596371882,
    "trim_offset": 0.539955,
    "chunks": [
     "이천이십오년 시월 이십구일, 연준은 목표 범위를 영점이오 퍼센트포인트 내려 삼점칠오에서 사 퍼센트로 정했습니다."
@@ -220,7 +220,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.7486,
-    "elapsed_ms": 1941,
+    "elapsed_ms": 1656,
     "realigned_from": null
    },
    "prosody": {
@@ -254,8 +254,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act1_3_1be15a2403.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act1_3_1be15a2403.npy",
    "dur": 4.917324263038549,
-   "t0": 38.33113378684807,
-   "t1": 43.24845804988662,
+   "t0": 52.915759637188195,
+   "t1": 57.83308390022675,
    "trim_offset": 0.440907,
    "chunks": [
     "이어서 십이월 십일에는 다시 내려 삼점오에서 삼점칠오 퍼센트가 됐습니다."
@@ -263,7 +263,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8075,
-    "elapsed_ms": 1405,
+    "elapsed_ms": 1045,
     "realigned_from": null
    },
    "prosody": {
@@ -305,8 +305,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act1_4_6e14151fe6.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act1_4_6e14151fe6.npy",
    "dur": 4.293809523809524,
-   "t0": 44.14845804988662,
-   "t1": 48.44226757369614,
+   "t0": 58.733083900226745,
+   "t1": 63.02689342403627,
    "trim_offset": 0.520816,
    "chunks": [
     "그 뒤 올해 일월부터 유월까지 네 번의 회의에서 금리는 그대로였습니다."
@@ -314,7 +314,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8352,
-    "elapsed_ms": 1253,
+    "elapsed_ms": 1050,
     "realigned_from": null
    },
    "prosody": {
@@ -356,8 +356,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act1_5_c968968822.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act1_5_c968968822.npy",
    "dur": 5.476802721088435,
-   "t0": 49.34226757369614,
-   "t1": 54.819070294784574,
+   "t0": 63.926893424036265,
+   "t1": 69.4036961451247,
    "trim_offset": 0.379161,
    "chunks": [
     "한편 그 사이 이월 이십팔일, 미국과 이스라엘의 공격으로 이란 전쟁이 시작됐습니다."
@@ -365,7 +365,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.7962,
-    "elapsed_ms": 1568,
+    "elapsed_ms": 1083,
     "realigned_from": null
    },
    "prosody": {
@@ -407,8 +407,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act1_6_6f77172e57.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act1_6_6f77172e57.npy",
    "dur": 2.984353741496599,
-   "t0": 55.71907029478457,
-   "t1": 58.70342403628117,
+   "t0": 70.3036961451247,
+   "t1": 73.28804988662131,
    "trim_offset": 0.526712,
    "chunks": [
     "이어서 오월에는 워시가 연준 의장에 취임했습니다."
@@ -416,7 +416,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8773,
-    "elapsed_ms": 1080,
+    "elapsed_ms": 789,
     "realigned_from": null
    },
    "prosody": {
@@ -450,8 +450,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act1_7_ad33952375.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act1_7_ad33952375.npy",
    "dur": 4.879546485260771,
-   "t0": 59.60342403628117,
-   "t1": 64.48297052154194,
+   "t0": 74.18804988662131,
+   "t1": 79.06759637188209,
    "trim_offset": 0.499728,
    "chunks": [
     "이렇게 반년 넘게 멈춰 있던 금리 선 위에서, 칠월 회의가 갈림길이 됐습니다."
@@ -459,7 +459,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8969,
-    "elapsed_ms": 1404,
+    "elapsed_ms": 1410,
     "realigned_from": null
    },
    "prosody": {
@@ -493,8 +493,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act2_0_cadfc84d26.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act2_0_cadfc84d26.npy",
    "dur": 2.6389795918367347,
-   "t0": 67.88297052154195,
-   "t1": 70.52195011337868,
+   "t0": 82.4675963718821,
+   "t1": 85.10657596371883,
    "trim_offset": 0.487596,
    "chunks": [
     "이제 시점을 칠월 이십구일 회의로 옮깁니다."
@@ -502,7 +502,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.7199,
-    "elapsed_ms": 1131,
+    "elapsed_ms": 978,
     "realigned_from": null
    },
    "prosody": {
@@ -525,35 +525,27 @@
    "sid": "act2_1",
    "scene": "act2",
    "date": "2026.07.29",
-   "text": "이날 연준은 금리를 3.5~3.75%로 동결했습니다.",
-   "tts": "이날 연준은 금리를 삼점오에서 삼점칠오 퍼센트로 동결했습니다.",
+   "text": "이날 회견에서도 워시 의장이 결과를 직접 밝혔습니다.",
+   "tts": "이날 회견에서도 워시 의장이 결과를 직접 밝혔습니다.",
    "segments": [
     [
-     "이날 연준은 금리를 3.5~3.75%로 ",
-     0
-    ],
-    [
-     "동결",
-     1
-    ],
-    [
-     "했습니다.",
+     "이날 회견에서도 워시 의장이 결과를 직접 밝혔습니다.",
      0
     ]
    ],
-   "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act2_1_057e4d8836.mp3",
-   "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act2_1_057e4d8836.npy",
-   "dur": 4.120997732426304,
-   "t0": 71.42195011337868,
-   "t1": 75.54294784580499,
-   "trim_offset": 0.485828,
+   "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act2_1_ab40494703.mp3",
+   "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act2_1_ab40494703.npy",
+   "dur": 3.11687074829932,
+   "t0": 86.00657596371883,
+   "t1": 89.12344671201815,
+   "trim_offset": 0.483605,
    "chunks": [
-    "이날 연준은 금리를 삼점오에서 삼점칠오 퍼센트로 동결했습니다."
+    "이날 회견에서도 워시 의장이 결과를 직접 밝혔습니다."
    ],
    "alignment": {
     "source": "mms_forced_alignment",
-    "score_mean": 0.8766,
-    "elapsed_ms": 1469,
+    "score_mean": 0.9265,
+    "elapsed_ms": 2149,
     "realigned_from": null
    },
    "prosody": {
@@ -561,13 +553,13 @@
      "applied": true,
      "reason": null,
      "region_sec": [
-      4.175,
-      4.67
+      3.17,
+      3.795
      ],
      "semitones": 4.0,
-     "f0_start_hz": 90.87,
-     "f0_end_hz": 77.4,
-     "octave_fixed_n": 10
+     "f0_start_hz": 117.97,
+     "f0_end_hz": 122.34,
+     "octave_fixed_n": 47
     }
    },
    "role": "intro"
@@ -595,8 +587,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act2_2_e072745b5f.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act2_2_e072745b5f.npy",
    "dur": 2.1508390022675736,
-   "t0": 76.442947845805,
-   "t1": 78.59378684807257,
+   "t0": 106.32344671201815,
+   "t1": 108.47428571428573,
    "trim_offset": 0.418662,
    "chunks": [
     "그런데 결정은 구 대 삼으로 갈렸습니다."
@@ -604,7 +596,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.97,
-    "elapsed_ms": 861,
+    "elapsed_ms": 2901,
     "realigned_from": null
    },
    "prosody": {
@@ -638,8 +630,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act2_3_ee4a598928.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act2_3_ee4a598928.npy",
    "dur": 5.445238095238095,
-   "t0": 79.49378684807257,
-   "t1": 84.93902494331067,
+   "t0": 109.37428571428573,
+   "t1": 114.81952380952383,
    "trim_offset": 0.408617,
    "chunks": [
     "해맥, 카시카리, 로건 세 사람은 영점이오 퍼센트포인트 인상을 원하며 반대했습니다."
@@ -647,7 +639,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9468,
-    "elapsed_ms": 1356,
+    "elapsed_ms": 1089,
     "realigned_from": null
    },
    "prosody": {
@@ -689,8 +681,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act2_4_c87873cee8.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act2_4_c87873cee8.npy",
    "dur": 4.442448979591837,
-   "t0": 85.83902494331068,
-   "t1": 90.2814739229025,
+   "t0": 115.71952380952384,
+   "t1": 120.16197278911567,
    "trim_offset": 0.471224,
    "chunks": [
     "그리고 구월 십육일, 연준은 십이 대 영 만장일치로 금리를 올렸습니다."
@@ -698,7 +690,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.911,
-    "elapsed_ms": 1408,
+    "elapsed_ms": 2085,
     "realigned_from": null
    },
    "prosody": {
@@ -732,8 +724,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act2_5_a6903abf78.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act2_5_a6903abf78.npy",
    "dur": 3.2057596371882084,
-   "t0": 91.18147392290251,
-   "t1": 94.38723356009072,
+   "t0": 121.06197278911567,
+   "t1": 124.26773242630388,
    "trim_offset": 0.535283,
    "chunks": [
     "연준 성명은 인플레이션이 여전히 높다고 밝혔습니다."
@@ -741,7 +733,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9116,
-    "elapsed_ms": 1095,
+    "elapsed_ms": 1005,
     "realigned_from": null
    },
    "prosody": {
@@ -783,8 +775,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act2_6_f57a0f6631.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act2_6_f57a0f6631.npy",
    "dur": 4.050725623582767,
-   "t0": 95.28723356009073,
-   "t1": 99.33795918367349,
+   "t0": 125.16773242630389,
+   "t1": 129.21845804988666,
    "trim_offset": 0.457551,
    "chunks": [
     "특히 팔월 소비자물가는 일 년 전보다 삼점사 퍼센트 올랐습니다."
@@ -792,7 +784,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8439,
-    "elapsed_ms": 1249,
+    "elapsed_ms": 967,
     "realigned_from": null
    },
    "prosody": {
@@ -826,8 +818,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act2_7_1c2bd1e3c9.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act2_7_1c2bd1e3c9.npy",
    "dur": 3.793106575963719,
-   "t0": 100.2379591836735,
-   "t1": 104.03106575963722,
+   "t0": 130.11845804988667,
+   "t1": 133.9115646258504,
    "trim_offset": 0.379683,
    "chunks": [
     "일 년 전 내리던 금리는 이렇게 다시 오르는 쪽으로 돌아섰습니다."
@@ -835,7 +827,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.901,
-    "elapsed_ms": 1224,
+    "elapsed_ms": 821,
     "realigned_from": null
    },
    "prosody": {
@@ -869,8 +861,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act3_0_5a5e9efde4.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act3_0_5a5e9efde4.npy",
    "dur": 5.195034013605442,
-   "t0": 107.43106575963722,
-   "t1": 112.62609977324266,
+   "t0": 137.3115646258504,
+   "t1": 142.50659863945583,
    "trim_offset": 0.369909,
    "chunks": [
     "그렇다면 다시 구월 십육일, 연준 위원들은 앞으로의 금리를 어떻게 보고 있었을까요."
@@ -878,7 +870,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8991,
-    "elapsed_ms": 1374,
+    "elapsed_ms": 1074,
     "realigned_from": null
    },
    "prosody": {
@@ -917,8 +909,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act3_1_b6ec09ad6e.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act3_1_b6ec09ad6e.npy",
    "dur": 5.705895691609977,
-   "t0": 113.52609977324266,
-   "t1": 119.23199546485264,
+   "t0": 143.40659863945584,
+   "t1": 149.11249433106582,
    "trim_offset": 0.520839,
    "chunks": [
     "같은 날 나온 경제전망요약에는 위원들의 금리 전망을 점으로 찍은 점도표가 실렸습니다."
@@ -926,7 +918,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9259,
-    "elapsed_ms": 1473,
+    "elapsed_ms": 1078,
     "realigned_from": null
    },
    "prosody": {
@@ -968,8 +960,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act3_2_852abf0705.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act3_2_852abf0705.npy",
    "dur": 4.854829931972789,
-   "t0": 120.13199546485265,
-   "t1": 124.98682539682544,
+   "t0": 150.01249433106582,
+   "t1": 154.86732426303863,
    "trim_offset": 0.444172,
    "chunks": [
     "전망 중앙값은 연내 영점이오 퍼센트포인트 추가 인상 한 번을 가리켰습니다."
@@ -977,7 +969,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9579,
-    "elapsed_ms": 1549,
+    "elapsed_ms": 991,
     "realigned_from": null
    },
    "prosody": {
@@ -1011,8 +1003,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/act3_3_ecc07d9d92.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/act3_3_ecc07d9d92.npy",
    "dur": 4.803061224489796,
-   "t0": 125.88682539682544,
-   "t1": 130.68988662131525,
+   "t0": 155.76732426303863,
+   "t1": 160.57038548752843,
    "trim_offset": 0.482902,
    "chunks": [
     "그래서 금리 선의 다음 칸은 시월 이십칠일에서 이십팔일 회의에서 그려집니다."
@@ -1020,7 +1012,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.7568,
-    "elapsed_ms": 1360,
+    "elapsed_ms": 862,
     "realigned_from": null
    },
    "prosody": {
@@ -1062,8 +1054,8 @@
    "mp3": "/home/user/osint_generator/projects/showcase_econ/tts/ending_0_50506eaa7f.mp3",
    "npy": "/home/user/osint_generator/projects/showcase_econ/tts/ending_0_50506eaa7f.npy",
    "dur": 8.061315192743765,
-   "t0": 132.58988662131526,
-   "t1": 140.65120181405902,
+   "t0": 162.47038548752843,
+   "t1": 170.5317006802722,
    "trim_offset": 0.523379,
    "chunks": [
     "일 년 사이 연준의 금리 목표 범위는 삼점칠오에서 사 퍼센트에서 내려갔다가, 다시 삼점칠오에서 사 퍼센트가 됐습니다."
@@ -1071,7 +1063,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.7952,
-    "elapsed_ms": 1941,
+    "elapsed_ms": 1114,
     "realigned_from": null
    },
    "prosody": {
@@ -1094,23 +1086,23 @@
  "cards": [
   {
    "kind": "title",
-   "t0": 13.493083900226756,
-   "t1": 19.093083900226755
+   "t0": 28.07770975056689,
+   "t1": 33.67770975056689
   },
   {
    "kind": "end",
-   "t0": 142.75120181405902,
-   "t1": 153.75120181405902
+   "t0": 172.6317006802722,
+   "t1": 183.6317006802722
   }
  ],
  "scene_start": {
   "cold": 1.2,
-  "act1": 19.493083900226758,
-  "act2": 66.38297052154195,
-  "act3": 105.93106575963722,
-  "ending": 132.58988662131526
+  "act1": 34.07770975056689,
+  "act2": 80.9675963718821,
+  "act3": 135.8115646258504,
+  "ending": 162.47038548752843
  },
- "total": 154.25120181405902,
+ "total": 184.1317006802722,
  "voice": "supertonic-3 M3 ×0.95",
  "title": "쇼케이스 — 금리 선 위의 1년",
  "subtitle": "연준의 인하·동결·인상을 한 시간축 위에서 — 화면 요소·목소리·글꼴 확인용",
@@ -1120,7 +1112,7 @@
  "transitions": [
   {
    "sid": "act1_0",
-   "pause_t0": 19.493084,
+   "pause_t0": 34.07771,
    "pause_sec": 1.5,
    "kind": [
     "date_jump"
@@ -1128,7 +1120,7 @@
   },
   {
    "sid": "act2_0",
-   "pause_t0": 66.382971,
+   "pause_t0": 80.967596,
    "pause_sec": 1.5,
    "kind": [
     "date_jump"
@@ -1136,10 +1128,38 @@
   },
   {
    "sid": "act3_0",
-   "pause_t0": 105.931066,
+   "pause_t0": 135.811565,
    "pause_sec": 1.5,
    "kind": [
     "date_jump"
+   ]
+  }
+ ],
+ "holds": [
+  {
+   "sid": "cold_0",
+   "mid": "fed_clip_0916_decision",
+   "t0": 7.12415,
+   "t1": 23.62415,
+   "subtitle": [
+    "방금 끝난 회의에서 FOMC는 연준의 이중 책무를 뒷받침하기 위해",
+    "기준금리 목표 범위를 0.25%p 올려 3.75~4%로 정했습니다."
+   ],
+   "sources": [
+    "clm_0019"
+   ]
+  },
+  {
+   "sid": "act2_1",
+   "mid": "fed_clip_0729_vote",
+   "t0": 90.023447,
+   "t1": 105.423447,
+   "subtitle": [
+    "아시다시피 오늘 위원회는 9대 3 표결로",
+    "기준금리 목표 범위를 3.5~3.75%로 유지하기로 했습니다."
+   ],
+   "sources": [
+    "clm_0020"
    ]
   }
  ]

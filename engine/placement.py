@@ -119,6 +119,9 @@ def resolve_places(events: list[dict], view_at: Callable[[float], object],
         stage_slot = _stage_slot(e, slot_name, stage_name, _panel_at(events, e["t0"]))   # v4.4.0 D-0093 무대 자리 · v4.8.0 D2(c) 패널 장면
         if stage_slot is not None:
             slot_name, how = stage_slot, "stage"
+        cm = PL.center_media
+        if cm is not None and stage_name == cm.stage and e["type"] in cm.kinds and slot_name in cm.from_slots:   # v7.4.0 D-0306 §1.4 — 가운데 큰 자리
+            slot_name, how = cm.single, "center"
         slot = PL.slots.get(slot_name)
         if slot is None:
             errs.append(f"[{i}] {tag}: 슬롯 {slot_name!r} 없음 — rules placement.slots: {sorted(PL.slots)}")
@@ -155,9 +158,24 @@ def resolve_places(events: list[dict], view_at: Callable[[float], object],
             if slot.card is not None:
                 e["y"] = slot.card
         rec[tag] = f"{how}:{slot_name}"
+    _pair_center(events, rec)
     if errs:
         raise PlacementError("배치 슬롯 오류:\n" + "\n".join(errs))
     return rec
+
+
+def _pair_center(events: list[dict], rec: dict[str, str]) -> None:
+    """가운데 사진 둘이 같은 순간 떠 있으면 좌우 2분할(v7.4.0 D-0306 §1.4) — 먼저 뜬 쪽이 왼쪽. 셋 이상 겹침은 그대로 두고 검사([island-overlap]·[overlap])가 잡는다."""
+    cm = PL.center_media
+    if cm is None:
+        return
+    box = PL.slots[cm.single].box
+    cen = sorted((e for e in events if e["type"] in cm.kinds and (e.get("x"), e.get("y"), e.get("w")) == tuple(box)), key=lambda e: e["t0"])
+    for a, b in zip(cen, cen[1:]):
+        if a["t0"] < b["t1"] and b["t0"] < a["t1"] and (a["x"], a["y"], a["w"]) == tuple(box) and (b["x"], b["y"], b["w"]) == tuple(box):
+            for e, name in ((a, cm.pair[0]), (b, cm.pair[1])):
+                e["x"], e["y"], e["w"] = PL.slots[name].box
+                rec[e["mid"]] = f"center:{name}"
 
 
 __all__ = ["PlacementError", "resolve_places"]

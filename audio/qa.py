@@ -12,6 +12,7 @@ engine.checks(check_audio)·engine.mux(provenance audio)·tools/audio_report.py(
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import subprocess
@@ -165,14 +166,27 @@ def loudnorm_two_pass(mix_f32: Path, total: float) -> tuple[str, dict]:
     """2패스 loudnorm(v3.4.0 D-0061 쟁점 1 C): 1패스 측정 → 2패스 measured_* + linear=true 필터 문자열과 기록.
     linear 로 목표 TP 를 지킬 수 없으면 ffmpeg 가 dynamic 으로 처리한다 — 그 사실을 기록에 남긴다(숨기지 않음, P5·P6)."""
     ins = mix_inputs(mix_f32, total)
-    p1 = _loudnorm_json(ins, _target())
+    # v7.4.0 D-1000 S2-8·D-1001 §4 — 두 측정 패스(1패스 측정·2패스 출력 측정)는 mix 바이트와 인자만의 함수다. 키가 같으면 out/loudnorm_cache.json
+    # 의 측정값을 그대로 쓴다(필터 문자열 동일 → 출력 동일). 키가 다르면 다시 잰다. 기록 measurement = measured | reused(P5)
+    key = hashlib.sha1(mix_f32.read_bytes() + json.dumps([ins, _target()]).encode()).hexdigest()
+    cache = mix_f32.parent / "loudnorm_cache.json"
+    hit = None
+    if cache.exists():
+        c = json.loads(cache.read_text(encoding="utf-8"))
+        hit = c if c.get("key") == key else None
+    if hit is not None:
+        p1, p2, how = hit["p1"], hit["p2"], "reused"
+    else:
+        p1 = _loudnorm_json(ins, _target())
     af = (f"{_target()}:measured_I={p1['input_i']}:measured_TP={p1['input_tp']}:measured_LRA={p1['input_lra']}"
           f":measured_thresh={p1['input_thresh']}:offset={p1['target_offset']}:linear=true")
-    p2 = _loudnorm_json(ins, af)
+    if hit is None:
+        p2, how = _loudnorm_json(ins, af), "measured"
+        cache.write_text(json.dumps({"schema_version": 1, "key": key, "p1": p1, "p2": p2}, ensure_ascii=False), encoding="utf-8")
     rec = {"pass1": {k: float(p1[k]) for k in ("input_i", "input_tp", "input_lra", "input_thresh", "target_offset")},
            "pass2": {"output_i": float(p2["output_i"]), "output_tp": float(p2["output_tp"]),
                      "normalization_type": p2["normalization_type"]},
-           "post_limiter_dbfs": AU.post_limiter_dbfs}
+           "post_limiter_dbfs": AU.post_limiter_dbfs, "measurement": how}
     # RENDER-AP-004 — loudnorm 뒤 샘플 피크 리미터(AAC 인코딩이 트루 피크를 올리는 만큼 미리 낮춘다). 값은 rules audio.post_limiter_dbfs
     af += f",alimiter=limit={10 ** (AU.post_limiter_dbfs / 20):.4f}:level=false:attack=1:release=50"
     return af, rec
@@ -209,6 +223,28 @@ def sentence_rms(sentences: list) -> dict[str, float]:  # noqa: ANN001
         fr = np.sqrt(np.mean(a[: k * w].reshape(k, w) ** 2, 1))
         act = fr[fr > fr.max() * 10 ** (q.sentence_rms_floor_db / 20)]
         out[str(g("sid") or i)] = round(db(float(np.sqrt(np.mean(act ** 2)))), 2)
+    return out
+
+
+def band_energy(x: np.ndarray, lo: float, hi: float) -> float:
+    """목소리 음역(lo~hi Hz) 파워 합(FFT)."""
+    X = np.fft.rfft(x)
+    fr = np.fft.rfftfreq(len(x), 1 / SR)
+    return float(np.sum(np.abs(X[(fr >= lo) & (fr <= hi)]) ** 2))
+
+
+def narration_clarity(mix: np.ndarray, vo: np.ndarray, sentences: list) -> dict[str, float]:  # noqa: ANN001
+    """v7.4.0 D-0626·D-0628 — 문장마다 목소리 음역(rules audio.bgm_floor.voice_band_hz)에서 내레이션 대 나머지(음악+효과음+클립 원음) 에너지 비(dB).
+    mix·vo = stems() 결과(같은 스케일). 나머지 = mix − vo — 효과음이 들어간 믹스면 효과음도 내레이션을 가리는 쪽으로 센다."""
+    lo, hi = AU.bgm_floor.voice_band_hz
+    rest = mix - vo
+    out: dict[str, float] = {}
+    for i, x in enumerate(sentences):
+        g = (lambda k: x.get(k)) if isinstance(x, dict) else (lambda k: getattr(x, k, None))  # noqa: E731
+        a, b = int(g("t0") * SR), int(g("t1") * SR)
+        if b - a < SR // 10:
+            continue
+        out[str(g("sid") or i)] = round(10 * math.log10(band_energy(vo[a:b], lo, hi) / max(band_energy(rest[a:b], lo, hi), AU.norm_eps)), 2)
     return out
 
 
@@ -251,4 +287,4 @@ def audio_qa(out_dir: Path, sentences: list, has_music: bool = True) -> AudioQA:
                    sentence_rms_db=srms, sentence_rms_outliers=rms_outliers(srms), **bb)
 
 
-__all__ = ["AudioQA", "BedStats", "Loudness", "audio_qa", "band_rms_db", "bed_stats", "load_bed_stats", "loudnorm_two_pass", "measure_loudnorm", "stems"]
+__all__ = ["band_energy", "narration_clarity", "AudioQA", "BedStats", "Loudness", "audio_qa", "band_rms_db", "bed_stats", "load_bed_stats", "loudnorm_two_pass", "measure_loudnorm", "stems"]

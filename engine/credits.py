@@ -122,8 +122,41 @@ def _auto_items(sec: RightsSection, view: dict[str, dict], used: Optional[set[st
         else:
             name = v.get("name") or v.get("title") or ref.split(".", 1)[1]
         who = v.get("author") or v.get("artist") or ""
+        if sec == "media" and is_sa_entry(v):   # v7.4.0 D612 — CC BY-SA 고지(작가·제목·라이선스·링크·변경 사항)
+            items.append((name, sa_line(v)))
+            continue
         items.append((name, " · ".join(x for x in (who, v["license"]) if x)))
     return items
+
+
+def is_sa_entry(v: dict) -> bool:
+    from schemas.emblem_models import is_sa  # noqa: PLC0415
+
+    return is_sa(str(v.get("license") or ""))
+
+
+def sa_line(v: dict) -> str:
+    """CC BY-SA 자산 고지 한 줄(rules media.sa_credit_line, v7.4.0 사용자 결정 D612) — 엔딩 크레딧·설명란 공용."""
+    fmt = load_rules().media.sa_credit_line
+    for k in ("author", "title", "license", "url", "modifications"):
+        fmt = fmt.replace("{" + k + "}", str(v.get(k) or ""))
+    return fmt
+
+
+def sa_obligations(required: set[str], media: dict) -> list[dict]:
+    """provenance `rights.sa_obligations` — 이번 영상이 쓴 CC BY-SA 사진·영상(D612). 고지 필드와 sa_obligation: true."""
+    out = []
+    for r in sorted(required):
+        kind, _, mid = r.partition(".")
+        m = media.get(mid) if kind == "media" else None
+        if m and is_sa_entry(m):
+            out.append({"ref": r, "sa_obligation": True, **{k: m.get(k) for k in ("author", "title", "license", "url", "modifications")}})
+    return out
+
+
+def description_sa_credits(required: set[str], media: dict) -> list[str]:
+    """설명란 'CC BY-SA 사진·영상' 줄(D612) — 사진마다 고지 한 줄."""
+    return [sa_line(media[o["ref"].split(".", 1)[1]]) for o in sa_obligations(required, media)]
 
 
 def source_label(s) -> str:  # noqa: ANN001 — schemas.source_models 소스 레코드

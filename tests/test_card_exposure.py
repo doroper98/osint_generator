@@ -45,10 +45,13 @@ class TestSpans(unittest.TestCase):
 
 class TestCheck(unittest.TestCase):
     def test_gulf_opening_card_fails(self) -> None:
-        """gulf 본영상 첫 기사(art_0001, 10.52~12.92) = 완전 노출 0.40초 → hard."""
-        out = check_card_exposure(SimpleNamespace(events=[_art(10.52, 12.92)]))
+        """gulf 본영상 첫 기사(art_0001, 10.52~12.92) — 옛 전환(UF-159 전) 완전 노출 0.40초 → hard. v7.4.0 D-0325 전환 ×1.5 뒤에는 0초대.
+        기대값은 그리는 함수(article_full_span)에서 — 전환 규칙 값이 바뀌어도 같은 판정."""
+        e = _art(10.52, 12.92)
+        out = check_card_exposure(SimpleNamespace(events=[e]))
         self.assertEqual(len(out), 1)
-        self.assertTrue(out[0].startswith("[card-exposure] article m 완전 노출 0.40초"))
+        a, b = article_full_span(e)
+        self.assertTrue(out[0].startswith(f"[card-exposure] article m 완전 노출 {max(0.0, b - a):.2f}초"), out[0])
 
     def test_boundary_and_quote(self) -> None:
         a0, a1 = article_full_span(_art(0.0, 0.0))

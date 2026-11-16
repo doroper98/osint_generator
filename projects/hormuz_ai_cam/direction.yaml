@@ -243,19 +243,6 @@ events:
   label: 이재명
   role: 대한민국 대통령
   accent: gold
-- type: card
-  start:
-    sid: open_1
-    'off': 0.1
-  end:
-    sid: open_2
-    edge: end
-    'off': 0.6
-  tag: 기자회견 · 9월 18일
-  lines:
-  - 전쟁에 개입하는 파병은 하지 않는다
-  - 한국 선박·국민 보호, 최소한의 활동만
-  accent: gold
 - type: marker
   start:
     sid: route_0
@@ -284,21 +271,6 @@ events:
       'off': -0.4
   col: gold
   ship: true
-- type: card
-  start:
-    sid: route_1
-    'off': 0.5
-  end:
-    sid: route_2
-    edge: end
-    'off': 0.7
-  tag: 지난해 한국 수입 중 호르무즈 경유
-  bigs:
-  - - 61%
-    - 원유
-  - - 54%
-    - 나프타
-  accent: gold
 - type: marker
   start:
     word:
@@ -335,18 +307,6 @@ events:
   - IR
   col: ru
   a: 0.07
-- type: card
-  start:
-    sid: war_0
-    'off': 0.6
-  end:
-    sid: war_0
-    edge: end
-    'off': 0.5
-  tag: 2월 28일
-  lines:
-  - 미국·이스라엘, 이란 공습
-  accent: ru
 - type: badge
   start:
     sid: war_1
@@ -692,19 +652,6 @@ events:
   - 29.8
   n: 150
   seed: 7
-- type: card
-  start:
-    sid: cost_0
-    'off': 0.4
-  end:
-    scene_end: cost
-    'off': -0.2
-  tag: 국제해사기구 · 6월 11일까지
-  lines:
-  - 선박 공격 46건
-  - 선원 14명 사망
-  - 배 천여 척 · 선원 2만 명 발 묶임
-  accent: ru
 - type: route
   start:
     sid: review_0
@@ -741,19 +688,6 @@ events:
   sub: ''
   side: right
   hl: true
-- type: card
-  start:
-    sid: review_1
-  end:
-    sid: review_2
-    edge: end
-    'off': 0.6
-  tag: 거론된 선택지
-  lines:
-  - 해상초계기
-  - 군수지원함
-  accent: teal
-  src: 대통령실 “결정된 것은 없다”
 - type: badge
   start:
     word:
@@ -896,18 +830,6 @@ events:
   label: 이재명
   role: 대한민국 대통령
   accent: gold
-- type: card
-  start:
-    sid: decision_0
-    'off': 0.8
-  end:
-    scene_end: decision
-    'off': -0.1
-  tag: 이재명 대통령 · 9월 18일
-  lines:
-  - 전쟁에 들어가는 파병은 없다
-  - 분쟁 주변부의 역할은 열어 둠
-  accent: gold
 - type: route
   start:
     scene_start: now
@@ -937,19 +859,6 @@ events:
   sub: ''
   side: right
   hl: true
-- type: card
-  start:
-    sid: now_0
-    'off': 0.5
-  end:
-    sid: now_1
-    edge: end
-    'off': 0.4
-  tag: 미군 발표 · 호위 작전
-  bigs:
-  - - 10억 배럴
-    - 해협 밖으로 내보낸 원유
-  accent: us
 - type: photo
   start:
     sid: now_0
@@ -960,19 +869,6 @@ events:
     'off': 0.4
   mid: hormuz_transit
   place: map_right_low
-- type: card
-  start:
-    sid: now_2
-    'off': 0.1
-  end:
-    sid: now_2
-    edge: end
-    'off': 0.8
-  tag: 지난해 기준
-  bigs:
-  - - 61%
-    - 원유 수입의 호르무즈 경유 비중
-  accent: gold
 sound:
   bgm: music.zabriskie_patriarch
   intensity:

@@ -109,7 +109,7 @@ class SemanticColorTest(unittest.TestCase):
         self.assertEqual(style.map_c(object(), "gold"), style.C["gold"])   # 지도 무대가 아님(아일랜드 등)
 
     def test_cards_subtitles_hud_endcard_do_not_use_map_colors(self) -> None:
-        for rel in ("engine/fullcards.py", "engine/cards.py", "engine/subtitles.py", "engine/hud.py", "engine/island.py"):
+        for rel in ("engine/fullcards.py", "engine/subtitles.py", "engine/hud.py", "engine/island.py"):
             src = (REPO / rel).read_text(encoding="utf-8")
             for name in ("map_c(", "map_halo(", "C_THEME"):
                 self.assertNotIn(name, src, f"{rel} 가 지도 테마 색을 쓴다 — 카드·자막·HUD·엔딩은 테마 무관(D-0161 §3)")
@@ -187,7 +187,7 @@ class CleanupV5191Test(unittest.TestCase):
         from engine.assets import AssetError  # noqa: PLC0415
         from engine.layers import badges  # noqa: PLC0415
 
-        with mock.patch.object(project, "BADGE", create=True), mock.patch("engine.style.BADGE.head_popout", False):
+        with mock.patch.object(project, "BADGE", create=True), mock.patch("engine.style.BADGE", __import__("engine.style", fromlist=["BADGE"]).BADGE.model_copy(update={"head_popout": False})):
             with mock.patch.object(badges, "portrait_fit", side_effect=AssetError("자산 없음")):
                 self.assertEqual(project.portrait_fit_errors(NS(cache={}), "x"), [])   # 파일 없음 = 자산 점검이 보고
             with mock.patch.object(badges, "portrait_fit", side_effect=ValueError("다른 오류")), self.assertRaises(ValueError):

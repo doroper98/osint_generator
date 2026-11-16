@@ -62,7 +62,7 @@ class StatementDiffStyleTest(unittest.TestCase):
         self.assertEqual(st.color("removed")[-1], 1.0)
 
     def test_fade_in_rule_range(self) -> None:
-        self.assertTrue(0.4 <= PRIMITIVES["statement_diff"].fade_sec <= 0.6)   # type: ignore[attr-defined]  # 20 §4.2
+        self.assertTrue(0.6 <= PRIMITIVES["statement_diff"].fade_sec <= 0.9)   # type: ignore[attr-defined]  # 20 §4.2 0.4~0.6 → v7.4.0 UF-159 ×1.5
 
     def test_draw_box_and_glyphs(self) -> None:
         e = validate_events([FX])[0]

@@ -117,7 +117,7 @@ class InsetCircleUF103Test(unittest.TestCase):
     BOX = (10.0, 10.0, F.inset.w_px, F.inset.w_px)
 
     def _check(self, draw: object) -> None:
-        surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, 140, 160)
+        surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, int(F.inset.w_px) + 40, int(F.inset.w_px) + 60)   # v7.4.0 D-0300 — 지름 190
         draw(cairo.Context(surf))
         surf.flush()
         stride, data = surf.get_stride(), bytes(surf.get_data())

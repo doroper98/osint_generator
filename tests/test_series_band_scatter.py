@@ -32,7 +32,7 @@ class MonthLastTest(unittest.TestCase):
 
     def test_committed_target_range(self) -> None:
         lo, hi = load_series("DFEDTARL"), load_series("DFEDTARU")
-        self.assertEqual(lo.transform.op, "month_last")
+        self.assertEqual(lo.transform.op, "raw")   # v7.4.0 D-0326(UF-200) — 일별 원자료(발효일 계단). 옛 month_last 는 달 첫날로 당겨 그렸다
         self.assertEqual([d for d, _ in lo.values], [d for d, _ in hi.values])
         self.assertTrue(all(b - a == 0.25 for (_, a), (_, b) in zip(lo.values, hi.values)))   # 목표 범위 폭 0.25%p
 

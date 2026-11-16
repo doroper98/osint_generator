@@ -1,0 +1,1124 @@
+{
+ "schema_version": 1,
+ "searches": [
+  {
+   "sid": "cold_0",
+   "query": "National Assembly Building of South Korea hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-02",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "cold_0",
+   "query": "National Assembly Building of South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-02",
+   "found": 10,
+   "passed": 3,
+   "top": [
+    "File:Build completion of National Assembly Building of South Korea anniversity stamp.jpg",
+    "File:National Assembly Building of South Korea 2019 July 27.webm",
+    "File:Photograph of President William J. Clinton Addressing the South Korean National Assembly in the Main Chamber of the National Assembly Hall in Seoul, South Korea - DPLA - aee1e4c652fe3fa7cf042768fc65191b.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_9",
+   "query": "expressway South Korea construction hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-02",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_9",
+   "query": "expressway South Korea construction",
+   "pool": "commons_cc",
+   "on": "2026-11-02",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_14",
+   "query": "public rental housing South Korea apartment hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-02",
+   "found": 1,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_14",
+   "query": "public rental housing South Korea apartment",
+   "pool": "commons_cc",
+   "on": "2026-11-02",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_17",
+   "query": "parental leave Korea hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-02",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_17",
+   "query": "parental leave Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-02",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_11",
+   "query": "autonomous vehicle pilot city Korea hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-02",
+   "found": 1,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_11",
+   "query": "autonomous vehicle pilot city Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act3_1",
+   "query": "Samsung semiconductor fab Pyeongtaek hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act3_1",
+   "query": "Samsung semiconductor fab Pyeongtaek",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_5",
+   "query": "National Assembly Special Committee on Budget and Accounts Korea hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-03",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_5",
+   "query": "National Assembly Special Committee on Budget and Accounts Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_19",
+   "query": "elementary school classroom Korea hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-03",
+   "found": 5,
+   "passed": 2,
+   "top": [
+    "File:Department of War Education Activity seeks educators and aides to support military-connected students worldwide (9662989).jpg",
+    "File:USMC-110807-M-IX060-205.jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_19",
+   "query": "elementary school classroom Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 10,
+   "passed": 2,
+   "top": [
+    "File:Cobra Gold '14 allies build classrooms for Thai elementary school 140210-M-OY715-065.jpg",
+    "File:USACE Far East District inspires curiosity through STEAM outreach across three schools in South Korea (9726954).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_5",
+   "query": "small business factory South Korea hastemplate:\"PD-USGov-Military\"",
+   "pool": "us_dod_pd",
+   "on": "2026-11-03",
+   "found": 4,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_5",
+   "query": "small business factory South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_9",
+   "query": "고속도로 공사",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 1,
+   "passed": 1,
+   "top": [
+    "File:Budowa Velostrady nr 6 - odcinek Katowice Brynów - Katowice Brynów, wyrównywarka oraz walec podczas pracy.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act2_9",
+   "query": "Korea expressway construction site",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 15,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_14",
+   "query": "Seoul apartment complex",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 15,
+   "passed": 4,
+   "top": [
+    "File:Cherry Blossoms, Metasequoia glyptostroboides and the first high-rise apartment building in South Korea.jpg",
+    "File:Chimney of old apartment complex in South Korea.jpg",
+    "File:Jamsil Siyoung Apartment 1978-07-02.png",
+    "File:Koreatyp04.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_14",
+   "query": "LH 임대주택",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 1,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_16",
+   "query": "고용센터",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 15,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act3_1",
+   "query": "Samsung Pyeongtaek",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 15,
+   "passed": 9,
+   "top": [
+    "File:202403 Southbound SRT Platform of PyeongtaekJije Station.jpg",
+    "File:K-Bridge Program builds lasting bonds (9528109).jpg",
+    "File:President Biden and Yoon Suk-yeol at the Samsung Electronics Pyeongtaek Campus.jpg",
+    "File:President Biden and Yoon Suk-yeol talked to staffs of Samsung Electronics.jpg",
+    "File:President Biden visited the Samsung Electronics Pyeongtaek Campus (1).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act3_1",
+   "query": "SK hynix Icheon",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 15,
+   "passed": 2,
+   "top": [
+    "File:SK Hynix DDR5 Tall MRDIMM.jpg",
+    "File:SK Hynix DDR5 form factors.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "FAL",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act2_11",
+   "query": "Seoul bus",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 15,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act4_5",
+   "query": "대한민국 국회 예산결산특별위원회",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_5",
+   "query": "Ulsan industrial complex",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 7,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_9",
+   "query": "expressway hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_9",
+   "query": "고속도로 hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_5",
+   "query": "National Assembly hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 15,
+   "passed": 15,
+   "top": [
+    "File:National Assembly Speaker Cho Jeong-sik meets with Foreign Minister Cho Hyun 20260619 (01).jpg",
+    "File:National Assembly Speaker Cho Jeong-sik meets with Foreign Minister Cho Hyun 20260619 (02).jpg",
+    "File:National Assembly Speaker Cho Jeong-sik meets with Foreign Minister Cho Hyun 20260619 (03).jpg",
+    "File:National Assembly Speaker Cho Jeong-sik meets with Foreign Minister Cho Hyun 20260619 (04).jpg",
+    "File:National Assembly Speaker Cho Jung-sik meets with Chief of Staff to the President Kang Hoon-sik 20260609 (01).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act3_1",
+   "query": "semiconductor hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_14",
+   "query": "apartment hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 15,
+   "passed": 15,
+   "top": [
+    "File:Ambassador Hong Young-ki 20260326.jpg",
+    "File:Cho Hyun 20260619.jpg",
+    "File:Kassym-Jomart Tokayev 카슴조마르트 토카예프 20260916.jpg",
+    "File:Minister Park Hong-keun 20260331.jpg",
+    "File:Moses Wetang'ula 모세스 웨탄굴라 20260514.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act2_11",
+   "query": "bus hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_16",
+   "query": "employment hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 3,
+   "passed": 3,
+   "top": [
+    "File:박윤주 외교부 제1차관, 방글라데시 외교 제1국무장관과 면담 20261002 (01).jpg",
+    "File:박윤주 외교부 제1차관, 방글라데시 외교 제1국무장관과 면담 20261002 (02).jpg",
+    "File:박윤주 외교부 제1차관, 방글라데시 외교 제1국무장관과 면담 20261002 (03).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act2_5",
+   "query": "factory hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_5",
+   "query": "plenary session hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_5",
+   "query": "budget hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 4,
+   "passed": 4,
+   "top": [
+    "File:Speaker Woo Won-shik meets with Minister of Planning and Budget Park Hong-keun 20260331 (01).jpg",
+    "File:Speaker Woo Won-shik meets with Minister of Planning and Budget Park Hong-keun 20260331 (02).jpg",
+    "File:Speaker Woo Won-shik meets with Minister of Planning and Budget Park Hong-keun 20260331 (03).jpg",
+    "File:Speaker Woo Won-shik meets with Minister of Planning and Budget Park Hong-keun 20260331 (04).jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "cold_0",
+   "query": "예산안 hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "cold_0",
+   "query": "시정연설 hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act5_1",
+   "query": "본회의 hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act4_10",
+   "query": "Special Committee on Budget hastemplate:KOGL",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "cold_0",
+   "query": "National Assembly Proceeding Hall Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 1,
+   "top": [
+    "File:National Assembly Building of South Korea 2019 July 27.webm"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "cold_0",
+   "query": "국회 본회의장",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 9,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act4_10",
+   "query": "National Assembly of South Korea plenary",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 1,
+   "top": [
+    "File:President Trump addresses the South Korean National Assembly 2017.jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act1_1",
+   "query": "Government Complex Sejong",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 2,
+   "top": [
+    "File:대한민국 정부세종청사 고속시외버스정류장 (Intercity Bus Stop in front of Sejong Government Complex, in Korea).jpg",
+    "File:정부세종 5단계신청사 조감도.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act1_1",
+   "query": "정부세종청사",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 2,
+   "top": [
+    "File:대한민국 정부세종청사 고속시외버스정류장 (Intercity Bus Stop in front of Sejong Government Complex, in Korea).jpg",
+    "File:정부세종 5단계신청사 조감도.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_9",
+   "query": "expressway South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 22,
+   "top": [
+    "File:Gyeongbu Expressway Bus Only Lane.JPG",
+    "File:Highway in South Korea Expressway (3).jpg",
+    "File:Korea Expressway Signs.jpg",
+    "File:Korea Expressway tollgate ic.jpg",
+    "File:Korean highway Expressway in South Korea (2).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_9",
+   "query": "고속도로 건설 공사",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 1,
+   "passed": 1,
+   "top": [
+    "File:Budowa Velostrady nr 6 - odcinek Katowice Brynów - Katowice Brynów, wyrównywarka oraz walec podczas pracy.jpg"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act2_10",
+   "query": "national road construction Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 4,
+   "top": [
+    "File:Every-day life in Korea (1898).djvu",
+    "File:Korea (1904).djvu",
+    "File:Two Korean girls ride their bicycles down a road near the work site of a Navy mobile construction battalion during Exercise TEAM SPIRIT'88 - DPLA - 25f0c724a2c4776d4f30c195efa5323e.jpeg",
+    "File:U.S. Marine Operations In Korea 1950-1953 (Volume 3).djvu"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_10",
+   "query": "Incheon International Airport Terminal 2",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 17,
+   "top": [
+    "File:2025-10-14 17.17.48 Incheon International Airport.jpg",
+    "File:2025-10-14 17.20.29 Incheon International Airport.jpg",
+    "File:2025-10-14 17.20.47 Incheon International Airport.jpg",
+    "File:2025-10-14 17.34.10 Incheon International Airport.jpg",
+    "File:2025-10-14 18.30.50 Incheon International Airport.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_14",
+   "query": "apartment complex South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 11,
+   "top": [
+    "File:Anseong City Oksan-dong Complex Mall 20250101 01.jpg",
+    "File:Apartmentgwangmyeong.jpg",
+    "File:Chargé d’Affaires Marc Knapper Welcomes Team USA A020818.png",
+    "File:Cherry Blossoms, Metasequoia glyptostroboides and the first high-rise apartment building in South Korea.jpg",
+    "File:Chimney of old apartment complex in South Korea.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_14",
+   "query": "공공임대 아파트",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act2_11",
+   "query": "Seoul Metropolitan Subway train",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 15,
+   "top": [
+    "File:Korea Standard EMU Front.jpg",
+    "File:Korea Standard EMU Motorman's Seat.jpg",
+    "File:KwangwoonUniv-pf1.jpg",
+    "File:Lascar The Madrid Metro (4607055539).jpg",
+    "File:Mullae Station Exit 4.JPG"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_11",
+   "query": "Seoul city bus",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 1,
+   "top": [
+    "File:Seoul City Bus 1967.JPG"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_11",
+   "query": "autonomous shuttle Sejong",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act3_1",
+   "query": "semiconductor wafer",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 15,
+   "top": [
+    "File:A semiconductor wafer being removed from processing equipment.jpg",
+    "File:Etchedwafer.jpg",
+    "File:Installed fab capacity by region.webp",
+    "File:Micro-chips wafer (25079).jpg",
+    "File:Micro-chips wafer (59614).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act3_1",
+   "query": "SK hynix",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 3,
+   "top": [
+    "File:SK Hynix DDR5 Tall MRDIMM.jpg",
+    "File:SK Hynix DDR5 form factors.jpg",
+    "File:SK Hynix SOCAMM module Computex 2025.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "FAL",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act2_16",
+   "query": "Seoul job center",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 1,
+   "top": [
+    "File:Camp Humphreys Conference and Dining Center Groundbreaking- U.S. Army Garrison Humphreys, South Korea - 16 May 2012 (7207995478).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_5",
+   "query": "Korea industrial complex",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 8,
+   "top": [
+    "File:9930Guiguinto, Bulacan Barangays Villages Roads 57.jpg",
+    "File:U.S. Marine Operations In Korea 1950-1953 (Volume 2).djvu",
+    "File:U.S. Marine Operations In Korea 1950-1953 (Volume 3).djvu",
+    "File:Yongin Advanced System Semiconductor Cluster National Industrial Complex Industrial Complex Plan Approval Commemorative Ceremony 20241226 (01).jpg",
+    "File:Yongin Advanced System Semiconductor Cluster National Industrial Complex Industrial Complex Plan Approval Commemorative Ceremony 20241226 (02).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_9",
+   "query": "안도걸",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 3,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_9",
+   "query": "Ahn Do-geol",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 10,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_5",
+   "query": "solar power plant South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 6,
+   "top": [
+    "File:Global public support for energy sources (Ipsos 2011).png",
+    "File:Republic-of-Korea PVOUT Photovoltaic-power-potential-map GlobalSolarAtlas World-Bank-Esmap-Solargis.png",
+    "File:Republic-of-Korea PVOUT Photovoltaic-power-potential-map lang-KO GlobalSolarAtlas World-Bank-Esmap-Solargis.png",
+    "File:State of the Union Address (January 25, 2011) Barack Obama (WhiteHouse.gov).ogg",
+    "File:State of the Union Address (January 25, 2011) Barack Obama (WhiteHouse.gov).ogv"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_5",
+   "query": "wind farm South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 6,
+   "top": [
+    "File:Jeonnam Offshore Wind Power Shinan Blue Jaeun 20241217 (01).jpg",
+    "File:Jeonnam Offshore Wind Power Shinan Blue Jaeun 20241217 (02).jpg",
+    "File:대관령1.jpg",
+    "File:대관령2.jpg",
+    "File:대관령3.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0"
+   ]
+  },
+  {
+   "sid": "act2_11",
+   "query": "autonomous bus South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_17",
+   "query": "daycare center South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 2,
+   "top": [
+    "File:US Navy 080129-N-0021M-001 Cmdr. William Weedon, commanding officer of Commander, Fleet Activities Chinhae (CFAC) cut the ribbon commemorating the completion of $35,000 in upgrades to the command's Child Development Center.jpg",
+    "File:US Navy 080129-N-0021M-002 ary Larose, morale, welfare and recreation, director, left, and Cmdr. William Weedon, commanding officer of Commander, Fleet Activities Chinhae (CFAC), right, cut the cake to the command Child Develop.jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_19",
+   "query": "classroom school South Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 4,
+   "top": [
+    "File:Community service project 120629-N-ZZ999-001.jpg",
+    "File:RCC-K Hosts Humphreys High School Students for Inaugural Cyber Operations Tour (10048369).jpg",
+    "File:RCC-K Hosts Humphreys High School Students for Inaugural Cyber Operations Tour (10048371).jpg",
+    "File:USACE Far East District inspires curiosity through STEAM outreach across three schools in South Korea (9726954).jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0 igo",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act3_0",
+   "query": "National Tax Service Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 19,
+   "top": [
+    "File:Emblemen NTS, NRU, NOS, Bestanddeelnr 922-4841.jpg",
+    "File:Herdenkingsbijeenkomst NTS 10-jarig bestaan. Voorzitter NTS Schuttenhelm reikt g, Bestanddeelnr 913-0003.jpg",
+    "File:Herdenkingsbijeenkomst NTS 10-jarig bestaan. Voorzitter NTS Schuttenhelm reikt g, Bestanddeelnr 913-0004.jpg",
+    "File:Kees Verkerk krijgt speld, opdracht NTS, Bestanddeelnr 920-3749.jpg",
+    "File:Landingsbaan R19 van Schiphol, opdracht NTS, Bestanddeelnr 921-8941.jpg"
+   ],
+   "rejected": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0 nl",
+    "CC BY-SA 4.0",
+    "GODL-India",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act3_4",
+   "query": "National Pension Service Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "GODL-India",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act3_2",
+   "query": "Samsung Electronics Hwaseong",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act5_1",
+   "query": "National Assembly of South Korea night",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 8,
+   "top": [
+    "File:Army Photography Contest - 2007 - FMWRC - Arts and Crafts - Night Vision (4930276400).jpg",
+    "File:Dangsan Railway Bridge Night View.jpg",
+    "File:Olympic Boulevard Expressway Light Trails.jpg",
+    "File:U.S. Marine Operations In Korea 1950-1953 (Volume 1).djvu",
+    "File:U.S. Marine Operations In Korea 1950-1953 (Volume 2).djvu"
+   ],
+   "rejected": [
+    "CC BY 2.0 제한",
+    "CC BY-SA 3.0",
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act4_0",
+   "query": "National Assembly Budget Office",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "CC BY-SA 3.0 de",
+    "CC BY-SA 3.0 de 제한",
+    "CC BY-SA 4.0",
+    "문서·도식(application/pdf)",
+    "문서·도식(image/svg+xml)"
+   ]
+  },
+  {
+   "sid": "act3_1",
+   "query": "Pyeongtaek Samsung semiconductor plant aerial",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 0,
+   "passed": 0,
+   "top": [],
+   "rejected": []
+  },
+  {
+   "sid": "act5_1",
+   "query": "https://www.flickr.com/photos/mdgovpics/18235788815/",
+   "pool": "gov_flickr_ccby",
+   "on": "2026-11-03",
+   "found": 1,
+   "passed": 1,
+   "top": [
+    "https://www.flickr.com/photos/mdgovpics/18235788815/"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act5_1",
+   "query": "https://www.flickr.com/photos/mdgovpics/17615273993/",
+   "pool": "gov_flickr_ccby",
+   "on": "2026-11-03",
+   "found": 1,
+   "passed": 1,
+   "top": [
+    "https://www.flickr.com/photos/mdgovpics/17615273993/"
+   ],
+   "rejected": []
+  },
+  {
+   "sid": "act2_16",
+   "query": "employment center Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 7,
+   "top": [
+    "File:3rd MarDiv, MARFORK visit Republic of Korea 2nd MarDiv (9463255).jpg",
+    "File:Airmen begin unloading at Gwangju for Bev Pack 25-1 (8838028).jpg",
+    "File:Shafiqur Rahman Choudhury Bangladesh Korea Technical Training Center Dhaka 2024-02-01 (PID-0010982).jpg",
+    "File:U.S. Marine Operations In Korea 1950-1953 (Volume 2).djvu",
+    "File:U.S. Marine Operations In Korea 1950-1953 (Volume 3).djvu"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_19",
+   "query": "Korea elementary school classroom",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 6,
+   "top": [
+    "File:Classroom in the U.S.jpg",
+    "File:Cobra Gold '14 allies build classrooms for Thai elementary school 140210-M-OY715-065.jpg",
+    "File:Department of War Education Activity seeks educators and aides to support military-connected students worldwide (9662989).jpg",
+    "File:ECCAT LOGO.jpg",
+    "File:Joong-Dae Elementary School 중대초등학교 (5477801131).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_11",
+   "query": "autonomous bus Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 14,
+   "top": [
+    "File:42dot autonomous-DRT Shuttle (1).jpg",
+    "File:42dot autonomous-DRT Shuttle (10).jpg",
+    "File:42dot autonomous-DRT Shuttle (11).jpg",
+    "File:42dot autonomous-DRT Shuttle (12).jpg",
+    "File:42dot autonomous-DRT Shuttle (13).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act2_14",
+   "query": "LH apartment Korea",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 25,
+   "passed": 0,
+   "top": [],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  },
+  {
+   "sid": "act3_1",
+   "query": "Samsung Pyeongtaek campus",
+   "pool": "commons_cc",
+   "on": "2026-11-03",
+   "found": 11,
+   "passed": 10,
+   "top": [
+    "File:P20220520AS-000033-2 (52196618699).jpg",
+    "File:P20220520AS-0238 (52196618649).jpg",
+    "File:P20220520AS-1486 (52196618609).jpg",
+    "File:P20220520AS-1568 (52196371303).jpg",
+    "File:P20220520CS-0484 (52195348752).jpg"
+   ],
+   "rejected": [
+    "문서·도식(application/pdf)"
+   ]
+  }
+ ]
+}

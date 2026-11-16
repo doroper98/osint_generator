@@ -115,8 +115,7 @@ class PlacementTest(unittest.TestCase):
         reg = load_media_registry()
         evs = self._events()
         resolve_places(evs, _no_view)
-        card = {"type": "card", "t0": 256.0, "t1": 266.0, "tag": "태그", "lines": ["한 줄", "두 줄", "세 줄", "네 줄", "다섯"],
-                "accent": "gold"}
+        card = {"type": "post", "src": "src_x_0001", "t0": 256.0, "t1": 266.0, "post_box": (0, 0, 854, 480)}   # v7.4.0 D-0306 — card 폐지, 게시물 카드 상자
         self.assertTrue(any("media-over-card" in w for w in placement_warnings(evs + [card], reg)))
 
 

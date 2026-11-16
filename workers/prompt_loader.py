@@ -77,6 +77,7 @@ def _rules_placeholders(rules: VideoRules) -> dict[str, str]:
         "{{RULES.placement_slots}}": _bullets([
             f"{name} — {', '.join(s.kinds)} ({_slot_form(s)}){_slot_stages(s)}" for name, s in rules.placement.slots.items()]),
         "{{RULES.corner_elements}}": ", ".join(rules.hud.allowed_corner_elements),
+        "{{RULES.geo.director_coords}}": _bullets(rules.geo.director_coords),   # v7.4.0 D-1000 S5 — 좌표는 사전 이름·좌표만(저장 전 점검과 같은 규칙)
         "{{RULES.verification.quote_max_chars}}": str(rules.verification.quote_max_chars),
         "{{RULES.script_labels}}": ", ".join(v for v in rules.script_schema.labels.values() if v),   # v4.4.0 D-0093
         "{{RULES.media.density}}": _media_density(rules),   # v5.19.0 D-0163 §2 — 미디어 비트·기사 카드 밀도(검사 [media-density-*]·[article-unused] 와 같은 값)
@@ -189,7 +190,7 @@ def _genre_placeholders(rules: VideoRules, g: GenreProfile) -> dict[str, str]:
     """`{{GENRE.<키>}}` → 치환 문자열. 문장은 규칙 파일(rules genre_prompt), 켜고 끄는 것은 장르 프로필(15 P3 — 코드 문장 0)."""
     gp = rules.genre_prompt
     primary = g.stage.primary
-    if primary not in gp.stage_grammar:
+    if primary not in gp.stage_grammar and primary != "mercator":   # v7.4.0 UF-400 — 지도 주 무대의 문법은 기본 프롬프트 본문(지도 문법)이 맡는다
         raise PromptTemplateError(f"장르 {g.genre}: 주 무대 {primary!r} 의 문법이 rules genre_prompt.stage_grammar 에 없다")
     tl = g.stage.timeline
     lanes = (_bullets([f"{ln.id} — {ln.label} ({ln.kind}{', 단위 ' + ln.unit if ln.unit else ''})" for ln in tl.lanes])
@@ -208,17 +209,26 @@ def _genre_placeholders(rules: VideoRules, g: GenreProfile) -> dict[str, str]:
         "{{GENRE.name}}": g.genre,
         "{{GENRE.status}}": g.status,
         "{{GENRE.stages}}": primary + (f" (보조: {', '.join(sec)})" if (sec := [x for x in g.stage.secondary if x in rules.registries.stages]) else ""),   # 구현 전 무대(planned)는 보이지 않는다
-        "{{GENRE.stage_grammar}}": _bullets(gp.stage_grammar[primary]),
+        "{{GENRE.stage_grammar}}": _bullets(gp.stage_grammar[primary]) if primary in gp.stage_grammar else "(위 지도 문법)",
         "{{GENRE.lanes}}": lanes,
         "{{GENRE.colors}}": _bullets([f"{k}: {v}" for k, v in g.color_semantics.items()]),
         "{{GENRE.elements}}": ", ".join(sorted(g.elements() & set(_registered(rules)))),
         "{{GENRE.narration}}": _bullets(rows) if rows else "(없음)",
+        "{{GENRE.acts}}": (gp.acts_head + "\n" + _bullets(gp.acts[g.genre]) + "\n\n") if g.genre in gp.acts else "",   # v7.4.0 D-0278 §3
         "{{GENRE.avoid}}": ", ".join(nar.avoid) if nar is not None and nar.avoid else "(없음)",
-        "{{GENRE.data_sources}}": _bullets(gp.data_sources),
+        "{{GENRE.data_sources}}": _bullets([*gp.data_sources, *gp.data_sources_by_genre.get(g.genre, [])]),   # v7.4.0 D-0304 ② 장르 보충 줄
+        "{{GENRE.director_example}}": director_example(g),   # v7.4.0 D-0304 ① — 차트 무대별 연출 예시
         "{{GENRE.rubric}}": _numbered(gp.rubric_extra),
         "{{GENRE.rubric_n}}": str(len(gp.rubric_extra)),
         "{{GENRE.accents}}": ", ".join(rules.registries.accents),
     }
+
+
+def director_example(g: GenreProfile) -> str:
+    """v7.4.0 D-0304 ① — 장르 연출 예시 파일 이름 `{{EXAMPLE:genre_director_<무대>.json}}`. 무대 = timeline 이 주·보조 무대면 timeline
+    (차트가 무대 자체 — macro_monetary 그대로), 아니면 주 무대(earnings = backdrop + 차트 아일랜드). 파일이 없으면 _examples 가 오류."""
+    st = "timeline" if "timeline" in g.stage.names() else g.stage.primary
+    return "{{EXAMPLE:genre_director_" + st + ".json}}"
 
 
 def _registered(rules: VideoRules) -> list[str]:
@@ -230,11 +240,16 @@ def genre_block(name: str, rules: VideoRules, genre: GenreProfile | None) -> str
     """`{{GENRE_BLOCK}}` 의 내용. 기본 장르·미지정 = ""(바이트 동일). 그 밖은 `prompts/genre_<name>.md`(없으면 오류)."""
     if genre is None or genre.genre == rules.genre_prompt.base_genre:
         return ""
-    path = prompt_path(f"genre_{name}")
+    # v7.4.0 UF-400 — 지도가 주 무대인 장르(정치사 등)는 지도 문법을 그대로 쓰고 장르 요소·서술만 더하는 지도형 문단(prompts/genre_map_<name>.md)
+    path = prompt_path(f"genre_map_{name}" if genre.stage.primary == "mercator" else f"genre_{name}")
     if not path.exists():
         raise PromptTemplateError(f"{name}: 장르 {genre.genre} 문단 템플릿이 없다 — {path}")
-    text = _examples(_strip_header(path.read_text(encoding="utf-8")))
-    for key, value in _genre_placeholders(rules, genre).items():
+    ph = _genre_placeholders(rules, genre)
+    text = _strip_header(path.read_text(encoding="utf-8"))
+    for key, value in ph.items():
+        text = text.replace(key, value)
+    text = _examples(text)   # 예시 자리({{EXAMPLE:…}})는 장르 자리표시 뒤에 펼친다(director_example, D-0304) — 예시 안 자리표시도 채운다
+    for key, value in ph.items():
         text = text.replace(key, value)
     return "\n" + text
 

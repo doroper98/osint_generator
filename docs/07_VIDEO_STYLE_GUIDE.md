@@ -90,7 +90,7 @@ last_review: 2026-09-29
 화면에는 엔딩 카드 맨 마지막 줄에 가장 작은 글씨 한 줄(`rules:layout_480p.end_card.notice_unverified`, 라벨 문장 수 n, n = 0 이면 없음)만 쓴다.
 미검증 주장을 인용하는 문장의 귀속 표현은 `rules:script_schema.attribution_markers`.
 
-## 7. 되돌리면 안 되는 것
+## 7. 다시 들여오면 안 되는 것 — 이미 뺀 것
 
 사용자 합격 판정이 끝난 목록이다. 정본은 [CLAUDE.md](../CLAUDE.md) C0과 `docs/handoff/KICKOFF_PROMPT.md` §5다.
 고정 막 구성, 모서리의 브랜드·섹션 표기, 도장, 비네팅, 문장마다 카메라 이동, 줌 범프, 한꺼번에 튀어나오는 관계선,

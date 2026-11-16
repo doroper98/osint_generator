@@ -25,7 +25,7 @@ class ClipFrameTest(unittest.TestCase):
         s = R.placement.slots["clip_frame"]
         self.assertEqual((s.box, s.frame, s.kinds), ((68.0, 38.0, 717.0), True, ["clip"]))
         self.assertAlmostEqual(s.box[2] / 854, 0.84, places=2)   # 화면 폭 84 %(D-0276 A)
-        self.assertEqual(R.media_beats.clip_show_sec, {"main": (5.0, 20.0), "broll": (3.0, 6.0)})
+        self.assertEqual(R.media_beats.clip_show_sec, {"main": (5.0, 20.0), "broll": (3.0, 9.0)})
         self.assertTrue(R.layout_480p.subtitle.over_clip_frame and R.hud.date_badge_over_clip_frame)
 
     def test_main_clip_goes_to_frame(self) -> None:
@@ -34,6 +34,9 @@ class ClipFrameTest(unittest.TestCase):
         self.assertEqual((ev[0]["x"], ev[0]["y"], ev[0]["w"], ev[0]["frame"]), (68.0, 38.0, 717.0, "clip_frame"))
         self.assertEqual(rec["niovi"], "role:clip_frame")
         self.assertEqual(checks.check_clip_frame(NS(events=ev)), [])
+        from engine.events import ClipEvent  # noqa: PLC0415 — 배치된 이벤트가 이벤트 모델을 통과한다(econ 콘티 판 v3 에서 frame 키 거부로 드러남)
+
+        ClipEvent.model_validate(ev[0])
 
     def test_main_clip_in_corner_is_hard(self) -> None:
         ev = [_clip(place="map_left")]
@@ -45,9 +48,28 @@ class ClipFrameTest(unittest.TestCase):
         ev = [_clip(role="broll", t1=14.0, place="map_left")]
         resolve_places(ev, lambda t: None, stage_name="mercator")
         self.assertEqual(checks.check_clip_frame(NS(events=ev)), [])
-        ev[0]["t1"] = 20.0   # broll 3~6초 초과
+        ev[0]["t1"] = 20.0   # broll 3~9초 초과
         self.assertTrue(checks.check_clip_frame(NS(events=ev)))
 
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ClipDateMismatchTest(unittest.TestCase):
+    """v7.4.0 back_and_forth D-0283 §1 — 촬영일 ↔ 문장 날짜 차 ≥ media.file_clip_date_gap_days 인데 자료 영상 표기 없음 = [clip-date-mismatch] hard.
+    showcase_geo: strikes(2026-07-07 촬영)가 act3_3 "2월 28일 … 공습" 문장에 → 같은 파일의 자료 영상 항목 strikes_file 로."""
+
+    def _P(self, mid: str) -> NS:  # noqa: N802
+        from engine.media_registry import load_media_registry  # noqa: PLC0415
+
+        sent = [NS(t0=128.0, t1=134.0, date="2026.02.28")]
+        return NS(events=[{"type": "clip", "mid": mid, "t0": 130.75, "t1": 135.75}], plan=NS(sentences=sent),
+                  R=NS(assets=NS(media_assets=load_media_registry())))
+
+    def test_mismatch_hard_and_file_entry_passes(self) -> None:
+        out = checks.check_clip_date_mismatch(self._P("strikes"))
+        self.assertTrue(out and out[0].startswith("[clip-date-mismatch]") and "2026-07-07" in out[0])
+        self.assertEqual(checks.check_clip_date_mismatch(self._P("strikes_file")), [])
+        self.assertIn("clip_date_mismatch", checks.HARD)
+        self.assertEqual(R.media.file_clip_date_gap_days, 30)

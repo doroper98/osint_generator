@@ -1,0 +1,21 @@
+source_kind: press_cited
+retrieved_at: '2026-10-30'
+transform:
+  op: press_cited
+  formula: 보도 인용값(매체·날짜)
+frequency: quarterly
+license: press_cited
+license_note: 보도 인용값(사실) — 매체·날짜·인용 문장 표기, 집계 기관은 기사가 적은 그대로
+series_id: SSNLF_OP_Q_EST
+source: 글로벌이코노믹 보도 · 에프앤가이드 집계 영업이익 전망치(잠정 실적 발표 전)
+source_url: https://www.g-enews.com/article/Industry/2026/10/20261008083521744027fa31d75c_1
+as_of: 2026-09
+unit: 조 원
+revision_note: 잠정 실적(10월 8일) 발표 전 집계 — 확정 실적 전 전망치는 SSNLF_OP_Q_EST_PRECONF
+cited:
+- date: '2026-09-30'
+  outlet: 글로벌이코노믹(에프앤가이드 집계)
+  pub_date: '2026-10-08'
+  url: https://www.g-enews.com/article/Industry/2026/10/20261008083521744027fa31d75c_1
+  note: '원문: "당초 금융정보업체 에프앤가이드는 삼성전자의의 3분기 실적 전망치에서 매출 200조5417억원, 영업이익 106조6401억원을
+    기록할 것이라고 내다봤다." (본문 md5 8f450981)'

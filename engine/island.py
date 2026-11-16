@@ -22,13 +22,14 @@ import cairo
 
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import CARD, FPS, ISLAND, TIMELINE
+from engine.style import CARD, ELEM, FPS, ISLAND, MOTION, PALETTE, TIMELINE, border_rgb, island_rgb, stage_surface
 from engine.timebase import ease_out, window
 from engine.typography import rrect
 from rules import load_rules
 
 Box = tuple[float, float, float, float]   # x, y, 폭, 높이
 SUB_Y = load_rules().layout_480p.reserved_zones.subtitle.y_from
+FRAME_TAG = " (액자)"   # v7.4.0 D-0276 — 아일랜드 이름 끝 표시: 액자 슬롯 clip_frame 클립(자막 위 예외 대상)
 
 
 def island_box(e: dict) -> Box:
@@ -60,7 +61,7 @@ Occluder = tuple[Box, float, float]   # (x, y, 폭, 높이), 모서리 반경, �
 
 
 def draw_frame(ctx: cairo.Context, box: Box, a: float, style: Optional[FrameStyle] = None,
-               occluders: tuple[Occluder, ...] = ()) -> None:
+               occluders: tuple[Occluder, ...] = (), boxed: bool = False) -> None:
     """아일랜드 공통 상자 — 그림자·반투명 바탕·테두리.
 
     style·occluders 는 cascade V2 전용(v5.14.0 D-0153 §4). occluders 가 있으면 상자(그림자 포함)를 그룹에 그린 뒤 가리는 상자마다
@@ -78,16 +79,18 @@ def draw_frame(ctx: cairo.Context, box: Box, a: float, style: Optional[FrameStyl
         ctx.paint()
         return
     x, y, w, h = box
+    if style is None and stage_surface() and not boxed:   # v7.4.0 D-0328 §3 — 차트 = 무대: 테두리·바탕·그림자 없음(바탕 위에 바로)
+        return
     r = ISLAND.radius if style is None else style.radius
     for d_, al in ISLAND.shadow:
         rrect(ctx, x - d_, y - d_ + d_ / 2, w + d_ * 2, h + d_ * 2, r + d_)
         ctx.set_source_rgba(0, 0, 0, al * a)
         ctx.fill()
     rrect(ctx, x, y, w, h, r)
-    ctx.set_source_rgba(*(TIMELINE.bg_rgb if style is None else style.fill_rgb), ISLAND.fill_alpha * a)
+    ctx.set_source_rgba(*(island_rgb(TIMELINE.bg_rgb) if style is None else style.fill_rgb), ISLAND.fill_alpha * a)
     ctx.fill_preserve()
     if style is None:
-        ctx.set_source_rgba(1, 1, 1, ISLAND.edge_alpha * a)
+        ctx.set_source_rgba(*border_rgb((1, 1, 1)), (1.0 if PALETTE else ISLAND.edge_alpha) * a)
         ctx.set_line_width(ISLAND.edge_w)
     else:
         ctx.set_source_rgba(*style.edge_rgb, style.edge_alpha * a)
@@ -95,10 +98,24 @@ def draw_frame(ctx: cairo.Context, box: Box, a: float, style: Optional[FrameStyl
     ctx.stroke()
 
 
+def inner_box(box: Box) -> Box:
+    """아일랜드 내용 영역(v7.4.0 D-1010 §1, UF-305) — 상자에서 rules island.inner_pad 만큼 안쪽. 상자 크기·자리는 그대로."""
+    x, y, w, h = box
+    px, py = ISLAND.inner_pad["x"], ISLAND.inner_pad["y"]
+    return x + px, y + py, w - 2 * px, h - 2 * py
+
+
+def on_backdrop(R: RenderCtx) -> bool:  # noqa: N803
+    """사진 배경(backdrop 주 무대) 위 데이터 무대인가 — 감독 D619: 그때는 무대 표면 팔레트여도 표준 아일랜드 상자(바탕 fill_alpha) 안에 그린다
+    (사용자 결정 D106·D108 의 아일랜드 정본, UF-304 시인성). 무대 표면(D-0328)은 시간축·지도 주 무대 바탕 위에서만."""
+    return getattr(R.stage, "name", "") == "backdrop"
+
+
 def chart_view(chart: dict, t: float, box: Box) -> View:
     """차트 아일랜드 뷰 — 아일랜드 카메라(stage: timeline 숏)의 그 프레임, 뷰포트 = 상자 크기."""
     cams = chart["cams"]
-    return View(chart["stage"], cams[min(len(cams) - 1, max(0, int(t * FPS)))], viewport=(box[2], box[3]))
+    ib = inner_box(box)   # D-1010 §1 — 뷰포트 = 내용 영역(상자 − inner_pad)
+    return View(chart["stage"], cams[min(len(cams) - 1, max(0, int(t * FPS)))], viewport=(ib[2], ib[3]))
 
 
 def draw_island(ctx: cairo.Context, R: RenderCtx, view: Optional[View], t: float, e: dict) -> None:  # noqa: N803
@@ -106,20 +123,33 @@ def draw_island(ctx: cairo.Context, R: RenderCtx, view: Optional[View], t: float
     a = island_alpha(t, e)
     if a <= 0.01:
         return
+    if e.get("kind") == "structure":   # v7.4.0 D-1003 §3 — 구성 무대 뷰포트
+        draw_structure_island(ctx, R, t, e, a)
+        return
     x, y, w, h = island_box(e)
     x += island_slide(t, e)
     chart = R.cache["island_chart"]
+    boxed = on_backdrop(R)
     ctx.save()
     ctx.push_group()
-    draw_frame(ctx, (x, y, w, h), 1.0)
-    rrect(ctx, x, y, w, h, ISLAND.radius)
+    draw_frame(ctx, (x, y, w, h), 1.0, boxed=boxed)
+    rrect(ctx, x, y, w, h, 0.0 if stage_surface() and not boxed else ISLAND.radius)
     ctx.clip()
-    ctx.translate(x, y)
+    ix, iy, _iw, _ih = inner_box((x, y, w, h))
+    ctx.translate(ix, iy)   # D-1010 §1 — 내용은 안쪽 여백 안에서
     v = chart_view(chart, t, (x, y, w, h))
     st = chart["stage"]
+    flat = stage_surface()
     st.render_base(ctx, v)
+    if flat:   # 무대 표면: 축·레인 라벨을 층보다 먼저 — 열 확대 인셋(불투명)이 그 위를 덮는다(겹침 0, D-0328)
+        st.draw_labels(ctx, v, [], 1.0)
+    from engine.layers.series import draw_lane_preview  # noqa: PLC0415
+
+    for ce in chart["events"]:   # D-1010 §2(UF-306) — 레인 미리 보기 선: 아일랜드가 보이는 동안 늘(본 선이 그 위로)
+        if ce["type"] == "series":
+            draw_lane_preview(ctx, R, v, ce, 1.0)
     zones = R.zones   # 카드 예약 영역을 상자 좌표로(마커 라벨 흐림 판정 — 화면 좌표 그대로면 어긋난다)
-    R.zones = [replace(z, box=(z.box[0] - x, z.box[1] - y, z.box[2] - x, z.box[3] - y)) for z in zones]
+    R.zones = [replace(z, box=(z.box[0] - ix, z.box[1] - iy, z.box[2] - ix, z.box[3] - iy)) for z in zones]
     resolve: Callable[[Any], Any] = chart["resolve"]
     try:
         for typ in chart["order"]:
@@ -128,7 +158,32 @@ def draw_island(ctx: cairo.Context, R: RenderCtx, view: Optional[View], t: float
                     resolve(ce).render(ctx, R, v, t, ce)
     finally:
         R.zones = zones
-    st.draw_labels(ctx, v, [], 1.0)
+    if not flat:
+        st.draw_labels(ctx, v, [], 1.0)
+    ctx.pop_group_to_source()
+    ctx.paint_with_alpha(a)
+    ctx.restore()
+
+
+def draw_structure_island(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
+    """구성 아일랜드 — 상자(무대 표면이면 없음) + 구성 무대 뷰포트(카메라 = stage: structure 숏) + rank 층."""
+    from engine.layers.structure import draw_structure  # noqa: PLC0415
+
+    x, y, w, h = island_box(e)
+    x += island_slide(t, e)
+    ss = R.cache["island_structure"]
+    boxed = on_backdrop(R)
+    ctx.save()
+    ctx.push_group()
+    draw_frame(ctx, (x, y, w, h), 1.0, boxed=boxed)
+    rrect(ctx, x, y, w, h, 0.0 if stage_surface() and not boxed else ISLAND.radius)
+    ctx.clip()
+    ix, iy, iw, ih = inner_box((x, y, w, h))
+    ctx.translate(ix, iy)   # D-1010 §1 — 내용은 안쪽 여백 안에서(구성 무대는 내용 영역에 맞춰 fit)
+    cams = ss["cams"]
+    v = View(ss["stage"], cams[min(len(cams) - 1, max(0, int(t * FPS)))], viewport=(iw, ih))
+    ss["stage"].render_base(ctx, v)
+    draw_structure(ctx, R, v, t, ss["events"])
     ctx.pop_group_to_source()
     ctx.paint_with_alpha(a)
     ctx.restore()
@@ -154,7 +209,8 @@ def island_boxes(events: list[dict], media_assets: dict, stage_name: str) -> lis
             out.append((f"island {e['kind']} {e.get('box') or 'center'}", e["t0"], e["t1"], island_box(e)))
         elif typ in ("photo", "clip"):
             x0, y0, x1, y1 = media_box(e, media_assets)
-            out.append((f"{typ} {e['mid']}", e["t0"], e["t1"], (x0, y0, x1 - x0, y1 - y0)))
+            tag = FRAME_TAG if e.get("frame") == "clip_frame" else ""
+            out.append((f"{typ} {e['mid']}{tag}", e["t0"], e["t1"], (x0, y0, x1 - x0, y1 - y0)))
         elif typ == "panel":
             out.append((f"panel {e['kind']} {event_name(e)}".rstrip(), e["t0"], e["t1"], _panel_box()))
         elif typ == "primitive":
@@ -172,8 +228,9 @@ def _inter(a: Box, b: Box) -> float:
 def island_overlap(boxes: list[tuple[str, float, float, Box]]) -> list[str]:
     """`[island-overlap]` — 같은 순간 보이는 두 아일랜드 제자리 상자 교차 > 0, 자막 구역 교차, 동시 수 > max_concurrent."""
     out: list[str] = []
+    over_frame = load_rules().layout_480p.subtitle.over_clip_frame   # v7.4.0 D-0276 — 액자 클립(clip_frame)만 자막 위 예외(그 슬롯과의 교차만)
     for i, (na, a0, a1, ba) in enumerate(boxes):
-        if ba[1] + ba[3] > SUB_Y:
+        if ba[1] + ba[3] > SUB_Y and not (over_frame and na.endswith(FRAME_TAG)):
             out.append(f"[island-overlap] {na} t={a0:.2f} 상자 아래 끝 {ba[1] + ba[3]:.0f} > 자막 구역 {SUB_Y:g}")
         for nb, b0, b1, bb in boxes[i + 1:]:
             if max(a0, b0) < min(a1, b1) and _inter(ba, bb) > 0:
@@ -234,11 +291,11 @@ def card_overlap(events: list[dict], boxes: list[tuple[str, float, float, Box]])
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
     out: list[dict] = []
     for e in events:
-        if e["type"] not in ("card", "post") or (e["type"] == "post" and "post_box" not in e):
+        if e["type"] != "post" or "post_box" not in e:
             continue
         x0, y0, x1, y1 = card_box(ctx, e)
         cb = (x0, y0, x1 - x0, y1 - y0)
-        ref = f"post:{e['src']}" if e["type"] == "post" else f"card:{e.get('tag') or ''}"
+        ref = f"post:{e['src']}"
         for name, a0, a1, ib in boxes:
             lo, hi = max(e["t0"], a0), min(e["t1"], a1)
             if lo < hi and _inter(cb, ib) > 0:
@@ -309,7 +366,7 @@ def label_check(events: list[dict], chart: dict) -> dict:
         for f in range(f0, f1 + 1, LABEL_STEP_FRAMES):
             t = f / FPS
             box_e = next((i for i in isl if i["t0"] <= t <= i["t1"]), None)
-            la = window(t, e["t0"], e["t1"], 0.35, 0.5) * smooth((t - e["t0"] - 0.2) / 0.4)
+            la = window(t, e["t0"], e["t1"], *ELEM["pin_label"]) * smooth((t - e["t0"] - MOTION["pin_label_delay_sec"]) / MOTION["pin_label_in_sec"])
             if box_e is None or la <= 0.01 or island_alpha(t, box_e) <= 0.01:
                 continue
             bw, bh = island_box(box_e)[2:]

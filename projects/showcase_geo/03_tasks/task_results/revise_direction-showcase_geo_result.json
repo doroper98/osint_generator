@@ -3,25 +3,24 @@
   "project_id": "showcase_geo",
   "task_id": "revise_direction-showcase_geo",
   "worker": "revise_direction",
-  "status": "failed",
-  "started_at": "2026-10-28T07:18:12.894740Z",
-  "completed_at": "2026-10-28T07:24:51.620910Z",
+  "status": "completed",
+  "started_at": "2026-10-30T16:26:16.003551Z",
+  "completed_at": "2026-10-30T16:31:48.991845Z",
   "outputs": [
-    "llm_calls/llm_20261028_071812_981c.json"
+    "direction.yaml",
+    "llm_calls/llm_20261030_162616_a853.json"
   ],
   "warnings": [],
-  "errors": [
-    "check_parsed: 지적받지 않은 부분을 바꿨다(17 §5.5):\n지적 없이 변경: flight|drone||{\"off\": -0.4, \"word\": {\"sid\": \"cold_0\", \"text\": \"랴잔\"}}"
-  ],
+  "errors": [],
   "scene_refs": [],
   "source_refs": [],
   "asset_refs": [],
-  "qa_status": "fail",
+  "qa_status": "pass",
   "risk_flags": [],
   "worker_provenance": {
     "prompt_name": "revise_direction",
-    "prompt_sha1": "680ee999e42d5e64b22bd152d80cc41209ef5600",
-    "rules_hash": "9d0e5ead25b51c6bb14491c45981a353e9b91556",
+    "prompt_sha1": "72b504dcc21e587dcbfe065fb92c157b0595f567",
+    "rules_hash": "a15135362f4edfab4f815d6445da6e8336986c7a",
     "genre": null,
     "genre_declared": null
   }

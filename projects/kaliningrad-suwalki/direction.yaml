@@ -319,31 +319,6 @@ events:
   sub: 러시아 역외 영토
   side: left
   hl: true
-- type: card
-  start:
-    sid: cold_open_1
-    'off': 0.3
-  end:
-    sid: cold_open_1
-    edge: end
-    'off': 0.3
-  tag: 러시아의 서면 메시지 · 2026년 9월 30일
-  lines:
-  - 나토가 칼리닌그라드 공중·해상 봉쇄를 준비한다는 정보 (러시아 주장)
-  accent: ru
-- type: card
-  start:
-    sid: cold_open_2
-    'off': 0.3
-  end:
-    sid: cold_open_2
-    edge: end
-    'off': 0.6
-  tag: 러시아의 서면 메시지 · 2026년 9월 30일
-  lines:
-  - 칼리닌그라드가 고립되면
-  - 핵무기를 포함한 모든 무기를 쓸 준비
-  accent: ru
 - type: country
   start:
     word:
@@ -657,20 +632,6 @@ events:
   col: teal
   ship: false
   label: 발트 3국 ↔ 나토 · 유일한 육로
-- type: card
-  start:
-    sid: suwalki_1920_6
-    'off': 0.2
-  end:
-    sid: suwalki_1920_6
-    edge: end
-    'off': 0.6
-  tag: 수바우키 회랑 국경 구간
-  bigs:
-  - - 104km
-    - 폴란드–리투아니아 국경 구간 길이
-  accent: gold
-  src: AFP 보도
 - type: badge
   start:
     sid: suwalki_1920_7
@@ -716,18 +677,6 @@ events:
   sub: 핵탑재 가능 · 배치 위치 비공개
   side: right
   hl: false
-- type: card
-  start:
-    sid: military_2
-    'off': 0.2
-  end:
-    scene_end: military
-  tag: 이스칸데르 · 이동식 체계
-  bigs:
-  - - 500km
-    - 사거리
-  accent: ru
-  src: CSIS 자료
 - type: country
   start:
     sid: transit_2022_0
@@ -794,20 +743,6 @@ events:
   label: 알리하노프
   role: 칼리닌그라드 주지사
   accent: ru
-- type: card
-  start:
-    sid: transit_2022_2
-    'off': 0.6
-  end:
-    sid: transit_2022_2
-    edge: end
-    'off': 0.5
-  tag: 알리하노프 칼리닌그라드 주지사 · 발언
-  bigs:
-  - - 40~50%
-    - 리투아니아 경유 품목 중 금지 대상
-  accent: ru
-  src: 주지사 주장 수치
 - type: route
   start:
     sid: transit_2022_3
@@ -850,19 +785,6 @@ events:
   label: 메르츠
   role: 독일 총리
   accent: teal
-- type: card
-  start:
-    sid: nato_east_1
-    'off': 0.5
-  end:
-    sid: nato_east_1
-    edge: end
-    'off': 0.4
-  tag: 메르츠 독일 총리 · 발언 요지
-  lines:
-  - 나토 동부 측면 방어를 직접 맡겠다
-  accent: teal
-  quote: false
 - type: badge
   start:
     sid: nato_east_2
@@ -879,19 +801,6 @@ events:
   label: 나우세다
   role: 리투아니아 대통령
   accent: teal
-- type: card
-  start:
-    sid: nato_east_2
-    'off': 0.5
-  end:
-    sid: nato_east_2
-    edge: end
-    'off': 0.4
-  tag: 나우세다 리투아니아 대통령 · 발언 요지
-  lines:
-  - 독일 여단의 도착은 역사적 사건
-  accent: teal
-  quote: false
 - type: badge
   start:
     sid: nato_east_3
@@ -906,19 +815,6 @@ events:
   R: 26
   label: 나토
   role: 동부 측면 다국적 전투단
-  accent: teal
-- type: card
-  start:
-    sid: nato_east_3
-    'off': 0.4
-  end:
-    sid: nato_east_4
-    edge: end
-    'off': 0.3
-  tag: 나토 · 2026년 9월 29일
-  bigs:
-  - - 9개
-    - 동부 측면 다국적 전투단
   accent: teal
 - type: badge
   start:
@@ -946,20 +842,6 @@ events:
   - PL
   col: teal
   a: 0.07
-- type: card
-  start:
-    sid: nato_east_5
-    'off': 0.4
-  end:
-    sid: nato_east_5
-    edge: end
-    'off': 0.3
-  tag: 폴란드 동부 방패 사업
-  bigs:
-  - - 800km
-    - 러시아·벨라루스 쪽 국경 보호 설계
-  accent: teal
-  src: 자유유럽방송 보도
 - type: badge
   start:
     sid: nato_east_6
@@ -976,19 +858,6 @@ events:
   label: 투스크
   role: 폴란드 총리
   accent: teal
-- type: card
-  start:
-    sid: nato_east_6
-    'off': 0.4
-  end:
-    sid: nato_east_6
-    edge: end
-    'off': 0.5
-  tag: 투스크 폴란드 총리 · 발언 요지
-  lines:
-  - 이 요새화는 평화를 위한 투자
-  accent: teal
-  quote: false
 - type: marker
   start:
     word:
@@ -1059,20 +928,6 @@ events:
   sub: 2025.9.12–16 러시아·벨라루스 연합훈련 · 벨라루스(지점 비공개)
   side: right
   hl: true
-- type: card
-  start:
-    sid: zapad_1
-    'off': 0.3
-  end:
-    sid: zapad_1
-    edge: end
-    'off': 0.1
-  tag: 2021년 자파드 참가 병력
-  bigs:
-  - - 약 20만 명
-    - 러시아 당국 발표
-  accent: ru
-  src: 러시아 당국 주장
 - type: panel
   start:
     sid: zapad_2
@@ -1159,19 +1014,6 @@ events:
   label: 나토
   role: 이스턴 센트리
   accent: teal
-- type: card
-  start:
-    sid: drones_1
-    'off': 0.5
-  end:
-    sid: drones_1
-    edge: end
-    'off': 0.1
-  tag: 나토 · 2025년 9월
-  lines:
-  - 조약 4조에 따른 협의
-  - 이스턴 센트리 활동 시작
-  accent: teal
 - type: panel
   start:
     sid: drones_2
@@ -1230,30 +1072,6 @@ events:
   label: 푸틴
   role: 러시아 대통령
   accent: ru
-- type: card
-  start:
-    sid: belarus_0
-    'off': 0.5
-  end:
-    sid: belarus_0
-    edge: end
-    'off': 0.3
-  tag: 안보 보장 조약 · 2024년 12월
-  lines:
-  - 루카셴코–푸틴 서명
-  accent: ru
-  src: 디펜스 뉴스 보도
-- type: card
-  start:
-    sid: belarus_1
-    'off': 0.3
-  end:
-    scene_end: belarus
-  tag: 루카셴코 대통령 · 2024년 12월 발언 요지
-  lines:
-  - 벨라루스에 러시아 전술핵 수십 기
-  accent: ru
-  quote: false
 - type: route
   start:
     sid: year_2026_0
@@ -1355,20 +1173,6 @@ events:
   label: 무라베이코
   role: 벨라루스 총참모장
   accent: ru
-- type: card
-  start:
-    sid: year_2026_4
-    'off': 0.5
-  end:
-    sid: year_2026_4
-    edge: end
-    'off': 0.4
-  tag: 무라베이코 벨라루스 총참모장 · 발언 요지
-  lines:
-  - 공격 행동은 고려하지 않는다
-  - 공격 준비설은 근거가 없다
-  accent: ru
-  quote: false
 - type: marker
   start:
     word:

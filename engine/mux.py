@@ -28,6 +28,7 @@ AAC_BITRATE = "192k"
 DESCRIPTION_CREDITS_HEADING = "크레딧 (영상 밖 표기 — 폰트 등)"
 DESCRIPTION_SOURCES_HEADING = "출처 원문 (보도 · 자료 · X 게시물)"
 DESCRIPTION_PRESS_HEADING = "사진 출처 (보도 인용)"   # v5.21.0 D-0177 §3
+DESCRIPTION_SA_HEADING = "사진·영상 출처 (CC BY-SA — 작가 · 제목 · 라이선스 · 링크 · 변경 사항)"   # v7.4.0 사용자 결정 D612
 
 
 class Chapter(BaseModel):
@@ -106,17 +107,43 @@ def rights_exception_warning(prov: dict) -> str | None:
     return f"[rights-exceptions] 공개 배포 전 재확인 {len(exc)}건: " + ", ".join(f"{x['ref']}({x['user_exception']})" for x in exc)
 
 
-def mux(proj: Path, total: float) -> tuple[Path, dict]:
-    """영상 + mix → final.mp4. 음량은 2패스 loudnorm(v3.4.0 D-0061 — 측정은 audio/qa.py 한 경로). (경로, loudnorm 기록)."""
+def audio_track(mix_f32: Path, total: float) -> tuple[Path, dict]:
+    """loudnorm 2패스 필터를 건 AAC 오디오 트랙(v7.4.0 D-1000 S2-9·D-1002 §4) — out/audio_cache/<키>.m4a.
+    키 = sha1(mix.f32 바이트 + 필터 문자열 + 샘플링·비트레이트·길이). 같으면 다시 인코딩하지 않는다(문장 수정 뒤 재렌더의 오디오 인코딩 약 59초).
+    다르면 인코딩하고 옛 캐시 파일을 지운다(한 벌). 기록 loudnorm.audio = encoded | reused(P5). (경로, loudnorm 기록)."""
+    import hashlib  # noqa: PLC0415
+
     from audio.qa import loudnorm_two_pass, mix_inputs  # noqa: PLC0415
 
+    af, rec = loudnorm_two_pass(mix_f32, total)
+    key = hashlib.sha1(mix_f32.read_bytes() + json.dumps([af, SR, AAC_BITRATE, f"{total:.3f}"]).encode()).hexdigest()[:20]
+    cdir = mix_f32.parent / "audio_cache"
+    cdir.mkdir(exist_ok=True)
+    dest = cdir / f"{key}.m4a"
+    if dest.exists():
+        return dest, {**rec, "audio": "reused"}
+    tmp = cdir / f"{key}.tmp.m4a"
+    subprocess.run(["ffmpeg", "-y", "-v", "error", *mix_inputs(mix_f32, total), "-af", af, "-ar", str(SR), "-c:a", "aac",
+                    "-b:a", AAC_BITRATE, "-t", f"{total:.3f}", str(tmp)], check=True)
+    for old in cdir.glob("*.m4a"):
+        if old != tmp:
+            old.unlink()
+    tmp.replace(dest)
+    return dest, {**rec, "audio": "encoded"}
+
+
+def mux_av(video: Path, audio: Path, total: float, dest: Path, comment: str | None = None) -> None:
+    """영상 + 인코딩된 오디오 트랙을 다시 인코딩 없이 묶는다(-c copy). comment = mp4 표식(콘티 판·카탈로그 판)."""
+    meta = ["-metadata", f"comment={comment}"] if comment else []
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(video), "-i", str(audio), "-map", "0:v", "-map", "1:a", "-c", "copy",
+                    "-t", f"{total:.3f}", "-movflags", "+faststart", *meta, str(dest)], check=True)
+
+
+def mux(proj: Path, total: float) -> tuple[Path, dict]:
+    """영상 + mix → final.mp4. 음량은 2패스 loudnorm(v3.4.0 D-0061 — 측정은 audio/qa.py 한 경로), 오디오 트랙은 audio_track 캐시. (경로, loudnorm 기록)."""
     out = proj / "out" / "final.mp4"
-    af, rec = loudnorm_two_pass(proj / "out" / "mix.f32", total)
-    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(proj / "out" / "video_noaudio.mp4"),
-                    *mix_inputs(proj / "out" / "mix.f32", total),
-                    "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", af,
-                    "-ar", str(SR), "-c:a", "aac", "-b:a", AAC_BITRATE, "-t", f"{total:.3f}", "-movflags", "+faststart",
-                    str(out)], check=True)
+    track, rec = audio_track(proj / "out" / "mix.f32", total)
+    mux_av(proj / "out" / "video_noaudio.mp4", track, total, out)
     return out, rec
 
 
@@ -138,6 +165,7 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     from engine.provenance import build as build_prov  # noqa: PLC0415
     from engine.provenance import bundle_summary  # noqa: PLC0415
     from engine.provenance import camera_summary  # noqa: PLC0415
+    from engine.provenance import user_approval  # noqa: PLC0415
     from engine.reserved import avoidance_report  # noqa: PLC0415
     from orchestrator import __version__  # noqa: PLC0415
     from script.labels import check_project_labels  # noqa: PLC0415
@@ -149,13 +177,21 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     stages = {**stages, "ai_direction": ai is not None, "visual_qa": bool(ai and ai["visual_qa"]), "bundle": bun is not None}
     req = P.R.cache.get("credit_refs") or set()
     prov = build_prov(P.plan, P.keys, P.events, __version__, stages, P.R.tb.word_anchors, asset_usage(P))
+    prov["qa"] = {**prov["qa"], **user_approval(P.root)}   # v7.4.0 D-0345 — 게이트 ② 승인 실값(manifest gate_decisions)
     prov["credits"] = credit_summary(req)   # D-0030 §3 — 표기 위치별 종류 개수
     exc = rights_exceptions(req, P.R.assets.rights, P.R.assets.media)   # v5.21.0 — 보도 인용(B) 사진 포함
     if exc:   # v5.15.0 D-0160 — restricted·사용자 예외 자산을 쓴 영상에만(P5·P6)
         prov["rights"] = {"exceptions": exc}
-    prov["reserved"] = {"avoidance": avoidance_report(P)}   # D-0033 §2 — 카드 영역 때문에 비킨·흐린 뱃지
+    from engine.credits import sa_obligations  # noqa: PLC0415
+
+    sao = sa_obligations(req, P.R.assets.media)   # v7.4.0 사용자 결정 D612 — CC BY-SA 사진·영상 고지 의무(쓴 영상에만)
+    if sao:
+        prov.setdefault("rights", {})["sa_obligations"] = sao
+    prov["drops"] = [{"record": d["record"], "reason": d["reason"]} for d in P.R.cache.get("direction_drops") or []]   # v7.4.0 D-0331 — 연출이 일부러 뺀 것(시리즈·요소)과 사유(P5·P6)
+    prov["reserved"] = {"avoidance": avoidance_report(P), "badge_delays": P.R.cache.get("badge_delays") or []}   # D-0033 §2 — 카드 영역 때문에 비킨·흐린 뱃지. badge_delays = v7.4.0 D-0329 ② 전면 덮개 뒤로 미룬 배지
     mus = sorted(r for r in (P.R.cache.get("credit_refs") or set()) if r.startswith("music."))
     segs = P.R.cache.get("bgm_segments", 1 if mus else 0)
+    prov["narration_clarity"] = P.R.cache.get("narration_clarity")   # v7.4.0 D-0626·D-0628 — 검사가 잰 경우만(mix 없으면 None)
     prov["audio"] = {"bgm": mus or None, "bed_gain": load_rules().audio.bed_gain,    # v3.4.0 — bgm null = 음악 없음(명시 상태, F1)
                      "crossfades": max(0, segs - 1),
                      **({"no_music_decision": nd} if (nd := (P.R.cache.get("music") or {}).get("no_music_decision")) else {})}   # v5.22.2 UF-16
@@ -196,6 +232,8 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
         prov["islands"] = [{"name": n, "t0": round(a, 2), "t1": round(b, 2), "box": [round(v, 1) for v in bx]}
                            for n, a, b, bx in island_boxes(P.events, P.R.assets.media_assets, P.R.stage.name)]
         prov["island"] = P.R.cache.get("island")   # lane_h_effective(Q2 A)
+    if P.R.cache.get("structure") is not None:   # v7.4.0 D-1003 §3 — 구성 무대 레코드·원본 지문 대조(없으면 기록 없음, P5)
+        prov["structure"] = P.R.cache["structure"]
     ic = P.R.cache.get("island_check")
     if ic is not None and (ic["card_overlap"] or prov.get("islands")):   # v5.2.0 D-0129 §C — checks [card-island] 와 같은 값
         prov["island"] = {**(prov.get("island") or {}), "card_overlap": ic["card_overlap"]}
@@ -236,14 +274,16 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     from engine.checks import chart_only_runs  # noqa: PLC0415
 
     prov["chart_only_runs"] = [list(r) for r in chart_only_runs(P)]   # v7.4.0 D-0252 — 차트·카드만 보인 구간(검사 [chart-only-run] 과 같은 값)
-    prov["chart_only_exempt"] = P.root.name in load_rules().qa_checks.chart_only_run.exempt_projects   # v7.4.0 D-0271 ② — 면제 프로젝트도 구간은 기록(hard 만 면제)
+    from engine.checks import regression_ref  # noqa: PLC0415
+
+    prov["regression_ref"] = regression_ref(P)   # v7.4.0 D-0311 — 회귀 기준 id(qa_checks.regression_refs, direction project_id·폴더 이름 폴백) 또는 null
     from engine.checks import flat_lanes, media_density  # noqa: PLC0415
     from rules import load_rules as _load_rules  # noqa: PLC0415
     _R = _load_rules()
 
     md_n, md_v = media_density(P.events, P.plan.total)   # v7.4.0 D-0262 ② — 면제 프로젝트도 검사는 돌고 기록(hard 만 면제)
     prov["media_density"] = {"count": md_n, "value": round(md_v, 3), "min": _R.media_beats.min_density_per_min,
-                             "exempt": P.root.name in _R.media_beats.density_exempt_projects}
+                             "exempt": prov["regression_ref"] is not None}
 
     if P.R.cache.get("series_range"):   # v7.4.0 D-0263 — 레인 값 범위·화면에 보인 세로 폭 비율(검사 [flat-lane] 과 같은 값). series 없으면 기록 없음(P5)
         fl = {lane: round(r, 3) for lane, r, _ in flat_lanes(P)}
@@ -257,6 +297,13 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
     pl = P.R.cache.get("pin_labels")
     if pl is not None:   # v7.4.0 D-0274 §1② — 값 레인 위 핀 라벨 단(+1·+2 선 위, −1·−2 아래, None = 점만)·교차(검사 [island-pin-collision] 과 같은 값)
         prov["pin_labels"] = {"rows": pl["rows"], "dropped": pl["dropped"], "collisions": len(pl["collisions"])}
+    from engine.style import FPS  # noqa: PLC0415
+
+    tracks = {e["inset"].get("mid") or f"flight@{e['t0']:.2f}": {"side": e["inset_track"]["side"], "basis": e["inset_track"]["basis"],
+              "moves": [[round(f / FPS, 2), a, b, round(mf / FPS, 2)] for f, a, b, mf in e["inset_track"]["moves"]]}
+              for e in P.events if e["type"] == "flight" and e.get("inset_track")}
+    if tracks:   # v7.4.0 D-0305 ② — 인셋 자리 근거(예측 고정 / sticky 보간), 돌지 않은 영상은 기록 없음(P5)
+        prov["inset_tracks"] = tracks
     prov["stage"] = P.R.cache.get("stage")   # v4.1.0 D-0076 작업 7 — 무대(name·declared·shots_declared·instances)
     from engine.typography import CONTRAST_FIXED as lcf  # noqa: PLC0415 — 프리뷰(같은 프로세스)
     rjf = P.root / "out" / "render.json"
@@ -340,7 +387,10 @@ def main(argv: list[str] | None = None) -> int:
         for need in ("video_noaudio.mp4", "mix.f32"):
             if not (outd / need).exists():
                 raise ProjectError(f"out/{need} 없음 — engine.render / audio.mix 먼저")
-        final, loud = mux(proj, P.plan.total)
+        from engine.timing import last_run_start, stage_timer, summarize  # noqa: PLC0415 — D-1000 S0
+
+        with stage_timer(proj, "mux.final.encode", step="loudnorm_mux"):
+            final, loud = mux(proj, P.plan.total)
         (outd / "final.srt").write_text(build_srt(P.plan), encoding="utf-8")
         (outd / "credits.txt").write_text("\n".join(credit_lines(P.R.credits, P.R.assets.rights, P.R.assets.media,
                                                                   P.R.cache.get("credit_refs"), P.R.cache.get("cited_sources"),
@@ -357,6 +407,11 @@ def main(argv: list[str] | None = None) -> int:
         dpress = description_press_photos(req, P.R.assets.media)   # v5.21.0 D-0177 §3 — 보도 인용(B) 사진 출처 줄
         if dpress:
             desc += "\n\n" + DESCRIPTION_PRESS_HEADING + "\n" + "\n".join(dpress)
+        from engine.credits import description_sa_credits  # noqa: PLC0415
+
+        dsa = description_sa_credits(req, P.R.assets.media)   # v7.4.0 D612 — CC BY-SA 사진·영상 고지(작가·제목·라이선스·링크·변경)
+        if dsa:
+            desc += "\n\n" + DESCRIPTION_SA_HEADING + "\n" + "\n".join(dsa)
         (outd / "description.txt").write_text(desc, encoding="utf-8")
         prov = project_provenance(P, {"plan": True, "geo": True, "preview": (proj / "prev" / "provenance.json").exists(),
                                       "render": True, "mix": True, "mux": True, "ai_direction": False, "visual_qa": False})
@@ -377,6 +432,9 @@ def main(argv: list[str] | None = None) -> int:
             if pc["from_current_direction"] is not True:
                 warns = [*warns, f"[preview-stale] 프리뷰 검사 연출 지문이 현재 연출과 다르거나 없음 ({pc['direction_sha1']}) — "
                                  "전편 provenance checks 는 그 프리뷰 기준"]
+        tsum = summarize(proj, last_run_start(proj, "render.final.frames"))
+        if tsum is not None:   # D-1000 S0 — 마지막 전편 렌더부터 이 mux 까지(돈 단계만, P5)
+            prov["timings"] = tsum
         (outd / "provenance.json").write_text(json.dumps(prov, ensure_ascii=False, indent=1), encoding="utf-8")
         if issues:
             raise ProjectError("오디오 QA hard 실패:\n" + "\n".join(issues))

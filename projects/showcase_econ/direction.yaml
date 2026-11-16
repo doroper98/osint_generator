@@ -1,5 +1,6 @@
 # direction.yaml — AI 연출 수정본(ReviseDirectionWorker, v3.1.0, 17 §5.5). changelog 는 prev/revision.v*.json.
 version: 1
+template_label: 쇼케이스 템플릿 · 경제   # v7.4.0 D-0312 ③(UF-147) — 타이틀 부제 앞·엔딩 카드 머리 줄(코드 조판)
 genre: macro_monetary
 stage: backdrop
 media_note: '인용 0건: 원문 따옴표로 확인된 발언 후보가 없다. 영상 0건: Commons 워시 취임 영상은 원본 서버 429, YouTube 는 서버 403(우회 안 함), 연준 사이트 플레이어(Brightcove)는 도메인 허용 대기 — 클립은 전편 전 목표(D-0265). 사진은 배경 5 + 슬롯 6(손 수정 D-0265: 파월 4.29 회견·워시 취임 선서·마트 가격표 추가, 점도표 프리미티브 → 금리 레인 전망 점)'
@@ -143,6 +144,7 @@ events:
     scene_start: act1
     'off': 0.6
   img: fed_presser_0916
+  for: 케빈 워시 연준 의장 기자회견   # v7.4.0 D-0358 [backdrop-subject] — 장면 주제, 레지스트리 main_subject
 - type: backdrop
   start:
     scene_start: act1
@@ -150,6 +152,7 @@ events:
     scene_start: act2
     'off': 0.6
   img: fed_eccles_ext
+  for: 연준   # v7.4.0 D-0358 [backdrop-subject] — 장면 주제, 레지스트리 main_subject
 - type: backdrop
   start:
     scene_start: act2
@@ -157,6 +160,7 @@ events:
     scene_start: act3
     'off': 0.6
   img: fed_boardroom
+  for: 연준 이사회 회의실   # v7.4.0 D-0358 [backdrop-subject] — 장면 주제, 레지스트리 main_subject
 - type: backdrop
   start:
     scene_start: act3
@@ -164,12 +168,15 @@ events:
     scene_start: ending
     'off': 0.6
   img: fed_eccles_atrium
+  for: 연준   # v7.4.0 D-0358 [backdrop-subject] — 장면 주제, 레지스트리 main_subject
 - type: backdrop
   start:
     scene_start: ending
   end:
     scene_end: ending
   img: fed_presser_0916
+  for: 케빈 워시 연준 의장 기자회견   # v7.4.0 D-0358 [backdrop-subject] — 장면 주제, 레지스트리 main_subject
+# v7.4.0 D-0274 §2·D-0280 — 발언 자리 두 곳(cold_0·act2_1 뒤)은 액자 클립이 주 요소 — 그동안 차트 아일랜드는 비킨다(배경 사진 위 액자만)
 - type: island
   kind: chart
   box: left_tall
@@ -177,8 +184,52 @@ events:
     sid: cold_0
     'off': -0.4
   end:
+    hold: cold_0
+- type: island
+  kind: chart
+  box: left_tall
+  start:
+    hold: cold_0
+    edge: end
+  end:
+    hold: act2_1
+- type: island
+  kind: chart
+  box: left_tall
+  start:
+    hold: act2_1
+    edge: end
+  end:
     scene_end: ending
     'off': 0.5
+# 발언 클립(원음 + 번역 자막, 내레이션 없음) — 액자 clip_frame main(코드가 배치)
+- type: clip
+  start:
+    hold: cold_0
+  end:
+    hold: cold_0
+    edge: end
+  mid: fed_clip_0916_decision
+- type: clip
+  start:
+    hold: act2_1
+  end:
+    hold: act2_1
+    edge: end
+  mid: fed_clip_0729_vote
+# 7.29 회견장 현장(b-roll, 구석·원음 낮게) — 시점 이동 문장
+- type: clip
+  start:
+    sid: act2_0
+    'off': 0.0 # v7.4.0 D-0346·D-0348(UF-171 [element-hold]) — 완전 노출 ≥ qa_checks.element_hold.min_full_sec(옛 [0.2, 3.4], broll 상한 9 — 25bc3915)
+  end:
+    sid: act2_0
+    'off':
+    - 0.0
+    - 7.3
+  mid: fed_clip_0729_room_a
+  role: broll
+  place: backdrop_right_low
 - type: series
   start:
     sid: cold_0
@@ -193,9 +244,9 @@ events:
   color_by: change
   col: gold
 - type: series
-  start:
-    sid: cold_0
-    'off': -0.2
+  start:   # v7.4.0 D-0344(UF-154 [chart-overload]) — 띠(cold_0)와 같은 순간 → '연준의 금리를 한 줄의 시간축 위에서' 문장(act1_0)에, 띠보다 34초 뒤. 원고에 실효금리를 부르는 문장이 없어 원고는 그대로(게이트 ① 불변)
+    sid: act1_0
+    'off': 0.3
   end:
     scene_end: ending
     'off': 0.5
@@ -215,19 +266,6 @@ events:
   sub: 3.75~4%
   side: right
   hl: true
-- type: card
-  start:
-    sid: cold_0
-    'off': 0.8
-  end:
-    sid: cold_0
-    edge: end
-    'off': 0.4
-  tag: 9월 16일 · 연준
-  bigs:
-  - - 3.75~4%
-    - 기준금리 목표 범위 · 0.25%p 인상
-  accent: gold
 - type: article
   start:
     sid: cold_1
@@ -246,7 +284,7 @@ events:
   date: '2025-10-29'
   lane: policy_rate
   label: 10월 29일 인하
-  sub: 3.75~4%
+  sub: −0.25%p · 목표 3.75~4%   # v7.4.0 D-0358 [spoken-number-visible] act1_2 '0.25%p'·'4%'(clm_0014)(옛 '3.75~4%')
   side: right
   hl: true
 - type: photo
@@ -258,6 +296,7 @@ events:
     edge: end
     'off': 0.4
   mid: fed_boardroom
+  for: 연준   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: backdrop_right_low
 - type: marker
   start:
@@ -269,21 +308,9 @@ events:
   date: '2025-12-10'
   lane: policy_rate
   label: 12월 10일 인하
-  sub: 3.5~3.75%
+  sub: −0.25%p · 목표 3.5~3.75%   # v7.4.0 D-0358 [spoken-number-visible] act1_3 '3.75%'(clm_0015)(옛 '3.5~3.75%')
   side: right
   hl: true
-- type: card
-  start:
-    sid: act1_4
-    'off': 0.3
-  end:
-    sid: act1_4
-    edge: end
-    'off': 0.6
-  tag: 2026년 1~6월
-  lines:
-  - 네 번의 회의 · 금리 그대로
-  accent: muted
 - type: marker
   start:
     word:
@@ -311,16 +338,6 @@ events:
   sub: 5월
   side: right
   hl: false
-- type: photo
-  start:
-    sid: act1_6
-    'off': 0.4
-  end:
-    sid: act1_6
-    edge: end
-    'off': 0.8
-  mid: econ_warsh_swearing_5
-  place: backdrop_right_low
 - type: marker
   start:
     word:
@@ -346,25 +363,19 @@ events:
   sub: 3.5~3.75% · 9대 3
   side: left
   hl: true
-- type: photo
-  start:
-    sid: act2_1
-    'off': 0.4
-  end:
-    sid: act2_1
-    edge: end
-    'off': 0.6
-  mid: fed_presser_0729
-  place: backdrop_right_low
-- type: article
+- type: marker   # v7.4.0 D371(D-0358 A1) — act2_3 '0.25%p'(clm_0007). 옛 CNN 7.29 기사 카드(act2_2 +0.1 ~ act2_4 +0.3)가 문장 전체를 덮어 숫자가 안 보였다 → 기사를 빼고 시간축 표지로
   start:
     sid: act2_2
     'off': 0.1
   end:
     sid: act2_4
-    'off': 0.3
-  mid: cnn_0729
-  theme: dark
+    'off': -0.1
+  date: '2026-07-29'
+  lane: policy_rate
+  label: 반대 3인
+  sub: +0.25%p 인상 주장
+  side: right
+  hl: true
 - type: marker
   start:
     sid: act2_4
@@ -381,38 +392,12 @@ events:
   start:
     sid: act2_4
     'off': 0.3
-  end:
-    sid: act2_4
-    edge: end
-    'off': 0.9
-  mid: cnn_0916
-  theme: dark
-- type: card
-  start:
+  end: # v7.4.0 D-0346·D-0348(UF-171 [element-hold]) — 완전 노출 ≥ qa_checks.element_hold.min_full_sec(옛 act2_4 끝 +0.9) — act2_5 는 같은 결정의 성명
     sid: act2_5
-    'off': 0.2
-  end:
-    sid: act2_5
-    edge: end
-    'off': 0.6
-  tag: 연준 성명 · 9월 16일
-  lines:
-  - 인플레이션은 여전히 높다
-  accent: gold
-- type: card
-  start:
-    sid: act2_6
-    'off': 0.5
-  end:
-    sid: act2_7
     edge: end
     'off': 0.4
-  tag: 8월 소비자물가 · 1년 전 대비
-  bigs:
-  - - 3.4%
-    - 상승
-  accent: amber
-  src: 미 노동통계국(BLS) CPI-U · FRED
+  mid: cnn_0916
+  theme: dark
 - type: marker
   start:
     sid: act3_0
@@ -429,11 +414,11 @@ events:
   start:
     sid: act3_0
     'off': 0.4
-  end:
-    sid: act3_0
-    edge: end
-    'off': 0.4
+  end: # v7.4.0 D-0346·D-0348(UF-171 [element-hold]) — 완전 노출 ≥ qa_checks.element_hold.min_full_sec(옛 act3_0 끝 +0.4) — act3_1 은 같은 날 점도표
+    sid: act3_1
+    'off': 2.0
   mid: fed_presser_0916_b
+  for: 케빈 워시 연준 의장 기자회견   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: backdrop_right_low
 - type: series
   start:
@@ -460,14 +445,15 @@ events:
   side: left
   hl: true
 - type: photo
-  start:
-    sid: act3_3
-    'off': 0.4
-  end:
-    sid: act3_3
+  start: # v7.4.0 D-0346·D-0348(UF-171 [element-hold]) — 완전 노출 ≥ qa_checks.element_hold.min_full_sec(옛 act3_3 +0.4 ~ 끝 +0.4)
+    sid: act3_2
     edge: end
-    'off': 0.4
+    'off': 0.0
+  end:
+    scene_start: ending
+    'off': -0.1
   mid: fed_eccles_ext
+  for: 연준   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: backdrop_right_low
 - type: marker
   start:
@@ -478,7 +464,7 @@ events:
     'off': 0.5
   date: '2025-10-29'
   lane: policy_rate
-  label: 3.75~4%
+  label: 목표 3.75~4%   # v7.4.0 D-0358 [spoken-number-visible] ending_0 '4%'(옛 '3.75~4%')
   sub: 2025년 10월
   side: right
   hl: true
@@ -492,30 +478,36 @@ events:
     'off': 0.5
   date: '2026-09-16'
   lane: policy_rate
-  label: 3.75~4%
+  label: 목표 3.75~4%   # v7.4.0 D-0358 [spoken-number-visible] ending_0 '4%'(옛 '3.75~4%')
   sub: 2026년 9월
   side: left
   hl: true
-- type: photo
-  start:
-    sid: act1_4
-    'off': 0.6
-  end:
-    sid: act1_4
-    edge: end
-    'off': 0.5
-  mid: econ_powell_presser_552
-  place: backdrop_right_low
-- type: photo
+- type: marker   # v7.4.0 D-0358 [spoken-number-visible] act2_6 '3.4%' — 8월 소비자물가 전년 대비(clm_0022, src_art_0005·0006). 자료 달(8월) 자리
   start:
     sid: act2_6
-    'off': 0.8
+    'off': 0.2
   end:
-    sid: act2_6
-    edge: end
-    'off': 0.6
-  mid: econ_walmart_2508
-  place: backdrop_right_low
+    sid: act2_7
+    'off': -0.1
+  date: '2026-08-15'   # v7.4.0 D372 — 8월 한 달 값(전년 대비)의 가운데 자리. 08-01 은 7.29 점과 겹쳐 '●●'(눈 확인, RENDER-AP-034), 08-31 은 끝값 3.63% 라벨 판이 핀 고리를 덮었다
+  lane: policy_rate
+  label: +3.4%   # v7.4.0 D372 — 핀 라벨은 시간축이 자동으로 아래 단에 둔다(위 단 = 7.29 라벨, side 무효). '8월 소비자물가 +3.4%'·'물가 +3.4%' 폭이 끝값 3.63% 라벨에 닿아 숫자만 위 줄, 무엇인지는 아래 줄
+  sub: 8월 물가
+  side: left
+  hl: true
+- type: marker   # v7.4.0 D-0358 [spoken-number-visible] act3_2 '0.25%p' — 9월 경제전망(SEP) 중앙값 연내 추가 인상 1회(clm_0027, src_doc_0009)
+  start:
+    sid: act3_2
+    'off': 0.2
+  end:
+    sid: act3_3
+    'off': -0.1
+  date: '2026-12-31'
+  lane: policy_rate
+  label: 연말 중앙값 4.125%   # v7.4.0 D-0358 — 옛 '연내 +0.25%p 추가 인상'은 act3_2 를 100% 되풀이([text-restates-narration]). 자막에 없는 연말 수준(SEP 2026 중앙값, data/series/SEP_20260916)
+  sub: +0.25%p 1회
+  side: left
+  hl: true
 sound:
   bgm: music.zabriskie_patriarch
   intensity:
@@ -539,6 +531,16 @@ sound:
   cues: []
   no_music_decision: null
 drops:
+- record: article cnn_0729 act2_2
+  reason: "D371(D-0358 A1) — act2_2~act2_3 전체를 덮는 전면 기사 카드라 act2_3 이 말한 '0.25%p'(반대 3인의 인상 주장, clm_0007)가 화면에 안 보였다([spoken-number-visible]). 번역 카드는 레지스트리 sub 를 그리지 않는다. 기사를 빼고 시간축 표지 '반대 3인 · +0.25%p 인상 주장'으로. 9대 3 표결은 act2_1 표결 영상이 보인다"
+- record: photo econ_warsh_swearing_5 act1_6
+  reason: "D-0349(UF-173) — act1_6(2026.05) 날짜 창이 옆 문장 0.5초씩 넣어도 4.8초(< span 7.5). 다음 문장(2026.06 '반년 멈춘 금리 선')으로 늘리지 않는다 — 취임은 자막·날짜가 맡는다"
+- record: photo econ_walmart_2508 act2_6
+  reason: "D-0349(UF-173) — act2_6(2026.08) 날짜 창 4.8초(< span 7.5). 금리 방향 문장(2026.09.16)으로 늘리지 않는다 — 8월 물가 3.4% 는 자막이 맡는다"
+- record: photo econ_powell_presser_552 act1_4
+  reason: "D-0346·D-0348 — 최소 유지 시간 미달(완전 노출 2.69초). act1 사진 셋(이사회실·파월·워시) 중 하나 — act1_4(동결 4회)는 금리 선이 맡는다(요소 수 축소)"
+- record: photo fed_presser_0729 act2_1
+  reason: "D-0346·D-0348 — 최소 유지 시간 미달(완전 노출 1.82초). act2 첫머리 7.29 회의 매체 셋(회의실 영상·회견 사진·표결 영상) 중 하나 — 회견 장면은 표결 영상이 맡는다(요소 수 축소)"
 - record: CPIAUCSL
   reason: 아일랜드 높이 298 에 레인 셋이면 금리 값 영역이 약 25px 이라 동결기가 평평해 보인다(UF-140) — 금리 + 기록 두 레인(D-0267 §1). 물가 3.4% 는 act2_6 카드가 말하고, 물가 시계열은 geo 편 dual_line 이 보여 준다
 - record: DFEDTARU

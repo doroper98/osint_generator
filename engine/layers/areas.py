@@ -8,12 +8,12 @@ from engine.context import RenderCtx
 from engine.layers.borders import path_rings
 from engine.projection import View
 from engine.stage import MERCATOR_LOD as LOD
-from engine.style import map_c
+from engine.style import ELEM, map_c
 from engine.timebase import window
 
 
 def draw_country(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
-    a = window(t, e["t0"], e["t1"], 0.8, 0.6)
+    a = window(t, e["t0"], e["t1"], *ELEM["country"])   # v7.4.0 UF-159 ×1.5
     col = map_c(view.stage, e["col"])   # v5.18.0 D-0161 §3
     if a <= 0.01:
         return

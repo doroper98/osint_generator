@@ -1,0 +1,11 @@
+# 레지스트리 프리뷰 예제 (v7.4.0, back_and_forth D-1003 §3, 15 P10) — island 종류마다 하나.
+# 구성 아일랜드 — backdrop 무대 위 구성 무대(structure) 뷰포트 상자. box = stage_config.structure.box 와 같은 이름. 카메라 = stage: structure 숏.
+schema_version: 1
+key: island_structure
+source: 구성 아일랜드(v7.4.0, D-1003 §3)
+event:
+  type: island
+  t0: 0.5
+  t1: 14.0
+  kind: structure
+  box: center_tall

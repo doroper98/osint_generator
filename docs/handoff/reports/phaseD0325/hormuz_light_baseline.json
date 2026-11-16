@@ -1,0 +1,121 @@
+{
+ "schema_version": 1,
+ "role": "Phase D-0325(v7.4.0) 기준선 — 요소 등장·퇴장 전환 ×1.5(사용자 의견 UF-159, back_and_forth D-0325 §2). 원고·연출 불변. 옛 기준선 = docs/handoff/reports/phaseD0306/hormuz_light_baseline.json",
+ "command": "geo.prep --theme light → engine.render --preview golden (tests/anti_inertia/test_q3_light_e2e.py light_project 사본)",
+ "stamp_box": [
+  797.0,
+  462.2,
+  842.0,
+  471.95
+ ],
+ "stamp_box_basis": "v99.99.99 — 오른쪽 끝 고정(W − x_from_right), 폭 = adv('v99.99.99') 45px; v5.10.0 에서 두 자리 MINOR 로 넓힘(D-0148)",
+ "mask_pad_px": 2,
+ "changed_vs_prev": [
+  "p_0072.76.png",
+  "p_0211.08.png"
+ ],
+ "cuts": [
+  {
+   "png": "p_0006.95.png",
+   "md5": "27ee2811b3f7d3318ec84580c4c70bd3"
+  },
+  {
+   "png": "p_0020.21.png",
+   "md5": "61f9204a10a90198b4d51361a52df9ca"
+  },
+  {
+   "png": "p_0026.71.png",
+   "md5": "91a9ea0aec167d999149a50a8059e9b9"
+  },
+  {
+   "png": "p_0035.36.png",
+   "md5": "5f7b08149602aaece2bef9d4662ef583"
+  },
+  {
+   "png": "p_0041.39.png",
+   "md5": "6c1a419a38482171da7e1a04e7590e6d"
+  },
+  {
+   "png": "p_0050.86.png",
+   "md5": "913a43b1f4654f9d2fa8cc8b87d53545"
+  },
+  {
+   "png": "p_0055.70.png",
+   "md5": "6a019a29408f4d6321a1cf79a8a06e85"
+  },
+  {
+   "png": "p_0059.02.png",
+   "md5": "ea9c75593bd099923fb8035573bcc613"
+  },
+  {
+   "png": "p_0072.76.png",
+   "md5": "bcffa6a8a3404dfc8e44e5b68868e394"
+  },
+  {
+   "png": "p_0076.30.png",
+   "md5": "f3b3c2334d0d4fb1f0e89b0b851a2971"
+  },
+  {
+   "png": "p_0091.50.png",
+   "md5": "7ed99938ed5429c9baf82e4cf23bffb4"
+  },
+  {
+   "png": "p_0108.92.png",
+   "md5": "e2b2a0a5917c84147d737e0f2c698240"
+  },
+  {
+   "png": "p_0120.37.png",
+   "md5": "8cab1582da7ea5c79652471fc0578093"
+  },
+  {
+   "png": "p_0138.26.png",
+   "md5": "98255808a7701d216f9a6d6523554d05"
+  },
+  {
+   "png": "p_0145.33.png",
+   "md5": "a43dfda9357c4740336035f88047d45b"
+  },
+  {
+   "png": "p_0150.26.png",
+   "md5": "343a9ed2e62a8d370c9c92ed71956330"
+  },
+  {
+   "png": "p_0170.97.png",
+   "md5": "56e73c10bd85b758d50db328e26acf43"
+  },
+  {
+   "png": "p_0183.72.png",
+   "md5": "1d18a240d6d83949843cadb150ea6da4"
+  },
+  {
+   "png": "p_0189.96.png",
+   "md5": "0bc436f7fb564e371868c79616a62d29"
+  },
+  {
+   "png": "p_0195.53.png",
+   "md5": "a7c7c561620a4ee46e62cfad3f580486"
+  },
+  {
+   "png": "p_0211.08.png",
+   "md5": "cb76b182679ab5995caf170ccc6bab34"
+  },
+  {
+   "png": "p_0218.12.png",
+   "md5": "36c71d4ee4be04fc2cd22d395b46c03d"
+  },
+  {
+   "png": "p_0229.62.png",
+   "md5": "ffc82d7861e228bbd817034808519d0c"
+  },
+  {
+   "png": "p_0245.60.png",
+   "md5": "26920c6854fcac4e92dc49342a04781b"
+  },
+  {
+   "png": "p_0256.66.png",
+   "md5": "7de3dca2252243d06f59c500e74601c3",
+   "mask": true,
+   "md5_masked": "b6681d06b05b0c76b1c6681e1a1837cc"
+  }
+ ]
+}

@@ -242,18 +242,6 @@ events:
   label: 블라디미르 푸틴
   role: 러시아 대통령
   accent: ru
-- type: card
-  start:
-    sid: open_1
-    'off': 0.2
-  end:
-    sid: open_1
-    edge: end
-    'off': 0.3
-  tag: 발다이 토론클럽 연례회의
-  lines:
-  - 9월 28일 – 10월 1일 · 모스크바 지역
-  accent: muted
 - type: marker
   start:
     sid: open_2
@@ -278,31 +266,6 @@ events:
   ship: false
   dashed: true
   label: 우크라이나 공격 위협
-- type: card
-  start:
-    sid: open_3
-    'off': 0.2
-  end:
-    sid: open_3
-    edge: end
-    'off': 0.3
-  tag: 푸틴 대통령 · 발다이 연설
-  lines:
-  - 세계가 위험한 순간을 지나고 있다
-  accent: ru
-  src: 모스크바타임스
-  quote: false
-- type: card
-  start:
-    sid: open_4
-    'off': 0.2
-  end:
-    scene_end: open
-  tag: 이날 발언의 두 갈래
-  lines:
-  - 안보
-  - 에너지
-  accent: gold
 - type: marker
   start:
     sid: timeline_0
@@ -409,19 +372,6 @@ events:
   src: 발다이 토론클럽 연설
   date: 2026. 10. 01
   accent: ru
-- type: card
-  start:
-    sid: kaliningrad_warning_2
-    'off': 0.1
-  end:
-    sid: kaliningrad_warning_3
-    edge: end
-    'off': 0.3
-  tag: 발언의 성격
-  lines:
-  - 핵무기 사용 결정 발표는 아니다
-  - 서방에 개입의 한계를 경고
-  accent: muted
 - type: quote
   start:
     sid: kaliningrad_warning_4
@@ -482,18 +432,6 @@ events:
   sub: ''
   side: bottom
   hl: true
-- type: card
-  start:
-    sid: nato_letter_1
-    'off': 0.2
-  end:
-    sid: nato_letter_1
-    edge: end
-    'off': 0.3
-  tag: 러시아 → 나토 서한
-  lines:
-  - 칼리닌그라드 방어를 위해 핵무기 사용 가능
-  accent: ru
 - type: quote
   start:
     sid: nato_letter_2
@@ -537,44 +475,6 @@ events:
   ship: false
   dashed: true
   label: 답신 · 9월 30일
-- type: card
-  start:
-    sid: nato_response_0
-    'off': 0.3
-  end:
-    sid: nato_response_0
-    edge: end
-    'off': 0.3
-  tag: 나토 답신 · 9월 30일
-  lines:
-  - 방어 동맹임을 강조
-  accent: teal
-- type: card
-  start:
-    sid: nato_response_1
-    'off': 0.2
-  end:
-    sid: nato_response_1
-    edge: end
-    'off': 0.3
-  tag: 앨리슨 하트 나토 대변인
-  lines:
-  - “러시아의 무력 위협과 무책임한 핵 수사를 규탄한다”
-  accent: teal
-  src: AP통신
-  quote: true
-- type: card
-  start:
-    sid: nato_response_2
-    'off': 0.2
-  end:
-    scene_end: nato_response
-  tag: 뤼터 나토 사무총장
-  lines:
-  - 러시아의 핵 위협을 심각하게 받아들이지 않는다
-  accent: teal
-  src: 키이우포스트
-  quote: false
 - type: badge
   start:
     sid: europe_remarks_0
@@ -589,55 +489,6 @@ events:
   label: 블라디미르 푸틴
   role: 러시아 대통령
   accent: ru
-- type: card
-  start:
-    sid: europe_remarks_0
-    'off': 0.2
-  end:
-    sid: europe_remarks_0
-    edge: end
-    'off': 0.3
-  tag: 푸틴 대통령 · 발다이 연설
-  lines:
-  - 유럽 국가를 공격할 계획이 없다
-  accent: ru
-- type: card
-  start:
-    sid: europe_remarks_1
-    'off': 0.2
-  end:
-    sid: europe_remarks_1
-    edge: end
-    'off': 0.3
-  tag: 푸틴 대통령 · 발다이 연설
-  lines:
-  - 우크라이나에 무기 공급하는 유럽 공장도 공격 계획 없다
-  accent: ru
-- type: card
-  start:
-    sid: europe_remarks_2
-    'off': 0.2
-  end:
-    sid: europe_remarks_2
-    edge: end
-    'off': 0.3
-  tag: 푸틴 대통령
-  lines:
-  - 우크라이나용 무기 생산 유럽 공장을 감시하고 있다
-  accent: ru
-  src: 키이우포스트
-  quote: false
-- type: card
-  start:
-    sid: europe_remarks_3
-    'off': 0.2
-  end:
-    scene_end: europe_remarks
-  tag: 푸틴 대통령 · 3자 회담
-  lines:
-  - 의제가 마련되면 시진핑·트럼프와 3자 회담 준비
-  accent: gold
-  src: 모스크바타임스
 - type: badge
   start:
     word:
@@ -748,16 +599,6 @@ events:
   sub: 약 80km 국경 구간 · AP·키이우포스트
   side: right
   hl: true
-- type: card
-  start:
-    sid: geography_3
-    'off': 0.2
-  end:
-    scene_end: geography
-  tag: 수바우키 회랑 길이
-  lines:
-  - 출처마다 설명이 엇갈린다
-  accent: muted
 - type: panel
   start:
     scene_start: blockade_dispute
@@ -826,20 +667,6 @@ events:
   label: 블라디미르 푸틴
   role: 러시아 대통령
   accent: ru
-- type: card
-  start:
-    sid: diesel_1
-    'off': 0.2
-  end:
-    sid: diesel_1
-    edge: end
-    'off': 0.3
-  tag: 푸틴 대통령 · 10월 1일
-  lines:
-  - 제재 해제 때까지 세계시장에 경유를 공급하지 않겠다
-  accent: ru
-  src: 로이터
-  quote: false
 - type: quote
   start:
     sid: diesel_2
@@ -856,32 +683,6 @@ events:
   src: 로이터
   date: 2026. 10. 01
   accent: ru
-- type: card
-  start:
-    sid: diesel_3
-    'off': 0.2
-  end:
-    sid: diesel_3
-    edge: end
-    'off': 0.3
-  tag: 러시아 · 9월 30일
-  lines:
-  - 연료 생산업체 경유 수출 금지
-  - 10월 31일까지 연장
-  accent: ru
-- type: card
-  start:
-    sid: diesel_4
-    'off': 0.2
-  end:
-    sid: diesel_4
-    edge: end
-    'off': 0.3
-  tag: 비생산업체 대상
-  lines:
-  - 경유 수출 금지 1월까지 유지
-  accent: ru
-  src: 모스크바타임스
 - type: panel
   start:
     sid: diesel_5
@@ -945,32 +746,6 @@ events:
     - 6.382
     decimals: 2
   x_label_rotate: true
-- type: card
-  start:
-    sid: russia_domestic_0
-    'off': 0.2
-  end:
-    sid: russia_domestic_0
-    edge: end
-    'off': 0.3
-  tag: 러시아 휘발유 평균 가격
-  bigs:
-  - - +21%
-    - 연초 대비
-  accent: ru
-  src: 모스크바타임스
-- type: card
-  start:
-    sid: russia_domestic_1
-    'off': 0.2
-  end:
-    scene_end: russia_domestic
-  tag: 러시아 연방반독점청 · 9월 30일
-  bigs:
-  - - 58건
-    - 주유소 체인 폭리 의심 사례 조사
-  accent: ru
-  src: 모스크바타임스
 - type: country
   start:
     sid: refinery_0
@@ -1053,30 +828,6 @@ events:
   label: 블라디미르 푸틴
   role: 러시아 대통령
   accent: ru
-- type: card
-  start:
-    sid: refinery_3
-    'off': 0.2
-  end:
-    sid: refinery_3
-    edge: end
-    'off': 0.3
-  tag: 푸틴 대통령
-  lines:
-  - 러시아도 우크라이나에 같은 방식으로 대응하고 있다
-  accent: ru
-  src: 모스크바타임스
-  quote: false
-- type: card
-  start:
-    sid: refinery_4
-    'off': 0.2
-  end:
-    scene_end: refinery
-  tag: 하나로 묶은 메시지
-  lines:
-  - 군사적 긴장 · 연료 공급 · 제재
-  accent: gold
 - type: panel
   start:
     scene_start: open_questions

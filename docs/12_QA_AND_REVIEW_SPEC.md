@@ -82,6 +82,8 @@ preview → prev/checks.json(결정적 검사 18항목)
 ### 2.2 장르 요소 검사 — v4.2.0
 
 `genre_elements`(hard)는 연출이 쓴 요소 종류(패널은 kind, 프리미티브는 id, 뱃지는 badge와 kind)가 장르 프로필의 reuse ∪ new 안인지 본다. 프로필 밖 요소는 요소마다 `[genre-element]` 한 줄이다.
+
+**v7.4.0 개정(UF-403, 사용자 "룩앤필을 만들어 두는거지 거기에 우겨넣는걸 원하는건 아니거든")**: 장르는 톤 프리셋이다. `genre_elements` 의 허용 집합은 장르 프로필이 아니라 **등록 요소 전부**(registries)다 — 장르 프로필 primitives 는 추천 목록이다. 무대도 등록 무대 전부를 고를 수 있고(장르 stage.primary = 기본값, 다르면 stage_reason — `stage_choice` 경고), 장르별 막 구성(`genre_prompt.acts`)은 참고 흐름이지 고정 막이 아니다.
 **게이트 ② 선행 조건(v5.2.0, PIPELINE-AP-014)**: 현재 `plan.json` 길이와 같은 콘티 판 기록(`out/animatic_provenance.json`, `animatic_run`)이 있어야
 `preview_approval` 승인이 된다(`orchestrator.project_manager.require_animatic`, 우회 없음). 게이트 기록 `shown.animatic` 에 경로·길이·연출 판 sha1.
 
@@ -114,6 +116,11 @@ handoff 20 §5.3 표의 아홉 규칙을 네 검사(`chart_honesty`·`series_lim
 | 요청 카메라가 무대 경계 밖이라 렌더 View 가 자름(지도·시간축·차트 아일랜드) | hard `camera_bounds` | `rules:qa_checks.camera_bounds_rel_tol` | UF-99 — 잘린 동안 화면이 멈췄다가 이동 중간에 한 프레임 만에 꺾임 |
 | 카메라 연속성·속도는 **화면 궤적**(`engine.camera.screen_track`)으로 | hard `camera_continuity`·`camera_speed` | `rules:sketch.checks`·`rules:shot_grammar.camera_speed` | RENDER-AP-026(재는 것 ≠ 보이는 것) |
 | 스케치 같은 식 | SK-C1 | 같은 키 | C12-3 |
+
+### 2.5b 템플릿 표시·투자 고지 — v7.4.0 (UF-147 D-0302 ⑤ · D-0278 §4.3)
+
+- `template_label` hard `[template-label-missing]`: 장르 프로필 `template_label` 이 있으면 타이틀 카드·엔딩 카드 프레임을 실제로 그려 글자 목록에 그 문구가 있는지 본다(모서리 금지 — 부제 앞·엔딩 머리 줄, C0).
+- `invest_notice` hard `[invest-notice-missing]`: 장르 `invest_notice: true`(earnings)면 엔딩 카드 맨 마지막 줄에 `rules end_card.notice_invest.text` 가 그려졌는지 프레임으로 본다.
 
 ### 2.6 사용자 의견 원장 게이트 — v5.22.0 (D-0200)
 

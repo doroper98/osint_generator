@@ -32,7 +32,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8715,
-    "elapsed_ms": 65511,
+    "elapsed_ms": 17560,
     "realigned_from": null
    },
    "prosody": {
@@ -83,7 +83,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.91,
-    "elapsed_ms": 17706,
+    "elapsed_ms": 969,
     "realigned_from": null
    },
    "prosody": {
@@ -126,7 +126,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8928,
-    "elapsed_ms": 1166,
+    "elapsed_ms": 892,
     "realigned_from": null
    },
    "prosody": {
@@ -169,7 +169,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8923,
-    "elapsed_ms": 1065,
+    "elapsed_ms": 891,
     "realigned_from": null
    },
    "prosody": {
@@ -216,8 +216,8 @@
    ],
    "alignment": {
     "source": "mms_forced_alignment",
-    "score_mean": 0.8573,
-    "elapsed_ms": 1302,
+    "score_mean": 0.8572,
+    "elapsed_ms": 4966,
     "realigned_from": null
    },
    "prosody": {
@@ -260,7 +260,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9406,
-    "elapsed_ms": 1272,
+    "elapsed_ms": 5020,
     "realigned_from": null
    },
    "prosody": {
@@ -303,7 +303,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9603,
-    "elapsed_ms": 1436,
+    "elapsed_ms": 5007,
     "realigned_from": null
    },
    "prosody": {
@@ -346,7 +346,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9587,
-    "elapsed_ms": 957,
+    "elapsed_ms": 4577,
     "realigned_from": null
    },
    "prosody": {
@@ -389,7 +389,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8068,
-    "elapsed_ms": 1479,
+    "elapsed_ms": 4942,
     "realigned_from": null
    },
    "prosody": {
@@ -432,7 +432,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9107,
-    "elapsed_ms": 1222,
+    "elapsed_ms": 5162,
     "realigned_from": null
    },
    "prosody": {
@@ -475,7 +475,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9358,
-    "elapsed_ms": 1049,
+    "elapsed_ms": 4704,
     "realigned_from": null
    },
    "prosody": {
@@ -518,7 +518,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8535,
-    "elapsed_ms": 934,
+    "elapsed_ms": 4666,
     "realigned_from": null
    },
    "prosody": {
@@ -561,7 +561,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9244,
-    "elapsed_ms": 1125,
+    "elapsed_ms": 4650,
     "realigned_from": null
    },
    "prosody": {
@@ -612,7 +612,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.7922,
-    "elapsed_ms": 1215,
+    "elapsed_ms": 5016,
     "realigned_from": null
    },
    "prosody": {
@@ -655,7 +655,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9508,
-    "elapsed_ms": 915,
+    "elapsed_ms": 4713,
     "realigned_from": null
    },
    "prosody": {
@@ -698,7 +698,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8858,
-    "elapsed_ms": 1273,
+    "elapsed_ms": 4952,
     "realigned_from": null
    },
    "prosody": {
@@ -749,7 +749,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9503,
-    "elapsed_ms": 1270,
+    "elapsed_ms": 4788,
     "realigned_from": null
    },
    "prosody": {
@@ -792,7 +792,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9422,
-    "elapsed_ms": 1300,
+    "elapsed_ms": 4993,
     "realigned_from": null
    },
    "prosody": {
@@ -835,7 +835,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9228,
-    "elapsed_ms": 1001,
+    "elapsed_ms": 4786,
     "realigned_from": null
    },
    "prosody": {
@@ -878,7 +878,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9622,
-    "elapsed_ms": 973,
+    "elapsed_ms": 4755,
     "realigned_from": null
    },
    "prosody": {
@@ -929,7 +929,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.913,
-    "elapsed_ms": 1231,
+    "elapsed_ms": 4728,
     "realigned_from": null
    },
    "prosody": {
@@ -972,7 +972,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.7101,
-    "elapsed_ms": 1037,
+    "elapsed_ms": 4654,
     "realigned_from": null
    },
    "prosody": {
@@ -1023,7 +1023,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8909,
-    "elapsed_ms": 841,
+    "elapsed_ms": 4561,
     "realigned_from": null
    },
    "prosody": {
@@ -1066,7 +1066,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8711,
-    "elapsed_ms": 935,
+    "elapsed_ms": 4632,
     "realigned_from": null
    },
    "prosody": {
@@ -1109,7 +1109,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8814,
-    "elapsed_ms": 1541,
+    "elapsed_ms": 3713,
     "realigned_from": null
    },
    "prosody": {
@@ -1152,7 +1152,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8345,
-    "elapsed_ms": 1408,
+    "elapsed_ms": 4952,
     "realigned_from": null
    },
    "prosody": {
@@ -1195,7 +1195,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8678,
-    "elapsed_ms": 1247,
+    "elapsed_ms": 4852,
     "realigned_from": null
    },
    "prosody": {
@@ -1238,7 +1238,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9548,
-    "elapsed_ms": 1096,
+    "elapsed_ms": 4783,
     "realigned_from": null
    },
    "prosody": {
@@ -1281,7 +1281,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8269,
-    "elapsed_ms": 1124,
+    "elapsed_ms": 4775,
     "realigned_from": null
    },
    "prosody": {
@@ -1332,7 +1332,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.847,
-    "elapsed_ms": 955,
+    "elapsed_ms": 4671,
     "realigned_from": null
    },
    "prosody": {
@@ -1383,7 +1383,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9306,
-    "elapsed_ms": 851,
+    "elapsed_ms": 4699,
     "realigned_from": null
    },
    "prosody": {
@@ -1426,7 +1426,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9555,
-    "elapsed_ms": 1085,
+    "elapsed_ms": 4657,
     "realigned_from": null
    },
    "prosody": {
@@ -1469,7 +1469,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8969,
-    "elapsed_ms": 1115,
+    "elapsed_ms": 4568,
     "realigned_from": null
    },
    "prosody": {
@@ -1512,7 +1512,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8504,
-    "elapsed_ms": 879,
+    "elapsed_ms": 4551,
     "realigned_from": null
    },
    "prosody": {
@@ -1563,7 +1563,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8441,
-    "elapsed_ms": 1369,
+    "elapsed_ms": 5019,
     "realigned_from": null
    },
    "prosody": {
@@ -1614,7 +1614,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8879,
-    "elapsed_ms": 1035,
+    "elapsed_ms": 3915,
     "realigned_from": null
    },
    "prosody": {
@@ -1657,7 +1657,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.8691,
-    "elapsed_ms": 849,
+    "elapsed_ms": 4656,
     "realigned_from": null
    },
    "prosody": {
@@ -1700,7 +1700,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.898,
-    "elapsed_ms": 1448,
+    "elapsed_ms": 43389,
     "realigned_from": null
    },
    "prosody": {
@@ -1740,7 +1740,7 @@
    "alignment": {
     "source": "mms_forced_alignment",
     "score_mean": 0.9621,
-    "elapsed_ms": 947,
+    "elapsed_ms": 4775,
     "realigned_from": null
    },
    "prosody": {
@@ -1831,5 +1831,6 @@
     "stage"
    ]
   }
- ]
+ ],
+ "holds": []
 }

@@ -170,43 +170,6 @@ events:
     sid: open_0
     'off': 3.2
   at_place: dmz_site
-- type: card
-  start:
-    sid: open_1
-    'off': 0.2
-  end:
-    sid: open_1
-    edge: end
-    'off': 0.3
-  tag: 폭발 지점
-  bigs:
-  - - 약 10m
-    - 군사분계선 남쪽
-  accent: gold
-- type: card
-  start:
-    sid: open_2
-    'off': 0.1
-  end:
-    sid: open_2
-    edge: end
-    'off': 0.3
-  tag: 9월 21일
-  bigs:
-  - - 3명
-    - 한국군 장병 부상
-  accent: ru
-- type: card
-  start:
-    sid: open_3
-    'off': 0.3
-  end:
-    scene_end: open
-    'off': 0.5
-  tag: 합참 발표 · 9월 28일
-  lines:
-  - 북한군 지뢰일 가능성이 매우 높다
-  accent: gold
 - type: marker
   start:
     scene_start: operation
@@ -217,19 +180,6 @@ events:
   sub: 군사분계선 남쪽 약 10m
   side: right
   hl: true
-- type: card
-  start:
-    sid: operation_0
-    'off': 0.3
-  end:
-    sid: operation_0
-    edge: end
-    'off': 0.3
-  tag: 투입 인원
-  bigs:
-  - - 18명
-    - 간부 15명 · 병사 3명
-  accent: gold
 - type: boom
   start:
     sid: two_blasts_1
@@ -259,78 +209,6 @@ events:
     - 5.5
   mid: dmz_mine_sign
   place: map_left
-- type: card
-  start:
-    sid: two_blasts_5
-    'off': 0.4
-  end:
-    sid: two_blasts_5
-    edge: end
-    'off': 0.3
-  tag: 강신철 국방장관 · 9월 22일
-  lines:
-  - 북한 것인지 지금은 알 수 없다
-  accent: gold
-- type: card
-  start:
-    sid: two_blasts_6
-    'off': 0.1
-  end:
-    scene_end: two_blasts
-    'off': 0.4
-  tag: 강신철 국방장관 · 9월 22일
-  lines:
-  - 확실한 증거가 필요하다
-  accent: gold
-- type: card
-  start:
-    sid: probe_0
-    'off': 0.3
-  end:
-    sid: probe_0
-    edge: end
-    'off': 0.3
-  tag: 9월 27일
-  lines:
-  - 군 · 유엔사 합동 현장조사 착수
-  accent: teal
-- type: card
-  start:
-    sid: probe_1
-    'off': 0.2
-  end:
-    sid: probe_1
-    edge: end
-    'off': 0.3
-  tag: 합동 현장조사
-  bigs:
-  - - 약 40명
-    - 사고 지점 주변 수색
-  accent: teal
-- type: card
-  start:
-    sid: probe_2
-    'off': 0.3
-  end:
-    sid: probe_2
-    edge: end
-    'off': 0.3
-  tag: 국과수 감정 · 다친 장병의 장구류
-  lines:
-  - TNT 성분
-  - 갈색 이물질
-  accent: gold
-- type: card
-  start:
-    sid: probe_3
-    'off': 0.2
-  end:
-    scene_end: probe
-    'off': 0.5
-  tag: 국과수 감정 · 다친 장병의 장구류
-  lines:
-  - 철제 파편은 확인되지 않음
-  accent: muted
 - type: article
   start:
     sid: jcs_interim_5
@@ -386,18 +264,6 @@ events:
         t:
           sid: jcs_interim_7
           'off': 0.4
-- type: card
-  start:
-    sid: fourth_mine_0
-    'off': 0.5
-  end:
-    sid: fourth_mine_0
-    edge: end
-    'off': 0.3
-  tag: 9월 29일 · 합동조사
-  lines:
-  - 북한군 수지반보병지뢰 1발 추가 발견
-  accent: ru
 - type: panel
   start:
     scene_start: minister
@@ -436,17 +302,6 @@ events:
         t:
           sid: minister_5
           'off': 0.3
-- type: card
-  start:
-    sid: minister_6
-    'off': 0.3
-  end:
-    scene_end: minister
-    'off': 0.2
-  tag: 강신철 국방장관 답변
-  lines:
-  - 사고 당시 국가안전보장회의는 열리지 않았다
-  accent: gold
 - type: marker
   start:
     scene_start: seoul
@@ -458,18 +313,6 @@ events:
   sub: 파주 · 정확한 좌표 비공개
   side: right
   hl: false
-- type: card
-  start:
-    sid: seoul_1
-    'off': 0.3
-  end:
-    sid: seoul_1
-    edge: end
-    'off': 0.3
-  tag: 국민의힘
-  lines:
-  - 조사 지연, 대북 정책 둘러싼 정치적 압력과 관련 있나
-  accent: muted
 - type: marker
   start:
     sid: seoul_2
@@ -481,19 +324,6 @@ events:
   sub: ''
   side: left
   hl: true
-- type: card
-  start:
-    sid: seoul_2
-    'off': 0.4
-  end:
-    sid: seoul_2
-    edge: end
-    'off': 0.3
-  tag: 청와대
-  lines:
-  - 현장조사 일정은 합참·유엔사의 군사적 판단
-  - 대통령 유엔 연설과 관련 없다
-  accent: gold
 - type: badge
   start:
     sid: seoul_3
@@ -510,54 +340,6 @@ events:
   role: 대한민국 대통령
   accent: gold
   pid: lee_jae_myung
-- type: card
-  start:
-    sid: seoul_3
-    'off': 0.4
-  end:
-    sid: seoul_3
-    edge: end
-    'off': 0.3
-  tag: 이재명 대통령
-  lines:
-  - 신속하고 철저한 조사 주문
-  accent: gold
-- type: card
-  start:
-    sid: seoul_4
-    'off': 0.3
-  end:
-    sid: seoul_4
-    edge: end
-    'off': 0.3
-  tag: 민주당
-  lines:
-  - 북한 지뢰로 최종 판명되면
-  - 북한이 사과하고 재발 방지 약속해야
-  accent: teal
-- type: card
-  start:
-    sid: seoul_5
-    'off': 0.3
-  end:
-    sid: seoul_5
-    edge: end
-    'off': 0.3
-  tag: 국민의힘
-  lines:
-  - 대북 확성기 곧바로 다시 설치하라
-  accent: muted
-- type: card
-  start:
-    sid: seoul_6
-    'off': 0.3
-  end:
-    scene_end: seoul
-    'off': 0.3
-  tag: 국방부
-  lines:
-  - 확성기 재개, 최종 판단과 함께 검토
-  accent: gold
 - type: marker
   start:
     sid: pyongyang_0
@@ -569,46 +351,6 @@ events:
   sub: 9월 29일까지 반응 없음
   side: right
   hl: true
-- type: card
-  start:
-    sid: pyongyang_1
-    'off': 0.4
-  end:
-    sid: pyongyang_1
-    edge: end
-    'off': 0.3
-  tag: 군 당국 · 북한군이 군사분계선을 넘은 횟수
-  bigs:
-  - - 20여 차례
-    - 최근 한 달
-  accent: ru
-- type: card
-  start:
-    sid: pyongyang_2
-    'off': 0.2
-  end:
-    sid: pyongyang_2
-    edge: end
-    'off': 0.3
-  tag: 세계일보 보도 · 북한군이 군사분계선을 넘은 횟수
-  bigs:
-  - - 20여 차례
-    - 최근 한 달
-  - - 17차례
-    - 2025년 한 해
-  accent: ru
-- type: card
-  start:
-    sid: pyongyang_3
-    'off': 0.4
-  end:
-    sid: pyongyang_3
-    edge: end
-    'off': 0.3
-  tag: 세계일보 보도
-  lines:
-  - 2024년 4월부터 비무장지대 안 요새화 작업
-  accent: ru
 - type: marker
   start:
     sid: pyongyang_4
@@ -621,18 +363,6 @@ events:
   side: left
   hl: true
   icon: boom
-- type: card
-  start:
-    sid: pyongyang_5
-    'off': 0.2
-  end:
-    scene_end: pyongyang
-    'off': 0.3
-  tag: 2015년 8월 · 코리아헤럴드
-  lines:
-  - 하사 2명 다리 잃어
-  - '합동조사단: 북한 목함지뢰가 원인'
-  accent: muted
 - type: country
   start:
     scene_start: moscow_media
@@ -712,18 +442,6 @@ events:
   sub: ''
   side: left
   hl: true
-- type: card
-  start:
-    sid: kyiv_1
-    'off': 0.4
-  end:
-    sid: kyiv_1
-    edge: end
-    'off': 0.3
-  tag: 우크린폼 · AP 인용 · 9월 21일
-  lines:
-  - 폭발 원인은 아직 밝혀지지 않았다
-  accent: teal
 - type: badge
   start:
     sid: kyiv_2
@@ -750,45 +468,6 @@ events:
     - 1.5
     - 5.3
   mid: aj_0924
-- type: card
-  start:
-    sid: kyiv_3
-    'off': 0.2
-  end:
-    sid: kyiv_3
-    edge: end
-    'off': 0.3
-  tag: 젤렌스키 대통령 · 유엔총회 연설
-  lines:
-  - 김정은이 병사들을 화폐처럼 쓰고 대가를 받는다
-  accent: teal
-- type: card
-  start:
-    sid: kyiv_4
-    'off': 0.3
-  end:
-    scene_end: kyiv
-    'off': 0.4
-  tag: 한국 외교부
-  lines:
-  - 발언은 부인하지 않음
-  - 이송 세부 사항은 확인하지 않음
-  accent: gold
-- type: card
-  start:
-    sid: kursk_1
-    'off': 0.5
-  end:
-    sid: kursk_1
-    edge: end
-    'off': 0.3
-  tag: 쇼이구 러시아 안보회의 서기 · 2025년 6월
-  bigs:
-  - - 1,000명
-    - 북한 공병
-  - - 5,000명
-    - 건설 인력
-  accent: ru
 - type: marker
   start:
     sid: kursk_1
@@ -829,34 +508,6 @@ events:
   R: 17
   label: 러시아 공병
   accent: muted
-- type: card
-  start:
-    sid: kursk_3
-    'off': 0.4
-  end:
-    sid: kursk_3
-    edge: end
-    'off': 0.3
-  tag: 힌시테인 쿠르스크 주지사
-  bigs:
-  - - 약 4만2,400헥타르
-    - 지뢰 제거로 정리한 면적
-  accent: ru
-- type: card
-  start:
-    sid: kursk_4
-    'off': 0.3
-  end:
-    sid: kursk_4
-    edge: end
-    'off': 0.3
-  tag: 알자지라 보도
-  bigs:
-  - - 120일
-    - 파견 기간
-  - - 9명
-    - 숨진 인원
-  accent: ru
 - type: article
   start:
     sid: kursk_5
@@ -879,53 +530,6 @@ events:
   sub: 파주 · 정확한 좌표 비공개
   side: right
   hl: true
-- type: card
-  start:
-    sid: kursk_6
-    'off': 0.5
-  end:
-    scene_end: kursk
-    'off': 0.4
-  tag: 쿠르스크 경험과 이번 지뢰
-  lines:
-  - 이어져 있다는 근거는 나오지 않았다
-  accent: muted
-- type: card
-  start:
-    sid: open_questions_0
-    'off': 0.3
-  end:
-    sid: open_questions_0
-    edge: end
-    'off': 0.3
-  tag: 아직 규명되지 않은 것
-  lines:
-  - 지뢰를 누가, 언제 묻었나
-  accent: gold
-- type: card
-  start:
-    sid: open_questions_1
-    'off': 0.3
-  end:
-    sid: open_questions_1
-    edge: end
-    'off': 0.3
-  tag: 아직 나오지 않은 판정
-  lines:
-  - 장병들이 처음 봤다는 지뢰 — 유엔사 판정
-  accent: gold
-- type: card
-  start:
-    sid: open_questions_2
-    'off': 0.3
-  end:
-    card: end
-    'off': 0.3
-  tag: 아직 발표되지 않은 것
-  lines:
-  - 최종 판정
-  - 상응 조치의 내용
-  accent: gold
 - type: badge
   start:
     sid: two_blasts_5

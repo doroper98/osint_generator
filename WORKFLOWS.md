@@ -23,6 +23,9 @@ last_review: 2026-09-30
 >
 > **자산 보관 (v5.6.0, PIPELINE-AP-016)**: 초상·휘장 등 이번 영상에서 만든 자산은 콘티 판 전에
 > `python tools/asset_library.py promote projects/{pid}` 로 공용 자산에 올린다(`check` = 0). 다음 영상은 공용 자산을 먼저 쓴다.
+>
+> **렌더 중 규칙·엔진 변경 금지 (v7.4.0, back_and_forth D-0284 — R-0287 사고).** 콘티 판·프리뷰·전편·카탈로그 렌더가 도는 동안
+> `rules/`·`schemas/`·`engine/`·`audio/`·`config.yaml` 을 고치지 않는다. 청크 프로세스가 늦게 시작하면 바뀐 규칙을 옛 스키마로 읽어 조각이 실패한다(showcase_geo 콘티 판 v2 첫 렌더). 렌더가 끝난 뒤 고치고 다시 렌더한다.
 
 용어: **콘티 판** = animatic(animation + -matic). 1930년대 디즈니가 스토리보드를 찍어 음성과 함께 틀어 본 "Leica reel"이 원형이고,
 광고·애니메이션 업계가 1970년대부터 animatic 이라 불렀다. "콘티"는 일본어 コンテ(continuity 의 축약)에서 왔다.
@@ -68,6 +71,27 @@ python -m engine.render projects/{pid} --animatic --preview auto   # (선택) pr
 산출물: `out/animatic.mp4`, `out/animatic_checks.json`, `out/animatic_provenance.json`(`animatic_run` — 시간·조각·자리표시 수·건너뛴 검사).
 전편 산출물(`out/video_noaudio.mp4`·`final.mp4`·`render.json`)과 게이트가 읽는 `prev/` 는 건드리지 않는다.
 자산 없는 환경(geo.prep·미디어 받기 전)에서도 돈다 — plan.json·mix.f32 만 있으면 된다.
+
+## W0a. 단일 구현 모드 — 왕복을 줄인다 (v7.4.0 back_and_forth D-1000 S5, 사용자 UF-300·UF-301)
+
+일상 영상은 **구현 세션 하나가 착수부터 전달본까지** 간다. 목표는 1차 완성본 4시간, 퇴고 1회 1시간, 탈락 0회다(D-1000 §0).
+게이트·콘티 판은 빼지 않는다(C8-6). 빨라지는 곳은 검출(hard 검사)·재렌더 단위(조각 캐시)·왕복이다.
+
+| 확인점 | 누가 | 무엇을 |
+|---|---|---|
+| (a) 게이트 ① 원고 | 감독 → 사용자 | `gate-view` 원고 검토 자료(헌법 C8-6 그대로) |
+| (b) 콘티 판 | 감독 → 사용자 | `out/animatic.mp4` + review_sheet·uf_checklist(back_and_forth/README §6.3a) |
+| (c) 사용자 전달 직전 | 감독 | 완성본 review_sheet·uf_checklist — 빈 칸·자동 fail 이 있으면 보내지 않는다 |
+
+- **R 은 이 셋과 막힘에만** 올린다. 중간 진행 R·작은 질문 R 을 쓰지 않는다.
+- **작은 판단은 구현 세션이 정한다.** `docs/handoff/DECISIONS.md` 에 "구현 전결" 표시로 한 줄 적고 진행한다(decision_request 남발 금지).
+  decision_request 는 사용자 확인점·헌법·합격 수치(v3 골든 값)·되돌리기 어려운 선택에만 쓴다(README §6.4·§7).
+- **사용자 확인점은 헌법 그대로**(C8-6 원고·콘티 판). 이 절은 그것을 바꾸지 않는다.
+- **검증 시간**: 변경마다 관련 시험 + `tests/anti_inertia` + 영향 골든만. 전체 pytest 는 전달 경로 밖 — 하루 1회·병합 직전(C8-3, D187).
+- **부분 재렌더**: 연출을 고친 뒤 콘티 판·전편은 그냥 다시 돌린다 — 고정 격자 조각 캐시(`out/chunks/`, config `engine.render.chunk_sec`)가 바뀐 조각만 그린다.
+  `render.json chunks[]` 의 reused·rendered 를 보고서에 인용한다. 의심스러우면 `--no-cache`.
+- **단계 시간**: `out/timings.jsonl`(provenance `timings`)로 어디서 시간이 드는지 본다(D-1000 S0).
+- **연출 좌표**: 연출 LLM 초안은 지명 사전 이름·좌표만 쓴다(rules `geo.director_coords`). 사전에 없는 place·marker 좌표는 연출 저장 전 점검이 오류로 돌려준다.
 
 ## W1. 새 영상 프로젝트
 

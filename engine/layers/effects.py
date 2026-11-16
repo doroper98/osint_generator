@@ -7,12 +7,12 @@ import math
 import cairo
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import C, map_c
+from engine.style import C, ELEM, map_c
 from engine.timebase import clamp01, ease_out, window
 
 
 def draw_ships(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
-    a = window(t, e["t0"], e["t1"], 0.8, 0.6)
+    a = window(t, e["t0"], e["t1"], *ELEM["ships"])   # v7.4.0 UF-159 ×1.5
     for wx, wy, ph in view.stage.sea_points(tuple(e["box"]), e["n"], e["seed"]):
         if t < e["t0"] + ph * 1.6:
             continue
@@ -24,7 +24,7 @@ def draw_ships(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) 
 
 
 def draw_boom(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
-    a = window(t, e["t0"], e["t1"], 0.05, 0.8)
+    a = window(t, e["t0"], e["t1"], *ELEM["boom"])
     x, y = view.to_screen(*e["world"])
     lt = t - e["t0"]
     for k in range(3):

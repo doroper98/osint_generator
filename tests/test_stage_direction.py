@@ -64,7 +64,10 @@ class StageRegistryPreviewTest(unittest.TestCase):
             self.assertIn(name, S.STAGE_CLASSES)
             ex = yaml.safe_load((PREVIEW / f"stage_{name}.yaml").read_text(encoding="utf-8"))
             doc = Direction.model_validate(ex["direction"])
-            self.assertEqual(doc.main_stage(), name)
+            if name in doc.genre_profile().stage.island_stages and name not in doc.genre_profile().stage.names():
+                self.assertIn(name, {doc.shot_stage(s) for s in doc.shots})   # v7.4.0 D-1003 — 아일랜드 전용 무대(structure)는 아일랜드 숏으로
+            else:
+                self.assertEqual(doc.main_stage(), name)
             self.assertEqual(tuple(ex["anchor_keys"]), S.STAGE_CLASSES[name].anchor_keys)
 
 

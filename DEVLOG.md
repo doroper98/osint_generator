@@ -3446,3 +3446,24 @@ last_review: 2026-06-06
 - 2026-10-18 v7.3.0 main 병합(D232·D-0228) — diesel_road_2026 「경유의 길 — 사흘에 한 번」 전편 전달 + flight·원형 위성 인셋·press_cited 시리즈·공용 자산(초상 4·인셋 10·기사 34·시리즈 3). 병합 전 전체 pytest(빠른 -n 4 + 느린 직렬) 1707 passed, 3 failed(환경 의존 — fed_policy_2026 plan.json·tts 미추적, 새 컨테이너에서는 main 도 동일, 브랜치 변경과 무관): test_g5_endcard_overflow ×2, test_g5_labels_endcard::ProjectPreviewNoLabelTest. hormuz 5건(test_v3_voice ×2·HormuzScaleTest ×3)은 자산 복원(geo.prep 1080p·720p, 표준 음성 plan 재생성 — 골든 plan 과 mp3·길이 동일, media 720p, render·mux) 후 통과. 후속 과제: fed_policy_2026 plan·tts 를 artifacts 브랜치로 보존.
 - 2026-10-19 v7.4.0 diesel_road_2026 v2 트랙 완료(D-0229~0244) — 도로·강·수도 상시, drift 카메라, 본 지도 콘티 판, 검사 11종(static_camera·route_speed·sea_only_frame·unit_ton_glyph·media_unused·inset_clipped·press_credit·badge_clipped 등), rollback --to script_draft. 전편 v2 합격(D251)·국기 잘림 교체(final md5 36289c32, RENDER-AP-029). 골든 main 대비 24/25 동일(1컷 도장). 병합 전 빠른 묶음 회귀 6건 수정. main --no-ff 병합.
 - 2026-10-19 v7.4.0 사용자 의견 UF-126~131 — 그래프 복원·점선 보간·그래프 위 카드 0·'경유가' 발음(사전 짧은 키 경계)은 교체 3(md5 554f4f85, D259 합격)으로 전달. UF-130 기사 매체·UF-131 '−' 글리프는 사용자 결정 D262 로 재렌더 없이 장치만([article-outlet-mismatch]·glyph_fallback·glyph_sweep). 장치 검사 6종 추가(series_unused·panel_dropped·card_over_panel·article_outlet·[interp-*]·tts-tensification), 원장 131 미보호 0.
+- 2026-11-02 v7.4.0 감독 원장 커밋(de537db6) UF-207 '장치 있음 + open' 으로 FeedbackLedger 검증 실패 → sweet-galileo 모든 렌더 rc=1 약 10시간(PIPELINE-AP-026) → 217c4525 정정, 감독 체크리스트에 load_user_feedback 확인 의무.
+- 2026-11-02 v7.4.0 iran_ceasefire_2026 UF-173 장치(D-0466 §6·D-0470) — [media-sentence-span]·[map-opening]·[map-cover-share] hard(연출 v9 고정본 실패·v10 통과 시험), [credit-garbled] hard(RIGHTS-AP-002: 엔딩 카드 초상 크레딧에 Commons 안내문·URL), 공용 초상 라이브러리 크레딧 10건 정리(원문 credit_raw). final_v3b 전달(0ec9d9f3).
+- 2026-11-02 v7.4.0 RENDER-AP-032 — 표준 글꼴 렌더 설정 장치(D-0624): config/fontconfig/fonts.conf(config.yaml engine.fontconfig) + engine.fontenv.ensure()(engine.style 맨 앞·conftest — FONTCONFIG_FILE 지정, 주 글꼴 hinting·hintstyle 다르면 멈춤), anti_inertia test_fontconfig_guard. 재시작으로 셸 설정이 사라져 골든 25컷 0/25 였던 사고.
+- v7.4.0 D613 — Flickr·Commons 사진 쪽 별도 이용 조건 거부(rules media.restriction_phrases), Flickr 11·12 추가 — RIGHTS-AP-003
+- 2026-11-03 v7.4.0 PIPELINE-AP-027 — 게이트 기록 정직성(감독 D621 ④⑤): 린트 실행 실패는 '오류 N' 대신 기록 거부(engine_service.is_crash·approve_gate), prev/ 없으면 cuts·밀도 '확인 불가', media_used 에 backdrop 수 — tests/test_gate_record_honesty.py
+- 2026-11-03 v7.4.0 감독 D621 ②③ — [backdrop-subject-background]·[backdrop-subject-unmatched] hard(backdrop for ↔ 레지스트리 main_subject, D616 ④), [island-text-contrast] hard(사진 배경 위 아일랜드 글자 대비, 렌더 경로 합성 97 백분위 ↔ qa_checks.map_contrast_text, D619·UF-304 장치) — tests/test_backdrop_subject_contrast.py
+- 2026-11-03 v7.4.0 감독 D622 — 구성 무대 강조 글자(초점 라벨·총지출 줄 강조) = stage_structure.focus_text(white), gold 글자 폐지(막대 면은 accent 그대로·전역 gold 무변경). [island-text-contrast] 글자색 = 무대별 목록 + 구성 focus_text·차트 그 시간 series col. 예산안 실측 3.93~4.15 → 최저 5.02(muted)
+- 2026-11-03 v7.4.0 RENDER-AP-033 — 예산안 완성본 345초 기사 번역 줄 '與' 두부(전달 뒤 발견): 글리프 검사·전수 검사가 레지스트리 문자열 포함(engine.checks.event_strings), art_0003 headline '여당' — tests/test_glyph_registry_strings.py
+
+## 2026-11-02 v7.4.0 — 레퍼런스 영상 분석 → 정치사 템플릿·새 요소 둘(UF-400)
+
+- 무엇을: 사용자 업로드 해설 영상(12:04) 실측 — 하드 컷 0, 최장 정지 2.4초, 자막 덩어리 분당 17.1, 말하는 동안 분당 약 409음절(우리 기준 작품 367), 쉼 중앙값 0.25~0.30초(우리 0.9). 장치 19종 대조 → 신설 process_lane·doc_excerpt·political_history·genre_map 프롬프트 층·recurring_model, 보완 sentence_still 검사.
+- 왜: 사용자 지시 UF-400. 레퍼런스의 강점은 '설명 모형을 한 번 세우고 사례마다 되부르는' 서사와 문장마다 요소가 바뀌는 밀도. 겉모양(색·글꼴·조판)은 우리 토큰으로 새로 짰다(LLM-AP-022·UF-202).
+- 막힌 것: anti_inertia 6건 실패 = 골든 자산 부재 3(환경) + 원장 기존 문제 1(UF-203·204 분류) + 이 브랜치 원장의 samsung open 10건 경보 1(경제 브랜치에선 guarded) + 장부 표 재생성 1(해결).
+
+## 2026-11-03 v7.4.0 — UF-401 사용자 결정 반영: 정치사 템플릿 승인·후속 장치 7종
+
+- 무엇을: process_lane·doc_excerpt 승인, political_history approved, tempo 현행 유지. 후속 장치 순서대로 — 뱃지 pulse·strike·question, checklist open, photo·clip spot, era_numeral, route flow, network drop·crowd. 모두 선택 필드(안 쓰면 dict 옛 모양), 수치는 rules, 요소 문법은 genre_prompt.element_grammar.
+- 왜: 사용자 결정 "동의 하고 순차적으로 다 반영해". 사실 경계(strike = 확인된 숙청·사망만, crowd 점 수 = 수치 아님, 연도 = 원고 날짜의 해만, dim = 덮개)를 문법과 검증에 같이 넣었다.
+- 시행착오: 시험이 도는 중 규칙 파일을 고쳐 콘티 판 렌더 조각이 반쯤 바뀐 규칙을 읽고 실패 — 현 코드 재현에서 정상 완료(fed_timeline_demo 2조각). 시험 중에는 규칙·엔진 파일을 고치지 않는다. 샘플에 실존 인물 초상을 썼다가 X 표시가 실존 인물 위에 그려져 폐기, 실루엣으로 다시 렌더.
+- v7.4.0 D372: [island-pin-collision] 점 ↔ 점 겹침 추가(RENDER-AP-034) — showcase_econ v4 127초 '●●'

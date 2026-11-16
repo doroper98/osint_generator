@@ -267,31 +267,6 @@ events:
   label: 이재명
   role: 대한민국 대통령
   accent: gold
-- type: card
-  start:
-    sid: open_1
-    'off': 0.1
-  end:
-    sid: open_1
-    edge: end
-    'off': 0.4
-  tag: 기자회견 · 9월 18일
-  lines:
-  - 전쟁에 개입하는 파병은 하지 않겠다
-  accent: gold
-- type: card
-  start:
-    sid: open_2
-    'off': 0.1
-  end:
-    sid: open_2
-    edge: end
-    'off': 0.6
-  tag: 기자회견 · 9월 18일
-  lines:
-  - 한국 선박·국민 보호
-  - 최소한의 활동만 이어간다
-  accent: gold
 - type: marker
   start:
     sid: route_0
@@ -303,32 +278,6 @@ events:
   sub: 페르시아만에서 먼바다로 나가는 유일한 바닷길
   side: right
   hl: true
-- type: card
-  start:
-    sid: route_1
-    'off': 0.4
-  end:
-    sid: route_1
-    edge: end
-    'off': 0.3
-  tag: 지난해 한국 수입 · 이 해협 경유
-  bigs:
-  - - 61%
-    - 원유
-  accent: gold
-- type: card
-  start:
-    sid: route_2
-    'off': 0.4
-  end:
-    sid: route_2
-    edge: end
-    'off': 0.3
-  tag: 지난해 한국 수입 · 같은 길
-  bigs:
-  - - 54%
-    - 나프타 · 플라스틱 원료
-  accent: gold
 - type: route
   start:
     sid: route_3
@@ -381,19 +330,6 @@ events:
   - IR
   col: ru
   a: 0.08
-- type: card
-  start:
-    word:
-      sid: war_0
-      text: 공습
-  end:
-    sid: war_0
-    edge: end
-    'off': 0.5
-  tag: 2월 28일
-  lines:
-  - 미국·이스라엘, 이란 공습
-  accent: ru
 - type: badge
   start:
     sid: war_1
@@ -733,21 +669,6 @@ events:
   mid: strikes
   role: broll
   place: clip_panel_side
-- type: card
-  start:
-    sid: cost_0
-    'off': 0.4
-  end:
-    sid: cost_0
-    edge: end
-    'off': 0.3
-  tag: 국제해사기구 · 6월 11일까지
-  bigs:
-  - - 46건
-    - 선박 공격
-  - - 14명
-    - 숨진 선원
-  accent: ru
 - type: ships
   start:
     sid: cost_1
@@ -761,45 +682,6 @@ events:
   - 29.8
   n: 140
   seed: 7
-- type: card
-  start:
-    sid: cost_1
-    'off': 0.3
-  end:
-    scene_end: cost
-    'off': -0.2
-  tag: 걸프 안쪽에 발이 묶였다
-  bigs:
-  - - 천여 척
-    - 배
-  - - 2만 명
-    - 선원
-  accent: ru
-- type: card
-  start:
-    sid: review_0
-    'off': 0.4
-  end:
-    sid: review_0
-    edge: end
-    'off': 0.3
-  tag: 9월 초 · 국내 방송 보도
-  lines:
-  - 정부, 연내 파병 준비
-  accent: teal
-- type: card
-  start:
-    sid: review_1
-    'off': 0.1
-  end:
-    sid: review_1
-    edge: end
-    'off': 0.3
-  tag: 거론된 선택지
-  lines:
-  - 해상초계기
-  - 군수지원함
-  accent: teal
 - type: cutout
   start:
     sid: review_1
@@ -811,19 +693,6 @@ events:
   mid: p8
   place: map_center
   w: 150
-- type: card
-  start:
-    sid: review_2
-    'off': 0.1
-  end:
-    sid: review_2
-    edge: end
-    'off': 0.5
-  tag: 대통령실 · 9월 4일
-  lines:
-  - 군사적 방안 포함해 검토
-  - 결정된 것은 없다
-  accent: gold
 - type: badge
   start:
     word:
@@ -1001,30 +870,6 @@ events:
   label: 이재명
   role: 대한민국 대통령
   accent: gold
-- type: card
-  start:
-    sid: decision_0
-    'off': 0.9
-  end:
-    sid: decision_0
-    edge: end
-    'off': 0.4
-  tag: 이재명 대통령 · 9월 18일
-  lines:
-  - “전쟁에 들어가는 파병은 없다”
-  accent: gold
-  quote: true
-- type: card
-  start:
-    sid: decision_1
-    'off': 0.1
-  end:
-    scene_end: decision
-    'off': -0.1
-  tag: 열어 둔 여지
-  lines:
-  - 분쟁의 주변부에서 한국군이 맡을 역할
-  accent: teal
 - type: route
   start:
     scene_start: now
@@ -1060,19 +905,6 @@ events:
   label: 미 해군 중부사령부
   role: 호위 작전
   accent: us
-- type: card
-  start:
-    sid: now_0
-    'off': 0.5
-  end:
-    sid: now_0
-    edge: end
-    'off': 0.4
-  tag: 미군 발표
-  bigs:
-  - - 10억 배럴
-    - 호위 작전으로 해협 밖으로 나간 원유
-  accent: us
 - type: photo
   start:
     sid: now_0
@@ -1094,19 +926,6 @@ events:
   sub: 통행 아직 정상 아님
   side: right
   hl: true
-- type: card
-  start:
-    sid: now_2
-    'off': 0.1
-  end:
-    sid: now_2
-    edge: end
-    'off': 0.6
-  tag: 지난해 기준
-  bigs:
-  - - 61%
-    - 이 해협에 기댄 원유 수입
-  accent: gold
 - type: badge
   start:
     word:

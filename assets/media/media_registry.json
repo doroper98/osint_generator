@@ -40,7 +40,14 @@
     }
    },
    "source_hash": "deff52c243b44ec984a79b5e17d5cef1",
-   "file": "hormuz_transit_720.jpg"
+   "file": "hormuz_transit_720.jpg",
+   "main_subject": [
+    "미 해군 경계 근무 수병",
+    "미 해군 함정"
+   ],
+   "background": [
+    "호르무즈 해협"
+   ]
   },
   "rok_iraq": {
    "kind": "photo",
@@ -355,7 +362,15 @@
     }
    },
    "source_hash": "04043b484e3f88e8469e867f08a834f9",
-   "file": "fed_presser_0916_720.jpg"
+   "file": "fed_presser_0916_720.jpg",
+   "main_subject": [
+    "케빈 워시 연준 의장 기자회견",
+    "연준"
+   ],
+   "background": [
+    "질문하는 기자들",
+    "연준 휘장·성조기"
+   ]
   },
   "fed_presser_0916_b": {
    "kind": "photo",
@@ -394,7 +409,13 @@
     }
    },
    "source_hash": "74e47e34bbea9238ec5171ac2440a6c4",
-   "file": "fed_presser_0916_b_720.jpg"
+   "file": "fed_presser_0916_b_720.jpg",
+   "main_subject": [
+    "케빈 워시 연준 의장 기자회견"
+   ],
+   "background": [
+    "FOMC 기자회견장"
+   ]
   },
   "fed_presser_0729": {
    "kind": "photo",
@@ -433,7 +454,13 @@
     }
    },
    "source_hash": "e3fe1a0c521da44ca6e8d748de8d2807",
-   "file": "fed_presser_0729_720.jpg"
+   "file": "fed_presser_0729_720.jpg",
+   "main_subject": [
+    "케빈 워시 연준 의장 기자회견"
+   ],
+   "background": [
+    "FOMC 기자회견장"
+   ]
   },
   "cnn_0729": {
    "kind": "article",
@@ -942,7 +969,13 @@
     }
    },
    "source_hash": "84ce3f92b227a095d6fe9eba14d21d6d",
-   "file": "dmz_mine_sign_720.jpg"
+   "file": "dmz_mine_sign_720.jpg",
+   "main_subject": [
+    "지뢰 경고 표지판"
+   ],
+   "background": [
+    "철조망"
+   ]
   },
   "dmz_fence": {
    "kind": "photo",
@@ -981,7 +1014,14 @@
     }
    },
    "source_hash": "94c221544f105dd455e38d8d44236685",
-   "file": "dmz_fence_720.jpg"
+   "file": "dmz_fence_720.jpg",
+   "main_subject": [
+    "DMZ 남측 철책",
+    "비무장지대 능선"
+   ],
+   "background": [
+    "산"
+   ]
   },
   "hk_0923": {
    "kind": "article",
@@ -1285,7 +1325,14 @@
     }
    },
    "source_hash": "c2b56e854dc36ab512b449d7e5384916",
-   "file": "fed_eccles_ext_720.jpg"
+   "file": "fed_eccles_ext_720.jpg",
+   "main_subject": [
+    "연준 에클스 빌딩",
+    "연준"
+   ],
+   "background": [
+    "워싱턴 D.C."
+   ]
   },
   "fed_boardroom": {
    "kind": "photo",
@@ -1325,7 +1372,12 @@
     }
    },
    "source_hash": "ca9572d1666a83c2df7f674d9bb1704e",
-   "file": "fed_boardroom_720.jpg"
+   "file": "fed_boardroom_720.jpg",
+   "main_subject": [
+    "연준 이사회 회의실",
+    "연준"
+   ],
+   "background": []
   },
   "fed_eccles_atrium": {
    "kind": "photo",
@@ -1364,7 +1416,12 @@
     }
    },
    "source_hash": "595d32629aa0867fc94cb52623c669a7",
-   "file": "fed_eccles_atrium_720.jpg"
+   "file": "fed_eccles_atrium_720.jpg",
+   "main_subject": [
+    "연준 에클스 빌딩 중앙홀",
+    "연준"
+   ],
+   "background": []
   },
   "aj_0926_reject": {
    "kind": "article",
@@ -4701,7 +4758,15 @@
     }
    },
    "source_hash": "69a0a748cd0b6d1bb40c7ff7ca5fbfc6",
-   "file": "diesel_road_2026_moscow_fire_0618_720.jpg"
+   "file": "diesel_road_2026_moscow_fire_0618_720.jpg",
+   "main_subject": [
+    "모스크바 정유소 화재 연기",
+    "러시아 정유소"
+   ],
+   "background": [
+    "송전탑",
+    "아파트 단지"
+   ]
   },
   "diesel_road_2026_khabarovsk_ref_2005": {
    "kind": "photo",
@@ -4740,7 +4805,14 @@
     }
    },
    "source_hash": "fe8f8a442fe075cd512dc3327190b52d",
-   "file": "diesel_road_2026_khabarovsk_ref_2005_720.jpg"
+   "file": "diesel_road_2026_khabarovsk_ref_2005_720.jpg",
+   "main_subject": [
+    "하바롭스크 정유소(NNK)",
+    "러시아 극동 정유소"
+   ],
+   "background": [
+    "도로·주차장"
+   ]
   },
   "diesel_road_2026_ras_laffan_lng_2012": {
    "kind": "photo",
@@ -4781,7 +4853,15 @@
     }
    },
    "source_hash": "e2d0d6d4239e3cfb0b96307291c1c14d",
-   "file": "diesel_road_2026_ras_laffan_lng_2012_720.jpg"
+   "file": "diesel_road_2026_ras_laffan_lng_2012_720.jpg",
+   "main_subject": [
+    "라스라판 LNG 터미널",
+    "LNG 운반선",
+    "걸프 에너지 수출 시설"
+   ],
+   "background": [
+    "바다"
+   ]
   },
   "diesel_road_2026_vladivostok_port_1992": {
    "kind": "photo",
@@ -4802,7 +4882,7 @@
     "by": "opus 구현 세션 — Commons extmetadata 라이선스·작성자·촬영일 대조(UF-119, D-0239). 실사용 판정은 게이트 ②",
     "on": "2026-10-18",
     "casualty_free": true,
-    "relevance": "act2 '블라디보스토크는 울산에서 가장 가까운 러시아의 큰 항구' 문장 — 항구 전경(1992 자료사진)"
+    "relevance": "act2 '블라디보스토크는 울산에서 가장 가까운 러시아의 큰 항구' 문장 — 항구 전경(1992 자료사진) · v7.4.0 D-0327(UF-201) — 주된 피사체는 예인선, 항구는 배경(실제 프레임 판정). 항구를 말하는 문장에는 쓰지 않는다"
    },
    "rights_status": "rights_clear",
    "retrieved_at": "2026-10-18",
@@ -4821,7 +4901,13 @@
     }
    },
    "source_hash": "f4ec392daf6eb4f5ab160b813ac4df6e",
-   "file": "diesel_road_2026_vladivostok_port_1992_720.jpg"
+   "file": "diesel_road_2026_vladivostok_port_1992_720.jpg",
+   "main_subject": [
+    "예인선"
+   ],
+   "background": [
+    "블라디보스토크 항(금각만)"
+   ]
   },
   "econ_powell_presser_552": {
    "kind": "photo",
@@ -4861,7 +4947,14 @@
      "jpeg_quality": 92
     }
    },
-   "file": "econ_powell_presser_552_720.jpg"
+   "file": "econ_powell_presser_552_720.jpg",
+   "main_subject": [
+    "제롬 파월 연준 의장 기자회견",
+    "FOMC 회의"
+   ],
+   "background": [
+    "기자"
+   ]
   },
   "econ_fomc_room_2016": {
    "kind": "photo",
@@ -5022,7 +5115,14 @@
      "jpeg_quality": 92
     }
    },
-   "file": "econ_warsh_swearing_5_720.jpg"
+   "file": "econ_warsh_swearing_5_720.jpg",
+   "main_subject": [
+    "케빈 워시 연준 의장 취임 선서"
+   ],
+   "background": [
+    "백악관 이스트룸",
+    "클래런스 토머스 대법관"
+   ]
   },
   "econ_warsh_swearing_1": {
    "kind": "photo",
@@ -5103,7 +5203,12 @@
      "jpeg_quality": 92
     }
    },
-   "file": "econ_walmart_2508_720.jpg"
+   "file": "econ_walmart_2508_720.jpg",
+   "main_subject": [
+    "미국 마트 식료품 가격",
+    "소비자물가"
+   ],
+   "background": []
   },
   "fed_clip_0916_decision": {
    "kind": "video",
@@ -5316,6 +5421,923 @@
    ],
    "note": "federalreserve.gov/disclaimer.htm: \"Unless otherwise indicated, information on Board's website is in the public domain and may be copied and distributed without permission\"",
    "file": "fed_clip_0729_room_b"
+  },
+  "strikes_file": {
+   "kind": "video",
+   "title": "File:U S Forces Complete New Round of Retaliatory Strikes Against Iran (1013909).webm",
+   "license": "Public domain",
+   "author": "U.S. Central Command (Commons extmetadata Artist 비어 있음 — '[null Courtesy]' 정제, 14 §10.4)",
+   "credit_author": "U.S. Central Command",
+   "date": "Taken on 7 July 2026",
+   "url": "https://commons.wikimedia.org/wiki/File:U_S_Forces_Complete_New_Round_of_Retaliatory_Strikes_Against_Iran_(1013909).webm",
+   "caption": "미 중부사령부 공개 영상 · 이란 군사 목표 타격",
+   "file_note": "자료 영상 · 2026. 07. 07 촬영",
+   "depicts": [
+    "미군 공습",
+    "이란 군사 목표"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "사용자 라운드 7 — 12장 썸네일 시트로 구간 선택(media3b_round2.md), 13초 이후 소형 선박 타격 구간 제외",
+    "on": "2026-09-26",
+    "casualty_free": true,
+    "segment_checked": [
+     1.5,
+     6.5
+    ],
+    "relevance": "자료 영상 — 2026-07-07 촬영본을 2026-02-28 공습 문장(showcase_geo act3_3)에 쓴다. 자료 영상 표기 의무(D-0283 §1, C0)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-09-28",
+   "tool": {
+    "name": "media_fetch.clip",
+    "params": {
+     "source": "strikes.webm",
+     "thumb_w": null,
+     "scale": [
+      480,
+      270
+     ],
+     "fps": 24,
+     "pix_fmt": "rgb24",
+     "cache": "npy"
+    }
+   },
+   "source_hash": "64db28093fae9a1b77165bfbfd435966",
+   "file": "strikes",
+   "duration": 24.6,
+   "segment": [
+    1.5,
+    6.5
+   ],
+   "source_variants": [
+    {
+     "source": "dvids",
+     "url": "https://www.dvidshub.net/video/1013909",
+     "id": "1013909",
+     "file_url": "https://d34w7g4gy10iej.cloudfront.net/video/2607/DOD_111826477/DOD_111826477.mp4",
+     "file": "strikes.dvids.mp4",
+     "md5": "9933fefd8c174f7bb8a3f4f48d713726",
+     "license": "Public domain",
+     "duration": 24.6,
+     "offset_sec": 0.0,
+     "retrieved_at": "2026-09-28",
+     "match": "docs/handoff/reports/phase6_8/dvids_match.md",
+     "note": "Commons egress 차단 대체(D-0045). VIRIN 260707-D-D0477-3001, h264 1920x1080 60fps"
+    }
+   ]
+  },
+  "intc_hq_2008": {
+   "kind": "photo",
+   "title": "File:Intel headquarters in Santa Clara.jpg",
+   "license": "CC BY 3.0",
+   "author": "Lijorijo at ml.wikipedia",
+   "credit_author": "Lijorijo(위키미디어 공용, CC BY 3.0)",
+   "date": "2008-10-07",
+   "url": "https://commons.wikimedia.org/wiki/File:Intel_headquarters_in_Santa_Clara.jpg",
+   "caption": "미국 산타클라라 인텔 본사",
+   "file_note": "자료사진 · 2008. 10",
+   "depicts": [
+    "인텔 본사 건물(산타클라라)"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus(경제 템플릿 구현 세션) — Commons 파일 페이지 라이선스·작성자 대조(2026-10-30), 실사용은 게이트 ②",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "인텔 실적 발표 영상 배경(회사 본사) — 실적 아일랜드 스케치 배경"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-30",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "intc_hq_2008.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.85,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "file": "intc_hq_2008_720.jpg",
+   "source_hash": "2d89cf04de9061c848e43704d304adff"
+  },
+  "showcase_geo_art_0035": {
+   "kind": "article",
+   "title": "The Insider 2026-09-01 — Russia's Far East depends on fuel deliveries from other regions",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The Insider",
+   "credit_author": "The Insider",
+   "date": "2026-09-01",
+   "url": "https://theins.press/en/news/286687",
+   "caption": "The Insider",
+   "file_note": "2026. 09. 01",
+   "depicts": [
+    "러시아 극동은 현지 정제로 휘발유 수요의 55~60%, 경유 수요의 6…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "showcase_geo 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-18",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "러시아 극동, 현지 정제로 연료 수요 다 못 채워",
+   "sub": "러시아 극동은 현지 정제로 휘발유 수요의 55~60%, 경유 수요의 6…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Russia's Far East depends on fuel deliveries from other regions"
+  },
+  "showcase_geo_art_0037": {
+   "kind": "article",
+   "title": "EastRussia 2026-07-15 — Situation with gasoline and diesel in the Far East is gradually stabilizing",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "EastRussia",
+   "credit_author": "EastRussia",
+   "date": "2026-07-15",
+   "url": "https://www.eastrussia.ru/news/situatsiya-s-benzinom-i-dizelem-na-dalnem-vostoke-postepenno-stabiliziruetsya/",
+   "caption": "EastRussia",
+   "file_note": "2026. 07. 15",
+   "depicts": [
+    "극동 연료 부족은 5월 정유소 피격 뒤 시작돼 여름 중반 안정됐다(Ea…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-10-30",
+    "casualty_free": true,
+    "relevance": "showcase_geo 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-18",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "극동 휘발유·경유 상황 점차 안정",
+   "sub": "극동 연료 부족은 5월 정유소 피격 뒤 시작돼 여름 중반 안정됐다(Ea…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Situation with gasoline and diesel in the Far East is gradually stabilizing"
+  },
+  "vladivostok_golden_horn_2010": {
+   "kind": "photo",
+   "title": "File:Golden Horn bay and Egersheld peninsula.jpg",
+   "license": "Public domain",
+   "author": "Russian.dissident",
+   "credit_author": "Russian.dissident",
+   "date": "2010-09-13",
+   "url": "https://commons.wikimedia.org/wiki/File:Golden_Horn_bay_and_Egersheld_peninsula.jpg",
+   "caption": "블라디보스토크 금각만 항구",
+   "file_note": "자료사진 · 2010. 09",
+   "depicts": [
+    "블라디보스토크 항(금각만)",
+    "에게르셸드 반도 부두"
+   ],
+   "main_subject": [
+    "블라디보스토크 항(금각만)",
+    "블라디보스토크 부두"
+   ],
+   "background": [
+    "시가지",
+    "동해"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons extmetadata(DateTimeOriginal 2010-09-13·Public domain·Own work) 대조, 프레임 확인(항구·부두가 화면 대부분)",
+    "on": "2026-10-31",
+    "casualty_free": true,
+    "relevance": "showcase_geo act2_4 '레일라호는 … 블라디보스토크로 갔습니다' — 금각만 항구·부두 항공 사진(D-0327 UF-201 교체, 2015년 이후 사진 중 항구가 주된 피사체인 낮 사진 없음 — 2022 야경 CC0 는 항구가 화면 아래 띠)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-31",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "vladivostok_golden_horn_2010.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.05,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "366dfc5468c3ae224107fdcce8c88b37",
+   "file": "vladivostok_golden_horn_2010_720.jpg"
+  },
+  "hormuz_strait_modis_2020": {
+   "kind": "photo",
+   "title": "File:Strait of Hormuz (MODIS 2020-12-04).jpg",
+   "license": "Public domain",
+   "author": "MODIS Land Rapid Response Team, NASA GSFC",
+   "credit_author": "NASA",
+   "date": "2020-12-04",
+   "url": "https://commons.wikimedia.org/wiki/File:Strait_of_Hormuz_(MODIS_2020-12-04).jpg",
+   "caption": "호르무즈 해협 위성 사진",
+   "file_note": "자료사진 · 위성 · 2020. 12. 04",
+   "depicts": [
+    "호르무즈 해협",
+    "무산담 반도",
+    "페르시아만·오만만"
+   ],
+   "main_subject": [
+    "호르무즈 해협",
+    "페르시아만에서 먼바다로 나가는 바닷길"
+   ],
+   "background": [
+    "이란 남부",
+    "아랍에미리트"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션 — Commons 라이선스(NASA Public domain)·제목 날짜 대조, 프레임 확인(해협이 화면 가운데)",
+    "on": "2026-10-31",
+    "casualty_free": true,
+    "relevance": "showcase_geo act3_2 '호르무즈 해협은 … 유일한 바닷길' — 해협 자체가 주된 피사체(D-0327 [photo-subject-background] 로 드러난 hormuz_transit 교체: 그 사진은 수병이 주된 피사체)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-10-31",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "hormuz_strait_modis_2020.jpg",
+     "thumb_w": 1600,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "e5750050bfbe78199f6d0e29b5390830",
+   "file": "hormuz_strait_modis_2020_720.jpg"
+  },
+  "budget_2027_art_0001": {
+   "kind": "article",
+   "title": "머니투데이방송 2026-09-04 — 안도걸 “2027년 예산, 재정 폭주 아닌 미래 위한 담대한 투자”",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "머니투데이방송",
+   "credit_author": "머니투데이방송",
+   "date": "2026-09-04",
+   "url": "https://news.mtn.co.kr/news-detail/2026090412482890415",
+   "caption": "머니투데이방송",
+   "file_note": "2026. 09. 04",
+   "depicts": [
+    "미래대응기금을 두고 국민의힘은 국회 통제를 우회할 수 있다고 비판하고,…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "budget_2027 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "안도걸 “2027년 예산, 재정 폭주 아닌 미래 위한 담대한 투자”",
+   "sub": "미래대응기금을 두고 국민의힘은 국회 통제를 우회할 수 있다고 비판하고,…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "안도걸 “2027년 예산, 재정 폭주 아닌 미래 위한 담대한 투자”"
+  },
+  "budget_2027_art_0002": {
+   "kind": "article",
+   "title": "뉴스토마토 2026-09-10 — \"104조 쌓고 100조 빚 늘려\"…국힘, 미래대응기금에 \"정권 쌈짓돈\" 비판",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "뉴스토마토",
+   "credit_author": "뉴스토마토",
+   "date": "2026-09-10",
+   "url": "https://newstomato.com/ReadNews.aspx?no=1313268",
+   "caption": "뉴스토마토",
+   "file_note": "2026. 09. 10",
+   "depicts": [
+    "미래대응기금을 두고 국민의힘은 국회 통제를 우회할 수 있다고 비판하고,…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "budget_2027 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "\"104조 쌓고 100조 빚 늘려\"…국힘, 미래대응기금에 \"정권 쌈짓돈\" 비판",
+   "sub": "미래대응기금을 두고 국민의힘은 국회 통제를 우회할 수 있다고 비판하고,…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "\"104조 쌓고 100조 빚 늘려\"…국힘, 미래대응기금에 \"정권 쌈짓돈\" 비판"
+  },
+  "budget_2027_art_0003": {
+   "kind": "article",
+   "title": "SBS Biz 2026-10-30 — 내년 예산안 여야 공방 보도(헤드라인 원문은 headline_original)",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "SBS Biz",
+   "credit_author": "SBS Biz",
+   "date": "2026-10-30",
+   "url": "https://biz.sbs.co.kr/amp/article/20000343415",
+   "caption": "SBS Biz",
+   "file_note": "2026. 10. 30",
+   "depicts": [
+    "2026년 10월 30일 국회 예산결산특별위원회 공청회에서 여야가 예산…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "budget_2027 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "국힘 \"빚잔치\" vs. 여당 \"성장동력 확보\"…'내년 예산안' 본격 공방",
+   "sub": "2026년 10월 30일 국회 예산결산특별위원회 공청회에서 여야가 예산…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "국힘 \"빚잔치\" vs. 與 \"성장동력 확보\"…'내년 예산안' 본격 공방"
+  },
+  "bud_hwy_bridge": {
+   "kind": "photo",
+   "title": "File:Korean highway Expressway in South Korea bridge.jpg",
+   "license": "CC0",
+   "author": "Hankook12",
+   "credit_author": "Hankook12",
+   "date": "2024-02-09",
+   "url": "https://commons.wikimedia.org/wiki/File:Korean_highway_Expressway_in_South_Korea_bridge.jpg",
+   "caption": "건설 중인 고속도로 교량",
+   "file_note": "자료사진 · 2024. 02",
+   "depicts": [
+    "한국 고속도로 교량 공사 현장"
+   ],
+   "main_subject": [
+    "건설 중인 고속도로 교량",
+    "타워 크레인"
+   ],
+   "background": [
+    "산",
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 메타·썸네일 접촉 시트 대조, R-0613·D611)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act2_9·act2_10 고속도로 건설 예산 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_hwy_bridge.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "3a24b251db9fbbf370cf25f88b68791d",
+   "file": "bud_hwy_bridge_720.jpg"
+  },
+  "bud_hwy_westcoast": {
+   "kind": "photo",
+   "title": "File:South Korean West Coast Expressway.jpg",
+   "license": "CC0",
+   "author": "Hankook12",
+   "credit_author": "Hankook12",
+   "date": "2024-02-09",
+   "url": "https://commons.wikimedia.org/wiki/File:South_Korean_West_Coast_Expressway.jpg",
+   "caption": "서해안고속도로",
+   "file_note": "자료사진 · 2024. 02",
+   "depicts": [
+    "서해안고속도로 본선"
+   ],
+   "main_subject": [
+    "고속도로 본선",
+    "승용차"
+   ],
+   "background": [
+    "고가도로",
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 메타·썸네일 접촉 시트 대조, R-0613·D611)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act2_10 새 고속도로·국도 건설 속도 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_hwy_westcoast.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "2ea1ffbc5e70f3195a4c13ff5b19de91",
+   "file": "bud_hwy_westcoast_720.jpg"
+  },
+  "bud_icn_t1": {
+   "kind": "photo",
+   "title": "File:2025-10-14 17.20.29 Incheon International Airport.jpg",
+   "license": "CC0",
+   "author": "Choikwangmo25",
+   "credit_author": "Choikwangmo25",
+   "date": "2025-10-15",
+   "url": "https://commons.wikimedia.org/wiki/File:2025-10-14_17.20.29_Incheon_International_Airport.jpg",
+   "caption": "인천국제공항 출국장",
+   "file_note": "자료사진 · 2025. 10",
+   "depicts": [
+    "인천국제공항 여객터미널 출국장"
+   ],
+   "main_subject": [
+    "공항 출국장"
+   ],
+   "background": [
+    "여행객"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 메타·썸네일 접촉 시트 대조, R-0613·D611)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act2_10 공항 건설 사업 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_icn_t1.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "2168dbebd333b574f0ace7f40ad5ce03",
+   "file": "bud_icn_t1_720.jpg"
+  },
+  "bud_subway_suin": {
+   "kind": "photo",
+   "title": "File:Suin–Bundang Line (Korail Class 319000) 20240713 (01).jpg",
+   "license": "CC BY 4.0",
+   "author": "LandAndTree",
+   "credit_author": "LandAndTree",
+   "date": "2024-07-13",
+   "url": "https://commons.wikimedia.org/wiki/File:Suin%E2%80%93Bundang_Line_(Korail_Class_319000)_20240713_(01).jpg",
+   "caption": "수인분당선 전동차",
+   "file_note": "자료사진 · 2024. 07",
+   "depicts": [
+    "수인분당선 전동차 실내"
+   ],
+   "main_subject": [
+    "전동차 실내"
+   ],
+   "background": [],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 메타·썸네일 접촉 시트 대조, R-0613·D611)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act2_11 대중교통비 환급 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_subway_suin.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "91a2e4bf5df4a0a2f0451a2cd7cca756",
+   "file": "bud_subway_suin_720.jpg"
+  },
+  "bud_apt_gwangmyeong": {
+   "kind": "photo",
+   "title": "File:Apartmentgwangmyeong.jpg",
+   "license": "CC BY 4.0",
+   "author": "Kimhs5400",
+   "credit_author": "Kimhs5400",
+   "date": "2025-07-13",
+   "url": "https://commons.wikimedia.org/wiki/File:Apartmentgwangmyeong.jpg",
+   "caption": "광명 아파트 단지",
+   "file_note": "자료사진 · 2025. 07",
+   "depicts": [
+    "경기 광명 아파트 단지"
+   ],
+   "main_subject": [
+    "아파트 단지"
+   ],
+   "background": [
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 메타·썸네일 접촉 시트 대조, R-0613·D611)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act2_13·act2_14 주택 융자·공공임대 문장(아파트 단지 일반 장면)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_apt_gwangmyeong.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "edb97027f9a51510d4606e54b63741cf",
+   "file": "bud_apt_gwangmyeong_720.jpg"
+  },
+  "bud_wafer": {
+   "kind": "photo",
+   "title": "File:A semiconductor wafer being removed from processing equipment.jpg",
+   "license": "CC BY 4.0",
+   "author": "YouTube — Purdue Engineering",
+   "credit_author": "YouTube — Purdue Engineering",
+   "date": "2026-04-06",
+   "url": "https://commons.wikimedia.org/wiki/File:A_semiconductor_wafer_being_removed_from_processing_equipment.jpg",
+   "caption": "반도체 웨이퍼 공정",
+   "file_note": "자료사진 · 2026. 04",
+   "depicts": [
+    "반도체 웨이퍼를 공정 장비에서 꺼내는 장면"
+   ],
+   "main_subject": [
+    "반도체 웨이퍼",
+    "공정 장비"
+   ],
+   "background": [
+    "장갑 낀 손"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 메타·썸네일 접촉 시트 대조, R-0613·D611)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act3_1 반도체 호황 배경 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_wafer.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "2a8adf440c6d1d475e21093b2930487c",
+   "file": "bud_wafer_720.jpg"
+  },
+  "bud_wind_shinan": {
+   "kind": "photo",
+   "title": "File:Jeonnam Offshore Wind Power Shinan Blue Jaeun 20241217 (01).jpg",
+   "license": "KOGL Type 1",
+   "author": "전라남도청 해상풍력산업과",
+   "credit_author": "전라남도청 해상풍력산업과",
+   "date": "2024-12-17",
+   "url": "https://commons.wikimedia.org/wiki/File:Jeonnam_Offshore_Wind_Power_Shinan_Blue_Jaeun_20241217_(01).jpg",
+   "caption": "전남 신안 해상풍력",
+   "file_note": "자료사진 · 2024. 12",
+   "depicts": [
+    "전남 신안 해상풍력 단지"
+   ],
+   "main_subject": [
+    "해상풍력 발전기"
+   ],
+   "background": [
+    "바다",
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 메타·썸네일 접촉 시트 대조, R-0613·D611)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act2_5 에너지 분야 지원 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_wind_shinan.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "e50b1b48be0b72c78a3f73dae11eebbd",
+   "file": "bud_wind_shinan_720.jpg"
+  },
+  "bud_shuttle_42dot": {
+   "kind": "photo",
+   "title": "File:42dot autonomous-DRT Shuttle (1).jpg",
+   "license": "CC BY-SA 4.0",
+   "author": "Damian B Oh",
+   "credit_author": "Damian B Oh",
+   "date": "2022-10-18",
+   "url": "https://commons.wikimedia.org/wiki/File:42dot_autonomous-DRT_Shuttle_(1).jpg",
+   "caption": "자율주행 셔틀",
+   "file_note": "자료사진 · 2022. 10",
+   "depicts": [
+    "42dot 자율주행 수요응답형 셔틀"
+   ],
+   "main_subject": [
+    "자율주행 셔틀 차량"
+   ],
+   "background": [
+    "도로"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 메타·썸네일 접촉 시트 대조, R-0613·D611)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act2_11 자율주행 실증도시 문장"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_shuttle_42dot.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "5b91768819226a9cc81496094724ad49",
+   "file": "bud_shuttle_42dot_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
+  },
+  "bud_assembly_ext_2014": {
+   "kind": "photo",
+   "title": "File:National Assembly Building of the Republic of Korea.png",
+   "license": "CC BY-SA 4.0",
+   "author": "clumsyforeigner",
+   "credit_author": "clumsyforeigner",
+   "date": "2014-09-08",
+   "url": "https://commons.wikimedia.org/wiki/File:National_Assembly_Building_of_the_Republic_of_Korea.png",
+   "caption": "국회의사당",
+   "file_note": "자료사진 · 2014. 09",
+   "depicts": [
+    "서울 여의도 국회의사당 외관"
+   ],
+   "main_subject": [
+    "국회의사당"
+   ],
+   "background": [
+    "잔디밭",
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 파일 쪽 날짜·작가·라이선스·별도 이용 조건 대조, Openverse 는 후보 찾기만 — D617)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "cold·act1·act4 국회 예산 심사·의결 문장(국회 외관)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_assembly_ext_2014.png",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "3a38236627f022d298b2ae3e6dded5c1",
+   "file": "bud_assembly_ext_2014_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
+  },
+  "bud_sejong_complex": {
+   "kind": "photo",
+   "title": "File:Government Complex Sejong (N).jpg",
+   "license": "CC BY-SA 4.0",
+   "author": "Minseong Kim",
+   "credit_author": "Minseong Kim",
+   "date": "2015-03-19",
+   "url": "https://commons.wikimedia.org/wiki/File:Government_Complex_Sejong_(N).jpg",
+   "caption": "정부세종청사",
+   "file_note": "자료사진 · 2015. 03",
+   "depicts": [
+    "정부세종청사 전경"
+   ],
+   "main_subject": [
+    "정부세종청사"
+   ],
+   "background": [
+    "아파트 단지",
+    "산"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 파일 쪽 날짜·작가·라이선스·별도 이용 조건 대조, Openverse 는 후보 찾기만 — D617)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act1 정부 예산 배분 문장(정부세종청사)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_sejong_complex.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "30a72bc55ea2966ee310e461bcb277e4",
+   "file": "bud_sejong_complex_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
+  },
+  "bud_mohw": {
+   "kind": "photo",
+   "title": "File:Ministry of Health and Welfare(South Korea).JPG",
+   "license": "CC BY-SA 4.0",
+   "author": "Minseong Kim",
+   "credit_author": "Minseong Kim",
+   "date": "2014-12-05",
+   "url": "https://commons.wikimedia.org/wiki/File:Ministry_of_Health_and_Welfare(South_Korea).JPG",
+   "caption": "보건복지부 청사",
+   "file_note": "자료사진 · 2014. 12",
+   "depicts": [
+    "세종시 보건복지부 청사"
+   ],
+   "main_subject": [
+    "보건복지부 청사"
+   ],
+   "background": [
+    "주차장"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 파일 쪽 날짜·작가·라이선스·별도 이용 조건 대조, Openverse 는 후보 찾기만 — D617)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "보건·복지 분야 문장(후보)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_mohw.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "fe371fc059a6d97d364270a0f1d284db",
+   "file": "bud_mohw_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
+  },
+  "bud_motie": {
+   "kind": "photo",
+   "title": "File:Ministry of Trade, Industry and Energy(South Korea).JPG",
+   "license": "CC BY-SA 4.0",
+   "author": "Minseong Kim",
+   "credit_author": "Minseong Kim",
+   "date": "2014-12-02",
+   "url": "https://commons.wikimedia.org/wiki/File:Ministry_of_Trade,_Industry_and_Energy(South_Korea).JPG",
+   "caption": "산업통상자원부 청사",
+   "file_note": "자료사진 · 2014. 12",
+   "depicts": [
+    "세종시 산업통상자원부 청사"
+   ],
+   "main_subject": [
+    "산업통상자원부 청사"
+   ],
+   "background": [
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "opus 구현 세션(Commons 파일 쪽 날짜·작가·라이선스·별도 이용 조건 대조, Openverse 는 후보 찾기만 — D617)",
+    "on": "2026-11-03",
+    "casualty_free": true,
+    "relevance": "act2 산업·중소기업·에너지 분야 문장(배경)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-03",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "bud_motie.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "006c01b410c18013426344f7e4f87e11",
+   "file": "bud_motie_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
   },
   "china_tech_export_controls_2026_art_0023": {
    "kind": "article",

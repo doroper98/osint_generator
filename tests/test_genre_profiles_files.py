@@ -22,9 +22,19 @@ class GenreFilesTest(unittest.TestCase):
         self.assertEqual(p.status, "approved")
         self.assertEqual(p.stage.primary, "mercator")
         self.assertEqual(p.primitives.new, ["site_diagram"])   # v4.4.0 dmz_mine_2026 사용자 요청(현장 개념도) — 그 전까지 []
-        carriers = {"primitive", "series"}   # 프리미티브 이벤트는 id 로 센다(checks genre_elements). series = 시간축 무대 전용(v4.3.0) — 지도 장르 밖
+        carriers = {"primitive", "series", "rank"}   # 프리미티브 이벤트는 id 로 센다(checks genre_elements). series = 시간축 무대 전용(v4.3.0), rank = 구성 무대 전용(v7.4.0 D-1003) — 지도 장르 밖
         self.assertEqual(set(p.primitives.reuse), (set(reg.event_types) - carriers) | set(reg.panel_kinds) | set(reg.badge_kinds))
         self.assertEqual(set(p.color_semantics.values()), set(reg.accents))   # 09 §7 색 토큰 전부에 의미가 있다
+
+    def test_political_history_approved(self) -> None:
+        """v7.4.0 UF-401 — 사용자 승인("승인 상태로 올려"). approved 는 등록 요소·구현 검사만 참조할 수 있다(GenreProfile 검증)."""
+        p = load_genre("political_history")
+        reg = load_rules().registries
+        self.assertEqual(p.status, "approved")
+        self.assertEqual(p.stage.primary, "mercator")
+        self.assertTrue(set(p.primitives.new) <= set(reg.primitives))
+        self.assertIn("process_lane", p.primitives.new)
+        self.assertIn("doc_excerpt", p.primitives.new)
 
     def test_macro_monetary_is_section3_proposed(self) -> None:
         """20 §3 예시 그대로(D-0081 작업 2) + D-0082 두 대응(timeline_panel → timeline, new 의 planned)."""

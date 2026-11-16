@@ -172,32 +172,56 @@ class ScriptGrammarTest(unittest.TestCase):
             {"id": "a", "kind": "cold", "sentences": [{"date": "2026.10.02", "text": t, "emphasis": [], "sources": ["clm_0001"]} for t in texts]}]})
 
     def test_flow_and_uncertain(self) -> None:
+        """v7.4.0 D-1007(UF-303) — 연결어 하한(flow-sparse) 삭제: 접속어 0% 원고 = 통과. 첫머리 접속어 상한·반복 간격은 test_connective_guards."""
         from script.lint import lint  # noqa: PLC0415
 
-        flat = ["가가 발표했습니다.", "나나가 답했습니다.", "다다가 반박했습니다.", "라라가 정리했습니다."]
-        kinds = [i.kind for i in lint(self._script(flat), {"clm_0001": "corroborated"}).errors]
-        self.assertEqual(kinds, ["flow-sparse"])
-        flow = ["가가 발표했습니다.", "그러자 나나가 답했습니다.", "하지만 다다가 반박했습니다.", "라라가 정리했습니다."]
-        self.assertEqual([i.kind for i in lint(self._script(flow), {"clm_0001": "corroborated"}).errors], [])
-        unc = flow[:3] + ["이 수치는 아직 확인되지 않았습니다."]
+        flat = ["가가 발표했습니다.", "나나가 답했습니다.", "다다가 반박했습니다.", "라라가 정리했습니다.", "마마가 덧붙였습니다."]
+        self.assertEqual([i.kind for i in lint(self._script(flat), {"clm_0001": "corroborated"}).errors], [])
+        unc = flat[:4] + ["이 수치는 아직 확인되지 않았습니다."]
         self.assertIn("uncertain-phrase", [i.kind for i in lint(self._script(unc), {"clm_0001": "corroborated"}).errors])
+
+    def test_connective_guards(self) -> None:
+        """UF-303 — 접속어 25% 원고 = [connective-initial], 같은 '다만' 간격 5 = [connective-repeat]·6 = 통과(D610), 접속어 0% = 통과."""
+        from script.lint import lint  # noqa: PLC0415
+
+        base = [f"{n}가 발표했습니다." for n in ("가가", "나나", "다다", "라라", "마마", "바바", "사사", "아아")]
+        quarter = ["하지만 나나가 답했습니다.", "그러자 다다가 반박했습니다."] + base[:6]   # 2/8 = 25%
+        self.assertEqual([i.kind for i in lint(self._script(quarter), {"clm_0001": "corroborated"}).errors], ["connective-initial"])
+        ok = lambda e: [(i.kind, i.sid) for i in lint(self._script(e), {"clm_0001": "corroborated"}).errors]  # noqa: E731
+        more = base + [f"{n}가 발표했습니다." for n in ("자자", "차차", "카카", "타타", "파파", "하하")]   # 14문장
+        gap5 = ["다만 가가 말했습니다."] + more[:4] + ["다만 나나가 말했습니다."] + more[4:12]   # 2/14 ≈ 14% ≤ 15%, 간격 5
+        self.assertEqual(ok(gap5), [("connective-repeat", "a_5")])                 # D610 — 5 실패
+        gap6 = ["다만 가가 말했습니다."] + more[:5] + ["다만 나나가 말했습니다."] + more[5:12]   # 간격 6
+        self.assertEqual(ok(gap6), [])                                              # D610 — 6 통과
+        self.assertEqual([k for k, _ in ok(["다만 가가 말했습니다.", "하지만 나나가 답했습니다."] + more[:11])], ["connective-initial"])   # 2/13 ≈ 15.4% > 15%
+        self.assertEqual(lint(self._script(base), {"clm_0001": "corroborated"}).errors, [])
+
+    def test_estimate_marker(self) -> None:
+        """UF-302 — 내레이터 목소리의 '추정' 표지 = [estimate-marker] 오류, 귀속해 전하면 통과, '가능성' 서술은 통과."""
+        from script.lint import lint  # noqa: PLC0415
+
+        base = ["가가 발표했습니다.", "나나가 답했습니다.", "다다가 반박했습니다.", "라라가 정리했습니다."]
+        bad = base + ["융자를 받으려던 가구가 줄어들 것으로 추정됩니다."]
+        self.assertEqual([i.kind for i in lint(self._script(bad), {"clm_0001": "corroborated"}).errors], ["estimate-marker"])
+        ok = base + ["융자를 받으려던 가구의 문턱이 높아질 가능성이 있습니다.", "국회예산정책처는 그 규모를 13조 원으로 추정했다고 밝혔습니다."]
+        self.assertEqual([i.kind for i in lint(self._script(ok), {"clm_0001": "corroborated"}).errors if i.kind != "tts-symbol"], [])
 
     def test_disputed_claim_needs_attribution(self) -> None:
         """개정 2026-10-03 사용자 결정 — 논쟁 주장은 막지 않고 양측 귀속으로. 말한 사람 없는 단정만 오류."""
         from script.lint import lint  # noqa: PLC0415
 
-        both = self._script(["러시아는 나토가 봉쇄를 준비한다고 주장했습니다.", "반면 나토는 방어 동맹이라고 밝혔습니다.",
-                             "로이터는 회랑 길이를 약 팔십 킬로미터라고 보도했습니다.", "그러자 러시아는 다시 반박했다고 전했습니다."])
+        both = self._script(["러시아는 나토가 봉쇄를 준비한다고 주장했습니다.", "나토는 방어 동맹이라고 밝혔습니다.",
+                             "로이터는 회랑 길이를 약 팔십 킬로미터라고 보도했습니다.", "러시아는 다시 반박했다고 전했습니다.", "타스는 회담이 이어졌다고 보도했습니다."])
         self.assertEqual([i.kind for i in lint(both, {"clm_0001": "disputed"}).errors], [])
-        bare = self._script(["러시아는 나토를 비난했다고 밝혔습니다.", "반면 나토는 방어 동맹이라고 밝혔습니다.",
-                             "나토가 봉쇄를 준비하고 있습니다.", "그러자 러시아는 다시 반박했다고 전했습니다."])
+        bare = self._script(["러시아는 나토를 비난했다고 밝혔습니다.", "나토는 방어 동맹이라고 밝혔습니다.",
+                             "나토가 봉쇄를 준비하고 있습니다.", "러시아는 다시 반박했다고 전했습니다.", "타스는 회담이 이어졌다고 보도했습니다."])
         errs = lint(bare, {"clm_0001": "disputed"}).errors
         self.assertEqual([(i.kind, i.sid) for i in errs], [("disputed-claim", "a_2")])
 
     def test_uncertain_is_narrator_only(self) -> None:
         from script.lint import lint  # noqa: PLC0415
 
-        base = ["가가 발표했습니다.", "그러자 나나가 답했습니다.", "하지만 다다가 반박했습니다."]
+        base = ["가가 발표했습니다.", "나나가 답했습니다.", "다다가 반박했습니다."]
         ok = base + ["국제통화기금은 불확실성이 커졌다고 밝혔습니다.", "나토는 확인되지 않은 주장이라고 반박했다고 밝혔습니다."]
         self.assertEqual([i.kind for i in lint(self._script(ok), {"clm_0001": "corroborated"}).errors], [])
         bad = base + ["이 수치는 출처마다 엇갈립니다."]
@@ -225,7 +249,8 @@ class ScriptGrammarTest(unittest.TestCase):
     def test_gate1_blocks_script_grammar(self) -> None:
         from orchestrator.source_completeness_checker import BLOCKING  # noqa: PLC0415
 
-        self.assertTrue({"disputed-claim", "uncertain-phrase", "flow-sparse"} <= set(BLOCKING))
+        self.assertTrue({"disputed-claim", "uncertain-phrase", "connective-initial", "connective-repeat"} <= set(BLOCKING))
+        self.assertNotIn("flow-sparse", BLOCKING)   # v7.4.0 D-1007 삭제(P2)
 
 
 class HeadAndPathTest(unittest.TestCase):

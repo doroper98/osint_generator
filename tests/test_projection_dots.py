@@ -82,7 +82,8 @@ class LaneSourceJoinTest(unittest.TestCase):
               {"type": "series", "series_id": "FEDFUNDS", "style": "step"},
               {"type": "series", "series_id": "SEP_20260916", "style": "projection"}]
         s = lane_source_join(ev)
-        self.assertEqual(s, "FRED(세인트루이스 연은) · 원출처 연준 이사회·H.15 · 2026년 8·9월 기준")
+        # v7.4.0 D-0326(UF-200) — 빈도가 다른 레인이 섞이면 입자(grain) 줄이 붙는다(목표 범위 일별 · 실효금리 월평균)
+        self.assertEqual(s, "FRED(세인트루이스 연은) · 원출처 연준 이사회·H.15 · 2026년 8·9월 기준 · 목표 범위 일별(발효일 기준) · 실효금리 월평균")
         self.assertEqual(s.count("FRED"), 1)
         self.assertNotIn("SEP", s)
 

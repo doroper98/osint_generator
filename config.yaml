@@ -40,8 +40,18 @@ engine:
       720p: {width: 1280, height: 720, fps: 24, crf: 19, preset: faster, mem_per_job_mb: 1000, clip: [704, 396]}
   trial: 480p                          # 별칭 — 트라이얼(프리뷰·검수) 프로파일
   final: 720p                          # 별칭 — 최종(배포) 프로파일. v5.5.1 사용자 결정 2026-10-04 "기준 해상도는 720p야" — 파이프라인 render·assets_final 단계가 --res final. 1080p 는 --res 1080p 로만
+  # v7.4.0 RENDER-AP-032(back_and_forth D-0624) — 글꼴 렌더 설정(힌팅 등)의 단일 출처. engine.style 이 import 될 때(cairo·pango 가 글꼴을
+  # 처음 쓰기 전) FONTCONFIG_FILE 을 이 파일로 정하고 probe 글꼴의 실제 값이 expect 와 다르면 멈춘다(engine/fontenv.py). 컨테이너 재시작으로
+  # 셸 설정이 사라져도 렌더·시험이 조용히 힌팅 꺼진 화소를 내지 않게 한다(골든 25컷 0/25 사고, R-0329).
+  fontconfig:
+    file: config/fontconfig/fonts.conf
+    probe_family: IBM Plex Sans KR
+    expect: {hinting: true, hintstyle: 1}
   render:
-    jobs: null                         # 청크 병렬 수. null = os.cpu_count(). 사용 가능 메모리 ÷ 프로파일 mem_per_job_mb 로 줄인다
+    jobs: null                         # 청크 병렬 수(작업자 수). null = os.cpu_count(). 사용 가능 메모리 ÷ 프로파일 mem_per_job_mb 로 줄인다
+    chunk_sec: 10                      # v7.4.0 D-1000 S2 — 고정 격자 조각 길이(초, t=0 정렬). 조각 경계는 jobs 와 무관 → 바뀌지 않은 조각은 out/chunks/ 에서 재사용
+    probe_step_sec: 1.0                # 조각 탐침(서명) 시각 간격(초) + 조각 안 이벤트 시작·끝 ±1프레임. 출력 해상도 그대로 그린다. 0.5 → 1.0: 전부 재사용 때 탐침 10.6% > 10%(D-1000 S2-7, R-0601)
+                                       # (D-1000 의 probe_scale 0.25 는 지형 래스터가 프로파일별 자산이라 쓰지 않는다 — 구현 전결, R-0601)
 
 tts:
   # v2.0.0 — TTS 설정 단일 출처. 모듈 상수로 override 금지 (docs/handoff/15 P3).
@@ -103,6 +113,15 @@ media:
     allowed_domains: [federalreserve.gov, commons.wikimedia.org, upload.wikimedia.org, c-span.org, players.brightcove.net, edge.api.brightcove.com, brightcovecdn.com, akamaihd.net]
     max_height: 720
     format: "bv*[height<={h}]+ba/b[height<={h}]"
+
+data_fetch:
+  # v7.4.0 D-0278 §4.2(E3) — tools/fetch_filing.py(EDGAR 표·OpenDART·Yahoo chart 일별 종가). 도메인은 rules data.sources_allowed.
+  # OpenDART 키는 .env DART_API_KEY(C9) — 없으면 안내 줄을 내고 멈춘다(받지 않은 값을 만들지 않는다)
+  edgar_user_agent: "osint_generator research (econ template) contact via repository owner"
+  opendart_base: "https://opendart.fss.or.kr/api"
+  yahoo_chart_base: "https://query1.finance.yahoo.com/v8/finance/chart"
+  timeout_sec: 60
+  gap_sec: 2       # 감독 지시(2026-10-30) — Yahoo 429 대응, SEC 초당 10요청 상한보다도 넉넉
 
 review_gates:
   # v3.0.0 — 사용자 승인 게이트 2개(docs/handoff/16 §5). 승인 없이 게이트 다음 상태로 가지 않는다.

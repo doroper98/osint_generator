@@ -69,6 +69,10 @@ class MediaAsset(_Strict):
     caption: str = Field(min_length=1)             # 화면 캡션(사진·영상) / 라벨(컷아웃) / 매체명(기사)
     file_note: str = Field(min_length=1)           # 화면 날짜 표기(예: 자료사진 · 2023. 05) / 기사 날짜
     depicts: list[str] = Field(min_length=1)       # 사건·장소·인물·장비
+    # v7.4.0 back_and_forth D-0327(사용자 의견 UF-201 "블라디보스토크항의 이미지로 이런 통통배(터그선)이미지가 크게 박힌 이미지를 쓰는게 맞아?") —
+    # 실제 프레임을 보고 나눈 주된 피사체(1~2개)와 배경. 연출 photo 의 for 가 main_subject 에 있어야 한다(checks [photo-subject-background]·[photo-subject-unmatched])
+    main_subject: list[str] = Field(default_factory=list, max_length=3)
+    background: list[str] = Field(default_factory=list)
     is_file_photo: bool                            # 해당 사건 당일 자료가 아님 → file_note 가 "자료사진/자료 영상"으로 시작
     verified_by: MediaVerification
     rights_status: RightsStatus
@@ -95,6 +99,8 @@ class MediaAsset(_Strict):
     # v7.3.0 사용자 결정 D234 — 비공개 시청 한정 자산(상업 위성 타일). rules media_beats.inset_licenses 의 private_only 라이선스면 필수.
     # v7.4.0 사용자 결정 D264 — 저작권 있는 공개 영상(회견·인터뷰·방송) 클립도 scope private_only + rights_status restricted 로 기록만(막는 검사 없음)
     scope: Optional[Literal["private_only"]] = None
+    # v7.4.0 사용자 결정 D612 — CC BY-SA 사진·영상의 변경 사항(예: "자르기·크기 조정"). SA 자산이면 필수(고지 의무 — 화면 출처 줄·엔딩 크레딧·설명란)
+    modifications: Optional[str] = None
 
     @model_validator(mode="after")
     def _by_kind(self) -> "MediaAsset":
@@ -107,6 +113,7 @@ class MediaAsset(_Strict):
             errs.append("url 이 채워졌으면 pending_source 를 지운다(D-0037)")
         if self.is_file_photo and not self.file_note.startswith(FILE_PHOTO_PREFIXES):
             errs.append(f"file_photo_label_required: 자료사진·자료 영상 표기 없음 (file_note={self.file_note!r}, 14 §2.3)")
+        errs += self._sa_obligation_errors()
         if self.kind == "article":
             for f in ("headline", "sub", "note"):
                 if not getattr(self, f):
@@ -134,6 +141,37 @@ class MediaAsset(_Strict):
         if errs:
             raise ValueError("; ".join(errs))
         return self
+
+    def is_sa(self) -> bool:
+        from schemas.emblem_models import is_sa  # noqa: PLC0415
+
+        return is_sa(self.license)
+
+    def _sa_obligation_errors(self) -> list[str]:
+        """[sa-obligation](v7.4.0 사용자 결정 D612) — CC BY-SA 자산은 rules media.sa_allowed·sa_licenses 안이어야 하고,
+        고지 의무 필드(작가·제목·라이선스·링크 url·변경 사항 modifications)가 모두 있어야 한다."""
+        if not self.is_sa():
+            return []
+        from schemas.emblem_models import media_license_allowed  # noqa: PLC0415
+
+        errs = []
+        if not media_license_allowed(self.license):
+            errs.append(f"[sa-obligation] 라이선스 {self.license!r} 는 rules media.sa_allowed·sa_licenses 밖(NC·ND 불허)")
+        if self.kind not in ("photo", "video"):
+            errs.append(f"[sa-obligation] CC BY-SA 는 사진·영상만(D612) — kind {self.kind!r}")
+        if not self.url:
+            errs.append("[sa-obligation] CC BY-SA 자산은 원본 링크(url)가 있어야 한다(D612 고지 의무)")
+        if not (self.modifications or "").strip():
+            errs.append("[sa-obligation] CC BY-SA 자산은 변경 사항(modifications, 예: 자르기·크기 조정)을 적어야 한다(D612 고지 의무)")
+        return errs
+
+    def sa_credit_line(self) -> str:
+        """엔딩 크레딧·설명란 한 줄(rules media.sa_credit_line) — SA 자산만."""
+        from rules import load_rules  # noqa: PLC0415
+
+        fmt = load_rules().media.sa_credit_line
+        return fmt.replace("{author}", self.author).replace("{title}", self.title).replace("{license}", self.license) \
+            .replace("{url}", self.url or "").replace("{modifications}", self.modifications or "")
 
     def _inset_license_errors(self) -> list[str]:
         """v7.3.0 D232 U1·D234 — 위성 인셋 라이선스는 rules media_beats.inset_licenses 한 곳. private_only 라이선스 ↔ scope private_only."""
@@ -177,8 +215,13 @@ class MediaAsset(_Strict):
 
     def credit_line(self, fmt: str) -> str:
         """화면 출처 줄 — 형식은 rules media.credit_formats(종류별). 레지스트리 값으로만 만든다(P3)."""
-        return fmt.replace("{file_note}", self.file_note).replace("{credit_author}", self.credit_author) \
+        line = fmt.replace("{file_note}", self.file_note).replace("{credit_author}", self.credit_author) \
             .replace("{license}", self.license)
+        if self.is_sa():   # v7.4.0 D612 — SA 고지: 화면 출처 줄 끝에 변경 사항
+            from rules import load_rules  # noqa: PLC0415
+
+            line += load_rules().media.sa_screen_suffix.replace("{modifications}", self.modifications or "")
+        return line
 
 
 class MediaRegistryFile(_Strict):

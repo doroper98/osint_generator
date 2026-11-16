@@ -98,7 +98,7 @@ class SlotGeometryTest(unittest.TestCase):
         ts = _times(e)
         mw = max(cascade_width(t, e) for t in ts)
         self.assertLessEqual(mw, CASCADE.width_cap)
-        self.assertAlmostEqual(mw, 549.429, places=2)
+        self.assertAlmostEqual(mw, 549.429, delta=0.5)   # v7.4.0 UF-159 — 등장 ×1.5 로 표본 시각의 최대폭이 549.117 로 0.31px 줄었다(가이드 실측과 같은 상한 안)
         self.assertEqual(max(back_count(t, e) for t in ts), CASCADE.max_back)
 
 
@@ -237,14 +237,15 @@ class DefaultFrameUnchangedTest(unittest.TestCase):
                 self.assertEqual(bytes(got.get_data()), bytes(want.get_data()), (box, a))
 
     def test_only_cascade_passes_frame_options(self) -> None:
-        """draw_frame 을 부르는 곳 중 style·occluders 를 넘기는 곳은 engine/cascade.py 하나(아일랜드·패널은 3인자 그대로, AST)."""
+        """draw_frame 을 부르는 곳 중 style·occluders 를 넘기는 곳은 engine/cascade.py 하나(아일랜드·패널은 3인자 그대로, AST).
+        boxed= 키워드(v7.4.0 감독 D619 — 사진 배경 위 데이터 무대 상자)는 style·occluders 가 아니라 세지 않는다."""
         calls = []
         for p in (REPO / "engine").rglob("*.py"):
             tree = ast.parse(p.read_text(encoding="utf-8"))
             inner = {id(n) for f in ast.walk(tree) if isinstance(f, ast.FunctionDef) and f.name == "draw_frame" for n in ast.walk(f)}
             for n in ast.walk(tree):
                 if isinstance(n, ast.Call) and id(n) not in inner and getattr(n.func, "id", getattr(n.func, "attr", "")) == "draw_frame":
-                    calls.append((p.relative_to(REPO).as_posix(), len(n.args) + len(n.keywords)))
+                    calls.append((p.relative_to(REPO).as_posix(), len(n.args) + len([k for k in n.keywords if k.arg != "boxed"])))
         self.assertTrue(calls)
         self.assertEqual({f for f, n in calls if n > 3}, {"engine/cascade.py"})
         self.assertTrue(any(f == "engine/panels/base.py" for f, _ in calls))

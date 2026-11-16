@@ -10,6 +10,13 @@ from __future__ import annotations
 import pytest
 
 
+def pytest_configure(config) -> None:  # noqa: ANN001
+    """v7.4.0 RENDER-AP-032 — 시험도 표준 글꼴 렌더 설정에서만 돈다(골든·합성 골든 화소). 다르면 시작에서 멈춘다."""
+    from engine.fontenv import ensure  # noqa: PLC0415
+
+    ensure()
+
+
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):  # noqa: ANN001, ANN201
     outcome = yield

@@ -1,0 +1,35 @@
+{
+ "schema_version": 1,
+ "direction_version": 2,
+ "base_human_edit": true,
+ "changelog": [
+  {
+   "issue_ref": "scene_visual_void 23.1~29.4",
+   "change": "act1_0~act1_1 빈 구간에 우크라이나 쪽에서 랴잔으로 가는 드론 flight(cold_0 와 같은 출발점)와 랴잔 '러시아 정유소' 마커(icon boom)를 추가. 마커는 비행 경로의 반대쪽 right 에 둠. 기존 이벤트는 바꾸지 않음"
+  },
+  {
+   "issue_ref": "scene_visual_void 45.8~53.6",
+   "change": "act1_4 동안 원유를 바꾸는 공장을 보이도록 키리시·사라토프·시즈란에 '정유소' 마커 3개를 0.5초 간격으로 추가하고 act1_4 끝+0.3초에 끝냄(act1_5 패널 앞). moscow_fire 사진은 그대로 둠"
+  },
+  {
+   "issue_ref": "scene_visual_void 69.9~77.9",
+   "change": "act1_8('정유소가 드문 동쪽 끝') 시작부터 act2_0 dip 직후(off 1.0)까지 서부 정유소 마커 3개를 다시 띄워 정유소가 서쪽에 몰린 것을 보임. khabarovsk 사진은 그대로 둠"
+  },
+  {
+   "issue_ref": "scene_visual_void act2_2(85.1~91.6)",
+   "change": "act2_1 끝~act2_3 끝에 하바롭스크 자리에 '극동' 마커(side right)를 추가해 dots 패널 앞 공백을 채움"
+  },
+  {
+   "issue_ref": "scene_visual_void act3_0~act3_1(112.6~125.9)",
+   "change": "dip 뒤 act3_0 off 1.0~act3_1 끝에 '페르시아만' 마커(gulf_label, side top)를 추가. 경로 gulf_exit 가 뜨기 전에 끝남"
+  },
+  {
+   "issue_ref": "scene_visual_void act4_3~act5_3(181.4~206.6)",
+   "change": "act4_3 에 '서부전선 비무장지대' 마커를 다시 띄우고(off 0.9~끝+0.6), act5_0 off 2.0~act5_2 끝+0.3에 모스크바 '러시아 석유회사' 마커를 추가. act5_3 에는 checklist 패널 '일반허가 135호'(판매·운송·수입, 원고 문구)를 넣어 article 앞에 끝냄"
+  },
+  {
+   "issue_ref": "scene_visual_void act5_5(211.9~217)",
+   "change": "act5_5 동안 랴잔 '랴잔 정유소 · 10월 15일 새벽' 마커(cold_0 문구)를 추가해 엔딩 dip 전 공백을 채움"
+  }
+ ]
+}

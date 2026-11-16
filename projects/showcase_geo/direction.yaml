@@ -1,13 +1,14 @@
+# direction.yaml — AI 연출 수정본(ReviseDirectionWorker, v3.1.0, 17 §5.5). changelog 는 prev/revision.v*.json.
 version: 1
 genre: null
 stage: null
-media_note: 요소 확인용 쇼케이스(D-0251). 연출은 원 프로젝트(diesel_road_2026 v2·hormuz_korea·dmz_mine_2026)
-  사용자 합격 연출의 같은 문장 이벤트·숏을 새 문장 번호로 옮기고(이식), 원 연출에 없는 문장만 연출가 판(direction.v1)에서 가져왔다.
-  미포함 — quote(원고에 직접 인용 문장 없음), ships·cutout(P-8A)·rok_iraq 사진·precedent 패널(원 프로젝트에서
-  이 사실을 말한 문장이 이번 원고에 없다), gantt·network·fork·checklist·versus·timeline 패널(원고 안 사실
-  묶음이 패널 하나를 채우지 못한다), post(X 게시물 출처 없음).
+media_note: 요소 확인용 쇼케이스(D-0251). 연출은 원 프로젝트(diesel_road_2026 v2·hormuz_korea·dmz_mine_2026) 사용자 합격 연출의 같은 문장 이벤트·숏을 새 문장 번호로 옮기고(이식), 원 연출에 없는 문장만 연출가 판(direction.v1)에서
+  가져왔다. 미포함 — quote(원고에 직접 인용 문장 없음), ships·cutout(P-8A)·rok_iraq 사진·precedent 패널(원 프로젝트에서 이 사실을 말한 문장이 이번 원고에 없다), gantt·network·fork·checklist·versus·timeline 패널(원고
+  안 사실 묶음이 패널 하나를 채우지 못한다), post(X 게시물 출처 없음).
 story_geo_exempt: null
 opening_exempt: null
+template_label: 쇼케이스 템플릿 · 지경학
+project_id: null
 stage_reason: null
 stage_config: {}
 places:
@@ -378,7 +379,15 @@ shots:
   camera:
     lon: 46.0
     lat: 52.0
+    place: null
+    date: null
+    lane: null
     w: 40.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
 - at:
     sid: cold_0
     'off': 0.5
@@ -387,7 +396,14 @@ shots:
   camera:
     lon: 39.0
     lat: 54.9
+    place: null
+    date: null
+    lane: null
     w: 12.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 랴잔 근접(모스크바·랴잔·M5 도로)
 - at:
     sid: cold_1
@@ -397,7 +413,14 @@ shots:
   camera:
     lon: 128.0
     lat: 36.0
+    place: null
+    date: null
+    lane: null
     w: 6.5
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 무대 전환 — 울산
 - at:
     sid: cold_1
@@ -407,7 +430,14 @@ shots:
   camera:
     lon: 128.5
     lat: 35.75
+    place: null
+    date: null
+    lane: null
     w: 6.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 울산항 근접 — 느린 이동 뒤 타이틀(§4.1)
 - at:
     card: title
@@ -417,8 +447,15 @@ shots:
   camera:
     lon: 42.0
     lat: 55.4
+    place: null
+    date: null
+    lane: null
     w: 38.0
   under: true
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
 - at:
     sid: act1_2
     'off': -4.5
@@ -427,7 +464,14 @@ shots:
   camera:
     lon: 46.0
     lat: 53.6
+    place: null
+    date: null
+    lane: null
     w: 36.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 1막 러시아 서부 drift 시작점
 - at:
     sid: act1_2
@@ -437,7 +481,14 @@ shots:
   camera:
     lon: 40.6
     lat: 55.0
+    place: null
+    date: null
+    lane: null
     w: 32.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 1막 러시아 서부 — 느린 궤도 훑기(UF-120)
 - at:
     sid: act1_5
@@ -447,7 +498,15 @@ shots:
   camera:
     lon: 42.0
     lat: 55.4
+    place: null
+    date: null
+    lane: null
     w: 38.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
 - at:
     sid: act2_0
     'off': 0.8
@@ -456,7 +515,14 @@ shots:
   camera:
     lon: 130.5
     lat: 47.0
+    place: null
+    date: null
+    lane: null
     w: 26.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 연결 문장 첫머리까지 러시아 전체(라벨) — 극동으로 옮긴다
 - at:
     sid: act2_4
@@ -466,7 +532,14 @@ shots:
   camera:
     lon: 131.2
     lat: 39.3
+    place: null
+    date: null
+    lane: null
     w: 21.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 니가타 꺾임점까지
 - at:
     sid: act3_0
@@ -476,7 +549,15 @@ shots:
   camera:
     lon: 50.5
     lat: 27.5
+    place: null
+    date: null
+    lane: null
     w: 26.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
 - at:
     sid: act3_3
     'off': -1.2
@@ -485,7 +566,15 @@ shots:
   camera:
     lon: 47.0
     lat: 29.5
+    place: null
+    date: null
+    lane: null
     w: 30.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
 - at:
     sid: act4_0
     'off': -0.5
@@ -511,7 +600,15 @@ shots:
   camera:
     lon: 38.0
     lat: 54.0
+    place: null
+    date: null
+    lane: null
     w: 30.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
 - at:
     sid: act5_1
     'off': -4.5
@@ -520,7 +617,14 @@ shots:
   camera:
     lon: 37.3
     lat: 54.0
+    place: null
+    date: null
+    lane: null
     w: 30.5
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 5막 우크라이나·러시아 서부 drift 시작점
 - at:
     sid: act5_1
@@ -530,7 +634,14 @@ shots:
   camera:
     lon: 39.2
     lat: 54.2
+    place: null
+    date: null
+    lane: null
     w: 29.5
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
   reason: 5막 우크라이나·러시아 서부 — 느린 궤도 훑기(UF-120)
 - at:
     sid: ending_0
@@ -540,7 +651,15 @@ shots:
   camera:
     lon: 89.0
     lat: 43.5
+    place: null
+    date: null
+    lane: null
     w: 94.0
+  under: false
+  allow_sea: null
+  scene: null
+  stage: null
+  reason: null
 events:
 - type: country
   start:
@@ -595,6 +714,7 @@ events:
   lat: 54.62
   col: teal
   impact: true
+  claim: clm_0099   # v7.4.0 D-0316 ① — 이 비행이 그리는 특정 타격(로스네프트 라잔 정유소, 10월 15일 새벽)
   inset:
     mid: inset_ryazan_esri
     side: down_left
@@ -612,19 +732,6 @@ events:
   - RU
   col: ru
   a: 0.05
-- type: card
-  start:
-    sid: act1_2
-    'off': 0.2
-  end:
-    sid: act1_2
-    edge: end
-    'off': 0.6
-  tag: 2026년 첫 여덟 달
-  bigs:
-  - - 사흘에 한 번
-    - 우크라이나의 러시아 정유소 타격
-  accent: ru
 - type: photo
   start:
     sid: act1_2
@@ -634,63 +741,8 @@ events:
     edge: end
     'off': 0.3
   mid: diesel_road_2026_moscow_fire_0618
+  for: 러시아 정유소   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: map_left
-- type: card
-  start:
-    sid: act1_3
-    'off': 0.3
-  end:
-    sid: act1_3
-    edge: end
-    'off': 0.5
-  tag: 표적
-  lines:
-  - 원유를 캐는 유전이 아니라
-  - 경유·휘발유를 만드는 정유소
-  accent: ru
-- type: card
-  start:
-    sid: act1_4
-    'off': 0.2
-  end:
-    sid: act1_4
-    edge: end
-    'off': 0.5
-  tag: 원유는 팔리고, 공장은 타격
-  lines:
-  - 원유는 계속 팔려 나갔다
-  - 경유·휘발유 만드는 공장이 타격
-  accent: ru
-- type: cascade
-  start:
-    sid: act1_7
-    'off': 0.1
-  end:
-    sid: act1_7
-    edge: end
-    'off': 0.3
-  items:
-  - at:
-      sid: act1_7
-      'off': 0.3
-    flag: ru
-    date: 7월 8일
-    title: 경유 수출 전면 금지
-    line: 정유사까지 포함
-    accent: ru
-- type: card
-  start:
-    sid: act2_2
-    'off': 0.2
-  end:
-    sid: act2_2
-    edge: end
-    'off': 0.5
-  tag: 7~8월 한국 항구 선적
-  bigs:
-  - - 17만 6천 ton
-    - 이상 · 대부분 경유
-  accent: gold
 - type: route
   start:
     sid: act2_4
@@ -743,55 +795,6 @@ events:
   - IR
   col: ru
   a: 0.06
-- type: card
-  start:
-    sid: act5_1
-    'off': 0.2
-  end:
-    sid: act5_2
-    edge: end
-    'off': 0.3
-  tag: 미국
-  lines:
-  - 지난해 러시아 석유회사들을 제재
-  accent: us
-- type: card
-  start:
-    sid: act5_3
-    'off': 0.2
-  end:
-    sid: act5_3
-    edge: end
-    'off': 0.5
-  tag: 미국 재무부
-  lines:
-  - 일반허가 135호
-  - 러시아산 경유 판매·운송·수입 허용
-  accent: us
-- type: article
-  start:
-    sid: act5_4
-    'off': 0.1
-  end:
-    sid: act5_4
-    edge: end
-    'off': 0.4
-  mid: diesel_road_2026_art_0030
-  theme: dark
-  press: diesel_road_2026_trump_1006
-- type: card
-  start:
-    sid: act5_5
-    'off': 0.1
-  end:
-    sid: act5_5
-    edge: end
-    'off': 0.3
-  tag: 에너지 휴전
-  bigs:
-  - - 나흘
-    - 10월 11일 발효 → 10월 15일 끝
-  accent: muted
 - type: marker
   start:
     word:
@@ -827,31 +830,6 @@ events:
   grow: 2.6
   col: gold
   ship: true
-- type: card
-  start:
-    word:
-      sid: ending_0
-      text: 워싱턴
-  end:
-    sid: ending_0
-    edge: end
-    'off': 0.6
-  tag: 워싱턴
-  lines:
-  - 러시아산 경유 거래
-  accent: us
-- type: card
-  start:
-    sid: ending_1
-    'off': 0.2
-  end:
-    sid: ending_1
-    edge: end
-    'off': 0.5
-  tag: 네 장면
-  lines:
-  - 모자란 경유 한 가지로 이어져 있다
-  accent: gold
 - type: marker
   start:
     word:
@@ -874,13 +852,13 @@ events:
     edge: end
     'off': 0.3
   data:
-    title: 러시아 극동을 오간 유조선
-    subtitle: 일곱 척 · 열네 번 항해 · 가디언
+    title: 제재 대상 유조선   # v7.4.0 D-0316 ② — 옛 제목·부제가 act2_3 원고를 되풀이([text-restates-narration]) → 자막에 없는 제재 사실만
+    subtitle: 영국·유럽연합 제재 · 가디언
     total: 7
     highlight: 3
     accent: ru
     big: 3 / 7
-    caption: 영국·유럽연합 제재 대상
+    caption: 7척 중 3척
     provenance:
       sources:
       - clm_0002
@@ -1044,7 +1022,7 @@ events:
 - type: panel
   start:
     sid: act3_6
-    'off': -0.3
+    'off': 0.0   # v7.4.0 UF-159 — 기사 art_0020 끝 +1.8(전환 ×1.5)과 패널 완전 노출이 0.3초 겹쳐 [card-over-panel] hard. 시작을 0.3초 늦춤(옛 -0.3)
   end:
     sid: act3_6
     edge: end
@@ -1075,53 +1053,26 @@ events:
         word:
           sid: act3_6
           text: 한국
-- type: clip
-  start:
-    sid: act3_4
-    'off': 0.2
-  end:
-    sid: act3_4
-    'off':
-    - 0.2
-    - 5.0
-  mid: niovi
-  role: broll
-  x: 40
-  y: 150
-  w: 300
 - type: marker
-  start:
+  start:   # v7.4.0 D-0346 — 지뢰 경고 표지판 사진을 act4_1 +2.5 까지 늘려(UF-171) 라벨이 사진 밑에 1.5초 깔렸다([label-under-media]). 사진이 빠지는 때로(옛 +0.3)
     sid: act4_1
-    'off': 0.3
-  end:
+    'off': 3.1   # v7.4.0 D-0353(A′) — 2분할 사진 퇴장 뒤(옛 +2.2)
+  end:   # 단면 카드(site_diagram, act4_2 −0.3)가 뜨기 전에 끝낸다 — 늦춘 시작으로 카드 뒤 비율 62%([label-hidden-by-card]). 같은 라벨은 act4_3 마커가 다시 띄운다(옛 act4_2 끝)
     sid: act4_2
-    edge: end
+    'off': -0.3
   at_place: dmz_dmz_site
   label: 서부전선 비무장지대
-  sub: 9월 21일 오전 폭발
   side: right
   hl: true
   icon: boom
-- type: boom
+- type: boom   # v7.4.0 D-0353(A′) — 2분할 사진(~act4_1 +3.05)이 빠진 뒤 맑은 지도에서 폭발. 같은 문장 안(act4_1 4.4초)(옛 +1.0 ~ +3.2)
   start:
     sid: act4_1
-    'off': 1.0
+    'off': 3.1
   end:
     sid: act4_1
-    'off': 3.2
+    'off': 5.3
   at_place: dmz_dmz_site
-- type: card
-  start:
-    sid: act4_3
-    'off': 0.3
-  end:
-    sid: act4_3
-    edge: end
-    'off': 0.3
-  tag: 아직 규명되지 않은 것
-  lines:
-  - 지뢰를 누가, 언제 묻었나
-  accent: gold
 - type: country
   start:
     sid: act2_0
@@ -1132,26 +1083,6 @@ events:
   - RU
   col: ru
   a: 0.06
-- type: photo
-  start:
-    sid: act2_0
-    'off': 2.0
-  end:
-    sid: act2_1
-    edge: end
-    'off': 0.6
-  mid: diesel_road_2026_khabarovsk_ref_2005
-  place: map_left
-- type: article
-  start:
-    sid: act1_7
-    'off': 0.1
-  end:
-    sid: act1_7
-    edge: end
-    'off': 0.6
-  mid: diesel_road_2026_art_0009
-  theme: dark
 - type: route
   start:
     sid: act3_2
@@ -1167,47 +1098,26 @@ events:
   dashed: true
   label: 유일한 바닷길
 - type: photo
-  start:
-    sid: act3_2
-    'off': 0.6
-  end:
-    sid: act3_2
-    edge: end
-    'off': 0.8
-  mid: hormuz_transit
-  place: map_left
-- type: card
-  start:
-    sid: act3_3
-    'off': 0.2
-  end:
-    sid: act3_3
-    edge: end
-    'off': 0.6
-  tag: 2월 28일
-  lines:
-  - 미국·이스라엘, 이란 공습
-  accent: ru
-- type: article
-  start:
-    sid: act3_5
-    'off': -0.3
-  end:
-    sid: act3_5
-    edge: end
-    'off': 1.4
-  mid: diesel_road_2026_art_0020
-  theme: dark
-- type: photo
-  start:
+  start: # v7.4.0 D-0353(A′) — 장면 첫 화면은 지도: 카메라 컷(164.3) 뒤 지도만 1.5초, 그다음 사진. 사진이 빠진 뒤 boom·DMZ 라벨(act4_1 +3.1)(옛 act4_0 +0.3 ~ act4_1 +2.5)
     sid: act4_0
-    'off': 0.8
+    'off': 1.0
   end:
-    sid: act4_0
-    edge: end
-    'off': 0.6
+    sid: act4_1
+    'off': 3.05
   mid: dmz_mine_sign
+  for: 지뢰 경고 표지판   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
   place: map_left
+- type: photo   # v7.4.0 D-0349(UF-173 + [media-density] 7 이상) — 지뢰 표지판과 같은 구간(act4_0·act4_1, 같은 날짜 09.21) 좌우 2분할(rules center_media.pair). 동시 둘이라 상자 376 < center_min_w → 덮임 가중 0.5씩([map-cover-share] 그대로)
+  start: # v7.4.0 D-0353(A′) — 장면 첫 화면은 지도: 카메라 컷(164.3) 뒤 지도만 1.5초, 그다음 사진. 사진이 빠진 뒤 boom·DMZ 라벨(act4_1 +3.1)(옛 act4_0 +0.3 ~ act4_1 +2.5)
+    sid: act4_0
+    'off': 1.0
+  end:
+    sid: act4_1
+    'off': 3.05
+  mid: dmz_fence
+  for: DMZ 남측 철책
+  age_reason: "D-0351 ① — 2026-11-02 Commons 검색(질의 'DMZ fence Korea'·'Korean Demilitarized Zone fence'·'DMZ barbed wire fence South Korea'·'비무장지대 철책'·'DMZ Peace Trail'·'Korea DMZ fence Korea.net'·'Paju DMZ fence'): 15년 안 PD·CC 후보 중 철책이 주된 피사체인 사진이 없다. DMZ 2732(2022·CC BY 4.0, 철원)는 꿩이 주 피사체, DMZ Peace Trail 01~03(2019·CC BY-SA 2.0, 고성 동해안)은 관광객 무리·해안 풍경이 주 피사체다. 자료사진 표기·촬영 연도(2008) 캡션은 그대로 보인다"
+  place: map_right_low
 - type: primitive
   start:
     sid: act4_2
@@ -1247,29 +1157,15 @@ events:
     edge: end
   pts:
     path: gulf_exit
-- type: badge
-  start:
-    sid: act3_3
-    'off': 0.6
-  end:
-    sid: act3_3
+- type: badge   # v7.4.0 D-0329 ② — 기사 카드 전면 사진(act5_4)에 98% 덮였다([badge-covered]) → 카드가 끝난 act5_5 로(옛 act5_4 +0.3 ~ 끝 +0.5)
+  start: # v7.4.0 D-0349(UF-173 [media-sentence-span]) — 자기 날짜 창 안에서만(옆 문장 겹침 ≤ 0.5초)(옛 act5_4 +0.0 ~ act5_5 끝 +0.8 — 휴전 종료 문장까지 남았다)
+    sid: act5_3
     edge: end
-    'off': 0.3
-  lon: 53.5
-  lat: 31.6
-  kind: emblem
-  img: centcom
-  label: 미 중부사령부
-  role: 공습
-  accent: us
-- type: badge
-  start:
-    sid: act5_4
-    'off': 0.3
+    'off': -0.3
   end:
     sid: act5_4
     edge: end
-    'off': 0.5
+    'off': 1.3
   place: map_upper_left
   kind: person
   pid: trump
@@ -1277,36 +1173,182 @@ events:
   label: 도널드 트럼프
   role: 미국 대통령
   accent: us
-# v7.4.0 D-0261 §3(UF-139 사진·영상 하한 [media-density] 1.5/분) — 등재본 3장 보강: 실사 5 → 8(4.0분, 분당 2.0)
 - type: photo
   start:
-    sid: act2_4
-    'off': 0.5
+    sid: ending_0
+    'off': 1.0 # v7.4.0 D-0353(A′) — 장면 첫 화면은 지도: 카메라 컷(215.26) 뒤 지도만 1.5초 이상(옛 +0.3). 끝은 같은 날짜 ending_1(10.17) 안 +0.2(옛 ending_0 끝 +0.4)
   end:
-    sid: act2_4
+    sid: ending_1
+    'off': 0.2
+  mid: diesel_road_2026_ras_laffan_lng_2012
+  for: 걸프 에너지 수출 시설   # v7.4.0 D-0327(UF-201) — 문장 대상, 레지스트리 main_subject
+  place: map_left
+- type: marker   # v7.4.0 D-0316 ① — 총괄 문장(봄부터 이어진 타격) 구간은 비행 대신 날짜 있는 마커를 날짜순으로. 모스크바 = 사진 자산 모스크바 정유소 화재 연기(2026. 06. 18)
+  start:
+    sid: act1_0
+    'off': 0.3
+  end:
+    sid: act1_1
     edge: end
     'off': 0.3
-  mid: diesel_road_2026_vladivostok_port_1992
-  place: map_left
-- type: photo
+  at_place: moscow
+  label: 모스크바 정유소
+  sub: 6월 18일 화재
+  side: left
+- type: marker   # 랴잔 = clm_0099(로스네프트 라잔 정유소 타격, 원고 cold_0 인용)
   start:
-    sid: act4_1
-    'off': 3.4
+    sid: act1_0
+    'off': 1.5
   end:
-    sid: act4_1
+    sid: act1_1
     edge: end
-    'off': -0.1
-  mid: dmz_fence
-  place: map_left
-- type: photo
+    'off': 0.3
+  at_place: ryazan
+  label: 랴잔 정유소
+  sub: 10월 15일
+  side: right
+  icon: boom
+- type: marker
   start:
-    sid: ending_0
-    'off': 3.0
+    sid: act1_4
+    'off': 0.3
   end:
-    sid: ending_0
-    'off': 7.6
-  mid: diesel_road_2026_ras_laffan_lng_2012
+    sid: act1_4
+    edge: end
+    'off': 0.3
+  at_place: ryazan   # v7.4.0 — act1_4 카메라에서 키리시는 화면 위 끝(y 8, offscreen)·사라토프는 자막 띠 안(subtitle_overlap) → 화면 안 랴잔 정유소로, 사라토프 핀은 뺐다
+  label: 정유소
+  side: right
+- type: marker
+  start:
+    sid: act1_4
+    'off': 0.8
+  end:
+    sid: act1_4
+    edge: end
+    'off': 0.3
+  at_place: syzran
+  label: 정유소
+  side: right
+- type: marker
+  start:
+    sid: act1_8
+    'off': 0.2
+  end:
+    sid: act2_0
+    'off': 1.0
+  at_place: kirishi
+  label: 정유소
+  side: right
+- type: marker
+  start:
+    sid: act1_8
+    'off': 0.2
+  end:
+    sid: act2_0
+    'off': 1.0
+  at_place: saratov
+  label: 정유소
+  side: left
+- type: marker
+  start:
+    sid: act1_8
+    'off': 0.2
+  end:
+    sid: act2_0
+    'off': 1.0
+  at_place: syzran
+  label: 정유소
+  side: right
+- type: marker   # v7.4.0 D-0353(A′) — 극동 사진 둘을 뺀 자리: '극동으로 옮깁니다'(act2_0) 카메라 컷 뒤 지도만 1.5초 남기고 등장([scene-visual-void])(옛 act2_1 끝)
+  start:
+    sid: act2_0
+    'off': 1.5
+  end:
+    sid: act2_3
+    edge: end
+  at_place: khabarovsk_ref
+  label: 극동
+  side: right
+- type: marker
+  start:
+    sid: act3_0
+    'off': 1.0
+  end: # v7.4.0 D-0349 — 해협 위성 사진(act3_0 +2.0~) 앞에서 끝([label-under-media]). 옛 act3_1 끝
+    sid: act3_0
+    'off': 2.1
+  at_place: gulf_label
+  label: 페르시아만
+  side: top
+- type: marker
+  start:
+    sid: act4_3
+    'off': 0.9
+  end:
+    sid: act4_3
+    edge: end
+    'off': 0.6
+  at_place: dmz_dmz_site
+  label: 서부전선 비무장지대
+  side: right
+  hl: true
+- type: marker
+  start:
+    sid: act5_0
+    'off': 2.0
+  end:
+    sid: act5_2
+    edge: end
+    'off': 0.3
+  at_place: moscow
+  label: 로스네프트·루코일   # v7.4.0 D-0313 ① — 본사 모스크바. 출처 src_doc_0003(미 재무부 2025-10-22 SDN 지정)
+  sub: 미 재무부 제재 · 2025. 10. 22
+  side: left
+- type: marker   # v7.4.0 D-0313 ① — GL135 는 같은 자리 다음 문장 핀. 원고에 없는 발급일·기한만(되풀이 금지 UF-148). 출처 src_doc_0002
+  start:
+    sid: act5_3
+    'off': -0.2
+  end:
+    sid: act5_3
+    edge: end
+    'off': 0.3
+  at_place: moscow
+  label: 일반허가 135호
+  sub: 2026. 10. 9 발급 · 2027. 4. 7까지
+  side: left
+- type: marker
+  start:
+    sid: act5_5
+  end:
+    sid: act5_5
+    edge: end
+    'off': 0.8
+  at_place: ryazan
+  label: 랴잔 정유소
+  sub: 10월 15일 새벽
+  side: right
+  icon: boom
+- type: photo   # v7.4.0 D-0349(UF-173 + [media-density]) — 해협 위성 사진을 act3_2(2025, 창 6.8초) 대신 장면 도입 act3_0·act3_1(2026.03, '무대를 페르시아만으로') 창 안으로. 시작 +2.0(페르시아만 라벨 뒤, [label-under-media])·끝 act3_1 끝 +1.0(act3_2 겹침 0.1) — 블라디보스토크 사진과 한 30초 창 덮임 ≤ 50%([map-cover-share])
+  start:
+    sid: act3_0
+    'off': 2.0
+  end:
+    sid: act3_1
+    edge: end
+    'off': 1.0
+  mid: hormuz_strait_modis_2020
+  for: 호르무즈 해협
   place: map_left
+- type: marker   # v7.4.0 D-0349(UF-173) — act1_7(7.8 경유 수출 금지) 기사 카드(art_0009, 창 8.2초 < span 8.5)를 뺀 자리 [scene-visual-void]. 금지 주체 러시아 정부(모스크바) 핀
+  start:
+    sid: act1_7
+    'off': 0.2
+  end:
+    sid: act1_7
+    edge: end
+    'off': 0.5
+  at_place: moscow
+  label: 경유 수출 금지
 sound:
   bgm: music.zabriskie_mario_bava
   intensity:
@@ -1351,4 +1393,20 @@ sound:
         text: 폭발이
     v: 0.5
   no_music_decision: null
-drops: []
+drops:   # v7.4.0 D-0332 — D-0331 휘장 배지 drops 줄 제거(배지 복원). D-0346·D-0347 — 최소 유지 시간(UF-171·172) 재작업으로 뺀 요소
+- record: photo diesel_road_2026_khabarovsk_ref_2005 act2_0
+  reason: "D-0353(A′) — 장면 첫 화면은 지도: act2 카메라 컷 78.33 + 지도만 1.5초 = 79.8초부터 사진, 같은 날짜(2026.08) 창 끝 84.9초(act2_2 10.06 시작 +0.5)까지 5.1초 < span 7.5. '극동' 마커도 사진 뒤 같은 창이어야 한다 → 자리 없음"
+- record: photo vladivostok_golden_horn_2010 act2_4
+  reason: "D-0352·D-0353 — act2_4 날짜 창(8.2초)에서 레일라호 경로(성장 10.5초)를 덮는다([map-event-covered] 88%). 같은 날짜 장면 도입(act2_0·act2_1)도 위 하바롭스크와 같은 이유로 자리 없음"
+- record: clip niovi act3_4
+  reason: "D-0346·D-0347 — 최소 유지 시간 미달(완전 노출 3.75초) + 기사 카드 art_0020 에 2.69초 덮임([media-overlap], UF-172). act3_4(이란의 해협 봉쇄)는 지도 봉쇄선·휘장 배지가 맡는다(요소 수 축소)"
+- record: article diesel_road_2026_art_0020 act3_5
+  reason: "D-0348 — 기사 카드 완전 노출 6초에는 span 8.5초(press_lead 1.75 + 퇴장 0.75)가 필요한데, 앞 공습 영상(완전 노출 6초)과 뒤 공동성명 패널(act3_6) 사이에 자리가 없다(패널을 밀면 패널이 2초대). act3_5 는 걸프 나라 강조 지도가 맡는다"
+- record: article diesel_road_2026_art_0030 act5_4
+  reason: "D-0348 — span 8.5초면 act5_5(랴잔 정유소 마커, 휴전 종료)를 전부 가린다. 트럼프 배지를 act5_4 부터 act5_5 끝까지 늘려(완전 노출 ≈ 7.5초) 같은 인물·발표를 맡긴다"
+- record: article diesel_road_2026_art_0009 act1_7
+  reason: "D-0349(UF-173) — 기사 카드 완전 노출 6초에는 span 8.5초가 필요한데 act1_7(2026.07.08) 날짜 창은 옆 문장 0.5초씩 넣어도 8.2초다. 다음 문장(2026.09)으로 늘리지 않는다 — 수출 금지는 지도·패널이 맡는다"
+- record: clip strikes_file act3_3
+  reason: "D-0349(UF-173) — act3_3(2026.02.28) 날짜 창이 6.6초(< span 7.25). 봉쇄 문장(2026.03.02)으로 늘리지 않는다 — 공습은 지도의 하르그 boom·마커가 맡는다"
+- record: badge emblem 미 중부사령부 act3_3
+  reason: "D-0349(UF-173) — act3_3 날짜 창 6.6초(< 배지 span 6.71). D-0332 복원을 다시 뺀다(늘리면 봉쇄 문장까지 남는다)"

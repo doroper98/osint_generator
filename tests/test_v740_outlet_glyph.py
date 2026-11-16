@@ -68,10 +68,10 @@ class GlyphFallbackTest(unittest.TestCase):
         with mock.patch.dict(T.GLYPH_FALLBACK, {}, clear=True):
             self.assertEqual(T.drawn_missing(s, "disp"), ["−"])     # 대체가 없으면 실제 그리는 글꼴 기준 누락(hard)
 
-    def test_card_string_in_diesel(self) -> None:
+    def test_no_card_left_in_diesel(self) -> None:
+        """v7.4.0 D-0306 — card 이벤트 폐지로 act3_11 카드(−3.4%)는 빠졌다(원고가 말한다). 글리프 판정은 위 시험이 그대로 본다."""
         d = yaml.safe_load((PROJ / "direction.yaml").read_text(encoding="utf-8"))
-        bigs = [b[0] for e in d["events"] if e["type"] == "card" for b in e.get("bigs") or []]
-        self.assertIn("−3.4%", bigs)
+        self.assertFalse([e for e in d["events"] if e["type"] == "card"])
 
 
 if __name__ == "__main__":

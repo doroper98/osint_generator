@@ -26,9 +26,9 @@ def _ctx() -> cairo.Context:
     return cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
 
 
-def _card(**k: object) -> dict:
-    return {"type": "card", "t0": 10.0, "t1": 14.0, "tag": "여러 매체가 확인", "lines": ["미 공군 수송기, 리가 경유 · 브누코보 착륙"],
-            "accent": "gold", **k}
+def _card(y: float = CARD.y) -> dict:
+    """v7.4.0 D-0306 — card 이벤트 폐지. 같은 판정을 게시물 카드(post_box, 480p 픽셀)로 본다."""
+    return {"type": "post", "t0": 10.0, "t1": 14.0, "src": "src_x_0001", "post_box": (W_OUT - 260, y, 240, 90)}
 
 
 @unittest.skipIf(_MISSING, f"글꼴 없음 {_MISSING} — 카드 폭은 글자 폭으로 계산(`python tools/fetch_data.py fonts`)")
@@ -45,7 +45,7 @@ class CardZoneTest(unittest.TestCase):
         self.assertGreater(CARD.y, date_box()[3])   # 기본 카드 자리는 날짜 아래(규칙 값끼리의 관계)
 
     def test_low_card_hits_subtitle(self) -> None:
-        w = card_zone_warnings(_ctx(), [_card(y=SUB_Y - 20)])
+        w = card_zone_warnings(_ctx(), [_card(y=SUB_Y - 60)])
         self.assertTrue(any("[card-over-subtitle]" in x for x in w), w)
 
     def test_post_box_checked(self) -> None:
