@@ -9,7 +9,7 @@ from __future__ import annotations
 import hashlib
 from functools import lru_cache
 from pathlib import Path
-from typing import Literal, Optional
+from typing import Annotated, Literal, Optional
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -20,6 +20,9 @@ REPO = Path(__file__).resolve().parent.parent
 BGM_DIR = REPO / "assets" / "audio" / "bgm"
 REGISTRY = BGM_DIR / "registry.yaml"
 PREFIX = "music."
+# v5.22.2 UF-16·30·93(D-0205 §3) — 음악 없음(sound.bgm null)의 결정 번호. 연출(engine.direction.Sound)과 믹서(audio.mix.Sound)가
+# 같은 정의를 쓴다(한 곳, P3) — 믹서 쪽에 칸이 없어 음악 없는 영상이 audio.mix 에서 extra_forbidden 으로 실패했다(UF-207 렌더 중 발견).
+NoMusicDecision = Annotated[Optional[str], Field(pattern=r"^D-?\d{2,4}")]
 
 
 class BgmError(ValueError):

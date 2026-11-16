@@ -22,7 +22,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from scipy.signal import butter, lfilter, sosfilt
 
 from audio.qa import bed_stats
-from audio.registry import BgmError, bgm_path
+from audio.registry import BgmError, NoMusicDecision, bgm_path
 from rules import load_rules
 from script.schema import Plan
 
@@ -98,6 +98,7 @@ class Sound(BaseModel):
     bgm: str | list[BgmSeg] | None             # BGM 레지스트리 id(v3.4.0) 또는 곡 교체 목록. None = 음악 없음(F1, 명시 상태)
     intensity: list[tuple[float, float]] = Field(min_length=2)   # (초, 강도) 키프레임
     cues: list[Cue] = Field(default_factory=list)
+    no_music_decision: NoMusicDecision = None   # 음악 없음 결정 번호(연출과 같은 정의 — audio.registry)
 
 
 class Sfx:

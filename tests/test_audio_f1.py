@@ -83,3 +83,49 @@ class MusicListTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class NoMusicDecisionMixTest(unittest.TestCase):
+    """UF-207 렌더 중 발견(감독 지시) — 연출 sound.no_music_decision(UF-16)이 있는 음악 없는 영상이 audio.mix 에서
+    extra_forbidden 으로 실패했다. 믹서 Sound 는 연출 Sound 의 칸을 모두 받아야 하고, 결정 번호 정의는 한 곳이다."""
+
+    def test_mix_accepts_direction_sound_with_decision(self) -> None:
+        from audio.mix import Sound, mix  # noqa: PLC0415
+        from engine.direction import Sound as DirSound  # noqa: PLC0415
+
+        sd = DirSound.model_validate({"bgm": None, "intensity": [[0, 0.6], [8, 0.0]], "no_music_decision": "D-0205"})
+        resolved = {"bgm": None, "intensity": [(float(t), v) for t, v in sd.intensity], "cues": [],
+                    "no_music_decision": sd.no_music_decision}   # engine.direction 앵커 해석 뒤 모양(load_direction 반환)
+        snd = Sound.model_validate(resolved)
+        self.assertEqual(snd.no_music_decision, "D-0205")
+        with tempfile.TemporaryDirectory() as d:
+            y, _ = mix(_plan(Path(d)), snd, None)
+            self.assertGreater(float(np.abs(y).max()), 0.0)
+
+    def test_mixer_sound_covers_direction_sound_fields(self) -> None:
+        from audio.mix import Sound  # noqa: PLC0415
+        from engine.direction import Sound as DirSound  # noqa: PLC0415
+
+        self.assertLessEqual(set(DirSound.model_fields), set(Sound.model_fields))
+        self.assertEqual(DirSound.model_fields["no_music_decision"].metadata, Sound.model_fields["no_music_decision"].metadata)
+        with self.assertRaises(ValueError):
+            Sound.model_validate({"bgm": None, "intensity": [(0.0, 0.0), (1.0, 0.0)], "no_music_decision": "결정"})
+
+
+class MuxDescriptionSkipTest(unittest.TestCase):
+    """스케치·렌더 전용 프로젝트(description.yaml·project_manifest.json 없음)는 mux 가 설명문을 건너뛰고 사유를 남긴다.
+    오케스트레이터 프로젝트(매니페스트 있음)는 설명문이 없으면 그대로 오류(load_description)."""
+
+    def test_skip_only_without_description_and_manifest(self) -> None:
+        from engine.mux import description_needed  # noqa: PLC0415
+
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d)
+            rec = description_needed(p)
+            self.assertFalse(rec["written"])
+            self.assertIn("description.yaml", rec["reason"])
+            (p / "project_manifest.json").write_text("{}", encoding="utf-8")
+            self.assertTrue(description_needed(p)["written"])   # 파이프라인 프로젝트는 건너뛰지 않는다
+            (p / "project_manifest.json").unlink()
+            (p / "description.yaml").write_text("", encoding="utf-8")
+            self.assertTrue(description_needed(p)["written"])
