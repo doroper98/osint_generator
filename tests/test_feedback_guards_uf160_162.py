@@ -99,6 +99,18 @@ class BadgeHoldTest(unittest.TestCase):
     def test_rules_key(self) -> None:
         self.assertEqual(Q.badge_hold.min_hold_sec, 6)
 
+    def test_waived_only_for_regression_refs(self) -> None:
+        """감독 결정 D516(D-0293 §1) — 면제는 골든 회귀 기준만. 자리 = qa_checks.regression_ref_checks 한 곳(D-0311), 새 영상은 그대로 hard."""
+        self.assertIn("badge_hold", Q.regression_ref_checks)
+        ev = [{"type": "badge", "t0": 42.6, "t1": 44.2, "label": "울산"}]   # 골든 실물(1.6초)
+        ref = _P(ev, total=400.0, name="hormuz_korea")
+        ref.R.cache = {}
+        self.assertEqual(checks.waive_regression(ref, "badge_hold", checks.check_badge_hold(ref)), [])
+        self.assertEqual(len(ref.R.cache["regression_waived"]["badge_hold"]), 1)
+        new = _P(ev, total=400.0, name="us_midterms_2026")
+        new.R.cache = {}
+        self.assertEqual(len(checks.waive_regression(new, "badge_hold", checks.check_badge_hold(new))), 1)
+
 
 class PromptLinesTest(unittest.TestCase):
     def test_director_and_revise_have_guard_lines(self) -> None:
