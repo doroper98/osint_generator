@@ -1,5 +1,32 @@
 # 감독(Fable 역할) 세션 인수인계 — 2026-10-11 (v5.21.0)
 
+## 0-5. 2026-11-16 — main 병합(사용자 지시 "잘 보고 병합해놔", DECISIONS D900~D902)
+
+**상태**: main 은 통합 브랜치(sweet-galileo 472360c6)·이란·속도 체계·영상 분석·유튜브 업로드·경제 템플릿(610ac8a8)까지 받았다. 새 트랙은 **main 에서 가지를 친다**(sweet-galileo 는 main 에 다 들어 있다).
+병합 세션 `session_017Yuw8jC9A25wdybizTBRrk`(작업 브랜치 claude/gifted-planck-o9yqi8). 번호대 = DECISIONS D900~.
+
+### 남은 확인(골든 되는 환경에서 1회)
+1. main 머리에서 `python -m pytest tests/anti_inertia/test_provenance_e2e.py tests/anti_inertia/test_q3_light_e2e.py tests/test_fed_timeline_demo.py tests/test_g12_version_stamp.py` — 병합 컨테이너는 지형 타일·Supertonic 을 못 받아 돌리지 못했다(D901 ⑤).
+2. 기대: 화소 25/25(화소 경로는 통합 브랜치 머리와 같다), 검사 항목 141, hard 0. 골든의 [element-gap]·[badge-hold] 줄은 provenance `regression_waived` 에 남아야 한다(D901 ①②).
+3. 141 이 아니면 실측 값으로 두 시험의 기대값을 고치고 사유를 DECISIONS 에 남긴다. hard 가 0 이 아니면 그 검사를 멈추지 말고 decision_request 로 올린다.
+
+### 보류 1 — 미국 중간선거 `claude/vigilant-fermat-w8c2ti`(fb89f7d3, 120커밋)
+이 브랜치는 옛 main(16f6ae81) 위에서 만들어져 통합 브랜치를 받은 적이 없다. 그대로 병합하면 골든이 깨진다(D902 ①). 절차:
+1. main 에서 새 브랜치 → `git merge --no-ff origin/claude/vigilant-fermat-w8c2ti`. 충돌 18파일(engine/checks.py·fullcards.py·registry.py, rules 두 파일, tests 3, 문서·레지스트리).
+2. 번호 충돌은 **뒤에 기록된 중간선거 쪽을 옮긴다**(이란 2026-11-01~02 가 먼저). 원장 UF-170~173(중간선거: 막대그래프·매체 라틴 표기·'개표 중' 삭제·'사실상 유력') → UF-179~182, RENDER-AP-032(무대 서명 전파 누락) → RENDER-AP-035, LLM-AP-021 → LLM-AP-024. 옮긴 항목에는 옛 번호를 적고, 그 번호를 부르는 코드 주석·규칙 주석·시험 이름·DECISIONS 행을 같이 고친다. back_and_forth 파일 번호(D-0300~0325·R-0295~0316 겹침)는 파일을 바꾸지 않고 DECISIONS 병합 행에 "중간선거 트랙 번호"임을 적는다.
+3. 회귀 기준 면제는 한 곳: `badge_hold.exempt_projects`·`wording_exempt_projects` 를 지우고 검사 id 를 `qa_checks.regression_ref_checks` 에 넣는다(badge_hold 는 이미 들어 있다 — D901 ②).
+4. 새 이벤트 area·bars 를 통합 쪽 표에 올린다: `registries.event_types`, `qa_checks.visual_void_types`, `element_gap.element_types`, element_hold·media_overlap·map_event_covered 의 종류 목록, 프리뷰 예제(세 곳 동시, C7). 속도 체계의 조각 캐시 키가 `engine/labels_plan` 결과를 반영하는지 확인한다(라벨 일정이 조각마다 달라지면 안 된다).
+5. 골든 재기준: 시험은 phaseD0329 기준선을 읽는다. 병합본으로 dark·light 25컷을 다시 그려 phaseD0329 대비 차이가 **UF-175 라벨 일정 컷뿐**인지 실측(D534 방식)하고 새 기준선 폴더를 만든다. 다른 컷이 달라지면 멈추고 올린다.
+6. 검사 수 기대값을 실측으로 고친다(141 + 중간선거 검사). CLAUDE.md C13(전달 패키지·썸네일)은 헌법 개정이라 병합 행에 따로 적는다.
+7. 빠른 묶음 + anti_inertia + 골든 25컷 → 전체 pytest 1회 → main `merge --no-ff`.
+
+### 보류 2 — 전쟁사 `claude/war-history-2026`(d577df6b, 314커밋)
+진행 중 트랙이다(칸나이 v1 사용자 판정 대기). D337 조건(골든 통과 환경 재확인)이 남아 있고 충돌은 35파일이다. 사용자 판정 뒤 그 트랙 감독이 main 을 먼저 받아(`git merge origin/main`) 충돌을 풀고 올린다. 공용 엔진 개선은 지금처럼 전파 묶음(D755 방식)으로 먼저 보낸다.
+
+### 정리 후보(사용자 결정)
+- PR #3(v0.44.0, 7월)·`local-audio`·`claude/brave-bohr-hTt7E` 등 v2.0.0 이전 가지: 병합 대상 아님(구판 엔진). 닫거나 지우는 것은 사용자 몫.
+- PR #4 `claude/exciting-mendel-8sebt9`(보고서 번들 백필 109건, json/ 만): 데이터 반입 여부는 사용자 결정.
+
 ## 0-4. 2026-10-31 23:40Z — 감독 승계(사용자 지시 "새로운 감독 세션을 띄워서 인수인계시켜")
 
 이 블록이 새 감독 세션의 **출발점**이다. 옛 감독 = `session_017Yuw8kbxf9Vxri6LoH5Je4`(Fable 5.1, sweet-galileo). **새 감독(최종) = `session_017Yuw8jLMWscY9bdVXTvddr`(Fable 5.1, 2026-11-01 00:10Z 생성 — 사용자가 네트워크 허용 목록(en.wikipedia.org·www.aljazeera.com·www.cbsnews.com·apnews.com·commons.wikimedia.org·upload.wikimedia.org·fred.stlouisfed.org·doroper98.github.io·analysis-reports.pages.dev)을 추가한 뒤 띄움). 중간 승계 세션 `session_017Yuw8iKFWUG9yMqoGHN39V`(23:53Z)는 대체·보관, 그 점검 트리거 trig_011g2r2iF93joBssYXSawwdo 는 껐다.** 옛 감독 점검 트리거 `trig_011XELpyTdKrmNeGj35Y9DEk` 는 23:53Z 에 껐다. 구현 세션 3·2 에는 새 id 를 통보했다. 읽는 순서: 이 블록 → 0-3·0-2·0-1 → `back_and_forth/README.md` → `CLAUDE.md` → `docs/handoff/15` → DECISIONS D299~D312 → D-0318~D-0333.

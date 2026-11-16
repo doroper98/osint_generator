@@ -3469,3 +3469,4 @@ last_review: 2026-06-06
 - v7.4.0 D372: [island-pin-collision] 점 ↔ 점 겹침 추가(RENDER-AP-034) — showcase_econ v4 127초 '●●'
 - 2026-11-03 v7.4.0 D-1200 유튜브 업로드 도구(tools/youtube_upload.py·config.yaml youtube·docs/YOUTUBE_UPLOAD.md·tests/test_youtube_upload.py 13건). 실측: 기존 설명문 5,844B 가 API 한도 5,000B 초과.
 - 2026-11-03 v7.4.0 D-1200 2차 — publish.youtube 를 DELIVER upload 단계로 배선(tools/youtube_upload.py 삭제·이동), 설명 한도 맞춤 2단계, 재업로드 방지(md5), OAuth 게시용 docs/youtube-app 페이지.
+- 2026-11-16 v7.4.0 main 병합(사용자 지시, D900~D902) — 통합 브랜치(491)·이란(103)·속도 체계 머리·영상 분석 문서·유튜브 업로드(D-1200)·경제 템플릿(39) 여섯 갈래를 merge --no-ff. 병합 중 판단: element_gap 면제를 regression_ref_checks 로(D-0311), 골든 badge_hold 면제 D516 선반영, 검사 수 141. 미국 중간선거·전쟁사는 골든 기준선 갈림·번호 충돌(UF-170~173·RENDER-AP-032·LLM-AP-021)로 보류. 시험은 빠른 2183·느린 90 통과, 실패 15건은 자산 부재(통합 브랜치 머리와 같은 목록), 골든은 이 컨테이너에서 못 돌림.
