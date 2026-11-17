@@ -2792,6 +2792,56 @@ class FlightInsetRules(_Strict):
     predict_keyframes: bool = False   # v7.4.0 D-0305 ② — 인셋 생애 전 구도에 맞는 자리를 미리 골라 처음부터 고정(옮김 0), 없을 때만 보간
 
 
+class FlagFillShade(_Strict):
+    """국기 × clip(base + gain·(f − 1), lo, hi) — f = 지형 휘도 ÷ 테마 평지색 휘도."""
+
+    base: float = Field(gt=0)
+    gain: float = Field(ge=0)
+    lo: float = Field(gt=0)
+    hi: float = Field(gt=0)
+
+    @model_validator(mode="after")
+    def _range(self) -> "FlagFillShade":
+        if not self.lo <= self.hi:
+            raise ValueError(f"flag_fill.shade lo ≤ hi: {self.lo}·{self.hi}")
+        return self
+
+
+class FlagFillOutline(_Strict):
+    rgb: RGB
+    width: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+    halo: list[tuple[float, float]] = Field(min_length=1)   # [선 폭, 알파] 바깥 → 안
+
+
+class FlagFillShadow(_Strict):
+    rgb: RGB
+    offset: tuple[float, float]
+    alpha: float = Field(gt=0, le=1)
+    soft: list[tuple[float, float]]   # 가장자리 [선 폭, 알파] 바깥 → 안
+
+
+class FlagFillInnerLight(_Strict):
+    offset: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+
+
+class FlagFillRise(_Strict):
+    brightness_from: float = Field(gt=0, le=1)
+
+
+class FlagFillRules(_Strict):
+    """v7.4.0 UF-900 R2·UF-901(D904) — country 이벤트 국기 채움(engine/layers/flag_fill). 설계 px(480p)."""
+
+    shade: FlagFillShade
+    luma: tuple[float, float, float]
+    bbox_lod: Literal["coarse", "fine"]
+    outline: FlagFillOutline
+    shadow: FlagFillShadow
+    inner_light: FlagFillInnerLight
+    rise: FlagFillRise
+
+
 class FlightRules(_Strict):
     """v7.3.0 back_and_forth D-0206 — 비행 이벤트(flight). 설계 px(480p). engine/layers/flight.py 만 읽는다."""
 
@@ -3985,6 +4035,7 @@ class VideoRules(_Strict):
     quote_center: QuoteCenterRules       # v5.3.1 — 인물 발언 중앙 인용(시안, valdai-2026 한정)
     flight: FlightRules                  # v7.3.0 — 비행·착탄·위성 인셋(D-0206)
     border_glow: BorderGlowRules         # v5.3.1 — 국경선 글로우(시안, direction stage_config.mercator.border_glow)
+    flag_fill: FlagFillRules             # v7.4.0 UF-900 R2·UF-901(D904) — country 국기 채움
     data: DataRules                # v4.3.0 — D-0084 작업 1
     genre_prompt: GenrePromptRules  # v4.4.0 — D-0090 작업 1
     bundle: BundleRules            # v3.5.0 — D-0063 작업 4

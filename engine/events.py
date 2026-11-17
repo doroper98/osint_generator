@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Annotated, ClassVar, Literal, Optional
 
-from pydantic import AfterValidator, BaseModel, ConfigDict, Field, model_validator
+from pydantic import AfterValidator, BaseModel, ConfigDict, Field, SerializerFunctionWrapHandler, model_serializer, model_validator
 
 import re
 
@@ -278,10 +278,38 @@ class FlightEvent(_Event):
 
 
 class CountryEvent(_Event):
+    """국가 강조. fill color = 단색 채움(col·a), fill flag = 국기 채움(v7.4.0 UF-900 R2 — 국기를 나라 외곽 상자에 늘려 나라 모양으로 자르고
+    지형을 비치게, 흰 윤곽·들뜸 그림자. 수치 = rules flag_fill). 분쟁 지역도 국기 채움 가능(사용자 결정 UF-901 — 막는 검사 없음)."""
+
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("col", "a", "flag")   # 단색 채움 dict = 옛 모양(국기 칸 없음), 국기 채움 dict 엔 col·a 없음
+
     type: Literal["country"]
     codes: list[str] = Field(min_length=1)
-    col: ColorName
-    a: float = Field(ge=0, le=1)
+    fill: Literal["color", "flag"] = Field(default="color", description="flag = 문장이 말하는 그 나라를 국기로 채워 강조(한 화면 두세 나라까지, col·a 안 씀)")
+    col: Optional[ColorName] = Field(default=None, description="fill color 이면 필수")
+    a: Optional[float] = Field(default=None, ge=0, le=1, description="fill color 이면 필수")
+    flag: Optional[str] = Field(default=None, min_length=1, description="fill flag 이면 필수 — 국기 자산 이름(예 ir = assets/flags/ir_4x3.png). codes 가 여럿이면 그 합집합을 한 국기로")
+
+    @model_validator(mode="after")
+    def _fill(self) -> "CountryEvent":
+        if self.fill == "flag":
+            if self.flag is None:
+                raise ValueError("country fill flag: flag(국기 자산 이름)가 필요하다")
+            if self.col is not None or self.a is not None:
+                raise ValueError("country fill flag: col·a 를 쓰지 않는다(국기 색·불투명 — rules flag_fill)")
+        else:
+            if self.col is None or self.a is None:
+                raise ValueError("country fill color: col·a 가 필요하다")
+            if self.flag is not None:
+                raise ValueError("country fill color: flag 를 쓰지 않는다 — 국기 채움은 fill: flag")
+        return self
+
+    @model_serializer(mode="wrap")
+    def _dump(self, handler: SerializerFunctionWrapHandler) -> dict:
+        d = handler(self)
+        if d.get("fill") == "color":   # 단색 채움 dict = v7.4.0 R2 이전과 같은 모양(렌더·조각 캐시 키 무변경)
+            d.pop("fill")
+        return d
 
 
 class BadgeEvent(_Event):

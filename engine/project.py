@@ -172,7 +172,9 @@ def preflight(R: RenderCtx, events: list[dict], files: bool = True) -> list[str]
                 quote_lines(cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1)), e)
             except QuoteError as ex:
                 errs.append(str(ex))
-        for d in _walk(e):
+        if e["type"] == "country" and e.get("fill") == "flag":   # v7.4.0 UF-900 R2 — 국기 채움은 4:3 국기(뱃지의 1:1 이 아니다)
+            keys.add(f"flag43:{e['flag']}")
+        for d in _walk(e) if not (e["type"] == "country" and e.get("fill") == "flag") else ():
             if "pid" in d and d["pid"] is not None:
                 keys |= {f"portrait:{d['pid']}", f"flag43:{d['flag']}"}
                 if d["pid"] not in A.rights.get("people", {}):

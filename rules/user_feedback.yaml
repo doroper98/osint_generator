@@ -2866,6 +2866,10 @@ entries:
   quote: "분쟁지역 국기 채움은 내가 허용한다. 받아들여. 그리고 요청한 영상은 여기 있다"
   quote_kind: verbatim
   category: 화면 — 지도 국기 채움은 분쟁 지역에도 허용. 막는 검사를 두지 않는다(어느 국기로 칠할지는 연출이 정한다). 장치는 국기 채움 구현(R2)과 함께
-  status: open
+  guards:
+  - {kind: test, ref: tests/test_v740_flag_fill.py::DisputedNotBlockedTest::test_validates}
+  - {kind: test, ref: tests/test_v740_flag_fill.py::DisputedNotBlockedTest::test_no_check_on_flag_fill}
+  - {kind: rule, ref: flag_fill.shade}
+  status: guarded
   decision: "D904 — 수용. 보고서 §4.0·§4.3 정정, [flag-fill-disputed] 검사 계획 삭제. 국기 채움 구현 때 분쟁 지역을 막지 않음을 시험으로 고정"
   source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17

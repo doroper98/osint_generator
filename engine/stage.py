@@ -213,6 +213,7 @@ class MercatorStage:
             self._bounds = (tw_["lon0"], ym(tw_["lat0"]), tw_["lon1"], ym(tw_["lat1"]))
         self._sea_cache: dict[str, list] = {}
         self._split: dict[str, dict[str, list]] = {}
+        self._base_memo: Optional[tuple[tuple, Image.Image]] = None   # base_image 한 장 memo(국기 채움 지형 비침, v7.4.0 UF-900 R2)
         if assets is not None:
             geo = assets.geo
             self.bord = {lod: {k: to_uv(v) for k, v in geo[lod].items()} for lod in ("coarse", "fine")}
@@ -280,6 +281,20 @@ class MercatorStage:
     def base_image(self, view: "View", out: Optional[Output] = None) -> Image.Image:
         """지형 베이스 — 장치 해상도(out, None = 설계 854×480). 티어 레벨은 장치 ppd 로 고르고, 상세 티어 블렌딩은
         설계 ppd 로 계산한다(해상도가 달라도 같은 순간에 같은 비율로 섞인다, v3.6.0 D-0067)."""
+        key = (view.x0, view.y1, view.w, view.h, view.s, None if out is None else (out.width, out.height, out.k, out.pad_x))
+        memo = getattr(self, "_base_memo", None)   # __new__ 로 만든 시험용 무대도 된다
+        if memo is not None and memo[0] == key:   # v7.4.0 UF-900 R2 — 같은 view 의 지형을 국기 채움(지형 비침)이 다시 읽는다(한 장 memo, 같은 상)
+            return memo[1]
+        im = self._base_image(view, out)
+        self._base_memo = (key, im)
+        return im
+
+    def frame_base(self, view: "View") -> Image.Image:
+        """render_base 가 이 view 로 프레임 표면에 깐 지형 그대로(장치 해상도, memo) — 국기 채움 지형 비침(v7.4.0 UF-900 R2)이 읽는다.
+        레이어는 출력 프로파일을 직접 읽지 않는다(D-0067, tests/anti_inertia/test_device_space)."""
+        return self.base_image(view, self.out)
+
+    def _base_image(self, view: "View", out: Optional[Output] = None) -> Image.Image:
         tb = MERCATOR_LOD["tier_blend_ppd"]
         need = W_OUT / view.w
         dev = out is not None and out.k != 1
