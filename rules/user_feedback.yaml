@@ -3066,3 +3066,13 @@ entries:
   decision: "D929 — 수용. versus 패널에 layout(axis·sheets·piles) 칸을 두고 세 모양을 모두 구현한다. 기본 = axis, 한 영상에서 연달아 같은 모양을 쓰지 않게 문법에 적는다"
   source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17
 
+- id: UF-914
+  date: '2026-11-17'
+  project: repo
+  at: "새 디자인 main 병합 보고(감독이 '다음 영상이 첫 실전이므로 콘티 판에서 눈으로 확인' 을 권한 뒤) — 새 세션에서 영상 제작을 지시하기 직전"
+  quote: "콘티 단계 없애. 그냥 바로 영상 제작으로 간다. 규칙으로 적용해."
+  quote_kind: verbatim
+  category: 작업 순서 — 콘티 판(animatic) 단계 폐지. 원고 승인 뒤 콘티 판을 만들어 보내고 검토받는 단계 없이 바로 영상 제작(프리뷰 → 전편)으로 간다
+  status: open
+  decision: "D932 — 수용(사용자 결정이 옛 결정 UF-38·UF-47·PIPELINE-AP-014 의 콘티 판 의무를 대체). 콘티 판 제작·전달·흐름 검토 단계와 게이트 ② 의 콘티 판 요구(require_animatic)를 없앤다. 원고 승인(게이트 ①)과 프리뷰 승인(게이트 ②)은 남는다 — 사용자가 없애라고 한 것은 콘티 단계다"
+  source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17
