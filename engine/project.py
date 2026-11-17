@@ -493,7 +493,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
             if len(hs) > 1:   # v7.4.0 D-0268 — 차트 시간축 무대는 영상당 하나 → 차트 아일랜드 상자 높이도 하나(left_tall 등 높이가 다른 상자)
                 raise ProjectError(f"차트 아일랜드 상자 높이가 섞였다 {sorted(hs)} — 한 영상의 차트 아일랜드는 같은 높이 상자만(레인 영역 한 벌)")
             box_h = hs.pop() if hs else next(iter(ISLAND.boxes.values()))[3]
-            chart_stage.fit_island(box_h - 2 * ISLAND.inner_pad["y"], ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)   # Q2 A — 레인 자동 맞춤(D-1010 §1 — 내용 영역 높이)
+            pads = (SKIN.chart.pad_top, SKIN.chart.pad_bottom) if skin_on else (ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)   # v7.4.0 2a — skin 차트 안 세로 리듬
+            chart_stage.fit_island(box_h - 2 * ISLAND.inner_pad["y"], *pads)   # Q2 A — 레인 자동 맞춤(D-1010 §1 — 내용 영역 높이)
             R.cache["island"] = {"lane_h_effective": round(chart_stage.y_px_per_unit, 3), "lane_h": TIMELINE.lane_h,
                                  "lanes": chart_stage.n}
     cams = build_camera(keys, n, FPS, creep=[tuple(r) for r in R.cache["pacing"]["creep"]]) if keys else None
@@ -810,6 +811,7 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
         note = axis_range_note(R.cache["series_range"][lane], load_series(next(e for e in ser if e["lane"] == lane)["series_id"]).unit)
         if note:   # v7.4.0 D-0263 §2② — 0 이 아닌 곳에서 시작하는 축은 출처 줄 끝에 범위 표기
             joined = f"{joined} · {note}"
+        st.lane_sources[lane] = joined   # v7.4.0 2a — skin 출처 줄은 레인 순서대로 아래 한 덩이(series.source_line_boxes)
         for e in ser:
             if e["lane"] == lane:
                 e["lane_source"] = joined

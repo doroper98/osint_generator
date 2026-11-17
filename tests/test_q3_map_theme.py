@@ -40,9 +40,9 @@ def _doc(stage_config: dict | None):  # noqa: ANN202 — Direction
 
 
 class ThemeChoiceTest(unittest.TestCase):
-    def test_genre_default_is_light_without_warning(self) -> None:
+    def test_genre_default_is_porcelain_without_warning(self) -> None:   # v7.4.0 UF-903 ③ — 장르 기본값 light → porcelain(모든 장르)
         mt = _doc(None).map_theme("any_project")
-        self.assertEqual((mt["effective"], mt["source"], mt["declared"], mt["genre_default"]), ("light", "genre", False, "light"))
+        self.assertEqual((mt["effective"], mt["source"], mt["declared"], mt["genre_default"]), ("porcelain", "genre", False, "porcelain"))
         self.assertEqual(map_theme_override_warning(mt), [])
 
     def test_declared_theme_needs_reason(self) -> None:
@@ -55,7 +55,7 @@ class ThemeChoiceTest(unittest.TestCase):
         mt = load_direction_doc(HORMUZ_DIR).map_theme("hormuz_korea")
         self.assertEqual((mt["effective"], mt["source"]), ("dark", "direction"))
         self.assertEqual(len(map_theme_override_warning(mt)), 1)
-        same = _doc({"mercator": {"theme": "light", "theme_reason": "장르와 같음"}}).map_theme("x")
+        same = _doc({"mercator": {"theme": "porcelain", "theme_reason": "장르와 같음"}}).map_theme("x")
         self.assertEqual(map_theme_override_warning(same), [])
 
     def test_genre_profile_without_theme_is_error(self) -> None:

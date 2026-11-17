@@ -24,6 +24,7 @@ from pathlib import Path
 
 import cairo
 
+from engine import skin
 from engine.fullcards import draw_fullcards
 from engine.hud import draw_date
 from engine.project import Project, ProjectError, load_project
@@ -31,12 +32,14 @@ from engine.source_note import draw_source_note
 from engine.projection import View
 from engine.reserved import card_zones
 from engine.registry import MAP_LAYER_ORDER, RegistryError
-from engine.style import BACKDROP, FADE, FONT, FPS, PANEL, output_profile
+from engine.style import BACKDROP, FADE, FONT, FPS, PANEL, SKIN, output_profile
 from engine.subtitles import draw_subtitle
 from rules import load_rules
 from engine.timebase import smooth, window
 from engine.timing import stage_timer
 from schemas.engine_models import StageResult
+
+FADE_BLACK = (0.0, 0.0, 0.0)   # 영상 시작·끝 페이드 색(종전) — 디자인 시스템 무대는 rules skin.fade_rgb
 
 REPO = Path(__file__).resolve().parent.parent
 
@@ -154,8 +157,8 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
             L.resolve(e).render(ctx, R, t, e)
     total = P.plan.total
     fa = 1 - min(smooth(t / FADE.in_sec), smooth((total - t) / FADE.out_sec))
-    if fa > 0.001:
-        ctx.set_source_rgba(0, 0, 0, fa)
+    if fa > 0.001:   # v7.4.0 C0.0·UF-906(D919) — 디자인 시스템 무대는 검정이 아니라 밝은 판에서 열리고 밝은 판으로 닫힌다(rules skin.fade_rgb)
+        ctx.set_source_rgba(*(SKIN.fade_rgb if skin.active() else FADE_BLACK), fa)
         ctx.paint()
     if L.overlay is not None:   # 콘티 판 표식 띠(D-0108)·카탈로그 판 라벨(D-0251) — 페이드 뒤 맨 위
         L.overlay(ctx, R, t)

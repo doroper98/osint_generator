@@ -28,7 +28,8 @@ DATA_DRIVEN_MODULES: dict[str, frozenset[float]] = {   # 모듈 → 추가 허�
     "engine/layers/series.py": frozenset({12, 31, 10, 6, 4, 1e-9, 30, 100, 0.5, 1e-6}),   # 12달 · 12월 31일(전망 열 연말, D-0260 §2) · v7.4.0 D-0263 10진 자릿수(가수 × 10^k, 가수는 rules lane_range.nice_mantissas)·round(·, 6)·가수 훑기 자릿수·부동소수 여유 · 30 = 6·9월 분기 말일(달력) · 100 = 퍼센트 정의(× 100, ÷ 100) · 0.5 = 칸 가운데(i + 0.5)·반 픽셀(선 스냅·반 픽셀 미만 막대 생략) · 1e-6 = 0 나누기 막기(페이드·자람 시간 하한). 조정 값은 rules stage_timeline.bars·text_metrics·island.column_detail
     "engine/layers/flight.py": frozenset(),
     "engine/layers/flag_fill.py": frozenset({4, 0.01}),   # v7.4.0 UF-900 R2 — 4 = ARGB32 화소당 바이트 · 0.01 = 보이지 않는 알파 문턱(areas 단색 채움과 같은 값). 조정 값은 rules flag_fill
-    "engine/skin.py": frozenset({4, 6, 255, 256}),   # v7.4.0 C0.0·UF-906(D917) — 4 = ARGB32 화소당 바이트 · round(·, 6) 캐시 키 자릿수 · 255 = 8비트 알파 최대 · 256 = 그림자 마스크 캐시 상한. 디자인 수치는 rules skin
+    "engine/skin_people.py": frozenset({180}),   # v7.4.0 2b(D917·UF-905·UF-907) — 180 = 도 → 라디안(반 바퀴, 각도 정의 — radians 는 test_stage_isolation 금지). 인물·발언·기사 수치는 rules skin.quote·person_card·person_pill·article
+    "engine/skin.py": frozenset({4, 6, 255, 256}),  # v7.4.0 C0.0·UF-906(D917) — 4 = ARGB32 화소당 바이트 · round(·, 6) 캐시 키 자릿수 · 255 = 8비트 알파 최대 · 256 = 그림자 마스크 캐시 상한. 디자인 수치는 rules skin
     "engine/stage_studio.py": frozenset(),   # v7.4.0 UF-902·UF-903(D910) — 스튜디오 무대 수치는 rules stage_studio
     "engine/stage_structure.py": frozenset({100}),   # v7.4.0 D-1003 — 100 = 퍼센트 정의. 조정 값은 rules stage_structure
     "engine/layers/structure.py": frozenset({0.5, 0.05, 0.01}),   # 0.5 = 반 픽셀(0 기준선 스냅) · 0.05 = 이벤트 구간 여유 · 0.01 = 보이지 않는 알파 문턱(island 렌더러와 같은 값)         # v7.3.0 D-0206 — 수치는 rules flight

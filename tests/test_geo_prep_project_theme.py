@@ -15,7 +15,7 @@ REPO = Path(__file__).resolve().parent.parent
 
 class ProjectThemeTest(unittest.TestCase):
     def test_theme_resolution_order(self) -> None:
-        self.assertEqual(GP.project_theme(REPO / "projects" / "gulf_pact_2026"), "light")   # 장르(지정학) 기본값
+        self.assertEqual(GP.project_theme(REPO / "projects" / "gulf_pact_2026"), "porcelain")   # 장르(지정학) 기본값(v7.4.0 UF-903 ③ — 모든 장르 porcelain)
         self.assertEqual(GP.project_theme(REPO / "projects" / "hormuz_korea"), "dark")      # direction 고정(D-0171)
 
     def test_main_also_preps_non_default_theme(self) -> None:
@@ -35,7 +35,7 @@ class ProjectThemeTest(unittest.TestCase):
         (proj / "assets" / "geo.pkl").write_bytes(b"")   # --theme 는 기본 자산 뒤라는 선행 조건만 만족(내용은 prep 가짜가 안 읽음)
         with mock.patch.object(GP, "prep", side_effect=fake), mock.patch("sys.stdout"):
             self.assertEqual(GP.main([str(proj), "--res", "final"]), 0)
-            self.assertEqual(calls, [("720p", None), ("720p", "light")])
+            self.assertEqual(calls, [("720p", None), ("720p", "porcelain")])   # v7.4.0 UF-903 ③ — 장르 기본값
             calls.clear()
             GP.main([str(proj), "--res", "final", "--theme", "light"])   # 테마를 주면 그 테마만
             self.assertEqual(calls, [("720p", "light")])

@@ -16,7 +16,7 @@ template_label: 정치사 해설
 stage:
   primary: mercator               # 지도 위에서 인물·나라를 따라간다(기준 작품 『경유의 길』의 카메라 문법 그대로)
   secondary: []
-  mercator: {theme: light}        # D154·D155 장르 기본값 — 해설 = light(레퍼런스의 회색 지도와 같은 결: 땅은 옅게, 주체 나라만 색)
+  mercator: {theme: porcelain}   # v7.4.0 UF-903 ③(D910) — 모든 장르 같은 중립 지도 하나(옛 D154 장르별 light·dark 대체). 연출은 테마를 고르지 않는다([map-theme-legacy] hard)
 color_semantics:
   regime: ru                      # 이야기의 권력 주체(체제·당·집권 측) — country 강조·표지
   counterpart: us                 # 바깥 관찰자(한국·미국 정보당국, 외국 연구자)

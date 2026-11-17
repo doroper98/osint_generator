@@ -72,6 +72,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | boundary_as_route | hard | v4.7.0(D-0107 D2(b), M8): rules geo.boundary_names 이름을 단 route 이벤트(label·{path:})·paths 키 `[boundary-as-route]` — 경계선은 지도 경계 레이어가 그린다 |
 | geo_unsourced | warning | v4.7.0(D-0107 D2(b)): 지도 무대 places·paths·인라인 좌표 marker·route 가 지명 사전과 대조되지 않음 `[geo-unsourced]`(provenance geo.unsourced[]). v4.10.0: 사전(`data/gazetteer.yaml`)에 없는 이름·paths·route 만 |
 | geo_mismatch | hard | v4.10.0(D-0116 B-1): place 키·그 place 를 쓰는 marker label·인라인 marker label 이 지명 사전과 맞는데 좌표가 맞은 항목 모두의 tol_km 밖 `[geo-mismatch]`(provenance geo.mismatch[]) — `geo.gazetteer` |
+| map_theme_legacy | hard | v7.4.0 UF-903 ③: 지도 테마 = 장르 기본값(porcelain) 하나. direction stage_config.mercator.theme 이 장르 기본값과 다르면 `[map-theme-legacy]` — rules qa_checks.map_theme_legacy_projects 의 옛 프로젝트만 통과 |
 | static_window | warning | v4.11.0(D-0118 §1): 지도 무대(전면 카드·패널 덮개 밖)의 어떤 pacing.static_window.window_sec 창이든 change_kinds 변화(이벤트 등장 t0·카메라 키) < min_changes `[static-window] t0-t1 changes=n`(provenance pacing.static_windows[]). 표시된 범위에는 느린 푸시인(creep). `engine.pacing` |
 | sentence_still | warning | v7.4.0(UF-400 영상 분석): min_sentence_sec 이상 문장 동안 pacing.sentence_change.change_kinds 이벤트 등장(t0 ∈ [시작 − lead_sec, 끝])이 0 `[sentence-still] sid t0-t1`. 카메라 이동은 세지 않는다(C0). `engine.pacing.still_sentences` |
 | timeline_rescale | hard | v5.1.0(D-0121 §A): 시간축 무대 숏의 w 변화가 장면 안(scene_fixed)·영상당 > axis_scale.w_changes_per_video_max·비율 < w_change_ratio_min `[timeline-rescale] t w a→b (이유)`(provenance timeline.w_changes[]). 지도 무대 제외 `engine.shots` |
@@ -156,7 +157,7 @@ HARD = ("basemap_upscale",     # v7.4.0 D-0630 §2(UF-261) — 지도 확대 때
         "map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "element_gap", "label_banned_terms", "badge_hold", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled", "map_event_covered", "spoken_number_visible", "sa_obligation", "structure_text_offscreen", "data_stage_bare_on_backdrop", "island_inner_pad", "lane_empty", "backdrop_subject", "island_text_contrast")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), element_gap·label_banned_terms·badge_hold v7.4.0 UF-160~162, cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "element_gap", "label_banned_terms", "badge_hold", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled", "map_event_covered", "spoken_number_visible", "sa_obligation", "structure_text_offscreen", "data_stage_bare_on_backdrop", "island_inner_pad", "lane_empty", "backdrop_subject", "island_text_contrast", "map_theme_legacy")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), element_gap·label_banned_terms·badge_hold v7.4.0 UF-160~162, cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age", "narration_clarity_note", "sentence_still")   # sentence_still v7.4.0 UF-400   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -864,6 +865,15 @@ def check_geo_mismatch(P) -> list[str]:  # noqa: ANN001, N803
     """지명 사전 좌표 불일치(v4.10.0 back_and_forth D-0116 B-1) — hard. 항목은 load_project 가 `geo.gazetteer.check_doc` 로 모은 것."""
     return [f"[geo-mismatch] {it['kind']} {it['name']} {it['lonlat']} — 사전 {it['gazetteer']} 에서 {it['km']}km(허용 {it['tol_km']}km)"
             for it in (P.R.cache.get("geo_check") or {}).get("mismatch") or []]
+
+
+def map_theme_legacy(mt: "dict | None", project_id: str) -> list[str]:
+    """[map-theme-legacy] hard(v7.4.0 UF-903 ③ — 사용자 "이 테마로 할지 저 테마로 할지 고민 하지 말고"). mt = Direction.map_theme 기록
+    (지도 무대 영상만, 아니면 None). direction 이 장르 기본값과 다른 테마를 고정했으면 실패 — rules qa_checks.map_theme_legacy_projects 만 통과."""
+    if mt is None or not mt["declared"] or mt["effective"] == mt["genre_default"] or project_id in QA.map_theme_legacy_projects:
+        return []
+    return [f"[map-theme-legacy] 지도 테마 {mt['effective']} — 지도는 장르 기본값 {mt['genre_default']} 하나다. "
+            "direction stage_config.mercator 의 theme·theme_reason 을 지운다(옛 프로젝트 목록 = rules qa_checks.map_theme_legacy_projects)"]
 
 
 def check_static_window(P) -> list[str]:  # noqa: ANN001, N803
@@ -2524,8 +2534,9 @@ def endcard_black_samples(P) -> list[float]:  # noqa: ANN001, N803
 def check_endcard_black(P) -> list[str]:  # noqa: ANN001, N803
     """v5.22.3 UF-35(D-0205 §3, dmz U15 "엔딩 카드가 사라질 때 지도가 다시 보인다") — 카드 퇴장 뒤~끝 프레임을 실제로 그려
     평균 밝기(Rec.709)가 end_card.after_max_luma 를 넘으면 hard. 규칙 키(hold_black_after)만으로는 회귀를 못 잡는다."""
+    from engine import skin  # noqa: PLC0415
     from engine.render import render_frame  # noqa: PLC0415
-    from engine.style import END_CARD  # noqa: PLC0415
+    from engine.style import END_CARD, SKIN  # noqa: PLC0415
 
     out = []
     for t in endcard_black_samples(P):
@@ -2533,7 +2544,10 @@ def check_endcard_black(P) -> list[str]:  # noqa: ANN001, N803
         surf, buf = render_frame(P, i)
         a = np.frombuffer(buf, np.uint8).reshape(surf.get_height(), surf.get_width(), 4)[..., :3].astype(np.float32) / 255.0
         luma = float((0.0722 * a[..., 0] + 0.7152 * a[..., 1] + 0.2126 * a[..., 2]).mean())   # cairo RGB24 = BGRX
-        if luma > END_CARD.after_max_luma:
+        if skin.active():   # v7.4.0 D919 — 디자인 시스템 무대는 끝까지 밝은 판(검정 프레임·무대 재노출 = hard). 하한 = rules skin.end_card.after_min_luma
+            if luma < SKIN.end_card.after_min_luma:
+                out.append(f"[endcard-black] t={t:.2f} 엔딩 카드 뒤 평균 밝기 {luma:.3f} < {SKIN.end_card.after_min_luma} — 끝까지 밝은 판이어야 한다(검정 끝·무대 재노출)")
+        elif luma > END_CARD.after_max_luma:
             out.append(f"[endcard-black] t={t:.2f} 엔딩 카드 뒤 평균 밝기 {luma:.3f} > {END_CARD.after_max_luma} — 끝까지 검정이어야 한다(지도가 다시 보임)")
     return out
 
@@ -2786,7 +2800,7 @@ def check_template_label(P) -> list[str]:  # noqa: ANN001, N803
     out = []
     for kind, name in (("title", "타이틀 카드 부제"), ("end", "엔딩 카드 머리 줄")):
         drawn = card_drawn_strings(P, kind)
-        if not any(lab in s for s in drawn):
+        if not any(lab.upper() in s.upper() for s in drawn):   # v7.4.0 D919 — 디자인 시스템 타이틀 머리 줄은 라틴 글자를 대문자로 조판한다
             out.append(f"[template-label-missing] 템플릿 표시 {lab!r} 가 {name}에 없다(카드 {'없음' if not drawn else '있음'}) — UF-147")
     return out
 
@@ -3114,6 +3128,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "boundary_as_route": lambda: list((P.R.cache.get("geo_check") or {}).get("boundary") or []),
         "geo_unsourced": lambda: check_geo_unsourced(P),
         "geo_mismatch": lambda: check_geo_mismatch(P),
+        "map_theme_legacy": lambda: map_theme_legacy(P.R.cache.get("map_theme_warn"), P.R.cache.get("project_id") or P.root.name),   # v7.4.0 UF-903 ③
         "static_window": lambda: check_static_window(P),
         "sentence_still": lambda: check_sentence_still(P),   # v7.4.0 UF-400(warning, 영상 분석)
         "timeline_rescale": lambda: check_timeline_rescale(P),
@@ -3295,11 +3310,11 @@ def chart_text_boxes(stage, v: View, events: list[dict], t: float, rng: dict, dx
     레인 이름·축 값 = engine.layers.series.world_text_boxes(격자선 그리기와 같은 함수 — v7.4.0 D-0339 무대 표면 글자 크기·막대 축 숫자만)."""
     import cairo  # noqa: PLC0415
 
-    from engine.layers.series import axis_unit, source_line_boxes, world_text_boxes  # noqa: PLC0415
+    from engine.layers.series import axis_unit, source_line_boxes, source_style, world_text_boxes  # noqa: PLC0415
     from engine.typography import tw  # noqa: PLC0415
 
     ctx = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
-    S = TIMELINE.series  # noqa: N806
+    fs, ff = source_style()   # v7.4.0 2a — skin 출처 글꼴(그리기와 같은 값)
     sh = lambda b: (b[0] + dx, b[1] + dy, b[2] + dx, b[3] + dy)  # noqa: E731
     out: list[tuple[str, tuple]] = [(n, sh(b)) for n, b in world_text_boxes(stage, v, {})]
     axes: dict = {}
@@ -3307,7 +3322,7 @@ def chart_text_boxes(stage, v: View, events: list[dict], t: float, rng: dict, dx
         if e.get("type") != "series" or not e["t0"] <= t <= e["t1"] or e.get("slot", 0):
             continue
         for k, (s, sx, by) in enumerate(source_line_boxes(ctx, v, stage, e)):   # v7.4.0 D-0265 — 접힌 줄마다(그리기와 같은 자리)
-            out.append((f"출처 줄 {e['lane']}" + (f" {k + 1}" if k else ""), (sx + dx, by - S.source_size + dy, sx + tw(ctx, s, S.source_size, S.source_font) + dx, by + dy)))
+            out.append((f"출처 줄 {e['lane']}" + (f" {k + 1}" if k else ""), (sx + dx, by - fs + dy, sx + tw(ctx, s, fs, ff) + dx, by + dy)))
         if e["lane"] in rng and not e.get("detail") and not e.get("secondary"):
             axes.setdefault(e["lane"], (rng[e["lane"]], axis_unit(e)))
     out += [(n, sh(b)) for n, b in world_text_boxes(stage, v, axes) if n.startswith("축 값")]

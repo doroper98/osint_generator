@@ -20,8 +20,9 @@ from typing import TYPE_CHECKING, Any, Optional, Union
 import cairo
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from engine.style import C, TIMELINE, bg_rgb
-from engine.typography import text
+from engine import skin
+from engine.style import C, SKIN, TIMELINE, bg_rgb
+from engine.typography import text, tw
 from schemas.genre_models import TimelineLane
 
 if TYPE_CHECKING:
@@ -152,6 +153,7 @@ class TimelineStage:
         self.area_top: float = TIMELINE.area_top         # 레인 영역(뷰포트 설계 px) — 아일랜드면 fit_island 가 상자 안으로 다시 잡는다
         self.area_bottom: float = TIMELINE.area_bottom
         self.axes: dict = {}                             # v7.4.0 D-0339(UF-155) — 레인 → (값 범위, 축 값 단위). load_project 가 채운다 — 격자선이 축 값 글자를 피한다
+        self.lane_sources: dict[str, str] = {}           # v7.4.0 2a — 레인 → 출처 줄 글(load_project 가 채운다). skin 은 레인 순서대로 아래 한 덩이로 쌓는다
         self.island = False                              # v5.1.0 D-0126 Q1 A — 차트 아일랜드 뷰포트(바탕은 아일랜드 상자가 칠한다)
         self.frame: "Optional[tuple[float, float, float, float]]" = None   # v7.4.0 D-0257(UF-137) — 주 무대 틀(화면 안쪽 안전 영역)
         self._bounds = (0.0, 0.0, self.x_of(self.cfg.end), float(self.n))
@@ -319,7 +321,8 @@ class TimelineStage:
             ctx.clip()
         from engine.style import stage_surface  # noqa: PLC0415
 
-        for i in range(self.n if not (self.island and stage_surface()) else 0):   # D-0328 — 무대 표면은 레인 띠·레인 선 없음(선이 적다)
+        bare = skin.active() or (self.island and stage_surface())   # v7.4.0 2a — skin: 흰 카드 위에 바로(레인 띠·레인 선·세로 격자 없음)
+        for i in range(self.n if not bare else 0):   # D-0328 — 무대 표면은 레인 띠·레인 선 없음(선이 적다)
             top, bot = self.lane_screen(view, i)
             ctx.rectangle(view.ox, top, view.vw, bot - top)
             ctx.set_source_rgba(*C["white"], T.band_alpha[i % len(T.band_alpha)])
@@ -331,8 +334,8 @@ class TimelineStage:
             ctx.stroke()
         from engine.layers.series import world_text_boxes  # noqa: PLC0415
 
-        keep = [b for _, b in world_text_boxes(self, view, self.axes)]
-        for d, kind in self.ticks(view):
+        keep = [b for _, b in world_text_boxes(self, view, self.axes)] if not skin.active() else []
+        for d, kind in (self.ticks(view) if not skin.active() else []):   # skin — 세로 격자 없음(시점은 눈금 글자가 맡는다)
             x, _ = view.to_screen(self.x_of(d), 0.0)
             for i in range(self.n):   # 레인마다 — 출처 줄 띠 위에서 끊는다(v7.4.0 D-0321 §4, rules stage_timeline.grid.stop_at_source)
                 ltop, lbot = self.lane_screen(view, i)
@@ -389,8 +392,51 @@ class TimelineStage:
         return out
 
     # --- 라벨
+    def tick_items(self, view: "View") -> list[tuple[str, float, str]]:
+        """그리는 날짜 눈금 (글자, 화면 x, 종류) — 양 끝 여백·최소 간격(rules stage_timeline.grid) 적용 뒤. 그리기와 검사가 같이 쓴다."""
+        G = TIMELINE.grid  # noqa: N806
+        unit = self.tick_unit(view.w)
+        last = view.ox - view.vw
+        out: list[tuple[str, float, str]] = []
+        for d, kind in self.ticks(view):
+            x, _ = view.to_screen(self.x_of(d), 0.0)
+            if x < view.ox + G.label_margin_px or x > view.right - G.label_margin_px or x - last < G.min_label_gap_px:
+                continue
+            out.append((self.tick_label(d, unit), x, kind))
+            last = x
+        return out
+
+    def tick_label_boxes(self, ctx: cairo.Context, view: "View") -> list[tuple[str, tuple[float, float, float, float]]]:
+        """날짜 눈금 글자 상자(설계 px, 가운데 정렬) — draw_labels 와 같은 자리·글꼴."""
+        G = TIMELINE.grid  # noqa: N806
+        K = SKIN.chart if skin.active() else None  # noqa: N806
+        size, font, dy = (G.label_size, G.label_font, G.label_dy) if K is None else (K.tick.size, K.tick.font, K.tick.dy)
+        _, bot = self.lane_screen(view, self.n - 1)
+        out = []
+        for s, x, _ in self.tick_items(view):
+            w = tw(ctx, s, size, font)
+            out.append((s, (x - w / 2, bot + dy - size, x + w / 2, bot + dy)))
+        return out
+
+    def _draw_labels_skin(self, ctx: cairo.Context, view: "View", alpha: float) -> None:
+        """v7.4.0 2a — skin 레인 제목(이름 sansb 잉크 + 단위 sansm 잉크 tertiary, 한 기준선, 레인 머리 줄) + 날짜 눈금(mono, 연도 = 잉크 primary)."""
+        K = SKIN.chart  # noqa: N806
+        T = K.title  # noqa: N806
+        for i, ln in enumerate(self.lanes):
+            top, _ = self.lane_screen(view, i)
+            x, base = view.ox + T.x, top + T.dy
+            text(ctx, ln.label, x, base, T.size, T.font, skin.INK, alpha, 0, "l")
+            if ln.unit:   # 상자 = engine.layers.series.lane_title_box(같은 폭 계산)
+                text(ctx, ln.unit, x + tw(ctx, ln.label, T.size, T.font) + T.unit_gap, base, T.unit_size, T.unit_font, skin.INK3, alpha, 0, "l")
+        _, bot = self.lane_screen(view, self.n - 1)
+        for s, x, kind in self.tick_items(view):
+            text(ctx, s, x, bot + K.tick.dy, K.tick.size, K.tick.font, skin.INK if kind == "year" else skin.INK3, alpha, 0, "c")
+
     def draw_labels(self, ctx: cairo.Context, view: "View", reserved: list, alpha: float = 1.0) -> None:
         T = TIMELINE  # noqa: N806
+        if skin.active():
+            self._draw_labels_skin(ctx, view, alpha)
+            return
         for i, ln in enumerate(self.lanes):
             top, _ = self.lane_screen(view, i)
             name = ln.label if not ln.unit else f"{ln.label} ({ln.unit})"   # engine.layers.series.lane_name 과 같은 문자열

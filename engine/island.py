@@ -339,6 +339,13 @@ def _source_rects(ctx: cairo.Context, chart: dict, v: View, t: float) -> list[tu
     for e in chart["events"]:
         if e["type"] != "series" or not e["t0"] <= t <= e["t1"] or e.get("slot", 0):   # v7.4.0 D-0256 — 레인당 출처 한 줄
             continue
+        if skin.active():   # v7.4.0 2a — skin 출처 줄 자리(눈금 아래 자기 줄, 접힌 줄마다) = series.source_line_boxes
+            from engine.layers.series import source_line_boxes, source_style  # noqa: PLC0415
+
+            fs, ff = source_style()
+            out += [(e["lane"], (x, by - fs, x + tw(ctx, ln, fs, ff), by + fs * (1 - TIMELINE.text_metrics.ascent)))
+                    for ln, x, by in source_line_boxes(ctx, v, st, e)]
+            continue
         _, bot = st.lane_screen(v, st.lane_index(e["lane"]))
         by = bot - S.source_dy
         s = lane_source_text(e)

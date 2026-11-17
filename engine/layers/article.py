@@ -20,6 +20,7 @@ import cairo
 import numpy as np
 from PIL import Image, ImageEnhance, ImageFilter, ImageOps
 
+from engine import skin
 from engine.assets import surf_from_pil
 from engine.context import RenderCtx
 from engine.credits import RightsError
@@ -68,7 +69,10 @@ def source_date(iso: str) -> str:
 
 
 def article_layout(ctx: cairo.Context, e: dict) -> ArticleLayout:
-    """글자 블록 배치(그리지 않음). 줄 수·인용 상한 초과 = ArticleOverflowError(렌더 전 preflight 가 부른다)."""
+    """글자 블록 배치(그리지 않음). 줄 수·인용 상한 초과 = ArticleOverflowError(렌더 전 preflight 가 부른다).
+    skin 무대면 종이 카드 배치(engine/skin_people) — box = 카드(프레스 타일 포함) 상자(v7.4.0 2b)."""
+    if skin.active():
+        return _skin_layout(ctx, e)
     A = ARTICLE  # noqa: N806
     d = article_text(e)
     translated = not d["original"]
@@ -108,6 +112,20 @@ def article_layout(ctx: cairo.Context, e: dict) -> ArticleLayout:
                          sub_base=[top + v for v in sb], source_base=top + srcb, rule=(top + rule[0], top + rule[1]),
                          box=(x, top, x + W_OUT * A.max_w_ratio, top + h), translated=translated,
                          credit=credit, credit_base=None if crb is None else top + crb)
+
+
+def _skin_layout(ctx: cairo.Context, e: dict) -> ArticleLayout:
+    """skin 종이 카드 배치를 ArticleLayout 모양으로(예약 영역·preflight·provenance 공용 — 상자 = 실제 카드 자리)."""
+    from engine.skin_people import skin_article_layout  # noqa: PLC0415 — skin_people → article 순환 회피
+
+    S = skin_article_layout(ctx, e)  # noqa: N806
+    x0, y0, x1, y1 = S.rect
+    pub = article_text(e)["pub"]
+    src = ARTICLE.source.format.replace("{publisher}", pub).replace("{date}", source_date(article_text(e)["date"]))
+    return ArticleLayout(x=x0, text_x=S.box[0], top=y0, headline=S.headline, sub=S.sub,
+                         source=src + (f" · {ARTICLE.source.translated_note}" if S.translated else ""),
+                         hl_base=S.head_base, sub_base=S.sub_base, source_base=y1, rule=(y0, y1), box=S.rect,
+                         translated=S.translated, credit=press_credit_text(e, pub))
 
 
 def press_credit_text(e: dict, publisher: str) -> Optional[str]:
@@ -244,6 +262,11 @@ def draw_article_text(ctx: cairo.Context, e: dict, a: float) -> None:
 def draw_article(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
     pa, ta = article_phase(t, e)
     if pa <= 0.01:
+        return
+    if skin.active():   # v7.4.0 2b(UF-905) — 프레스 사진·블러 무대·덮개 대신 직각 종이 카드
+        from engine.skin_people import draw_article as draw_skin  # noqa: PLC0415
+
+        draw_skin(ctx, R, t, e)
         return
     draw_press(ctx, R, e, pa)
     over = title_over(R, t)   # v6.0.2 D-0216 UF-98 — 제목 카드가 이 기사 위에 뜨면 기사 글자는 흐리게(블러·불투명도) 제목 뒤에 남는다

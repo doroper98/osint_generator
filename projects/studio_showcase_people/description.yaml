@@ -1,0 +1,11 @@
+# 『스튜디오 무대 시연 — 인물·발언·기사』 설명문 (v7.4.0 D917 2b — 디자인 시스템 시연, 휴전안 cold·경유의 길 act5 문장 사본).
+schema_version: 1
+headline: 스튜디오 무대 시연 — 기사 카드와 발언 인용
+summary: 루비오 미 국무장관의 발언을 전한 The National 기사(2026년 10월 31일)와 젤렌스키 대통령의 발언(NBC News, 2026년 10월 11일)을 기록된 원고 그대로 보여 줍니다.
+chapters:
+- at: cold
+  label: 기사
+- at: TITLE
+  label: 타이틀
+- at: act1
+  label: 발언

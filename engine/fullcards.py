@@ -7,6 +7,9 @@ v4.7.0(back_and_forth D-0106 1-C, dmz_mine 브랜치 롤): 넘치면 목록이 �
 넘을 때만 `EndCardOverflowError`. 상한 안 롤은 checks warning `[endcard-roll]`·provenance `end_card` 기록.
 v5.1.0(back_and_forth D-0124, 사용자 결정 D109): 오른쪽 아래 구석 버전 도장 `v{VERSION}`(`end_card.version_stamp`) — 렌더 시점 VERSION 파일,
 롤에 고정(클립·스크롤 밖), 안내 줄과 겹치면 dy 만큼 위로. 화면 밖이면 `[endcard-overflow]`.
+v7.4.0 C0.0 2c단계(D917): skin 무대(engine.skin.active())면 타이틀 = 흰 장막 위 잉크 제목·짧은 강조선·명조 부제·mono 날짜·템플릿 머리 줄,
+엔딩 = 흰 크레딧 판(끝까지 밝은 판 유지, 검은 끝 프레임 없음). 수치 = rules skin.title_card·skin.end_card. 배치·롤·넘침 함수는 그대로,
+skin 이 꺼지면 종전 그리기 그대로(바이트 동일).
 """
 
 from __future__ import annotations
@@ -15,9 +18,10 @@ from pathlib import Path
 
 import cairo
 
+from engine import skin
 from engine.context import RenderCtx
 from engine.credits import credit_sections
-from engine.style import C, ELEM, END_CARD, H_OUT, MOTION, TITLE_CARD, W_OUT
+from engine.style import C, ELEM, END_CARD, FONT, H_OUT, MOTION, SKIN, TITLE_CARD, W_OUT, Color, hexc
 from engine.timebase import ease_io, ease_out, smooth, window
 from engine.typography import _M, adv, text, wrap
 
@@ -35,6 +39,16 @@ ITEM_LINE = 12          # v7.4.0 — 줄바꿈한 크레딧 항목의 줄 간격
 LICENSE_LINE = 10       # v7.4.0 — 줄바꿈한 라이선스 줄의 줄 간격(license_size 7.8 기준, 항목 줄 간격보다 좁게)
 NOTICE_DY = 4           # v7.4.0 — 표기 전용 줄 기준선 = 하단 구분선 − 이 값(구분선 바로 위)
 NOTICE_H = 12           # v7.4.0 — 표기 전용 줄이 있으면 크레딧 열 아래 한도를 이만큼 올린다(겹침 방지)
+SKIN_TC = SKIN.title_card   # v7.4.0 2c(D917) — skin 무대의 타이틀 카드
+SKIN_EC = SKIN.end_card     # v7.4.0 2c(D917) — skin 무대의 엔딩 카드
+for _f in (SKIN_TC.kicker.font, SKIN_TC.subtitle.font, SKIN_TC.date.font):   # 없는 글꼴 키 = 시작 오류(P6·P10)
+    if _f not in FONT:
+        raise ValueError(f"skin.title_card 글꼴 {_f!r} 가 engine.style.FONT 키가 아니다: {sorted(FONT)}")
+
+
+def skin_ink(level: str) -> Color:
+    """rules skin.ink 단계 이름(primary·secondary·tertiary) → 색."""
+    return hexc(getattr(SKIN.ink, level))
 
 
 class EndCardOverflowError(RuntimeError):
@@ -216,27 +230,92 @@ def last_notice(R: RenderCtx) -> str | None:  # noqa: N803
     return TPL.sep.join(p for p in parts if p) or None
 
 
+def endcard_veil(ctx: cairo.Context, t: float, c: object, a: float) -> None:
+    """skin 엔딩 카드 바탕 — 흰 장막. hold_black_after 면 등장 뒤 장막은 빠지지 않고(퇴장 때 글자만 빠진다) 카드 끝 fout 초 동안
+    veil_alpha → hold_alpha 로 옮겨 영상 끝까지 유지(검은 끝 프레임 없음, v7.4.0 2c). 아니면 veil_alpha × 카드 알파."""
+    E = SKIN_EC  # noqa: N806
+    if not END_CARD.hold_black_after:
+        va = E.veil_alpha * a
+    else:
+        fin, fout = ELEM["fullcard"]
+        va = E.veil_alpha * smooth((t - c.t0) / fin)  # type: ignore[attr-defined]
+        u = (t - (c.t1 - fout)) / fout  # type: ignore[attr-defined]
+        if u > 0:
+            va = E.veil_alpha + (E.hold_alpha - E.veil_alpha) * min(1.0, u)
+    ctx.set_source_rgba(1, 1, 1, va)
+    ctx.paint()
+
+
+def title_kicker(R: RenderCtx) -> str | None:  # noqa: N803
+    """skin 타이틀 머리 줄 — 장르 template_label(라틴만 대문자, 한글 불변). 없으면 None."""
+    lab = template_label(R)
+    return lab.upper() if lab else None
+
+
+def draw_title_skin(ctx: cairo.Context, R: RenderCtx, lt: float, a: float) -> None:  # noqa: N803
+    """v7.4.0 2c(D917) — 흰 장막(× 카드 알파^veil_gamma) 위 머리 줄·잉크 제목·강조색 짧은 선·명조 부제·mono 날짜, 덩이 뒤 흰 번짐.
+    등장 시각·곡선은 종전 타이틀과 같다(머리 줄 = 제목과 함께). 부제에는 템플릿 라벨을 붙이지 않는다(머리 줄로 갔다)."""
+    T = SKIN_TC  # noqa: N806
+    plan = R.tb.plan
+    ctx.set_source_rgba(1, 1, 1, T.veil_alpha * a ** T.veil_gamma)   # 장막이 글자를 앞서 차고 늦게 빠진다
+    ctx.paint()
+    k = ease_out(lt / MOTION["title_settle_sec"])
+    a_title = a * smooth((lt - 0.1) / MOTION["title_text_in_sec"])
+    a_sub = a * smooth((lt - 0.8) / MOTION["title_text_in_sec"])
+    a_date = a * smooth((lt - 1.1) / MOTION["title_text_in_sec"])
+    size = title_fit_size(ctx, plan.title)
+    lw = T.rule.w * ease_io((lt - 0.5) / MOTION["title_rule_in_sec"])
+    kick = title_kicker(R)
+    cx = W_OUT / 2
+
+    def block(cc: cairo.Context) -> None:
+        if kick:
+            text(cc, kick, cx, T.kicker.y, T.kicker.size, T.kicker.font, skin_ink(T.kicker.ink), a_title, 0, "c",
+                 spacing=T.kicker.track * T.kicker.size)
+        text(cc, plan.title, cx, T.title.y - (1 - k) * 10, size, "disp", skin_ink(T.title.ink), a_title, 0, "c")
+        if lw > 0:
+            cc.set_source_rgba(*skin.ACCENT_SHAPE, a)
+            cc.rectangle(cx - lw / 2, T.rule.top, lw, T.rule.h)
+            cc.fill()
+        if plan.subtitle:
+            text(cc, plan.subtitle, cx, T.subtitle.y, TITLE_CARD.subtitle_size, T.subtitle.font, skin_ink(T.subtitle.ink), a_sub, 0, "c")
+        text(cc, plan.date.replace(".", ". "), cx, T.date.y, T.date.size, T.date.font, skin_ink(T.date.ink), a_date, 0, "c",
+             spacing=T.date.track * T.date.size)
+
+    top = min(T.kicker.y - T.kicker.size, T.title.y - size)
+    skin.glow(ctx, block, (0.0, top, float(W_OUT), T.date.y + T.date.size), blur=T.glow.blur, gain=T.glow.gain, alpha=T.glow.alpha)
+
+
 def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float) -> None:  # noqa: N803
     lt = t - c.t0  # type: ignore[attr-defined]
     plan = R.tb.plan
     E = END_CARD  # noqa: N806
-    bg = 0.94 * a
-    if E.hold_black_after and t > c.t1 - 0.7:  # type: ignore[attr-defined]  # 사라질 때 글자만 빠지고 배경은 검정으로(지도가 다시 드러나지 않게)
-        bg = 0.94 + 0.06 * min(1.0, (t - (c.t1 - 0.7)) / 0.7)  # type: ignore[attr-defined]
-    ctx.set_source_rgba(0.018, 0.022, 0.032, bg)
-    ctx.paint()
+    sk = skin.active()   # v7.4.0 2c(D917) — 밝은 크레딧 판. 배치·롤·넘침은 그대로, 색·바탕만
+    if sk:
+        endcard_veil(ctx, t, c, a)
+        head_rgb, heading_rgb, item_rgb, meta_rgb = hexc(SKIN_EC.head_ink), skin_ink(SKIN_EC.heading_ink), \
+            skin_ink(SKIN_EC.item_ink), skin_ink(SKIN_EC.meta_ink)
+        rule_rgb, rule_al, dim, stamp_al = skin.HAIR, SKIN_EC.rule_alpha, 1.0, SKIN_EC.stamp_alpha
+    else:
+        bg = 0.94 * a
+        if E.hold_black_after and t > c.t1 - 0.7:  # type: ignore[attr-defined]  # 사라질 때 글자만 빠지고 배경은 검정으로(지도가 다시 드러나지 않게)
+            bg = 0.94 + 0.06 * min(1.0, (t - (c.t1 - 0.7)) / 0.7)  # type: ignore[attr-defined]
+        ctx.set_source_rgba(0.018, 0.022, 0.032, bg)
+        ctx.paint()
+        head_rgb, heading_rgb, item_rgb, meta_rgb = C["gold"], (0.96, 0.95, 0.93), (0.86, 0.87, 0.9), C["muted"]
+        rule_rgb, rule_al, dim, stamp_al = (1, 1, 1), 0.08, 0.9, STAMP.alpha
     if a <= 0.01:
         return
     k = ease_out((lt - 0.1) / MOTION["endcard_head_in_sec"])   # v7.4.0 UF-159 ×1.5
-    text(ctx, "SOURCES  &  CREDITS", 64, 84 - (1 - k) * 6, 8.5, "mono", C["gold"], a * k, 0, "l", spacing=2.4, role="end_card")
-    text(ctx, "자료 및 출처", 64, 110 - (1 - k) * 6, 17, "serif", (0.96, 0.95, 0.93), a * k, 0, "l", spacing=1.0, role="end_card")
+    text(ctx, "SOURCES  &  CREDITS", 64, 84 - (1 - k) * 6, 8.5, "mono", head_rgb, a * k, 0, "l", spacing=2.4, role="end_card")
+    text(ctx, "자료 및 출처", 64, 110 - (1 - k) * 6, 17, "serif", heading_rgb, a * k, 0, "l", spacing=1.0, role="end_card")
     lab = template_label(R)
     if lab:   # v7.4.0 UF-147 — 템플릿 표시 줄(머리 줄 오른쪽, 모서리 아님)
-        text(ctx, lab, W_OUT - 64, TPL.y - (1 - k) * 6, TPL.size, TPL.font, C["gold"], a * k * 0.9, 0, "r", role="end_card")
-    ctx.set_source_rgba(*C["gold"], 0.9 * a * k)
+        text(ctx, lab, W_OUT - 64, TPL.y - (1 - k) * 6, TPL.size, TPL.font, head_rgb, a * k * dim, 0, "r", role="end_card")
+    ctx.set_source_rgba(*(skin.ACCENT_SHAPE if sk else C["gold"]), 0.9 * a * k)
     ctx.rectangle(64, 122, 36 * k, 1.1)
     ctx.fill()
-    ctx.set_source_rgba(1, 1, 1, 0.08 * a * k)
+    ctx.set_source_rgba(*rule_rgb, rule_al * a * k)
     ctx.rectangle(64, 140, W_OUT - 128, 0.8)
     ctx.fill()
     secs = project_credit_sections(R)
@@ -262,7 +341,7 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
     n = 0
     for si, _ci, x, head, rows in endcard_layout(secs, place)[0]:
         sa = a * smooth((lt - 0.5 - si * 0.18) / MOTION["endcard_item_in_sec"])
-        text(ctx, secs[si][0], x, head - off, 8.5, "sansb", C["gold"], sa * 0.9 * edge(head - off), 0, "l", spacing=1.4, role="end_card")
+        text(ctx, secs[si][0], x, head - off, 8.5, "sansb", head_rgb, sa * dim * edge(head - off), 0, "l", spacing=1.4, role="end_card")
         for m, lic, y in rows:
             ia = a * smooth((lt - 0.6 - si * 0.18 - n * 0.03) / MOTION["endcard_item_in_sec"])
             n += 1
@@ -270,28 +349,28 @@ def draw_endcard(ctx: cairo.Context, R: RenderCtx, t: float, c: object, a: float
             ls = m.split("\n")
             for j, ln in enumerate(ls):   # v7.4.0 — 열 폭을 넘는 항목은 여러 줄(endcard_layout 과 같은 줄바꿈)
                 yj = y + ITEM_LINE * j
-                text(ctx, ln, x, yj, END_CARD.item_size, "sans", (0.86, 0.87, 0.9), ia * edge(yj), 0, "l", role="end_card")
+                text(ctx, ln, x, yj, END_CARD.item_size, "sans", item_rgb, ia * edge(yj), 0, "l", role="end_card")
             y += ITEM_LINE * (len(ls) - 1)
             for j, ll in enumerate(lic.split("\n") if lic else []):   # v7.4.0 — 열 폭을 넘는 라이선스 줄은 여러 줄(endcard_layout 과 같은 줄바꿈)
                 yl = y + 11 + LICENSE_LINE * j
-                text(ctx, ll, x, yl, END_CARD.license_size, "monom", C["muted"], ia * 0.9 * edge(yl), 0, "l", role="end_card")
+                text(ctx, ll, x, yl, END_CARD.license_size, "monom", meta_rgb, ia * dim * edge(yl), 0, "l", role="end_card")
     if dist > 0:
         ctx.restore()
     fa = a * smooth((lt - 1.6) / MOTION["endcard_foot_in_sec"])
-    ctx.set_source_rgba(1, 1, 1, 0.08 * fa)
+    ctx.set_source_rgba(*rule_rgb, rule_al * fa)
     ctx.rectangle(64, RULE_Y, W_OUT - 128, 0.8)
     ctx.fill()
-    text(ctx, plan.date.replace(".", ". ") + " 기준", 64, H_OUT - 26, 7.8, "monom", C["muted"], fa, 0, "l", spacing=0.6, role="end_card")
-    text(ctx, ENDCARD_NOTE, W_OUT - 64, H_OUT - 26, 7.8, "sans", C["muted"], fa, 0, "r", role="end_card")
+    text(ctx, plan.date.replace(".", ". ") + " 기준", 64, H_OUT - 26, 7.8, "monom", meta_rgb, fa, 0, "l", spacing=0.6, role="end_card")
+    text(ctx, ENDCARD_NOTE, W_OUT - 64, H_OUT - 26, 7.8, "sans", meta_rgb, fa, 0, "r", role="end_card")
     nl = notice_line(R)
     if nl:   # v7.4.0 D-0229 §2.10 — 표기 전용 줄(구분선 바로 위, 전체 폭, 가장 작은 글씨)
-        text(ctx, nl, 64, RULE_Y - NOTICE_DY, END_CARD.license_size, "sans", C["muted"], fa, 0, "l", role="end_card")
+        text(ctx, nl, 64, RULE_Y - NOTICE_DY, END_CARD.license_size, "sans", meta_rgb, fa, 0, "l", role="end_card")
     notice = last_notice(R)
     if notice:   # 맨 마지막 줄, 가장 작은 글씨 — 본문(자막·패널·카드)에는 검증 라벨을 그리지 않는다. 투자 고지가 앞(v7.4.0)
-        text(ctx, notice, 64, H_OUT - 26 + NOTICE.dy, min(NOTICE.size, INVEST.size), "sans", C["muted"], fa, 0, "l", role="end_card")
+        text(ctx, notice, 64, H_OUT - 26 + NOTICE.dy, min(NOTICE.size, INVEST.size), "sans", meta_rgb, fa, 0, "l", role="end_card")
     # v5.1.0 D-0124 — 버전 도장: 카드 등장과 함께(a), 롤 클립·스크롤 밖이라 고정, halo 없음. 검정 홀드(a = 0)에는 없음
     _x0, _y0, x1, y1 = version_stamp_box(notice)
-    text(ctx, version_stamp(), x1, y1 - STAMP.size * 0.25, STAMP.size, STAMP.font, C["muted"], a * STAMP.alpha, 0, "r", role="end_card")
+    text(ctx, version_stamp(), x1, y1 - STAMP.size * 0.25, STAMP.size, STAMP.font, meta_rgb, a * stamp_al, 0, "r", role="end_card")
 
 
 def draw_fullcards(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803
@@ -302,7 +381,9 @@ def draw_fullcards(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa:
             continue
         a = window(t, c.t0, c.t1, *ELEM["fullcard"])   # v7.4.0 UF-159 ×1.5
         lt = t - c.t0
-        if c.kind == "title":
+        if c.kind == "title" and skin.active():
+            draw_title_skin(ctx, R, lt, a)
+        elif c.kind == "title":
             g = cairo.LinearGradient(0, 0, 0, H_OUT)
             for st, al in ((0, 0.86), (0.5, 0.7), (1, 0.92)):
                 g.add_color_stop_rgba(st, 0.01, 0.015, 0.03, al * a)

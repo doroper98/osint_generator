@@ -420,6 +420,7 @@ direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문�
   - '한 인물이 당·군·조직을 쥐고 있음을 말하는 문장에는 network 노드 crowd: true 로 그 인물 둘레에 점 고리(지지 기반)를 퍼뜨린다 — 수치가 아니라 ''기반이 있다''는 표지다. 인원·규모 숫자를 점 수로 나타내지 않는다. (v7.4.0 UF-402 — 모든 장르, 영상 분석 장치)'
   - '문장이 바로 그 나라를 말할 때(공격·제재·발표의 주체·대상) 그 나라를 country fill: flag 로 국기 채움 강조할 수 있다 — flag = 국기 자산 이름(예 ir), col·a 는 쓰지 않는다. 한 화면 국기 채움은 두세 나라까지, 그 밖 이웃은 단색 채움(fill color) 또는 그대로. 분쟁 지역도 채울 수 있다(사용자 결정 UF-901). (v7.4.0 UF-900 R2)'
   - '폭격기·전투기 편대의 출격·타격을 말하는 문장의 flight 는 kind bomber·fighter 에 look: model(위에서 본 회색 기체·그림자·비행운)로 기체 자체를 보인다 — 드론·미사일은 glyph 그대로. count 는 claim 출처가 말하는 대수만 쓰고(지어낸 대수 금지, claim 필수·[flight-unsourced] 그대로), 1 보다 크면 formation(vee·line·echelon)을 고른다. 편대 모양·간격은 개략이지 실제 대형·위치가 아니다. (v7.4.0 UF-900 R7a)'
+  - '지도 테마는 고르지 않는다 — 모든 영상이 장르 기본 지도(porcelain — 흰 양각 땅·옅은 회색 바다) 하나다. stage_config.mercator 에 theme·theme_reason 을 쓰지 않는다(v7.4.0 UF-903, 검사 [map-theme-legacy] hard).'
   - '지도가 정보를 싣지 않는 장면(지리·이동·위치가 아닌 설명·수치·발언)은 최상위 stage: studio(스튜디오 무대 — 밝은 회색 호리존트·점 격자·조명)로 두고 내용은 아일랜드·카드·패널·인용으로 띄운다. 카메라는 빈 카메라 {} 하나, 모양은 하나뿐이라 stage_config·테마를 쓰지 않는다. studio 에는 backdrop 이벤트(배경 사진)를 깔지 않는다(오류) — 사진 배경이 필요하면 backdrop 무대. 배경 공간의 느린 흐름은 코드가 한다. (v7.4.0 UF-902·UF-903, D910)'
   - '한 체제·조직의 일 처리 순서(결정 → 정리 → 공개 등)를 말하는 문장에는 과정 도식(process_lane)을 한 번 세운다. 같은 순서가 뒤 사례에서 다시 나오면 새 도식을 만들지 말고 같은 steps·gate_after 로 다시 부른다 — 두 사례 비교는 rows 두 줄, 걸린 기간은 span. 표지는 moves 의 t 를 그 말의 word 앵커로 옮긴다. 출처 줄 = 그 순서를 정리한 분석(누구의 보고서인가). (v7.4.0 UF-403 — 모든 장르, 장르 요소 안내를 공통으로)'
   - '주장의 근거가 정보기관·연구소·정부의 1차 문서이면 문서 발췌(doc_excerpt)로 원문 단락(인용 상한 안, 소스 본문 그대로)과 한국어 번역을 함께 띄운다. 내레이션이 짚는 구절을 highlight(원문 그대로)로, highlight_t 는 그 말의 word 앵커로 건다. 스캔 이미지를 띄우지 않는다. (v7.4.0 UF-403 — 모든 장르, 장르 요소 안내를 공통으로)'
@@ -1132,6 +1133,17 @@ colors:                    # 09 §7
       water: "#005eae"
       white: "#1f2125"      # 지도 위 마커 이름(흰 글자 → 짙은 글자)
       gold_text: "#68480f"  # 지도 위 마커 부제 글자
+    porcelain:              # v7.4.0 UF-903 ③ — 밝은 중립 지도(흰 땅·옅은 회색 바다). light 값에서 시작
+      ru: "#be0013"
+      us: "#005abc"
+      gold: "#7c5612"
+      teal: "#1a6673"
+      green: "#2f6a2a"
+      muted: "#555e6e"
+      amber: "#885000"
+      water: "#005eae"
+      white: "#16181c"      # 지도 위 마커 이름 = 지명과 같은 잉크
+      gold_text: "#68480f"
 
 # v7.4.0 back_and_forth D-0330·D-0336(사용자 승인 UF-203·UF-206) — 장르 화면 팔레트. 장르 프로필 palette 로 고른다(없으면 기존 색).
 # 고르면 렌더 전체 의미색이 바뀐다: text → 흰 글자(colors white), muted → muted, accent → gold(차트당 accent 1), up → green, down → ru,
@@ -1233,7 +1245,8 @@ geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계
     ne_min_population: 100000   # NE POP_MAX 이 이상이거나 수도(ADM0CAP·FEATURECLA Admin-0 capital)면 수록
     ne_tol_km: 25               # NE 항목 허용 오차(도심 점 ↔ 연출 좌표. 큰 도시 반경 수준 — 엉뚱한 곳·경위도 뒤바뀜을 잡는 게 목적)
   # v5.13.0 back_and_forth D-0153 Q0-2 — 지도 테마(시안). 지형 래스터는 geo.prep 가 굽는다(terrain) → 테마 = 준비 산출물 분기
-  # (dark = assets/, 그 밖 = assets/theme_<이름>/). 지도 선·지명 색(map)은 렌더가 읽는다. 고르기 = direction stage_config.mercator.theme.
+  # (dark = assets/, 그 밖 = assets/theme_<이름>/). 지도 선·지명 색(map)은 렌더가 읽는다. 고르기 = 장르 프로필 stage.mercator.theme
+  # (v7.4.0 UF-903 ③ — 모든 장르 porcelain. direction stage_config.mercator.theme 은 qa_checks.map_theme_legacy_projects 의 옛 프로젝트만, [map-theme-legacy] hard).
   # dark = v3 사용자 합격 값 그대로(geo/prep_tiers 상수·engine/layers 리터럴·colors.sea_label 에서 이관, 출력 바이트 동일).
   # light = 가이드 23 §13·§15 시안 값(Q0 시제품 — 사용자 결정 뒤 Q3 에서 한 테마만 남긴다, D-0153 §2).
   map_layers_default: [roads, rivers]   # v7.4.0 D-0231 — 지도 레이어 기본 켬. 끄려면 direction stage_config.mercator.map_layers + map_layers_reason(골든 hormuz = [])
@@ -1326,6 +1339,38 @@ geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계
         label_contrast_fix: {halo: 4.2, halo_a: 1.0}
         # 국경 옅은 발광(§2.3 "양옆 1~2px 반쯤 밝음") — 1080p 4px 선을 σ≈2.5px 흐린 알파 0.30 근사. 겹친 halo 만, run_layers [] = 흐르는 빛 없음(정지)
         border_glow: {rgb: [1.0, 1.0, 1.0], halo: [[4.6, 0.06], [3.4, 0.08], [2.4, 0.1]], run_layers: []}
+    # v7.4.0 UF-903 ③(사용자 "지도도 중립적인 컬러감으로 통일 하자. 이 테마로 할지 저 테마로 할지 고민 하지 말고", D910) — 중립 지도 하나.
+    # 밝은 스튜디오 무대와 같은 세계: 흰 양각 육지(밝기만으로 지형), 수심 없는 옅은 회색 단색 바다, 해안 바다 쪽에 굽힌 부드러운 그림자(땅이 살짝 떠 보임),
+    # 가는 회색 국경, 짙은 잉크 지명 + 밝은 halo. 모든 장르의 기본값(genres/*.yaml stage.mercator.theme) — 연출은 테마를 고르지 않는다([map-theme-legacy] hard).
+    # 시안 = docs/handoff/reports/skin_design_2026-11-17_map.jpg(점 격자·흰 알약 라벨·날짜·번호 뱃지는 4b 몫)
+    porcelain:
+      terrain:
+        land_stops: [[0, "#eceded"], [3000, "#f7f7f6"]]   # 흰 육지 — 고지대일수록 조금 더 밝다(시안 값)
+        sea_stops: [[0, "#e0e1e3"], [6000, "#e0e1e3"]]    # 단색 — 깊이와 무관(육지보다 확실히 어둡게)
+        exaggeration: [4.0, 3.0]        # 지형 과장 [설계 ppd < 64, 그 이상] — 시작값 [4.0, 3.6] 에서 1080p 실측(이란 광역·호르무즈 w 10)으로 가까운 쪽만 낮춤(자그로스 결이 덜 시끄럽게)
+        sun: [315, 42]
+        land_shade: {base: 1.0, gain: 0.62, lo: 0.70, hi: 1.06}   # 평지 = ramp 색 그대로, 그늘 사면은 0.70 까지
+        sea_shade: null
+        sea_tint: null
+        coast_glow: {rgb: "#ffffff", strength: 0.0, blur_px: [3, 8]}   # 해안 광채 없음
+        land_shadow: {dx: 1.8, dy: 2.7, blur: 3.1, rgb: "#3a4150", alpha: 0.30}   # 설계 px — 육지 마스크를 오른쪽 아래로 옮겨 흐린 그림자, 바다 위에만
+      map:
+        border: {rgb: [0.54, 0.565, 0.61], width: 0.58, alpha: 0.75}   # 가는 회색 국경(흰 땅·회색 바다 둘 다에서 보이게)
+        admin: {rgb: [0.62, 0.645, 0.69], width: 0.4, dash: [], alpha: 0.5}   # 1급 행정구역 = 국경보다 옅고 가는 실선
+        sea_label: "#7a8390"
+        country_label: [0.08, 0.09, 0.11]
+        admin_label: [0.31, 0.33, 0.38]
+        city_dot: {fill: [0.08, 0.09, 0.11], edge: [1.0, 1.0, 1.0], edge_alpha: 0.85}
+        city_label: [0.08, 0.09, 0.11]
+        halo: [0.97, 0.97, 0.96]
+        roads:                          # 중립 회색(키 집합 = dark — tests/test_v740_map_layers)
+          motorway: {rgb: [0.56, 0.58, 0.62], width: 0.5, alpha: 0.6}
+          trunk: {rgb: [0.62, 0.64, 0.67], width: 0.4, alpha: 0.55}
+          primary: {rgb: [0.68, 0.69, 0.72], width: 0.3, alpha: 0.5}
+        rivers: {rgb: [0.62, 0.68, 0.74], width_major: 0.45, width_minor: 0.32, alpha_major: 0.8, alpha_minor: 0.55}   # 옅은 회청색
+        route_label: {style: ink, halo: 3.4, mark_w: 12, mark_h: 3, mark_gap: 5}   # 밝은 지도 = light 와 같은 잉크 글자
+        label_contrast_fix: {halo: 4.2, halo_a: 1.0}
+        border_glow: {halo: [], run_layers: []}   # 국경 발광 없음(겹 0 = 아무것도 그리지 않는다)
 
 credits:                   # D-0030(D35) — 권리 레지스트리 종류별 표기 위치. 카드 ∪ 설명문 = 전 자산. 두 목록 밖 종류 = RightsError
   card_kinds: [people, emblems, flags, map, media, music, narration]   # 엔딩 카드(C0 유지, v3 골든 END 컷 무변경)
@@ -1750,6 +1795,7 @@ skin:                      # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 1
   # 길이 = 설계 px(854×480, 장치 = × k). 값 = 감독 합격 시안(ds/kit.py·A_data.png). engine/skin.py 만 읽는다(코드 리터럴 0, 15 P3)
   stages: [studio]           # 이 디자인 시스템으로 그리는 주 무대(registries.stages 안 — 밝은 지도 테마는 다음 단계)
   palette: porcelain         # 그 무대에서 강제하는 팔레트(장르 팔레트보다 우선 — 스튜디오는 모습 하나, UF-903)
+  fade_rgb: [0.985, 0.985, 0.988]   # v7.4.0 D919 — 영상 시작·끝 전체 페이드 색(검정 대신 밝은 판에서 열리고 닫힌다, engine/render.py). 엔딩 카드 뒤도 밝다([endcard-black] 의 skin 판)
   ink: {primary: "#15171C", secondary: "#4E5460", tertiary: "#6F7580"}   # 글자 잉크 3단(본문·보조·꼬리표)
   hairline: {rgb: "#141820", alpha: 0.075, w: 0.5}   # 카드 가장자리 실선(아주 옅게)
   accent: {shape: "#FF5A1F", ink: "#E2440C", soft: "#FFE6DB", grad: ["#FF6A2B", "#F4491A"]}   # 강조색 하나(도형·글자·옅은 면·막대 그라데이션)
@@ -1768,8 +1814,106 @@ skin:                      # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 1
     card: [[12, 26, 0.13], [2.5, 6, 0.07]]     # [아래로 dy, 번짐 blur, 알파] 겹
     lifted: [[16, 34, 0.15], [3, 7, 0.08]]
     chip: [[5, 10, 0.16], [1, 2.5, 0.08]]
+    sheet: [[8, 18, 0.10], [2, 4, 0.05]]   # v7.4.0 2b — 기사 카드 뒤 종이(skin.article.back)
   subtitle: {emphasis_font: sansb, glow_blur: 5, glow_gain: 2.2, glow_alpha: 0.95}   # 자막 — 잉크 글자 + 뒤 흰 번짐(테두리 아님). 번짐 알파 = clip(번진 글자 알파 × gain) × glow_alpha
   date: {size: 11.5, track: 0.04, dot_r: 2.4, dot_gap: 9, dot_dy: -4}   # 날짜 — mono 잉크, 자간 = track × size, 왼쪽 강조 점(글자 시작에서 dot_gap 앞, 기준선에서 dot_dy)
+  # v7.4.0 C0.0 2b단계(D917·UF-905·UF-907·UF-908) — 인물·발언·기사(engine/skin_people.py). skin 무대에서만 — 꺼지면 종전 quote_center·article_card 그대로(바이트 동일).
+  # 발언 = 큰 인물 카드 + 카드 없이 공간에 뜬 큰 글씨(덮개·상자 없음, UF-907). 맞선 두 발언 = 인물 알약 + 한 줄 글씨. 기사 = 직각 종이 카드 + 뒤에 겹친 종이 한 장.
+  # 길이 = 설계 px(854×480). 값 = 감독 시안 ds/b2_person.py·ds/c_article.py(SQUARE=1). 등장·퇴장 시각은 quote_center.fade_sec·rise_px, article_card.overlay_fade_sec 그대로
+  quote:
+    text_x: 408              # 글자 덩어리 왼쪽(인물 카드 있을 때)
+    text_x_flag: 220         # 초상 없는 인용(국기만) — 카드 없이 글자 덩어리 왼쪽
+    right_margin: 40         # 줄 폭 = W − text_x − right_margin
+    font: sansbb
+    tiers: [[56, [232]], [44, [214, 266]], [34, [204, 246, 288]]]   # [크기, 줄 기준선들] — 한 줄부터 차례로, 3줄 34 에도 넘치면 QuoteError(자름 없음)
+    mark: {font: serifb, size: 96, dx: -6, y: 172}   # 여는 따옴표(accent.shape) — 글자 왼쪽 + dx, 기준선 y
+    bar: {w: 28, h: 2.4, dx: 2, dy: 30}              # 마지막 줄 기준선 + dy 의 강조 짧은 막대
+    src: {dx: 2, dy: 58, size: 9.5, font: mono, track: 0.10, gap: 14, date_font: monom, date_track: 0.04}   # 매체(대문자, 잉크 secondary) + gap + 날짜(잉크 tertiary)
+    glow_blur: 9             # 글자 덩어리 뒤 흰 번짐(테두리 아님) — skin.glow(blur, 자막 gain, glow_alpha)
+    glow_alpha: 0.9
+    pair:                    # pos upper·lower(맞선 두 발언) — 인물 알약 + 오른쪽 글씨(둘 다 왼쪽 정렬)
+      upper: [70, 96]        # 알약 왼쪽 위
+      lower: [70, 250]
+      gap: 22                # 알약 오른쪽 끝 → 글자
+      tiers: [[30, 1], [24, 2]]   # [크기, 최대 줄] — 한 줄 30, 아니면 두 줄 24, 넘치면 QuoteError
+      line_h: 30
+      baseline_k: 0.36       # 줄 덩어리를 알약 가운데에 — 기준선 = 가운데 + 크기 × k(대문자 높이 절반 근사)
+      src_size: 8.5
+      src_dy: 22             # 마지막 줄 기준선 → 매체·날짜 줄
+  person_card:               # 큰 인물 카드(UF-905) — 직각 흰 카드, 초상 타일(곱하기 — 누끼 가장자리가 타일에 녹는다)
+    box: [84, 50, 268, 344]
+    level: card
+    tile: {inset: 10, h: 250, grad: ["#E9EBEF", "#D8DBE1"], cover: 1.02, dy: 2}   # 초상 = 타일 덮기 × cover, 아래 맞춤 + dy
+    name: {dx: 22, dy: 296, size: 20, min_size: 14, step: 0.5, font: sansbb, room: 44, chip_gap: 8}   # 폭 > w − room − 칩 폭 − chip_gap 이면 step 씩 줄임, min_size 밑 = QuoteError
+    role: {dx: 22, dy: 318, size: 11.5, font: sansm}
+    chip: {h: 18, pad: 9, size: 9.5, font: mono, track: 0.08, right: 22, dy: 303, baseline_k: 0.36}   # 나라 칩(well 알약, 대문자 국가 코드) — 카드 오른쪽 − right 에 오른쪽 맞춤
+  person_pill:               # 인물 알약(맞선 발언) — 흰 알약 + 원형 초상
+    w: 196
+    h: 62
+    level: lifted
+    portrait: {inset: 7, d: 48, cover: 1.25, dy: 10}
+    name: {dx: 66, dy: 28, size: 13, font: sansbb}
+    role: {dx: 66, dy: 44, size: 9.5, font: sansm}
+  article:                   # 기사 = 직각 종이 카드 조판(UF-905) — 프레스 사진·블러 무대·어두운 덮개 없음
+    x: 150
+    w: 500
+    min_h: 230               # 높이 = 내용(제호·머리표·헤드라인·부제) + footer_gap + 꼬리 — min_h ~ max_h, max_h 를 넘으면 ArticleOverflowError(감독 지시: 빈 띠 없는 종이)
+    max_h: 326
+    footer_gap: 26           # 마지막 글자 줄 아래 끝(기준선 + 크기 × DESCENT) → 꼬리 가는 선
+    # 세로 자리 = 날짜 배지 아래 끝 ~ 자막 구역 위 끝 사이 가운데(layout_480p.reserved_zones.subtitle.y_from)
+    level: lifted
+    back: {dx: 8, dy: 4, rot_deg: 2.4, fill: "#F8F9FA", level: sheet}   # 뒤에 겹친 종이 한 장(카드 가운데 기준 회전)
+    pad: 34
+    rise_px: 10              # 등장(overlay_fade_sec) 동안 아래에서 떠오름
+    masthead: {dy: 44, size: 17, font: serifb}
+    date: {dy: 43, size: 8.5, font: monom, track: 0.04}
+    rule: {dy: 55, h: 1.2, thin_dy: 58.5, thin_h: 0.4, thin_alpha: 0.25}
+    kicker: {text: HEADLINE, dy: 80, size: 7.5, font: monom, track: 0.12}
+    headline: {dy: 116, size: 25, line_h: 33, font: serifb, shrink_over: 3, small_size: 21, small_line_h: 28}   # shrink_over 줄을 넘고 article_card.headline.max_lines 이하면 작은 크기
+    sub: {gap: 6, size: 14.5, font: sansb, line_h: 20, dx: 10, text_dy: 1, bar_w: 2.2, bar_h: 17, bar_dy: -12}   # 첫 기준선 = 헤드라인 마지막 + line_h + gap
+    footer: {rule_dy: 44, rule_alpha: 0.08, rule_w: 0.5, chip_dy: 33, chip_h: 16, chip_pad: 7, chip_size: 8, chip_font: sansm, chip_baseline_k: 0.36,
+             host_dy: 21, host_size: 7.5, host_font: monom, host_track: 0.08}
+    press: {w: 168, h: 112, dx: 110, dy: 100, level: lifted, credit_size: 7, credit_font: sansm, credit_dy: 10}   # 프레스 사진 타일 — 카드 오른쪽 아래 모서리에 걸친다(x + w − dx, y + h − dy)
+  # v7.4.0 C0.0 2a단계(D917) — 차트 아일랜드 안(시간축 뷰포트, engine/layers/series.py·stage_timeline.py). skin 무대에서만 — 꺼지면 종전 그대로(바이트 동일).
+  # 흰 카드 위에 바로: 레인 띠·레인 선·세로 격자 없음, 가는 가로 눈금선, 평평한 회색 직각 막대 + 강조 막대 하나(accent.grad), mono 값, 제목 위계(이름 + 단위), 출처는 가는 선 아래 자기 줄.
+  # 세로 = 레인 위 끝 → 제목 줄(title.dy) → 값 범위(plot_pad_top ~ 레인 아래 − plot_pad_bottom) → 눈금(tick.dy) → 가는 선(rule.dy) → 출처(source.dy). 값 = 감독 시안 ds/a_data.py
+  chart:
+    pad_top: 12              # 아일랜드 내용 영역 위 → 첫 레인 위 끝(island.chart.pad_top 대신 — 제목은 레인 안 머리 줄)
+    pad_bottom: 50           # 마지막 레인 아래 끝 → 내용 영역 아래(눈금·가는 선·출처 두 줄)
+    plot_pad_top: 46         # 레인 위 끝 → 값 범위 위 끝(제목 줄 + 막대 위 값 라벨 자리)
+    plot_pad_bottom: 4       # 값 범위 아래 끝 → 레인 아래 끝
+    grid: {alpha: 0.055, w: 0.5}   # 가로 눈금선(잉크 primary)
+    zero: {alpha: 0.16, w: 0.6}    # 0 기준선
+    bar_radius: 0            # UF-908(D918) — 직각 막대
+    hollow: {alpha: 0.55, w: 1.0}   # 속빈 막대(예상치) 가는 잉크 윤곽 — 굵은 테두리 금지(C0.0)
+    value: {size: 10, font: mono, gap: 6}   # 막대 끝 값 — 잉크 secondary, 강조 막대는 primary
+    title: {x: 6, dy: 16, size: 16, font: sansb, unit_gap: 8, unit_size: 10, unit_font: sansm}   # 레인 이름(잉크 primary) + 단위(잉크 tertiary) 같은 기준선
+    axis: {size: 7.5, font: monom, dy: 2.8, margin: 6}   # 값 축 숫자(잉크 tertiary, 오른쪽 열) — 기준선 = 눈금선 + dy(선 가운데)
+    tick: {size: 8, font: monom, dy: 16}    # 날짜 눈금(잉크 tertiary, 연도 = primary)
+    rule: {dy: 26, alpha: 0.07, w: 0.5}     # 출처 위 가는 선(내용 폭)
+    source: {size: 7.5, font: sansm, dy: 39, step: 10, prefix: "출처  "}   # 출처 줄(잉크 tertiary) — 접기 상한 island.source_wrap_lines_max
+    accent_cols: [gold, accent, amber]   # 이 색 이름의 계열(선·점·띠) = 강조 잉크, 나머지 = 잉크 primary(한 화면 강조 하나)
+  # v7.4.0 C0.0 2c단계(D917) — 전면 카드(engine/fullcards.py). skin 무대에서만 — 꺼지면 종전 어두운 판 그대로(바이트 동일).
+  # 길이 = 설계 px(가운데 = W/2), 기준선 y. 등장 시각·곡선은 transition.element(MOTION) 그대로. 잉크 = ink 단계 이름. 값 = 감독 시안 ds/D_title.png
+  title_card:
+    veil_alpha: 0.92         # 흰 장막(× 카드 알파) — 뒤 내용(첫 장면 아일랜드)은 옅은 잔상만(옛 어두운 장막 0.86 과 같은 생각). 시안의 0.38 은 빈 무대 기준 — 실제 엔진에서는 차트와 글자가 겹쳐 감독 정정(2c)
+    veil_gamma: 0.4          # 장막 알파 = veil_alpha × 카드알파^gamma — 등장·퇴장 때 장막이 글자보다 먼저 차고 늦게 빠진다(반쯤 빠진 제목이 뒤 차트와 겹쳐 읽히지 않게)
+    kicker: {font: monom, size: 10, track: 0.16, y: 172, ink: secondary}   # 장르 template_label(라틴 대문자) — skin 에서는 부제 앞에 붙이지 않고 머리 줄로
+    title: {y: 232, ink: primary}                                        # 글꼴 disp·크기 = title_fit_size(layout_480p.title_card)
+    rule: {w: 44, h: 3, top: 258}                                        # 강조색(accent.shape) 짧은 선 — 가운데에서 자란다
+    subtitle: {font: serifb, y: 298, ink: secondary}                     # 크기 = layout_480p.title_card.subtitle_size
+    date: {font: mono, size: 11.5, track: 0.06, y: 334, ink: primary}
+    glow: {blur: 12, gain: 2.2, alpha: 0.85}                             # 글자 덩이 뒤 흰 번짐(점 격자 위에서 깨끗하게, 테두리 아님)
+  end_card:
+    veil_alpha: 0.90         # 흰 장막(× 카드 알파) — 공간이 옅게 비치고 점이 계속 흐른다
+    hold_alpha: 0.90         # hold_black_after 의 skin 판 — 카드가 끝난 뒤 영상 끝까지 밝은 판 유지(검은 끝 프레임 없음). 퇴장 때 글자만 빠진다
+    after_min_luma: 0.85     # endcard_black 의 skin 판 — 카드 뒤~끝 프레임 평균 밝기(Rec.709) 하한(검정·지도 재노출 = hard)
+    head_ink: "#B8360B"      # 머리 꼬리표·절 제목·템플릿 줄 — 강조색의 짙은 단(accent.ink #E2440C 는 흰 판 위 8.5px 대비 4.1 < 4.5)
+    heading_ink: primary     # "자료 및 출처"
+    item_ink: primary        # 크레딧 항목
+    meta_ink: tertiary       # 라이선스·날짜·안내·고지·버전 도장(흰 판 위 대비 ≥ 4.5 — tests/test_v740_skin_fullcards.py)
+    rule_alpha: 0.16         # 구분선(hairline.rgb) 알파 — 판 위 가는 선
+    stamp_alpha: 1.0         # 버전 도장 알파(어두운 판의 0.55 는 흰 판 위 대비 미달)
 
 stage_studio:              # v7.4.0 UF-902·UF-903(D910) — 스튜디오 무대(engine/stage_studio.py). 지도가 필요 없는 장면의 밝은 회색 호리존트(바닥 → 둥근 모서리 → 벽) + 점 격자 + 조명
   # 모양은 하나(어두운 판·테마·stage_config 없음, UF-903 "스튜디오 씬은 그거로만"). 조명(벽의 빛 웅덩이·바닥 반사광)은 배경에만 칠한다 — 내용물 위 덮개(비네팅, C0 금지)가 아니다.
@@ -2670,6 +2814,9 @@ qa_checks:                 # 17 §3 — 결정적 사전 검사 임계
   regression_refs:
     hormuz_korea: "v3 골든 회귀 기준(사용자 합격본 2026-09-28, 화소 골든 25컷) — 고치면 골든이 바뀐다"
     fed_timeline_demo: "시간축 엔진 검증용 데모(배포 영상 아님) — 미디어 없는 순수 차트 픽스처"
+  # v7.4.0 UF-903 ③(사용자 "이 테마로 할지 저 테마로 할지 고민 하지 말고") — [map-theme-legacy] hard: 지도 테마는 장르 기본값(porcelain) 하나.
+  # direction stage_config.mercator.theme 이 장르 기본값과 다르면 실패 — 아래 옛 프로젝트(이 결정 전에 테마를 고정해 둔 추적 프로젝트)만 그대로 둔다
+  map_theme_legacy_projects: [china_tech_export_controls_2026, diesel_road_2026, hormuz_korea, iran_ceasefire_2026]
   # v7.4.0 D-0630 §2(UF-261 "지도가 확대될때 해상도가 크게 낮아지네") — [basemap-upscale] hard. 화면 장치 px/도 ÷ 지형 원천 실효 px/도(레벨·타일 줌 256·2^z/360 중 작은 값)가 max_ratio 넘게 max_sec 넘게 이어지면 실패. step_sec 표본
   basemap_upscale: {max_ratio: 1.5, max_sec: 0.75, step_sec: 0.25}
   sea_tile_step: {step_sec: 1.0, band_px: 2, gap_px: 1, min_run_px: 30, max_step: 8.0, sea_blue_minus_red: 25, sea_erode_px: 4, ctrl_px: 6}
