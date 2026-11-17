@@ -1873,6 +1873,11 @@ class ElementHoldRules(_Strict):
     types: list[str]
 
 
+class PanelPartHoldRules(_Strict):
+    """v7.4.0 UF-917·UF-919(D936) — 패널 안에서 따로 나타나는 부분이 완전히 보인 뒤 패널이 사라지기 전까지의 하한(초)."""
+    min_sec: float = Field(gt=0)
+
+
 class MediaSentenceSpanRules(_Strict):
     """v7.4.0 D-0470(UF-173) — 덮는 요소가 날짜가 다른 문장으로 넘어가는 허용 초."""
     types: list[str]
@@ -2072,6 +2077,7 @@ class QAChecks(_Strict):
     battle_geo: "BattleGeoRules"         # v5.22.0 D-0200 UF-08 — 전황 문장에 지명·경로 없음(warning)
     card_full_exposure_min_sec: float = Field(gt=0)   # v5.21.10 D-0191 §1-2 — 기사·인용 카드 완전 불투명 구간 하한(hard card_exposure)
     element_hold: "ElementHoldRules"     # v7.4.0 D-0462(UF-171) — 요소 종류별 완전 노출 하한(hard element_hold)
+    panel_part_hold: "PanelPartHoldRules"   # v7.4.0 UF-917·UF-919(D936) — 패널 안 부분의 노출 하한(hard panel_part_hold)
     media_overlap: "MediaOverlapRules"   # v7.4.0 D-0462(UF-172) — 앞 요소가 하한 전에 덮임(hard media_overlap)
     map_event_covered: "MapEventCoveredRules"   # v7.4.0 D-1000 S3(UF-173) — hard map_event_covered
     media_sentence_span: "MediaSentenceSpanRules"   # v7.4.0 D-0470(UF-173) — 다른 날짜 문장으로 넘어감(hard)

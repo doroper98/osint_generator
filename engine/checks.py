@@ -100,6 +100,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | grid_text_cross | hard | 세로 격자선이 시간축 세계 글자 상자를 지난다 `[grid-text-cross]`(v7.4.0 D-0339, UF-155) |
 | bar_border | hard | 그린 막대 가장자리 안쪽 색 ≠ 가운데 색(테두리) `[bar-border]`(v7.4.0 D-0339, UF-202) |
 | element_hold | hard | rules qa_checks.element_hold.types 요소의 완전 노출(페이드 뺀 구간) < min_full_sec `[element-hold]`(v7.4.0 D-0462, UF-171) |
+| panel_part_hold | hard | 패널·프리미티브 안에서 따로 나타나는 부분(항목·꼬리말·갈래·관계선·핀·연도)이 완전히 보인 뒤 패널이 사라지기 시작할 때까지 < rules qa_checks.panel_part_hold.min_sec `[panel-part-hold]`(v7.4.0 UF-917·UF-919, engine.panel_parts) |
 | media_overlap | hard | 앞 요소(media_overlap.cover_types)가 완전 노출 element_hold.min_full_sec 전에 전면(full_types) 또는 겹치는 상자(box_types)에 덮임 `[media-overlap]`(v7.4.0 D-0462, UF-172) |
 | media_sentence_span | hard | 덮는 요소가 앵커 문장(완전 노출 가운데)과 날짜가 다른 문장과 media_sentence_span.tol_sec 넘게 겹침 `[media-sentence-span]`(v7.4.0 D-0470, UF-173) |
 | map_opening | hard | 지도 주 무대에서 첫 문장 끝(+ after_first_sentence_sec) 전에 덮는 요소 `[map-opening]`(v7.4.0 D-0470, UF-173) |
@@ -159,7 +160,7 @@ HARD = ("basemap_upscale",     # v7.4.0 D-0630 §2(UF-261) — 지도 확대 때
         "map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "element_gap", "label_banned_terms", "badge_hold", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled", "map_event_covered", "spoken_number_visible", "sa_obligation", "structure_text_offscreen", "data_stage_bare_on_backdrop", "island_inner_pad", "lane_empty", "backdrop_subject", "island_text_contrast", "map_theme_legacy", "versus_layout_repeat")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), element_gap·label_banned_terms·badge_hold v7.4.0 UF-160~162, cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "element_gap", "label_banned_terms", "badge_hold", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "panel_part_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled", "map_event_covered", "spoken_number_visible", "sa_obligation", "structure_text_offscreen", "data_stage_bare_on_backdrop", "island_inner_pad", "lane_empty", "backdrop_subject", "island_text_contrast", "map_theme_legacy", "versus_layout_repeat")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), element_gap·label_banned_terms·badge_hold v7.4.0 UF-160~162, cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age", "narration_clarity_note", "sentence_still")   # sentence_still v7.4.0 UF-400   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -2117,6 +2118,23 @@ def check_element_hold(P) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
+def check_panel_part_hold(P) -> list[str]:  # noqa: ANN001, N803
+    """[panel-part-hold] hard(v7.4.0 사용자 의견 UF-917 "글씨가 나오자 마자 다음 씬으로 넘어가 사라짐"·UF-919 "네번째 항목이 나오자 마자 다음 씬으로 넘어가") —
+    패널·프리미티브 안에서 따로 나타나는 부분이 완전히 보인 뒤 패널이 사라지기 시작할 때까지 rules qa_checks.panel_part_hold.min_sec 미만이면 부분마다 한 줄.
+    [element-hold](UF-171)는 요소 전체만 본다 — 이 검사는 그 안에서 늦게 나타나는 부분을 본다. 모든 렌더 경로 같은 키(C12-3)."""
+    from engine.panel_parts import part_holds  # noqa: PLC0415
+
+    lo = QA.panel_part_hold.min_sec
+    out = []
+    for e in sorted(P.events, key=lambda e: e["t0"]):
+        for name, hold in part_holds(e):
+            if hold < lo:
+                what = e.get("title") or e.get("kind") or e.get("id") or e["type"]
+                out.append(f"[panel-part-hold] {e['type']} {what!r} 의 {name} — 완전히 보인 뒤 {max(0.0, hold):.2f}초 만에 사라지기 시작한다(하한 {lo:g}초, "
+                           f"t0 {e['t0']:.2f} ~ t1 {e['t1']:.2f}). 패널 끝을 늦추거나 그 부분을 앞당긴다(UF-917)")
+    return out
+
+
 def _box(e: dict, aspect: float) -> "tuple[float, float, float, float] | None":
     if not all(k in e for k in ("x", "y", "w")):
         return None
@@ -3223,6 +3241,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "grid_text_cross": lambda: check_grid_text_cross(P),   # v7.4.0 D-0339(hard, UF-155)
         "bar_border": lambda: check_bar_border(P),   # v7.4.0 D-0339(hard, UF-202)
         "element_hold": lambda: check_element_hold(P),     # v7.4.0 D-0462(hard, UF-171)
+        "panel_part_hold": lambda: check_panel_part_hold(P),   # v7.4.0 UF-917·UF-919(hard)
         "media_overlap": lambda: check_media_overlap(P),   # v7.4.0 D-0462(hard, UF-172)
         "media_sentence_span": lambda: waive_regression(P, "media_sentence_span", check_media_sentence_span(P)),   # v7.4.0 D-0470(hard, UF-173)
         "map_opening": lambda: waive_regression(P, "map_opening", check_map_opening(P)),                         # v7.4.0 D-0470(hard, UF-173)
