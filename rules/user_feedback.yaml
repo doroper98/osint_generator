@@ -3046,4 +3046,14 @@ entries:
   status: open
   decision: "D928 — 수용. 감독이 시안 여러 안을 직접 그려 보내고(구현 에이전트 없이), 사용자가 고른 안을 엔진에 옮긴다"
   source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17
+- id: UF-913
+  date: '2026-11-17'
+  project: repo
+  at: "'두 입장' 패널 새 시안 세 가지(가운데 축·맞선 두 장·쌓이는 카드)와 감독 추천(가운데 축 하나)을 받은 뒤"
+  quote: "세가지 다 적용해. 뭐 하나만 정할 필요는 없잖아."
+  quote_kind: verbatim
+  category: 화면 — 두 입장 패널(versus)은 시안 세 가지를 모두 쓴다(하나로 고정하지 않는다). 연출이 장면에 맞춰 고른다
+  status: open
+  decision: "D929 — 수용. versus 패널에 layout(axis·sheets·piles) 칸을 두고 세 모양을 모두 구현한다. 기본 = axis, 한 영상에서 연달아 같은 모양을 쓰지 않게 문법에 적는다"
+  source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17
 
