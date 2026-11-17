@@ -2856,8 +2856,17 @@ entries:
   quote: "이 유튜브 채널의 지도 표현과 요소들의 표현 방식, 효과음적인 요소들이 굉장히 마음에 드는데 벤치 마킹 해. 지도 표현 방식은 이 채널 방식으로 뜯어 고치는게 좋을거 같아. 지도 상에 terrain 표현 방식, 구역의 구분, 지도상에 국기 표현 방식등. 그리고 포르도 폭격 장면에서도 실제 비행기 모델링을 띄워서 보여줬다는게 굉장히 좋아보이네. 아주 상세히 분석해서 우리 영상미로 흡수해."
   quote_kind: verbatim
   category: 영상 기준 — 지도 표현(지형·구역 구분·지도 위 국기)·요소 표현·효과음을 레퍼런스 채널 방식으로 개편, 폭격 장면의 실제 기체 3D 모델. 상세 분석 뒤 영상미로 흡수(장치는 흡수 작업과 함께)
-  status: open
-  decision: "D903 — 벤치마크 분석(지도·요소·효과음·3D 기체)부터 하고 흡수 계획을 세운다. 장치는 흡수 작업과 함께(그때까지 open)"
+  guards:
+  - {kind: rule, ref: geo.themes.slate.terrain.land_stops}
+  - {kind: test, ref: tests/test_v740_slate_theme.py::SlateRulesTest::test_flat_sea_no_glow}
+  - {kind: test, ref: tests/test_v740_slate_theme.py::SlateRulesTest::test_static_white_border}
+  - {kind: rule, ref: flag_fill.shade}
+  - {kind: test, ref: tests/test_v740_flag_fill.py::FlagFillRenderTest::test_bands_and_outline}
+  - {kind: rule, ref: flight.model.shadow}
+  - {kind: test, ref: tests/test_v740_flight_formation.py::FlightFormationRenderTest::test_model_gray_body_and_shadow}
+  - {kind: test, ref: tests/test_v740_flight_formation.py::FlightFormationRenderTest::test_count_five_bodies}
+  status: guarded
+  decision: "D903 분석·계획 → D905 지도 테마 slate(R1) · D906 국기 채움(R2) · D907 지도 위 기체 편대(R7a) 구현, 장치 = 그 세 단계의 규칙 키와 시험. 아직 안 한 단계(계획으로 남음, D909): R3 요소 스킨 · R4 헌법·장르 기본값 · R6 효과음 · R7b 3D 모델 무대 · R2b 나라 안 일부 지역 채움"
   source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17
 - id: UF-901
   date: '2026-11-17'
