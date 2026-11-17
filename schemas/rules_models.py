@@ -1434,6 +1434,10 @@ class LabelRules(_Strict):
     # capital_always_max_w = 상시 표기를 이 폭(도) 이하로 제한(None = 폭 무관). 골든이 바뀌면 60 으로 제한(D-0229 §2.1-1)
     capital_always: bool = False
     capital_always_max_w: Optional[float] = None
+    # v7.4.0 UF-918(D936) — 디자인 시스템 지도의 배경 지명: 도시는 수도만, 1급 행정구역 이름 없음(선으로만)
+    capitals_only: bool = False
+    admin_names: bool = True
+    capital_exclude_ko: list[str] = Field(default_factory=list)   # 자료가 수도로 표기했지만 지금 수도가 아닌 곳(한글 이름)
 
 
 class GazetteerRules(_Strict):

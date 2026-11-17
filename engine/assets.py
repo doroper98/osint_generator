@@ -113,6 +113,12 @@ class Assets:
         if plc and "cap0" not in plc[0]:   # v7.4.0 — 나라 수도 구분(labels.capital_always). 옛 geo.pkl 로 조용히 1급 행정 중심까지 상시 표기하지 않는다(P6)
             raise ValueError("geo.pkl places 에 cap0 이 없다 — `python -m geo.prep <프로젝트>` 로 다시 만든다(v7.4.0)")
         self.plc_cap0 = np.array([bool(p.get("cap0")) for p in plc])
+        # v7.4.0 UF-918 — 지금의 수도만(labels.capitals_only). 옛 geo.pkl 에는 없다 → None(쓰는 쪽이 오류를 낸다 — 옛 수도까지 조용히 표기하지 않는다, P6)
+        from rules import load_rules  # noqa: PLC0415
+
+        not_cap = set(load_rules().labels.capital_exclude_ko)   # 자료가 수도로 함께 표기한 옛 수도(양곤)
+        self.plc_cap_main = (np.array([bool(p["cap_main"]) and p["ko"] not in not_cap for p in plc])
+                             if plc and "cap_main" in plc[0] else None)
 
     def _load_registries(self, a: Path) -> None:
         # 권리·미디어 레지스트리: 파일이 없으면 빈 레지스트리 — 그 상태에서 인물·휘장·미디어를 쓰면

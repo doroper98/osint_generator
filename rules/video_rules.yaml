@@ -1225,6 +1225,13 @@ labels:                    # 04 §6·§7
   city_rank_thr: {60: 1, 25: 2, 12: 4, 5: 6, 0: 8}
   capital_always: true        # v7.4.0 D-0229 §2.1(UF-106) — 수도는 폭 LOD 와 무관하게 도시 후보(화면당 상한 city_labels_max 는 그대로)
   capital_always_max_w: null  # 상시 표기 폭 상한(도). null = 폭 무관
+  # v7.4.0 사용자 의견 UF-918(D936 — "확대 되는 과정 혹은 축소 되는 씬에서 자꾸 도시 이름이 스케일에 따라 … 나왔다가 사라져. … 그냥 수도만 나오게 하고,
+  # 행정구역 표기가 필요하면 옅은 얇은 선으로만 보이게 해") — 디자인 시스템 지도(skin 지도 — 새 영상의 지도 테마 porcelain)의 배경 지명.
+  # capitals_only: 배경 도시 이름은 나라 수도만(폭 LOD·도시 등급과 무관 — 확대·축소해도 후보가 바뀌지 않는다). 연출이 찍은 마커(marker)는 배경 지명이 아니다.
+  # admin_names: false = 1급 행정구역 이름을 쓰지 않는다(행정구역은 테마의 옅고 가는 선으로만). 옛 테마(dark·light·slate — 회귀 기준 재현)는 종전 그대로
+  capitals_only: true
+  admin_names: false
+  capital_exclude_ko: [양곤]    # Natural Earth 가 수도로 함께 표기한 옛 수도(미얀마 수도는 2006년부터 네피도) — 수도 표기에서 뺀다
 
 geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계(geo.prep)
   # v7.4.0 D-0634 §2(RENDER-AP-040) — AWS terrarium z9 이상은 해안을 낀 타일의 바다가 0 m(수심 없음)이고 옆 먼바다 타일은 수심이 있어

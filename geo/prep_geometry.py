@@ -153,6 +153,7 @@ def load_places(ne_dir: Path, bb: BaseGeometry) -> list[dict]:
         out.append(dict(ko=ko, lon=x, lat=y, rank=p.get("SCALERANK", p.get("scalerank", 9)),
                         cap=("capital" in (p.get("FEATURECLA") or "").lower()) or p.get("ADM0CAP") == 1,
                         cap0=(p.get("FEATURECLA") or "").lower().startswith("admin-0 capital") or p.get("ADM0CAP") == 1,   # v7.4.0 — 나라 수도만(labels.capital_always)
+                        cap_main=(p.get("FEATURECLA") or "").lower() == "admin-0 capital",   # v7.4.0 UF-918 — 지금의 수도만(옛 수도·제2 수도 'capital alt' 제외 — 양곤·교토·바기오)
                         iso=p.get("ADM0_A3") or p.get("SOV_A3"), pop=p.get("POP_MAX") or 0))
     return out
 

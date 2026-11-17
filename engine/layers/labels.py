@@ -117,8 +117,9 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
         text(ctx, nm, x, y, size, "sansm", th.country_label, 0.55 * la, 2.2, "c", spacing=1.8, halo_rgb=hr, contrast="aux")
         placed.append((x - w / 2, y - 12, x + w / 2, y + 4))
         drawn.append(_lb(placed[-1], nm, "country"))
-    # admin-1 names (close zoom)
-    if view.w < LOD["admin_names_below_w"]:
+    lr = load_rules().labels
+    # admin-1 names (close zoom) — v7.4.0 UF-918: 디자인 시스템 지도는 행정구역 이름을 쓰지 않는다(선으로만, rules labels.admin_names)
+    if view.w < LOD["admin_names_below_w"] and (lr.admin_names or not on):
         for k in lab.province_countries:
             for ad in stage.adm.get(k, []):
                 if ad["xy"] is None:
@@ -140,10 +141,7 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
     xs = (stage.plc_x - view.x0) * view.s
     ys = (view.y1 - stage.plc_y) * view.s
     flags = _flag_paths(ctx, view, stage) if on else []   # v7.4.0 4b-2 — 국기로 채운 나라(알파, 화면 경로)
-    cand = (A.plc_rank <= rk) | (A.plc_cap & (A.plc_rank <= rk + 2))
-    cr = load_rules().labels   # v7.4.0 D-0229 §2.1(UF-106) — 수도 상시 표기(폭 LOD 무관, 화면당 상한은 그대로)
-    if cr.capital_always and (cr.capital_always_max_w is None or view.w <= cr.capital_always_max_w):
-        cand = cand | A.plc_cap0   # 나라 수도만(1급 행정 중심 제외)
+    cand = city_candidates(A, view.w, rk, on)
     m = (xs > 12) & (xs < W_OUT - 12) & (ys > 58) & (ys < H_OUT - 72) & cand
     idx = np.where(m)[0]
     idx = idx[np.lexsort((-A.plc_pop[idx], A.plc_rank[idx]))][:40]
@@ -182,6 +180,21 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
         if n >= LOD["city_labels_max"]:
             break
     return drawn
+
+
+def city_candidates(A, w: float, rk: float, on: bool) -> "np.ndarray":  # noqa: ANN001, N803 — engine.assets.Assets
+    """배경 도시 이름 후보(불리언 배열). 디자인 시스템 지도(on) + rules labels.capitals_only = 지금의 나라 수도만(옛 수도·제2 수도 제외) — 폭 w 와 등급 rk 를 보지 않는다.
+    v7.4.0 사용자 의견 UF-918: 확대·축소 때 폭에 따라 도시 등급 문턱이 바뀌어 도시 이름이 나타났다 사라졌다. 수도만 두면 카메라가 움직여도 후보가 같다.
+    옛 테마(on False)는 종전 그대로: 등급 문턱 + 1급 행정 중심 +2 + 수도 상시(capital_always)."""
+    cr = load_rules().labels
+    if on and cr.capitals_only:
+        if getattr(A, "plc_cap_main", None) is None:
+            raise ValueError("geo.pkl places 에 cap_main 이 없다 — `python -m geo.prep <프로젝트> --theme <테마>` 로 다시 만든다(v7.4.0 UF-918, 수도만 표기)")
+        return A.plc_cap_main.copy()
+    cand = (A.plc_rank <= rk) | (A.plc_cap & (A.plc_rank <= rk + 2))
+    if cr.capital_always and (cr.capital_always_max_w is None or w <= cr.capital_always_max_w):   # v7.4.0 D-0229 §2.1(UF-106)
+        cand = cand | A.plc_cap0   # 나라 수도만(1급 행정 중심 제외)
+    return cand
 
 
 def _flag_anchor(ctx: cairo.Context, view: View, code: str, nm: str) -> tuple[float, float] | None:
