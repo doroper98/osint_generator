@@ -7,7 +7,7 @@ docs/handoff/{03,05,08,09,10,14,17} 이 정본이다.
 
 from __future__ import annotations
 
-from typing import Literal, Optional
+from typing import Annotated, Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -1465,6 +1465,17 @@ class CoastGlow(_Strict):
     blur_px: tuple[float, float]   # [설계 ppd < 64, 그 이상] × k
 
 
+class LandShadow(_Strict):
+    """v7.4.0 UF-903 ③(porcelain) — 육지가 바다 위에 살짝 떠 보이는 굽힌 그림자. 육지 마스크를 (dx, dy) 만큼 옮겨 blur 로 흐리고
+    바다 쪽에만 rgb × alpha 로 깐다(육지 위에는 칠하지 않는다). 길이 = 설계 px(480p), 굽기 때 × k."""
+
+    dx: float
+    dy: float
+    blur: float = Field(gt=0)
+    rgb: str
+    alpha: float = Field(gt=0, le=1)
+
+
 class TerrainTheme(_Strict):
     """geo.prep 가 지형 티어 래스터에 굽는 값(v5.13.0 D-0153 Q0-2)."""
 
@@ -1476,6 +1487,7 @@ class TerrainTheme(_Strict):
     sea_shade: Optional[Shade]
     sea_tint: Optional[tuple[int, int, int]]   # 회색 g → (g+r, g+g', g+b), 0~255
     coast_glow: CoastGlow
+    land_shadow: Optional[LandShadow] = None   # v7.4.0 UF-903 ③ — None = 그림자 없음(dark·light·slate 굽기 바이트 동일)
 
     @model_validator(mode="after")
     def _stops(self) -> "TerrainTheme":
@@ -1592,6 +1604,7 @@ class GeoThemes(_Strict):
     dark: GeoTheme
     light: GeoTheme
     slate: GeoTheme   # v7.4.0 UF-900·D903 — 무채색 슬레이트 양각 + 단색 바다 + 흰 국경 발광(레퍼런스 실측, R1)
+    porcelain: GeoTheme   # v7.4.0 UF-903 ③(D910) — 중립 지도 하나: 흰 양각 육지 + 단색 옅은 회색 바다 + 굽힌 해안 그림자(모든 장르 기본값)
 
     @model_validator(mode="after")
     def _default(self) -> "GeoThemes":
@@ -1601,7 +1614,7 @@ class GeoThemes(_Strict):
 
     @staticmethod
     def names() -> list[str]:
-        return ["dark", "light", "slate"]
+        return ["dark", "light", "slate", "porcelain"]
 
     def get(self, name: str) -> GeoTheme:
         if name not in self.names():
@@ -2070,6 +2083,8 @@ class QAChecks(_Strict):
     restate_particles: list[str] = Field(default_factory=list)   # v7.4.0 D-0316 ② — 어절 끝 조사(떼고 비교)
     # v7.4.0 D-0311 — 회귀 기준 프로젝트 id → 사유, 그리고 hard 만 면제하는 검사 id(검사는 돌고 provenance regression_waived 기록)
     regression_refs: dict[str, str] = Field(default_factory=dict)
+    # v7.4.0 UF-903 ③ — [map-theme-legacy] hard: 지도 테마는 장르 기본값 하나. direction 이 다른 테마를 고정해도 되는 옛 프로젝트 id
+    map_theme_legacy_projects: list[str] = Field(default_factory=list)
     # v7.4.0 D-0312 §1-1 — [scene-visual-void] hard: 요소 없는 구간 상한(초)·표본 간격·요소로 치는 이벤트 종류
     visual_void_max_sec: float = Field(default=5.0, gt=0)
     visual_void_step_sec: float = Field(default=0.1, gt=0)
@@ -2624,6 +2639,93 @@ class StageStructureRules(_Strict):
     abs_digits: int = Field(ge=0, le=3)
 
 
+class StudioCamera(_Strict):
+    height_m: float = Field(gt=0)
+    z_m: float
+    pitch_deg: float = Field(ge=0, lt=90)
+    focal: float = Field(gt=0)
+
+
+class StudioTone(_Strict):
+    floor_near: float = Field(ge=0, le=1)
+    floor_fillet: float = Field(ge=0, le=1)
+    floor_gamma: float = Field(gt=0)
+    fillet_dip: float = Field(ge=0, le=1)
+    wall_top_drop: float = Field(ge=0, le=1)
+    wall_span_m: float = Field(gt=0)
+    blue_gain: float = Field(gt=0, le=1)
+
+
+class StudioLight(_Strict):
+    """면 좌표(x, 호 길이 s) 위 타원 가우시안 — 더하기만(amp ≥ 0: 배경을 어둡게 하지 않는다, C0 비네팅 금지와 구분)."""
+
+    amp: float = Field(ge=0)
+    x_m: float
+    rx_m: float = Field(gt=0)
+    rs_m: float = Field(gt=0)
+    falloff: float = Field(gt=0)
+    height_m: Optional[float] = Field(default=None, ge=0)   # 벽 위 높이(빛 웅덩이)
+    z_m: Optional[float] = None                             # 바닥 위 z(바닥 반사광)
+
+    @model_validator(mode="after")
+    def _one(self) -> "StudioLight":
+        if (self.height_m is None) == (self.z_m is None):
+            raise ValueError("stage_studio 조명 위치는 height_m(벽) 또는 z_m(바닥) 하나")
+        return self
+
+
+class StudioDots(_Strict):
+    step_m: float = Field(gt=0)
+    cols: int = Field(ge=1)
+    rgb: tuple[float, float, float]
+    radius_k: float = Field(gt=0)
+    radius_min: float = Field(gt=0)
+    alpha_k: float = Field(gt=0)
+    alpha_min: float = Field(ge=0, le=1)
+    alpha_max: float = Field(ge=0, le=1)
+    margin_px: float = Field(ge=0)
+
+
+class StudioDrift(_Strict):
+    """v7.4.0 사용자 지시 2026-11-17 — 스튜디오 공간의 느린 연속 흐름(전역 시각 t 의 사인 합, 무작위 없음)."""
+
+    truck_m: float = Field(ge=0)
+    truck_period_sec: float = Field(gt=0)
+    truck_phase_deg: float
+    dolly_m: float = Field(ge=0)
+    dolly_period_sec: float = Field(gt=0)
+    dolly_phase_deg: float
+    rise_m: float = Field(ge=0)
+    rise_period_sec: float = Field(gt=0)
+    rise_phase_deg: float
+
+
+class StageStudioRules(_Strict):
+    """v7.4.0 UF-902·UF-903(D910) — 스튜디오 무대(engine/stage_studio.py). 모양 하나 — 테마·stage_config 없음."""
+
+    camera: StudioCamera
+    fillet_z_m: float = Field(gt=0)
+    fillet_radius_m: float = Field(gt=0)
+    arc_range_m: tuple[float, float]
+    arc_samples: int = Field(ge=2)
+    bg_grid_px: float = Field(gt=0)
+    tone: StudioTone
+    light_pool: StudioLight
+    floor_bounce: StudioLight
+    dots: StudioDots
+    drift: StudioDrift
+
+    @model_validator(mode="after")
+    def _shape(self) -> "StageStudioRules":
+        if self.arc_range_m[0] >= 0 or self.arc_range_m[1] <= self.fillet_z_m:
+            raise ValueError("stage_studio.arc_range_m 은 카메라 뒤 바닥부터 벽까지를 덮는다")
+        if self.dots.alpha_min > self.dots.alpha_max:
+            raise ValueError("stage_studio.dots.alpha_min > alpha_max")
+        if self.light_pool.height_m is None or self.floor_bounce.z_m is None:
+            raise ValueError("stage_studio.light_pool 은 height_m(벽), floor_bounce 는 z_m(바닥)")
+        return self
+
+
 class StageBackdropRules(_Strict):
     """v5.1.0 D-0121 §B·D-0123 §1 — 사진 배경 무대·backdrop 이벤트 토큰(engine/stage_backdrop.py·engine/layers/backdrop.py)."""
 
@@ -3109,11 +3211,19 @@ class DataRules(_Strict):
         return self
 
 
+class StageSwitchRules(_Strict):
+    """v7.4.0 R9(UF-902) — 한 영상 안 렌더 무대 전환(지도 ↔ 스튜디오). stages = 서로 오갈 수 있는 렌더 무대 짝(registries.stages 안).
+    전환 숏은 dip(continuity switch_without_dip), 지도 이벤트는 자기 무대 구간 안에서만(engine.direction.stage_track·stage_event_errors)."""
+
+    stages: list[str] = Field(min_length=2)
+
+
 class StageRules(_Strict):
     """v4.1.0 D-0076 작업 5·D-0077 — 무대 연속성 검사(checks stage_continuity)."""
 
     max_secondary: int = Field(ge=0)
     continuity: StageContinuityRules
+    switch: StageSwitchRules   # v7.4.0 R9(UF-902) — 지도 ↔ 스튜디오 전환
 
 
 class StatementDiffLayout(_Strict):
@@ -4038,6 +4148,1369 @@ class Palette(_Strict):
     map_boundary: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
 
 
+_HEX = r"^#[0-9A-Fa-f]{6}$"
+
+
+class SkinInk(_Strict):
+    primary: str = Field(pattern=_HEX)
+    secondary: str = Field(pattern=_HEX)
+    tertiary: str = Field(pattern=_HEX)
+
+
+class SkinHairline(_Strict):
+    rgb: str = Field(pattern=_HEX)
+    alpha: float = Field(ge=0, le=1)
+    w: float = Field(gt=0)
+
+
+class SkinAccent(_Strict):
+    shape: str = Field(pattern=_HEX)
+    ink: str = Field(pattern=_HEX)
+    soft: str = Field(pattern=_HEX)
+    grad: tuple[Annotated[str, Field(pattern=_HEX)], Annotated[str, Field(pattern=_HEX)]]
+
+
+class SkinSurface(_Strict):
+    fill: str = Field(pattern=_HEX)
+    fill_drop: float = Field(ge=0, le=1)
+    radius: float = Field(ge=0)   # v7.4.0 UF-908(D918) — 0 = 직각 모서리
+    inner_light_alpha: float = Field(ge=0, le=1)
+    well: str = Field(pattern=_HEX)
+    track: str = Field(pattern=_HEX)
+    bar: str = Field(pattern=_HEX)
+    bar_neg: str = Field(pattern=_HEX)
+
+
+ShadowLayer = tuple[float, float, float]   # [아래로 dy, 번짐 blur, 알파]
+
+
+class SkinShadow(_Strict):
+    rgb: RGB
+    sigma_k: float = Field(gt=0)
+    card: list[ShadowLayer] = Field(min_length=1)
+    lifted: list[ShadowLayer] = Field(min_length=1)
+    chip: list[ShadowLayer] = Field(min_length=1)
+    sheet: list[ShadowLayer] = Field(min_length=1)   # v7.4.0 2b — 기사 카드 뒤 종이
+
+    @model_validator(mode="after")
+    def _layers(self) -> "SkinShadow":
+        if not all(0 <= c <= 1 for c in self.rgb):
+            raise ValueError("skin.shadow.rgb 는 0~1")
+        for name in ("card", "lifted", "chip", "sheet"):
+            for dy, blur, al in getattr(self, name):
+                if blur <= 0 or not 0 <= al <= 1:
+                    raise ValueError(f"skin.shadow.{name} 겹 [{dy}, {blur}, {al}] — blur > 0, 알파 0~1")
+        return self
+
+
+class SkinSubtitle(_Strict):
+    emphasis_font: str = Field(min_length=1)
+    glow_blur: float = Field(gt=0)
+    glow_gain: float = Field(gt=0)
+    glow_alpha: float = Field(ge=0, le=1)
+    bridge_gap_sec: float = Field(ge=0)   # v7.4.0 UF-911(D927) — 이 쉼 이하면 자막을 끄지 않고 다음 문장까지 잇는다
+
+
+class SkinDate(_Strict):
+    size: float = Field(gt=0)
+    track: float = Field(ge=0)
+    dot_r: float = Field(gt=0)
+    dot_gap: float = Field(ge=0)
+    dot_dy: float
+
+
+# --- v7.4.0 C0.0 2b(D917·UF-905·UF-907·UF-908) — 인물·발언·기사(engine/skin_people.py). 길이 = 설계 px
+ShadowLevel = Literal["card", "lifted", "chip", "sheet"]   # skin.shadow 겹 이름
+_Font = Annotated[str, Field(min_length=1)]
+
+
+class SkinQuoteMark(_Strict):
+    font: _Font
+    size: float = Field(gt=0)
+    dx: float
+    y: float
+
+
+class SkinQuoteBar(_Strict):
+    w: float = Field(gt=0)
+    h: float = Field(gt=0)
+    dx: float
+    dy: float = Field(gt=0)
+
+
+class SkinQuoteSrc(_Strict):
+    dx: float
+    dy: float = Field(gt=0)
+    size: float = Field(gt=0)
+    font: _Font
+    track: float = Field(ge=0)
+    gap: float = Field(ge=0)
+    date_font: _Font
+    date_track: float = Field(ge=0)
+
+
+class SkinQuotePair(_Strict):
+    upper: tuple[float, float]
+    lower: tuple[float, float]
+    gap: float = Field(ge=0)
+    tiers: list[tuple[float, int]] = Field(min_length=1)
+    line_h: float = Field(gt=0)
+    baseline_k: float = Field(ge=0, le=1)
+    src_size: float = Field(gt=0)
+    src_dy: float = Field(gt=0)
+
+    @model_validator(mode="after")
+    def _tiers(self) -> "SkinQuotePair":
+        if any(s <= 0 or n < 1 for s, n in self.tiers) or [n for _, n in self.tiers] != sorted({n for _, n in self.tiers}):
+            raise ValueError(f"skin.quote.pair.tiers — 크기 > 0, 최대 줄 ≥ 1 이고 줄 수가 늘어나는 차례: {self.tiers}")
+        return self
+
+
+class SkinQuote(_Strict):
+    """발언 = 카드 없는 큰 글씨(UF-907). tiers = [크기, 줄 기준선들] — 줄 수가 1, 2, 3 … 차례."""
+
+    text_x: float
+    text_x_flag: float
+    right_margin: float = Field(ge=0)
+    font: _Font
+    tiers: list[tuple[float, list[float]]] = Field(min_length=1)
+    mark: SkinQuoteMark
+    bar: SkinQuoteBar
+    src: SkinQuoteSrc
+    glow_blur: float = Field(gt=0)
+    glow_alpha: float = Field(ge=0, le=1)
+    pair: SkinQuotePair
+
+    @model_validator(mode="after")
+    def _tiers(self) -> "SkinQuote":
+        for i, (size, bases) in enumerate(self.tiers):
+            if size <= 0 or len(bases) != i + 1 or bases != sorted(bases):
+                raise ValueError(f"skin.quote.tiers[{i}] — 크기 > 0, 기준선 {i + 1}개(위 → 아래): {size}, {bases}")
+        return self
+
+
+class SkinTile(_Strict):
+    inset: float = Field(ge=0)
+    h: float = Field(gt=0)
+    grad: tuple[Annotated[str, Field(pattern=_HEX)], Annotated[str, Field(pattern=_HEX)]]
+    cover: float = Field(ge=1)
+    dy: float
+
+
+class SkinLabel(_Strict):
+    dx: float
+    dy: float
+    size: float = Field(gt=0)
+    font: _Font
+
+
+class SkinCardName(SkinLabel):
+    min_size: float = Field(gt=0)
+    step: float = Field(gt=0)
+    room: float = Field(ge=0)
+    chip_gap: float = Field(ge=0)
+
+
+class SkinChip(_Strict):
+    h: float = Field(gt=0)
+    pad: float = Field(ge=0)
+    size: float = Field(gt=0)
+    font: _Font
+    track: float = Field(ge=0)
+    right: float = Field(ge=0)
+    dy: float
+    baseline_k: float = Field(ge=0, le=1)
+
+
+class SkinPersonCard(_Strict):
+    box: tuple[float, float, float, float]
+    level: ShadowLevel
+    tile: SkinTile
+    name: SkinCardName
+    role: SkinLabel
+    chip: SkinChip
+
+    @model_validator(mode="after")
+    def _fit(self) -> "SkinPersonCard":
+        if self.name.min_size > self.name.size or self.box[2] <= 0 or self.box[3] <= 0:
+            raise ValueError("skin.person_card — name.min_size ≤ name.size, 상자 폭·높이 > 0")
+        if self.tile.inset + self.tile.h >= self.name.dy:
+            raise ValueError("skin.person_card — 초상 타일 아래 끝 < 이름 기준선")
+        return self
+
+
+class SkinPillPortrait(_Strict):
+    inset: float = Field(ge=0)
+    d: float = Field(gt=0)
+    cover: float = Field(ge=1)
+    dy: float
+
+
+class SkinPersonPill(_Strict):
+    w: float = Field(gt=0)
+    h: float = Field(gt=0)
+    level: ShadowLevel
+    portrait: SkinPillPortrait
+    name: SkinLabel
+    role: SkinLabel
+
+    @model_validator(mode="after")
+    def _fit(self) -> "SkinPersonPill":
+        if self.portrait.inset * 2 + self.portrait.d > self.h:
+            raise ValueError("skin.person_pill — 원형 초상(inset × 2 + d)이 알약 높이를 넘는다")
+        return self
+
+
+class SkinArticleBack(_Strict):
+    dx: float
+    dy: float
+    rot_deg: float
+    fill: str = Field(pattern=_HEX)
+    level: ShadowLevel
+
+
+class SkinTextLine(_Strict):
+    dy: float
+    size: float = Field(gt=0)
+    font: _Font
+
+
+class SkinTrackedLine(SkinTextLine):
+    track: float = Field(ge=0)
+
+
+class SkinKicker(SkinTrackedLine):
+    text: str = Field(min_length=1)
+
+
+class SkinArticleRule(_Strict):
+    dy: float
+    h: float = Field(gt=0)
+    thin_dy: float
+    thin_h: float = Field(gt=0)
+    thin_alpha: float = Field(ge=0, le=1)
+
+
+class SkinArticleHeadline(SkinTextLine):
+    line_h: float = Field(gt=0)
+    shrink_over: int = Field(ge=1)
+    small_size: float = Field(gt=0)
+    small_line_h: float = Field(gt=0)
+
+
+class SkinArticleSub(_Strict):
+    gap: float = Field(ge=0)
+    size: float = Field(gt=0)
+    font: _Font
+    line_h: float = Field(gt=0)
+    dx: float = Field(ge=0)
+    text_dy: float
+    bar_w: float = Field(gt=0)
+    bar_h: float = Field(gt=0)
+    bar_dy: float
+
+
+class SkinArticleFooter(_Strict):
+    rule_dy: float = Field(gt=0)
+    rule_alpha: float = Field(ge=0, le=1)
+    rule_w: float = Field(gt=0)
+    chip_dy: float = Field(gt=0)
+    chip_h: float = Field(gt=0)
+    chip_pad: float = Field(ge=0)
+    chip_size: float = Field(gt=0)
+    chip_font: _Font
+    chip_baseline_k: float = Field(ge=0, le=1)
+    host_dy: float = Field(gt=0)
+    host_size: float = Field(gt=0)
+    host_font: _Font
+    host_track: float = Field(ge=0)
+
+
+class SkinArticlePress(_Strict):
+    w: float = Field(gt=0)
+    h: float = Field(gt=0)
+    dx: float
+    dy: float
+    level: ShadowLevel
+    credit_size: float = Field(gt=0)
+    credit_font: _Font
+    credit_dy: float = Field(gt=0)
+
+
+class SkinArticle(_Strict):
+    """기사 종이 카드(UF-905) — 프레스 사진·블러 무대·덮개 없음. 문구 규칙(줄 상한·번역 표기·크레딧)은 layout_480p.article_card 그대로."""
+
+    x: float
+    w: float = Field(gt=0)
+    min_h: float = Field(gt=0)
+    max_h: float = Field(gt=0)
+    footer_gap: float = Field(ge=0)
+    level: ShadowLevel
+    back: SkinArticleBack
+    pad: float = Field(ge=0)
+    rise_px: float = Field(ge=0)
+    masthead: SkinTextLine
+    date: SkinTrackedLine
+    rule: SkinArticleRule
+    kicker: SkinKicker
+    headline: SkinArticleHeadline
+    sub: SkinArticleSub
+    footer: SkinArticleFooter
+    press: SkinArticlePress
+
+    @model_validator(mode="after")
+    def _order(self) -> "SkinArticle":
+        ys = [self.masthead.dy, self.rule.dy, self.kicker.dy, self.headline.dy]
+        if self.min_h > self.max_h:
+            raise ValueError("skin.article — min_h ≤ max_h")
+        if ys != sorted(ys) or self.headline.small_size > self.headline.size or self.footer.chip_dy > self.footer.rule_dy:
+            raise ValueError(f"skin.article — 제호 < 선 < 머리표 < 헤드라인(위 → 아래) {ys}, small_size ≤ size, 꼬리 칩은 꼬리 선 아래")
+        return self
+
+
+InkLevel =Literal["primary", "secondary", "tertiary"]   # skin.ink 단계 이름
+
+
+class SkinCardText(_Strict):
+    """전면 카드 글자 한 줄 — 글꼴·크기·자간(× 크기)·기준선 y·잉크 단계(v7.4.0 2c)."""
+
+    font: str = Field(min_length=1)
+    size: float = Field(gt=0)
+    track: float = Field(ge=0)
+    y: float
+    ink: InkLevel
+
+
+class SkinCardLine(_Strict):
+    """글꼴·크기가 다른 규칙에서 오는 줄(제목·부제) — 기준선·잉크만."""
+
+    font: Optional[str] = None
+    y: float
+    ink: InkLevel
+
+
+class SkinCardRule(_Strict):
+    w: float = Field(gt=0)
+    h: float = Field(gt=0)
+    top: float
+
+
+class SkinGlow(_Strict):
+    blur: float = Field(gt=0)
+    gain: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+
+
+class SkinTitleCard(_Strict):
+    """v7.4.0 C0.0 2c(D917) — skin 무대의 타이틀 카드(engine/fullcards.py). 길이 = 설계 px."""
+
+    veil_alpha: float = Field(ge=0, le=1)
+    veil_gamma: float = Field(gt=0, le=1)   # 장막 = veil_alpha × 카드알파^gamma(글자보다 먼저 차고 늦게 빠진다)
+    kicker: SkinCardText
+    title: SkinCardLine
+    rule: SkinCardRule
+    subtitle: SkinCardLine
+    date: SkinCardText
+    glow: SkinGlow
+
+    @model_validator(mode="after")
+    def _order(self) -> "SkinTitleCard":
+        ys = [self.kicker.y, self.title.y, self.rule.top, self.subtitle.y, self.date.y]
+        if ys != sorted(ys):
+            raise ValueError(f"skin.title_card 기준선은 위 → 아래(kicker < title < rule < subtitle < date): {ys}")
+        if self.subtitle.font is None or self.title.font is not None:
+            raise ValueError("skin.title_card — subtitle.font 필수, title.font 없음(제목 글꼴 = disp, 크기 = title_fit_size)")
+        return self
+
+
+class SkinEndCard(_Strict):
+    """v7.4.0 C0.0 2c(D917) — skin 무대의 엔딩 카드(밝은 크레딧 판). 배치·롤·넘침은 layout_480p.end_card 그대로."""
+
+    veil_alpha: float = Field(ge=0, le=1)
+    hold_alpha: float = Field(ge=0, le=1)
+    after_min_luma: float = Field(gt=0, le=1)
+    head_ink: str = Field(pattern=_HEX)
+    heading_ink: InkLevel
+    item_ink: InkLevel
+    meta_ink: InkLevel
+    rule_alpha: float = Field(ge=0, le=1)
+    stamp_alpha: float = Field(ge=0, le=1)
+
+
+ShadowLevel = Literal["card", "lifted", "chip", "sheet"]   # v7.4.0 3b — skin.shadow 겹 이름
+
+
+class SkinCascade(_Strict):
+    """v7.4.0 C0.0 3b — skin 무대의 겹침 카드(engine/cascade.py). 자리·크기·시각 = rules cascade 그대로."""
+
+    level_front: ShadowLevel
+    level_back: ShadowLevel
+    back_fill: str = Field(pattern=_HEX)
+    accent_h: float = Field(gt=0)
+
+
+class SkinPill(_Strict):
+    """알약 꼬리표 — 높이·좌우 여백·글자(기준선 = 가운데 + 크기 × baseline_k)."""
+
+    h: float = Field(gt=0)
+    pad: float = Field(ge=0)
+    size: float = Field(gt=0)
+    font: str = Field(min_length=1)
+    baseline_k: float = Field(ge=0, le=1)
+
+
+class SkinPost(_Strict):
+    """v7.4.0 C0.0 3b — skin 무대의 게시물 카드(engine/layers/post.py). 상자 = layout_480p.post_card 그대로."""
+
+    level: ShadowLevel
+    icon_ring_w: float = Field(gt=0)
+    chip: SkinPill
+    hl_pad: float = Field(ge=0)
+    rule_gap: float = Field(ge=0)
+
+
+class SkinMediaTag(SkinPill):
+    track: float = Field(ge=0)
+    inset: float = Field(ge=0)
+
+
+class SkinMedia(_Strict):
+    """v7.4.0 C0.0 3b — skin 무대의 사진·영상 액자(engine/layers/media.py). 캡션 칸 높이 = credit_dy + (줄 − 1) × source_line_px + bottom."""
+
+    mat: float = Field(ge=0)
+    level: ShadowLevel
+    caption_dy: float = Field(gt=0)
+    credit_dy: float = Field(gt=0)
+    bottom: float = Field(ge=0)
+    tag: SkinMediaTag
+    band_alpha: float = Field(ge=0, le=1)
+
+    @model_validator(mode="after")
+    def _order(self) -> "SkinMedia":
+        if self.credit_dy <= self.caption_dy:
+            raise ValueError("skin.media.credit_dy 는 caption_dy 아래여야 한다")
+        return self
+
+
+class SkinBadgeRing(_Strict):
+    w: float = Field(gt=0)
+    arc_w: float = Field(gt=0)
+    arc_deg: float = Field(gt=0, le=360)
+    arc_start_deg: float
+
+
+class SkinBadgePlate(_Strict):
+    pad_x: float = Field(ge=0)
+    pad_y: float = Field(ge=0)
+    gap: float = Field(ge=0)
+    line_gap: float = Field(ge=0)
+    level: ShadowLevel
+    cap_k: float = Field(gt=0, le=1)
+    desc_k: float = Field(ge=0, le=1)
+
+
+class SkinBadge(_Strict):
+    """v7.4.0 C0.0 3b — skin 무대의 원형 뱃지·이름표(engine/layers/badges.py badge_at·badge_box)."""
+
+    shadow: ShadowLevel
+    bg: str = Field(pattern=_HEX)
+    ring: SkinBadgeRing
+    plate: SkinBadgePlate
+
+
+class SkinMarker(_Strict):
+    """v7.4.0 C0.0 3b — skin 무대의 아일랜드·스튜디오 마커(engine/layers/markers.py). 지도 마커는 4단계."""
+
+    dot_r: float = Field(gt=0)
+    ring_w: float = Field(gt=0)
+    pulse_alpha: float = Field(ge=0, le=1)
+    glow: SkinGlow
+
+
+class SkinChartLine(_Strict):
+    alpha: float = Field(ge=0, le=1)
+    w: float = Field(gt=0)
+
+
+class SkinChartText(_Strict):
+    size: float = Field(gt=0)
+    font: str = Field(min_length=1)
+
+
+class SkinChartValue(SkinChartText):
+    gap: float = Field(ge=0)   # 막대 끝 → 글자(위 = 기준선까지, 아래 = 글자 머리까지)
+
+
+class SkinChartTitle(SkinChartText):
+    x: float = Field(ge=0)      # 내용 영역 왼쪽 → 제목
+    dy: float = Field(gt=0)     # 레인 위 끝 → 제목 기준선
+    unit_gap: float = Field(ge=0)
+    unit_size: float = Field(gt=0)
+    unit_font: str = Field(min_length=1)
+
+
+class SkinChartAxis(SkinChartText):
+    dy: float                   # 눈금선 → 숫자 기준선(+ = 아래, 선 가운데 맞춤)
+    margin: float = Field(ge=0)  # 숫자 열 오른쪽 여백·선 끝 ↔ 숫자 사이
+
+
+class SkinChartTick(SkinChartText):
+    dy: float = Field(gt=0)     # 마지막 레인 아래 끝 → 날짜 눈금 기준선
+
+
+class SkinChartRule(SkinChartLine):
+    dy: float = Field(gt=0)     # 레인 아래 끝 → 출처 위 가는 선
+
+
+class SkinChartSource(SkinChartText):
+    dy: float = Field(gt=0)     # 레인 아래 끝 → 출처 첫 줄 기준선
+    step: float = Field(gt=0)
+    prefix: str = Field(min_length=1)   # 레인 둘 이상이면 앞 글자 대신 레인 이름(뒤 여백은 같게, 2b)
+
+
+class SkinChartLane(_Strict):
+    """2b — 레인 둘 이상일 때의 세로 리듬(제목 → 플롯 → 틈 → 다음 제목). 레인 하나면 plot_pad_top·plot_pad_bottom 그대로."""
+
+    line_pad_top: float = Field(gt=0)   # 선·계단 레인 위 끝 → 값 범위 위 끝(값 라벨은 끝값 쪽 — 막대처럼 위 자리가 필요 없다)
+    gap: float = Field(ge=0)            # 마지막이 아닌 레인: 값 범위 아래 끝 → 레인 아래 끝(다음 레인 제목 앞 틈)
+
+
+class SkinChartEnd(SkinChartText):
+    """2b — 선·계단 끝값 라벨(잉크 primary, 강조 계열 = 강조 잉크) + 끝점(계열 색 점 + 흰 고리) + 흰 알약 판(가는 선)."""
+
+    dot_r: float = Field(gt=0)
+    ring_w: float = Field(gt=0)
+    pad: float = Field(ge=0)            # 글자 상자 → 알약 판 가장자리
+    hair_alpha: float = Field(ge=0, le=1)
+
+
+class SkinChartEstimate(SkinChartText):
+    """2b — 예상치 표지: 실제가 있는 열 = 예상 값 높이의 가는 가로 획(막대 폭 + 양쪽 overhang, 잉크 secondary),
+    실제가 없는 열 = 가는 점선 윤곽 막대(잉크 tertiary). 라벨 "예상 v" = mono 잉크 secondary."""
+
+    overhang: float = Field(ge=0)
+    tick_w: float = Field(gt=0)
+    future_w: float = Field(gt=0)
+    dash: list[float] = Field(min_length=2)
+    gap: float = Field(ge=0)            # 값 라벨 → 예상 라벨(위로)
+
+
+class SkinChartMissing(SkinChartText):
+    """2b — "자료 없음": 끊긴 구간 위 가는 꺾쇠(잉크 tertiary) + 그 위 라벨. 선 위에 놓이지 않는다."""
+
+    lift: float = Field(gt=0)           # 끊긴 구간 양 끝 값 중 높은 쪽 → 꺾쇠 가로선(위로)
+    tick: float = Field(gt=0)           # 꺾쇠 양 끝 아래로 내린 길이
+    gap: float = Field(ge=0)            # 꺾쇠 → 라벨 기준선
+    w: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+
+
+class SkinChartBand(_Strict):
+    fill_alpha: float = Field(ge=0, le=1)   # 띠 칠 = 잉크 primary × 이 알파(중립 회색 — 강조색은 선 하나)
+    edge_alpha: float = Field(ge=0, le=1)
+    edge_w: float = Field(gt=0)
+    guide_alpha: float = Field(ge=0, le=1)   # 가이던스(range) 아래 끝~위 끝 띠 = 잉크 primary × 이 알파
+
+
+class SkinChartProjection(SkinChartText):
+    """2b — 전망 점: 점·중앙값 = 강조색, 전망 구간 음영 = 잉크 primary × shade_alpha, 태그 두 줄 = mono 잉크 tertiary(제목 줄 아래)."""
+
+    shade_alpha: float = Field(ge=0, le=1)
+    tag_gap: float = Field(ge=0)        # 레인 제목 글자 상자 아래 → 첫 태그 기준선까지 더하는 틈
+
+
+class SkinChartWave(SkinChartText):
+    """2b — 압축 구간: 물결 선(잉크 tertiary) + 라벨(mono 잉크 secondary). 물결은 첫 레인 제목 줄 아래부터 — 라벨이 제목과 겹치지 않는다."""
+
+    line_w: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+    top_gap: float = Field(ge=0)        # 첫 레인 제목 상자 아래 → 물결 위 끝
+
+
+class SkinChartDetail(_Strict):
+    """2b — 열 확대 인셋(island column_detail): 흰 카드(skin.surface lifted) + 잉크 글자 + 중립 회색 표지 + 강조 하나."""
+
+    level: str = Field(min_length=1)    # skin.shadow 단 이름
+    band_alpha: float = Field(ge=0, le=1)   # 가리키는 열 띠 = 잉크 primary × 이 알파
+    head_size: float = Field(gt=0)
+    head_font: str = Field(min_length=1)
+    leader_alpha: float = Field(ge=0, le=1)
+
+
+class SkinChart(_Strict):
+    """v7.4.0 2a — 차트 아일랜드 안(시간축 뷰포트: 레인·격자·막대·값·제목·축·출처). skin 무대에서만 읽는다(engine.layers.series·stage_timeline). 길이 = 설계 px."""
+
+    pad_top: float = Field(ge=0)          # 아일랜드 내용 영역 위 → 첫 레인 위 끝(island.chart.pad_top 대신)
+    pad_bottom: float = Field(ge=0)       # 마지막 레인 아래 끝 → 내용 영역 아래(눈금·가는 선·출처 줄 자리)
+    plot_pad_top: float = Field(ge=0)     # 레인 위 끝 → 값 범위 위 끝(제목 줄 + 값 라벨 자리)
+    plot_pad_bottom: float = Field(ge=0)  # 값 범위 아래 끝 → 레인 아래 끝
+    grid: SkinChartLine
+    zero: SkinChartLine
+    bar_radius: float = Field(ge=0)       # UF-908 — 0 = 직각
+    hollow: SkinChartLine                 # 속빈 막대(예상치·가이던스) 윤곽 — 잉크 primary
+    value: SkinChartValue
+    title: SkinChartTitle
+    axis: SkinChartAxis
+    tick: SkinChartTick
+    rule: SkinChartRule
+    source: SkinChartSource
+    accent_cols: list[str] = Field(min_length=1)   # 이 색 이름의 계열 = 강조 잉크(나머지 = 잉크 primary)
+    lane: SkinChartLane                   # 2b — 레인 둘 이상
+    end: SkinChartEnd
+    estimate: SkinChartEstimate
+    missing: SkinChartMissing
+    band: SkinChartBand
+    projection: SkinChartProjection
+    wave: SkinChartWave
+    detail: SkinChartDetail
+    mark: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")   # 강조 아닌 표지(점·선·막대) 중립 회색
+    stack_greys: list[str] = Field(min_length=1)       # 쌓임 부문 칠(부문 순서) — 중립 회색 단계
+
+    @model_validator(mode="after")
+    def _layout(self) -> "SkinChart":
+        if self.lane.line_pad_top <= self.title.dy:
+            raise ValueError("skin.chart.lane.line_pad_top 은 제목 기준선(title.dy) 아래")
+        if not self.tick.dy < self.rule.dy < self.source.dy <= self.pad_bottom:
+            raise ValueError("skin.chart — 눈금 dy < 가는 선 dy < 출처 dy ≤ pad_bottom(아래로 차례)")
+        if self.title.dy >= self.plot_pad_top:
+            raise ValueError("skin.chart — 제목 기준선(title.dy)은 값 범위 위(plot_pad_top) 안쪽")
+        return self
+
+
+SkinInkName = Literal["primary", "secondary", "tertiary"]
+
+
+class SkinMapText(_Strict):
+    """v7.4.0 4b — 지도 지명 한 종류(engine/layers/labels). 크기·자간·halo = 설계 px, halo 색 = 테마 map.halo."""
+
+    font: str
+    size: float = Field(gt=0)
+    size_near: Optional[float] = Field(default=None, gt=0)   # 가까운 줌(view.w ≤ 30) 크기 — 없으면 size
+    track: float = Field(default=0.0, ge=0)
+    alpha: float = Field(gt=0, le=1)
+    ink: Optional[SkinInkName] = None   # 없으면 테마 색(sea_label)
+    halo: float = Field(default=0.0, ge=0)
+    halo_a: float = Field(default=0.0, ge=0, le=1)
+
+
+class SkinMapCity(_Strict):
+    font: str
+    size: float = Field(gt=0)
+    size_cap: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+    ink: SkinInkName
+    halo: float = Field(gt=0)
+    halo_a: float = Field(gt=0, le=1)
+    dx: float
+    dy: float
+
+
+class SkinMapCityDot(_Strict):
+    r: float = Field(gt=0)
+    r_cap: float = Field(gt=0)
+    ring_w: float = Field(gt=0)
+    ring_alpha: float = Field(gt=0, le=1)
+
+
+class SkinMapFlagLabel(_Strict):
+    """국기로 채운 나라 이름 = 흰 알약(skin.pill, 그림자 = skin.shadow.<shadow>)."""
+
+    font: str
+    size: float = Field(gt=0)
+    track: float = Field(ge=0)
+    pad_x: float = Field(gt=0)
+    h: float = Field(gt=0)
+    dy: float
+    text_dy: float
+    ink: SkinInkName
+    shadow: Literal["card", "lifted", "chip", "sheet"]
+
+
+class SkinMapFlagShadow(_Strict):
+    """나라 마스크 가우시안 두 겹 [dx, dy, 시그마, 알파](설계 px)."""
+
+    rgb: tuple[float, float, float]
+    wide: tuple[float, float, float, float]
+    tight: tuple[float, float, float, float]
+
+    @model_validator(mode="after")
+    def _pos(self) -> "SkinMapFlagShadow":
+        for nm in ("wide", "tight"):
+            dx, dy, sg, al = getattr(self, nm)
+            if sg <= 0 or not 0 < al <= 1:
+                raise ValueError(f"skin.map.flag_shadow.{nm} — 시그마 > 0, 0 < 알파 ≤ 1: {getattr(self, nm)}")
+        return self
+
+
+class SkinMapFlagRim(_Strict):
+    width: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+
+
+class SkinMapColorFill(_Strict):
+    alpha_max: float = Field(gt=0, le=1)
+    outline_w: float = Field(gt=0)
+    outline_a: float = Field(gt=0, le=1)
+
+
+class SkinMapSeaDots(_Strict):
+    spacing: tuple[float, float]   # 화면 간격 범위(설계 px) — 위 = 아래 × 2(2의 거듭제곱 단 전환)
+    r: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+    ink: SkinInkName
+
+    @model_validator(mode="after")
+    def _oct(self) -> "SkinMapSeaDots":
+        lo, hi = self.spacing
+        if not (lo > 0 and abs(hi - 2 * lo) < 1e-9):
+            raise ValueError(f"skin.map.sea_dots.spacing — [lo, 2·lo] 한 옥타브(2의 거듭제곱 단): {self.spacing}")
+        return self
+
+
+class SkinMap(_Strict):
+    """v7.4.0 4b — skin 이 켜진 지도(skin.map_themes) 위 지명·국기 채움·단색 채움·바다 점."""
+
+    country_label: SkinMapText
+    flag_label: SkinMapFlagLabel
+    admin_label: SkinMapText
+    city_label: SkinMapCity
+    city_dot: SkinMapCityDot
+    sea_label: SkinMapText
+    flag_shade: FlagFillShade
+    flag_shadow: SkinMapFlagShadow
+    flag_rim: SkinMapFlagRim
+    color_fill: SkinMapColorFill
+    sea_dots: SkinMapSeaDots
+
+
+PrimInk = Literal["primary", "secondary", "tertiary", "accent"]   # v7.4.0 3c — skin.ink 단계 + accent(= skin.primitives.accent_text)
+
+
+class SkinPrimText(_Strict):
+    """v7.4.0 3c — 프리미티브 글자 한 줄(크기·글꼴·자간 × 크기·잉크 단계)."""
+
+    size: float = Field(gt=0)
+    font: _Font
+    track: float = Field(ge=0)
+    ink: PrimInk
+
+
+class SkinPrimLine(_Strict):
+    w: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+
+
+class SkinPrimRule(SkinPrimLine):
+    dy: float
+
+
+class SkinPrimBand(_Strict):
+    """옅은 강조 띠(accent.soft) — 기준선 − size × top_k ~ 기준선 + size × bottom_k, 좌우 pad_x."""
+
+    pad_x: float = Field(ge=0)
+    top_k: float = Field(gt=0)
+    bottom_k: float = Field(ge=0)
+
+
+class SkinPrimStatementDiff(_Strict):
+    layout: dict[str, float] = Field(default_factory=dict)
+    tag: SkinPrimText
+    label: SkinPrimText
+    same_ink: PrimInk
+    removed_ink: PrimInk
+    added_ink: PrimInk
+    strike: SkinPrimLine
+    band: SkinPrimBand
+    rule: SkinPrimRule
+    foot_rule: SkinPrimRule
+    src: SkinPrimText
+
+
+class SkinPrimDotPlot(_Strict):
+    layout: dict[str, float] = Field(default_factory=dict)
+    tag: SkinPrimText
+    note: SkinPrimText
+    tick: SkinPrimText
+    col: SkinPrimText
+    median_label: SkinPrimText
+    src: SkinPrimText
+    grid: SkinPrimLine
+    dot_ink: PrimInk
+    dot_alpha: float = Field(ge=0, le=1)
+    median_w: float = Field(gt=0)
+    foot_rule: SkinPrimRule
+
+
+class SkinPrimSiteDiagram(_Strict):
+    mdl: SkinPrimLine
+    limit: SkinPrimLine
+    limit_label: SkinPrimText
+    mdl_label: SkinPrimText
+    width_note: SkinPrimText
+    header: SkinPrimText
+    side: SkinPrimText
+    dist: SkinPrimText
+    dist_src: SkinPrimText
+    mark_label: SkinPrimText
+    foot: SkinPrimText
+    foot_rule: SkinPrimRule
+    site_ring_alpha: float = Field(ge=0, le=1)
+    burst_rim_w: float = Field(gt=0)
+    flash_alpha: float = Field(ge=0, le=1)
+    mine_w: float = Field(gt=0)
+    leader: SkinPrimLine
+
+
+class SkinPrimDash(SkinPrimLine):
+    dash: tuple[float, float]
+
+
+class SkinPrimNum(_Strict):
+    r: float = Field(gt=0)
+    size: float = Field(gt=0)
+    font: _Font
+    dx: float
+    ghost_ink: PrimInk
+
+
+class SkinPrimProcessLane(_Strict):
+    layout: dict[str, float] = Field(default_factory=dict)
+    title: SkinPrimText
+    row_label: SkinPrimText
+    hidden_label: SkinPrimText
+    gate_label: SkinPrimText
+    step: SkinPrimText
+    step_ghost_ink: PrimInk
+    token_label: SkinPrimText
+    span_label: SkinPrimText
+    src: SkinPrimText
+    hidden: SkinPrimDash
+    gate: SkinPrimLine
+    axis: SkinPrimLine
+    arrow_alpha: float = Field(ge=0, le=1)
+    pill_line: SkinPrimLine
+    pill_ghost_line: SkinPrimLine
+    pill_level: ShadowLevel
+    num: SkinPrimNum
+    token_ring_w: float = Field(gt=0)
+    token_level: ShadowLevel
+    span: SkinPrimLine
+    foot_rule: SkinPrimRule
+
+
+class SkinPrimDocExcerpt(_Strict):
+    layout: dict[str, float] = Field(default_factory=dict)
+    back: SkinArticleBack
+    level: ShadowLevel
+    masthead: SkinPrimText
+    date: SkinPrimText
+    rule: SkinArticleRule
+    ghost_alpha: float = Field(ge=0, le=1)
+    orig_ink: PrimInk
+    band: SkinPrimBand
+    trans: SkinPrimText
+    trans_bar_w: float = Field(gt=0)
+    foot_rule: SkinPrimRule
+    src: SkinPrimText
+
+
+class SkinPrimCaption(SkinPrimText):
+    text: str = Field(min_length=1)
+    dy: float
+
+
+class SkinPrimEraRule(_Strict):
+    w: float = Field(gt=0)
+    h: float = Field(gt=0)
+    dy: float
+
+
+class SkinPrimEraNumeral(_Strict):
+    ink: PrimInk
+    alpha: float = Field(ge=0, le=1)
+    glow: SkinGlow
+    caption: SkinPrimCaption
+    rule: SkinPrimEraRule
+
+
+class SkinPrimitives(_Strict):
+    """v7.4.0 C0.0 3c(UF-906) — 프리미티브 6종 skin 판(engine/primitives/*). layout = rules primitives.<id> 기하 키 덮어쓰기
+    (없는 키는 engine.primitives 가 시작 오류로 막는다). 데이터·문구·타이밍 규칙은 rules primitives 그대로."""
+
+    level: ShadowLevel
+    accent_text: str = Field(pattern=_HEX)
+    statement_diff: SkinPrimStatementDiff
+    dot_plot: SkinPrimDotPlot
+    site_diagram: SkinPrimSiteDiagram
+    process_lane: SkinPrimProcessLane
+    doc_excerpt: SkinPrimDocExcerpt
+    era_numeral: SkinPrimEraNumeral
+
+
+class SkinMapMarkerPill(_Strict):
+    h: float = Field(gt=0)
+    pad_x: float = Field(ge=0)
+    level: ShadowLevel
+    baseline_k: float = Field(ge=0, le=1)
+
+
+class SkinMapMarkerText(_Strict):
+    size: float = Field(gt=0)
+    font: str = Field(min_length=1)
+
+
+class SkinMapMarkerSub(SkinMapMarkerText):
+    gap: float = Field(ge=0)
+
+
+class SkinMapMarkerNum(_Strict):
+    r: float = Field(gt=0)
+    ring_w: float = Field(ge=0)
+    size: float = Field(gt=0)
+    font: str = Field(min_length=1)
+    baseline_k: float = Field(ge=0, le=1)
+
+
+class SkinMapMarker(_Strict):
+    dot_r: float = Field(gt=0)
+    ring_w: float = Field(gt=0)
+    shadow: ShadowLevel
+    pulse_alpha: float = Field(ge=0, le=1)
+    pulse_span: float = Field(gt=0)
+    gap: float = Field(ge=0)
+    pill: SkinMapMarkerPill
+    name: SkinMapMarkerText
+    sub: SkinMapMarkerSub
+    num: SkinMapMarkerNum
+
+
+class SkinMapRouteLabel(_Strict):
+    pad_x: float = Field(ge=0)
+    pad_y: float = Field(ge=0)
+    level: ShadowLevel
+
+
+class SkinMapFlagLabelBelow(_Strict):
+    gap: float = Field(ge=0)
+    margin_x: float = Field(ge=0)
+    top: float = Field(ge=0)
+    bottom: float = Field(ge=0)
+
+
+class SkinMapOverlays(_Strict):
+    """v7.4.0 C0.0 4b-2 — skin 지도(skin.map_themes) 위 요소: 지도 마커·경로 이름·국기 나라 이름 자리·패널/인용 장막·자막/날짜 번짐."""
+
+    marker: SkinMapMarker
+    route_label: SkinMapRouteLabel
+    flag_label_below: SkinMapFlagLabelBelow
+    panel_veil_alpha: float = Field(ge=0, le=1)
+    quote_veil_alpha: float = Field(ge=0, le=1)
+    subtitle_glow: SkinGlow
+    date_glow: SkinGlow
+
+
+class SkinRules(_Strict):
+    """v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 바탕 코어(engine/skin.py). 길이 = 설계 px."""
+
+    stages: list[str] = Field(min_length=1)
+    map_themes: list[str] = Field(default_factory=list)   # v7.4.0 4b — mercator 주 무대 + 이 지도 테마 = skin 켬
+    palette: str = Field(min_length=1)
+    map: SkinMap                    # v7.4.0 4b — 지도 위 요소(engine/layers/labels·flag_fill·areas, engine/stage)
+    fade_rgb: tuple[float, float, float]   # v7.4.0 D919 — 영상 시작·끝 전체 페이드 색(engine/render.py)
+    ink: SkinInk
+    hairline: SkinHairline
+    accent: SkinAccent
+    surface: SkinSurface
+    shadow: SkinShadow
+    subtitle: SkinSubtitle
+    date: SkinDate
+    quote: SkinQuote                # v7.4.0 2b — 발언·인물·기사(engine/skin_people.py)
+    person_card: SkinPersonCard
+    person_pill: SkinPersonPill
+    article: SkinArticle
+    chart: SkinChart           # v7.4.0 2a — 차트 아일랜드 안(engine/layers/series.py·stage_timeline.py)
+    title_card: SkinTitleCard   # v7.4.0 2c — 전면 카드(engine/fullcards.py)
+    end_card: SkinEndCard
+    cascade: SkinCascade        # v7.4.0 3b — 겹침 카드·게시물·사진/영상 액자·뱃지·아일랜드 마커
+    post: SkinPost
+    media: SkinMedia
+    badge: SkinBadge
+    marker: SkinMarker
+    map_overlays: SkinMapOverlays   # v7.4.0 4b-2 — skin 지도 위 요소(engine/layers/markers·routes·labels, panels/base, island, skin_people, hud, subtitles)
+    panel: "SkinPanel"          # v7.4.0 3a — 패널 11종 안쪽(engine/panels/*)
+    primitives: SkinPrimitives    # v7.4.0 3c — 프리미티브 6종(engine/primitives/*)
+    dip: "SkinDip"                 # v7.4.0 R9 — 밝은 암전(무대 전환 dip, engine/layers/dip.py)
+
+
+class SkinDip(_Strict):
+    """v7.4.0 R9(UF-902) — skin 영상의 dip = 검정이 아니라 fade_rgb 밝은 판으로 갔다 돌아온다. peak_alpha = 한가운데(무대 cut 시각) 덮개 알파.
+    길이는 rules shot_grammar 의 dip 그대로(engine.direction.DIP_HALF_SEC)."""
+
+    peak_alpha: float = Field(gt=0, le=1)
+
+
+class SkinPanelTag(SkinChartText):
+    h: float = Field(gt=0)
+    pad: float = Field(ge=0)
+    baseline_k: float = Field(ge=0, le=1)
+
+
+class SkinPanelRule(SkinChartLine):
+    dy: float = Field(gt=0)     # 제목 덩어리 마지막 기준선 → 가는 선
+
+
+class SkinPanelMeta(SkinChartText):
+    track: float = Field(ge=0)
+
+
+class SkinPanelQuote(_Strict):
+    font: str = Field(min_length=1)
+    glow_blur: float = Field(gt=0)
+    glow_alpha: float = Field(ge=0, le=1)
+
+
+class SkinPanelBar(_Strict):
+    w: float = Field(gt=0)
+    h: float = Field(gt=0)
+
+
+VersusLayout = Literal["axis", "sheets", "piles"]   # v7.4.0 UF-912·UF-913 — engine.events.PanelVersus.layout 과 같은 값
+InkName = Literal["primary", "secondary", "tertiary"]
+
+
+class VsText(_Strict):
+    """글자 한 줄 — 크기·글꼴(설계 px)."""
+
+    size: float = Field(gt=0)
+    font: str = Field(min_length=1)
+
+
+class VsTitle(VsText):
+    y: float = Field(gt=0)
+
+
+class VsAxisTitle(VsTitle):
+    ink: InkName
+
+
+class VsTracked(VsText):
+    track: float = Field(ge=0)
+
+
+class VsGlow(_Strict):
+    blur: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+
+
+class VsAxisLine(_Strict):
+    top: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+    w: float = Field(gt=0)
+    tail: float = Field(ge=0)
+
+
+class VsAxisHead(VsText):
+    gap: float = Field(gt=0)
+    min_size: float = Field(gt=0)
+    y: float = Field(gt=0)
+    x_margin: float = Field(ge=0)
+
+    @model_validator(mode="after")
+    def _sizes(self) -> "VsAxisHead":
+        if self.min_size > self.size:
+            raise ValueError("skin.panel.versus.axis.head — min_size ≤ size")
+        return self
+
+
+class VsAxisSrc(VsTracked):
+    dy: float = Field(gt=0)
+
+
+class VsAxisRow(_Strict):
+    y0: float = Field(gt=0)
+    pitch: float = Field(gt=0)
+    min_pitch: float = Field(gt=0)
+    max_y: float = Field(gt=0)
+
+    @model_validator(mode="after")
+    def _order(self) -> "VsAxisRow":
+        if not (self.min_pitch <= self.pitch and self.y0 < self.max_y):
+            raise ValueError("skin.panel.versus.axis.row — min_pitch ≤ pitch, y0 < max_y")
+        return self
+
+
+class VsAxisDot(_Strict):
+    r: float = Field(gt=0)
+    r_hot: float = Field(gt=0)
+    dy: float
+
+
+class VsAxisTick(_Strict):
+    len: float = Field(gt=0)
+    gap: float = Field(ge=0)
+    w: float = Field(gt=0)
+    w_hot: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+
+
+class VsAxisItem(VsText):
+    gap: float = Field(gt=0)
+    line_gap: float = Field(gt=0)
+    max_lines: int = Field(ge=1)
+
+
+class SkinVersusAxis(_Strict):
+    """axis — 가운데 세로 축 + 거울 배치 옆 제목 + t 순서 항목 줄(바탕 없는 글씨, UF-907)."""
+
+    title: VsAxisTitle
+    line: VsAxisLine
+    head: VsAxisHead
+    src: VsAxisSrc
+    row: VsAxisRow
+    dot: VsAxisDot
+    tick: VsAxisTick
+    item: VsAxisItem
+    glow: VsGlow
+    rise: float = Field(ge=0)
+    map_veil: float = Field(ge=0, le=1)
+
+    @model_validator(mode="after")
+    def _order(self) -> "SkinVersusAxis":
+        if not (self.title.y < self.line.top < self.head.y < self.row.y0):
+            raise ValueError("skin.panel.versus.axis — title.y < line.top < head.y < row.y0")
+        return self
+
+
+class VsSheet(_Strict):
+    w: float = Field(gt=0)
+    h: float = Field(gt=0)
+    pad: float = Field(ge=0)
+
+
+class VsPlace(_Strict):
+    x: float
+    y: float
+    rot: float = Field(ge=-15, le=15)
+
+
+class VsSheetHead(VsText):
+    dy: float = Field(gt=0)
+    rule_dy: float = Field(gt=0)
+    rule_w: float = Field(gt=0)
+
+
+class VsSheetItem(VsText):
+    dx: float = Field(ge=0)
+    y0: float = Field(gt=0)
+    line_gap: float = Field(gt=0)
+    max_lines: int = Field(ge=1)
+    rule_dy: float = Field(gt=0)
+    next_dy: float = Field(gt=0)
+    min_scale: float = Field(gt=0, le=1)
+    max: int = Field(ge=1)
+
+
+class VsRule(_Strict):
+    alpha: float = Field(gt=0, le=1)
+    w: float = Field(gt=0)
+
+
+class VsSheetSrc(VsTracked):
+    dy: float = Field(gt=0)
+    clear: float = Field(ge=0)
+
+
+class VsBadge(VsTracked):
+    x: float
+    y: float
+    d: float = Field(gt=0)
+    text: str = Field(min_length=1)
+    baseline_k: float = Field(ge=0, le=1)
+    level: str = Field(min_length=1)
+
+
+class SkinVersusSheets(_Strict):
+    """sheets — 맞선 직각 흰 종이 두 장 + 가운데 VS 원."""
+
+    title: VsTitle
+    glow: VsGlow
+    sheet: VsSheet
+    left: VsPlace
+    right: VsPlace
+    head: VsSheetHead
+    index: VsTracked
+    item: VsSheetItem
+    rule: VsRule
+    src: VsSheetSrc
+    vs: VsBadge
+    rise: float = Field(ge=0)
+    map_veil: float = Field(ge=0, le=1)
+
+    @model_validator(mode="after")
+    def _order(self) -> "SkinVersusSheets":
+        if not (self.head.dy < self.head.rule_dy < self.item.y0 < self.sheet.h - self.src.dy):
+            raise ValueError("skin.panel.versus.sheets — head.dy < head.rule_dy < item.y0 < sheet.h − src.dy")
+        return self
+
+
+class VsPileHead(VsText):
+    y: float = Field(gt=0)
+    x_left: float
+    x_right: float
+    count_size: float = Field(gt=0)
+    count_font: str = Field(min_length=1)
+    count_gap: float = Field(ge=0)
+
+    @model_validator(mode="after")
+    def _order(self) -> "VsPileHead":
+        if self.x_left >= self.x_right:
+            raise ValueError("skin.panel.versus.piles.head — x_left < x_right")
+        return self
+
+
+class VsPileRule(_Strict):
+    y: float = Field(gt=0)
+    w: float = Field(gt=0)
+    h: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+
+
+class VsPileCard(_Strict):
+    w: float = Field(gt=0)
+    h: float = Field(gt=0)
+    y0: float = Field(gt=0)
+    pitch: float = Field(gt=0)
+    min_pitch: float = Field(gt=0)
+    shift: float = Field(ge=0)
+    rot0: float = Field(ge=-15, le=15)
+    rot_step: float = Field(ge=-15, le=15)
+    max: int = Field(ge=1)
+
+    @model_validator(mode="after")
+    def _order(self) -> "VsPileCard":
+        if self.min_pitch > self.pitch:
+            raise ValueError("skin.panel.versus.piles.card — min_pitch ≤ pitch")
+        return self
+
+
+class VsPileIndex(VsTracked):
+    dx: float = Field(ge=0)
+    dy: float = Field(gt=0)
+
+
+class VsPileItem(VsText):
+    dx: float = Field(ge=0)
+    pad_r: float = Field(ge=0)
+    dy1: float = Field(gt=0)
+    dy2: float = Field(gt=0)
+    line_gap: float = Field(gt=0)
+
+
+class VsPileSrc(VsTracked):
+    y: float = Field(gt=0)
+    gap: float = Field(ge=0)
+
+
+class SkinVersusPiles(_Strict):
+    """piles — 논거 하나 = 직각 카드 한 장, 그쪽 더미에 쌓인다."""
+
+    title: VsTitle
+    glow: VsGlow
+    head: VsPileHead
+    rule: VsPileRule
+    card: VsPileCard
+    index: VsPileIndex
+    item: VsPileItem
+    bar_w: float = Field(gt=0)
+    src: VsPileSrc
+    drop: float = Field(ge=0)
+    rise: float = Field(ge=0)
+    map_veil: float = Field(ge=0, le=1)
+
+    @model_validator(mode="after")
+    def _order(self) -> "SkinVersusPiles":
+        if not (self.title.y < self.head.y < self.rule.y < self.card.y0 < self.src.y):
+            raise ValueError("skin.panel.versus.piles — title.y < head.y < rule.y < card.y0 < src.y")
+        return self
+
+
+class SkinPanelVersus(_Strict):
+    """v7.4.0 UF-912·UF-913 — 두 입장 패널 배치 셋(이벤트 layout, 없으면 default). 판 흰 카드 없음."""
+
+    default: VersusLayout
+    tail_min: float = Field(gt=0, le=1)
+    axis: SkinVersusAxis
+    sheets: SkinVersusSheets
+    piles: SkinVersusPiles
+
+
+class SkinPanelPrecedent(_Strict):
+    top: float
+    rise: float = Field(ge=0)
+    year_dy: float = Field(gt=0)
+    title_dy: float = Field(gt=0)
+    line_dy: float = Field(gt=0)
+    line_step: float = Field(gt=0)
+    caption_dy: float = Field(gt=0)
+    badge_dx: float = Field(ge=0)
+    badge_dy: float = Field(gt=0)
+    bottom: float
+    caption_delay: float = Field(ge=0)
+    badge_delay: float = Field(ge=0)
+
+    @model_validator(mode="after")
+    def _order(self) -> "SkinPanelPrecedent":
+        if not self.year_dy < self.title_dy < self.line_dy < self.caption_dy and self.top < self.bottom:
+            raise ValueError("skin.panel.precedent — 연도 < 제목 < 줄 < 캡션(아래로 차례), top < bottom")
+        return self
+
+
+class SkinPanelCheck(_Strict):
+    w: float = Field(gt=0)
+    box_alpha: float = Field(ge=0, le=1)
+
+
+class SkinPanelDual(_Strict):
+    line_w: float = Field(gt=0)
+    ring: float = Field(ge=0)
+    x_label_dy: float = Field(gt=0)
+
+
+class SkinPanel(_Strict):
+    """v7.4.0 C0.0 3a(UF-906·UF-908) — 패널 11종 안쪽(engine/panels/*). skin 무대에서만 읽는다. 길이 = 설계 px."""
+
+    x0: float = Field(ge=0)
+    x1: float = Field(gt=0)
+    title: SkinChartText
+    sub: SkinChartText
+    rule: SkinPanelRule
+    tag: SkinPanelTag
+    hair: SkinChartLine
+    line: SkinChartLine
+    axis: SkinChartLine
+    dot_r: float = Field(gt=0)
+    meta: SkinPanelMeta
+    label: SkinChartText
+    quote: SkinPanelQuote
+    accent_bar: SkinPanelBar
+    versus: SkinPanelVersus
+    precedent: SkinPanelPrecedent
+    check: SkinPanelCheck
+    gantt_bar_h: float = Field(gt=0)
+    gantt_year_dy: float
+    dual: SkinPanelDual
+    band_h: float = Field(gt=0)
+
+    @model_validator(mode="after")
+    def _span(self) -> "SkinPanel":
+        if self.x0 >= self.x1:
+            raise ValueError("skin.panel — x0 < x1")
+        return self
+
+
+SkinRules.model_rebuild()
+
+
 class VideoRules(_Strict):
     """`rules/video_rules.yaml` 최상위 모델."""
 
@@ -4086,6 +5559,8 @@ class VideoRules(_Strict):
     primitives: PrimitivesRules = Field(default_factory=PrimitivesRules)   # v4.2.0 D-0081
     stage_timeline: StageTimelineRules   # v4.3.0 — D-0084 작업 3·D-0085
     stage_backdrop: StageBackdropRules   # v5.1.0 — D-0121 §B·D-0123
+    stage_studio: StageStudioRules       # v7.4.0 — UF-902·UF-903(D910) 스튜디오 무대
+    skin: SkinRules                      # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 바탕 코어
     stage_structure: StageStructureRules   # v7.4.0 — D-1003 §3 구성 무대
     chart_world: ChartWorldRules   # v7.4.0 — D-0251 §6.2-4
     reference_clip: ReferenceClipRules   # v7.4.0 — D-0274 §2⑤
@@ -4123,6 +5598,11 @@ class VideoRules(_Strict):
         bad = sorted(f"{n}→{st}" for n, sl in self.placement.slots.items() for st in (sl.stages or []) if st not in self.registries.stages)
         if bad:
             raise ValueError(f"placement.slots 의 stages 가 registries.stages 에 없다: {bad}")   # v5.2.0 D-0132
+        bad = sorted(set(self.skin.stages) - set(self.registries.stages))
+        if bad:
+            raise ValueError(f"skin.stages 가 registries.stages 에 없다: {bad}")   # v7.4.0 D917
+        if self.skin.palette not in self.palettes:
+            raise ValueError(f"skin.palette {self.skin.palette!r} 가 palettes 에 없다: {sorted(self.palettes)}")
         a, b = set(self.camera.framing.context_w_min), set(self.shot_grammar.w_guide)
         if a != b:
             raise ValueError(f"camera.framing.context_w_min 키가 shot_grammar.w_guide 와 다르다 — 누락 {sorted(b - a)} · 초과 {sorted(a - b)}")

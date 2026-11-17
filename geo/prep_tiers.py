@@ -259,6 +259,11 @@ def build_tier(T: TierSpec, G: dict, tiles_dir: Path, out_dir: Path, k: float = 
     cg = th.coast_glow
     glow = np.asarray(mimg.filter(ImageFilter.GaussianBlur(cg.blur_px[near] * k)), np.float32)[..., None] / 255
     sc = sc + np.array(hexc(cg.rgb), np.float32) * glow * cg.strength
+    if th.land_shadow is not None:   # v7.4.0 UF-903 ③ — 굽힌 해안 그림자: 옮긴 육지 마스크를 흐려 바다 색에만(아래 합성이 육지를 덮는다)
+        sd = th.land_shadow
+        moved = mimg.transform(mimg.size, Image.AFFINE, (1, 0, -sd.dx * k, 0, 1, -sd.dy * k), Image.BILINEAR)
+        a_sh = np.asarray(moved.filter(ImageFilter.GaussianBlur(sd.blur * k)), np.float32)[..., None] / 255 * sd.alpha
+        sc = sc * (1 - a_sh) + np.array(hexc(sd.rgb), np.float32) * a_sh
     out = sc * (1 - land[..., None]) + lc * land[..., None]
     img = Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), "RGB")
     out_dir.mkdir(parents=True, exist_ok=True)

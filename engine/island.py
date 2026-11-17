@@ -20,9 +20,10 @@ from typing import Any, Callable, Optional
 
 import cairo
 
+from engine import skin
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import CARD, ELEM, FPS, ISLAND, MOTION, PALETTE, TIMELINE, border_rgb, island_rgb, stage_surface
+from engine.style import CARD, ELEM, FPS, ISLAND, MOTION, PALETTE, SKIN, TIMELINE, border_rgb, island_rgb, stage_surface
 from engine.timebase import ease_out, window
 from engine.typography import rrect
 from rules import load_rules
@@ -79,6 +80,9 @@ def draw_frame(ctx: cairo.Context, box: Box, a: float, style: Optional[FrameStyl
         ctx.paint()
         return
     x, y, w, h = box
+    if style is None and skin.active():   # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 무대: 흰 카드 면·부드러운 그림자(어두운 판 없음)
+        skin.surface(ctx, box, a)
+        return
     if style is None and stage_surface() and not boxed:   # v7.4.0 D-0328 §3 — 차트 = 무대: 테두리·바탕·그림자 없음(바탕 위에 바로)
         return
     r = ISLAND.radius if style is None else style.radius
@@ -98,6 +102,15 @@ def draw_frame(ctx: cairo.Context, box: Box, a: float, style: Optional[FrameStyl
     ctx.stroke()
 
 
+def clip_path(ctx: cairo.Context, box: Box, boxed: bool) -> None:
+    """아일랜드 내용 클립 경로 — 디자인 시스템 무대 = skin.surface.radius(UF-908·D918 직각), 그 밖 = 종전(무대 표면 0, 아니면 island.radius)."""
+    x, y, w, h = box
+    if skin.active():
+        skin.box_path(ctx, x, y, w, h, SKIN.surface.radius)
+    else:
+        rrect(ctx, x, y, w, h, 0.0 if stage_surface() and not boxed else ISLAND.radius)
+
+
 def inner_box(box: Box) -> Box:
     """아일랜드 내용 영역(v7.4.0 D-1010 §1, UF-305) — 상자에서 rules island.inner_pad 만큼 안쪽. 상자 크기·자리는 그대로."""
     x, y, w, h = box
@@ -106,9 +119,11 @@ def inner_box(box: Box) -> Box:
 
 
 def on_backdrop(R: RenderCtx) -> bool:  # noqa: N803
-    """사진 배경(backdrop 주 무대) 위 데이터 무대인가 — 감독 D619: 그때는 무대 표면 팔레트여도 표준 아일랜드 상자(바탕 fill_alpha) 안에 그린다
-    (사용자 결정 D106·D108 의 아일랜드 정본, UF-304 시인성). 무대 표면(D-0328)은 시간축·지도 주 무대 바탕 위에서만."""
-    return getattr(R.stage, "name", "") == "backdrop"
+    """화면 공간 무대(backdrop 사진 배경·studio 스튜디오) 위 데이터 무대인가 — 감독 D619: 그때는 무대 표면 팔레트여도 표준 아일랜드 상자(바탕 fill_alpha) 안에 그린다
+    (사용자 결정 D106·D108 의 아일랜드 정본, UF-304 시인성). 무대 표면(D-0328)은 시간축·지도 주 무대 바탕 위에서만. studio = v7.4.0 UF-902(같은 아일랜드 상자)."""
+    from engine.stage import screen_stage  # noqa: PLC0415
+
+    return screen_stage(getattr(R.stage, "name", ""))
 
 
 def chart_view(chart: dict, t: float, box: Box) -> View:
@@ -133,7 +148,7 @@ def draw_island(ctx: cairo.Context, R: RenderCtx, view: Optional[View], t: float
     ctx.save()
     ctx.push_group()
     draw_frame(ctx, (x, y, w, h), 1.0, boxed=boxed)
-    rrect(ctx, x, y, w, h, 0.0 if stage_surface() and not boxed else ISLAND.radius)
+    clip_path(ctx, (x, y, w, h), boxed)
     ctx.clip()
     ix, iy, _iw, _ih = inner_box((x, y, w, h))
     ctx.translate(ix, iy)   # D-1010 §1 — 내용은 안쪽 여백 안에서
@@ -176,7 +191,7 @@ def draw_structure_island(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a
     ctx.save()
     ctx.push_group()
     draw_frame(ctx, (x, y, w, h), 1.0, boxed=boxed)
-    rrect(ctx, x, y, w, h, 0.0 if stage_surface() and not boxed else ISLAND.radius)
+    clip_path(ctx, (x, y, w, h), boxed)
     ctx.clip()
     ix, iy, iw, ih = inner_box((x, y, w, h))
     ctx.translate(ix, iy)   # D-1010 §1 — 내용은 안쪽 여백 안에서(구성 무대는 내용 영역에 맞춰 fit)
@@ -195,8 +210,13 @@ def _panel_box() -> Box:
 
 
 def island_boxes(events: list[dict], media_assets: dict, stage_name: str) -> list[tuple[str, float, float, Box]]:
-    """아일랜드 목록 (이름, t0, t1, 제자리 상자). backdrop 무대 밖이면 [](지도·시간축 무대는 기존 규칙)."""
-    if stage_name != "backdrop":
+    """아일랜드 목록 (이름, t0, t1, 제자리 상자). 화면 공간 무대(backdrop·studio) 밖이면 [](지도·시간축 무대는 기존 규칙).
+    v7.4.0 4b-2 — skin 지도(mercator + skin 켜짐)에서는 패널만: 패널이 흰 카드(island.panel_box)로 그려지므로 검사 상자도 그 자리."""
+    from engine import skin  # noqa: PLC0415
+    from engine.stage import screen_stage  # noqa: PLC0415
+
+    panels_only = not screen_stage(stage_name) and stage_name == "mercator" and skin.active()
+    if not screen_stage(stage_name) and not panels_only:
         return []
     from engine.media_plan import media_box  # noqa: PLC0415
     from engine.primitives import primitive_box  # noqa: PLC0415
@@ -205,6 +225,8 @@ def island_boxes(events: list[dict], media_assets: dict, stage_name: str) -> lis
     out: list[tuple[str, float, float, Box]] = []
     for e in events:
         typ = e["type"]
+        if panels_only and typ != "panel":
+            continue
         if typ == "island":
             out.append((f"island {e['kind']} {e.get('box') or 'center'}", e["t0"], e["t1"], island_box(e)))
         elif typ in ("photo", "clip"):
@@ -321,6 +343,13 @@ def _source_rects(ctx: cairo.Context, chart: dict, v: View, t: float) -> list[tu
     out: list[tuple[str, Box]] = []
     for e in chart["events"]:
         if e["type"] != "series" or not e["t0"] <= t <= e["t1"] or e.get("slot", 0):   # v7.4.0 D-0256 — 레인당 출처 한 줄
+            continue
+        if skin.active():   # v7.4.0 2a — skin 출처 줄 자리(눈금 아래 자기 줄, 접힌 줄마다) = series.source_line_boxes
+            from engine.layers.series import source_line_boxes, source_style  # noqa: PLC0415
+
+            fs, ff = source_style()
+            out += [(e["lane"], (x, by - fs, x + tw(ctx, ln, fs, ff), by + fs * (1 - TIMELINE.text_metrics.ascent)))
+                    for ln, x, by in source_line_boxes(ctx, v, st, e)]
             continue
         _, bot = st.lane_screen(v, st.lane_index(e["lane"]))
         by = bot - S.source_dy

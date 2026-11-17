@@ -14,14 +14,15 @@
 from __future__ import annotations
 
 import math
-from datetime import date
+from datetime import date, timedelta
 from typing import TYPE_CHECKING
 
 import cairo
 
 from data.series import load_series
+from engine import skin
 from engine.events import PART_STYLES
-from engine.style import C, FPS, TIMELINE, island_rgb
+from engine.style import C, FPS, SKIN, TIMELINE, hexc, island_rgb
 from rules import load_rules
 from engine.timebase import ease_out, window
 from engine.typography import rrect, text, tw
@@ -30,7 +31,7 @@ if TYPE_CHECKING:
     from engine.context import RenderCtx
     from engine.projection import View
     from engine.stage_timeline import TimelineStage
-    from schemas.rules_models import IslandColumnDetail
+    from schemas.rules_models import IslandColumnDetail, SkinChart
 
 MONTHS = 12
 TAG = load_rules().panels.prov_tag   # 추정 태그 글자(size·font·alpha) 재사용 — D-0266 C
@@ -51,9 +52,55 @@ DRAWN_BARS: list[tuple[float, float, float, float]] = []
 DRAWN_INSETS: list[tuple[float, float, float, float]] = []   # 같은 프레임의 열 확대 인셋 상자(장치 px) — 막대 위에 그려진다
 
 
+def chart_skin() -> "SkinChart | None":
+    """디자인 시스템 무대(skin)면 차트 안 토큰(rules skin.chart), 아니면 None(종전 그리기 그대로 — 바이트 동일)."""
+    return SKIN.chart if skin.active() else None
+
+
+def series_rgb(e: dict) -> tuple[float, float, float]:
+    """계열 색 — skin 이면 강조 이름(skin.chart.accent_cols)만 강조 잉크, 나머지는 잉크 primary(한 화면 강조 하나, C0.0). 아니면 C[col]."""
+    K = chart_skin()  # noqa: N806
+    if K is None:
+        return C[e["col"]]
+    return skin.ACCENT_INK if e["col"] in K.accent_cols else skin.INK
+
+
+def axis_style() -> tuple[float, str, float, float]:
+    """값 축 숫자 (크기, 글꼴, 눈금선 → 기준선 dy, 오른쪽 여백) — 그리기·상자·예약 열이 같이 쓴다."""
+    K = chart_skin()  # noqa: N806
+    if K is not None:
+        return K.axis.size, K.axis.font, K.axis.dy, K.axis.margin
+    S = TIMELINE.series  # noqa: N806
+    return S.axis_label_size, S.axis_label_font, S.axis_label_dy, S.axis_label_margin_px
+
+
+def source_style() -> tuple[float, str]:
+    """출처 줄 (크기, 글꼴) — 그리기·검사(checks.chart_text_boxes) 같은 값."""
+    K = chart_skin()  # noqa: N806
+    S = TIMELINE.series  # noqa: N806
+    return (K.source.size, K.source.font) if K is not None else (S.source_size, S.source_font)
+
+
+def lane_title_box(ctx: cairo.Context, view: "View", stage: "TimelineStage", i: int) -> tuple[float, float, float, float]:
+    """skin 레인 제목(이름 + 단위 한 기준선) 글자 상자 — stage_timeline.draw_labels 와 같은 자리(레인 위 끝 + title.dy)."""
+    T = SKIN.chart.title  # noqa: N806
+    ln = stage.lanes[i]
+    top, _ = stage.lane_screen(view, i)
+    base = top + T.dy
+    x0 = view.ox + T.x
+    w = tw(ctx, ln.label, T.size, T.font)
+    if ln.unit:
+        w += T.unit_gap + tw(ctx, ln.unit, T.unit_size, T.unit_font)
+    return x0, base - T.size, x0 + w, base + T.size * (1 - TM.ascent)
+
+
 def loss_rgb() -> tuple[float, float, float]:
-    """손실 면(v7.4.0 D-0328 §1 — 테두리 없이 채도 낮춘 면) = down × neg_fill_mix + 바탕 × (1 − neg_fill_mix)."""
+    """손실 면(v7.4.0 D-0328 §1 — 테두리 없이 채도 낮춘 면) = down × neg_fill_mix + 바탕 × (1 − neg_fill_mix).
+    skin 이면 중립 회색 skin.surface.bar_neg(분홍·빨강 없음 — 강조색 하나, C0.0)."""
     from engine.style import bg_rgb  # noqa: PLC0415
+
+    if skin.active():
+        return hexc(SKIN.surface.bar_neg)
 
     B = TIMELINE.bars  # noqa: N806
     g = bg_rgb(TIMELINE.bg_rgb)
@@ -319,9 +366,26 @@ def axis_range_note(rng: tuple[float, float], unit: str) -> str | None:
     return TIMELINE.lane_range.axis_range_note.replace("{lo}", fmt_value(rng[0], "")).replace("{hi}", fmt_value(rng[1], unit))
 
 
+def plot_pads(stage: "TimelineStage", lane: str) -> tuple[float, float]:
+    """skin 값 범위 여백(설계 px) — (레인 아래 끝 → 범위 아래, 레인 위 끝 → 범위 위). 레인 하나면 plot_pad_bottom·plot_pad_top(2a 그대로).
+    v7.4.0 2b — 레인 둘 이상: 선·계단 레인 머리 = lane.line_pad_top(제목 줄만 — 값 라벨은 끝값 쪽), 마지막이 아닌 레인 아래 = lane.gap(다음 제목 앞 틈)."""
+    K = SKIN.chart  # noqa: N806
+    if stage.n == 1:
+        return K.plot_pad_bottom, K.plot_pad_top
+    i = stage.lane_index(lane)
+    top = K.plot_pad_top if stage.lanes[i].kind == "bars" else K.lane.line_pad_top
+    return (K.plot_pad_bottom if i == stage.n - 1 else K.lane.gap), top
+
+
 def value_y(stage: "TimelineStage", lane: str, rng: tuple[float, float], v: float) -> float:
     lo_y, hi_y = stage.lane_y(lane)
     S = TIMELINE.series  # noqa: N806
+    K = chart_skin()  # noqa: N806
+    if K is not None:   # v7.4.0 2a — skin: 레인 위 제목 줄·값 라벨 자리를 설계 px 로 · 2b 레인 둘 이상이면 plot_pads
+        k = stage.y_px_per_unit
+        pb, pt = plot_pads(stage, lane)
+        b, t = lo_y + pb / k, hi_y - pt / k
+        return b + (v - rng[0]) / (rng[1] - rng[0]) * (t - b)
     bars = stage.lanes[stage.lane_index(lane)].kind == "bars"   # v7.4.0 감독 지시(R-0293 눈 확인) — 막대·쌓임 레인은 플롯이 레인을 더 쓴다
     pb, pt = (TIMELINE.bars.lane_pad_bottom, TIMELINE.bars.lane_pad_top) if bars else (S.lane_pad_bottom, S.lane_pad_top)
     b, t = lo_y + pb, hi_y - pt
@@ -549,7 +613,7 @@ def draw_lane_preview(ctx: cairo.Context, R: "RenderCtx", view: "View", e: dict,
             for i, (x, y) in enumerate(part):
                 sx, sy = view.to_screen(x, y)
                 (ctx.move_to if i == 0 else ctx.line_to)(sx, sy)
-            ctx.set_source_rgba(*C[e["col"]], LP["alpha"] * a)
+            ctx.set_source_rgba(*series_rgb(e), LP["alpha"] * a)
             ctx.set_line_width(LP["w"])
             ctx.set_dash(list(TIMELINE.series.proposed_dash) if dash else [])
             ctx.stroke()
@@ -578,7 +642,7 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
     if e["grow"]:
         fr = R.cache["series_front"][e["key"]]   # 프레임별 앞끝(월드 x) — load_project 가 카메라 경로로 미리 계산
         front = float(fr[min(len(fr) - 1, max(0, int(t * FPS)))])
-    col = C[e["col"]]
+    col = series_rgb(e)   # v7.4.0 2a — skin 이면 잉크·강조 잉크
     mcol = month_colors(e, R)   # v4.4.0 D-0091 ② — None 이면 한 색(기존 그대로)
     pr = plot_right(ctx, view, stage, e["lane"], rng, rec.unit)   # v7.4.0 — 오른쪽 축 값 라벨 열은 선·띠·점이 들어가지 않는 예약 열
     fx = min(pr, view.to_screen(front, 0.0)[0] if front != math.inf else view.right)
@@ -646,10 +710,19 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
                     ctx.set_source_rgba(*col, TIMELINE.secondary.alpha * a)
                     ctx.fill()
     ctx.restore()
-    _draw_missing(ctx, view, stage, rec, e, front, a, pr)
+    if e["style"] == "bars" and e.get("estimate_id") and chart_skin() is not None:   # v7.4.0 2b — 예상 표지는 숫자 열 앞까지(앞끝에 잘리지 않는다)
+        ctx.save()
+        ctx.rectangle(pl, view.oy - view.vh, max(0.0, pr - pl), view.vh * 3)
+        ctx.clip()
+        _draw_estimate(ctx, view, stage, e, rng, bar_rects(stage, e, rng, rec), front, a)
+        ctx.restore()
+    _draw_missing(ctx, view, stage, rec, e, front, a, pr, rng)
     if last is not None and not sec and not (e["style"] == "band" and e.get("lane_n", 1) > 1):   # 보조 계열은 끝값 판을 접는다(D-0314 §1-2 안 B — 값은 왼쪽 축·핀)   # v7.4.0 D-0256 — 다른 계열과 한 레인이면 띠는 끝값 라벨 없음(상·하한은 띠가 보여 준다)
         sx, sy = view.to_screen(last[0], last[1])
-        if view.ox + S.value_min_x <= sx <= pr:
+        if chart_skin() is not None:   # v7.4.0 2b — skin: mono 잉크 끝값 + 계열 색 점·흰 고리 + 흰 알약 판(어두운 판 없음)
+            if view.ox + S.value_min_x <= sx <= pr:
+                _draw_end_label_skin(ctx, R, view, stage, t, e, rng, rec, last, last_hi, a, pr)
+        elif view.ox + S.value_min_x <= sx <= pr:
             tip = col if mcol is None else mcol[_month_of(stage, last[0], rec)]
             ctx.arc(sx, sy, S.tip_r, 0, 2 * math.pi)
             ctx.set_source_rgba(*tip, a)
@@ -679,6 +752,54 @@ def draw_series(ctx: cairo.Context, R: "RenderCtx", view: "View", t: float, e: d
     else:
         _draw_axis(ctx, view, stage, e, rng, "" if e["style"] == "bars" else rec.unit, a, R, t)
     _draw_source(ctx, view, stage, e, a)
+
+
+def end_dot_rgb(e: dict) -> tuple[float, float, float]:
+    """skin 끝점·표지 색 — 강조 계열 = 강조색(모양 단), 그 밖 = 잉크 primary."""
+    return skin.ACCENT_SHAPE if e["col"] in SKIN.chart.accent_cols else skin.INK
+
+
+def skin_plate_rect(x0: float, by: float, lw: float, size: float) -> tuple[float, float, float, float]:
+    """skin 끝값 알약 판 사각형(x0, y0, x1, y1) — 글자 가운데 기준 높이 size + 2·pad, 양 끝 반원만큼 가로 여유."""
+    E = SKIN.chart.end  # noqa: N806
+    h = size + 2 * E.pad
+    mid = by - size * TM.mid_drop
+    return x0 - E.pad - h / 4, mid - h / 2, x0 + lw + E.pad + h / 4, mid + h / 2
+
+
+def _draw_end_label_skin(ctx: cairo.Context, R: "RenderCtx", view: "View", stage: "TimelineStage", t: float, e: dict,  # noqa: N803
+                         rng: tuple[float, float], rec: object, last: tuple[float, float, float], last_hi: float | None,
+                         a: float, pr: float) -> None:
+    """v7.4.0 2b — skin 끝값: 점(계열 색) + 흰 고리, 라벨 mono 잉크 primary(강조 계열 = 강조 잉크), 뒤에 흰 알약 판 + 가는 선
+    (격자선을 끊는다). 자리 규칙(세로 분산·축 숫자 비키기·핀 고리·레인 제목)과 검사 기록은 종전과 같다 — 상자 = 이 글자 크기."""
+    S, E = TIMELINE.series, SKIN.chart.end  # noqa: N806
+    sx, sy = view.to_screen(last[0], last[1])
+    ctx.arc(sx, sy, E.dot_r + E.ring_w, 0, 2 * math.pi)
+    ctx.set_source_rgba(*skin.FILL, a)
+    ctx.fill()
+    ctx.arc(sx, sy, E.dot_r, 0, 2 * math.pi)
+    ctx.set_source_rgba(*end_dot_rgb(e), a)
+    ctx.fill()
+    s = value_text(e, last[2], rec.unit, last_hi) + proposed_tag(rec, _date_at(stage, last[0], rec))  # type: ignore[attr-defined]
+    lw = tw(ctx, s, E.size, E.font)
+    room = sx + S.value_dx + lw + E.pad + (E.size + 2 * E.pad) / 4 <= pr   # 숫자 열(plot_right) 앞에서 끝나야 오른쪽(항목 6)
+    x0 = sx + S.value_dx if room else sx - S.value_dx - lw
+    by = place_end_label(R, t, e["lane"], sy + S.value_dy, last[2])
+    by = clear_axis_labels(ctx, view, stage, e["lane"], rng, rec.unit, x0, lw, by)  # type: ignore[attr-defined]
+    box = (x0, by - E.size, x0 + lw, by)
+    box, covered = clear_pin_rings(R, view, t, e["lane"], box, sx, sy, lw)
+    by = box[3]
+    if _hits(box, _lane_name_box(ctx, view, stage, e["lane"])):
+        return
+    pr_ = skin_plate_rect(box[0], by, lw, E.size)
+    skin.pill(ctx, (pr_[0], pr_[1], pr_[2] - pr_[0], pr_[3] - pr_[1]), skin.FILL, a)
+    if E.hair_alpha > 0:
+        rrect(ctx, pr_[0], pr_[1], pr_[2] - pr_[0], pr_[3] - pr_[1], (pr_[3] - pr_[1]) / 2)
+        ctx.set_source_rgba(*skin.HAIR, E.hair_alpha * a)
+        ctx.set_line_width(SKIN.hairline.w)
+        ctx.stroke()
+    text(ctx, s, box[0], by, E.size, E.font, series_rgb(e), a, 0, "l")
+    R.cache["series_end_labels"]["lanes"][e["lane"]].append((by, last[2], box, pr_, covered, 1.0 if a > 0 else 0.0))
 
 
 def _draw_end_pin(ctx: cairo.Context, view: "View", last: "tuple[float, float, float] | None", unit: str,
@@ -711,20 +832,20 @@ def _draw_secondary_axis(ctx: cairo.Context, view: "View", stage: "TimelineStage
     S = TIMELINE.series  # noqa: N806
     name_box = _lane_name_box(ctx, view, stage, e["lane"])
     rx = secondary_col_right(ctx, view, rng) - TIMELINE.secondary.axis_label_margin_px   # 왼쪽 예약 열 안 오른쪽 정렬(D-0314 §1-2)
+    az, af, ady, _ = axis_style()
     for v in axis_values(rng):
         _, sy = view.to_screen(0.0, value_y(stage, e["lane"], rng, v))
-        lw = tw(ctx, fmt_value(v, ""), S.axis_label_size, S.axis_label_font)
-        lb = (rx - lw, sy + S.axis_label_dy - S.axis_label_size, rx, sy + S.axis_label_dy)
+        lw = tw(ctx, fmt_value(v, ""), az, af)
+        lb = (rx - lw, sy + ady - az, rx, sy + ady)
         if _hits(lb, name_box):   # 레인 이름과 겹치는 눈금 라벨은 접는다(R-0294 §2 — "140" 겹침)
             continue
-        text(ctx, fmt_value(v, ""), rx, sy + S.axis_label_dy, S.axis_label_size,
-             S.axis_label_font, col, a, S.axis_label_halo, "r")
+        text(ctx, fmt_value(v, ""), rx, sy + ady, az, af, col, a, S.axis_label_halo, "r")
 
 
 def secondary_col_right(ctx: cairo.Context, view: "View", rng: tuple[float, float]) -> float:
     """보조 축 왼쪽 예약 열의 오른쪽 끝(화면 x) — 가장 긴 눈금 라벨 + 양옆 axis_label_margin_px(D-0314 §1-2, plot_right 의 거울)."""
-    S = TIMELINE.series  # noqa: N806
-    w = max((tw(ctx, fmt_value(v, ""), S.axis_label_size, S.axis_label_font) for v in axis_values(rng)), default=0.0)
+    az, af, _, _ = axis_style()
+    w = max((tw(ctx, fmt_value(v, ""), az, af) for v in axis_values(rng)), default=0.0)
     return view.ox + w + 2 * TIMELINE.secondary.axis_label_margin_px
 
 
@@ -733,6 +854,9 @@ def plot_left(ctx: cairo.Context, view: "View", lane: str, R: "RenderCtx") -> fl
     from engine.style import stage_surface  # noqa: PLC0415
 
     rng2 = (R.cache.get("series_range2") or {}).get(lane)
+    K = chart_skin()  # noqa: N806
+    if K is not None and rng2 is None:   # v7.4.0 2a — skin: 자료는 눈금선과 같은 왼쪽 끝에서(내용 여백 title.x)
+        return view.ox + K.title.x
     return view.ox if rng2 is None or stage_surface() else secondary_col_right(ctx, view, rng2)   # D-0328 — 무대 표면은 보조 축 숫자 없음(열 예약 없음)
 
 
@@ -777,7 +901,9 @@ def _draw_projection(ctx: cairo.Context, R: "RenderCtx", view: "View", stage: "T
     from engine.primitives.dot_plot import col_label  # noqa: PLC0415
 
     P, D = TIMELINE.projection, _dot_rules()  # noqa: N806
-    rgb = projection_rgb(R)
+    K = chart_skin()  # noqa: N806
+    rgb = projection_rgb(R) if K is None else skin.ACCENT_SHAPE   # v7.4.0 2b — skin: 점·중앙값 = 강조색 하나
+    shade, shade_a = (rgb, P.band_alpha) if K is None else (skin.INK, K.projection.shade_alpha)   # skin: 전망 구간 = 잉크 아주 옅게
     top, bot = stage.lane_screen(view, stage.lane_index(e["lane"]))
     asof = rec.as_of  # type: ignore[attr-defined]
     d0 = date.fromisoformat(f"{asof}-01")   # as_of "YYYY-MM" → 다음 달 1일
@@ -792,7 +918,7 @@ def _draw_projection(ctx: cairo.Context, R: "RenderCtx", view: "View", stage: "T
     ctx.rectangle(view.ox, view.oy, max(0.0, pr - view.ox), stage.area_bottom + TIMELINE.series.clip_below_px)
     ctx.clip()
     ctx.rectangle(max(view.ox, bx0), top, max(0.0, min(pr, bx1) - max(view.ox, bx0)), bot - top)
-    ctx.set_source_rgba(*rgb, P.band_alpha * a)
+    ctx.set_source_rgba(*shade, shade_a * a)
     ctx.fill()
     for i, label, x, pts, my in projection_dots(stage, e, rec, rng):
         ca = a * window(t, e["t0"] + i * P.column_stagger_sec, e["t1"], TIMELINE.series.fade_sec, TIMELINE.series.fade_sec)
@@ -812,9 +938,15 @@ def _draw_projection(ctx: cairo.Context, R: "RenderCtx", view: "View", stage: "T
         ctx.set_line_width(D.median_w)
         ctx.stroke()
         low = max(view.to_screen(x, wy)[1] for _, wy in pts)
-        text(ctx, col_label(label), sx, low + P.label_dy, D.col_size, "sansm", rgb, ca, TIMELINE.series.value_halo, "c")
+        if K is None:
+            text(ctx, col_label(label), sx, low + P.label_dy, D.col_size, "sansm", rgb, ca, TIMELINE.series.value_halo, "c")
+        else:   # 2b — 열 이름 mono 잉크 secondary
+            text(ctx, col_label(label), sx, low + P.label_dy, K.projection.size, K.projection.font, skin.INK2, ca, 0, "c")
     for line, y in projection_tag_lines(view, stage, e, rec):   # D-0266 C — 전망 출처·고정 문구는 전망 띠 안 태그(레인 출처 줄 대신)
-        text(ctx, line, view.right - TIMELINE.series.axis_zone_px, y, TAG.size, TAG.font, rgb, a * TAG.alpha, TIMELINE.series.value_halo, "r")
+        if K is None:
+            text(ctx, line, view.right - TIMELINE.series.axis_zone_px, y, TAG.size, TAG.font, rgb, a * TAG.alpha, TIMELINE.series.value_halo, "r")
+        else:   # 2b — 제목 줄 아래, 숫자 열 앞에서 오른쪽 정렬, mono 잉크 tertiary
+            text(ctx, line, pr, y, K.projection.size, K.projection.font, skin.INK3, a, 0, "r")
     ctx.restore()
 
 
@@ -823,6 +955,11 @@ def projection_tag_lines(view: "View", stage: "TimelineStage", e: dict, rec: obj
     1줄 = 레코드 출처·기준 시점, 2줄 = 고정 문구(primitives.dot_plot.note, 20 §5.2). 글자 = rules panels.prov_tag(추정 태그 글자 재사용)."""
     top, _ = stage.lane_screen(view, stage.lane_index(e["lane"]))
     first = SOURCE_SEP.join([rec.source, rec.as_of_label()])  # type: ignore[attr-defined]
+    K = chart_skin()  # noqa: N806
+    if K is not None:   # v7.4.0 2b — skin: 레인 제목 줄 아래(제목과 겹치지 않게), 줄 간격 = 글자 + tag_gap
+        T, Q = K.title, K.projection  # noqa: N806
+        y0 = top + T.dy + T.size * (1 - TM.ascent) + Q.tag_gap + Q.size
+        return [(first, y0), (_dot_rules().note, y0 + Q.size + Q.tag_gap)]
     return [(first, top + TAG.size + TAG_PAD), (_dot_rules().note, top + 2 * TAG.size + 2 * TAG_PAD)]
 
 
@@ -901,6 +1038,12 @@ def _bar_path(ctx: cairo.Context, x0: float, x1: float, yz: float, ye: float, r:
     ctx.close_path()
 
 
+def bar_radius() -> float:
+    """막대 바깥 끝 모서리 반지름 — skin 이면 skin.chart.bar_radius(UF-908 직각), 아니면 stage_timeline.bars.top_radius."""
+    K = chart_skin()  # noqa: N806
+    return TIMELINE.bars.top_radius if K is None else K.bar_radius
+
+
 def ladder_alpha(rank: int, steps: list[float]) -> float:
     """잉크 사다리 농도 — rank 0 = 최신 열(steps[0]), 1 부터 차례(넘으면 마지막 값). accent 열은 부르는 쪽이 솔리드로."""
     return steps[min(rank, len(steps) - 1)]
@@ -920,10 +1063,12 @@ def _draw_bars(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
     """분기 막대(v7.4.0 D-0278 §4.1·D-0308·D-0310) — 0 에서 자란다(앞끝이 막대를 지나는 동안 높이 0 → 값). 바닥 각·위 모서리만 top_radius.
     accent latest 면 최신 분기만 accent(col) 솔리드, 나머지는 단일 잉크 사다리. 값 라벨은 막대 끝에 직접(범례 없음)."""
     B = TIMELINE.bars  # noqa: N806
+    K = chart_skin()  # noqa: N806
     rects = bar_rects(stage, e, rng, rec)
     ink = bar_ink()
     acc = accent_of(e)
-    est_dates = {d for d, _ in load_series(e["estimate_id"]).values} if e.get("estimate_id") else set()
+    est_vals = dict(load_series(e["estimate_id"]).values) if e.get("estimate_id") else {}
+    est_dates = set(est_vals)
     for n, (_d, v, x0, x1, y0, yv) in enumerate(rects):
         rank = len(rects) - 1 - n
         k = _grow(front, x0, x1)
@@ -932,8 +1077,16 @@ def _draw_bars(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
         sx0, sy0 = view.to_screen(x0, y0)
         sx1, sy1 = view.to_screen(x1, y0 + (yv - y0) * k)
         hot = acc == "latest" and rank == 0
-        _bar_path(ctx, sx0, sx1, sy0, sy1, B.top_radius)
-        if v < 0 and not hot:   # D-0328 — 손실 막대 = 채도 낮춘 면(테두리 없음)
+        _bar_path(ctx, sx0, sx1, sy0, sy1, bar_radius())
+        if K is not None:   # v7.4.0 2a — skin: 평평한 중립 회색(손실 = 더 짙은 회색), 강조 막대 하나 = accent.grad 세로 그라데이션
+            if hot:
+                g = cairo.LinearGradient(0, min(sy0, sy1), 0, max(sy0, sy1))
+                for stop, hx in enumerate(SKIN.accent.grad):
+                    g.add_color_stop_rgba(stop, *hexc(hx), a)
+                ctx.set_source(g)
+            else:
+                ctx.set_source_rgba(*hexc(SKIN.surface.bar_neg if v < 0 else SKIN.surface.bar), a)
+        elif v < 0 and not hot:   # D-0328 — 손실 막대 = 채도 낮춘 면(테두리 없음)
             ctx.set_source_rgba(*loss_rgb(), a)
         else:
             ctx.set_source_rgba(*(col if hot else ink), (1.0 if hot else ladder_alpha(rank, B.ladder)) * a)
@@ -943,10 +1096,17 @@ def _draw_bars(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
             DRAWN_BARS.append((min(dx0, dx1), min(dy0, dy1), max(dx0, dx1), max(dy0, dy1)))
         if k >= 1.0:
             s = fmt_value(v, "")
-            lw = tw(ctx, s, B.value_size, B.value_font)
-            by = sy1 - B.value_gap if v >= 0 else sy1 + B.value_gap + B.value_size
-            text(ctx, s, (sx0 + sx1) / 2 - lw / 2, by, B.value_size, B.value_font, col if hot else ink, a, B.value_halo, "l")
-    if e.get("estimate_id"):
+            vs, vf, vg = (B.value_size, B.value_font, B.value_gap) if K is None else (K.value.size, K.value.font, K.value.gap)
+            lw = tw(ctx, s, vs, vf)
+            by = sy1 - vg if v >= 0 else sy1 + vg + vs
+            if K is not None and v >= 0 and _d in est_vals:   # 2b — 예상 획이 막대 위로 나면 값 라벨은 획 위(겹치지 않게)
+                by = min(sy1, view.to_screen(0.0, value_y(stage, e["lane"], rng, est_vals[_d]))[1] - SKIN.chart.estimate.tick_w) - vg
+            vc = (col if hot else ink) if K is None else (skin.INK if hot else skin.INK2)
+            lx = (sx0 + sx1) / 2 - lw / 2
+            if K is not None and not view.ox + K.title.x <= lx <= lx + lw <= plot_right(ctx, view, stage, e["lane"], rng, ""):
+                continue   # skin — 플롯 가장자리에 걸려 잘릴 값 라벨은 그리지 않는다(막대는 시간 세계 그대로 잘린다)
+            text(ctx, s, lx, by, vs, vf, vc, a, B.value_halo, "l")
+    if e.get("estimate_id") and K is None:   # skin 은 draw_series 가 앞끝 클립 밖에서(미래 열 예상은 자라지 않고 떠 있다 — 2b)
         _draw_estimate(ctx, view, stage, e, rng, rects, front, a)
 
 
@@ -957,6 +1117,9 @@ def _draw_estimate(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: 
     B = TIMELINE.bars  # noqa: N806
     ink = bar_ink()
     act = {d: (v, x0, x1, yv, k) for d, v, x0, x1, _y0, yv in rects for k in [_grow(front, x0, x1)]}
+    if chart_skin() is not None:   # v7.4.0 2b — skin: 가는 가로 획(실제 있음)·점선 윤곽(실제 없음) — 굵은 속빈 막대 없음
+        _draw_estimate_skin(ctx, view, stage, e, rng, act, a)
+        return
     for d, v in load_series(e["estimate_id"]).values:
         qa, qb = quarter_span(stage, d)
         half = (qb - qa) * B.w_ratio / 2
@@ -964,9 +1127,10 @@ def _draw_estimate(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: 
         y0 = value_y(stage, e["lane"], rng, 0.0)
         sx0, sy0 = view.to_screen(x0, y0)
         sx1, sy1 = view.to_screen(x1, value_y(stage, e["lane"], rng, v))
-        w2 = B.hollow_w
-        _bar_path(ctx, sx0 + w2 / 2, sx1 - w2 / 2, sy0, sy1 + (w2 / 2 if v >= 0 else -w2 / 2), B.top_radius)
-        ctx.set_source_rgba(*ink, B.hollow_alpha * a)
+        K = chart_skin()  # noqa: N806
+        w2 = B.hollow_w if K is None else K.hollow.w   # v7.4.0 2a — skin: 가는 잉크 윤곽(굵은 테두리 금지, C0.0)
+        _bar_path(ctx, sx0 + w2 / 2, sx1 - w2 / 2, sy0, sy1 + (w2 / 2 if v >= 0 else -w2 / 2), bar_radius())
+        ctx.set_source_rgba(*ink, (B.hollow_alpha if K is None else K.hollow.alpha) * a)
         ctx.set_line_width(w2)
         ctx.stroke()
         hit = act.get(d)
@@ -985,6 +1149,55 @@ def _draw_estimate(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: 
         text(ctx, s, (sx0 + sx1) / 2 - lw / 2, by, B.part_label_size, B.part_label_font, ink, a, B.value_halo, "l")
 
 
+def estimate_marks(view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float], act: dict) -> list[dict]:
+    """skin 예상치 표지(화면 좌표) — 열마다 {d, v, kind: tick|future, x0, x1, y, y0, label, by}. tick = 실제가 다 자란 열(예상 높이 가로 획,
+    막대 폭 + 양쪽 overhang), future = 실제가 없는 열(0 → 예상 점선 윤곽). 라벨 기준선 = 값 라벨(또는 윤곽·획) 위 — 겹치지 않는다."""
+    B, K = TIMELINE.bars, SKIN.chart  # noqa: N806
+    E = K.estimate  # noqa: N806
+    out = []
+    for d, v in load_series(e["estimate_id"]).values:
+        qa, qb = quarter_span(stage, d)
+        half = (qb - qa) * B.w_ratio / 2
+        sx0, sy0 = view.to_screen((qa + qb) / 2 - half, value_y(stage, e["lane"], rng, 0.0))
+        sx1, ye = view.to_screen((qa + qb) / 2 + half, value_y(stage, e["lane"], rng, v))
+        hit = act.get(d)
+        if hit is not None and hit[4] >= 1.0:
+            av = hit[0]
+            ya = view.to_screen(0.0, value_y(stage, e["lane"], rng, av))[1]
+            pct = (av - v) / abs(v) * 100 if v else None
+            lab = f"예상 {fmt_value(v, '')}" + (f" · {pct:+.0f}%" if pct is not None else "")
+            top = min(ya, ye - E.tick_w) if av >= 0 else min(sy0, ye - E.tick_w)   # 값 라벨 위 끝(_draw_bars 와 같은 자리)
+            by = top - K.value.gap - K.value.size - E.gap if av >= 0 else top - K.value.gap
+            out.append({"d": d, "v": v, "kind": "tick", "x0": sx0 - E.overhang, "x1": sx1 + E.overhang, "y": ye, "y0": sy0, "label": lab, "by": by})
+        elif hit is None:
+            out.append({"d": d, "v": v, "kind": "future", "x0": sx0, "x1": sx1, "y": ye, "y0": sy0, "label": f"예상 {fmt_value(v, '')}",
+                        "by": min(ye, sy0) - K.value.gap})
+    return out
+
+
+def _draw_estimate_skin(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float],
+                        act: dict, a: float) -> None:
+    """v7.4.0 2b — skin 예상치: 실제 열 = 잉크 secondary 가는 가로 획, 미래 열 = 잉크 tertiary 가는 점선 윤곽. 라벨 mono 잉크 secondary."""
+    E = SKIN.chart.estimate  # noqa: N806
+    for m in estimate_marks(view, stage, e, rng, act):
+        if m["kind"] == "tick":
+            ctx.move_to(m["x0"], m["y"])
+            ctx.line_to(m["x1"], m["y"])
+            ctx.set_source_rgba(*skin.INK2, a)
+            ctx.set_line_width(E.tick_w)
+            ctx.stroke()
+        else:
+            w = E.future_w
+            ctx.rectangle(m["x0"] + w / 2, min(m["y"], m["y0"]) + w / 2, m["x1"] - m["x0"] - w, abs(m["y0"] - m["y"]) - w)
+            ctx.set_dash(list(E.dash))
+            ctx.set_source_rgba(*skin.INK3, a)
+            ctx.set_line_width(w)
+            ctx.stroke()
+            ctx.set_dash([])
+        lw = tw(ctx, m["label"], E.size, E.font)
+        text(ctx, m["label"], (m["x0"] + m["x1"]) / 2 - lw / 2, m["by"], E.size, E.font, skin.INK2, a, 0, "l")
+
+
 def _seg_style(e: dict, i: int, v: float, col: tuple[float, float, float]) -> tuple[tuple[float, float, float], float]:
     """쌓임 부문 칠 (rgb, 알파) — accent 부문 = col 솔리드, 손실(음수) = 채도 낮춘 면(loss_rgb, D-0328),
     나머지 = 잉크 사다리(부문 순서)."""
@@ -993,6 +1206,9 @@ def _seg_style(e: dict, i: int, v: float, col: tuple[float, float, float]) -> tu
         return col, 1.0
     if v < 0:
         return loss_rgb(), 1.0   # D-0328 — 손실 = 채도 낮춘 면, 테두리 없음
+    K = chart_skin()  # noqa: N806
+    if K is not None:   # v7.4.0 2b — skin: 부문 순서대로 중립 회색 단(불투명 — 어두운 잉크 사다리 없음)
+        return hexc(K.stack_greys[i % len(K.stack_greys)]), 1.0
     return bar_ink(), B.stack_ladder[min(i, len(B.stack_ladder) - 1)]
 
 
@@ -1022,8 +1238,10 @@ def _draw_stack(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dic
     부문 사이 1px 바탕색 틈. 합계 = 점 + 선(accent total 이면 accent). 부문 이름: 칸 높이 ≥ part_label_min_h 면 막대마다 안에,
     아니면 최신 막대 오른쪽에 지시선과 함께(범례 없음). 바깥 끝 모서리만 top_radius."""
     B = TIMELINE.bars  # noqa: N806
-    ink = bar_ink()
-    sep = island_rgb(SEP_RGB)
+    K = chart_skin()  # noqa: N806
+    ink = bar_ink() if K is None else skin.INK2   # v7.4.0 2b — skin: 합계 선·점·글자 = 잉크 secondary, 틈·고리 = 흰 면
+    sep = island_rgb(SEP_RGB) if K is None else skin.FILL
+    vs, vf = (B.value_size, B.value_font) if K is None else (K.value.size, K.value.font)
     acc = accent_of(e)
     cols = stack_columns(e)
     tots: list[tuple[float, float, float, bool, float]] = []   # (x, 점 y, 값, 최신, 라벨 기준 y)
@@ -1061,7 +1279,7 @@ def _draw_stack(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dic
             if abs(ye - sy0) < 0.5:
                 continue
             ctx.save()
-            _bar_path(ctx, sx0, sx1, sy0, ye, B.top_radius)
+            _bar_path(ctx, sx0, sx1, sy0, ye, bar_radius())
             ctx.clip()
             for i, s0, s1, v in segs:
                 if (v > 0) == (ye < sy0):
@@ -1115,8 +1333,8 @@ def _draw_stack(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dic
         ctx.set_line_width(1.0)
         ctx.stroke()
         s = fmt_value(v, "")
-        lw = tw(ctx, s, B.value_size, B.value_font)
-        text(ctx, s, x - lw / 2, ly, B.value_size, B.value_font, rgb, a, B.value_halo, "l")
+        lw = tw(ctx, s, vs, vf)
+        text(ctx, s, x - lw / 2, ly, vs, vf, rgb, a, B.value_halo if K is None else 0, "l")
 
 
 def _pair_fill(e: dict, lab: str, worse: bool, col: tuple[float, float, float]) -> tuple[tuple[float, float, float], float]:
@@ -1127,6 +1345,9 @@ def _pair_fill(e: dict, lab: str, worse: bool, col: tuple[float, float, float]) 
         return col, 1.0
     if worse:
         return loss_rgb(), 1.0   # D-0328 — 감소 = 채도 낮춘 면, 테두리 없음
+    K = chart_skin()  # noqa: N806
+    if K is not None:   # v7.4.0 2b — skin: 중립 회색 표지
+        return hexc(K.mark), 1.0
     return bar_ink(), B.stack_ladder[0]
 
 
@@ -1141,11 +1362,22 @@ def _guide_bar(ctx: cairo.Context, x0: float, x1: float, yv: "object", lo: float
     ink = bar_ink()
     ylo, yhi = yv(lo), yv(hi)
     w2 = line_w
-    if stage_surface():   # D-0328 §1·D-0330 — 테두리 0: 몸통 = 사다리 가장 옅은 면(0 → 위 끝), 범위 = 같은 폭 띠(진한 단)
+    K = chart_skin()  # noqa: N806
+    if K is not None:   # v7.4.0 2b — skin: 범위 띠 = 잉크 옅게, 몸통 = 가는 잉크 tertiary 윤곽(w = hollow.w), 예상 = 잉크 secondary
+        w2 = K.hollow.w
+        ctx.rectangle(x0, yhi, x1 - x0, ylo - yhi)
+        ctx.set_source_rgba(*skin.INK, K.band.guide_alpha * a)
+        ctx.fill()
+        _bar_path(ctx, x0 + w2 / 2, x1 - w2 / 2, yv(0.0), yhi + w2 / 2, bar_radius())
+        ctx.set_source_rgba(*skin.INK3, a)
+        ctx.set_line_width(w2)
+        ctx.stroke()
+        ink = skin.INK2
+    elif stage_surface():   # D-0328 §1·D-0330 — 테두리 0: 몸통 = 사다리 가장 옅은 면(0 → 위 끝), 범위 = 같은 폭 띠(진한 단)
         from engine.style import bg_rgb  # noqa: PLC0415
 
         g, m = bg_rgb(TIMELINE.bg_rgb), B.ladder[-1]
-        _bar_path(ctx, x0, x1, yv(0.0), yhi, B.top_radius)   # 불투명 합성색 — 열 accent 띠가 비쳐 손실 면(갈색)처럼 읽히지 않게(감독 판정 R-0306)
+        _bar_path(ctx, x0, x1, yv(0.0), yhi, bar_radius())   # 불투명 합성색 — 열 accent 띠가 비쳐 손실 면(갈색)처럼 읽히지 않게(감독 판정 R-0306)
         ctx.set_source_rgba(*(i * m + b * (1 - m) for i, b in zip(ink, g)), a)
         ctx.fill()
         ctx.rectangle(x0, yhi, x1 - x0, ylo - yhi)
@@ -1155,11 +1387,11 @@ def _guide_bar(ctx: cairo.Context, x0: float, x1: float, yv: "object", lo: float
         ctx.rectangle(x0, yhi, x1 - x0, ylo - yhi)   # 띠(범위가 막대의 머리)
         ctx.set_source_rgba(*ink, B.guide_band_alpha * a)
         ctx.fill()
-        _bar_path(ctx, x0 + w2 / 2, x1 - w2 / 2, yv(0.0), yhi + w2 / 2, B.top_radius)
+        _bar_path(ctx, x0 + w2 / 2, x1 - w2 / 2, yv(0.0), yhi + w2 / 2, bar_radius())
         ctx.set_source_rgba(*ink, B.guide_edge_alpha * a)
         ctx.set_line_width(w2)
         ctx.stroke()
-    ctx.set_source_rgba(*ink, B.guide_edge_alpha * a)
+    ctx.set_source_rgba(*ink, (B.guide_edge_alpha if K is None else 1.0) * a)
     ye = None
     if est is not None:
         ye = yv(est)
@@ -1185,7 +1417,8 @@ def _draw_range(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dic
     라벨은 열 오른쪽 "가이던스 15~16" · "예상 17.1"(레코드 값 그대로, 범례 없음) — 같은 열의 확대 인셋이 떠 있는 동안은 접는다
     (인셋이 같은 수를 크게 말한다 — 되풀이 글자 금지)."""
     B = TIMELINE.bars  # noqa: N806
-    ink = bar_ink()
+    K = chart_skin()  # noqa: N806
+    ink = bar_ink() if K is None else skin.INK2   # v7.4.0 2b — skin 라벨·리더 = 잉크 secondary
     est = dict(load_series(e["estimate_id"]).values) if e.get("estimate_id") else {}
     yv = lambda v: view.to_screen(0.0, value_y(stage, e["lane"], rng, v))[1]  # noqa: E731
     hidden = any(t0 <= t <= t1 for t0, t1 in e.get("labels_hidden") or [])
@@ -1268,8 +1501,9 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
     등장: 열 쪽에서 미끄러지며 페이드(fade·slide_px), 값은 grow_sec 동안 자란다. 범례 없음(직접 라벨)."""
     CD = _column_detail_rules()  # noqa: N806
     B = TIMELINE.bars  # noqa: N806
-    ink = bar_ink()
-    col = C[e.get("col", "gold")]
+    K = chart_skin()  # noqa: N806
+    ink = bar_ink() if K is None else skin.INK2   # v7.4.0 2b — skin: 글자·선 = 잉크 secondary, 강조 = 강조 잉크, 표지 = 중립 회색(K.mark)
+    col = C[e.get("col", "gold")] if K is None else skin.ACCENT_INK
     cin, cout = bool(e.get("detail_cont_in")), bool(e.get("detail_cont_out"))   # 앞·뒤 문장과 이어진 같은 인셋(accent 만 옮김)
     al = window(t, e["t0"], e["t1"], 0.0 if cin else CD.fade[0], 0.0 if cout else CD.fade[1]) * a
     if al <= CD.min_alpha:
@@ -1285,7 +1519,10 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
     if stage_surface():   # 무대 표면(아일랜드 그룹 바탕 투명): 띠는 이미 그린 막대·띠 뒤로 — 막대 색이 띠에 물들지 않게(감독 판정 R-0306)
         ctx.set_operator(cairo.OPERATOR_DEST_OVER)
     ctx.rectangle(cx0, ytop, cx1 - cx0, ybot - ytop)   # 열 띠 — 무대 표면은 text 잉크 아주 옅게(band_ink_alpha), 그 밖은 accent
-    ctx.set_source_rgba(*(C["white"] if stage_surface() else col), (CD.band_ink_alpha if stage_surface() else CD.band_alpha) * al)
+    if K is not None:   # 2b — skin: 잉크 아주 옅게(강조 판 없음)
+        ctx.set_source_rgba(*skin.INK, K.detail.band_alpha * al)
+    else:
+        ctx.set_source_rgba(*(C["white"] if stage_surface() else col), (CD.band_ink_alpha if stage_surface() else CD.band_alpha) * al)
     ctx.fill()
     ctx.restore()
     side = e.get("detail_side", CD.side_order[0])
@@ -1297,28 +1534,38 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
     ly = y + 0.5
     ctx.move_to(cx0 if side == "left" else cx1, ly)
     ctx.line_to(ex, ly)
-    ctx.set_source_rgba(*ink, CD.leader_alpha * al)
-    ctx.set_line_width(CD.leader_w)
+    ctx.set_source_rgba(*(ink if K is None else skin.INK), (CD.leader_alpha if K is None else K.detail.leader_alpha) * al)
+    ctx.set_line_width(CD.leader_w if K is None else SKIN.hairline.w)
     ctx.stroke()
     from engine.style import PALETTE  # noqa: PLC0415
 
-    sep = PALETTE.get("island_deep", island_rgb(SEP_RGB))   # v7.4.0 D-0322 정정 — 르포 card_deep
+    sep = PALETTE.get("island_deep", island_rgb(SEP_RGB)) if K is None else skin.FILL   # v7.4.0 D-0322 정정 — 르포 card_deep
     from engine.style import stage_surface  # noqa: PLC0415
 
     flat = stage_surface()
     (ix0, iy0), (ix1, iy1) = ctx.user_to_device(x, y), ctx.user_to_device(x + w, y + h)   # [bar-border] — 인셋에 가린 막대는 재지 않는다
     DRAWN_INSETS.append((min(ix0, ix1), min(iy0, iy1), max(ix0, ix1), max(iy0, iy1)))
-    rrect(ctx, x, y, w, h, 0.0 if flat else CD.radius)   # 무대 표면 = 모서리 0·테두리 0(D-0328 §3·D-0330)
-    ctx.set_source_rgba(*sep, CD.fill_alpha * al)
-    if flat:
-        ctx.fill()
+    if K is not None:   # 2b — skin: 흰 카드(skin.surface, 직각·부드러운 그림자)
+        skin.surface(ctx, (x, y, w, h), al, level=K.detail.level)
     else:
-        ctx.fill_preserve()
-        ctx.set_source_rgba(*ink, CD.edge_alpha * al)
-        ctx.set_line_width(1.0)
-        ctx.stroke()
+        rrect(ctx, x, y, w, h, 0.0 if flat else CD.radius)   # 무대 표면 = 모서리 0·테두리 0(D-0328 §3·D-0330)
+        ctx.set_source_rgba(*sep, CD.fill_alpha * al)
+        if flat:
+            ctx.fill()
+        else:
+            ctx.fill_preserve()
+            ctx.set_source_rgba(*ink, CD.edge_alpha * al)
+            ctx.set_line_width(1.0)
+            ctx.stroke()
     p = CD.pad_px
-    if flat:   # D-0328 §3·D-0330 — 머리 줄 없이 짧은 이름 하나(연출 title — 기간·단위를 그 안에 짧게), 라벨 위계(sans muted)
+    if K is not None:   # 2b — skin: 머리 = 연출 제목(+ 제목에 없을 때만 단위) sansb 잉크 primary. 기간·단위를 되풀이하지 않는다
+        u_ = detail_unit(e)
+        head = e["title"] if u_ in e["title"] else f"{e['title']} · {u_}"
+        hw_ = tw(ctx, head, K.detail.head_size, K.detail.head_font)
+        if hw_ > w - 2 * p:   # 자르지 않는다(P6)
+            raise ValueError(f"column_detail 머리 줄 {head!r} 폭 {hw_:.0f} > 인셋 안쪽 {w - 2 * p:.0f} — 연출 title 을 줄인다")
+        text(ctx, head, x + p, y + p + K.detail.head_size * TM.cap_rise, K.detail.head_size, K.detail.head_font, skin.INK, al, 0, "l")
+    elif flat:   # D-0328 §3·D-0330 — 머리 줄 없이 짧은 이름 하나(연출 title — 기간·단위를 그 안에 짧게), 라벨 위계(sans muted)
         text(ctx, e["title"], x + p, y + p + CD.text_size * TM.cap_rise, CD.text_size, CD.text_font, C["muted"], al, 0, "l")
     else:
         head = f"{e['title']}({detail_unit(e)})" if e["style"] == "slope" else f"{span} · {e['title']}({detail_unit(e)})"   # slope 는 두 시점을 열 머리에(되풀이 글자 금지)
@@ -1393,7 +1640,7 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
             y0, y1 = mapy(v0, a_lo, a_hi), mapy(v0 + (v1 - v0) * k, a_lo, a_hi)
             ctx.move_to(xa, y0)
             ctx.line_to(xa + (xb - xa) * k, y1)
-            ctx.set_source_rgba(*rgb, (1.0 if hot else B.stack_ladder[min(i, len(B.stack_ladder) - 1)]) * al)
+            ctx.set_source_rgba(*rgb, (1.0 if hot or K is not None else B.stack_ladder[min(i, len(B.stack_ladder) - 1)]) * al)
             ctx.set_line_width(CD.line_w * (CD.hot_line_scale if hot else 1.0))
             ctx.stroke()
             for xx, yy in ((xa, y0), (xa + (xb - xa) * k, y1)):
@@ -1423,7 +1670,7 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
         for i, (lab, v0, v1) in enumerate(items):
             xc = ax0 + slot * (i + 0.5) - slot * CD.dumbbell_x_shift_ratio
             y0, y1 = mapy(v0, a_lo, a_hi), mapy(v0 + (v1 - v0) * k, a_lo, a_hi)
-            rgb, fa = _pair_fill(e, lab, v1 < v0, col) if acc != "none" or v1 < v0 else (ink, B.stack_ladder[0])
+            rgb, fa = _pair_fill(e, lab, v1 < v0, col) if acc != "none" or v1 < v0 else ((ink, B.stack_ladder[0]) if K is None else (hexc(K.mark), 1.0))
             ctx.move_to(xc, y0)
             ctx.line_to(xc, y1)
             ctx.set_source_rgba(*ink, B.pair_line_alpha * al)
@@ -1441,7 +1688,7 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
             ctx.set_source_rgba(*rgb, fa * al)
             ctx.fill_preserve()
             ctx.new_path()
-            fg = ink if v1 < v0 else (rgb if fa >= B.solid_alpha_min else ink)   # 감소 항목의 글자는 잉크(면만 흐리게 — 글자가 바탕에 묻히지 않게, D-0330)
+            fg = ink if v1 < v0 or (K is not None and rgb != col) else (rgb if fa >= B.solid_alpha_min else ink)   # 감소 항목의 글자는 잉크(면만 흐리게 — 글자가 바탕에 묻히지 않게, D-0330) · skin 회색 표지의 글자 = 잉크
             text(ctx, fmt_value(v0, ""), xc + CD.dot_r + CD.value_dx, y0 + ts * TM.mid_drop, ts, tf, ink, al * CD.prior_value_alpha, 0, "l")
             if k >= 1.0:
                 text(ctx, fmt_value(v1, ""), xc + CD.dot_r + CD.value_dx, y1 + ts * TM.mid_drop, ts, vf, fg, al, 0, "l")
@@ -1461,11 +1708,11 @@ def _draw_column_detail(ctx: cairo.Context, view: "View", stage: "TimelineStage"
         xc = ax0 + slot * (i + 0.5)
         hw = slot * CD.bar_w_ratio / 2
         ye = mapy(pc * k, a_lo, a_hi)
-        rgb, fa = _pair_fill(e, lab, pc < 0, col) if acc != "none" or pc < 0 else (ink, B.stack_ladder[0])
-        _bar_path(ctx, xc - hw, xc + hw, yz, ye, B.top_radius)
+        rgb, fa = _pair_fill(e, lab, pc < 0, col) if acc != "none" or pc < 0 else ((ink, B.stack_ladder[0]) if K is None else (hexc(K.mark), 1.0))
+        _bar_path(ctx, xc - hw, xc + hw, yz, ye, bar_radius())
         ctx.set_source_rgba(*rgb, fa * al)
         ctx.fill()
-        fg = ink if pc < 0 else (rgb if fa >= B.solid_alpha_min else ink)   # 감소 항목의 글자는 잉크(D-0330)
+        fg = ink if pc < 0 or (K is not None and rgb != col) else (rgb if fa >= B.solid_alpha_min else ink)   # 감소 항목의 글자는 잉크(D-0330) · skin 회색 표지의 글자 = 잉크
         if k >= 1.0:
             s = f"{pc:+.0f}%"
             by = ye - 6 if pc >= 0 else ye + 6 + ts
@@ -1497,9 +1744,15 @@ def _draw_band(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
     """목표 범위 띠(v4.4.0 D-0090 작업 2) — 달마다 [그 달 첫날, 다음 달 첫날) 계단. 위·아래 끝 선 + 반투명 칠.
     돌려주는 값 = 드러난 마지막 달 (x, 아래 y, 아래 값), 위 값 — 끝점 라벨용. 이 함수가 부르는 쪽의 clip 안에서 그린다."""
     B = TIMELINE.band  # noqa: N806
+    fa, ea, ew = B.fill_alpha, B.edge_alpha, B.edge_w
+    K = chart_skin()  # noqa: N806
+    if K is not None:   # v7.4.0 2b — skin: 중립 잉크 옅은 칠 + 가는 끝선(달마다 색 판 없음 — 강조색은 계열 선 하나, 변화는 계단 선이 말한다)
+        fa, ea, ew = K.band.fill_alpha, K.band.edge_alpha, K.band.edge_w
     rows = band_pairs(e)
     last: tuple[float, float, float] | None = None
     last_hi: float | None = None
+    if K is not None:   # 2b — skin: 계단 띠 하나(행마다 다음 행까지 — 일별 레코드가 달 칸을 겹겹이 덧칠해 짙어지지 않게)
+        return _draw_band_skin(ctx, view, stage, e, rng, rows, a, front, fa, ea, ew)
     for seg in segments([(d, i) for i, (d, _, _) in enumerate(rows)]):   # 빈 달에서 끊는다(보간 금지)
         lo_pts: list[tuple[float, float]] = []
         hi_pts: list[tuple[float, float]] = []
@@ -1530,15 +1783,55 @@ def _draw_band(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
             sx, sy = view.to_screen(x, y)
             (ctx.move_to if i == 0 else ctx.line_to)(sx, sy)
         ctx.close_path()
-        ctx.set_source_rgba(*col, B.fill_alpha * a)
+        ctx.set_source_rgba(*col, fa * a)
         ctx.fill()
         for pts in (hi_pts, lo_pts):
             ctx.new_path()
             for i, (x, y) in enumerate(pts):
                 sx, sy = view.to_screen(x, y)
                 (ctx.move_to if i == 0 else ctx.line_to)(sx, sy)
-            ctx.set_source_rgba(*col, B.edge_alpha * a)
-            ctx.set_line_width(B.edge_w)
+            ctx.set_source_rgba(*col, ea * a)
+            ctx.set_line_width(ew)
+            ctx.stroke()
+    return last, last_hi
+
+
+def _draw_band_skin(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, rng: tuple[float, float],
+                    rows: list[tuple[date, float, float]], a: float, front: float, fa: float, ea: float,
+                    ew: float) -> tuple[tuple[float, float, float] | None, float | None]:
+    """v7.4.0 2b — skin 목표 범위 띠: 끊긴 구간(레코드 missing — 월별은 달 규칙)마다 다각형 하나(칠 한 번 + 위·아래 끝선 한 번).
+    행의 오른쪽 끝 = 다음 행 날짜(마지막 행 = 다음 달 1일 · 일별은 다음 날). 같은 자리를 겹쳐 칠하지 않는다."""
+    rec = load_series(e["series_id"])
+    daily = rec.frequency != "monthly"
+    gaps = rec.missing_dates() if daily else None
+    last: tuple[float, float, float] | None = None
+    last_hi: float | None = None
+    for seg in segments([(d, i) for i, (d, _, _) in enumerate(rows)], gaps):
+        lo_pts: list[tuple[float, float]] = []
+        hi_pts: list[tuple[float, float]] = []
+        for j, (d, i) in enumerate(seg):
+            _, lo, hi = rows[int(i)]
+            nd = seg[j + 1][0] if j + 1 < len(seg) else (d + timedelta(days=1) if daily else _next_month(d))
+            x0, x1 = stage.x_of(d), stage.x_of(nd)
+            ylo, yhi = value_y(stage, e["lane"], rng, lo), value_y(stage, e["lane"], rng, hi)
+            lo_pts += [(x0, ylo), (x1, ylo)]
+            hi_pts += [(x0, yhi), (x1, yhi)]
+            if x0 <= front:
+                last, last_hi = (x0, ylo, lo), hi
+        ctx.new_path()
+        for k, (x, y) in enumerate(hi_pts + lo_pts[::-1]):
+            sx, sy = view.to_screen(x, y)
+            (ctx.move_to if k == 0 else ctx.line_to)(sx, sy)
+        ctx.close_path()
+        ctx.set_source_rgba(*skin.INK, fa * a)
+        ctx.fill()
+        for pts in (hi_pts, lo_pts):
+            ctx.new_path()
+            for k, (x, y) in enumerate(pts):
+                sx, sy = view.to_screen(x, y)
+                (ctx.move_to if k == 0 else ctx.line_to)(sx, sy)
+            ctx.set_source_rgba(*skin.INK, ea * a)
+            ctx.set_line_width(ew)
             ctx.stroke()
     return last, last_hi
 
@@ -1551,6 +1844,8 @@ def lane_name(ln: object) -> str:
 def _lane_name_box(ctx: cairo.Context, view: "View", stage: "TimelineStage", lane: str) -> tuple[float, float, float, float]:
     L = TIMELINE.lane_label  # noqa: N806
     i = stage.lane_index(lane)
+    if skin.active():
+        return lane_title_box(ctx, view, stage, i)
     top, _ = stage.lane_screen(view, i)
     return (view.ox + L.x, top + L.dy - L.size, view.ox + L.x + tw(ctx, lane_name(stage.lanes[i]), L.size, L.font), top + L.dy + L.size / 2)
 
@@ -1563,11 +1858,52 @@ def _next_month(d: date) -> date:
     return date(d.year + d.month // MONTHS, d.month % MONTHS + 1, 1)
 
 
+def missing_marks(view: "View", stage: "TimelineStage", rec: object, e: dict, rng: tuple[float, float]) -> list[tuple[float, float, float]]:
+    """skin "자료 없음" 자리 (화면 x 왼쪽 끝, 오른쪽 끝, 꺾쇠 y) — 끊긴 구간(빈 날 앞 마지막 값 ~ 뒤 첫 값)마다 하나.
+    꺾쇠 y = 양 끝 값 중 높은 쪽 − missing.lift(선 위). 그리기·시험이 같이 쓴다."""
+    M = SKIN.chart.missing  # noqa: N806
+    vals = rec.values  # type: ignore[attr-defined]
+    out: list[tuple[float, float, float]] = []
+    seen: set[tuple[date, date]] = set()
+    for d in rec.missing_dates():  # type: ignore[attr-defined]
+        prev = next((p for p in reversed(vals) if p[0] < d), None)
+        nxt = next((p for p in vals if p[0] > d), None)
+        if prev is None or nxt is None or (prev[0], nxt[0]) in seen:
+            continue
+        seen.add((prev[0], nxt[0]))
+        xa = stage.x_of(_next_month(prev[0]) if e["style"] == "step" else prev[0])
+        sa, ya = view.to_screen(xa, value_y(stage, e["lane"], rng, prev[1]))
+        sb, yb = view.to_screen(stage.x_of(nxt[0]), value_y(stage, e["lane"], rng, nxt[1]))
+        out.append((sa, sb, min(ya, yb) - M.lift))
+    return out
+
+
+def _draw_missing_skin(ctx: cairo.Context, view: "View", stage: "TimelineStage", rec: object, e: dict, front: float, a: float,
+                       right: float, rng: tuple[float, float]) -> None:
+    """v7.4.0 2b — skin "자료 없음": 끊긴 구간 위 가는 꺾쇠(잉크 tertiary) + 그 위 mono 라벨. 앞끝이 구간을 지난 뒤에만."""
+    M = SKIN.chart.missing  # noqa: N806
+    fx = view.to_screen(front, 0.0)[0] if front != math.inf else math.inf
+    for sa, sb, y in missing_marks(view, stage, rec, e, rng):
+        if sb > fx or not view.ox <= (sa + sb) / 2 <= right:
+            continue
+        ctx.move_to(sa, y + M.tick)
+        ctx.line_to(sa, y)
+        ctx.line_to(sb, y)
+        ctx.line_to(sb, y + M.tick)
+        ctx.set_source_rgba(*skin.INK3, M.alpha * a)
+        ctx.set_line_width(M.w)
+        ctx.stroke()
+        text(ctx, TIMELINE.missing_mark.label, (sa + sb) / 2, y - M.gap, M.size, M.font, skin.INK3, a, 0, "c")
+
+
 def _draw_missing(ctx: cairo.Context, view: "View", stage: "TimelineStage", rec: object, e: dict, front: float, a: float,
-                  right: float) -> None:
+                  right: float, rng: tuple[float, float] | None = None) -> None:
     """빈 달 자리 표시(D-0086 보정 1) — 짧은 점선 + "자료 없음". 일별 계열은 찍지 않는다(D-0319 ③ — 선만 끊고 출처 줄 한 줄, daily_missing_note)."""
     M = TIMELINE.missing_mark  # noqa: N806
     if rec.frequency == "daily":  # type: ignore[attr-defined]
+        return
+    if chart_skin() is not None and rng is not None:   # v7.4.0 2b — skin: 끊긴 구간 위 꺾쇠 + 라벨(선 위에 놓이지 않는다)
+        _draw_missing_skin(ctx, view, stage, rec, e, front, a, right, rng)
         return
     lo_y, hi_y = stage.lane_y(e["lane"])
     for d in rec.missing_dates():  # type: ignore[attr-defined]
@@ -1576,6 +1912,10 @@ def _draw_missing(ctx: cairo.Context, view: "View", stage: "TimelineStage", rec:
             continue
         sx, top = view.to_screen(x, hi_y)
         _, bot = view.to_screen(x, lo_y)
+        K = chart_skin()  # noqa: N806
+        if K is not None:   # v7.4.0 2a — skin: 제목 줄을 지나지 않게 값 범위 안만
+            pb_, pt_ = plot_pads(stage, e["lane"])
+            top, bot = top + pt_, bot - pb_
         if not 0 <= sx <= right:
             continue
         ctx.set_dash(M.dash)
@@ -1597,6 +1937,20 @@ def _draw_axis(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict
     reg = (R.cache.get("series_end_labels") or {}) if R is not None else {}
     ends = [p[2] for p in (reg.get("lanes") or {}).get(e["lane"], [])] if reg.get("t") == t else []
     labeled = {v for v, _ in axis_label_items(ctx, view, stage, e["lane"], rng, unit, ends)}
+    K = chart_skin()  # noqa: N806
+    if K is not None:   # v7.4.0 2a — skin: 가는 잉크 가로선(내용 왼쪽 ~ 숫자 열 앞) + 숫자 열(mono, 잉크 tertiary, 선 가운데)
+        x1 = plot_right(ctx, view, stage, e["lane"], rng, unit)
+        for v in axis_values(rng):
+            _, sy = view.to_screen(0.0, value_y(stage, e["lane"], rng, v))
+            ln = K.zero if v == 0 else K.grid
+            ctx.move_to(view.ox + K.title.x, sy)
+            ctx.line_to(x1, sy)
+            ctx.set_source_rgba(*skin.INK, ln.alpha * a)
+            ctx.set_line_width(ln.w)
+            ctx.stroke()
+            if v in labeled:
+                text(ctx, fmt_value(v, unit), view.right - K.axis.margin, sy + K.axis.dy, K.axis.size, K.axis.font, skin.INK3, a, 0, "r")
+        return
     for v in axis_values(rng):   # v7.4.0 D-0263 — 끝 + 중간 눈금
         _, sy = view.to_screen(0.0, value_y(stage, e["lane"], rng, v))
         ctx.move_to(view.ox, sy)
@@ -1630,38 +1984,41 @@ def world_text_boxes(stage: "TimelineStage", v: "View", axes: dict) -> list[tupl
     size, font = (ISLAND.stage_surface.lane_label_size, ISLAND.stage_surface.lane_label_font) if flat else (L.size, L.font)
     out: list[tuple[str, tuple[float, float, float, float]]] = []
     for i, ln in enumerate(stage.lanes):
+        if skin.active():   # v7.4.0 2a — 이름 + 단위 제목(lane_title_box, 그리기와 같은 자리)
+            out.append((f"레인 이름 {ln.id}", lane_title_box(ctx, v, stage, i)))
+            continue
         top, _ = stage.lane_screen(v, i)
         base = top + (size + 2 if flat else L.dy)   # stage_timeline.draw_labels 와 같은 기준선
         x0 = v.ox + L.x
         out.append((f"레인 이름 {ln.id}", (x0, base - size, x0 + tw(ctx, lane_name(ln), size, font), base)))
+    az, af, ady, am = axis_style()
     for lane, (rng, unit) in axes.items():
         for val in axis_label_values(v, stage, lane, rng):
             _, sy = v.to_screen(0.0, value_y(stage, lane, rng, val))
             s_ = fmt_value(val, unit)
-            x1 = v.right - S.axis_label_margin_px
-            out.append((f"축 값 {lane} {s_}", (x1 - tw(ctx, s_, S.axis_label_size, S.axis_label_font), sy + S.axis_label_dy - S.axis_label_size,
-                                              x1, sy + S.axis_label_dy)))
+            x1 = v.right - am
+            out.append((f"축 값 {lane} {s_}", (x1 - tw(ctx, s_, az, af), sy + ady - az, x1, sy + ady)))
     return out
 
 
 def plot_right(ctx: cairo.Context, view: "View", stage: "TimelineStage", lane: str, rng: tuple[float, float], unit: str) -> float:
     """자료를 그리는 영역의 오른쪽 끝(화면 x) — 그 오른쪽은 축 값 라벨 예약 열(v7.4.0 감독 지시: 선이 "3.5%" 를 가로질렀다).
     열 폭 = 가장 긴 눈금 라벨 + 양옆 axis_label_margin_px. 시간 축척(x_of)은 그대로 — 열 안의 선·띠·점만 잘린다(UF-138 w 고정)."""
-    S = TIMELINE.series  # noqa: N806
-    w = max((tw(ctx, fmt_value(v, unit), S.axis_label_size, S.axis_label_font) for v in axis_values(rng)), default=0.0)
-    return view.right - w - 2 * S.axis_label_margin_px
+    az, af, _, am = axis_style()
+    w = max((tw(ctx, fmt_value(v, unit), az, af) for v in axis_values(rng)), default=0.0)
+    return view.right - w - 2 * am
 
 
 def axis_label_items(ctx: cairo.Context, view: "View", stage: "TimelineStage", lane: str, rng: tuple[float, float], unit: str,
                      avoid: list | None = None) -> list[tuple[float, tuple[float, float, float, float]]]:
     """그린 축 눈금 라벨 (값, 글자 상자)(_draw_axis 와 같은 자리). avoid(끝값 라벨 상자)와 겹치는 눈금 라벨은 생략(눈금선만, v7.4.0)."""
-    S = TIMELINE.series  # noqa: N806
+    az, af, ady, am = axis_style()
     out = []
     for v in axis_label_values(view, stage, lane, rng):
         _, sy = view.to_screen(0.0, value_y(stage, lane, rng, v))
-        x1 = view.right - S.axis_label_margin_px
-        by = sy + S.axis_label_dy
-        b = (x1 - tw(ctx, fmt_value(v, unit), S.axis_label_size, S.axis_label_font), by - S.axis_label_size, x1, by)
+        x1 = view.right - am
+        by = sy + ady
+        b = (x1 - tw(ctx, fmt_value(v, unit), az, af), by - az, x1, by)
         if not any(_hits(b, z) for z in avoid or []):
             out.append((v, b))
     return out
@@ -1711,10 +2068,12 @@ def source_lines(ctx: cairo.Context, view: "View", s: str) -> list[str]:
     from engine.style import ISLAND  # noqa: PLC0415
 
     L, S = TIMELINE.lane_label, TIMELINE.series  # noqa: N806
-    max_w = view.vw - L.x - S.axis_zone_px
+    K = chart_skin()  # noqa: N806
+    max_w = view.vw - L.x - S.axis_zone_px if K is None else view.vw - 2 * K.title.x   # skin — 출처는 숫자 열 아래 자기 줄(내용 폭 전체)
+    fs, ff = source_style()
     parts, lines = s.split(SOURCE_SEP), []
     for p in parts:
-        if lines and len(lines) < ISLAND.source_wrap_lines_max and tw(ctx, lines[-1] + SOURCE_SEP + p, S.source_size, S.source_font) > max_w:
+        if lines and len(lines) < ISLAND.source_wrap_lines_max and tw(ctx, lines[-1] + SOURCE_SEP + p, fs, ff) > max_w:
             lines.append(p)
         elif lines:
             lines[-1] += SOURCE_SEP + p
@@ -1727,9 +2086,32 @@ def source_line_boxes(ctx: cairo.Context, view: "View", stage: "TimelineStage", 
     """(줄, 왼쪽 x, 기준선 y) — 아래 줄이 레인 아래 끝 − source_dy, 그 위 줄은 source_step 씩 위. 그리기와 검사가 같이 쓴다."""
     L, S = TIMELINE.lane_label, TIMELINE.series  # noqa: N806
     _, bot = stage.lane_screen(view, stage.lane_index(e["lane"]))
+    K = chart_skin()  # noqa: N806
+    if K is not None:   # v7.4.0 2a — skin: 마지막 레인 아래(눈금·가는 선 아래) 한 덩이 — 레인 순서대로 줄을 쌓는다, "출처  " 머리
+        row = source_row(ctx, view, stage, e["lane"])
+        _, bot = stage.lane_screen(view, stage.n - 1)
+        lines = source_lines(ctx, view, source_prefix(stage, e["lane"]) + lane_source_text(e))
+        return [(ln, view.ox + K.title.x, bot + K.source.dy + (row + k) * K.source.step) for k, ln in enumerate(lines)]
     lines = source_lines(ctx, view, lane_source_text(e))
     n = len(lines)
     return [(ln, view.ox + L.x, bot - S.source_dy - (n - 1 - k) * S.source_step) for k, ln in enumerate(lines)]
+
+
+def source_row(ctx: cairo.Context, view: "View", stage: "TimelineStage", lane: str) -> int:
+    """skin 출처 덩이에서 이 레인의 첫 줄 번호 — 앞 레인들(stage.lane_sources, 레인 순서)의 접힌 줄 수 합."""
+    K = SKIN.chart  # noqa: N806
+    i = stage.lane_index(lane)
+    return sum(len(source_lines(ctx, view, source_prefix(stage, ln.id) + stage.lane_sources[ln.id]))
+               for ln in stage.lanes[:i] if ln.id in stage.lane_sources)
+
+
+def source_prefix(stage: "TimelineStage", lane: str) -> str:
+    """skin 출처 줄 머리 — 레인 하나면 source.prefix("출처  "), 둘 이상이면 레인 이름 + 같은 뒤 여백(v7.4.0 2b — 레인 순서대로 한 덩이,
+    어느 줄이 어느 레인 것인지 이름이 말한다. 이름은 잉크 secondary 로 그린다)."""
+    P = SKIN.chart.source.prefix  # noqa: N806
+    if stage.n == 1:
+        return P
+    return stage.lanes[stage.lane_index(lane)].label + P[len(P.rstrip()):]
 
 
 def _draw_source(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: dict, a: float) -> None:
@@ -1738,8 +2120,24 @@ def _draw_source(ctx: cairo.Context, view: "View", stage: "TimelineStage", e: di
     if e["slot"]:
         return
     S = TIMELINE.series  # noqa: N806
+    K = chart_skin()  # noqa: N806
+    if K is not None:   # v7.4.0 2a — skin: 가는 선(내용 폭) 아래 출처 줄(잉크 tertiary)
+        if source_row(ctx, view, stage, e["lane"]) == 0:   # 가는 선은 덩이 첫 레인만(겹쳐 진해지지 않게)
+            _, bot = stage.lane_screen(view, stage.n - 1)
+            ctx.move_to(view.ox + K.title.x, bot + K.rule.dy)
+            ctx.line_to(view.right - K.title.x, bot + K.rule.dy)
+            ctx.set_source_rgba(*skin.INK, K.rule.alpha * a)
+            ctx.set_line_width(K.rule.w)
+            ctx.stroke()
+        head = source_prefix(stage, e["lane"]) if stage.n > 1 else ""
+        for k, (ln, x, y) in enumerate(source_line_boxes(ctx, view, stage, e)):
+            if k == 0 and head and ln.startswith(head):   # 2b — 레인 이름(잉크 secondary) + 출처(잉크 tertiary)
+                text(ctx, head, x, y, K.source.size, K.source.font, skin.INK2, a, 0, "l")
+                x, ln = x + tw(ctx, head, K.source.size, K.source.font), ln[len(head):]
+            text(ctx, ln, x, y, K.source.size, K.source.font, skin.INK3, a, 0, "l")
+        return
     for ln, x, y in source_line_boxes(ctx, view, stage, e):
         text(ctx, ln, x, y, S.source_size, S.source_font, C["muted"], a, S.source_halo, "l")
 
 
-__all__ = ["lane_source_text", "place_end_label", "band_pairs", "month_colors", "regimes", "draw_series", "fmt_value", "lane_range", "nice_step", "axis_values", "axis_range_note", "column_date", "record_points", "projection_dots", "source_lines", "source_line_boxes", "lane_source_join", "projection_tag_lines", "axis_label_values", "axis_label_boxes", "axis_label_items", "clear_axis_labels", "record_ids", "segments", "source_line", "value_text", "value_y"]
+__all__ = ["axis_style", "end_dot_rgb", "missing_marks", "plot_pads", "skin_plate_rect", "source_prefix", "bar_radius", "chart_skin", "lane_title_box", "series_rgb", "source_row", "source_style", "lane_source_text", "place_end_label", "band_pairs", "month_colors", "regimes", "draw_series", "fmt_value", "lane_range", "nice_step", "axis_values", "axis_range_note", "column_date", "record_points", "projection_dots", "source_lines", "source_line_boxes", "lane_source_join", "projection_tag_lines", "axis_label_values", "axis_label_boxes", "axis_label_items", "clear_axis_labels", "record_ids", "segments", "source_line", "value_text", "value_y"]

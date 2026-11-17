@@ -12,12 +12,13 @@ import math
 
 import cairo
 
+from engine import skin
 from engine.assets import set_raster
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import BADGE, BADGE_BG, C, H_OUT, MOTION, W_OUT
+from engine.style import BADGE, BADGE_BG, C, H_OUT, MOTION, SKIN, W_OUT, hexc
 from engine.timebase import ease_back, ease_out, smooth, window
-from engine.typography import rrect, text, tw
+from engine.typography import ink_rgb, rrect, text, tw
 
 
 FW = BADGE.flag_wave
@@ -292,17 +293,21 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
         return
     acc = C.get(e.get("accent") or "gold", C["gold"])
     kind, flag = resolve_kind(R, e)
+    sk = skin.active()   # v7.4.0 C0.0 3b(UF-906) — 부드러운 원 그림자·밝은 원판·흰 고리 + 가는 선 + 강조 호·흰 알약 이름표(skin.badge)
     ctx.save()
     ctx.translate(x, y)
     ctx.scale(k, k)
-    for r_, al in ((Rr + 7, 0.1), (Rr + 4, 0.18)):
-        ctx.arc(1.5, 3, r_, 0, 2 * math.pi)
-        ctx.set_source_rgba(0, 0, 0, al * a)
-        ctx.fill()
+    if sk:
+        skin.soft_shadow(ctx, (-Rr, -Rr, 2 * Rr, 2 * Rr), Rr, getattr(SKIN.shadow, SKIN.badge.shadow), a)
+    else:
+        for r_, al in ((Rr + 7, 0.1), (Rr + 4, 0.18)):
+            ctx.arc(1.5, 3, r_, 0, 2 * math.pi)
+            ctx.set_source_rgba(0, 0, 0, al * a)
+            ctx.fill()
     ctx.save()
     ctx.arc(0, 0, Rr, 0, 2 * math.pi)
     ctx.clip()
-    ctx.set_source_rgba(*BADGE_BG, a)
+    ctx.set_source_rgba(*(hexc(SKIN.badge.bg) if sk else BADGE_BG), a)
     ctx.paint()
     if e["kind"] == "person":
         flag_wave(ctx, R, f"flag43:{e['flag']}", Rr * FW.cx, Rr * FW.cy, Rr * FW.width, FW.alpha * a, t)
@@ -338,22 +343,27 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
             set_raster(ctx, ps, R.out.k, -pw / 2, y0)
         ctx.paint_with_alpha(a)
         ctx.restore()
-    ctx.new_path()              # 링(모든 뱃지) = 어두운 outer_w 위에 accent inner_w, 같은 원 — rules badge.ring(v5.14.0 값 그대로, D152)
-    ctx.arc(0, 0, Rr, 0, 2 * math.pi)
-    ctx.set_source_rgba(*RING.outer_rgb, a)
-    ctx.set_line_width(RING.outer_w)
-    ctx.stroke_preserve()
-    ctx.set_source_rgba(*acc, RING.inner_alpha * a)
-    ctx.set_line_width(RING.inner_w)
-    ctx.stroke()
+    if sk:
+        skin_ring(ctx, Rr, a, e["kind"] == "person")
+    else:
+        ctx.new_path()              # 링(모든 뱃지) = 어두운 outer_w 위에 accent inner_w, 같은 원 — rules badge.ring(v5.14.0 값 그대로, D152)
+        ctx.arc(0, 0, Rr, 0, 2 * math.pi)
+        ctx.set_source_rgba(*RING.outer_rgb, a)
+        ctx.set_line_width(RING.outer_w)
+        ctx.stroke_preserve()
+        ctx.set_source_rgba(*acc, RING.inner_alpha * a)
+        ctx.set_line_width(RING.inner_w)
+        ctx.stroke()
     draw_cues(ctx, e, t, Rr, acc, a)
     ctx.restore()
     la = a * smooth((lt - 0.3) / MOTION["badge_label_in_sec"])   # v7.4.0 UF-159 ×1.5
-    if e.get("label") and la > 0.01:
+    if sk and e.get("label") and la > 0.01:
+        skin_label(ctx, e, x, y, Rr, k, la)
+    elif e.get("label") and la > 0.01:
         LB = BADGE.label_box  # noqa: N806
         ls, rs = label_sizes(e, Rr)
         if e.get("side") == "right":
-            text(ctx, e["label"], x + Rr * k + LB.side_dx, y + LB.side_dy, ls, "sansb", (1, 1, 1), la, 3, "l")
+            text(ctx, e["label"], x + Rr * k + LB.side_dx, y + LB.side_dy, ls, "sansb", ink_rgb(), la, 3, "l")
             if e.get("role"):
                 text(ctx, e["role"], x + Rr * k + LB.side_dx, y + LB.side_role_dy * ls / BADGE.label_side[0], rs, "sansm", acc, la, 2.6, "l")
         else:
@@ -369,6 +379,57 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
                 text(ctx, e["role"], x, base + rs + LB.role_gap, rs, "sansm", acc, la, 2.6, "c")
     R.reserved.append((x - Rr - 10, y - Rr * (head_factor(e) if e["kind"] == "person" else BADGE.reserve_top_factor), x + Rr + 10,
                        y + Rr + BADGE.reserve_bottom_px))
+
+
+def skin_ring(ctx: cairo.Context, Rr: float, a: float, arc: bool) -> None:  # noqa: N803
+    """skin 고리 — 흰 고리(ring.w) + 바깥 가는 선(hairline) + 강조 호(accent.shape, 12시부터 arc_deg — arc 일 때만, 인물 뱃지). 뱃지 중심 원점 좌표."""
+    G = SKIN.badge.ring  # noqa: N806
+    ctx.new_path()
+    ctx.arc(0, 0, Rr, 0, 2 * math.pi)
+    ctx.set_source_rgba(*skin.FILL, a)
+    ctx.set_line_width(G.w)
+    ctx.stroke()
+    ctx.arc(0, 0, Rr + G.w / 2, 0, 2 * math.pi)
+    ctx.set_source_rgba(*skin.HAIR, SKIN.hairline.alpha * a)
+    ctx.set_line_width(SKIN.hairline.w)
+    ctx.stroke()
+    if not arc:
+        return
+    a0 = G.arc_start_deg * math.pi / 180   # 도 → 라디안(반 바퀴 = 180도)
+    ctx.arc(0, 0, Rr, a0, a0 + G.arc_deg * math.pi / 180)
+    ctx.set_source_rgba(*skin.ACCENT_SHAPE, a)
+    ctx.set_line_width(G.arc_w)
+    ctx.stroke()
+
+
+def plate_rect(ctx: cairo.Context, e: dict, x: float, y: float, Rr: float, k: float) -> tuple[float, float, float, float]:  # noqa: N803
+    """skin 이름표 알약 상자(x0, y0, x1, y1) — 원 아래 gap, 이름(sansb) + 역할(sansm) 두 줄, 좌우 pad_x·위아래 pad_y."""
+    P = SKIN.badge.plate  # noqa: N806
+    ls, rs = label_sizes(e, Rr)
+    role = e.get("role") or ""
+    w = max(tw(ctx, e["label"], ls, "sansb"), tw(ctx, role, rs, "sansm") if role else 0.0) + 2 * P.pad_x
+    lh = (P.cap_k + P.desc_k)
+    h = 2 * P.pad_y + ls * lh + ((P.line_gap + rs * lh) if role else 0.0)
+    top = y + Rr * k + P.gap
+    return x - w / 2, top, x + w / 2, top + h
+
+
+def skin_label(ctx: cairo.Context, e: dict, x: float, y: float, Rr: float, k: float, la: float) -> None:  # noqa: N803
+    """skin 이름표 — side right 는 바탕 없는 잉크 글씨(이름 primary · 역할 secondary), 아니면 흰 알약(plate.level 그림자) 안 두 줄."""
+    P = SKIN.badge.plate  # noqa: N806
+    LB = BADGE.label_box  # noqa: N806
+    ls, rs = label_sizes(e, Rr)
+    if e.get("side") == "right":
+        text(ctx, e["label"], x + Rr * k + LB.side_dx, y + LB.side_dy, ls, "sansb", skin.INK, la, 0, "l")
+        if e.get("role"):
+            text(ctx, e["role"], x + Rr * k + LB.side_dx, y + LB.side_role_dy * ls / BADGE.label_side[0], rs, "sansm", skin.INK2, la, 0, "l")
+        return
+    x0, y0, x1, y1 = plate_rect(ctx, e, x, y, Rr, k)
+    skin.pill(ctx, (x0, y0, x1 - x0, y1 - y0), skin.FILL, la, P.level)
+    base = y0 + P.pad_y + ls * P.cap_k
+    text(ctx, e["label"], x, base, ls, "sansb", skin.INK, la, 0, "c")
+    if e.get("role"):
+        text(ctx, e["role"], x, base + ls * P.desc_k + P.line_gap + rs * P.cap_k, rs, "sansm", skin.INK2, la, 0, "c")
 
 
 def draw_cues(ctx: cairo.Context, e: dict, t: float, Rr: float, acc: tuple, a: float) -> None:  # noqa: N803
@@ -432,7 +493,10 @@ def badge_box(ctx: cairo.Context, e: dict, x: float, y: float, t: float | None =
     LB = BADGE.label_box  # noqa: N806
     top = y - max(Rr * head_factor(e), Rr + 7) if e["kind"] == "person" else y - Rr - 7
     x0, x1, y1 = x - Rr - 7, x + Rr + 7, y + Rr + 7
-    if e.get("label"):
+    if e.get("label") and skin.active() and e.get("side") != "right":   # v7.4.0 3b — 흰 알약 이름표(skin_label 과 같은 기하)
+        px0, py0, px1, py1 = plate_rect(ctx, e, x, y, Rr, 1.0)
+        x0, x1, y1 = min(x0, px0), max(x1, px1), max(y1, py1)
+    elif e.get("label"):
         ls, rs = label_sizes(e, Rr)
         if e.get("side") == "right":
             w = max(tw(ctx, e["label"], ls, "sansb"), tw(ctx, e.get("role") or "", rs, "sansm"))

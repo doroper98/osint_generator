@@ -16,7 +16,7 @@ from functools import lru_cache
 
 import cairo
 
-from engine.style import DISPLAY_SPACE, FONT, GLYPH_FALLBACK, UNIT_FONT
+from engine.style import C, DISPLAY_SPACE, FONT, GLYPH_FALLBACK, UNIT_FONT, Color
 
 HANGUL = re.compile("[ᄀ-ᇿ㄰-㆏가-힣]")
 MONO = ("mono", "monom")
@@ -147,16 +147,30 @@ def mixed_runs(s: str, name: str) -> list[list[str]]:
 
 
 HALO_RGB = (0.02, 0.03, 0.05)   # 글자 테두리 기본색(rules geo.themes.dark.map.halo 와 같음 — 지도 밖 글자는 테마와 무관)
+WHITE: Color = (1, 1, 1)   # 잉크 모드가 아닐 때의 본문 글자색(종전 기본값 — 팔레트와 무관하게 흰색, 바이트 동일)
+# v7.4.0 C0.0·UF-906(D917) — 잉크 모드(engine.skin.apply 가 켠다·끈다). 켜면 밝은 무대: 본문 글자 = 팔레트 text(짙은 잉크),
+# 기본 테두리색(HALO_RGB)으로 부른 글자의 테두리 = 0(밝은 무대 위 굵은 테두리 금지). 지도 지명처럼 halo_rgb 를 직접 넘긴 글자는 그대로
+INK_MODE = False
+
+
+def ink_rgb() -> Color:
+    """무대·카드 위 본문 글자색 — 잉크 모드면 팔레트 text(C["white"] 토큰), 아니면 흰색(종전)."""
+    return C["white"] if INK_MODE else WHITE
 
 
 def text(ctx: cairo.Context, s: str, x: float, y: float, size: float, name: str = "sansm",
-         col: tuple = (1, 1, 1), a: float = 1.0, halo: float = 3.0, anchor: str = "l",
+         col: tuple | None = None, a: float = 1.0, halo: float = 3.0, anchor: str = "l",
          spacing: float = 0.0, halo_a: float = 0.8, role: str | None = None,
          halo_rgb: tuple = HALO_RGB, contrast: str | None = None) -> float:
     """role = 글자 역할(규칙 qa_checks.glyph_size_exempt 의 이름). 없으면 최소 글자 검사 예외 대상이 아니다(기본 엄격, D-0069).
-    halo_rgb = 글자 테두리 색(v5.13.0 D-0153 Q0-2 — 지도 지명만 테마 값을 넘긴다. 기본 = 종전 값)."""
+    halo_rgb = 글자 테두리 색(v5.13.0 D-0153 Q0-2 — 지도 지명만 테마 값을 넘긴다. 기본 = 종전 값).
+    col 없음 = ink_rgb(). 잉크 모드에서 기본 테두리색이면 테두리 없음(v7.4.0 D917)."""
     if a <= 0.01 or not s:
         return 0
+    if col is None:
+        col = ink_rgb()
+    if INK_MODE and halo_rgb is HALO_RGB:
+        halo = 0.0
     x_arg = x
     if GLYPH_LOG is not None:
         GLYPH_LOG.append((size, role, s))

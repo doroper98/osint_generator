@@ -126,5 +126,101 @@ def make_renderer(pid: str) -> Callable[..., Reserved]:
     return render
 
 
-__all__ = ["CONTRACT", "PrimitiveError", "PrimitiveStyle", "Reserved", "event_model", "make_renderer", "measure_style", "module",
-           "primitive_box", "semantic_rgba", "style_for"]
+# ------------------------------------------------------------------ v7.4.0 C0.0 3c(UF-906) — skin 판 공용(rules skin.primitives)
+def _check_skin_layout() -> None:
+    """skin.primitives.<id>.layout 키는 rules primitives.<id> 기하 키여야 한다(없는 키 = 시작 오류, P6·P10)."""
+    from engine.style import PRIMITIVES, SKIN  # noqa: PLC0415
+
+    for pid in type(SKIN.primitives).model_fields:
+        blk = getattr(SKIN.primitives, pid)
+        over = getattr(blk, "layout", None)
+        if not over:
+            continue
+        have = type(PRIMITIVES[pid]).model_fields
+        bad = [k for k in over if k not in have]
+        if bad:
+            raise PrimitiveError(f"rules skin.primitives.{pid}.layout 키 {bad} 가 rules primitives.{pid} 에 없다")
+
+
+_check_skin_layout()
+_SKIN_LAYOUT: dict[str, Any] = {}
+
+
+def skin_on() -> bool:
+    from engine import skin  # noqa: PLC0415
+
+    return skin.active()
+
+
+def geo(pid: str) -> Any:
+    """기하 토큰 — skin 무대면 rules primitives.<id> 에 skin.primitives.<id>.layout 을 덮어쓴 값, 아니면 rules primitives.<id> 그대로."""
+    from engine.style import PRIMITIVES, SKIN  # noqa: PLC0415
+
+    base = PRIMITIVES[pid]
+    if not skin_on():
+        return base
+    if pid not in _SKIN_LAYOUT:
+        over = getattr(getattr(SKIN.primitives, pid), "layout", None) or {}
+        _SKIN_LAYOUT[pid] = base.model_copy(update=over)  # type: ignore[attr-defined]
+    return _SKIN_LAYOUT[pid]
+
+
+def ink(level: str) -> Color:
+    """잉크 단계 이름 → 색(primary·secondary·tertiary = skin.ink, accent = skin.primitives.accent_text)."""
+    from engine.style import SKIN  # noqa: PLC0415
+
+    if level == "accent":
+        return hexc(SKIN.primitives.accent_text)
+    return hexc(getattr(SKIN.ink, level))
+
+
+def skin_tw(ctx: cairo.Context, spec: Any, s: str) -> float:
+    """skin 글자 줄 폭(자간 포함) — 한글 섞인 mono 는 자간 없이(typography.text 와 같은 규칙)."""
+    from engine import typography  # noqa: PLC0415
+
+    w = typography.tw(ctx, s, spec.size, spec.font)
+    if not spec.track or (spec.font in typography.MONO and typography.HANGUL.search(s)):
+        return w
+    return w + spec.track * spec.size * max(0, len(s) - 1)
+
+
+def skin_text(ctx: cairo.Context, spec: Any, s: str, x: float, y: float, a: float, anchor: str = "l",
+              role: str | None = None, col: Color | None = None) -> float:
+    """skin 글자 한 줄 — 잉크(테두리 없음), 자간 = track × size. 그린 폭을 돌려준다."""
+    from engine.typography import text  # noqa: PLC0415
+
+    return text(ctx, s, x, y, spec.size, spec.font, ink(spec.ink) if col is None else col, a, 0, anchor,
+                spacing=spec.track * spec.size, role=role)
+
+
+def skin_card(ctx: cairo.Context, box: tuple[float, float, float, float], a: float, level: str | None = None) -> None:
+    """흰 직각 카드 면(engine.skin.surface — 부드러운 그림자, 반지름 skin.surface.radius)."""
+    from engine import skin  # noqa: PLC0415
+    from engine.style import SKIN  # noqa: PLC0415
+
+    skin.surface(ctx, box, a, SKIN.primitives.level if level is None else level)
+
+
+def skin_rule(ctx: cairo.Context, x0: float, x1: float, y: float, spec: Any, a: float) -> None:
+    """가는 가로 선(skin.hairline.rgb × spec.alpha, 굵기 spec.w)."""
+    from engine import skin  # noqa: PLC0415
+
+    ctx.new_path()
+    ctx.move_to(x0, y)
+    ctx.line_to(x1, y)
+    ctx.set_source_rgba(*skin.HAIR, spec.alpha * a)
+    ctx.set_line_width(spec.w)
+    ctx.stroke()
+
+
+def skin_band(ctx: cairo.Context, x0: float, x1: float, base: float, size: float, band: Any, a: float) -> None:
+    """옅은 강조 띠(accent.soft) — 낱말·구절 뒤, 직각."""
+    from engine.style import SKIN  # noqa: PLC0415
+
+    ctx.rectangle(x0 - band.pad_x, base - size * band.top_k, x1 - x0 + band.pad_x * 2, size * (band.top_k + band.bottom_k))
+    ctx.set_source_rgba(*hexc(SKIN.accent.soft), a)
+    ctx.fill()
+
+
+__all__ = ["CONTRACT", "PrimitiveError", "PrimitiveStyle", "Reserved", "event_model", "geo", "ink", "make_renderer", "measure_style", "module",
+           "primitive_box", "semantic_rgba", "skin_band", "skin_card", "skin_on", "skin_rule", "skin_text", "skin_tw", "style_for"]

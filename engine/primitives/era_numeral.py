@@ -20,11 +20,14 @@ from typing import Optional
 import cairo
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-from engine.style import PRIMITIVES
+from engine import skin
+from engine.primitives import ink, skin_on, skin_text
+from engine.style import PRIMITIVES, SKIN
 from engine.timebase import ease_out, window
-from engine.typography import text
+from engine.typography import text, tw
 
 L = PRIMITIVES["era_numeral"]
+SK = SKIN.primitives.era_numeral   # v7.4.0 3c(UF-906) — skin 무대 판(rules skin.primitives.era_numeral)
 COLOR_KEYS: tuple[str, ...] = ("secondary_text",)
 AXIS = "none"
 _YEAR = re.compile(r"\d{4}")
@@ -89,6 +92,9 @@ def draw(ctx: cairo.Context, view: object, t: float, e: dict, style: object) -> 
     a = window(t, e["t0"], e["t1"], L.fade_sec, L.fade_sec)
     if a <= 0:
         return box
+    if skin_on():
+        _draw_skin(ctx, t, e, x, y, a)
+        return box
     col = style.color("secondary_text")   # type: ignore[attr-defined]
     k, p = current(e, t)
     base = col[-1] * L.alpha * a
@@ -96,6 +102,31 @@ def draw(ctx: cairo.Context, view: object, t: float, e: dict, style: object) -> 
         text(ctx, e["steps"][k - 1]["label"], x, y - L.roll_px * p, L.size, "disp", col[:-1], base * (1 - p), 0, "c")
     text(ctx, e["steps"][k]["label"], x, y + L.roll_px * (1 - p), L.size, "disp", col[:-1], base * p, 0, "c")
     return box
+
+
+def _draw_skin(ctx: cairo.Context, t: float, e: dict, x: float, y: float, a: float) -> None:
+    """skin 판(v7.4.0 3c·UF-906) — 상자 없는 큰 숫자(잉크 + 뒤 흰 번짐, 테두리 아님) · 위 작은 mono 머리(자간 넓게) ·
+    아래 짧은 강조 선. 굴러 바뀜(옛 숫자 위로, 새 숫자 아래에서)은 종전과 같다. 머리·선은 숫자가 바뀌어도 제자리."""
+    k, p = current(e, t)
+    col = ink(SK.ink)
+    runs: list[tuple[str, float, float]] = []   # (문구, 기준선, 알파)
+    if p < 1 and k > 0:
+        runs.append((e["steps"][k - 1]["label"], y - L.roll_px * p, SK.alpha * a * (1 - p)))
+    runs.append((e["steps"][k]["label"], y + L.roll_px * (1 - p), SK.alpha * a * p))
+    for s, base, al in runs:
+        if al <= 0:
+            continue
+        half = tw(ctx, s, L.size, "disp") / 2
+
+        def draw(c: cairo.Context, s: str = s, base: float = base, al: float = al) -> None:
+            text(c, s, x, base, L.size, "disp", col, al, 0, "c")
+
+        skin.glow(ctx, draw, (x - half, base - L.size, x + half, base), SK.glow.blur, SK.glow.gain, SK.glow.alpha * al)
+    cap = SK.caption
+    skin_text(ctx, cap, cap.text, x, y + cap.dy, a, "c")
+    ctx.rectangle(x - SK.rule.w / 2, y + SK.rule.dy, SK.rule.w, SK.rule.h)
+    ctx.set_source_rgba(*skin.ACCENT_SHAPE, a)
+    ctx.fill()
 
 
 PREVIEW_FIXTURE: dict = {

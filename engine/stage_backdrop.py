@@ -29,6 +29,8 @@ class BackdropStage:
     name = "backdrop"
     anchor_keys: tuple[str, ...] = ()
     fixed_w: float = float(W_OUT)
+    screen_space = True          # 화면 공간 무대(v7.4.0 — engine.stage.screen_stage, 스튜디오 무대와 공유)
+    photo_backdrop = True        # 사진 배경(backdrop 이벤트)을 받는 무대 — engine.stage.photo_stage
 
     def __init__(self, assets: "Optional[Assets]" = None, *, out: object = None, config: Optional[dict] = None) -> None:
         if config:

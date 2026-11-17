@@ -25,6 +25,7 @@
             있으면(숏 단위 stage 도) 장르 프로필 stage.primary·secondary 안이어야 한다(아니면 스키마 오류)
     shots:  [{at, mode: cut|move|dip, dur?, camera: {lon, lat, w}, under?, stage?}]   (dip = 1초 암전 + 한가운데 cut)
             shots[].stage = 이 숏의 무대(없으면 최상위 stage, D-0077). 등록 안 된 무대 이름 = 스키마 오류(P10)
+            v7.4.0 R9 — 렌더 무대 전환(rules stage.switch.stages, 지도 ↔ 스튜디오): 다른 무대 숏 = dip 전환, 무대마다 카메라 트랙 하나(stage_track)
     events: [{type, start, end, …필드}]           필드 값 어디든 앵커를 둘 수 있다(패널 내부 시각 등)
             패널은 17 §2 예시대로 내용 필드를 `data: {…}` 아래에 둔다(타임라인 패널의 start·end 날짜가 시각 키와 겹치지 않게).
             로더가 data 를 이벤트 필드로 펼친다. data 안 start·end 는 내용(날짜)이다. 그 밖에 바깥 키와 겹치면 오류.
@@ -35,6 +36,7 @@
 
 from __future__ import annotations
 
+import math
 import re
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal, Optional, Union
@@ -91,9 +93,9 @@ class Camera(_Strict):
         if sum(kinds) == 0 and self.w is None and self.lane is None:
             return self   # backdrop 무대 `{}` — 무대 앵커 키 검사(Direction)가 다른 무대의 빈 카메라를 막는다(P10)
         if sum(kinds) != 1:
-            raise ValueError("camera 는 lon·lat · place · date(시간축) · row·value(구성 무대) 중 하나(backdrop 무대는 빈 카메라 {})")
+            raise ValueError("camera 는 lon·lat · place · date(시간축) · row·value(구성 무대) 중 하나(backdrop·studio 무대는 빈 카메라 {})")
         if self.w is None:
-            raise ValueError("camera w 가 없다(backdrop 무대의 빈 카메라 {} 만 w 없음)")
+            raise ValueError("camera w 가 없다(backdrop·studio 무대의 빈 카메라 {} 만 w 없음)")
         if kinds[1] and (self.lon is None or self.lat is None):
             raise ValueError("camera lon·lat 은 둘 다")
         if self.lane is not None and self.date is None:
@@ -174,6 +176,14 @@ class Sound(_Strict):
     cues: list[SoundCue] = Field(default_factory=list)
     # v5.22.2 UF-16·30·93(D-0205 §3) — 음악 없음(bgm null)은 결정 번호가 있어야 한다(검사 bgm_decision hard). 배경음악 누락이 세 번 되풀이됐다
     no_music_decision: NoMusicDecision = None   # 정의는 audio.registry 한 곳(audio.mix.Sound 와 공유)
+    noncommercial_ok: NoMusicDecision = None    # v7.4.0 UF-910(D923) — 비상업 전용 곡을 쓰는 영상: "수익화하지 않는다"는 사용자 결정 번호
+
+    @model_validator(mode="after")
+    def _noncommercial(self) -> "Sound":
+        from audio.registry import require_noncommercial_ok  # noqa: PLC0415
+
+        require_noncommercial_ok([g.id for g in self.segments()], self.noncommercial_ok)   # 없으면 BgmError(ValueError) → 스키마 오류
+        return self
 
     @field_validator("bgm")
     @classmethod
@@ -433,15 +443,76 @@ STRUCTURE_STAGE = "structure"   # v7.4.0 D-1003 §3 — backdrop 주 무대에�
 ISLAND_STAGES: tuple[str, ...] = (ISLAND_STAGE, STRUCTURE_STAGE)
 
 
+def shot_roles(doc: Direction, main: Optional[str] = None) -> list[Optional[str]]:
+    """숏마다 역할(v7.4.0 R9, UF-902) — None = 아일랜드 뷰포트 숏, 아니면 그 숏부터 그리는 렌더 무대 이름.
+    숏 순서대로 지금 렌더 무대(처음 = 주 무대)를 따라간다: 아일랜드 무대(timeline·structure) 숏은 그때 렌더 무대가 화면 공간 무대
+    (backdrop·studio)면 아일랜드 카메라(D-0126 Q1 A), 아니면 렌더 무대 전환. 한 무대 영상은 옛 판정(주 무대만 보던 것)과 같다."""
+    from engine.stage import screen_stage  # noqa: PLC0415
+
+    cur = main or doc.main_stage()
+    out: list[Optional[str]] = []
+    for s in doc.shots:
+        st = doc.shot_stage(s)
+        if st in ISLAND_STAGES and screen_stage(cur):
+            out.append(None)
+        else:
+            cur = st
+            out.append(st)
+    return out
+
+
 def is_island_shot(doc: Direction, s: Shot, main: str, name: Optional[str] = None) -> bool:
-    """주 무대 backdrop 의 아일랜드 무대 숏 = 아일랜드 뷰포트 카메라(D-0126 Q1 A — "숏 무대 ≠ 주 무대"를 아일랜드 뷰포트로 좁힌다).
-    name 을 주면 그 아일랜드 무대(timeline = 차트 아일랜드, structure = 구성 아일랜드)의 숏만."""
-    st = doc.shot_stage(s)
-    return main == "backdrop" and st in ISLAND_STAGES and (name is None or st == name)
+    """그 숏이 렌더 무대가 화면 공간 무대(backdrop·studio — engine.stage.screen_stage)인 동안의 아일랜드 무대 숏 = 아일랜드 뷰포트 카메라
+    (D-0126 Q1 A — "숏 무대 ≠ 주 무대"를 아일랜드 뷰포트로 좁힌다. studio = v7.4.0 UF-902·UF-903. 지도 ↔ 스튜디오 전환 영상은
+    스튜디오 구간의 아일랜드 숏 — v7.4.0 R9, shot_roles). name 을 주면 그 아일랜드 무대(timeline = 차트 아일랜드, structure = 구성 아일랜드)의 숏만."""
+    if doc.shot_stage(s) not in ISLAND_STAGES or (name is not None and doc.shot_stage(s) != name):
+        return False
+    i = next(k for k, x in enumerate(doc.shots) if x is s)
+    return shot_roles(doc, main)[i] is None
+
+
+def rendered_stages(doc: Direction) -> list[str]:
+    """이 영상이 화면 전체로 그리는 무대(주 무대 먼저, 아일랜드 숏 제외) — 둘 이상이면 무대 전환 영상(v7.4.0 R9).
+    전환은 rules stage.switch.stages 안의 무대끼리만 — 그 밖 조합은 오류(아직 렌더가 없다, P6)."""
+    names = list(dict.fromkeys([doc.main_stage(), *(r for r in shot_roles(doc) if r is not None)]))
+    allowed = load_rules().stage.switch.stages
+    if len(names) > 1 and not set(names) <= set(allowed):
+        raise DirectionError(f"렌더 무대 {names} — 한 영상 안 무대 전환은 rules stage.switch.stages {allowed} 끼리만(그 밖 보조 무대 렌더는 아직 없다, "
+                             "G3·G12 D-0126 Q7, docs/handoff/20 §12). 차트·구성은 화면 공간 무대(studio·backdrop)의 아일랜드 숏으로")
+    return names
+
+
+def stage_track(doc: Direction, tb: Timebase) -> list[tuple[float, str, str]]:
+    """렌더 무대 전환점 [(시각, 이전 무대, 다음 무대)] — 아일랜드 숏을 뺀 숏의 무대가 바뀌는 시각(그 숏 = dip 한가운데 cut).
+    프레임 시각 t 의 렌더 무대 = t 이전 마지막 전환의 다음 무대(없으면 주 무대). 한 무대 영상은 []."""
+    if len(rendered_stages(doc)) < 2:
+        return []
+    out: list[tuple[float, str, str]] = []
+    cur, last_t = doc.main_stage(), -math.inf
+    for s, role in zip(doc.shots, shot_roles(doc)):
+        if role is None:
+            continue
+        t = resolve_anchor(s.at, tb)
+        if t < last_t:
+            raise DirectionError(f"숏 {s.at!r} (t={t:.2f}) 가 앞 숏(t={last_t:.2f})보다 이르다 — 무대 전환 영상은 숏을 시각 순서로 적는다")
+        last_t = t
+        if role != cur:
+            out.append((t, cur, role))
+            cur = role
+    return out
+
+
+def stage_at(track: list[tuple[float, str, str]], main: str, t: float) -> str:
+    """시각 t 의 렌더 무대(stage_track 결과) — 전환 시각 이후(그 시각 포함)는 다음 무대."""
+    name = main
+    for ts, _a, b in track:
+        if ts <= t:
+            name = b
+    return name
 
 
 def island_keys(doc: Direction, tb: Timebase, chart_stage: "Stage") -> list[CamKey]:
-    """아일랜드 뷰포트 카메라 키(그 아일랜드 무대의 월드 좌표, w = 뷰포트 폭이 덮는 월드 폭). 주 무대가 backdrop 이 아니면 []."""
+    """아일랜드 뷰포트 카메라 키(그 아일랜드 무대의 월드 좌표, w = 뷰포트 폭이 덮는 월드 폭). 주 무대가 화면 공간 무대(backdrop·studio)가 아니면 []."""
     keys: list[CamKey] = []
     for s in doc.shots:
         if not is_island_shot(doc, s, doc.main_stage(), chart_stage.name):
@@ -471,25 +542,30 @@ def hold_same_place(d: dict, tb: Timebase) -> None:
         d["t1"] = max(d["t1"], end + F.inset.fade[1])
 
 
+def stage_keys(doc: Direction, tb: Timebase, stage: "Stage") -> list[CamKey]:
+    """그 렌더 무대의 카메라 키 — 그 무대 숏(아일랜드 숏 제외)만. 무대마다 카메라 트랙 하나(v7.4.0 R9 — 지도 키는 지도 숏에서만,
+    스튜디오 구간 동안 지도 카메라는 마지막 키에 머물다 다음 지도 키에서 이어진다). dip 숏 = 그 시각 cut."""
+    keys: list[CamKey] = []
+    for s, role in zip(doc.shots, shot_roles(doc)):
+        if role != stage.name:
+            continue   # 아일랜드 뷰포트 카메라(island_keys, D-0126 Q1 A)·다른 렌더 무대 숏
+        t = resolve_anchor(s.at, tb)
+        anchor = _where(s.camera, doc)
+        if s.mode == "dip":
+            keys.append(cam(t, *stage.to_world(**anchor), _cam_w(s, stage), 0, "cut"))
+        else:
+            keys.append(cam(t, *stage.to_world(**anchor), _cam_w(s, stage), s.dur, s.mode))
+    return keys
+
+
 def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], list[dict], Optional[dict]]:
     """Direction → (카메라 키, 이벤트 dict, sound dict). 옛 Director 와 같은 모양.
     카메라 앵커(lon·lat)는 stage.to_world 로만 월드 좌표가 된다(v4.1.0 D-0076 작업 3). 이벤트의 앵커는 그대로 두고
     load_project 가 검증 뒤 engine.stage.attach_world 로 월드 좌표를 붙인다."""
-    keys: list[CamKey] = []
-    dips: list[dict] = []
-    for s in doc.shots:
-        if is_island_shot(doc, s, stage.name):
-            continue   # v5.1.0 D-0126 Q1 A — 차트 아일랜드 뷰포트 카메라(island_keys)
-        if doc.shot_stage(s) != stage.name:
-            raise DirectionError(f"숏 {s.at!r} 의 무대 {doc.shot_stage(s)!r} ≠ 주 무대 {stage.name!r} — 아일랜드 없는 보조 무대 렌더는 아직 없다"
-                                 "(G3·G12 D-0126 Q7, docs/handoff/20 §12). 무대 연속성 검사(checks stage_continuity)는 shot_stages 로 따로 본다")
-        t = resolve_anchor(s.at, tb)
-        anchor = _where(s.camera, doc)
-        if s.mode == "dip":
-            dips.append(dict(type="dip", t0=t - DIP_HALF_SEC, t1=t + DIP_HALF_SEC, **({"under": True} if s.under else {})))
-            keys.append(cam(t, *stage.to_world(**anchor), _cam_w(s, stage), 0, "cut"))
-        else:
-            keys.append(cam(t, *stage.to_world(**anchor), _cam_w(s, stage), s.dur, s.mode))
+    rendered_stages(doc)   # 무대 전환 조합 검사(rules stage.switch) — 밖이면 DirectionError
+    keys = stage_keys(doc, tb, stage)
+    dips = [dict(type="dip", t0=(t := resolve_anchor(s.at, tb)) - DIP_HALF_SEC, t1=t + DIP_HALF_SEC, **({"under": True} if s.under else {}))
+            for s, role in zip(doc.shots, shot_roles(doc)) if role is not None and s.mode == "dip"]   # 전환 dip 은 어느 무대 숏이든(R9)
     events: list[dict] = []
     for e in doc.events:
         d: dict = {"type": e["type"], "t0": resolve_anchor(e["start"], tb), "t1": resolve_anchor(e["end"], tb)}
@@ -604,7 +680,7 @@ def load_direction_doc(path: Path) -> Direction:
 
 
 __all__ = ["Direction", "DirectionError", "Shot", "Sound", "boundary_routes", "build", "geo_unsourced", "is_anchor", "load_direction_doc",
-           "resolve_anchor", "shot_stages", "yaml_load"]
+           "rendered_stages", "resolve_anchor", "shot_roles", "shot_stages", "stage_at", "stage_keys", "stage_track", "yaml_load"]
 
 
 def map_theme_override_warning(mt: dict[str, Any]) -> list[str]:

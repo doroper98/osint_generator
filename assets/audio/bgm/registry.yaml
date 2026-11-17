@@ -60,3 +60,21 @@ tracks:
     bpm: null                                          # 3.25초 주기 반복 음형(조사 세션) — BPM 으로 적지 않는다
     measured: {beat_clarity: 6.55, onsets_per_min: 473.5, voice_band: 0.088}   # audio.bgm_measure(0~360초) 실측
     available: true
+  music.yk_two_instruments:   # v7.4.0 사용자 제공 곡(UF-910, D922 — "내가 배경음악 하나 넣어둘께"). Suno 로 만든 연주곡(파일 태그: made with suno, id 351e4e60-1737-479b-9a65-a4282e0c20d6)
+    file: "두 개의 악기 - _yk.mp3"
+    sha1: c18ed525ab6f7a86d1930310344f7e373dda85be     # 사용자가 올린 파일 그대로(2026-11-17)
+    duration_sec: 189.936                              # ffprobe 실측
+    name: "두 개의 악기"
+    author: _yk
+    license: "Suno 무료 요금제 생성물 — 비상업 이용만(수익화 영상 금지)"   # 사용자 확인 2026-11-17(D923): 무료 요금제로 만든 곡
+    url: "https://suno.com"
+    attribution: "\"두 개의 악기\" — _yk (Suno 로 제작)"
+    source: "사용자 제공 — 세션 업로드 2026-11-17(파일 태그 created 2026-11-17T05:55:28Z)"
+    mood: []                                           # 추측 금지 — 실측은 measured
+    bpm: null
+    measured: {beat_clarity: 4.12, onsets_per_min: 263.8, voice_band: 0.322}   # audio.bgm_measure(0~360초) 실측 — 등록 하한(6.0·300·0.10) 셋 다 미달
+    available: true
+    noncommercial: true                                # 연출 sound.noncommercial_ok(수익화하지 않는다는 사용자 결정 번호) 없이는 못 쓴다(audio.registry.require_noncommercial_ok)
+    floor_waiver: "D923 — 사용자가 직접 만들어 고른 곡(UF-910). 하한(UF-100 잠정값)은 면제하고 음량으로 보정한다"
+    bed_gain_scale: 0.56                               # 이 곡만 음악 베드 음량 배율(사용자 결정 "이 곡만 음량을 낮춰 쓴다") — sqrt(0.10 ÷ 0.322): 내레이션 대역 음악 에너지를 하한(10 %) 수준으로
+

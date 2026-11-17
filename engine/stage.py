@@ -213,6 +213,7 @@ class MercatorStage:
             self._bounds = (tw_["lon0"], ym(tw_["lat0"]), tw_["lon1"], ym(tw_["lat1"]))
         self._sea_cache: dict[str, list] = {}
         self._split: dict[str, dict[str, list]] = {}
+        self.flag_codes: dict[str, float] = {}   # v7.4.0 4b — 이 프레임 국기 채움 나라(render_base 가 비운다)
         self._base_memo: Optional[tuple[tuple, Image.Image]] = None   # base_image 한 장 memo(국기 채움 지형 비침, v7.4.0 UF-900 R2)
         if assets is not None:
             geo = assets.geo
@@ -265,6 +266,9 @@ class MercatorStage:
         surf.flush()
         surf.get_data()[:] = im.tobytes("raw", "BGRX")
         surf.mark_dirty()
+        self.flag_codes: dict[str, float] = {}   # v7.4.0 4b — 이 프레임 국기로 채운 나라(코드 → 알파). flag_fill 이 채우고 labels 가 읽는다(지명 = 흰 알약)
+        if skin_map(self):   # v7.4.0 4b — 바다 위 월드 고정 점 격자(스튜디오 점 공간과 한 세계). 육지는 덮는다
+            draw_sea_dots(ctx, self, view)
         from engine.layers.rivers import draw_rivers  # noqa: PLC0415
         from engine.layers.roads import draw_roads  # noqa: PLC0415
 
@@ -386,9 +390,78 @@ class MercatorStage:
 from engine.stage_backdrop import BackdropStage  # noqa: E402 — 사진 배경 무대(v5.1.0 D-0123)
 from engine.stage_timeline import TimelineStage  # noqa: E402 — 시간축 무대(v4.3.0 D-0084 작업 3)
 from engine.stage_structure import StructureStage  # noqa: E402 — 구성 무대(v7.4.0 D-1003 §3)
+from engine.stage_studio import StudioStage  # noqa: E402 — 스튜디오 무대(v7.4.0 UF-902·UF-903, D910)
 
 STAGE_CLASSES: dict[str, type] = {"mercator": MercatorStage, "timeline": TimelineStage,   # 구현 — rules registries.stages 와 같아야 한다(P10)
-                                  "backdrop": BackdropStage, "structure": StructureStage}
+                                  "backdrop": BackdropStage, "structure": StructureStage, "studio": StudioStage}
+
+
+def skin_map(stage: Any) -> bool:
+    """v7.4.0 4b — 이 무대를 skin 지도로 그리나: skin 켜짐(engine.skin.apply) + 지도 테마가 rules skin.map_themes 안."""
+    from engine import skin  # noqa: PLC0415 — skin → typography → style(무대 모듈 읽기 순서와 무관하게)
+
+    return skin.active() and getattr(stage, "theme_name", None) in skin.SKIN.map_themes
+
+
+def sea_dot_grid(s: float) -> tuple[float, float]:
+    """(촘촘한 단 월드 간격 d, 덧점 알파 f) — 화면 간격 q = d·s 가 rules skin.map.sea_dots.spacing [lo, 2·lo) 안인 2의 거듭제곱 d.
+    굵은 단(2d 격자)은 늘 다 보이고, 그 사이 덧점은 q 가 lo → 2·lo 로 커지는 동안 0 → 1 로 나타난다. q = 2·lo 에서 단이 바뀌어도
+    (굵은 단 = 옛 촘촘한 단, 새 덧점 알파 0) 화면이 같다 — 줌 중 튀지 않는다."""
+    from engine.style import SKIN  # noqa: PLC0415
+
+    lo, hi = SKIN.map.sea_dots.spacing
+    d = 2.0 ** math.ceil(math.log2(lo / s))
+    return d, smooth((d * s - lo) / (hi - lo))
+
+
+def draw_sea_dots(ctx: cairo.Context, stage: "MercatorStage", view: "View") -> None:
+    """v7.4.0 4b — 바다 점: 점을 장치 화소 A8 마스크에 찍고 육지(국경 고리 전체, even-odd)를 지운 뒤 잉크 3단 × alpha 로 칠한다."""
+    from engine.style import SKIN, hexc  # noqa: PLC0415
+    from engine.layers.borders import path_rings  # noqa: PLC0415 — layers → stage 순환 회피
+
+    D = SKIN.map.sea_dots  # noqa: N806
+    d, f = sea_dot_grid(view.s)
+    ix = np.arange(math.ceil(view.x0 / d), math.floor((view.x0 + view.w) / d) + 1)
+    iy = np.arange(math.ceil((view.y1 - view.h) / d), math.floor(view.y1 / d) + 1)
+    gx, gy = np.meshgrid(ix, iy)
+    coarse = ((gx % 2) == 0) & ((gy % 2) == 0)
+    tgt = ctx.get_target()
+    mask = cairo.ImageSurface(cairo.FORMAT_A8, tgt.get_width(), tgt.get_height())
+    mc = cairo.Context(mask)
+    mc.set_matrix(ctx.get_matrix())
+    pts = view.to_screen_arr(np.stack([gx.ravel() * d, gy.ravel() * d], axis=1))
+    for sel, al in ((coarse.ravel(), 1.0), (~coarse.ravel(), f)):
+        if al <= 0 or not sel.any():
+            continue
+        for x, y in pts[sel].tolist():
+            mc.new_sub_path()
+            mc.arc(x, y, D.r, 0, 2 * math.pi)
+        mc.set_source_rgba(0, 0, 0, al)
+        mc.fill()
+    lod = "fine" if view.w < MERCATOR_LOD["borders_fine_below_w"] else "coarse"
+    mc.new_path()
+    for _k, rings in stage.bord[lod].items():
+        path_rings(mc, view, rings)
+    mc.set_fill_rule(cairo.FILL_RULE_EVEN_ODD)
+    mc.set_operator(cairo.OPERATOR_CLEAR)
+    mc.fill()
+    mask.flush()
+    ctx.save()
+    ctx.identity_matrix()
+    ctx.set_source_rgba(*hexc(getattr(SKIN.ink, D.ink)), D.alpha)
+    ctx.mask_surface(mask, 0, 0)
+    ctx.restore()
+
+
+def screen_stage(name: Optional[str]) -> bool:
+    """화면 공간 무대인가(v7.4.0 — backdrop·studio): 월드 = 화면 설계 px, 카메라 {}, 아일랜드·카드·화면 고정 뱃지가 놓이는 무대.
+    무대 클래스의 `screen_space` 표시 한 곳에서 정한다(이름 목록을 여러 곳에 두지 않는다, P3)."""
+    return bool(getattr(STAGE_CLASSES.get(name or ""), "screen_space", False))
+
+
+def photo_stage(name: Optional[str]) -> bool:
+    """사진 배경(backdrop 이벤트)을 받는 무대인가 — backdrop 만. 스튜디오는 사진을 깔지 않는다(UF-902·UF-903)."""
+    return bool(getattr(STAGE_CLASSES.get(name or ""), "photo_backdrop", False))
 # direction.yaml 에 stage 가 없을 때의 무대 = 장르 프로필 stage.primary(v4.2.0 D-0081 작업 3, 기본 장르 geopolitics → mercator).
 
 
@@ -452,4 +525,4 @@ def attach_world(events: list[dict], stage: Stage, chart_stage: Optional[Stage] 
 
 
 __all__ = ["MERCATOR_LOD", "MercatorStage", "STAGE_CLASSES", "Stage", "StageError", "StageSet", "attach_world", "by_w",
-           "lat_of", "make_stage", "stage_class", "to_uv", "ym", "ymv"]
+           "lat_of", "make_stage", "photo_stage", "screen_stage", "stage_class", "to_uv", "ym", "ymv"]

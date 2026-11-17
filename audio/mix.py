@@ -22,7 +22,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from scipy.signal import butter, lfilter, sosfilt
 
 from audio.qa import bed_stats
-from audio.registry import BgmError, NoMusicDecision, bgm_path
+from audio.registry import BgmError, NoMusicDecision, bed_scale, bgm_path, require_noncommercial_ok
 from rules import load_rules
 from script.schema import Plan
 
@@ -99,6 +99,7 @@ class Sound(BaseModel):
     intensity: list[tuple[float, float]] = Field(min_length=2)   # (초, 강도) 키프레임
     cues: list[Cue] = Field(default_factory=list)
     no_music_decision: NoMusicDecision = None   # 음악 없음 결정 번호(연출과 같은 정의 — audio.registry)
+    noncommercial_ok: NoMusicDecision = None    # v7.4.0 UF-910(D923) — 비상업 전용 곡 사용 확인(연출과 같은 정의)
 
 
 class Sfx:
@@ -373,9 +374,11 @@ def main(argv: list[str] | None = None) -> int:
         if sound.bgm is None:
             src = None
         elif isinstance(sound.bgm, str):
-            src = decode_bgm(bgm_path(sound.bgm))
+            require_noncommercial_ok([sound.bgm], sound.noncommercial_ok)
+            src = decode_bgm(bgm_path(sound.bgm)) * bed_scale(sound.bgm)   # v7.4.0 UF-910(D923) — 곡별 음악 베드 음량 배율(없으면 1.0)
         else:
-            src = [(g.t, decode_bgm(bgm_path(g.id))) for g in sound.bgm]
+            require_noncommercial_ok([g.id for g in sound.bgm], sound.noncommercial_ok)
+            src = [(g.t, decode_bgm(bgm_path(g.id)) * bed_scale(g.id)) for g in sound.bgm]
         stats: dict = {}
         from engine.timing import stage_timer  # noqa: PLC0415 — D-1000 S0
 

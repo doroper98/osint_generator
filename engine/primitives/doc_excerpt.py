@@ -18,17 +18,23 @@ docs/handoff/reports/video_analysis_nk_succession_2026-11-02.md §4 D6).
 
 from __future__ import annotations
 
+import math
 from typing import Optional
 
 import cairo
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-from engine.style import CARD, PRIMITIVES, QUOTE_MAX_CHARS
+from engine import skin
+from engine.primitives import geo, ink, skin_band, skin_card, skin_on, skin_rule, skin_text
+from engine.style import CARD, PRIMITIVES, QUOTE_MAX_CHARS, SKIN, hexc
 from engine.timebase import ease_out, window
 from engine.typography import rrect, text, tw, wrap
 from script.schema import DATE_RE
 
 L = PRIMITIVES["doc_excerpt"]
+SK = SKIN.primitives.doc_excerpt   # v7.4.0 3c(UF-906) — skin 무대 판(rules skin.primitives.doc_excerpt)
+META = "media_meta"   # 날짜·출처 메타 글자 역할(qa_checks.glyph_size_exempt)
+HALF_TURN_DEG = 180   # 도 → 라디안(반 바퀴, 각도 정의)
 COLOR_KEYS: tuple[str, ...] = ("emphasis",)
 AXIS = "none"   # 값 축 없음(정직성 검사 해당 없음)
 _MEASURE = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
@@ -117,25 +123,26 @@ def _word_spans(ctx: cairo.Context, line: str, start: int) -> list[tuple[int, in
 
 def layout(e: dict) -> dict:
     """제자리 기하(설계 px) — 줄 목록·각 블록 기준선·상자 높이."""
-    orig = wrap(_MEASURE, e["original"], _inner_w(), L.orig_size, "serif")
-    trans = wrap(_MEASURE, e["translation"], _trans_w(), L.trans_size, "sansm")
-    pitch = L.ghost_h + L.ghost_gap
-    y = L.y + L.pad_top                                # 머리 줄 기준선
-    g0 = y + L.head_gap                                # 앞 문맥 막대 첫 위 끝
-    o0 = g0 + pitch * L.ghost_before + L.orig_gap      # 원문 첫 줄 기준선
-    t0 = o0 + L.orig_line_h * (len(orig) - 1) + L.trans_gap + L.trans_size   # 번역 첫 줄 기준선
-    g1 = t0 + L.trans_line_h * (len(trans) - 1) + L.after_gap                # 뒤 문맥 막대 첫 위 끝
-    s = g1 + pitch * L.ghost_after + L.src_gap          # 출처 줄 기준선
-    h = s + L.pad_bottom - L.y
+    G = geo("doc_excerpt")  # noqa: N806 — skin 무대면 skin.primitives.doc_excerpt.layout 덮어쓰기
+    orig = wrap(_MEASURE, e["original"], _inner_w(), G.orig_size, "serif")
+    trans = wrap(_MEASURE, e["translation"], _trans_w(), G.trans_size, "sansm")
+    pitch = G.ghost_h + G.ghost_gap
+    y = G.y + G.pad_top                                # 머리 줄 기준선
+    g0 = y + G.head_gap                                # 앞 문맥 막대 첫 위 끝
+    o0 = g0 + pitch * G.ghost_before + G.orig_gap      # 원문 첫 줄 기준선
+    t0 = o0 + G.orig_line_h * (len(orig) - 1) + G.trans_gap + G.trans_size   # 번역 첫 줄 기준선
+    g1 = t0 + G.trans_line_h * (len(trans) - 1) + G.after_gap                # 뒤 문맥 막대 첫 위 끝
+    s = g1 + pitch * G.ghost_after + G.src_gap          # 출처 줄 기준선
+    h = s + G.pad_bottom - G.y
     return {"orig": orig, "trans": trans, "head_y": y, "g0": g0, "o0": o0, "t0": t0, "g1": g1, "src_y": s, "h": h,
-            "box": (L.x, L.y, L.x + L.w, L.y + h)}
+            "box": (G.x, G.y, G.x + G.w, G.y + h)}
 
 
-def _ghosts(ctx: cairo.Context, x: float, y: float, n: int, k0: int, col: tuple, a: float) -> None:
-    """읽을 수 없는 문맥 막대 n 개(폭 = 안쪽 폭 × ghost_widths 순환) — 지어낸 글자 대신."""
+def _ghosts(ctx: cairo.Context, x: float, y: float, n: int, k0: int, col: tuple, a: float, G: object = L) -> None:  # noqa: N803
+    """읽을 수 없는 문맥 막대 n 개(폭 = 안쪽 폭 × ghost_widths 순환) — 지어낸 글자 대신. G = 기하 토큰(skin 판은 geo)."""
     for i in range(n):
-        fw = L.ghost_widths[(k0 + i) % len(L.ghost_widths)]
-        rrect(ctx, x, y + i * (L.ghost_h + L.ghost_gap), _inner_w() * fw, L.ghost_h, L.ghost_h / 2)
+        fw = G.ghost_widths[(k0 + i) % len(G.ghost_widths)]  # type: ignore[attr-defined]
+        rrect(ctx, x, y + i * (G.ghost_h + G.ghost_gap), _inner_w() * fw, G.ghost_h, G.ghost_h / 2)  # type: ignore[attr-defined]
         ctx.set_source_rgba(*col[:-1], col[-1] * a)
         ctx.fill()
 
@@ -146,6 +153,9 @@ def draw(ctx: cairo.Context, view: object, t: float, e: dict, style: object) -> 
     box = g["box"]
     a = window(t, e["t0"], e["t1"], L.fade_sec, L.fade_sec)
     if a <= 0:
+        return box
+    if skin_on():
+        _draw_skin(ctx, t, e, g, a)
         return box
     em = style.color("emphasis")   # type: ignore[attr-defined]
     paper, ink, muted, ghost = _rgba(L.paper), _rgba(L.ink), _rgba(L.ink_muted), _rgba(L.ghost)
@@ -210,6 +220,95 @@ def draw(ctx: cairo.Context, view: object, t: float, e: dict, style: object) -> 
     text(ctx, e["source"], x0, g["src_y"], CARD.src_size, "sans", muted[:-1], a * muted[-1], 0, "l")
     ctx.restore()
     return box
+
+
+def _hl_segments(ctx: cairo.Context, e: dict, g: dict, x0: float) -> list[tuple[float, float, float]]:
+    """강조 구절이 걸친 줄 조각 (x0, x1, 기준선) — 종전 밑줄과 같은 단어 경계."""
+    hl = e.get("highlight")
+    if not hl:
+        return []
+    h0 = e["original"].find(hl)
+    h1 = h0 + len(hl)
+    segs: list[tuple[float, float, float]] = []
+    pos = 0
+    for i, ln in enumerate(g["orig"]):
+        start = e["original"].find(ln, pos)
+        start = pos if start < 0 else start
+        ws = [w for w in _word_spans(ctx, ln, start) if w[0] < h1 and w[1] > h0]
+        if ws:
+            _, _, wx0, _ = ws[0]
+            _, _, wx1, ww1 = ws[-1]
+            segs.append((x0 + wx0, x0 + wx1 + ww1, g["o0"] + i * L.orig_line_h))
+        pos = start + len(ln)
+    return segs
+
+
+def _draw_skin(ctx: cairo.Context, t: float, e: dict, g: dict, a: float) -> None:
+    """skin 판(v7.4.0 3c·UF-906) — 기사 카드와 같은 종이 조판: 뒤에 겹친 종이 한 장 + 직각 흰 종이 · 제호 줄(기관 · 문서 = 세리프,
+    날짜 = mono) · 굵은 선 + 가는 선 · 옅은 문맥 막대 · 원문 세리프 · 강조 구절 = 옅은 강조 띠(왼쪽부터 자란다, 밑줄 대신) ·
+    번역 = 왼쪽 강조 선 + 잉크 · 꼬리 가는 선 · 출처. 등장 배율·시각은 종전과 같다."""
+    G = geo("doc_excerpt")  # noqa: N806
+    x, y, w, h = G.x, G.y, G.w, g["h"]
+    x0, x1 = x + G.pad_x, x + G.w - G.pad_x
+    cx, cy = x + w / 2, y + h / 2
+    sc = G.scale_from + (1 - G.scale_from) * ease_out((t - e["t0"]) / G.fade_sec)
+    ctx.save()
+    ctx.translate(cx, cy)
+    ctx.scale(sc, sc)
+    ctx.translate(-cx, -cy)
+    ctx.push_group()   # 종이 두 장 = 한 물체로 페이드(앞 종이가 반투명일 때 뒤 종이 모서리가 비치지 않게)
+    B = SK.back  # noqa: N806
+    ctx.save()
+    ctx.translate(cx, cy)
+    ctx.rotate(B.rot_deg * math.pi / HALF_TURN_DEG)
+    ctx.translate(-cx, -cy)
+    skin.surface(ctx, (x + B.dx, y + B.dy, w, h), 1.0, B.level, fill=hexc(B.fill))
+    ctx.restore()
+    skin_card(ctx, (x, y, w, h), 1.0, SK.level)
+    ctx.pop_group_to_source()
+    ctx.paint_with_alpha(a)
+    hy = g["head_y"]
+    head = f"{e['issuer']} · {e['doc_title']}"
+    skin_text(ctx, SK.masthead, head, x0, hy, a)
+    skin_text(ctx, SK.date, e["doc_date"], x1, hy, a, "r", role=META)
+    R = SK.rule  # noqa: N806
+    ctx.set_source_rgba(*skin.INK, a)
+    ctx.rectangle(x0, hy + R.dy, x1 - x0, R.h)
+    ctx.fill()
+    ctx.set_source_rgba(*skin.INK, R.thin_alpha * a)
+    ctx.rectangle(x0, hy + R.thin_dy, x1 - x0, R.thin_h)
+    ctx.fill()
+    ghost = (*skin.INK, SK.ghost_alpha)
+    _ghosts(ctx, x0, g["g0"], G.ghost_before, 0, ghost, a, G)
+    ut = e.get("highlight_t")
+    ut = e["t0"] + G.underline_delay_sec if ut is None else ut
+    segs = _hl_segments(ctx, e, g, x0)
+    grow = ease_out((t - ut) / G.underline_grow_sec) if segs else 0.0
+    if grow > 0:
+        left = sum(b - a_ for a_, b, _ in segs) * grow
+        for sx0, sx1, yy in segs:
+            if left <= 0:
+                break
+            run = min(sx1 - sx0, left)
+            skin_band(ctx, sx0, sx0 + run, yy, G.orig_size, SK.band, a)
+            left -= run
+    oc = ink(SK.orig_ink)
+    for i, ln in enumerate(g["orig"]):
+        text(ctx, ln, x0, g["o0"] + i * G.orig_line_h, G.orig_size, "serif", oc, a, 0, "l")
+    ta = a * ease_out((t - e["t0"] - G.trans_delay_sec) / G.trans_fade_sec)
+    if ta > 0:
+        rise = (1 - ta / max(a, G.alpha_floor)) * G.trans_rise_px
+        top = g["t0"] - G.trans_size + rise
+        bar_h = G.trans_line_h * (len(g["trans"]) - 1) + G.trans_size + G.trans_bar_pad
+        ctx.set_source_rgba(*skin.ACCENT_SHAPE, ta)
+        ctx.rectangle(x0, top - G.trans_bar_pad / 2, SK.trans_bar_w, bar_h)
+        ctx.fill()
+        for j, ln in enumerate(g["trans"]):
+            skin_text(ctx, SK.trans, ln, x0 + G.trans_pad_x, g["t0"] + j * G.trans_line_h + rise, ta)
+    _ghosts(ctx, x0, g["g1"], G.ghost_after, G.ghost_before, ghost, a, G)
+    skin_rule(ctx, x0, x1, g["src_y"] - SK.foot_rule.dy, SK.foot_rule, a)
+    skin_text(ctx, SK.src, e["source"], x0, g["src_y"], a, role=META)
+    ctx.restore()
 
 
 PREVIEW_FIXTURE: dict = {

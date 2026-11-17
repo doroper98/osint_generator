@@ -23,12 +23,16 @@ from typing import Optional
 import cairo
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-from engine.style import C, CARD, CARD_BG, PRIMITIVES
+from engine import skin
+from engine.primitives import geo, ink, skin_card, skin_on, skin_rule, skin_text
+from engine.style import C, CARD, CARD_BG, PRIMITIVES, SKIN, hexc
 from engine.timebase import ease_out, ease_quintic, window
 from engine.typography import rrect, text, tw, wrap
 from script.schema import DATE_RE
 
 L = PRIMITIVES["process_lane"]
+SK = SKIN.primitives.process_lane   # v7.4.0 3c(UF-906) — skin 무대 판(rules skin.primitives.process_lane)
+META = "media_meta"   # 출처·날짜 메타 글자 역할(qa_checks.glyph_size_exempt)
 COLOR_KEYS: tuple[str, ...] = ("emphasis", "secondary_text")
 AXIS = "none"   # 값 축 없음(정직성 검사 해당 없음, engine/honesty.py)
 
@@ -146,17 +150,18 @@ def _with_label_col(e: dict) -> bool:
 
 def layout(e: dict) -> dict:
     """제자리 기하(설계 px) — 상자·줄 중심·알약 x 범위."""
+    G = geo("process_lane")  # noqa: N806 — skin 무대면 skin.primitives.process_lane.layout 덮어쓰기
     n = len(e["steps"])
     rows = len(e["rows"])
-    h = L.head_h + L.row_h * rows + L.foot_h
-    x0 = L.x + L.pad_x + (L.label_col_w if _with_label_col(e) else 0)
-    inner = L.x + L.w - L.pad_x - x0 - L.arrow_len
-    pill_w = (inner - L.pill_gap * (n - 1)) / n
-    pills = [(x0 + i * (pill_w + L.pill_gap), pill_w) for i in range(n)]
-    gate_x = pills[e["gate_after"]][0] + pill_w + L.pill_gap / 2
-    row_y = [L.y + L.head_h + L.row_h * (i + 1) - L.pill_dy for i in range(rows)]
-    return {"box": (L.x, L.y, L.x + L.w, L.y + h), "h": h, "pills": pills, "pill_w": pill_w, "gate_x": gate_x, "row_y": row_y,
-            "axis_x1": L.x + L.w - L.pad_x}
+    h = G.head_h + G.row_h * rows + G.foot_h
+    x0 = G.x + G.pad_x + (G.label_col_w if _with_label_col(e) else 0)
+    inner = G.x + G.w - G.pad_x - x0 - G.arrow_len
+    pill_w = (inner - G.pill_gap * (n - 1)) / n
+    pills = [(x0 + i * (pill_w + G.pill_gap), pill_w) for i in range(n)]
+    gate_x = pills[e["gate_after"]][0] + pill_w + G.pill_gap / 2
+    row_y = [G.y + G.head_h + G.row_h * (i + 1) - G.pill_dy for i in range(rows)]
+    return {"box": (G.x, G.y, G.x + G.w, G.y + h), "h": h, "pills": pills, "pill_w": pill_w, "gate_x": gate_x, "row_y": row_y,
+            "axis_x1": G.x + G.w - G.pad_x}
 
 
 def token_pos(r: dict, t: float) -> float:
@@ -189,6 +194,9 @@ def draw(ctx: cairo.Context, view: object, t: float, e: dict, style: object) -> 
     if a <= 0:
         return box
     x, y = box[0], box[1]
+    if skin_on():
+        _draw_skin(ctx, t, e, g, a)
+        return box
     em = style.color("emphasis")            # type: ignore[attr-defined]
     sec = style.color("secondary_text")     # type: ignore[attr-defined]
     white = C["white"]
@@ -280,6 +288,110 @@ def draw(ctx: cairo.Context, view: object, t: float, e: dict, style: object) -> 
             text(ctx, r["token"], tx + L.token_r + L.token_label_dx, ty + L.token_label_dy, L.token_label_size, "sansb", white, ta, 0, "l")
     text(ctx, f"{e['source']} · {e['date']}", x + L.pad_x, y + g["h"] - L.src_dy, CARD.src_size, "sans", C["muted"], a, 0, "l")
     return box
+
+
+def _draw_skin(ctx: cairo.Context, t: float, e: dict, g: dict, a: float) -> None:
+    """skin 판(v7.4.0 3c·UF-906) — 흰 직각 카드. 머리(잉크) · 비공개 구역 = 가는 점선 윤곽(회색 면 없음) · 축 = 가는 잉크 선 + 작은 화살촉 ·
+    단계 = 흰 알약(도달 = 잉크 윤곽 + 그림자, 미도달 = 옅은 윤곽 + 옅은 글자) · 번호 = 알약 위 끝에 걸친 작은 원(도달 = 강조, 흰 숫자) ·
+    공개 선 = 잉크 · 기간 괄호 = 가는 잉크 + 강조 글자 · 표지 = 작은 짙은 원(흰 테) · 출처 위 가는 선 · 출처 줄. 시각·이동은 종전과 같다."""
+    G = geo("process_lane")  # noqa: N806
+    x, y = g["box"][0], g["box"][1]
+    skin_card(ctx, (x, y, G.w, g["h"]), a)
+    skin_text(ctx, SK.title, e["title"], x + G.pad_x, y + G.title_dy, a)
+    white = hexc(SKIN.surface.fill)
+    grow = ease_out((t - e["t0"] - G.gate_delay_sec) / G.gate_grow_sec)
+    gx = g["gate_x"]
+    gy0 = y + G.head_h - G.gate_over
+    gy1 = g["row_y"][-1] + G.pill_h / 2 + G.gate_under
+    if grow > 0:
+        ctx.new_path()
+        ctx.move_to(gx, gy0)
+        ctx.line_to(gx, gy0 + (gy1 - gy0) * grow)
+        ctx.set_source_rgba(*skin.INK, SK.gate.alpha * a)
+        ctx.set_line_width(SK.gate.w)
+        ctx.stroke()
+        skin_text(ctx, SK.gate_label, e["gate_label"], gx, gy0 - G.gate_label_dy, a * grow, "c")
+    for ri, r in enumerate(e["rows"]):
+        ra = a if r.get("t") is None else a * window(t, r["t"], e["t1"], G.fade_sec, G.fade_sec)
+        if ra <= 0:
+            continue
+        cy = g["row_y"][ri]
+        if r.get("label"):
+            skin_text(ctx, SK.row_label, r["label"], x + G.pad_x, cy + G.row_label_dy, ra)
+        hx0 = g["pills"][0][0] - G.hidden_pad
+        hy0 = cy - G.pill_h / 2 - G.hidden_top
+        ctx.save()
+        ctx.set_dash(list(SK.hidden.dash))
+        ctx.rectangle(hx0, hy0, gx - G.hidden_gap - hx0, G.pill_h + G.hidden_top + G.hidden_pad)
+        ctx.set_source_rgba(*skin.INK, SK.hidden.alpha * ra)
+        ctx.set_line_width(SK.hidden.w)
+        ctx.stroke()
+        ctx.restore()
+        skin_text(ctx, SK.hidden_label, e["hidden_label"], hx0 + G.hidden_label_dx, hy0 + G.hidden_label_dy, ra)
+        ctx.new_path()
+        ctx.move_to(g["pills"][0][0], cy)
+        ctx.line_to(g["axis_x1"], cy)
+        ctx.set_source_rgba(*skin.INK, SK.axis.alpha * ra)
+        ctx.set_line_width(SK.axis.w)
+        ctx.stroke()
+        ctx.move_to(g["axis_x1"], cy)
+        ctx.line_to(g["axis_x1"] - G.arrow_len, cy - G.arrow_half)
+        ctx.line_to(g["axis_x1"] - G.arrow_len, cy + G.arrow_half)
+        ctx.close_path()
+        ctx.set_source_rgba(*skin.INK, SK.arrow_alpha * ra)
+        ctx.fill()
+        pos = token_pos(r, t)
+        for i, (px, pw) in enumerate(g["pills"]):
+            pa = ra * ease_out((t - (r.get("t") or e["t0"]) - G.step_stagger_sec * i) / G.step_fade_sec)
+            if pa <= 0:
+                continue
+            reached = i <= pos + G.reach_eps
+            pbox = (px, cy - G.pill_h / 2, pw, G.pill_h)
+            skin.pill(ctx, pbox, white, pa, SK.pill_level if reached else None)
+            ln_ = SK.pill_line if reached else SK.pill_ghost_line
+            rrect(ctx, *pbox, G.pill_h / 2)
+            ctx.set_source_rgba(*skin.INK, ln_.alpha * pa)
+            ctx.set_line_width(ln_.w)
+            ctx.stroke()
+            col = ink(SK.step.ink if reached else SK.step_ghost_ink)
+            lines = wrap(ctx, e["steps"][i], pw - G.pill_pad_x * 2, SK.step.size, SK.step.font)[:G.step_lines_max]
+            top = cy - (len(lines) - 1) * G.step_line_h / 2 + SK.step.size * G.step_baseline
+            for j, ln in enumerate(lines):
+                skin_text(ctx, SK.step, ln, px + pw / 2, top + j * G.step_line_h, pa, "c", col=col)
+            nx, ny = px + SK.num.dx, cy - G.pill_h / 2
+            ctx.arc(nx, ny, SK.num.r, 0, 2 * math.pi)
+            ctx.set_source_rgba(*(ink("accent") if reached else ink(SK.num.ghost_ink)), pa)
+            ctx.fill()
+            text(ctx, str(i + 1), nx, ny + SK.num.size * G.step_baseline, SK.num.size, SK.num.font, white, pa, 0, "c")
+        sp = r.get("span")
+        if sp is not None:
+            sa = ra * ease_out((t - sp["t"]) / G.span_fade_sec)
+            if sa > 0:
+                bx0 = g["pills"][sp["from_step"]][0]
+                bx1 = g["pills"][sp["to_step"]][0] + g["pill_w"]
+                by = cy - G.pill_h / 2 - G.span_dy
+                ctx.new_path()
+                ctx.move_to(bx0, by + G.span_tick)
+                ctx.line_to(bx0, by)
+                ctx.line_to(bx1, by)
+                ctx.line_to(bx1, by + G.span_tick)
+                ctx.set_source_rgba(*skin.INK, SK.span.alpha * sa)
+                ctx.set_line_width(SK.span.w)
+                ctx.stroke()
+                skin_text(ctx, SK.span_label, sp["label"], (bx0 + bx1) / 2, by - G.span_label_dy, sa, "c")
+        tx = _pill_x(g, pos)
+        ty = cy - G.pill_h / 2 - G.token_dy
+        ta = ra * ease_out((t - (r.get("t") or e["t0"]) - G.token_delay_sec) / G.step_fade_sec)
+        if ta > 0:
+            tb = (tx - G.token_r, ty - G.token_r, G.token_r * 2, G.token_r * 2)
+            skin.pill(ctx, tb, white, ta, SK.token_level)
+            ctx.arc(tx, ty, G.token_r - SK.token_ring_w, 0, 2 * math.pi)
+            ctx.set_source_rgba(*skin.INK, ta)
+            ctx.fill()
+            skin_text(ctx, SK.token_label, r["token"], tx + G.token_r + G.token_label_dx, ty + G.token_label_dy, ta)
+    sy = y + g["h"] - G.src_dy
+    skin_rule(ctx, x + G.pad_x, x + G.w - G.pad_x, sy - SK.foot_rule.dy, SK.foot_rule, a)
+    skin_text(ctx, SK.src, f"{e['source']} · {e['date']}", x + G.pad_x, sy, a, role=META)
 
 
 PREVIEW_FIXTURE: dict = {

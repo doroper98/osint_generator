@@ -36,9 +36,9 @@ class DirectionStageKeyTest(unittest.TestCase):
                 Direction.model_validate(bad)
 
     def test_shot_on_other_stage_is_not_rendered(self) -> None:
-        """보조 무대 렌더는 G3 — 주 무대와 다른 숏은 조용히 지도로 그리지 않고 오류(P6)."""
+        """rules stage.switch.stages(지도 ↔ 스튜디오, v7.4.0 R9) 밖 무대 전환(지도 → 시간축)은 조용히 지도로 그리지 않고 오류(P6)."""
         rules = load_rules()
-        fake = rules.model_copy(update={"registries": rules.registries.model_copy(update={"stages": ["mercator", "timeline"]})})
+        fake = rules.model_copy(update={"registries": rules.registries.model_copy(update={"stages": ["mercator", "timeline", "studio"]})})   # studio = 지정학 장르 보조 무대(v7.4.0 R9)
         with mock.patch("rules.load_rules", return_value=fake), mock.patch.dict(S.STAGE_CLASSES, {"timeline": MercatorStage}):
             # v4.2.0 D-0081 작업 3 — 숏 무대는 장르 프로필 무대 안이어야 한다: timeline 을 보조 무대로 둔 가짜 장르
             geo = load_genre("geopolitics").model_dump()

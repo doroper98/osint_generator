@@ -25,7 +25,7 @@ from engine.camera import CamKey, build_camera, cam
 from engine.context import RenderCtx
 from engine.credits import check_credits, load_credits, required_refs
 from engine.direction import Direction, DirectionError, boundary_routes, geo_unsourced, load_direction_doc, shot_stages
-from engine.direction import ISLAND_STAGE, STRUCTURE_STAGE, is_island_shot, island_keys
+from engine.direction import DIP_HALF_SEC, ISLAND_STAGE, STRUCTURE_STAGE, is_island_shot, island_keys, rendered_stages, stage_keys, stage_track
 from engine.events import DETAIL_STYLES
 from engine.direction import build as build_direction
 from geo.gazetteer import check_doc as gazetteer_check
@@ -41,10 +41,11 @@ from engine.layers.badges import assign_person_sizes, drop_person_R, portrait_he
 from engine.placement import PlacementError, resolve_places
 from engine.projection import View
 from engine.shots import ShotStage
-from engine.stage import StageSet, attach_world, make_stage
+from engine.stage import StageSet, attach_world, make_stage, photo_stage, screen_stage
 from engine.refs import emblem_ids
+from engine import skin
 from engine.registry import FULL_LAYERS, MAP_LAYER_ORDER, LayerSet, RegistryError, validate_events
-from engine.style import FPS, ISLAND, TIMELINE, Output, apply_palette, output_profile
+from engine.style import FPS, ISLAND, SKIN, TIMELINE, Output, apply_palette, output_profile
 from engine.timebase import Timebase
 from genres.elements import used_elements
 from rules import load_rules
@@ -384,6 +385,15 @@ def music_ids(sound: Optional[dict]) -> set[str]:
     return {b} if isinstance(b, str) else {g["id"] for g in b}
 
 
+def check_versus_layout(events: list[dict], where: str) -> None:
+    """v7.4.0 UF-913 — skin 이 꺼진 영상의 versus 패널에 layout 이 있으면 ProjectError(옛 두 기둥 상자로 그리므로 배치를 무시하게 된다 — 15 P6)."""
+    bad = [f"{e['t0']}s {e['layout']}" for e in events
+           if e.get("type") == "panel" and e.get("kind") == "versus" and e.get("layout") is not None]
+    if bad:
+        raise ProjectError(f"versus 패널 layout {bad}: skin 무대(rules skin.stages·skin.map_themes)에서만 쓴다 — "
+                           f"이 영상({where})은 옛 두 기둥 상자로 그리므로 layout 을 지운다")
+
+
 def load_project(proj: Path, direction: Optional[Direction] = None, out: Optional[Output] = None,
                  animatic: bool = False, catalog: bool = False) -> Project:
     """렌더 입력 한 벌. direction 을 주면 direction.yaml 대신 그것으로(연출 워커의 저장 전 점검 — 렌더와 같은 경로, 15 P8).
@@ -450,16 +460,33 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     keys, raw_events, sound = load_direction(proj, tb, R.stage, doc)
     try:
         shots = shot_stages(doc, tb, stages.get)
+        rstages = rendered_stages(doc)   # v7.4.0 R9(UF-902) — 화면 전체로 그리는 무대(주 무대 먼저). 둘이면 지도 ↔ 스튜디오 전환 영상
+        track = stage_track(doc, tb)     # [(시각, 이전, 다음)] — 한 무대 영상은 []
     except (DirectionError, ValueError) as ex:
         raise ProjectError(str(ex)) from ex
+    screen_name = next((s_ for s_ in rstages if screen_stage(s_)), None)   # 아일랜드가 놓이는 화면 공간 무대(한 무대 영상 = 주 무대가 화면 무대일 때만)
     R.cache["stage"] = {"name": R.stage.name, "declared": doc.stage is not None,          # provenance stage(15 P5)
                         "shots_declared": sum(1 for s in doc.shots if s.stage is not None), "instances": dict(stages.created),
                         "configs": {k: json.loads(json.dumps(v, default=str)) for k, v in doc.stage_configs().items()}}   # v4.3.0
+    if track:   # v7.4.0 R9 — 렌더 무대 전환 기록(provenance stage.switches, 전환 영상만 — P5)
+        R.cache["stage"]["switches"] = [{"t": round(t_, 3), "from": a_, "to": b_} for t_, a_, b_ in track]
     R.cache["direction_drops"] = [d.model_dump() for d in doc.drops]   # v7.4.0 D-0245 — [series-unused]·[panel-dropped] 예외
     R.cache["invest_notice"] = doc.genre_profile().invest_notice     # v7.4.0 D-0278 §4.3 — 엔딩 카드 맨 마지막 줄 투자 고지
-    apply_palette(doc.genre_profile().palette)   # v7.4.0 D-0310(UF-155) — 장르 팔레트(없으면 기존 색으로 되돌린다 — 한 프로세스 여러 영상)
-    R.cache["palette"] = doc.genre_profile().palette
-    if R.cache["palette"] and "mercator" in doc.stage_configs():   # 팔레트 지도 테마(map_*) 지형 래스터 미준비 — 조용히 옛 지도로 그리지 않는다(P6)
+    skin_on = skin.apply(R.stage.name, mt["effective"] if mt else None)   # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 무대(rules skin.stages)면 켠다, 아니면 끈다(한 프로세스 여러 영상). 4b — mercator + skin.map_themes 도
+    pal = SKIN.palette if skin_on else doc.genre_profile().palette   # 그 무대는 skin.palette 가 장르 팔레트를 이긴다(스튜디오 모습 하나, UF-903)
+    apply_palette(pal)   # v7.4.0 D-0310(UF-155) — 장르 팔레트(없으면 기존 색으로 되돌린다 — 한 프로세스 여러 영상)
+    R.cache["palette"] = pal
+    if skin_on:   # provenance skin(15 P5) — 켜진 영상만
+        R.cache["skin"] = {"name": SKIN.palette, "stage": R.stage.name}
+    else:   # v7.4.0 UF-913 — versus layout 은 skin 무대 배치다. 옛 테마 영상에 적으면 조용히 무시하지 않는다(15 P6)
+        check_versus_layout(raw_events, f"무대 {R.stage.name!r}, 지도 테마 {mt['effective'] if mt else None!r}")
+    skin_map = skin_on and mt is not None and mt["effective"] in SKIN.map_themes   # v7.4.0 4b — skin 지도: 지형 = 지도 테마 래스터(팔레트 map_* 아님)
+    if len(rstages) > 1 and set(rstages) & set(SKIN.stages) and not skin_map:   # v7.4.0 R9 — 스튜디오를 오가는 영상은 skin 영상(지도도 skin 테마)이어야 한다
+        raise ProjectError(f"무대 전환 {rstages}: 스튜디오(rules skin.stages)를 쓰는 영상의 지도는 skin 지도 테마 {SKIN.map_themes} 여야 한다 — "
+                           f"지도 테마 {mt['effective'] if mt else None!r}(옛 테마)는 스튜디오와 한 영상에 섞지 않는다(C0.0·UF-903)")
+    if skin_map:
+        R.cache["skin"]["map_theme"] = mt["effective"]
+    if R.cache["palette"] and "mercator" in doc.stage_configs() and not skin_map:   # 팔레트 지도 테마(map_*) 지형 래스터 미준비 — 조용히 옛 지도로 그리지 않는다(P6)
         raise ProjectError(f"팔레트 {R.cache['palette']!r} 는 아직 지도 무대(mercator)와 함께 못 쓴다 — 지도 테마 자산(geo.prep)이 없다(D-0310)")
     R.cache["genre"] = {"name": doc.genre_name(), "declared": doc.genre is not None,    # v4.2.0 D-0081 작업 3 — provenance genre(15 P5)
                         "status": doc.genre_profile().status,                          # v4.3.0 D-0084 작업 6 — proposed 프로필 사용 기록(P6)
@@ -479,19 +506,29 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         R.cache["timeline"] = {"w_changes": timeline_w_changes(shots, plan.sentences)}
     R.cache["pacing"] = pacing_check(plan.total, tb, shots, raw_events, keys, R.stage.name)   # v4.11.0 D-0118 §1 — 검사·provenance·creep 한 결과
     chart_stage = None
-    if R.stage.name == "backdrop":   # v5.1.0 D-0123·D-0126 Q1 A — 주 무대 카메라 {}(고정), 차트 아일랜드 카메라 = stage: timeline 숏
-        if not keys:
-            keys = [cam(0.0, *R.stage.to_world(), R.stage.fixed_w, 0.0, "cut")]
-        if any(is_island_shot(doc, s_, "backdrop", ISLAND_STAGE) for s_ in doc.shots):
+    if screen_stage(R.stage.name) and not keys:   # v5.1.0 D-0123·D-0126 Q1 A — 주 무대 카메라 {}(고정), 차트 아일랜드 카메라 = stage: timeline 숏. studio 도 같다(v7.4.0 UF-902)
+        keys = [cam(0.0, *R.stage.to_world(), R.stage.fixed_w, 0.0, "cut")]
+    if screen_name is not None:   # v7.4.0 R9 — 화면 공간 무대가 보조 무대(지도 ↔ 스튜디오)여도 그 구간의 아일랜드
+        if any(is_island_shot(doc, s_, R.stage.name, ISLAND_STAGE) for s_ in doc.shots):
             chart_stage = stages.get(ISLAND_STAGE)
             hs = {ISLAND.boxes[e.get("box") or "center"][3] for e in raw_events if e.get("type") == "island" and e.get("kind") == "chart"}
             if len(hs) > 1:   # v7.4.0 D-0268 — 차트 시간축 무대는 영상당 하나 → 차트 아일랜드 상자 높이도 하나(left_tall 등 높이가 다른 상자)
                 raise ProjectError(f"차트 아일랜드 상자 높이가 섞였다 {sorted(hs)} — 한 영상의 차트 아일랜드는 같은 높이 상자만(레인 영역 한 벌)")
             box_h = hs.pop() if hs else next(iter(ISLAND.boxes.values()))[3]
-            chart_stage.fit_island(box_h - 2 * ISLAND.inner_pad["y"], ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)   # Q2 A — 레인 자동 맞춤(D-1010 §1 — 내용 영역 높이)
+            pads = (SKIN.chart.pad_top, SKIN.chart.pad_bottom) if skin_on else (ISLAND.chart.pad_top, ISLAND.chart.pad_bottom)   # v7.4.0 2a — skin 차트 안 세로 리듬
+            chart_stage.fit_island(box_h - 2 * ISLAND.inner_pad["y"], *pads)   # Q2 A — 레인 자동 맞춤(D-1010 §1 — 내용 영역 높이)
             R.cache["island"] = {"lane_h_effective": round(chart_stage.y_px_per_unit, 3), "lane_h": TIMELINE.lane_h,
                                  "lanes": chart_stage.n}
     cams = build_camera(keys, n, FPS, creep=[tuple(r) for r in R.cache["pacing"]["creep"]]) if keys else None
+    alt: dict[str, tuple[object, np.ndarray]] = {}   # v7.4.0 R9 — 보조 렌더 무대마다 (무대, 카메라 트랙). 지도 키는 지도 숏에서만, 스튜디오 = 빈 카메라
+    for name in rstages[1:]:
+        st_ = stages.get(name)
+        k2 = stage_keys(doc, tb, st_) or ([cam(0.0, *st_.to_world(), st_.fixed_w, 0.0, "cut")] if screen_stage(name) else [])
+        if not k2:
+            raise ProjectError(f"보조 렌더 무대 {name!r} 의 카메라 키가 없다 — 그 무대로 바꾸는 dip 숏에 카메라를 적는다")
+        alt[name] = (st_, build_camera(k2, n, FPS))
+    map_name = next((s_ for s_ in rstages if not screen_stage(s_)), None)
+    map_st, map_cams = (R.stage, cams) if map_name in (None, R.stage.name) else alt[map_name]   # 지도 앵커 이벤트의 월드 좌표·인셋 궤적 = 지도 무대
     A0 = assets  # noqa: N806
 
     def view_at(t: float) -> View:
@@ -503,7 +540,10 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
                                    stage_name=R.stage.name)   # v4.4.0 D-0093 — 무대 종류별 자리
     except PlacementError as ex:
         raise ProjectError(str(ex)) from ex
-    if R.stage.name != "backdrop" and any(e.get("type") == "backdrop" for e in raw_events):   # v5.1.0 D-0123 — 배경 사진은 backdrop 무대에만(P10)
+    if not photo_stage(R.stage.name) and any(e.get("type") == "backdrop" for e in raw_events):   # v5.1.0 D-0123 — 배경 사진은 backdrop 무대에만(P10)
+        if R.stage.name == "studio":   # v7.4.0 UF-902·UF-903 — 스튜디오는 모양이 하나(밝은 회색 공간). 사진을 깔지 않는다
+            raise ProjectError("backdrop 이벤트(배경 사진)는 studio 무대에 쓰지 않는다 — 스튜디오 무대는 사진 없이 공간 자체가 배경이다(UF-903). "
+                               "사진 배경이 필요하면 주 무대를 backdrop 으로, 아니면 backdrop 이벤트를 뺀다")
         raise ProjectError(f"backdrop 이벤트는 backdrop 무대에서만 — 주 무대 {R.stage.name!r}")
     bad = [k for e in raw_events if e.get("type") == "series" for k in ("key", "axis", "slot") if k in e]
     if bad:
@@ -513,19 +553,19 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
                         "head_top": [] if animatic else head_tops(R, events)}   # v4.8.0 D-0112 A — 초상 실측 머리 높이(콘티 판은 초상을 열지 않는다 → 상한)
     assign_person_sizes(events)   # v4.8.0 D-0101 §1 — 인물 뱃지 적응 크기(보이는 인물 수 n(t), 코드가 센다 P8)
     try:
-        attach_world(events, R.stage, chart_stage)
+        attach_world(events, map_st, chart_stage)   # type: ignore[arg-type]
     except ValueError as ex:   # 앵커 키가 무대와 다름(지도 핀을 시간축에, 등) = 오류(P10, D-0085)
         raise ProjectError(f"앵커 오류: {ex}") from ex   # 앵커(lon·lat) → 월드 좌표. 레이어·검사기는 이 값과 View 만 쓴다(D-0076 작업 3)
     R.cache["backdrop"] = backdrop_report(events, R.assets.media_assets)   # v5.1.0 D-0123 §3 — checks backdrop_rights·backdrop_repeat·provenance
     R.cache["stage_choice"] = doc.stage_choice()                          # v5.1.0 D-0123 §2 — checks stage_choice(warning)
     _check_quotes(proj, events)      # v4.4.0 — statement_diff 문구 = intake 원문(D-0090 작업 4)
     _attach_posts(proj, R, events)   # v3.2.0 18 §5 — post 카드 문구·상자는 intake/sources.json 에서(없으면 오류)
-    if R.stage.name == "backdrop":   # v5.2.0 D-0129 §B·§C — 주 아일랜드 상시(checks backdrop_main_missing)·카드 ↔ 아일랜드 교차(card_island)
+    if screen_name is not None:   # v5.2.0 D-0129 §B·§C — 주 아일랜드 상시(checks backdrop_main_missing — 사진 배경 무대만, main_missing 이 가른다)·카드 ↔ 아일랜드 교차(card_island — studio 도)
         from engine.island import card_overlap, island_boxes, main_missing  # noqa: PLC0415
 
         R.cache["island_check"] = {
-            "main_missing": main_missing(events, plan.total, [(c.t0 - 0.3, c.t1 + 0.3) for c in plan.cards], R.stage.name),
-            "card_overlap": card_overlap(events, island_boxes(events, R.assets.media_assets, R.stage.name))}
+            "main_missing": main_missing(events, plan.total, [(c.t0 - 0.3, c.t1 + 0.3) for c in plan.cards], screen_name),
+            "card_overlap": card_overlap(events, island_boxes(events, R.assets.media_assets, screen_name))}
     from engine.reserved import delay_covered_badges  # noqa: PLC0415
 
     R.cache["badge_delays"] = delay_covered_badges(events)   # v7.4.0 D-0329 ② — 전면 덮개 아래 배지는 덮개 끝으로(provenance reserve.badge_delays)
@@ -562,18 +602,21 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         R.cache["island_chart"] = {"stage": chart_stage, "cams": chart_cams, "order": MAP_LAYER_ORDER,
                                    "events": island_chart_events(events), "resolve": _layers(animatic).resolve}
     struct_stage = None
-    if R.stage.name == "backdrop" and any(is_island_shot(doc, s_, "backdrop", STRUCTURE_STAGE) for s_ in doc.shots):   # v7.4.0 D-1003 §3 — 구성 아일랜드
+    if screen_name is not None and any(is_island_shot(doc, s_, R.stage.name, STRUCTURE_STAGE) for s_ in doc.shots):   # v7.4.0 D-1003 §3 — 구성 아일랜드(backdrop·studio)
         struct_stage = stages.get(STRUCTURE_STAGE)
         from engine.style import STRUCTURE  # noqa: PLC0415
         R.cache["island_structure"] = {"stage": struct_stage, "cams": build_camera(island_keys(doc, tb, struct_stage), n, FPS,
                                                                                      drift=STRUCTURE.camera_drift),
                                        "events": structure_events(events), "box": struct_stage.cfg.box}
         R.cache["structure"] = structure_report(struct_stage)
-    island_errs = check_islands(events, R.stage.name, chart_stage) + check_structure(events, R.stage.name, struct_stage)
+    island_errs = check_islands(events, screen_name or R.stage.name, chart_stage) + check_structure(events, screen_name or R.stage.name, struct_stage)
+    if track:   # v7.4.0 R9 — 이벤트마다 렌더 무대(지도 앵커·아일랜드). 다른 무대 구간에 걸치면 오류(P6 — 조용히 숨기지 않는다)
+        island_errs += bind_event_stages(events, track, R.stage.name, map_name, screen_name)
+        R.cache["stage_switch"] = {"track": track, "main": R.stage.name, "alt": alt}
     if island_errs:
         raise ProjectError("아일랜드 점검 실패(P6·P10):\n" + "\n".join(island_errs))
     prepare_series(R, events, chart_cams, n, chart_stage or R.stage)   # v4.3.0 D-0084 작업 4 — 레코드 로드·레인 범위·grow 앞끝(카메라 경로)
-    if R.stage.name == "mercator" and cams is not None:   # v7.4.0 D-0300(UF-146) — 위성 인셋 자리 궤적(등장 때 고정, 옮기면 보간)을 카메라 경로로 한 번 계산
+    if map_st.name == "mercator" and map_cams is not None:   # v7.4.0 D-0300(UF-146) — 위성 인셋 자리 궤적(등장 때 고정, 옮기면 보간)을 카메라 경로로 한 번 계산
         from engine.layers.flight import build_inset_track, inset_alpha  # noqa: PLC0415
         from engine.layers.markers import marker_box  # noqa: PLC0415
 
@@ -586,7 +629,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
                 fr = []
                 for i in range(max(0, int(e["t0"] * FPS)), min(n, int(e["t1"] * FPS) + 1)):
                     if inset_alpha(i / FPS, e) > 0:
-                        v = View(R.stage, cams[i])
+                        v = View(map_st, map_cams[i])   # type: ignore[arg-type]
                         obs = [marker_box(mctx, m, *v.to_screen(*m["world"]), with_sub=True) for m in tgt if m["t0"] <= i / FPS <= m["t1"]]
                         fr.append((i, *v.to_screen(*e["world"]), obs))
                 build_inset_track(e, fr)
@@ -650,6 +693,40 @@ def _layers(animatic: bool) -> LayerSet:
     return FULL_LAYERS
 
 
+def bind_event_stages(events: list[dict], track: list[tuple[float, str, str]], main: str, map_name: Optional[str],
+                      screen_name: Optional[str]) -> list[str]:
+    """무대 전환 영상(v7.4.0 R9, UF-902)의 이벤트 → 렌더 무대(e["on_stage"], render_frame 이 그 무대가 렌더될 때만 그린다).
+    지도 층(MAP_LAYER_ORDER — 나라·마커·경로·비행·선박·봉쇄선·컷아웃·지도 뱃지 등, 아일랜드 안 층·화면 슬롯 뱃지 제외) = 지도 무대,
+    island = 화면 공간 무대. 나머지(카드·패널·사진·인용·기사·프리미티브·자막·날짜)는 무대와 무관하다.
+    결정: 무대에 묶인 이벤트의 start~end 가 다른 무대 구간에 걸치면 오류(전환 dip 한가운데 ± DIP_HALF_SEC 는 암전 속이라 허용 — 그동안은 숨김).
+    전환을 가로질러 숨겼다 다시 보이는 이벤트는 만들지 않는다 — 연출이 이벤트를 둘로 나눈다(P6, 조용한 드롭 금지)."""
+    segs: list[tuple[float, float, str]] = []
+    a, cur = -math.inf, main
+    for t, _f, to in track:
+        segs.append((a, t, cur))
+        a, cur = t, to
+    segs.append((a, math.inf, cur))
+    errs: list[str] = []
+    for e in events:
+        if e.get("in_island"):
+            continue
+        if e["type"] == "island":
+            own = screen_name
+        elif e["type"] in MAP_LAYER_ORDER and not (e["type"] == "badge" and e.get("world") is None):
+            own = map_name
+        else:
+            continue
+        e["on_stage"] = own
+        for lo, hi, name in segs:
+            if name == own:
+                continue
+            lo2, hi2 = lo + DIP_HALF_SEC, hi - DIP_HALF_SEC   # 무한대 끝은 그대로
+            if min(hi2, e["t1"]) > max(lo2, e["t0"]):
+                errs.append(f"{e['type']} t={e['t0']:.2f}~{e['t1']:.2f} 가 {name} 무대 구간({max(lo, 0.0):.2f}~{hi:.2f})에 걸친다 — "
+                            f"{own} 무대 이벤트는 {own} 구간 안에서만(전환 dip ±{DIP_HALF_SEC}s 허용, rules stage.switch). 전환을 넘으면 이벤트를 둘로 나눈다")
+    return errs
+
+
 def island_chart_events(events: list[dict]) -> list[dict]:
     """차트 아일랜드 안에서 그리는 이벤트 — 시간축 앵커(series·date 핀). `in_island` 표시(주 무대 레이어 루프가 건너뛴다)."""
     out = [e for e in events if e["type"] == "series" or (e["type"] == "marker" and e.get("date") is not None)]
@@ -683,7 +760,7 @@ def check_structure(events: list[dict], stage_name: str, struct_stage: object) -
     ranks = [e for e in events if e["type"] == "rank"]
     errs: list[str] = []
     if (isl or ranks) and struct_stage is None:
-        errs.append("구성 아일랜드·rank 층이 있는데 구성 무대 카메라가 없다 — direction 에 stage: structure 숏(주 무대 backdrop)")
+        errs.append("구성 아일랜드·rank 층이 있는데 구성 무대 카메라가 없다 — direction 에 stage: structure 숏(주 무대 backdrop·studio)")
         return errs
     if struct_stage is None:
         return errs
@@ -704,14 +781,14 @@ def check_islands(events: list[dict], stage_name: str, chart_stage: object) -> l
     같은 순간 차트 아일랜드는 하나, 시간축 앵커 이벤트는 차트 아일랜드가 떠 있는 동안에만(밖이면 조용히 안 보인다 → 오류, P6)."""
     isl = sorted((e for e in events if e["type"] == "island"), key=lambda e: e["t0"])
     errs: list[str] = []
-    if isl and stage_name != "backdrop":
-        errs.append(f"island 이벤트는 backdrop 무대에서만 — 주 무대 {stage_name!r}")
-    if any(e.get("kind") != "structure" for e in isl) and chart_stage is None and stage_name == "backdrop":
+    if isl and not screen_stage(stage_name):
+        errs.append(f"island 이벤트는 화면 공간 무대(backdrop·studio)에서만 — 주 무대 {stage_name!r}")
+    if any(e.get("kind") != "structure" for e in isl) and chart_stage is None and screen_stage(stage_name):
         errs.append("차트 아일랜드 카메라가 없다 — direction 에 stage: timeline 숏(아일랜드 뷰포트 카메라, D-0126 Q1)")
     errs += [f"차트 아일랜드 둘이 겹친다: t={b['t0']:.2f} < 앞 끝 {a['t1']:.2f}(같은 순간 차트 아일랜드는 하나 — 카메라 하나)"
              for a, b in zip(isl, isl[1:]) if b["t0"] < a["t1"]]
-    if stage_name == "backdrop":
-        errs += [f"{e['type']} t={e['t0']:.2f} 시간축 앵커(date·lane) — backdrop 무대에서 차트 아일랜드 안에는 series·marker 만(뱃지는 화면 슬롯)"
+    if screen_stage(stage_name):
+        errs += [f"{e['type']} t={e['t0']:.2f} 시간축 앵커(date·lane) — {stage_name} 무대에서 차트 아일랜드 안에는 series·marker 만(뱃지는 화면 슬롯)"
                  for e in events if e.get("date") is not None and e.get("lane") is not None and e["type"] not in ("series", "marker")]
         for e in events:   # v7.4.0 D-0274 §2 — 아일랜드가 발언 자리(액자 클립)에서 나뉘어도 같은 세계: 아일랜드 구간들의 범위 안이고 한 구간과는 겹쳐야
             inside = any(i["t0"] - 0.05 <= e["t0"] and e["t1"] <= i["t1"] + 0.05 for i in isl) or (
@@ -802,6 +879,7 @@ def prepare_series(R: RenderCtx, events: list[dict], cams: np.ndarray, n: int, s
         note = axis_range_note(R.cache["series_range"][lane], load_series(next(e for e in ser if e["lane"] == lane)["series_id"]).unit)
         if note:   # v7.4.0 D-0263 §2② — 0 이 아닌 곳에서 시작하는 축은 출처 줄 끝에 범위 표기
             joined = f"{joined} · {note}"
+        st.lane_sources[lane] = joined   # v7.4.0 2a — skin 출처 줄은 레인 순서대로 아래 한 덩이(series.source_line_boxes)
         for e in ser:
             if e["lane"] == lane:
                 e["lane_source"] = joined

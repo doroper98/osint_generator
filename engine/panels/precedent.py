@@ -4,17 +4,21 @@ from __future__ import annotations
 
 import cairo
 
+from engine import skin
 from engine.context import RenderCtx
 from engine.layers.badges import badge_at
+from engine.panels import skin_panel
 from engine.panels.base import panel_title
-from engine.style import C, MOTION
+from engine.style import MOTION, C
 from engine.timebase import smooth
 from engine.typography import rrect, text
 from rules import load_rules
 
+SP = skin_panel.P
 PR = load_rules().panels.precedent   # v4.8.0 D-0101 §3 — 글자 크기(옛 리터럴)
 
 
+PR_BADGE_R = 24     # 인물 뱃지 반지름(v3 합격 값)
 CARD_W = 172        # 카드 폭(v3 합격 값)
 TEXT_X = 16         # 카드 왼쪽 → 글자 시작
 TEXT_PAD_R = 10     # v5.6.0 RENDER-AP-013 — 글자 오른쪽 여백(이보다 길면 panel_overflow hard)
@@ -57,8 +61,53 @@ def footnote_box(e: dict) -> tuple[float, float, float, float]:
 
 
 AXIS = "none"   # v4.3.0 D-0087 — 축 종류(값·날짜 축 없음). 정직성 검사 적용 = rules qa_checks.chart_targets
+def _draw_skin(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
+    """v7.4.0 C0.0 3a — 어두운 연도 카드 없음: 흰 카드 위 연도 기둥(윗선 + 기둥 사이 가는 선). 강조 연도(hl)만 강조색 윗선·연도 글자,
+    나머지 잉크. 글꼴·크기·글자 x 는 종전 그대로(overflow 판정과 같은 폭)."""
+    S = SP.precedent  # noqa: N806
+    n = len(e["cards"])
+    for i, cd in enumerate(e["cards"]):
+        t0 = cd["t0"]
+        f = smooth((t - t0) / MOTION["panel_item_in_sec"])
+        if f <= 0:
+            continue
+        x = CARD_X0 + i * CARD_STEP
+        y = S.top - (1 - f) * S.rise
+        ca = a * f
+        hl = bool(cd.get("hl"))
+        tx = x + TEXT_X
+        if hl:
+            ctx.rectangle(tx, y, SP.accent_bar.w, SP.accent_bar.h)
+            ctx.set_source_rgba(*skin.ACCENT_SHAPE, ca)
+            ctx.fill()
+        else:
+            skin_panel.hline(ctx, tx, x + CARD_W - TEXT_PAD_R, y, ca, SP.axis.alpha, SP.axis.w)
+        if i < n - 1:
+            skin_panel.vline(ctx, x + CARD_W + (CARD_STEP - CARD_W) / 2, S.top, S.bottom, ca)
+        text(ctx, cd["year"], tx, y + S.year_dy, PR.year_size, "disp", skin.ACCENT_INK if hl else skin.INK, ca, 0, "l")
+        text(ctx, cd["title"], tx, y + S.title_dy, PR.title_size, "sansb", skin.INK, ca, 0, "l")
+        for j, s_ in enumerate(cd["lines"]):
+            text(ctx, s_, tx, y + S.line_dy + j * S.line_step, PR.line_size, "sansm", skin.INK2, ca, 0, "l")
+        pp = cd.get("person")
+        if pp:
+            badge_at(ctx, R, x + S.badge_dx, y + S.badge_dy, dict(kind="person", pid=pp["pid"], flag=pp["flag"], R=PR_BADGE_R,
+                                                                 t0=t0 + S.badge_delay, label="", accent="muted"), t, a)
+            text(ctx, pp["caption"], tx, y + S.caption_dy, PR.caption_size, "sansb", skin.INK2,
+                 ca * smooth((t - t0 - S.caption_delay) / MOTION["panel_caption_in_sec"]), 0, "l")
+    fn = e.get("footnote")
+    if fn:
+        fa = a * smooth((t - fn["t0"]) / MOTION["panel_item_in_sec"])
+        if fa > 0:
+            x0, _ = footnote_span(n)
+            for j, s_ in enumerate(fn["lines"]):
+                text(ctx, s_, x0, PR.footnote_y + j * PR.footnote_gap, PR.footnote_size, "sansm", skin.INK3, fa, 0, "l")
+
+
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
     panel_title(ctx, a, e["title"], e.get("subtitle"))
+    if skin.active():
+        _draw_skin(ctx, R, t, e, a)
+        return
     for i, cd in enumerate(e["cards"]):
         t0 = cd["t0"]
         f = smooth((t - t0) / MOTION["panel_item_in_sec"])   # v7.4.0 UF-159 ×1.5
@@ -80,7 +129,7 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
             text(ctx, s_, x + 16, y + 96 + j * 20, PR.line_size, "sansm", C["muted"], ca, 0, "l")
         pp = cd.get("person")
         if pp:
-            badge_at(ctx, R, x + 136, y + 172, dict(kind="person", pid=pp["pid"], flag=pp["flag"], R=24, t0=t0 + 0.3,
+            badge_at(ctx, R, x + 136, y + 172, dict(kind="person", pid=pp["pid"], flag=pp["flag"], R=PR_BADGE_R, t0=t0 + 0.3,
                                                     label="", accent="teal"), t, a)
             text(ctx, pp["caption"], x + 16, y + 196, PR.caption_size, "sansb", C["teal"], ca * smooth((t - t0 - 0.6) / MOTION["panel_caption_in_sec"]), 0, "l")
     fn = e.get("footnote")

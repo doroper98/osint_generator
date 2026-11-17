@@ -20,11 +20,14 @@ if TYPE_CHECKING:
 class View:
     """한 프레임의 뷰포트. 카메라는 무대 경계(stage.bounds) 안으로 클램프한다."""
 
-    def __init__(self, stage: "Stage", cam: "np.ndarray", viewport: "tuple[float, float] | None" = None) -> None:
+    def __init__(self, stage: "Stage", cam: "np.ndarray", viewport: "tuple[float, float] | None" = None,
+                 t: "float | None" = None) -> None:
         """viewport = 화면 안 뷰포트 (폭, 높이) 설계 px(v5.1.0 D-0126 Q1 A — 차트 아일랜드 상자). 없으면 화면 전체.
-        화면 좌표는 뷰포트 왼쪽 위가 원점이다(그리는 쪽이 상자 위치로 옮긴다)."""
+        화면 좌표는 뷰포트 왼쪽 위가 원점이다(그리는 쪽이 상자 위치로 옮긴다).
+        t = 이 프레임의 영상 전역 시각(초) — 시간에 따라 배경이 흐르는 무대(스튜디오, v7.4.0 사용자 지시 2026-11-17)만 읽는다. 렌더 진입이 준다."""
         x, y, w = cam
         self.stage = stage
+        self.t = t
         self.ox = self.oy = 0.0   # v7.4.0 D-0257(UF-137) — 무대 틀(frame) 왼쪽 위(화면 좌표). 틀이 있는 시간축 주 무대만 0 이 아니다
         frame = getattr(stage, "frame", None) if viewport is None else None
         if frame is not None:   # 시간축 세계를 화면 안쪽 틀 안에 담는다 — 뷰포트 = 틀 크기, 화면 좌표 = 틀 원점 + 뷰포트 좌표

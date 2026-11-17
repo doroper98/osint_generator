@@ -1,0 +1,25 @@
+# 『스튜디오 무대 시연 — 인물·발언·기사』 엔딩 크레딧 (v7.4.0 D917 2b). 보도 출처 = 장면별 인용 매체(auto: press). 기사 카드 = 실제로 쓴 미디어만.
+schema_version: 1
+sections:
+  - title: 보도 출처
+    column: 0
+    auto: press
+  - title: 기사 카드
+    column: 0
+    items:
+      - main: 헤드라인 번역·요지 자체 조판(위 보도)
+        license: 기사 화면 캡처·로고 없음
+        rights:
+          - media.iran_ceasefire_2026_art_0005
+  - title: 글꼴
+    column: 1
+    auto: fonts
+  - title: 인물 사진
+    column: 1
+    auto: people
+  - title: 음성
+    column: 1
+    items:
+      - main: 내레이션
+        license: AI 음성 합성
+        rights: [narration.tts]

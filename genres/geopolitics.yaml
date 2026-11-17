@@ -7,8 +7,8 @@ genre: geopolitics
 status: approved
 stage:
   primary: mercator              # 20 §2.1 지도 무대(engine.stage.MercatorStage)
-  secondary: []
-  mercator: {theme: light}       # v5.18.0 사용자 결정 D154(D-0161 §1) — 지도 테마 장르 기본값: 지정학·경제 해설 = light, 군사 작전·야간·전황 = dark. 바꾸면 direction 에 사유(theme_reason) + [map-theme-override]
+  secondary: [studio]                # v7.4.0 R9(UF-902) — 지도가 필요 없는 장면(발언·수치·문서·차트)은 스튜디오로 dip 전환(rules stage.switch)
+  mercator: {theme: porcelain}   # v7.4.0 UF-903 ③(D910) — 모든 장르 같은 중립 지도 하나(옛 D154 장르별 light·dark 대체). 연출은 테마를 고르지 않는다([map-theme-legacy] hard)
 color_semantics:                 # docs/handoff/09 §7 색 토큰의 쓰임 그대로(값 = rules registries.accents 토큰 이름)
   confrontation: ru              # 대립·봉쇄·거절·러시아/이란 측
   us_side: us                    # 미국 측, 호위

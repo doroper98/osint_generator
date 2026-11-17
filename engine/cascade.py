@@ -26,8 +26,9 @@ from typing import TYPE_CHECKING
 
 import cairo
 
+from engine import skin
 from engine.context import RenderCtx
-from engine.style import C, CARD, CASCADE, FONT, H_OUT
+from engine.style import C, CARD, CASCADE, FONT, H_OUT, SKIN, hexc
 from engine.timebase import smooth, window
 from engine.typography import rrect, text, tw
 
@@ -214,6 +215,26 @@ def occluder_boxes(front: list[Card]) -> tuple:
     return tuple(((o.x - p, o.y - p, o.w + 2 * p, o.h + 2 * p), FR.radius + p, o.a) for o in front)
 
 
+def skin_frame(ctx: cairo.Context, c: Card, a: float, front: list[Card]) -> None:
+    """v7.4.0 C0.0 3b(UF-906·UF-908) — skin 무대의 카드 면: 흰 직각 카드(skin.surface), 물러남으로 면 = 흰색 → skin.cascade.back_fill,
+    그림자 = 앞(back < 1/2) lifted · 뒤 card. 가림은 V2 와 같은 생각 — 앞쪽 카드의 실제 직각 상자를 DEST_OUT(알파 = 그 카드 알파)."""
+    SC = SKIN.cascade  # noqa: N806
+    fill = tuple(f + (b - f) * c.back for f, b in zip(skin.FILL, hexc(SC.back_fill)))
+    level = SC.level_front if c.back < 1 / 2 else SC.level_back
+    if not front:
+        skin.surface(ctx, c.box, a, level, fill=fill)  # type: ignore[arg-type]
+        return
+    ctx.push_group()
+    skin.surface(ctx, c.box, a, level, fill=fill)  # type: ignore[arg-type]
+    ctx.set_operator(cairo.OPERATOR_DEST_OUT)
+    for o in front:
+        skin.box_path(ctx, o.x, o.y, o.w, o.h, SKIN.surface.radius)
+        ctx.set_source_rgba(0, 0, 0, o.a)
+        ctx.fill()
+    ctx.pop_group_to_source()
+    ctx.paint()
+
+
 def draw_cascade(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
     from engine.island import draw_frame  # noqa: PLC0415 — island → style 순환 회피
     from engine.layers.badges import badge_at  # noqa: PLC0415 — badges → reserved → cascade 순환 회피
@@ -230,22 +251,38 @@ def draw_cascade(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  
         a = ea * c.a
         acc = C[it.get("accent") or "gold"]
         ta, fa = a * c.title_a, a * c.detail_a
-        draw_frame(ctx, c.box, a, frame_style(c), occluder_boxes(occluders(cards, i)))   # 상자 = 앞 카드 실제 모양으로 가림(V2)
+        sk = skin.active()
+        if sk:
+            skin_frame(ctx, c, a, occluders(cards, i))
+        else:
+            draw_frame(ctx, c.box, a, frame_style(c), occluder_boxes(occluders(cards, i)))   # 상자 = 앞 카드 실제 모양으로 가림(V2)
         ctx.save()
         ctx.rectangle(0, 0, c.clip_x1, H_OUT)    # 글자만 — 다음 카드 왼쪽 끝까지(상자 가림과 따로, 가이드 §6)
         ctx.clip()
         ctx.push_group()                         # 글자 — 덮이는 경계 back_fade_px 를 알파 그라데이션으로 가린다(자름 아님)
         ctx.translate(c.x, c.y)
         ctx.scale(c.scale, c.scale)
-        if fa > 0.01:
-            rrect(ctx, F.pad_x, 0, F.w - F.pad_x * 2, F.accent_w, F.accent_w / 2)
-            ctx.set_source_rgba(*acc, fa)
-            ctx.fill()
-            if it.get("line"):
-                text(ctx, it["line"], F.pad_x, F.line_dy, F.line_size, F.line_font, SURF.text_sub, fa, 0, "l")
-        if ta > 0.01:
-            text(ctx, it["date"], CASCADE.flag_R + F.date_dx, F.date_dy, F.date_size, F.date_font, acc, ta, 0, "l")
-            text(ctx, it["title"], F.pad_x, F.title_dy, F.title_size, F.title_font, SURF.text, ta, 0, "l")
+        if sk:   # v7.4.0 3b — 윗변 강조 선(앞 카드만, accent.shape) · 날짜 mono 강조 잉크(앞)/잉크 tertiary(뒤) · 제목 잉크 · 부제 잉크 secondary
+            if fa > 0.01:
+                ctx.rectangle(0, 0, F.w, SKIN.cascade.accent_h)
+                ctx.set_source_rgba(*skin.ACCENT_SHAPE, fa)
+                ctx.fill()
+                if it.get("line"):
+                    text(ctx, it["line"], F.pad_x, F.line_dy, F.line_size, F.line_font, skin.INK2, fa, 0, "l")
+            if ta > 0.01:
+                text(ctx, it["date"], CASCADE.flag_R + F.date_dx, F.date_dy, F.date_size, F.date_font,
+                     skin.ACCENT_INK if c.back < 1 / 2 else skin.INK3, ta, 0, "l")
+                text(ctx, it["title"], F.pad_x, F.title_dy, F.title_size, F.title_font, skin.INK, ta, 0, "l")
+        else:
+            if fa > 0.01:
+                rrect(ctx, F.pad_x, 0, F.w - F.pad_x * 2, F.accent_w, F.accent_w / 2)
+                ctx.set_source_rgba(*acc, fa)
+                ctx.fill()
+                if it.get("line"):
+                    text(ctx, it["line"], F.pad_x, F.line_dy, F.line_size, F.line_font, SURF.text_sub, fa, 0, "l")
+            if ta > 0.01:
+                text(ctx, it["date"], CASCADE.flag_R + F.date_dx, F.date_dy, F.date_size, F.date_font, acc, ta, 0, "l")
+                text(ctx, it["title"], F.pad_x, F.title_dy, F.title_size, F.title_font, SURF.text, ta, 0, "l")
         glyphs = ctx.pop_group()
         if c.clip_x1 < c.x + c.w:
             fade = cairo.LinearGradient(c.clip_x1 - CASCADE.back_fade_px, 0, c.clip_x1, 0)

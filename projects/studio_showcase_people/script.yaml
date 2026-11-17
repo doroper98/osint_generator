@@ -1,0 +1,37 @@
+# 『스튜디오 무대 시연 — 인물·발언·기사』 원고 (v7.4.0 C0.0 2b단계(D917·UF-905·UF-907) 디자인 시스템 시연).
+# 문장 = projects/iran_ceasefire_2026/script.yaml cold_1·cold_2, projects/diesel_road_2026/script.yaml act5_21·act5_22 그대로(새 사실 없음).
+# 사실 = intake/claims.json(두 영상 사본 — clm_0002·0003 휴전안, clm_0135·0136 경유의 길).
+schema_version: 1
+title: 스튜디오 무대 시연 — 인물·발언·기사
+subtitle: 기록된 기사 카드와 발언 인용으로 보는 디자인 시스템
+date: 2026.10.31
+scenes:
+- id: cold
+  kind: cold
+  stage: 걸프
+  sentences:
+  - date: 2026.10.31
+    text: 아라그치 이란 외무장관은 미국의 대화 시도를 "긍정적 조치"라고 말했습니다.
+    emphasis:
+    - 긍정적 조치
+    sources:
+    - clm_0002
+  - date: 2026.10.31
+    text: 같은 날 루비오 미 국무장관은 트럼프 대통령이 새 공격 여부를 아직 정하지 않았다고 말했습니다.
+    emphasis: []
+    sources:
+    - clm_0003
+- id: act1
+  kind: act
+  stage: 워싱턴
+  sentences:
+  - date: 2026.10.11
+    text: 이에 대해 우크라이나는 러시아의 정유망이 훨씬 커서 맞교환은 불공평하다고 반발했습니다.
+    emphasis: []
+    sources:
+    - clm_0135
+  - date: 2026.10.11
+    text: 젤렌스키 대통령은 휴전 발표를 처음 듣는 소식이라고 말했습니다.
+    emphasis: []
+    sources:
+    - clm_0136

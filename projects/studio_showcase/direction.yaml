@@ -1,0 +1,24 @@
+# 『스튜디오 무대 시연』 연출 (v7.4.0 C0.0·UF-906(D917)) — 사람 작성. 스튜디오 주 무대(카메라 {}) + 차트 아일랜드 하나(시간축 숏).
+# 사용자 지시 UF-906 "금리 차트좀 예시에서 빼" — 시연은 인텔 분기 영업이익(레코드 INTC_OP_Q, 값은 레코드에서만).
+version: 1
+project_id: studio_showcase
+genre: earnings
+stage: studio
+stage_reason: "디자인 시스템(rules skin) 시연 — 스튜디오 무대 위 흰 카드 차트 아일랜드(UF-906, D917)"
+opening_exempt: "시연 사본 — 지도 오프닝 없음(스튜디오 무대)"
+stage_config:
+  timeline:
+    start: "2025-07-01"
+    end: "2026-12-31"
+    lanes:
+      - {id: op, label: 분기 영업이익, kind: bars, unit: 십억 달러}
+shots:
+  - {at: 0, mode: cut, dur: 0, camera: {}}
+  - {at: 0, stage: timeline, mode: cut, dur: 0, camera: {date: "2026-03-15", w: 640}}
+events:
+  - {type: island, kind: chart, box: left, start: 0.2, end: {card: end, edge: start, off: 0.4}}
+  - {type: series, start: 0.3, end: {card: end, edge: start, off: 0.4}, lane: op, series_id: INTC_OP_Q, style: bars, col: gold, accent: latest}
+sound:
+  bgm: null
+  no_music_decision: D917   # 디자인 시스템 시연 고정물 — 사용자 영상 아님
+  intensity: [[0, 0.55], [{total: true}, 0.55]]

@@ -14,16 +14,19 @@ from __future__ import annotations
 
 import cairo
 
+from engine import skin
 from engine.context import RenderCtx
 from engine.layers.badges import badge_at
+from engine.panels import skin_panel
 from engine.panels.base import edge_curve, panel_title
-from engine.style import C, W_OUT
+from engine.style import W_OUT, C
 from engine.timebase import ease_io, smooth, window
 from engine.typography import text
 from rules import load_rules
 
 AXIS = "none"   # v4.3.0 D-0087 — 축 종류(값·날짜 축 없음). 정직성 검사 적용 = rules qa_checks.chart_targets
 REL = load_rules().panels.relation
+SP = skin_panel.P
 
 
 def column(e: dict, group: str) -> list[dict]:
@@ -76,6 +79,7 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
     lt = t - e["t0"]
     panel_title(ctx, a, e["title"], e.get("subtitle"))
     pos = node_positions(e)
+    nodes = {n["id"]: n for n in e["nodes"]}
     for n in e["nodes"]:
         x, y, r, dt = pos[n["id"]]
         b = dict(kind=n["kind"], pid=n["pid"], flag=n["flag"], img=n["img"], R=r, t0=e["t0"] + dt,
@@ -91,6 +95,11 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
         sx, sy, sr, _ = pos[edge["src"]]
         dx, dy, dr, _ = pos[edge["dst"]]
         col, alpha, dash, label, lcol, la = _style_at(t, e, edge)
+        if skin.active():   # v7.4.0 C0.0 3a — 잉크 선(강조 대상 노드로 가는 선 하나만 강조색), 상태 라벨 sansm 꼬리표
+            acc = skin_panel.is_accent(nodes[edge["dst"]]["accent"])
+            col = skin.ACCENT_SHAPE if acc else skin.INK2
+            alpha = (1 if acc else SP.line.alpha) * alpha / REL.styles[edge["style"]].alpha
+            lcol = skin.ACCENT_INK if acc else skin.INK2
         pts = edge_curve(sx + sr + REL.source.pad, sy, dx - dr - REL.target.pad, dy, prog, REL.curve_samples)
         ctx.new_path()
         ctx.move_to(*pts[0])
@@ -99,13 +108,19 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
         if dash:
             ctx.set_dash(dash)
         ctx.set_source_rgba(*col, alpha * a)
-        ctx.set_line_width(REL.line_width)
+        ctx.set_line_width(SP.line.w if skin.active() else REL.line_width)
         ctx.stroke()
         ctx.set_dash([])
         if la > 0:
             sl = REL.state_label
-            text(ctx, label, dx + sl.dx, dy + sl.dy, sl.size, "sansb", lcol, a * la, sl.halo, "l")
-    if e.get("edge_label") and lt > 0:
+            if skin.active():
+                skin_panel.label(ctx, label, dx + sl.dx, dy + sl.dy, a * la, col=lcol)
+            else:
+                text(ctx, label, dx + sl.dx, dy + sl.dy, sl.size, "sansb", lcol, a * la, sl.halo, "l")
+    if e.get("edge_label") and lt > 0 and skin.active():
+        el = REL.edge_label
+        skin_panel.label(ctx, e["edge_label"], el.x, el.y, a * smooth((lt - el.delay_sec) / el.fade_sec), "c")
+    elif e.get("edge_label") and lt > 0:
         el = REL.edge_label
         text(ctx, e["edge_label"], el.x, el.y, el.size, "sansb", C[REL.styles[e["edges"][0]["style"]].color],
              a * smooth((lt - el.delay_sec) / el.fade_sec), el.halo, "c")
@@ -114,13 +129,18 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
         if q["at"] == "bottom":
             qs = REL.quote_bottom
             qa = a * window(t, q["t0"], q["t1"], qs.fade_sec, qs.fade_sec)
-            if qa > 0:
+            if qa > 0 and skin.active():   # 발언 = 바탕 없는 잉크 글씨 + 흰 번짐(UF-907)
+                skin_panel.quote(ctx, q["text"], W_OUT / 2, qs.y, qs.size, skin.INK, qa)
+            elif qa > 0:
                 text(ctx, q["text"], W_OUT / 2, qs.y, qs.size, "serifb", C["white"], qa, qs.halo, "c")
         else:
             qs2 = REL.quote_source
             qa = a * window(t, q["t0"], q["t1"], qs2.fade_sec, qs2.fade_sec)
             if qa > 0:
                 x, y, _, _ = pos[src[0]["id"]]
+                if skin.active():
+                    skin_panel.quote(ctx, q["text"], x, y + qs2.dy, qs2.size, skin.INK2, qa)
+                    continue
                 text(ctx, q["text"], x, y + qs2.dy, qs2.size, "serifb", C[src[0]["accent"]], qa, qs2.halo, "c")
 
 

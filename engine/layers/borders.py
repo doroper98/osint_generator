@@ -112,12 +112,14 @@ def draw_border_glow(ctx: cairo.Context, stage: "MercatorStage", view: View, t: 
     """v5.3.1 국경선 글로우(시안 — 사용자 제안 2026-10-02, valdai-2026 한정; 켜기 = direction stage_config.mercator.border_glow).
     국경선(draw_borders 와 같은 LOD 고리, 행정구역 선 제외) 위에 옅은 빛(rules border_glow.halo)을 상시 깔고, 짧은 빛 조각(run_seg_px)이
     run_period_px 간격으로 선을 따라 run_speed_px/초로 천천히 흐른다(cairo 대시 오프셋). 수치는 전부 rules border_glow."""
+    tg = stage.theme.border_glow   # v5.18.0 D-0161 §2 — 테마별 글로우 값(없으면 공통)
+    if tg is not None and tg.halo == [] and tg.run_layers == []:   # v7.4.0 UF-903 ③ — 겹 0(porcelain) = 아무것도 그리지 않는다
+        return
     lod = "fine" if view.w < LOD["borders_fine_below_w"] else "coarse"
     ctx.save()
     border_path(ctx, stage, view, lod)   # v5.18.0 — 해안을 분리한 테마는 국경(공유 변)에만 글로우
     path = ctx.copy_path()
     ctx.set_line_join(cairo.LINE_JOIN_ROUND)
-    tg = stage.theme.border_glow   # v5.18.0 D-0161 §2 — 테마별 글로우 값(없으면 공통)
     rgb = tg.rgb if tg is not None and tg.rgb is not None else BG.rgb
     halo = tg.halo if tg is not None and tg.halo is not None else BG.halo
     run_layers = tg.run_layers if tg is not None and tg.run_layers is not None else BG.run_layers

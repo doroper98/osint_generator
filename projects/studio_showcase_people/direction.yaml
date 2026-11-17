@@ -1,0 +1,31 @@
+# 『스튜디오 무대 시연 — 인물·발언·기사』 연출 (v7.4.0 C0.0 2b단계(D917·UF-905·UF-907·UF-908)) — 사람 작성. 스튜디오 주 무대(카메라 {}).
+# 이벤트 = 기록된 연출 그대로: 기사 = projects/iran_ceasefire_2026/direction.yaml 의 cold_2 기사(mid iran_ceasefire_2026_art_0005, 이 원고의 cold_1),
+# 발언 = projects/diesel_road_2026/direction.yaml 의 act5_22 인용(젤렌스키 · NBC News, 이 원고의 act1_1). theme 은 skin 무대에서 쓰지 않는다.
+version: 1
+project_id: studio_showcase_people
+stage: studio
+stage_reason: "디자인 시스템(rules skin) 2b 시연 — 스튜디오 무대 위 인물 카드·발언 큰 글씨·기사 종이 카드(UF-905·UF-907, D917)"
+opening_exempt: "시연 사본 — 지도 오프닝 없음(스튜디오 무대)"
+shots:
+  - {at: 0, mode: cut, dur: 0, camera: {}}
+events:
+  - type: article
+    start: {sid: cold_1, 'off': 0.55}
+    end: {card: title, edge: end, 'off': 0.0}
+    mid: iran_ceasefire_2026_art_0005
+    theme: dark
+  - type: quote
+    start: {sid: act1_1, 'off': 0.3}
+    end: {sid: act1_1, edge: end, 'off': 1.0}
+    pid: zelensky
+    flag: ua
+    speaker: 볼로디미르 젤렌스키
+    role: 우크라이나 대통령
+    text: 처음 듣는 소식
+    src: NBC News
+    date: 2026.10.11
+    pos: center
+sound:
+  bgm: null
+  no_music_decision: D917   # 디자인 시스템 시연 고정물 — 사용자 영상 아님
+  intensity: [[0, 0.55], [{total: true}, 0.55]]

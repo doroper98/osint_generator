@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import cairo
 
+from engine import skin
 from engine.context import RenderCtx
 from engine.style import C, QUOTE as Q, W_OUT
 from engine.timebase import ease_out, window
@@ -33,7 +34,11 @@ def _geom(e: dict) -> tuple[float, float, float, float, float, str]:
 
 
 def quote_lines(ctx: cairo.Context, e: dict) -> list[str]:
-    """인용문 줄(따옴표 자리 포함 폭으로 접는다). 넘치면 QuoteError."""
+    """인용문 줄(따옴표 자리 포함 폭으로 접는다). 넘치면 QuoteError. skin 무대면 큰 글씨 배치의 줄(engine/skin_people, v7.4.0 2b)."""
+    if skin.active():
+        from engine.skin_people import quote_layout  # noqa: PLC0415 — skin_people → quote 순환 회피
+
+        return quote_layout(ctx, e).lines
     maxw = Q.quote_max_w if (e.get("pos") or "center") == "center" else Q.pair_max_w
     room = maxw - 2 * tw(ctx, "“", Q.mark_size, "serifb")
     lines = wrap(ctx, e["text"], room, Q.quote_size, "serifb")
@@ -47,7 +52,11 @@ def _span(x: float, w: float, anc: str) -> tuple[float, float]:
 
 
 def quote_box(ctx: cairo.Context, e: dict) -> tuple[float, float, float, float]:
-    """인용 덩어리 상자(초상 그림자 ~ 매체·날짜 줄, 제자리) — checks subtitle_overlap."""
+    """인용 덩어리 상자(초상 그림자 ~ 매체·날짜 줄, 제자리) — checks subtitle_overlap. skin 무대면 인물 카드·알약 ∪ 글자 덩어리."""
+    if skin.active():
+        from engine.skin_people import quote_layout  # noqa: PLC0415
+
+        return quote_layout(ctx, e).box
     px, py, pr, tx, qy, anc = _geom(e)
     lines = quote_lines(ctx, e)
     mark = tw(ctx, "“", Q.mark_size, "serifb")
@@ -71,6 +80,11 @@ def draw_quote(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
 
     a = quote_alpha(t, e)
     if a <= 0.01:
+        return
+    if skin.active():   # v7.4.0 2b(UF-905·UF-907) — 덮개 없이 큰 인물 카드 + 공간에 뜬 큰 글씨
+        from engine.skin_people import draw_quote as draw_skin  # noqa: PLC0415
+
+        draw_skin(ctx, R, t, e, a)
         return
     lines = quote_lines(ctx, e)
     if R.cache.get("quote_scrim_t") != t:   # 같은 순간 맞선 인용 두 개면 덮개는 한 번만(겹쳐 더 어두워지지 않게)
