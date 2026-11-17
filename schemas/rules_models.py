@@ -5466,15 +5466,57 @@ class SkinPanelPrecedent(_Strict):
         return self
 
 
-class SkinPanelCheck(_Strict):
-    w: float = Field(gt=0)
-    box_alpha: float = Field(ge=0, le=1)
-
-
 class SkinPanelDual(_Strict):
     line_w: float = Field(gt=0)
     ring: float = Field(ge=0)
     x_label_dy: float = Field(gt=0)
+
+
+class SkinListText(_Strict):
+    size: float = Field(gt=0)
+    font: str
+    track: float = 0.0
+    dx: float = 0.0
+    gap: float = 0.0
+    dy: float = 0.0
+
+
+class SkinListBar(_Strict):
+    w: float = Field(gt=0)
+    h: float = Field(gt=0)
+    dx: float
+    dy: float
+
+
+class SkinListCheck(_Strict):
+    w: float = Field(gt=0)
+    pts: list[tuple[float, float]] = Field(min_length=3, max_length=3)
+
+
+class SkinListFooter(_Strict):
+    size: float = Field(gt=0)
+    font: str
+    y: float
+    delay_sec: float = Field(ge=0)
+    fade_sec: float = Field(gt=0)
+
+
+class SkinPanelList(_Strict):
+    """v7.4.0 UF-919(D936) — 목록 패널(checklist) 새 조판(skin 무대). 길이 = 설계 px."""
+
+    x0: float
+    x1: float
+    cy: float
+    pitch: float = Field(gt=0)
+    num: SkinListText
+    head: SkinListText
+    note: SkinListText
+    rule_dy: float
+    bar: SkinListBar
+    check: SkinListCheck
+    in_sec: float = Field(gt=0)
+    rise: float = Field(ge=0)
+    footer: SkinListFooter
 
 
 class SkinPanelRelation(_Strict):
@@ -5510,7 +5552,7 @@ class SkinPanel(_Strict):
     accent_bar: SkinPanelBar
     versus: SkinPanelVersus
     precedent: SkinPanelPrecedent
-    check: SkinPanelCheck
+    list: SkinPanelList
     relation: SkinPanelRelation
     gantt_bar_h: float = Field(gt=0)
     gantt_year_dy: float
