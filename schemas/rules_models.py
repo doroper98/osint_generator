@@ -1591,6 +1591,7 @@ class GeoThemes(_Strict):
     default: str
     dark: GeoTheme
     light: GeoTheme
+    slate: GeoTheme   # v7.4.0 UF-900·D903 — 무채색 슬레이트 양각 + 단색 바다 + 흰 국경 발광(레퍼런스 실측, R1)
 
     @model_validator(mode="after")
     def _default(self) -> "GeoThemes":
@@ -1600,7 +1601,7 @@ class GeoThemes(_Strict):
 
     @staticmethod
     def names() -> list[str]:
-        return ["dark", "light"]
+        return ["dark", "light", "slate"]
 
     def get(self, name: str) -> GeoTheme:
         if name not in self.names():

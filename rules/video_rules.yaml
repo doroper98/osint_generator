@@ -1279,6 +1279,35 @@ geo:                       # D29(back_and_forth D-0019) — 지오 자산 단계
         label_contrast_fix: {halo: 4.2, halo_a: 1.0}   # v5.21.2 D-0186 §2-1 — 실제 바탕 대비가 qa_checks.map_contrast_text 미만인 지명만 이 halo 로 다시 그린다(국소, 전역 값 무변경)
         # v5.18.0 D-0161 §2(가이드 23 §14 "밝고 얇은 coast/water 스타일") — 국경 = 두 나라 공유 변만, 해안 = 나머지(물빛·가늘게)
         coast: {rgb: [0.42, 0.55, 0.66], width: 0.45, alpha: 0.85}
+    # v7.4.0 UF-900·D903 — 레퍼런스 실측(docs/handoff/reports/benchmark_wartech_2026-11-17.md §2.2·§5.1) R1 슬레이트 판.
+    # 무채색 슬레이트 육지 + 양각(밝기만으로 지형), 수심 없는 단색 바다, 흰 국경 + 옅은 정지 발광(흐르는 빛 없음). 지도 위 의미색은 공통값(colors.themes 항목 없음)
+    slate:
+      terrain:
+        land_stops: [[0, "#374552"], [1500, "#41505e"], [4000, "#4c5a68"]]   # 평지 #374552·고지대 #41505e(§2.2 실측)
+        sea_stops: [[0, "#1a1e27"], [6000, "#1a1e27"]]   # 단색(차가운 판 §2.2) — 깊이와 무관하게 같은 색
+        exaggeration: [3.3, 3.0]        # 지형 과장 [설계 ppd < 64, 그 이상] — 시작값 4.0 에서 엔진 실측으로 낮춤(힌두쿠시 1080p 휘도 표준편차: 지형만 14.7, 국경 포함 17.7 — 목표 14~18)
+        sun: [315, 42]
+        land_shade: {base: 1.0, gain: 0.95, lo: 0.55, hi: 1.45}   # base 1.0 = 평지가 ramp 색 그대로(§4.2 시제품 정정)
+        sea_shade: null                 # 해저 음영 없음
+        sea_tint: null
+        coast_glow: {rgb: "#ffffff", strength: 0.0, blur_px: [3, 8]}   # 해안 광채 없음
+      map:
+        border: {rgb: [1.0, 1.0, 1.0], width: 0.85, alpha: 0.9}   # 흰 심선 — 720p 심선 약 1.5px(§2.3). 설계 480p 0.85 = 1080p 1.9px(엔진 실측 160 넘는 폭 2px, 최고 휘도 ≥ 230)
+        admin: {rgb: [0.85, 0.88, 0.92], width: 0.5, dash: [], alpha: 0.45}   # 1급 행정구역 = 더 가늘고 흐린 실선(§2.3)
+        sea_label: "#8fa6c4"
+        country_label: [0.92, 0.94, 0.97]
+        admin_label: [0.78, 0.82, 0.88]
+        city_dot: {fill: [0.95, 0.96, 0.98], edge: [0.0, 0.0, 0.0], edge_alpha: 0.6}
+        city_label: [0.93, 0.94, 0.97]
+        halo: [0.02, 0.03, 0.05]
+        roads:                          # dark 와 같음(키 집합 동일 — tests/test_v740_map_layers)
+          motorway: {rgb: [0.62, 0.64, 0.68], width: 0.55, alpha: 0.55}
+          trunk: {rgb: [0.56, 0.58, 0.62], width: 0.45, alpha: 0.5}
+          primary: {rgb: [0.5, 0.52, 0.56], width: 0.35, alpha: 0.42}
+        rivers: {rgb: [0.42, 0.62, 0.74], width_major: 0.5, width_minor: 0.35, alpha_major: 0.6, alpha_minor: 0.4}
+        label_contrast_fix: {halo: 4.2, halo_a: 1.0}
+        # 국경 옅은 발광(§2.3 "양옆 1~2px 반쯤 밝음") — 1080p 4px 선을 σ≈2.5px 흐린 알파 0.30 근사. 겹친 halo 만, run_layers [] = 흐르는 빛 없음(정지)
+        border_glow: {rgb: [1.0, 1.0, 1.0], halo: [[4.6, 0.06], [3.4, 0.08], [2.4, 0.1]], run_layers: []}
 
 credits:                   # D-0030(D35) — 권리 레지스트리 종류별 표기 위치. 카드 ∪ 설명문 = 전 자산. 두 목록 밖 종류 = RightsError
   card_kinds: [people, emblems, flags, map, media, music, narration]   # 엔딩 카드(C0 유지, v3 골든 END 컷 무변경)
