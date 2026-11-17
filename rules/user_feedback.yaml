@@ -2894,6 +2894,9 @@ entries:
   - {kind: test, ref: tests/test_v740_studio_stage.py::RegistryTest::test_three_places}
   - {kind: test, ref: tests/test_v740_studio_stage.py::BackgroundTest::test_dots_present_and_shrink}
   - {kind: test, ref: tests/test_v740_studio_stage.py::EnginePathTest::test_island_on_studio_and_no_photo_checks}
+  - {kind: rule, ref: stage.switch}
+  - {kind: test, ref: tests/test_v740_stage_switch.py::SwitchRenderTest::test_active_stage_per_frame}
+  - {kind: test, ref: tests/test_v740_stage_switch.py::SwitchRulesTest::test_grammar_rule_present}
   status: guarded
   decision: "D908 — 채택 방향. 시제품 2종(흰 판·어두운 판)으로 확인. 한 영상 안에서 지도 밝기와 무대 밝기를 맞추는 조건을 감독이 제안(사용자 판정 대기)"
   source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17
