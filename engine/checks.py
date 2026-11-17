@@ -2270,8 +2270,21 @@ def check_credit_garbled(P) -> list[str]:  # noqa: ANN001, N803
     for sec in getattr(P.R.credits, "sections", []) or []:
         for it in getattr(sec, "items", None) or []:
             for r in (getattr(it, "rights", None) or [])[:1]:
-                fields.append((f"credits.yaml {r}", str(getattr(it, "license", "") or "").rsplit(" · ", 1)[0]))
+                lic = str(getattr(it, "license", "") or "")
+                if is_sa_notice_row(r, lic, P.R.assets.media):
+                    continue
+                fields.append((f"credits.yaml {r}", lic.rsplit(" · ", 1)[0]))
     return credit_garbled_hits(fields)
+
+
+def is_sa_notice_row(ref: str, license_cell: str, media: dict) -> bool:
+    """credits.yaml 손 행의 license 칸이 그 CC BY-SA 자산의 고지 줄(engine.credits.sa_line — 저작자·제목·라이선스·링크·변경 사항, D612)과 글자 그대로 같은가.
+    고지 줄은 링크가 의무라 [credit-garbled] 의 URL 패턴에서 뺀다(v7.4.0 D935, RIGHTS-AP-004). 한 글자라도 다르면 종전대로 오염 검사를 받는다."""
+    from engine.credits import is_sa_entry, sa_line  # noqa: PLC0415
+
+    kind, _, mid = ref.partition(".")
+    m = media.get(mid) if kind == "media" else None
+    return bool(m) and is_sa_entry(m) and license_cell == sa_line(m)
 
 
 def check_sa_obligation(P) -> list[str]:  # noqa: ANN001, N803

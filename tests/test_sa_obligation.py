@@ -93,6 +93,34 @@ class ObligationTest(unittest.TestCase):
             credits.credit_lines = orig  # type: ignore[assignment]
 
 
+class NoticeRowNotGarbledTest(unittest.TestCase):
+    """v7.4.0 D935(RIGHTS-AP-004) — credits.yaml 손 행에 CC BY-SA 고지 줄(링크 의무, D612)을 그대로 적으면 [credit-garbled] 의 URL 패턴에 걸렸다.
+    두 hard 검사가 서로 어긋나 손 행으로는 고지 의무를 채울 수 없었다(nvidia-chips-china-2026: SA 사진 10장을 두 열로 나누려다 발견)."""
+
+    def test_exact_notice_row_is_not_garbled_but_other_urls_are(self) -> None:
+        from engine import checks, credits
+
+        a = MediaAsset.model_validate(BASE)
+        media = {"ex": a.model_dump()}
+        line = credits.sa_line(media["ex"])
+        self.assertTrue(checks.is_sa_notice_row("media.ex", line, media))
+        self.assertFalse(checks.is_sa_notice_row("media.ex", line + " ", media), "한 글자라도 다르면 고지 줄이 아니다")
+        self.assertFalse(checks.is_sa_notice_row("media.ex", "Example Author · https://example.com/x", media))
+        self.assertFalse(checks.is_sa_notice_row("people.ex", line, media))
+        plain = MediaAsset.model_validate({**BASE, "license": "CC BY 4.0", "modifications": None}).model_dump()
+        self.assertFalse(checks.is_sa_notice_row("media.b", credits.sa_line(plain), {"b": plain}), "SA 가 아닌 자산은 예외 없음")
+
+        def row(lic: str) -> SimpleNamespace:
+            return SimpleNamespace(sections=[SimpleNamespace(items=[SimpleNamespace(rights=["media.ex"], license=lic)])])
+
+        def P(lic: str) -> SimpleNamespace:  # noqa: N802
+            return SimpleNamespace(R=SimpleNamespace(cache={"credit_refs": {"media.ex"}}, credits=row(lic),
+                                                     assets=SimpleNamespace(media=media, media_assets={"ex": a}, rights={})))
+
+        self.assertEqual(checks.check_credit_garbled(P(line)), [])
+        self.assertTrue(any("credit-garbled" in x for x in checks.check_credit_garbled(P("Example Author · https://example.com/x · CC BY-SA 4.0"))))
+
+
 class RestrictionPhraseTest(unittest.TestCase):
     """D613(RIGHTS-AP-003) — CC 라이선스 번호가 붙어 있어도 사진 쪽 별도 이용 조건이면 거부(Flickr·Commons 같은 규칙 키)."""
 
