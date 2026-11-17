@@ -15,7 +15,7 @@ status: approved                # UF-401(2026-11-02) 사용자 승인
 template_label: 정치사 해설
 stage:
   primary: mercator               # 지도 위에서 인물·나라를 따라간다(기준 작품 『경유의 길』의 카메라 문법 그대로)
-  secondary: []
+  secondary: [studio]                # v7.4.0 R9(UF-902) — 지도가 필요 없는 장면(발언·수치·문서·차트)은 스튜디오로 dip 전환(rules stage.switch)
   mercator: {theme: porcelain}   # v7.4.0 UF-903 ③(D910) — 모든 장르 같은 중립 지도 하나(옛 D154 장르별 light·dark 대체). 연출은 테마를 고르지 않는다([map-theme-legacy] hard)
 color_semantics:
   regime: ru                      # 이야기의 권력 주체(체제·당·집권 측) — country 강조·표지

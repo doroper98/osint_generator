@@ -6,7 +6,7 @@ v4.5.0(사용자 결정 D85, C9 개정, back_and_forth D-0096): 검증 라벨(`<
 
 from __future__ import annotations
 
-from typing import Callable
+from typing import TYPE_CHECKING, Callable
 
 import cairo
 
@@ -15,6 +15,9 @@ from engine.context import RenderCtx
 from engine.style import C, SKIN, SUBTITLE, SUBTITLE_WRAP_PX, W_OUT
 from engine.timebase import smooth
 from engine.typography import font, ink_rgb, text, tw, wrap
+
+if TYPE_CHECKING:
+    from schemas.rules_models import SkinGlow
 
 
 def emphasis_flags(segments: list[tuple[str, int]]) -> tuple[str, list[int]]:
@@ -109,7 +112,7 @@ def draw_subtitle(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: 
                         text(c, run, xx, base_y + li * SUBTITLE.line_gap, size, emph_font if f else "sansm",
                              C[SUBTITLE.emphasis_color] if f else ink_rgb(), a, halo, "l", halo_a=SUBTITLE.halo_alpha)
                         xx += _ctx_w(c, run, size)
-            _paint(ctx, draw, subtitle_boxes(ctx, tb, t) if on else [], on)
+            _paint(ctx, draw, subtitle_boxes(ctx, tb, t) if on else [], on, _map_glow(R))
             return
     h = tb.hold_at(t)   # v7.4.0 D-0274 §2③ — 발언 자리: 원음 위 번역 자막(강조 없음)
     if h is not None:
@@ -121,12 +124,24 @@ def draw_subtitle(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: 
             for li, ln in enumerate(lines):
                 text(c, ln, W_OUT / 2 - _ctx_w(c, ln, SUBTITLE.size) / 2, base_y + li * SUBTITLE.line_gap, SUBTITLE.size, "sansm",
                      ink_rgb(), a, halo, "l", halo_a=SUBTITLE.halo_alpha)
-        _paint(ctx, draw_hold, subtitle_boxes(ctx, tb, t) if on else [], on)
+        _paint(ctx, draw_hold, subtitle_boxes(ctx, tb, t) if on else [], on, _map_glow(R))
 
 
-def _paint(ctx: cairo.Context, draw: Callable[[cairo.Context], None], boxes: list[tuple[float, float, float, float]], on: bool) -> None:
-    """디자인 시스템 무대면 글자 상자 합집합 둘레에 흰 번짐을 깔고 그린다(skin.glow), 아니면 그대로 그린다."""
+def _map_glow(R: RenderCtx) -> SkinGlow | None:  # noqa: N803
+    """v7.4.0 4b-2 — skin 지도(지형·국경·국기 위) 자막 번짐 토큰(rules skin.map_overlays.subtitle_glow). 스튜디오 = None(skin.subtitle 그대로)."""
+    from engine.stage import skin_map  # noqa: PLC0415
+
+    return SKIN.map_overlays.subtitle_glow if skin_map(getattr(R, "stage", None)) else None
+
+
+def _paint(ctx: cairo.Context, draw: Callable[[cairo.Context], None], boxes: list[tuple[float, float, float, float]], on: bool,
+           g: SkinGlow | None = None) -> None:
+    """디자인 시스템 무대면 글자 상자 합집합 둘레에 흰 번짐을 깔고 그린다(skin.glow), 아니면 그대로 그린다. g = 지도 위 번짐 토큰."""
     if not on or not boxes:
         draw(ctx)
         return
-    skin.glow(ctx, draw, (min(b[0] for b in boxes), min(b[1] for b in boxes), max(b[2] for b in boxes), max(b[3] for b in boxes)))
+    rect = (min(b[0] for b in boxes), min(b[1] for b in boxes), max(b[2] for b in boxes), max(b[3] for b in boxes))
+    if g is None:
+        skin.glow(ctx, draw, rect)
+        return
+    skin.glow(ctx, draw, rect, g.blur, g.gain, g.alpha)

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from typing import TYPE_CHECKING
 
 import cairo
 
@@ -11,7 +12,10 @@ from engine.context import RenderCtx
 from engine.style import C, DATE_BADGE, SKIN, W_OUT
 from rules import load_rules
 from engine.timebase import smooth
-from engine.typography import ink_rgb, text
+from engine.typography import ink_rgb, text, tw
+
+if TYPE_CHECKING:
+    from schemas.rules_models import SkinGlow
 
 Box = tuple[float, float, float, float]
 TRANSITION = load_rules().transition   # v7.4.0 D-0229 §2.2(UF-105)
@@ -43,13 +47,14 @@ def draw_date(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803
     B = DATE_BADGE  # noqa: N806
     if old is not None and t - t_ch < TRANSITION.date_badge_xfade_sec:   # 시점 전환(UF-105) — 즉시 교체 대신 xfade, 옛 날짜는 제자리에서 사라진다
         x = smooth((t - t_ch) / TRANSITION.date_badge_xfade_sec)
-        _date_text(ctx, old, 0.95 * (1 - x), B.y)
+        _date_text(ctx, old, 0.95 * (1 - x), B.y, SKIN.map_overlays.date_glow if _on_map(R) else None)
         k = 1.0
         a = 0.95 * x
     else:
         k = smooth((t - t_ch) / B.slide_sec)
         a = 0.95 * k
-    w = _date_text(ctx, d, a, B.y - (1 - k) * B.slide_px)
+    g = SKIN.map_overlays.date_glow if _on_map(R) else None   # v7.4.0 4b-2 — 지도 위(지형·국기) 날짜 뒤 흰 번짐
+    w = _date_text(ctx, d, a, B.y - (1 - k) * B.slide_px, g)
     if skin.active():   # 금색 밑줄 대신 글자 왼쪽 강조 점(밑줄 펼침 대신 함께 페이드)
         return
     ctx.set_source_rgba(*C["gold"], 0.9 * a)
@@ -57,7 +62,13 @@ def draw_date(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803
     ctx.fill()
 
 
-def _date_text(ctx: cairo.Context, d: str, a: float, y: float) -> float:
+def _on_map(R: RenderCtx) -> bool:  # noqa: N803
+    from engine.stage import skin_map  # noqa: PLC0415
+
+    return skin_map(getattr(R, "stage", None))
+
+
+def _date_text(ctx: cairo.Context, d: str, a: float, y: float, g: "SkinGlow | None" = None) -> float:
     """날짜 글자 — 종전: 흰 mono + 테두리. 디자인 시스템 무대(v7.4.0 C0.0·UF-906, D917): 작은 잉크 mono·자간·테두리 없음 + 왼쪽 강조 점(rules skin.date)."""
     B = DATE_BADGE  # noqa: N806
     txt = d.replace(".", ". ") if len(d) > 4 else d
@@ -65,9 +76,20 @@ def _date_text(ctx: cairo.Context, d: str, a: float, y: float) -> float:
         return text(ctx, txt, W_OUT - B.x_right, y, B.size, B.font, (1, 1, 1), a, 3, "r")
     D = SKIN.date  # noqa: N806
     x_r = W_OUT - B.x_right
-    w = text(ctx, txt, x_r, y, D.size, B.font, ink_rgb(), a, 0, "r", spacing=D.track * D.size)
-    if a > 0.01:
-        ctx.set_source_rgba(*skin.ACCENT_SHAPE, a)
-        ctx.arc(x_r - w - D.dot_gap, y + D.dot_dy, D.dot_r, 0, math.tau)
-        ctx.fill()
-    return w
+    out: list[float] = []
+
+    def draw(c: cairo.Context) -> None:
+        w_ = text(c, txt, x_r, y, D.size, B.font, ink_rgb(), a, 0, "r", spacing=D.track * D.size)
+        out.append(w_)
+        if a > 0.01:
+            c.set_source_rgba(*skin.ACCENT_SHAPE, a)
+            c.arc(x_r - w_ - D.dot_gap, y + D.dot_dy, D.dot_r, 0, math.tau)
+            c.fill()
+
+    if g is None or a <= 0.01:
+        draw(ctx)
+        return out[-1]
+    # v7.4.0 4b-2 — skin 지도: 글자·점 뒤 흰 번짐(rules skin.map_overlays.date_glow). 상자 = 글자 폭(자간 포함) + 점
+    w = tw(ctx, txt, D.size, B.font) + D.track * D.size * len(txt)
+    skin.glow(ctx, draw, (x_r - w - D.dot_gap - D.dot_r, y - D.size, x_r, y + D.size / 3), g.blur, g.gain, g.alpha * a)
+    return out[-1]

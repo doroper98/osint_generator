@@ -7,9 +7,11 @@ import math
 import cairo
 import numpy as np
 
+from engine import skin
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import C, ELEM, H_OUT, MOTION, W_OUT, map_c, map_halo
+from engine.stage import skin_map
+from engine.style import C, ELEM, H_OUT, MOTION, SKIN, W_OUT, map_c, map_halo
 from engine.timebase import ease_io, ease_out, smooth, window
 from engine.typography import text, tw
 from rules import load_rules
@@ -194,6 +196,8 @@ def label_extent(ctx: cairo.Context, stage, label: str) -> tuple[float, float]: 
     w = tw(ctx, label, RL.route_size, "sansb")
     st = label_style(stage)
     extra = st.mark_w + st.mark_gap if st is not None and st.style == "ink" and st.mark_w > 0 else 0.0
+    if skin_map(stage):   # v7.4.0 4b-2 — skin 지도: 흰 알약 좌우 여백까지(자리 고르기·검사 상자 = 알약 폭)
+        extra += 2 * SKIN.map_overlays.route_label.pad_x
     return w, w + extra
 
 
@@ -291,6 +295,11 @@ def draw_route_label(ctx: cairo.Context, view: View, e: dict, S_: "np.ndarray", 
         text(ctx, e["label"], cx, by, RL.route_size, "sansb", col, la, 3, "c", contrast="required")
         return
     x0 = b[0]
+    on = skin_map(view.stage)
+    if on:   # v7.4.0 4b-2 — skin 지도: 라벨 상자(좌우 pad 포함) + 위아래 pad_y 흰 알약(chip 그림자) 위에 색 표시 막대 + 잉크 글자(테두리 없음)
+        P = SKIN.map_overlays.route_label  # noqa: N806
+        skin.pill(ctx, (b[0], b[1] - P.pad_y, b[2] - b[0], b[3] - b[1] + 2 * P.pad_y), skin.FILL, la, P.level)
+        x0 += P.pad_x
     if st.mark_w > 0:
         my = by - RL.route_size * 0.35
         ctx.save()
@@ -299,6 +308,9 @@ def draw_route_label(ctx: cairo.Context, view: View, e: dict, S_: "np.ndarray", 
         ctx.fill()
         ctx.restore()
         x0 += st.mark_w + st.mark_gap
+    if on:
+        text(ctx, e["label"], x0, by, RL.route_size, "sansb", skin.INK, la, 0, "l", contrast="required")
+        return
     halo = map_halo(view.stage)
     text(ctx, e["label"], x0, by, RL.route_size, "sansb", map_c(view.stage, "white"), la, st.halo or 3, "l",
          **({} if halo is None else {"halo_rgb": halo}), contrast="required")

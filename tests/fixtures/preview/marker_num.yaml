@@ -1,0 +1,14 @@
+# 레지스트리 프리뷰 예제 (v7.4.0, UF-900·UF-906, 결정 D925) — 번호 마커: 강조색 원 안 흰 숫자 + 아래 알약 이름(디자인 시스템 지도).
+# 숫자는 원고·출처에 있는 수만(대수·건수). 모델을 그대로 통과한다(P4). 값 근거: 벤치마크 보고서 §포르도 장면(B-2 7대, 공개 보도).
+schema_version: 1
+key: marker_num
+source: docs/handoff/reports/skin_design_2026-11-17_map.jpg (합격 시안의 번호 뱃지)
+event:
+  type: marker
+  t0: 1.0
+  t1: 9.0
+  lon: 44.0
+  lat: 27.0
+  label: B-2 폭격기
+  side: bottom
+  num: 7

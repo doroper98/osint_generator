@@ -3211,11 +3211,19 @@ class DataRules(_Strict):
         return self
 
 
+class StageSwitchRules(_Strict):
+    """v7.4.0 R9(UF-902) — 한 영상 안 렌더 무대 전환(지도 ↔ 스튜디오). stages = 서로 오갈 수 있는 렌더 무대 짝(registries.stages 안).
+    전환 숏은 dip(continuity switch_without_dip), 지도 이벤트는 자기 무대 구간 안에서만(engine.direction.stage_track·stage_event_errors)."""
+
+    stages: list[str] = Field(min_length=2)
+
+
 class StageRules(_Strict):
     """v4.1.0 D-0076 작업 5·D-0077 — 무대 연속성 검사(checks stage_continuity)."""
 
     max_secondary: int = Field(ge=0)
     continuity: StageContinuityRules
+    switch: StageSwitchRules   # v7.4.0 R9(UF-902) — 지도 ↔ 스튜디오 전환
 
 
 class StatementDiffLayout(_Strict):
@@ -5038,6 +5046,68 @@ class SkinPrimitives(_Strict):
     era_numeral: SkinPrimEraNumeral
 
 
+class SkinMapMarkerPill(_Strict):
+    h: float = Field(gt=0)
+    pad_x: float = Field(ge=0)
+    level: ShadowLevel
+    baseline_k: float = Field(ge=0, le=1)
+
+
+class SkinMapMarkerText(_Strict):
+    size: float = Field(gt=0)
+    font: str = Field(min_length=1)
+
+
+class SkinMapMarkerSub(SkinMapMarkerText):
+    gap: float = Field(ge=0)
+
+
+class SkinMapMarkerNum(_Strict):
+    r: float = Field(gt=0)
+    ring_w: float = Field(ge=0)
+    size: float = Field(gt=0)
+    font: str = Field(min_length=1)
+    baseline_k: float = Field(ge=0, le=1)
+
+
+class SkinMapMarker(_Strict):
+    dot_r: float = Field(gt=0)
+    ring_w: float = Field(gt=0)
+    shadow: ShadowLevel
+    pulse_alpha: float = Field(ge=0, le=1)
+    pulse_span: float = Field(gt=0)
+    gap: float = Field(ge=0)
+    pill: SkinMapMarkerPill
+    name: SkinMapMarkerText
+    sub: SkinMapMarkerSub
+    num: SkinMapMarkerNum
+
+
+class SkinMapRouteLabel(_Strict):
+    pad_x: float = Field(ge=0)
+    pad_y: float = Field(ge=0)
+    level: ShadowLevel
+
+
+class SkinMapFlagLabelBelow(_Strict):
+    gap: float = Field(ge=0)
+    margin_x: float = Field(ge=0)
+    top: float = Field(ge=0)
+    bottom: float = Field(ge=0)
+
+
+class SkinMapOverlays(_Strict):
+    """v7.4.0 C0.0 4b-2 — skin 지도(skin.map_themes) 위 요소: 지도 마커·경로 이름·국기 나라 이름 자리·패널/인용 장막·자막/날짜 번짐."""
+
+    marker: SkinMapMarker
+    route_label: SkinMapRouteLabel
+    flag_label_below: SkinMapFlagLabelBelow
+    panel_veil_alpha: float = Field(ge=0, le=1)
+    quote_veil_alpha: float = Field(ge=0, le=1)
+    subtitle_glow: SkinGlow
+    date_glow: SkinGlow
+
+
 class SkinRules(_Strict):
     """v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 바탕 코어(engine/skin.py). 길이 = 설계 px."""
 
@@ -5065,8 +5135,17 @@ class SkinRules(_Strict):
     media: SkinMedia
     badge: SkinBadge
     marker: SkinMarker
+    map_overlays: SkinMapOverlays   # v7.4.0 4b-2 — skin 지도 위 요소(engine/layers/markers·routes·labels, panels/base, island, skin_people, hud, subtitles)
     panel: "SkinPanel"          # v7.4.0 3a — 패널 11종 안쪽(engine/panels/*)
     primitives: SkinPrimitives    # v7.4.0 3c — 프리미티브 6종(engine/primitives/*)
+    dip: "SkinDip"                 # v7.4.0 R9 — 밝은 암전(무대 전환 dip, engine/layers/dip.py)
+
+
+class SkinDip(_Strict):
+    """v7.4.0 R9(UF-902) — skin 영상의 dip = 검정이 아니라 fade_rgb 밝은 판으로 갔다 돌아온다. peak_alpha = 한가운데(무대 cut 시각) 덮개 알파.
+    길이는 rules shot_grammar 의 dip 그대로(engine.direction.DIP_HALF_SEC)."""
+
+    peak_alpha: float = Field(gt=0, le=1)
 
 
 class SkinPanelTag(SkinChartText):

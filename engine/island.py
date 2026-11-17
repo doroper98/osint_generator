@@ -210,10 +210,13 @@ def _panel_box() -> Box:
 
 
 def island_boxes(events: list[dict], media_assets: dict, stage_name: str) -> list[tuple[str, float, float, Box]]:
-    """아일랜드 목록 (이름, t0, t1, 제자리 상자). 화면 공간 무대(backdrop·studio) 밖이면 [](지도·시간축 무대는 기존 규칙)."""
+    """아일랜드 목록 (이름, t0, t1, 제자리 상자). 화면 공간 무대(backdrop·studio) 밖이면 [](지도·시간축 무대는 기존 규칙).
+    v7.4.0 4b-2 — skin 지도(mercator + skin 켜짐)에서는 패널만: 패널이 흰 카드(island.panel_box)로 그려지므로 검사 상자도 그 자리."""
+    from engine import skin  # noqa: PLC0415
     from engine.stage import screen_stage  # noqa: PLC0415
 
-    if not screen_stage(stage_name):
+    panels_only = not screen_stage(stage_name) and stage_name == "mercator" and skin.active()
+    if not screen_stage(stage_name) and not panels_only:
         return []
     from engine.media_plan import media_box  # noqa: PLC0415
     from engine.primitives import primitive_box  # noqa: PLC0415
@@ -222,6 +225,8 @@ def island_boxes(events: list[dict], media_assets: dict, stage_name: str) -> lis
     out: list[tuple[str, float, float, Box]] = []
     for e in events:
         typ = e["type"]
+        if panels_only and typ != "panel":
+            continue
         if typ == "island":
             out.append((f"island {e['kind']} {e.get('box') or 'center'}", e["t0"], e["t1"], island_box(e)))
         elif typ in ("photo", "clip"):

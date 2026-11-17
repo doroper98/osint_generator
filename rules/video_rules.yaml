@@ -422,10 +422,12 @@ direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문�
   - '폭격기·전투기 편대의 출격·타격을 말하는 문장의 flight 는 kind bomber·fighter 에 look: model(위에서 본 회색 기체·그림자·비행운)로 기체 자체를 보인다 — 드론·미사일은 glyph 그대로. count 는 claim 출처가 말하는 대수만 쓰고(지어낸 대수 금지, claim 필수·[flight-unsourced] 그대로), 1 보다 크면 formation(vee·line·echelon)을 고른다. 편대 모양·간격은 개략이지 실제 대형·위치가 아니다. (v7.4.0 UF-900 R7a)'
   - '지도 테마는 고르지 않는다 — 모든 영상이 장르 기본 지도(porcelain — 흰 양각 땅·옅은 회색 바다) 하나다. stage_config.mercator 에 theme·theme_reason 을 쓰지 않는다(v7.4.0 UF-903, 검사 [map-theme-legacy] hard).'
   - '지도가 정보를 싣지 않는 장면(지리·이동·위치가 아닌 설명·수치·발언)은 최상위 stage: studio(스튜디오 무대 — 밝은 회색 호리존트·점 격자·조명)로 두고 내용은 아일랜드·카드·패널·인용으로 띄운다. 카메라는 빈 카메라 {} 하나, 모양은 하나뿐이라 stage_config·테마를 쓰지 않는다. studio 에는 backdrop 이벤트(배경 사진)를 깔지 않는다(오류) — 사진 배경이 필요하면 backdrop 무대. 배경 공간의 느린 흐름은 코드가 한다. (v7.4.0 UF-902·UF-903, D910)'
+  - '한 영상 안에서 지도와 스튜디오를 오갈 수 있다 — 어디·이동·거리를 말하는 장면은 지도(mercator), 지리가 필요 없는 발언·수치·문서·차트 장면은 스튜디오(studio). 무대를 바꾸는 숏은 shots[].stage 를 적고 mode: dip(밝은 암전)만, 전환은 영상당 stage.continuity.max_switches 이하(들어갔다 나오기 한 번). 지도 이벤트(나라·마커·경로·비행 등)의 start~end 는 지도 구간 안에, 아일랜드는 스튜디오 구간 안에 둔다(넘으면 오류). (v7.4.0 UF-902, rules stage.switch)'
   - '한 체제·조직의 일 처리 순서(결정 → 정리 → 공개 등)를 말하는 문장에는 과정 도식(process_lane)을 한 번 세운다. 같은 순서가 뒤 사례에서 다시 나오면 새 도식을 만들지 말고 같은 steps·gate_after 로 다시 부른다 — 두 사례 비교는 rows 두 줄, 걸린 기간은 span. 표지는 moves 의 t 를 그 말의 word 앵커로 옮긴다. 출처 줄 = 그 순서를 정리한 분석(누구의 보고서인가). (v7.4.0 UF-403 — 모든 장르, 장르 요소 안내를 공통으로)'
   - '주장의 근거가 정보기관·연구소·정부의 1차 문서이면 문서 발췌(doc_excerpt)로 원문 단락(인용 상한 안, 소스 본문 그대로)과 한국어 번역을 함께 띄운다. 내레이션이 짚는 구절을 highlight(원문 그대로)로, highlight_t 는 그 말의 word 앵커로 건다. 스캔 이미지를 띄우지 않는다. (v7.4.0 UF-403 — 모든 장르, 장르 요소 안내를 공통으로)'
   - '호칭·문구가 바뀐 것을 말하는 문장(사전 개정판, 매체 호칭 변화 등)은 statement_diff 로 이전·이후 문구를 단어 단위로 보인다 — 바뀐 단어만 색이 바뀐다. (v7.4.0 UF-403 — 모든 장르, 장르 요소 안내를 공통으로)'
   - '수십 년을 건너뛰며 해가 바뀌는 구간에는 era_numeral 로 화면 가운데에 그 해를 옅게 깔고, 이야기가 해를 넘기는 말(word 앵커)마다 steps 를 더해 숫자를 굴린다. 문구는 원고 문장 날짜의 해만 — 지어낸 연도 금지. 한 구간에 하나만. (v7.4.0 UF-403 — 모든 장르, 장르 요소 안내를 공통으로)'
+  - '지도에서 대수·건수 같은 수를 한 지점에 보일 때는 그 marker 에 num(1~99)을 준다 — 강조색 원 안 숫자와 아래 이름표로 그려진다. 수는 원고 문장·출처에 있는 것만 쓴다(추정·합산 금지). 한 화면에 번호 마커는 하나. (v7.4.0 D925)'
 shot_grammar:              # 05 §2
   camera_moves_per_scene_max: 1
   shot_min_hold_sec: 6.0
@@ -491,6 +493,8 @@ stage:                     # v4.1.0 D-0076 작업 5·D-0077 — 무대 연속성
   max_secondary: 1         # 영상의 주 무대 1 + 보조 무대 이 수 이하(20 §2.2-1)
   continuity:
     max_switches: 2        # 무대가 바뀌는 지점 수 상한 — 보조 무대에 한 번 들어갔다 나오기(20 §2.2 "짧은 삽입"). 넘으면 장면마다 새 캔버스(슬라이드)
+  switch:                  # v7.4.0 R9(UF-902 "꼭 굳이 뒤에 지도를 띄울 필요가 없는 씬이라면") — 한 영상 안 렌더 무대 전환(engine.direction.stage_track·render_frame)
+    stages: [mercator, studio]   # 서로 오갈 수 있는 렌더 무대(주 무대는 둘 중 하나). 전환 숏 = dip(밝은 암전), 지도 이벤트는 지도 구간 안에서만(넘으면 오류 P6). studio 를 쓰면 skin 영상(지도 테마 skin.map_themes)
 
 camera:                    # v3.3.0 D-0056 — 카메라 자동화 보조(05 §7). 전환 임계는 shot_grammar.auto_transition(05 §7-2, 한 곳)
   # v7.4.0 back_and_forth D-0241 §1(사용자 의견 UF-120 "지도가 한곳만 비추고 있어서 굉장히 지루해… 다른 영상 만들때도 지켜야 할 규칙") —
@@ -1809,6 +1813,7 @@ skin:                      # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 1
     color_fill: {alpha_max: 0.10, outline_w: 0.9, outline_a: 0.85}   # fill: color — 옅은 틴트(연출 a 를 이 값으로 자른다) + 가는 의미색 윤곽 한 줄
     sea_dots: {spacing: [20, 40], r: 0.7, alpha: 0.6, ink: tertiary}   # 바다 위 월드 고정 점 격자 — 2의 거듭제곱 월드 간격, 화면 간격이 spacing 안(설계 px). 촘촘한 단은 교차 페이드(줌 중 튀지 않음). 육지가 덮는다
   fade_rgb: [0.985, 0.985, 0.988]   # v7.4.0 D919 — 영상 시작·끝 전체 페이드 색(검정 대신 밝은 판에서 열리고 닫힌다, engine/render.py). 엔딩 카드 뒤도 밝다([endcard-black] 의 skin 판)
+  dip: {peak_alpha: 1.0}    # v7.4.0 R9 — skin 영상의 dip(무대 전환·먼 점프) = fade_rgb 밝은 판으로(검정 아님). 한가운데 알파 — 그 순간 무대가 바뀐다
   ink: {primary: "#15171C", secondary: "#4E5460", tertiary: "#6F7580"}   # 글자 잉크 3단(본문·보조·꼬리표)
   hairline: {rgb: "#141820", alpha: 0.075, w: 0.5}   # 카드 가장자리 실선(아주 옅게)
   accent: {shape: "#FF5A1F", ink: "#E2440C", soft: "#FFE6DB", grad: ["#FF6A2B", "#F4491A"]}   # 강조색 하나(도형·글자·옅은 면·막대 그라데이션)
@@ -1969,6 +1974,26 @@ skin:                      # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 1
     ring_w: 1.6              # 점 둘레 흰 고리
     pulse_alpha: 0.35        # 퍼지는 고리 알파 배율(종전 0.5 × 이 값 / 0.5)
     glow: {blur: 4, gain: 2.0, alpha: 0.9}   # 라벨·부제 뒤 흰 번짐(테두리 아님 — 막대 위에서도 읽힌다)
+  # v7.4.0 C0.0 4b-2단계(UF-903·UF-906) — skin 지도(skin.map_themes) 위 요소(engine/layers/markers·routes·labels, engine/panels/base, engine/island,
+  # engine/skin_people, engine/hud, engine/subtitles). skin 지도에서만 — 그 밖은 종전 그대로(바이트 동일). 길이 = 설계 px(854×480). 그림자 = skin.shadow 겹 이름
+  map_overlays:
+    marker:                  # 지도 마커 = 흰 고리 두른 점(강조 hl = accent.shape, 아니면 잉크 secondary) + 흰 알약 라벨(이름 sansb 잉크 + 부제 잉크 secondary 한 줄)
+      dot_r: 3.6
+      ring_w: 1.8
+      shadow: chip           # 점·번호 원 그림자 겹
+      pulse_alpha: 0.35      # 퍼지는 고리 알파 배율(점 고리 바깥 → + pulse_span)
+      pulse_span: 18
+      gap: 7                 # 점(번호 원) 고리 바깥 → 알약 가장자리
+      pill: {h: 21, pad_x: 9, level: chip, baseline_k: 0.36}   # 글자 기준선 = 알약 가운데 + 크기 × baseline_k
+      name: {size: 11.5, font: sansb}
+      sub: {size: 10, font: sansm, gap: 6}   # 이름 뒤 같은 줄(gap = 이름 끝 → 부제)
+      num: {r: 11.5, ring_w: 2.0, size: 13, font: disp, baseline_k: 0.36}   # 번호 마커 = 강조 그라데이션 원(accent.grad) + 흰 고리 + 흰 display 숫자(큰 굵은 숫자 — 대비 ≥ 3)
+    route_label: {pad_x: 8, pad_y: 3, level: chip}   # 경로 이름 = 흰 알약(색 표시 막대 + 잉크 글자). 알약 = 라벨 상자 + pad
+    flag_label_below: {gap: 7, margin_x: 12, top: 60, bottom: 86}   # 국기로 채운 나라 이름 알약 = 나라 외곽 상자 아래 끝 + gap(가로 가운데, 화면 좌우 margin_x 안). 아래 끝 > H − bottom(두 줄 자막 위 끝)이면 상자 위 끝 − gap, 그것도 top 위면 이름 없음
+    panel_veil_alpha: 0.35   # 지도 위 패널 — 어두운 덮개 대신 흰 장막(× 패널 알파) + 흰 카드(island.panel_box)
+    quote_veil_alpha: 0.5    # 지도 위 인용 — 화면 전체 고른 흰 장막(× 인용 알파, 상자·비네팅 아님)
+    subtitle_glow: {blur: 6, gain: 2.8, alpha: 1.0}   # 지도 위 자막 뒤 흰 번짐(스튜디오 값 skin.subtitle 은 그대로)
+    date_glow: {blur: 6, gain: 3.4, alpha: 1.0}       # 지도 위 날짜 뒤 흰 번짐(스튜디오 날짜 = 번짐 없음 그대로)
   # v7.4.0 C0.0 3a단계(UF-906·UF-908) — 패널 11종 안쪽(engine/panels/*, 도우미 engine/panels/skin_panel.py). skin 무대에서만 — 꺼지면 종전 그대로(바이트 동일).
   # 패널 상자 = island.panel_box(흰 직각 카드). 안쪽: 왼쪽 정렬 sansb 제목 + 가는 선, 목록 = 가는 선 줄 나눔·작은 점, 비교 = 가는 선 기둥 나눔·작은 색 점/얇은 윗선,
   # 차트 = 가는 격자·잉크 표식·강조 하나, 관계도 = 잉크 선·강조 선 하나. 어두운 속 카드·채운 상자·글자 테두리 없음. 길이 = 설계 px(854×480). 등장 시각·기하는 panels.* 그대로

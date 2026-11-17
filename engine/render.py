@@ -64,9 +64,29 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
         from engine.checks import route_label_slots  # noqa: PLC0415 — 그 순간 프레임의 지도 층을 먼저 그려 보므로 이 프레임 상태를 만들기 전에
 
         route_label_slots(P)
+    sw = R.cache.get("stage_switch")
+    if sw is None:
+        return _render_frame(P, i, P.cams[i], None)
+    from engine.direction import stage_at  # noqa: PLC0415
+
+    name = stage_at(sw["track"], sw["main"], i / FPS)   # v7.4.0 R9(UF-902) — 이 프레임의 렌더 무대(지도 ↔ 스튜디오)
+    if name == sw["main"]:
+        return _render_frame(P, i, P.cams[i], name)
+    st, cams = sw["alt"][name]
+    main = R.stage
+    R.stage = st   # 그 무대의 배경·라벨·테마를 그리는 동안만(레이어는 view.stage·R.stage 를 읽는다). 검사·provenance 는 주 무대 그대로
+    try:
+        return _render_frame(P, i, cams[i], name)
+    finally:
+        R.stage = main
+
+
+def _render_frame(P: Project, i: int, cam_i: object, active: str | None) -> tuple[cairo.ImageSurface, bytearray]:  # noqa: N803
+    """render_frame 본체 — cam_i = 렌더 무대(R.stage)의 이 프레임 카메라, active = 무대 전환 영상의 렌더 무대 이름(한 무대 영상 None)."""
+    R = P.R  # noqa: N806
     OP = R.out  # noqa: N806
     t = i / FPS
-    view = View(R.stage, P.cams[i], t=t)   # t = 스튜디오 무대 배경 흐름(v7.4.0) — 다른 무대는 읽지 않는다
+    view = View(R.stage, cam_i, t=t)   # t = 스튜디오 무대 배경 흐름(v7.4.0) — 다른 무대는 읽지 않는다
     L = P.layers   # noqa: N806 — 전편 FULL_LAYERS · 콘티 판 ANIMATIC_LAYERS(v4.9.0 D-0108) · 카탈로그 판 CATALOG_LAYERS(D-0251), 진입 = load_project
     if L.frame_start is not None:   # 카탈로그 판 — 이 프레임에 그린 글꼴 기록 시작(D-0251)
         L.frame_start(R, t)
@@ -102,7 +122,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
     R.cache["route_labels_pending"] = []   # v5.21.11 D-0191 §1-3 — 경로 라벨은 마커·뱃지가 자리를 잡은 뒤 그린다(flush_route_labels)
     for typ in MAP_LAYER_ORDER:
         for e in act:
-            if e["type"] == typ and not e.get("in_island"):   # v5.1.0 D-0126 — 차트 아일랜드 안 이벤트는 island 렌더러가 상자 안에 그린다
+            if e["type"] == typ and not e.get("in_island") and e.get("on_stage", active) == active:   # v5.1.0 D-0126 — 차트 아일랜드 안 이벤트는 island 렌더러가 상자 안에 그린다. R9 — 다른 렌더 무대의 층은 숨김(전환 dip 안)
                 L.resolve(e).render(ctx, R, view, t, e)
     for e in act:   # v5.2.0 겹침 카드(사용자 재구성 2026-10-01) — 지명 라벨 회피(마커·뱃지와 같은 예약 상자). 회피 장치가 없는 해역 이름은 checks cascade 가 잡는다
         if e["type"] == "cascade":

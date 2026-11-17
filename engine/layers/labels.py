@@ -101,7 +101,10 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
         nm = lab.ko.get(k, m["ko"])
         if on:
             fa = stage.flag_codes.get(k, 0.0)
-            box = _skin_country(ctx, nm, x, y, view.w, la, fa, hr, free)
+            anc = _flag_anchor(ctx, view, k, nm) if fa > 0 else None
+            if fa > 0 and anc is None:   # v7.4.0 4b-2 — 나라 위·아래 어디에도 자리가 없으면 이름을 국기 위에 얹지 않는다
+                continue
+            box = _skin_country(ctx, nm, x, y, view.w, la, fa, hr, free, anc)
             if box is None:
                 continue
             placed.append(box)
@@ -136,6 +139,7 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
     rk = by_w(view.w, LOD["city_rank_max"])
     xs = (stage.plc_x - view.x0) * view.s
     ys = (view.y1 - stage.plc_y) * view.s
+    flags = _flag_paths(ctx, view, stage) if on else []   # v7.4.0 4b-2 — 국기로 채운 나라(알파, 화면 경로)
     cand = (A.plc_rank <= rk) | (A.plc_cap & (A.plc_rank <= rk + 2))
     cr = load_rules().labels   # v7.4.0 D-0229 §2.1(UF-106) — 수도 상시 표기(폭 LOD 무관, 화면당 상한은 그대로)
     if cr.capital_always and (cr.capital_always_max_w is None or view.w <= cr.capital_always_max_w):
@@ -149,7 +153,10 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
         nm = A.plc[i]["ko"]
         cap = A.plc_cap[i]
         if on:
-            box = _skin_city(ctx, nm, x, y, bool(cap), la, hr, free)
+            fk = _flag_fade(ctx, flags, x, y, reserved)
+            if fk <= 0.01:
+                continue
+            box = _skin_city(ctx, nm, x, y, bool(cap), la * fk, hr, free)
             if box is None:
                 continue
             placed.append(box)
@@ -177,19 +184,76 @@ def draw_labels(ctx: cairo.Context, stage: "MercatorStage", view: View, reserved
     return drawn
 
 
+def _flag_anchor(ctx: cairo.Context, view: View, code: str, nm: str) -> tuple[float, float] | None:
+    """v7.4.0 4b-2 — 국기로 채운 나라 이름 알약 가운데(x, y − flag_label.dy): 나라 외곽 상자 아래 끝 + gap, 가로 = 상자 가운데(화면 좌우
+    margin_x 안으로 민다). 국기 문장(紋章) 위를 덮지 않게 나라 밖에 둔다 — 아래 끝이 H − bottom(자막 위)을 넘으면 상자 위 끝 − gap,
+    그것도 top 위로 나가면 None(이름 없음, 국기 위로 끌어올리지 않는다). rules skin.map_overlays.flag_label_below."""
+    from engine.layers.flag_fill import world_box  # noqa: PLC0415 — flag_fill → labels 순환 회피
+
+    F, B = SKIN.map.flag_label, SKIN.map_overlays.flag_label_below  # noqa: N806
+    wx0, wy0, wx1, wy1 = world_box(view, [code])
+    sx0, sy0 = view.to_screen(wx0, wy1)
+    sx1, sy1 = view.to_screen(wx1, wy0)
+    pw = tw(ctx, nm, F.size, F.font) + F.track * len(nm) + 2 * F.pad_x
+    cx = min(max((sx0 + sx1) / 2, B.margin_x + pw / 2), W_OUT - B.margin_x - pw / 2)
+    cy = sy1 + B.gap + F.h / 2
+    if cy + F.h / 2 > H_OUT - B.bottom:
+        cy = sy0 - B.gap - F.h / 2
+        if cy - F.h / 2 < B.top:
+            return None
+    return cx, cy - F.dy
+
+
+def _flag_paths(ctx: cairo.Context, view: View, stage: "MercatorStage") -> list[tuple[float, cairo.Path]]:
+    """v7.4.0 4b-2 — 이 프레임 국기로 채운 나라의 (국기 알파, 화면 경로) — 그 안 도시 이름은 국기와 함께 사라진다."""
+    from engine.layers.flag_fill import _path  # noqa: PLC0415
+
+    lod = "fine" if view.w < LOD["borders_fine_below_w"] else "coarse"
+    out = []
+    for code, fa in stage.flag_codes.items():
+        if fa <= 0:
+            continue
+        ctx.save()
+        if _path(ctx, view, lod, [code]):
+            out.append((fa, ctx.copy_path()))
+        ctx.new_path()
+        ctx.restore()
+    return out
+
+
+def _flag_fade(ctx: cairo.Context, flags: list[tuple[float, cairo.Path]], x: float, y: float, reserved: list) -> float:
+    """도시 이름 알파 배율 — 국기로 채운 나라 안이면 1 − 국기 알파(국기가 보이는 동안 숨김). 보이는 마커가 가리키는 자리(예약 상자 안)는 그대로."""
+    k = 1.0
+    for fa, path in flags:
+        ctx.save()
+        ctx.new_path()
+        ctx.append_path(path)
+        ctx.set_fill_rule(cairo.FILL_RULE_EVEN_ODD)
+        inside = ctx.in_fill(x, y)
+        ctx.new_path()
+        ctx.restore()
+        if inside:
+            k = min(k, 1.0 - fa)
+    if k < 1.0 and any(a <= x <= c and b <= y <= d for (a, b, c, d) in reserved):
+        return 1.0
+    return k
+
+
 def _skin_country(ctx: cairo.Context, nm: str, x: float, y: float, vw: float, la: float, fa: float, hr: tuple,
-                  free: "Callable[[float, float, float, float], bool]") -> tuple | None:
-    """v7.4.0 4b — skin 지도 나라 이름: 보조 잉크·넓은 자간·밝은 halo. 국기로 채운 나라(fa > 0) = 흰 알약 위 잉크(skin.pill + 그림자 겹)."""
+                  free: "Callable[[float, float, float, float], bool]", anchor: tuple[float, float] | None = None) -> tuple | None:
+    """v7.4.0 4b — skin 지도 나라 이름: 보조 잉크·넓은 자간·밝은 halo. 국기로 채운 나라(fa > 0) = 흰 알약 위 잉크(skin.pill + 그림자 겹).
+    v7.4.0 4b-2 — 알약 자리 = anchor(나라 외곽 상자 아래, `_flag_anchor`). 사라지는 옛 글자는 지명점 그대로."""
     T = SKIN.map.country_label  # noqa: N806
     if fa > 0:
         F = SKIN.map.flag_label  # noqa: N806
+        ax, ay = anchor if anchor is not None else (x, y)
         w = tw(ctx, nm, F.size, F.font) + F.track * len(nm)
         pw = w + 2 * F.pad_x
-        bx = (x - pw / 2, y + F.dy - F.h / 2, pw, F.h)
+        bx = (ax - pw / 2, ay + F.dy - F.h / 2, pw, F.h)
         if not free(bx[0], bx[1], bx[2], bx[3]):
             return None
         skin.pill(ctx, bx, skin.FILL, la * fa, F.shadow)
-        text(ctx, nm, x, y + F.dy + F.text_dy, F.size, F.font, _ink(F.ink, skin.INK), la * fa, 0, "c", spacing=F.track, contrast="aux")
+        text(ctx, nm, ax, ay + F.dy + F.text_dy, F.size, F.font, _ink(F.ink, skin.INK), la * fa, 0, "c", spacing=F.track, contrast="aux")
         if fa < 1:   # 국기가 나타나는 동안 — 알약 밖 글자가 사라진다
             text(ctx, nm, x, y, T.size if vw > 30 else (T.size_near or T.size), T.font, _ink(T.ink, skin.INK2), T.alpha * la * (1 - fa),
                  T.halo, "c", spacing=T.track, halo_a=T.halo_a, halo_rgb=hr, contrast="aux")

@@ -235,16 +235,30 @@ class SkinMapRenderTest(unittest.TestCase):
         self.assertTrue(ms and all(m["ratio"] >= QA.map_contrast_text for m in ms), ms)
 
     def test_flag_country_name_on_white_pill(self) -> None:
+        """v7.4.0 4b-2 — 국기로 채운 나라 이름 = 흰 알약, 자리 = 나라 외곽 상자 아래(국기 문장 위가 아니다). 위·아래 자리가 없으면 이름 없음."""
+        from engine.layers.labels import _flag_anchor  # noqa: PLC0415
+
         ev = {"type": "country", "t0": 1.0, "t1": 9.0, "codes": ["AA"], "fill": "flag", "flag": "aa"}
-        im, _, _ = self._render(True, ev, labels=True)
-        F = SKIN.map.flag_label  # noqa: N806
-        x, y = self.view.to_screen(53.0, ym(29.0))
-        y0, y1 = int(y + F.dy - F.h / 2) + 2, int(y + F.dy + F.h / 2) - 2
-        pill = im[y0:y1, int(x) - 14:int(x) + 14]
-        lum = pill.mean(2) / 255
-        self.assertGreaterEqual(float(lum.mean()), 0.85)   # 밝은 알약(어두운 상자 아님)
-        self.assertLess(float(lum.min()), 0.35)            # 짙은 잉크 글자
-        self.assertFalse(self.st.flag_codes == {})
+        one = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+        self.assertIsNone(_flag_anchor(one, self.view, "AA", "가나"))   # 나라가 화면 세로를 거의 채운다 — 국기 위로 올리지 않는다
+        near = self.view
+        self.view = View(self.st, np.array([54.0, ym(28.0), 30.0]))
+        try:
+            im, _, _ = self._render(True, ev, labels=True)
+            F = SKIN.map.flag_label  # noqa: N806
+            anc = _flag_anchor(one, self.view, "AA", "가나")
+            self.assertIsNotNone(anc)
+            x, y = anc
+            _, bottom = self.view.to_screen(50.0, ym(25.0))
+            self.assertGreater(y + F.dy - F.h / 2, bottom)   # 알약 위 끝 > 나라 아래 끝
+            y0, y1 = int(y + F.dy - F.h / 2) + 2, int(y + F.dy + F.h / 2) - 2
+            pill = im[y0:y1, int(x) - 14:int(x) + 14]
+            lum = pill.mean(2) / 255
+            self.assertGreaterEqual(float(lum.mean()), 0.85)   # 밝은 알약(어두운 상자 아님)
+            self.assertLess(float(lum.min()), 0.35)            # 짙은 잉크 글자
+            self.assertFalse(self.st.flag_codes == {})
+        finally:
+            self.view = near
 
 
 if __name__ == "__main__":

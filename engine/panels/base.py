@@ -59,8 +59,12 @@ def make_panel_renderer(fn: PanelFn) -> Callable[[cairo.Context, RenderCtx, floa
 
         if screen_stage(getattr(getattr(R, "stage", None), "name", None)) or skin.active():   # v7.4.0 3a — skin(지도 테마 포함)이면 어두운 덮개 대신 흰 카드. v5.1.0 D-0126 Q4 A — backdrop·studio(v7.4.0) 무대 위 패널 = 아일랜드 상자
             from engine.island import draw_frame  # noqa: PLC0415
-            from engine.style import ISLAND  # noqa: PLC0415
+            from engine.stage import skin_map  # noqa: PLC0415
+            from engine.style import ISLAND, SKIN  # noqa: PLC0415
 
+            if skin_map(getattr(R, "stage", None)):   # v7.4.0 4b-2 — skin 지도 위 패널: 어두운 덮개 대신 고른 흰 장막(지도는 옅게 비친다)
+                ctx.set_source_rgba(*skin.FILL, SKIN.map_overlays.panel_veil_alpha * a)
+                ctx.paint()
             draw_frame(ctx, tuple(ISLAND.panel_box), a)
         else:
             draw_panel_cover(ctx, a)

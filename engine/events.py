@@ -68,7 +68,7 @@ class MarkerEvent(_Event):
     """지점 마커. 지도 앵커 lon·lat, 또는 시간축 핀 앵커 date(YYYY-MM-DD)·lane(레인 id) — 둘 중 하나(v4.3.0 D-0084 작업 4·D-0085).
     어느 무대 앵커인지는 attach_world 가 무대에 물어 검사한다(다른 무대의 키 = 오류)."""
 
-    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane", "route_cross_exempt")   # 쓰지 않은 무대의 앵커 쌍은 dict 에 남기지 않는다(지도 이벤트 dict = v4.2.0 과 같음)
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("lon", "lat", "date", "lane", "route_cross_exempt", "num")   # 쓰지 않은 무대의 앵커 쌍은 dict 에 남기지 않는다(지도 이벤트 dict = v4.2.0 과 같음)
 
     type: Literal["marker"]
     lon: Optional[float] = None
@@ -82,6 +82,9 @@ class MarkerEvent(_Event):
     icon: Literal["dot", "boom"] = "dot"
     vline: bool = False   # v7.4.0 D-0309 §1-5 — 시간축 핀: 레인 세로 전체 점선(발표일). 지도 마커는 쓰지 않는다
     route_cross_exempt: Optional[RouteCrossExempt] = None   # v5.21.11 D-0203 — 골든 기준 프로젝트만(테스트가 강제)
+    # v7.4.0 UF-900·UF-906(D925) — 번호 마커(지도, 디자인 시스템 무대): 강조색 원 안 흰 숫자 + 아래 알약 이름. 숫자는 원고·출처에 있는 수(대수·건수)만.
+    # 쓰지 않으면 dict 에 남기지 않는다(옛 지도 이벤트 dict 그대로)
+    num: Optional[int] = Field(default=None, ge=1, le=99)
 
     @model_validator(mode="after")
     def _anchor(self) -> "MarkerEvent":
@@ -91,6 +94,8 @@ class MarkerEvent(_Event):
             raise ValueError("marker 앵커는 lon·lat(지도) 또는 date·lane(시간축) 중 한 쌍")
         if self.date is not None and not DATE_ISO_RE.match(self.date):
             raise ValueError(f"marker date 는 YYYY-MM-DD: {self.date!r}")
+        if self.num is not None and self.date is not None:
+            raise ValueError("marker num(번호 마커)은 지도 마커(lon·lat)에만 쓴다 — 시간축 핀에는 없다")
         return self
 
 

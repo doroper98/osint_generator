@@ -287,6 +287,11 @@ def _person_pill(ctx: cairo.Context, R: RenderCtx, e: dict, L: QuoteLayout, a: f
 
 def draw_quote(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
     """덮개 없음(UF-907). 카드·알약과 글씨가 함께 quote_center.fade_sec 페이드 + rise_px 떠오름."""
+    from engine.stage import skin_map  # noqa: PLC0415
+
+    if skin_map(getattr(R, "stage", None)):   # v7.4.0 4b-2 — 지도 위 인용: 화면 전체 고른 흰 장막(상자·비네팅 아님) — 지형·국기·지명 위에서 글씨가 읽힌다
+        ctx.set_source_rgba(*skin.FILL, SKIN.map_overlays.quote_veil_alpha * a)
+        ctx.paint()
     L = quote_layout(ctx, e)  # noqa: N806
     dy = (1 - ease_out(min(1.0, (t - e["t0"]) / QUOTE.fade_sec))) * QUOTE.rise_px
     ctx.save()

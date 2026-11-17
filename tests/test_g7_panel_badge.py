@@ -59,7 +59,7 @@ class PanelBadgeTest(unittest.TestCase):
         import inspect
 
         from engine import render
-        src = inspect.getsource(render.render_frame)
+        src = inspect.getsource(render._render_frame)   # v7.4.0 R9 — 그리기 순서는 프레임 본체(render_frame 은 렌더 무대 고르기)
         # v4.9.0 D-0108 — 패널 위 뱃지는 레이어 선택(LayerSet.over_panel: 전편 badges.draw_over_panel)으로 그린다
         self.assertLess(src.index('e["type"] == "panel"'), src.index("L.over_panel("))
 
