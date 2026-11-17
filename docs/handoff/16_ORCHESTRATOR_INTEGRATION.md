@@ -30,12 +30,12 @@ CREATED
  → SOURCE_VERIFY       출처 검증·주장(claim) 추출·교차 확인              [18]
  → RESEARCH            보강 리서치(웹), 사실 목록 확정                    [03 §1, 17 §5.1]
  → SCRIPT_DRAFT        원고 YAML(장면 자유 구성, 자막/발음, 출처, 미디어) [03, 17 §5.2]
- → SCRIPT_APPROVAL     ★ 사용자 승인 게이트 ①
+ → SCRIPT_APPROVAL     ★ 승인 게이트 ① — 세션이 스스로 기록(사용자에게 묻지 않음, v7.4.0 UF-915)
  → VOICE_TIMELINE      린트 → TTS(ElevenLabs) → plan.json               [03 §6~8]
  → ASSETS              지오 티어/라벨, 인물·휘장·국기, 미디어 수집·가공    [04, 07, 14]
  → DIRECTION           AI 연출가 → direction.yaml                        [17 §2]
  → PREVIEW_QA          결정적 검사 → AI 시각 검수 루프(≤2회) → 프리뷰 시트 [17 §3~4]
- → PREVIEW_APPROVAL    ★ 사용자 승인 게이트 ②
+ → PREVIEW_APPROVAL    ★ 승인 게이트 ② — 감독이 프리뷰를 보고 승인(사용자에게 묻지 않음, v7.4.0 UF-914·UF-915)
  → RENDER              전체 렌더(병렬 청크)                              [11]
  → AUDIO_MIX           내레이션·음악·효과음                              [10]
  → DELIVER             먹싱, SRT, 설명문, 썸네일 후보, provenance         [11, 15 §P5]
@@ -132,9 +132,9 @@ projects/<slug>/
 
 ## 7. 콘티 판 루틴 W0 — v4.9.0 (back_and_forth D-0108) [저장소 실측 추가]
 
-콘티 판(animatic, handoff 11 §9)은 **상태가 아니다**. `DIRECTION` 상태 안에서 연출 판을 싸게 확인하는 사람 루프다(WORKFLOWS W0):
-게이트 ① 통과 → `voice_timeline`(`script.plan`, 표준 음성 Supertonic — edge 는 V4(D-0212) 삭제) → 연출 v1 → `audio.mix` → `engine.render --animatic` → 사용자 흐름 검토 →
-연출 수정(렌더 이후 상태면 `reopen --to direction`, D4) 반복 → 게이트 ② 프리뷰 → 전편.
+**(v7.4.0 UF-914·UF-915 — 콘티 판 단계·사용자 원고 승인 폐지)** 콘티 판은 더 이상 제작 단계가 아니다. 순서(WORKFLOWS W0): 게이트 ①(세션 기록) → `voice_timeline`(`script.plan`, 표준 음성 Supertonic — edge 는 V4(D-0212) 삭제) →
+연출 → `audio.mix` → 프리뷰(hard 0) → 게이트 ②(감독 승인, `require_preview` — 현재 원고·연출·음성의 프리뷰 기록 필수) → 전편 → 사용자에게 완성 영상 전달.
+콘티 판(animatic, handoff 11 §9)은 선택 렌더 모드로만 남는다(**상태가 아니다**, 게이트가 요구하지 않는다).
 
 - 오케스트레이터는 엔진 입력을 쓰지 않는다(15 P1). 콘티 판은 엔진 CLI 를 사람이 직접 부르며, `engine_service` 단계·상태 머신은 바꾸지 않았다.
 - 콘티 판 산출물은 `out/animatic*`·`prev_animatic/` 에만 쓴다. 게이트 ② 화면이 읽는 `prev/` 와 deliver 입력 `out/video_noaudio.mp4` 는 그대로다.

@@ -1,8 +1,8 @@
 """눈 검수 시트(v7.4.0 back_and_forth D-1000 S4-1 — D-0463 "노출 표만 보고 통과" 사고 재발 방지, LLM-AP-023).
 
-    python tools/review_sheet.py projects/<pid> [--src animatic|final|preview] [--every 3]
+    python tools/review_sheet.py projects/<pid> [--src preview|final|animatic] [--every 3]
 
-다시 렌더하지 않는다. 마지막 산출 mp4(콘티 판 out/animatic.mp4 · 전편 out/final.mp4)에서 ffmpeg 로 every 초 간격 프레임을 뽑아
+다시 렌더하지 않는다. 기본은 프리뷰(게이트 ② 앞, v7.4.0 UF-914 — 콘티 판 단계 폐지). 마지막 산출 mp4(전편 out/final.mp4 · 콘티 판 렌더 모드 out/animatic.mp4)에서 ffmpeg 로 every 초 간격 프레임을 뽑아
 칸마다 시각·문장 id·날짜 HUD 값을 단 시트(out/review/<src>_sheet_NN.jpg, 한 장 40칸)를 만든다. preview 는 prev/ 컷 PNG 를 그대로 쓴다.
 둘째 장: 모든 미디어·배지·카드의 (시작, 끝, 완전 노출 초, 보이는 동안 그 요소가 지도 사건 상자를 가린 최대 %) 표
 (out/review/<src>_elements.md + .jpg). 가림 % 는 검사 [map-event-covered] 와 같은 함수(engine.checks)로 잰다.
@@ -131,7 +131,7 @@ def main(argv: list[str] | None = None) -> int:
 
     ap = argparse.ArgumentParser(description="눈 검수 시트(D-1000 S4)")
     ap.add_argument("proj", type=Path)
-    ap.add_argument("--src", choices=["animatic", "final", "preview"], default="animatic")
+    ap.add_argument("--src", choices=["animatic", "final", "preview"], default="preview")   # v7.4.0 UF-914 — 콘티 판 단계 폐지
     ap.add_argument("--every", type=float, default=3.0)
     args = ap.parse_args(argv)
     proj = args.proj.resolve()

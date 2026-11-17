@@ -3489,3 +3489,6 @@ last_review: 2026-06-06
 - 2026-11-17 v7.4.0 UF-913(D929) 기록 — 두 입장 패널 시안 셋을 모두 넣기로 결정(layout: axis·sheets·piles, 기본 axis). 구현 착수, 원장 open.
 - 2026-11-17 v7.4.0 versus 배치 셋(UF-912·UF-913, D930) — layout axis·sheets·piles(기본 axis), 지도 위 배치별 장막, 출처 글꼴·줄바꿈 보정, 렌더 전 넘침 검사, 새 hard 검사 [versus-layout-repeat]. 옛 테마 화소 동일. 원장 미보호 0.
 - 2026-11-17 v7.4.0 main 병합(D931, 사용자 지시) — 요소 디자인 전면 개편 22커밋. 전체 pytest 2488 passed·15 failed(전부 자산 부재, 기준선과 같은 수). 골든 25컷 미확인.
+- 2026-11-17 v7.4.0 UF-914(D932) 기록 — 사용자 결정: 콘티 판 단계 폐지(원고 승인 뒤 바로 영상 제작). 구현 착수, 원장 open.
+- 2026-11-17 v7.4.0 UF-915(D933) 기록 — 사용자 결정: 사용자 원고(자막) 승인 단계도 폐지. 게이트 ①·② 는 세션·감독이 스스로 기록, 사용자는 완성 영상을 받는다. 원장 open.
+- 2026-11-17 v7.4.0 콘티 판 단계·사용자 원고 승인 폐지 구현(UF-914·UF-915, D934, PIPELINE-AP-028) — require_animatic 삭제 → require_preview(원고 지문·프리뷰 연출 지문·길이·hard 0), gate packet 프리뷰 기록 기반, WORKFLOWS W0 재작성, 원장 superseded_by. 미보호 0.

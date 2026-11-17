@@ -33,7 +33,7 @@ def render_table(led: FeedbackLedger) -> str:
     for e in led.entries:
         quote = f'"{e.quote}"' if e.quote_kind == "verbatim" else f"(요지) {e.quote}"
         guards = "<br>".join(f"{g.kind}: `{g.ref}`" for g in e.guards) or "—"
-        status = STATUS[e.status] + (f" · {e.recurs_of} 재발" if e.recurs_of else "")
+        status = STATUS[e.status] + (f" · {e.recurs_of} 재발" if e.recurs_of else "") + (f" · {e.superseded_by} 로 대체" if e.superseded_by else "")
         rows.append("| " + " | ".join(_cell(x) for x in (e.id, e.date, f"{e.project} · {e.at}", quote, e.category, guards, e.decision, status)) + " |")
     return "\n".join(rows)
 

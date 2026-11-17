@@ -236,17 +236,23 @@ class GatePacketScript(BaseModel):
 
 
 class GatePacketPreview(BaseModel):
-    """gate packet 게이트 ② 구역(v7.4.0 D-0355) — 콘티 판 기록(out/animatic_provenance.json) 요지와 자산 승격 상태."""
+    """gate packet 게이트 ② 구역(v7.4.0 D-0355) — 프리뷰 기록(prev/provenance.json) 요지와 자산 승격 상태.
+    v7.4.0 UF-914(콘티 판 단계 폐지): 근거가 콘티 판 기록에서 프리뷰 기록으로 바뀌었다. animatic_* 는 옛 packet 을 읽기 위해서만 남고,
+    preview_* 가 없는 packet 은 approve 가 거부한다(orchestrator.project_manager.require_preview). 선택 필드는 None 이면 digest 에서 빠진다."""
 
     model_config = ConfigDict(extra="forbid")
 
-    animatic_provenance_sha1: str = Field(min_length=40, max_length=40)   # 만든 때 out/animatic_provenance.json 바이트 지문
-    total_sec: float                     # 콘티 판 길이
+    animatic_provenance_sha1: Optional[str] = Field(default=None, min_length=40, max_length=40)   # 옛 packet 만 — out/animatic_provenance.json 지문
+    total_sec: float                     # 프리뷰 기록 total_sec(만든 때 음성 타임라인 길이). 옛 packet = 콘티 판 길이
     plan_total: float                    # 만든 때 plan.json total
-    animatic_script_sha1: str            # 콘티 판을 만든 원고 지문(animatic_run.script_sha1)
-    output: str = ""                     # animatic_run.output
-    direction_sha1: str = ""             # animatic_run.direction_sha1(기록 그대로)
-    rendered_at: str = ""                # 콘티 판 provenance 기록 시각(있으면)
+    animatic_script_sha1: Optional[str] = None   # 옛 packet 만 — 콘티 판을 만든 원고 지문
+    output: str = ""                     # 옛 packet 만 — animatic_run.output
+    direction_sha1: str = ""             # 프리뷰를 만든 연출 지문(preview.direction_sha1). 옛 packet = animatic_run.direction_sha1
+    rendered_at: str = ""                # provenance 기록 시각(있으면)
+    preview_provenance_sha1: Optional[str] = Field(default=None, min_length=40, max_length=40)   # v7.4.0 UF-914 — 만든 때 prev/provenance.json 바이트 지문
+    preview_dir: Optional[str] = None    # 프리뷰 폴더(preview.dir)
+    preview_frames: Optional[int] = None   # 프리뷰 컷 수(preview.frames)
+    checks_hard: Optional[int] = None    # 프리뷰 checks hard 수(만든 때 0 이어야 packet 이 만들어진다)
     pending_people: list[str] = Field(default_factory=list)    # 공용 자산 미승격 초상(require_asset_library 와 같은 판정)
     pending_emblems: list[str] = Field(default_factory=list)   # 공용 자산 미승격 휘장
 

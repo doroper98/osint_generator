@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 import subprocess
 import unittest
 from pathlib import Path
@@ -54,6 +55,10 @@ class ScriptGateCrashTest(_Proj):
 
 
 class PreviewShownTest(_Proj):
+    def setUp(self) -> None:
+        super().setUp()
+        shutil.rmtree(self.root / "p" / "prev")   # 프리뷰 전 상태(_Proj 는 게이트 ② 용 프리뷰 기록을 깐다)
+
     def _direction(self) -> None:
         evs = [{"type": "backdrop", "img": "a"}, {"type": "backdrop", "img": "b"}, {"type": "photo", "mid": "zz_missing"}]
         (self.root / "p" / "direction.yaml").write_text(yaml.safe_dump({"events": evs}), encoding="utf-8")

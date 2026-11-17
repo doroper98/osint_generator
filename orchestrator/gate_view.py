@@ -188,7 +188,7 @@ def media_summary(pdir: Path, shown: dict[str, str] | None = None) -> list[str]:
            f"  기사 조판      {used['article']}건 사용 · 등록 {avail['article']}건" + ("  (tools/article_register.py 로 등록)" if not avail["article"] else ""),
            f"  실사(사진·영상) {used['real']}건 사용 · 등록 {avail['real']}건" + ("  (tools/media_fetch.py search 로 후보)" if not avail["real"] else "")]
     reals = [e for e in evs if e.get("type") in ("photo", "clip", "cutout") and e.get("mid")]
-    if reals:   # 실사는 콘티 판에서 자리표시라 여기서 출처·권리를 본다(사용자 확인용 목록)
+    if reals:   # 실사 미디어의 출처·권리를 여기서 본다(사용자 확인용 목록)
         from engine.media_registry import load_media_registry  # noqa: PLC0415
 
         mr = load_media_registry()

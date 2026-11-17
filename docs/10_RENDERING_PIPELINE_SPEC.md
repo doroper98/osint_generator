@@ -27,7 +27,7 @@ last_review: 2026-09-29
 | validate | `python -m engine.validate <proj>` | 연출 점검(스키마·앵커·레지스트리·엔티티·슬롯·예약 영역) |
 | preview | `python -m engine.render <proj> --preview auto\|golden\|t1,t2,… [--res …]` | `prev/p_*.png`, `sheet.jpg`, `checks.json`, `frames.json`, `provenance.json` |
 | render | `python -m engine.render <proj> [--jobs N] [--res …]` | `out/video_noaudio.mp4`, `out/render.json` |
-| animatic(콘티 판, v4.9.0) | `python -m engine.render <proj> --animatic [--jobs N] [--preview …]` | `out/animatic.mp4`, `animatic_checks.json`, `animatic_provenance.json`(handoff 11 §9, WORKFLOWS W0) |
+| animatic(콘티 판, v4.9.0) | `python -m engine.render <proj> --animatic [--jobs N] [--preview …]` | `out/animatic.mp4`, `animatic_checks.json`, `animatic_provenance.json`(handoff 11 §9, WORKFLOWS W0.1 — 선택 렌더 모드, 제작 단계 아님: v7.4.0 UF-914 — 콘티 판 단계 폐지) |
 | mix | `python -m audio.mix <proj>` | `out/mix.f32`, `out/bed_stats.json`(음악 있을 때 — 베드 저음 보강 전·후 저역 비율, v4.6.0 handoff 10 §3.4) |
 | deliver | `python -m engine.mux <proj>` | `out/final.mp4`, `final.srt`, `description.txt`, `provenance.json` |
 | upload | `python -m publish.youtube <proj>` | 유튜브 비공개 업로드, `out/youtube_upload.json`(v7.4.0 D-1200, `docs/YOUTUBE_UPLOAD.md`) |

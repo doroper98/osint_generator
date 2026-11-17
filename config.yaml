@@ -144,7 +144,8 @@ youtube:
   tags_max_chars: 500
 
 review_gates:
-  # v3.0.0 — 사용자 승인 게이트 2개(docs/handoff/16 §5). 승인 없이 게이트 다음 상태로 가지 않는다.
+  # v3.0.0 — 승인 게이트 2개(docs/handoff/16 §5). 승인 기록 없이 게이트 다음 상태로 가지 않는다.
+  # v7.4.0 UF-914·UF-915 — 콘티 판 단계·사용자 원고 승인 폐지: 게이트 ① 은 세션이, 게이트 ② 는 감독이 프리뷰를 보고 기록한다(사용자에게 묻지 않는다).
   # 값은 true 만 허용(끌 수 없다). 옛 9개 게이트 키는 상태 머신 교체로 삭제(D-0040 작업 6).
   require_human_approval:
     script_approval: true

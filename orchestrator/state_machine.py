@@ -47,14 +47,14 @@ ROLLBACKS: dict[ProjectState, frozenset[ProjectState]] = {
 # v4.7.0 back_and_forth D-0104 D4 — 렌더 뒤 사용자 피드백으로 연출을 다시 하는 되돌림(`reopen`, 사유 필수).
 # 게이트 반려(ROLLBACKS)와 다른 길이다: 게이트 ② 를 지난 뒤(render 이후)에만, direction 또는 script_draft 로.
 # v5.6.0(사용자 지시 2026-10-04 — 본편을 본 뒤 원고 내용 보강 "독일 이야기 추가", PIPELINE-AP-017): 게이트 ② 반려가 내용 문제로
-# script_draft 에 갈 수 있듯, 렌더 뒤에도 원고로 돌아간다 → 게이트 ① 재승인(원고 지문) → 콘티 판 → 게이트 ② 순서 그대로.
+# script_draft 에 갈 수 있듯, 렌더 뒤에도 원고로 돌아간다 → 게이트 ① 재승인(원고 지문) → 프리뷰 → 게이트 ② 순서 그대로(v7.4.0 UF-914 — 콘티 판 단계 폐지).
 REOPENS: dict[ProjectState, frozenset[ProjectState]] = {
     s: frozenset({ProjectState.DIRECTION, ProjectState.SCRIPT_DRAFT})
     for s in (ProjectState.RENDER, ProjectState.AUDIO_MIX, ProjectState.DELIVER, ProjectState.DONE)
 }
 
 # v7.4.0 back_and_forth D-0237(사용자 결정 D246) — 게이트 ① 승인 뒤, 렌더 전 단계에서 원고 사실 오류를 찾았을 때의 되돌림(`rollback`, 사유 필수).
-# 게이트 반려(ROLLBACKS)·렌더 뒤 reopen 과 다른 길이다. 게이트가 아니므로 GATES 에 넣지 않는다 → 게이트 ① 재승인(원고 지문) → 콘티 판 순서 그대로.
+# 게이트 반려(ROLLBACKS)·렌더 뒤 reopen 과 다른 길이다. 게이트가 아니므로 GATES 에 넣지 않는다 → 게이트 ① 재승인(원고 지문) → 프리뷰 순서 그대로(v7.4.0 UF-914 — 콘티 판 단계 폐지).
 SCRIPT_FIX_ROLLBACKS: dict[ProjectState, frozenset[ProjectState]] = {
     s: frozenset({ProjectState.SCRIPT_DRAFT})
     for s in (ProjectState.VOICE_TIMELINE, ProjectState.ASSETS, ProjectState.DIRECTION, ProjectState.PREVIEW_QA)

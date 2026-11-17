@@ -593,7 +593,7 @@ def render_animatic(P: Project, jobs: int, no_cache: bool = False) -> tuple[Path
                             "band": AN.band.text, "placeholders": dict(sorted(kinds.items())),
                             "map": "mercator(본 지도, D-0241)" if "mercator" in P.R.cache["stage"]["instances"] else None,
                             "voice": P.plan.voice, "checks_skipped": checks["skipped"],
-                            # v5.2.0 — 어느 연출 판으로 만든 콘티 판인지(게이트 ② 기록, orchestrator.project_manager.require_animatic)
+                            # v5.2.0 — 어느 연출 판으로 만든 콘티 판인지(기록만 — v7.4.0 UF-914 콘티 판 단계 폐지, 게이트 ② 는 프리뷰 기록을 본다)
                             "direction_sha1": hashlib.sha1((P.root / "direction.yaml").read_bytes()).hexdigest()
                             if (P.root / "direction.yaml").exists() else None,
                             # v5.6.0 사용자 결정 2026-10-04 — 어느 원고로 만든 콘티 판인지(게이트 ① 승인 원고와 같아야 게이트 ② 통과)

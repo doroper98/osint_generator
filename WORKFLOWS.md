@@ -13,55 +13,51 @@ last_review: 2026-09-30
 
 ---
 
-## W0. 콘티 판(animatic) — 흐름·호흡을 먼저 싸게 (v4.9.0, back_and_forth D-0108, 사용자 결정 D97)
+## W0. 제작 순서 — 원고 → 게이트 ① → 음성 → 연출 → 프리뷰 → 게이트 ② → 전편 (v7.4.0 UF-914·UF-915 — 콘티 판 단계·사용자 원고 승인 폐지)
 
-> **순서 의무 — 자막(원고) → 콘티 → (승인 후) 본영상 (v5.6.0, 사용자 결정 2026-10-04, PIPELINE-AP-015).**
-> 1. 원고가 나오면 `python -m orchestrator.main gate-view {pid}` 원고 검토 자료(원고 전문·출처 표·린트·**린트 면제 표**(v5.17.0 D-0168)·**미디어 계획 표**(v5.19.0 D-0163 §2 — 문장별 인용 출처·기사 등록·사진 찾음/통과/선택·사유))를 **사용자에게 보내 자막 점검**을 요청한다. 사진 목표 미달인데 문장 사유가 없으면 게이트 ① 승인이 거부된다(`media_fetch.py search --log` 또는 `media_notes.yaml`). 보도 인용(B, v5.21.0 D-0177) 문장은 사진 열에 **"보도 인용(B)"** 과 근거(검색 기록 통과 0)가 보인다 — 사용자가 게이트 ① 에서 어떤 문장이 통신사 사진을 쓰는지 본다(`media_notes.yaml sentences.<sid>.press_quote`).
-> 2. 사용자 승인 → `approve --gate script_approval` (승인 기록에 원고 지문 `script_sha1`).
-> 3. 음성 → 연출 → 콘티 판(기록에 원고 지문). 콘티 판을 보낼 때도 원고 검토 자료를 함께 보낸다.
-> 4. 게이트 ② 는 콘티 판의 원고 지문 = 승인 원고 지문일 때만 통과. 원고를 고치면 게이트 ① 부터 다시.
+> **순서 (사용자 결정 UF-914 "콘티 단계 없애. 그냥 바로 영상 제작으로 간다", UF-915 "원고 승인도 없앤다").**
+> 1. **원고** — 린트 오류 0, 출처 표(출처 없는 수치 0), 미디어 계획 표(`gate-view` 원고 검토 자료: 원고 전문·출처 표·린트·린트 면제 표(v5.17.0 D-0168)·미디어 계획 표(v5.19.0 D-0163 §2))를 세션이 확인한다. 사진 목표 미달인데 문장 사유가 없으면 게이트 ① 기록이 거부된다(`media_fetch.py search --log` 또는 `media_notes.yaml`). 보도 인용(B, v5.21.0 D-0177) 문장은 `media_notes.yaml sentences.<sid>.press_quote` 에 근거를 적는다.
+> 2. **게이트 ①(세션이 스스로 기록 — 사용자에게 묻지 않는다)** — `python -m orchestrator.main approve --project {pid} --gate script_approval --by <세션> --comment "UF-915 사용자 승인 생략"`. 기록에 원고 지문 `script_sha1` 이 남는다. 원고를 사용자에게 보내 자막 점검을 기다리지 않는다.
+> 3. **음성 → 연출 → 믹스 → 프리뷰**(`engine.render --preview auto`, 검사 hard 0). 콘티 판은 만들지 않는다.
+> 4. **게이트 ②(감독이 프리뷰 시트를 보고 승인 — 사용자에게 묻지 않는다)** — 코드 강제(`orchestrator.project_manager.require_preview`, 우회 플래그 없음): 게이트 ① 원고 지문 = 현재 `script.yaml`, 프리뷰 기록(`prev/provenance.json`)이 현재 `direction.yaml`·현재 `plan.json` 길이로 만들어졌고 checks hard 0. 게이트 기록 `shown.preview` 에 프리뷰 폴더·컷 수·연출·원고 지문이 남는다. 사용자 의견 원장·공용 자산 확인은 그대로.
+> 5. **전편 → 사용자에게 완성 영상 전달**(원고·출처·크레딧 자료와 함께).
 >
-> **자산 보관 (v5.6.0, PIPELINE-AP-016)**: 초상·휘장 등 이번 영상에서 만든 자산은 콘티 판 전에
+> 원고를 고치면 게이트 ① 을 다시 기록한다(`reopen --to script_draft` 또는 `rollback`, PIPELINE-AP-015·017) — 승인 지문과 현재 원고가 다르면 게이트 ② 가 거부된다.
+>
+> **자산 보관 (v5.6.0, PIPELINE-AP-016)**: 초상·휘장 등 이번 영상에서 만든 자산은 게이트 ② 전에
 > `python tools/asset_library.py promote projects/{pid}` 로 공용 자산에 올린다(`check` = 0). 다음 영상은 공용 자산을 먼저 쓴다.
 >
-> **렌더 중 규칙·엔진 변경 금지 (v7.4.0, back_and_forth D-0284 — R-0287 사고).** 콘티 판·프리뷰·전편·카탈로그 렌더가 도는 동안
+> **렌더 중 규칙·엔진 변경 금지 (v7.4.0, back_and_forth D-0284 — R-0287 사고).** 프리뷰·전편·카탈로그 렌더가 도는 동안
 > `rules/`·`schemas/`·`engine/`·`audio/`·`config.yaml` 을 고치지 않는다. 청크 프로세스가 늦게 시작하면 바뀐 규칙을 옛 스키마로 읽어 조각이 실패한다(showcase_geo 콘티 판 v2 첫 렌더). 렌더가 끝난 뒤 고치고 다시 렌더한다.
-
-용어: **콘티 판** = animatic(animation + -matic). 1930년대 디즈니가 스토리보드를 찍어 음성과 함께 틀어 본 "Leica reel"이 원형이고,
-광고·애니메이션 업계가 1970년대부터 animatic 이라 불렀다. "콘티"는 일본어 コンテ(continuity 의 축약)에서 왔다.
-
-> **필수 단계 — 건너뛰기 금지(사용자 결정 2026-10-01, PIPELINE-AP-014).** 모든 영상 프로젝트는 게이트 ② 전에 콘티 판을 만들고
-> `out/animatic.mp4` 를 **사용자에게 보내 흐름 검토를 받는다.** "검수 루프가 hard 0 이니 바로 프리뷰" 는 허용되지 않는다.
-> 코드 강제: `approve --gate preview_approval` 은 현재 `plan.json` 길이와 같은 콘티 판 기록(`out/animatic_provenance.json`)이 없으면
-> 거부된다(`orchestrator.project_manager.require_animatic`). 음성을 다시 만들면 콘티 판도 다시 만든다. 우회 플래그는 없다.
-> 게이트 ② 기록 `shown.animatic` 에 콘티 판 경로·길이·연출 판 sha1(`animatic_run.direction_sha1`)이 남는다.
-
-게이트 ① 원고 승인 뒤, 게이트 ② 프리뷰 전에 돈다. 연출 v1 이 나오면 콘티 판으로 흐름을 보고, 고칠 것이 있으면 연출로 되돌려 다시 돈다.
 
 연출 전에 미디어 재료를 등록한다(v5.6.0 PIPELINE-AP-019 — 등록이 빠지면 연출 후보가 0건이라 인용·기사 조판·실사가 화면에 안 나온다):
 - 기사 조판: `python tools/article_register.py projects/{pid}` → 빠진 헤드라인 번역(sources.json `headline_ko`)을 채우고 `--write`.
 - 실사(사진·영상): `python tools/media_fetch.py search "<무기·장소 이름>"` 로 후보(라이선스·제한 표시)를 찾고, 피사체·라이선스·촬영 시기를
   대조해 고른 것만 레지스트리에 권리 기록과 함께 올린다(무기 이름 = rules weapon_photo.terms).
 - 인용: 검증 단계가 claims `direct_quotes`(원문 따옴표 발언)를 남긴다 — 연출 입력 "인용 후보"로 자동 공급.
-콘티 판을 보낼 때 `gate-view` 의 **미디어·인용 요약**(쓴 수/쓸 수 있던 수, 무기 이름의 실사 유무, 실사 출처·라이선스 목록, media_note)을 함께 보낸다 —
-콘티 판에서 실사는 자리표시라 이 목록으로 확인한다. 0건이어도 막지 않는다(사용자 결정 2026-10-05) — 이유를 media_note 에 적는다.
+게이트 ② 때 `gate-view` 의 **미디어·인용 요약**(쓴 수/쓸 수 있던 수, 무기 이름의 실사 유무, 실사 출처·라이선스 목록, media_note)을 함께 본다.
+0건이어도 막지 않는다(사용자 결정 2026-10-05) — 이유를 media_note 에 적는다.
 
 ```bash
-python -m script.plan projects/{pid}                     # 음성 = config tts.backend_default(v5.11.0 사용자 결정 D146 = Supertonic 3 M3 ×0.95, 콘티 판·본편 모두). 먼저 python tools/fetch_data.py supertonic. ElevenLabs 는 쓰지 않는다(config tts.elevenlabs_allowed: false — script.plan 이 거부)
-python -m audio.mix projects/{pid}                        # 음악·믹스는 전편과 같다(bed_bass 포함)
-python -m engine.render projects/{pid} --animatic         # → out/animatic.mp4 (480p·fps 24, 5분 영상 = 4코어 3분 목표)
-python -m engine.render projects/{pid} --animatic --preview auto   # (선택) prev_animatic/ 컷·시트
+python -m script.plan projects/{pid}                     # 음성 = config tts.backend_default(v5.11.0 사용자 결정 D146 = Supertonic 3 M3 ×0.95). 먼저 python tools/fetch_data.py supertonic. ElevenLabs 는 쓰지 않는다(config tts.elevenlabs_allowed: false — script.plan 이 거부)
+python -m audio.mix projects/{pid}                        # 음악·믹스
+python -m engine.render projects/{pid} --preview auto     # → prev/ 컷·시트·checks·provenance(게이트 ② 근거)
+python -m engine.render projects/{pid} --jobs 4           # 게이트 ② 뒤 전편
 ```
 
-사용자 흐름 검토 뒤 고칠 것이 있으면 연출을 다시 한다. 프로젝트가 아직 `direction` 상태면 연출 판(direction.vN)을 고쳐 콘티 판을 다시 돌리고,
-이미 렌더 이후 상태면 `python -m orchestrator.main reopen --project {pid} --to direction --reason "콘티 판 흐름 검토: …"`(D4)로 되돌린다.
-원고(자막) 내용을 고칠 때는 `reopen --to script_draft` → 게이트 ① 재승인 → 음성 → 콘티 판 순서다(v5.6.0 PIPELINE-AP-017).
-흐름이 정해지면 게이트 ② 프리뷰(`--preview auto`) → 전편으로 간다.
+프리뷰를 보고 고칠 것이 있으면 연출을 다시 한다. 프로젝트가 아직 `direction`·`preview_qa` 상태면 연출 판(direction.vN)을 고쳐 프리뷰를 다시 돌리고,
+이미 렌더 이후 상태면 `python -m orchestrator.main reopen --project {pid} --to direction --reason "…"`(D4)로 되돌린다.
+원고(자막) 내용을 고칠 때는 `reopen --to script_draft` → 게이트 ① 다시 기록 → 음성 → 프리뷰 순서다(v5.6.0 PIPELINE-AP-017).
+
+### W0.1 콘티 판 렌더 모드 (선택 도구 — 제작 단계 아님, v7.4.0 UF-914)
+
+`python -m engine.render projects/{pid} --animatic` 렌더 모드(v4.9.0 D-0108)는 남아 있지만 **제작 단계가 아니다** — 만들지도, 사용자에게 보내지도,
+게이트 ② 에서 요구하지도 않는다. 용어: **콘티 판** = animatic(스토리보드를 음성과 함께 틀어 보는 저해상 판).
 
 | 콘티 판에서 | 전편과 |
 |---|---|
 | 자막·타이틀·엔딩 카드·날짜·마커·경로·타격 링·선박·국가 강조·시리즈·카메라·dip·음악 | 같다(자막이 호흡의 기준) |
-| 카드·패널(숫자·문구·도식) | 같다 — 콘티 판에서 승인한다(v5.6.0 PIPELINE-AP-018). 패널 안 뱃지만 자리표시 |
+| 카드·패널(숫자·문구·도식) | 같다. 패널 안 뱃지만 자리표시 |
 | 뱃지(인물·국기·휘장)·사진·영상·컷아웃·기사·게시물·프리미티브 | 같은 자리·크기·타이밍의 자리표시 상자 + `[뱃지: 이름]` 같은 글자 |
 | 지도 | 전편과 같은 본 지도(지형·행정선·도시·도로·강·테마, geo 자산 필요) — v7.4.0 D-0241 §2(UF-121) 막지도 삭제 |
 | 표식 | 화면 위 가운데 띠 "콘티 판 · 검토용 · 배포 금지", provenance `animatic: true`, mp4 메타데이터 표식 |
@@ -75,20 +71,20 @@ python -m engine.render projects/{pid} --animatic --preview auto   # (선택) pr
 ## W0a. 단일 구현 모드 — 왕복을 줄인다 (v7.4.0 back_and_forth D-1000 S5, 사용자 UF-300·UF-301)
 
 일상 영상은 **구현 세션 하나가 착수부터 전달본까지** 간다. 목표는 1차 완성본 4시간, 퇴고 1회 1시간, 탈락 0회다(D-1000 §0).
-게이트·콘티 판은 빼지 않는다(C8-6). 빨라지는 곳은 검출(hard 검사)·재렌더 단위(조각 캐시)·왕복이다.
+게이트는 빼지 않는다(C8-6). 콘티 판 단계와 사용자 원고 승인은 없다(v7.4.0 UF-914·UF-915 — 콘티 판 단계·사용자 원고 승인 폐지). 빨라지는 곳은 검출(hard 검사)·재렌더 단위(조각 캐시)·왕복이다.
 
 | 확인점 | 누가 | 무엇을 |
 |---|---|---|
-| (a) 게이트 ① 원고 | 감독 → 사용자 | `gate-view` 원고 검토 자료(헌법 C8-6 그대로) |
-| (b) 콘티 판 | 감독 → 사용자 | `out/animatic.mp4` + review_sheet·uf_checklist(back_and_forth/README §6.3a) |
-| (c) 사용자 전달 직전 | 감독 | 완성본 review_sheet·uf_checklist — 빈 칸·자동 fail 이 있으면 보내지 않는다 |
+| (a) 게이트 ① 원고 | 세션(사용자에게 묻지 않음) | 린트 0·출처 표·미디어 계획 표 확인 뒤 `approve --gate script_approval` 기록(UF-915) |
+| (b) 게이트 ② 프리뷰 | 감독(사용자에게 묻지 않음) | `prev/sheet.jpg` + review_sheet·uf_checklist(`--src preview`, back_and_forth/README §6.3a) (UF-914) |
+| (c) 사용자 전달 직전 | 감독 | 완성본 review_sheet·uf_checklist — 빈 칸·자동 fail 이 있으면 보내지 않는다. 사용자는 완성 영상을 받는다 |
 
 - **R 은 이 셋과 막힘에만** 올린다. 중간 진행 R·작은 질문 R 을 쓰지 않는다.
 - **작은 판단은 구현 세션이 정한다.** `docs/handoff/DECISIONS.md` 에 "구현 전결" 표시로 한 줄 적고 진행한다(decision_request 남발 금지).
   decision_request 는 사용자 확인점·헌법·합격 수치(v3 골든 값)·되돌리기 어려운 선택에만 쓴다(README §6.4·§7).
-- **사용자 확인점은 헌법 그대로**(C8-6 원고·콘티 판). 이 절은 그것을 바꾸지 않는다.
+- **사용자 확인점**: 완성 영상 전달(원고·출처·크레딧 자료와 함께). 원고·콘티 판·프리뷰를 사용자에게 보내 승인을 기다리지 않는다(v7.4.0 UF-914·UF-915 — 콘티 판 단계·사용자 원고 승인 폐지).
 - **검증 시간**: 변경마다 관련 시험 + `tests/anti_inertia` + 영향 골든만. 전체 pytest 는 전달 경로 밖 — 하루 1회·병합 직전(C8-3, D187).
-- **부분 재렌더**: 연출을 고친 뒤 콘티 판·전편은 그냥 다시 돌린다 — 고정 격자 조각 캐시(`out/chunks/`, config `engine.render.chunk_sec`)가 바뀐 조각만 그린다.
+- **부분 재렌더**: 연출을 고친 뒤 전편은 그냥 다시 돌린다 — 고정 격자 조각 캐시(`out/chunks/`, config `engine.render.chunk_sec`)가 바뀐 조각만 그린다.
   `render.json chunks[]` 의 reused·rendered 를 보고서에 인용한다. 의심스러우면 `--no-cache`.
 - **단계 시간**: `out/timings.jsonl`(provenance `timings`)로 어디서 시간이 드는지 본다(D-1000 S0).
 - **연출 좌표**: 연출 LLM 초안은 지명 사전 이름·좌표만 쓴다(rules `geo.director_coords`). 사전에 없는 place·marker 좌표는 연출 저장 전 점검이 오류로 돌려준다.
@@ -102,7 +98,7 @@ python -m orchestrator.main command-center --project {pid}      # 또는 run_pip
 
 상태 흐름(`schemas/models.py ProjectState`, docs/handoff/16 §2):
 `created → intake → source_verify → research → script_draft → script_approval★ → voice_timeline → assets → direction → preview_qa → preview_approval★ → render → audio_mix → deliver → done`.
-★ 두 곳이 사용자 승인 게이트다. `direction` 과 `preview_approval★` 사이에 **콘티 판(W0) 사용자 흐름 검토가 필수**다 — 콘티 판 기록 없이는 게이트 ② 승인이 거부된다.
+★ 두 곳이 승인 게이트다 — 게이트 ① 은 세션이 스스로 기록하고, 게이트 ② 는 감독이 프리뷰를 보고 승인한다(사용자에게 묻지 않는다, v7.4.0 UF-914·UF-915 — 콘티 판 단계·사용자 원고 승인 폐지). 게이트 ② 는 현재 원고·연출·음성으로 만든 hard 0 프리뷰 기록(`prev/provenance.json`) 없이는 거부된다(W0).
 게이트 ② 는 **사용자 의견 원장**(`rules/user_feedback.yaml`)을 본다(CLAUDE.md C12). 사용자 의견을 받으면 그 자리에서 원장에 원문 그대로 적는다 → `python tools/feedback_ledger.py --write`. 그 영상은 고쳐서 먼저 보낸다 — 그 영상의 장치 없는(open) 의견은 승인 기록에 경고 줄로 남고, 장치(검사·테스트·규칙 키)는 영상 전달 뒤 첫 작업으로 단다. 앞선 영상의 의견이 장치 없이 다음 영상 게이트 ② 에 오면 거부된다(v7.0.0, 사용자 결정 D217·D218).
 
 ### W1.1 새 프로젝트 준비 체크리스트 (v4.7.0, back_and_forth D-0104 D3 — dmz_mine_2026 누락 M1~M5)
@@ -145,7 +141,7 @@ python -m geo.prep projects/{pid} [--res 1080p]                    # 지형 티�
 python -m engine.camera_suggest projects/{pid}                     # 카메라 제안(옵션, 연출에 자동 적용 안 함)
 python -m engine.render projects/{pid} --preview auto|golden       # 프리뷰 컷·시트·checks·provenance
 python -m engine.render projects/{pid} --jobs 4 [--res 1080p]      # 전편 video_noaudio.mp4
-python -m engine.render projects/{pid} --animatic [--jobs 4]      # 콘티 판 out/animatic.mp4(W0, v4.9.0)
+python -m engine.render projects/{pid} --animatic [--jobs 4]      # (선택 도구) 콘티 판 out/animatic.mp4 — 제작 단계 아님(W0.1, v7.4.0 UF-914)
 ```
 
 ## W4. Worker 추가

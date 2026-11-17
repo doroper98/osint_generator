@@ -120,7 +120,7 @@ last_review: 2026-05-19
 - **교훈**: 사람 검토 단계도 코드가 선행 조건으로 확인하지 않으면 "선택 사항" 이 된다. 문서 규칙은 게이트 검사로 받친다.
 - **자동 조치**: `orchestrator.project_manager.require_animatic` — 게이트 ② 승인 전에 `out/animatic_provenance.json`(animatic_run 있음, total_sec = plan.json total ± 0.05초) 확인, 없으면 `AnimaticMissingError`(우회 플래그 없음, 사용자 결정 2026-10-01). 게이트 기록 `shown.animatic`. `engine.render --animatic` provenance 에 `animatic_run.direction_sha1`.
 - **회귀 테스트**: `tests/test_gates_pipeline.py::AnimaticGateTest`(없음·미완료·옛 음성 거부, 맞으면 승인·기록)
-- **발견 버전**: v5.2.0 (사용자 지적 2026-10-01) · **상태**: active
+- **발견 버전**: v5.2.0 (사용자 지적 2026-10-01) · **상태**: active [superseded by PIPELINE-AP-028 — 콘티 판 의무는 사용자 결정 2026-11-17(UF-914)로 폐지]
 
 ---
 
@@ -130,7 +130,7 @@ last_review: 2026-05-19
 - **좋은 예**: 원고 → `gate-view` 자료를 사용자에게 보내 자막 점검 → `approve --gate script_approval`(원고 지문 기록) → 음성 → 연출 → 콘티 판(원고 지문 기록) → 사용자 흐름 검토 → 프리뷰 → 게이트 ② → 본편.
 - **자동 조치**: 게이트 ① 승인 `shown.script_sha1`, 콘티 판 `animatic_run.script_sha1`, `require_animatic(pdir, approved_sha1)` 이 대조 — 승인 기록 없음·지문 다름 = 게이트 ② 거부(우회 플래그 없음).
 - **회귀 테스트**: `tests/test_gates_pipeline.py::AnimaticGateTest::test_script_changed_after_approval_blocks_gate2`
-- **발견 버전**: v5.5.1 (사용자 지적 2026-10-04) · **상태**: active
+- **발견 버전**: v5.5.1 (사용자 지적 2026-10-04) · **상태**: active [superseded by PIPELINE-AP-028 — 콘티 판과 사용자 자막 점검 요청은 사용자 결정 2026-11-17(UF-914·UF-915)로 폐지. 게이트 ① 기록과 원고 지문 대조만 남는다(`require_preview`)]
 
 ## PIPELINE-AP-016 — 제작한 자산(초상·휘장)을 프로젝트 폴더에만 두어 다음 영상에서 다시 만듦
 - **증상**: kaliningrad-suwalki 에서 나토 휘장·인물 초상 5인을 만들었지만 프로젝트 `assets/`(.gitignore)에만 있었다. 다른 영상·새 세션에서는 다시 받고 다시 가공해야 했다(위키미디어 429 로 수십 분).
@@ -233,3 +233,11 @@ last_review: 2026-05-19
 - **원칙**: ① 서브프로세스 결과가 StageResult 가 아니면 개수가 아니라 실행 실패다 — 화면은 "확인 불가", 승인 기록은 거부(우회 플래그 없음). ② 입력 폴더·파일이 없으면 "확인 불가(사유)"로 적는다. 0 은 실제로 세어 0일 때만. ③ 같은 대상을 세는 두 곳은 같은 셈을 쓰거나 둘 다 적는다.
 - **자동 조치**: `orchestrator.engine_service.is_crash`, `script_gate_view` 의 `lint_crash`·`lint_errors "확인 불가"`, `approve_gate` 거부. `preview_gate_view` cuts·sheet "확인 불가(prev/ 없음)", `media_summary` media_used 에 backdrop 수 + 밀도 검사 값(prev/provenance media_density, 없으면 확인 불가). 시험 `tests/test_gate_record_honesty.py`.
 - **발견 버전**: v7.4.0 · **상태**: active
+
+## PIPELINE-AP-028 — 콘티 판 의무·사용자 원고 승인 폐지(사용자 결정) — 게이트는 세션·감독이 스스로 기록하고 프리뷰 기록으로 판정한다
+
+- **증상(실제 현상)**: v7.4.0, 2026-11-17 — 새 디자인을 main 에 병합한 뒤 감독이 "다음 영상은 첫 실전이니 콘티 판에서 눈으로 확인" 을 권하자 사용자가 결정했다: "콘티 단계 없애. 그냥 바로 영상 제작으로 간다. 규칙으로 적용해."(UF-914). 감독이 "콘티 판만 없애고 원고 승인은 남긴다" 로 읽고 범위를 묻자 사용자가 바로잡았다: "원고 승인도 없앤다"(UF-915). 그 시점의 코드는 콘티 판 기록이 없으면 게이트 ② 승인을 거부했다(PIPELINE-AP-014 의 자동 조치) — 규칙만 바꾸면 다음 영상이 게이트 ② 에서 막힌다.
+- **원리**: 두 단계는 사용자 결정(2026-10-01·2026-10-04)으로 생겼고, 같은 사용자의 나중 결정으로 없어졌다. 단계를 없앨 때는 문서·규칙·코드 게이트·시험·원장 장치가 한 번에 바뀌어야 한다 — 한 곳이라도 남으면 옛 단계가 관성으로 되살아나거나(문서) 새 흐름이 막힌다(코드). 그리고 "단계를 없앤다" 는 지시의 범위는 감독이 좁게 읽고 넘어가지 말고 물어서 확정한다(이번에는 물었고, 좁은 해석이 틀렸다).
+- **원칙**: ① 순서 = 원고 → 게이트 ①(세션이 스스로 기록) → 음성 → 연출 → 믹스 → 프리뷰(검사 hard 0) → 게이트 ②(감독이 프리뷰를 보고 승인) → 전편 → 사용자에게 완성 영상. 사용자에게 원고·콘티 판·프리뷰를 보내 승인을 기다리지 않는다. ② 게이트 ①·② 는 상태와 기록(누가·언제·본 것·원고 지문)으로 남는다 — 게이트 ① 기록 뒤 원고를 고치면 다시 기록한다(지문 대조). ③ 게이트 ② 의 증거는 현재 연출로 만든 프리뷰 기록이다. ④ `engine.render --animatic` 렌더 모드는 남아 있지만 어떤 게이트도 요구하지 않는다. ⑤ 사람 검토가 빠진 자리는 린트·검증 hard 0 과 감독의 프리뷰·전편 확인으로 메운다(C0 경계·C0.0 §6) — 못 맞추면 보내지 않고 멈춰 보고한다.
+- **자동 조치**: `orchestrator.project_manager.require_animatic`·`AnimaticMissingError` 삭제(C11 P2), `require_preview`(게이트 ① 원고 지문 = 현재 원고, 프리뷰 연출 지문 = 현재 연출) 신설, gate packet 게이트 ② 구역을 프리뷰 기록으로. 시험 `tests/test_gates_pipeline.py::PreviewGateTest`, `tests/anti_inertia/test_no_animatic_stage.py`. CLAUDE.md C8 §6·§7, WORKFLOWS W0 개정. 원장 UF-38·UF-47 은 `superseded_by: UF-914`, UF-68 은 `superseded_by: UF-915`.
+- **발견 버전**: v7.4.0 (사용자 결정 2026-11-17) · **상태**: active
