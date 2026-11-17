@@ -42,14 +42,23 @@ def control(s: Pt, e: Pt) -> Pt:
     return ((s[0] + e[0]) / 2 - dy * F.bulge_ratio, (s[1] + e[1]) / 2 + dx * F.bulge_ratio)
 
 
-def _icon(ctx: cairo.Context, kind: str, rgb: tuple) -> None:
-    I = F.icon  # noqa: N806
-    pts = I.shapes[kind]
-    sc = I.size_px[kind] / (max(abs(p[1]) for p in pts) * 2)
+def _scale(kind: str, size: float) -> float:
+    """윤곽 좌표 → 설계 px 배율. 긴 변(x·y 중 큰 폭)을 size 로(전익기는 날개폭). 기존 세 종류는 y 폭이 긴 변이라 값이 같다."""
+    return size / (max(max(abs(p[0]), abs(p[1])) for p in F.icon.shapes[kind]) * 2)
+
+
+def _outline(ctx: cairo.Context, kind: str, sc: float) -> None:
+    pts = F.icon.shapes[kind]
     ctx.move_to(pts[0][0] * sc, pts[0][1] * sc)
     for p in pts[1:]:
         ctx.line_to(p[0] * sc, p[1] * sc)
     ctx.close_path()
+
+
+def _icon(ctx: cairo.Context, kind: str, rgb: tuple) -> None:
+    I = F.icon  # noqa: N806
+    sc = _scale(kind, I.size_px[kind])
+    _outline(ctx, kind, sc)
     ctx.set_source_rgba(0, 0, 0, I.halo_alpha)
     ctx.set_line_width(I.halo)
     ctx.set_line_join(cairo.LINE_JOIN_ROUND)
@@ -63,6 +72,126 @@ def _icon(ctx: cairo.Context, kind: str, rgb: tuple) -> None:
         ctx.set_source_rgba(0, 0, 0, I.body_line.alpha)
         ctx.set_line_width(I.body_line.width)
         ctx.stroke()
+
+
+def heading(s: Pt, c: Pt, e: Pt, u: float) -> float:
+    """u 에서 기체 회전각(머리 = −y 가 진행 방향) — 아이콘과 같은 계산."""
+    x, y = bezier(s, c, e, u)
+    x2, y2 = bezier(s, c, e, min(1.0, u + F.heading_du))
+    return math.atan2(y2 - y, x2 - x) + math.pi / 2
+
+
+def model_size(kind: str) -> float:
+    """look model 크기 — rules flight.model.size_px, 없는 종류는 icon.size_px."""
+    return F.model.size_px.get(kind, F.icon.size_px[kind])
+
+
+def formation_offsets(e: dict) -> list[Pt]:
+    """선두 기준 오프셋(옆 = 오른쪽 +, 뒤 = +, 설계 px) — 선두 (0, 0) 포함 count 개. 간격 = rules flight.formation × 기체 크기.
+    vee: 순번 k(1, 1, 2, 2, …)마다 오른쪽·왼쪽 번갈아. line: 일렬 종대. echelon: 오른쪽으로 비스듬히."""
+    n = e.get("count", 1)
+    if n == 1:
+        return [(0.0, 0.0)]
+    size = model_size(e["kind"]) if e.get("look", "glyph") == "model" else F.icon.size_px[e["kind"]]
+    sl = getattr(F.formation, e["formation"])
+    out: list[Pt] = [(0.0, 0.0)]
+    for i in range(1, n):
+        if e["formation"] == "vee":
+            k, side = (i + 1) // 2, (1 if i % 2 else -1)
+        else:
+            k, side = i, 1
+        out.append((side * k * sl.lateral * size, k * sl.back * size))
+    return out
+
+
+def _place(s: Pt, c: Pt, e: Pt, u: float, off: Pt) -> tuple[float, float, float]:
+    """편대 한 대의 화면 자리·회전각 — 선두(베지어 u)에서 선두 좌표계 오프셋을 돌려 더한다(굳은 한 덩어리)."""
+    x, y = bezier(s, c, e, u)
+    a = heading(s, c, e, u)
+    ca, sa = math.cos(a), math.sin(a)
+    return x + off[0] * ca - off[1] * sa, y + off[0] * sa + off[1] * ca, a
+
+
+def _path_len(s: Pt, c: Pt, e: Pt) -> float:
+    pts = [bezier(s, c, e, i / F.samples) for i in range(F.samples + 1)]
+    return sum(math.hypot(b[0] - a[0], b[1] - a[1]) for a, b in zip(pts, pts[1:]))
+
+
+def _model_body(ctx: cairo.Context, kind: str, glyph_rgb: tuple, look: str, angle: float) -> None:
+    """기체 한 대(이미 그 자리로 옮기고 돌린 좌표계). glyph = 옛 아이콘, model = 회색 두 면 음영 + 가는 테두리 + 세부선."""
+    if look != "model":
+        _icon(ctx, kind, glyph_rgb)
+        return
+    M = F.model  # noqa: N806
+    sz = model_size(kind)
+    sc = _scale(kind, sz)
+    # 빛은 그림자 반대쪽(왼쪽 위)에서 — 화면에서 빛을 향한 날개 쪽(+x 또는 −x)이 밝은 면
+    lit = 1 if -(math.cos(angle) * M.shadow.offset[0] + math.sin(angle) * M.shadow.offset[1]) >= 0 else -1
+    _outline(ctx, kind, sc)
+    ctx.set_source_rgb(*(min(1.0, v * (1 - M.shade)) for v in M.body_rgb))
+    ctx.fill_preserve()
+    ctx.save()
+    ctx.clip()
+    ctx.rectangle(0, -sz, lit * sz, sz * 2)
+    ctx.set_source_rgb(*(min(1.0, v * (1 + M.shade)) for v in M.body_rgb))
+    ctx.fill()
+    ctx.restore()
+    _outline(ctx, kind, sc)
+    for a, b in M.lines.get(kind, []):
+        ctx.move_to(a[0] * sc, a[1] * sc)
+        ctx.line_to(b[0] * sc, b[1] * sc)
+    ctx.set_source_rgba(*M.edge.rgb, M.edge.alpha)
+    ctx.set_line_width(M.edge.width)
+    ctx.set_line_join(cairo.LINE_JOIN_ROUND)
+    ctx.stroke()
+
+
+def _draw_models(ctx: cairo.Context, e: dict, s: Pt, c: Pt, end: Pt, p: float, rgb: tuple) -> None:
+    """v7.4.0 UF-900 R7a — 편대(count)·모델 모양(look). 순서: 그림자 전부(지면) → 비행운 전부 → 몸체 전부.
+    그림자·비행운은 look model 만. 착탄 링·인셋은 선두 표적 그대로(draw_flight)."""
+    M = F.model  # noqa: N806
+    look = e.get("look", "glyph")
+    kind = e["kind"]
+    offs = formation_offsets(e)
+    places = [_place(s, c, end, p, o) for o in offs]
+    if look == "model":
+        sc = _scale(kind, model_size(kind))
+        sh = M.shadow
+        for x, y, a in places:
+            ctx.save()
+            ctx.translate(x + sh.offset[0], y + sh.offset[1])
+            ctx.rotate(a)
+            _outline(ctx, kind, sc)
+            ctx.set_source_rgba(*sh.rgb, sh.alpha)
+            ctx.fill_preserve()
+            ctx.set_line_join(cairo.LINE_JOIN_ROUND)
+            for w, al in sh.soft:
+                ctx.set_source_rgba(*sh.rgb, al)
+                ctx.set_line_width(w)
+                ctx.stroke_preserve()
+            ctx.new_path()
+            ctx.restore()
+        CT = M.contrail  # noqa: N806
+        u0 = max(0.0, p - CT.length_px / max(_path_len(s, c, end), CT.length_px))
+        if u0 < p:
+            for o in offs:
+                trail = [_place(s, c, end, u0 + (p - u0) * i / CT.samples, o)[:2] for i in range(CT.samples + 1)]
+                g = cairo.LinearGradient(*trail[0], *trail[-1])
+                g.add_color_stop_rgba(0, *CT.rgb, 0)
+                g.add_color_stop_rgba(1, *CT.rgb, CT.alpha)
+                ctx.move_to(*trail[0])
+                for q in trail[1:]:
+                    ctx.line_to(*q)
+                ctx.set_source(g)
+                ctx.set_line_width(CT.width)
+                ctx.set_line_cap(cairo.LINE_CAP_BUTT)
+                ctx.stroke()
+    for x, y, a in places:
+        ctx.save()
+        ctx.translate(x, y)
+        ctx.rotate(a)
+        _model_body(ctx, kind, rgb, look, a)
+        ctx.restore()
 
 
 def inset_safe() -> tuple[float, float, float, float]:
@@ -220,15 +349,18 @@ def draw_flight(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict,
         ctx.set_source_rgba(*rgb[:3], ta)
         ctx.stroke()
         ctx.set_dash([])
-    # 3) 아이콘(진행 방향으로 회전)
+    # 3) 아이콘(진행 방향으로 회전). v7.4.0 UF-900 R7a — look model·편대는 _draw_models(glyph 1대 = 옛 경로 그대로)
     if 0 < p < 1:
-        x, y = bezier(s, c, end, p)
-        x2, y2 = bezier(s, c, end, min(1.0, p + F.heading_du))
-        ctx.save()
-        ctx.translate(x, y)
-        ctx.rotate(math.atan2(y2 - y, x2 - x) + math.pi / 2)
-        _icon(ctx, e["kind"], rgb)
-        ctx.restore()
+        if e.get("look", "glyph") == "model" or e.get("count", 1) > 1:
+            _draw_models(ctx, e, s, c, end, p, rgb)
+        else:
+            x, y = bezier(s, c, end, p)
+            x2, y2 = bezier(s, c, end, min(1.0, p + F.heading_du))
+            ctx.save()
+            ctx.translate(x, y)
+            ctx.rotate(math.atan2(y2 - y, x2 - x) + math.pi / 2)
+            _icon(ctx, e["kind"], rgb)
+            ctx.restore()
     # 4) 착탄 링 = boom 과 같은 링(새 모양 금지)
     if e.get("impact", True) and th <= t <= th + F.impact_sec:
         draw_boom(ctx, R, view, t, {"t0": th, "t1": th + F.impact_sec, "world": e["world"]})

@@ -1591,6 +1591,7 @@ class GeoThemes(_Strict):
     default: str
     dark: GeoTheme
     light: GeoTheme
+    slate: GeoTheme   # v7.4.0 UF-900·D903 — 무채색 슬레이트 양각 + 단색 바다 + 흰 국경 발광(레퍼런스 실측, R1)
 
     @model_validator(mode="after")
     def _default(self) -> "GeoThemes":
@@ -1600,7 +1601,7 @@ class GeoThemes(_Strict):
 
     @staticmethod
     def names() -> list[str]:
-        return ["dark", "light"]
+        return ["dark", "light", "slate"]
 
     def get(self, name: str) -> GeoTheme:
         if name not in self.names():
@@ -2752,13 +2753,17 @@ class FlightLine(_Strict):
     alpha: float = Field(ge=0, le=1)
 
 
+FlightKind = Literal["drone", "missile", "jet", "bomber", "fighter"]   # v7.4.0 UF-900 R7a — bomber·fighter 추가(engine.events.FlightEvent.kind 와 같은 목록)
+FlightSeg = tuple[tuple[float, float], tuple[float, float]]
+
+
 class FlightIcon(_Strict):
-    size_px: dict[Literal["drone", "missile", "jet"], float]
+    size_px: dict[FlightKind, float]
     halo: float = Field(ge=0)
     halo_alpha: float = Field(ge=0, le=1)
     body_line: FlightLine
-    shapes: dict[Literal["drone", "missile", "jet"], list[tuple[float, float]]]
-    body_lines: dict[Literal["drone", "missile", "jet"], list[tuple[tuple[float, float], tuple[float, float]]]] = Field(default_factory=dict)
+    shapes: dict[FlightKind, list[tuple[float, float]]]
+    body_lines: dict[FlightKind, list[FlightSeg]] = Field(default_factory=dict)
 
     @model_validator(mode="after")
     def _kinds(self) -> "FlightIcon":
@@ -2791,6 +2796,103 @@ class FlightInsetRules(_Strict):
     predict_keyframes: bool = False   # v7.4.0 D-0305 ② — 인셋 생애 전 구도에 맞는 자리를 미리 골라 처음부터 고정(옮김 0), 없을 때만 보간
 
 
+class FlagFillShade(_Strict):
+    """국기 × clip(base + gain·(f − 1), lo, hi) — f = 지형 휘도 ÷ 테마 평지색 휘도."""
+
+    base: float = Field(gt=0)
+    gain: float = Field(ge=0)
+    lo: float = Field(gt=0)
+    hi: float = Field(gt=0)
+
+    @model_validator(mode="after")
+    def _range(self) -> "FlagFillShade":
+        if not self.lo <= self.hi:
+            raise ValueError(f"flag_fill.shade lo ≤ hi: {self.lo}·{self.hi}")
+        return self
+
+
+class FlagFillOutline(_Strict):
+    rgb: RGB
+    width: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+    halo: list[tuple[float, float]] = Field(min_length=1)   # [선 폭, 알파] 바깥 → 안
+
+
+class FlagFillShadow(_Strict):
+    rgb: RGB
+    offset: tuple[float, float]
+    alpha: float = Field(gt=0, le=1)
+    soft: list[tuple[float, float]]   # 가장자리 [선 폭, 알파] 바깥 → 안
+
+
+class FlagFillInnerLight(_Strict):
+    offset: float = Field(gt=0)
+    alpha: float = Field(ge=0, le=1)
+
+
+class FlagFillRise(_Strict):
+    brightness_from: float = Field(gt=0, le=1)
+
+
+class FlagFillRules(_Strict):
+    """v7.4.0 UF-900 R2·UF-901(D904) — country 이벤트 국기 채움(engine/layers/flag_fill). 설계 px(480p)."""
+
+    shade: FlagFillShade
+    luma: tuple[float, float, float]
+    bbox_lod: Literal["coarse", "fine"]
+    outline: FlagFillOutline
+    shadow: FlagFillShadow
+    inner_light: FlagFillInnerLight
+    rise: FlagFillRise
+
+
+class FlightModelEdge(_Strict):
+    rgb: RGB
+    width: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+
+
+class FlightModelShadow(_Strict):
+    rgb: RGB
+    offset: tuple[float, float]   # 화면(설계 px) 오른쪽 아래 — 기체 회전과 무관
+    alpha: float = Field(gt=0, le=1)
+    soft: list[tuple[float, float]] = Field(default_factory=list)   # 가장자리 [선 폭, 알파] 바깥 → 안(흐림 없이 겹친 선)
+
+
+class FlightContrail(_Strict):
+    rgb: RGB
+    width: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+    length_px: float = Field(gt=0)
+    samples: int = Field(ge=2)
+
+
+class FlightModel(_Strict):
+    """v7.4.0 UF-900 R7a — look: model(위에서 본 작은 모델 기체). 설계 px(480p)."""
+
+    size_px: dict[FlightKind, float]
+    body_rgb: RGB
+    shade: float = Field(ge=0, lt=1)
+    edge: FlightModelEdge
+    lines: dict[FlightKind, list[FlightSeg]] = Field(default_factory=dict)
+    shadow: FlightModelShadow
+    contrail: FlightContrail
+
+
+class FlightSlot(_Strict):
+    lateral: float = Field(ge=0)   # 기체 크기 배수(옆)
+    back: float = Field(gt=0)      # 기체 크기 배수(뒤)
+
+
+class FlightFormation(_Strict):
+    """v7.4.0 UF-900 R7a — 편대 간격(선두 기준, 기체 크기 배수). 종류 = engine.events.FlightEvent.formation."""
+
+    max_count: int = Field(ge=2)
+    vee: FlightSlot
+    line: FlightSlot
+    echelon: FlightSlot
+
+
 class FlightRules(_Strict):
     """v7.3.0 back_and_forth D-0206 — 비행 이벤트(flight). 설계 px(480p). engine/layers/flight.py 만 읽는다."""
 
@@ -2802,7 +2904,15 @@ class FlightRules(_Strict):
     trail: FlightTrail
     origin: FlightOriginGlow
     icon: FlightIcon
+    model: FlightModel           # v7.4.0 UF-900 R7a
+    formation: FlightFormation   # v7.4.0 UF-900 R7a
     inset: FlightInsetRules
+
+    @model_validator(mode="after")
+    def _model_kinds(self) -> "FlightRules":
+        if not set(self.model.size_px) <= set(self.icon.shapes) or not set(self.model.lines) <= set(self.icon.shapes):
+            raise ValueError("flight.model: size_px·lines 의 종류는 icon.shapes 에 있어야 한다")
+        return self
 
 
 class BorderGlowRules(_Strict):
@@ -3984,6 +4094,7 @@ class VideoRules(_Strict):
     quote_center: QuoteCenterRules       # v5.3.1 — 인물 발언 중앙 인용(시안, valdai-2026 한정)
     flight: FlightRules                  # v7.3.0 — 비행·착탄·위성 인셋(D-0206)
     border_glow: BorderGlowRules         # v5.3.1 — 국경선 글로우(시안, direction stage_config.mercator.border_glow)
+    flag_fill: FlagFillRules             # v7.4.0 UF-900 R2·UF-901(D904) — country 국기 채움
     data: DataRules                # v4.3.0 — D-0084 작업 1
     genre_prompt: GenrePromptRules  # v4.4.0 — D-0090 작업 1
     bundle: BundleRules            # v3.5.0 — D-0063 작업 4

@@ -1,4 +1,4 @@
-"""국가 채움 강조 (v2.1.0, render3 `draw_country`)."""
+"""국가 채움 강조 (v2.1.0, render3 `draw_country`). fill flag = 국기 채움(v7.4.0 UF-900 R2, engine/layers/flag_fill)."""
 
 from __future__ import annotations
 
@@ -6,6 +6,7 @@ import cairo
 
 from engine.context import RenderCtx
 from engine.layers.borders import path_rings
+from engine.layers.flag_fill import draw_flag_fill
 from engine.projection import View
 from engine.stage import MERCATOR_LOD as LOD
 from engine.style import ELEM, map_c
@@ -13,6 +14,9 @@ from engine.timebase import window
 
 
 def draw_country(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
+    if e.get("fill") == "flag":   # v7.4.0 UF-900 R2 — 단색 채움 dict 에는 fill 칸이 없다(옛 모양, 아래 경로 바이트 동일)
+        draw_flag_fill(ctx, R, view, t, e)
+        return
     a = window(t, e["t0"], e["t1"], *ELEM["country"])   # v7.4.0 UF-159 ×1.5
     col = map_c(view.stage, e["col"])   # v5.18.0 D-0161 §3
     if a <= 0.01:

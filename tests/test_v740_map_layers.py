@@ -64,7 +64,7 @@ class GeoPklTest(unittest.TestCase):
 
 class LodRenderTest(unittest.TestCase):
     def test_roads_near_on_far_off(self) -> None:
-        for th in ("dark", "light"):
+        for th in ("dark", "light", "slate"):   # slate = v7.4.0 UF-900 R1
             self.assertGreater(_ink(th, 8.0, draw_roads), 0, th)
             self.assertEqual(_ink(th, 60.0, draw_roads), 0, th)
 
@@ -113,6 +113,8 @@ class ThemeTokenParityTest(unittest.TestCase):
         for k in ("roads.motorway", "roads.trunk", "roads.primary", "rivers.rgb"):
             self.assertIn(k, dk)
         self.assertEqual({k for k in dk if k.startswith(("roads", "rivers"))}, {k for k in lk if k.startswith(("roads", "rivers"))})
+        sk = keys(th.slate.map)   # v7.4.0 UF-900 R1 — slate 도 도로·강 키 집합이 같다
+        self.assertEqual({k for k in dk if k.startswith(("roads", "rivers"))}, {k for k in sk if k.startswith(("roads", "rivers"))})
 
 
 class CapitalAlwaysTest(unittest.TestCase):

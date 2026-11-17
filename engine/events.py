@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Annotated, ClassVar, Literal, Optional
 
-from pydantic import AfterValidator, BaseModel, ConfigDict, Field, model_validator
+from pydantic import AfterValidator, BaseModel, ConfigDict, Field, SerializerFunctionWrapHandler, model_serializer, model_validator
 
 import re
 
@@ -251,10 +251,10 @@ class FlightEvent(_Event):
     """v7.3.0 back_and_forth D-0206 — 출발 발광 → 비행(아이콘·점선 꼬리선) → 착탄 링(boom 과 같은 링) → 위성 인셋(선택).
     착탄 시각 = t0 + rules flight.dur_sec(코드 계산 — 연출은 쓰지 않는다, P8). 비행 시간은 거리와 무관(개략 표현)."""
 
-    DROP_NONE: ClassVar[tuple[str, ...]] = ("inset",)
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("inset", "formation")   # v7.4.0 UF-900 R7a — 편대 없으면 dict 옛 모양
 
     type: Literal["flight"]
-    kind: Literal["drone", "missile", "jet"]
+    kind: Literal["drone", "missile", "jet", "bomber", "fighter"]   # bomber·fighter = v7.4.0 UF-900 R7a(rules flight.icon.shapes)
     origin: FlightOrigin
     lon: float = Field(description="표적 경도")
     lat: float = Field(description="표적 위도")
@@ -264,10 +264,18 @@ class FlightEvent(_Event):
     # v7.4.0 back_and_forth D-0316 ① — 이 비행이 그리는 특정 타격의 원고 claim id(intake/claims.json, 원고 문장이 인용한 것).
     # 비행은 출처 있는 특정 타격에만 — 없으면 checks [flight-unsourced] hard. 총괄 문장 구간은 날짜 있는 마커로
     claim: Optional[str] = Field(default=None, min_length=1)
+    # v7.4.0 UF-900 R7a — 레퍼런스 실측(benchmark_wartech_2026-11-17.md §2.7). 기본값(glyph·1대·편대 없음)은 dict 에 남기지 않는다(옛 모양·조각 캐시 키 그대로)
+    look: Literal["glyph", "model"] = Field(default="glyph", description="model = 위에서 본 작은 회색 기체(그림자·비행운) — 폭격·공습 편대처럼 기체 자체를 보일 때. glyph = 색 부호(드론·미사일)")
+    count: int = Field(default=1, ge=1, description="함께 나는 기체 수(출처 있는 숫자 — claim 이 말하는 대수). 1 보다 크면 formation 필수. 상한 rules flight.formation.max_count")
+    formation: Optional[Literal["vee", "line", "echelon"]] = Field(default=None, description="count > 1 일 때만 — 편대 모양(개략, 측량 위치 아님)")
 
     @model_validator(mode="after")
     def _long_enough(self) -> "FlightEvent":
         F = load_rules().flight  # noqa: N806
+        if self.count > F.formation.max_count:
+            raise ValueError(f"[flight-count] count {self.count} > rules flight.formation.max_count {F.formation.max_count}")
+        if (self.count > 1) != (self.formation is not None):
+            raise ValueError(f"[flight-formation] count {self.count} — count > 1 이면 formation(vee·line·echelon)이 필요하고, 1 대면 formation 을 쓰지 않는다")
         if self.inset is not None and self.inset.hold_until is not None and self.inset.hold_until > self.t1:
             raise ValueError(f"[flight-inset-hold] inset.hold_until {self.inset.hold_until:.2f} > 이벤트 t1 {self.t1:.2f} — end 를 hold_until 뒤로")
         need = F.dur_sec + F.impact_sec + (F.inset.hold_sec if self.inset else 0.0)
@@ -276,12 +284,49 @@ class FlightEvent(_Event):
                              f"{f' + 인셋 {F.inset.hold_sec}' if self.inset else ''} = {need:.2f}초 (잘라 그리지 않는다, P6)")
         return self
 
+    @model_serializer(mode="wrap")
+    def _dump(self, handler: SerializerFunctionWrapHandler) -> dict:
+        d = handler(self)
+        if d.get("look") == "glyph":   # v7.4.0 UF-900 R7a — 기본값 칸은 dict 에서 뺀다(옛 비행 dict·렌더·조각 캐시 키 무변경)
+            d.pop("look")
+        if d.get("count") == 1:
+            d.pop("count")
+        return d
+
 
 class CountryEvent(_Event):
+    """국가 강조. fill color = 단색 채움(col·a), fill flag = 국기 채움(v7.4.0 UF-900 R2 — 국기를 나라 외곽 상자에 늘려 나라 모양으로 자르고
+    지형을 비치게, 흰 윤곽·들뜸 그림자. 수치 = rules flag_fill). 분쟁 지역도 국기 채움 가능(사용자 결정 UF-901 — 막는 검사 없음)."""
+
+    DROP_NONE: ClassVar[tuple[str, ...]] = ("col", "a", "flag")   # 단색 채움 dict = 옛 모양(국기 칸 없음), 국기 채움 dict 엔 col·a 없음
+
     type: Literal["country"]
     codes: list[str] = Field(min_length=1)
-    col: ColorName
-    a: float = Field(ge=0, le=1)
+    fill: Literal["color", "flag"] = Field(default="color", description="flag = 문장이 말하는 그 나라를 국기로 채워 강조(한 화면 두세 나라까지, col·a 안 씀)")
+    col: Optional[ColorName] = Field(default=None, description="fill color 이면 필수")
+    a: Optional[float] = Field(default=None, ge=0, le=1, description="fill color 이면 필수")
+    flag: Optional[str] = Field(default=None, min_length=1, description="fill flag 이면 필수 — 국기 자산 이름(예 ir = assets/flags/ir_4x3.png). codes 가 여럿이면 그 합집합을 한 국기로")
+
+    @model_validator(mode="after")
+    def _fill(self) -> "CountryEvent":
+        if self.fill == "flag":
+            if self.flag is None:
+                raise ValueError("country fill flag: flag(국기 자산 이름)가 필요하다")
+            if self.col is not None or self.a is not None:
+                raise ValueError("country fill flag: col·a 를 쓰지 않는다(국기 색·불투명 — rules flag_fill)")
+        else:
+            if self.col is None or self.a is None:
+                raise ValueError("country fill color: col·a 가 필요하다")
+            if self.flag is not None:
+                raise ValueError("country fill color: flag 를 쓰지 않는다 — 국기 채움은 fill: flag")
+        return self
+
+    @model_serializer(mode="wrap")
+    def _dump(self, handler: SerializerFunctionWrapHandler) -> dict:
+        d = handler(self)
+        if d.get("fill") == "color":   # 단색 채움 dict = v7.4.0 R2 이전과 같은 모양(렌더·조각 캐시 키 무변경)
+            d.pop("fill")
+        return d
 
 
 class BadgeEvent(_Event):

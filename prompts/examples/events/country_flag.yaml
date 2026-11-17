@@ -1,0 +1,14 @@
+# 요소 예시 (v7.4.0 UF-900 R2·UF-901(D904)) — country fill flag: 문장이 말하는 나라를 국기로 채워 강조(지형 비침·흰 윤곽·들뜸, 수치 rules flag_fill).
+# prompts/examples/events/country_flag.yaml 과 tests/fixtures/preview/country_flag.yaml 은 같은 내용이다(tests/test_v740_flag_fill.py).
+# col·a 는 쓰지 않는다. flag = 국기 자산 이름(assets/flags/<flag>_4x3.png). codes 가 여럿이면 그 합집합을 한 국기로. 시각은 country.yaml 과 같은 hormuz_korea 순간.
+schema_version: 1
+key: country_flag
+source: benchmark_wartech_2026-11-17.md §2.3·§2.7 (레퍼런스 국기 채움)
+event:
+  type: country
+  t0: 49.3
+  t1: 69.21
+  codes:
+  - IR
+  fill: flag
+  flag: ir
