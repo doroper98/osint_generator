@@ -552,11 +552,10 @@ entries:
   quote_kind: summary
   category: 작업 순서 — 콘티 판 의무
   guards:
-  - kind: code
-    ref: orchestrator.project_manager.require_animatic
-  - kind: test
-    ref: tests/test_gates_pipeline.py::AnimaticGateTest::test_missing_animatic_blocks_gate2
+  - {kind: test, ref: tests/test_gates_pipeline.py::PreviewGateTest::test_gate2_needs_no_animatic}
+  - {kind: test, ref: tests/anti_inertia/test_no_animatic_stage.py::NoAnimaticStageTest::test_w0_lists_no_animatic_step}
   status: guarded
+  superseded_by: UF-914
   decision: D97 · D101 · C8.6
   source: DECISIONS D97
 - id: UF-39
@@ -694,11 +693,10 @@ entries:
   quote_kind: verbatim
   category: 작업 순서 — 콘티 판 건너뜀
   guards:
-  - kind: code
-    ref: orchestrator.project_manager.require_animatic
-  - kind: test
-    ref: tests/test_gates_pipeline.py::AnimaticGateTest::test_missing_animatic_blocks_gate2
+  - {kind: test, ref: tests/test_gates_pipeline.py::PreviewGateTest::test_gate2_needs_no_animatic}
+  - {kind: test, ref: tests/anti_inertia/test_no_animatic_stage.py::NoAnimaticStageTest::test_w0_lists_no_animatic_step}
   status: guarded
+  superseded_by: UF-914
   recurs_of: UF-38
   decision: PIPELINE-AP-014
   source: PIPELINE-AP-014
@@ -1015,11 +1013,9 @@ entries:
   quote_kind: verbatim
   category: 작업 순서 — 자막 먼저
   guards:
-  - kind: code
-    ref: orchestrator.project_manager.require_animatic
-  - kind: test
-    ref: tests/test_gates_pipeline.py::AnimaticGateTest::test_script_changed_after_approval_blocks_gate2
+  - {kind: test, ref: tests/anti_inertia/test_no_animatic_stage.py::NoAnimaticStageTest::test_w0_does_not_wait_for_user_script_approval}
   status: guarded
+  superseded_by: UF-915
   decision: D120 ② · D125 · PIPELINE-AP-015 · C8.6
   source: PIPELINE-AP-015 · DECISIONS D120·D125
 - id: UF-69
@@ -1763,8 +1759,8 @@ entries:
   quote_kind: verbatim
   category: 원고 — 콜드 오픈 문장(사용자 개고본 채택, 장면 묘사 한 구절 + 사실 + 양측 + 연결)
   guards:
-  - {kind: code, ref: orchestrator.project_manager.require_animatic}
-  - {kind: test, ref: tests/test_gates_pipeline.py::AnimaticGateTest::test_script_changed_after_approval_blocks_gate2}
+  - {kind: code, ref: orchestrator.project_manager.require_preview}
+  - {kind: test, ref: tests/test_gates_pipeline.py::PreviewGateTest::test_script_changed_after_approval_blocks_gate2}
   status: guarded
   decision: "감독 기록 — 사용자 개고본을 cold 장면으로 채택. 보정 2건: 거리 '약 300km' 는 가제티어 좌표 계산 184km 라 '약 200km'(지리 사실), 표기는 외래어 표기법 '랴잔'. 'xxx' 자리는 UF-117 방침(보도 귀속은 크레딧)으로 비운다. 장치 = 원고 지문 대조(게이트 ① 승인 기록)로 충분, 별도 장치 없음"
   source: 감독 세션(Fable) 사용자 대화 2026-10-18
@@ -3073,7 +3069,13 @@ entries:
   quote: "콘티 단계 없애. 그냥 바로 영상 제작으로 간다. 규칙으로 적용해."
   quote_kind: verbatim
   category: 작업 순서 — 콘티 판(animatic) 단계 폐지. 원고 승인 뒤 콘티 판을 만들어 보내고 검토받는 단계 없이 바로 영상 제작(프리뷰 → 전편)으로 간다
-  status: open
+  guards:
+  - {kind: doc, ref: "CLAUDE.md#콘티 판(animatic)을 만들어 사용자에게 보내 흐름 검토를 받는 단계는 폐지됐다"}
+  - {kind: code, ref: orchestrator.project_manager.require_preview}
+  - {kind: test, ref: tests/test_gates_pipeline.py::PreviewGateTest::test_gate2_needs_no_animatic}
+  - {kind: test, ref: tests/anti_inertia/test_no_animatic_stage.py::NoAnimaticStageTest::test_no_animatic_gate_symbols_in_orchestrator}
+  - {kind: test, ref: tests/anti_inertia/test_no_animatic_stage.py::NoAnimaticStageTest::test_w0_lists_no_animatic_step}
+  status: guarded
   decision: "D932 — 수용(사용자 결정이 옛 결정 UF-38·UF-47·PIPELINE-AP-014 의 콘티 판 의무를 대체). 콘티 판 제작·전달·흐름 검토 단계와 게이트 ② 의 콘티 판 요구(require_animatic)를 없앤다. 원고 승인(게이트 ①)과 프리뷰 승인(게이트 ②)은 남는다 — 사용자가 없애라고 한 것은 콘티 단계다"
   source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17
 - id: UF-915
@@ -3083,6 +3085,9 @@ entries:
   quote: "원고 승인도 없앤다"
   quote_kind: verbatim
   category: 작업 순서 — 사용자 원고(자막) 승인 단계 폐지. 지시 뒤 원고 확인 없이 완성 영상까지 바로 간다(사용자에게 원고를 보내 승인을 기다리지 않는다)
-  status: open
+  guards:
+  - {kind: doc, ref: "CLAUDE.md#사용자에게 원고를 보내 승인을 기다리지 않는다"}
+  - {kind: test, ref: tests/anti_inertia/test_no_animatic_stage.py::NoAnimaticStageTest::test_w0_does_not_wait_for_user_script_approval}
+  status: guarded
   decision: "D933 — 수용(사용자 결정이 옛 결정 UF-68·PIPELINE-AP-015 의 '자막 점검 요청' 을 대체). 게이트 ① 은 상태·기록으로 남되 사용자에게 묻지 않고 세션이 린트·출처·미디어 계획 확인 뒤 스스로 기록한다. 게이트 ② 도 감독이 프리뷰를 보고 승인한다. 사용자는 완성 영상을 받는다"
   source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17(선택지 답)

@@ -1,6 +1,6 @@
 """사용자 의견 점검표(v7.4.0 back_and_forth D-1000 S4-2 — 감독이 "표만 보고 통과"하지 못하게, LLM-AP-023).
 
-    python tools/uf_checklist.py projects/<pid> [--src animatic|final|preview]
+    python tools/uf_checklist.py projects/<pid> [--src preview|final|animatic]
 
 `rules/user_feedback.yaml` 의 의견 전부를 out/uf_checklist.md 한 표로:
 - 장치가 본 엔진 검사(check)면 이번 산출의 provenance `user_feedback_guards` 결과(pass = 0건, fail = 건수, skipped, 미실행).
@@ -96,7 +96,7 @@ def build(proj: Path, src: str) -> tuple[str, dict]:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="사용자 의견 점검표(D-1000 S4)")
     ap.add_argument("proj", type=Path)
-    ap.add_argument("--src", choices=list(PROV), default="animatic")
+    ap.add_argument("--src", choices=list(PROV), default="preview")   # v7.4.0 UF-914 — 콘티 판 단계 폐지: 게이트 ② 앞 산출 = 프리뷰
     args = ap.parse_args(argv)
     proj = args.proj.resolve()
     with stage_timer(proj, "review.uf_checklist", src=args.src):

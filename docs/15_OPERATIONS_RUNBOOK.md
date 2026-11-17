@@ -17,7 +17,7 @@ last_review: 2026-09-29
 | 다음 단계 진행 | `python -m orchestrator.main advance --project {pid}` (엔진 상태는 engine_service 로 CLI 실행) |
 | 게이트 화면 | `python -m orchestrator.main gate-view --project {pid}` |
 | 승인·반려 | `python -m orchestrator.main approve --project {pid} --gate script_approval\|preview_approval --comment "..." [--version N]` / `reject …` |
-| 콘티 판(흐름 검토, v4.9.0 — **필수**, v5.2.0) | `python -m audio.mix projects/{pid}` → `python -m engine.render projects/{pid} --animatic` → `out/animatic.mp4` 를 사용자에게 보내 흐름 검토 (WORKFLOWS W0 — 배포 금지, deliver 가 거부. 기록이 없으면 게이트 ② 승인 거부, PIPELINE-AP-014) |
+| 제작 순서 (v7.4.0 UF-914·UF-915 — 콘티 판 단계·사용자 원고 승인 폐지) | 원고 → 게이트 ①(세션이 `approve --gate script_approval` 로 스스로 기록 — 사용자에게 묻지 않음) → 음성 → 연출 → `python -m audio.mix projects/{pid}` → `python -m engine.render projects/{pid} --preview auto`(hard 0) → 게이트 ②(감독이 프리뷰를 보고 승인 — 사용자에게 묻지 않음, 프리뷰 기록 없으면 거부) → 전편 → 사용자에게 완성 영상 전달 (WORKFLOWS W0). 콘티 판(`--animatic`)은 선택 렌더 모드일 뿐 단계가 아니다 |
 | 단일 Worker 실행 | `python -m workers.{worker_name} --project-id {pid} --task-id {tid}` |
 | 로그 확인 | `logs/orchestrator.log`, `projects/{pid}/logs/workers/{task_id}.log` |
 

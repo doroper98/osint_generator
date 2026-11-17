@@ -46,16 +46,16 @@ def fake_runner(fail: str | None = None, drops: bool = False, log: list | None =
     return run
 
 
-def write_animatic(pdir: Path, total_sec: float = 292.44, animatic: bool = True) -> None:
-    """게이트 ② 시험용 콘티 판 기록(engine.render --animatic 이 남기는 provenance 의 최소 필드)."""
-    (pdir / "out").mkdir(parents=True, exist_ok=True)
-    import hashlib  # noqa: PLC0415
+def write_preview(pdir: Path, total_sec: float = 292.44, hard: int = 0, direction_sha1: str | None = "current") -> None:
+    """게이트 ② 시험용 프리뷰 기록(engine.render --preview 가 남기는 prev/provenance.json 의 최소 필드, v7.4.0 UF-914).
+    direction_sha1="current" = 지금 direction.yaml 지문(engine.provenance.direction_sha1 — 프리뷰와 같은 함수)."""
+    from engine.provenance import direction_sha1 as dsha  # noqa: PLC0415
 
-    sp = pdir / "script.yaml"   # v5.6.0 — 콘티 판을 만든 원고 지문(게이트 ① 승인 원고와 대조)
-    sha = hashlib.sha1(sp.read_bytes()).hexdigest() if sp.exists() else None
-    prov = {"animatic": animatic, "total_sec": total_sec,
-            "animatic_run": {"output": "out/animatic.mp4", "direction_sha1": "0" * 40, "script_sha1": sha} if animatic else None}
-    (pdir / "out" / "animatic_provenance.json").write_text(json.dumps(prov), encoding="utf-8")
+    (pdir / "prev").mkdir(parents=True, exist_ok=True)
+    d = dsha(pdir) if direction_sha1 == "current" else direction_sha1
+    prov = {"total_sec": total_sec, "preview": {"frames": 25, "times": [1.0], "dir": "prev", "direction_sha1": d},
+            "checks": {"hard": hard, "warnings": 0, "passed": hard == 0}}
+    (pdir / "prev" / "provenance.json").write_text(json.dumps(prov), encoding="utf-8")
 
 
 def _v550_script(src: Path, dst: Path) -> None:
@@ -97,7 +97,7 @@ class _Proj(unittest.TestCase):
         _v550_script(REPO / "projects" / "hormuz_korea" / "script.yaml", self.root / "p" / "script.yaml")
         shutil.copytree(REPO / "projects" / "hormuz_korea" / "intake", self.root / "p" / "intake")   # v3.2.0 — claims.json(18 §7 게이트 ① 전 검사)
         write_media_notes(self.root / "p")   # v5.19.0 — 게이트 ① 미디어 계획 표(D-0163 §2)
-        write_animatic(self.root / "p")   # v5.2.0 — 게이트 ② 는 콘티 판 의무(PIPELINE-AP-014)
+        write_preview(self.root / "p")   # v7.4.0 UF-914 — 게이트 ② 근거 = 프리뷰 기록(콘티 판 단계 폐지)
         # v5.22.0 D-0200 — 게이트 ② 는 사용자 의견 원장도 본다. 이 시험은 원장 상태와 무관하게(모두 보호된 원장) — 원장 차단은 test_feedback_gate
         led = self.root / "user_feedback.yaml"
         led.write_text("schema_version: 1\nentries:\n- {id: UF-01, date: '2026-10-11', project: p, at: t, quote: q, category: c, "
@@ -195,6 +195,7 @@ class PipelineTest(_Proj):
         self.assertEqual(m.current_state, "preview_approval")
         with self.assertRaises(PipelineError):
             advance("p", self.cfg, runner=fake_runner())
+        write_preview(self.root / "p")   # 지금 연출로 만든 프리뷰 기록(가짜 러너는 prev/ 를 쓰지 않는다)
         approve_gate(m, "preview_approval", by="t", cfg=self.cfg)
         for _ in range(3):   # render → audio_mix → deliver → done
             m, _ = advance("p", self.cfg, runner=fake_runner(log=log))
@@ -247,7 +248,7 @@ class GateViewTest(_Proj):
     def test_preview_gate_view_reads_prev(self) -> None:
         from orchestrator.gate_view import gate_view  # noqa: PLC0415
         prev = self.root / "p" / "prev"
-        prev.mkdir()
+        prev.mkdir(exist_ok=True)
         (prev / "sheet.jpg").write_bytes(b"x")
         (prev / "p_0001.00.png").write_bytes(b"x")
         (prev / "provenance.json").write_text(json.dumps({"stages": {"preview": True, "render": False},
@@ -357,10 +358,11 @@ class ChosenVersionTest(_Proj):
         from orchestrator.gate_view import preview_gate_view  # noqa: PLC0415
 
         pdir = self.root / "p"
-        (pdir / "prev").mkdir()
+        (pdir / "prev").mkdir(exist_ok=True)
         for n in (1, 2):
             (pdir / f"direction.v{n}.yaml").write_text(f"v: {n}\n", encoding="utf-8")
         (pdir / "direction.yaml").write_text("v: 2\n", encoding="utf-8")
+        write_preview(pdir)   # 게이트 ② 근거 — 지금 연출(v2)로 만든 프리뷰
         rec = QALoopRecord(rounds=[QALoopRound(version=n, checks_hard=0, checks_file="", sheet=f"sheet.v{n}.jpg") for n in (1, 2)])
         (pdir / "prev" / "qa_loop.json").write_text(rec.model_dump_json(), encoding="utf-8")
         text, shown = preview_gate_view(pdir)
@@ -379,52 +381,64 @@ class ChosenVersionTest(_Proj):
 
 
 @pytest.mark.slow   # C8.3(D187) — 느린 묶음(빠른 묶음 -m "not slow" 밖)
-class AnimaticGateTest(_Proj):
-    """PIPELINE-AP-014 — 콘티 판 없이 게이트 ② 승인 불가(우회 플래그 없음, 사용자 결정 2026-10-01)."""
+class PreviewGateTest(_Proj):
+    """v7.4.0 사용자 결정 UF-914 "콘티 단계 없애. 그냥 바로 영상 제작으로 간다" — 게이트 ② 는 콘티 판을 요구하지 않고
+    현재 원고(게이트 ① 승인 지문)·연출·음성으로 만든 hard 0 프리뷰 기록을 요구한다(우회 플래그 없음)."""
 
     def _to_gate2(self) -> None:
         self.to_gate1()
         self.m = approve_gate(self.m, "script_approval", by="t", cfg=self.cfg)
         self.to(S.ASSETS, S.DIRECTION, S.PREVIEW_QA, S.PREVIEW_APPROVAL)
 
-    def test_missing_animatic_blocks_gate2(self) -> None:
-        from orchestrator.project_manager import AnimaticMissingError  # noqa: PLC0415
+    def test_gate2_needs_no_animatic(self) -> None:
+        self._to_gate2()
+        pdir = self.root / "p"
+        (pdir / "out").mkdir(exist_ok=True)   # 구현 트리(out/ 있음) — 콘티 판 기록은 없다
+        self.assertFalse((pdir / "out" / "animatic_provenance.json").exists())
+        m = approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg)
+        self.assertEqual(m.current_state, "render")
+        shown = m.gate_decisions[-1].shown
+        self.assertNotIn("animatic", shown)
+        self.assertIn("p/prev · 25컷", shown["preview"])
+
+    def test_missing_preview_blocks_gate2(self) -> None:
+        from orchestrator.project_manager import PreviewRecordError  # noqa: PLC0415
 
         self._to_gate2()
-        (self.root / "p" / "out" / "animatic_provenance.json").unlink()
-        with self.assertRaises(AnimaticMissingError) as ctx:
+        pdir = self.root / "p"
+        (pdir / "out").mkdir(exist_ok=True)   # 구현 트리 — packet 이 아니라 prev/ 로 판정
+        (pdir / "prev" / "provenance.json").unlink()
+        with self.assertRaises(PreviewRecordError) as ctx:
             approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg)
-        self.assertIn("--animatic", str(ctx.exception))
+        self.assertIn("--preview", str(ctx.exception))
+        write_preview(pdir, hard=2)   # hard 가 남은 프리뷰도 거부
+        with self.assertRaisesRegex(PreviewRecordError, "hard 2"):
+            approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg)
         self.assertEqual(self.m.current_state, "preview_approval")
 
-    def test_unfinished_animatic_blocks_gate2(self) -> None:
-        from orchestrator.project_manager import AnimaticMissingError  # noqa: PLC0415
-
-        self._to_gate2()
-        write_animatic(self.root / "p", animatic=False)
-        with self.assertRaises(AnimaticMissingError):
-            approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg)
-
     def test_script_changed_after_approval_blocks_gate2(self) -> None:
-        """v5.6.0 사용자 결정 2026-10-04 — 자막(원고) → 콘티 → 승인 후 본편. 승인 뒤 원고를 고치고 옛 콘티 판으로 게이트 ② 불가(PIPELINE-AP-015)."""
-        from orchestrator.project_manager import AnimaticMissingError  # noqa: PLC0415
+        """PIPELINE-AP-015 원고 절반 — 게이트 ① 승인 뒤 원고를 고치면 다시 게이트 ① (프리뷰가 새 것이어도)."""
+        from orchestrator.project_manager import PreviewRecordError  # noqa: PLC0415
 
         self._to_gate2()
         sp = self.root / "p" / "script.yaml"
         sp.write_text(sp.read_text(encoding="utf-8") + "\n# 승인 뒤 수정\n", encoding="utf-8")
-        write_animatic(self.root / "p", total_sec=300.02)   # 고친 원고로 만든 콘티 판 — 승인 원고와 지문이 다르다
-        with self.assertRaises(AnimaticMissingError):
+        write_preview(self.root / "p")
+        with self.assertRaisesRegex(PreviewRecordError, "게이트 ①"):
             approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg)
 
-    def test_stale_voice_blocks_gate2(self) -> None:
-        from orchestrator.project_manager import AnimaticMissingError  # noqa: PLC0415
+    def test_stale_direction_blocks_gate2(self) -> None:
+        from orchestrator.project_manager import PreviewRecordError  # noqa: PLC0415
 
         self._to_gate2()
-        (self.root / "p" / "plan.json").write_text(json.dumps({"total": 300.0}), encoding="utf-8")
-        with self.assertRaises(AnimaticMissingError) as ctx:
+        pdir = self.root / "p"
+        (pdir / "direction.yaml").write_text("events: []\n", encoding="utf-8")   # 프리뷰 뒤 연출을 바꿨다
+        with self.assertRaisesRegex(PreviewRecordError, "옛 연출"):
             approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg)
-        self.assertIn("옛 음성", str(ctx.exception))
-        write_animatic(self.root / "p", total_sec=300.02)
-        m = approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg)
-        self.assertEqual(m.current_state, "render")
-        self.assertIn("out/animatic.mp4", m.gate_decisions[-1].shown["animatic"])
+        write_preview(pdir)
+        (pdir / "plan.json").write_text(json.dumps({"total": 300.0}), encoding="utf-8")   # 프리뷰 뒤 음성을 다시 만들었다
+        with self.assertRaisesRegex(PreviewRecordError, "옛 음성"):
+            approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg)
+        write_preview(pdir, total_sec=300.02)
+        self.assertEqual(approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg).current_state, "render")
+

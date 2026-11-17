@@ -92,6 +92,21 @@ class UserFeedbackGuardsTest(unittest.TestCase):
                and e.project not in ("sketch",) and not e.category.startswith("스케치")]
         self.assertEqual(bad, [])
 
+    def test_superseded_entries_point_at_superseding_guards(self) -> None:
+        """v7.4.0 UF-914·UF-915 — 사용자의 나중 결정이 대체한 의견(superseded_by)은 원문을 그대로 두고, 장치는 대체한 결정의 장치만 가리킨다
+        (옛 의견을 강제하는 장치가 남아 새 결정과 싸우지 않게). 대체한 쪽은 guarded 여야 한다."""
+        by_id = {e.id: e for e in self.led.entries}
+        sup = [e for e in self.led.entries if e.superseded_by]
+        self.assertTrue(sup, "superseded_by 항목이 하나도 없다 — UF-38·UF-47·UF-68 은 UF-914·UF-915 로 대체됐다")
+        for e in sup:
+            new = by_id[e.superseded_by]
+            self.assertEqual(new.status, "guarded", f"{e.id} 를 대체한 {new.id} 에 장치가 없다")
+            mine = {(g.kind, g.ref) for g in e.guards}
+            theirs = {(g.kind, g.ref) for g in new.guards}
+            self.assertTrue(mine and mine <= theirs, f"{e.id}: 대체된 의견의 장치는 {new.id} 의 장치 안에 있어야 한다 — 밖: {sorted(mine - theirs)}")
+        self.assertEqual({e.id: e.superseded_by for e in sup if e.id in ("UF-38", "UF-47", "UF-68")},
+                         {"UF-38": "UF-914", "UF-47": "UF-914", "UF-68": "UF-915"})
+
     def test_doc_guards_only_for_process_items(self) -> None:
         """doc 장치는 프로세스 항목(분류에 '작업 순서'·'전달')만, 그리고 doc 하나만으로 보호하지 않는 항목은 다른 장치도 둔다."""
         bad = [e.id for e in self.led.entries if any(g.kind == "doc" for g in e.guards)

@@ -36,6 +36,7 @@ class FeedbackEntry(BaseModel):
     guards: list[FeedbackGuard] = Field(default_factory=list)
     status: Literal["open", "guarded"]
     recurs_of: Optional[str] = None                        # 재발이면 원래 번호
+    superseded_by: Optional[str] = None                    # v7.4.0 UF-914 — 사용자의 나중 결정이 이 의견을 대체했으면 그 번호(뒤 번호). 원문은 고치지 않는다
     decision: str = Field(min_length=1)                    # D 번호·AP 번호
     source: Optional[str] = None                           # 소급 항목의 출처(DECISIONS 행·AP)
 
@@ -45,6 +46,8 @@ class FeedbackEntry(BaseModel):
             raise ValueError(f"{self.id}: 번호는 UF-NN")
         if self.recurs_of is not None and not UF_ID.match(self.recurs_of):
             raise ValueError(f"{self.id}: recurs_of 는 UF-NN")
+        if self.superseded_by is not None and not UF_ID.match(self.superseded_by):
+            raise ValueError(f"{self.id}: superseded_by 는 UF-NN")
         if (self.status == "guarded") != bool(self.guards):
             raise ValueError(f"{self.id}: status guarded ⇔ 장치 1개 이상(장치 없음 = open)")
         return self
@@ -68,6 +71,8 @@ class FeedbackLedger(BaseModel):
         for e in self.entries:
             if e.recurs_of is not None and (e.recurs_of not in known or int(e.recurs_of[3:]) >= int(e.id[3:])):
                 raise ValueError(f"{e.id}: recurs_of {e.recurs_of} 는 앞선 원장 번호여야 한다")
+            if e.superseded_by is not None and (e.superseded_by not in known or int(e.superseded_by[3:]) <= int(e.id[3:])):
+                raise ValueError(f"{e.id}: superseded_by {e.superseded_by} 는 뒤 원장 번호여야 한다(나중 결정이 앞 의견을 대체)")
         return self
 
     def open_entries(self) -> list[FeedbackEntry]:

@@ -17,7 +17,7 @@ MEASURED_SLOW = [   # (모듈, 클래스) — 실측 25초 이상
     ("tests.test_gates_pipeline", "CliTest"),
     ("tests.test_gates_pipeline", "CommandCenterKeysTest"),
     ("tests.test_gates_pipeline", "GateTest"),
-    ("tests.test_gates_pipeline", "AnimaticGateTest"),
+    ("tests.test_gates_pipeline", "PreviewGateTest"),
     ("tests.test_v3_claims_migration", "V3ClaimsMigrationTest"),
     ("tests.anti_inertia.test_q3_light_e2e", "LightE2ETest"),
     ("tests.anti_inertia.test_provenance_e2e", "ProvenanceE2ETest"),

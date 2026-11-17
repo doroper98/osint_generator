@@ -392,7 +392,7 @@ def rollback(
     cfg: Optional[AppConfig] = None,
 ) -> ProjectManifest:
     """게이트 ① 승인 뒤 원고 사실 수정 → script_draft(v7.4.0 back_and_forth D-0237, D246). 사유 필수, manifest.rollbacks 에
-    사유·되돌리는 시점의 원고 지문. 그 뒤 게이트 ① 을 다시 승인해야 콘티 판·게이트 ② 가 통과한다(approved_script_sha1 대조)."""
+    사유·되돌리는 시점의 원고 지문. 그 뒤 게이트 ① 을 다시 승인해야 게이트 ② 가 통과한다(approved_script_sha1 ↔ 현재 원고 대조, require_preview)."""
     cfg = cfg or load_config()
     tgt = coerce(to)
     validate_script_fix_rollback(manifest.current_state, tgt)
@@ -438,12 +438,12 @@ def approve_gate(
     assert nxt is not None
     if (shown or {}).get("lint_crash"):   # v7.4.0 감독 D621 ④(PIPELINE-AP-027) — 린트가 결과 없이 죽었으면 개수 대신 기록 거부(우회 플래그 없음)
         raise ValueError(f"린트 실행 실패 — 승인 기록 거부: {shown['lint_crash']} (환경을 고치고 gate-view 로 린트 결과를 다시 본다)")
-    if g == ProjectState.SCRIPT_APPROVAL:   # v5.6.0 — 승인한 원고의 지문(콘티 판이 이 원고로 만들어졌는지 게이트 ② 에서 대조)
+    if g == ProjectState.SCRIPT_APPROVAL:   # v5.6.0 — 승인한 원고의 지문(게이트 ② 에서 현재 원고와 대조 — 승인 뒤 고친 원고 거부)
         pdir = project_dir(manifest.project_id, cfg)
         shown = {**(shown or {}), "script_sha1": script_sha1(pdir),
                  "media_plan": require_script_gate(pdir)}   # v5.19.0 D-0163 §2 — 사진 목표 미달 = 문장 단위 사유 필수(P6). v7.4.0 D-0355 out/ 없으면 gate packet
-    if g == ProjectState.PREVIEW_APPROVAL:   # 콘티 판 의무(WORKFLOWS W0, PIPELINE-AP-014) — 건너뛰면 게이트 ② 승인 불가
-        shown = {**(shown or {}), "animatic": require_animatic(project_dir(manifest.project_id, cfg), approved_script_sha1(manifest)),
+    if g == ProjectState.PREVIEW_APPROVAL:   # v7.4.0 UF-914 — 콘티 판 단계 폐지. 게이트 ② 근거 = 현재 원고·연출·음성으로 만든 프리뷰 기록
+        shown = {**(shown or {}), "preview": require_preview(project_dir(manifest.project_id, cfg), approved_script_sha1(manifest)),
                  "user_feedback": require_feedback_guards(project=manifest.project_id),   # v7.0.0 D217·D218 — 이 영상 의견 open = 경고, 앞선 영상 의견 open = 거부
                  "asset_library": require_asset_library(project_dir(manifest.project_id, cfg))}   # v5.22.4 UF-69(C8.7)
     if chosen_version is not None:
@@ -476,11 +476,12 @@ def require_media_plan(pdir: Path) -> str:
     return f"사진 {t.photo_selected}/{t.photo_target} · 기사 후보 {t.article_candidates}문장 · {t.total_sec:.0f}초({t.total_source})"
 
 
-class AnimaticMissingError(ValueError):
-    """게이트 ② 승인 전에 현재 음성 타임라인의 콘티 판(out/animatic.mp4)이 없다."""
+class PreviewRecordError(ValueError):
+    """게이트 ② 승인 근거(프리뷰 기록 prev/provenance.json)가 없거나 현재 원고·연출·음성과 맞지 않는다(v7.4.0 UF-914). 우회 플래그 없음."""
 
 
-ANIMATIC_TOTAL_TOL_SEC = 0.05   # 콘티 판 total_sec ↔ plan.json total 허용 차(같은 음성 타임라인인지)
+PREVIEW_TOTAL_TOL_SEC = 0.05   # 프리뷰 기록 total_sec ↔ plan.json total 허용 차(같은 음성 타임라인인지)
+PREVIEW_PROV = Path("prev") / "provenance.json"   # 프리뷰(engine.render --preview)가 남기는 기록 — 게이트 ② 근거
 
 
 def script_sha1(pdir: Path) -> str:
@@ -507,7 +508,7 @@ def require_asset_library(pdir: Path) -> str:
     사용자 결정(2026-10-04) "제작한 자산은 공용 자산으로 보관해 다음 영상에서 다시 만들지 않는다"(PIPELINE-AP-016)."""
     from tools.asset_library import pending  # noqa: PLC0415
 
-    if uses_gate_packet(pdir):   # v7.4.0 D-0355 — 감독 작업 트리(out/·assets 미추적 없음): 만든 때 같은 판정 결과를 packet 에서
+    if preview_uses_gate_packet(pdir):   # v7.4.0 D-0355 — 감독 작업 트리(out/·prev/·assets 미추적 없음): 만든 때 같은 판정 결과를 packet 에서
         pv = load_gate_packet(pdir).preview
         if pv is None:
             raise GatePacketError(f"gate packet 에 게이트 ② 구역(preview)이 없다 — {GATE_PACKET_HOW}")
@@ -546,34 +547,61 @@ def require_feedback_guards(path: Path | None = None, project: str | None = None
     return f"사용자 의견 {len(led.entries)}건 모두 장치 있음(최근 {led.entries[-1].id})"
 
 
-def require_animatic(pdir: Path, approved_sha1: str | None = None) -> str:
-    """콘티 판이 현재 음성 타임라인(plan.json)으로 렌더됐는지 확인하고 게이트 기록용 한 줄을 돌려준다.
-    없거나 옛 음성이면 AnimaticMissingError — 우회 플래그 없음(사용자 결정 2026-10-01, PIPELINE-AP-014).
-    v5.6.0(사용자 결정 2026-10-04 "자막 → 콘티 → 승인 후 본영상"): 게이트 ① 에서 승인한 원고 지문(approved_sha1)과
-    콘티 판이 만들어진 원고 지문(animatic_run.script_sha1)이 같아야 한다 — 원고 검토 없이 만든 콘티 판·승인 뒤 고친 원고로 만든
-    콘티 판은 게이트 ② 를 통과하지 못한다(PIPELINE-AP-015)."""
-    how = f"`python -m engine.render {pdir} --animatic` 로 콘티 판을 만들고 사용자 흐름 검토를 받은 뒤 승인한다(WORKFLOWS W0)"
-    if uses_gate_packet(pdir):   # v7.4.0 D-0355 — out/ 없는 작업 트리(감독 세션) = gate packet 으로 같은 판정
-        return _require_animatic_packet(pdir, approved_sha1, how)
-    pp = pdir / "out" / "animatic_provenance.json"
-    if not pp.exists():
-        raise AnimaticMissingError(f"콘티 판 없음({pp}) — 게이트 ② 는 콘티 판 없이 승인할 수 없다. {how}")
-    prov = json.loads(pp.read_text(encoding="utf-8"))
-    run = prov.get("animatic_run")
-    if not prov.get("animatic") or not isinstance(run, dict):
-        raise AnimaticMissingError(f"{pp.name} 에 animatic_run 기록이 없다 — 콘티 판 렌더가 끝나지 않았다. {how}")
-    plan = pdir / "plan.json"
-    if plan.exists():
-        total = float(json.loads(plan.read_text(encoding="utf-8"))["total"])
-        if abs(float(prov.get("total_sec", -1.0)) - total) > ANIMATIC_TOTAL_TOL_SEC:
-            raise AnimaticMissingError(f"콘티 판 길이 {prov.get('total_sec')}초 ≠ 현재 plan {total:.2f}초 — 옛 음성으로 만든 콘티 판이다. {how}")
+def _check_preview(script_now: str, approved_sha1: str | None, direction_now: str, direction_rec: str,
+                   total_rec: float | None, plan_total: float | None, hard: int | None, how: str) -> None:
+    """게이트 ② 판정(작업 트리·gate packet 공용) — 하나라도 어긋나면 PreviewRecordError."""
     if approved_sha1 is None:
-        raise AnimaticMissingError("게이트 ① 원고 승인 기록(원고 지문)이 없다 — 원고(자막) 검토·승인 → 콘티 판 → 본편 순서다"
-                                   f"(WORKFLOWS W0, PIPELINE-AP-015). `approve --gate script_approval` 뒤 콘티 판을 다시 만든다")
-    if run.get("script_sha1") != approved_sha1:
-        raise AnimaticMissingError(f"콘티 판의 원고 지문 {str(run.get('script_sha1'))[:10]} ≠ 승인 원고 {approved_sha1[:10]} — "
-                                   f"승인한 원고로 콘티 판을 다시 만든다. {how}")
-    return f"{run.get('output')} · {prov.get('total_sec')}초 · direction {run.get('direction_sha1') or '기록 없음'} · script {approved_sha1[:10]}"
+        raise PreviewRecordError("게이트 ① 기록(원고 지문)이 없다 — `approve --gate script_approval` 로 기록한 뒤 진행한다"
+                                 "(원고 → 게이트 ① → 음성 → 연출 → 프리뷰 → 게이트 ②, WORKFLOWS W0, PIPELINE-AP-015)")
+    if script_now != approved_sha1:
+        raise PreviewRecordError(f"원고를 게이트 ① 승인 뒤에 고쳤다(승인 {approved_sha1[:10]} ≠ 현재 script.yaml {script_now[:10] or '없음'}) — "
+                                 "게이트 ① 을 다시 기록하고 음성·프리뷰를 다시 만든다(PIPELINE-AP-015)")
+    if direction_rec != direction_now:
+        raise PreviewRecordError(f"프리뷰를 만든 연출 {direction_rec[:10] or '없음'} ≠ 현재 direction.yaml {direction_now[:10] or '없음'} — "
+                                 f"옛 연출로 만든 프리뷰다. {how}")
+    if plan_total is not None and total_rec is not None and abs(total_rec - plan_total) > PREVIEW_TOTAL_TOL_SEC:
+        raise PreviewRecordError(f"프리뷰 길이 {total_rec}초 ≠ 현재 plan {plan_total:.2f}초 — 옛 음성으로 만든 프리뷰다. {how}")
+    if hard != 0:
+        raise PreviewRecordError(f"프리뷰 checks hard {'기록 없음' if hard is None else hard} — hard 0 인 프리뷰만 게이트 ② 에 올린다. {how}")
+
+
+def _plan_total(pdir: Path) -> float | None:
+    plan = pdir / "plan.json"
+    return float(json.loads(plan.read_text(encoding="utf-8"))["total"]) if plan.exists() else None
+
+
+def require_preview(pdir: Path, approved_sha1: str | None = None) -> str:
+    """게이트 ② 근거 확인(v7.4.0 사용자 결정 UF-914 "콘티 단계 없애. 그냥 바로 영상 제작으로 간다") — 게이트 기록용 한 줄을 돌려준다.
+    콘티 판은 만들지도·요구하지도 않는다. 대신 ① 게이트 ① 승인 원고 지문 = 현재 script.yaml(승인 뒤 고친 원고 거부, PIPELINE-AP-015)
+    ② 프리뷰 기록(prev/provenance.json)이 현재 direction.yaml 로 만들어졌고 ③ 현재 음성 타임라인(plan.json total) 길이이며 ④ checks hard 0.
+    프리뷰 기록이 없는 작업 트리(감독 세션 — out/·prev/ 미추적)는 gate packet 의 같은 판정 입력으로 본다(preview_uses_gate_packet). 우회 플래그 없음."""
+    from engine.provenance import direction_sha1  # noqa: PLC0415
+
+    how = f"`python -m engine.render {pdir} --preview auto` 로 현재 원고·연출·음성의 프리뷰를 다시 만든 뒤 승인한다(WORKFLOWS W0)"
+    script_now, direction_now, plan_total = script_sha1(pdir), direction_sha1(pdir) or "", _plan_total(pdir)
+    if preview_uses_gate_packet(pdir):   # v7.4.0 D-0355 — 감독 작업 트리 = gate packet 으로 같은 판정
+        pkt = load_gate_packet(pdir)
+        pv = pkt.preview
+        hp = GATE_PACKET_HOW.replace("{pid}", pdir.name)
+        if pv is None:
+            raise GatePacketError(f"gate packet 에 게이트 ② 구역(preview)이 없다 — {hp}")
+        if pv.preview_provenance_sha1 is None:
+            raise GatePacketError(f"옛 콘티 판 기반 gate packet 이다(프리뷰 기록 필드 없음, UF-914 콘티 판 단계 폐지) — 프리뷰 기록으로 다시 만든다. {hp}")
+        _check_preview(script_now, approved_sha1, direction_now, pv.direction_sha1, pv.total_sec, plan_total, pv.checks_hard, how)
+        return (f"{pv.preview_dir} · {pv.preview_frames}컷 · direction {pv.direction_sha1[:10] or '없음'} · script {script_now[:10]}"
+                f" · gate packet {pkt.digest[:10]}(만든 {pkt.created_by} · {pkt.commit[:10]})")
+    pp = pdir / PREVIEW_PROV
+    if not pp.exists():
+        raise PreviewRecordError(f"프리뷰 기록 없음({pp}) — 게이트 ② 는 프리뷰 없이 승인할 수 없다. {how}")
+    prov = json.loads(pp.read_text(encoding="utf-8"))
+    pv = prov.get("preview")
+    if not isinstance(pv, dict):
+        raise PreviewRecordError(f"{pp} 에 preview 기록이 없다 — 프리뷰 렌더가 끝나지 않았다. {how}")
+    total = prov.get("total_sec")
+    _check_preview(script_now, approved_sha1, direction_now, str(pv.get("direction_sha1") or ""),
+                   float(total) if total is not None else None, plan_total, (prov.get("checks") or {}).get("hard"), how)
+    return (f"{pdir.name}/{pv.get('dir', 'prev')} · {pv.get('frames')}컷 · direction {str(pv.get('direction_sha1') or '없음')[:10]}"
+            f" · script {script_now[:10]}")
 
 
 GATE_PACKET = "gate_packet.json"
@@ -590,13 +618,26 @@ def uses_gate_packet(pdir: Path) -> bool:
     return not (pdir / "out").exists()
 
 
+def preview_uses_gate_packet(pdir: Path) -> bool:
+    """게이트 ② 판정 출처(v7.4.0 UF-914): out/ 도 프리뷰 기록(prev/provenance.json)도 없는 작업 트리(감독 세션 — 둘 다 미추적)면
+    gate packet, 하나라도 있으면(구현 세션) 작업 트리의 프리뷰 기록·자산으로 판정한다."""
+    return uses_gate_packet(pdir) and not (pdir / PREVIEW_PROV).exists()
+
+
 def _file_sha1(p: Path) -> str:
     return hashlib.sha1(p.read_bytes()).hexdigest()
 
 
+GATE_PACKET_PREVIEW_OPTIONAL = ("animatic_provenance_sha1", "animatic_script_sha1",   # 옛 콘티 판 기반 packet 만(읽기 호환)
+                                "preview_provenance_sha1", "preview_dir", "preview_frames", "checks_hard")   # v7.4.0 UF-914 프리뷰 기록
+
+
 def gate_packet_digest(pkt: GatePacket) -> str:
-    """digest 를 뺀 묶음의 정규 JSON sha1."""
+    """digest 를 뺀 묶음의 정규 JSON sha1. 게이트 ② 구역의 선택 필드는 값이 없으면(None) 빼고 잰다 — 필드를 더하기 전에 만든
+    옛 packet(콘티 판 기반, 추적 파일)의 digest 가 그대로 맞는다(C3 호환, v7.4.0 UF-914)."""
     body = pkt.model_dump(mode="json", exclude={"digest"})
+    if isinstance(body.get("preview"), dict):
+        body["preview"] = {k: v for k, v in body["preview"].items() if not (k in GATE_PACKET_PREVIEW_OPTIONAL and v is None)}
     return hashlib.sha1(json.dumps(body, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
 
 
@@ -610,12 +651,14 @@ def _git_head(pdir: Path) -> str:
 
 
 def build_gate_packet(pdir: Path, created_by: str, script: bool = True, preview: bool = True) -> GatePacket:
-    """구현 세션(out/·자산이 있는 작업 트리)에서 승인 판정 입력을 묶어 projects/{pid}/gate_packet.json 에 쓴다.
-    판정은 approve 와 같은 함수로 한다 — 미디어 계획 표가 실패하거나 콘티 판 기록이 없으면 packet 을 만들지 않는다(P6)."""
+    """구현 세션(out/ 또는 프리뷰 기록·자산이 있는 작업 트리)에서 승인 판정 입력을 묶어 projects/{pid}/gate_packet.json 에 쓴다.
+    판정은 approve 와 같은 값으로 한다 — 미디어 계획 표가 실패하거나 프리뷰 기록이 없거나 옛 연출·hard 가 남은 프리뷰면 packet 을 만들지 않는다(P6).
+    게이트 ② 구역은 프리뷰 기록(prev/provenance.json)에서 만든다(v7.4.0 UF-914 — 콘티 판 단계 폐지)."""
+    from engine.provenance import direction_sha1  # noqa: PLC0415
     from tools.asset_library import pending  # noqa: PLC0415
 
-    if uses_gate_packet(pdir):
-        raise GatePacketError(f"{pdir}/out 이 없다 — gate packet 은 콘티 판·자산이 있는 구현 작업 트리에서 만든다")
+    if preview_uses_gate_packet(pdir):
+        raise GatePacketError(f"{pdir}/out·{PREVIEW_PROV} 이 없다 — gate packet 은 프리뷰 기록·자산이 있는 구현 작업 트리에서 만든다")
     sources = {n: _file_sha1(pdir / n) for n in GATE_PACKET_SOURCES if (pdir / n).exists()}
     sec_script = sec_preview = None
     if script:
@@ -624,22 +667,26 @@ def build_gate_packet(pdir: Path, created_by: str, script: bool = True, preview:
             raise GatePacketError(f"{pdir}/script.yaml 없음 — 게이트 ① 구역을 만들 수 없다")
         sec_script = GatePacketScript(script_sha1=sha, media_plan=require_media_plan(pdir))
     if preview:
-        pp = pdir / "out" / "animatic_provenance.json"
+        pp = pdir / PREVIEW_PROV
         if not pp.exists():
-            raise AnimaticMissingError(f"콘티 판 없음({pp}) — 게이트 ② 구역을 만들 수 없다")
+            raise PreviewRecordError(f"프리뷰 기록 없음({pp}) — 게이트 ② 구역을 만들 수 없다")
         prov = json.loads(pp.read_text(encoding="utf-8"))
-        run = prov.get("animatic_run")
-        if not prov.get("animatic") or not isinstance(run, dict):
-            raise AnimaticMissingError(f"{pp.name} 에 animatic_run 기록이 없다 — 콘티 판 렌더가 끝나지 않았다")
-        dp = pdir / "direction.yaml"
-        if run.get("direction_sha1") and dp.exists() and run["direction_sha1"] != _file_sha1(dp):
-            raise AnimaticMissingError(f"콘티 판을 만든 연출 {str(run['direction_sha1'])[:10]} ≠ 현재 direction.yaml {_file_sha1(dp)[:10]} — "
-                                       "지금 연출로 콘티 판을 다시 만든 뒤 게이트 ② 구역을 만든다(옛 콘티 판으로 승인받지 않는다)")
-        plan_total = float(json.loads((pdir / "plan.json").read_text(encoding="utf-8"))["total"]) if (pdir / "plan.json").exists() else -1.0
+        pv = prov.get("preview")
+        if not isinstance(pv, dict):
+            raise PreviewRecordError(f"{pp} 에 preview 기록이 없다 — 프리뷰 렌더가 끝나지 않았다")
+        rec_dir, cur_dir = str(pv.get("direction_sha1") or ""), direction_sha1(pdir) or ""
+        if rec_dir != cur_dir:
+            raise PreviewRecordError(f"프리뷰를 만든 연출 {rec_dir[:10] or '없음'} ≠ 현재 direction.yaml {cur_dir[:10] or '없음'} — "
+                                     "지금 연출로 프리뷰를 다시 만든 뒤 게이트 ② 구역을 만든다(옛 프리뷰로 승인받지 않는다)")
+        hard = (prov.get("checks") or {}).get("hard")
+        if hard != 0:
+            raise PreviewRecordError(f"프리뷰 checks hard {hard} — hard 0 인 프리뷰만 게이트 ② 구역에 넣는다")
+        plan_total = _plan_total(pdir)
         pend = pending(pdir)
-        sec_preview = GatePacketPreview(animatic_provenance_sha1=_file_sha1(pp), total_sec=float(prov.get("total_sec", -1.0)),
-                                        plan_total=plan_total, animatic_script_sha1=str(run.get("script_sha1") or ""),
-                                        output=str(run.get("output") or ""), direction_sha1=str(run.get("direction_sha1") or ""),
+        sec_preview = GatePacketPreview(preview_provenance_sha1=_file_sha1(pp), preview_dir=str(pv.get("dir") or "prev"),
+                                        preview_frames=int(pv.get("frames") or 0), checks_hard=hard,
+                                        total_sec=float(prov.get("total_sec", -1.0)),
+                                        plan_total=plan_total if plan_total is not None else -1.0, direction_sha1=rec_dir,
                                         rendered_at=str(prov.get("rendered_at") or prov.get("created_at") or ""),
                                         pending_people=pend["people"], pending_emblems=pend["emblems"])
     pkt = GatePacket(project_id=pdir.name, created_by=created_by, commit=_git_head(pdir), sources=sources,
@@ -685,26 +732,6 @@ def require_script_gate(pdir: Path) -> str:
         raise GatePacketError(f"gate packet 원고 지문 {pkt.script.script_sha1[:10]} ≠ 현재 원고 {cur[:10]} — "
                               f"{GATE_PACKET_HOW.replace('{pid}', pdir.name)}")
     return f"{pkt.script.media_plan} · gate packet {pkt.digest[:10]}"
-
-
-def _require_animatic_packet(pdir: Path, approved_sha1: str | None, how: str) -> str:
-    pkt = load_gate_packet(pdir)
-    pv = pkt.preview
-    if pv is None:
-        raise GatePacketError(f"gate packet 에 게이트 ② 구역(preview)이 없다 — {GATE_PACKET_HOW.replace('{pid}', pdir.name)}")
-    plan = pdir / "plan.json"
-    if plan.exists():
-        total = float(json.loads(plan.read_text(encoding="utf-8"))["total"])
-        if abs(pv.total_sec - total) > ANIMATIC_TOTAL_TOL_SEC:
-            raise AnimaticMissingError(f"콘티 판 길이 {pv.total_sec}초 ≠ 현재 plan {total:.2f}초 — 옛 음성으로 만든 콘티 판이다. {how}")
-    if approved_sha1 is None:
-        raise AnimaticMissingError("게이트 ① 원고 승인 기록(원고 지문)이 없다 — 원고(자막) 검토·승인 → 콘티 판 → 본편 순서다"
-                                   f"(WORKFLOWS W0, PIPELINE-AP-015). `approve --gate script_approval` 뒤 콘티 판을 다시 만든다")
-    if pv.animatic_script_sha1 != approved_sha1:
-        raise AnimaticMissingError(f"콘티 판의 원고 지문 {pv.animatic_script_sha1[:10]} ≠ 승인 원고 {approved_sha1[:10]} — "
-                                   f"승인한 원고로 콘티 판을 다시 만든다. {how}")
-    return (f"{pv.output} · {pv.total_sec}초 · direction {pv.direction_sha1 or '기록 없음'} · script {approved_sha1[:10]}"
-            f" · gate packet {pkt.digest[:10]}(만든 {pkt.created_by} · {pkt.commit[:10]})")
 
 
 def _choose_version(pdir: Path, version: int, by: str) -> None:

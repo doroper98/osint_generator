@@ -13,7 +13,7 @@ import pytest
 from orchestrator.state_machine import GATES, SCRIPT_FIX_ROLLBACKS
 from schemas.models import ProjectManifest
 from schemas.models import ProjectState as S  # noqa: N817
-from tests.test_gates_pipeline import _Proj, write_animatic
+from tests.test_gates_pipeline import _Proj, write_preview
 
 REPO = Path(__file__).resolve().parent.parent
 
@@ -63,18 +63,18 @@ class RollbackScriptDraftTest(_Proj):
         self.m = approve_gate(self.m, "script_approval", by="t", cfg=self.cfg)
 
     def test_c_old_approval_blocks_gate2(self) -> None:
-        from orchestrator.project_manager import AnimaticMissingError, approve_gate, rollback  # noqa: PLC0415
+        from orchestrator.project_manager import PreviewRecordError, approve_gate, rollback  # noqa: PLC0415
 
         self._after_gate1()
         self.to(S.ASSETS)
         self.m = rollback(self.m, "script_draft", by="user", reason="날짜 수정", cfg=self.cfg)
         sp = self.root / "p" / "script.yaml"
         sp.write_text(sp.read_text(encoding="utf-8") + "\n# 수정\n", encoding="utf-8")
-        write_animatic(self.root / "p")   # 고친 원고로 만든 콘티 판
+        write_preview(self.root / "p")   # 고친 원고로 만든 프리뷰(v7.4.0 UF-914)
         # 재승인 없이 앞으로 가려 해도 게이트 ① 을 지나야 한다 — 옛 승인 지문 그대로면 게이트 ② 거부
         self.to(S.SCRIPT_APPROVAL)
         self.m.current_state = S.PREVIEW_APPROVAL.value   # type: ignore[assignment] — 재승인 건너뛴 상태를 흉내
-        with self.assertRaises(AnimaticMissingError):
+        with self.assertRaises(PreviewRecordError):
             approve_gate(self.m, "preview_approval", by="t", cfg=self.cfg)
 
 
