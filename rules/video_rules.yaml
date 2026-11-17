@@ -2768,8 +2768,8 @@ primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/p
     ink_muted: "rgba(105,103,98,1)"
     ghost: "rgba(30,30,32,0.12)"   # 읽을 수 없는 문맥 막대(지어낸 글자 대신)
     head_size: 10
-    head_gap: 18           # 머리 줄 기준선 → 앞 문맥 막대 위 끝
     head_date_gap: 12      # v7.4.0 D935 — 머리 줄(기관 · 문서)과 오른쪽 날짜 사이 최소 간격. 넘치면 오류(RENDER-AP-039)
+    head_gap: 18           # 머리 줄 기준선 → 앞 문맥 막대 위 끝
     ghost_before: 2
     ghost_after: 2
     ghost_h: 6
