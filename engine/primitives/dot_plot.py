@@ -21,11 +21,15 @@ from typing import Optional
 import cairo
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-from engine.style import C, CARD, CARD_BG, PRIMITIVES, W_OUT
+from engine import skin
+from engine.primitives import geo, ink, skin_card, skin_on, skin_rule, skin_text, skin_tw
+from engine.style import C, CARD, CARD_BG, PRIMITIVES, SKIN, W_OUT
 from engine.timebase import ease_out, window
 from engine.typography import rrect, text, tw
 
 L = PRIMITIVES["dot_plot"]
+SK = SKIN.primitives.dot_plot   # v7.4.0 3c(UF-906) — skin 무대 판(rules skin.primitives.dot_plot)
+META = "media_meta"   # 출처·기준 시점 메타 글자 역할(qa_checks.glyph_size_exempt)
 COLOR_KEYS: tuple[str, ...] = ()   # 색 의미 없음 — 점·중앙값은 팔레트 토큰(rules primitives.dot_plot.dot_color·median_color)
 AXIS = "value"                      # 정직성 검사 대상(rules qa_checks.chart_targets, engine/honesty.py)
 
@@ -99,9 +103,10 @@ def col_label(label: str) -> str:
 
 def layout(e: dict) -> tuple[float, float, float, float]:
     """(x0, y0, 높이, 점 영역 위 y) — 제자리 상자."""
-    plot_top = L.pad_top + L.head_gap + L.plot_gap
-    h = plot_top + L.plot_h + L.col_label_gap + L.src_gap + L.pad_bottom
-    return W_OUT - L.w - CARD.x_right_margin, e.get("y") or CARD.y, h, plot_top
+    G = geo("dot_plot")  # noqa: N806 — skin 무대면 skin.primitives.dot_plot.layout 덮어쓰기
+    plot_top = G.pad_top + G.head_gap + G.plot_gap
+    h = plot_top + G.plot_h + G.col_label_gap + G.src_gap + G.pad_bottom
+    return W_OUT - G.w - CARD.x_right_margin, e.get("y") or CARD.y, h, plot_top
 
 
 def chart_meta(e: dict) -> dict:
@@ -118,6 +123,9 @@ def draw(ctx: cairo.Context, view: object, t: float, e: dict, style: object) -> 
     if a <= 0:
         return box
     x = x0 + (1 - ease_out((t - e["t0"]) / L.fade_sec)) * L.slide_px
+    if skin_on():
+        _draw_skin(ctx, t, e, x, y0, h, plot_top, a)
+        return box
     muted, white = C["muted"], C["white"]
     rrect(ctx, x, y0, L.w, h, L.radius)
     ctx.set_source_rgba(*CARD_BG[:-1], CARD_BG[-1] * a)
@@ -178,6 +186,62 @@ def draw(ctx: cairo.Context, view: object, t: float, e: dict, style: object) -> 
     text(ctx, L.median_label, px1, y0 + L.pad_top + L.head_gap, L.median_size, "sansm", muted, a, 0, "r")
     text(ctx, source_line(e), x + L.pad_x, y0 + h - L.pad_bottom, CARD.src_size, "sans", muted, a, 0, "l")
     return box
+
+
+def _draw_skin(ctx: cairo.Context, t: float, e: dict, x: float, y0: float, h: float, plot_top: float, a: float) -> None:
+    """skin 판(v7.4.0 3c·UF-906) — 흰 직각 카드. 머리(잉크) · 고정 문구(보조 잉크) · 가는 가로 눈금선 + mono 눈금 ·
+    열마다 잉크 점 · 중앙값 = 강조 짧은 선(한 화면 강조 하나) · mono 열 이름 · 출처 위 가는 선 · 출처 줄. 배치·점 쌓기·등장 순서는 종전과 같다."""
+    G = geo("dot_plot")  # noqa: N806
+    skin_card(ctx, (x, y0, G.w, h), a)
+    skin_text(ctx, SK.tag, e["tag"], x + G.pad_x, y0 + G.pad_top, a)
+    skin_text(ctx, SK.note, L.note, x + G.pad_x, y0 + G.pad_top + G.head_gap, a)
+    cols = columns(e)
+    lo, hi = value_range(cols)
+    py0, py1 = y0 + plot_top, y0 + plot_top + G.plot_h
+    px0, px1 = x + G.pad_x + G.axis_w, x + G.w - G.pad_x
+
+    def vy(v: float) -> float:
+        return py1 - (v - lo) / (hi - lo) * (py1 - py0)
+
+    for k in range(int(round((hi - lo) / G.tick_step)) + 1):
+        v = lo + k * G.tick_step
+        skin_rule(ctx, px0, px1, vy(v), SK.grid, a)
+        if k % G.tick_label_every == 0:
+            skin_text(ctx, SK.tick, fmt(v) + "%", px0 - G.tick_label_dx, vy(v) + SK.tick.size * G.legend_rise, a, "r")
+    cw = (px1 - px0) / len(cols)
+    most = max(max(c.values.count(v) for v in c.values) for c in cols)
+    step = min(G.dot_r * 2 + G.dot_gap, cw / most)
+    dot = ink(SK.dot_ink)
+    for i, c in enumerate(cols):
+        cx = px0 + cw * i + cw / 2
+        ca = a * min(1.0, max(0.0, (t - e["t0"] - L.fade_sec - i * L.dot_stagger_sec / len(cols)) / L.fade_sec + 1))
+        groups: dict[float, int] = {}
+        for v in c.values:
+            groups[v] = groups.get(v, 0) + 1
+        for v, k in groups.items():
+            for j in range(k):
+                ctx.arc(cx + (j * 2 - (k - 1)) * step / 2, vy(v), G.dot_r, 0, 2 * math.pi)
+                ctx.set_source_rgba(*dot, SK.dot_alpha * ca)
+                ctx.fill()
+        m = c.median()
+        ctx.move_to(cx - G.median_half, vy(m))
+        ctx.line_to(cx + G.median_half, vy(m))
+        ctx.set_source_rgba(*skin.ACCENT_SHAPE, ca)
+        ctx.set_line_width(SK.median_w)
+        ctx.stroke()
+        skin_text(ctx, SK.col, col_label(c.label), cx, py1 + G.col_label_gap, a, "c")
+    mw = skin_tw(ctx, SK.median_label, L.median_label)
+    base = y0 + G.pad_top + G.head_gap
+    ly = base - SK.median_label.size * G.legend_rise
+    ctx.move_to(px1 - mw - G.tick_label_dx - G.median_half * 2, ly)
+    ctx.line_to(px1 - mw - G.tick_label_dx, ly)
+    ctx.set_source_rgba(*skin.ACCENT_SHAPE, a)
+    ctx.set_line_width(SK.median_w)
+    ctx.stroke()
+    skin_text(ctx, SK.median_label, L.median_label, px1, base, a, "r")
+    sy = y0 + h - G.pad_bottom
+    skin_rule(ctx, x + G.pad_x, x + G.w - G.pad_x, sy - SK.foot_rule.dy, SK.foot_rule, a)
+    skin_text(ctx, SK.src, source_line(e), x + G.pad_x, sy, a, role=META)
 
 
 PREVIEW_FIXTURE: dict = {

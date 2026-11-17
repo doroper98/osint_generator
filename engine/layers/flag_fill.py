@@ -13,12 +13,14 @@ import math
 
 import cairo
 import numpy as np
+from PIL import Image, ImageFilter
 
 from engine.context import RenderCtx
 from engine.layers.borders import path_rings
 from engine.projection import View
 from engine.stage import MERCATOR_LOD as LOD
-from engine.style import ELEM
+from engine.stage import skin_map
+from engine.style import ELEM, SKIN
 from engine.timebase import smooth, window
 from rules import load_rules
 
@@ -68,9 +70,10 @@ def ref_luma(R: RenderCtx, view: View, codes: list[str]) -> float:  # noqa: N803
     return memo[key]
 
 
-def shade_factor(base_rgb: np.ndarray, ref_luma: float, brightness: float) -> np.ndarray:
-    """지형 화소(h, w, 3, 0~255) → 국기에 곱할 배율(h, w). clip(base + gain·(f − 1), lo, hi) × 등장 밝기."""
-    s = FF.shade
+def shade_factor(base_rgb: np.ndarray, ref_luma: float, brightness: float, skin_on: bool = False) -> np.ndarray:
+    """지형 화소(h, w, 3, 0~255) → 국기에 곱할 배율(h, w). clip(base + gain·(f − 1), lo, hi) × 등장 밝기.
+    skin_on(v7.4.0 4b) = rules skin.map.flag_shade — 평지 = 국기 원색(흰 면이 흰 땅 아래로 가라앉지 않는다), 그늘 사면만 어둡게."""
+    s = SKIN.map.flag_shade if skin_on else FF.shade
     f = (base_rgb.astype(np.float32) @ np.array(FF.luma, dtype=np.float32)) / np.float32(ref_luma)
     return np.clip(np.float32(s.base) + np.float32(s.gain) * (f - np.float32(1)), np.float32(s.lo), np.float32(s.hi)) * np.float32(brightness)
 
@@ -113,12 +116,51 @@ def flag_layer(R: RenderCtx, view: View, e: dict, box: tuple[int, int, int, int]
     stage = view.stage
     base = stage.frame_base(view)   # 무대가 같은 view 로 방금 그린 지형(한 장 memo — render_base 와 같은 상)
     terr = np.asarray(base.crop((x0, y0, x1, y1)).convert("RGB"))
-    k = shade_factor(terr, ref_luma(R, view, e["codes"]), brightness)
+    k = shade_factor(terr, ref_luma(R, view, e["codes"]), brightness, skin_map(stage))
     px = np.ndarray((y1 - y0, surf.get_stride() // 4, 4), dtype=np.uint8, buffer=surf.get_data())[:, : x1 - x0]   # ARGB32 = 화소당 4바이트(B·G·R·A)
     col = px[..., :3].astype(np.float32) * k[..., None]
     px[..., :3] = np.minimum(col, px[..., 3:].astype(np.float32)).astype(np.uint8)   # 미리 곱한 알파 — 색 ≤ 알파
     surf.mark_dirty()
     return surf
+
+
+def soft_country_shadow(ctx: cairo.Context, path: cairo.Path, pin: float, a: float) -> None:
+    """v7.4.0 4b — 나라 마스크(장치 화소 A8)를 가우시안 두 겹(rules skin.map.flag_shadow wide·tight)으로 번져 오른쪽 아래로 민다.
+    오프셋은 등장 진행 pin 만큼(0 → 전부), 알파 × a. 국기 아래·지도 위 — 국기가 덮지 않은 가장자리 밖으로만 보인다."""
+    S = SKIN.map.flag_shadow  # noqa: N806
+    m = ctx.get_matrix()
+    mxx, myx, mxy, myy, mx0, my0 = tuple(m)
+    ks = math.hypot(mxx, myx)
+    ctx.new_path()
+    ctx.append_path(path)
+    ex = ctx.fill_extents()
+    ctx.new_path()
+    xs, ys = zip(*(ctx.user_to_device(px, py) for px in (ex[0], ex[2]) for py in (ex[1], ex[3])))
+    tgt = ctx.get_target()
+    for dx, dy, sg, al in (S.wide, S.tight):
+        pad = math.ceil((max(abs(dx), abs(dy)) + 3 * sg) * ks)
+        X0, Y0 = max(0, math.floor(min(xs)) - pad), max(0, math.floor(min(ys)) - pad)  # noqa: N806
+        X1, Y1 = min(tgt.get_width(), math.ceil(max(xs)) + pad), min(tgt.get_height(), math.ceil(max(ys)) + pad)  # noqa: N806
+        if X1 <= X0 or Y1 <= Y0:
+            continue
+        mask = cairo.ImageSurface(cairo.FORMAT_A8, X1 - X0, Y1 - Y0)
+        mc = cairo.Context(mask)
+        mc.set_matrix(cairo.Matrix(mxx, myx, mxy, myy, mx0 - X0 + dx * pin * ks, my0 - Y0 + dy * pin * ks))
+        mc.set_fill_rule(cairo.FILL_RULE_EVEN_ODD)
+        mc.append_path(path)
+        mc.fill()
+        mask.flush()
+        st = mask.get_stride()
+        arr = np.ndarray((Y1 - Y0, st), np.uint8, buffer=mask.get_data())[:, : X1 - X0]
+        blur = np.asarray(Image.fromarray(arr.copy()).filter(ImageFilter.GaussianBlur(sg * ks)))
+        out = cairo.ImageSurface(cairo.FORMAT_A8, X1 - X0, Y1 - Y0)
+        np.ndarray((Y1 - Y0, out.get_stride()), np.uint8, buffer=out.get_data())[:, : X1 - X0] = blur
+        out.mark_dirty()
+        ctx.save()
+        ctx.identity_matrix()
+        ctx.set_source_rgba(*S.rgb, al * a)
+        ctx.mask_surface(out, X0, Y0)
+        ctx.restore()
 
 
 def draw_flag_fill(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
@@ -148,18 +190,23 @@ def draw_flag_fill(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: di
     tgt = ctx.get_target()
     box = (max(0, math.floor(max(X0, ea[0]))), max(0, math.floor(max(Y0, ea[1]))),
            min(tgt.get_width(), math.ceil(min(X1, eb[0]))), min(tgt.get_height(), math.ceil(min(Y1, eb[1]))))
-    sh = FF.shadow
-    ctx.save()   # 그림자 — 나라 모양을 오른쪽 아래로(등장 중 0 → 전부), 지도 위·국기 아래
-    ctx.translate(sh.offset[0] * pin, sh.offset[1] * pin)
-    ctx.new_path()
-    ctx.append_path(path)
-    ctx.set_source_rgba(*sh.rgb, sh.alpha * a)
-    ctx.fill_preserve()
-    for wd, al in sh.soft:
-        ctx.set_source_rgba(*sh.rgb, al * a)
-        ctx.set_line_width(wd)
-        ctx.stroke_preserve()
-    ctx.restore()
+    on = skin_map(view.stage)   # v7.4.0 4b — skin 지도: 부드러운 두 겹 그림자 + 흰 가는 테, 국기 흰 면 = 흰색
+    if on:
+        view.stage.flag_codes.update({c: max(a, view.stage.flag_codes.get(c, 0.0)) for c in codes})   # 지명 = 흰 알약(labels)
+        soft_country_shadow(ctx, path, pin, a)
+    else:
+        sh = FF.shadow
+        ctx.save()   # 그림자 — 나라 모양을 오른쪽 아래로(등장 중 0 → 전부), 지도 위·국기 아래
+        ctx.translate(sh.offset[0] * pin, sh.offset[1] * pin)
+        ctx.new_path()
+        ctx.append_path(path)
+        ctx.set_source_rgba(*sh.rgb, sh.alpha * a)
+        ctx.fill_preserve()
+        for wd, al in sh.soft:
+            ctx.set_source_rgba(*sh.rgb, al * a)
+            ctx.set_line_width(wd)
+            ctx.stroke_preserve()
+        ctx.restore()
     if box[2] > box[0] and box[3] > box[1] and X1 > X0 and Y1 > Y0:
         layer = flag_layer(R, view, e, box, (X0, Y0, X1, Y1), FF.rise.brightness_from + (1 - FF.rise.brightness_from) * pin)
         ctx.save()
@@ -181,10 +228,11 @@ def draw_flag_fill(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: di
             ctx.set_source_rgba(*FF.outline.rgb, il.alpha * a)
             ctx.fill()
         ctx.restore()
-    ol = FF.outline   # 흰 심선 + 겹친 halo(흐림 없음 — 국경 글로우와 같은 방식)
+    ol = FF.outline   # 흰 심선 + 겹친 halo(흐림 없음 — 국경 글로우와 같은 방식). skin 지도 = 흰 가는 테 한 줄(rules skin.map.flag_rim)
     ctx.new_path()
     ctx.append_path(path)
-    for wd, al in (*ol.halo, (ol.width, ol.alpha)):
+    rim = SKIN.map.flag_rim
+    for wd, al in (((rim.width, rim.alpha),) if on else (*ol.halo, (ol.width, ol.alpha))):
         ctx.set_source_rgba(*ol.rgb, al * a)
         ctx.set_line_width(wd)
         ctx.stroke_preserve()

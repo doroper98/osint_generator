@@ -12,8 +12,9 @@ from __future__ import annotations
 
 import cairo
 
+from engine import skin
 from engine.context import RenderCtx
-from engine.style import C, CARD, W_OUT
+from engine.style import C, CARD, SKIN, W_OUT, hexc
 from engine.timebase import ease_io, ease_out, window
 from engine.typography import rrect, text, tw, wrap
 from rules import load_rules
@@ -88,6 +89,9 @@ def draw_post(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
     x0, y, w, h, lines = post_geom(ctx, e, sources)
     lt = t - e["t0"]
     x = x0 + (1 - ease_out(lt / PC.fade_sec)) * PC.slide_px
+    if skin.active():
+        draw_post_skin(ctx, x, y, w, h, lines, d, lt, a)
+        return
     for d_, al in ((6, 0.12), (3, 0.2)):          # 그림자 2겹(기사 카드와 같은 값)
         rrect(ctx, x - d_ + 2, y - d_ + 4, w + 2 * d_, h + 2 * d_, PC.radius + d_)
         ctx.set_source_rgba(0, 0, 0, al * a)
@@ -140,6 +144,55 @@ def draw_post(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
         text(ctx, d["deleted"], x + PC.pad, fy - PC.foot_size * 2, PC.foot_size, "sansb", C["amber"], a, 0, "l", role="media_meta")
     text(ctx, d["when"], x + PC.pad, fy, PC.foot_size, "monom", C["muted"], a, 0, "l")
     text(ctx, d["foot"], x + w - PC.pad, fy, PC.foot_size, "sans", C["muted"], a, 0, "r")
+
+
+def draw_post_skin(ctx: cairo.Context, x: float, y: float, w: float, h: float, lines: list[str], d: dict, lt: float, a: float) -> None:
+    """v7.4.0 C0.0 3b(UF-906·UF-908) — skin 무대의 게시물: 흰 직각 카드(surface lifted), 계정 줄(이름 sansb 잉크 · 핸들 mono tertiary ·
+    '공식 계정' well 알약), 본문 잉크 + 형광펜 = 옅은 강조 띠(accent.soft), 가는 선 아래 꼬리 줄(mono tertiary). 상자·줄·자리 = post_geom 그대로."""
+    SP = SKIN.post  # noqa: N806
+    skin.surface(ctx, (x, y, w, h), a, SP.level)
+    cx, cy = x + PC.pad + PC.icon_r, y + PC.pad + PC.icon_r
+    ctx.arc(cx, cy, PC.icon_r, 0, 6.2832)
+    ctx.set_source_rgba(*hexc(SKIN.surface.well), a)
+    ctx.fill_preserve()
+    ctx.set_source_rgba(*skin.HAIR, SKIN.hairline.alpha * 2 * a)
+    ctx.set_line_width(SP.icon_ring_w)
+    ctx.stroke()
+    if d["initial"]:
+        text(ctx, d["initial"], cx, cy + PC.icon_r * 0.45, PC.icon_r * 1.1, "disp", skin.INK, a, 0, "c")
+    nx = cx + PC.icon_r + PC.pad / 2
+    text(ctx, d["name"], nx, cy - 1, PC.name_size, "sansb", skin.INK, a, 0, "l")
+    if d["handle"]:
+        text(ctx, d["handle"], nx, cy + PC.handle_size + 3, PC.handle_size, "monom", skin.INK3, a, 0, "l", role="media_meta")
+    if d["official"]:
+        ch = SP.chip
+        chip = "공식 계정"
+        cw = tw(ctx, chip, ch.size, ch.font) + 2 * ch.pad
+        skin.pill(ctx, (x + w - PC.pad - cw, cy - ch.h / 2, cw, ch.h), hexc(SKIN.surface.well), a)
+        text(ctx, chip, x + w - PC.pad - cw / 2, cy + ch.size * ch.baseline_k, ch.size, ch.font, skin.INK2, a, 0, "c", role="media_meta")
+    yy = y + _head_h() + PC.body_size
+    hk = ease_io((lt - PC.hl_delay_sec) / PC.hl_sec)
+    for ln in lines:
+        if d["hl"] and d["hl"] in ln and hk > 0:
+            i = ln.index(d["hl"])
+            hx = x + PC.pad + tw(ctx, ln[:i], PC.body_size, "sansm")
+            hw = tw(ctx, d["hl"], PC.body_size, "sansm")
+            ctx.rectangle(hx - SP.hl_pad, yy - PC.body_size, (hw + 2 * SP.hl_pad) * hk, PC.body_size + 2 * SP.hl_pad)
+            ctx.set_source_rgba(*hexc(SKIN.accent.soft), a)
+            ctx.fill()
+        text(ctx, ln, x + PC.pad, yy, PC.body_size, "sansm", skin.INK, a, 0, "l")
+        yy += PC.body_line
+    if d["orig"]:
+        text(ctx, d["orig"], x + PC.pad, yy, PC.orig_size, "monom", skin.INK3, a, 0, "l", role="media_meta")
+    fy = y + h - PC.pad
+    ry = fy - PC.foot_size - SP.rule_gap - (PC.foot_size * 2 if d["deleted"] else 0)
+    ctx.rectangle(x + PC.pad, ry, w - 2 * PC.pad, SKIN.hairline.w)
+    ctx.set_source_rgba(*skin.HAIR, SKIN.hairline.alpha * 2 * a)
+    ctx.fill()
+    if d["deleted"]:
+        text(ctx, d["deleted"], x + PC.pad, fy - PC.foot_size * 2, PC.foot_size, "sansb", skin.ACCENT_INK, a, 0, "l", role="media_meta")
+    text(ctx, d["when"], x + PC.pad, fy, PC.foot_size, "monom", skin.INK3, a, 0, "l")
+    text(ctx, d["foot"], x + w - PC.pad, fy, PC.foot_size, "sans", skin.INK3, a, 0, "r")
 
 
 __all__ = ["PostSourceError", "draw_post", "post_alpha", "post_geom", "post_text"]

@@ -40,10 +40,11 @@ HAIR: Color = hexc(SKIN.hairline.rgb)
 FILL: Color = hexc(SKIN.surface.fill)
 
 
-def apply(stage_name: str | None) -> bool:
-    """영상마다 — 주 무대가 rules skin.stages 안이면 켠다. 끄면 잉크 모드도 끈다(한 프로세스 여러 영상)."""
+def apply(stage_name: str | None, map_theme: str | None = None) -> bool:
+    """영상마다 — 주 무대가 rules skin.stages 안이면, 또는 mercator 이고 지도 테마가 rules skin.map_themes 안이면(v7.4.0 4b) 켠다.
+    끄면 잉크 모드도 끈다(한 프로세스 여러 영상)."""
     global ACTIVE
-    ACTIVE = stage_name is not None and stage_name in SKIN.stages
+    ACTIVE = stage_name is not None and (stage_name in SKIN.stages or (stage_name == "mercator" and map_theme in SKIN.map_themes))
     typography.INK_MODE = ACTIVE
     return ACTIVE
 

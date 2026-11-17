@@ -1793,8 +1793,21 @@ stage_structure:           # v7.4.0 back_and_forth D-1003 §3 — 구성 무대(
 
 skin:                      # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 1단계(바탕 코어): 흰 카드·부드러운 그림자·짙은 잉크 글자(테두리 없음)·흰 번짐 자막·작은 mono 날짜.
   # 길이 = 설계 px(854×480, 장치 = × k). 값 = 감독 합격 시안(ds/kit.py·A_data.png). engine/skin.py 만 읽는다(코드 리터럴 0, 15 P3)
-  stages: [studio]           # 이 디자인 시스템으로 그리는 주 무대(registries.stages 안 — 밝은 지도 테마는 다음 단계)
+  stages: [studio]           # 이 디자인 시스템으로 그리는 주 무대(registries.stages 안)
+  map_themes: [porcelain]    # v7.4.0 4b(UF-903·UF-906) — 주 무대가 mercator 이고 지도 테마가 이 목록 안이면 skin 을 켠다(지형 = 테마 래스터, 팔레트 = 아래 palette). 옛 테마(dark·light·slate) = 종전 그대로
   palette: porcelain         # 그 무대에서 강제하는 팔레트(장르 팔레트보다 우선 — 스튜디오는 모습 하나, UF-903)
+  map:                       # v7.4.0 4b — skin 이 켜진 지도 위 요소(engine/layers/labels·flag_fill·areas, engine/stage 바다 점). 길이 = 설계 px. ink = skin.ink 단 이름
+    country_label: {font: sansm, size: 11.5, size_near: 12.5, track: 1.6, alpha: 0.88, ink: secondary, halo: 2.8, halo_a: 0.9}   # 나라 이름 — 보조 잉크·넓은 자간·밝은 halo(테마 halo 색)
+    flag_label: {font: sansm, size: 10.5, track: 1.2, pad_x: 9, h: 19, dy: -4, text_dy: 3.7, ink: primary, shadow: chip}   # 국기로 채운 나라 이름 = 흰 알약(skin.pill + 그림자 겹). 알약 가운데 = 지명점 + dy, 글자 기준선 = 가운데 + text_dy
+    admin_label: {font: sans, size: 9.5, track: 0.0, alpha: 0.8, ink: tertiary, halo: 2.0, halo_a: 0.9}
+    city_label: {font: sansm, size: 10.5, size_cap: 11.5, alpha: 0.96, ink: primary, halo: 2.8, halo_a: 0.9, dx: 5.5, dy: 3.8}   # 도시 — 굵지 않은 잉크(수도도 sansm, 크기만 한 단)
+    city_dot: {r: 1.8, r_cap: 2.3, ring_w: 1.2, ring_alpha: 0.95}   # 잉크 점 + 흰 고리
+    sea_label: {font: sans, size: 9.5, size_near: 10.5, track: 1.8, alpha: 0.95}   # 바다 이름 — 기울임 없는 sans, 테마 sea_label 색, 작게
+    flag_shade: {base: 1.0, gain: 1.4, lo: 0.6, hi: 1.0}   # 국기 × clip(base + gain·(f − 1), lo, hi) — 평지 = 국기 원색(흰 면 ≥ 235), 그늘 사면만 어둡게(rules flag_fill.shade 의 skin 판)
+    flag_shadow: {rgb: [0.07, 0.09, 0.16], wide: [5.0, 8.5, 12.0, 0.30], tight: [1.2, 2.2, 2.2, 0.30]}   # 나라 마스크 가우시안 두 겹 [dx, dy, 시그마, 알파] — 넓고 옅게 + 좁고 짙게, 오른쪽 아래(땅이 떠 보인다)
+    flag_rim: {width: 1.1, alpha: 0.95}   # 흰 가는 테(겹친 halo 없음)
+    color_fill: {alpha_max: 0.10, outline_w: 0.9, outline_a: 0.85}   # fill: color — 옅은 틴트(연출 a 를 이 값으로 자른다) + 가는 의미색 윤곽 한 줄
+    sea_dots: {spacing: [20, 40], r: 0.7, alpha: 0.6, ink: tertiary}   # 바다 위 월드 고정 점 격자 — 2의 거듭제곱 월드 간격, 화면 간격이 spacing 안(설계 px). 촘촘한 단은 교차 페이드(줌 중 튀지 않음). 육지가 덮는다
   fade_rgb: [0.985, 0.985, 0.988]   # v7.4.0 D919 — 영상 시작·끝 전체 페이드 색(검정 대신 밝은 판에서 열리고 닫힌다, engine/render.py). 엔딩 카드 뒤도 밝다([endcard-black] 의 skin 판)
   ink: {primary: "#15171C", secondary: "#4E5460", tertiary: "#6F7580"}   # 글자 잉크 3단(본문·보조·꼬리표)
   hairline: {rgb: "#141820", alpha: 0.075, w: 0.5}   # 카드 가장자리 실선(아주 옅게)
@@ -1891,8 +1904,19 @@ skin:                      # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 1
     axis: {size: 7.5, font: monom, dy: 2.8, margin: 6}   # 값 축 숫자(잉크 tertiary, 오른쪽 열) — 기준선 = 눈금선 + dy(선 가운데)
     tick: {size: 8, font: monom, dy: 16}    # 날짜 눈금(잉크 tertiary, 연도 = primary)
     rule: {dy: 26, alpha: 0.07, w: 0.5}     # 출처 위 가는 선(내용 폭)
-    source: {size: 7.5, font: sansm, dy: 39, step: 10, prefix: "출처  "}   # 출처 줄(잉크 tertiary) — 접기 상한 island.source_wrap_lines_max
+    source: {size: 7.5, font: sansm, dy: 39, step: 10, prefix: "출처  "}   # 출처 줄(잉크 tertiary) — 접기 상한 island.source_wrap_lines_max. 레인 둘 이상이면 머리 = 레인 이름(잉크 secondary, 2b)
     accent_cols: [gold, accent, amber]   # 이 색 이름의 계열(선·점·띠) = 강조 잉크, 나머지 = 잉크 primary(한 화면 강조 하나)
+    # v7.4.0 2b — 차트 안 두 번째 손질(레인 여럿·예상치·끝값·자료 없음·띠·전망·쌓임·가이던스·열 확대 인셋·압축 물결). skin 무대에서만
+    lane: {line_pad_top: 30, gap: 14}      # 레인 둘 이상 — 선·계단 레인 머리 줄(제목만), 레인 사이 틈(플롯 아래 → 다음 제목)
+    end: {size: 10, font: mono, dot_r: 2.6, ring_w: 1.4, pad: 3, hair_alpha: 0.10}   # 끝값 라벨 + 끝점(계열 색 + 흰 고리) + 흰 알약 판
+    estimate: {size: 8, font: monom, overhang: 3, tick_w: 1.0, future_w: 0.8, dash: [3, 2], gap: 4}   # 예상치 가는 획·점선 윤곽
+    missing: {size: 7.5, font: monom, lift: 7, tick: 3, gap: 3, w: 0.6, alpha: 0.7}   # "자료 없음" 꺾쇠 + 라벨(잉크 tertiary)
+    band: {fill_alpha: 0.07, edge_alpha: 0.30, edge_w: 0.6, guide_alpha: 0.14}   # 목표 범위 띠 — 중립(잉크) 옅은 칠 + 가는 끝선 · guide_alpha = 가이던스 범위 띠(열·인셋)
+    projection: {size: 7.5, font: monom, shade_alpha: 0.025, tag_gap: 4}   # 전망 점(강조) · 구간 음영 · 태그(잉크 tertiary)
+    wave: {size: 7.5, font: monom, line_w: 0.8, alpha: 0.8, top_gap: 6}   # 압축 물결(잉크 tertiary) + 라벨(잉크 secondary)
+    detail: {level: lifted, band_alpha: 0.035, head_size: 11, head_font: sansb, leader_alpha: 0.35}   # 열 확대 인셋 = 흰 카드
+    mark: "#8A909A"          # 강조 아닌 표지(점·선·작은 막대) 중립 회색
+    stack_greys: ["#B4B9C2", "#CDD1D8", "#E1E4E8", "#C2C6CE"]   # 쌓임 부문 칠(부문 순서)
   # v7.4.0 C0.0 2c단계(D917) — 전면 카드(engine/fullcards.py). skin 무대에서만 — 꺼지면 종전 어두운 판 그대로(바이트 동일).
   # 길이 = 설계 px(가운데 = W/2), 기준선 y. 등장 시각·곡선은 transition.element(MOTION) 그대로. 잉크 = ink 단계 이름. 값 = 감독 시안 ds/D_title.png
   title_card:
@@ -1914,6 +1938,155 @@ skin:                      # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 1
     meta_ink: tertiary       # 라이선스·날짜·안내·고지·버전 도장(흰 판 위 대비 ≥ 4.5 — tests/test_v740_skin_fullcards.py)
     rule_alpha: 0.16         # 구분선(hairline.rgb) 알파 — 판 위 가는 선
     stamp_alpha: 1.0         # 버전 도장 알파(어두운 판의 0.55 는 흰 판 위 대비 미달)
+  # v7.4.0 C0.0 3b단계(UF-906·UF-907·UF-908) — 겹침 카드·게시물·사진/영상 액자·뱃지 이름표·아일랜드 마커(engine/cascade.py, engine/layers/post·media·badges·markers).
+  # skin 무대에서만 — 꺼지면 종전 그대로(바이트 동일). 자리·크기·등장 시각·상자 함수는 종전 규칙 그대로(아래는 모양만). 길이 = 설계 px(854×480). 그림자 = skin.shadow 겹 이름
+  cascade:
+    level_front: lifted      # 맨 앞 카드 그림자(뒤 카드는 level_back — 물러남 back 으로 앞/뒤를 고른다: back < 1/2 = 앞)
+    level_back: card
+    back_fill: "#F5F6F8"     # 완전히 물러난 카드 면(앞 = surface.fill 흰색, 물러남으로 보간)
+    accent_h: 2.0            # 맨 앞 카드 윗변 강조 선(accent.shape, 카드 폭 전체 — 부제 알파 detail_a 로 사라진다)
+  post:
+    level: lifted            # 흰 직각 카드(surface) 그림자
+    icon_ring_w: 0.8         # 계정 원(surface.well) 가장자리 가는 선(hairline)
+    chip: {h: 15, pad: 7, size: 8, font: sansm, baseline_k: 0.36}   # '공식 계정' 알약(surface.well + 잉크 secondary) — 카드 오른쪽 pad 에 오른쪽 맞춤
+    hl_pad: 2                # 형광펜 띠(accent.soft) 좌우 여유 — 띠 높이·자리는 layout_480p.post_card 그대로
+    rule_gap: 5              # 꼬리 줄 기준선 − 글자 크기 − rule_gap 에 가는 선(hairline, 내용 폭) — 원문 한 줄 글자 아래 끝과 꼬리 줄 사이
+  media:
+    mat: 5                   # 사진 둘레 흰 여백(surface — 왼·오른·위), 아래 여백 = 캡션 칸. media_box 가 이만큼 넓힌다
+    level: lifted
+    caption_dy: 17           # 사진 아래 끝 → 캡션 기준선(잉크 primary, layout media_caption.caption_size·sansm)
+    credit_dy: 31            # 사진 아래 끝 → 첫 출처 기준선(잉크 tertiary, mono, 접힌 줄 = + media_caption.overflow.source_line_px)
+    bottom: 10               # 마지막 출처 기준선 → 여백 아래 끝 — 캡션 칸 높이 = credit_dy + (줄 − 1) × source_line_px + bottom
+    tag: {h: 15, pad: 7, size: 7.5, font: mono, track: 0.12, inset: 8, baseline_k: 0.36}   # PHOTO·VIDEO 알약(흰 + chip 그림자, 잉크 secondary) — 사진 왼쪽 위 inset
+    band_alpha: 0.9          # 액자 클립(clip_frame) — 상자 안 위쪽 캡션 띠 = 흰 면 × 이 알파(어두운 띠 대신), 잉크 글자
+  badge:
+    shadow: chip             # 원 그림자(skin.shadow 겹)
+    bg: "#E9EBEF"            # 원판 바탕(종전 짙은 badge_bg 대신 — 인물 초상·국기 물결 뒤)
+    ring: {w: 2.2, arc_w: 1.6, arc_deg: 110, arc_start_deg: -90}   # 흰 고리(w) + 바깥 가는 선(hairline) + 강조 호(accent.shape, 12시부터 시계 방향 arc_deg — 인물 뱃지만, 국기·휘장은 호 없음: 한 화면 강조 하나)
+    plate: {pad_x: 11, pad_y: 5.5, gap: 6, line_gap: 3, level: chip, cap_k: 0.74, desc_k: 0.22}   # 이름표 = 흰 알약(이름 sansb 잉크 primary + 역할 sansm 잉크 secondary 두 줄). 줄 높이 = 크기 × (cap_k + desc_k)
+  marker:                    # 아일랜드·스튜디오 마커(지도 마커 = 4단계)
+    dot_r: 3.4               # 핀 점(강조 hl = accent.shape, 아니면 잉크 secondary)
+    ring_w: 1.6              # 점 둘레 흰 고리
+    pulse_alpha: 0.35        # 퍼지는 고리 알파 배율(종전 0.5 × 이 값 / 0.5)
+    glow: {blur: 4, gain: 2.0, alpha: 0.9}   # 라벨·부제 뒤 흰 번짐(테두리 아님 — 막대 위에서도 읽힌다)
+  # v7.4.0 C0.0 3a단계(UF-906·UF-908) — 패널 11종 안쪽(engine/panels/*, 도우미 engine/panels/skin_panel.py). skin 무대에서만 — 꺼지면 종전 그대로(바이트 동일).
+  # 패널 상자 = island.panel_box(흰 직각 카드). 안쪽: 왼쪽 정렬 sansb 제목 + 가는 선, 목록 = 가는 선 줄 나눔·작은 점, 비교 = 가는 선 기둥 나눔·작은 색 점/얇은 윗선,
+  # 차트 = 가는 격자·잉크 표식·강조 하나, 관계도 = 잉크 선·강조 선 하나. 어두운 속 카드·채운 상자·글자 테두리 없음. 길이 = 설계 px(854×480). 등장 시각·기하는 panels.* 그대로
+  panel:
+    x0: 66                   # 내용 왼쪽 끝(제목·가는 선) = panel_box x + 22
+    x1: 788                  # 내용 오른쪽 끝 = panel_box 오른쪽 − 22
+    title: {size: 19, font: sansb}          # 기준선 = layout panel.title_y, 잉크 primary, 왼쪽 정렬
+    sub: {size: 11.5, font: sansm}          # 기준선 = layout panel.subtitle_y, 잉크 secondary
+    rule: {dy: 14, alpha: 0.12, w: 0.6}     # 제목 덩어리(마지막 기준선) + dy 의 가는 선(x0~x1)
+    tag: {size: 8.5, font: sansm, h: 16, pad: 8, baseline_k: 0.36}   # 추정 태그 — 제목 줄 오른쪽 끝(x1) well 알약 + 잉크 secondary(tag_boxes 가 이 상자를 보고)
+    hair: {alpha: 0.10, w: 0.5}             # 목록 줄·기둥 나눔 가는 선(잉크 primary)
+    line: {alpha: 0.5, w: 1.1}              # 관계선·갈래선(잉크 secondary)
+    axis: {alpha: 0.28, w: 0.6}             # 축선·눈금(잉크 primary)
+    dot_r: 2.6                              # 작은 표지 점
+    meta: {size: 8.5, font: monom, track: 0.06}   # 숫자·날짜·연도(라틴) — 잉크 tertiary, 자간 = track × size
+    label: {size: 9.5, font: sansm}         # 한글 꼬리표(선 라벨·월·출처·주석) — 잉크 secondary
+    quote: {font: sansb, glow_blur: 7, glow_alpha: 0.9}   # 관계도 위 발언(UF-907) — 바탕 없는 잉크 글씨 + 흰 번짐
+    accent_bar: {w: 28, h: 2.4}            # 강조 짧은 윗선(강조 기둥·강조 연도)
+    versus: {top: 120, bottom: 382, bar_h: 2.4, title_dy: 36, item_y0: 196, item_dy: 50, dot_dx: 26, dot_dy: -5, item_font: sansm, src_y: 366, src_rule_dy: -16}   # 기둥 위 끝·아래 끝(가운데 가는 선), 옆 색 = 얇은 윗선(폭 = 기둥) + 항목 점
+    precedent: {top: 150, rise: 16, year_dy: 42, title_dy: 68, line_dy: 96, line_step: 20, caption_dy: 196, badge_dx: 136, badge_dy: 172, bottom: 362, caption_delay: 0.6, badge_delay: 0.3}   # 연도 기둥 — 윗선(강조 연도 = 강조색) + 기둥 사이 가는 선
+    check: {w: 1.8, box_alpha: 0.35}        # checklist — 체크 획 굵기(잉크 primary)·칸 윤곽 알파
+    gantt_bar_h: 10                         # 막대 두께(가운데 = 옛 막대 가운데) — 회색 직각 막대, accent_cols 막대만 강조색
+    gantt_year_dy: -7                       # 연도 기준선 = 축 + 이 값(축 위 — 옛 축 아래 +20 은 태그 줄 이동 때 카드 아래 끝 402 밖)
+    dual: {line_w: 1.8, ring: 1.4, x_label_dy: 14}   # 계열 선 굵기·점 둘레 흰 고리·가로 라벨 기준선(축 + dy, 카드 아래 끝 안)
+    band_h: 3                               # timeline 기간 띠(옅은 잉크 얇은 띠 — 회색 면 금지)
+  # v7.4.0 C0.0 3c단계(UF-906) — 프리미티브 6종(engine/primitives/*). skin 무대에서만 — 꺼지면 종전 어두운 상자 그대로(바이트 동일).
+  # layout = rules primitives.<id> 기하 키 덮어쓰기(같은 이름·같은 뜻 — 상자 함수 primitive_box 도 같은 값으로 잰다. 없는 키 = 시작 오류).
+  # 글자 줄 = {size, font, track(자간 × size), ink: primary|secondary|tertiary|accent}. accent 글자 = accent_text(작은 글자 대비 ≥ 4.5 — accent.ink 는 미달)
+  # 데이터·문구·타이밍·넘침 규칙은 rules primitives.<id> 그대로. 값 = 3c 감독 시안(scratchpad skin3c)
+  primitives:
+    level: card              # 카드 그림자 겹(skin.shadow)
+    accent_text: "#B8360B"   # 강조 글자·번호 원(흰 숫자 대비 ≥ 4.5) — end_card.head_ink 와 같은 단
+    statement_diff:          # 문서 같은 흰 카드 — 두 문구를 위아래로, 가운데 가는 선. 빠진 말 = 옅은 잉크 + 가는 취소선, 들어온 말 = 옅은 강조 띠 위 짙은 잉크(빨강·초록 없음)
+      layout: {pad_x: 22, pad_top: 32, label_gap: 28, line_h: 20, row_gap: 24, src_gap: 30, pad_bottom: 16}
+      tag: {size: 13, font: sansb, track: 0, ink: primary}
+      label: {size: 9.5, font: sansb, track: 0.06, ink: tertiary}
+      same_ink: primary
+      removed_ink: tertiary
+      added_ink: primary
+      strike: {w: 0.9, alpha: 1.0}
+      band: {pad_x: 2.5, top_k: 0.9, bottom_k: 0.3}   # 들어온 말 뒤 accent.soft 띠 — 기준선 − size × top_k ~ 기준선 + size × bottom_k
+      rule: {w: 0.5, alpha: 0.10, dy: 24}              # 두 문구 사이 가는 선(앞 문구 마지막 기준선 + dy)
+      foot_rule: {w: 0.5, alpha: 0.08, dy: 16}         # 출처 줄 위 가는 선(출처 기준선 − dy)
+      src: {size: 8, font: sansm, track: 0, ink: tertiary}
+    dot_plot:                # 흰 카드 — 가는 눈금선, 잉크 점, 열마다 강조 중앙값 표식, mono 축
+      layout: {pad_x: 22, pad_top: 32, head_gap: 19, plot_gap: 22, col_label_gap: 17, src_gap: 28, pad_bottom: 16}
+      tag: {size: 13, font: sansb, track: 0, ink: primary}
+      note: {size: 9.5, font: sansm, track: 0, ink: secondary}
+      tick: {size: 9.5, font: monom, track: 0, ink: tertiary}
+      col: {size: 9.5, font: mono, track: 0.04, ink: secondary}
+      median_label: {size: 9.5, font: sansm, track: 0, ink: secondary}
+      src: {size: 8, font: sansm, track: 0, ink: tertiary}
+      grid: {w: 0.5, alpha: 0.08}
+      dot_ink: secondary
+      dot_alpha: 0.85
+      median_w: 2.2          # 중앙값 표식(accent.shape)
+      foot_rule: {w: 0.5, alpha: 0.08, dy: 16}
+    site_diagram:            # 흰 카드 위 선 그림 — 면 채움 없음, 군사분계선 = 잉크 실선, 한계선 = 옅은 점선, 사고 지점·거리·폭발 = 강조 하나
+      mdl: {w: 1.5, alpha: 1.0}
+      limit: {w: 0.8, alpha: 0.45}
+      limit_label: {size: 10, font: sansm, track: 0, ink: secondary}
+      mdl_label: {size: 12.5, font: sansb, track: 0, ink: primary}
+      width_note: {size: 10, font: sansm, track: 0, ink: tertiary}
+      header: {size: 9.5, font: sansm, track: 0.02, ink: tertiary}
+      side: {size: 12, font: sansb, track: 0.06, ink: secondary}
+      dist: {size: 14, font: sansb, track: 0, ink: accent}
+      dist_src: {size: 9.5, font: sansm, track: 0, ink: tertiary}
+      mark_label: {size: 11.5, font: sansb, track: 0, ink: primary}
+      foot: {size: 9.5, font: sansm, track: 0, ink: tertiary}
+      foot_rule: {w: 0.5, alpha: 0.10, dy: 0}          # 그림 영역 아래 끝 + dy 의 가는 선(어두운 아래 띠 대신)
+      site_ring_alpha: 0.22
+      burst_rim_w: 1.2       # 폭발 별(accent.shape) 흰 테
+      flash_alpha: 0.35      # 번쩍임 고리(accent.soft) 알파
+      mine_w: 1.0            # 지뢰(흰 사각 + 잉크 윤곽)
+      leader: {w: 0.6, alpha: 0.35}
+    process_lane:            # 흰 카드 — 단계 = 흰 알약 + 가는 윤곽(도달 = 짙은 윤곽·그림자), 번호 = 작은 강조 원 + 흰 숫자, 비공개 구역 = 점선 윤곽(회색 면 없음)
+      layout: {pad_x: 26, head_h: 52, foot_h: 34, src_dy: 14}
+      title: {size: 14, font: sansb, track: 0, ink: primary}
+      row_label: {size: 11, font: sansb, track: 0, ink: secondary}
+      hidden_label: {size: 9.5, font: monom, track: 0.08, ink: tertiary}
+      gate_label: {size: 11, font: sansb, track: 0.04, ink: primary}
+      step: {size: 11.5, font: sansb, track: 0, ink: primary}
+      step_ghost_ink: tertiary
+      token_label: {size: 10.5, font: sansb, track: 0, ink: primary}
+      span_label: {size: 11, font: sansb, track: 0, ink: accent}
+      src: {size: 8, font: sansm, track: 0, ink: tertiary}
+      hidden: {w: 0.6, alpha: 0.30, dash: [2.5, 3]}
+      gate: {w: 1.1, alpha: 0.75}
+      axis: {w: 0.6, alpha: 0.20}
+      arrow_alpha: 0.35
+      pill_line: {w: 0.8, alpha: 0.50}
+      pill_ghost_line: {w: 0.6, alpha: 0.16}
+      pill_level: chip       # 도달한 단계 알약 그림자
+      num: {r: 6.5, size: 8.5, font: sansb, dx: 12, ghost_ink: tertiary}   # 번호 원 — 알약 위 끝에 걸친다(가운데 = 알약 왼쪽 + dx, 알약 위 끝)
+      token_ring_w: 1.6      # 표지(짙은 잉크 원) 흰 테
+      token_level: chip
+      span: {w: 0.8, alpha: 0.7}
+      foot_rule: {w: 0.5, alpha: 0.08, dy: 14}
+    doc_excerpt:             # 종이 카드(기사 카드와 같은 조판) — 제호 줄(기관 · 문서 세리프 + mono 날짜) · 굵은 선 · 원문 세리프 · 강조 구절 = 옅은 강조 띠 · 번역 왼쪽 강조 선 · 꼬리 선 · 출처
+      layout: {pad_top: 40, head_gap: 34, src_gap: 30, pad_bottom: 18, ghost_h: 5, ghost_gap: 10}
+      back: {dx: 8, dy: 4, rot_deg: 1.8, fill: "#F8F9FA", level: sheet}
+      level: lifted
+      masthead: {size: 15, font: serifb, track: 0, ink: primary}
+      date: {size: 9.5, font: monom, track: 0.04, ink: tertiary}
+      rule: {dy: 12, h: 1.2, thin_dy: 15.5, thin_h: 0.4, thin_alpha: 0.25}
+      ghost_alpha: 0.06
+      orig_ink: primary
+      band: {pad_x: 2, top_k: 0.86, bottom_k: 0.3}
+      trans: {size: 13, font: sansm, track: 0, ink: primary}
+      trans_bar_w: 2.2
+      foot_rule: {w: 0.5, alpha: 0.08, dy: 16}
+      src: {size: 8, font: sansm, track: 0, ink: tertiary}
+    era_numeral:             # 상자 없는 큰 숫자(잉크 primary + 흰 번짐) · 위 작은 mono 머리 · 아래 짧은 강조 선
+      ink: primary
+      alpha: 1.0
+      glow: {blur: 14, gain: 2.0, alpha: 0.9}
+      caption: {text: "YEAR", size: 9.5, font: mono, track: 0.3, ink: secondary, dy: -82}   # 기준선 + dy
+      rule: {w: 34, h: 2.6, dy: 22}   # 기준선 + dy, 가운데 정렬(accent.shape)
 
 stage_studio:              # v7.4.0 UF-902·UF-903(D910) — 스튜디오 무대(engine/stage_studio.py). 지도가 필요 없는 장면의 밝은 회색 호리존트(바닥 → 둥근 모서리 → 벽) + 점 격자 + 조명
   # 모양은 하나(어두운 판·테마·stage_config 없음, UF-903 "스튜디오 씬은 그거로만"). 조명(벽의 빛 웅덩이·바닥 반사광)은 배경에만 칠한다 — 내용물 위 덮개(비네팅, C0 금지)가 아니다.

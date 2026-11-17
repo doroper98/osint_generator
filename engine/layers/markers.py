@@ -10,9 +10,10 @@ import math
 
 import cairo
 
+from engine import skin
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import C, ELEM, ISLAND, MOTION, W_OUT, map_c, map_halo
+from engine.style import C, ELEM, ISLAND, MOTION, SKIN, W_OUT, map_c, map_halo
 from engine.timebase import ease_out, smooth, window
 from engine.typography import text, tw
 from rules import load_rules
@@ -142,6 +143,45 @@ def marker_text_boxes(ctx: cairo.Context, e: dict, x: float, y: float) -> list[t
     return out
 
 
+def skin_marker(view: View, e: dict) -> bool:
+    """v7.4.0 C0.0 3b — skin 무대의 아일랜드·스튜디오 마커인가(지도 마커 = 4단계, 종전 그리기)."""
+    return skin.active() and (bool(e.get("in_island")) or e.get("pin_value") is not None
+                              or getattr(view.stage, "name", None) in SKIN.stages)
+
+
+def skin_pin(ctx: cairo.Context, x: float, y: float, lt: float, a: float, hl: bool, kind: str) -> None:
+    """skin 핀 — 흰 고리 두른 점(강조 = accent.shape, 아니면 잉크 secondary). boom 아이콘은 종전 그대로."""
+    M = SKIN.marker  # noqa: N806
+    col = skin.ACCENT_SHAPE if hl else skin.INK2
+    pa = a * ease_out(lt / MOTION["marker_icon_pop_sec"])
+    if kind == "boom":
+        icon(ctx, kind, x, y, col, pa)
+        return
+    ctx.arc(x, y, M.dot_r + M.ring_w, 0, 2 * math.pi)
+    ctx.set_source_rgba(*skin.FILL, pa)
+    ctx.fill()
+    ctx.arc(x, y, M.dot_r, 0, 2 * math.pi)
+    ctx.set_source_rgba(*col, pa)
+    ctx.fill()
+
+
+def skin_text(ctx: cairo.Context, lines: list[tuple[str, float, float, float, str, tuple]], anc: str, a: float) -> None:
+    """skin 라벨 글자 — 잉크(테두리 없음) + 뒤 흰 번짐(skin.marker.glow). lines = (글자, x, 기준선 y, 크기, 글꼴, 색)."""
+    G = SKIN.marker.glow  # noqa: N806
+    xs = []
+    for s_, x, y, size, font, _ in lines:
+        w = tw(ctx, s_, size, font)
+        x0 = x - (w if anc == "r" else w / 2 if anc == "c" else 0)
+        xs.append((x0, y - size, x0 + w, y + size))
+    rect = (min(b[0] for b in xs), min(b[1] for b in xs), max(b[2] for b in xs), max(b[3] for b in xs))
+
+    def draw(c: cairo.Context) -> None:
+        for s_, x, y, size, font, col in lines:
+            text(c, s_, x, y, size, font, col, a, 0, anc, contrast="required")
+
+    skin.glow(ctx, draw, rect, G.blur, G.gain, G.alpha * a)
+
+
 def _draw_pin_label(ctx: cairo.Context, R: RenderCtx, view: View, lt: float, a: float, e: dict, x: float, y: float,  # noqa: N803
                     hk: dict) -> None:
     """값 레인 위 핀 라벨(D-0274 §1②, UF-143) — load_project 가 고른 단(pin_row)의 상자에 가운데 정렬, 점 → 상자 가장자리 리더선."""
@@ -162,6 +202,11 @@ def _draw_pin_label(ctx: cairo.Context, R: RenderCtx, view: View, lt: float, a: 
     ctx.stroke()
     cx = (x0 + x1) / 2
     by = y0 + MK.label_size
+    if skin.active():   # v7.4.0 3b — 잉크 라벨 + 흰 번짐, 부제 잉크 secondary(강조색은 핀 점 하나)
+        skin_text(ctx, [(e["label"], cx, by, MK.label_size, "sansb", skin.INK)]
+                  + ([(e["sub"], cx, by + MK.sub_dy, MK.sub_size, "sansm", skin.INK2)] if e.get("sub") else []), "c", la)
+        R.reserved.append((x0, y0, x1, y1))
+        return
     text(ctx, e["label"], cx, by, MK.label_size, "sansb", map_c(view.stage, "white"), la, 3.2, "c", **hk, contrast="required")
     if e.get("sub"):
         text(ctx, e["sub"], cx, by + MK.sub_dy, MK.sub_size, "sansm", map_c(view.stage, "gold_text"), la, 3, "c", **hk, contrast="required")
@@ -190,14 +235,20 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
         ctx.restore()
     halo = map_halo(view.stage)
     hk = {} if halo is None else {"halo_rgb": halo}
+    sk = skin_marker(view, e)
+    if sk:   # v7.4.0 3b — 퍼지는 고리 = 핀 색(강조 accent.shape · 아니면 잉크 secondary) × skin.marker.pulse_alpha
+        col = skin.ACCENT_SHAPE if e.get("hl") else skin.INK2
     for k in range(2):
         f = ((lt * 0.5) + k / 2) % 1.0
         r = 4 + 20 * ease_out(f)
         ctx.arc(x, y, r, 0, 2 * math.pi)
-        ctx.set_source_rgba(*col, 0.5 * (1 - f) * a)
+        ctx.set_source_rgba(*col, (SKIN.marker.pulse_alpha if sk else 0.5) * (1 - f) * a)
         ctx.set_line_width(1.3)
         ctx.stroke()
-    icon(ctx, e.get("icon") or "dot", x, y, col, a * ease_out(lt / MOTION["marker_icon_pop_sec"]))
+    if sk:
+        skin_pin(ctx, x, y, lt, a, bool(e.get("hl")), e.get("icon") or "dot")
+    else:
+        icon(ctx, e.get("icon") or "dot", x, y, col, a * ease_out(lt / MOTION["marker_icon_pop_sec"]))
     if e.get("pin_value") is not None:   # v7.4.0 D-0274 §1② — 값 레인 위 핀: 단 라벨 + 리더선(engine.pin_labels), 단 없으면 점만
         _draw_pin_label(ctx, R, view, lt, a, e, x, y, hk)
         return
@@ -210,6 +261,11 @@ def draw_marker(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     dx, dy, anc = _SIDE[side]
     box = marker_box(ctx, {**e, "side": side} if side != (e.get("side") or "right") else e, x + shift, y)
     la *= marker_label_alpha(box, R.zones)   # 카드 뒤 라벨은 흐린다 — 점은 사실 위치라 그대로(D-0033)
+    if sk:   # v7.4.0 3b — 잉크 라벨(테두리 없음) + 흰 번짐, 부제 잉크 secondary
+        skin_text(ctx, [(e["label"], x + dx + shift, y + dy, MK.label_size, "sansb", skin.INK)]
+                  + ([(e["sub"], x + dx + shift, y + dy + MK.sub_dy, MK.sub_size, "sansm", skin.INK2)] if e.get("sub") else []), anc, la)
+        R.reserved.append(box)
+        return
     text(ctx, e["label"], x + dx + shift, y + dy, MK.label_size, "sansb", map_c(view.stage, "white"), la, 3.2, anc, **hk,
          contrast="required")
     if e.get("sub"):

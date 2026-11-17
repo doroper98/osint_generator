@@ -13,12 +13,13 @@ import cairo
 import numpy as np
 from PIL import Image
 
+from engine import skin
 from engine.assets import set_raster, surf_from_pil
 from engine.context import RenderCtx
 from engine.credits import RightsError
 from engine.media_registry import credit_line, load_media_registry
 from engine.projection import View
-from engine.style import C, ELEM, FPS, MOTION
+from engine.style import C, ELEM, FPS, MOTION, SKIN
 from rules import load_rules
 from engine.timebase import clamp01, ease_out, smooth, window
 from engine.typography import ink_rgb, rrect, text, tw
@@ -102,8 +103,54 @@ def caption_layout(cap: str, credit: str, w: float) -> tuple[str, list[str], boo
 
 
 def caption_bar_h(cap: str, credit: str, w: float) -> float:
-    """캡션 바 높이 — 접힌 출처 줄마다 + rules media_caption.overflow.source_line_px(media_plan 상자 계산도 이 값)."""
-    return BAR + (len(caption_layout(cap, credit, w)[1]) - 1) * MC.overflow.source_line_px
+    """캡션 바 높이 — 접힌 출처 줄마다 + rules media_caption.overflow.source_line_px(media_plan 상자 계산도 이 값).
+    skin 무대(v7.4.0 3b) = 사진 아래 흰 여백 안 캡션 칸 높이(skin.media.credit_dy + 접힌 줄 + bottom)."""
+    n = len(caption_layout(cap, credit, w)[1])
+    if skin.active():
+        return SKIN.media.credit_dy + (n - 1) * MC.overflow.source_line_px + SKIN.media.bottom
+    return BAR + (n - 1) * MC.overflow.source_line_px
+
+
+def mat_pad() -> float:
+    """사진·영상 둘레 흰 여백(왼·오른·위, 설계 px) — skin 무대만(v7.4.0 3b), 아니면 0. media_plan.media_box 가 상자를 이만큼 넓힌다."""
+    return SKIN.media.mat if skin.active() else 0.0
+
+
+def skin_frame(ctx: cairo.Context, x: float, y: float, w: float, h: float, bar: float, a: float) -> None:
+    """v7.4.0 C0.0 3b(UF-906·UF-908) — 사진 액자: 흰 직각 여백(surface lifted, 사진 둘레 mat + 아래 캡션 칸 bar)."""
+    m = SKIN.media.mat
+    skin.surface(ctx, (x - m, y - m, w + 2 * m, h + bar + m), a, SKIN.media.level)
+
+
+def skin_caption(ctx: cairo.Context, x: float, y: float, w: float, cap: str, credit: str, a: float) -> None:
+    """사진 아래 여백 안 캡션(잉크 sansm) + 출처 줄(잉크 tertiary mono, 접힘 그대로) — y = 사진 아래 끝. 어두운 캡션 바 없음."""
+    c, src, _ = caption_layout(cap, credit, w)
+    text(ctx, c, x, y + SKIN.media.caption_dy, MC.caption_size, "sansm", skin.INK, a, 0, "l")
+    for i, ln in enumerate(src):
+        text(ctx, ln, x, y + SKIN.media.credit_dy + i * MC.overflow.source_line_px, MC.credit_size, "monom", skin.INK3, a, 0, "l",
+             role="media_meta")
+
+
+def skin_band(ctx: cairo.Context, x: float, y: float, w: float, cap: str, credit: str, a: float) -> None:
+    """액자 클립(clip_frame) — 상자 안 위쪽 캡션 띠를 흰 면(band_alpha)으로, 글자는 잉크(종전 자리·높이 그대로)."""
+    c, src, _ = caption_layout(cap, credit, w)
+    ctx.rectangle(x, y, w, BAR + (len(src) - 1) * MC.overflow.source_line_px)
+    ctx.set_source_rgba(*skin.FILL, SKIN.media.band_alpha * a)
+    ctx.fill()
+    text(ctx, c, x + MC.pad_x, y + MC.caption_dy, MC.caption_size, "sansm", skin.INK, a, 0, "l")
+    for i, ln in enumerate(src):
+        text(ctx, ln, x + MC.pad_x, y + MC.credit_dy + i * MC.overflow.source_line_px, MC.credit_size, "monom", skin.INK3, a, 0, "l",
+             role="media_meta")
+
+
+def skin_tag(ctx: cairo.Context, x: float, y: float, s_: str, a: float) -> None:
+    """PHOTO·VIDEO 꼬리표 = 흰 알약(chip 그림자) + mono 잉크 secondary, 자간 넓게 — 사진 왼쪽 위 inset."""
+    T = SKIN.media.tag  # noqa: N806
+    sp = T.track * T.size
+    w = tw(ctx, s_, T.size, T.font) + sp * max(0, len(s_) - 1) + 2 * T.pad
+    skin.pill(ctx, (x + T.inset, y + T.inset, w, T.h), skin.FILL, a, "chip")
+    text(ctx, s_, x + T.inset + T.pad, y + T.inset + T.h / 2 + T.size * T.baseline_k, T.size, T.font, skin.INK2, a, 0, "l", spacing=sp,
+         role="media_meta")
 
 
 def media_caption(ctx: cairo.Context, x: float, y: float, w: float, cap: str, credit: str, a: float) -> None:
@@ -186,7 +233,11 @@ def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     x, y, w = e["x"], e["y"] + (1 - ease_out(lt / MOTION["photo_rise_sec"])) * 12, e["w"]
     h = w * 0.625
     bar = caption_bar_h(m.caption, credit_line(m), w)   # v7.4.0 D-0333 — 출처 줄 접힘만큼 바가 길다
-    media_frame(ctx, x, y, w, h + bar, a)
+    sk = skin.active()
+    if sk:
+        skin_frame(ctx, x, y, w, h, bar, a)
+    else:
+        media_frame(ctx, x, y, w, h + bar, a)
     k = 1.0 + (KEN_BURNS_MAX - 1.0) * clamp01(lt / (e["t1"] - e["t0"]))  # Ken Burns
     ctx.save()
     ctx.rectangle(x, y, w, h)
@@ -195,6 +246,10 @@ def draw_photo(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # 
     ctx.paint_with_alpha(a)
     ctx.restore()
     draw_spot(ctx, t, e, x, y, w, h, a)
+    if sk:
+        skin_tag(ctx, x, y, "PHOTO", a)
+        skin_caption(ctx, x, y + h, w, m.caption, credit_line(m), a)
+        return
     ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + bar - 1)
     ctx.set_source_rgba(1, 1, 1, 0.22 * a)
     ctx.set_line_width(1)
@@ -220,10 +275,21 @@ def draw_clip(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # n
     surf, buf = surf_from_pil(img)
     R.cache["clip_buf"] = buf  # 표면이 칠해질 때까지 버퍼를 붙잡아 둔다
     bar = 0 if e.get("frame") else caption_bar_h(m.caption, credit_line(m), w)   # v7.4.0 D-0333 접힘 · v7.4.0 D-0274 §2① — 액자(clip_frame): 캡션 줄은 상자 안 위쪽 띠(아래는 자막 자리)
-    media_frame(ctx, x, y, w, h + bar, a)
+    sk = skin.active()
+    if sk:
+        skin_frame(ctx, x, y, w, h, bar, a)
+    else:
+        media_frame(ctx, x, y, w, h + bar, a)
     set_raster(ctx, surf, OP.k, x, y)
     ctx.paint_with_alpha(a)
     draw_spot(ctx, t, e, x, y, w, h, a)
+    if sk:
+        if e.get("frame"):
+            skin_band(ctx, x, y, w, m.caption, credit_line(m), a)
+            return
+        skin_tag(ctx, x, y, "VIDEO", a)
+        skin_caption(ctx, x, y + h, w, m.caption, credit_line(m), a)
+        return
     ctx.rectangle(x + 0.5, y + 0.5, w - 1, h + bar - 1)
     ctx.set_source_rgba(1, 1, 1, 0.22 * a)
     ctx.set_line_width(1)

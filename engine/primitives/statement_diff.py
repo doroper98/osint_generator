@@ -19,12 +19,15 @@ from typing import Literal, Optional
 import cairo
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-from engine.style import C, CARD, CARD_BG, PRIMITIVES, QUOTE_MAX_CHARS, W_OUT
+from engine.primitives import geo, ink, skin_band, skin_card, skin_on, skin_rule, skin_text
+from engine.style import C, CARD, CARD_BG, PRIMITIVES, QUOTE_MAX_CHARS, SKIN, W_OUT
 from engine.timebase import ease_out, window
 from engine.typography import rrect, text, tw
 from script.schema import DATE_RE
 
 L = PRIMITIVES["statement_diff"]
+SK = SKIN.primitives.statement_diff   # v7.4.0 3c(UF-906) — skin 무대 판(rules skin.primitives.statement_diff)
+META = "media_meta"   # 출처·날짜 메타 글자 역할(qa_checks.glyph_size_exempt)
 COLOR_KEYS: tuple[str, ...] = ("added", "removed")
 AXIS = "none"   # v4.4.0 — 값 축 없음(정직성 검사 해당 없음, engine/honesty.py)
 Op = Literal["same", "removed", "added"]
@@ -133,11 +136,12 @@ def _lines(ctx: cairo.Context, toks: list[tuple[str, Op]], maxw: float) -> list[
 
 def layout(ctx: cairo.Context, e: dict) -> tuple[float, float, float, list[tuple[str, list]]]:
     """(x0, y0, 높이, [(행 이름, 줄 목록)]) — 제자리 상자."""
+    G = geo("statement_diff")  # noqa: N806 — skin 무대면 skin.primitives.statement_diff.layout 덮어쓰기
     left, right = diff_tokens(e["before"], e["after"])
-    inner = L.w - L.pad_x * 2
+    inner = G.w - G.pad_x * 2
     rows = [(e["before_label"], _lines(ctx, left, inner)), (e["after_label"], _lines(ctx, right, inner))]
-    h = L.pad_top + sum(L.label_gap + L.line_h * len(ls) for _, ls in rows) + L.row_gap * (len(rows) - 1) + L.src_gap + L.pad_bottom
-    return W_OUT - L.w - CARD.x_right_margin, e.get("y") or CARD.y, h, rows
+    h = G.pad_top + sum(G.label_gap + G.line_h * len(ls) for _, ls in rows) + G.row_gap * (len(rows) - 1) + G.src_gap + G.pad_bottom
+    return W_OUT - G.w - CARD.x_right_margin, e.get("y") or CARD.y, h, rows
 
 
 def draw(ctx: cairo.Context, view: object, t: float, e: dict, style: object) -> tuple[float, float, float, float]:
@@ -148,6 +152,9 @@ def draw(ctx: cairo.Context, view: object, t: float, e: dict, style: object) -> 
     if a <= 0:
         return box
     x = x0 + (1 - ease_out((t - e["t0"]) / L.fade_sec)) * L.slide_px
+    if skin_on():
+        _draw_skin(ctx, e, x, y0, h, rows, a)
+        return box
     muted = C["muted"]
     rrect(ctx, x, y0, L.w, h, L.radius)
     ctx.set_source_rgba(*CARD_BG[:-1], CARD_BG[-1] * a)
@@ -176,6 +183,44 @@ def draw(ctx: cairo.Context, view: object, t: float, e: dict, style: object) -> 
         y += L.line_h * len(lines)
     text(ctx, f"{e['source']} · {e['date']}", x + L.pad_x, y0 + h - L.pad_bottom, CARD.src_size, "sans", muted, a, 0, "l")
     return box
+
+
+def _draw_skin(ctx: cairo.Context, e: dict, x: float, y0: float, h: float, rows: list[tuple[str, list]], a: float) -> None:
+    """skin 판(v7.4.0 3c·UF-906) — 문서 같은 흰 직각 카드. 머리(잉크) · 행 이름(작은 꼬리표) · 두 문구 사이 가는 선 ·
+    빠진 말 = 옅은 잉크 + 가는 취소선, 들어온 말 = 옅은 강조 띠 위 짙은 잉크(빨강·초록 글자 없음) · 출처 위 가는 선 · 출처 줄."""
+    G = geo("statement_diff")  # noqa: N806
+    skin_card(ctx, (x, y0, G.w, h), a)
+    tx = x + G.pad_x
+    skin_text(ctx, SK.tag, e["tag"], tx, y0 + G.pad_top, a)
+    y = y0 + G.pad_top
+    for i, (label, lines) in enumerate(rows):
+        if i:
+            skin_rule(ctx, tx, x + G.w - G.pad_x, y + SK.rule.dy, SK.rule, a)
+        y += (G.row_gap if i else 0) + G.label_gap
+        skin_text(ctx, SK.label, label, tx, y, a)
+        for j, line in enumerate(lines):
+            yy = y + G.line_h * (j + 1)
+            for k, (w, op, dx) in enumerate(line):
+                if op == "added":   # 이어진 들어온 말은 띠 하나로(낱말 사이 빈틈 없이)
+                    ww = tw(ctx, w, L.text_size, _font(op))
+                    nxt = line[k + 1] if k + 1 < len(line) else None
+                    x1 = tx + (nxt[2] if nxt is not None and nxt[1] == "added" else dx + ww)
+                    skin_band(ctx, tx + dx, x1, yy, L.text_size, SK.band, a)
+            for w, op, dx in line:
+                col = ink({"same": SK.same_ink, "removed": SK.removed_ink, "added": SK.added_ink}[op])
+                text(ctx, w, tx + dx, yy, L.text_size, _font(op), col, a, 0, "l")
+                if op == "removed":
+                    ww = tw(ctx, w, L.text_size, _font(op))
+                    ctx.new_path()
+                    ctx.set_source_rgba(*col, SK.strike.alpha * a)
+                    ctx.set_line_width(SK.strike.w)
+                    ctx.move_to(tx + dx, yy - L.text_size * L.strike_rise)
+                    ctx.line_to(tx + dx + ww, yy - L.text_size * L.strike_rise)
+                    ctx.stroke()
+        y += G.line_h * len(lines)
+    sy = y0 + h - G.pad_bottom
+    skin_rule(ctx, tx, x + G.w - G.pad_x, sy - SK.foot_rule.dy, SK.foot_rule, a)
+    skin_text(ctx, SK.src, f"{e['source']} · {e['date']}", tx, sy, a, role=META)
 
 
 PREVIEW_FIXTURE: dict = {

@@ -11,7 +11,9 @@ from datetime import date
 
 import cairo
 
+from engine import skin
 from engine.context import RenderCtx
+from engine.panels import skin_panel
 from engine.panels.base import panel_title
 from engine.style import C
 from engine.timebase import ease_io, ease_out, smooth
@@ -20,6 +22,7 @@ from rules import load_rules
 
 AXIS = "date"   # v4.3.0 D-0087 — 축 종류(날짜 축만(값 축 없음)). 정직성 검사 적용 = rules qa_checks.chart_targets
 TL = load_rules().panels.timeline
+SP = skin_panel.P
 
 
 def _d(s: str) -> date:
@@ -150,6 +153,64 @@ def occupied(ctx: cairo.Context, e: dict, t_until: float) -> list[tuple[float, f
     return out
 
 
+def _draw_skin(ctx: cairo.Context, t: float, e: dict, a: float, k: float, sides: list[int]) -> None:
+    """v7.4.0 C0.0 3a — 가는 잉크 축·눈금, 월 꼬리표 잉크 tertiary, 기간 = 옅은 잉크 얇은 띠(회색 면 없음), 사건 = 가는 줄기 + 작은 잉크 점,
+    날짜 mono 잉크 secondary·이름 sansb 잉크 primary(의미색 글자 없음), 지금 사건 점과 커서만 강조색. 층·자리·시각은 종전 그대로(occupied 와 같은 식)."""
+    X0, X1 = TL.x  # noqa: N806
+    Y = TL.y  # noqa: N806
+    fx = _fx(e)
+    skin_panel.hline(ctx, X0, X0 + (X1 - X0) * k, Y, a, SP.axis.alpha, SP.axis.w)
+    for md in _months(_d(e["start"]), _d(e["end"])):
+        x = fx(md.isoformat())
+        if x <= X0 + (X1 - X0) * k:
+            ctx.new_path()
+            ctx.move_to(x, Y - TL.tick_h / 2)
+            ctx.line_to(x, Y + TL.tick_h / 2)
+            ctx.set_source_rgba(*skin.INK, SP.axis.alpha * a)
+            ctx.set_line_width(SP.axis.w)
+            ctx.stroke()
+            skin_panel.label(ctx, f"{md.month}월", x + TL.month_dx, Y + TL.month_dy, a, col=skin.INK3, size=TL.month.size)
+    band = e.get("band")
+    if band:
+        ca = a * smooth((t - band["t_show"]) / TL.band_fade_sec)
+        if ca > 0:
+            x0, x1 = fx(band["start"]), fx(band["end"])
+            ctx.rectangle(x0, Y - SP.band_h / 2, x1 - x0, SP.band_h)
+            ctx.set_source_rgba(*skin.INK, SP.axis.alpha * ca)
+            ctx.fill()
+            skin_panel.label(ctx, band["label"], (x0 + x1) / 2, Y + TL.band_label_dy, ca, "c", size=TL.band_label.size)
+    shown = [i for i, ev in enumerate(e["events"]) if smooth((t - ev["t"]) / TL.event_fade_sec) > 0]
+    cur_i = shown[-1] if shown else None
+    for i in shown:
+        ev, side = e["events"][i], sides[i]
+        f = smooth((t - ev["t"]) / TL.event_fade_sec)
+        x = fx(ev["date"])
+        al = a * f * (TL.dim_alpha if ev.get("dim") else 1)
+        L = TL.layer_px[abs(side) - 1]  # noqa: N806
+        yy = Y - L if side < 0 else Y + L
+        ctx.new_path()
+        ctx.move_to(x, Y)
+        ctx.line_to(x, Y + (yy - Y) * ease_out(f))
+        ctx.set_source_rgba(*skin.INK, SP.line.alpha * al)
+        ctx.set_line_width(SP.hair.w)
+        ctx.stroke()
+        now = i == cur_i
+        skin_panel.dot(ctx, x, Y, skin.ACCENT_SHAPE if now else skin.INK, al, TL.dot_r)
+        ty = yy + (TL.date_dy_above if side < 0 else TL.date_dy_below)
+        text(ctx, _date_text(ev["date"]), x, ty, TL.date.size, "mono", skin.ACCENT_INK if now else skin.INK2, al, 0, "c")   # 글꼴 = _box 가 재는 글꼴
+        text(ctx, ev["label"], x, ty + (TL.label_dy_above if side < 0 else TL.label_dy_below), TL.label.size, "sansb",
+             skin.INK, al, 0, "c")
+    if cur_i is not None:
+        x = fx(e["events"][cur_i]["date"])
+        ctx.set_source_rgba(*skin.ACCENT_SHAPE, TL.cursor_alpha * a)
+        ctx.set_line_width(SP.hair.w)
+        ctx.set_dash(TL.cursor_dash)
+        ctx.move_to(x, TL.cursor_y[0])
+        ctx.line_to(x, TL.cursor_y[1])
+        ctx.stroke()
+        ctx.set_dash([])
+
+
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
     lt = t - e["t0"]
     panel_title(ctx, a, e["title"], e.get("subtitle"))
@@ -162,6 +223,9 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
     sides = R.cache[key]
 
     k = ease_io(lt / TL.axis_draw_sec)
+    if skin.active():
+        _draw_skin(ctx, t, e, a, k, sides)
+        return
     ctx.set_source_rgba(*C["white"], TL.axis_alpha * a)
     ctx.set_line_width(TL.axis_width)
     ctx.move_to(X0, Y)

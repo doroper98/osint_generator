@@ -458,13 +458,16 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
                         "configs": {k: json.loads(json.dumps(v, default=str)) for k, v in doc.stage_configs().items()}}   # v4.3.0
     R.cache["direction_drops"] = [d.model_dump() for d in doc.drops]   # v7.4.0 D-0245 — [series-unused]·[panel-dropped] 예외
     R.cache["invest_notice"] = doc.genre_profile().invest_notice     # v7.4.0 D-0278 §4.3 — 엔딩 카드 맨 마지막 줄 투자 고지
-    skin_on = skin.apply(R.stage.name)   # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 무대(rules skin.stages)면 켠다, 아니면 끈다(한 프로세스 여러 영상)
+    skin_on = skin.apply(R.stage.name, mt["effective"] if mt else None)   # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 무대(rules skin.stages)면 켠다, 아니면 끈다(한 프로세스 여러 영상). 4b — mercator + skin.map_themes 도
     pal = SKIN.palette if skin_on else doc.genre_profile().palette   # 그 무대는 skin.palette 가 장르 팔레트를 이긴다(스튜디오 모습 하나, UF-903)
     apply_palette(pal)   # v7.4.0 D-0310(UF-155) — 장르 팔레트(없으면 기존 색으로 되돌린다 — 한 프로세스 여러 영상)
     R.cache["palette"] = pal
     if skin_on:   # provenance skin(15 P5) — 켜진 영상만
         R.cache["skin"] = {"name": SKIN.palette, "stage": R.stage.name}
-    if R.cache["palette"] and "mercator" in doc.stage_configs():   # 팔레트 지도 테마(map_*) 지형 래스터 미준비 — 조용히 옛 지도로 그리지 않는다(P6)
+    skin_map = skin_on and mt is not None and mt["effective"] in SKIN.map_themes   # v7.4.0 4b — skin 지도: 지형 = 지도 테마 래스터(팔레트 map_* 아님)
+    if skin_map:
+        R.cache["skin"]["map_theme"] = mt["effective"]
+    if R.cache["palette"] and "mercator" in doc.stage_configs() and not skin_map:   # 팔레트 지도 테마(map_*) 지형 래스터 미준비 — 조용히 옛 지도로 그리지 않는다(P6)
         raise ProjectError(f"팔레트 {R.cache['palette']!r} 는 아직 지도 무대(mercator)와 함께 못 쓴다 — 지도 테마 자산(geo.prep)이 없다(D-0310)")
     R.cache["genre"] = {"name": doc.genre_name(), "declared": doc.genre is not None,    # v4.2.0 D-0081 작업 3 — provenance genre(15 P5)
                         "status": doc.genre_profile().status,                          # v4.3.0 D-0084 작업 6 — proposed 프로필 사용 기록(P6)

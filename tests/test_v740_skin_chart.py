@@ -196,5 +196,193 @@ class MovingLayoutTest(LayoutTest):
         pass
 
 
+# ---- v7.4.0 2b — 차트 안 두 번째 손질(레인 여럿·예상치·끝값·자료 없음·띠·전망·쌓임·가이던스·열 확대 인셋·압축)
+# 내부 시험용 자료(CPI·실효금리 레코드)는 시험 사본에만 쓴다 — projects/studio_showcase* 에 넣지 않는다(UF-906).
+
+def _variant(proj: Path, var: str) -> None:
+    """showcase 사본의 direction 을 변형 — two(레인 둘, 자료 없음 포함) · est(미래 열 예상 — 무대 끝을 열 뒤로) · dumbbell(열 확대 인셋)."""
+    p = proj / "direction.yaml"
+    d = _fix(yaml.safe_load(p.read_text(encoding="utf-8")))
+    end = d["events"][1]["end"]
+    cam = lambda date, w: [d["shots"][0], {"at": 0, "stage": "timeline", "mode": "cut", "dur": 0, "camera": {"date": date, "w": w}}]  # noqa: E731
+    isl = {"type": "island", "kind": "chart", "box": "left", "start": 0.2, "end": end}
+    ser = lambda lane, sid, style, col="gold", **kw: {"type": "series", "start": 0.3, "end": end, "lane": lane,  # noqa: E731
+                                                      "series_id": sid, "style": style, "col": col, **kw}
+    if var == "two":
+        d["stage_config"]["timeline"] = {"start": "2023-01-01", "end": "2026-06-30", "lanes": [
+            {"id": "cpi", "label": "소비자물가 상승률", "kind": "line", "unit": "%"},
+            {"id": "ff", "label": "실효 연방기금금리", "kind": "step", "unit": "%"}]}
+        d["shots"] = cam("2024-10-01", 1300)
+        d["events"] = [isl, ser("cpi", "CPIAUCSL", "line"), ser("ff", "FEDFUNDS", "step", "white")]
+    elif var == "est":
+        d["stage_config"]["timeline"]["lanes"] = [{"id": "op", "label": "조정 주당순이익", "kind": "bars", "unit": "달러"}]
+        d["events"][1].update(series_id="INTC_EPS_Q", estimate_id="INTC_EPS_Q_EST")
+        d["stage_config"]["timeline"]["end"] = "2027-02-15"
+        d["shots"][1]["camera"]["date"] = "2026-05-01"
+    elif var == "dumbbell":
+        d["stage_config"]["timeline"]["lanes"] = [{"id": "rev", "label": "분기 매출", "kind": "bars", "unit": "십억 달러"}]
+        d["events"] = [isl, ser("rev", "INTC_REV_Q", "bars"),
+                       {"type": "island", "kind": "column_detail", "start": 0.5, "end": end, "lane": "rev", "style": "dumbbell",
+                        "series_id": "INTC_SEG_DCAI_Q", "title": "2분기 → 3분기 부문 매출 · 십억 달러", "accent": "파운드리",
+                        "parts": [{"ids": ["INTC_SEG_DCAI_Q"], "label": "DC"}, {"ids": ["INTC_SEG_CCG_Q"], "label": "PC"},
+                                  {"ids": ["INTC_SEG_FOUNDRY_Q"], "label": "파운드리"}]}]
+    p.write_text(yaml.safe_dump(d, allow_unicode=True, sort_keys=False), encoding="utf-8")
+
+
+def _lum(a: np.ndarray) -> np.ndarray:
+    return 0.2126 * a[..., 0] + 0.7152 * a[..., 1] + 0.0722 * a[..., 2]
+
+
+class Rules2bTest(unittest.TestCase):
+    def test_strict_blocks(self) -> None:
+        raw = load_rules().skin.chart.model_dump()
+        for k in ("lane", "end", "estimate", "missing", "band", "projection", "wave", "detail"):
+            with self.assertRaises(ValidationError, msg=k):
+                SkinChart.model_validate({**raw, k: {**raw[k], "bogus": 1}})
+        with self.assertRaises(ValidationError):   # 선 레인 머리는 제목 기준선 아래
+            SkinChart.model_validate({**raw, "lane": {**raw["lane"], "line_pad_top": raw["title"]["dy"]}})
+        self.assertEqual(SKIN.chart.detail.level in SKIN.shadow.model_dump(), True)
+
+
+class _Var(unittest.TestCase):
+    var = ""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        from engine.project import load_project  # noqa: PLC0415
+
+        cls.tmp = tempfile.TemporaryDirectory()
+        proj = showcase_project(Path(cls.tmp.name) / "s")
+        _variant(proj, cls.var)
+        cls.P = load_project(proj, animatic=True)
+        cls.isl = next(e for e in cls.P.events if e["type"] == "island" and e.get("kind") == "chart")
+        cls.sers = [e for e in cls.P.events if e["type"] == "series" and not e.get("detail")]
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.tmp.cleanup()
+        _off()
+
+    def frame(self, t: float) -> np.ndarray:
+        from engine.render import render_frame  # noqa: PLC0415
+        from engine.style import FPS  # noqa: PLC0415
+
+        _, buf = render_frame(self.P, int(t * FPS))
+        w, h = self.P.R.out.width, self.P.R.out.height
+        return np.frombuffer(bytes(buf), np.uint8).reshape(h, w, 4)[..., [2, 1, 0]].astype(np.float64) / 255
+
+    def view(self, t: float) -> tuple:
+        from engine.island import chart_view, island_box  # noqa: PLC0415
+
+        chart = self.P.R.cache["island_chart"]
+        return chart["stage"], chart_view(chart, t, island_box(self.isl)), cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
+
+    def dev(self, img: np.ndarray, r: tuple) -> np.ndarray:
+        """설계 px 사각형(내용 영역 원점, x0·y0·x1·y1) → 화면 화소 조각."""
+        from engine.island import inner_box, island_box  # noqa: PLC0415
+
+        k, px = self.P.R.out.k, self.P.R.out.pad_x
+        bx, by, _, _ = inner_box(island_box(self.isl))
+        return img[int((by + r[1]) * k):int((by + r[3]) * k) + 1, int(px + (bx + r[0]) * k):int(px + (bx + r[2]) * k) + 1]
+
+
+class TwoLaneTest(_Var):
+    var = "two"
+
+    def test_layout(self) -> None:
+        from engine.layers.series import (lane_title_box, missing_marks, plot_pads, source_line_boxes, source_prefix,  # noqa: PLC0415
+                                          value_y)
+        t = self.isl["t1"] - 1.0
+        st, v, ctx = self.view(t)
+        K = SKIN.chart  # noqa: N806
+        self.assertEqual(plot_pads(st, "cpi"), (K.lane.gap, K.lane.line_pad_top))
+        self.assertEqual(plot_pads(st, "ff"), (K.plot_pad_bottom, K.lane.line_pad_top))
+        ticks = [b for _, b in st.tick_label_boxes(ctx, v)]
+        fs = SKIN.chart.source.size
+        rows = []
+        for e in self.sers:
+            for k, (ln, x, by) in enumerate(source_line_boxes(ctx, v, st, e)):
+                rows.append((by, ln))
+                self.assertGreater(by - fs, max(b[3] for b in ticks), "출처가 눈금 아래 한 덩이")
+                self.assertLessEqual(by, v.vh, "출처가 내용 영역 안")
+                if k == 0:
+                    self.assertTrue(ln.startswith(source_prefix(st, e["lane"])) and ln.startswith(st.lanes[st.lane_index(e["lane"])].label))
+        self.assertEqual([r[1].split()[0] for r in sorted(rows)][:1], ["소비자물가"], "레인 순서대로")
+        # 첫 레인 플롯 = 레인 높이 − 머리 − 틈, 다음 레인 제목은 첫 레인 플롯 아래
+        rng = self.P.R.cache["series_range"]["cpi"]
+        bot0 = v.to_screen(0.0, value_y(st, "cpi", rng, rng[0]))[1]
+        self.assertLess(bot0, lane_title_box(ctx, v, st, 1)[1], "다음 레인 제목이 플롯 아래")
+        # 자료 없음 꺾쇠는 끊긴 구간 양 끝 값보다 위
+        from engine.layers.series import load_series  # noqa: PLC0415
+
+        rec = load_series("CPIAUCSL")
+        mm = missing_marks(v, st, rec, self.sers[0], rng)
+        self.assertTrue(mm)
+        for sa, sb, y in mm:   # 선의 점(구간 양옆 한 칸까지)은 모두 꺾쇠보다 아래 — 라벨이 선 위에 놓이지 않는다
+            w = sb - sa
+            near = [v.to_screen(st.x_of(d_), value_y(st, "cpi", rng, val))[1] for d_, val in rec.values
+                    if sa - w <= v.to_screen(st.x_of(d_), 0.0)[0] <= sb + w]
+            self.assertTrue(near)
+            self.assertLess(y, min(near))
+
+    def test_pixels(self) -> None:
+        img = self.frame(self.isl["t1"] - 1.0)
+        reg = self.P.R.cache.get("series_end_labels") or {}
+        plates = [p[3] for ls in (reg.get("lanes") or {}).values() for p in ls]
+        self.assertGreaterEqual(len(plates), 2, "끝값 라벨 둘")
+        for r in plates:
+            self.assertGreaterEqual(float(_lum(self.dev(img, r)).mean()), 0.85, f"끝값 판이 어둡다 {r}")
+
+
+class EstimateTest(_Var):
+    var = "est"
+
+    def test_marks(self) -> None:
+        from engine.layers.series import _grow, bar_rects, estimate_marks, load_series, plot_right  # noqa: PLC0415
+        from engine.typography import tw  # noqa: PLC0415
+
+        t = self.isl["t1"] - 1.0
+        st, v, ctx = self.view(t)
+        e = next(x for x in self.sers if x.get("estimate_id"))
+        rng = self.P.R.cache["series_range"][e["lane"]]
+        act = {d: (val, x0, x1, yv, _grow(1e18, x0, x1)) for d, val, x0, x1, _y, yv in bar_rects(st, e, rng, load_series(e["series_id"]))}
+        mk = estimate_marks(v, st, e, rng, act)
+        K = SKIN.chart  # noqa: N806
+        kinds = {m["kind"] for m in mk}
+        self.assertEqual(kinds, {"tick", "future"})
+        pr = plot_right(ctx, v, st, e["lane"], rng, "")
+        for m in mk:
+            if m["kind"] == "future":
+                self.assertLessEqual(m["x1"], pr, "미래 열 예상 윤곽이 숫자 열 앞에서 끝난다")
+            else:
+                val = act[m["d"]][0]
+                sy = v.to_screen(0.0, act[m["d"]][3])[1]
+                vb = min(sy, m["y"] - K.estimate.tick_w) - K.value.gap
+                vl = tw(ctx, f"{val}", K.value.size, K.value.font)
+                cx = (m["x0"] + m["x1"]) / 2
+                lab = (cx - 50, m["by"] - K.estimate.size, cx + 50, m["by"])
+                self.assertFalse(_hits(lab, (cx - vl, vb - K.value.size, cx + vl, vb)), "예상 라벨 ↔ 값 라벨")
+        img = self.frame(t)
+        fut = next(m for m in mk if m["kind"] == "future")
+        self.assertGreaterEqual(float(_lum(self.dev(img, (fut["x0"], fut["y"], fut["x1"], fut["y0"]))).mean()), 0.85, "예상 윤곽이 무겁다")
+
+
+class DumbbellTest(_Var):
+    var = "dumbbell"
+
+    def test_inset_white_square(self) -> None:
+        from engine.layers.series import DRAWN_INSETS  # noqa: PLC0415
+
+        DRAWN_INSETS.clear()
+        img = self.frame(self.isl["t1"] - 1.0)
+        self.assertTrue(DRAWN_INSETS)
+        x0, y0, x1, y1 = (round(c) for c in DRAWN_INSETS[-1])
+        sub = img[y0 + 2:y1 - 2, x0 + 2:x1 - 2]
+        self.assertGreaterEqual(float(_lum(sub).mean()), 0.85, "인셋이 어두운 판")
+        self.assertGreaterEqual(float(np.median(_lum(sub))), 0.95)
+        c, inner = img[y0 + 1, x0 + 1], img[y0 + 1, (x0 + x1) // 2]   # 직각 — 모서리 화소 = 위 변 가운데 화소
+        self.assertLess(np.abs(c - inner).max(), 0.06, "인셋 모서리가 둥글다")
+
+
 if __name__ == "__main__":
     unittest.main()

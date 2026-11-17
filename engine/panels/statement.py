@@ -4,12 +4,15 @@ from __future__ import annotations
 
 import cairo
 
+from engine import skin
 from engine.context import RenderCtx
 from engine.layers.badges import badge_at
+from engine.panels import skin_panel
 from engine.panels.base import panel_title
-from engine.style import C, MOTION, W_OUT
+from engine.style import MOTION, W_OUT, C
 from engine.timebase import smooth
 
+SP = skin_panel.P
 
 AXIS = "none"   # v4.3.0 D-0087 — 축 종류(값·날짜 축 없음). 정직성 검사 적용 = rules qa_checks.chart_targets
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
@@ -23,8 +26,12 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
     badge_at(ctx, R, W_OUT / 2, 345, dict(kind="flag", flag=j["flag"], R=30, t0=tj, label=j["label"], role=j["role"],
                                           accent="gold"), t, a)
     ka = a * smooth((t - tj) / MOTION["panel_item_in_sec"])   # v7.4.0 UF-159 ×1.5
-    ctx.set_source_rgba(*C["gold"], 0.5 * ka)
-    ctx.set_line_width(1)
+    if skin.active():   # v7.4.0 C0.0 3a — 서명국 줄 아래 가는 잉크 점선(강조색은 동참국 뱃지 하나)
+        ctx.set_source_rgba(*skin.INK, SP.axis.alpha * ka)
+        ctx.set_line_width(SP.axis.w)
+    else:
+        ctx.set_source_rgba(*C["gold"], 0.5 * ka)
+        ctx.set_line_width(1)
     ctx.set_dash([3, 4])
     ctx.move_to(110, 292)
     ctx.line_to(W_OUT - 190, 292)

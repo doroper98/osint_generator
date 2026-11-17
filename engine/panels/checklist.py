@@ -6,7 +6,9 @@ from __future__ import annotations
 
 import cairo
 
+from engine import skin
 from engine.context import RenderCtx
+from engine.panels import skin_panel
 from engine.panels.base import chart
 from engine.style import C
 from engine.timebase import ease_out, smooth
@@ -15,6 +17,7 @@ from rules import load_rules
 
 AXIS = "none"   # v4.3.0 D-0087 — 축 종류(값·날짜 축 없음). 정직성 검사 적용 = rules qa_checks.chart_targets
 K = load_rules().panels.charts.checklist
+SP = skin_panel.P
 
 
 def _draw_open(ctx: cairo.Context, t: float, e: dict, a: float) -> None:
@@ -42,8 +45,70 @@ def _draw_open(ctx: cairo.Context, t: float, e: dict, a: float) -> None:
         text(ctx, s_, K.text_x, y, K.text_size, "sansb", C["white"], fa * ra, 0, "l")
 
 
+def _check(ctx: cairo.Context, top: float, ck: float, col: tuple, a: float, w: float) -> None:
+    """체크 두 획(앞 절반 = 짧은 획, 뒤 절반 = 긴 획)."""
+    (p0x, p0y), (p1x, p1y), (p2x, p2y) = ((K.box_x + px, top + py) for px, py in K.check_points)
+    short = min(1, ck * 2)
+    ctx.new_path()
+    ctx.move_to(p0x, p0y)
+    ctx.line_to(p0x + (p1x - p0x) * short, p0y + (p1y - p0y) * short)
+    if ck > 1 / 2:
+        k = (ck - 1 / 2) * 2
+        ctx.line_to(p1x + (p2x - p1x) * k, p1y + (p2y - p1y) * k)
+    ctx.set_source_rgba(*col, a)
+    ctx.set_line_width(w)
+    ctx.set_line_cap(cairo.LINE_CAP_ROUND)
+    ctx.stroke()
+    ctx.set_line_cap(cairo.LINE_CAP_BUTT)
+
+
+def _draw_skin(ctx: cairo.Context, t: float, e: dict, a: float) -> None:
+    """v7.4.0 C0.0 3a — 초록 채운 칸 없음: 가는 잉크 윤곽 직각 칸 + 잉크 체크 획, 줄 사이 가는 선, 글자 잉크 primary·꼬리 잉크 tertiary.
+    열린 칸(style open): 가는 점선 칸 → 채우면 실선(회색 면 없음), 번호 mono. 시각·자리는 종전 그대로."""
+    lt = t - e["t0"]
+    b = K.box
+    op = e.get("style") == "open"
+    O = K.open  # noqa: N806
+    at = e.get("at") or [e["t0"] + K.appear_start_sec + i * K.appear_step_sec for i in range(len(e["items"]))]
+    n = len(e["items"])
+    for i, s_ in enumerate(e["items"]):
+        y = K.y0 + i * K.dy
+        if op:
+            ra = a * smooth((lt - O.reveal_start_sec - i * O.reveal_step_sec) / O.reveal_fade_sec)
+            fa = smooth((t - at[i]) / O.fill_fade_sec)
+            box = (K.box_x, y + K.box_top_dy - (O.slot_h - b) / 2, O.slot_w, O.slot_h)
+        else:
+            t_i = K.appear_start_sec + i * K.appear_step_sec
+            ra = a * smooth((lt - t_i) / K.appear_sec)
+            fa = 1.0
+            box = (K.box_x, y + K.box_top_dy, b, b)
+        if ra <= 0:
+            continue
+        if i < n - 1:
+            skin_panel.hline(ctx, K.box_x, SP.x1, y + K.dy / 2, ra)
+        ctx.new_path()
+        ctx.rectangle(*box)
+        ctx.set_source_rgba(*skin.INK, SP.check.box_alpha * ra * (1 if not op or fa >= 1 else O.slot_line_alpha))
+        ctx.set_line_width(SP.hair.w if op and fa < 1 else SP.axis.w)
+        ctx.set_dash(O.slot_dash if op and fa < 1 else [])
+        ctx.stroke()
+        ctx.set_dash([])
+        if op:
+            skin_panel.meta(ctx, str(i + 1), K.box_x + b / 2, y, ra, "c", size=O.num_size)
+            text(ctx, s_, K.text_x, y, K.text_size, "sansb", skin.INK, fa * ra, 0, "l")
+            continue
+        _check(ctx, box[1], ease_out((lt - t_i - K.check_delay_sec) / K.check_sec), skin.INK, ra, SP.check.w)
+        text(ctx, s_, K.text_x, y, K.text_size, "sansb", skin.INK, ra, 0, "l")
+    if e["footer"]:
+        fb = a * smooth((lt - K.footer_sec) / K.footer_fade_sec)
+        text(ctx, e["footer"], K.text_x, K.footer_y, K.footer_size, "sansm", skin.INK3, fb, 0, "l")
+
+
 @chart
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
+    if skin.active():
+        _draw_skin(ctx, t, e, a)
+        return
     if e.get("style") == "open":
         _draw_open(ctx, t, e, a)
         if e["footer"]:

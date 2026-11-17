@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
 import cairo
 import numpy as np
 
+from engine import skin
 from engine.context import RenderCtx
-from engine.style import PANEL, C, W_OUT
+from engine.style import PANEL, W_OUT, C
 from engine.timebase import window
 from engine.typography import ink_rgb, text
 from rules import load_rules
@@ -19,6 +20,11 @@ PanelFn = Callable[[cairo.Context, RenderCtx, float, dict, float], None]
 
 
 def panel_title(ctx: cairo.Context, a: float, s: str, sub: str | None = None) -> None:
+    if skin.active():   # v7.4.0 C0.0 3a — 왼쪽 정렬 sansb 잉크 제목 + 가는 선(engine/panels/skin_panel.py)
+        from engine.panels import skin_panel  # noqa: PLC0415
+
+        skin_panel.title(ctx, a, s, sub)
+        return
     text(ctx, s, W_OUT / 2, PANEL.title_y, PANEL.title_size, "serifb", ink_rgb(), a, 0, "c")
     if sub:
         text(ctx, sub, W_OUT / 2, PANEL.subtitle_y, PANEL.subtitle_size, "sansm", C["muted"], a, 0, "c")
@@ -51,7 +57,7 @@ def make_panel_renderer(fn: PanelFn) -> Callable[[cairo.Context, RenderCtx, floa
             return
         from engine.stage import screen_stage  # noqa: PLC0415
 
-        if screen_stage(getattr(getattr(R, "stage", None), "name", None)):   # v5.1.0 D-0126 Q4 A — backdrop·studio(v7.4.0) 무대 위 패널 = 아일랜드 상자
+        if screen_stage(getattr(getattr(R, "stage", None), "name", None)) or skin.active():   # v7.4.0 3a — skin(지도 테마 포함)이면 어두운 덮개 대신 흰 카드. v5.1.0 D-0126 Q4 A — backdrop·studio(v7.4.0) 무대 위 패널 = 아일랜드 상자
             from engine.island import draw_frame  # noqa: PLC0415
             from engine.style import ISLAND  # noqa: PLC0415
 
@@ -94,6 +100,10 @@ def tag_boxes(ctx: cairo.Context, e: dict) -> list[tuple[str, str, tuple[float, 
     s = prov_tag_text(e.get("provenance"))
     if s is None:
         return []
+    if skin.active():   # v7.4.0 3a — 제목 줄 오른쪽 끝 well 알약(그리는 자리 그대로 보고)
+        from engine.panels import skin_panel  # noqa: PLC0415
+
+        return [(s, T.color, skin_panel.tag_box(ctx, s))]
     w = tw(ctx, s, T.size, T.font) + T.pad_x
     x = W_OUT / 2 - w / 2
     y = tag_row_y(e)
@@ -106,6 +116,12 @@ def prov_tag(ctx: cairo.Context, e: dict, a: float) -> str | None:
     from engine.typography import rrect  # noqa: PLC0415
 
     T = _TAG  # noqa: N806
+    if a > 0.01 and skin.active():
+        from engine.panels import skin_panel  # noqa: PLC0415
+
+        for s, _, _ in tag_boxes(ctx, e):
+            skin_panel.draw_tag(ctx, s, a)
+        return prov_tag_text(e.get("provenance"))
     if a > 0.01:
         for s, cname, (x0, y0, x1, y1) in tag_boxes(ctx, e):
             col = C[cname]

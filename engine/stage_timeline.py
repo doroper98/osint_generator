@@ -220,6 +220,10 @@ class TimelineStage:
         from engine.style import ISLAND  # noqa: PLC0415
 
         self.island = True
+        if skin.active():   # v7.4.0 2b — skin 출처 덩이는 레인마다 한 줄 이상: pad_bottom 이 담는 줄 수를 넘는 레인 수만큼 아래 자리를 늘린다
+            K = SKIN.chart  # noqa: N806
+            room = int((K.pad_bottom - K.source.dy) // K.source.step) + 1
+            pad_bottom += max(0, self.n - room) * K.source.step
         self.area_top = pad_top
         self.area_bottom = box_h - pad_bottom
         area = (self.area_bottom - self.area_top) / self.n
@@ -363,6 +367,9 @@ class TimelineStage:
         xb, _ = view.to_screen(self.x_of(z.to), 0.0)
         if xb < view.ox or xa > view.right:
             return
+        if skin.active():
+            self._draw_compress_skin(ctx, view, xa, xb, top, bot)
+            return
         ctx.rectangle(xa, top, xb - xa, bot - top)
         ctx.set_source_rgba(*bg_rgb(TIMELINE.bg_rgb), W.shade_alpha)
         ctx.fill()
@@ -380,6 +387,30 @@ class TimelineStage:
             ctx.stroke()
         cx = min(max((max(xa, view.ox) + min(xb, view.right)) / 2, view.ox + W.label_margin_px), view.right - W.label_margin_px)
         text(ctx, W.label, cx, top + W.label_dy, W.label_size, W.label_font, C[W.color], W.alpha, W.label_halo, "c")
+
+    def _draw_compress_skin(self, ctx: cairo.Context, view: "View", xa: float, xb: float, top: float, bot: float) -> None:
+        """v7.4.0 2b — skin 압축 구간: 흰 가림 + 양 끝 가는 물결(잉크 tertiary) + 라벨(mono 잉크 secondary, 물결 위 끝 안쪽).
+        물결은 첫 레인 제목 줄 아래부터 — "압축" 라벨이 레인 제목과 겹치지 않는다(정직성 표시는 그대로)."""
+        W, K = TIMELINE.wave, SKIN.chart  # noqa: N806
+        T, Z = K.title, K.wave  # noqa: N806
+        top = top + T.dy + T.size * (1 - TIMELINE.text_metrics.ascent) + Z.top_gap
+        ctx.rectangle(xa, top, xb - xa, bot - top)
+        ctx.set_source_rgba(*skin.FILL, W.shade_alpha)
+        ctx.fill()
+        for x in (xa, xb):
+            ctx.new_path()
+            y = top
+            k = 0
+            ctx.move_to(x, y)
+            while y < bot:
+                y = min(bot, y + W.period_px / 2)
+                k += 1
+                ctx.line_to(x + (W.amp_px if k % 2 else -W.amp_px), y)
+            ctx.set_source_rgba(*skin.INK3, Z.alpha)
+            ctx.set_line_width(Z.line_w)
+            ctx.stroke()
+        cx = min(max((max(xa, view.ox) + min(xb, view.right)) / 2, view.ox + W.label_margin_px), view.right - W.label_margin_px)
+        text(ctx, W.label, cx, top + Z.size + 2, Z.size, Z.font, skin.INK2, 1.0, 0, "c")
 
     def compress_on_screen(self, view: "View") -> list[Compress]:
         """화면에 걸친 압축 구간 — 정직성 검사가 '압축 메타 ↔ 표시'를 대조할 때 쓴다(render_base 가 그리는 조건과 같다)."""

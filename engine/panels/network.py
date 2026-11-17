@@ -13,8 +13,10 @@ import math
 
 import cairo
 
+from engine import skin
 from engine.context import RenderCtx
 from engine.layers.badges import badge_at
+from engine.panels import skin_panel
 from engine.panels.base import chart, edge_curve
 from engine.style import C
 from engine.timebase import ease_io, smooth
@@ -25,6 +27,7 @@ AXIS = "none"   # v4.3.0 D-0087 — 축 종류(값·날짜 축 없음). 정직�
 _R = load_rules().panels
 N = _R.charts.network
 REL = _R.relation
+SP = skin_panel.P
 _ORDER = ("center", "left", "right")   # v2 등장 순서: 가운데 열 → 왼쪽 → 오른쪽
 
 
@@ -84,6 +87,18 @@ def partial_polyline(path: list[tuple[float, float]], prog: float) -> list[tuple
     return out
 
 
+def _edge_rgba(st, a: float) -> tuple[float, float, float, float]:  # noqa: ANN001 — rules panels.charts.network.styles 항목
+    """선 색·알파 — skin 이면 잉크 선(알파 skin.panel.line), 강조 계열 스타일만 불투명 강조색. 아니면 종전 스타일 색."""
+    if skin.active():
+        return (*skin_panel.mark(st.color), (1 if skin_panel.is_accent(st.color) else SP.line.alpha) * a)
+    return (*C[st.color], st.alpha * a)
+
+
+def _label_rgb(st) -> tuple[float, float, float]:  # noqa: ANN001
+    """선 라벨 글자 색 — skin 이면 잉크 secondary(강조 계열만 강조 잉크), 아니면 스타일 색."""
+    return skin_panel.ink(st.color, skin.INK2) if skin.active() else C[st.color]
+
+
 def edge_start(e: dict) -> float:
     return max(p[3] for p in layout(e).values()) + REL.edges_after_nodes_sec
 
@@ -111,8 +126,8 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
                 ctx.line_to(px, py)
             if st.dash:
                 ctx.set_dash(st.dash)
-            ctx.set_source_rgba(*C[st.color], st.alpha * a)
-            ctx.set_line_width(N.drop.width)
+            ctx.set_source_rgba(*_edge_rgba(st, a))
+            ctx.set_line_width(SP.line.w if skin.active() else N.drop.width)
             ctx.stroke()
             ctx.set_dash([])
             if ed["label"]:
@@ -120,7 +135,7 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
                 _, ly = path[-2] if len(path) > 2 else path[0]
                 if la > 0:
                     text(ctx, ed["label"], dx + N.drop.label_dx, (ly + path[-1][1]) / 2 + N.label.y, N.label.size, "sansm",
-                         C[st.color], la, N.label.halo, "l")
+                         _label_rgb(st), la, N.label.halo, "l")
             continue
         sign = 1 if dx > sx else -1
         pts = edge_curve(sx + sign * (sr + REL.source.pad), sy, dx - sign * (dr + REL.target.pad), dy, prog, REL.curve_samples)
@@ -130,15 +145,15 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
             ctx.line_to(*p)
         if st.dash:
             ctx.set_dash(st.dash)
-        ctx.set_source_rgba(*C[st.color], st.alpha * a)
-        ctx.set_line_width(REL.line_width)
+        ctx.set_source_rgba(*_edge_rgba(st, a))
+        ctx.set_line_width(SP.line.w if skin.active() else REL.line_width)
         ctx.stroke()
         ctx.set_dash([])
         if ed["label"]:
             la = a * smooth((lt - t_k - REL.edge_dur_sec) / N.label_sec)   # 선이 다 자란 뒤(규칙 4)
             if la > 0:
                 mx, my = edge_curve(sx, sy, dx, dy, 1, REL.curve_samples)[REL.curve_samples // 2]
-                text(ctx, ed["label"], mx, my + N.label.y, N.label.size, "sansm", C[st.color], la, N.label.halo, "c")
+                text(ctx, ed["label"], mx, my + N.label.y, N.label.size, "sansm", _label_rgb(st), la, N.label.halo, "c")
     for n in e["nodes"]:
         x, y, r, dt = pos[n["id"]]
         t0 = e["t0"] + dt
@@ -150,8 +165,8 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
             if m["node"] == n["id"] and m["at"] - N.mention_lead_sec <= t <= m["at"] + N.mention_hold_sec:
                 f = (t * N.mention_pulse_rate) % 1.0
                 ctx.arc(x, y, r + N.mention_ring + N.mention_grow * f, 0, 2 * math.pi)
-                ctx.set_source_rgba(*C["gold"], N.mention_alpha * (1 - f) * a)
-                ctx.set_line_width(N.mention_width)
+                ctx.set_source_rgba(*(skin.ACCENT_SHAPE if skin.active() else C["gold"]), N.mention_alpha * (1 - f) * a)
+                ctx.set_line_width(SP.line.w if skin.active() else N.mention_width)
                 ctx.stroke()
         badge_at(ctx, R, x, y, dict(kind=n["kind"], pid=n["pid"], flag=n["flag"], img=n["img"], R=r, t0=t0,
                                     label=n["label"], role=n["role"], accent=n["accent"]), t, a)

@@ -20,12 +20,15 @@ from typing import Literal
 import cairo
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-from engine.style import C, PRIMITIVES
+from engine import skin
+from engine.primitives import skin_card, skin_on, skin_rule, skin_text
+from engine.style import C, PRIMITIVES, SKIN, hexc
 from engine.timebase import ease_out, window
 from engine.typography import rrect, text
 from script.schema import DATE_RE
 
 L = PRIMITIVES["site_diagram"]
+SK = SKIN.primitives.site_diagram   # v7.4.0 3c(UF-906) — skin 무대 판(rules skin.primitives.site_diagram)
 COLOR_KEYS: tuple[str, ...] = ("confrontation", "explosion_opposition", "emphasis", "neutral")
 AXIS = "none"   # 값 축 없음(정직성 검사 해당 없음)
 
@@ -111,7 +114,7 @@ def _curve(ctx: cairo.Context, x0: float, x1: float, fy) -> None:  # noqa: ANN00
         ctx.line_to(x, fy(x))
 
 
-def _burst(ctx: cairo.Context, x: float, y: float, r: float, fill: tuple, rim: tuple, a: float) -> None:
+def _burst(ctx: cairo.Context, x: float, y: float, r: float, fill: tuple, rim: tuple, a: float, rim_w: float = 1) -> None:
     n = L.burst_points
     ctx.move_to(x + r, y)
     for i in range(1, n * 2 + 1):
@@ -122,7 +125,7 @@ def _burst(ctx: cairo.Context, x: float, y: float, r: float, fill: tuple, rim: t
     ctx.set_source_rgba(*fill[:-1], fill[-1] * a)
     ctx.fill_preserve()
     ctx.set_source_rgba(*rim[:-1], rim[-1] * a)
-    ctx.set_line_width(1)
+    ctx.set_line_width(rim_w)
     ctx.stroke()
 
 
@@ -139,6 +142,9 @@ def draw(ctx: cairo.Context, view: object, t: float, e: dict, style: object) -> 
     box = _box()
     a = window(t, e["t0"], e["t1"], L.fade_sec, L.fade_sec)
     if a <= 0:
+        return box
+    if skin_on():
+        _draw_skin(ctx, t, e, a)
         return box
     x0, y0, w, h = L.x, L.y, L.w, L.h
     ph = h - L.foot_h                               # 그림 영역 높이
@@ -273,6 +279,128 @@ def draw(ctx: cairo.Context, view: object, t: float, e: dict, style: object) -> 
     ctx.set_line_width(1)
     ctx.stroke()
     return box
+
+
+def _skin_line(ctx: cairo.Context, col: tuple, spec: object, a: float) -> None:
+    ctx.set_source_rgba(*col, spec.alpha * a)  # type: ignore[attr-defined]
+    ctx.set_line_width(spec.w)  # type: ignore[attr-defined]
+    ctx.stroke()
+
+
+def _draw_skin(ctx: cairo.Context, t: float, e: dict, a: float) -> None:
+    """skin 판(v7.4.0 3c·UF-906) — 흰 직각 카드 위 선 그림. 북·남 면 채움·어두운 아래 띠 없음. 군사분계선 = 잉크 실선,
+    한계선 = 옅은 잉크 점선, 이름 = 잉크 글자(테두리 없음). 사고 지점·거리 괄호·거리 문구·폭발 = 강조색 하나(같은 사건).
+    지뢰 = 흰 사각 + 잉크 윤곽, 지시선 = 가는 잉크. 아래 = 가는 선 + 축척 표기(불변 층)·출처. 배치·시각·등장 배율은 종전과 같다."""
+    x0, y0, w, h = L.x, L.y, L.w, L.h
+    ph = h - L.foot_h
+    k = L.scale_from + (1 - L.scale_from) * ease_out((t - e["t0"]) / L.fade_sec)
+    cx, cy = x0 + w / 2, y0 + h / 2
+    ctx.save()
+    ctx.translate(cx, cy)
+    ctx.scale(k, k)
+    ctx.translate(-cx, -cy)
+    skin_card(ctx, (x0, y0, w, h), a)
+    ctx.save()
+    ctx.rectangle(x0, y0, w, h)
+    ctx.clip()
+    mdl = lambda x: _line_y(x - x0, y0, ph, L.mdl_v)   # noqa: E731
+    nll = lambda x: _line_y(x - x0, y0, ph, L.nll_v)   # noqa: E731
+    sll = lambda x: _line_y(x - x0, y0, ph, L.sll_v)   # noqa: E731
+    x1 = x0 + w
+    for fy in (nll, sll):
+        ctx.save()
+        ctx.set_dash(list(L.limit_dash))
+        _curve(ctx, x0, x1, fy)
+        _skin_line(ctx, skin.INK2, SK.limit, a)
+        ctx.restore()
+    _curve(ctx, x0, x1, mdl)
+    _skin_line(ctx, skin.INK, SK.mdl, a)
+    ctx.restore()
+    px = x0 + L.pad_x
+    skin_text(ctx, SK.limit_label, e["nll"], px, nll(px) - L.limit_label_size / 2, a)
+    skin_text(ctx, SK.mdl_label, e["mdl"], px, mdl(px) - L.mdl_label_size / 2, a)
+    skin_text(ctx, SK.limit_label, e["sll"], px, sll(px) - L.limit_label_size / 2, a)
+    skin_text(ctx, SK.width_note, e["width_note"], px, y0 + ph * L.width_note_v, a)
+    skin_text(ctx, SK.header, e["header"], x1 - L.pad_x, y0 + L.header_dy, a, "r")
+    skin_text(ctx, SK.side, e["north"], x1 - L.pad_x, y0 + ph * L.width_note_v, a, "r")
+    skin_text(ctx, SK.side, e["south"], x1 - L.pad_x, y0 + ph - L.side_size / 2, a, "r")
+    # 사고 지점 + 거리 괄호선(강조)
+    acc = skin.ACCENT_SHAPE
+    sx = x0 + w * L.site_u
+    sy = mdl(sx) + L.site_dy
+    ctx.arc(sx, sy, L.site_ring_r, 0, math.pi * 2)
+    ctx.set_source_rgba(*acc, SK.site_ring_alpha * a)
+    ctx.fill()
+    ctx.arc(sx, sy, L.site_r, 0, math.pi * 2)
+    ctx.set_source_rgba(*acc, a)
+    ctx.fill()
+    bx = sx + L.bracket_du
+    ctx.move_to(bx, mdl(bx))
+    ctx.line_to(bx, sy)
+    for yy in (mdl(bx), sy):
+        ctx.move_to(bx - L.bracket_half, yy)
+        ctx.line_to(bx + L.bracket_half, yy)
+    ctx.set_source_rgba(*acc, a)
+    ctx.set_line_width(L.bracket_w)
+    ctx.stroke()
+    lx, ly = bx + L.dist_dx, mdl(bx) - L.dist_dy
+    ctx.move_to(bx + L.bracket_half, (mdl(bx) + sy) / 2)
+    ctx.line_to(lx, ly + L.dist_src_gap / 2)
+    _skin_line(ctx, skin.INK, SK.leader, a)
+    skin_text(ctx, SK.dist, e["distance"], lx, ly, a)
+    skin_text(ctx, SK.dist_src, e["distance_src"], lx, ly + L.dist_src_gap, a)
+    # 시각별 표시
+    soft = hexc(SKIN.accent.soft)
+    white = hexc(SKIN.surface.fill)
+    row_l = row_r = 0
+    nb = 0
+    for m in e.get("marks") or []:
+        lt = t - m["t"]
+        if lt < 0:
+            if m["kind"] == "burst":
+                nb += 1
+            continue
+        la = a * min(1.0, lt / L.label_fade_sec)
+        if m["kind"] == "burst":
+            dx, dy = L.burst_offsets[nb]
+            nb += 1
+            bxp, byp = sx + dx, sy + dy
+            pop = L.pop_from + (1 - L.pop_from) * ease_out(lt / L.pop_sec)
+            fl = max(0.0, 1 - lt / L.flash_sec)
+            if fl > 0:
+                ctx.arc(bxp, byp, L.flash_r * (1 - fl / 2), 0, math.pi * 2)
+                ctx.set_source_rgba(*soft, SK.flash_alpha * fl * a)
+                ctx.fill()
+            _burst(ctx, bxp, byp, L.burst_r * pop, (*acc, 1.0), (*white, 1.0), a, SK.burst_rim_w)
+            tx = x0 + w * L.left_x_u
+            ty = y0 + ph * L.label_v + row_l * L.row_h
+            row_l += 1
+            skin_text(ctx, SK.mark_label, m["label"], tx, ty, la)
+            ctx.move_to(sx - L.bracket_du * 2, ty - L.label_size / 2)
+            ctx.line_to(bxp - L.burst_r, byp)
+            _skin_line(ctx, skin.INK, SK.leader, la)
+        else:
+            tx = x0 + w * L.right_x_u
+            ty = y0 + ph * L.label_v + row_r * L.row_h
+            row_r += 1
+            if m["kind"] == "mine":
+                mx, my = sx + L.mine_offset[0], sy + L.mine_offset[1]
+                ctx.rectangle(mx - L.mine_w / 2, my - L.mine_h / 2, L.mine_w, L.mine_h)
+                ctx.set_source_rgba(*white, la)
+                ctx.fill_preserve()
+                ctx.set_source_rgba(*skin.INK, la)
+                ctx.set_line_width(SK.mine_w)
+                ctx.stroke()
+                ctx.move_to(tx - L.leader_w * 2, ty - L.label_size / 2)
+                ctx.line_to(mx + L.mine_w / 2, my)
+                _skin_line(ctx, skin.INK, SK.leader, la)
+            skin_text(ctx, SK.mark_label, m["label"], tx, ty, la)
+    # 아래 — 가는 선 + 축척 표기(불변 층) · 출처
+    skin_rule(ctx, px, x1 - L.pad_x, y0 + ph + SK.foot_rule.dy, SK.foot_rule, a)
+    fy = y0 + ph + L.foot_h / 2 + L.foot_size / 2 - 1
+    skin_text(ctx, SK.foot, e["footnote"], px, fy, a)
+    skin_text(ctx, SK.foot, f"자료: {e['source']}", x1 - L.pad_x, fy, a, "r")
+    ctx.restore()
 
 
 PREVIEW_FIXTURE: dict = {

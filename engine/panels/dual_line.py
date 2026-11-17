@@ -3,13 +3,16 @@
 from __future__ import annotations
 
 import math
+from collections.abc import Callable
 from decimal import Decimal
 
 import cairo
 import numpy as np
 
+from engine import skin
 from engine.context import RenderCtx
 from engine.layers.routes import glow_line
+from engine.panels import skin_panel
 from engine.panels.base import chart
 from engine.style import C
 from engine.timebase import clamp01, ease_io
@@ -18,6 +21,7 @@ from rules import load_rules
 
 AXIS = "value"   # v4.3.0 D-0087 — 축 종류(값 축). 정직성 검사 적용 = rules qa_checks.chart_targets
 L = load_rules().panels.charts.dual_line
+SP = skin_panel.P
 
 
 def _fmt(v: float, prefix: str, decimals: int) -> str:
@@ -101,6 +105,65 @@ def record_errors(e: dict) -> list[str]:
     return errs
 
 
+def _draw_skin(ctx: cairo.Context, lt: float, e: dict, a: float, fy: Callable[[float], float]) -> None:
+    """v7.4.0 C0.0 3a — 가는 잉크 격자, 축 숫자 mono 잉크 tertiary, 번짐 없는 선: 강조 계열(skin.chart.accent_cols) 하나만 강조색,
+    나머지 잉크 primary. 점 = 흰 고리 + 채운 점(열린 값은 빈 점), 값 mono, 이름 sansb. 보간 구간·계열 순서·시각은 종전 그대로."""
+    X0, X1 = L.x  # noqa: N806
+    _, Y1 = L.y  # noqa: N806
+    for v, lab in tick_labels(e):
+        skin_panel.hline(ctx, X0, X1, fy(v), a)
+        skin_panel.meta(ctx, lab, X0 + L.tick_dx, fy(v) + L.tick_dy, a, "r")
+    n = len(e["x_labels"])
+    xs = [X0 + L.x_pad + (X1 - X0 - 2 * L.x_pad) * i / (n - 1) for i in range(n)]
+    for x, s_ in zip(xs, e["x_labels"]):
+        if e.get("x_label_rotate"):
+            ctx.save()
+            ctx.translate(x + L.x_label_rot_dx, Y1 + L.x_label_rot_dy)
+            ctx.rotate(-L.x_label_rot_rad)
+            skin_panel.label(ctx, s_, 0, 0, a, "r", col=skin.INK3)
+            ctx.restore()
+        else:
+            skin_panel.label(ctx, s_, x, Y1 + SP.dual.x_label_dy, a, "c", col=skin.INK3)   # 카드 아래 끝 안
+    for si, ser in enumerate(e["series"]):
+        col = skin_panel.mark(ser["col"], skin.INK)
+        tcol = skin_panel.ink(ser["col"], skin.INK)
+        prog = ease_io((lt - L.draw_start_sec - si * L.draw_step_sec) / L.draw_sec)
+        if prog <= 0:
+            continue
+        reach = X0 + L.x_pad + (X1 - X0 - 2 * L.x_pad) * prog
+        vals = ser["values"]
+        if L.gap_policy == "interpolate":
+            ist = L.interpolated_style
+            for i, j in gap_pairs(vals):
+                seg = [(xs[i] + (xs[j] - xs[i]) * u, fy(vals[i]) + (fy(vals[j]) - fy(vals[i])) * u) for u in np.linspace(0, 1, L.samples)]
+                skin_panel.stroke_path(ctx, [q for q in seg if q[0] <= reach], col, a * ist.alpha, SP.dual.line_w, ist.dash)
+        for run in present_runs(vals):
+            pts = [(xs[i], fy(vals[i])) for i in run]
+            dense = [(pts[i][0] + (pts[i + 1][0] - pts[i][0]) * s, pts[i][1] + (pts[i + 1][1] - pts[i][1]) * s)
+                     for i in range(len(pts) - 1) for s in np.linspace(0, 1, L.samples, endpoint=False)] + [pts[-1]]
+            skin_panel.stroke_path(ctx, [q for q in dense if q[0] <= reach], col, a, SP.dual.line_w)
+        last = None
+        for i, v in enumerate(vals):
+            if v is None or xs[i] > reach:
+                continue
+            p = (xs[i], fy(v))
+            last = p
+            skin_panel.dot(ctx, p[0], p[1], skin_panel.WHITE, a, L.point_r + SP.dual.ring)
+            ctx.new_path()
+            ctx.arc(p[0], p[1], L.point_r, 0, 2 * math.pi)
+            ctx.set_source_rgba(*col, a)
+            if i in ser.get("open_idx", []):
+                ctx.set_line_width(SP.dual.ring)
+                ctx.stroke()
+            else:
+                ctx.fill()
+            dy = L.value_dy_above if si == 0 else L.value_dy_below
+            skin_panel.meta(ctx, _fmt(v, "", ser["decimals"]), p[0], p[1] + dy, a, "c", col=tcol if tcol != skin.INK else skin.INK2,
+                            size=L.value_size)
+        if last is not None:
+            text(ctx, ser["label"], X1 + L.name_dx, last[1] + L.name_dy, L.name_size, "sansb", tcol, a * clamp01(prog * 3 - 2), 0, "l")
+
+
 @chart
 def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:  # noqa: N803
     lt = t - e["t0"]
@@ -111,6 +174,9 @@ def draw(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a: float) -> None:
     def fy(v: float) -> float:
         return Y1 - (v - lo) / (hi - lo) * (Y1 - Y0)
 
+    if skin.active():
+        _draw_skin(ctx, lt, e, a, fy)
+        return
     for v, lab in tick_labels(e):
         ctx.set_source_rgba(*C["white"], L.grid_alpha * a)
         ctx.rectangle(X0, fy(v), X1 - X0, 1)
