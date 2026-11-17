@@ -11038,6 +11038,2424 @@
      "jpeg_quality": 92
     }
    }
+  },
+  "nv_nvidia_hq": {
+   "kind": "photo",
+   "title": "File:NVIDIA Headquarters.jpg",
+   "license": "CC BY-SA 4.0",
+   "author": "Coolcaesar",
+   "credit_author": "Coolcaesar",
+   "date": "2018-08-04",
+   "url": "https://commons.wikimedia.org/wiki/File:NVIDIA_Headquarters.jpg",
+   "caption": "미국 산타클라라 엔비디아 본사",
+   "file_note": "자료사진 · 2018. 08",
+   "depicts": [
+    "미국 캘리포니아 산타클라라 엔비디아 본사(엔데버 빌딩) 외관",
+    "엔비디아 로고 표지석"
+   ],
+   "main_subject": [
+    "엔비디아 본사"
+   ],
+   "background": [
+    "잔디 언덕",
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 에이전트 — Commons API(imageinfo extmetadata)로 라이선스·작가·날짜·제한·설명란 별도 이용 조건 대조(media_fetch 관문과 같은 판정), 원본 upload.wikimedia.org 썸네일, 이미지 육안 확인",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "cold_0 '엔비디아' 도입 — 본사 건물 외관(로고 표지석 포함)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "nv_nvidia_hq.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "a8b2ec947010d5eb05d88176a9c6fe04",
+   "file": "nv_nvidia_hq_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
+  },
+  "nv_singapore_cbd": {
+   "kind": "photo",
+   "title": "File:Singapore (SG), Marina Bay -- 2019 -- 4439-48.jpg",
+   "license": "CC BY-SA 4.0",
+   "author": "Dietmar Rabich",
+   "credit_author": "Dietmar Rabich / Wikimedia Commons",
+   "date": "2019-11-04",
+   "url": "https://commons.wikimedia.org/wiki/File:Singapore_(SG),_Marina_Bay_--_2019_--_4439-48.jpg",
+   "caption": "싱가포르 마리나베이 도심",
+   "file_note": "자료사진 · 2019. 11",
+   "depicts": [
+    "싱가포르 마리나베이 스카이라인(낮)",
+    "마리나베이샌즈·아트사이언스 박물관·중심업무지구 빌딩"
+   ],
+   "main_subject": [
+    "마리나베이 스카이라인"
+   ],
+   "background": [
+    "만(灣) 수면",
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 에이전트 — Commons API(imageinfo extmetadata)로 라이선스·작가·날짜·제한·설명란 별도 이용 조건 대조(media_fetch 관문과 같은 판정), 원본 upload.wikimedia.org 썸네일, 이미지 육안 확인",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "cold_3 싱가포르 — 중심업무지구·마리나베이 낮 전경(파노라마 가운데 자르기)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "nv_singapore_cbd.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "b1264e9f09e1651e31705a1ac98e22df",
+   "file": "nv_singapore_cbd_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
+  },
+  "nv_sdny_courthouse": {
+   "kind": "photo",
+   "title": "File:Thurgood Marshall United States Courthouse 2018-06-14.jpg",
+   "license": "CC BY-SA 3.0",
+   "author": "aismallard",
+   "credit_author": "aismallard",
+   "date": "2018-06-14",
+   "url": "https://commons.wikimedia.org/wiki/File:Thurgood_Marshall_United_States_Courthouse_2018-06-14.jpg",
+   "caption": "뉴욕 맨해튼 연방법원",
+   "file_note": "자료사진 · 2018. 06",
+   "depicts": [
+    "미국 뉴욕 맨해튼 서굿 마셜 연방법원 청사(뉴욕 남부지방법원) 열주 현관"
+   ],
+   "main_subject": [
+    "연방법원 청사"
+   ],
+   "background": [
+    "인접 고층 건물",
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 에이전트 — Commons API(imageinfo extmetadata)로 라이선스·작가·날짜·제한·설명란 별도 이용 조건 대조(media_fetch 관문과 같은 판정), 원본 upload.wikimedia.org 썸네일, 이미지 육안 확인",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "act2_1 뉴욕 남부연방법원 기소 — 그 법원이 쓰는 맨해튼 서굿 마셜 연방법원 청사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "nv_sdny_courthouse.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "303e50224c80f148891a76f26c1a7b00",
+   "file": "nv_sdny_courthouse_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
+  },
+  "nv_gpu_server": {
+   "kind": "photo",
+   "title": "File:Nvidia DGX-B200-HGX.jpg",
+   "license": "CC BY-SA 4.0",
+   "author": "Pokiiri",
+   "credit_author": "Pokiiri",
+   "date": "2025-09-07",
+   "url": "https://commons.wikimedia.org/wiki/File:Nvidia_DGX-B200-HGX.jpg",
+   "caption": "엔비디아 데이터센터 GPU 보드",
+   "file_note": "자료사진 · 2025. 09",
+   "depicts": [
+    "엔비디아 DGX B200 8-GPU 보드(HGX) 전시품 근접"
+   ],
+   "main_subject": [
+    "GPU 보드"
+   ],
+   "background": [
+    "전시대"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 에이전트 — Commons API(imageinfo extmetadata)로 라이선스·작가·날짜·제한·설명란 별도 이용 조건 대조(media_fetch 관문과 같은 판정), 원본 upload.wikimedia.org 썸네일, 이미지 육안 확인",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "act2_6 엔비디아 데이터센터 GPU 장비 — HGX B200 8-GPU 보드 근접 사진"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "nv_gpu_server.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "cdf291aa60b584d80f688f8a0aa2b0b2",
+   "file": "nv_gpu_server_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
+  },
+  "nv_keelung_port": {
+   "kind": "photo",
+   "title": "File:Port of Keelung 20241105.jpg",
+   "license": "CC BY-SA 4.0",
+   "author": "Heeheemalu",
+   "credit_author": "Heeheemalu",
+   "date": "2024-11-05",
+   "url": "https://commons.wikimedia.org/wiki/File:Port_of_Keelung_20241105.jpg",
+   "caption": "대만 지룽항 컨테이너 부두",
+   "file_note": "자료사진 · 2024. 11",
+   "depicts": [
+    "대만 지룽항 동안 컨테이너 야적장과 안벽 크레인 부감"
+   ],
+   "main_subject": [
+    "지룽항 컨테이너 부두"
+   ],
+   "background": [
+    "바다",
+    "지룽 시가지"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 에이전트 — Commons API(imageinfo extmetadata)로 라이선스·작가·날짜·제한·설명란 별도 이용 조건 대조(media_fetch 관문과 같은 판정), 원본 upload.wikimedia.org 썸네일, 이미지 육안 확인",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "act2_8 대만 지룽항 — 항구 컨테이너 부두·크레인 부감"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "nv_keelung_port.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "4dfc5fdfd980d49de75ab28f1b92012d",
+   "file": "nv_keelung_port_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
+  },
+  "nv_malaysia_port": {
+   "kind": "photo",
+   "title": "File:MY-port-klang-containerhafen.jpg",
+   "license": "CC BY-SA 4.0",
+   "author": "Balou46",
+   "credit_author": "Balou46",
+   "date": "2018-01-08",
+   "url": "https://commons.wikimedia.org/wiki/File:MY-port-klang-containerhafen.jpg",
+   "caption": "말레이시아 클랑항 컨테이너 부두",
+   "file_note": "자료사진 · 2018. 01",
+   "depicts": [
+    "말레이시아 클랑항 컨테이너 부두 크레인 열",
+    "접안한 컨테이너선"
+   ],
+   "main_subject": [
+    "클랑항 컨테이너 부두"
+   ],
+   "background": [
+    "강 수면",
+    "흐린 하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 에이전트 — Commons API(imageinfo extmetadata)로 라이선스·작가·날짜·제한·설명란 별도 이용 조건 대조(media_fetch 관문과 같은 판정), 원본 upload.wikimedia.org 썸네일, 이미지 육안 확인",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "act2_12 말레이시아 항구 — 클랑항 컨테이너 크레인과 선박"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "nv_malaysia_port.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "5a1e0aa50b4baeb4078442b3dbd47696",
+   "file": "nv_malaysia_port_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
+  },
+  "nv_klia": {
+   "kind": "photo",
+   "title": "File:Arrival hall of Kuala Lumpur International Airport Terminal 1 20250828 212245.jpg",
+   "license": "CC0",
+   "author": "Taufik",
+   "credit_author": "Taufik",
+   "date": "2025-08-28",
+   "url": "https://commons.wikimedia.org/wiki/File:Arrival_hall_of_Kuala_Lumpur_International_Airport_Terminal_1_20250828_212245.jpg",
+   "caption": "쿠알라룸푸르 국제공항 입국장",
+   "file_note": "자료사진 · 2025. 08",
+   "depicts": [
+    "말레이시아 쿠알라룸푸르 국제공항 제1터미널 입국장",
+    "여행객"
+   ],
+   "main_subject": [
+    "공항 입국장"
+   ],
+   "background": [
+    "여행객",
+    "안내 화면"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 에이전트 — Commons API(imageinfo extmetadata)로 라이선스·작가·날짜·제한·설명란 별도 이용 조건 대조(media_fetch 관문과 같은 판정), 원본 upload.wikimedia.org 썸네일, 이미지 육안 확인",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "act3_2 쿠알라룸푸르 국제공항 — 제1터미널 입국장 내부"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "nv_klia.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "8a1ab59f488fe0d5bea4997f5dfa7e61",
+   "file": "nv_klia_720.jpg"
+  },
+  "nv_johor_dc": {
+   "kind": "photo",
+   "title": "File:Johor Bahru Skyline (17300534739).jpg",
+   "license": "CC BY 2.0",
+   "author": "aamanatullah",
+   "credit_author": "aamanatullah",
+   "date": "2015-05-09",
+   "url": "https://commons.wikimedia.org/wiki/File:Johor_Bahru_Skyline_(17300534739).jpg",
+   "caption": "말레이시아 조호르바루 시가지",
+   "file_note": "자료사진 · 2015. 05",
+   "depicts": [
+    "싱가포르 우드랜즈 부두에서 본 조호르바루 스카이라인",
+    "조호르 해협"
+   ],
+   "main_subject": [
+    "조호르바루 스카이라인"
+   ],
+   "background": [
+    "조호르 해협 수면",
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 에이전트 — Commons API(imageinfo extmetadata)로 라이선스·작가·날짜·제한·설명란 별도 이용 조건 대조(media_fetch 관문과 같은 판정), 원본 upload.wikimedia.org 썸네일, 이미지 육안 확인",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "act3_4 조호르 데이터센터 — 권리 통과 데이터센터 사진이 없어 조호르바루 시가지 전경으로 대체(지시 허용)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "nv_johor_dc.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      300
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "6771bd4d583a439a78309bcac35a9d81",
+   "file": "nv_johor_dc_720.jpg"
+  },
+  "nv_hk_port": {
+   "kind": "photo",
+   "title": "File:Kwai Tsing Container Terminals in Hong Kong.jpg",
+   "license": "CC BY-SA 4.0",
+   "author": "Rehman Abubakr",
+   "credit_author": "Rehman Abubakr",
+   "date": "2019-10-20",
+   "url": "https://commons.wikimedia.org/wiki/File:Kwai_Tsing_Container_Terminals_in_Hong_Kong.jpg",
+   "caption": "홍콩 콰이칭 컨테이너 터미널",
+   "file_note": "자료사진 · 2019. 10",
+   "depicts": [
+    "홍콩 콰이칭 컨테이너 터미널 야적장과 크레인"
+   ],
+   "main_subject": [
+    "컨테이너 터미널"
+   ],
+   "background": [
+    "홍콩 시가지",
+    "산"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 에이전트 — Commons API(imageinfo extmetadata)로 라이선스·작가·날짜·제한·설명란 별도 이용 조건 대조(media_fetch 관문과 같은 판정), 원본 upload.wikimedia.org 썸네일, 이미지 육안 확인",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "act3_11 홍콩항 — 콰이칭 컨테이너 터미널 전경"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "nv_hk_port.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "fc29b549dbb2e63579095b39a3e757f7",
+   "file": "nv_hk_port_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
+  },
+  "nv_nwpu": {
+   "kind": "photo",
+   "title": "File:Northwestern Polytechnical University Chang'an Campus Gate.jpg",
+   "license": "CC BY-SA 4.0",
+   "author": "Nishino Asuka",
+   "credit_author": "Nishino Asuka",
+   "date": "2025-09-09",
+   "url": "https://commons.wikimedia.org/wiki/File:Northwestern_Polytechnical_University_Chang%27an_Campus_Gate.jpg",
+   "caption": "중국 시안 시베이공업대학 정문",
+   "file_note": "자료사진 · 2025. 09",
+   "depicts": [
+    "중국 시안 시베이공업대학(西北工业大学) 창안캠퍼스 동문"
+   ],
+   "main_subject": [
+    "대학 정문"
+   ],
+   "background": [
+    "캠퍼스 건물",
+    "하늘",
+    "도로"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 에이전트 — Commons API(imageinfo extmetadata)로 라이선스·작가·날짜·제한·설명란 별도 이용 조건 대조(media_fetch 관문과 같은 판정), 원본 upload.wikimedia.org 썸네일, 이미지 육안 확인",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "act3_13 시베이공업대학 — 창안캠퍼스 정문(2025)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "nv_nwpu.jpg",
+     "thumb_w": 960,
+     "crop": [
+      720,
+      330
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "2907b9b1bcd4c1028f896b466d58b5bb",
+   "file": "nv_nwpu_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
+  },
+  "nv_gpu_chip": {
+   "kind": "photo",
+   "title": "File:Nvidia DGX GB200.jpg",
+   "license": "CC BY-SA 4.0",
+   "author": "Pokiiri",
+   "credit_author": "Pokiiri",
+   "date": "2025-09-07",
+   "url": "https://commons.wikimedia.org/wiki/File:Nvidia_DGX_GB200.jpg",
+   "caption": "엔비디아 GPU 서버 랙",
+   "file_note": "자료사진 · 2025. 09",
+   "depicts": [
+    "엔비디아 GB200 NVL72 수랭식 랙(B200 GPU 72개·Grace CPU 36개)"
+   ],
+   "main_subject": [
+    "GPU 서버 랙"
+   ],
+   "background": [],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 에이전트 — Commons API(imageinfo extmetadata)로 라이선스·작가·날짜·제한·설명란 별도 이용 조건 대조(media_fetch 관문과 같은 판정), 원본 upload.wikimedia.org 썸네일, 이미지 육안 확인",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "act4_2 엔비디아 데이터센터 GPU — GB200 랙 가운데(연산 트레이) 부분, #4 보드와 다른 장비"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "nv_gpu_chip.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "dd7c338c2f859c74a4db6c128ecafc1b",
+   "file": "nv_gpu_chip_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
+  },
+  "nv_commerce_hq": {
+   "kind": "photo",
+   "title": "File:Herbert C. Hoover Building.jpg",
+   "license": "CC BY-SA 4.0",
+   "author": "APK",
+   "credit_author": "APK",
+   "date": "2020-08-19",
+   "url": "https://commons.wikimedia.org/wiki/File:Herbert_C._Hoover_Building.jpg",
+   "caption": "워싱턴 미국 상무부 청사",
+   "file_note": "자료사진 · 2020. 08",
+   "depicts": [
+    "미국 워싱턴 D.C. 허버트 C. 후버 빌딩(상무부 본부) 외관"
+   ],
+   "main_subject": [
+    "상무부 청사"
+   ],
+   "background": [
+    "가로수",
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 에이전트 — Commons API(imageinfo extmetadata)로 라이선스·작가·날짜·제한·설명란 별도 이용 조건 대조(media_fetch 관문과 같은 판정), 원본 upload.wikimedia.org 썸네일, 이미지 육안 확인",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "act4_7 미국 상무부 — 본부 허버트 C. 후버 빌딩 외관"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "nv_commerce_hq.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "8253cc5071881c94bf0cda25d3c111d3",
+   "file": "nv_commerce_hq_720.jpg",
+   "modifications": "자르기·크기 조정·색 보정"
+  },
+  "nv_us_capitol": {
+   "kind": "photo",
+   "title": "File:2023 United States Capitol 118th Congress, sunrise.jpg",
+   "license": "Public domain",
+   "author": "U.S. House of Representatives",
+   "credit_author": "미국 하원",
+   "date": "2023-01-03",
+   "url": "https://commons.wikimedia.org/wiki/File:2023_United_States_Capitol_118th_Congress,_sunrise.jpg",
+   "caption": "워싱턴 미국 의회 의사당",
+   "file_note": "자료사진 · 2023. 01",
+   "depicts": [
+    "미국 의회 의사당 돔과 하원 동(일출)"
+   ],
+   "main_subject": [
+    "의회 의사당"
+   ],
+   "background": [
+    "나무",
+    "하늘"
+   ],
+   "is_file_photo": true,
+   "verified_by": {
+    "by": "구현 에이전트 — Commons API(imageinfo extmetadata)로 라이선스·작가·날짜·제한·설명란 별도 이용 조건 대조(media_fetch 관문과 같은 판정), 원본 upload.wikimedia.org 썸네일, 이미지 육안 확인",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "act4_13 미국 의회 — 의사당 외관(2023, 하원 제공 퍼블릭 도메인)"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "nv_us_capitol.jpg",
+     "thumb_w": 1280,
+     "crop": [
+      720,
+      450
+     ],
+     "color": 0.9,
+     "contrast": 1.04,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "8a5b5212b58ed96fba0c84dc7be4a85d",
+   "file": "nv_us_capitol_720.jpg"
+  },
+  "nvidia_chips_china_2026_art_0001": {
+   "kind": "article",
+   "title": "Associated Press 2026-11-12 — Nvidia CEO Jensen Huang resigns after his affair raises national security concerns",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Associated Press",
+   "credit_author": "Associated Press",
+   "date": "2026-11-12",
+   "url": "https://www.valleynewslive.com/2026/11/12/nvidia-ceo-jensen-huang-resigns-after-his-affair-raises-national-security-concerns/",
+   "caption": "Associated Press",
+   "file_note": "2026. 11. 12",
+   "depicts": [
+    "젠슨 황은 2026년 11월 12일 엔비디아 사장·최고경영자·이사직에서…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "엔비디아 CEO 젠슨 황, 외도가 국가안보 우려 부르자 사임",
+   "sub": "젠슨 황은 2026년 11월 12일 엔비디아 사장·최고경영자·이사직에서…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Nvidia CEO Jensen Huang resigns after his affair raises national security concerns"
+  },
+  "nvidia_chips_china_2026_art_0002": {
+   "kind": "article",
+   "title": "Implicator.ai 2026-11-08 — Nvidia board investigates Jensen Huang Megaspeed tie",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Implicator.ai",
+   "credit_author": "Implicator.ai",
+   "date": "2026-11-08",
+   "url": "https://www.implicator.ai/nvidia-board-investigates-jensen-huang-megaspeed-tie/",
+   "caption": "Implicator.ai",
+   "file_note": "2026. 11. 08",
+   "depicts": [
+    "젠슨 황은 2026년 11월 8일 임직원에게 보낸 글에서 아내에게 충실…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "엔비디아 이사회, 젠슨 황과 메가스피드 관계 조사",
+   "sub": "젠슨 황은 2026년 11월 8일 임직원에게 보낸 글에서 아내에게 충실…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Nvidia board investigates Jensen Huang Megaspeed tie"
+  },
+  "nvidia_chips_china_2026_art_0003": {
+   "kind": "article",
+   "title": "ABC7 News 2026-11-09 — NVIDIA announces investigation of CEO Jensen Huang amid foreign intelligence target allegations",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "ABC7 News",
+   "credit_author": "ABC7 News",
+   "date": "2026-11-09",
+   "url": "https://abc7news.com/post/nvidia-announces-investigation-ceo-jensen-huang-amid-foreign-intelligence-target-allegations/20024740/",
+   "caption": "ABC7 News",
+   "file_note": "2026. 11. 09",
+   "depicts": [
+    "젠슨 황은 2026년 11월 8일 임직원에게 보낸 글에서 아내에게 충실…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "엔비디아, '외국 정보공작 표적' 의혹 속 젠슨 황 CEO 조사 착수",
+   "sub": "젠슨 황은 2026년 11월 8일 임직원에게 보낸 글에서 아내에게 충실…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "NVIDIA announces investigation of CEO Jensen Huang amid foreign intelligence target allegations"
+  },
+  "nvidia_chips_china_2026_art_0004": {
+   "kind": "article",
+   "title": "Associated Press 2026-11-16 — Alleged Chinese spy Alice Huang left Megaspeed last year, company says",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Associated Press",
+   "credit_author": "Associated Press",
+   "date": "2026-11-16",
+   "url": "https://www.abc.net.au/news/2026-11-16/alice-huang-megaspeed-departure/107388304",
+   "caption": "Associated Press",
+   "file_note": "2026. 11. 16",
+   "depicts": [
+    "외도 상대로 보도된 인물은 싱가포르 기업 메가스피드의 전 임원이다(젠슨…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "중국 스파이 의혹 앨리스 황, 지난해 메가스피드 떠났다고 회사 밝혀",
+   "sub": "외도 상대로 보도된 인물은 싱가포르 기업 메가스피드의 전 임원이다(젠슨…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Alleged Chinese spy Alice Huang left Megaspeed last year, company says"
+  },
+  "nvidia_chips_china_2026_art_0005": {
+   "kind": "article",
+   "title": "Fortune 2026-11-10 — 2 scandals, 1 destination—Why Nvidia can't shake China smuggling allegations",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Fortune",
+   "credit_author": "Fortune",
+   "date": "2026-11-10",
+   "url": "https://fortune.com/2026/11/10/2-scandals-1-destination-why-nvidia-cant-shake-china-smuggling-allegations/",
+   "caption": "Fortune",
+   "file_note": "2026. 11. 10",
+   "depicts": [
+    "외도 상대로 보도된 인물은 싱가포르 기업 메가스피드의 전 임원이다(젠슨…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "두 스캔들, 한 목적지 — 엔비디아가 중국 밀수 의혹을 떨치지 못하는 이유",
+   "sub": "외도 상대로 보도된 인물은 싱가포르 기업 메가스피드의 전 임원이다(젠슨…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "2 scandals, 1 destination—Why Nvidia can't shake China smuggling allegations"
+  },
+  "nvidia_chips_china_2026_art_0006": {
+   "kind": "article",
+   "title": "The New York Times 2025-10-09 — A Mystery C.E.O. and Billions in Sales: Is China Buying Banned Nvidia Chips?",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The New York Times",
+   "credit_author": "The New York Times",
+   "date": "2025-10-09",
+   "url": "https://www.nytimes.com/2025/10/09/technology/nvidia-chips-china-megaspeed.html",
+   "caption": "The New York Times",
+   "file_note": "2025. 10. 09",
+   "depicts": [
+    "메가스피드는 엔비디아 칩을 중국 기업에 넘긴다는 의혹을 받아 왔다 — …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "베일의 CEO와 수십억 달러 매출 — 중국은 금지된 엔비디아 칩을 사고 있나",
+   "sub": "메가스피드는 엔비디아 칩을 중국 기업에 넘긴다는 의혹을 받아 왔다 — …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "A Mystery C.E.O. and Billions in Sales: Is China Buying Banned Nvidia Chips?"
+  },
+  "nvidia_chips_china_2026_art_0007": {
+   "kind": "article",
+   "title": "TechCrunch 2026-11-13 — Nvidia CEO Jensen Huang's affair with alleged Chinese spy: a timeline",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "TechCrunch",
+   "credit_author": "TechCrunch",
+   "date": "2026-11-13",
+   "url": "https://techcrunch.com/2026/11/13/nvidia-ceo-jensen-huangs-affair-with-alleged-chinese-spy-a-timeline/",
+   "caption": "TechCrunch",
+   "file_note": "2026. 11. 13",
+   "depicts": [
+    "뉴욕타임스는 2026년 10월 29일 미 정보당국이 이 전 임원을 중국…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "엔비디아 CEO 젠슨 황과 '중국 스파이 의혹' 인물의 외도 — 일지",
+   "sub": "뉴욕타임스는 2026년 10월 29일 미 정보당국이 이 전 임원을 중국…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Nvidia CEO Jensen Huang's affair with alleged Chinese spy: a timeline"
+  },
+  "nvidia_chips_china_2026_art_0008": {
+   "kind": "article",
+   "title": "Associated Press 2026-11-09 — China dismisses a spy plot claim involving Nvidia CEO Jensen Huang as smear campaign",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Associated Press",
+   "credit_author": "Associated Press",
+   "date": "2026-11-09",
+   "url": "https://www.clickorlando.com/business/2026/11/09/china-dismisses-a-spy-plot-claim-involving-nvidia-ceo-jensen-huang-as-smear-campaign/",
+   "caption": "Associated Press",
+   "file_note": "2026. 11. 09",
+   "depicts": [
+    "뉴욕타임스는 2026년 10월 29일 미 정보당국이 이 전 임원을 중국…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "중국, 젠슨 황 관련 스파이 공작 주장을 '흑색선전'이라며 일축",
+   "sub": "뉴욕타임스는 2026년 10월 29일 미 정보당국이 이 전 임원을 중국…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "China dismisses a spy plot claim involving Nvidia CEO Jensen Huang as smear campaign"
+  },
+  "nvidia_chips_china_2026_art_0009": {
+   "kind": "article",
+   "title": "AI Weekly (Reuters) 2026-11-13 — Blanche: DOJ Has Not Concluded Alice Huang Was a Chinese Spy",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "AI Weekly (Reuters)",
+   "credit_author": "AI Weekly (Reuters)",
+   "date": "2026-11-13",
+   "url": "https://aiweekly.co/alerts/blanche-doj-has-not-concluded-alice-huang-was-a-chinese-spy",
+   "caption": "AI Weekly (Reuters)",
+   "file_note": "2026. 11. 13",
+   "depicts": [
+    "뉴욕타임스는 2026년 10월 29일 미 정보당국이 이 전 임원을 중국…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "블랜치 '법무부, 앨리스 황이 중국 스파이라고 결론 내린 적 없다'",
+   "sub": "뉴욕타임스는 2026년 10월 29일 미 정보당국이 이 전 임원을 중국…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Blanche: DOJ Has Not Concluded Alice Huang Was a Chinese Spy"
+  },
+  "nvidia_chips_china_2026_art_0010": {
+   "kind": "article",
+   "title": "LBC (Reuters) 2026-11-13 — US Justice Department has not concluded whether woman at centre of Nvidia affair scandal was Chinese spy",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "LBC (Reuters)",
+   "credit_author": "LBC (Reuters)",
+   "date": "2026-11-13",
+   "url": "https://www.lbc.co.uk/usa/politics/justice-department-nvidia-china/",
+   "caption": "LBC (Reuters)",
+   "file_note": "2026. 11. 13",
+   "depicts": [
+    "토드 블랜치 미 법무장관은 2026년 11월 12일 이 전 임원이 어떤…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미 법무부, 엔비디아 외도 스캔들 중심 여성이 중국 스파이인지 결론 못 내",
+   "sub": "토드 블랜치 미 법무장관은 2026년 11월 12일 이 전 임원이 어떤…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "US Justice Department has not concluded whether woman at centre of Nvidia affair scandal was Chinese spy"
+  },
+  "nvidia_chips_china_2026_art_0011": {
+   "kind": "article",
+   "title": "Euronews 2026-10-30 — China rejects report of spy plot targeting Nvidia's Jensen Huang",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Euronews",
+   "credit_author": "Euronews",
+   "date": "2026-10-30",
+   "url": "https://www.euronews.com/2026/10/30/china-rejects-report-of-spy-plot-targeting-nvidias-jensen-huang",
+   "caption": "Euronews",
+   "file_note": "2026. 10. 30",
+   "depicts": [
+    "중국 외교부 궈자쿤 대변인은 2026년 11월 9일 이른바 중국 스파이…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "중국, 젠슨 황 겨냥 스파이 공작 보도 부인",
+   "sub": "중국 외교부 궈자쿤 대변인은 2026년 11월 9일 이른바 중국 스파이…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "China rejects report of spy plot targeting Nvidia's Jensen Huang"
+  },
+  "nvidia_chips_china_2026_art_0012": {
+   "kind": "article",
+   "title": "Fortune 2026-11-11 — How Megaspeed built a network in Singapore and Malaysia to move $7.5 billion of Nvidia chips to Chinese companies",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Fortune",
+   "credit_author": "Fortune",
+   "date": "2026-11-11",
+   "url": "https://fortune.com/2026/11/11/megaspeed-nvidia-chips-china-singapore-malaysia/",
+   "caption": "Fortune",
+   "file_note": "2026. 11. 11",
+   "depicts": [
+    "메가스피드는 합법적으로 사업해 왔고 칩 불법 이전이나 불법 행위의 증거…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "메가스피드는 어떻게 싱가포르·말레이시아에 망을 짜 엔비디아 칩 75억 달러어치를 중국 기업에 넘겼나",
+   "sub": "메가스피드는 합법적으로 사업해 왔고 칩 불법 이전이나 불법 행위의 증거…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "How Megaspeed built a network in Singapore and Malaysia to move $7.5 billion of Nvidia chips to Chinese companies"
+  },
+  "nvidia_chips_china_2026_art_0013": {
+   "kind": "article",
+   "title": "The Register 2026-03-20 — Supermicro co-founder arrested, charged over $2.5B Nvidia GPU sales to China",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The Register",
+   "credit_author": "The Register",
+   "date": "2026-03-20",
+   "url": "https://www.theregister.com/2026/03/20/supermicro_nvidia_gpu_charges/",
+   "caption": "The Register",
+   "file_note": "2026. 03. 20",
+   "depicts": [
+    "미 뉴욕남부 연방검찰은 2026년 3월 19일 슈퍼마이크로 공동창업자 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "슈퍼마이크로 공동창업자 체포, 25억 달러 규모 엔비디아 GPU 중국 판매 혐의로 기소",
+   "sub": "미 뉴욕남부 연방검찰은 2026년 3월 19일 슈퍼마이크로 공동창업자 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Supermicro co-founder arrested, charged over $2.5B Nvidia GPU sales to China"
+  },
+  "nvidia_chips_china_2026_art_0014": {
+   "kind": "article",
+   "title": "Engadget 2026-10-02 — NVIDIA's smuggling problem is getting worse",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Engadget",
+   "credit_author": "Engadget",
+   "date": "2026-10-02",
+   "url": "https://engadget.com/2275633/nvidias-smuggling-problem-is-getting-worse",
+   "caption": "Engadget",
+   "file_note": "2026. 10. 02",
+   "depicts": [
+    "미 법무부는 피고인 등이 헤어드라이어로 서버 상자의 라벨과 일련번호 스…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "엔비디아의 밀수 문제가 악화되고 있다",
+   "sub": "미 법무부는 피고인 등이 헤어드라이어로 서버 상자의 라벨과 일련번호 스…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "NVIDIA's smuggling problem is getting worse"
+  },
+  "nvidia_chips_china_2026_art_0015": {
+   "kind": "article",
+   "title": "Tom's Hardware 2026-04-01 — Super Micro co-founder Wally Liaw pleads not guilty to Nvidia smuggling charges",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Tom's Hardware",
+   "credit_author": "Tom's Hardware",
+   "date": "2026-04-01",
+   "url": "https://www.tomshardware.com/tech-industry/super-micro-co-founder-wally-liaw-pleads-not-guilty-to-nvidia-smuggling-charges",
+   "caption": "Tom's Hardware",
+   "file_note": "2026. 04. 01",
+   "depicts": [
+    "리아우는 무죄를 주장했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "슈퍼마이크로 공동창업자 월리 리아우, 엔비디아 밀수 혐의에 무죄 주장",
+   "sub": "리아우는 무죄를 주장했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Super Micro co-founder Wally Liaw pleads not guilty to Nvidia smuggling charges"
+  },
+  "nvidia_chips_china_2026_art_0016": {
+   "kind": "article",
+   "title": "Fortune 2026-05-13 — Nvidia chip smuggling to China, Russia, Iran tests U.S. export controls",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Fortune",
+   "credit_author": "Fortune",
+   "date": "2026-05-13",
+   "url": "https://fortune.com/2026/05/13/nvidia-chip-smuggling-china-russia-iran-export-controls-supermicro/",
+   "caption": "Fortune",
+   "file_note": "2026. 05. 13",
+   "depicts": [
+    "리아우는 무죄를 주장했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "중국·러시아·이란으로 향하는 엔비디아 칩 밀수, 미국 수출통제를 시험하다",
+   "sub": "리아우는 무죄를 주장했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Nvidia chip smuggling to China, Russia, Iran tests U.S. export controls"
+  },
+  "nvidia_chips_china_2026_art_0017": {
+   "kind": "article",
+   "title": "DatacenterDynamics 2026-10-09 — Supermicro contractor Ting-Wei 'Willy' Sun pleads guilty to four counts associated with Nvidia chip smuggling charges",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "DatacenterDynamics",
+   "credit_author": "DatacenterDynamics",
+   "date": "2026-10-09",
+   "url": "https://datacenterdynamics.com/en/news/supermicro-contractor-ting-wei-willy-sun-pleads-guilty-to-four-counts-associated-with-nvidia-chip-smuggling-charges",
+   "caption": "DatacenterDynamics",
+   "file_note": "2026. 10. 09",
+   "depicts": [
+    "함께 기소된 중개인 쑨은 2026년 10월 유죄를 인정했다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "슈퍼마이크로 협력업자 윌리 선, 엔비디아 칩 밀수 관련 4개 혐의 유죄 인정",
+   "sub": "함께 기소된 중개인 쑨은 2026년 10월 유죄를 인정했다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Supermicro contractor Ting-Wei 'Willy' Sun pleads guilty to four counts associated with Nvidia chip smuggling charges"
+  },
+  "nvidia_chips_china_2026_art_0018": {
+   "kind": "article",
+   "title": "Arnold & Porter 2025-12-15 — DOJ Shutdown of Major China-Linked AI Tech Smuggling Network",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Arnold & Porter",
+   "credit_author": "Arnold & Porter",
+   "date": "2025-12-15",
+   "url": "https://www.arnoldporter.com/en/perspectives/blogs/enforcement-edge/2025/12/doj-shutdown-of-major-china-linked-ai-tech-smuggling-network",
+   "caption": "Arnold & Porter",
+   "file_note": "2025. 12. 15",
+   "depicts": [
+    "텍사스 하오글로벌 대표는 2025년 10월 10일 유죄를 인정했다 — …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미 법무부, 중국 연계 대형 AI 기술 밀수망 차단",
+   "sub": "텍사스 하오글로벌 대표는 2025년 10월 10일 유죄를 인정했다 — …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "DOJ Shutdown of Major China-Linked AI Tech Smuggling Network"
+  },
+  "nvidia_chips_china_2026_art_0019": {
+   "kind": "article",
+   "title": "Focus Taiwan (CNA) 2026-08-24 — 8 indicted over illegal Nvidia server exports to China",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Focus Taiwan (CNA)",
+   "credit_author": "Focus Taiwan (CNA)",
+   "date": "2026-08-24",
+   "url": "https://focustaiwan.tw/society/202608240023",
+   "caption": "Focus Taiwan (CNA)",
+   "file_note": "2026. 08. 24",
+   "depicts": [
+    "대만 지룽 지방검찰은 2026년 8월 24일 엔비디아 대만 지사 관리자…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "엔비디아 서버 중국 불법 수출로 8명 기소",
+   "sub": "대만 지룽 지방검찰은 2026년 8월 24일 엔비디아 대만 지사 관리자…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "8 indicted over illegal Nvidia server exports to China"
+  },
+  "nvidia_chips_china_2026_art_0020": {
+   "kind": "article",
+   "title": "The Next Web 2026-08-24 — Taiwan indicts Nvidia manager over chip smuggling",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The Next Web",
+   "credit_author": "The Next Web",
+   "date": "2026-08-24",
+   "url": "https://thenextweb.com/news/taiwan-indicts-nvidia-manager-chip-smuggling-eu-gap",
+   "caption": "The Next Web",
+   "file_note": "2026. 08. 24",
+   "depicts": [
+    "대만 지룽 지방검찰은 2026년 8월 24일 엔비디아 대만 지사 관리자…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "대만, 칩 밀수 혐의로 엔비디아 관리자 기소",
+   "sub": "대만 지룽 지방검찰은 2026년 8월 24일 엔비디아 대만 지사 관리자…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Taiwan indicts Nvidia manager over chip smuggling"
+  },
+  "nvidia_chips_china_2026_art_0021": {
+   "kind": "article",
+   "title": "Associated Press 2026-08-24 — Taiwan charges 9 over illegal AI server exports to China, including Nvidia and Super Micro staffers",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Associated Press",
+   "credit_author": "Associated Press",
+   "date": "2026-08-24",
+   "url": "https://www.pbs.org/newshour/economy/taiwan-charges-9-over-illegal-ai-server-exports-to-china-including-nvidia-and-super-micro-staffers",
+   "caption": "Associated Press",
+   "file_note": "2026. 08. 24",
+   "depicts": [
+    "대만 지룽 지방검찰은 2026년 8월 24일 엔비디아 대만 지사 관리자…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "대만, 엔비디아·슈퍼마이크로 직원 포함 9명을 AI 서버 대중 불법 수출 혐의로 기소",
+   "sub": "대만 지룽 지방검찰은 2026년 8월 24일 엔비디아 대만 지사 관리자…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Taiwan charges 9 over illegal AI server exports to China, including Nvidia and Super Micro staffers"
+  },
+  "nvidia_chips_china_2026_art_0022": {
+   "kind": "article",
+   "title": "Epoch AI 2026-09-17 — Malaysia–China server trade gap (data insight)",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Epoch AI",
+   "credit_author": "Epoch AI",
+   "date": "2026-09-17",
+   "url": "https://epoch.ai/data-insights/malaysia-china-chip-smuggling",
+   "caption": "Epoch AI",
+   "file_note": "2026. 09. 17",
+   "depicts": [
+    "Epoch AI 는 2026년 9월 17일 말레이시아와 중국의 서버 무…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "말레이시아-중국 서버 무역통계의 불일치",
+   "sub": "Epoch AI 는 2026년 9월 17일 말레이시아와 중국의 서버 무…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Malaysia–China server trade gap (data insight)"
+  },
+  "nvidia_chips_china_2026_art_0023": {
+   "kind": "article",
+   "title": "Fortune 2026-11-16 — The Nvidia scandal fuels tougher China chip rules as Commerce targets Singapore and Malaysia",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Fortune",
+   "credit_author": "Fortune",
+   "date": "2026-11-16",
+   "url": "https://fortune.com/2026/11/16/new-commerce-rule-nvidia-chip-singapore-malaysia-china/",
+   "caption": "Fortune",
+   "file_note": "2026. 11. 16",
+   "depicts": [
+    "말레이시아 투자통상산업부는 2025년 7월 14일부터 미국산 고성능 인…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "엔비디아 스캔들이 대중국 칩 규제 강화를 부추기다 — 상무부, 싱가포르·말레이시아 겨냥",
+   "sub": "말레이시아 투자통상산업부는 2025년 7월 14일부터 미국산 고성능 인…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "The Nvidia scandal fuels tougher China chip rules as Commerce targets Singapore and Malaysia"
+  },
+  "nvidia_chips_china_2026_art_0024": {
+   "kind": "article",
+   "title": "Epoch AI 2026-04-29 — How many AI chips have been smuggled into China?",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Epoch AI",
+   "credit_author": "Epoch AI",
+   "date": "2026-04-29",
+   "url": "https://epoch.ai/blog/chip-smuggling",
+   "caption": "Epoch AI",
+   "file_note": "2026. 04. 29",
+   "depicts": [
+    "Epoch AI 는 2025년 말까지 중국에 밀반입된 연산 능력을 엔비…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "중국에 밀반입된 AI 칩은 얼마나 될까",
+   "sub": "Epoch AI 는 2025년 말까지 중국에 밀반입된 연산 능력을 엔비…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "How many AI chips have been smuggled into China?"
+  },
+  "nvidia_chips_china_2026_art_0025": {
+   "kind": "article",
+   "title": "Bloomberg 2025-05-17 — Nvidia CEO Sees No Evidence of AI Chip Diversion Into China",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Bloomberg",
+   "credit_author": "Bloomberg",
+   "date": "2025-05-17",
+   "url": "https://news.bloomberglaw.com/artificial-intelligence/nvidia-ceo-sees-no-evidence-of-ai-chip-diversion-into-china-1",
+   "caption": "Bloomberg",
+   "file_note": "2025. 05. 17",
+   "depicts": [
+    "젠슨 황은 2025년 5월 17일 타이베이에서 인공지능 칩이 전용됐다는…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "엔비디아 CEO '중국으로의 AI 칩 전용 증거 없어'",
+   "sub": "젠슨 황은 2025년 5월 17일 타이베이에서 인공지능 칩이 전용됐다는…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Nvidia CEO Sees No Evidence of AI Chip Diversion Into China"
+  },
+  "nvidia_chips_china_2026_art_0026": {
+   "kind": "article",
+   "title": "Tom's Hardware 2025-05-19 — Nvidia CEO Jensen Huang says 'There's no evidence of any AI chip diversion'",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Tom's Hardware",
+   "credit_author": "Tom's Hardware",
+   "date": "2025-05-19",
+   "url": "https://www.tomshardware.com/tech-industry/artificial-intelligence/nvidia-ceo-jensen-huang-says-theres-no-evidence-of-any-ai-chip-diversion",
+   "caption": "Tom's Hardware",
+   "file_note": "2025. 05. 19",
+   "depicts": [
+    "젠슨 황은 2025년 5월 17일 타이베이에서 인공지능 칩이 전용됐다는…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "엔비디아 CEO 젠슨 황 'AI 칩 전용의 증거는 없다'",
+   "sub": "젠슨 황은 2025년 5월 17일 타이베이에서 인공지능 칩이 전용됐다는…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Nvidia CEO Jensen Huang says 'There's no evidence of any AI chip diversion'"
+  },
+  "nvidia_chips_china_2026_art_0027": {
+   "kind": "article",
+   "title": "Associated Press 2026-11-16 — Trump administration moves to block China from indirect access to American AI tech",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Associated Press",
+   "credit_author": "Associated Press",
+   "date": "2026-11-16",
+   "url": "https://pbs.org/newshour/science/trump-administration-moves-to-block-china-from-indirect-access-to-american-ai-tech",
+   "caption": "Associated Press",
+   "file_note": "2026. 11. 16",
+   "depicts": [
+    "미 상무부는 2026년 11월 16일 규칙에서 제3국 데이터센터를 통한…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "트럼프 행정부, 중국의 미국 AI 기술 우회 접근 차단 나서",
+   "sub": "미 상무부는 2026년 11월 16일 규칙에서 제3국 데이터센터를 통한…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Trump administration moves to block China from indirect access to American AI tech"
+  },
+  "nvidia_chips_china_2026_art_0028": {
+   "kind": "article",
+   "title": "The Wall Street Journal 2025-06-13 — Chinese AI Companies Dodge U.S. Chip Curbs by Flying Suitcases of Hard Drives Abroad",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The Wall Street Journal",
+   "credit_author": "The Wall Street Journal",
+   "date": "2025-06-13",
+   "url": "https://www.wsj.com/tech/china-ai-chip-curb-suitcases-7c47dab1",
+   "caption": "The Wall Street Journal",
+   "file_note": "2025. 06. 13",
+   "depicts": [
+    "월스트리트저널은 2025년 3월 중국 엔지니어 네 명이 하드디스크 15…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "중국 AI 기업들, 하드디스크 가득 든 여행가방을 해외로 날라 미국 칩 규제를 피하다",
+   "sub": "월스트리트저널은 2025년 3월 중국 엔지니어 네 명이 하드디스크 15…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Chinese AI Companies Dodge U.S. Chip Curbs by Flying Suitcases of Hard Drives Abroad"
+  },
+  "nvidia_chips_china_2026_art_0029": {
+   "kind": "article",
+   "title": "Tom's Hardware 2025-06-13 — Chinese AI outfits smuggling suitcases full of hard drives to evade U.S. chip restrictions",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Tom's Hardware",
+   "credit_author": "Tom's Hardware",
+   "date": "2025-06-13",
+   "url": "https://www.tomshardware.com/tech-industry/artificial-intelligence/chinese-ai-outfits-smuggling-suitcases-full-of-hard-drives-to-evade-u-s-chip-restrictions-training-ai-models-in-malaysia-using-rented-servers",
+   "caption": "Tom's Hardware",
+   "file_note": "2025. 06. 13",
+   "depicts": [
+    "월스트리트저널은 2025년 3월 중국 엔지니어 네 명이 하드디스크 15…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "중국 AI 업체들, 미국 칩 규제 피하려 하드디스크 가득 든 여행가방 반출",
+   "sub": "월스트리트저널은 2025년 3월 중국 엔지니어 네 명이 하드디스크 15…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Chinese AI outfits smuggling suitcases full of hard drives to evade U.S. chip restrictions"
+  },
+  "nvidia_chips_china_2026_art_0030": {
+   "kind": "article",
+   "title": "TechNews 2026-08-20 — 中國 AI 企業繞道東南亞，遠端取用輝達高階晶片算力",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "TechNews",
+   "credit_author": "TechNews",
+   "date": "2026-08-20",
+   "url": "https://technews.tw/2026/08/20/chinese-ai-firms-are-tapping-banned-nvidia-chips-through-southeast-asian-data-centers/",
+   "caption": "TechNews",
+   "file_note": "2026. 08. 20",
+   "depicts": [
+    "CNBC 는 2026년 8월 19일 문샷AI·바이트댄스·알리바바·텐센트…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "중국 AI 기업들, 동남아로 돌아가 엔비디아 고성능 칩 연산력을 원격으로 쓰다",
+   "sub": "CNBC 는 2026년 8월 19일 문샷AI·바이트댄스·알리바바·텐센트…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "中國 AI 企業繞道東南亞，遠端取用輝達高階晶片算力"
+  },
+  "nvidia_chips_china_2026_art_0031": {
+   "kind": "article",
+   "title": "Institute for Progress 2026-10-19 — How to Increase America's AI Lead Over China",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Institute for Progress",
+   "credit_author": "Institute for Progress",
+   "date": "2026-10-19",
+   "url": "https://ifp.org/how-to-increase-americas-ai-lead-over-china/",
+   "caption": "Institute for Progress",
+   "file_note": "2026. 10. 19",
+   "depicts": [
+    "미국 싱크탱크 IFP 는 중국이 해외 데이터센터 원격 접속으로 쓰는 연…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미국의 대중국 AI 우위를 넓히는 방법",
+   "sub": "미국 싱크탱크 IFP 는 중국이 해외 데이터센터 원격 접속으로 쓰는 연…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "How to Increase America's AI Lead Over China"
+  },
+  "nvidia_chips_china_2026_art_0032": {
+   "kind": "article",
+   "title": "Reuters 2026-11-05 — Exclusive: Nvidia chips pile up in Hong Kong as China withholds import approval",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Reuters",
+   "credit_author": "Reuters",
+   "date": "2026-11-05",
+   "url": "https://www.thestandard.com.hk/innovation/article/347673/Nvidia-chips-pile-up-in-Hong-Kong-as-China-withholds-import-approval",
+   "caption": "Reuters",
+   "file_note": "2026. 11. 05",
+   "depicts": [
+    "로이터는 2026년 11월 5일 엔비디아 H200 약 60만 개가 중국…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "[단독] 중국 수입 승인 보류에 엔비디아 칩 홍콩에 쌓여",
+   "sub": "로이터는 2026년 11월 5일 엔비디아 H200 약 60만 개가 중국…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Exclusive: Nvidia chips pile up in Hong Kong as China withholds import approval"
+  },
+  "nvidia_chips_china_2026_art_0033": {
+   "kind": "article",
+   "title": "Reuters 2026-11-11 — Exclusive: Military-linked Chinese university bought Nvidia H200 chips despite US blacklist",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Reuters",
+   "credit_author": "Reuters",
+   "date": "2026-11-11",
+   "url": "https://live.euronext.com/en/financial-news/exclusive-military-linked-chinese-university-bought-nvidia-h200-chips-despite-us",
+   "caption": "Reuters",
+   "file_note": "2026. 11. 11",
+   "depicts": [
+    "중국 정부는 자국 기업의 H200 대량 수입 승인을 대체로 미루고 있다"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "[단독] 군 연계 중국 대학, 미국 블랙리스트에도 엔비디아 H200 구매",
+   "sub": "중국 정부는 자국 기업의 H200 대량 수입 승인을 대체로 미루고 있다",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Exclusive: Military-linked Chinese university bought Nvidia H200 chips despite US blacklist"
+  },
+  "nvidia_chips_china_2026_art_0034": {
+   "kind": "article",
+   "title": "Georgetown CSET 2023-10-17 — BIS 2023 update explainer",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Georgetown CSET",
+   "credit_author": "Georgetown CSET",
+   "date": "2023-10-17",
+   "url": "https://cset.georgetown.edu/article/bis-2023-update-explainer/",
+   "caption": "Georgetown CSET",
+   "file_note": "2023. 10. 17",
+   "depicts": [
+    "미 상무부는 2022년 10월 7일 첨단 연산 칩의 중국 수출에 허가를…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "산업안보국 2023년 개정 해설",
+   "sub": "미 상무부는 2022년 10월 7일 첨단 연산 칩의 중국 수출에 허가를…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "BIS 2023 update explainer"
+  },
+  "nvidia_chips_china_2026_art_0035": {
+   "kind": "article",
+   "title": "Wiley Rein 2025-05-13 — BIS Rescinds AI Diffusion Rule",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Wiley Rein",
+   "credit_author": "Wiley Rein",
+   "date": "2025-05-13",
+   "url": "https://www.wiley.law/alert-BIS-Rescinds-AI-Diffusion-Rule",
+   "caption": "Wiley Rein",
+   "file_note": "2025. 05. 13",
+   "depicts": [
+    "트럼프 행정부 상무부는 2025년 5월 13일 바이든 정부의 전 세계 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "산업안보국, AI 확산 규칙 철회",
+   "sub": "트럼프 행정부 상무부는 2025년 5월 13일 바이든 정부의 전 세계 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "BIS Rescinds AI Diffusion Rule"
+  },
+  "nvidia_chips_china_2026_art_0036": {
+   "kind": "article",
+   "title": "NBC News 2025-12-08 — Trump says he will allow Nvidia to sell some AI chips in China",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "NBC News",
+   "credit_author": "NBC News",
+   "date": "2025-12-08",
+   "url": "https://www.nbcnews.com/business/corporations/trump-nvidia-h200-chips-ai-china-rcna248107",
+   "caption": "NBC News",
+   "file_note": "2025. 12. 08",
+   "depicts": [
+    "트럼프 대통령은 2025년 12월 8일 엔비디아 H200 을 중국의 승…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "트럼프 \"엔비디아의 일부 AI 칩 중국 판매 허용\"",
+   "sub": "트럼프 대통령은 2025년 12월 8일 엔비디아 H200 을 중국의 승…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Trump says he will allow Nvidia to sell some AI chips in China"
+  },
+  "nvidia_chips_china_2026_art_0037": {
+   "kind": "article",
+   "title": "CBS News 2026-11-16 — Inside Lutnick's Commerce Department, lack of action on alleged AI chip smuggling came with a side of 'chaos,' ex-employees say",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "CBS News",
+   "credit_author": "CBS News",
+   "date": "2026-11-16",
+   "url": "https://www.cbsnews.com/news/howard-lutnick-commerce-department-chips-chaos-former-employees/",
+   "caption": "CBS News",
+   "file_note": "2026. 11. 16",
+   "depicts": [
+    "CBS 는 미 상무부의 수출통제 명단(엔티티 리스트) 추가가 2025년…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "상무부 내부, AI 칩 밀수 의혹에 무대응과 '혼돈' — 전직 직원들 증언",
+   "sub": "CBS 는 미 상무부의 수출통제 명단(엔티티 리스트) 추가가 2025년…",
+   "note": "헤드라인 번역 · 원문 영어"
+  },
+  "nvidia_chips_china_2026_art_0038": {
+   "kind": "article",
+   "title": "The Hill 2026-11-16 — Trump administration seeks to restrict China's remote chip access after Nvidia scandal",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The Hill",
+   "credit_author": "The Hill",
+   "date": "2026-11-16",
+   "url": "https://thehill.com/policy/technology/6222897-bis-limits-remote-computing-exports/amp/",
+   "caption": "The Hill",
+   "file_note": "2026. 11. 16",
+   "depicts": [
+    "미 상무부 산업안보국은 2026년 11월 16일 '첨단 반도체 원격 접…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "트럼프 행정부, 엔비디아 스캔들 뒤 중국의 원격 칩 접근 제한 나서",
+   "sub": "미 상무부 산업안보국은 2026년 11월 16일 '첨단 반도체 원격 접…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Trump administration seeks to restrict China's remote chip access after Nvidia scandal"
+  },
+  "nvidia_chips_china_2026_art_0039": {
+   "kind": "article",
+   "title": "Nixon Peabody 2026-11-16 — BIS targets remote access to advanced chips through overseas data centers",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Nixon Peabody",
+   "credit_author": "Nixon Peabody",
+   "date": "2026-11-16",
+   "url": "https://www.nixonpeabody.com/insights/alerts/2026/11/16/bis-targets-remote-access-to-advanced-chips-through-overseas-data-centers",
+   "caption": "Nixon Peabody",
+   "file_note": "2026. 11. 16",
+   "depicts": [
+    "규칙: 중국·마카오 등 본사 기업에 합계 1,200만 TPP 넘는 연산…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미 상무부 산업안보국, 해외 데이터센터를 통한 첨단 칩 원격 접속 겨냥",
+   "sub": "규칙: 중국·마카오 등 본사 기업에 합계 1,200만 TPP 넘는 연산…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "BIS targets remote access to advanced chips through overseas data centers"
+  },
+  "nvidia_chips_china_2026_art_0040": {
+   "kind": "article",
+   "title": "ProductNation 2026-11-17 — US Licence for Advanced AI Chips to Malaysia Is Set to Start on 19 November",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "ProductNation",
+   "credit_author": "ProductNation",
+   "date": "2026-11-17",
+   "url": "https://productnation.co/my/32332/ai-chip-licence-malaysia-6H1w/",
+   "caption": "ProductNation",
+   "file_note": "2026. 11. 17",
+   "depicts": [
+    "규칙은 연방관보 게재일에 시행되며 게재는 2026년 11월 19일로 예…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "말레이시아행 첨단 AI 칩 미국 허가제, 11월 19일 시행 예정",
+   "sub": "규칙은 연방관보 게재일에 시행되며 게재는 2026년 11월 19일로 예…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "US Licence for Advanced AI Chips to Malaysia Is Set to Start on 19 November"
+  },
+  "nvidia_chips_china_2026_art_0041": {
+   "kind": "article",
+   "title": "The Register 2026-01-13 — Cloud to be an American: Congress votes to kick China off remote GPU services",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "The Register",
+   "credit_author": "The Register",
+   "date": "2026-01-13",
+   "url": "https://www.theregister.com/2026/01/13/congress_votes_china_gpu_cloud/",
+   "caption": "The Register",
+   "file_note": "2026. 01. 13",
+   "depicts": [
+    "원격 접속을 수출통제 대상에 넣는 원격접속보안법은 2026년 1월 12…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "의회, 중국을 원격 GPU 서비스에서 몰아내는 법안 가결",
+   "sub": "원격 접속을 수출통제 대상에 넣는 원격접속보안법은 2026년 1월 12…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Cloud to be an American: Congress votes to kick China off remote GPU services"
+  },
+  "nvidia_chips_china_2026_art_0042": {
+   "kind": "article",
+   "title": "Newsmax (Reuters) 2026-11-15 — Nvidia Scandal Fuels Bipartisan Push for AI Chip Export Curbs",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Newsmax (Reuters)",
+   "credit_author": "Newsmax (Reuters)",
+   "date": "2026-11-15",
+   "url": "https://www.yahoo.com/news/politics/articles/nvidia-scandal-fuels-bipartisan-push-131722814.html",
+   "caption": "Newsmax (Reuters)",
+   "file_note": "2026. 11. 15",
+   "depicts": [
+    "원격 접속을 수출통제 대상에 넣는 원격접속보안법은 2026년 1월 12…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "엔비디아 스캔들, AI 칩 수출 규제 초당적 추진에 불붙여",
+   "sub": "원격 접속을 수출통제 대상에 넣는 원격접속보안법은 2026년 1월 12…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Nvidia Scandal Fuels Bipartisan Push for AI Chip Export Curbs"
+  },
+  "nvidia_chips_china_2026_art_0043": {
+   "kind": "article",
+   "title": "Semafor 2026-11-12 — 'A high probability': Congress pushes tighter export controls following Nvidia scandal",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Semafor",
+   "credit_author": "Semafor",
+   "date": "2026-11-12",
+   "url": "https://www.semafor.com/article/11/12/2026/a-high-probability-congress-pushes-tighter-export-controls-following-nvidia-scandal",
+   "caption": "Semafor",
+   "file_note": "2026. 11. 12",
+   "depicts": [
+    "칩 보안법은 수출되는 첨단 칩에 위치 확인 장치를 의무화하는 법안이며 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "\"가능성 높다\": 엔비디아 스캔들 뒤 의회, 수출통제 강화 추진",
+   "sub": "칩 보안법은 수출되는 첨단 칩에 위치 확인 장치를 의무화하는 법안이며 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "'A high probability': Congress pushes tighter export controls following Nvidia scandal"
+  },
+  "nvidia_chips_china_2026_art_0044": {
+   "kind": "article",
+   "title": "MIT Technology Review 2026-11-12 — Nvidia privately confirmed it could track chips to fight smuggling, even as industry publicly questioned feasibility",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "MIT Technology Review",
+   "credit_author": "MIT Technology Review",
+   "date": "2026-11-12",
+   "url": "https://www.technologyreview.com/2026/11/12/1148483/nvidia-chip-tracking/amp/",
+   "caption": "MIT Technology Review",
+   "file_note": "2026. 11. 12",
+   "depicts": [
+    "칩 보안법은 수출되는 첨단 칩에 위치 확인 장치를 의무화하는 법안이며 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "엔비디아, 업계가 공개적으로 실현 가능성에 의문을 제기하는 와중에 밀수 대응용 칩 추적이 가능하다고 비공개로 확인",
+   "sub": "칩 보안법은 수출되는 첨단 칩에 위치 확인 장치를 의무화하는 법안이며 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Nvidia privately confirmed it could track chips to fight smuggling, even as industry publicly questioned feasibility"
+  },
+  "nvidia_chips_china_2026_art_0045": {
+   "kind": "article",
+   "title": "Al Jazeera 2026-01-21 — US House panel advances bill to give Congress authority on AI chip exports",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Al Jazeera",
+   "credit_author": "Al Jazeera",
+   "date": "2026-01-21",
+   "url": "https://www.aljazeera.com/economy/2026/1/21/us-house-panel-advances-bill-to-give-congress-authority-on-ai-chip-exports",
+   "caption": "Al Jazeera",
+   "file_note": "2026. 01. 21",
+   "depicts": [
+    "AI 오버워치법은 상무부의 대중국 첨단 칩 수출 허가를 의회가 30일 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미 하원 위원회, AI 칩 수출에 의회 권한 부여 법안 통과",
+   "sub": "AI 오버워치법은 상무부의 대중국 첨단 칩 수출 허가를 의회가 30일 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "US House panel advances bill to give Congress authority on AI chip exports"
+  },
+  "nvidia_chips_china_2026_art_0046": {
+   "kind": "article",
+   "title": "Punchbowl News 2026-04-26 — Tech: Export control debate moves to NDAA",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Punchbowl News",
+   "credit_author": "Punchbowl News",
+   "date": "2026-04-26",
+   "url": "https://punchbowl.news/article/tech/export-control-ndaa/",
+   "caption": "Punchbowl News",
+   "file_note": "2026. 04. 26",
+   "depicts": [
+    "AI 오버워치법은 상무부의 대중국 첨단 칩 수출 허가를 의회가 30일 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "수출통제 논쟁, 국방수권법으로 무대 이동",
+   "sub": "AI 오버워치법은 상무부의 대중국 첨단 칩 수출 허가를 의회가 30일 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Tech: Export control debate moves to NDAA"
+  },
+  "nvidia_chips_china_2026_art_0047": {
+   "kind": "article",
+   "title": "Korea JoongAng Daily 2026-11-16 — Seoul joins U.S.-led AI pact as Washington rallies allies before Trump-Xi talks",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Korea JoongAng Daily",
+   "credit_author": "Korea JoongAng Daily",
+   "date": "2026-11-16",
+   "url": "https://www.koreajoongangdaily.com/korea/seoul-joins-usled-ai-pact-as-washington-rallies-allies-before-trumpxi-talks/12974938",
+   "caption": "Korea JoongAng Daily",
+   "file_note": "2026. 11. 16",
+   "depicts": [
+    "한국은 2026년 11월 15일 샌프란시스코에서 팍스 실리카 '샌프란시…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미국이 미중 정상회담 앞두고 동맹 결집하자 한국도 미국 주도 AI 협약 합류",
+   "sub": "한국은 2026년 11월 15일 샌프란시스코에서 팍스 실리카 '샌프란시…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Seoul joins U.S.-led AI pact as Washington rallies allies before Trump-Xi talks"
+  },
+  "nvidia_chips_china_2026_art_0048": {
+   "kind": "article",
+   "title": "Seoul Economic Daily 2026-11-17 — U.S. Signs AI Supply Chain Pact With Korea Days Before China Talks",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Seoul Economic Daily",
+   "credit_author": "Seoul Economic Daily",
+   "date": "2026-11-17",
+   "url": "https://en.sedaily.com/politics/2026/11/17/us-signs-ai-supply-chain-pact-with-korea-days-before-china",
+   "caption": "Seoul Economic Daily",
+   "file_note": "2026. 11. 17",
+   "depicts": [
+    "한국은 2026년 11월 15일 샌프란시스코에서 팍스 실리카 '샌프란시…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미국, 미중 회담 며칠 앞두고 한국과 AI 공급망 협약 서명",
+   "sub": "한국은 2026년 11월 15일 샌프란시스코에서 팍스 실리카 '샌프란시…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "U.S. Signs AI Supply Chain Pact With Korea Days Before China Talks"
+  },
+  "nvidia_chips_china_2026_art_0049": {
+   "kind": "article",
+   "title": "Euronews 2026-11-13 — China warns US over chip curbs as suspected spy's firm got banned chips",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Euronews",
+   "credit_author": "Euronews",
+   "date": "2026-11-13",
+   "url": "https://www.euronews.com/2026/11/13/china-warns-us-over-chip-curbs-as-suspected-spys-firm-got-banned-chips",
+   "caption": "Euronews",
+   "file_note": "2026. 11. 13",
+   "depicts": [
+    "중국 외교부 마오닝 대변인은 2026년 11월 13일 중국은 수출통제 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "중국, 미 반도체 규제 경고… 스파이 의혹 인물 회사는 금지 칩 확보",
+   "sub": "중국 외교부 마오닝 대변인은 2026년 11월 13일 중국은 수출통제 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "China warns US over chip curbs as suspected spy's firm got banned chips"
+  },
+  "nvidia_chips_china_2026_art_0050": {
+   "kind": "article",
+   "title": "Asia Times 2026-11-17 — China hoards Nvidia's AI chips as US curbs remote access",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Asia Times",
+   "credit_author": "Asia Times",
+   "date": "2026-11-17",
+   "url": "https://asiatimes.com/2026/11/china-hoards-nvidias-ai-chips-as-us-curbs-remote-access/",
+   "caption": "Asia Times",
+   "file_note": "2026. 11. 17",
+   "depicts": [
+    "중국 외교부 마오닝 대변인은 2026년 11월 13일 중국은 수출통제 …"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "미국이 원격 접속 막자 중국은 엔비디아 AI 칩 사재기",
+   "sub": "중국 외교부 마오닝 대변인은 2026년 11월 13일 중국은 수출통제 …",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "China hoards Nvidia's AI chips as US curbs remote access"
+  },
+  "nvidia_chips_china_2026_art_0051": {
+   "kind": "article",
+   "title": "Daily Caller (NBC News) 2026-11-12 — Jensen Huang Agrees To Testify Before Congress Over Relationship With Alleged Chinese Spy",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "Daily Caller (NBC News)",
+   "credit_author": "Daily Caller (NBC News)",
+   "date": "2026-11-12",
+   "url": "https://dailycaller.com/2026/11/12/nvidia-jenson-huang-testify-house-foreign-affairs-committee/",
+   "caption": "Daily Caller (NBC News)",
+   "file_note": "2026. 11. 12",
+   "depicts": [
+    "젠슨 황은 추수감사절 전까지 미 의회에 비공개로 출석하기로 동의했다(날…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "젠슨 황, 중국 스파이 의혹 인물과의 관계 관련 의회 증언에 동의",
+   "sub": "젠슨 황은 추수감사절 전까지 미 의회에 비공개로 출석하기로 동의했다(날…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Jensen Huang Agrees To Testify Before Congress Over Relationship With Alleged Chinese Spy"
+  },
+  "nvidia_chips_china_2026_art_0052": {
+   "kind": "article",
+   "title": "KATU (The National Desk) 2026-11-13 — Former Nvidia CEO Jensen Huang to testify to Congress over suspected Chinese spy ties",
+   "license": "헤드라인 번역·요지 자체 조판(원문 인용 15단어 미만, 기사 화면 캡처·로고 없음, 14 §9)",
+   "author": "KATU (The National Desk)",
+   "credit_author": "KATU (The National Desk)",
+   "date": "2026-11-13",
+   "url": "https://katu.com/news/nation-world/former-nvidia-ceo-jensen-huang-to-testify-to-congress-over-suspected-chinese-spy-ties-alice-huang-megaspeed-house-foreign-affairs-committee-extramarital-affairs-national-secuity-concerns-chipmaker-artificial-intelligence",
+   "caption": "KATU (The National Desk)",
+   "file_note": "2026. 11. 13",
+   "depicts": [
+    "젠슨 황은 추수감사절 전까지 미 의회에 비공개로 출석하기로 동의했다(날…"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "code(tools/article_register — sources.json 확인 기록·claims 대조)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "nvidia-chips-china-2026 원고 claim 근거 기사"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "article_typeset",
+    "params": {
+     "translation": true
+    }
+   },
+   "headline": "젠슨 황 전 엔비디아 CEO, 중국 스파이 의혹 관계로 의회 증언",
+   "sub": "젠슨 황은 추수감사절 전까지 미 의회에 비공개로 출석하기로 동의했다(날…",
+   "note": "헤드라인 번역 · 원문 영어",
+   "headline_original": "Former Nvidia CEO Jensen Huang to testify to Congress over suspected Chinese spy ties"
+  },
+  "nv_doj_hairdryer": {
+   "kind": "photo",
+   "title": "U.S. DOJ press release exhibit — surveillance still: removing serial-number labels with a hair dryer",
+   "license": "미국 정부 저작물",
+   "author": "U.S. Department of Justice",
+   "credit_author": "미국 법무부",
+   "date": "2026-03-19",
+   "url": "https://www.justice.gov/opa/pr/three-charged-conspiring-unlawfully-divert-cutting-edge-us-artificial-intelligence",
+   "caption": "법무부가 공개한 감시 화면",
+   "file_note": "2026. 03 공개",
+   "depicts": [
+    "창고에서 헤어드라이어로 상자 스티커를 떼는 사람(법무부 공개 감시 화면)"
+   ],
+   "main_subject": [
+    "헤어드라이어",
+    "감시 화면"
+   ],
+   "background": [
+    "상자",
+    "창고"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "감독 세션 — 미 법무부 보도자료(justice.gov/opa/pr, 2026-03-19) 본문과 게재 이미지를 직접 받아 대조, 이미지 육안 확인. 인물 얼굴은 보이지 않는다(뒷모습·옆모습). 원본 그대로(가운데 맞춤 자르기·크기 조정만)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "act2_3 '법무부가 공개한 감시 화면에는 헤어드라이어로 상자의 일련번호 스티커를 떼어 붙이는 모습' — 보도자료 게재 화면 그대로"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "nv_doj_hairdryer.jpg",
+     "thumb_w": 500,
+     "crop": [
+      480,
+      480
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "f45d2b996b2d9c68ea72be3312d54c25",
+   "file": "nv_doj_hairdryer_720.jpg"
+  },
+  "nv_doj_dummy": {
+   "kind": "photo",
+   "title": "U.S. DOJ press release exhibit — warehouse of non-working dummy servers",
+   "license": "미국 정부 저작물",
+   "author": "U.S. Department of Justice",
+   "credit_author": "미국 법무부",
+   "date": "2026-03-19",
+   "url": "https://www.justice.gov/opa/pr/three-charged-conspiring-unlawfully-divert-cutting-edge-us-artificial-intelligence",
+   "caption": "법무부가 공개한 모형 서버 창고",
+   "file_note": "2026. 03 공개",
+   "depicts": [
+    "창고에 쌓인 모형 서버 상자(법무부 공개 사진)"
+   ],
+   "main_subject": [
+    "모형 서버",
+    "창고"
+   ],
+   "background": [
+    "상자"
+   ],
+   "is_file_photo": false,
+   "verified_by": {
+    "by": "감독 세션 — 미 법무부 보도자료(justice.gov/opa/pr, 2026-03-19) 본문과 게재 이미지를 직접 받아 대조, 이미지 육안 확인. 인물 얼굴은 보이지 않는다(뒷모습·옆모습). 원본 그대로(가운데 맞춤 자르기·크기 조정만)",
+    "on": "2026-11-17",
+    "casualty_free": true,
+    "relevance": "act2_4 '감사에 대비해 작동하지 않는 모형 서버 수천 대' — 보도자료 게재 사진 그대로"
+   },
+   "rights_status": "rights_clear",
+   "retrieved_at": "2026-11-17",
+   "tool": {
+    "name": "media_fetch.photo",
+    "params": {
+     "source": "nv_doj_dummy.jpg",
+     "thumb_w": 500,
+     "crop": [
+      480,
+      480
+     ],
+     "color": 1.0,
+     "contrast": 1.0,
+     "jpeg_quality": 92
+    }
+   },
+   "source_hash": "94f55ace9894d0b1797ef73f28ebd97d",
+   "file": "nv_doj_dummy_720.jpg"
   }
  }
 }

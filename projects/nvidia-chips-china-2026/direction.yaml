@@ -1,0 +1,637 @@
+# 『엔비디아 칩은 어떻게 중국에 닿았나』 연출 v2 (v7.4.0) — 감독 세션 작성(사람 작성 연출, AI 초안 아님).
+# 무대: 스튜디오(사임·성명) → 지도(칩이 지나간 길: 동남아·대만·홍콩·중국) → 스튜디오(미국의 통제). 전환 2회(rules stage.continuity.max_switches).
+# 시각은 앵커로만 쓴다. 지도 좌표는 지명 사전(data/gazetteer.yaml) 도시 좌표. 미국 본토는 지도에 넣지 않는다(미국 국기 뱃지는 필리핀해 쪽 바다 위).
+# 원칙: 외도 상대로 보도된 인물의 이름·사진 없음. 화면 글자는 자막에 없는 수치·이름·출처만([text-restates-narration]).
+version: 1
+genre: geopolitics
+stage: studio
+stage_reason: "사임·성명·규칙처럼 지리가 정보를 싣지 않는 장면이 영상의 앞뒤를 이룬다 — 스튜디오 주 무대, 칩의 경로를 다루는 가운데 구간만 지도(UF-902)"
+media_note: "영상 클립 0 — 권리 통과한 1차 출처 영상이 없다(법무부 공개 자료는 정지 화면). 외도 상대로 보도된 인물의 사진·실명은 쓰지 않는다(order.yaml 실명 원칙)."
+places:
+  singapore: [103.8539, 1.295]
+  kuala_lumpur: [101.6887, 3.1398]
+  hong_kong: [114.1831, 22.3069]
+  keelung: [121.7333, 25.1333]
+  beijing: [116.3942, 39.9017]
+  xian: [108.8931, 34.277]
+paths:
+  to_kl: [[104.9, 11.6], [103.6, 8.2], [102.4, 5.2], [101.6887, 3.1398]]
+shots:
+  - {at: 0, mode: cut, dur: 0, camera: {}}
+  # ---- 지도 구간(act2·act3)
+  - {at: {sid: act2_0, off: -0.6}, mode: dip, stage: mercator, camera: {lon: 119.0, lat: 21.0, w: 66}, scene: act2,
+     allow_sea: "동남아에서 대만·중국에 이르는 해상 경유 구도 전체가 주제 — 남중국해와 필리핀해가 화면 가운데를 차지한다"}
+  - {at: {sid: act2_1, off: 0.4}, mode: move, dur: 6.0, stage: mercator, camera: {lon: 117.0, lat: 18.0, w: 62},
+     allow_sea: "동남아에서 대만·중국에 이르는 해상 경유 구도 전체가 주제 — 남중국해가 화면 가운데를 차지한다"}
+  - {at: {sid: act2_8, off: -1.0}, mode: move, dur: 4.5, stage: mercator, camera: {lon: 117.0, lat: 23.0, w: 44},
+     allow_sea: "넓은 구도에서 대만으로 들어가는 이동 구간"}
+  - {at: {sid: act2_11, off: -0.6}, mode: move, dur: 4.5, stage: mercator, camera: {lon: 117.0, lat: 18.0, w: 62},
+     allow_sea: "말레이시아와 중국의 서버 무역이 주제 — 남중국해가 화면 가운데를 차지한다"}
+  - {at: {sid: act2_14, off: -1.0}, mode: move, dur: 4.5, stage: mercator, camera: {lon: 113.0, lat: 32.0, w: 44},
+     allow_sea: "넓은 구도에서 중국 본토로 들어가는 이동 구간"}
+  - {at: {sid: act3_2, off: 0.2}, mode: move, dur: 7.5, stage: mercator, camera: {lon: 106.0, lat: 4.0, w: 30},
+     allow_sea: "베이징에서 말레이시아로 간 엔지니어들의 도착지 — 말레이반도·싱가포르·인도네시아의 해협과 섬이 주제"}
+  - {at: {sid: act3_7, off: -1.0}, mode: move, dur: 4.5, stage: mercator, camera: {lon: 105.5, lat: 3.0, w: 26},
+     allow_sea: "싱가포르 본사와 말레이시아·인도네시아 데이터센터 소재국이 주제 — 해협과 섬이라 바다 비율이 높다"}
+  - {at: {sid: act3_10, off: -1.0}, mode: move, dur: 5.0, stage: mercator, camera: {lon: 112.0, lat: 27.0, w: 48},
+     allow_sea: "말레이반도에서 홍콩·중국 본토로 올라가는 이동 구간"}
+  - {at: {sid: act3_14, off: 0.2}, mode: move, dur: 6.0, stage: mercator, camera: {lon: 119.0, lat: 21.0, w: 66},
+     allow_sea: "동남아에서 대만·중국에 이르는 구도 전체로 물러난다 — 남중국해와 필리핀해가 화면 가운데"}
+  # ---- 스튜디오 복귀(act4·ending)
+  - {at: {sid: act4_0, off: -0.6}, mode: dip, camera: {}, scene: act4}
+events:
+  # ================================================================ 스튜디오 ① cold · act1
+  - type: article
+    start: {sid: cold_0, off: -1.15}
+    end: {sid: cold_0, edge: end, off: 1.38}
+    mid: nvidia_chips_china_2026_art_0001
+  - type: quote
+    start: {sid: cold_1, off: 0.6}
+    end: {sid: cold_2, edge: end, off: 0.2}
+    pid: jensen_huang
+    flag: us
+    speaker: 젠슨 황
+    role: 엔비디아 창업자
+    text: 아내에게 충실하지 못했다
+    src: 엔비디아 사내 서한
+    date: 2026.11.08
+    pos: center
+  - type: article
+    start: {sid: cold_3, off: -0.5}
+    end: {sid: cold_4, edge: end, off: 0.0}
+    mid: nvidia_chips_china_2026_art_0006
+  - type: panel
+    start: {sid: act1_0, off: 1.0}
+    end: {sid: act1_1, edge: end, off: -0.3}
+    kind: versus
+    data:
+      title: 확인된 것과 의혹
+      layout: axis
+      sides:
+        - title: 확인
+          src: 엔비디아 사내 서한 · SEC 공시
+          items:
+            - {text: 11월 8일 외도 인정, t: {sid: act1_0, off: 1.6}}
+            - {text: 11월 12일 사임, t: {sid: act1_0, off: 3.0}}
+        - title: 의혹
+          src: 뉴욕타임스 10월 29일 보도
+          items:
+            - {text: 상대의 첩보 연루, t: {sid: act1_1, off: 2.4}}
+            - {text: 익명의 미 당국자 인용, t: {sid: act1_1, off: 4.6}}
+  - type: quote
+    start: {sid: act1_2, off: -1.1}
+    end: {sid: act1_3, off: 0.48}
+    pid: blanche
+    flag: us
+    speaker: 토드 블랜치
+    role: 미국 법무장관
+    text: 내려진 결론은 없다
+    src: 로이터 보도
+    date: 2026.11.12
+    pos: center
+  - type: panel
+    start: {sid: act1_3, off: 0.65}
+    end: {sid: act1_4, edge: end, off: 0.3}
+    kind: fork
+    data:
+      title: 중국과 엔비디아 이사회의 반응
+      origin: 첩보 의혹
+      branches:
+        - {head: 중국 외교부 · 11월 9일, body: 전면 부인, col: ru}
+        - {head: 엔비디아 이사회 · 11월 8일, body: 독립 조사 착수, col: muted}
+  - type: quote
+    start: {sid: act1_5, off: -0.3}
+    end: {sid: act1_5, edge: end, off: 0.9}
+    flag: sg
+    speaker: 메가스피드
+    role: 회사 성명
+    text: 불법 행위의 증거가 없다
+    src: AP 통신
+    date: 2026.11.15
+    pos: center
+  - type: article
+    start: {sid: act1_7, off: -1.3}
+    end: {sid: act1_7, edge: end, off: 2.5}
+    mid: nvidia_chips_china_2026_art_0005
+  # ================================================================ 지도 act2 — 밀수: 칩을 옮기는 길
+  - type: badge
+    start: {sid: act2_1, off: 0.3}
+    end: {sid: act2_7, edge: end, off: 0.3}
+    kind: flag
+    flag: us
+    label: 미국 법무부
+    role: 기소 발표
+    accent: us
+    lon: 142.0
+    lat: 17.0
+  - type: photo
+    start: {sid: act2_1, off: 0.2}
+    end: {sid: act2_1, edge: end, off: 0.4}
+    mid: nv_sdny_courthouse
+    for: 연방법원 청사
+    place: map_pair_left
+  - type: country
+    start: {word: {sid: act2_2, text: 동남아시아의}}
+    end: {sid: act2_6, edge: end, off: 0.3}
+    codes: [TH, MY, SG, ID, VN, PH, KH, LA, MM, BN]
+    fill: color
+    col: teal
+    a: 0.14
+  - type: country
+    start: {word: {sid: act2_2, text: 중국으로}}
+    end: {sid: act2_7, edge: end, off: 0.3}
+    codes: [CN]
+    fill: color
+    col: ru
+    a: 0.12
+  - type: photo
+    start: {sid: act2_3, off: -0.2}
+    end: {sid: act2_4, edge: end, off: 1.3}
+    mid: nv_doj_hairdryer
+    for: 헤어드라이어
+    x: 172
+    y: 92
+    w: 236
+  - type: photo
+    start: {sid: act2_4, off: -0.4}
+    end: {sid: act2_4, edge: end, off: 1.3}
+    mid: nv_doj_dummy
+    for: 모형 서버
+    x: 446
+    y: 92
+    w: 236
+  - type: photo
+    start: {sid: act2_6, off: -0.1}
+    end: {sid: act2_6, edge: end, off: 0.3}
+    mid: nv_gpu_server
+    for: GPU 보드
+    place: map_pair_left
+  - type: country
+    start: {word: {sid: act2_7, text: 말레이시아와}}
+    end: {sid: act2_7, edge: end, off: 0.5}
+    codes: [MY]
+    fill: color
+    col: gold
+    a: 0.22
+  - type: country
+    start: {word: {sid: act2_7, text: 태국을}}
+    end: {sid: act2_7, edge: end, off: 0.5}
+    codes: [TH]
+    fill: color
+    col: gold
+    a: 0.22
+  - type: marker
+    start: {sid: act2_8, off: 0.3}
+    end: {sid: act2_10, edge: end, off: 0.6}
+    at_place: keelung
+    label: 지룽
+    sub: 대만 검찰 기소 · 8월 24일
+    side: right
+    hl: true
+  - type: photo
+    start: {sid: act2_8, off: -0.3}
+    end: {sid: act2_8, off: 7.26}
+    mid: nv_keelung_port
+    for: 지룽항 컨테이너 부두
+    place: map_pair_left
+  - type: panel
+    start: {sid: act2_8, off: 7.4}
+    end: {sid: act2_11, edge: end, off: -0.05}
+    kind: fork
+    data:
+      title: 대만 검찰이 밝힌 서버의 행방
+      origin: 대만
+      branches:
+        - {head: 인도네시아 경유, body: 중국으로, col: ru}
+        - {head: 일본 · 홍콩 경유, body: 중국으로, col: ru}
+        - {head: 56대, body: 출항 전 압수, col: green}
+      provenance: {verification: verified, sources: [대만 지룽 지방검찰 기소 발표(2026. 08. 24)], claim_status: corroborated}
+  - type: country
+    start: {sid: act2_11, off: 0.2}
+    end: {word: {sid: act2_12, text: 38억}, off: -2.7}
+    codes: [MY]
+    fill: color
+    col: gold
+    a: 0.22
+  - type: country
+    start: {sid: act2_11, off: 0.6}
+    end: {word: {sid: act2_12, text: 38억}, off: -2.7}
+    codes: [CN]
+    fill: color
+    col: ru
+    a: 0.12
+  - type: panel
+    start: {word: {sid: act2_12, text: 38억}, off: -2.6}
+    end: {sid: act2_13, off: 0.5}
+    kind: versus
+    data:
+      title: 어긋난 세관 기록
+      layout: sheets
+      sides:
+        - title: 중국 수입 기록
+          src: Epoch AI · 2024. 04 ~ 2025. 06
+          items:
+            - {text: 38억 달러, t: {word: {sid: act2_12, text: 38억}}}
+            - {text: "대당 10만 6,000달러", t: {word: {sid: act2_12, text: 38억}, off: 0.9}}
+        - title: 말레이시아 수출 기록
+          src: Epoch AI · 2024. 04 ~ 2025. 06
+          items:
+            - {text: 6억 달러, t: {word: {sid: act2_12, text: 6억}}}
+            - {text: "대당 1만 7,000달러", t: {word: {sid: act2_12, text: 6억}, off: 0.9}}
+    claims: [clm_0026]
+  - type: country
+    start: {sid: act2_13, off: 0.7}
+    end: {sid: act2_13, edge: end, off: 0.4}
+    codes: [MY]
+    fill: color
+    col: gold
+    a: 0.22
+  - type: photo
+    start: {sid: act2_13, off: 0.6}
+    end: {sid: act2_13, edge: end, off: 0.6}
+    mid: nv_malaysia_port
+    for: 클랑항 컨테이너 부두
+    place: map_pair_right
+  - type: country
+    start: {sid: act2_14, off: 0.2}
+    end: {sid: act3_1, edge: end, off: 0.3}
+    codes: [CN]
+    fill: color
+    col: ru
+    a: 0.10
+  - type: panel
+    start: {word: {sid: act2_14, text: 66만}, off: -1.6}
+    end: {sid: act2_14, edge: end, off: 0.6}
+    kind: checklist
+    data:
+      title: Epoch AI의 밀반입 추정
+      style: open
+      items:
+        - 중앙값 66만 개 (H100 환산)
+        - 90% 구간 29만 ~ 160만 개
+      at:
+        - {word: {sid: act2_14, text: 66만}}
+        - {word: {sid: act2_14, text: 66만}, off: 1.3}
+      footer: 모형 추정 — 적발률 가정에 따라 달라진다
+      provenance: {verification: estimated, sources: [Epoch AI(2026. 04. 29)], claim_status: verified}
+    claims: [clm_0029, clm_0030]
+  - type: badge
+    start: {sid: act2_15, off: -0.2}
+    end: {sid: act2_16, edge: end, off: 0.3}
+    kind: person
+    pid: jensen_huang
+    flag: us
+    label: 젠슨 황
+    role: 2025년 5월 · 당시 최고경영자
+    accent: us
+    lon: 127.0
+    lat: 31.5
+  # ================================================================ 지도 act3 — 임차: 칩을 옮기지 않는 길
+  - type: marker
+    start: {sid: act3_0, off: 0.2}
+    end: {sid: act3_2, off: 4.0}
+    at_place: beijing
+    label: 베이징
+    side: left
+    hl: true
+  - type: route
+    start: {sid: act3_2, off: 4.2}
+    end: {sid: act3_3, edge: end, off: 0.4}
+    pts: {path: to_kl}
+    grow: {span: [{sid: act3_2, off: 4.2}, {sid: act3_3, off: 1.6}]}
+    col: gold
+    ship: false
+    dashed: true
+    label: 베이징에서
+  - type: marker
+    start: {sid: act3_2, off: 7.0}
+    end: {sid: act3_3, edge: end, off: -0.1}
+    at_place: kuala_lumpur
+    label: 쿠알라룸푸르
+    sub: 2025년 3월
+    side: left
+    hl: true
+  - type: photo
+    start: {sid: act3_2, off: 1.0}
+    end: {sid: act3_2, off: 8.6}
+    mid: nv_klia
+    for: 공항 입국장
+    place: map_pair_right
+  - type: photo
+    start: {sid: act3_3, off: -0.6}
+    end: {sid: act3_3, edge: end, off: -0.05}
+    mid: nv_johor_dc
+    for: 조호르바루 스카이라인
+    place: map_pair_right
+  - type: panel
+    start: {sid: act3_4, off: -0.8}
+    end: {sid: act3_4, edge: end, off: 0.2}
+    kind: relation
+    data:
+      title: 원격 이용 보도
+      subtitle: CNBC · 2026년 8월 19일
+      nodes:
+        - {id: cos, group: source, kind: flag, flag: cn, label: 중국 인공지능 기업, role: 문샷 AI 포함 네 곳, accent: ru}
+        - {id: tha, group: target, kind: flag, flag: th, label: 태국, accent: muted}
+        - {id: mys, group: target, kind: flag, flag: my, label: 말레이시아, accent: muted}
+        - {id: jpn, group: target, kind: flag, flag: jp, label: 일본, accent: muted}
+      edges:
+        - {src: cos, dst: tha, style: demand}
+        - {src: cos, dst: mys, style: demand}
+        - {src: cos, dst: jpn, style: demand}
+      edge_label: 데이터센터 원격 접속
+    claims: [clm_0035]
+  - type: quote
+    start: {sid: act3_5, off: -0.5}
+    end: {sid: act3_5, edge: end, off: 0.45}
+    flag: us
+    speaker: 캐시아 킹
+    role: 인공지능 정책 연구자
+    text: 합법일 수 있다
+    src: CNBC 보도
+    date: 2026.08.19
+    pos: center
+  - type: panel
+    start: {sid: act3_6, off: -0.35}
+    end: {sid: act3_6, edge: end, off: 0.4}
+    kind: versus
+    data:
+      title: 두 연구기관의 추정
+      layout: axis
+      sides:
+        - title: 밀반입
+          src: Epoch AI · 2025년 말까지
+          items:
+            - {text: 66만 개, t: {sid: act3_6, off: 0.8}}
+        - title: 원격 임차
+          src: IFP · 2026년 말
+          items:
+            - {text: 100만 개, t: {word: {sid: act3_6, text: 100만}}}
+    claims: [clm_0029, clm_0037]
+  - type: photo
+    start: {sid: act3_7, off: -0.4}
+    end: {sid: act3_7, edge: end, off: 0.2}
+    mid: nv_singapore_cbd
+    for: 마리나베이 스카이라인
+    x: 40
+    y: 70
+    w: 300
+  - type: marker
+    start: {sid: act3_7, off: 0.4}
+    end: {sid: act3_9, edge: end, off: 0.3}
+    at_place: singapore
+    label: 메가스피드
+    sub: 싱가포르 본사
+    side: right
+    hl: true
+  - type: country
+    start: {word: {sid: act3_7, text: 말레이시아와}}
+    end: {sid: act3_9, edge: end, off: 0.3}
+    codes: [MY, ID]
+    fill: color
+    col: teal
+    a: 0.16
+  - type: badge
+    start: {sid: act3_7, off: 4.6}
+    end: {sid: act3_9, edge: end, off: 0.3}
+    kind: flag
+    flag: cn
+    label: 중국 고객
+    role: 원격 접속(보도)
+    accent: ru
+    lon: 110.6
+    lat: 4.8
+  - type: badge
+    start: {sid: act3_8, off: 0.1}
+    end: {sid: act3_9, edge: end, off: 0.3}
+    kind: person
+    pid: cotton
+    flag: us
+    label: 톰 코튼
+    role: 미국 상원의원
+    accent: us
+    place: map_upper_left
+  - type: badge
+    start: {sid: act3_10, off: 0.3}
+    end: {sid: act3_12, edge: end, off: 0.3}
+    kind: flag
+    flag: us
+    label: 미국 상무부
+    role: 2026년 1월 · H200 사례별 심사
+    accent: us
+    place: map_upper_right
+  - type: marker
+    start: {sid: act3_11, off: 0.3}
+    end: {sid: act3_14, edge: end, off: 0.2}
+    at_place: hong_kong
+    label: 홍콩
+    sub: 로이터 단독 · 11월 5일
+    side: right
+    hl: true
+  - type: photo
+    start: {sid: act3_11, off: 2.6}
+    end: {sid: act3_12, edge: end, off: 0.4}
+    mid: nv_hk_port
+    for: 컨테이너 터미널
+    place: map_pair_left
+  - type: marker
+    start: {sid: act3_13, off: 0.4}
+    end: {sid: act3_14, edge: end, off: 0.2}
+    at_place: xian
+    label: 시안 서북공업대학
+    sub: 미국 수출통제 명단
+    side: left
+    hl: true
+  - type: photo
+    start: {sid: act3_13, off: 1.6}
+    end: {sid: act3_13, edge: end, off: 0.3}
+    mid: nv_nwpu
+    for: 대학 정문
+    place: map_pair_right
+  # ================================================================ 스튜디오 ② act4 · ending — 미국의 통제
+  - type: photo
+    start: {sid: act4_0, off: -0.3}
+    end: {sid: act4_2, off: -0.1}
+    mid: nv_commerce_hq
+    for: 상무부 청사
+    x: 197
+    y: 58
+    w: 460
+  - type: primitive
+    id: era_numeral
+    start: {sid: act4_2, off: 0.5}
+    end: {sid: act4_3, edge: end, off: -0.4}
+    steps:
+      - {t: {sid: act4_2, off: 0.5}, label: "2022"}
+      - {t: {sid: act4_3, off: 0.1}, label: "2023"}
+    claims: [clm_0045, clm_0046]
+  - type: photo
+    start: {sid: act4_4, off: -1.3}
+    end: {sid: act4_4, edge: end, off: 1.3}
+    mid: nv_gpu_chip
+    for: GPU 서버 랙
+    x: 197
+    y: 58
+    w: 460
+  - type: quote
+    start: {sid: act4_5, off: -0.7}
+    end: {sid: act4_5, edge: end, off: 1.38}
+    pid: trump
+    flag: us
+    speaker: 도널드 트럼프
+    role: 미국 대통령
+    text: H200 칩의 중국 판매를 허용하겠다
+    src: 트루스소셜
+    date: 2025.12.08
+    pos: center
+  - type: article
+    start: {sid: act4_6, off: 0.6}
+    end: {sid: act4_7, off: 1.6}
+    mid: nvidia_chips_china_2026_art_0037
+  - type: primitive
+    id: doc_excerpt
+    start: {sid: act4_7, off: 1.8}
+    end: {sid: act4_9, edge: end, off: 0.4}
+    issuer: BIS
+    doc_title: Addressing Remote Access to Advanced Semiconductors
+    doc_date: 2026.11.16
+    original: overseas data centers that remotely supply significant volumes of compute to companies headquartered in Country Group D:5 or Macau
+    translation: 무기금수국(D:5 — 중국 등)이나 마카오에 본사를 둔 기업에 대규모 연산 능력을 원격으로 공급하는 해외 데이터센터
+    highlight: remotely supply
+    highlight_t: {sid: act4_8, off: 4.0}
+    source: 미국 상무부 산업안보국(BIS) 잠정 최종 규칙 · RIN 0694-AK50
+    claims: [clm_0051]
+  - type: panel
+    start: {sid: act4_10, off: -0.3}
+    end: {sid: act4_10, edge: end, off: 0.8}
+    kind: relation
+    data:
+      title: 나라 단위 허가 대상 다섯 곳
+      nodes:
+        - {id: us, group: source, kind: flag, flag: us, label: 미국 상무부, accent: us}
+        - {id: idn, group: target, kind: flag, flag: id, label: 인도네시아, accent: muted}
+        - {id: mys, group: target, kind: flag, flag: my, label: 말레이시아, accent: muted}
+        - {id: sgp, group: target, kind: flag, flag: sg, label: 싱가포르, accent: muted}
+        - {id: tha, group: target, kind: flag, flag: th, label: 태국, accent: muted}
+        - {id: bra, group: target, kind: flag, flag: br, label: 브라질, accent: muted}
+      edges:
+        - {src: us, dst: idn, style: demand}
+        - {src: us, dst: mys, style: demand}
+        - {src: us, dst: sgp, style: demand}
+        - {src: us, dst: tha, style: demand}
+        - {src: us, dst: bra, style: demand}
+      edge_label: 첨단 칩 수출 허가제
+    claims: [clm_0053, clm_0054]
+  - type: panel
+    start: {sid: act4_12, off: -0.2}
+    end: {sid: act4_12, edge: end, off: 0.4}
+    kind: statement
+    data:
+      title: 샌프란시스코 선언
+      subtitle: 2026년 11월 15일 · 팍스 실리카 회의
+      signers:
+        - {flag: us, label: 미국}
+        - {flag: jp, label: 일본}
+        - {flag: au, label: 호주}
+        - {flag: in, label: 인도}
+        - {flag: il, label: 이스라엘}
+        - {flag: qa, label: 카타르}
+        - {flag: sg, label: 싱가포르}
+        - {flag: ae, label: 아랍에미리트}
+        - {flag: gb, label: 영국}
+      joiner: {flag: kr, label: 대한민국, role: "", t_join: {word: {sid: act4_12, text: 한국과}}}
+    claims: [clm_0062]
+  - type: photo
+    start: {sid: act4_13, off: -0.3}
+    end: {sid: act4_13, edge: end, off: 0.2}
+    mid: nv_us_capitol
+    for: 의회 의사당
+    x: 197
+    y: 58
+    w: 460
+  - type: panel
+    start: {sid: act4_14, off: -0.4}
+    end: {sid: act4_15, edge: end, off: -0.3}
+    kind: checklist
+    data:
+      title: 의회에 올라간 수출통제 법안
+      style: open
+      items:
+        - 원격접속보안법 — 하원 통과
+        - 칩 보안법 — 위치 확인 의무
+        - AI 오버워치법 — 의회의 허가 심사
+        - MATCH법
+      at:
+        - {sid: act4_14, off: 0.3}
+        - {word: {sid: act4_14, text: 위치}}
+        - {word: {sid: act4_15, text: 네}}
+        - {word: {sid: act4_15, text: 네}, off: 0.8}
+      footer: 상원 국방수권법안에 수록 — 최종 포함은 합의 전
+      provenance: {verification: verified, sources: [Semafor(2026. 11. 12) · Reuters(2026. 11. 15)], claim_status: corroborated}
+    claims: [clm_0057, clm_0059, clm_0060, clm_0061]
+  - type: quote
+    start: {sid: act4_16, off: -1.3}
+    end: {sid: act4_16, edge: end, off: 1.3}
+    flag: cn
+    speaker: 마오닝
+    role: 중국 외교부 대변인
+    text: 수출통제 조치의 남용에 반대한다
+    src: 정례 브리핑
+    date: 2026.11.13
+    pos: center
+  - type: quote
+    start: {sid: act4_17, off: 0.5}
+    end: {sid: act4_18, off: 1.2}
+    flag: us
+    speaker: 조슈아 커란츠윅
+    role: 미국외교협회 선임연구원
+    text: 말레이시아에 재앙이 될 수 있다
+    src: Fortune
+    date: 2026.11.16
+    pos: center
+  - type: panel
+    start: {sid: act4_19, off: 0.3}
+    end: {sid: act4_20, edge: end, off: 0.0}
+    kind: fork
+    data:
+      title: 11월 16일 규칙이 바꾼 것
+      origin: 새 규칙
+      branches:
+        - {head: H200 사례별 허가, body: 그대로 유지, col: muted}
+        - {head: 해외 데이터센터, body: 허가 대상에 추가, col: ru}
+        - {head: 칩의 원격 사용, body: 통제 대상에 추가, col: ru}
+      provenance: {verification: verified, sources: [미국 상무부 산업안보국 잠정 최종 규칙(2026. 11. 16)], claim_status: verified}
+    claims: [clm_0041, clm_0051]
+  - type: photo
+    start: {sid: ending_0, off: -1.8}
+    end: {sid: ending_0, edge: end, off: 0.25}
+    mid: nv_nvidia_hq
+    for: 엔비디아 본사
+    x: 197
+    y: 58
+    w: 460
+  - type: article
+    start: {sid: ending_1, off: -0.55}
+    end: {sid: ending_1, edge: end, off: 1.38}
+    mid: nvidia_chips_china_2026_art_0052
+  - type: panel
+    start: {sid: ending_2, off: 0.7}
+    end: {sid: ending_3, edge: end, off: -0.8}
+    kind: timeline
+    data:
+      title: 다음 날짜
+      subtitle: 2026년 11월 – 2027년 2월
+      start: '2026-11-01'
+      end: '2027-03-01'
+      events:
+        - {date: '2026-11-16', label: 규칙 공개, col: us, side: 1, t: {sid: ending_2, off: 1.0}}
+        - {date: '2026-11-19', label: 관보 게재 · 시행 예정, col: gold, side: -1, t: {word: {sid: ending_2, text: 19일}}}
+        - {date: '2026-11-26', label: 추수감사절 · 의회 출석 시한, col: muted, side: 2, t: {word: {sid: ending_2, text: 19일}, off: 1.2}}
+        - {date: '2027-02-17', label: 90일 시한, col: ru, side: -1, t: {word: {sid: ending_2, text: 90일의}}}
+    claims: [clm_0050, clm_0055, clm_0052, clm_0066]
+sound:
+  bgm: music.yk_two_instruments
+  noncommercial_ok: D264
+  intensity: [[0, 0.58], [{scene_start: act1}, 0.5], [{scene_start: act2}, 0.62], [{scene_start: act3}, 0.56], [{scene_start: act4}, 0.5],
+    [{scene_start: ending}, 0.6], [{total: true, off: [0.5, -7.0]}, 0.6], [{total: true, off: 0.5}, 0.0]]
+  cues: []

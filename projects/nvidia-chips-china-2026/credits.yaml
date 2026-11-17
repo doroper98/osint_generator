@@ -1,0 +1,128 @@
+# 『엔비디아 칩은 어떻게 중국에 닿았나』 엔딩 크레딧 (v7.4.0). 보도 출처 = 장면별 인용 매체(auto: press, D243).
+# 사진 줄은 미디어 레지스트리에서 만든다(scratch build_credits) — CC BY-SA 는 고지 줄(저작자·제목·라이선스·링크·변경 사항, D612) 그대로.
+schema_version: 1
+sections:
+- title: 보도 출처
+  column: 0
+  auto: press
+- title: 사진 (CC BY-SA — 저작자 · 제목 · 라이선스 · 링크 · 변경 사항)
+  column: 0
+  items:
+  - main: 싱가포르 마리나베이 도심
+    license: Dietmar Rabich · File:Singapore (SG), Marina Bay -- 2019 -- 4439-48.jpg · CC BY-SA 4.0 · https://commons.wikimedia.org/wiki/File:Singapore_(SG),_Marina_Bay_--_2019_--_4439-48.jpg · 자르기·크기 조정·색 보정
+    rights:
+    - media.nv_singapore_cbd
+  - main: 뉴욕 맨해튼 연방법원
+    license: aismallard · File:Thurgood Marshall United States Courthouse 2018-06-14.jpg · CC BY-SA 3.0 · https://commons.wikimedia.org/wiki/File:Thurgood_Marshall_United_States_Courthouse_2018-06-14.jpg · 자르기·크기 조정·색 보정
+    rights:
+    - media.nv_sdny_courthouse
+  - main: 엔비디아 데이터센터 GPU 보드
+    license: Pokiiri · File:Nvidia DGX-B200-HGX.jpg · CC BY-SA 4.0 · https://commons.wikimedia.org/wiki/File:Nvidia_DGX-B200-HGX.jpg · 자르기·크기 조정·색 보정
+    rights:
+    - media.nv_gpu_server
+  - main: 대만 지룽항 컨테이너 부두
+    license: Heeheemalu · File:Port of Keelung 20241105.jpg · CC BY-SA 4.0 · https://commons.wikimedia.org/wiki/File:Port_of_Keelung_20241105.jpg · 자르기·크기 조정·색 보정
+    rights:
+    - media.nv_keelung_port
+  - main: 말레이시아 클랑항 컨테이너 부두
+    license: Balou46 · File:MY-port-klang-containerhafen.jpg · CC BY-SA 4.0 · https://commons.wikimedia.org/wiki/File:MY-port-klang-containerhafen.jpg · 자르기·크기 조정·색 보정
+    rights:
+    - media.nv_malaysia_port
+- title: 기사 카드
+  column: 0
+  items:
+  - main: 헤드라인 번역·요지 자체 조판(위 보도)
+    license: 기사 화면 캡처·로고 없음
+    rights:
+    - media.nvidia_chips_china_2026_art_0001
+    - media.nvidia_chips_china_2026_art_0005
+    - media.nvidia_chips_china_2026_art_0006
+    - media.nvidia_chips_china_2026_art_0037
+    - media.nvidia_chips_china_2026_art_0052
+- title: 사진 (CC BY-SA)
+  column: 1
+  items:
+  - main: 홍콩 콰이칭 컨테이너 터미널
+    license: Rehman Abubakr · File:Kwai Tsing Container Terminals in Hong Kong.jpg · CC BY-SA 4.0 · https://commons.wikimedia.org/wiki/File:Kwai_Tsing_Container_Terminals_in_Hong_Kong.jpg · 자르기·크기 조정·색 보정
+    rights:
+    - media.nv_hk_port
+  - main: 중국 시안 시베이공업대학 정문
+    license: Nishino Asuka · File:Northwestern Polytechnical University Chang'an Campus Gate.jpg · CC BY-SA 4.0 · https://commons.wikimedia.org/wiki/File:Northwestern_Polytechnical_University_Chang%27an_Campus_Gate.jpg · 자르기·크기 조정·색 보정
+    rights:
+    - media.nv_nwpu
+  - main: 워싱턴 미국 상무부 청사
+    license: APK · File:Herbert C. Hoover Building.jpg · CC BY-SA 4.0 · https://commons.wikimedia.org/wiki/File:Herbert_C._Hoover_Building.jpg · 자르기·크기 조정·색 보정
+    rights:
+    - media.nv_commerce_hq
+  - main: 엔비디아 GPU 서버 랙
+    license: Pokiiri · File:Nvidia DGX GB200.jpg · CC BY-SA 4.0 · https://commons.wikimedia.org/wiki/File:Nvidia_DGX_GB200.jpg · 자르기·크기 조정·색 보정
+    rights:
+    - media.nv_gpu_chip
+  - main: 미국 산타클라라 엔비디아 본사
+    license: Coolcaesar · File:NVIDIA Headquarters.jpg · CC BY-SA 4.0 · https://commons.wikimedia.org/wiki/File:NVIDIA_Headquarters.jpg · 자르기·크기 조정·색 보정
+    rights:
+    - media.nv_nvidia_hq
+- title: 사진
+  column: 1
+  items:
+  - main: 쿠알라룸푸르 국제공항 입국장 (2025)
+    license: Taufik · CC0
+    rights:
+    - media.nv_klia
+  - main: 말레이시아 조호르바루 시가지 (2015)
+    license: aamanatullah · CC BY 2.0
+    rights:
+    - media.nv_johor_dc
+  - main: 워싱턴 미국 의회 의사당 (2023)
+    license: U.S. House of Representatives · Public domain
+    rights:
+    - media.nv_us_capitol
+  - main: 법무부 공개 감시 화면 · 모형 서버 창고 (2026. 03. 19)
+    license: U.S. Department of Justice · 미국 정부 저작물
+    rights:
+    - media.nv_doj_hairdryer
+    - media.nv_doj_dummy
+- title: 인물 사진
+  column: 0
+  items:
+  - main: 젠슨 황 · 도널드 트럼프 · 톰 코튼 · 토드 블랜치
+    license: Peter Dasilva (CC BY 4.0) · Shealeah Craighead · U.S. Senate Photo Office · Ryan M. Biller, U.S. DOJ (Public domain)
+    rights:
+    - people.jensen_huang
+    - people.trump
+    - people.cotton
+    - people.blanche
+- title: 글꼴
+  column: 1
+  items:
+  - main: IBM Plex Sans KR · IBM Plex Mono · Noto Serif CJK KR · GmarketSans
+    license: IBM · Google · Adobe (SIL OFL 1.1) · Gmarket (G마켓 무료 폰트)
+    rights:
+    - fonts.ibm_plex_sans_kr
+    - fonts.ibm_plex_mono
+    - fonts.gmarket_sans
+    - fonts.noto_serif_cjk
+- title: 지도 · 국기
+  column: 1
+  items:
+  - main: Natural Earth · AWS Terrain Tiles · flag-icons
+    license: Public domain · Mapzen · AWS Open Data(구성 데이터별 조건) · MIT
+    rights:
+    - map.natural_earth
+    - map.aws_terrain_tiles
+    - flags.flag_icons
+- title: 음악 · 음성
+  column: 1
+  items:
+  - music: music.yk_two_instruments
+  - main: 내레이션
+    license: AI 음성 합성
+    rights:
+    - narration.tts
+- title: 표기
+  column: 1
+  slot: notice
+  items:
+  - main: 기소·수사 중인 혐의는 법정에서 확정되지 않았습니다
+    license: 밀수·원격 연산 규모는 연구기관 추정 · 첩보 의혹은 보도 인용 · 지도의 경로 선은 나라 단위로 그렸습니다
+    rights: []

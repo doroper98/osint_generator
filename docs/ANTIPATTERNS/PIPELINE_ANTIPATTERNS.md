@@ -241,3 +241,30 @@ last_review: 2026-05-19
 - **원칙**: ① 순서 = 원고 → 게이트 ①(세션이 스스로 기록) → 음성 → 연출 → 믹스 → 프리뷰(검사 hard 0) → 게이트 ②(감독이 프리뷰를 보고 승인) → 전편 → 사용자에게 완성 영상. 사용자에게 원고·콘티 판·프리뷰를 보내 승인을 기다리지 않는다. ② 게이트 ①·② 는 상태와 기록(누가·언제·본 것·원고 지문)으로 남는다 — 게이트 ① 기록 뒤 원고를 고치면 다시 기록한다(지문 대조). ③ 게이트 ② 의 증거는 현재 연출로 만든 프리뷰 기록이다. ④ `engine.render --animatic` 렌더 모드는 남아 있지만 어떤 게이트도 요구하지 않는다. ⑤ 사람 검토가 빠진 자리는 린트·검증 hard 0 과 감독의 프리뷰·전편 확인으로 메운다(C0 경계·C0.0 §6) — 못 맞추면 보내지 않고 멈춰 보고한다.
 - **자동 조치**: `orchestrator.project_manager.require_animatic`·`AnimaticMissingError` 삭제(C11 P2), `require_preview`(게이트 ① 원고 지문 = 현재 원고, 프리뷰 연출 지문 = 현재 연출) 신설, gate packet 게이트 ② 구역을 프리뷰 기록으로. 시험 `tests/test_gates_pipeline.py::PreviewGateTest`, `tests/anti_inertia/test_no_animatic_stage.py`. CLAUDE.md C8 §6·§7, WORKFLOWS W0 개정. 원장 UF-38·UF-47 은 `superseded_by: UF-914`, UF-68 은 `superseded_by: UF-915`.
 - **발견 버전**: v7.4.0 (사용자 결정 2026-11-17) · **상태**: active
+
+## PIPELINE-AP-029 — 연출의 '비상업 곡 사용 확인'(sound.noncommercial_ok)이 믹서까지 전달되지 않았다
+
+- **증상(실제 현상)**: v7.4.0, 2026-11-17 nvidia-chips-china-2026. 연출 `sound.noncommercial_ok: D264` 를 적고 사용자 제공 곡(`music.yk_two_instruments`, 비상업 전용)을 골랐다. 연출 검증은 통과했는데 `python -m audio.mix` 가 "비상업 전용 곡 — 결정 번호를 적는다" 로 멈췄다. 이 곡으로 믹서까지 간 영상이 처음이었다.
+- **원리**: `engine.direction` 의 앵커 해석 뒤 sound dict 는 `no_music_decision` 만 옮겨 담았다. `noncommercial_ok` 칸은 연출 모델과 믹서 모델에 둘 다 있었지만 둘 사이를 잇는 한 줄이 없었다. 기존 시험은 그 dict 를 손으로 만들어 넣어 실제 전달 경로를 타지 않았다.
+- **원칙**: 두 모델이 같은 칸을 가졌다고 값이 전달되는 것은 아니다. 칸을 더할 때는 실제 전달 경로(로더가 만드는 dict)를 시험이 타야 한다.
+- **자동 조치**: `engine.direction.sound_decisions`·`SOUND_DECISION_KEYS`(결정 번호 칸을 한 곳에서 옮긴다). 시험 `tests/test_audio_f1.py::SoundDecisionPassThroughTest` — 연출 sound 의 결정 번호 칸 전부가 전달 목록에 있는지, 비상업 곡 연출이 믹서 모델까지 닿는지.
+- **발견 버전**: v7.4.0 · **상태**: active
+
+## PIPELINE-AP-030 — 받아 둔 사진이 완성 영상에 빠진다(사용자 의견 UF-916, UF-118 재발)
+
+- **증상(실제 현상)**: 2026-11-17 사용자 의견 "보니까 제작 단계에서 저런 이미지들을 많이 찾았따가 영상완성된 후에 보면 많이 안보이더라구. 꼭 다 보이도록 해."
+  - 직전 영상 china_tech_export_controls_2026: `media_notes.yaml` 에 "등록했으나 연출에서 뺌"(희토류 광산 위성 사진)이 남아 있다.
+  - 이번 영상 nvidia-chips-china-2026: 받은 사진 13장 가운데 지룽항·조호르바루 두 장이 연출에 없었고, 받아 둔 공직자 초상 두 장도 쓰지 않을 참이었다. 어떤 검사도 이것을 잡지 않았다.
+- **원리**: UF-118 의 장치 `[media-unused]` 는 "프로젝트 id 로 시작하는 사진"(`{pid}_…`)만 본다. 최근 두 영상은 사진 id 에 짧은 머리말(`cn_`, `nv_`)을 썼다. 그래서 등재 사진이 한 장도 검사 대상에 들지 않았다(장치가 있는데 대상이 0 — 조용한 미적용).
+- **원칙**: 검사 대상을 이름 규칙으로 정하지 않는다. "이 프로젝트가 실제로 받은 것"(프로젝트 폴더의 원본 파일)으로 정한다. 받은 것을 빼려면 사유를 적는다.
+- **자동 조치**: `engine.checks.received_photos` — 프로젝트 `media/` 폴더에 원본이 있는 등재 사진(머리말과 무관)을 `[media-unused]` hard 대상에 더했다. 초상은 기존 `[portrait-unused]`(이름이 나오는데 초상을 안 씀, warning)가 본다. 시험 `tests/test_v740_media_unused.py::ReceivedPhotoTest`.
+- **이번 영상 조치**: 사진 15장(Commons 13 + 미 법무부 공개 2)과 초상 4장을 모두 배치했다. 지룽항 사진 자리를 내려고 한 문장의 나라 이름을 패널로 옮겼다(문장 "여러 나라를 거쳐", 패널 "인도네시아 경유 · 일본·홍콩 경유").
+- **발견 버전**: v7.4.0 · **상태**: active
+
+## PIPELINE-AP-031 — 음량을 낮춰 쓰기로 한 곡이 오디오 QA '음악 레벨' 범위에 걸려 mux 가 멈췄다
+
+- **증상(실제 현상)**: v7.4.0, 2026-11-17 nvidia-chips-china-2026. 전편 렌더 뒤 `python -m engine.mux` 가 "내레이션 구간 음악 -16.43 dB — 범위 [-13, -9]" 로 멈췄다. 곡은 사용자 제공 곡이고, 사용자 결정(D923)으로 이 곡만 음악 베드 음량을 0.56배로 낮춰 쓴다.
+- **원리**: 믹서(`audio.mix`)는 곡별 배율(`bed_gain_scale`)을 곱한다. QA(`audio.qa.audio_qa`)의 판정 범위는 배율을 모르고 `rules audio.qa.music_under_narration_db` 그대로였다. 배율 0.56 은 −5.04 dB 라서, 배율을 뺀 값(−11.39 dB)은 범위 안인데도 실패했다. PIPELINE-AP-029 와 같은 부류다 — 새 칸(UF-910)이 믹서에만 배선되고 그 뒤 단계에는 닿지 않았다.
+- **원칙**: 한 단계의 값을 바꾸는 설정을 더하면 그 값을 판정하는 단계도 같이 바꾼다. 사용자 결정으로 낮춘 값을 QA 가 "너무 낮다" 로 막으면 결정이 무효가 된다.
+- **자동 조치**: `audio.qa.music_range(bed_scales)` — 곡별 배율만큼 판정 범위를 옮긴다(아래 끝 = 가장 작은 배율, 위 끝 = 가장 큰 배율). `engine.checks.check_audio` 가 이 영상이 쓴 곡의 배율을 넘긴다. `audio_qa.json` 에 쓴 범위(`music_range_db`)와 배율(`bed_gain_scale`)을 남긴다. 배율이 없는 곡은 종전과 같다. 시험 `tests/test_audio_qa.py::AudioQATest::test_per_track_bed_scale_moves_the_range`.
+- **발견 버전**: v7.4.0 · **상태**: active

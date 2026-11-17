@@ -1093,6 +1093,60 @@
     }
    ],
    "usage_count": 0
+  },
+  {
+   "person_id": "blanche",
+   "name_ko": "토드 블랜치",
+   "name_en": "",
+   "role": "미국 법무장관",
+   "aliases": [],
+   "accent_hint": "",
+   "source": {
+    "url": "https://commons.wikimedia.org/wiki/File:AG_Todd_Blanche_Official_Portrait.jpg",
+    "license": "Public domain",
+    "rights_status": "rights_clear",
+    "credit": "Ryan M. Biller (U.S. Department of Justice)",
+    "note": "nvidia-chips-china-2026 에서 승격(v5.6.0) · 원본 blanche.jpg"
+   },
+   "variants": [
+    {
+     "style": "mono",
+     "pose": "front",
+     "path": "assets/library/people/blanche_mono_v01.png",
+     "generator_version": "",
+     "tool": "tools/portrait_fallback.py --style v3",
+     "prompt_ref": "",
+     "normalized": true
+    }
+   ],
+   "usage_count": 0
+  },
+  {
+   "person_id": "cotton",
+   "name_ko": "톰 코튼",
+   "name_en": "",
+   "role": "미국 상원의원",
+   "aliases": [],
+   "accent_hint": "",
+   "source": {
+    "url": "https://commons.wikimedia.org/wiki/File:Tom_Cotton_official_Senate_photo.jpg",
+    "license": "Public domain",
+    "rights_status": "rights_clear",
+    "credit": "U.S. Senate Photo Office",
+    "note": "nvidia-chips-china-2026 에서 승격(v5.6.0) · 원본 cotton.jpg"
+   },
+   "variants": [
+    {
+     "style": "mono",
+     "pose": "front",
+     "path": "assets/library/people/cotton_mono_v01.png",
+     "generator_version": "",
+     "tool": "tools/portrait_fallback.py --style v3",
+     "prompt_ref": "",
+     "normalized": true
+    }
+   ],
+   "usage_count": 0
   }
  ],
  "logos": [],

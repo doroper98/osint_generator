@@ -1,0 +1,3222 @@
+{
+ "sentences": [
+  {
+   "sid": "cold_0",
+   "scene": "cold",
+   "date": "2026.11.12",
+   "text": "11월 12일, 엔비디아를 33년 동안 이끈 젠슨 황이 최고경영자 자리에서 물러났습니다.",
+   "tts": "십일월 십이일, 엔비디아를 삼십삼 년 동안 이끈 젠슨 황이 최고경영자 자리에서 물러났습니다.",
+   "segments": [
+    [
+     "11월 12일, 엔비디아를 33년 동안 이끈 젠슨 황이 최고경영자 자리에서 ",
+     0
+    ],
+    [
+     "물러났습니다",
+     1
+    ],
+    [
+     ".",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/cold_0_1d3bc628aa.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/cold_0_1d3bc628aa.npy",
+   "dur": 6.068390022675737,
+   "t0": 1.2,
+   "t1": 7.268390022675737,
+   "trim_offset": 0.40322,
+   "chunks": [
+    "십일월 십이일, 엔비디아를 삼십삼 년 동안 이끈 젠슨 황이 최고경영자 자리에서 물러났습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7709,
+    "elapsed_ms": 18289,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.015,
+      6.61
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 91.27,
+     "f0_end_hz": 66.05,
+     "octave_fixed_n": 28
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "cold_1",
+   "scene": "cold",
+   "date": "2026.11.08",
+   "text": "나흘 전 그는 임직원에게 보낸 글에서 아내에게 충실하지 못했다고 인정했습니다.",
+   "tts": "나흘 전 그는 임직원에게 보낸 글에서 아내에게 충실하지 못했다고 인정했습니다.",
+   "segments": [
+    [
+     "나흘 전 그는 임직원에게 보낸 글에서 아내에게 ",
+     0
+    ],
+    [
+     "충실하지 못했다",
+     1
+    ],
+    [
+     "고 인정했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/cold_1_842277772f.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/cold_1_842277772f.npy",
+   "dur": 4.7464172335600905,
+   "t0": 8.168390022675737,
+   "t1": 12.914807256235829,
+   "trim_offset": 0.553265,
+   "chunks": [
+    "나흘 전 그는 임직원에게 보낸 글에서 아내에게 충실하지 못했다고 인정했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9497,
+    "elapsed_ms": 11252,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.875,
+      5.6
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 94.33,
+     "f0_end_hz": 75.69,
+     "octave_fixed_n": 2
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "cold_2",
+   "scene": "cold",
+   "date": "2026.11.08",
+   "text": "같은 날 이사회는 그가 외국 정보공작의 표적이 됐다는 보도를 두고 독립 조사를 시작했습니다.",
+   "tts": "같은 날 이사회는 그가 외국 정보공작의 표적이 됐다는 보도를 두고 독립 조사를 시작했습니다.",
+   "segments": [
+    [
+     "같은 날 이사회는 그가 외국 정보공작의 표적이 됐다는 보도를 두고 독립 조사를 시작했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/cold_2_82122089c0.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/cold_2_82122089c0.npy",
+   "dur": 5.638072562358277,
+   "t0": 13.814807256235829,
+   "t1": 19.452879818594106,
+   "trim_offset": 0.44805,
+   "chunks": [
+    "같은 날 이사회는 그가 외국 정보공작의 표적이 됐다는 보도를 두고 독립 조사를 시작했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9384,
+    "elapsed_ms": 926,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.61,
+      6.03
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 95.25,
+     "f0_end_hz": 65.01,
+     "octave_fixed_n": 10
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "cold_3",
+   "scene": "cold",
+   "date": "2026.11.16",
+   "text": "외도 상대로 보도된 인물은 싱가포르 기업 메가스피드의 전 임원입니다.",
+   "tts": "외도 상대로 보도된 인물은 싱가포르 기업 메가스피드의 전 임원입니다.",
+   "segments": [
+    [
+     "외도 상대로 보도된 인물은 싱가포르 기업 ",
+     0
+    ],
+    [
+     "메가스피드",
+     1
+    ],
+    [
+     "의 전 임원입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/cold_3_583fb4396e.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/cold_3_583fb4396e.npy",
+   "dur": 4.212040816326531,
+   "t0": 20.352879818594104,
+   "t1": 24.564920634920636,
+   "trim_offset": 0.546576,
+   "chunks": [
+    "외도 상대로 보도된 인물은 싱가포르 기업 메가스피드의 전 임원입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9036,
+    "elapsed_ms": 734,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.345,
+      4.94
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 83.56,
+     "f0_end_hz": 71.3,
+     "octave_fixed_n": 16
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "cold_4",
+   "scene": "cold",
+   "date": "2026.11.16",
+   "text": "메가스피드는 엔비디아 칩을 중국 기업에 넘겼다는 의혹을 받아 온 회사입니다.",
+   "tts": "메가스피드는 엔비디아 칩을 중국 기업에 넘겼다는 의혹을 받아 온 회사입니다.",
+   "segments": [
+    [
+     "메가스피드는 엔비디아 칩을 중국 기업에 넘겼다는 의혹을 받아 온 회사입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/cold_4_c32c660c5c.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/cold_4_c32c660c5c.npy",
+   "dur": 4.707551020408164,
+   "t0": 25.464920634920635,
+   "t1": 30.1724716553288,
+   "trim_offset": 0.469229,
+   "chunks": [
+    "메가스피드는 엔비디아 칩을 중국 기업에 넘겼다는 의혹을 받아 온 회사입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9387,
+    "elapsed_ms": 911,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.69,
+      5.475
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 90.37,
+     "f0_end_hz": 68.76,
+     "octave_fixed_n": 21
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_0",
+   "scene": "act1",
+   "date": "2026.11.12",
+   "text": "이 사건에서 확인된 것은 황 본인이 인정한 외도와 나흘 뒤의 사임입니다.",
+   "tts": "이 사건에서 확인된 것은 황 본인이 인정한 외도와 나흘 뒤의 사임입니다.",
+   "segments": [
+    [
+     "이 사건에서 확인된 것은 황 본인이 인정한 외도와 나흘 뒤의 사임입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act1_0_db29d9528f.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act1_0_db29d9528f.npy",
+   "dur": 4.386666666666667,
+   "t0": 37.2724716553288,
+   "t1": 41.65913832199547,
+   "trim_offset": 0.529138,
+   "chunks": [
+    "이 사건에서 확인된 것은 황 본인이 인정한 외도와 나흘 뒤의 사임입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9329,
+    "elapsed_ms": 961,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.42,
+      5.095
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.61,
+     "f0_end_hz": 103.85,
+     "octave_fixed_n": 22
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act1_1",
+   "scene": "act1",
+   "date": "2026.10.29",
+   "text": "뉴욕타임스는 10월 29일, 미 정보당국이 이 전 임원을 중국 정보기관에 포섭된 인물로 본다고 보도했습니다.",
+   "tts": "뉴욕 타임스는 시월 이십구일, 미 정보당국이 이 전 임원을 중국 정보기관에 포섭된 인물로 본다고 보도했습니다.",
+   "segments": [
+    [
+     "뉴욕타임스는 10월 29일, 미 정보당국이 이 전 임원을 중국 정보기관에 포섭된 인물로 본다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act1_1_b0afb2591e.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act1_1_b0afb2591e.npy",
+   "dur": 7.250748299319728,
+   "t0": 42.55913832199547,
+   "t1": 49.8098866213152,
+   "trim_offset": 0.546871,
+   "chunks": [
+    "뉴욕 타임스는 시월 이십구일, 미 정보당국이 이 전 임원을 중국 정보기관에 포섭된 인물로 본다고 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9024,
+    "elapsed_ms": 1272,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.3,
+      8.105
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.67,
+     "f0_end_hz": 69.93,
+     "octave_fixed_n": 26
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act1_2",
+   "scene": "act1",
+   "date": "2026.11.12",
+   "text": "이에 대해 블랜치 법무장관은 그가 어떤 인물인지 내려진 결론은 없다고 말했습니다.",
+   "tts": "이에 대해 블랜치 법무장관은 그가 어떤 인물인지 내려진 결론은 없다고 말했습니다.",
+   "segments": [
+    [
+     "이에 대해 블랜치 법무장관은 그가 어떤 인물인지 내려진 ",
+     0
+    ],
+    [
+     "결론은 없다",
+     1
+    ],
+    [
+     "고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act1_2_02c6e2fa9b.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act1_2_02c6e2fa9b.npy",
+   "dur": 4.9570748299319725,
+   "t0": 50.7098866213152,
+   "t1": 55.666961451247175,
+   "trim_offset": 0.516077,
+   "chunks": [
+    "이에 대해 블랜치 법무장관은 그가 어떤 인물인지 내려진 결론은 없다고 말했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9038,
+    "elapsed_ms": 947,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.02,
+      5.53
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 105.49,
+     "f0_end_hz": 95.43,
+     "octave_fixed_n": 1
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_3",
+   "scene": "act1",
+   "date": "2026.11.09",
+   "text": "중국 외교부는 근거 없는 모략이라고 반박했습니다.",
+   "tts": "중국 외교부는 근거 없는 모략이라고 반박했습니다.",
+   "segments": [
+    [
+     "중국 외교부는 근거 없는 모략이라고 반박했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act1_3_e28030e458.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act1_3_e28030e458.npy",
+   "dur": 2.98453514739229,
+   "t0": 56.566961451247174,
+   "t1": 59.55149659863947,
+   "trim_offset": 0.372404,
+   "chunks": [
+    "중국 외교부는 근거 없는 모략이라고 반박했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9201,
+    "elapsed_ms": 627,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.855,
+      3.465
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 110.92,
+     "f0_end_hz": 69.25,
+     "octave_fixed_n": 37
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_4",
+   "scene": "act1",
+   "date": "2026.11.08",
+   "text": "엔비디아 이사회는 국가안보나 회사 기밀이 침해됐다고 볼 근거가 없다고 밝혔습니다.",
+   "tts": "엔비디아 이사회는 국가안보나 회사 기밀이 침해됐다고 볼 근거가 없다고 밝혔습니다.",
+   "segments": [
+    [
+     "엔비디아 이사회는 국가안보나 회사 기밀이 침해됐다고 볼 근거가 없다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act1_4_37c6b14dce.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act1_4_37c6b14dce.npy",
+   "dur": 5.114784580498866,
+   "t0": 60.451496598639466,
+   "t1": 65.56628117913833,
+   "trim_offset": 0.517052,
+   "chunks": [
+    "엔비디아 이사회는 국가안보나 회사 기밀이 침해됐다고 볼 근거가 없다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9228,
+    "elapsed_ms": 853,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.22,
+      5.525
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 118.8,
+     "f0_end_hz": 116.75,
+     "octave_fixed_n": 10
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_5",
+   "scene": "act1",
+   "date": "2026.11.15",
+   "text": "메가스피드는 불법 행위의 증거가 없다고 부인했고, 이 임원이 지난해 8월 회사를 떠났다고 밝혔습니다.",
+   "tts": "메가스피드는 불법 행위의 증거가 없다고 부인했고, 이 임원이 지난해 팔월 회사를 떠났다고 밝혔습니다.",
+   "segments": [
+    [
+     "메가스피드는 불법 행위의 증거가 없다고 부인했고, 이 임원이 지난해 8월 회사를 떠났다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act1_5_a96fcba726.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act1_5_a96fcba726.npy",
+   "dur": 6.304829931972789,
+   "t0": 66.46628117913833,
+   "t1": 72.77111111111113,
+   "trim_offset": 0.525079,
+   "chunks": [
+    "메가스피드는 불법 행위의 증거가 없다고 부인했고, 이 임원이 지난해 팔월 회사를 떠났다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8741,
+    "elapsed_ms": 973,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.365,
+      7.19
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 94.05,
+     "f0_end_hz": 110.83,
+     "octave_fixed_n": 25
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_6",
+   "scene": "act1",
+   "date": "2026.11.12",
+   "text": "싱가포르 당국은 그의 범죄를 입증할 증거가 부족하다고 결론 내렸습니다.",
+   "tts": "싱가포르 당국은 그의 범죄를 입증할 증거가 부족하다고 결론 내렸습니다.",
+   "segments": [
+    [
+     "싱가포르 당국은 그의 범죄를 입증할 증거가 부족하다고 결론 내렸습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act1_6_806b64c8b0.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act1_6_806b64c8b0.npy",
+   "dur": 4.162607709750567,
+   "t0": 73.67111111111113,
+   "t1": 77.83371882086169,
+   "trim_offset": 0.599206,
+   "chunks": [
+    "싱가포르 당국은 그의 범죄를 입증할 증거가 부족하다고 결론 내렸습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9111,
+    "elapsed_ms": 828,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.305,
+      4.95
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 114.97,
+     "f0_end_hz": 70.69,
+     "octave_fixed_n": 23
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act1_7",
+   "scene": "act1",
+   "date": "2026.11.12",
+   "text": "그런데 엔비디아 칩이 중국으로 흘러간다는 의혹은 이 스캔들보다 먼저 시작됐습니다.",
+   "tts": "그런데 엔비디아 칩이 중국으로 흘러간다는 의혹은 이 스캔들보다 먼저 시작됐습니다.",
+   "segments": [
+    [
+     "그런데 엔비디아 칩이 중국으로 흘러간다는 의혹은 이 스캔들보다 먼저 시작됐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act1_7_caa8ceba9f.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act1_7_caa8ceba9f.npy",
+   "dur": 5.210861678004536,
+   "t0": 78.7337188208617,
+   "t1": 83.94458049886623,
+   "trim_offset": 0.506122,
+   "chunks": [
+    "그런데 엔비디아 칩이 중국으로 흘러간다는 의혹은 이 스캔들보다 먼저 시작됐습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9268,
+    "elapsed_ms": 720,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.2,
+      6.01
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.86,
+     "f0_end_hz": 65.41,
+     "octave_fixed_n": 3
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "act2_0",
+   "scene": "act2",
+   "date": "2026.03.19",
+   "text": "시점을 올해 3월, 동남아시아로 옮깁니다.",
+   "tts": "시점을 올해 삼월, 동남아시아로 옮깁니다.",
+   "segments": [
+    [
+     "시점을 올해 3월, 동남아시아로 옮깁니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_0_5331c25513.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_0_5331c25513.npy",
+   "dur": 2.796666666666667,
+   "t0": 87.34458049886624,
+   "t1": 90.1412471655329,
+   "trim_offset": 0.435828,
+   "chunks": [
+    "시점을 올해 삼월, 동남아시아로 옮깁니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8684,
+    "elapsed_ms": 542,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.69,
+      3.395
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.69,
+     "f0_end_hz": 74.09,
+     "octave_fixed_n": 10
+    }
+   },
+   "role": "bridge"
+  },
+  {
+   "sid": "act2_1",
+   "scene": "act2",
+   "date": "2026.03.19",
+   "text": "3월 19일, 미국 뉴욕 연방검찰은 서버 제조사 슈퍼마이크로의 공동창업자 등 세 명을 기소했다고 발표했습니다.",
+   "tts": "삼월 십구일, 미국 뉴욕 연방검찰은 서버 제조사 슈퍼마이크로의 공동창업자 등 세 명을 기소했다고 발표했습니다.",
+   "segments": [
+    [
+     "3월 19일, 미국 뉴욕 연방검찰은 서버 제조사 슈퍼마이크로의 공동창업자 등 세 명을 기소했다고 발표했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_1_b00a705a22.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_1_b00a705a22.npy",
+   "dur": 7.83453514739229,
+   "t0": 91.04124716553291,
+   "t1": 98.8757823129252,
+   "trim_offset": 0.332132,
+   "chunks": [
+    "삼월 십구일, 미국 뉴욕 연방검찰은 서버 제조사 슈퍼마이크로의 공동창업자 등 세 명을 기소했다고 발표했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8779,
+    "elapsed_ms": 1146,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.655,
+      8.355
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 107.6,
+     "f0_end_hz": 68.43,
+     "octave_fixed_n": 4
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act2_2",
+   "scene": "act2",
+   "date": "2026.03.19",
+   "text": "검찰은 엔비디아 칩이 든 서버 25억 달러어치가 동남아시아의 한 회사를 거쳐 중국으로 빠져나갔다고 주장했습니다.",
+   "tts": "검찰은 엔비디아 칩이 든 서버 이십오억 딸러어치가 동남아시아의 한 회사를 거쳐 중국으로 빠져나갔다고 주장했습니다.",
+   "segments": [
+    [
+     "검찰은 엔비디아 칩이 든 서버 ",
+     0
+    ],
+    [
+     "25억 달러어치",
+     1
+    ],
+    [
+     "가 동남아시아의 한 회사를 거쳐 중국으로 빠져나갔다고 주장했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_2_63ea87c2e0.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_2_63ea87c2e0.npy",
+   "dur": 7.470430839002268,
+   "t0": 99.7757823129252,
+   "t1": 107.24621315192746,
+   "trim_offset": 0.497755,
+   "chunks": [
+    "검찰은 엔비디아 칩이 든 서버 이십오억 딸러어치가 동남아시아의 한 회사를 거쳐 중국으로 빠져나갔다고 주장했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8616,
+    "elapsed_ms": 1253,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.485,
+      7.835
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 101.47,
+     "f0_end_hz": 61.93,
+     "octave_fixed_n": 0
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_3",
+   "scene": "act2",
+   "date": "2026.03.19",
+   "text": "법무부가 공개한 감시 화면에는 헤어드라이어로 상자의 일련번호 스티커를 떼어 붙이는 모습이 찍혔습니다.",
+   "tts": "법무부가 공개한 감시 화면에는 헤어드라이어로 상자의 일련번호 스티커를 떼어 붙이는 모습이 찍혔습니다.",
+   "segments": [
+    [
+     "법무부가 공개한 감시 화면에는 ",
+     0
+    ],
+    [
+     "헤어드라이어",
+     1
+    ],
+    [
+     "로 상자의 일련번호 스티커를 떼어 붙이는 모습이 찍혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_3_63d0398255.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_3_63d0398255.npy",
+   "dur": 6.6407482993197275,
+   "t0": 108.14621315192747,
+   "t1": 114.7869614512472,
+   "trim_offset": 0.437778,
+   "chunks": [
+    "법무부가 공개한 감시 화면에는 헤어드라이어로 상자의 일련번호 스티커를 떼어 붙이는 모습이 찍혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9317,
+    "elapsed_ms": 1029,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.595,
+      7.015
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 108.42,
+     "f0_end_hz": 85.21,
+     "octave_fixed_n": 3
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_4",
+   "scene": "act2",
+   "date": "2026.03.19",
+   "text": "검찰에 따르면 점검에 대비해 창고에 쌓아 둔 것은 작동하지 않는 모형 서버 수천 대였습니다.",
+   "tts": "검찰에 따르면 점검에 대비해 창고에 쌓아 둔 것은 작동하지 않는 모형 서버 수천 대였습니다.",
+   "segments": [
+    [
+     "검찰에 따르면 점검에 대비해 창고에 쌓아 둔 것은 작동하지 않는 ",
+     0
+    ],
+    [
+     "모형 서버",
+     1
+    ],
+    [
+     " 수천 대였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_4_c670ccd0dd.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_4_c670ccd0dd.npy",
+   "dur": 5.8494331065759635,
+   "t0": 115.6869614512472,
+   "t1": 121.53639455782316,
+   "trim_offset": 0.482812,
+   "chunks": [
+    "검찰에 따르면 점검에 대비해 창고에 쌓아 둔 것은 작동하지 않는 모형 서버 수천 대였습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9088,
+    "elapsed_ms": 785,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.855,
+      6.66
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.93,
+     "f0_end_hz": 81.68,
+     "octave_fixed_n": 43
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_5",
+   "scene": "act2",
+   "date": "2026.10.09",
+   "text": "공동창업자 리아우는 무죄를 주장했고, 함께 기소된 중개인은 10월에 유죄를 인정했습니다.",
+   "tts": "공동창업자 리아우는 무죄를 주장했고, 함께 기소된 중개인은 시월에 유죄를 인정했습니다.",
+   "segments": [
+    [
+     "공동창업자 리아우는 무죄를 주장했고, 함께 기소된 중개인은 10월에 유죄를 인정했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_5_75b3a72fc6.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_5_75b3a72fc6.npy",
+   "dur": 5.7791836734693875,
+   "t0": 122.43639455782316,
+   "t1": 128.21557823129254,
+   "trim_offset": 0.473311,
+   "chunks": [
+    "공동창업자 리아우는 무죄를 주장했고, 함께 기소된 중개인은 시월에 유죄를 인정했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9252,
+    "elapsed_ms": 877,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.82,
+      6.46
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 99.64,
+     "f0_end_hz": 87.63,
+     "octave_fixed_n": 17
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_6",
+   "scene": "act2",
+   "date": "2025.10.10",
+   "text": "미국 안에서는 텍사스의 한 업체 대표가 엔비디아 칩 1억 6,000만 달러어치를 허가 없이 수출했거나 수출하려 했다고 인정했습니다.",
+   "tts": "미국 안에서는 텍사스의 한 업체 대표가 엔비디아 칩 일억 육천만 딸러어치를 허가 없이 수출했거나 수출하려 했다고 인정했습니다.",
+   "segments": [
+    [
+     "미국 안에서는 텍사스의 한 업체 대표가 엔비디아 칩 1억 6,000만 달러어치를 허가 없이 수출했거나 수출하려 했다고 인정했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_6_2630cd47fc.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_6_2630cd47fc.npy",
+   "dur": 8.326961451247165,
+   "t0": 129.11557823129255,
+   "t1": 137.44253968253972,
+   "trim_offset": 0.422948,
+   "chunks": [
+    "미국 안에서는 텍사스의 한 업체 대표가 엔비디아 칩 일억 육천만 딸러어치를 허가 없이 수출했거나 수출하려 했다고 인정했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8662,
+    "elapsed_ms": 1264,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.265,
+      9.07
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 105.04,
+     "f0_end_hz": 70.31,
+     "octave_fixed_n": 17
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_7",
+   "scene": "act2",
+   "date": "2025.11.20",
+   "text": "플로리다 사건에서 검찰은 칩 400개가 말레이시아와 태국을 거쳐 중국으로 갔다고 밝혔습니다.",
+   "tts": "플로리다 사건에서 검찰은 칩 사백 개가 말레이시아와 태국을 거쳐 중국으로 갔다고 밝혔습니다.",
+   "segments": [
+    [
+     "플로리다 사건에서 검찰은 칩 400개가 말레이시아와 태국을 거쳐 중국으로 갔다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_7_3747c658b4.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_7_3747c658b4.npy",
+   "dur": 6.046349206349206,
+   "t0": 138.34253968253972,
+   "t1": 144.38888888888894,
+   "trim_offset": 0.506077,
+   "chunks": [
+    "플로리다 사건에서 검찰은 칩 사백 개가 말레이시아와 태국을 거쳐 중국으로 갔다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7978,
+    "elapsed_ms": 1100,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.1,
+      6.85
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.3,
+     "f0_end_hz": 75.73,
+     "octave_fixed_n": 24
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_8",
+   "scene": "act2",
+   "date": "2026.08.24",
+   "text": "8월에는 대만 검찰이 엔비디아 대만 지사의 관리자를 기소했습니다.",
+   "tts": "팔월에는 대만 검찰이 엔비디아 대만 지사의 관리자를 기소했습니다.",
+   "segments": [
+    [
+     "8월에는 대만 검찰이 엔비디아 대만 지사의 관리자를 기소했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_8_1ff3d10d93.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_8_1ff3d10d93.npy",
+   "dur": 4.096213151927437,
+   "t0": 145.28888888888895,
+   "t1": 149.38510204081638,
+   "trim_offset": 0.564218,
+   "chunks": [
+    "팔월에는 대만 검찰이 엔비디아 대만 지사의 관리자를 기소했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.925,
+    "elapsed_ms": 642,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.165,
+      4.74
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 82.57,
+     "f0_end_hz": 107.29,
+     "octave_fixed_n": 24
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_9",
+   "scene": "act2",
+   "date": "2026.08.24",
+   "text": "검찰은 서버 74대가 여러 나라를 거쳐 중국으로 갔다고 주장했습니다.",
+   "tts": "검찰은 서버 칠십사 대가 여러 나라를 거쳐 중국으로 갔다고 주장했습니다.",
+   "segments": [
+    [
+     "검찰은 서버 ",
+     0
+    ],
+    [
+     "74대",
+     1
+    ],
+    [
+     "가 여러 나라를 거쳐 중국으로 갔다고 주장했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_9_3ae86619da.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_9_3ae86619da.npy",
+   "dur": 4.478299319727891,
+   "t0": 150.28510204081638,
+   "t1": 154.76340136054426,
+   "trim_offset": 0.540862,
+   "chunks": [
+    "검찰은 서버 칠십사 대가 여러 나라를 거쳐 중국으로 갔다고 주장했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8055,
+    "elapsed_ms": 24801,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.515,
+      5.225
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.4,
+     "f0_end_hz": 72.95,
+     "octave_fixed_n": 4
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_10",
+   "scene": "act2",
+   "date": "2026.05.20",
+   "text": "나머지 56대는 출항 전에 압수됐습니다.",
+   "tts": "나머지 오십육 대는 출항 전에 압수됐습니다.",
+   "segments": [
+    [
+     "나머지 56대는 출항 전에 압수됐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_10_6ac25cbb79.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_10_6ac25cbb79.npy",
+   "dur": 2.6625396825396828,
+   "t0": 155.66340136054427,
+   "t1": 158.32594104308396,
+   "trim_offset": 0.352426,
+   "chunks": [
+    "나머지 오십육 대는 출항 전에 압수됐습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.733,
+    "elapsed_ms": 579,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.535,
+      3.105
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 91.69,
+     "f0_end_hz": 70.6,
+     "octave_fixed_n": 28
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_11",
+   "scene": "act2",
+   "date": "2026.09.17",
+   "text": "무역 통계에도 어긋난 숫자가 남았습니다.",
+   "tts": "무역 통계에도 어긋난 숫자가 남았습니다.",
+   "segments": [
+    [
+     "무역 통계에도 어긋난 숫자가 남았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_11_a0b1878518.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_11_a0b1878518.npy",
+   "dur": 2.4114285714285715,
+   "t0": 159.22594104308396,
+   "t1": 161.63736961451252,
+   "trim_offset": 0.42966,
+   "chunks": [
+    "무역 통계에도 어긋난 숫자가 남았습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9385,
+    "elapsed_ms": 574,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      2.32,
+      2.995
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 103.84,
+     "f0_end_hz": 75.9,
+     "octave_fixed_n": 48
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_12",
+   "scene": "act2",
+   "date": "2025.06",
+   "text": "연구기관 에포크 AI에 따르면, 말레이시아산 서버 거래는 15개월 동안 중국 쪽 기록이 38억 달러, 말레이시아 쪽 기록이 6억 달러였습니다.",
+   "tts": "연구기관 에포크 에이아이에 따르면, 말레이시아산 서버 거래는 십오 개월 동안 중국 쪽 기록이 삼십팔억 딸러, 말레이시아 쪽 기록이 육억 딸러였습니다.",
+   "segments": [
+    [
+     "연구기관 에포크 AI에 따르면, 말레이시아산 서버 거래는 15개월 동안 중국 쪽 기록이 ",
+     0
+    ],
+    [
+     "38억 달러",
+     1
+    ],
+    [
+     ", 말레이시아 쪽 기록이 ",
+     0
+    ],
+    [
+     "6억 달러",
+     1
+    ],
+    [
+     "였습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_12_691da79e15.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_12_691da79e15.npy",
+   "dur": 10.039297052154195,
+   "t0": 162.53736961451253,
+   "t1": 172.5766666666667,
+   "trim_offset": 0.529569,
+   "chunks": [
+    "연구기관 에포크 에이아이에 따르면, 말레이시아산 서버 거래는 십오 개월 동안 중국 쪽 기록이 삼십팔억 딸러, 말레이시아 쪽 기록이 육억 딸러였습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8722,
+    "elapsed_ms": 1463,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      10.12,
+      10.63
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 90.75,
+     "f0_end_hz": 68.35,
+     "octave_fixed_n": 2
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_13",
+   "scene": "act2",
+   "date": "2025.07.14",
+   "text": "에포크는 이 흐름이 말레이시아가 지난해 7월 인공지능 칩 수출 허가제를 도입한 뒤 몇 주 만에 사라졌다고 밝혔습니다.",
+   "tts": "에포크는 이 흐름이 말레이시아가 지난해 칠월 인공지능 칩 수출 허가제를 도입한 뒤 몇 주 만에 사라졌다고 밝혔습니다.",
+   "segments": [
+    [
+     "에포크는 이 흐름이 말레이시아가 지난해 7월 인공지능 칩 수출 허가제를 도입한 뒤 몇 주 만에 사라졌다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_13_e3e1691936.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_13_e3e1691936.npy",
+   "dur": 7.574784580498866,
+   "t0": 173.47666666666672,
+   "t1": 181.05145124716557,
+   "trim_offset": 0.576463,
+   "chunks": [
+    "에포크는 이 흐름이 말레이시아가 지난해 칠월 인공지능 칩 수출 허가제를 도입한 뒤 몇 주 만에 사라졌다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9153,
+    "elapsed_ms": 1106,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.715,
+      8.465
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.57,
+     "f0_end_hz": 122.91,
+     "octave_fixed_n": 24
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_14",
+   "scene": "act2",
+   "date": "2026.04.29",
+   "text": "에포크는 2025년 말까지 중국에 밀반입된 연산 능력이 엔비디아 H100 칩 66만 개 분량으로 추정된다고 밝혔습니다.",
+   "tts": "에포크는 이천이십오 년 말까지 중국에 밀반입된 연산 능력이 엔비디아 에이치 백 칩 육십육만 개 분량으로 추정된다고 밝혔습니다.",
+   "segments": [
+    [
+     "에포크는 2025년 말까지 중국에 밀반입된 연산 능력이 엔비디아 H100 칩 ",
+     0
+    ],
+    [
+     "66만 개",
+     1
+    ],
+    [
+     " 분량으로 추정된다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_14_ac2d3aa742.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_14_ac2d3aa742.npy",
+   "dur": 8.883560090702948,
+   "t0": 181.95145124716558,
+   "t1": 190.83501133786854,
+   "trim_offset": 0.482812,
+   "chunks": [
+    "에포크는 이천이십오 년 말까지 중국에 밀반입된 연산 능력이 엔비디아 에이치 백 칩 육십육만 개 분량으로 추정된다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.6695,
+    "elapsed_ms": 1433,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.93,
+      9.285
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.01,
+     "f0_end_hz": 61.84,
+     "octave_fixed_n": 0
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_15",
+   "scene": "act2",
+   "date": "2025.05.17",
+   "text": "젠슨 황은 지난해 5월, 칩이 빼돌려졌다는 증거는 없다고 말했습니다.",
+   "tts": "젠슨 황은 지난해 오월, 칩이 빼돌려졌다는 증거는 없다고 말했습니다.",
+   "segments": [
+    [
+     "젠슨 황은 지난해 5월, 칩이 빼돌려졌다는 ",
+     0
+    ],
+    [
+     "증거는 없다",
+     1
+    ],
+    [
+     "고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_15_6dae5e132f.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_15_6dae5e132f.npy",
+   "dur": 4.095668934240363,
+   "t0": 191.73501133786854,
+   "t1": 195.8306802721089,
+   "trim_offset": 0.55288,
+   "chunks": [
+    "젠슨 황은 지난해 오월, 칩이 빼돌려졌다는 증거는 없다고 말했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8777,
+    "elapsed_ms": 675,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.22,
+      4.885
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 82.7,
+     "f0_end_hz": 68.48,
+     "octave_fixed_n": 3
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act2_16",
+   "scene": "act2",
+   "date": "2026.04.29",
+   "text": "에포크도 혐의 대부분이 아직 법정에서 입증되지 않았다고 밝혔습니다.",
+   "tts": "에포크도 혐의 대부분이 아직 법정에서 입증되지 않았다고 밝혔습니다.",
+   "segments": [
+    [
+     "에포크도 혐의 대부분이 아직 법정에서 입증되지 않았다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_16_9c640139ce.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act2_16_9c640139ce.npy",
+   "dur": 4.2345351473922905,
+   "t0": 196.7306802721089,
+   "t1": 200.9652154195012,
+   "trim_offset": 0.517891,
+   "chunks": [
+    "에포크도 혐의 대부분이 아직 법정에서 입증되지 않았다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9354,
+    "elapsed_ms": 664,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.255,
+      5.01
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 95.75,
+     "f0_end_hz": 72.72,
+     "octave_fixed_n": 10
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "act3_0",
+   "scene": "act3",
+   "date": "2025.03",
+   "text": "시점을 지난해 3월로 돌리면, 칩을 옮기지 않는 길이 이미 쓰이고 있었습니다.",
+   "tts": "시점을 지난해 삼월로 돌리면, 칩을 옮기지 않는 길이 이미 쓰이고 있었습니다.",
+   "segments": [
+    [
+     "시점을 지난해 3월로 돌리면, 칩을 옮기지 않는 길이 이미 쓰이고 있었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_0_029f8cf564.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_0_029f8cf564.npy",
+   "dur": 4.854421768707483,
+   "t0": 204.3652154195012,
+   "t1": 209.21963718820868,
+   "trim_offset": 0.553651,
+   "chunks": [
+    "시점을 지난해 삼월로 돌리면, 칩을 옮기지 않는 길이 이미 쓰이고 있었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9167,
+    "elapsed_ms": 839,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.95,
+      5.45
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 95.13,
+     "f0_end_hz": 69.54,
+     "octave_fixed_n": 3
+    }
+   },
+   "role": "bridge"
+  },
+  {
+   "sid": "act3_1",
+   "scene": "act3",
+   "date": "2025.03",
+   "text": "칩은 다른 나라 데이터센터에 두고, 중국 기업이 그 연산 능력만 빌려 쓰는 방식이었습니다.",
+   "tts": "칩은 다른 나라 데이터센터에 두고, 중국 기업이 그 연산 능력만 빌려 쓰는 방식이었습니다.",
+   "segments": [
+    [
+     "칩은 다른 나라 데이터센터에 두고, 중국 기업이 그 연산 능력만 빌려 쓰는 방식이었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_1_31521796c2.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_1_31521796c2.npy",
+   "dur": 5.499614512471656,
+   "t0": 210.11963718820869,
+   "t1": 215.61925170068034,
+   "trim_offset": 0.529388,
+   "chunks": [
+    "칩은 다른 나라 데이터센터에 두고, 중국 기업이 그 연산 능력만 빌려 쓰는 방식이었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9745,
+    "elapsed_ms": 799,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.57,
+      6.105
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 80.05,
+     "f0_end_hz": 64.42,
+     "octave_fixed_n": 1
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act3_2",
+   "scene": "act3",
+   "date": "2025.03",
+   "text": "월스트리트저널에 따르면, 중국 엔지니어 네 명은 하드디스크 15개씩을 여행가방에 담아 베이징에서 말레이시아로 날아갔습니다.",
+   "tts": "월스트리트 저널에 따르면, 중국 엔지니어 네 명은 하드디스크 열다섯 개씩을 여행가방에 담아 베이징에서 말레이시아로 날아갔습니다.",
+   "segments": [
+    [
+     "월스트리트저널에 따르면, 중국 엔지니어 네 명은 하드디스크 15개씩을 ",
+     0
+    ],
+    [
+     "여행가방",
+     1
+    ],
+    [
+     "에 담아 베이징에서 말레이시아로 날아갔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_2_7f21c88d70.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_2_7f21c88d70.npy",
+   "dur": 8.737097505668935,
+   "t0": 216.51925170068034,
+   "t1": 225.25634920634928,
+   "trim_offset": 0.471066,
+   "chunks": [
+    "월스트리트 저널에 따르면, 중국 엔지니어 네 명은 하드디스크 열다섯 개씩을 여행가방에 담아 베이징에서 말레이시아로 날아갔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9459,
+    "elapsed_ms": 1316,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.66,
+      9.455
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 110.06,
+     "f0_end_hz": 71.87,
+     "octave_fixed_n": 0
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_3",
+   "scene": "act3",
+   "date": "2025.03",
+   "text": "이들의 회사는 현지 데이터센터에서 엔비디아 칩이 든 서버 약 300대를 빌려 둔 상태였다고 이 신문은 전했습니다.",
+   "tts": "이들의 회사는 현지 데이터센터에서 엔비디아 칩이 든 서버 약 삼백 대를 빌려 둔 상태였다고 이 신문은 전했습니다.",
+   "segments": [
+    [
+     "이들의 회사는 현지 데이터센터에서 엔비디아 칩이 든 서버 약 300대를 빌려 둔 상태였다고 이 신문은 전했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_3_ea5a3214e5.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_3_ea5a3214e5.npy",
+   "dur": 7.283560090702948,
+   "t0": 226.1563492063493,
+   "t1": 233.43990929705222,
+   "trim_offset": 0.396689,
+   "chunks": [
+    "이들의 회사는 현지 데이터센터에서 엔비디아 칩이 든 서버 약 삼백 대를 빌려 둔 상태였다고 이 신문은 전했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.828,
+    "elapsed_ms": 995,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.23,
+      7.855
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 116.3,
+     "f0_end_hz": 72.1,
+     "octave_fixed_n": 13
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_4",
+   "scene": "act3",
+   "date": "2026.08.19",
+   "text": "CNBC는 올해 8월, 바이트댄스와 알리바바, 텐센트 등이 태국과 말레이시아, 일본의 시설에서 제한된 칩을 쓴 것으로 보인다고 보도했습니다.",
+   "tts": "씨엔비씨는 올해 팔월, 바이트댄스와 알리바바, 텐센트 등이 태국과 말레이시아, 일본의 시설에서 제한된 칩을 쓴 것으로 보인다고 보도했습니다.",
+   "segments": [
+    [
+     "CNBC는 올해 8월, 바이트댄스와 알리바바, 텐센트 등이 태국과 말레이시아, 일본의 시설에서 제한된 칩을 쓴 것으로 보인다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_4_713fc711ff.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_4_713fc711ff.npy",
+   "dur": 9.486757369614512,
+   "t0": 234.33990929705223,
+   "t1": 243.82666666666674,
+   "trim_offset": 0.410091,
+   "chunks": [
+    "씨엔비씨는 올해 팔월, 바이트댄스와 알리바바, 텐센트 등이 태국과 말레이시아, 일본의 시설에서 제한된 칩을 쓴 것으로 보인다고 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9101,
+    "elapsed_ms": 1357,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      9.355,
+      10.02
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.54,
+     "f0_end_hz": 68.66,
+     "octave_fixed_n": 31
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_5",
+   "scene": "act3",
+   "date": "2026.08.19",
+   "text": "한 정책 연구자는 수출통제가 칩의 이동만 제한해, 이런 원격 사용은 합법일 수 있다고 말했습니다.",
+   "tts": "한 정책 연구자는 수출통제가 칩의 이동만 제한해, 이런 원격 사용은 합법일 수 있다고 말했습니다.",
+   "segments": [
+    [
+     "한 정책 연구자는 수출통제가 칩의 이동만 제한해, 이런 원격 사용은 합법일 수 있다고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_5_99cb7e2481.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_5_99cb7e2481.npy",
+   "dur": 6.332675736961451,
+   "t0": 244.72666666666674,
+   "t1": 251.0593424036282,
+   "trim_offset": 0.475125,
+   "chunks": [
+    "한 정책 연구자는 수출통제가 칩의 이동만 제한해, 이런 원격 사용은 합법일 수 있다고 말했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.899,
+    "elapsed_ms": 781,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.32,
+      6.895
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 135.7,
+     "f0_end_hz": 64.61,
+     "octave_fixed_n": 24
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_6",
+   "scene": "act3",
+   "date": "2026.10.19",
+   "text": "미국 싱크탱크 IFP는 중국이 원격으로 쓰는 해외 연산 능력이 올해 말 H100 칩 100만 개 분량으로 추정된다고 밝혔습니다.",
+   "tts": "미국 싱크탱크 아이에프피는 중국이 원격으로 쓰는 해외 연산 능력이 올해 말 에이치 백 칩 백만 개 분량으로 추정된다고 밝혔습니다.",
+   "segments": [
+    [
+     "미국 싱크탱크 IFP는 중국이 원격으로 쓰는 해외 연산 능력이 올해 말 H100 칩 ",
+     0
+    ],
+    [
+     "100만 개",
+     1
+    ],
+    [
+     " 분량으로 추정된다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_6_cce1043b93.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_6_cce1043b93.npy",
+   "dur": 8.646349206349207,
+   "t0": 251.9593424036282,
+   "t1": 260.6056916099774,
+   "trim_offset": 0.48941,
+   "chunks": [
+    "미국 싱크탱크 아이에프피는 중국이 원격으로 쓰는 해외 연산 능력이 올해 말 에이치 백 칩 백만 개 분량으로 추정된다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7658,
+    "elapsed_ms": 1321,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.675,
+      9.365
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 95.78,
+     "f0_end_hz": 70.05,
+     "octave_fixed_n": 7
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_7",
+   "scene": "act3",
+   "date": "2025.10.09",
+   "text": "뉴욕타임스는 메가스피드의 칩도 말레이시아와 인도네시아의 데이터센터에서 중국 고객에게 원격으로 제공되는 것으로 보인다고 보도했습니다.",
+   "tts": "뉴욕 타임스는 메가스피드의 칩도 말레이시아와 인도네시아의 데이터센터에서 중국 고객에게 원격으로 제공되는 것으로 보인다고 보도했습니다.",
+   "segments": [
+    [
+     "뉴욕타임스는 메가스피드의 칩도 말레이시아와 인도네시아의 데이터센터에서 중국 고객에게 원격으로 제공되는 것으로 보인다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_7_65136263a9.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_7_65136263a9.npy",
+   "dur": 9.205374149659864,
+   "t0": 261.50569160997736,
+   "t1": 270.7110657596372,
+   "trim_offset": 0.470612,
+   "chunks": [
+    "뉴욕 타임스는 메가스피드의 칩도 말레이시아와 인도네시아의 데이터센터에서 중국 고객에게 원격으로 제공되는 것으로 보인다고 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9361,
+    "elapsed_ms": 1368,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      9.185,
+      10.01
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 89.08,
+     "f0_end_hz": 70.88,
+     "octave_fixed_n": 25
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_8",
+   "scene": "act3",
+   "date": "2025.10.13",
+   "text": "톰 코튼 상원의원은 지난해 10월 상무부에 이 회사를 조사하라고 요청했습니다.",
+   "tts": "톰 코튼 상원의원은 지난해 시월 상무부에 이 회사를 조사하라고 요청했습니다.",
+   "segments": [
+    [
+     "톰 코튼 상원의원은 지난해 10월 상무부에 이 회사를 조사하라고 요청했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_8_b584e7b54e.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_8_b584e7b54e.npy",
+   "dur": 4.780340136054422,
+   "t0": 271.6110657596372,
+   "t1": 276.3914058956916,
+   "trim_offset": 0.378277,
+   "chunks": [
+    "톰 코튼 상원의원은 지난해 시월 상무부에 이 회사를 조사하라고 요청했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9271,
+    "elapsed_ms": 660,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.655,
+      5.28
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 107.59,
+     "f0_end_hz": 74.58,
+     "octave_fixed_n": 36
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_9",
+   "scene": "act3",
+   "date": "2025.10.09",
+   "text": "엔비디아는 메가스피드 시설을 여러 차례 방문했지만 칩이 빼돌려진 증거는 찾지 못했다고 밝혔습니다.",
+   "tts": "엔비디아는 메가스피드 시설을 여러 차례 방문했지만 칩이 빼돌려진 증거는 찾지 못했다고 밝혔습니다.",
+   "segments": [
+    [
+     "엔비디아는 메가스피드 시설을 여러 차례 방문했지만 칩이 빼돌려진 증거는 찾지 못했다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_9_421aadc50d.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_9_421aadc50d.npy",
+   "dur": 6.555895691609978,
+   "t0": 277.2914058956916,
+   "t1": 283.84730158730156,
+   "trim_offset": 0.553084,
+   "chunks": [
+    "엔비디아는 메가스피드 시설을 여러 차례 방문했지만 칩이 빼돌려진 증거는 찾지 못했다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8929,
+    "elapsed_ms": 936,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.635,
+      7.12
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 94.63,
+     "f0_end_hz": 102.25,
+     "octave_fixed_n": 22
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_10",
+   "scene": "act3",
+   "date": "2026.01.15",
+   "text": "미국은 올해 1월부터 H200 칩의 중국 수출을 사례별로 심사해 허가하고 있습니다.",
+   "tts": "미국은 올해 일월부터 에이치 이백 칩의 중국 수출을 사례별로 심사해 허가하고 있습니다.",
+   "segments": [
+    [
+     "미국은 올해 1월부터 H200 칩의 중국 수출을 사례별로 심사해 허가하고 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_10_d5c58da9fa.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_10_d5c58da9fa.npy",
+   "dur": 5.582131519274377,
+   "t0": 284.74730158730154,
+   "t1": 290.3294331065759,
+   "trim_offset": 0.49415,
+   "chunks": [
+    "미국은 올해 일월부터 에이치 이백 칩의 중국 수출을 사례별로 심사해 허가하고 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.6758,
+    "elapsed_ms": 815,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.57,
+      6.45
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 126.24,
+     "f0_end_hz": 74.87,
+     "octave_fixed_n": 16
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_11",
+   "scene": "act3",
+   "date": "2026.11.05",
+   "text": "그런데 로이터는 H200 약 60만 개가 중국 본토 반입을 기다리며 홍콩에 쌓여 있다고 보도했습니다.",
+   "tts": "그런데 로이터는 에이치 이백 약 육십만 개가 중국 본토 반입을 기다리며 홍콩에 쌓여 있다고 보도했습니다.",
+   "segments": [
+    [
+     "그런데 로이터는 H200 약 ",
+     0
+    ],
+    [
+     "60만 개",
+     1
+    ],
+    [
+     "가 중국 본토 반입을 기다리며 홍콩에 쌓여 있다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_11_5e35f7a049.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_11_5e35f7a049.npy",
+   "dur": 6.297596371882086,
+   "t0": 291.22943310657587,
+   "t1": 297.52702947845796,
+   "trim_offset": 0.564104,
+   "chunks": [
+    "그런데 로이터는 에이치 이백 약 육십만 개가 중국 본토 반입을 기다리며 홍콩에 쌓여 있다고 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7129,
+    "elapsed_ms": 845,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.4,
+      6.735
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.02,
+     "f0_end_hz": 69.41,
+     "octave_fixed_n": 3
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_12",
+   "scene": "act3",
+   "date": "2026.11.05",
+   "text": "중국 정부가 대량 수입 승인을 미루고 있기 때문입니다.",
+   "tts": "중국 정부가 대량 수입 승인을 미루고 있기 때문입니다.",
+   "segments": [
+    [
+     "중국 정부가 대량 수입 승인을 미루고 있기 때문입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_12_b256821d1c.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_12_b256821d1c.npy",
+   "dur": 3.1512244897959185,
+   "t0": 298.42702947845794,
+   "t1": 301.5782539682539,
+   "trim_offset": 0.498005,
+   "chunks": [
+    "중국 정부가 대량 수입 승인을 미루고 있기 때문입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.954,
+    "elapsed_ms": 519,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.195,
+      3.855
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.27,
+     "f0_end_hz": 67.46,
+     "octave_fixed_n": 31
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_13",
+   "scene": "act3",
+   "date": "2026.10.21",
+   "text": "로이터가 확인한 조달 기록에 따르면, 미국 수출통제 명단에 오른 시안의 서북공업대학은 10월에 지역 업체에서 H200 칩 두 개를 샀습니다.",
+   "tts": "로이터가 확인한 조달 기록에 따르면, 미국 수출통제 명단에 오른 시안의 서북공업대학은 시월에 지역 업체에서 에이치 이백 칩 두 개를 샀습니다.",
+   "segments": [
+    [
+     "로이터가 확인한 조달 기록에 따르면, 미국 수출통제 명단에 오른 시안의 서북공업대학은 10월에 지역 업체에서 H200 칩 두 개를 샀습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_13_9c608052c3.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_13_9c608052c3.npy",
+   "dur": 9.411473922902495,
+   "t0": 302.47825396825385,
+   "t1": 311.8897278911563,
+   "trim_offset": 0.482426,
+   "chunks": [
+    "로이터가 확인한 조달 기록에 따르면, 미국 수출통제 명단에 오른 시안의 서북공업대학은 시월에 지역 업체에서 에이치 이백 칩 두 개를 샀습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8178,
+    "elapsed_ms": 1379,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      9.38,
+      10.06
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 128.52,
+     "f0_end_hz": 69.65,
+     "octave_fixed_n": 20
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act3_14",
+   "scene": "act3",
+   "date": "2026.11.16",
+   "text": "밀수는 기소로 이어졌지만, 해외 데이터센터를 빌려 쓰는 길은 열려 있었습니다.",
+   "tts": "밀수는 기소로 이어졌지만, 해외 데이터센터를 빌려 쓰는 길은 열려 있었습니다.",
+   "segments": [
+    [
+     "밀수는 기소로 이어졌지만, 해외 데이터센터를 빌려 쓰는 길은 열려 있었습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_14_07d83dbae0.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act3_14_07d83dbae0.npy",
+   "dur": 4.648843537414966,
+   "t0": 312.7897278911563,
+   "t1": 317.43857142857127,
+   "trim_offset": 0.463787,
+   "chunks": [
+    "밀수는 기소로 이어졌지만, 해외 데이터센터를 빌려 쓰는 길은 열려 있었습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.946,
+    "elapsed_ms": 756,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.64,
+      5.225
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 91.44,
+     "f0_end_hz": 73.99,
+     "octave_fixed_n": 25
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "act4_0",
+   "scene": "act4",
+   "date": "2026.11.16",
+   "text": "이제 워싱턴의 대응으로 넘어갑니다.",
+   "tts": "이제 워싱턴의 대응으로 넘어갑니다.",
+   "segments": [
+    [
+     "이제 워싱턴의 대응으로 넘어갑니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_0_c6afc6ff67.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_0_c6afc6ff67.npy",
+   "dur": 1.7241269841269842,
+   "t0": 320.83857142857124,
+   "t1": 322.56269841269824,
+   "trim_offset": 0.603741,
+   "chunks": [
+    "이제 워싱턴의 대응으로 넘어갑니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8892,
+    "elapsed_ms": 448,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      1.915,
+      2.555
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 86.01,
+     "f0_end_hz": 71.02,
+     "octave_fixed_n": 8
+    }
+   },
+   "role": "bridge"
+  },
+  {
+   "sid": "act4_1",
+   "scene": "act4",
+   "date": "2026.11.16",
+   "text": "미국의 통제는 지난 4년 동안 조이고 풀기를 되풀이했습니다.",
+   "tts": "미국의 통제는 지난 사 년 동안 조이고 풀기를 되풀이했습니다.",
+   "segments": [
+    [
+     "미국의 통제는 지난 4년 동안 조이고 풀기를 되풀이했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_1_85d1608753.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_1_85d1608753.npy",
+   "dur": 3.8390022675736963,
+   "t0": 323.4626984126982,
+   "t1": 327.3017006802719,
+   "trim_offset": 0.413061,
+   "chunks": [
+    "미국의 통제는 지난 사 년 동안 조이고 풀기를 되풀이했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9404,
+    "elapsed_ms": 720,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.76,
+      4.415
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 106.39,
+     "f0_end_hz": 75.67,
+     "octave_fixed_n": 4
+    }
+   },
+   "role": "intro"
+  },
+  {
+   "sid": "act4_2",
+   "scene": "act4",
+   "date": "2022.10.07",
+   "text": "2022년 10월, 미국은 엔비디아 첨단 칩의 중국 수출에 허가제를 도입했습니다.",
+   "tts": "이천이십이 년 시월, 미국은 엔비디아 첨단 칩의 중국 수출에 허가제를 도입했습니다.",
+   "segments": [
+    [
+     "2022년 10월, 미국은 엔비디아 첨단 칩의 중국 수출에 허가제를 도입했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_2_b2b335479d.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_2_b2b335479d.npy",
+   "dur": 5.203219954648526,
+   "t0": 328.20170068027187,
+   "t1": 333.4049206349204,
+   "trim_offset": 0.591655,
+   "chunks": [
+    "이천이십이 년 시월, 미국은 엔비디아 첨단 칩의 중국 수출에 허가제를 도입했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8199,
+    "elapsed_ms": 806,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.27,
+      5.75
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 108.42,
+     "f0_end_hz": 66.85,
+     "octave_fixed_n": 18
+    }
+   },
+   "role": "background"
+  },
+  {
+   "sid": "act4_3",
+   "scene": "act4",
+   "date": "2023.10.17",
+   "text": "이듬해 10월에는 기준을 높여 중국용으로 성능을 낮춘 칩까지 막았습니다.",
+   "tts": "이듬해 시월에는 기준을 높여 중국용으로 성능을 낮춘 칩까지 막았습니다.",
+   "segments": [
+    [
+     "이듬해 10월에는 기준을 높여 중국용으로 성능을 낮춘 칩까지 막았습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_3_970c07c8bb.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_3_970c07c8bb.npy",
+   "dur": 4.574104308390023,
+   "t0": 334.3049206349204,
+   "t1": 338.8790249433104,
+   "trim_offset": 0.472018,
+   "chunks": [
+    "이듬해 시월에는 기준을 높여 중국용으로 성능을 낮춘 칩까지 막았습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8915,
+    "elapsed_ms": 735,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.545,
+      5.16
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 90.29,
+     "f0_end_hz": 92.18,
+     "octave_fixed_n": 23
+    }
+   },
+   "role": "background"
+  },
+  {
+   "sid": "act4_4",
+   "scene": "act4",
+   "date": "2025.05.13",
+   "text": "지난해 5월에는 트럼프 행정부가 바이든 정부의 전 세계 칩 허가 규칙을 철회했습니다.",
+   "tts": "지난해 오월에는 트럼프 행정부가 바이든 정부의 전 세계 칩 허가 규칙을 철회했습니다.",
+   "segments": [
+    [
+     "지난해 5월에는 트럼프 행정부가 바이든 정부의 전 세계 칩 허가 규칙을 철회했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_4_512d565198.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_4_512d565198.npy",
+   "dur": 5.260090702947846,
+   "t0": 339.7790249433104,
+   "t1": 345.0391156462582,
+   "trim_offset": 0.559184,
+   "chunks": [
+    "지난해 오월에는 트럼프 행정부가 바이든 정부의 전 세계 칩 허가 규칙을 철회했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8888,
+    "elapsed_ms": 1076,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.345,
+      6.005
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 92.97,
+     "f0_end_hz": 70.54,
+     "octave_fixed_n": 29
+    }
+   },
+   "role": "background"
+  },
+  {
+   "sid": "act4_5",
+   "scene": "act4",
+   "date": "2025.12.08",
+   "text": "12월에는 트럼프 대통령이 H200 칩의 중국 판매를 허용하겠다고 밝혔습니다.",
+   "tts": "십이월에는 트럼프 대통령이 에이치 이백 칩의 중국 판매를 허용하겠다고 밝혔습니다.",
+   "segments": [
+    [
+     "12월에는 트럼프 대통령이 H200 칩의 중국 판매를 허용하겠다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_5_8e9e6cab25.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_5_8e9e6cab25.npy",
+   "dur": 5.037278911564626,
+   "t0": 345.9391156462582,
+   "t1": 350.9763945578228,
+   "trim_offset": 0.55458,
+   "chunks": [
+    "십이월에는 트럼프 대통령이 에이치 이백 칩의 중국 판매를 허용하겠다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7014,
+    "elapsed_ms": 784,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.095,
+      5.54
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 91.94,
+     "f0_end_hz": 65.4,
+     "octave_fixed_n": 1
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_6",
+   "scene": "act4",
+   "date": "2026.11.16",
+   "text": "CBS는 상무부가 수출통제 명단에 새 기업을 올린 것이 지난해 10월 9일이 마지막이었다고 보도했습니다.",
+   "tts": "씨비에스는 상무부가 수출통제 명단에 새 기업을 올린 것이 지난해 시월 구일이 마지막이었다고 보도했습니다.",
+   "segments": [
+    [
+     "CBS는 상무부가 수출통제 명단에 새 기업을 올린 것이 지난해 10월 9일이 마지막이었다고 보도했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_6_3adcc2e5de.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_6_3adcc2e5de.npy",
+   "dur": 6.709433106575964,
+   "t0": 351.8763945578228,
+   "t1": 358.5858276643987,
+   "trim_offset": 0.461791,
+   "chunks": [
+    "씨비에스는 상무부가 수출통제 명단에 새 기업을 올린 것이 지난해 시월 구일이 마지막이었다고 보도했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.924,
+    "elapsed_ms": 1080,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.69,
+      7.395
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 106.03,
+     "f0_end_hz": 67.84,
+     "octave_fixed_n": 45
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_7",
+   "scene": "act4",
+   "date": "2026.11.16",
+   "text": "11월 16일, 상무부는 칩의 원격 사용을 통제하는 새 규칙을 공개했습니다.",
+   "tts": "십일월 십육일, 상무부는 칩의 원격 사용을 통제하는 새 규칙을 공개했습니다.",
+   "segments": [
+    [
+     "11월 16일, 상무부는 칩의 ",
+     0
+    ],
+    [
+     "원격 사용",
+     1
+    ],
+    [
+     "을 통제하는 새 규칙을 공개했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_7_8e47dfc731.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_7_8e47dfc731.npy",
+   "dur": 4.979501133786848,
+   "t0": 359.4858276643987,
+   "t1": 364.46532879818557,
+   "trim_offset": 0.55458,
+   "chunks": [
+    "십일월 십육일, 상무부는 칩의 원격 사용을 통제하는 새 규칙을 공개했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7762,
+    "elapsed_ms": 672,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.095,
+      5.61
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 108.3,
+     "f0_end_hz": 66.01,
+     "octave_fixed_n": 10
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_8",
+   "scene": "act4",
+   "date": "2026.11.16",
+   "text": "시행되면, 중국 기업에 대규모 연산 능력을 빌려주는 데이터센터는 어느 나라에 있든 미국의 허가 없이 첨단 칩을 받을 수 없습니다.",
+   "tts": "시행되면, 중국 기업에 대규모 연산 능력을 빌려주는 데이터센터는 어느 나라에 있든 미국의 허가 없이 첨단 칩을 받을 수 없습니다.",
+   "segments": [
+    [
+     "시행되면, 중국 기업에 대규모 연산 능력을 빌려주는 데이터센터는 어느 나라에 있든 미국의 허가 없이 첨단 칩을 받을 수 없습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_8_e643b6742e.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_8_e643b6742e.npy",
+   "dur": 8.436666666666667,
+   "t0": 365.36532879818554,
+   "t1": 373.8019954648522,
+   "trim_offset": 0.473084,
+   "chunks": [
+    "시행되면, 중국 기업에 대규모 연산 능력을 빌려주는 데이터센터는 어느 나라에 있든 미국의 허가 없이 첨단 칩을 받을 수 없습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9464,
+    "elapsed_ms": 1317,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.405,
+      9.035
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 110.7,
+     "f0_end_hz": 68.4,
+     "octave_fixed_n": 40
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_9",
+   "scene": "act4",
+   "date": "2026.11.16",
+   "text": "이미 그런 고객을 둔 데이터센터에는 90일이 주어졌습니다.",
+   "tts": "이미 그런 고객을 둔 데이터센터에는 구십 일이 주어졌습니다.",
+   "segments": [
+    [
+     "이미 그런 고객을 둔 데이터센터에는 ",
+     0
+    ],
+    [
+     "90일",
+     1
+    ],
+    [
+     "이 주어졌습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_9_e8fc58bb9a.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_9_e8fc58bb9a.npy",
+   "dur": 3.4806349206349205,
+   "t0": 374.7019954648522,
+   "t1": 378.18263038548713,
+   "trim_offset": 0.517755,
+   "chunks": [
+    "이미 그런 고객을 둔 데이터센터에는 구십 일이 주어졌습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9679,
+    "elapsed_ms": 607,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.485,
+      3.925
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.4,
+     "f0_end_hz": 65.85,
+     "octave_fixed_n": 0
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_10",
+   "scene": "act4",
+   "date": "2026.11.16",
+   "text": "상무부가 칩이 빼돌려질 위험이 높다고 본 인도네시아와 말레이시아, 싱가포르, 태국, 브라질행 첨단 칩은 미국 기업행을 빼고 모두 허가 대상이 됩니다.",
+   "tts": "상무부가 칩이 빼돌려질 위험이 높다고 본 인도네시아와 말레이시아, 싱가포르, 태국, 브라질행 첨단 칩은 미국 기업행을 빼고 모두 허가 대상이 됩니다.",
+   "segments": [
+    [
+     "상무부가 칩이 빼돌려질 위험이 높다고 본 인도네시아와 말레이시아, 싱가포르, 태국, 브라질행 첨단 칩은 미국 기업행을 빼고 모두 허가 대상이 됩니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_10_cc6f962a8b.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_10_cc6f962a8b.npy",
+   "dur": 10.069002267573696,
+   "t0": 379.0826303854871,
+   "t1": 389.1516326530608,
+   "trim_offset": 0.543946,
+   "chunks": [
+    "상무부가 칩이 빼돌려질 위험이 높다고 본 인도네시아와 말레이시아, 싱가포르, 태국, 브라질행 첨단 칩은 미국 기업행을 빼고 모두 허가 대상이 됩니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9184,
+    "elapsed_ms": 1718,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      10.085,
+      10.895
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 96.42,
+     "f0_end_hz": 85.05,
+     "octave_fixed_n": 24
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_11",
+   "scene": "act4",
+   "date": "2026.11.19",
+   "text": "규칙은 11월 19일 연방관보에 실리는 날부터 시행됩니다.",
+   "tts": "규칙은 십일월 십구일 연방관보에 실리는 날부터 시행됩니다.",
+   "segments": [
+    [
+     "규칙은 11월 19일 연방관보에 실리는 날부터 시행됩니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_11_7a97102552.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_11_7a97102552.npy",
+   "dur": 3.7322448979591836,
+   "t0": 390.0516326530608,
+   "t1": 393.78387755101994,
+   "trim_offset": 0.529388,
+   "chunks": [
+    "규칙은 십일월 십구일 연방관보에 실리는 날부터 시행됩니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8945,
+    "elapsed_ms": 542,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      3.74,
+      4.47
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.28,
+     "f0_end_hz": 70.66,
+     "octave_fixed_n": 23
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_12",
+   "scene": "act4",
+   "date": "2026.11.15",
+   "text": "규칙 공개 하루 전에는 한국과 일본 등 열 나라가 첨단 기술의 불법 이전을 함께 막자는 공동 선언에 참여했습니다.",
+   "tts": "규칙 공개 하루 전에는 한국과 일본 등 열 나라가 첨단 기술의 불법 이전을 함께 막자는 공동 선언에 참여했습니다.",
+   "segments": [
+    [
+     "규칙 공개 하루 전에는 한국과 일본 등 열 나라가 첨단 기술의 불법 이전을 함께 막자는 공동 선언에 참여했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_12_9b0a682587.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_12_9b0a682587.npy",
+   "dur": 7.715328798185941,
+   "t0": 394.6838775510199,
+   "t1": 402.3992063492059,
+   "trim_offset": 0.517596,
+   "chunks": [
+    "규칙 공개 하루 전에는 한국과 일본 등 열 나라가 첨단 기술의 불법 이전을 함께 막자는 공동 선언에 참여했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9486,
+    "elapsed_ms": 21079,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.79,
+      8.45
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 87.53,
+     "f0_end_hz": 69.1,
+     "octave_fixed_n": 23
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_13",
+   "scene": "act4",
+   "date": "2026.01.12",
+   "text": "의회에서는 원격 접속을 수출통제 대상에 넣는 법안이 1월 하원을 369 대 22로 통과했지만, 상원 문턱을 넘지 못했습니다.",
+   "tts": "의회에서는 원격 접속을 수출통제 대상에 넣는 법안이 일월 하원을 삼백육십구 대 이십이로 통과했지만, 상원 문턱을 넘지 못했습니다.",
+   "segments": [
+    [
+     "의회에서는 원격 접속을 수출통제 대상에 넣는 법안이 1월 하원을 369 대 22로 통과했지만, 상원 문턱을 넘지 못했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_13_e0bfd78261.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_13_e0bfd78261.npy",
+   "dur": 8.897528344671201,
+   "t0": 403.29920634920586,
+   "t1": 412.19673469387703,
+   "trim_offset": 0.529025,
+   "chunks": [
+    "의회에서는 원격 접속을 수출통제 대상에 넣는 법안이 일월 하원을 삼백육십구 대 이십이로 통과했지만, 상원 문턱을 넘지 못했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8437,
+    "elapsed_ms": 1249,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      8.885,
+      9.555
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 113.07,
+     "f0_end_hz": 71.6,
+     "octave_fixed_n": 3
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_14",
+   "scene": "act4",
+   "date": "2026.11.12",
+   "text": "수출되는 칩에 위치 확인 장치를 의무화하는 법안도 상원 국방수권법안에 들어가 있습니다.",
+   "tts": "수출되는 칩에 위치 확인 장치를 의무화하는 법안도 상원 국방수권법안에 들어가 있습니다.",
+   "segments": [
+    [
+     "수출되는 칩에 위치 확인 장치를 의무화하는 법안도 상원 국방수권법안에 들어가 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_14_3bc3c2db51.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_14_3bc3c2db51.npy",
+   "dur": 5.70469387755102,
+   "t0": 413.096734693877,
+   "t1": 418.801428571428,
+   "trim_offset": 0.541156,
+   "chunks": [
+    "수출되는 칩에 위치 확인 장치를 의무화하는 법안도 상원 국방수권법안에 들어가 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9245,
+    "elapsed_ms": 891,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.715,
+      6.27
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 99.11,
+     "f0_end_hz": 68.9,
+     "octave_fixed_n": 11
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_15",
+   "scene": "act4",
+   "date": "2026.11.14",
+   "text": "하원 위원장 세 명은 이런 법안 네 건을 올해 국방수권법에 넣으라고 요구했습니다.",
+   "tts": "하원 위원장 세 명은 이런 법안 네 건을 올해 국방수권법에 넣으라고 요구했습니다.",
+   "segments": [
+    [
+     "하원 위원장 세 명은 이런 법안 네 건을 올해 국방수권법에 넣으라고 요구했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_15_78af04c52f.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_15_78af04c52f.npy",
+   "dur": 5.020725623582766,
+   "t0": 419.701428571428,
+   "t1": 424.7221541950108,
+   "trim_offset": 0.467302,
+   "chunks": [
+    "하원 위원장 세 명은 이런 법안 네 건을 올해 국방수권법에 넣으라고 요구했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9058,
+    "elapsed_ms": 806,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.975,
+      5.705
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 85.21,
+     "f0_end_hz": 59.4,
+     "octave_fixed_n": 1
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_16",
+   "scene": "act4",
+   "date": "2026.11.13",
+   "text": "이에 대해 중국 외교부는 수출통제 조치의 남용에 반대한다고 밝혔습니다.",
+   "tts": "이에 대해 중국 외교부는 수출통제 조치의 남용에 반대한다고 밝혔습니다.",
+   "segments": [
+    [
+     "이에 대해 중국 외교부는 수출통제 조치의 남용에 반대한다고 밝혔습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_16_bb366c9522.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_16_bb366c9522.npy",
+   "dur": 4.574761904761905,
+   "t0": 425.62215419501075,
+   "t1": 430.19691609977264,
+   "trim_offset": 0.443583,
+   "chunks": [
+    "이에 대해 중국 외교부는 수출통제 조치의 남용에 반대한다고 밝혔습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8964,
+    "elapsed_ms": 682,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.545,
+      5.115
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 98.68,
+     "f0_end_hz": 69.31,
+     "octave_fixed_n": 27
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_17",
+   "scene": "act4",
+   "date": "2026.11.16",
+   "text": "미국외교협회의 조슈아 커란츠윅 연구원은 이 통제가 말레이시아에 재앙이 될 수 있다고 말했습니다.",
+   "tts": "미국외교협회의 조슈아 커란츠윅 연구원은 이 통제가 말레이시아에 재앙이 될 수 있다고 말했습니다.",
+   "segments": [
+    [
+     "미국외교협회의 조슈아 커란츠윅 연구원은 이 통제가 말레이시아에 ",
+     0
+    ],
+    [
+     "재앙이 될 수 있다",
+     1
+    ],
+    [
+     "고 말했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_17_7cb012b414.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_17_7cb012b414.npy",
+   "dur": 5.8795691609977325,
+   "t0": 431.0969160997726,
+   "t1": 436.97648526077035,
+   "trim_offset": 0.557211,
+   "chunks": [
+    "미국외교협회의 조슈아 커란츠윅 연구원은 이 통제가 말레이시아에 재앙이 될 수 있다고 말했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9042,
+    "elapsed_ms": 915,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.005,
+      6.645
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 96.54,
+     "f0_end_hz": 86.15,
+     "octave_fixed_n": 49
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_18",
+   "scene": "act4",
+   "date": "2026.11.16",
+   "text": "조지타운대의 한나 도먼 연구원은 규칙보다 집행이 중요하다고 강조했습니다.",
+   "tts": "조지타운대의 한나 도먼 연구원은 규칙보다 집행이 중요하다고 강조했습니다.",
+   "segments": [
+    [
+     "조지타운대의 한나 도먼 연구원은 규칙보다 집행이 중요하다고 강조했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_18_45fba831a8.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_18_45fba831a8.npy",
+   "dur": 4.651269841269841,
+   "t0": 437.8764852607703,
+   "t1": 442.52775510204015,
+   "trim_offset": 0.576032,
+   "chunks": [
+    "조지타운대의 한나 도먼 연구원은 규칙보다 집행이 중요하다고 강조했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.92,
+    "elapsed_ms": 761,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.74,
+      5.36
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 88.75,
+     "f0_end_hz": 69.39,
+     "octave_fixed_n": 7
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_19",
+   "scene": "act4",
+   "date": "2026.11.16",
+   "text": "한편 H200 칩을 중국에 사례별로 허가하는 정책은 이번에도 그대로 유지됐습니다.",
+   "tts": "한편 에이치 이백 칩을 중국에 사례별로 허가하는 정책은 이번에도 그대로 유지됐습니다.",
+   "segments": [
+    [
+     "한편 H200 칩을 중국에 사례별로 허가하는 정책은 이번에도 그대로 유지됐습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_19_c1290ec8d9.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_19_c1290ec8d9.npy",
+   "dur": 5.461814058956916,
+   "t0": 443.4277551020401,
+   "t1": 448.88956916099704,
+   "trim_offset": 0.566077,
+   "chunks": [
+    "한편 에이치 이백 칩을 중국에 사례별로 허가하는 정책은 이번에도 그대로 유지됐습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7017,
+    "elapsed_ms": 1116,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.495,
+      6.135
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 87.5,
+     "f0_end_hz": 80.49,
+     "octave_fixed_n": 3
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "act4_20",
+   "scene": "act4",
+   "date": "2026.11.16",
+   "text": "새 규칙으로 미국의 통제 대상은 칩의 수출에서 칩의 원격 사용으로 넓어졌습니다.",
+   "tts": "새 규칙으로 미국의 통제 대상은 칩의 수출에서 칩의 원격 사용으로 넓어졌습니다.",
+   "segments": [
+    [
+     "새 규칙으로 미국의 통제 대상은 칩의 수출에서 칩의 원격 사용으로 넓어졌습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_20_79b80819c1.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/act4_20_79b80819c1.npy",
+   "dur": 5.413650793650794,
+   "t0": 449.789569160997,
+   "t1": 455.2032199546478,
+   "trim_offset": 0.534558,
+   "chunks": [
+    "새 규칙으로 미국의 통제 대상은 칩의 수출에서 칩의 원격 사용으로 넓어졌습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8134,
+    "elapsed_ms": 809,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.43,
+      6.065
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 91.65,
+     "f0_end_hz": 70.27,
+     "octave_fixed_n": 21
+    }
+   },
+   "role": "outro"
+  },
+  {
+   "sid": "ending_0",
+   "scene": "ending",
+   "date": "2026.11.17",
+   "text": "엔비디아의 첨단 칩은 미국이 2022년부터 중국 수출을 막아 온 물건입니다.",
+   "tts": "엔비디아의 첨단 칩은 미국이 이천이십이 년부터 중국 수출을 막아 온 물건입니다.",
+   "segments": [
+    [
+     "엔비디아의 첨단 칩은 미국이 2022년부터 중국 수출을 막아 온 물건입니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/ending_0_4285394bb5.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/ending_0_4285394bb5.npy",
+   "dur": 5.556984126984127,
+   "t0": 457.1032199546478,
+   "t1": 462.6602040816319,
+   "trim_offset": 0.361497,
+   "chunks": [
+    "엔비디아의 첨단 칩은 미국이 이천이십이 년부터 중국 수출을 막아 온 물건입니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.7932,
+    "elapsed_ms": 845,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      5.415,
+      6.1
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 83.37,
+     "f0_end_hz": 106.6,
+     "octave_fixed_n": 21
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "ending_1",
+   "scene": "ending",
+   "date": "2026.11.17",
+   "text": "그 칩을 만든 회사의 창업자는 자리에서 물러났고, 추수감사절 전까지 의회에 비공개로 출석하기로 했습니다.",
+   "tts": "그 칩을 만든 회사의 창업자는 자리에서 물러났고, 추수감사절 전까지 의회에 비공개로 출석하기로 했습니다.",
+   "segments": [
+    [
+     "그 칩을 만든 회사의 창업자는 자리에서 물러났고, 추수감사절 전까지 의회에 비공개로 출석하기로 했습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/ending_1_45b1294ed7.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/ending_1_45b1294ed7.npy",
+   "dur": 6.940702947845805,
+   "t0": 463.56020408163187,
+   "t1": 470.5009070294777,
+   "trim_offset": 0.471315,
+   "chunks": [
+    "그 칩을 만든 회사의 창업자는 자리에서 물러났고, 추수감사절 전까지 의회에 비공개로 출석하기로 했습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9488,
+    "elapsed_ms": 1000,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      6.96,
+      7.495
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 93.31,
+     "f0_end_hz": 113.53,
+     "octave_fixed_n": 18
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "ending_2",
+   "scene": "ending",
+   "date": "2026.11.19",
+   "text": "상무부의 새 규칙은 11월 19일 시행을 앞두고 있고, 중국 고객을 둔 해외 데이터센터에는 90일의 시한이 주어졌습니다.",
+   "tts": "상무부의 새 규칙은 십일월 십구일 시행을 앞두고 있고, 중국 고객을 둔 해외 데이터센터에는 구십 일의 시한이 주어졌습니다.",
+   "segments": [
+    [
+     "상무부의 새 규칙은 11월 19일 시행을 앞두고 있고, 중국 고객을 둔 해외 데이터센터에는 90일의 시한이 주어졌습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/ending_2_4b42b9e296.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/ending_2_4b42b9e296.npy",
+   "dur": 8.070362811791384,
+   "t0": 471.40090702947765,
+   "t1": 479.471269841269,
+   "trim_offset": 0.448413,
+   "chunks": [
+    "상무부의 새 규칙은 십일월 십구일 시행을 앞두고 있고, 중국 고객을 둔 해외 데이터센터에는 구십 일의 시한이 주어졌습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.8828,
+    "elapsed_ms": 1349,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      7.98,
+      8.82
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 97.99,
+     "f0_end_hz": 82.6,
+     "octave_fixed_n": 32
+    }
+   },
+   "role": null
+  },
+  {
+   "sid": "ending_3",
+   "scene": "ending",
+   "date": "2026.11.17",
+   "text": "미국의 통제는 칩이 어디로 가는가에서 누가 쓰는가로 넓어지고 있습니다.",
+   "tts": "미국의 통제는 칩이 어디로 가는가에서 누가 쓰는가로 넓어지고 있습니다.",
+   "segments": [
+    [
+     "미국의 통제는 칩이 어디로 가는가에서 ",
+     0
+    ],
+    [
+     "누가 쓰는가",
+     1
+    ],
+    [
+     "로 넓어지고 있습니다.",
+     0
+    ]
+   ],
+   "mp3": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/ending_3_9eee7f6bb4.mp3",
+   "npy": "/home/user/osint_generator/projects/nvidia-chips-china-2026/tts/ending_3_9eee7f6bb4.npy",
+   "dur": 4.42968253968254,
+   "t0": 480.371269841269,
+   "t1": 484.8009523809515,
+   "trim_offset": 0.540748,
+   "chunks": [
+    "미국의 통제는 칩이 어디로 가는가에서 누가 쓰는가로 넓어지고 있습니다."
+   ],
+   "alignment": {
+    "source": "mms_forced_alignment",
+    "score_mean": 0.9703,
+    "elapsed_ms": 770,
+    "realigned_from": null
+   },
+   "prosody": {
+    "final_fall": {
+     "applied": true,
+     "reason": null,
+     "region_sec": [
+      4.49,
+      4.89
+     ],
+     "semitones": 4.0,
+     "f0_start_hz": 107.78,
+     "f0_end_hz": 60.7,
+     "octave_fixed_n": 9
+    }
+   },
+   "role": null
+  }
+ ],
+ "cards": [
+  {
+   "kind": "title",
+   "t0": 31.272471655328797,
+   "t1": 36.872471655328795
+  },
+  {
+   "kind": "end",
+   "t0": 486.9009523809515,
+   "t1": 497.9009523809515
+  }
+ ],
+ "scene_start": {
+  "cold": 1.2,
+  "act1": 37.2724716553288,
+  "act2": 85.84458049886624,
+  "act3": 202.8652154195012,
+  "act4": 319.33857142857124,
+  "ending": 457.1032199546478
+ },
+ "total": 498.4009523809515,
+ "voice": "supertonic-3 M3 ×0.95",
+ "title": "엔비디아 칩은 어떻게 중국에 닿았나",
+ "subtitle": "젠슨 황 사임, 그리고 미국의 새 통제",
+ "date": "2026.11.17",
+ "tts_resynthesized": [],
+ "lint_waived": null,
+ "transitions": [
+  {
+   "sid": "act2_0",
+   "pause_t0": 85.84458,
+   "pause_sec": 1.5,
+   "kind": [
+    "date_jump",
+    "stage"
+   ]
+  },
+  {
+   "sid": "act3_0",
+   "pause_t0": 202.865215,
+   "pause_sec": 1.5,
+   "kind": [
+    "date_jump"
+   ]
+  },
+  {
+   "sid": "act4_0",
+   "pause_t0": 319.338571,
+   "pause_sec": 1.5,
+   "kind": [
+    "date_jump",
+    "stage"
+   ]
+  }
+ ],
+ "holds": []
+}

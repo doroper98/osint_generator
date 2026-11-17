@@ -1,0 +1,1753 @@
+{
+ "schema_version": 1,
+ "sources": [
+  {
+   "id": "src_doc_0001",
+   "url": "https://www.sec.gov/Archives/edgar/data/0001045810/000104581026000082/nvidiaannouncesceotransiti.htm",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "research:A:nvda_8k_ceo_transition"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "document",
+   "issuer": "엔비디아(SEC 8-K 공시)",
+   "title": "NVIDIA Announces CEO Transition",
+   "published_at": "2026-11-12",
+   "key_facts": [
+    "Jensen Huang has resigned as President, Chief Executive Officer, and a member of the Board, effective immediately.",
+    "Colette Kress ... has agreed to serve as Interim Chief Executive Officer. (keeps CFO role until a permanent successor is named)",
+    "The Board of Directors appointed Harvey C. Jones as its first-ever Chair of the Board.",
+    "Board will consider internal and external candidates for permanent CEO. Release gives no reason for the resignation, no mention of the investigation, no statement from Huang, and nothing on his remaining shares."
+   ]
+  },
+  {
+   "id": "src_art_0001",
+   "url": "https://www.valleynewslive.com/2026/11/12/nvidia-ceo-jensen-huang-resigns-after-his-affair-raises-national-security-concerns/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:A:ap_resign_1112"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "Associated Press",
+   "headline_original": "Nvidia CEO Jensen Huang resigns after his affair raises national security concerns",
+   "headline_ko": "엔비디아 CEO 젠슨 황, 외도가 국가안보 우려 부르자 사임",
+   "published_at": "2026-11-12",
+   "key_facts": [
+    "Shares plummeted 14% at the opening bell, then stabilized; around midday the stock was down about 4%.",
+    "Nvidia had no succession plan.",
+    "Huang is the company's single largest individual shareholder (article does not say whether he keeps his shares or any role).",
+    "Huang acknowledged an affair but did not name her.",
+    "Rep. Brian Mast said the House Foreign Affairs Committee made an initial interview request on Nov. 5 and Huang would receive a subpoena if necessary."
+   ]
+  },
+  {
+   "id": "src_doc_0002",
+   "url": "https://nvidianews.nvidia.com/news/a-message-to-our-company",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "research:A:nvda_message_to_company"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "document",
+   "issuer": "엔비디아(젠슨 황 사내 서한)",
+   "title": "A Message to Our Company",
+   "published_at": "2026-11-08",
+   "key_facts": [
+    "Signed by Jensen Huang; names no other person (no mention of Alice Huang or espionage).",
+    "Says he was unfaithful to his wife and that his actions hurt her and their children.",
+    "Says the Board has initiated an independent investigation into national security concerns raised in news reports; he supports it and will cooperate fully.",
+    "NVIDIA's Board of Directors has initiated an independent investigation."
+   ]
+  },
+  {
+   "id": "src_art_0002",
+   "url": "https://www.implicator.ai/nvidia-board-investigates-jensen-huang-megaspeed-tie/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:A:implicator_memo"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "Implicator.ai",
+   "headline_original": "Nvidia board investigates Jensen Huang Megaspeed tie",
+   "headline_ko": "엔비디아 이사회, 젠슨 황과 메가스피드 관계 조사",
+   "published_at": "2026-11-08",
+   "key_facts": [
+    "Memo excerpts did not name Alice Huang or mention espionage."
+   ]
+  },
+  {
+   "id": "src_art_0003",
+   "url": "https://abc7news.com/post/nvidia-announces-investigation-ceo-jensen-huang-amid-foreign-intelligence-target-allegations/20024740/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:A:abc7_board_probe"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "ABC7 News",
+   "headline_original": "NVIDIA announces investigation of CEO Jensen Huang amid foreign intelligence target allegations",
+   "headline_ko": "엔비디아, '외국 정보공작 표적' 의혹 속 젠슨 황 CEO 조사 착수",
+   "published_at": "2026-11-09",
+   "key_facts": [
+    "Board: a \"committee of independent directors, assisted by outside independent counsel, will oversee the investigation.\"",
+    "The New York Times reported U.S. intelligence officials determined Alice Huang was passing information to Beijing; neither Alice Huang nor Megaspeed responded to ABC News' request for comment."
+   ]
+  },
+  {
+   "id": "src_doc_0003",
+   "url": "https://nvidianews.nvidia.com/news/statement-from-nvidia-board-of-directors",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "research:A:nvda_board_statement_1108"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "document",
+   "issuer": "엔비디아 이사회",
+   "title": "Statement from NVIDIA Board of Directors",
+   "published_at": "2026-11-08",
+   "key_facts": [
+    "The NVIDIA Board is initiating an independent investigation in light of recent reporting that founder and CEO Jensen Huang has been the target of a foreign intelligence effort.",
+    "A committee of independent directors, assisted by outside independent counsel, will oversee the investigation.",
+    "While the Board has no reason to believe that either national security or NVIDIA secrets were compromised, the Board's inquiry will examine all available information.",
+    "Jensen fully supports the review and has committed to cooperating with it.",
+    "The Board has confidence in Jensen and his leadership team and will provide further updates as appropriate."
+   ]
+  },
+  {
+   "id": "src_art_0004",
+   "url": "https://www.abc.net.au/news/2026-11-16/alice-huang-megaspeed-departure/107388304",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:A:ap_abcau_megaspeed"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "Associated Press",
+   "headline_original": "Alleged Chinese spy Alice Huang left Megaspeed last year, company says",
+   "headline_ko": "중국 스파이 의혹 앨리스 황, 지난해 메가스피드 떠났다고 회사 밝혀",
+   "published_at": "2026-11-16",
+   "key_facts": [
+    "Megaspeed began as the overseas arm of a Chinese video game developer ... incorporated in Singapore in 2015 as 7Road International.",
+    "It adopted its current name in March 2023 ... all its shares were transferred to Huang Le Limited, a British Virgin Islands company.",
+    "Alice Huang is also known by her Chinese name, Huang Le.",
+    "Singapore corporate records show its total assets rose roughly 90-fold from the end of 2023 to 2024, reaching almost $US3 billion.",
+    "left Megaspeed effective August 30, 2025, and currently has no role with the company",
+    "Singapore's government said last week it initiated an investigation into Megaspeed in February 2025 ... They later concluded there was insufficient evidence that she had committed a crime, despite suspecting she had provided \"inaccurate\" information to downplay her role.",
+    "the Justice Department had not concluded whether Alice Huang was a Chinese spy.",
+    "Beijing rejected the allegations as unsubstantiated.",
+    "The Associated Press has been unable to reach Alice Huang for comment.",
+    "An earlier New York Times report suggested US officials believed Alice Huang was a Chinese spy recruited to potentially influence Nvidia"
+   ]
+  },
+  {
+   "id": "src_art_0005",
+   "url": "https://fortune.com/2026/11/10/2-scandals-1-destination-why-nvidia-cant-shake-china-smuggling-allegations/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:A:fortune_1110"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "Fortune",
+   "headline_original": "2 scandals, 1 destination—Why Nvidia can't shake China smuggling allegations",
+   "headline_ko": "두 스캔들, 한 목적지 — 엔비디아가 중국 밀수 의혹을 떨치지 못하는 이유",
+   "published_at": "2026-11-10",
+   "key_facts": [
+    "Megaspeed reportedly bought more than $4.8 billion worth of Nvidia's chips during the past two years (citing the New York Times).",
+    "nearly $2 billion of the chips installed in data centers in Malaysia and Indonesia",
+    "reportedly became Nvidia's largest chip buyer in Southeast Asia",
+    "In October 2025, a spokesperson said Nvidia had visited Megaspeed operations and found no evidence of chip diversion.",
+    "The Liaw indictment does not accuse Nvidia of wrongdoing.",
+    "Alice Huang is a former executive of Megaspeed International, a Singapore company",
+    "reports claiming that intelligence officials believe Huang's affair partner, Alice Huang (no relation), was recruited by China's Ministry of State Security"
+   ]
+  },
+  {
+   "id": "src_doc_0004",
+   "url": "https://www.cotton.senate.gov/news/press-releases/cotton-to-lutnick-investigate-chinese-government-spin-off-megaspeed-for-skirting-us-export-laws",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "research:A:cotton_letter"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "document",
+   "issuer": "톰 코튼 미 상원의원실",
+   "title": "Cotton to Lutnick: Investigate Chinese Government Spin-off Megaspeed for Skirting U.S. Export Laws",
+   "published_at": "2025-10-14",
+   "key_facts": [
+    "Letter dated October 13, 2025; press release October 14, 2025.",
+    "Describes Megaspeed as a spin-off of 7Road, a Chinese government-owned cloud company; offices in Malaysia and Singapore nearly empty; a Malaysian datacenter had export-controlled chips still in boxes; chips reportedly passed through a subsidiary of sanctioned Inspur.",
+    "I respectfully request the Commerce Department investigate Megaspeed, including suspicious ownership, affiliations, or ties to U.S chip companies"
+   ]
+  },
+  {
+   "id": "src_art_0006",
+   "url": "https://www.nytimes.com/2025/10/09/technology/nvidia-chips-china-megaspeed.html",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:A:nyt_2025_repost"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 유료 — 재게시본(공개 게시판)과 2차 보도(Fortune·Gigazine)로 대조",
+   "type": "article",
+   "publisher": "The New York Times",
+   "headline_original": "A Mystery C.E.O. and Billions in Sales: Is China Buying Banned Nvidia Chips?",
+   "headline_ko": "베일의 CEO와 수십억 달러 매출 — 중국은 금지된 엔비디아 칩을 사고 있나",
+   "published_at": "2025-10-09",
+   "key_facts": [
+    "Speedmatrix received more than 200 shipments between June 2024 and June 2025 of restricted Nvidia technology.",
+    "Over the next three months, Megaspeed bought a billion dollars of Nvidia technology (then roughly $1 billion more in nine months).",
+    "funneled those chips to data centers in Malaysia and Indonesia that appear to remotely serve customers in China",
+    "Officials were concerned that Nvidia technology on site was still in boxes (Commerce visit, September 2024, per three people familiar)",
+    "Mr. Rizzo said Nvidia had visited Megaspeed's facilities multiple times ... found no evidence of diversion"
+   ]
+  },
+  {
+   "id": "src_art_0007",
+   "url": "https://techcrunch.com/2026/11/13/nvidia-ceo-jensen-huangs-affair-with-alleged-chinese-spy-a-timeline/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:A:techcrunch_timeline"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "TechCrunch",
+   "headline_original": "Nvidia CEO Jensen Huang's affair with alleged Chinese spy: a timeline",
+   "headline_ko": "엔비디아 CEO 젠슨 황과 '중국 스파이 의혹' 인물의 외도 — 일지",
+   "published_at": "2026-11-13",
+   "key_facts": [
+    "Oct 29, 2026: The New York Times broke the story that Jensen Huang had a \"close relationship\" with Alice Huang.",
+    "Nov 5: Chairmen Moolenaar (House China Committee), Mast (House Foreign Affairs) and Crawford (House Intelligence) requested a closed-door joint briefing.",
+    "Nov 8: Huang wrote \"I was unfaithful to my wife\"; board announced an independent investigation; shares fell over 5% the next day.",
+    "Nov 9-10: The Information reported Shanghai Century Litong (founded 2023 by Alice Huang's family network) became an Nvidia-preferred cloud partner and facilitated $7.5 billion in Nvidia chip purchases.",
+    "Nov 11: NYT reported an affair with Kimberly Powell, Nvidia VP of healthcare; Nov 12: Reuters reported a third affair with an unnamed employee.",
+    "Nov 12: Neal and Wyden sent Lutnick a letter; board accepted resignation; Huang agreed to testify before Thanksgiving; Mast said closed-door session likely recorded and transcribed."
+   ]
+  },
+  {
+   "id": "src_art_0008",
+   "url": "https://www.clickorlando.com/business/2026/11/09/china-dismisses-a-spy-plot-claim-involving-nvidia-ceo-jensen-huang-as-smear-campaign/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:A:ap_china_smear"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "Associated Press",
+   "headline_original": "China dismisses a spy plot claim involving Nvidia CEO Jensen Huang as smear campaign",
+   "headline_ko": "중국, 젠슨 황 관련 스파이 공작 주장을 '흑색선전'이라며 일축",
+   "published_at": "2026-11-09",
+   "key_facts": [
+    "NYT reported \"U.S. intelligence determined that the woman was gathering information for Beijing.\"",
+    "Nvidia shares fell more than 4% in trading Monday and have lost roughly 11% of their value since the previous Wednesday."
+   ]
+  },
+  {
+   "id": "src_art_0009",
+   "url": "https://aiweekly.co/alerts/blanche-doj-has-not-concluded-alice-huang-was-a-chinese-spy",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:A:aiweekly_blanche"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "AI Weekly (Reuters)",
+   "headline_original": "Blanche: DOJ Has Not Concluded Alice Huang Was a Chinese Spy",
+   "headline_ko": "블랜치 '법무부, 앨리스 황이 중국 스파이라고 결론 내린 적 없다'",
+   "published_at": "2026-11-13",
+   "key_facts": [
+    "Blanche spoke to reporters on November 12, 2026 (Reuters reporting)."
+   ]
+  },
+  {
+   "id": "src_art_0010",
+   "url": "https://www.lbc.co.uk/usa/politics/justice-department-nvidia-china/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:A:lbc_doj"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "LBC (Reuters)",
+   "headline_original": "US Justice Department has not concluded whether woman at centre of Nvidia affair scandal was Chinese spy",
+   "headline_ko": "미 법무부, 엔비디아 외도 스캔들 중심 여성이 중국 스파이인지 결론 못 내",
+   "published_at": "2026-11-13",
+   "key_facts": [
+    "Attorney General Todd Blanche said the FBI was, \"of course,\" investigating reports that Alice Huang was working for the Chinese government.",
+    "Singapore's Home Affairs Ministry said the investigation \"did not concern espionage.\"",
+    "Alice Huang \"could not be reached for comment.\""
+   ]
+  },
+  {
+   "id": "src_art_0011",
+   "url": "https://www.euronews.com/2026/10/30/china-rejects-report-of-spy-plot-targeting-nvidias-jensen-huang",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:A:euronews_1030"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "Euronews",
+   "headline_original": "China rejects report of spy plot targeting Nvidia's Jensen Huang",
+   "headline_ko": "중국, 젠슨 황 겨냥 스파이 공작 보도 부인",
+   "published_at": "2026-10-30",
+   "key_facts": [
+    "The New York Times reported on Thursday that US intelligence officials had earlier concluded that a senior Chinese executive at a Singapore-based data centre was passing information to Beijing.",
+    "Executive named as Alice Huang or Huang Le, with \"a close working relationship with the Nvidia chief.\""
+   ]
+  },
+  {
+   "id": "src_art_0012",
+   "url": "https://fortune.com/2026/11/11/megaspeed-nvidia-chips-china-singapore-malaysia/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:A:fortune_1111_megaspeed"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "Fortune",
+   "headline_original": "How Megaspeed built a network in Singapore and Malaysia to move $7.5 billion of Nvidia chips to Chinese companies",
+   "headline_ko": "메가스피드는 어떻게 싱가포르·말레이시아에 망을 짜 엔비디아 칩 75억 달러어치를 중국 기업에 넘겼나",
+   "published_at": "2026-11-11",
+   "key_facts": [
+    "originally incorporated in 2015 as 7Road International, a Chinese gaming firm with ties to state-backed investors",
+    "changed its name to Megaspeed in early 2023, the same year Alice Huang joined",
+    "Swiftdata acquired Megaspeed in November 2023; Tan Yong Pong became sole director",
+    "Per The Information, Alice Huang used her relationship with Jensen Huang to move \"at least $7.5 billion worth of Nvidia chips\" through Megaspeed and Speedmatrix.",
+    "Per the NYT, between June 2024 and June 2025 Speedmatrix received over 200 shipments of restricted Nvidia technology.",
+    "Singapore rejected reports that it was investigating Alice Huang over espionage allegations."
+   ]
+  },
+  {
+   "id": "src_doc_0005",
+   "url": "https://www.justice.gov/opa/pr/three-charged-conspiring-unlawfully-divert-cutting-edge-us-artificial-intelligence",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "research:B:doj_sdny_liaw"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "document",
+   "issuer": "미국 법무부",
+   "title": "Three Charged with Conspiring to Unlawfully Divert Cutting Edge U.S. Artificial Intelligence Technology to China",
+   "published_at": "2026-03-19",
+   "key_facts": [
+    "Yih-Shyan \"Wally\" Liaw, 71, of Fremont, California: co-founder, board member and Senior Vice President of Business Development at a publicly traded U.S. server manufacturer (summary of release)",
+    "Ruei-Tsang \"Steven\" Chang, 53, of Taiwan, general manager in the manufacturer's Taiwan office; Ting-Wei \"Willy\" Sun, 44, of Taiwan, third-party broker and \"fixer\" (summary of release)",
+    "Liaw and Sun were arrested; Chang remains a fugitive (summary of release)",
+    "Company-1 purchased approximately $2.5 billion worth of servers from the U.S. Manufacturer",
+    "at least approximately $510 million worth of the U.S. Manufacturer's servers [diverted to China, late April to mid-May 2025]",
+    "the defendants staged thousands of \"dummy\" servers—non-working, physical replicas of the U.S. Manufacturer's servers",
+    "using a hair dryer to remove and affix labels and serial number stickers to the server boxes",
+    "Surveillance cameras recorded their work and captured them preparing the dummy servers",
+    "Photographs of some of the dummy servers that were staged at a warehouse rented by Company-1 in connection with an August 2025 audit conducted by the U.S. Manufacturer are below",
+    "directed certain executives of a company based in Southeast Asia",
+    "Charges for each defendant: conspiracy to violate ECRA (max 20 years), conspiracy to smuggle goods (max 5 years), conspiracy to defraud the United States (max 5 years) (summary of release)"
+   ]
+  },
+  {
+   "id": "src_art_0013",
+   "url": "https://www.theregister.com/2026/03/20/supermicro_nvidia_gpu_charges/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:B:register_liaw"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "The Register",
+   "headline_original": "Supermicro co-founder arrested, charged over $2.5B Nvidia GPU sales to China",
+   "headline_ko": "슈퍼마이크로 공동창업자 체포, 25억 달러 규모 엔비디아 GPU 중국 판매 혐의로 기소",
+   "published_at": "2026-03-20",
+   "key_facts": [
+    "the United States Attorney's Office for the Southern District of New York has unsealed an indictment (Supermicro statement)",
+    "servers fitted with Nvidia GPUs worth $2.5 billion to Chinese customers",
+    "thousands of non-working 'dummy' servers",
+    "Supermicro says it is cooperating fully, is not named as a defendant, and that the conduct \"is a contravention of the company's policies\" (summary)"
+   ]
+  },
+  {
+   "id": "src_art_0014",
+   "url": "https://engadget.com/2275633/nvidias-smuggling-problem-is-getting-worse",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:B:engadget_bbg_1001"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "Engadget",
+   "headline_original": "NVIDIA's smuggling problem is getting worse",
+   "headline_ko": "엔비디아의 밀수 문제가 악화되고 있다",
+   "published_at": "2026-10-02",
+   "key_facts": [
+    "Earlier this year, officials released a surveillance video showing someone using a red hair dryer to peel serial number stickers off NVIDIA server boxes in an effort to sneak AI chips to China.",
+    "Officials said NVIDIA should have noticed that OBON, a Bangkok-based buyer, lacked the physical capacity (100 megawatts) for the servers it purchased (paraphrase)"
+   ]
+  },
+  {
+   "id": "src_art_0015",
+   "url": "https://www.tomshardware.com/tech-industry/super-micro-co-founder-wally-liaw-pleads-not-guilty-to-nvidia-smuggling-charges",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:B:toms_liaw_plea"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "Tom's Hardware",
+   "headline_original": "Super Micro co-founder Wally Liaw pleads not guilty to Nvidia smuggling charges",
+   "headline_ko": "슈퍼마이크로 공동창업자 월리 리아우, 엔비디아 밀수 혐의에 무죄 주장",
+   "published_at": "2026-04-01",
+   "key_facts": [
+    "Liaw pleaded not guilty in Manhattan federal court before U.S. District Judge Edgardo Ramos (summary)",
+    "set a November 2 trial date for the case",
+    "has been released on a $5 million bond",
+    "Sun also pleaded not guilty; Chang is \"not in U.S. custody\" (summary)"
+   ]
+  },
+  {
+   "id": "src_art_0016",
+   "url": "https://fortune.com/2026/05/13/nvidia-chip-smuggling-china-russia-iran-export-controls-supermicro/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:B:fortune_2026_05_13"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "Fortune",
+   "headline_original": "Nvidia chip smuggling to China, Russia, Iran tests U.S. export controls",
+   "headline_ko": "중국·러시아·이란으로 향하는 엔비디아 칩 밀수, 미국 수출통제를 시험하다",
+   "published_at": "2026-05-13",
+   "key_facts": [
+    "created a fake realty company in Tampa with Cham \"Tony\" Li as a front",
+    "led to 400 Nvidia A100 GPUs being shipped to China between October 2024 and January 2025",
+    "faking the end-user certifications and routing orders through phony buyers in Thailand",
+    "another company had a legit-looking website with pitch decks and financial records",
+    "English allegedly placed a purchase order for 750 servers for $170 million",
+    "That purchase failed due to one unnamed company's compliance controls.",
+    "masterminded a $2.5 billion scheme to route the company's servers to China through a sham company in Southeast Asia",
+    "Neither Supermicro nor any of its other executives were named in the case"
+   ]
+  },
+  {
+   "id": "src_art_0017",
+   "url": "https://datacenterdynamics.com/en/news/supermicro-contractor-ting-wei-willy-sun-pleads-guilty-to-four-counts-associated-with-nvidia-chip-smuggling-charges",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:B:dcd_sun_plea"
+    ],
+    "notes": "검색 요약·2차 인용으로만 대조"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "검색 요약·2차 인용으로만 대조",
+   "type": "article",
+   "publisher": "DatacenterDynamics",
+   "headline_original": "Supermicro contractor Ting-Wei 'Willy' Sun pleads guilty to four counts associated with Nvidia chip smuggling charges",
+   "headline_ko": "슈퍼마이크로 협력업자 윌리 선, 엔비디아 칩 밀수 관련 4개 혐의 유죄 인정",
+   "published_at": "2026-10-09",
+   "key_facts": [
+    "Sun pleaded guilty on October 9, 2026 in federal court in Manhattan to four counts: conspiracies to violate US export controls, smuggle goods, defraud the United States and obstruct justice (search summary)"
+   ]
+  },
+  {
+   "id": "src_doc_0006",
+   "url": "https://www.justice.gov/opa/pr/us-authorities-shut-down-major-china-linked-ai-tech-smuggling-network",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "research:B:doj_sdtx_gatekeeper"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "document",
+   "issuer": "미국 법무부",
+   "title": "U.S. Authorities Shut Down Major China-Linked AI Tech Smuggling Network",
+   "published_at": "2025-12-08",
+   "key_facts": [
+    "Alan Hao Hsu and Hao Global LLC pleaded guilty on October 10, 2025, to smuggling and unlawful export activity; sentencing set for February 18 (summary of release)",
+    "From October 2024 to May 2025, the defendants exported or attempted to export at least $160 million in Nvidia H100 and H200 GPUs (summary)",
+    "received more than $50 million in wire transfers from China to fund the scheme (summary)",
+    "used straw purchasers and intermediaries, falsified shipping paperwork, and sent chips to U.S. warehouses where workers removed Nvidia labels and relabeled the chips under a fictitious company name (summary)",
+    "Benlin Yuan arrested November 28 and charged with ECRA conspiracy; Fanyue (Tom) Gong arrested December 3 and charged with conspiracy to smuggle; both in custody (summary)",
+    "authorities seized over $50 million in GPUs and cash (summary)"
+   ]
+  },
+  {
+   "id": "src_art_0018",
+   "url": "https://www.arnoldporter.com/en/perspectives/blogs/enforcement-edge/2025/12/doj-shutdown-of-major-china-linked-ai-tech-smuggling-network",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:B:arnoldporter"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "Arnold & Porter",
+   "headline_original": "DOJ Shutdown of Major China-Linked AI Tech Smuggling Network",
+   "headline_ko": "미 법무부, 중국 연계 대형 AI 기술 밀수망 차단",
+   "published_at": "2025-12-15",
+   "key_facts": [
+    "Operation Gatekeeper announced by DOJ on December 8, 2025 (summary)",
+    "Alan Hao Hsu, owner of Texas-based Hao Global LLC, pleaded guilty to smuggling export-controlled Nvidia GPUs (summary)",
+    "At least $160 million in restricted Nvidia AI chips (H100 and H200) (summary)",
+    "straw purchasers, domestic warehouses; chips relabeled under a nonexistent fake brand and classified as generic computer parts (summary)"
+   ]
+  },
+  {
+   "id": "src_doc_0007",
+   "url": "https://www.justice.gov/opa/pr/us-citizens-and-chinese-nationals-arrested-exporting-artificial-intelligence-technology",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "research:B:doj_mdfl_tampa"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "document",
+   "issuer": "미국 법무부",
+   "title": "U.S. Citizens and Chinese Nationals Arrested for Exporting Artificial Intelligence Technology to China",
+   "published_at": "2025-11-20",
+   "key_facts": [
+    "Despite its name, Janford Realtor, LLC, was never involved in any real estate transactions.",
+    "400 NVIDIA A100 GPUs being exported to the PRC [October 2024 to January 2025]",
+    "through Malaysia and Thailand",
+    "ten Hewlett Packard Enterprises supercomputers containing NVIDIA H100 GPUs [disrupted]",
+    "will also seek forfeiture of 50 NVIDIA H200 GPUs",
+    "over $3.89 million in wire transfers from the PRC",
+    "Defendants: Hon Ning Ho (34, Tampa), Brian Curtis Raymond (46, Huntsville AL), Cham Li (38, San Leandro CA), Jing Chen (45, Tampa) (summary)"
+   ]
+  },
+  {
+   "id": "src_art_0019",
+   "url": "https://focustaiwan.tw/society/202608240023",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:B:cna_taiwan_indict"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "Focus Taiwan (CNA)",
+   "headline_original": "8 indicted over illegal Nvidia server exports to China",
+   "headline_ko": "엔비디아 서버 중국 불법 수출로 8명 기소",
+   "published_at": "2026-08-24",
+   "key_facts": [
+    "a distribution manager surnamed Chang (張) at Nvidia Corp.'s Taiwan office",
+    "Keelung District Prosecutors' Office filed the indictments (summary)",
+    "Nvidia B300 GPUs in Supermicro AI servers (summary)",
+    "Of those, 50 were shipped to China via Indonesia.",
+    "eight were shipped to Japan and then Hong Kong for delivery to Chinese buyers",
+    "remaining 56 servers from the third transaction were seized by Taiwanese authorities (summary)",
+    "All eight defendants were charged with breach of trust and forgery; some also with aggravated breach of trust under the Securities and Exchange Act (summary)"
+   ]
+  },
+  {
+   "id": "src_art_0020",
+   "url": "https://thenextweb.com/news/taiwan-indicts-nvidia-manager-chip-smuggling-eu-gap",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:B:tnw_taiwan_indict"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "The Next Web",
+   "headline_original": "Taiwan indicts Nvidia manager over chip smuggling",
+   "headline_ko": "대만, 칩 밀수 혐의로 엔비디아 관리자 기소",
+   "published_at": "2026-08-24",
+   "key_facts": [
+    "a senior manager surnamed Chang",
+    "74 servers containing B300 chips",
+    "via Japan and Indonesia",
+    "another 56 were seized before they could leave",
+    "forgery and breach of trust",
+    "Nvidia as a company has not been accused of wrongdoing",
+    "Eight others were charged alongside him."
+   ]
+  },
+  {
+   "id": "src_art_0021",
+   "url": "https://www.pbs.org/newshour/economy/taiwan-charges-9-over-illegal-ai-server-exports-to-china-including-nvidia-and-super-micro-staffers",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:B:ap_taiwan_indict"
+    ],
+    "notes": "검색 요약·2차 인용으로만 대조"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "검색 요약·2차 인용으로만 대조",
+   "type": "article",
+   "publisher": "Associated Press",
+   "headline_original": "Taiwan charges 9 over illegal AI server exports to China, including Nvidia and Super Micro staffers",
+   "headline_ko": "대만, 엔비디아·슈퍼마이크로 직원 포함 9명을 AI 서버 대중 불법 수출 혐의로 기소",
+   "published_at": "2026-08-24",
+   "key_facts": [
+    "Prosecutors identified Chang as a key figure in securing approval for the B300 orders; seeking five years for forgery and breach of trust (search summary)"
+   ]
+  },
+  {
+   "id": "src_art_0022",
+   "url": "https://epoch.ai/data-insights/malaysia-china-chip-smuggling",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:B:epoch_malaysia"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "Epoch AI",
+   "headline_original": "Malaysia–China server trade gap (data insight)",
+   "headline_ko": "말레이시아-중국 서버 무역통계의 불일치",
+   "published_at": "2026-09-17",
+   "key_facts": [
+    "Between April 2024 and June 2025, China recorded $3.8 billion of server imports from Malaysia.",
+    "Malaysia recorded only $0.6 billion of exports to China.",
+    "36,700 declared by Malaysia, 35,500 recorded by China",
+    "about $17,000 each leaving Malaysia, compared with $106,000 arriving in China",
+    "This flow began a few months after [the US banned exports of Nvidia's A800/H800 GPUs to China]",
+    "collapsed within weeks of [Malaysia requiring a permit to export or transship high-performance AI chips, July 2025]",
+    "While not proving diversion, this pattern is consistent with [established chip smuggling cases]"
+   ]
+  },
+  {
+   "id": "src_doc_0008",
+   "url": "https://www.miti.gov.my/miti/resources/Media%20Release/[FINAL]%5FMITI%5FPress%5FStmt%5FMalaysia%5FRegulates%5FTrade%5Fof%5FUS%5FAI%5FChips%5F2025-07-14.pdf",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "research:C:miti_2025_07_14"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "document",
+   "issuer": "말레이시아 투자통상산업부",
+   "title": "Export, Transshipment and Transit of High-Performance AI Chips of US Origin Now Subject to a Strategic Trade Permit",
+   "published_at": "2025-07-14",
+   "key_facts": [
+    "effective immediately, all exports, tranships and transits of high-performance AI chips of US origin are subject to a Strategic Trade Permit.",
+    "These powers are provided for under Section 12 of the Strategic Trade Act 2010 (STA 2010), a Catch-All Control provision which requires individuals or companies to notify the relevant authority at least 30 days before exporting",
+    "This initiative serves to close regulatory gaps while Malaysia undertakes further review"
+   ]
+  },
+  {
+   "id": "src_art_0023",
+   "url": "https://fortune.com/2026/11/16/new-commerce-rule-nvidia-chip-singapore-malaysia-china/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:fortune_1116"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "Fortune",
+   "headline_original": "The Nvidia scandal fuels tougher China chip rules as Commerce targets Singapore and Malaysia",
+   "headline_ko": "엔비디아 스캔들이 대중국 칩 규제 강화를 부추기다 — 상무부, 싱가포르·말레이시아 겨냥",
+   "published_at": "2026-11-16",
+   "key_facts": [
+    "an interim final rule that closes a longstanding loophole",
+    "Data centers already serving such companies will have 90 days from the rule's effective date to get a license.",
+    "a carve-out for end-users that are, or are owned by, a U.S.-headquartered company",
+    "written by and at the direction of the Department of Treasury and the National Security Council (attributed to the Commerce press release)",
+    "The Chinese government has largely withheld permission for its companies to import Nvidia chips."
+   ]
+  },
+  {
+   "id": "src_art_0024",
+   "url": "https://epoch.ai/blog/chip-smuggling",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:B:epoch_smuggling"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "Epoch AI",
+   "headline_original": "How many AI chips have been smuggled into China?",
+   "headline_ko": "중국에 밀반입된 AI 칩은 얼마나 될까",
+   "published_at": "2026-04-29",
+   "key_facts": [
+    "Our model estimates 660,000 (90% CI: 290,000–1.6 million) H100e of cumulative compute smuggled through the end of 2025.",
+    "Cumulative allegations of diverted or missing chips total almost 300,000 H100e by the end of 2025",
+    "This figure may overstate actual smuggling for two primary reasons: the allegations are largely not yet proven in a court of law ... some of the chips redirected to China may not have arrived there",
+    "A 10% detection rate and a 80% detection rate imply very different totals",
+    "$2.5 billion of chips were sent from Supermicro to a front company, which was then sending those chips onwards to China.",
+    "The indictment only explicitly claims that $510 million worth of servers made it to China",
+    "selling export-controlled chips is not illegal within China"
+   ]
+  },
+  {
+   "id": "src_art_0025",
+   "url": "https://news.bloomberglaw.com/artificial-intelligence/nvidia-ceo-sees-no-evidence-of-ai-chip-diversion-into-china-1",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:A:bloomberglaw_0517"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "Bloomberg",
+   "headline_original": "Nvidia CEO Sees No Evidence of AI Chip Diversion Into China",
+   "headline_ko": "엔비디아 CEO '중국으로의 AI 칩 전용 증거 없어'",
+   "published_at": "2025-05-17",
+   "key_facts": [
+    "Huang spoke to Bloomberg News in Taipei on Saturday (May 17, 2025): there's no evidence of its prized semiconductors being diverted to the Chinese market.",
+    "Nvidia's hardware is too large to be easily smuggled across borders (paraphrase)."
+   ]
+  },
+  {
+   "id": "src_art_0026",
+   "url": "https://www.tomshardware.com/tech-industry/artificial-intelligence/nvidia-ceo-jensen-huang-says-theres-no-evidence-of-any-ai-chip-diversion",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:A:toms_computex_2025"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "Tom's Hardware",
+   "headline_original": "Nvidia CEO Jensen Huang says 'There's no evidence of any AI chip diversion'",
+   "headline_ko": "엔비디아 CEO 젠슨 황 'AI 칩 전용의 증거는 없다'",
+   "published_at": "2025-05-19",
+   "key_facts": [
+    "Headline only fetched; body via search summary: at Computex 2025 in Taipei Huang said the Grace Blackwell system weighs close to two tonnes, so it cannot be carried off in a pocket or backpack."
+   ]
+  },
+  {
+   "id": "src_doc_0009",
+   "url": "https://www.bis.gov/media/documents/rin-0694-ak50.pdf",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "research:D:bis_ifr_ak50"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "document",
+   "issuer": "미국 상무부 산업안보국",
+   "title": "Addressing Remote Access to Advanced Semiconductors (RIN 0694-AK50), Interim final rule",
+   "published_at": "2026-11-16",
+   "key_facts": [
+    "ACTION: Interim final rule.",
+    "First, this rule establishes new restrictions which will apply for exports, reexports, or transfers (in-country) to overseas data centers that remotely supply significant volumes of compute to companies headquartered in Country Group D:5 or Macau.",
+    "a license will be required to export, reexport, or transfer (in-country) advanced semiconductors to Indonesia, Malaysia, Singapore, Thailand, or Brazil ... – countries which present a higher-than-normal risk of diversion.",
+    "The license requirement for these five countries will not apply to semiconductors destined to companies headquartered in, or whose ultimate parent company is headquartered in, the United States, provided certain reporting requirements are met.",
+    "Commerce will be actively monitoring for countries that tolerate evasion of this IFR and will consider a range of consequences for such countries, such as import restrictions, new license requirements on advanced semiconductor exports, downgrading the country's status in the U.S. export control regime, and Entity List designations and temporary export prohibitions",
+    "Finally, the IFR formally rescinds the regulations implementing the Biden-era AI Diffusion Rule. The AI Diffusion Rule has never been enforced.",
+    "DATES: This rule is effective [INSERT DATE OF PUBLICATION IN THE FEDERAL REGISTER].",
+    "Comments on the revisions and additions in this rule must be received by BIS no later than [INSERT DATE 60 DAYS AFTER DATE OF PUBLICATION IN THE FEDERAL REGISTER].",
+    "You may not knowingly export, reexport, or transfer (in-county) items specified in paragraph (a) of § 744.24 for use in a data center to or within any destination worldwide that will provide access to more than 12,000,000 \"aggregate TPP\" (either at one data center or through 'linked data centers'",
+    "Any data center providing significant volume of compute power to companies headquartered, or with an ultimate parent headquartered, in Macau or Country Group D:5 prior to the publication date of this rule that wishes to continue providing these services must obtain a license with 90 days of the effective date of this IFR or face future export restrictions.",
+    "the license requirement will not apply to 'commercial recommender systems,' such as those used by online retailers and social media companies, as these functions do not pose the same national security threat.",
+    "(c) License review policy. Applications for licenses required by this section will be reviewed on a case-by-case basis.",
+    "There is a case-by-case license review policy for license applications for exports of commodities with a TPP ... less than 21,000, and a 'total DRAM bandwidth' ... less than 6,500 GB/s, when destined to end-users located in China or Macau",
+    "Data centers, foreign foundries, and chip exporters are required to perform robust due diligence on their customers, including any direct or indirect ownership or control by persons in Country Group D:5 or Macau"
+   ]
+  },
+  {
+   "id": "src_art_0027",
+   "url": "https://pbs.org/newshour/science/trump-administration-moves-to-block-china-from-indirect-access-to-american-ai-tech",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:ap_1116"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "Associated Press",
+   "headline_original": "Trump administration moves to block China from indirect access to American AI tech",
+   "headline_ko": "트럼프 행정부, 중국의 미국 AI 기술 우회 접근 차단 나서",
+   "published_at": "2026-11-16",
+   "key_facts": [
+    "Under the new rule, overseas data centers that serve companies in countries including China, Russia, Iran and Cuba are required to identify their end users.",
+    "There also will be an additional, case-by-case licensing requirements for sales of chips for Indonesia, Malaysia, Singapore, Thailand or Brazil"
+   ]
+  },
+  {
+   "id": "src_art_0028",
+   "url": "https://www.wsj.com/tech/china-ai-chip-curb-suitcases-7c47dab1",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:C:wsj_suitcases_2025"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "The Wall Street Journal",
+   "headline_original": "Chinese AI Companies Dodge U.S. Chip Curbs by Flying Suitcases of Hard Drives Abroad",
+   "headline_ko": "중국 AI 기업들, 하드디스크 가득 든 여행가방을 해외로 날라 미국 칩 규제를 피하다",
+   "published_at": "2025-06-13",
+   "key_facts": [
+    "The drives contained 80 terabytes of spreadsheets, images and video clips for training an artificial-intelligence model.",
+    "At a Malaysian data center, the engineers' employer had rented about 300 servers containing advanced Nvidia chips.",
+    "To avoid raising suspicions at Malaysian customs, the Chinese engineers packed their hard drives into four different suitcases."
+   ]
+  },
+  {
+   "id": "src_art_0029",
+   "url": "https://www.tomshardware.com/tech-industry/artificial-intelligence/chinese-ai-outfits-smuggling-suitcases-full-of-hard-drives-to-evade-u-s-chip-restrictions-training-ai-models-in-malaysia-using-rented-servers",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:C:toms_suitcases_2025"
+    ],
+    "notes": "검색 요약·2차 인용으로만 대조"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "검색 요약·2차 인용으로만 대조",
+   "type": "article",
+   "publisher": "Tom's Hardware",
+   "headline_original": "Chinese AI outfits smuggling suitcases full of hard drives to evade U.S. chip restrictions",
+   "headline_ko": "중국 AI 업체들, 미국 칩 규제 피하려 하드디스크 가득 든 여행가방 반출",
+   "published_at": "2025-06-13",
+   "key_facts": [
+    "Search summary: secondary coverage of the WSJ story; some secondary outlets compute 80 TB per drive / 4.8 PB total, which the WSJ wording does not support."
+   ]
+  },
+  {
+   "id": "src_art_0030",
+   "url": "https://technews.tw/2026/08/20/chinese-ai-firms-are-tapping-banned-nvidia-chips-through-southeast-asian-data-centers/",
+   "retrieved_at": "2026-11-17",
+   "lang": "zh",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:C:technews_cnbc_2026_08"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "TechNews",
+   "headline_original": "中國 AI 企業繞道東南亞，遠端取用輝達高階晶片算力",
+   "headline_ko": "중국 AI 기업들, 동남아로 돌아가 엔비디아 고성능 칩 연산력을 원격으로 쓰다",
+   "published_at": "2026-08-20",
+   "key_facts": [
+    "疑似經由泰國、馬來西亞、日本及其他東南亞地區的雲端設施，使用輝達受限晶片的運算能力",
+    "ByteDance reportedly worked with Singapore-based cloud provider Aolani to obtain compute in Malaysia (paraphrase of article).",
+    "Aolani: 客戶不擁有晶片，也無法實際接觸晶片",
+    "Cassia King (Institute for AI Policy and Strategy): such arrangements may be legal because export controls restrict physical transfer, not remote access (paraphrase)."
+   ]
+  },
+  {
+   "id": "src_art_0031",
+   "url": "https://ifp.org/how-to-increase-americas-ai-lead-over-china/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:C:ifp_report_2026_10"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "Institute for Progress",
+   "headline_original": "How to Increase America's AI Lead Over China",
+   "headline_ko": "미국의 대중국 AI 우위를 넓히는 방법",
+   "published_at": "2026-10-19",
+   "key_facts": [
+    "China will have access to roughly 1 million H100-eq of AI compute via remote access by the end of 2026",
+    "rising to around 2.8 million by the end of 2027",
+    "(range: ~680,000 to 1.46 million in 2026 ... and 1.97 to 3.91 million in 2027)",
+    "access to around 4.6 million H100-eq of AI compute by the end of 2026",
+    "8.8 million H100-eq by the end of 2027",
+    "US AI chips will make up around 65% of China's total stock by the end of 2027.",
+    "Remotely accessing chips via data centers located outside China",
+    "These data centers are heavily concentrated in Southeast Asia"
+   ]
+  },
+  {
+   "id": "src_doc_0010",
+   "url": "https://www.govinfo.gov/content/pkg/FR-2026-01-15/pdf/2026-00789.pdf",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "research:D:fr_2026_00789"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "document",
+   "issuer": "미국 연방관보(상무부 산업안보국)",
+   "title": "Revision to License Review Policy for Advanced Computing Commodities (BIS final rule, FR Doc. 2026-00789)",
+   "published_at": "2026-01-15",
+   "key_facts": [
+    "The Bureau of Industry and Security (BIS) is revising its license review policy for exports of certain semiconductors to China and Macau—changing it from a presumption of denial to a case-by-case review. The semiconductors covered by this rule are the Nvidia H200 and its equivalents, as well as less advanced chips",
+    "The effective date of this rule is January 15, 2026.",
+    "the aggregate shipments of the product to China and Macau will be no more than 50% of the total product shipped to customers for end use in the United States of that product",
+    "the ultimate consignee will employ rigorous Know Your Customer (KYC) procedures to screen and prevent unauthorized remote access to unauthorized parties",
+    "prior to export from the United States, every shipment of advance computing commodities will be reviewed by a qualified third-party testing lab",
+    "The applicant must also provide a list of remote end users located in Belarus, China, Cuba, Iran, Macau, North Korea, Russia, and Venezuela"
+   ]
+  },
+  {
+   "id": "src_doc_0011",
+   "url": "https://media.bis.gov/press-release/department-commerce-revises-license-review-policy-semiconductors-exported-china",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "research:D:bis_pr_20260113"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "document",
+   "issuer": "미국 상무부 산업안보국",
+   "title": "Department of Commerce Revises License Review Policy for Semiconductors Exported to China",
+   "published_at": "2026-01-13",
+   "key_facts": [
+    "The rule follows President Trump's December 8, 2025 announcement (paraphrase)",
+    "covers chips such as the Nvidia H200 and AMD MI325X (paraphrase)"
+   ]
+  },
+  {
+   "id": "src_art_0032",
+   "url": "https://www.thestandard.com.hk/innovation/article/347673/Nvidia-chips-pile-up-in-Hong-Kong-as-China-withholds-import-approval",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:C:reuters_hk_h200_2026_11_05"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "Reuters",
+   "headline_original": "Exclusive: Nvidia chips pile up in Hong Kong as China withholds import approval",
+   "headline_ko": "[단독] 중국 수입 승인 보류에 엔비디아 칩 홍콩에 쌓여",
+   "published_at": "2026-11-05",
+   "key_facts": [
+    "About 600,000 of Nvidia's advanced artificial intelligence chips are stored in Hong Kong awaiting shipment",
+    "Beijing withholds approval for large-scale imports despite demand from technology firms.",
+    "Three people said small quantities of chips had been shipped via intermediaries",
+    "With authorised supply constrained, Chinese buyers have turned to intermediaries and indirect routes"
+   ]
+  },
+  {
+   "id": "src_art_0033",
+   "url": "https://live.euronext.com/en/financial-news/exclusive-military-linked-chinese-university-bought-nvidia-h200-chips-despite-us",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:C:reuters_nwpu_2026_11_11"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "Reuters",
+   "headline_original": "Exclusive: Military-linked Chinese university bought Nvidia H200 chips despite US blacklist",
+   "headline_ko": "[단독] 군 연계 중국 대학, 미국 블랙리스트에도 엔비디아 H200 구매",
+   "published_at": "2026-11-11",
+   "key_facts": [
+    "A Reuters review of 26 Chinese procurement and corporate records from this year found universities and research institutions",
+    "Northwestern Polytechnical University bought two H200 chips last month for 874,700 yuan ($123,000)",
+    "purchased for its management school from Shaanxi Bosuan Network Technology",
+    "in 2001 over its alleged involvement in missile-proliferation activities and military research.",
+    "conducts research related to military aircraft, missiles and satellites",
+    "awarded two seven-month contracts in January for access to servers containing eight H200 chips each",
+    "The contracts, worth 441,700 yuan and 441,000 yuan, covered fine-tuning AI models and reinforcement-learning training.",
+    "Beihang University, another of the Seven Sons of National Defense universities, bought four A800 processors",
+    "requiring at least 24 A100 chips in a 375,000 yuan contract for structural and fluid-dynamics simulations.",
+    "One listed H800 access at 10 yuan per chip-hour.",
+    "Last week, Reuters reported that small quantities of H200 chips had reached China through indirect routes",
+    "The universities named in the records did not respond to requests for comment."
+   ]
+  },
+  {
+   "id": "src_doc_0012",
+   "url": "https://www.sec.gov/Archives/edgar/data/0001045810/000104581026000052/nvda-20260426.htm",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "research:D:nvda_10q_fy27q1"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "document",
+   "issuer": "엔비디아(SEC 10-Q 공시)",
+   "title": "NVIDIA Corporation Form 10-Q for the quarterly period ended April 26, 2026",
+   "published_at": null,
+   "key_facts": [
+    "In August 2022, the USG announced export restrictions and export licensing requirements targeting China's semiconductor and supercomputing industries.",
+    "In October 2023, the USG announced new and updated licensing requirements for exports to China and Country Groups D:1, D:4, and D:5 ... including, but not limited to, the A100, A800, H100, H800, L4, L40, L40S RTX 4090",
+    "In April 2025, the USG informed us that it requires a license for export to China (including Hong Kong and Macau) and D:5 countries ... of our H20 integrated circuits",
+    "we incurred a $4.5 billion charge in the first quarter of fiscal year 2026 associated with H20 for excess inventory and purchase obligations",
+    "Beginning in August 2025, the USG granted licenses that would allow us to ship certain H20 products to certain China-based customers. USG officials expressed an expectation that the USG will receive 15% or more of the revenue generated from licensed sales of our products, but the USG did not publish a regulation codifying such requirement.",
+    "Beginning in February 2026, the USG granted licenses that would allow us to ship small amounts of H200 products to specific China-based customers. To date, we have not generated any revenue under the H200 licensing program, and do not yet know whether any imports will be allowed into China.",
+    "The license requires that the H200s go through an inspection process in the United States prior to any shipment to the customer. As a result, any H200 shipped under the new licensing program will be subject to a 25% tariff upon importation into the United States.",
+    "In January 2025, the USG published the AI Diffusion IFR in the Federal Register. The IFR would have imposed a worldwide licensing requirement on our data center products, such as our H200, GB200 and GB300.",
+    "In May 2025, the USG announced that it would rescind the AI Diffusion IFR and implement a replacement rule.",
+    "in October 2025, the Senate passed the GAIN AI Act in the National Defense Authorization Act.",
+    "Congress is also considering legislation such as the Remote Access Security Act, or RASA, which could prohibit the provision of cloud services to any company with an ultimate parent headquartered in China.",
+    "No shipments of Data Center Hopper products to China occurred during the quarter"
+   ]
+  },
+  {
+   "id": "src_art_0034",
+   "url": "https://cset.georgetown.edu/article/bis-2023-update-explainer/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:lawfirms_2022_2023"
+    ],
+    "notes": "검색 요약·2차 인용으로만 대조"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "검색 요약·2차 인용으로만 대조",
+   "type": "article",
+   "publisher": "Georgetown CSET",
+   "headline_original": "BIS 2023 update explainer",
+   "headline_ko": "산업안보국 2023년 개정 해설",
+   "published_at": "2023-10-17",
+   "key_facts": [
+    "Search summary: BIS rule of Oct 7, 2022 controlled advanced computing chips to China; Oct 17, 2023 rules changed parameters and added a performance-density threshold, capturing A800 and H800; advanced computing rule effective Nov 17, 2023."
+   ]
+  },
+  {
+   "id": "src_art_0035",
+   "url": "https://www.wiley.law/alert-BIS-Rescinds-AI-Diffusion-Rule",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:lawfirms_may2025"
+    ],
+    "notes": "검색 요약·2차 인용으로만 대조"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "검색 요약·2차 인용으로만 대조",
+   "type": "article",
+   "publisher": "Wiley Rein",
+   "headline_original": "BIS Rescinds AI Diffusion Rule",
+   "headline_ko": "산업안보국, AI 확산 규칙 철회",
+   "published_at": "2025-05-13",
+   "key_facts": [
+    "Search summary: BIS began rescinding the AI Diffusion Rule on May 13, 2025 (some firms date the announcement May 12); the rule had a May 15 compliance date; BIS also issued guidance that Huawei Ascend 910B/C/D are presumptively subject to General Prohibition 10."
+   ]
+  },
+  {
+   "id": "src_art_0036",
+   "url": "https://www.nbcnews.com/business/corporations/trump-nvidia-h200-chips-ai-china-rcna248107",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:nbc_20251208"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "NBC News",
+   "headline_original": "Trump says he will allow Nvidia to sell some AI chips in China",
+   "headline_ko": "트럼프 \"엔비디아의 일부 AI 칩 중국 판매 허용\"",
+   "published_at": "2025-12-08",
+   "key_facts": [
+    "The post stated the U.S. government would take a 25% cut of approved sales, up from 15% (paraphrase)"
+   ]
+  },
+  {
+   "id": "src_art_0037",
+   "url": "https://www.cbsnews.com/news/howard-lutnick-commerce-department-chips-chaos-former-employees/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:cbs_1116"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "CBS News",
+   "headline_original": "Inside Lutnick's Commerce Department, lack of action on alleged AI chip smuggling came with a side of 'chaos,' ex-employees say",
+   "headline_ko": "러트닉의 상무부 내부: AI 칩 밀수 의혹에 손 놓은 채 '혼돈'까지 — 전직 직원들 증언",
+   "published_at": "2026-11-16",
+   "key_facts": [
+    "The Federal Register shows the last Entity List additions on Oct. 9, 2025 (paraphrase); a former official said no companies were added for a full year, the first time in 18 years (paraphrase).",
+    "agency enforcement officers found suspicious activity at Southeast Asian sites where Nvidia chips had been delivered",
+    "Key roles remain vacant in Commerce's Bureau of Industry and Security",
+    "The Commerce Department did not respond to a request for comment."
+   ]
+  },
+  {
+   "id": "src_art_0038",
+   "url": "https://thehill.com/policy/technology/6222897-bis-limits-remote-computing-exports/amp/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:thehill_1116"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "The Hill",
+   "headline_original": "Trump administration seeks to restrict China's remote chip access after Nvidia scandal",
+   "headline_ko": "트럼프 행정부, 엔비디아 스캔들 뒤 중국의 원격 칩 접근 제한 나서",
+   "published_at": "2026-11-16",
+   "key_facts": [
+    "BIS described the five countries as having a higher-than-normal risk of diversion",
+    "Lutnick has agreed to appear before the Senate Banking Committee, and the House Foreign Affairs Committee has requested that BIS head Jeffrey Kessler appear (paraphrase)",
+    "The article describes the rule as effective in 90 days (conflicts with rule text)"
+   ]
+  },
+  {
+   "id": "src_art_0039",
+   "url": "https://www.nixonpeabody.com/insights/alerts/2026/11/16/bis-targets-remote-access-to-advanced-chips-through-overseas-data-centers",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:nixonpeabody_1116"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "Nixon Peabody",
+   "headline_original": "BIS targets remote access to advanced chips through overseas data centers",
+   "headline_ko": "미 상무부 산업안보국, 해외 데이터센터를 통한 첨단 칩 원격 접속 겨냥",
+   "published_at": "2026-11-16",
+   "key_facts": [
+    "BIS has indicated that the IFR is expected to be formally published and go into effect on November 19.",
+    "Shipments to consignees or end users headquartered (or ultimately parented) in the US are excluded ... under new §743.10, due by the first business day of the following month.",
+    "Shipments already en route may proceed if completed within 30 days (paraphrase of savings clause)."
+   ]
+  },
+  {
+   "id": "src_art_0040",
+   "url": "https://productnation.co/my/32332/ai-chip-licence-malaysia-6H1w/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:productnation_1117"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "ProductNation",
+   "headline_original": "US Licence for Advanced AI Chips to Malaysia Is Set to Start on 19 November",
+   "headline_ko": "말레이시아행 첨단 AI 칩 미국 허가제, 11월 19일 시행 예정",
+   "published_at": "2026-11-17",
+   "key_facts": [
+    "the Federal Register lists it for publication on 19 November 2026",
+    "MITI (14 July 2025): all exports, tranships and transits of high-performance AI chips of US origin are subject to a Strategic Trade Permit"
+   ]
+  },
+  {
+   "id": "src_art_0041",
+   "url": "https://www.theregister.com/2026/01/13/congress_votes_china_gpu_cloud/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:register_rasa_0113"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "The Register",
+   "headline_original": "Cloud to be an American: Congress votes to kick China off remote GPU services",
+   "headline_ko": "의회, 중국을 원격 GPU 서비스에서 몰아내는 법안 가결",
+   "published_at": "2026-01-13",
+   "key_facts": [
+    "The House passed the Remote Access Security Act 369-22 on Monday (Jan 12, 2026)",
+    "The bill still needs Senate passage and the President's signature (paraphrase)"
+   ]
+  },
+  {
+   "id": "src_art_0042",
+   "url": "https://www.yahoo.com/news/politics/articles/nvidia-scandal-fuels-bipartisan-push-131722814.html",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:newsmax_1115"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "Newsmax (Reuters)",
+   "headline_original": "Nvidia Scandal Fuels Bipartisan Push for AI Chip Export Curbs",
+   "headline_ko": "엔비디아 스캔들, AI 칩 수출 규제 초당적 추진에 불붙여",
+   "published_at": "2026-11-15",
+   "key_facts": [
+    "Chairs Moolenaar (Select Committee on the CCP), Mast (Foreign Affairs) and Crawford (Intelligence) called the episode a prime example of why Congress must immediately pass four bills and urged their inclusion in the NDAA (paraphrase with quoted fragment)",
+    "The four bills: AI OVERWATCH Act, Chip Security Act, MATCH Act, Remote Access Security Act",
+    "The chairs asked Jensen Huang, Nvidia general counsel Tim Teter and BIS chief Jeffrey Kessler to appear before Congress (paraphrase)",
+    "House Minority Leader Hakeem Jeffries, poised to become speaker in January, said he would work to keep them in the final defense bill (paraphrase)"
+   ]
+  },
+  {
+   "id": "src_art_0043",
+   "url": "https://www.semafor.com/article/11/12/2026/a-high-probability-congress-pushes-tighter-export-controls-following-nvidia-scandal",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:semafor_1112"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "Semafor",
+   "headline_original": "'A high probability': Congress pushes tighter export controls following Nvidia scandal",
+   "headline_ko": "\"가능성 높다\": 엔비디아 스캔들 뒤 의회, 수출통제 강화 추진",
+   "published_at": "2026-11-12",
+   "key_facts": [
+    "The Chip Security Act, MATCH Act and AI Overwatch Act are in the Senate's version of the NDAA; Thune and Wicker acknowledged no deal yet to keep them in the final bill (paraphrase)",
+    "GAIN AI Act (Warren, Banks) was in the Senate NDAA last year but dropped after pressure from Nvidia, the chip industry and the White House (paraphrase)"
+   ]
+  },
+  {
+   "id": "src_art_0044",
+   "url": "https://www.technologyreview.com/2026/11/12/1148483/nvidia-chip-tracking/amp/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:mittr_1112"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "MIT Technology Review",
+   "headline_original": "Nvidia privately confirmed it could track chips to fight smuggling, even as industry publicly questioned feasibility",
+   "headline_ko": "엔비디아, 업계가 공개적으로 실현 가능성에 의문을 제기하는 와중에 밀수 대응용 칩 추적이 가능하다고 비공개로 확인",
+   "published_at": "2026-11-12",
+   "key_facts": [
+    "Chip Security Act is under consideration for inclusion in the Senate's National Defense Authorization Act.",
+    "Nvidia announced Fleet Intelligence in December 2025 (paraphrase)",
+    "SIA opposed the bill in March 2026, calling its mandates new, untested, and potentially infeasible."
+   ]
+  },
+  {
+   "id": "src_art_0045",
+   "url": "https://www.aljazeera.com/economy/2026/1/21/us-house-panel-advances-bill-to-give-congress-authority-on-ai-chip-exports",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:aljazeera_0121"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "Al Jazeera",
+   "headline_original": "US House panel advances bill to give Congress authority on AI chip exports",
+   "headline_ko": "미 하원 위원회, AI 칩 수출에 의회 권한 부여 법안 통과",
+   "published_at": "2026-01-21",
+   "key_facts": [
+    "AI Overwatch Act gives House Foreign Affairs and Senate Banking 30 days to review and potentially block licences for advanced AI chips to China and other adversaries (paraphrase)",
+    "Introduced by Rep. Brian Mast in December; committee voted overwhelmingly to advance (paraphrase)"
+   ]
+  },
+  {
+   "id": "src_art_0046",
+   "url": "https://punchbowl.news/article/tech/export-control-ndaa/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:punchbowl_0426"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "Punchbowl News",
+   "headline_original": "Tech: Export control debate moves to NDAA",
+   "headline_ko": "수출통제 논쟁, 국방수권법으로 무대 이동",
+   "published_at": "2026-04-26",
+   "key_facts": [
+    "This bill would empower Congress to block export licenses issued by the Commerce Department. (AI Overwatch Act)",
+    "This legislation would create a geotracking requirement of chips abroad to combat smuggling. (Chip Security Act)"
+   ]
+  },
+  {
+   "id": "src_art_0047",
+   "url": "https://www.koreajoongangdaily.com/korea/seoul-joins-usled-ai-pact-as-washington-rallies-allies-before-trumpxi-talks/12974938",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:joongang_1116"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "Korea JoongAng Daily",
+   "headline_original": "Seoul joins U.S.-led AI pact as Washington rallies allies before Trump-Xi talks",
+   "headline_ko": "미국이 미중 정상회담 앞두고 동맹 결집하자 한국도 미국 주도 AI 협약 합류",
+   "published_at": "2026-11-16",
+   "key_facts": [
+    "Second Vice Foreign Minister Kim Jin-a signed the declaration in person as head of Korea's government delegation.",
+    "theft, illicit transfer or acquisition by hostile actors would confer a meaningful military or intelligence advantage (quoted from the declaration)"
+   ]
+  },
+  {
+   "id": "src_art_0048",
+   "url": "https://en.sedaily.com/politics/2026/11/17/us-signs-ai-supply-chain-pact-with-korea-days-before-china",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:sedaily_1117"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "Seoul Economic Daily",
+   "headline_original": "U.S. Signs AI Supply Chain Pact With Korea Days Before China Talks",
+   "headline_ko": "미국, 미중 회담 며칠 앞두고 한국과 AI 공급망 협약 서명",
+   "published_at": "2026-11-17",
+   "key_facts": [
+    "protecting technologies among the goods, software, materials and production equipment essential to the AI supply chain"
+   ]
+  },
+  {
+   "id": "src_doc_0013",
+   "url": "https://www.industry.gov.au/publications/san-francisco-declaration-secure-foundations-enduring-prosperity-signed-countries-attending-pax-silica-summit-15-november-2026",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "verified",
+    "checks": [
+     "research:X:au_industry_sfd"
+    ],
+    "notes": "검색 요약·2차 인용으로만 대조"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "감독 검색 확인(2026-11-17) — 일부 매체는 싱가포르를 뺀 9개국으로 보도, 호주 정부 게재본과 한국·통신 보도는 10개국",
+   "type": "document",
+   "issuer": "호주 산업과학자원부(선언문 게재)",
+   "title": "The San Francisco Declaration on the Secure Foundations of Enduring Prosperity, signed by countries attending the Pax Silica Summit, 15 November 2026",
+   "published_at": null,
+   "key_facts": [
+    "Signatory list as published: United States, Australia, India, Israel, Japan, Republic of Korea, Qatar, Singapore, United Arab Emirates, United Kingdom (signed 15 November 2026, San Francisco)"
+   ]
+  },
+  {
+   "id": "src_art_0049",
+   "url": "https://www.euronews.com/2026/11/13/china-warns-us-over-chip-curbs-as-suspected-spys-firm-got-banned-chips",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:A:euronews_1113"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "Euronews",
+   "headline_original": "China warns US over chip curbs as suspected spy's firm got banned chips",
+   "headline_ko": "중국, 미 반도체 규제 경고… 스파이 의혹 인물 회사는 금지 칩 확보",
+   "published_at": "2026-11-13",
+   "key_facts": [
+    "Bloomberg News reported, citing filings given to Chinese authorities, that Shanghai Longteng Intelligent Computing, founded by Alice Huang, obtained servers with Nvidia H800 chips, reportedly bought from Dell by Aperia Cloud Services, a Singapore-based Nvidia partner.",
+    "Washington banned H800 exports to China in 2023."
+   ]
+  },
+  {
+   "id": "src_art_0050",
+   "url": "https://asiatimes.com/2026/11/china-hoards-nvidias-ai-chips-as-us-curbs-remote-access/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:asiatimes_1117"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "Asia Times",
+   "headline_original": "China hoards Nvidia's AI chips as US curbs remote access",
+   "headline_ko": "미국이 원격 접속 막자 중국은 엔비디아 AI 칩 사재기",
+   "published_at": "2026-11-17",
+   "key_facts": [
+    "Companies need a license to ship advanced AI chips to overseas data centers that provide significant computing power to firms headquartered in China or Macau (paraphrase)",
+    "Nvidia reportedly cut its list of approved Asian buyers by more than half and capped Chinese clients at 49% of its cloud partners' customer base (paraphrase)",
+    "Southeast Asian firms seeking Nvidia Cloud Partner status must now enroll in a system that tracks chip locations (paraphrase)"
+   ]
+  },
+  {
+   "id": "src_art_0051",
+   "url": "https://dailycaller.com/2026/11/12/nvidia-jenson-huang-testify-house-foreign-affairs-committee/",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:D:dailycaller_1112"
+    ],
+    "notes": "원문 일부 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 일부 열람",
+   "type": "article",
+   "publisher": "Daily Caller (NBC News)",
+   "headline_original": "Jensen Huang Agrees To Testify Before Congress Over Relationship With Alleged Chinese Spy",
+   "headline_ko": "젠슨 황, 중국 스파이 의혹 인물과의 관계 관련 의회 증언에 동의",
+   "published_at": "2026-11-12",
+   "key_facts": [
+    "Former Nvidia CEO Jensen Huang agreed Thursday to testify before Congress",
+    "agreed to testify by Thanksgiving; no date set; the committee said it is in ongoing negotiations (paraphrase)",
+    "The committees requested a closed-door hearing about his interactions with the alleged Chinese asset (paraphrase)"
+   ]
+  },
+  {
+   "id": "src_art_0052",
+   "url": "https://katu.com/news/nation-world/former-nvidia-ceo-jensen-huang-to-testify-to-congress-over-suspected-chinese-spy-ties-alice-huang-megaspeed-house-foreign-affairs-committee-extramarital-affairs-national-secuity-concerns-chipmaker-artificial-intelligence",
+   "retrieved_at": "2026-11-17",
+   "lang": "en",
+   "verification": {
+    "status": "corroborated",
+    "checks": [
+     "research:A:katu_testify"
+    ],
+    "notes": "원문 열람"
+   },
+   "confirmed_by": "fable 감독 세션(사용자 지시 2026-11-17, UF-915 원고 승인 생략) — 조사 에이전트 A~D 가 원문·재게재본·2차 인용을 대조, 감독이 주장별로 검토",
+   "confirmed_at": "2026-11-17T09:40:00Z",
+   "note": "원문 열람",
+   "type": "article",
+   "publisher": "KATU (The National Desk)",
+   "headline_original": "Former Nvidia CEO Jensen Huang to testify to Congress over suspected Chinese spy ties",
+   "headline_ko": "젠슨 황 전 엔비디아 CEO, 중국 스파이 의혹 관계로 의회 증언",
+   "published_at": "2026-11-13",
+   "key_facts": [
+    "Huang has agreed to testify before Congress by Thanksgiving (House Foreign Affairs Committee).",
+    "Mast said the testimony will take place behind closed doors but he expects it to be recorded and transcribed.",
+    "NYT reported that U.S. intelligence agencies believed she was passing information to Beijing."
+   ]
+  }
+ ]
+}

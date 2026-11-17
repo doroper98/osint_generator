@@ -42,3 +42,13 @@ last_review: 2026-11-02
 - **회귀 테스트 (regression_test)**: `tests/test_sa_obligation.py::RestrictionPhraseTest`(Korea.net 조건 문구 = 라이선스 12 여도 거부·문구 없으면 통과·NC/ND 13~16 거부, Commons UsageTerms 거부)
 - **발견 버전 (discovered)**: v7.4.0
 - **상태 (status)**: `active`
+
+## RIGHTS-AP-004 — CC BY-SA 고지 줄(링크 의무)을 손으로 적은 크레딧 행이 '크레딧 오염' 검사에 걸렸다
+
+- **증상 (symptom)**: nvidia-chips-china-2026 프리뷰. CC BY-SA 사진 10장의 고지 줄이 길어 엔딩 크레딧 롤 속도가 상한을 넘었다(`[endcard-overflow]`). 사진 줄을 두 열로 나누려고 credits.yaml 손 행에 고지 줄(저작자 · 제목 · 라이선스 · 링크 · 변경 사항)을 그대로 적자 `[credit-garbled]` 가 10건 났다("https:// 포함").
+- **나쁜 예 (bad)**: `[sa-obligation]` 은 엔딩 크레딧 줄에 링크를 요구하고, `[credit-garbled]` 는 손 행의 링크를 금지한다. 자동 나열(`auto: media`) 한 절로만 두 검사를 함께 통과할 수 있었고, 그 절은 한 열에만 놓인다.
+- **좋은 예 (good)**: 손 행의 license 칸이 그 자산의 고지 줄(`engine.credits.sa_line`)과 글자 그대로 같으면 의무 고지로 본다. 한 글자라도 다르면 종전대로 오염 검사를 받는다.
+- **자동 조치 (mitigation)**: `engine.checks.is_sa_notice_row` — `check_credit_garbled` 가 정확히 일치하는 고지 줄 행만 건너뛴다. SA 가 아닌 자산·다른 절(people 등)·다른 문자열은 예외가 없다.
+- **회귀 테스트 (regression_test)**: `tests/test_sa_obligation.py::NoticeRowNotGarbledTest`
+- **발견 버전 (discovered)**: v7.4.0
+- **상태 (status)**: `active`

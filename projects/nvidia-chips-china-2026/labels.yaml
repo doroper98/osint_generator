@@ -1,0 +1,41 @@
+# 『엔비디아 칩은 어떻게 중국에 닿았나』 지도 라벨 (v7.4.0) — 동아시아·동남아 국가 관용명 + 해역. 대만·홍콩은 지명 라벨만(국기 채움 없음).
+schema_version: 1
+ko:
+  CN: 중국
+  TW: 대만
+  HK: 홍콩
+  MO: 마카오
+  JP: 일본
+  KR: 대한민국
+  KP: 북한
+  MN: 몽골
+  RU: 러시아
+  IN: 인도
+  NP: 네팔
+  BT: 부탄
+  BD: 방글라데시
+  LK: 스리랑카
+  MM: 미얀마
+  TH: 태국
+  LA: 라오스
+  VN: 베트남
+  KH: 캄보디아
+  MY: 말레이시아
+  SG: 싱가포르
+  BN: 브루나이
+  ID: 인도네시아
+  PH: 필리핀
+  TL: 동티모르
+  PG: 파푸아뉴기니
+  AU: 호주
+  KZ: 카자흐스탄
+seas:
+- {name: 남중국해, lon: 113.5, lat: 13.0, wmin: 14, wmax: 140}
+- {name: 동중국해, lon: 125.5, lat: 29.0, wmin: 14, wmax: 90}
+- {name: 황해, lon: 123.3, lat: 36.0, wmin: 0, wmax: 60}
+- {name: 동해, lon: 134.5, lat: 40.0, wmin: 0, wmax: 70}
+- {name: 필리핀해, lon: 131.0, lat: 17.0, wmin: 20, wmax: 140}
+- {name: 벵골만, lon: 90.0, lat: 13.5, wmin: 30, wmax: 140}
+- {name: 인도양, lon: 96.0, lat: -8.5, wmin: 30, wmax: 140}
+- {name: 자바해, lon: 111.5, lat: -4.8, wmin: 10, wmax: 60}
+- {name: 타이만, lon: 102.0, lat: 9.6, wmin: 8, wmax: 50}

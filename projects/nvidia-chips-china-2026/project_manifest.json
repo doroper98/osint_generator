@@ -1,0 +1,208 @@
+{
+  "schema_version": 2,
+  "project_id": "nvidia-chips-china-2026",
+  "title": "엔비디아 칩은 어떻게 중국에 닿았나",
+  "category": "geopolitics",
+  "created_at": "2026-11-17T09:18:57.687127Z",
+  "updated_at": "2026-11-17T11:51:35.243848Z",
+  "current_state": "done",
+  "target_duration_min": 9,
+  "topic_summary": "젠슨 황 사임(2026-11-12)과 엔비디아 GPU의 중국 유입 경로(밀수·해외 데이터센터 임차), 그리고 미국의 통제 수단(11월 16일 원격 접속 규칙·의회 법안)",
+  "initial_links": [
+    "https://claude.ai/artifact/KJNjMyyZtxSZuEBkBFoDie"
+  ],
+  "paths": {
+    "sources": "intake/sources.json",
+    "claims": "intake/claims.json",
+    "screenshots": "intake/screenshots",
+    "script": "script.yaml",
+    "script_labels": "script_labels.json",
+    "plan": "plan.json",
+    "tts": "tts",
+    "assets": "assets",
+    "media": "media",
+    "direction": "direction.yaml",
+    "prev": "prev",
+    "prev_sheet": "prev/sheet.jpg",
+    "prev_provenance": "prev/provenance.json",
+    "out": "out",
+    "final": "out/final.mp4",
+    "provenance": "out/provenance.json"
+  },
+  "render_mode_status": {},
+  "gate_decisions": [
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8)",
+      "at": "2026-11-17T11:24:28.887118Z",
+      "comment": "UF-915 사용자 승인 생략 — 린트 오류 0·경고 0, 출처 없는 수치 0(주장 66·출처 65), 미디어 계획 표 통과(사진 15장 선택)",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/nvidia-chips-china-2026/script.yaml",
+        "lint_errors": "0",
+        "lint_warnings": "0",
+        "est_sec": "406.8",
+        "media_plan_errors": "0",
+        "script_sha1": "0a0b0e55a3c7b0b889668245a8b018d102a68731",
+        "media_plan": "사진 15/8 · 기사 후보 67문장 · 498초(plan)"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "script_approval",
+      "decision": "approved",
+      "by": "감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8)",
+      "at": "2026-11-17T11:34:49.009794Z",
+      "comment": "UF-915 사용자 승인 생략 — 린트 오류 0·경고 0, 출처 없는 수치 0(주장 66·출처 65), 미디어 계획 표 통과(사진 15장 선택). 원고 수정 뒤 재기록",
+      "rollback_to": null,
+      "shown": {
+        "script": "/home/user/osint_generator/projects/nvidia-chips-china-2026/script.yaml",
+        "lint_errors": "0",
+        "lint_warnings": "0",
+        "est_sec": "406.8",
+        "media_plan_errors": "0",
+        "script_sha1": "d58c9f9d295a96c0be2415bb6c69d4576d5d2fed",
+        "media_plan": "사진 15/8 · 기사 후보 67문장 · 498초(plan)"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8)",
+      "at": "2026-11-17T11:40:43.638080Z",
+      "comment": "UF-914 — 감독 눈 판정(C0.0 §6): 720p 프레임 94컷 전 구간 확인. 검사 hard 0. 받은 사진 15장·초상 4장 전부 화면에 있음(UF-916). 자산 승격 확인 0",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/nvidia-chips-china-2026/prev/sheet.jpg",
+        "cuts": "14",
+        "provenance": "/home/user/osint_generator/projects/nvidia-chips-china-2026/prev/provenance.json",
+        "drops": "0",
+        "media_used": "quote 7 · article 5 · real 15 · backdrop 0 · 밀도 검사 15개 · 1.806/분",
+        "quote_candidates": "8",
+        "preview": "nvidia-chips-china-2026/prev · 14컷 · direction a7d535eb2a · script d58c9f9d29",
+        "user_feedback": "사용자 의견 203건 모두 장치 있음(최근 UF-916)",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    }
+  ],
+  "stage_records": [],
+  "final_outputs": {},
+  "state_history": [
+    {
+      "from_state": "created",
+      "to_state": "intake",
+      "transitioned_at": "2026-11-17T11:23:49.515829Z",
+      "reason": "단일 구현 모드(W0a) — 엔진 CLI 직접 실행 뒤 기록(감독 세션)"
+    },
+    {
+      "from_state": "intake",
+      "to_state": "source_verify",
+      "transitioned_at": "2026-11-17T11:23:50.374074Z",
+      "reason": "단일 구현 모드(W0a) — 엔진 CLI 직접 실행 뒤 기록(감독 세션)"
+    },
+    {
+      "from_state": "source_verify",
+      "to_state": "research",
+      "transitioned_at": "2026-11-17T11:23:51.227775Z",
+      "reason": "단일 구현 모드(W0a) — 엔진 CLI 직접 실행 뒤 기록(감독 세션)"
+    },
+    {
+      "from_state": "research",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-11-17T11:23:52.035125Z",
+      "reason": "단일 구현 모드(W0a) — 엔진 CLI 직접 실행 뒤 기록(감독 세션)"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-11-17T11:23:53.840875Z",
+      "reason": "단일 구현 모드(W0a) — 엔진 CLI 직접 실행 뒤 기록(감독 세션)"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-11-17T11:24:28.887156Z",
+      "reason": "script_approval 승인 — 감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8)"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "script_draft",
+      "transitioned_at": "2026-11-17T11:34:28.735725Z",
+      "reason": "rollback → script_draft — user: 게이트 ① 뒤 원고 수정(문장 날짜 1건·사진 선택 문장 이동·act2_9 문구) — 다시 기록"
+    },
+    {
+      "from_state": "script_draft",
+      "to_state": "script_approval",
+      "transitioned_at": "2026-11-17T11:34:40.785474Z",
+      "reason": "원고 확정(린트 0)"
+    },
+    {
+      "from_state": "script_approval",
+      "to_state": "voice_timeline",
+      "transitioned_at": "2026-11-17T11:34:49.009869Z",
+      "reason": "script_approval 승인 — 감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8)"
+    },
+    {
+      "from_state": "voice_timeline",
+      "to_state": "assets",
+      "transitioned_at": "2026-11-17T11:40:25.892427Z",
+      "reason": "단일 구현 모드(W0a) — 엔진 CLI 직접 실행 뒤 기록(감독 세션)"
+    },
+    {
+      "from_state": "assets",
+      "to_state": "direction",
+      "transitioned_at": "2026-11-17T11:40:26.837617Z",
+      "reason": "단일 구현 모드(W0a) — 엔진 CLI 직접 실행 뒤 기록(감독 세션)"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-11-17T11:40:27.795012Z",
+      "reason": "단일 구현 모드(W0a) — 엔진 CLI 직접 실행 뒤 기록(감독 세션)"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-11-17T11:40:28.916559Z",
+      "reason": "단일 구현 모드(W0a) — 엔진 CLI 직접 실행 뒤 기록(감독 세션)"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-11-17T11:40:43.638131Z",
+      "reason": "preview_approval 승인 — 감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8)"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-11-17T11:45:27.615111Z",
+      "reason": "전편 렌더 완료(검사 hard 0)"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-11-17T11:51:34.302404Z",
+      "reason": "mux 완료 — 오디오 QA hard 0, 완성본 검수(사진 15·초상 4 전부 화면, 자막 꺼짐 0)"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-11-17T11:51:35.243737Z",
+      "reason": "mux 완료 — 오디오 QA hard 0, 완성본 검수(사진 15·초상 4 전부 화면, 자막 꺼짐 0)"
+    }
+  ],
+  "rollbacks": [
+    {
+      "from_state": "voice_timeline",
+      "to_state": "script_draft",
+      "by": "user",
+      "at": "2026-11-17T11:34:28.735664Z",
+      "reason": "게이트 ① 뒤 원고 수정(문장 날짜 1건·사진 선택 문장 이동·act2_9 문구) — 다시 기록",
+      "script_fingerprint_before": "d58c9f9d295a96c0be2415bb6c69d4576d5d2fed"
+    }
+  ],
+  "reopens": []
+}

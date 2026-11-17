@@ -219,6 +219,28 @@ entities:
     role_default: 대한민국 산업통상부 장관
     accent: gold
     rights: people.kim_jung_kwan
+  # v7.4.0 nvidia-chips-china-2026 — 라이브러리 인물 국기·직함 보강(초상 = 공용 라이브러리 jensen_huang_mono_v01)
+  jensen_huang:
+    kind: person
+    names: [젠슨 황, 황 전 최고경영자, Jensen Huang]
+    flag: us
+    role_default: 엔비디아 창업자
+    accent: us
+    rights: people.jensen_huang
+  cotton:
+    kind: person
+    names: [톰 코튼, 코튼 상원의원, Tom Cotton]
+    flag: us
+    role_default: 미국 상원의원
+    accent: us
+    rights: people.cotton
+  blanche:
+    kind: person
+    names: [토드 블랜치, 블랜치 법무장관, Todd Blanche]
+    flag: us
+    role_default: 미국 법무장관
+    accent: us
+    rights: people.blanche
   # ---------------------------------------------------------------- 기업(v7.4.0 D-0278 §4.3 — 뱃지 = 국기 원 + 코드 조판 회사명, 로고 없음)
   samsung_electronics:
     kind: company
@@ -367,3 +389,11 @@ entities:
   il: {kind: country, names: [이스라엘], flag: il, rights: flags.flag_icons}
   eu: {kind: country, names: [유럽연합, EU], flag: eu, rights: flags.flag_icons}
   un: {kind: country, names: [유엔, 국제연합], flag: un, rights: flags.flag_icons}
+  # v7.4.0 nvidia-chips-china-2026 — 칩 경유지와 2026-11-16 미 상무부 규칙 대상국(동남아 4개국·브라질), 대만·홍콩은 지명·국기 뱃지만
+  sg: {kind: country, names: [싱가포르], flag: sg, rights: flags.flag_icons}
+  my: {kind: country, names: [말레이시아], flag: my, rights: flags.flag_icons}
+  id: {kind: country, names: [인도네시아], flag: id, rights: flags.flag_icons}
+  th: {kind: country, names: [태국], flag: th, rights: flags.flag_icons}
+  tw: {kind: country, names: [대만], flag: tw, rights: flags.flag_icons}
+  hk: {kind: country, names: [홍콩], flag: hk, rights: flags.flag_icons}
+  br: {kind: country, names: [브라질], flag: br, rights: flags.flag_icons}

@@ -1,0 +1,328 @@
+{
+ "sources": [
+  {"key": "doj_sdny_liaw", "url": "https://www.justice.gov/opa/pr/three-charged-conspiring-unlawfully-divert-cutting-edge-us-artificial-intelligence", "outlet": "U.S. Department of Justice (Office of Public Affairs / USAO Southern District of New York)", "title": "Three Charged with Conspiring to Unlawfully Divert Cutting Edge U.S. Artificial Intelligence Technology to China", "published_at": "2026-03-19",
+   "lang": "en", "access": "partial", "headline_ko": "미국 첨단 AI 기술을 중국으로 불법 전용하려 공모한 3명 기소",
+   "key_facts": [
+    "Yih-Shyan \"Wally\" Liaw, 71, of Fremont, California: co-founder, board member and Senior Vice President of Business Development at a publicly traded U.S. server manufacturer (summary of release)",
+    "Ruei-Tsang \"Steven\" Chang, 53, of Taiwan, general manager in the manufacturer's Taiwan office; Ting-Wei \"Willy\" Sun, 44, of Taiwan, third-party broker and \"fixer\" (summary of release)",
+    "Liaw and Sun were arrested; Chang remains a fugitive (summary of release)",
+    "Company-1 purchased approximately $2.5 billion worth of servers from the U.S. Manufacturer",
+    "at least approximately $510 million worth of the U.S. Manufacturer's servers [diverted to China, late April to mid-May 2025]",
+    "the defendants staged thousands of \"dummy\" servers—non-working, physical replicas of the U.S. Manufacturer's servers",
+    "using a hair dryer to remove and affix labels and serial number stickers to the server boxes",
+    "Surveillance cameras recorded their work and captured them preparing the dummy servers",
+    "Photographs of some of the dummy servers that were staged at a warehouse rented by Company-1 in connection with an August 2025 audit conducted by the U.S. Manufacturer are below",
+    "directed certain executives of a company based in Southeast Asia",
+    "Charges for each defendant: conspiracy to violate ECRA (max 20 years), conspiracy to smuggle goods (max 5 years), conspiracy to defraud the United States (max 5 years) (summary of release)"
+   ],
+   "quotes": [
+    {"speaker": "Jay Clayton", "role": "U.S. Attorney, Southern District of New York", "text_en": "the defendants participated in a systematic scheme to divert massive quantities of servers housing U.S. artificial intelligence technology", "text_ko": "피고인들은 미국 인공지능 기술이 들어간 서버를 대량으로 빼돌리는 체계적인 계획에 가담했다"},
+    {"speaker": "James C. Barnacle, Jr.", "role": "FBI Assistant Director in Charge", "text_en": "used a pass-through company to conceal their misconduct and true clientele list", "text_ko": "통과 법인을 이용해 위법 행위와 실제 고객 명단을 숨겼다"},
+    {"speaker": "John A. Eisenberg", "role": "Assistant Attorney General for National Security", "text_en": "staged dummy servers to mislead inspectors", "text_ko": "점검관을 속이려고 모형 서버를 꾸며 놓았다"}
+   ]},
+  {"key": "register_liaw", "url": "https://www.theregister.com/2026/03/20/supermicro_nvidia_gpu_charges/", "outlet": "The Register", "title": "Supermicro co-founder arrested, charged over $2.5B Nvidia GPU sales to China", "published_at": "2026-03-20",
+   "lang": "en", "access": "full_text", "headline_ko": "슈퍼마이크로 공동창업자 체포, 25억 달러 규모 엔비디아 GPU 중국 판매 혐의로 기소",
+   "key_facts": [
+    "the United States Attorney's Office for the Southern District of New York has unsealed an indictment (Supermicro statement)",
+    "servers fitted with Nvidia GPUs worth $2.5 billion to Chinese customers",
+    "thousands of non-working 'dummy' servers",
+    "Supermicro says it is cooperating fully, is not named as a defendant, and that the conduct \"is a contravention of the company's policies\" (summary)"
+   ],
+   "quotes": [
+    {"speaker": "James C. Barnacle Jr.", "role": "FBI Assistant Director in Charge", "text_en": "hundreds of servers with advanced AI capabilities", "text_ko": "첨단 AI 성능을 갖춘 서버 수백 대"}
+   ]},
+  {"key": "toms_liaw_plea", "url": "https://www.tomshardware.com/tech-industry/super-micro-co-founder-wally-liaw-pleads-not-guilty-to-nvidia-smuggling-charges", "outlet": "Tom's Hardware (citing Bloomberg)", "title": "Super Micro co-founder Wally Liaw pleads not guilty to Nvidia smuggling charges", "published_at": "2026-04-01",
+   "lang": "en", "access": "partial", "headline_ko": "슈퍼마이크로 공동창업자 월리 리아우, 엔비디아 밀수 혐의에 무죄 주장",
+   "key_facts": [
+    "Liaw pleaded not guilty in Manhattan federal court before U.S. District Judge Edgardo Ramos (summary)",
+    "set a November 2 trial date for the case",
+    "has been released on a $5 million bond",
+    "Sun also pleaded not guilty; Chang is \"not in U.S. custody\" (summary)"
+   ],
+   "quotes": []},
+  {"key": "dcd_sun_plea", "url": "https://datacenterdynamics.com/en/news/supermicro-contractor-ting-wei-willy-sun-pleads-guilty-to-four-counts-associated-with-nvidia-chip-smuggling-charges", "outlet": "DatacenterDynamics / TNW / Bloomberg Government (search summaries)", "title": "Supermicro contractor Ting-Wei 'Willy' Sun pleads guilty to four counts associated with Nvidia chip smuggling charges", "published_at": "2026-10-09",
+   "lang": "en", "access": "search_summary_only", "headline_ko": "슈퍼마이크로 협력업자 윌리 선, 엔비디아 칩 밀수 관련 4개 혐의 유죄 인정",
+   "key_facts": [
+    "Sun pleaded guilty on October 9, 2026 in federal court in Manhattan to four counts: conspiracies to violate US export controls, smuggle goods, defraud the United States and obstruct justice (search summary)"
+   ],
+   "quotes": []},
+  {"key": "fortune_2026_11_10", "url": "https://fortune.com/2026/11/10/2-scandals-1-destination-why-nvidia-cant-shake-china-smuggling-allegations/", "outlet": "Fortune", "title": "2 scandals, 1 destination: Why Nvidia can't shake China smuggling allegations", "published_at": "2026-11-10",
+   "lang": "en", "access": "full_text", "headline_ko": "스캔들 둘, 목적지 하나: 엔비디아가 중국 밀수 의혹을 떨치지 못하는 이유",
+   "key_facts": [
+    "In March, federal prosecutors charged Supermicro co-founder Yih-Shyan \"Wally\" Liaw and two others over about $2.5 billion in servers with Nvidia H200 and B200 GPUs routed to China through a Southeast Asian front company (paraphrase of article)",
+    "Supermicro was not charged; the company says it was a victim of the scheme and is cooperating with authorities (paraphrase)",
+    "Liaw pleaded not guilty. One of the three charged pleaded guilty in October (paraphrase)",
+    "According to the indictment, thousands of nonworking dummy servers were staged in three warehouses to trick auditors (paraphrase)",
+    "Contractors used hair dryers to soften adhesive on serial-number labels so they could be peeled off (paraphrase)",
+    "Bloomberg and Culper identified the front company as OBON, a Bangkok AI infrastructure firm. OBON has not been charged (paraphrase)",
+    "Liaw's trial was moved from November 2026 to March 2027 (paraphrase)",
+    "In December 2024, Liaw allegedly asked the front company for monthly forecasts, which he called \"the only way\" to get Nvidia to promise B200 allocations",
+    "In October 2025, a Nvidia spokesperson said the company visited Megaspeed and found no evidence of chip diversion (paraphrase)"
+   ],
+   "quotes": [
+    {"speaker": "Nvidia", "role": "company statement (last month)", "text_en": "thoroughly investigated and debunked", "text_ko": "철저히 조사했고 근거 없음이 드러났다"},
+    {"speaker": "Nvidia board", "role": "board of directors", "text_en": "either national security or Nvidia secrets were compromised", "text_ko": "(근거가 없다) 국가안보나 엔비디아 기밀이 침해됐다고 볼"},
+    {"speaker": "Jensen Huang", "role": "Nvidia CEO (to Bloomberg)", "text_en": "completely normal and not unusual", "text_ko": "지극히 평범했고 이상할 것 없었다"}
+   ]},
+  {"key": "tnw_obon", "url": "https://thenextweb.com/news/us-prosecutors-thailand-obon-corp-supermicro-nvidia-alibaba-smuggling", "outlet": "The Next Web (citing Bloomberg)", "title": "US prosecutors' Company-1 is Thailand's OBON, Bloomberg reports", "published_at": "2026-05-08",
+   "lang": "en", "access": "full_text", "headline_ko": "미 검찰 공소장의 '회사-1'은 태국 OBON — 블룸버그 보도",
+   "key_facts": [
+    "Bloomberg's sources identify OBON",
+    "a Bangkok-based AI infrastructure firm that has been a public partner of Thailand's National AI Strategy",
+    "OBON has not been charged (paraphrase)",
+    "Neither company had commented at the time of publication."
+   ],
+   "quotes": []},
+  {"key": "engadget_bbg_1001", "url": "https://engadget.com/2275633/nvidias-smuggling-problem-is-getting-worse", "outlet": "Engadget (summarizing Bloomberg 2026-10-01 feature)", "title": "NVIDIA's smuggling problem is getting worse", "published_at": "2026-10-02",
+   "lang": "en", "access": "full_text", "headline_ko": "엔비디아의 밀수 문제가 악화되고 있다",
+   "key_facts": [
+    "Earlier this year, officials released a surveillance video showing someone using a red hair dryer to peel serial number stickers off NVIDIA server boxes in an effort to sneak AI chips to China.",
+    "Officials said NVIDIA should have noticed that OBON, a Bangkok-based buyer, lacked the physical capacity (100 megawatts) for the servers it purchased (paraphrase)"
+   ],
+   "quotes": [
+    {"speaker": "Nvidia spokesperson", "role": "Nvidia", "text_en": "A startup's growth plan in a friendly nation is an opportunity for America, not a 'red flag' to be feared", "text_ko": "우방국 스타트업의 성장 계획은 미국에 기회이지 두려워할 '위험 신호'가 아니다"}
+   ]},
+  {"key": "bbg_2026_10_01", "url": "https://www.bloomberg.com/news/features/2026-10-01/nvidia-faces-questions-over-china-ai-chip-smuggling-cases", "outlet": "Bloomberg", "title": "Nvidia faces questions over China AI chip smuggling cases", "published_at": "2026-10-01",
+   "lang": "en", "access": "blocked", "headline_ko": "중국 AI 칩 밀수 사건들로 엔비디아에 쏟아지는 질문",
+   "key_facts": ["Not read directly (paywall); content known only via Engadget and aggregator summaries"],
+   "quotes": []},
+  {"key": "doj_sdtx_gatekeeper", "url": "https://www.justice.gov/opa/pr/us-authorities-shut-down-major-china-linked-ai-tech-smuggling-network", "outlet": "U.S. Department of Justice (USAO Southern District of Texas)", "title": "U.S. Authorities Shut Down Major China-Linked AI Tech Smuggling Network", "published_at": "2025-12-08",
+   "lang": "en", "access": "partial", "headline_ko": "미 당국, 중국 연계 대형 AI 기술 밀수망 차단",
+   "key_facts": [
+    "Alan Hao Hsu and Hao Global LLC pleaded guilty on October 10, 2025, to smuggling and unlawful export activity; sentencing set for February 18 (summary of release)",
+    "From October 2024 to May 2025, the defendants exported or attempted to export at least $160 million in Nvidia H100 and H200 GPUs (summary)",
+    "received more than $50 million in wire transfers from China to fund the scheme (summary)",
+    "used straw purchasers and intermediaries, falsified shipping paperwork, and sent chips to U.S. warehouses where workers removed Nvidia labels and relabeled the chips under a fictitious company name (summary)",
+    "Benlin Yuan arrested November 28 and charged with ECRA conspiracy; Fanyue (Tom) Gong arrested December 3 and charged with conspiracy to smuggle; both in custody (summary)",
+    "authorities seized over $50 million in GPUs and cash (summary)"
+   ],
+   "quotes": [
+    {"speaker": "Nicholas J. Ganjei", "role": "U.S. Attorney, Southern District of Texas", "text_en": "The country that controls these chips will control AI technology", "text_ko": "이 칩을 쥔 나라가 AI 기술을 쥔다"}
+   ]},
+  {"key": "arnoldporter", "url": "https://www.arnoldporter.com/en/perspectives/blogs/enforcement-edge/2025/12/doj-shutdown-of-major-china-linked-ai-tech-smuggling-network", "outlet": "Arnold & Porter (Enforcement Edge blog)", "title": "DOJ Shutdown of Major China-Linked AI Tech Smuggling Network", "published_at": "2025-12-15",
+   "lang": "en", "access": "full_text", "headline_ko": "미 법무부, 중국 연계 대형 AI 기술 밀수망 차단",
+   "key_facts": [
+    "Operation Gatekeeper announced by DOJ on December 8, 2025 (summary)",
+    "Alan Hao Hsu, owner of Texas-based Hao Global LLC, pleaded guilty to smuggling export-controlled Nvidia GPUs (summary)",
+    "At least $160 million in restricted Nvidia AI chips (H100 and H200) (summary)",
+    "straw purchasers, domestic warehouses; chips relabeled under a nonexistent fake brand and classified as generic computer parts (summary)"
+   ],
+   "quotes": []},
+  {"key": "doj_mdfl_tampa", "url": "https://www.justice.gov/opa/pr/us-citizens-and-chinese-nationals-arrested-exporting-artificial-intelligence-technology", "outlet": "U.S. Department of Justice (USAO Middle District of Florida)", "title": "U.S. Citizens and Chinese Nationals Arrested for Exporting Artificial Intelligence Technology to China", "published_at": "2025-11-20",
+   "lang": "en", "access": "partial", "headline_ko": "미국 시민·중국 국적자, AI 기술 중국 수출 혐의로 체포",
+   "key_facts": [
+    "Despite its name, Janford Realtor, LLC, was never involved in any real estate transactions.",
+    "400 NVIDIA A100 GPUs being exported to the PRC [October 2024 to January 2025]",
+    "through Malaysia and Thailand",
+    "ten Hewlett Packard Enterprises supercomputers containing NVIDIA H100 GPUs [disrupted]",
+    "will also seek forfeiture of 50 NVIDIA H200 GPUs",
+    "over $3.89 million in wire transfers from the PRC",
+    "Defendants: Hon Ning Ho (34, Tampa), Brian Curtis Raymond (46, Huntsville AL), Cham Li (38, San Leandro CA), Jing Chen (45, Tampa) (summary)"
+   ],
+   "quotes": []},
+  {"key": "fortune_2026_05_13", "url": "https://fortune.com/2026/05/13/nvidia-chip-smuggling-china-russia-iran-export-controls-supermicro/", "outlet": "Fortune", "title": "Nvidia chip smuggling to China, Russia, Iran tests U.S. export controls", "published_at": "2026-05-13",
+   "lang": "en", "access": "full_text", "headline_ko": "중국·러시아·이란으로 향하는 엔비디아 칩 밀수, 미국 수출통제를 시험하다",
+   "key_facts": [
+    "created a fake realty company in Tampa with Cham \"Tony\" Li as a front",
+    "led to 400 Nvidia A100 GPUs being shipped to China between October 2024 and January 2025",
+    "faking the end-user certifications and routing orders through phony buyers in Thailand",
+    "another company had a legit-looking website with pitch decks and financial records",
+    "English allegedly placed a purchase order for 750 servers for $170 million",
+    "That purchase failed due to one unnamed company's compliance controls.",
+    "masterminded a $2.5 billion scheme to route the company's servers to China through a sham company in Southeast Asia",
+    "Neither Supermicro nor any of its other executives were named in the case"
+   ],
+   "quotes": [
+    {"speaker": "Stanley Yi Zheng", "role": "defendant (message cited in court records)", "text_en": "DO NOT MENTION ANYTHING ABOUT CHINA", "text_ko": "중국에 관해서는 아무것도 언급하지 마라"},
+    {"speaker": "Greg Thomas", "role": "CEO, ChainSentry", "text_en": "The money is just too good.", "text_ko": "돈이 너무 좋다."},
+    {"speaker": "Nvidia", "role": "company statement", "text_en": "Nvidia does not provide any service or support for such systems.", "text_ko": "엔비디아는 그런 시스템에 어떤 서비스나 지원도 제공하지 않는다."}
+   ]},
+  {"key": "doj_ndga_zheng", "url": "https://www.justice.gov/opa/pr/chinese-national-and-two-us-citizens-charged-conspiring-smuggle-artificial-intelligence", "outlet": "U.S. Department of Justice (USAO Northern District of Georgia)", "title": "Chinese National and Two U.S. Citizens Charged with Conspiring to Smuggle Artificial Intelligence Technology to China", "published_at": "2026-03-25",
+   "lang": "en", "access": "partial", "headline_ko": "중국 국적자와 미국 시민 2명, AI 기술 중국 밀수 공모 혐의로 기소",
+   "key_facts": [
+    "Criminal complaints issued March 20, 2026, in the Northern District of Georgia (summary)",
+    "Stanley Yi Zheng, 56, of Hong Kong, arrested March 22; Matthew Kelly, 49, of Hopewell Junction, NY, and Tommy Shad English, 53, of Atlanta, surrendered March 25 (summary)",
+    "English ordered 750 servers for about $170 million from Company-1 in October 2023; 600 contained a licensed chip; he signed an \"Advanced Computing Certification\" stating they were not destined for China (summary)",
+    "Company-1 raised red flags (Zheng's company was China-based); Company-2, the chip maker, could not verify the Thai end user, and the purchase was not completed (summary)",
+    "In April 2024 English sought 500 more servers for a second Thailand-based company and signed an End User Certification; this also failed (summary)",
+    "In response to a March 2024 draft solicitation referencing customers in China, Zheng replied \"DO NOT MENTION ANYTHING ABOUT CHINA\" (summary)",
+    "In June 2023 English said he had faked corporate materials; Kelly noted that public websites, company decks and quarterly earnings reports were available (summary)"
+   ],
+   "quotes": []},
+  {"key": "register_zheng", "url": "https://www.theregister.com/2026/03/26/gpu_china_smuggling_charges/", "outlet": "The Register", "title": "Three more charged over alleged Nvidia GPU smuggling scheme to China", "published_at": "2026-03-26",
+   "lang": "en", "access": "full_text", "headline_ko": "엔비디아 GPU 중국 밀수 의혹으로 3명 추가 기소",
+   "key_facts": [
+    "Nvidia reviewed the order, couldn't verify the ultimate buyer in Thailand, and the purchase wasn't completed (summary)",
+    "Company-1 identified by The Register as Supermicro via a purchase order model number SYS-821GE-TNHR (summary)"
+   ],
+   "quotes": []},
+  {"key": "tnw_taiwan_indict", "url": "https://thenextweb.com/news/taiwan-indicts-nvidia-manager-chip-smuggling-eu-gap", "outlet": "The Next Web", "title": "Taiwan indicts Nvidia manager over chip smuggling", "published_at": "2026-08-24",
+   "lang": "en", "access": "full_text", "headline_ko": "대만, 칩 밀수 혐의로 엔비디아 관리자 기소",
+   "key_facts": [
+    "a senior manager surnamed Chang",
+    "74 servers containing B300 chips",
+    "via Japan and Indonesia",
+    "another 56 were seized before they could leave",
+    "forgery and breach of trust",
+    "Nvidia as a company has not been accused of wrongdoing",
+    "Eight others were charged alongside him."
+   ],
+   "quotes": []},
+  {"key": "cna_taiwan_indict", "url": "https://focustaiwan.tw/society/202608240023", "outlet": "Focus Taiwan (CNA)", "title": "8 indicted over illegal Nvidia server exports to China", "published_at": "2026-08-24",
+   "lang": "en", "access": "full_text", "headline_ko": "엔비디아 서버 중국 불법 수출로 8명 기소",
+   "key_facts": [
+    "a distribution manager surnamed Chang (張) at Nvidia Corp.'s Taiwan office",
+    "Keelung District Prosecutors' Office filed the indictments (summary)",
+    "Nvidia B300 GPUs in Supermicro AI servers (summary)",
+    "Of those, 50 were shipped to China via Indonesia.",
+    "eight were shipped to Japan and then Hong Kong for delivery to Chinese buyers",
+    "remaining 56 servers from the third transaction were seized by Taiwanese authorities (summary)",
+    "All eight defendants were charged with breach of trust and forgery; some also with aggravated breach of trust under the Securities and Exchange Act (summary)"
+   ],
+   "quotes": []},
+  {"key": "cna_may_raid", "url": "https://focustaiwan.tw/society/202605220006", "outlet": "Focus Taiwan (CNA)", "title": "Three detained over alleged smuggling of Nvidia chips to Hong Kong", "published_at": "2026-05-22",
+   "lang": "en", "access": "full_text", "headline_ko": "엔비디아 칩 홍콩 밀수 혐의로 3명 구금",
+   "key_facts": [
+    "Investigators seized 50 AI servers equipped with advanced Nvidia chips.",
+    "Keelung District Prosecutors Office; suspects surnamed You, Wang and Chen (summary)"
+   ],
+   "quotes": []},
+  {"key": "ap_taiwan_indict", "url": "https://www.pbs.org/newshour/economy/taiwan-charges-9-over-illegal-ai-server-exports-to-china-including-nvidia-and-super-micro-staffers", "outlet": "AP (via PBS, search summary)", "title": "Taiwan charges 9 over illegal AI server exports to China, including Nvidia and Super Micro staffers", "published_at": "2026-08-24",
+   "lang": "en", "access": "search_summary_only", "headline_ko": "대만, 엔비디아·슈퍼마이크로 직원 포함 9명을 AI 서버 대중 불법 수출 혐의로 기소",
+   "key_facts": ["Prosecutors identified Chang as a key figure in securing approval for the B300 orders; seeking five years for forgery and breach of trust (search summary)"],
+   "quotes": [
+    {"speaker": "Patrick Rutherford", "role": "Nvidia spokesperson", "text_en": "We will work with the Taiwan authorities to help them resolve the allegations as quickly as possible", "text_ko": "대만 당국이 혐의를 최대한 빨리 해소하도록 협력하겠다"}
+   ]},
+  {"key": "tnw_bbg_1115", "url": "https://thenextweb.com/news/nvidia-taiwan-officials-indicted-manager-smuggling", "outlet": "The Next Web (citing Bloomberg 2026-11-15)", "title": "Nvidia pressed Taiwan officials over its indicted manager", "published_at": "2026-11-15",
+   "lang": "en", "access": "full_text", "headline_ko": "엔비디아, 기소된 자사 관리자 문제로 대만 관리들에게 압박",
+   "key_facts": [
+    "Nvidia approached Taiwanese political officials and sought advice from TSMC, which declined to get involved (summary)",
+    "Officials said they had no role in the case; a Keelung prosecutors' spokesman said the office was unaware of Nvidia's contacts (summary)",
+    "Chang was detained in July and indicted in August on forgery and breach of trust; 74 servers sent to China, another 56 seized (summary)"
+   ],
+   "quotes": [
+    {"speaker": "Nvidia", "role": "company statement", "text_en": "found no indication that our employee knew of the alleged diversion effort by employees at other companies", "text_ko": "우리 직원이 다른 회사 직원들의 전용 시도를 알았다는 정황은 찾지 못했다"}
+   ]},
+  {"key": "taiwannews_bbg_1115", "url": "https://www.taiwannews.com.tw/news/6476759", "outlet": "Taiwan News (citing Bloomberg)", "title": "Nvidia sought leniency from Taiwan for employee accused of China chip smuggling", "published_at": "2026-11-16",
+   "lang": "en", "access": "full_text", "headline_ko": "엔비디아, 중국 칩 밀수 혐의 직원에 대해 대만에 선처 요청",
+   "key_facts": [
+    "74 Nvidia-equipped servers allegedly sent to China, plus 56 servers intercepted by the Coast Guard in May (summary)",
+    "first publicly known instance of an Nvidia employee facing prosecution over alleged chip diversion (summary)"
+   ],
+   "quotes": []},
+  {"key": "bbg_2026_11_15", "url": "https://www.bloomberg.com/news/articles/2026-11-15/nvidia-sought-taipei-s-help-over-employee-s-chip-smuggling-case", "outlet": "Bloomberg", "title": "Nvidia sought Taipei's help over employee's chip smuggling case", "published_at": "2026-11-15",
+   "lang": "en", "access": "blocked", "headline_ko": "엔비디아, 직원 칩 밀수 사건으로 대만 정부에 도움 요청",
+   "key_facts": ["Not read directly (paywall); content known via TNW and Taiwan News"],
+   "quotes": []},
+  {"key": "epoch_smuggling", "url": "https://epoch.ai/blog/chip-smuggling", "outlet": "Epoch AI (Isabel Juniewicz)", "title": "How many AI chips have been smuggled into China?", "published_at": "2026-04-29",
+   "lang": "en", "access": "full_text", "headline_ko": "중국에 밀반입된 AI 칩은 얼마나 될까",
+   "key_facts": [
+    "Our model estimates 660,000 (90% CI: 290,000–1.6 million) H100e of cumulative compute smuggled through the end of 2025.",
+    "Cumulative allegations of diverted or missing chips total almost 300,000 H100e by the end of 2025",
+    "This figure may overstate actual smuggling for two primary reasons: the allegations are largely not yet proven in a court of law ... some of the chips redirected to China may not have arrived there",
+    "A 10% detection rate and a 80% detection rate imply very different totals",
+    "$2.5 billion of chips were sent from Supermicro to a front company, which was then sending those chips onwards to China.",
+    "The indictment only explicitly claims that $510 million worth of servers made it to China",
+    "selling export-controlled chips is not illegal within China"
+   ],
+   "quotes": []},
+  {"key": "epoch_malaysia", "url": "https://epoch.ai/data-insights/malaysia-china-chip-smuggling", "outlet": "Epoch AI", "title": "Malaysia–China server trade gap (data insight)", "published_at": "2026-09-17",
+   "lang": "en", "access": "full_text", "headline_ko": "말레이시아-중국 서버 무역통계의 불일치",
+   "key_facts": [
+    "Between April 2024 and June 2025, China recorded $3.8 billion of server imports from Malaysia.",
+    "Malaysia recorded only $0.6 billion of exports to China.",
+    "36,700 declared by Malaysia, 35,500 recorded by China",
+    "about $17,000 each leaving Malaysia, compared with $106,000 arriving in China",
+    "This flow began a few months after [the US banned exports of Nvidia's A800/H800 GPUs to China]",
+    "collapsed within weeks of [Malaysia requiring a permit to export or transship high-performance AI chips, July 2025]",
+    "While not proving diversion, this pattern is consistent with [established chip smuggling cases]"
+   ],
+   "quotes": []},
+  {"key": "reuters_repair", "url": "https://ca.finance.yahoo.com/news/china-repair-demand-banned-nvidia-210306863.html", "outlet": "Reuters (via Yahoo Finance)", "title": "In China, repair demand for banned Nvidia AI chipsets booms", "published_at": "2025-07-24",
+   "lang": "en", "access": "full_text", "headline_ko": "중국에서 금수 엔비디아 AI 칩 수리 수요 급증",
+   "key_facts": [
+    "now repairs up to 500 Nvidia AI chips per month",
+    "charges between 10,000 yuan and 20,000 yuan ($1,400 to $2,800) to fix a GPU",
+    "Nvidia cannot legally provide repair or replacement items for restricted products in China.",
+    "The Shenzhen firms predominantly fix H100 GPUs, plus A100 and other chips (summary)",
+    "buying, selling and repair of Nvidia GPUs is \"not illegal in China\" (summary with quoted phrase)"
+   ],
+   "quotes": [
+    {"speaker": "Nvidia spokesperson", "role": "Nvidia", "text_en": "Using restricted products without approved hardware, software, and technical support is a nonstarter", "text_ko": "승인된 하드웨어·소프트웨어·기술 지원 없이 제한 제품을 쓰는 것은 애초에 말이 안 된다"}
+   ]}
+ ],
+ "claims": [
+  {"n": 1, "text_ko": "미 뉴욕남부지검은 2026년 3월 19일 슈퍼마이크로 공동창업자 리아우 등 3명에 대한 기소장을 공개했다.", "event_date": "2026-03-19", "source_keys": ["doj_sdny_liaw", "register_liaw"], "support": "DOJ release dated Thursday, March 19, 2026; Register: 'the United States Attorney's Office for the Southern District of New York has unsealed an indictment'", "level": "confirmed_multi", "note": "Maryland MCAC mirror dates it March 20 (DOJ release was updated March 20)."},
+  {"n": 2, "text_ko": "함께 기소된 사람은 슈퍼마이크로 대만 지사 총괄 장루이창(Steven Chang)과 브로커 쑨팅웨이(Willy Sun)다.", "event_date": "2026-03-19", "source_keys": ["doj_sdny_liaw", "register_liaw"], "support": "Ruei-Tsang \"Steven\" Chang, 53, general manager in the Taiwan office; Ting-Wei \"Willy\" Sun, 44, third-party broker and \"fixer\"", "level": "confirmed_multi", "note": "Not to be confused with the Nvidia Taiwan manager also surnamed Chang in the Keelung case."},
+  {"n": 3, "text_ko": "리아우와 쑨은 체포됐고 장은 도주 중이다.", "event_date": "2026-03-19", "source_keys": ["doj_sdny_liaw", "toms_liaw_plea"], "support": "Liaw and Sun were arrested; Chang remains a fugitive / Chang is 'not in U.S. custody'", "level": "confirmed_multi", "note": ""},
+  {"n": 4, "text_ko": "검찰은 동남아 회사(회사-1)가 2024~2025년 피고인들의 지시로 슈퍼마이크로 서버 약 25억 달러어치를 샀고 이것이 중국으로 전용됐다고 주장한다.", "event_date": "2026-03-19", "source_keys": ["doj_sdny_liaw", "fortune_2026_11_10", "register_liaw"], "support": "Company-1 purchased approximately $2.5 billion worth of servers from the U.S. Manufacturer; 'directed certain executives of a company based in Southeast Asia'", "level": "attributed_only", "note": "Allegation in indictment. Fortune 11/10 says servers contained Nvidia H200 and B200 GPUs."},
+  {"n": 5, "text_ko": "검찰은 2025년 4월 말~5월 중순에만 최소 약 5억 1,000만 달러어치 서버가 중국으로 전용됐다고 주장한다.", "event_date": "2025-05-15", "source_keys": ["doj_sdny_liaw", "epoch_smuggling"], "support": "DOJ: 'at least approximately $510 million worth of the U.S. Manufacturer's servers' (late April to mid-May 2025); Epoch: 'The indictment only explicitly claims that $510 million worth of servers made it to China'", "level": "attributed_only", "note": "The brief attributes this to Fortune 11/10; Fortune 11/10 does not contain it. Correct sources: DOJ release and Epoch blog. Period is roughly three weeks (late April–mid May), not the full April–May."},
+  {"n": 6, "text_ko": "검찰은 피고인들이 작동하지 않는 모형 서버 수천 대를 창고에 꾸며 놓았다고 주장한다.", "event_date": "2025-08-01", "source_keys": ["doj_sdny_liaw", "register_liaw", "fortune_2026_11_10"], "support": "the defendants staged thousands of \"dummy\" servers—non-working, physical replicas of the U.S. Manufacturer's servers", "level": "attributed_only", "note": "DOJ: staged at a warehouse rented by Company-1 for an August 2025 audit by the manufacturer, and for a Commerce Department inspection."},
+  {"n": 7, "text_ko": "모형 서버를 둔 창고가 세 곳이었다는 것은 포천 보도다.", "event_date": "2026-11-10", "source_keys": ["fortune_2026_11_10"], "support": "Fortune: thousands of nonworking dummy servers staged in three warehouses to trick auditors (per the indictment)", "level": "confirmed_single", "note": "The DOJ release text read refers to 'a warehouse rented by Company-1' (audit) and a separate Commerce inspection; the 'three warehouses' figure was found only in Fortune."},
+  {"n": 8, "text_ko": "검찰은 헤어드라이어로 서버 상자의 라벨과 일련번호 스티커를 떼고 붙였다고 주장하며, 감시 카메라가 이를 찍었다.", "event_date": "2026-03-19", "source_keys": ["doj_sdny_liaw", "engadget_bbg_1001", "fortune_2026_11_10"], "support": "'using a hair dryer to remove and affix labels and serial number stickers to the server boxes'; 'Surveillance cameras recorded their work and captured them preparing the dummy servers'", "level": "attributed_only", "note": "DOJ attributes the hair-dryer work to Sun and 'Broker-1'. Fortune calls them 'contractors'."},
+  {"n": 9, "text_ko": "법무부는 3월 보도자료에 모형 서버 사진과 감시 카메라 이미지를 함께 공개했다.", "event_date": "2026-03-19", "source_keys": ["doj_sdny_liaw", "engadget_bbg_1001"], "support": "'Photographs of some of the dummy servers that were staged at a warehouse rented by Company-1 ... are below'; Engadget: 'officials released a surveillance video showing someone using a red hair dryer'", "level": "confirmed_multi", "note": "Engadget calls it a surveillance video; DOJ page has still images. The hair dryer being red is from Engadget's summary of Bloomberg."},
+  {"n": 10, "text_ko": "감시 영상 속 헤어드라이어를 쓴 사람이 여성이라는 서술은 확인되지 않았다.", "event_date": "2026-03-19", "source_keys": ["doj_sdny_liaw", "engadget_bbg_1001"], "support": "Engadget: 'someone using a red hair dryer'; DOJ names Sun and Broker-1", "level": "not_found", "note": "No source read describes the person as a woman. Warehouse country also not stated explicitly (only 'a warehouse rented by Company-1', a Southeast Asia-based company)."},
+  {"n": 11, "text_ko": "블룸버그는 2026년 10월 1일 특집에서 이 감시 화면과 엔비디아가 놓친 위험 신호를 다뤘다.", "event_date": "2026-10-01", "source_keys": ["engadget_bbg_1001", "bbg_2026_10_01"], "support": "Engadget (Oct 2) summarizing Bloomberg's Oct 1 report: red flags incl. OBON lacking 100 MW capacity; 'officials released a surveillance video ...'", "level": "confirmed_single", "note": "Bloomberg itself paywalled; via Engadget only. The surveillance material was released by officials (DOJ) in March, not originated by Bloomberg."},
+  {"n": 12, "text_ko": "리아우는 무죄를 주장했다.", "event_date": "2026-04-01", "source_keys": ["toms_liaw_plea", "fortune_2026_11_10", "fortune_2026_05_13"], "support": "Liaw pleaded not guilty in Manhattan federal court before Judge Edgardo Ramos; Fortune: 'Liaw has pleaded not guilty'", "level": "confirmed_multi", "note": "Released on $5M bond."},
+  {"n": 13, "text_ko": "리아우의 재판은 2026년 11월에서 2027년 3월로 미뤄졌다.", "event_date": "2026-11-10", "source_keys": ["fortune_2026_11_10"], "support": "Liaw's trial was moved from November 2026 to March 2027", "level": "confirmed_single", "note": "Original trial date Nov 2, 2026 per Tom's Hardware."},
+  {"n": 14, "text_ko": "공동 피고인 쑨은 2026년 10월 9일 유죄를 인정했다.", "event_date": "2026-10-09", "source_keys": ["dcd_sun_plea", "fortune_2026_11_10"], "support": "Fortune: 'One of the three charged pleaded guilty in October'; DCD/TNW: Sun pleaded guilty Oct 9, 2026 to four counts", "level": "confirmed_multi", "note": "Date from search summaries; Fortune confirms October."},
+  {"n": 15, "text_ko": "슈퍼마이크로 법인은 기소되지 않았고 스스로 피해자라며 수사에 협조한다고 밝혔다.", "event_date": "2026-11-10", "source_keys": ["fortune_2026_11_10", "register_liaw", "fortune_2026_05_13"], "support": "Fortune 11/10: Supermicro was not charged; says it was a victim of the scheme and is cooperating; Fortune 5/13: 'Neither Supermicro nor any of its other executives were named in the case'", "level": "confirmed_multi", "note": ""},
+  {"n": 16, "text_ko": "블룸버그 등은 통과 법인(회사-1)을 방콕의 AI 인프라 기업 OBON으로 지목했다.", "event_date": "2026-05-08", "source_keys": ["tnw_obon", "fortune_2026_11_10", "engadget_bbg_1001"], "support": "TNW: 'Bloomberg's sources identify OBON' ... 'a Bangkok-based AI infrastructure firm'; Fortune: Bloomberg and Culper identified the front company as OBON", "level": "attributed_only", "note": "Identification comes from anonymous sourcing / short seller, not the indictment (which says 'Company-1')."},
+  {"n": 17, "text_ko": "OBON은 기소되지 않았다.", "event_date": "2026-11-10", "source_keys": ["fortune_2026_11_10", "tnw_obon"], "support": "OBON has not been charged", "level": "confirmed_multi", "note": ""},
+  {"n": 18, "text_ko": "슈퍼마이크로 공소장은 엔비디아의 위법을 주장하지 않으며, 엔비디아는 전용된 시스템에 서비스·지원을 하지 않는다고 밝혔다.", "event_date": "2026-05-13", "source_keys": ["fortune_2026_05_13"], "support": "'Nvidia does not provide any service or support for such systems.'", "level": "confirmed_single", "note": "Nvidia not named as defendant in any case reviewed."},
+  {"n": 19, "text_ko": "텍사스 하오글로벌 대표 앨런 하오 쉬와 회사는 2025년 10월 10일 밀수·불법 수출 혐의를 인정했다.", "event_date": "2025-10-10", "source_keys": ["doj_sdtx_gatekeeper", "arnoldporter"], "support": "Alan Hao Hsu and Hao Global LLC pleaded guilty on October 10, 2025, to smuggling and unlawful export activity", "level": "confirmed_multi", "note": "Plea was under seal; made public Dec 8, 2025. Sentencing set for Feb 18 (2026)."},
+  {"n": 20, "text_ko": "미 법무부는 2025년 12월 8일 '게이트키퍼 작전'으로 이 밀수망을 차단했다고 발표했다.", "event_date": "2025-12-08", "source_keys": ["doj_sdtx_gatekeeper", "arnoldporter"], "support": "Operation Gatekeeper (announced Monday, December 8, 2025), Southern District of Texas", "level": "confirmed_multi", "note": ""},
+  {"n": 21, "text_ko": "검찰은 2024년 10월~2025년 5월 H100·H200 최소 1억 6,000만 달러어치를 반출했거나 반출하려 했다고 밝혔다.", "event_date": "2025-05-31", "source_keys": ["doj_sdtx_gatekeeper", "arnoldporter"], "support": "From October 2024 to May 2025 ... exported or attempted to export at least $160 million in H100 and H200 GPUs", "level": "confirmed_multi", "note": "Admitted in Hsu's plea, so stronger than pure allegation for Hsu; A&P does not give the date range."},
+  {"n": 22, "text_ko": "수법은 대리 구매자, 미국 내 창고, 엔비디아 라벨 제거 후 가짜 회사 이름으로 바꿔 달기였다고 검찰은 밝혔다.", "event_date": "2025-12-08", "source_keys": ["doj_sdtx_gatekeeper", "arnoldporter"], "support": "used straw purchasers ... sent chips to U.S. warehouses ... removed Nvidia labels and relabeled the chips under a fictitious company name", "level": "attributed_only", "note": "Describes the network; co-defendants not convicted."},
+  {"n": 23, "text_ko": "검찰은 이 계획에 중국에서 5,000만 달러가 넘는 송금이 들어왔다고 밝혔다.", "event_date": "2025-12-08", "source_keys": ["doj_sdtx_gatekeeper"], "support": "received more than $50 million in wire transfers from China to fund the scheme", "level": "attributed_only", "note": "In DOJ release, not in Arnold & Porter blog (brief cites A&P only)."},
+  {"n": 24, "text_ko": "같은 작전으로 벤린 위안(11월 28일 체포)과 판웨 '톰' 궁(12월 3일 체포)이 기소됐다.", "event_date": "2025-12-03", "source_keys": ["doj_sdtx_gatekeeper", "arnoldporter"], "support": "Benlin Yuan arrested November 28 ... Fanyue (Tom) Gong arrested December 3", "level": "confirmed_multi", "note": "Search summaries say both pleaded not guilty."},
+  {"n": 25, "text_ko": "플로리다 사건에서 검찰은 탬파의 '재너드 리얼터'가 부동산 거래를 한 적 없는 위장 회사였다고 주장한다.", "event_date": "2025-11-20", "source_keys": ["doj_mdfl_tampa", "fortune_2026_05_13"], "support": "Despite its name, Janford Realtor, LLC, was never involved in any real estate transactions.", "level": "attributed_only", "note": "DOJ release Nov 20, 2025 (Middle District of Florida); defendants Hon Ning Ho, Brian Curtis Raymond, Cham Li, Jing Chen."},
+  {"n": 26, "text_ko": "검찰은 2024년 10월~2025년 1월 A100 400개가 말레이시아·태국을 거쳐 중국으로 갔다고 주장한다.", "event_date": "2025-01-31", "source_keys": ["doj_mdfl_tampa", "fortune_2026_05_13"], "support": "'400 NVIDIA A100 GPUs being exported to the PRC'; 'through Malaysia and Thailand'", "level": "attributed_only", "note": "Brief says '약 400개'; source says 400."},
+  {"n": 27, "text_ko": "플로리다 사건의 HPE 슈퍼컴퓨터 10대(H100)와 H200 50개 반출 시도는 저지됐다.", "event_date": "2025-11-20", "source_keys": ["doj_mdfl_tampa", "fortune_2026_05_13"], "support": "'ten Hewlett Packard Enterprises supercomputers containing NVIDIA H100 GPUs'; 'will also seek forfeiture of 50 NVIDIA H200 GPUs'", "level": "confirmed_multi", "note": ""},
+  {"n": 28, "text_ko": "조지아 사건은 2026년 3월 조지아 북부지검이 중국인 1명과 미국인 2명을 기소한 사건이다.", "event_date": "2026-03-25", "source_keys": ["doj_ndga_zheng", "register_zheng", "fortune_2026_05_13"], "support": "Complaints issued March 20, 2026 in N.D. Georgia; release March 25, 2026; Stanley Yi Zheng, Matthew Kelly, Tommy Shad English", "level": "confirmed_multi", "note": "Charged by criminal complaint (not indictment at time of release)."},
+  {"n": 29, "text_ko": "검찰은 이들이 태국 회사를 구매자로 내세우고 중국행이 아니라는 증명서에 서명했다고 주장한다.", "event_date": "2023-10-01", "source_keys": ["doj_ndga_zheng", "fortune_2026_05_13"], "support": "Fortune: 'faking the end-user certifications and routing orders through phony buyers in Thailand'; DOJ: signed an 'Advanced Computing Certification' and later an 'End User Certification'", "level": "attributed_only", "note": ""},
+  {"n": 30, "text_ko": "켈리가 그럴듯한 웹사이트와 사업 자료, 재무 기록이 있는 다른 회사를 언급했다고 검찰은 주장한다.", "event_date": "2023-06-01", "source_keys": ["fortune_2026_05_13", "doj_ndga_zheng"], "support": "'another company had a legit-looking website with pitch decks and financial records'", "level": "attributed_only", "note": "DOJ: June 2023, English said he had faked corporate materials."},
+  {"n": 31, "text_ko": "정은 메시지로 '중국에 관해서는 아무것도 언급하지 마라'고 했다고 검찰은 주장한다.", "event_date": "2024-03-01", "source_keys": ["doj_ndga_zheng", "fortune_2026_05_13"], "support": "\"DO NOT MENTION ANYTHING ABOUT CHINA\"", "level": "attributed_only", "note": "Reply to a March 2024 draft solicitation mentioning Chinese customers; brief's '중국 언급을 지우자' is a fair paraphrase."},
+  {"n": 32, "text_ko": "2023년 10월 서버 750대, 약 1억 7,000만 달러 주문은 판매·칩 회사의 점검에 걸려 성사되지 않았다.", "event_date": "2023-10-01", "source_keys": ["doj_ndga_zheng", "fortune_2026_05_13", "register_zheng"], "support": "Fortune: 'English allegedly placed a purchase order for 750 servers for $170 million' ... 'That purchase failed due to one unnamed company's compliance controls.'", "level": "confirmed_multi", "note": "DOJ: Company-1 (server maker, Supermicro per The Register) raised red flags and Company-2 (chip maker, Nvidia per The Register) could not verify the Thai end user."},
+  {"n": 33, "text_ko": "대만 지룽 지검은 2026년 8월 24일 엔비디아 대만 지사 관리자 장 씨 등을 기소했다.", "event_date": "2026-08-24", "source_keys": ["cna_taiwan_indict", "tnw_taiwan_indict", "ap_taiwan_indict"], "support": "Focus Taiwan: Keelung District Prosecutors' Office filed the indictments (Aug 24); 'a distribution manager surnamed Chang (張) at Nvidia Corp.'s Taiwan office'", "level": "confirmed_multi", "note": "Title varies: 'senior manager' (TNW), 'distribution manager' (CNA), 'senior partner manager' (AP). Defendant count: 9 (AP, TNW) vs '8 indicted' (CNA headline)."},
+  {"n": 34, "text_ko": "장 씨는 2026년 7월 구금됐다.", "event_date": "2026-07-28", "source_keys": ["tnw_bbg_1115", "taiwannews_bbg_1115"], "support": "Chang was detained in July and indicted in August", "level": "confirmed_multi", "note": "Detention after a July 24 search."},
+  {"n": 35, "text_ko": "검찰은 B300 칩을 실은 서버 74대가 중국으로 갔다고 주장한다.", "event_date": "2026-08-24", "source_keys": ["tnw_taiwan_indict", "cna_taiwan_indict"], "support": "'74 servers containing B300 chips'", "level": "attributed_only", "note": "Chip: B300 (CNA, TNW, AP). Some secondary reports say GB300."},
+  {"n": 36, "text_ko": "중국행 서버는 인도네시아, 그리고 일본과 홍콩을 거쳤다고 검찰은 주장한다.", "event_date": "2026-08-24", "source_keys": ["cna_taiwan_indict", "tnw_taiwan_indict"], "support": "'Of those, 50 were shipped to China via Indonesia.'; 'eight were shipped to Japan and then Hong Kong for delivery to Chinese buyers'", "level": "attributed_only", "note": "Brief omits Hong Kong; route via Japan continued to Hong Kong."},
+  {"n": 37, "text_ko": "나머지 서버 56대는 출항 전에 대만 당국이 압수했다.", "event_date": "2026-05-20", "source_keys": ["cna_taiwan_indict", "tnw_taiwan_indict", "taiwannews_bbg_1115"], "support": "'another 56 were seized before they could leave'; Taiwan News: '56 servers intercepted by the Coast Guard in May'", "level": "confirmed_multi", "note": "Discrepancy: Focus Taiwan's May 22 report on the May 20 raid said 50 servers were seized; the 56 figure appears in the August indictment coverage."},
+  {"n": 38, "text_ko": "장 씨의 죄명은 문서 위조와 배임이며 검찰은 최대 5년형을 구형했다.", "event_date": "2026-08-24", "source_keys": ["tnw_taiwan_indict", "cna_taiwan_indict", "ap_taiwan_indict"], "support": "'forgery and breach of trust'", "level": "confirmed_multi", "note": "Some co-defendants also charged with aggravated breach of trust under the Securities and Exchange Act."},
+  {"n": 39, "text_ko": "블룸버그는 엔비디아가 대만 정치권 인사들에게 장 씨 기소에 이의를 전하고 TSMC에도 조언을 구했다고 보도했다.", "event_date": "2026-11-15", "source_keys": ["tnw_bbg_1115", "taiwannews_bbg_1115", "bbg_2026_11_15"], "support": "Nvidia approached Taiwanese political officials ... argued Chang should not have been investigated; TSMC declined to get involved", "level": "attributed_only", "note": "Anonymous sourcing via Bloomberg; officials said they had no role."},
+  {"n": 40, "text_ko": "엔비디아는 자사 직원이 다른 회사 직원들의 전용 시도를 알았다는 정황은 없다고 밝혔다.", "event_date": "2026-11-15", "source_keys": ["tnw_bbg_1115", "taiwannews_bbg_1115"], "support": "'found no indication that our employee knew of the alleged diversion effort by employees at other companies'", "level": "confirmed_multi", "note": ""},
+  {"n": 41, "text_ko": "Epoch AI는 2025년 말까지 중국에 밀반입된 연산력을 H100 환산 66만 개로 추정했다(90% 구간 29만~160만).", "event_date": "2026-04-29", "source_keys": ["epoch_smuggling"], "support": "Our model estimates 660,000 (90% CI: 290,000–1.6 million) H100e of cumulative compute smuggled through the end of 2025.", "level": "attributed_only", "note": "Model estimate; Epoch notes ~3% of global compute stockpile. CI is a 90% credible/confidence interval as Epoch labels it 'CI'."},
+  {"n": 42, "text_ko": "기소·보도로 드러난 전용·실종 칩은 2025년 말까지 H100 환산 30만 개에 조금 못 미친다.", "event_date": "2026-04-29", "source_keys": ["epoch_smuggling"], "support": "Cumulative allegations of diverted or missing chips total almost 300,000 H100e by the end of 2025", "level": "attributed_only", "note": "'almost 300,000' — brief's '약 30만 개' is fine."},
+  {"n": 43, "text_ko": "Epoch은 혐의 대부분이 법정에서 입증되지 않았고 일부 칩은 중국에 닿지 않았을 수 있다고 한계를 밝혔다.", "event_date": "2026-04-29", "source_keys": ["epoch_smuggling"], "support": "the allegations are largely not yet proven in a court of law ... some of the chips redirected to China may not have arrived there", "level": "confirmed_single", "note": "Also: 'A 10% detection rate and a 80% detection rate imply very different totals' (sensitivity to detection rate)."},
+  {"n": 44, "text_ko": "Epoch은 중국 안에서 수출통제 칩을 파는 것이 불법이 아니라고 썼다.", "event_date": "2026-04-29", "source_keys": ["epoch_smuggling", "reuters_repair"], "support": "Epoch: 'selling export-controlled chips is not illegal within China'; Reuters: buying, selling and repair of Nvidia GPUs is 'not illegal in China'", "level": "confirmed_multi", "note": "Supports brief's final line of Section 3 (Chinese domestic law)."},
+  {"n": 45, "text_ko": "Epoch에 따르면 2024년 4월~2025년 6월 중국은 말레이시아산 서버 38억 달러어치 수입을 기록했지만 말레이시아의 대중 수출 기록은 6억 달러였다.", "event_date": "2026-09-17", "source_keys": ["epoch_malaysia"], "support": "Between April 2024 and June 2025, China recorded $3.8 billion of server imports from Malaysia. Malaysia recorded only $0.6 billion of exports to China.", "level": "confirmed_single", "note": "Analysis section gives $3.75B."},
+  {"n": 46, "text_ko": "대수는 말레이시아 신고 3만 6,700대, 중국 기록 3만 5,500대로 비슷했다.", "event_date": "2026-09-17", "source_keys": ["epoch_malaysia"], "support": "36,700 declared by Malaysia, 35,500 recorded by China", "level": "confirmed_single", "note": ""},
+  {"n": 47, "text_ko": "대당 신고가는 말레이시아 출항 약 1만 7,000달러, 중국 도착 10만 6,000달러였다.", "event_date": "2026-09-17", "source_keys": ["epoch_malaysia"], "support": "about $17,000 each leaving Malaysia, compared with $106,000 arriving in China", "level": "confirmed_single", "note": ""},
+  {"n": 48, "text_ko": "이 흐름은 미국이 A800·H800 수출을 막은 지 몇 달 뒤 시작됐다.", "event_date": "2024-04-01", "source_keys": ["epoch_malaysia"], "support": "This flow began a few months after [the US banned exports of Nvidia's A800/H800 GPUs to China]", "level": "confirmed_single", "note": "The A800/H800 ban came with the October 2023 rule."},
+  {"n": 49, "text_ko": "말레이시아가 2025년 7월 AI 칩 수출·환적 허가제를 도입하자 흐름은 몇 주 만에 무너졌다.", "event_date": "2025-07-14", "source_keys": ["epoch_malaysia"], "support": "collapsed within weeks of [Malaysia requiring a permit to export or transship high-performance AI chips]", "level": "confirmed_single", "note": "Exact day of the Malaysian rule not stated in the excerpt; July 2025."},
+  {"n": 50, "text_ko": "Epoch은 이 패턴이 전용을 증명하진 않지만 밀수 사례와 맞아떨어진다고 밝혔다.", "event_date": "2026-09-17", "source_keys": ["epoch_malaysia"], "support": "While not proving diversion, this pattern is consistent with [established chip smuggling cases]", "level": "confirmed_single", "note": ""},
+  {"n": 51, "text_ko": "로이터는 2025년 7월 선전의 한 수리 업체가 엔비디아 AI 칩을 한 달 최대 500개 고친다고 보도했다.", "event_date": "2025-07-24", "source_keys": ["reuters_repair"], "support": "now repairs up to 500 Nvidia AI chips per month", "level": "confirmed_single", "note": "Mostly H100, also A100. Roughly a dozen boutique firms offer such services."},
+  {"n": 52, "text_ko": "한 업체의 수리비는 개당 1만~2만 위안이다.", "event_date": "2025-07-24", "source_keys": ["reuters_repair"], "support": "charges between 10,000 yuan and 20,000 yuan ($1,400 to $2,800) to fix a GPU", "level": "confirmed_single", "note": "A different firm charges about 10% of the GPU's original price."},
+  {"n": 53, "text_ko": "엔비디아는 중국에서 제한 제품의 수리·교체를 법적으로 제공할 수 없다.", "event_date": "2025-07-24", "source_keys": ["reuters_repair", "fortune_2026_05_13"], "support": "Nvidia cannot legally provide repair or replacement items for restricted products in China.", "level": "confirmed_multi", "note": "Nvidia spokesperson: 'Using restricted products without approved hardware, software, and technical support is a nonstarter'."}
+ ],
+ "discrepancies": [
+  "Sec.1 bullet 1: the brief says the surveillance photo shows 'a woman'; no source read identifies the person's gender. DOJ attributes the hair-dryer work to Sun and 'Broker-1'; Engadget (summarizing Bloomberg) says 'someone'. Engadget calls it a surveillance video; the DOJ release includes still images. The country of the warehouse is not explicitly stated (a warehouse rented by Company-1, a Southeast Asia-based company).",
+  "Sec.1 bullet 1 cites Bloomberg 10/01 as the source of the photo; the material was released by DOJ on 2026-03-19. Bloomberg's Oct 1 feature (paywalled) re-reported it.",
+  "Sec.1 bullet 2: 'three warehouses' appears only in Fortune 11/10; the DOJ release text describes dummy servers staged at a warehouse for an August 2025 audit, plus a Commerce inspection. Fortune also specifies the GPUs were H200 and B200, which the brief omits.",
+  "Sec.3 bullet 1 (pass-through): the brief attributes '$510M in April–May 2025 per Epoch' to Fortune 11/10. Fortune 11/10 does not mention $510M or Epoch. The figure is in the DOJ release ('late April to mid-May 2025', roughly three weeks) and the Epoch blog.",
+  "Sec.3 bullet 1: OBON is identified as the Bangkok company by Bloomberg's anonymous sources and short seller Culper, not by the indictment, which says 'Company-1'.",
+  "Sec.3 bullet 2 (Hao Global): '>$50M wired from China' and the Oct 2024–May 2025 period are in the DOJ release, not the Arnold & Porter blog the brief cites. The plea date is 2025-10-10, announced 2025-12-08. Fortune 5/13 does not mention Hao Global.",
+  "Sec.3 bullet 2 (Florida): the brief cites only Fortune 5/13. The primary source is the DOJ/M.D. Fla. release of 2025-11-20 (Janford Realtor LLC). Fortune says '400', not 'about 400'.",
+  "Sec.3 bullet 3 (Georgia): the brief cites no source. Sources are DOJ N.D. Ga. (2026-03-25) and Fortune 5/13. Per DOJ, the $170M / 750-server order failed because the server maker raised red flags and the chip maker (Nvidia per The Register) could not verify the Thai end user. That is two companies' checks, not only 'the seller's compliance'.",
+  "Sec.3 bullet 4 (Taiwan): routes were Indonesia (50) and Japan→Hong Kong (8). The brief omits Hong Kong. The May 20 raid was reported at the time (Focus Taiwan 5/22) as seizing 50 servers; the 56 figure comes from the August indictment and Bloomberg coverage. Chang's title varies (distribution manager / senior partner manager / senior manager). Defendant count is 9 per AP/TNW but '8 indicted' per CNA. Some secondary reports say GB300; primary-leaning sources (CNA, TNW, AP) say B300.",
+  "Sec.3 bullet 4: Bloomberg 11/15 also reports that Nvidia sought TSMC's advice (TSMC declined) and that officials said they had no role. The brief's 'conveyed concerns to political figures' is consistent but should be attributed to anonymous sources.",
+  "Sec.5 repair bullet: the Reuters article date is 2025-07-24. The '500/month' figure is for one repair affiliate, and the 10,000–20,000 yuan fee is for one (possibly different) firm."
+ ],
+ "blocked_hosts": [
+  "bloomberg.com (paywall; used secondary coverage)",
+  "justice.gov usao-sdny and usao-sdtx pages returned empty content via WebFetch (OPA versions of the same releases were read instead)",
+  "globalsecurity.org (403)",
+  "dailysignal.com (403)"
+ ]
+}

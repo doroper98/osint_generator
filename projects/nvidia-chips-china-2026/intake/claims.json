@@ -1,0 +1,1272 @@
+{
+ "schema_version": 1,
+ "claims": [
+  {
+   "claim_id": "clm_0001",
+   "text": "젠슨 황은 2026년 11월 12일 엔비디아 사장·최고경영자·이사직에서 즉시 사임했고 콜렛 크레스 최고재무책임자가 임시 최고경영자를 맡았다",
+   "source_ids": [
+    "src_doc_0001",
+    "src_art_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-11-12",
+   "checks": [
+    "manual:resign",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0002",
+   "text": "엔비디아 보도자료에서 크레스 임시 최고경영자는 젠슨 황이 지난 33년간 쌓은 토대를 언급했다(젠슨 황의 재임 33년)",
+   "source_ids": [
+    "src_doc_0001"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-11-12",
+   "checks": [
+    "manual:kress33",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "33년 = 1993년 창업 이후 재임 기간(보도자료 인용문)"
+  },
+  {
+   "claim_id": "clm_0003",
+   "text": "젠슨 황은 2026년 11월 8일 임직원에게 보낸 글에서 아내에게 충실하지 못했다고 인정했고 상대의 이름은 밝히지 않았다",
+   "source_ids": [
+    "src_doc_0002",
+    "src_art_0002",
+    "src_art_0003"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-11-08",
+   "checks": [
+    "manual:memo",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "사과문은 외도와 국가안보 우려의 연결을 인정하지 않았다 — 이사회 조사를 지지한다고만 썼다(조사 A #3)",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0002",
+     "text": "I was unfaithful to my wife."
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0004",
+   "text": "엔비디아 이사회는 2026년 11월 8일 젠슨 황이 외국 정보공작의 표적이 됐다는 보도를 계기로 독립 조사를 시작한다고 발표했다",
+   "source_ids": [
+    "src_doc_0003",
+    "src_art_0003"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-11-08",
+   "checks": [
+    "manual:board_probe",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0005",
+   "text": "엔비디아 이사회는 국가안보나 엔비디아 기밀이 침해됐다고 볼 근거가 없다고 밝혔다",
+   "source_ids": [
+    "src_doc_0003",
+    "src_art_0003"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-11-08",
+   "checks": [
+    "manual:board_no_reason",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": "",
+   "direct_quotes": [
+    {
+     "source_id": "src_doc_0003",
+     "text": "no reason to believe that either national security or NVIDIA secrets were compromised"
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0006",
+   "text": "외도 상대로 보도된 인물은 싱가포르 기업 메가스피드의 전 임원이다(젠슨 황 본인은 상대를 밝히지 않았다)",
+   "source_ids": [
+    "src_art_0004",
+    "src_art_0005",
+    "src_art_0001"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-11-16",
+   "checks": [
+    "manual:partner",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "실명은 영상에 쓰지 않는다(order.yaml)"
+  },
+  {
+   "claim_id": "clm_0007",
+   "text": "메가스피드는 엔비디아 칩을 중국 기업에 넘긴다는 의혹을 받아 왔다 — 2025년 10월 뉴욕타임스 보도와 코튼 상원의원의 조사 요청 서한",
+   "source_ids": [
+    "src_doc_0004",
+    "src_art_0006",
+    "src_art_0005"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2025-10-13",
+   "checks": [
+    "manual:megaspeed_alleg",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "의혹의 존재가 확인된 사실 — 의혹 내용은 입증되지 않았다"
+  },
+  {
+   "claim_id": "clm_0008",
+   "text": "뉴욕타임스는 2026년 10월 29일 미 정보당국이 이 전 임원을 중국 국가안전부에 포섭된 인물로 본다고 보도했다",
+   "source_ids": [
+    "src_art_0007",
+    "src_art_0005",
+    "src_art_0004",
+    "src_art_0008",
+    "src_art_0009"
+   ],
+   "status": "disputed",
+   "contested": true,
+   "event_date": "2026-10-29",
+   "checks": [
+    "manual:spy_report",
+    "independent_origins:5"
+   ],
+   "attributed_only": true,
+   "claim_kind": "fact",
+   "notes": "뉴욕타임스 원문 미열람 — AP·Fortune·TechCrunch 의 인용으로 대조",
+   "sides": [
+    {
+     "party": "뉴욕타임스 보도(익명의 미 당국자)",
+     "text": "미 정보당국은 이 전 임원이 중국 국가안전부에 포섭됐다고 본다",
+     "source_ids": [
+      "src_art_0005",
+      "src_art_0004"
+     ]
+    },
+    {
+     "party": "중국 외교부",
+     "text": "근거 없는 주장이며 중국에 대한 모략이다",
+     "source_ids": [
+      "src_art_0008"
+     ]
+    },
+    {
+     "party": "미국 법무장관",
+     "text": "그가 어떤 인물인지 내려진 결론이 없다",
+     "source_ids": [
+      "src_art_0009"
+     ]
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0009",
+   "text": "토드 블랜치 미 법무장관은 2026년 11월 12일 이 전 임원이 어떤 인물인지에 대해 내려진 결론이 없다고 말했다",
+   "source_ids": [
+    "src_art_0009",
+    "src_art_0010",
+    "src_art_0004"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-11-12",
+   "checks": [
+    "manual:blanche",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": "",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0009",
+     "text": "There's no conclusions reached around who she is or is not."
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0010",
+   "text": "중국 외교부 궈자쿤 대변인은 2026년 11월 9일 이른바 중국 스파이 주장은 근거가 없고 중국에 대한 모략이라고 반박했다",
+   "source_ids": [
+    "src_art_0008",
+    "src_art_0011"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-11-09",
+   "checks": [
+    "manual:china_fm",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": "",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0008",
+     "text": "The so-called Chinese spy allegation is unsubstantiated. It is nothing but smears against China"
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0011",
+   "text": "메가스피드는 합법적으로 사업해 왔고 칩 불법 이전이나 불법 행위의 증거는 없다고 부인했다",
+   "source_ids": [
+    "src_art_0004",
+    "src_art_0012"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-11-15",
+   "checks": [
+    "manual:megaspeed_denial",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0012",
+   "text": "메가스피드는 이 전 임원이 2025년 8월 30일자로 회사를 떠났다고 밝혔다",
+   "source_ids": [
+    "src_art_0004"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-11-15",
+   "checks": [
+    "manual:left_aug",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": "AP 통신 기사(ABC 게재)와 Asia Times 가 같은 회사 발표를 전함"
+  },
+  {
+   "claim_id": "clm_0013",
+   "text": "싱가포르 당국은 2025년 2월 메가스피드 조사에 착수했고, 이 전 임원이 범죄를 저질렀다는 증거는 부족하다고 결론 내렸다",
+   "source_ids": [
+    "src_art_0004",
+    "src_art_0010",
+    "src_art_0012"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-11-12",
+   "checks": [
+    "manual:sg_insufficient",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "싱가포르 내무부는 조사가 간첩 행위에 관한 것이 아니었다고도 밝혔다. 회사 조사는 계속"
+  },
+  {
+   "claim_id": "clm_0014",
+   "text": "미 뉴욕남부 연방검찰은 2026년 3월 19일 슈퍼마이크로 공동창업자 리아우 등 세 명을 수출통제 위반 공모 혐의로 기소했다고 발표했다",
+   "source_ids": [
+    "src_doc_0005",
+    "src_art_0013"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-03-19",
+   "checks": [
+    "manual:liaw_indict",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0015",
+   "text": "검찰은 동남아 소재 회사가 피고인들의 지시로 산 서버 약 25억 달러어치가 중국으로 전용됐다고 주장한다(서버에는 엔비디아 칩이 들어 있었다)",
+   "source_ids": [
+    "src_doc_0005",
+    "src_art_0005",
+    "src_art_0013"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-03-19",
+   "checks": [
+    "manual:liaw_25b",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0016",
+   "text": "미 법무부는 피고인 등이 헤어드라이어로 서버 상자의 라벨과 일련번호 스티커를 떼어 붙이는 감시 카메라 화면을 보도자료에 공개했다",
+   "source_ids": [
+    "src_doc_0005",
+    "src_art_0014"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-03-19",
+   "checks": [
+    "manual:hairdryer",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "감독이 법무부 보도자료 이미지(붉은 헤어드라이어) 직접 확인"
+  },
+  {
+   "claim_id": "clm_0017",
+   "text": "검찰은 피고인들이 제조사 감사와 상무부 점검에 대비해 작동하지 않는 모형 서버 수천 대를 창고에 쌓아 두었다고 주장한다",
+   "source_ids": [
+    "src_doc_0005",
+    "src_art_0013",
+    "src_art_0005"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-03-19",
+   "checks": [
+    "manual:dummy",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0018",
+   "text": "리아우는 무죄를 주장했다",
+   "source_ids": [
+    "src_art_0015",
+    "src_art_0005",
+    "src_art_0016"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-04-01",
+   "checks": [
+    "manual:liaw_notguilty",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0019",
+   "text": "함께 기소된 중개인 쑨은 2026년 10월 유죄를 인정했다",
+   "source_ids": [
+    "src_art_0017",
+    "src_art_0005"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-10-09",
+   "checks": [
+    "manual:sun_plea",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0020",
+   "text": "텍사스 하오글로벌 대표는 2025년 10월 10일 유죄를 인정했다 — 2024년 10월~2025년 5월 엔비디아 H100·H200 최소 1억 6,000만 달러어치를 허가 없이 수출했거나 수출하려 했다",
+   "source_ids": [
+    "src_doc_0006",
+    "src_art_0018"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2025-10-10",
+   "checks": [
+    "manual:hao_plea",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0021",
+   "text": "플로리다 사건에서 검찰은 엔비디아 A100 칩 400개가 말레이시아와 태국을 거쳐 중국으로 갔다고 밝혔다",
+   "source_ids": [
+    "src_doc_0007",
+    "src_art_0016"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2025-11-20",
+   "checks": [
+    "manual:tampa_400",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0022",
+   "text": "대만 지룽 지방검찰은 2026년 8월 24일 엔비디아 대만 지사 관리자 장 씨 등을 기소했다",
+   "source_ids": [
+    "src_art_0019",
+    "src_art_0020",
+    "src_art_0021"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-08-24",
+   "checks": [
+    "manual:tw_indict",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0023",
+   "text": "대만 검찰은 최신 칩이 든 서버 74대가 인도네시아와 일본·홍콩 등을 거쳐 중국으로 갔다고 주장한다",
+   "source_ids": [
+    "src_art_0019",
+    "src_art_0020"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-08-24",
+   "checks": [
+    "manual:tw_74",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0024",
+   "text": "나머지 서버 56대는 출항 전에 대만 당국에 압수됐다",
+   "source_ids": [
+    "src_art_0019",
+    "src_art_0020"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-05-20",
+   "checks": [
+    "manual:tw_56",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "2026-05-22 Focus Taiwan 초기 보도는 50대 — 56대는 8월 기소 보도 기준"
+  },
+  {
+   "claim_id": "clm_0025",
+   "text": "Epoch AI 는 2026년 9월 17일 말레이시아와 중국의 서버 무역 통계가 서로 어긋난다는 분석을 냈다",
+   "source_ids": [
+    "src_art_0022"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-09-17",
+   "checks": [
+    "manual:epoch_my_pub",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0026",
+   "text": "Epoch AI 분석: 2024년 4월~2025년 6월 중국은 말레이시아산 서버 38억 달러어치 수입을 기록했지만 말레이시아의 대중 수출 기록은 6억 달러였다 — 대수는 비슷했고(말레이시아 3만 6,700대·중국 3만 5,500대) 대당 신고가는 말레이시아 출항 약 1만 7,000달러, 중국 도착 10만 6,000달러",
+   "source_ids": [
+    "src_art_0022"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2025-06-30",
+   "checks": [
+    "manual:epoch_my",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0027",
+   "text": "말레이시아 투자통상산업부는 2025년 7월 14일부터 미국산 고성능 인공지능 칩의 수출·환적·경유에 전략무역허가를 요구했다",
+   "source_ids": [
+    "src_doc_0008",
+    "src_art_0023"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2025-07-14",
+   "checks": [
+    "manual:my_permit",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0028",
+   "text": "Epoch AI 는 이 서버 흐름이 말레이시아의 허가제 도입 뒤 몇 주 만에 무너졌다고 밝혔다 — 전용의 증명은 아니지만 밀수 사례와 맞아떨어진다고 평가",
+   "source_ids": [
+    "src_art_0022"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2025-07-14",
+   "checks": [
+    "manual:epoch_collapse",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0029",
+   "text": "Epoch AI 는 2025년 말까지 중국에 밀반입된 연산 능력을 엔비디아 H100 환산 66만 개(90% 구간 29만~160만)로 추정했다",
+   "source_ids": [
+    "src_art_0024"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-04-29",
+   "checks": [
+    "manual:epoch_660k",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0030",
+   "text": "Epoch AI 는 혐의 대부분이 법정에서 입증되지 않았고 일부 칩은 중국에 닿지 않았을 수 있다고 한계를 밝혔다",
+   "source_ids": [
+    "src_art_0024"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-04-29",
+   "checks": [
+    "manual:epoch_limits",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0031",
+   "text": "젠슨 황은 2025년 5월 17일 타이베이에서 인공지능 칩이 전용됐다는 증거는 없다고 말했다",
+   "source_ids": [
+    "src_art_0025",
+    "src_art_0026"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2025-05-17",
+   "checks": [
+    "manual:huang_no_evidence",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": "",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0026",
+     "text": "There's no evidence of any AI chip diversion."
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0032",
+   "text": "미 상무부는 2026년 11월 16일 규칙에서 제3국 데이터센터를 통한 원격 연산으로 기존 수출 제한이 우회될 수 있었다고 밝혔다(오래된 허점)",
+   "source_ids": [
+    "src_doc_0009",
+    "src_art_0027",
+    "src_art_0023"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-11-16",
+   "checks": [
+    "manual:remote_gap",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0033",
+   "text": "월스트리트저널은 2025년 3월 중국 엔지니어 네 명이 하드디스크 15개씩을 여행가방에 담아 베이징에서 말레이시아로 갔다고 보도했다",
+   "source_ids": [
+    "src_art_0028",
+    "src_art_0029"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2025-03-01",
+   "checks": [
+    "manual:wsj_trip",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": "익명 취재원 — 회사 이름 미공개"
+  },
+  {
+   "claim_id": "clm_0034",
+   "text": "월스트리트저널은 엔지니어들의 회사가 말레이시아 데이터센터에서 엔비디아 첨단 칩이 든 서버 약 300대를 빌려 두었다고 보도했다",
+   "source_ids": [
+    "src_art_0028",
+    "src_art_0029"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2025-03-01",
+   "checks": [
+    "manual:wsj_300",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0035",
+   "text": "CNBC 는 2026년 8월 19일 문샷AI·바이트댄스·알리바바·텐센트가 태국·말레이시아·일본 등의 시설을 통해 제한된 엔비디아 칩의 연산 능력을 쓴 것으로 보인다고 보도했다",
+   "source_ids": [
+    "src_art_0030"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-08-19",
+   "checks": [
+    "manual:cnbc",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "CNBC 원문 미열람 — TechNews 의 요약으로 대조"
+  },
+  {
+   "claim_id": "clm_0036",
+   "text": "인공지능 정책 연구자 캐시아 킹은 수출통제가 칩의 물리적 이동만 제한해 이런 원격 사용이 당시 규칙으로는 합법일 수 있다고 말했다",
+   "source_ids": [
+    "src_art_0030"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-08-19",
+   "checks": [
+    "manual:iaps_king",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0037",
+   "text": "미국 싱크탱크 IFP 는 중국이 해외 데이터센터 원격 접속으로 쓰는 연산 능력이 2026년 말 H100 환산 약 100만 개(범위 68만~146만)라고 추정했다",
+   "source_ids": [
+    "src_art_0031"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-10-19",
+   "checks": [
+    "manual:ifp_1m",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0038",
+   "text": "뉴욕타임스는 메가스피드가 산 엔비디아 칩이 말레이시아·인도네시아의 데이터센터로 갔고 그곳이 중국 고객에게 원격으로 서비스하는 것으로 보인다고 보도했다",
+   "source_ids": [
+    "src_art_0006",
+    "src_art_0005"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2025-10-09",
+   "checks": [
+    "manual:megaspeed_nyt",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0039",
+   "text": "톰 코튼 상원의원은 2025년 10월 13일자 서한으로 러트닉 상무장관에게 메가스피드 조사를 요청했다",
+   "source_ids": [
+    "src_doc_0004"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2025-10-13",
+   "checks": [
+    "manual:cotton",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0040",
+   "text": "엔비디아는 메가스피드 시설을 여러 차례 방문했고 전용의 증거를 찾지 못했다고 밝혔다",
+   "source_ids": [
+    "src_art_0006",
+    "src_art_0005",
+    "src_art_0011"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2025-10-09",
+   "checks": [
+    "manual:nvidia_visit",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0041",
+   "text": "미 상무부는 2026년 1월 H200급 칩의 중국 수출 심사를 원칙적 거부에서 사례별 심사로 바꿨다(1월 15일 관보 게재·시행)",
+   "source_ids": [
+    "src_doc_0010",
+    "src_doc_0011"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-01-15",
+   "checks": [
+    "manual:h200_case",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0042",
+   "text": "로이터는 2026년 11월 5일 엔비디아 H200 약 60만 개가 중국 본토 반입을 기다리며 홍콩에 보관돼 있다고 보도했다",
+   "source_ids": [
+    "src_art_0032"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-11-05",
+   "checks": [
+    "manual:hk_600k",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "익명 소식통 2명. Fortune·Asia Times 가 인용"
+  },
+  {
+   "claim_id": "clm_0043",
+   "text": "중국 정부는 자국 기업의 H200 대량 수입 승인을 대체로 미루고 있다",
+   "source_ids": [
+    "src_art_0032",
+    "src_art_0023",
+    "src_art_0033"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-11-05",
+   "checks": [
+    "manual:beijing_withholds",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0044",
+   "text": "로이터가 검토한 조달 기록: 미국 수출통제 명단에 오른 시안 서북공업대학은 2026년 10월 지역 업체에서 H200 두 개를 87만 4,700위안에 샀다",
+   "source_ids": [
+    "src_art_0033"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-10-21",
+   "checks": [
+    "manual:nwpu",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0045",
+   "text": "미 상무부는 2022년 10월 7일 첨단 연산 칩의 중국 수출에 허가를 요구하는 수출통제 규칙을 발표했다(엔비디아 A100·H100 대상)",
+   "source_ids": [
+    "src_doc_0012",
+    "src_art_0034"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2022-10-07",
+   "checks": [
+    "manual:ctl_2022",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0046",
+   "text": "2023년 10월 17일 개정으로 성능 기준이 바뀌어 중국용으로 성능을 낮춘 A800·H800 도 허가 대상이 됐다",
+   "source_ids": [
+    "src_doc_0012",
+    "src_art_0034"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2023-10-17",
+   "checks": [
+    "manual:ctl_2023",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0047",
+   "text": "트럼프 행정부 상무부는 2025년 5월 13일 바이든 정부의 전 세계 칩 허가 규칙(인공지능 확산 규칙) 철회에 착수했다",
+   "source_ids": [
+    "src_doc_0012",
+    "src_art_0035",
+    "src_doc_0009"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2025-05-13",
+   "checks": [
+    "manual:rescind_2025",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0048",
+   "text": "트럼프 대통령은 2025년 12월 8일 엔비디아 H200 을 중국의 승인된 고객에게 판매하도록 허용하겠다고 밝혔다",
+   "source_ids": [
+    "src_art_0036",
+    "src_doc_0011"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2025-12-08",
+   "checks": [
+    "manual:h200_dec",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": "",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0036",
+     "text": "the United States will allow NVIDIA to ship its H200 products to approved customers in China"
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0049",
+   "text": "CBS 는 미 상무부의 수출통제 명단(엔티티 리스트) 추가가 2025년 10월 9일이 마지막이었고 이후 1년간 없었다고 보도했다",
+   "source_ids": [
+    "src_art_0037"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-11-16",
+   "checks": [
+    "manual:cbs_entity",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "CBS 단독 — 전직 관리 증언과 연방관보 기록. 상무부는 답하지 않았다"
+  },
+  {
+   "claim_id": "clm_0050",
+   "text": "미 상무부 산업안보국은 2026년 11월 16일 '첨단 반도체 원격 접속 대응' 잠정 최종 규칙을 공개했다",
+   "source_ids": [
+    "src_doc_0009",
+    "src_art_0023",
+    "src_art_0027",
+    "src_art_0038"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-11-16",
+   "checks": [
+    "manual:rule_released",
+    "independent_origins:4"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0051",
+   "text": "규칙: 중국·마카오 등 본사 기업에 합계 1,200만 TPP 넘는 연산 능력을 제공하는 데이터센터로 첨단 칩을 보내려면 세계 어디서든 허가가 필요하다",
+   "source_ids": [
+    "src_doc_0009",
+    "src_art_0039"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-11-16",
+   "checks": [
+    "manual:rule_dc",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0052",
+   "text": "규칙: 이미 그런 고객을 둔 데이터센터는 시행일로부터 90일 안에 허가를 받아야 한다",
+   "source_ids": [
+    "src_doc_0009",
+    "src_art_0023"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-11-16",
+   "checks": [
+    "manual:rule_90d",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0053",
+   "text": "규칙: 인도네시아·말레이시아·싱가포르·태국·브라질로 가는 첨단 칩에는 허가가 필요하다 — 상무부는 이 다섯 나라를 전용 위험이 평소보다 높은 곳으로 규정했다",
+   "source_ids": [
+    "src_doc_0009",
+    "src_art_0023",
+    "src_art_0027",
+    "src_art_0038"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-11-16",
+   "checks": [
+    "manual:rule_5c",
+    "independent_origins:4"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0054",
+   "text": "규칙: 미국 본사 기업(최종 모회사가 미국인 기업 포함)으로 가는 물량은 보고 요건을 지키면 다섯 나라 허가 의무에서 빠진다",
+   "source_ids": [
+    "src_doc_0009",
+    "src_art_0039"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-11-16",
+   "checks": [
+    "manual:rule_us_exempt",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0055",
+   "text": "규칙은 연방관보 게재일에 시행되며 게재는 2026년 11월 19일로 예정돼 있다",
+   "source_ids": [
+    "src_doc_0009",
+    "src_art_0039",
+    "src_art_0040"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-11-19",
+   "checks": [
+    "manual:rule_effective",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0056",
+   "text": "2026년 11월 16일 규칙에서도 H200급 칩의 중국행 사례별 심사 정책은 그대로 유지됐다",
+   "source_ids": [
+    "src_doc_0009"
+   ],
+   "status": "verified",
+   "contested": false,
+   "event_date": "2026-11-16",
+   "checks": [
+    "manual:h200_kept",
+    "independent_origins:1"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0057",
+   "text": "원격 접속을 수출통제 대상에 넣는 원격접속보안법은 2026년 1월 12일 미 하원을 369 대 22로 통과했다",
+   "source_ids": [
+    "src_art_0041",
+    "src_art_0042"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-01-12",
+   "checks": [
+    "manual:rasa_house",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0058",
+   "text": "원격접속보안법은 상원을 통과하지 못해 아직 법이 아니다",
+   "source_ids": [
+    "src_art_0023",
+    "src_doc_0012",
+    "src_art_0041"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-11-16",
+   "checks": [
+    "manual:rasa_senate",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0059",
+   "text": "칩 보안법은 수출되는 첨단 칩에 위치 확인 장치를 의무화하는 법안이며 상원 국방수권법안에 들어가 있다(최종 포함은 합의 전)",
+   "source_ids": [
+    "src_art_0043",
+    "src_art_0044"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-11-12",
+   "checks": [
+    "manual:chipsec",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0060",
+   "text": "하원 외교·중국특위·정보위원장 세 명은 수출통제 법안 네 건(AI 오버워치법·칩 보안법·MATCH법·원격접속보안법)을 국방수권법에 넣어 즉시 통과시키라고 요구했다",
+   "source_ids": [
+    "src_art_0042",
+    "src_art_0043"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-11-14",
+   "checks": [
+    "manual:chairs4",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0061",
+   "text": "AI 오버워치법은 상무부의 대중국 첨단 칩 수출 허가를 의회가 30일 안에 검토·저지할 수 있게 하는 법안이다",
+   "source_ids": [
+    "src_art_0045",
+    "src_art_0046"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-01-21",
+   "checks": [
+    "manual:overwatch",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  },
+  {
+   "claim_id": "clm_0062",
+   "text": "한국은 2026년 11월 15일 샌프란시스코에서 팍스 실리카 '샌프란시스코 선언'에 서명했다 — 서명국은 미국·호주·인도·이스라엘·일본·한국·카타르·싱가포르·아랍에미리트·영국 10개국, 적대 세력으로의 기술 도용·불법 이전을 함께 막자는 내용",
+   "source_ids": [
+    "src_art_0047",
+    "src_art_0048",
+    "src_doc_0013"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-11-15",
+   "checks": [
+    "manual:korea_decl",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": "한국 외교부: 비구속적 정치 선언, 특정 국가 미언급. 서명국 명단 = 호주 정부 게재본(미 국무부 명단)"
+  },
+  {
+   "claim_id": "clm_0063",
+   "text": "중국 외교부 마오닝 대변인은 2026년 11월 13일 중국은 수출통제 조치의 남용에 반대한다고 밝혔다",
+   "source_ids": [
+    "src_art_0049",
+    "src_art_0050"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-11-13",
+   "checks": [
+    "manual:china_abuse",
+    "independent_origins:2"
+   ],
+   "attributed_only": false,
+   "claim_kind": "statement",
+   "notes": "",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0050",
+     "text": "China opposes abuse of export control measures."
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0064",
+   "text": "미국외교협회 조슈아 커란츠윅 선임연구원은 이 통제가 말레이시아에 재앙이 될 수 있다고 말했다",
+   "source_ids": [
+    "src_art_0023"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-11-16",
+   "checks": [
+    "manual:kurlantzick",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "",
+   "direct_quotes": [
+    {
+     "source_id": "src_art_0023",
+     "text": "For Malaysia, the controls could be disastrous."
+    }
+   ]
+  },
+  {
+   "claim_id": "clm_0065",
+   "text": "조지타운대 안보·신기술센터 한나 도먼 연구원은 당국이 움직이지 않으면 규칙만으로는 부족하다며 집행을 강조했다",
+   "source_ids": [
+    "src_art_0023"
+   ],
+   "status": "unverified",
+   "contested": false,
+   "event_date": "2026-11-16",
+   "checks": [
+    "manual:dohmen",
+    "independent_origins:1"
+   ],
+   "attributed_only": true,
+   "claim_kind": "statement",
+   "notes": "Fortune 의 요약(직접 인용 아님)"
+  },
+  {
+   "claim_id": "clm_0066",
+   "text": "젠슨 황은 추수감사절 전까지 미 의회에 비공개로 출석하기로 동의했다(날짜 미정)",
+   "source_ids": [
+    "src_art_0051",
+    "src_art_0052",
+    "src_art_0007"
+   ],
+   "status": "corroborated",
+   "contested": false,
+   "event_date": "2026-11-12",
+   "checks": [
+    "manual:testify",
+    "independent_origins:3"
+   ],
+   "attributed_only": false,
+   "claim_kind": "fact",
+   "notes": ""
+  }
+ ]
+}
