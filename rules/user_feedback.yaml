@@ -3013,6 +3013,8 @@ entries:
   category: 소리 — 사용자가 만든 배경음악 1곡 제공. 음악 레지스트리에 권리·실측과 함께 등록해 영상에서 쓸 수 있게 한다
   guards:
   - {kind: test, ref: tests/test_bgm_floor.py::FloorTest::test_user_track_registered}
+  - {kind: test, ref: tests/test_bgm_floor.py::FloorTest::test_noncommercial_needs_decision}
+  - {kind: code, ref: audio.registry.require_noncommercial_ok}
   status: guarded
   decision: "D922 — 수용. assets/audio/bgm/registry.yaml 에 music.yk_two_instruments 로 등록(sha1·길이·실측). 권리(Suno 요금제)와 등록 하한 미달(내레이션 대역 32 %) 두 가지를 사용자에게 알리고 확인 뒤 켠다"
   source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17

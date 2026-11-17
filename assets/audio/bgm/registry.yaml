@@ -66,13 +66,15 @@ tracks:
     duration_sec: 189.936                              # ffprobe 실측
     name: "두 개의 악기"
     author: _yk
-    license: "사용자 제작(Suno 생성) — 상업 이용 권리는 만든 시점의 Suno 요금제 약관에 따른다(사용자 확인 대기)"
+    license: "Suno 무료 요금제 생성물 — 비상업 이용만(수익화 영상 금지)"   # 사용자 확인 2026-11-17(D923): 무료 요금제로 만든 곡
     url: "https://suno.com"
     attribution: "\"두 개의 악기\" — _yk (Suno 로 제작)"
     source: "사용자 제공 — 세션 업로드 2026-11-17(파일 태그 created 2026-11-17T05:55:28Z)"
     mood: []                                           # 추측 금지 — 실측은 measured
     bpm: null
     measured: {beat_clarity: 4.12, onsets_per_min: 263.8, voice_band: 0.322}   # audio.bgm_measure(0~360초) 실측 — 등록 하한(6.0·300·0.10) 셋 다 미달
-    available: false
-    unavailable_reason: "켜기 전 두 가지 — ① 권리: Suno 요금제(상업 이용 가능 여부) 사용자 확인 ② 등록 하한 미달(내레이션 대역 32 % > 10 %): 사용자 선택 곡으로 하한을 면제할지 결정(D922)"
+    available: true
+    noncommercial: true                                # 연출 sound.noncommercial_ok(수익화하지 않는다는 사용자 결정 번호) 없이는 못 쓴다(audio.registry.require_noncommercial_ok)
+    floor_waiver: "D923 — 사용자가 직접 만들어 고른 곡(UF-910). 하한(UF-100 잠정값)은 면제하고 음량으로 보정한다"
+    bed_gain_scale: 0.56                               # 이 곡만 음악 베드 음량 배율(사용자 결정 "이 곡만 음량을 낮춰 쓴다") — sqrt(0.10 ÷ 0.322): 내레이션 대역 음악 에너지를 하한(10 %) 수준으로
 

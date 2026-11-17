@@ -174,6 +174,14 @@ class Sound(_Strict):
     cues: list[SoundCue] = Field(default_factory=list)
     # v5.22.2 UF-16·30·93(D-0205 §3) — 음악 없음(bgm null)은 결정 번호가 있어야 한다(검사 bgm_decision hard). 배경음악 누락이 세 번 되풀이됐다
     no_music_decision: NoMusicDecision = None   # 정의는 audio.registry 한 곳(audio.mix.Sound 와 공유)
+    noncommercial_ok: NoMusicDecision = None    # v7.4.0 UF-910(D923) — 비상업 전용 곡을 쓰는 영상: "수익화하지 않는다"는 사용자 결정 번호
+
+    @model_validator(mode="after")
+    def _noncommercial(self) -> "Sound":
+        from audio.registry import require_noncommercial_ok  # noqa: PLC0415
+
+        require_noncommercial_ok([g.id for g in self.segments()], self.noncommercial_ok)   # 없으면 BgmError(ValueError) → 스키마 오류
+        return self
 
     @field_validator("bgm")
     @classmethod

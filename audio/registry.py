@@ -47,6 +47,11 @@ class BgmTrack(BaseModel):
     measured: Optional[BgmMeasure] = None          # v7.2.0 UF-100 D-0222 — audio.bgm_measure 실측(0~360초). available 곡 필수·하한 통과
     source_url: Optional[str] = None               # 파일을 받은 곳(fetch_data bgm 이 sha1 대조로 복원)
     unavailable_reason: Optional[str] = None       # available false 인 사유(사용 금지 등)
+    # v7.4.0 UF-910(D923) — 사용자 제공 곡. floor_waiver = 등록 하한을 면제한 사용자 결정(사유 글), bed_gain_scale = 이 곡만 음악 베드 음량 배율(0 < x ≤ 1),
+    # noncommercial = 비상업 이용만 되는 곡(연출 sound.noncommercial_ok 결정 번호 없이는 못 쓴다 — require_noncommercial_ok)
+    floor_waiver: Optional[str] = Field(default=None, min_length=1)
+    bed_gain_scale: Optional[float] = Field(default=None, gt=0, le=1)
+    noncommercial: bool = False
 
     @model_validator(mode="after")
     def _measured(self) -> "BgmTrack":
@@ -54,8 +59,8 @@ class BgmTrack(BaseModel):
             raise ValueError(f"{self.file}: available 인 곡은 sha1·duration_sec 실측값이 있어야 한다")
         if self.available and self.measured is None:
             raise ValueError(f"{self.file}: available 인 곡은 measured(audio.bgm_measure 실측)가 있어야 한다 — UF-100 등록 하한")
-        if self.available and (bad := floor_failures(self.measured)):   # type: ignore[arg-type]
-            raise ValueError(f"{self.file}: BGM 등록 하한 미달 {bad} — rules audio.bgm_floor(UF-100)")
+        if self.available and self.floor_waiver is None and (bad := floor_failures(self.measured)):   # type: ignore[arg-type]
+            raise ValueError(f"{self.file}: BGM 등록 하한 미달 {bad} — rules audio.bgm_floor(UF-100). 사용자가 직접 고른 곡이면 floor_waiver 에 결정을 적는다")
         return self
 
 
@@ -98,6 +103,21 @@ def bgm_path(bgm_id: str, verify: bool = True) -> Path:
     return p
 
 
+def bed_scale(bgm_id: str) -> float:
+    """이 곡의 음악 베드 음량 배율(없으면 1.0) — audio.mix 가 곡을 읽을 때 곱한다(v7.4.0 UF-910 D923)."""
+    s = track(bgm_id).bed_gain_scale
+    return 1.0 if s is None else s
+
+
+def require_noncommercial_ok(bgm_ids: list[str], ok: Optional[str]) -> None:
+    """비상업 이용만 되는 곡(noncommercial)을 쓰려면 연출 sound.noncommercial_ok 에 "이 영상은 수익화하지 않는다"는 사용자 결정 번호가
+    있어야 한다. 없으면 오류(조용히 쓰지 않는다 — C9·P6). 연출(engine.direction.Sound)과 믹서(audio.mix.Sound)가 같이 부른다."""
+    bad = [i for i in bgm_ids if track(i).noncommercial]
+    if bad and not ok:
+        raise BgmError(f"비상업 전용 곡 {bad} — 수익화 영상에는 쓸 수 없다. 수익화하지 않는 영상이면 direction sound.noncommercial_ok 에 "
+                       "사용자 결정 번호를 적는다(assets/audio/bgm/RIGHTS.md)")
+
+
 def rights_music() -> dict[str, dict]:
     """권리 레지스트리 `music` 절(키 = id 에서 'music.' 을 뗀 이름) — 프로젝트 rights_registry.json 의 music 절 대신 쓴다."""
     return {k[len(PREFIX):]: {"name": t.name, "license": t.license, "author": t.author, "url": t.url}
@@ -116,5 +136,5 @@ def description_line(bgm_id: str, fmt: str) -> str:
     return fmt.replace("{name}", t.name).replace("{author}", t.author).replace("{license}", t.license)
 
 
-__all__ = ["BGM_DIR", "BgmError", "BgmRegistry", "BgmTrack", "bgm_path", "card_line", "description_line", "load_registry",
-           "rights_music", "track"]
+__all__ = ["BGM_DIR", "BgmError", "BgmRegistry", "BgmTrack", "bed_scale", "bgm_path", "card_line", "description_line", "load_registry",
+           "require_noncommercial_ok", "rights_music", "track"]
