@@ -80,7 +80,11 @@ class TestStandardVoice(unittest.TestCase):
         rules = yaml.safe_load((REPO / "rules" / "video_rules.yaml").read_text(encoding="utf-8"))
         ff = rules["tts_rules"]["prosody"]["final_fall"]
         self.assertEqual((ff["enabled"], ff["suffix"], ff["span_chars"], ff["semitones"]), (True, "니다", 3, 4.0))
-        self.assertEqual(rules["audio"]["bed_gain"], 0.43)
+        # v7.4.0 UF-922(D937) — 음악 베드는 아주 낮게·문장 사이에서 올리지 않는다(옛 0.43·duck 0.5 는 대체). C0.2 표와 같은 값
+        self.assertEqual((rules["audio"]["bed_gain"], rules["audio"]["duck_depth"]), (0.057, 0.0))
+        c02 = (REPO / "CLAUDE.md").read_text(encoding="utf-8")
+        self.assertIn("`audio.bed_gain` 0.057", c02)
+        self.assertIn("`audio.duck_depth` 0", c02)
 
 
 if __name__ == "__main__":

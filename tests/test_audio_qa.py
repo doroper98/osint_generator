@@ -34,11 +34,13 @@ def _fixture(d: Path, music_db: float) -> list:
 
 
 class AudioQATest(unittest.TestCase):
-    def test_rules_follow_user_approved_v3(self) -> None:
-        """D-0061: 음악 레벨 범위는 사용자 합격본 기준 — v3 −12.7 안, 사용자 거절 v2 −17.8 밖."""
+    def test_rules_follow_user_decision_uf922(self) -> None:
+        """v7.4.0 사용자 의견 UF-922(D937 "배경음악이 나레이션을 방해하는 수준이야. 아예 아주 낮게 죽여놔"): 음악 레벨 범위는 이 결정 기준.
+        옛 합격본 v3 −12.7 과 이 의견을 받은 영상의 −16.4 는 둘 다 범위 위(너무 크다) — 그 믹스로는 mux 가 멈춘다."""
         lo, hi = AU.qa.music_under_narration_db
-        self.assertTrue(lo <= -12.7 <= hi)
-        self.assertFalse(lo <= -17.8 <= hi)
+        self.assertLessEqual(hi, -20.0)
+        self.assertFalse(lo <= -12.7 <= hi)
+        self.assertFalse(lo <= -16.4 <= hi)
 
     def test_sentence_rms_outlier_is_warning_only(self) -> None:
         """D-0061 쟁점 2 A: 문장 RMS 편차는 warning 만(정규화 없음)."""

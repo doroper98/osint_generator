@@ -1384,6 +1384,7 @@ entries:
   - kind: test
     ref: tests/test_audio_qa.py::AudioQATest::test_music_level_inside_and_outside
   status: guarded
+  superseded_by: UF-922
   decision: D103 ② · D113 ① · D163 · D169 · C0.2
   source: DECISIONS D113·D169 · CLAUDE.md C0.2
 - id: UF-92
@@ -3197,4 +3198,23 @@ entries:
   - {kind: test, ref: tests/test_v740_route_smooth_growth.py::NoSampleCutTest::test_sketch_lines_use_the_shared_helper}
   status: guarded
   decision: "D936 — 원장에 앞선 기록은 없다(사용자가 말한 '예전 선박 항로'는 원장에 오르지 않았던 지적). 원인 = 자라는 선의 머리를 곡선 표본점 단위로만 잘랐다. 꼭짓점 4개 경로는 표본이 37개라 7초 동안 37번만 전진했다(초당 약 5번 — 화면은 24fps 인데 그 선만 5fps). 항로 위 배(tanker_loop)도 표본점에서 표본점으로 건너뛰었다(RENDER-AP-045). 수정 = 머리를 표본점 사이까지 보간(engine.layers.routes.grown·along) — 프레임마다 전진. 본 엔진의 경로·경로 라벨·배, 스케치 트랙의 전선·미사일 궤적(2D·지구본)·EEZ 주장선·고도 단면 곡선에 같은 함수를 썼다(C12 §3). 표본점 단위 자름이 다시 들어오면 시험이 실패한다"
+  source: 감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8) 사용자 대화 2026-11-17
+- id: UF-922
+  date: '2026-11-17'
+  project: nvidia-chips-china-2026
+  at: 수정본 완성 영상 전체 — 배경음악 음량(내레이션 구간과 내레이션 사이 구간 모두)
+  quote: "배경음악이 나레이션을 방해하는 수준이야. 아예 아주 낮게 죽여놔. 나레이션의 사이사이에 볼륨을 키우는 노력을 기울일 필요 없어"
+  quote_kind: verbatim
+  category: 소리 — 배경음악이 내레이션을 방해함. 음악은 아주 낮게 깔고, 내레이션 사이에서 음량을 키우지 않는다(덕킹 복귀·사이 올림 없음)
+  guards:
+  - {kind: rule, ref: audio.bed_gain}
+  - {kind: rule, ref: audio.duck_depth}
+  - {kind: rule, ref: audio.qa.music_under_narration_db}
+  - {kind: test, ref: tests/test_v740_bed_flat_low.py::BedFlatLowTest::test_bed_does_not_rise_between_sentences}
+  - {kind: test, ref: tests/test_v740_bed_flat_low.py::BedFlatLowTest::test_too_loud_music_is_hard}
+  - {kind: test, ref: tests/test_audio_rules.py::AudioRulesTest::test_user_approved_bed_values_unchanged}
+  - {kind: test, ref: tests/test_audio_qa.py::AudioQATest::test_music_level_inside_and_outside}
+  - {kind: test, ref: tests/test_audio_qa.py::AudioQATest::test_rules_follow_user_decision_uf922}
+  status: guarded
+  decision: "D937 — 원인 = 표준 믹스가 음악을 내레이션보다 약 10 dB 아래(이 곡은 음량 배율 0.56 으로 −16.4 dB)에 두고, 문장이 끝날 때마다 덕킹을 풀어 6 dB 올렸다(duck_depth 0.5). 선율이 있는 곡에서는 문장 사이 0.9초마다 음악이 솟아 내레이션을 방해했다. 오디오 QA 는 그 높이를 '범위 안'으로 통과시켰다(PIPELINE-AP-032). 규칙 개정(사용자 지적에 따른 표준 변경, CLAUDE.md C0.2) = ① bed_gain 0.43 → 0.057(내레이션 구간 −11.5 dB, 문장 사이 −17.5 dB) ② duck_depth 0.5 → 0(문장 안팎 같은 높이) ③ QA 범위 [-13, -9] → [-24.5, -20.5](위 끝을 넘으면 mux 실패). 옛 합격 기록 UF-91(0.43)은 이 결정으로 대체. 효과음·클립 원음 덕킹은 그대로. 모든 영상 공통(믹서 하나 — audio.mix, 스케치 트랙은 음악을 섞지 않는다)"
   source: 감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8) 사용자 대화 2026-11-17

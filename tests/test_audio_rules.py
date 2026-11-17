@@ -19,10 +19,11 @@ class AudioRulesTest(unittest.TestCase):
         self.assertEqual(QA_SR, sr)
 
     def test_user_approved_bed_values_unchanged(self) -> None:
-        """사용자 합격 베드·덕킹(10 §3) — duck 0.5 는 바꾸지 않는다(D-0060 §3). bed_gain 은 v5.17.0 D-0169(D163)에서
-        0.47(edge InJoon 피크 정규화 기준) → 0.43(Supertonic M3 재보정 — 같은 음악/내레이션 균형 ≈ −9.8 dB)."""
+        """사용자 결정 값 — 바꾸려면 사용자 지적 → 규칙 개정(C0.2). 이력: bed_gain 0.47 → 0.43(v5.17.0 D163, Supertonic 재보정, duck 0.5)
+        → v7.4.0 사용자 의견 UF-922(D937 "배경음악이 나레이션을 방해하는 수준이야. 아예 아주 낮게 죽여놔. 나레이션의 사이사이에 볼륨을 키우는
+        노력을 기울일 필요 없어"): 0.057, 문장 사이 복귀 없음(duck_depth 0)."""
         a = load_rules().audio
-        self.assertEqual((a.bed_gain, a.duck_depth), (0.43, 0.5))
+        self.assertEqual((a.bed_gain, a.duck_depth), (0.057, 0.0))
 
 
 if __name__ == "__main__":

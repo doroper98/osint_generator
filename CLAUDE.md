@@ -76,7 +76,7 @@ HyperFrames/Remotion 문법, `docs/07/08/09` 구판)은 **v2.0.0에서 폐기**�
 | 엔진·목소리 | Supertonic 3(오픈소스, ONNX CPU, 고정 revision) 남성 프리셋 **M3**, 속도 **0.95** | 사용자 결정 D146 · `config.yaml tts.backend_default: supertonic`·`tts.supertonic` |
 | 문장 끝 억양 | 발음 텍스트가 "~니다" 로 끝나면 **끝 3글자 구간을 4반음 선형 하강**(시안 C), 그 앞은 원음 그대로. 추적기 옥타브 오류 정리 포함 | 사용자 결정 D169(시안 C) · D175 · D181 · `rules/video_rules.yaml tts_rules.prosody.final_fall`(v5.20.0·v5.20.2) |
 | 단어 정렬 | MMS 강제 정렬(CC BY-NC 4.0, 수익화와 무관하게 사용) | 사용자 결정 D151 · D171 · `config.yaml tts.alignment` |
-| 음악 대비 | 음악 베드 `audio.bed_gain` 0.43 | 사용자 승인 D169 |
+| 음악 대비 | 음악 베드는 **아주 낮게, 처음부터 끝까지 같은 높이**: `audio.bed_gain` 0.057, 내레이션 사이에서 올리지 않는다(`audio.duck_depth` 0). 내레이션 구간 음악은 내레이션보다 20.5 dB 넘게 낮아야 한다(`audio.qa.music_under_narration_db`, 넘으면 mux 실패) | 사용자 결정 UF-922·D937(2026-11-17 "배경음악이 나레이션을 방해하는 수준이야. 아예 아주 낮게 죽여놔. 나레이션의 사이사이에 볼륨을 키우는 노력을 기울일 필요 없어") — 옛 값 0.43·덕킹 0.5(D169)는 대체 |
 | 금지 | ElevenLabs 등 유료 TTS(`tts.elevenlabs_allowed: false`, 호출 차단). edge-tts 백엔드는 v5.23.0 V4(D-0212)에서 삭제됨(다시 넣으면 시험 실패) | 사용자 결정 D127 · D146 |
 
 이 표의 값은 **다시 들여오면 안 되는 것**(C0 목록)과 같은 무게로 고정이다 — 그 목록은 뺀 것을 다시 넣지 말라는 뜻이고, 이 표는 정한 값을 바꾸지 말라는 뜻이다. 구현은 값을 코드 상수로 두지 않고 config·규칙 파일에서만 읽는다(C11 P3).

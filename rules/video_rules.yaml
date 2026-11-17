@@ -1421,13 +1421,17 @@ audio:                     # 10
   # v5.17.0 D-0169(DECISIONS D163) — Supertonic M3 ×0.95 기준 재보정. 옛 0.47 = edge InJoon 피크 정규화 기준(사용자 합격 균형).
   # Supertonic 은 같은 피크에서 내레이션 RMS 가 0.84 dB 낮아 음악−내레이션이 −9.83 → −9.00(범위 밖)이 됐다. 0.43(−0.77 dB)로
   # 목표 ≈ −9.8 dB(D103 범위 [−13, −9] 유지) 복원. 측정 = reports/phaseV3/run_log §4. 목소리가 또 바뀌면 RMS 정규화 믹서 트랙(R-0198 B)
-  bed_gain: 0.43
+  # v7.4.0 사용자 의견 UF-922(D937 — "배경음악이 나레이션을 방해하는 수준이야. 아예 아주 낮게 죽여놔. 나레이션의 사이사이에 볼륨을 키우는 노력을 기울일 필요 없어").
+  # 음악 베드는 아주 낮게, 처음부터 끝까지 같은 높이로 깐다. 옛 값 = bed_gain 0.43 × 내레이션 구간 덕킹 0.5(= 0.215, 음악 − 내레이션 ≈ −9.8 dB),
+  # 문장 사이에서는 덕킹이 풀려 +6 dB 올라갔다. 새 값 0.057 = 내레이션 구간 기준 −11.5 dB(문장 사이 기준 −17.5 dB), 음악 − 내레이션 ≈ −21.3 dB.
+  # 음량을 낮춰 쓰는 곡(audio.registry bed_gain_scale 0.56)은 ≈ −28 dB. 옛 결정 D163·D169(0.43)·D-0060 §3(duck 0.5)은 이 결정으로 대체됐다(CLAUDE.md C0.2).
+  bed_gain: 0.057
   # v7.2.0 UF-100 D-0222 — BGM 등록 실측 하한(잠정 — 사용자 청취 합격 1곡 근거: "1번만 합격. 약간 박진감이 느껴지는 부분에서 점수를 줬어.").
   # 측정 = audio.bgm_measure(librosa, 모노 sr·n_fft 아래 값, 0~window_sec). 레지스트리 available 곡이 못 넘으면 실패(audio.registry.bgm_path·시험).
   # 실측(2026-10-12): Mario Bava 명확도 6.55·온셋 분당 473.5·300~3000 Hz 8.8 % / Patriarch(기준 곡) 7.12·328.7·2.9 % / 불합격 후보 명확도 3.2~4.3·온셋 25~302.
   bgm_floor: {beat_clarity_min: 6.0, onsets_per_min_min: 300.0, voice_band_max: 0.10, voice_band_hz: [300, 3000], window_sec: 360, sr: 22050, n_fft: 4096}
   bgm_default: [music.zabriskie_mario_bava, music.zabriskie_patriarch]   # v7.2.0 D-0222 — 새 영상 sound.bgm 권장 순서(첫째 = 사용자 합격곡 UF-100)
-  duck_depth: 0.5
+  duck_depth: 0.0             # v7.4.0 UF-922(D937) — 음악 베드를 내레이션 사이에서 올리지 않는다(0 = 문장 안팎 같은 높이). duck_pre/post/smooth 는 효과음·클립 원음 덕킹 포락선에 그대로 쓴다
   duck_pre_sec: 0.25
   duck_post_sec: 0.3
   duck_smooth_sec: 0.35
@@ -1447,7 +1451,7 @@ audio:                     # 10
   fade_out_sec: 4.0
   # v7.4.0 back_and_forth D-0274 §2③·D-0276(사용자 의견 UF-141 "영상에 대한 목소리도 들리도록 해") — 클립 원음 트랙(audio.mix). 원음은 가공 단계에서
   # 레지스트리 segment 그대로 media/<file>_clip.wav(44.1kHz 스테레오)로 뽑고, 피크를 narration_peak 에 맞춘 뒤 이 이득. main(발언·현장, 액자) 구간은
-  # 음악 베드를 bed_duck_db 만큼 낮춘다(bed_gain 0.43 불변). 내레이션이 겹치는 동안 클립은 narration_duck_db 만큼 더 낮춘다(broll 은 내레이션 아래).
+  # 음악 베드를 bed_duck_db 만큼 낮춘다(bed_gain 불변). 내레이션이 겹치는 동안 클립은 narration_duck_db 만큼 더 낮춘다(broll 은 내레이션 아래).
   clip: {main_gain_db: 0, broll_gain_db: -18, narration_duck_db: -18, bed_duck_db: -18, duck_fade_sec: 0.3}
   fx_duck: 0.25             # 효과음 덕킹 깊이
   qa:                       # v3.4.0 D-0060 작업 6 — 오디오 QA(audio/qa.py, 검사기 하나). 13 Phase 8·10 §7-5
@@ -1455,7 +1459,8 @@ audio:                     # 10
     # D-0061 쟁점 1 A — 사용자 합격본 기준(13 권장 −18~−14 대신): v2 −17.8dB 사용자 거절("너무너무 작다", 10 §3.3), v3 −12.7dB 합격.
     # 실측(v3.4.0): hormuz mix −12.67 · 2패스 final 디코드 −12.55. hard.
     # v4.11.0 back_and_forth D-0118 §2(사용자 위임 D103, G6 청감 판정 대신) — v3 값 [-15, -11] 에서 2 dB 위. 원복은 이 한 줄(+ 아래 norm_ref 0.7)
-    music_under_narration_db: [-13, -9]    # 내레이션 구간 음악(+효과음) RMS − 내레이션 RMS
+    # v7.4.0 UF-922(D937) — 옛 범위 [-13, -9] 를 베드 인하폭(20·log10(0.057 ÷ 0.215) = −11.5 dB)만큼 옮긴 값. 위 끝 −20.5 를 넘으면(음악이 크면) hard — mux 가 멈춘다
+    music_under_narration_db: [-24.5, -20.5]    # 내레이션 구간 음악(+효과음) RMS − 내레이션 RMS
     # D-0061 — 2패스 loudnorm 뒤 남는 AAC 인코딩 트루 피크 오차만 여유로 둔다(먼저 mux 를 고쳤다).
     # 실측: hormuz 2패스(dynamic) 전 −1.50 → final −1.47(+0.03), taiwan_f1_music 전 −1.50 → −1.35(+0.15), 무음악 linear −2.27. 최대 0.15
     tp_codec_margin_db: 0.15
