@@ -2960,6 +2960,10 @@ entries:
   quote: "그리고 모서리를 둥글지 않게 하면 어떄? 이런건 좋은데, 그 외에 아일랜드 들은 모서리를 직각으로 하면 어떄?"
   quote_kind: verbatim
   category: 화면 — 아일랜드·카드의 모서리는 직각. 알약 모양(인물 꼬리표·칩·뱃지)만 둥글게 유지
-  status: open
+  guards:
+  - {kind: rule, ref: skin.surface.radius}
+  - {kind: test, ref: tests/test_v740_skin.py::RulesTest::test_square_corners_rule}
+  - {kind: test, ref: tests/test_v740_skin.py::SurfaceTest::test_square_corner}
+  status: guarded
   decision: "D918 — 동의·수용. 직각 판(시안 A·B2·C square)을 그려 비교했고 직각 쪽이 낫다(기사 카드가 종이처럼 보이고, 둥근 알약과 형태 대비가 생긴다). rules skin.surface.radius 0 으로 구현 지시"
   source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17

@@ -1172,6 +1172,21 @@ palettes:
     map_water: "#0A0934"
     map_boundary: "#2D2B79"
 
+  porcelain:                 # v7.4.0 C0.0·UF-906(D917) — 밝은 무대(studio) 정본 팔레트. skin.palette 가 그 무대에서 장르 팔레트를 이긴다. surface: stage 없음 → 표준 상자 아일랜드
+    bg: "#EFEFF0"
+    island: "#FFFFFF"
+    border: "#E4E6EA"
+    text: "#15171C"          # = skin.ink.primary(시험으로 묶음)
+    muted: "#6F7580"         # = skin.ink.tertiary
+    accent: "#E2440C"        # = skin.accent.ink
+    up: "#178A5B"
+    down: "#D63A45"
+    grid_alpha: 0.08
+    zero_alpha: 0.35
+    map_land: "#E3E5E8"
+    map_water: "#F2F3F5"
+    map_boundary: "#B9BEC7"
+
 fonts:                     # 09 §1
   sans: "IBM Plex Sans KR"
   serif: "Noto Serif CJK KR"
@@ -1730,6 +1745,31 @@ stage_structure:           # v7.4.0 back_and_forth D-1003 §3 — 구성 무대(
   focus_rest_size: 13        # 초점 라벨 뒤 작은 나머지(" · 다른 쪽 숫자", sansm)
   focus_rest_font: sansm
   abs_digits: 1              # 증감액 소수 자리
+
+skin:                      # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 1단계(바탕 코어): 흰 카드·부드러운 그림자·짙은 잉크 글자(테두리 없음)·흰 번짐 자막·작은 mono 날짜.
+  # 길이 = 설계 px(854×480, 장치 = × k). 값 = 감독 합격 시안(ds/kit.py·A_data.png). engine/skin.py 만 읽는다(코드 리터럴 0, 15 P3)
+  stages: [studio]           # 이 디자인 시스템으로 그리는 주 무대(registries.stages 안 — 밝은 지도 테마는 다음 단계)
+  palette: porcelain         # 그 무대에서 강제하는 팔레트(장르 팔레트보다 우선 — 스튜디오는 모습 하나, UF-903)
+  ink: {primary: "#15171C", secondary: "#4E5460", tertiary: "#6F7580"}   # 글자 잉크 3단(본문·보조·꼬리표)
+  hairline: {rgb: "#141820", alpha: 0.075, w: 0.5}   # 카드 가장자리 실선(아주 옅게)
+  accent: {shape: "#FF5A1F", ink: "#E2440C", soft: "#FFE6DB", grad: ["#FF6A2B", "#F4491A"]}   # 강조색 하나(도형·글자·옅은 면·막대 그라데이션)
+  surface:                   # 카드 면
+    fill: "#FFFFFF"
+    fill_drop: 0.012         # 세로 그라데이션 — 아래가 채널마다 이만큼 어둡다(0~1)
+    radius: 0                # v7.4.0 UF-908(D918) — 아일랜드·카드 모서리는 직각, 알약(꼬리표·칩·뱃지)만 둥글게
+    inner_light_alpha: 0.9   # 0.5 px 안쪽 흰 선(유리 느낌)
+    well: "#F3F4F6"
+    track: "#E6E8EC"
+    bar: "#D5D8DE"
+    bar_neg: "#B9BEC7"
+  shadow:                    # 부드러운 그림자 — 가우시안으로 번진 둥근 사각형 알파를 rgb 로 칠한다
+    rgb: [0.07, 0.09, 0.16]
+    sigma_k: 0.5             # 가우시안 시그마 = blur × 이 값(설계 px, 장치 = × k)
+    card: [[12, 26, 0.13], [2.5, 6, 0.07]]     # [아래로 dy, 번짐 blur, 알파] 겹
+    lifted: [[16, 34, 0.15], [3, 7, 0.08]]
+    chip: [[5, 10, 0.16], [1, 2.5, 0.08]]
+  subtitle: {emphasis_font: sansb, glow_blur: 5, glow_gain: 2.2, glow_alpha: 0.95}   # 자막 — 잉크 글자 + 뒤 흰 번짐(테두리 아님). 번짐 알파 = clip(번진 글자 알파 × gain) × glow_alpha
+  date: {size: 11.5, track: 0.04, dot_r: 2.4, dot_gap: 9, dot_dy: -4}   # 날짜 — mono 잉크, 자간 = track × size, 왼쪽 강조 점(글자 시작에서 dot_gap 앞, 기준선에서 dot_dy)
 
 stage_studio:              # v7.4.0 UF-902·UF-903(D910) — 스튜디오 무대(engine/stage_studio.py). 지도가 필요 없는 장면의 밝은 회색 호리존트(바닥 → 둥근 모서리 → 벽) + 점 격자 + 조명
   # 모양은 하나(어두운 판·테마·stage_config 없음, UF-903 "스튜디오 씬은 그거로만"). 조명(벽의 빛 웅덩이·바닥 반사광)은 배경에만 칠한다 — 내용물 위 덮개(비네팅, C0 금지)가 아니다.

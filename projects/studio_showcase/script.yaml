@@ -1,0 +1,64 @@
+# 『스튜디오 무대 시연』 원고 (v7.4.0 C0.0·UF-906(D917) 디자인 시스템 시연 — 사용자 지시 UF-906 "금리 차트좀 예시에서 빼").
+# 문장 = projects/intel_q3_2026/script.yaml 의 cold·act1 장면 그대로(새 사실 없음). 사실 = intake/claims.json(인텔 사본) + data/series/INTC_OP_Q.
+schema_version: 1
+title: 인텔 2026년 3분기 실적
+subtitle: 예상을 넘은 3분기, 예상에 못 미친 4분기 전망
+date: 2026.10.29
+scenes:
+- id: cold
+  kind: cold
+  stage: 산타클라라
+  sentences:
+  - date: 2026.10.29
+    text: 10월 29일 장 마감 뒤, 인텔이 3분기 매출 165억 달러를 발표했습니다.
+    tts: 시월 이십구일 장 마감 뒤, 인텔이 삼분기 매출 백육십오억 달러를 발표했습니다.
+    emphasis:
+    - 165억 달러
+    sources:
+    - clm_0001
+  - date: 2026.10.30
+    text: 그러나 다음 날 정규장에서 인텔 주가는 28.58% 내렸습니다.
+    tts: 그러나 다음 날 정규장에서 인텔 주가는 이십팔 점 오팔 퍼센트 내렸습니다.
+    emphasis:
+    - 28.58% 내렸습니다
+    sources:
+    - clm_0011
+- id: act1
+  kind: act
+  stage: 산타클라라
+  sentences:
+  - date: 2026.10.29
+    text: 3분기 실적은 시장의 예상을 넘었습니다.
+    tts: 삼분기 실적은 시장의 예상을 넘었습니다.
+    role: intro
+    emphasis: []
+    sources:
+    - clm_0003
+  - date: 2026.10.29
+    text: 매출은 1년 전보다 21% 늘었습니다.
+    tts: 매출은 일 년 전보다 이십일 퍼센트 늘었습니다.
+    role: intro
+    emphasis: []
+    sources:
+    - clm_0001
+  - date: 2026.10.29
+    text: 회사 기준 조정 주당순이익은 0.52달러였습니다.
+    tts: 회사 기준 조정 주당순이익은 영 점 오이 달러였습니다.
+    emphasis:
+    - 0.52달러
+    sources:
+    - clm_0002
+  - date: 2026.10.29
+    text: 글로벌이코노믹이 전한 시장 예상치는 0.40달러였습니다.
+    tts: 글로벌이코노믹이 전한 시장 예상치는 영 점 사 달러였습니다.
+    emphasis:
+    - 예상치
+    sources:
+    - clm_0003
+  - date: 2026.10.29
+    text: 3분기 이익은 예상을 크게 웃돌았습니다.
+    tts: 삼분기 이익은 예상을 크게 웃돌았습니다.
+    role: outro
+    emphasis: []
+    sources:
+    - clm_0003

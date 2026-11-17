@@ -217,31 +217,31 @@ class BackgroundTest(unittest.TestCase):
 
 
 class EnginePathTest(unittest.TestCase):
-    """합성 사본(fed_timeline_demo git 추적 파일 + 합성 plan) → 콘티 판 load_project(권리 점검 없음). 사진 배경 검사는 studio 에 걸리지 않는다."""
+    """합성 사본(projects/studio_showcase — 인텔 3분기 원고 cold·act1 + 분기 영업이익 차트, UF-906 "금리 차트좀 예시에서 빼") → 콘티 판
+    load_project(권리 점검 없음). 사진 배경 검사는 studio 에 걸리지 않는다. 아일랜드 = 흰 카드(rules skin, D917)."""
 
     @classmethod
     def setUpClass(cls) -> None:
-        from tests.test_g8_animatic import synthetic_project  # noqa: PLC0415
+        from tests.test_v740_skin import showcase_project  # noqa: PLC0415
 
         cls.tmp = tempfile.TemporaryDirectory()
-        cls.proj = synthetic_project("fed_timeline_demo", Path(cls.tmp.name) / "s")
+        cls.proj = showcase_project(Path(cls.tmp.name) / "s")
         cls.base = cls._direction(cls.proj)
 
     @classmethod
     def tearDownClass(cls) -> None:
         cls.tmp.cleanup()
+        from engine import skin  # noqa: PLC0415
+        from engine.style import apply_palette  # noqa: PLC0415
+
+        skin.apply(None)
+        apply_palette(None)
 
     @staticmethod
     def _direction(proj: Path) -> dict:
         from engine.direction import load_direction_doc  # noqa: PLC0415
 
-        d = load_direction_doc(proj / "direction.yaml").model_dump(mode="json", by_alias=True)
-        d.update(stage="studio", stage_reason="시험 — 스튜디오 무대 위 차트 아일랜드", opening_exempt="시험 사본")
-        d["shots"] = [{"at": 0, "mode": "cut", "dur": 0, "camera": {}},
-                      {"at": 0, "stage": "timeline", "mode": "cut", "dur": 0, "camera": {"date": "2022-06-15", "w": 2600}}]
-        ser = [{**e, "start": 0.3} for e in d["events"] if e["type"] == "series"]
-        d["events"] = [{"type": "island", "kind": "chart", "box": "left", "start": 0.2, "end": {"card": "end", "edge": "start", "off": 0.4}}] + ser
-        return d
+        return load_direction_doc(proj / "direction.yaml").model_dump(mode="json", by_alias=True)
 
     def _load(self, d: dict):  # noqa: ANN202
         from engine.project import load_project  # noqa: PLC0415
@@ -251,7 +251,7 @@ class EnginePathTest(unittest.TestCase):
 
     def test_island_on_studio_and_no_photo_checks(self) -> None:
         from engine import checks  # noqa: PLC0415
-        from engine.island import ISLAND, island_box  # noqa: PLC0415
+        from engine.island import island_box  # noqa: PLC0415
         from engine.render import render_frame  # noqa: PLC0415
 
         P = self._load(self.base)  # noqa: N806
@@ -273,17 +273,17 @@ class EnginePathTest(unittest.TestCase):
         f2 = np.frombuffer(bytes(b2), np.uint8).reshape(h, w, 4)[..., :3].mean(-1)
         x, y, bw, bh = (int(v * P.R.out.k) for v in island_box(isl))
         inner = f1[y + bh // 2 - 5:y + bh // 2 + 5, x + 10:x + 30]
-        self.assertLess(float(inner.mean()), 120)                         # 아일랜드 상자(판)가 밝은 무대 위에 그려졌다
         bg_strip = (slice(int(402 * P.R.out.k), int(478 * P.R.out.k)), slice(int(700 * P.R.out.k), int(840 * P.R.out.k)))   # 아일랜드·카드 아래(396) 오른쪽 바닥 — 점 줄 여럿이 지난다
+        self.assertGreater(float(inner.mean()), 235)                      # 아일랜드 = 흰 카드(어두운 판 아님, D917)
+        self.assertGreater(float(inner.mean()), float(f1[bg_strip].mean()))   # 카드가 스튜디오 바탕보다 밝다(떠 보인다)
         self.assertGreater(float(f1[bg_strip].mean()), 180)               # 아일랜드 밖은 밝은 회색 스튜디오
         self.assertGreater(float(np.abs(f1[bg_strip] - f2[bg_strip]).max()), 0)   # 1초 뒤 공간은 흘렀다
-        self.assertTrue(ISLAND.fill_alpha > 0)
 
-        def plate(f: np.ndarray) -> tuple[int, int, int, int]:   # 상자 판(어두운 면)의 화면 범위 — 자막 구역 위만
-            ys, xs = np.nonzero(f[: int(400 * P.R.out.k)] < 90)
+        def ink(f: np.ndarray) -> tuple[int, int, int, int]:   # 카드 안 잉크(짙은 글자) 화소의 화면 범위
+            ys, xs = np.nonzero(f[y:y + bh, x:x + bw] < 90)
             return int(xs.min()), int(ys.min()), int(xs.max()), int(ys.max())
 
-        self.assertEqual(plate(f1), plate(f2))   # 내용물은 화면 자리 그대로 — 흐르는 것은 뒤의 공간뿐
+        self.assertEqual(ink(f1), ink(f2))   # 내용물은 화면 자리 그대로 — 흐르는 것은 뒤의 공간뿐
 
     def test_backdrop_event_on_studio_rejected(self) -> None:
         from engine.project import ProjectError  # noqa: PLC0415

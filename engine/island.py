@@ -20,9 +20,10 @@ from typing import Any, Callable, Optional
 
 import cairo
 
+from engine import skin
 from engine.context import RenderCtx
 from engine.projection import View
-from engine.style import CARD, ELEM, FPS, ISLAND, MOTION, PALETTE, TIMELINE, border_rgb, island_rgb, stage_surface
+from engine.style import CARD, ELEM, FPS, ISLAND, MOTION, PALETTE, SKIN, TIMELINE, border_rgb, island_rgb, stage_surface
 from engine.timebase import ease_out, window
 from engine.typography import rrect
 from rules import load_rules
@@ -79,6 +80,9 @@ def draw_frame(ctx: cairo.Context, box: Box, a: float, style: Optional[FrameStyl
         ctx.paint()
         return
     x, y, w, h = box
+    if style is None and skin.active():   # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 무대: 흰 카드 면·부드러운 그림자(어두운 판 없음)
+        skin.surface(ctx, box, a)
+        return
     if style is None and stage_surface() and not boxed:   # v7.4.0 D-0328 §3 — 차트 = 무대: 테두리·바탕·그림자 없음(바탕 위에 바로)
         return
     r = ISLAND.radius if style is None else style.radius
@@ -96,6 +100,15 @@ def draw_frame(ctx: cairo.Context, box: Box, a: float, style: Optional[FrameStyl
         ctx.set_source_rgba(*style.edge_rgb, style.edge_alpha * a)
         ctx.set_line_width(style.edge_w)
     ctx.stroke()
+
+
+def clip_path(ctx: cairo.Context, box: Box, boxed: bool) -> None:
+    """아일랜드 내용 클립 경로 — 디자인 시스템 무대 = skin.surface.radius(UF-908·D918 직각), 그 밖 = 종전(무대 표면 0, 아니면 island.radius)."""
+    x, y, w, h = box
+    if skin.active():
+        skin.box_path(ctx, x, y, w, h, SKIN.surface.radius)
+    else:
+        rrect(ctx, x, y, w, h, 0.0 if stage_surface() and not boxed else ISLAND.radius)
 
 
 def inner_box(box: Box) -> Box:
@@ -135,7 +148,7 @@ def draw_island(ctx: cairo.Context, R: RenderCtx, view: Optional[View], t: float
     ctx.save()
     ctx.push_group()
     draw_frame(ctx, (x, y, w, h), 1.0, boxed=boxed)
-    rrect(ctx, x, y, w, h, 0.0 if stage_surface() and not boxed else ISLAND.radius)
+    clip_path(ctx, (x, y, w, h), boxed)
     ctx.clip()
     ix, iy, _iw, _ih = inner_box((x, y, w, h))
     ctx.translate(ix, iy)   # D-1010 §1 — 내용은 안쪽 여백 안에서
@@ -178,7 +191,7 @@ def draw_structure_island(ctx: cairo.Context, R: RenderCtx, t: float, e: dict, a
     ctx.save()
     ctx.push_group()
     draw_frame(ctx, (x, y, w, h), 1.0, boxed=boxed)
-    rrect(ctx, x, y, w, h, 0.0 if stage_surface() and not boxed else ISLAND.radius)
+    clip_path(ctx, (x, y, w, h), boxed)
     ctx.clip()
     ix, iy, iw, ih = inner_box((x, y, w, h))
     ctx.translate(ix, iy)   # D-1010 §1 — 내용은 안쪽 여백 안에서(구성 무대는 내용 영역에 맞춰 fit)

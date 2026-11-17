@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "src_doc_0001",
+      "url": "https://www.intc.com/filings-reports/all-sec-filings/content/0000050863-26-000188/q326earningsrelease.htm",
+      "retrieved_at": "2026-11-01",
+      "lang": "en",
+      "verification": {
+        "status": "verified",
+        "checks": [
+          "claims:8"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(구현 세션 대행 — 발행처·제목·게시일을 원문 첫머리와 대조. 게이트 ① 에서 사용자가 출처 표로 확인)",
+      "confirmed_at": "2026-11-01T04:55:16.531805Z",
+      "note": "",
+      "type": "document",
+      "issuer": "Intel Corporation",
+      "title": "Intel Reports Third-Quarter 2026 Financial Results (8-K Ex.99.1)",
+      "published_at": "2026-10-29",
+      "key_facts": [
+        "Q3 2026 revenue $16.5B, non-GAAP EPS $0.52",
+        "Q4 2026 revenue outlook $15.0B-$16.0B, non-GAAP EPS $0.25"
+      ]
+    },
+    {
+      "id": "src_art_0001",
+      "url": "https://www.g-enews.com/article/Securities/2026/10/202610300705192714e250e8e188_1",
+      "retrieved_at": "2026-11-01",
+      "lang": "ko",
+      "verification": {
+        "status": "verified",
+        "checks": [
+          "claims:4"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(구현 세션 대행 — 발행처·제목·게시일을 원문 첫머리와 대조. 게이트 ① 에서 사용자가 출처 표로 확인)",
+      "confirmed_at": "2026-11-01T04:55:16.532605Z",
+      "note": "CNBC 인용 — 재인용 표기",
+      "type": "article",
+      "publisher": "글로벌이코노믹",
+      "headline_original": "인텔, 4분기 '전망 쇼크'로 시간외 21% 급락",
+      "published_at": "2026-10-30",
+      "key_facts": [
+        "인텔, 4분기 '전망 쇼크'로 시간외 21% 급락"
+      ]
+    },
+    {
+      "id": "src_art_0002",
+      "url": "https://www.g-enews.com/article/Securities/2026/10/202610310601297925e250e8e188_1",
+      "retrieved_at": "2026-11-01",
+      "lang": "ko",
+      "verification": {
+        "status": "unverified",
+        "checks": [
+          "claims:5"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(구현 세션 대행 — 발행처·제목·게시일을 원문 첫머리와 대조. 게이트 ① 에서 사용자가 출처 표로 확인)",
+      "confirmed_at": "2026-11-01T04:55:16.533410Z",
+      "note": "CNBC 인용 — 재인용 표기",
+      "type": "article",
+      "publisher": "글로벌이코노믹",
+      "headline_original": "인텔, 실적 쇼크에 28.58% 대폭락…1970년대 이후 '최악의 금요일'",
+      "published_at": "2026-10-31",
+      "key_facts": [
+        "인텔, 실적 쇼크에 28.58% 대폭락…1970년대 이후 '최악의 금요일'"
+      ]
+    },
+    {
+      "id": "src_art_0003",
+      "url": "https://www.hankookilbo.com/news/article/A2026103014420002626",
+      "retrieved_at": "2026-11-01",
+      "lang": "ko",
+      "verification": {
+        "status": "verified",
+        "checks": [
+          "claims:6"
+        ],
+        "notes": ""
+      },
+      "confirmed_by": "opus(구현 세션 대행 — 발행처·제목·게시일을 원문 첫머리와 대조. 게이트 ① 에서 사용자가 출처 표로 확인)",
+      "confirmed_at": "2026-11-01T04:55:16.534056Z",
+      "note": "",
+      "type": "article",
+      "publisher": "한국일보",
+      "headline_original": "인텔 주가 털리고 삼성전자 가전도 적자… 반도체 초호황 속 'IT 잔혹사'",
+      "published_at": "2026-10-31",
+      "key_facts": [
+        "인텔 주가 털리고 삼성전자 가전도 적자… 반도체 초호황 속 'IT 잔혹사'"
+      ]
+    }
+  ]
+}

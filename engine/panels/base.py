@@ -10,7 +10,7 @@ import numpy as np
 from engine.context import RenderCtx
 from engine.style import PANEL, C, W_OUT
 from engine.timebase import window
-from engine.typography import text
+from engine.typography import ink_rgb, text
 from rules import load_rules
 
 _TAG = load_rules().panels.prov_tag
@@ -19,7 +19,7 @@ PanelFn = Callable[[cairo.Context, RenderCtx, float, dict, float], None]
 
 
 def panel_title(ctx: cairo.Context, a: float, s: str, sub: str | None = None) -> None:
-    text(ctx, s, W_OUT / 2, PANEL.title_y, PANEL.title_size, "serifb", (1, 1, 1), a, 0, "c")
+    text(ctx, s, W_OUT / 2, PANEL.title_y, PANEL.title_size, "serifb", ink_rgb(), a, 0, "c")
     if sub:
         text(ctx, sub, W_OUT / 2, PANEL.subtitle_y, PANEL.subtitle_size, "sansm", C["muted"], a, 0, "c")
 

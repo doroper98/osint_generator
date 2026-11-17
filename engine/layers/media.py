@@ -21,7 +21,7 @@ from engine.projection import View
 from engine.style import C, ELEM, FPS, MOTION
 from rules import load_rules
 from engine.timebase import clamp01, ease_out, smooth, window
-from engine.typography import rrect, text, tw
+from engine.typography import ink_rgb, rrect, text, tw
 
 
 MC = load_rules().layout_480p.media_caption   # v4.8.0 D-0101 §3 — 사진·영상 캡션 바·태그·컷아웃 캡션 글자(옛 리터럴)
@@ -259,7 +259,7 @@ def draw_cutout(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict)
     ctx.paint_with_alpha(a)
     ctx.restore()
     la = a * smooth((lt - 0.5) / 0.4)
-    text(ctx, m.caption, x, y + fh / 2 + MC.caption_dy, MC.cutout_caption_size, "sansb", (1, 1, 1), la, 3, "c")
+    text(ctx, m.caption, x, y + fh / 2 + MC.caption_dy, MC.cutout_caption_size, "sansb", ink_rgb(), la, 3, "c")
     text(ctx, credit_line(m), x, y + fh / 2 + MC.credit_dy, MC.cutout_credit_size, "monom", C["muted"], la, 2.4, "c", role="media_meta")
     R.reserved.append((x - fw / 2, y - fh / 2, x + fw / 2, y + fh / 2 + MC.credit_dy + 4))
 

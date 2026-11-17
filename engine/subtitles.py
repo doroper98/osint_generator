@@ -6,12 +6,15 @@ v4.5.0(사용자 결정 D85, C9 개정, back_and_forth D-0096): 검증 라벨(`<
 
 from __future__ import annotations
 
+from typing import Callable
+
 import cairo
 
+from engine import skin
 from engine.context import RenderCtx
-from engine.style import C, SUBTITLE, SUBTITLE_WRAP_PX, W_OUT
+from engine.style import C, SKIN, SUBTITLE, SUBTITLE_WRAP_PX, W_OUT
 from engine.timebase import smooth
-from engine.typography import font, text, tw, wrap
+from engine.typography import font, ink_rgb, text, tw, wrap
 
 
 def emphasis_flags(segments: list[tuple[str, int]]) -> tuple[str, list[int]]:
@@ -79,7 +82,12 @@ def _ctx_w(ctx: cairo.Context, s: str, size: float) -> float:
 
 
 def draw_subtitle(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: N803
+    """v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 무대(skin.active)면 잉크 글자·테두리 없음·뒤 흰 번짐(skin.glow), 강조 = 팔레트 accent·
+    skin.subtitle.emphasis_font. 줄바꿈·자리는 같다(린트와 공유)."""
     tb = R.tb
+    on = skin.active()
+    emph_font = SKIN.subtitle.emphasis_font if on else "sansb"
+    halo = 0.0 if on else SUBTITLE.halo
     for sid in tb.order:
         x = tb.sent[sid]
         if x.t0 - 0.05 <= t <= x.t1 + 0.25:
@@ -88,23 +96,37 @@ def draw_subtitle(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: 
             txt, flags = emphasis_flags(x.segments)
             lines = wrap(ctx, txt, SUBTITLE_WRAP_PX, size, "sansm")   # 린트(script.lint)와 같은 폭 — 라벨 폭을 빼지 않는다
             base_y = SUBTITLE.last_line_y - (len(lines) - 1) * SUBTITLE.line_gap
-            pos = 0
-            for li, ln in enumerate(lines):
-                j = txt.find(ln, pos)
-                pos = j + len(ln)
-                # v5.6.0 — 줄 가운데·구간 전진 폭은 그리는 컨텍스트(장치 배율 k)에서 잰다. 1배 측정 컨텍스트로 재면 글자 전진 폭
-                # 반올림이 배율마다 달라 720p 에서 강조어 앞뒤에 틈이 생겼다(사용자 시청 2026-10-04, RENDER-AP-010). 480p(k=1)는 같은 값
-                xx = W_OUT / 2 - _ctx_w(ctx, ln, size) / 2
-                for run, f in split_runs(ln, j, flags):
-                    text(ctx, run, xx, base_y + li * SUBTITLE.line_gap, size, "sansb" if f else "sansm",
-                         C[SUBTITLE.emphasis_color] if f else (1, 1, 1), a, SUBTITLE.halo, "l", halo_a=SUBTITLE.halo_alpha)
-                    xx += _ctx_w(ctx, run, size)
+
+            def draw(c: cairo.Context) -> None:
+                pos = 0
+                for li, ln in enumerate(lines):
+                    j = txt.find(ln, pos)
+                    pos = j + len(ln)
+                    # v5.6.0 — 줄 가운데·구간 전진 폭은 그리는 컨텍스트(장치 배율 k)에서 잰다. 1배 측정 컨텍스트로 재면 글자 전진 폭
+                    # 반올림이 배율마다 달라 720p 에서 강조어 앞뒤에 틈이 생겼다(사용자 시청 2026-10-04, RENDER-AP-010). 480p(k=1)는 같은 값
+                    xx = W_OUT / 2 - _ctx_w(c, ln, size) / 2
+                    for run, f in split_runs(ln, j, flags):
+                        text(c, run, xx, base_y + li * SUBTITLE.line_gap, size, emph_font if f else "sansm",
+                             C[SUBTITLE.emphasis_color] if f else ink_rgb(), a, halo, "l", halo_a=SUBTITLE.halo_alpha)
+                        xx += _ctx_w(c, run, size)
+            _paint(ctx, draw, subtitle_boxes(ctx, tb, t) if on else [], on)
             return
     h = tb.hold_at(t)   # v7.4.0 D-0274 §2③ — 발언 자리: 원음 위 번역 자막(강조 없음)
     if h is not None:
         a = min(smooth((t - h.t0 + 0.05) / 0.18), smooth((h.t1 + 0.25 - t) / 0.2))
         lines = hold_lines(ctx, h)
         base_y = SUBTITLE.last_line_y - (len(lines) - 1) * SUBTITLE.line_gap
-        for li, ln in enumerate(lines):
-            text(ctx, ln, W_OUT / 2 - _ctx_w(ctx, ln, SUBTITLE.size) / 2, base_y + li * SUBTITLE.line_gap, SUBTITLE.size, "sansm",
-                 (1, 1, 1), a, SUBTITLE.halo, "l", halo_a=SUBTITLE.halo_alpha)
+
+        def draw_hold(c: cairo.Context) -> None:
+            for li, ln in enumerate(lines):
+                text(c, ln, W_OUT / 2 - _ctx_w(c, ln, SUBTITLE.size) / 2, base_y + li * SUBTITLE.line_gap, SUBTITLE.size, "sansm",
+                     ink_rgb(), a, halo, "l", halo_a=SUBTITLE.halo_alpha)
+        _paint(ctx, draw_hold, subtitle_boxes(ctx, tb, t) if on else [], on)
+
+
+def _paint(ctx: cairo.Context, draw: Callable[[cairo.Context], None], boxes: list[tuple[float, float, float, float]], on: bool) -> None:
+    """디자인 시스템 무대면 글자 상자 합집합 둘레에 흰 번짐을 깔고 그린다(skin.glow), 아니면 그대로 그린다."""
+    if not on or not boxes:
+        draw(ctx)
+        return
+    skin.glow(ctx, draw, (min(b[0] for b in boxes), min(b[1] for b in boxes), max(b[2] for b in boxes), max(b[3] for b in boxes)))

@@ -17,7 +17,7 @@ from engine.context import RenderCtx
 from engine.projection import View
 from engine.style import BADGE, BADGE_BG, C, H_OUT, MOTION, W_OUT
 from engine.timebase import ease_back, ease_out, smooth, window
-from engine.typography import rrect, text, tw
+from engine.typography import ink_rgb, rrect, text, tw
 
 
 FW = BADGE.flag_wave
@@ -353,7 +353,7 @@ def badge_at(ctx: cairo.Context, R: RenderCtx, x: float, y: float, e: dict, t: f
         LB = BADGE.label_box  # noqa: N806
         ls, rs = label_sizes(e, Rr)
         if e.get("side") == "right":
-            text(ctx, e["label"], x + Rr * k + LB.side_dx, y + LB.side_dy, ls, "sansb", (1, 1, 1), la, 3, "l")
+            text(ctx, e["label"], x + Rr * k + LB.side_dx, y + LB.side_dy, ls, "sansb", ink_rgb(), la, 3, "l")
             if e.get("role"):
                 text(ctx, e["role"], x + Rr * k + LB.side_dx, y + LB.side_role_dy * ls / BADGE.label_side[0], rs, "sansm", acc, la, 2.6, "l")
         else:

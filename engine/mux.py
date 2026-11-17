@@ -325,6 +325,8 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
         prov["map_contrast_fix"] = {"labels": {k: round(v, 2) for k, v in sorted(lcf.items())}}
     if P.R.cache.get("map_theme") is not None:   # v5.18.0 D-0161 §7 — 지도 테마(name·declared·genre_default·reason), 지도 무대만
         prov["map_theme"] = P.R.cache["map_theme"]
+    if P.R.cache.get("skin") is not None:   # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템(팔레트·무대), 켜진 영상만(P5)
+        prov["skin"] = P.R.cache["skin"]
     ml = getattr(P.R.stage, "map_layers", None)
     if ml is not None and isinstance(prov.get("features_used", {}).get("map_layers"), dict):   # v7.4.0 D-0231 — 실제 켠 지도 레이어와 사유
         f = prov["features_used"]["map_layers"]

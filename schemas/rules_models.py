@@ -7,7 +7,7 @@ docs/handoff/{03,05,08,09,10,14,17} 이 정본이다.
 
 from __future__ import annotations
 
-from typing import Literal, Optional
+from typing import Annotated, Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -4125,6 +4125,89 @@ class Palette(_Strict):
     map_boundary: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
 
 
+_HEX = r"^#[0-9A-Fa-f]{6}$"
+
+
+class SkinInk(_Strict):
+    primary: str = Field(pattern=_HEX)
+    secondary: str = Field(pattern=_HEX)
+    tertiary: str = Field(pattern=_HEX)
+
+
+class SkinHairline(_Strict):
+    rgb: str = Field(pattern=_HEX)
+    alpha: float = Field(ge=0, le=1)
+    w: float = Field(gt=0)
+
+
+class SkinAccent(_Strict):
+    shape: str = Field(pattern=_HEX)
+    ink: str = Field(pattern=_HEX)
+    soft: str = Field(pattern=_HEX)
+    grad: tuple[Annotated[str, Field(pattern=_HEX)], Annotated[str, Field(pattern=_HEX)]]
+
+
+class SkinSurface(_Strict):
+    fill: str = Field(pattern=_HEX)
+    fill_drop: float = Field(ge=0, le=1)
+    radius: float = Field(ge=0)   # v7.4.0 UF-908(D918) — 0 = 직각 모서리
+    inner_light_alpha: float = Field(ge=0, le=1)
+    well: str = Field(pattern=_HEX)
+    track: str = Field(pattern=_HEX)
+    bar: str = Field(pattern=_HEX)
+    bar_neg: str = Field(pattern=_HEX)
+
+
+ShadowLayer = tuple[float, float, float]   # [아래로 dy, 번짐 blur, 알파]
+
+
+class SkinShadow(_Strict):
+    rgb: RGB
+    sigma_k: float = Field(gt=0)
+    card: list[ShadowLayer] = Field(min_length=1)
+    lifted: list[ShadowLayer] = Field(min_length=1)
+    chip: list[ShadowLayer] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def _layers(self) -> "SkinShadow":
+        if not all(0 <= c <= 1 for c in self.rgb):
+            raise ValueError("skin.shadow.rgb 는 0~1")
+        for name in ("card", "lifted", "chip"):
+            for dy, blur, al in getattr(self, name):
+                if blur <= 0 or not 0 <= al <= 1:
+                    raise ValueError(f"skin.shadow.{name} 겹 [{dy}, {blur}, {al}] — blur > 0, 알파 0~1")
+        return self
+
+
+class SkinSubtitle(_Strict):
+    emphasis_font: str = Field(min_length=1)
+    glow_blur: float = Field(gt=0)
+    glow_gain: float = Field(gt=0)
+    glow_alpha: float = Field(ge=0, le=1)
+
+
+class SkinDate(_Strict):
+    size: float = Field(gt=0)
+    track: float = Field(ge=0)
+    dot_r: float = Field(gt=0)
+    dot_gap: float = Field(ge=0)
+    dot_dy: float
+
+
+class SkinRules(_Strict):
+    """v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 바탕 코어(engine/skin.py). 길이 = 설계 px."""
+
+    stages: list[str] = Field(min_length=1)
+    palette: str = Field(min_length=1)
+    ink: SkinInk
+    hairline: SkinHairline
+    accent: SkinAccent
+    surface: SkinSurface
+    shadow: SkinShadow
+    subtitle: SkinSubtitle
+    date: SkinDate
+
+
 class VideoRules(_Strict):
     """`rules/video_rules.yaml` 최상위 모델."""
 
@@ -4174,6 +4257,7 @@ class VideoRules(_Strict):
     stage_timeline: StageTimelineRules   # v4.3.0 — D-0084 작업 3·D-0085
     stage_backdrop: StageBackdropRules   # v5.1.0 — D-0121 §B·D-0123
     stage_studio: StageStudioRules       # v7.4.0 — UF-902·UF-903(D910) 스튜디오 무대
+    skin: SkinRules                      # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 바탕 코어
     stage_structure: StageStructureRules   # v7.4.0 — D-1003 §3 구성 무대
     chart_world: ChartWorldRules   # v7.4.0 — D-0251 §6.2-4
     reference_clip: ReferenceClipRules   # v7.4.0 — D-0274 §2⑤
@@ -4211,6 +4295,11 @@ class VideoRules(_Strict):
         bad = sorted(f"{n}→{st}" for n, sl in self.placement.slots.items() for st in (sl.stages or []) if st not in self.registries.stages)
         if bad:
             raise ValueError(f"placement.slots 의 stages 가 registries.stages 에 없다: {bad}")   # v5.2.0 D-0132
+        bad = sorted(set(self.skin.stages) - set(self.registries.stages))
+        if bad:
+            raise ValueError(f"skin.stages 가 registries.stages 에 없다: {bad}")   # v7.4.0 D917
+        if self.skin.palette not in self.palettes:
+            raise ValueError(f"skin.palette {self.skin.palette!r} 가 palettes 에 없다: {sorted(self.palettes)}")
         a, b = set(self.camera.framing.context_w_min), set(self.shot_grammar.w_guide)
         if a != b:
             raise ValueError(f"camera.framing.context_w_min 키가 shot_grammar.w_guide 와 다르다 — 누락 {sorted(b - a)} · 초과 {sorted(a - b)}")
