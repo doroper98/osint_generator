@@ -10,7 +10,7 @@ from pathlib import Path
 import cairo
 import numpy as np
 
-from engine.layers.routes import glow_line
+from engine.layers.routes import glow_line, grown
 from engine.projection import View
 from engine.style import C
 from engine.timebase import clamp01, ease_io, smooth
@@ -56,8 +56,7 @@ def front_line(ctx: cairo.Context, view: View, P: np.ndarray, prog: float, a: fl
         return
     Fr = CA.front
     S = view.to_screen_arr(world(P))
-    n = max(2, int(len(S) * prog))
-    S = S[:n]
+    S = grown(S, prog)   # 머리는 표본점 사이를 보간(UF-921 — 표본점 단위로 자르면 선만 뚝뚝 자란다)
     d = np.gradient(S, axis=0)
     nrm = np.column_stack([-d[:, 1], d[:, 0]])
     nrm /= np.maximum(np.linalg.norm(nrm, axis=1, keepdims=True), NORMAL_EPS)

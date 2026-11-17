@@ -9,7 +9,7 @@ import math
 import cairo
 import numpy as np
 
-from engine.layers.routes import glow_line
+from engine.layers.routes import glow_line, grown
 from engine.style import C
 from engine.timebase import clamp01, ease_io, ease_out, smooth, window
 from engine.typography import rrect, text
@@ -79,9 +79,9 @@ class ProfileLayer:
         rng_km, apo_km = cv["range_km"].v, cv["apogee_km"].v
         prog = ease_io(clamp01((t - pr.t0 - P.grow_delay) / P.grow_sec))
         n = P.curve_points
-        u = np.linspace(0, 1, n)[: max(2, int(n * prog))]
+        u = np.linspace(0, 1, n)
         pts = np.column_stack([gx0 + (gx1 - gx0) * u * rng_km / rmax, gy1 - (gy1 - gy0) * loft(u) * apo_km / amax])
-        glow_line(ctx, pts, C[self.spec.launch.color], a, P.curve_w)
+        glow_line(ctx, grown(pts, prog), C[self.spec.launch.color], a, P.curve_w)   # 머리 보간(UF-921)
         self.drawn["profile_curve"] = self.drawn.get("profile_curve", 0) + 1
         pa = smooth((t - pr.t0 - P.apex_delay) / P.apex_in) * a
         axp, ayp = gx0 + (gx1 - gx0) * 0.5 * rng_km / rmax, gy1 - (gy1 - gy0) * apo_km / amax

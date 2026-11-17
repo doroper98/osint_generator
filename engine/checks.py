@@ -2378,7 +2378,7 @@ def _covered_ratio(box: tuple, covers: list[tuple]) -> float:
 def map_event_windows(P) -> list[tuple[str, str, float, float, "Callable[[float], tuple | None]"]]:  # noqa: ANN001, N803
     """지도 무대의 자라나는·나타나는 사건 — (종류, 이름, 창 시작, 창 끝, t → 화면 상자 또는 None).
     route = 성장 창(grow), marker·badge·boom = 등장 창(rules qa_checks.map_event_covered.appear_sec), 카메라 이동 = 키 이동 창(화면 전체)."""
-    from engine.layers.routes import DECLARED_SAMPLES, catmull  # noqa: PLC0415
+    from engine.layers.routes import DECLARED_SAMPLES, catmull, grown  # noqa: PLC0415
 
     cfg = QA.map_event_covered
     if layer_stage_name(P) != "mercator":   # v7.4.0 R9 — 지도가 보조 렌더 무대여도
@@ -2402,7 +2402,7 @@ def map_event_windows(P) -> list[tuple[str, str, float, float, "Callable[[float]
             def rbox(t: float, e=e, curve=curve, grow=grow) -> "tuple | None":  # noqa: ANN001
                 S = view(t).to_screen_arr(curve)  # noqa: N806
                 prog = min(1.0, max(0.0, (t - e["t0"]) / grow)) if grow > 0.05 else 1.0
-                sub = S[:max(2, int(len(S) * prog))]
+                sub = grown(S, prog)   # 그리기와 같은 자람(UF-921)
                 x0, y0 = float(sub[:, 0].min()), float(sub[:, 1].min())
                 x1, y1 = float(sub[:, 0].max()), float(sub[:, 1].max())
                 return (x0 - pad, y0 - pad, x1 + pad, y1 + pad)

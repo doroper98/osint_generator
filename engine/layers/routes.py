@@ -32,6 +32,35 @@ def catmull(pts: list, n: int = 10) -> np.ndarray:
     return np.array(out)
 
 
+def head_pos(n_pts: int, prog: float) -> float:
+    """자라는 선 머리의 위치(곡선 표본 번호, 소수) — 진행률 prog(0~1). 정수 부분 = 다 지나온 표본점, 소수 부분 = 다음 표본점까지 간 비율.
+    첫 점(0)에서 끝 점(n_pts − 1)까지 prog 에 비례해 끊김 없이 간다."""
+    return float(min(max(prog, 0.0), 1.0) * (n_pts - 1))
+
+
+def grown(S_: np.ndarray, prog: float) -> np.ndarray:  # noqa: N803
+    """경로 곡선의 자란 부분 — 머리는 표본점 사이를 보간한다(프레임마다 조금씩 전진).
+    v7.4.0 사용자 의견 UF-921(D936): 옛 코드는 표본점 단위(진행률 × 표본 수를 정수로 내린 자리)로만 잘라, 꼭짓점이 적은 경로는 머리가 초당 몇 번만 뚝뚝 전진했다
+    (그 선만 프레임이 떨어져 보였다 — 호르무즈 선박 항로도 같은 식이었다). 다 자랐으면 곡선 그대로를 돌려준다."""
+    n = len(S_)
+    if prog >= 1 or n < 2:
+        return S_
+    f = head_pos(n, prog)
+    i = int(f)
+    fr = f - i
+    if i >= n - 1 or fr <= 1e-9:
+        return S_[:max(i + 1, 1)] if i >= 1 else np.vstack([S_[0], S_[0]])
+    return np.vstack([S_[:i + 1], S_[i] + (S_[i + 1] - S_[i]) * fr])
+
+
+def head_dir(S_: np.ndarray, prog: float) -> float:  # noqa: N803
+    """머리가 향하는 방향(라디안) — 머리가 놓인 표본 구간의 방향(보간한 짧은 끝 조각으로 재면 각도가 떨린다)."""
+    n = len(S_)
+    i = min(int(head_pos(n, prog)), n - 2) if prog < 1 else n - 2
+    (x0, y0), (x1, y1) = S_[i], S_[i + 1]
+    return math.atan2(y1 - y0, x1 - x0)
+
+
 def glow_line(ctx: cairo.Context, S_: np.ndarray, col: tuple, a: float, w: float, dash: list | None = None,  # noqa: N803
               casing=None) -> None:  # noqa: ANN001 — RouteCasing | None(v5.18.0 D-0161 §2, 테마 지도만)
     ctx.new_path()
@@ -139,16 +168,16 @@ def draw_route(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) 
         e["curve"] = catmull(e["world_pts"], DECLARED_SAMPLES)   # 경로 꼭짓점의 월드 좌표(engine.stage.attach_world) → 곡선
     S_ = view.to_screen_arr(e["curve"])  # noqa: N806
     prog = ease_io((t - e["t0"]) / e["grow"]) if e["grow"] > 0.05 else 1
-    n = max(2, int(len(S_) * prog))
-    sub = S_[:n]
+    sub = grown(S_, prog)   # v7.4.0 UF-921 — 머리를 표본점 사이까지 보간(프레임마다 연속)
+    n = int(head_pos(len(S_), prog)) + 1 if prog < 1 else len(S_)   # 다 지나온 표본점 수(굴절 항로의 꺾임점 판정)
     col = map_c(view.stage, e["col"])   # v5.18.0 D-0161 §3
     casing = getattr(getattr(view.stage, "theme", None), "route_casing", None)   # 테마 없는 무대(시간축·아일랜드) = 테두리 없음
     dec = e.get("declared")
     if dec:   # v7.4.0 D-0229 §2.5(UF-112) — 굴절 항로: 꺾임점까지 신고(muted 점선), 뒤는 실제(col 실선)
         kb = dec["bend_index"] * DECLARED_SAMPLES + 1
         mu = map_c(view.stage, "muted")
-        glow_line(ctx, sub[:kb], mu, a, 1.9, dash=[5, 4], casing=casing)
-        if n > kb:
+        glow_line(ctx, sub if n < kb else S_[:kb], mu, a, 1.9, dash=[5, 4], casing=casing)
+        if n >= kb and len(sub) > kb:
             glow_line(ctx, sub[kb - 1:], col, a * (0.75 if e.get("glow_only") else 1), 1.9, casing=casing)
         if n >= kb:
             bx, by = S_[kb - 1]
@@ -161,11 +190,11 @@ def draw_route(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) 
     if e.get("flow") and prog >= 1:
         draw_flow(ctx, S_, col, a, t - e["t0"] - e["grow"])
     if e.get("ship") and len(sub) > 1:
-        (x0, y0), (x1, y1) = sub[-2], sub[-1]
-        tanker(ctx, x1, y1, math.atan2(y1 - y0, x1 - x0), a)
+        x1, y1 = sub[-1]
+        tanker(ctx, x1, y1, head_dir(S_, prog), a)
     if e.get("dashed") and prog >= 0.98:
-        (x0, y0), (x1, y1) = sub[-2], sub[-1]
-        ang = math.atan2(y1 - y0, x1 - x0)
+        x1, y1 = sub[-1]
+        ang = head_dir(S_, prog)
         ctx.new_path()
         ctx.move_to(x1 + math.cos(ang) * 3, y1 + math.sin(ang) * 3)
         for s_ in (2.5, -2.5):
@@ -324,7 +353,7 @@ def route_lines(view: View, events: list[dict], t: float) -> list["np.ndarray"]:
             continue
         S_ = view.to_screen_arr(e["curve"] if "curve" in e else catmull(e["world_pts"], 12))  # noqa: N806
         prog = ease_io((t - e["t0"]) / e["grow"]) if e["grow"] > 0.05 else 1
-        out.append(S_[:max(2, int(len(S_) * prog))])
+        out.append(grown(S_, prog))
     return out
 
 
@@ -411,6 +440,15 @@ def flush_route_labels(ctx: cairo.Context, R: RenderCtx, view: View, events: lis
         R.reserved.append(placed[2])
 
 
+def along(S_: np.ndarray, f: float) -> tuple[float, float, float]:  # noqa: N803
+    """곡선 위 비율 f(0~1) 자리의 (x, y, 방향) — 표본 구간 안을 선형 보간. 옛 식과 같은 구간(i = int(f × (n − 2)))에서 그 구간의 끝점을 향해 간다."""
+    u = f * (len(S_) - 2)
+    i = min(int(u), len(S_) - 2)
+    fr = u - i
+    (x0, y0), (x1, y1) = S_[i], S_[i + 1]
+    return float(x0 + (x1 - x0) * fr), float(y0 + (y1 - y0) * fr), math.atan2(y1 - y0, x1 - x0)
+
+
 def draw_tanker_loop(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803
     a = window(t, e["t0"], e["t1"], *ELEM["tanker_loop"])
     if "curve" not in e:
@@ -418,9 +456,8 @@ def draw_tanker_loop(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: 
     S_ = view.to_screen_arr(e["curve"])  # noqa: N806
     for k in range(3):
         f = ((t - e["t0"]) / 26.0 + k / 3) % 1.0
-        i = int(f * (len(S_) - 2))
-        (x0, y0), (x1, y1) = S_[i], S_[i + 1]
-        tanker(ctx, x1, y1, math.atan2(y1 - y0, x1 - x0), a * 0.95, 0.85)
+        x, y, ang = along(S_, f)   # v7.4.0 UF-921 — 표본점 사이를 보간(옛 코드는 배가 표본점에서 표본점으로 건너뛰었다)
+        tanker(ctx, x, y, ang, a * 0.95, 0.85)
 
 
 def draw_barrier(ctx: cairo.Context, R: RenderCtx, view: View, t: float, e: dict) -> None:  # noqa: N803

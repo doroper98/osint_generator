@@ -11,7 +11,7 @@ import math
 import cairo
 import numpy as np
 
-from engine.layers.routes import glow_line
+from engine.layers.routes import glow_line, grown
 from engine.projection import View
 from engine.style import C
 from engine.timebase import clamp01, ease_io, ease_out, smooth, window
@@ -87,11 +87,11 @@ class LaunchLayer:
         col = C[self.spec.launch.color]
         prog = ease_io(clamp01((t - tr.t0) / (tr.t1 - tr.t0)))
         S = view.to_screen_arr(world(self.track_ll))
-        n = max(2, int(round(1 + (len(S) - 1) * prog)))
-        glow_line(ctx, S[:n], col, dim, L.track_w)
+        G = grown(S, prog)   # 머리는 표본점 사이를 보간(UF-921)
+        glow_line(ctx, G, col, dim, L.track_w)
         self._note("track")
         if prog < 1:
-            hx, hy = S[n - 1]
+            hx, hy = G[-1]
             r = L.head_r
             c_a, stop, mid_a = L.head_stops
             g = cairo.RadialGradient(hx, hy, 0, hx, hy, r)

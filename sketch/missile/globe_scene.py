@@ -13,6 +13,7 @@ from pathlib import Path
 import cairo
 import numpy as np
 
+from engine.layers.routes import grown
 from engine.style import C, CARD_BG, DATE_BADGE, output_profile
 from engine.timebase import clamp01, ease_io, smooth, window
 from engine.typography import rrect, text, tw
@@ -110,10 +111,11 @@ class GlobeScene:
             if t < g.t_fly0:   # 비행 전: 전체 궤적을 흐린 점선으로 예고
                 polyline(ctx, cam, A3, k, col, G.preview_alpha * ta, G.preview_w * lw, dash=[d * lw for d in G.preview_dash], glow=False)
             else:
-                polyline(ctx, cam, A3[:n], k, col, ta, G.flown_w * lw)
+                flown = grown(A3, prog)   # 머리는 표본점 사이를 보간(UF-921 — 표본점 단위로 자르면 궤적만 뚝뚝 자란다)
+                polyline(ctx, cam, flown, k, col, ta, G.flown_w * lw)
                 self._note("lofted_track")
                 if prog < 1:
-                    self._head(ctx, cam, A3[n - 1:n], k, col)
+                    self._head(ctx, cam, flown[-1:], k, col)
         self._labels(ctx, cam, k, t, vols, prog, A3, Gt)
         surf.flush()
         return bytes(np.ndarray((H, W, BGRA), np.uint8, surf.get_data()).copy())

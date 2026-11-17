@@ -14,7 +14,7 @@ import cairo
 import numpy as np
 from shapely.geometry import Point, shape
 
-from engine.layers.routes import glow_line
+from engine.layers.routes import glow_line, grown
 from engine.projection import View
 from engine.stage import ym
 from engine.style import C, H_OUT, W_OUT
@@ -140,8 +140,7 @@ class EezLayer:
             S = view.to_screen_arr(world(np.array(ln)))
             dense = np.concatenate([np.linspace(S[j], S[j + 1], E.claim_dense, endpoint=False) for j in range(len(S) - 1)]
                                    + [S[-1:]])
-            n = max(2, int(len(dense) * grow))
-            glow_line(ctx, dense[:n], col, a * (E.claim_ext_alpha if i else 1), E.claim_w[1] if i else E.claim_w[0],
+            glow_line(ctx, grown(dense, grow), col, a * (E.claim_ext_alpha if i else 1), E.claim_w[1] if i else E.claim_w[0],
                       dash=E.claim_ext_dash if i else c.dash)
         if c.vertices:   # 발표 꼭짓점(발표 좌표) 표시
             h = E.vertex_half
