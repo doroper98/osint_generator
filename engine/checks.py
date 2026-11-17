@@ -3063,8 +3063,11 @@ def check_audio(P) -> tuple[list[str], list[str], dict]:  # noqa: ANN001, N803
     (hard 지적: 통합 음량·트루 피크·음악 레벨·mix 피크, warning: 문장 RMS 편차, AudioQA dict)."""
     from audio.qa import audio_qa  # noqa: PLC0415
 
-    has_music = any(r.startswith("music.") for r in (P.R.cache.get("credit_refs") or ()))
-    q = audio_qa(P.root / "out", P.plan.sentences, has_music=has_music)
+    from audio.registry import bed_scale  # noqa: PLC0415
+
+    ids = sorted(r for r in (P.R.cache.get("credit_refs") or ()) if r.startswith("music."))
+    scales = [bed_scale(i) for i in ids] or [1.0]   # v7.4.0 D935(PIPELINE-AP-031) — 곡별 음량 배율(D923)만큼 판정 범위를 옮긴다
+    q = audio_qa(P.root / "out", P.plan.sentences, has_music=bool(ids), bed_scales=(min(scales), max(scales)))
     return q.issues(), q.warnings(), q.model_dump()
 
 

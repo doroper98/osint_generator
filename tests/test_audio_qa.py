@@ -82,6 +82,29 @@ class AudioQATest(unittest.TestCase):
                 self.assertEqual(q.music_level_ok, ok)
                 self.assertIsNone(q.final_loudness)            # final.mp4 없으면 음량 판정 없음(지어내지 않음)
 
+    def test_per_track_bed_scale_moves_the_range(self) -> None:
+        """v7.4.0 D935(PIPELINE-AP-031) — 사용자 결정으로 음량을 낮춘 곡(bed_gain_scale, D923)은 판정 범위도 그만큼 내려간다.
+        믹서는 배율을 곱하는데 QA 범위는 그대로여서, 사용자 제공 곡을 쓴 첫 영상이 mux 에서 '음악 −16.43 dB — 범위 [−13, −9]' 로 멈췄다."""
+        import math  # noqa: PLC0415
+
+        from audio.qa import music_range  # noqa: PLC0415
+
+        lo, hi = AU.qa.music_under_narration_db
+        self.assertEqual(music_range(), (lo, hi))
+        shift = 20 * math.log10(0.56)
+        self.assertEqual(music_range((0.56, 0.56)), (round(lo + shift, 2), round(hi + shift, 2)))
+        self.assertEqual(music_range((0.56, 1.0)), (round(lo + shift, 2), hi), "곡이 여럿이면 아래 끝 = 가장 작은 배율, 위 끝 = 가장 큰 배율")
+        level = (lo + hi) / 2 + shift          # 배율만큼 낮아진 음악
+        with tempfile.TemporaryDirectory() as d:
+            q = audio_qa(Path(d), _fixture(Path(d), level))
+            self.assertIs(q.music_level_ok, False, "배율을 모르면 범위 밖")
+            self.assertIsNone(q.music_range_db)
+            q = audio_qa(Path(d), _fixture(Path(d), level), bed_scales=(0.56, 0.56))
+            self.assertIs(q.music_level_ok, True)
+            self.assertEqual(q.bed_gain_scale, (0.56, 0.56))
+            self.assertEqual(q.music_range_db, music_range((0.56, 0.56)))
+            self.assertFalse(any("내레이션 구간 음악" in i for i in q.issues()))
+
     def test_no_music_is_not_judged(self) -> None:
         """bgm null(음악 없음)이면 음악 레벨은 판정 대상이 아니다 — 무음을 '범위 밖'으로 지적하지 않는다."""
         with tempfile.TemporaryDirectory() as d:

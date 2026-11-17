@@ -113,6 +113,10 @@ class AudioQA(BaseModel):
     bed_bass_rise_db: Optional[float] = None          # 판정 대상(처리 후 − 처리 전)
     bed_bass_ok: Optional[bool] = None                # None = 음악 없음. bed_stats 없음·낡음·상승폭 범위 밖 = False
     bed_bass_note: Optional[str] = None
+    # v7.4.0 D935(PIPELINE-AP-031) — 곡별 음악 베드 음량 배율(audio.registry bed_gain_scale, 사용자 결정 D923)이 있으면 판정 범위를 그만큼 옮긴다.
+    # 배율이 없으면(1.0) 두 칸 모두 None — 종전 기록과 같다
+    bed_gain_scale: Optional[tuple[float, float]] = None     # (가장 작은 배율, 가장 큰 배율)
+    music_range_db: Optional[tuple[float, float]] = None     # 실제로 쓴 판정 범위(배율 반영)
     method: str = "내레이션 스템 = plan npy 재배치(믹서 규칙) × 최소제곱 스케일, 음악 = mix − 내레이션(모노 평균)"
 
     def issues(self) -> list[str]:
@@ -123,8 +127,9 @@ class AudioQA(BaseModel):
         if self.final_loudness is not None and not self.true_peak_ok:
             out.append(f"트루 피크 {self.final_loudness.TP:.2f} dBTP > {ln.TP:g} + 코덱 여유 {q.tp_codec_margin_db:g}")
         if self.music_level_ok is False:
-            lo, hi = q.music_under_narration_db
-            out.append(f"내레이션 구간 음악 {self.music_under_narration_db:+.2f} dB — 범위 [{lo:g}, {hi:g}]")
+            lo, hi = self.music_range_db or q.music_under_narration_db
+            out.append(f"내레이션 구간 음악 {self.music_under_narration_db:+.2f} dB — 범위 [{lo:g}, {hi:g}]"
+                       + (f"(곡별 음량 배율 {self.bed_gain_scale[0]:g}~{self.bed_gain_scale[1]:g} 반영)" if self.bed_gain_scale else ""))
         if self.bed_bass_ok is False:
             lo, hi = q.bed_bass_rise_db
             out.append(f"베드 저역 비율 상승폭 {self.bed_bass_rise_db:+.2f} dB — 범위 [{lo:g}, {hi:g}]" if self.bed_bass_note is None
@@ -256,14 +261,23 @@ def rms_outliers(srms: dict[str, float]) -> list[str]:
     return [s for s, v in srms.items() if abs(v - mean) > AU.qa.sentence_rms_dev_db]
 
 
-def audio_qa(out_dir: Path, sentences: list, has_music: bool = True) -> AudioQA:  # noqa: ANN001
-    """out_dir = 프로젝트 out/(mix.f32 필수, final.mp4 있으면 음량 측정). has_music False(bgm null)면 음악 레벨 판정 없음."""
+def music_range(bed_scales: tuple[float, float] = (1.0, 1.0)) -> tuple[float, float]:
+    """내레이션 구간 음악 레벨 판정 범위(dB). 곡별 음악 베드 음량 배율(bed_gain_scale)이 있으면 아래 끝은 가장 작은 배율만큼,
+    위 끝은 가장 큰 배율만큼 옮긴다(20·log10). 배율 1.0 = rules audio.qa.music_under_narration_db 그대로."""
+    lo, hi = AU.qa.music_under_narration_db
+    return round(lo + 20 * math.log10(min(bed_scales)), 2), round(hi + 20 * math.log10(max(bed_scales)), 2)
+
+
+def audio_qa(out_dir: Path, sentences: list, has_music: bool = True, bed_scales: tuple[float, float] = (1.0, 1.0)) -> AudioQA:  # noqa: ANN001
+    """out_dir = 프로젝트 out/(mix.f32 필수, final.mp4 있으면 음량 측정). has_music False(bgm null)면 음악 레벨 판정 없음.
+    bed_scales = 이 영상이 쓴 곡들의 음악 베드 음량 배율 (최소, 최대) — 사용자 결정으로 음량을 낮춘 곡(D923)은 판정 범위도 같이 내려간다."""
     mix, vo, mask = stems(out_dir / "mix.f32", sentences)
     srms = sentence_rms(sentences)
     music = mix - vo
     vo_db = db(float(np.sqrt(np.mean(vo[mask] ** 2))))
     mu_db = db(float(np.sqrt(np.mean(music[mask] ** 2))))
-    lo, hi = AU.qa.music_under_narration_db
+    lo, hi = music_range(bed_scales)
+    scaled = tuple(bed_scales) != (1.0, 1.0)
     final = out_dir / "final.mp4"
     loud = measure_loudnorm(final) if final.exists() else None
     peak = float(np.abs(mix).max())
@@ -284,7 +298,8 @@ def audio_qa(out_dir: Path, sentences: list, has_music: bool = True) -> AudioQA:
                    loudness_ok=None if loud is None else abs(loud.I - AU.loudnorm.I) <= AU.qa.i_tol_lu,
                    true_peak_ok=None if loud is None else round(loud.TP, 2) <= round(AU.loudnorm.TP + AU.qa.tp_codec_margin_db, 2),
                    music_level_ok=(lo <= mu_db - vo_db <= hi) if has_music else None, peak_ok=peak <= AU.master_peak,
-                   sentence_rms_db=srms, sentence_rms_outliers=rms_outliers(srms), **bb)
+                   sentence_rms_db=srms, sentence_rms_outliers=rms_outliers(srms),
+                   bed_gain_scale=tuple(bed_scales) if scaled else None, music_range_db=(lo, hi) if scaled else None, **bb)
 
 
-__all__ = ["band_energy", "narration_clarity", "AudioQA", "BedStats", "Loudness", "audio_qa", "band_rms_db", "bed_stats", "load_bed_stats", "loudnorm_two_pass", "measure_loudnorm", "stems"]
+__all__ = ["band_energy", "music_range", "narration_clarity", "AudioQA", "BedStats", "Loudness", "audio_qa", "band_rms_db", "bed_stats", "load_bed_stats", "loudnorm_two_pass", "measure_loudnorm", "stems"]
