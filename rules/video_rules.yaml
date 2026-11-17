@@ -1833,7 +1833,10 @@ skin:                      # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 1
     lifted: [[16, 34, 0.15], [3, 7, 0.08]]
     chip: [[5, 10, 0.16], [1, 2.5, 0.08]]
     sheet: [[8, 18, 0.10], [2, 4, 0.05]]   # v7.4.0 2b — 기사 카드 뒤 종이(skin.article.back)
-  subtitle: {emphasis_font: sansb, glow_blur: 5, glow_gain: 2.2, glow_alpha: 0.95}   # 자막 — 잉크 글자 + 뒤 흰 번짐(테두리 아님). 번짐 알파 = clip(번진 글자 알파 × gain) × glow_alpha
+  # v7.4.0 UF-911(D927 — "자막이 깜빡거리는 현상") — 문장 사이 쉼이 bridge_gap_sec 이하면 앞 자막을 끄지 않고 다음 문장 시작까지 붙들었다가
+  # 그 순간 바로 바꾼다(한 프레임 교체 — 한 시각에 문장 하나. 0.12초 겹침 넘김은 가운데 프레임에서 두 문장이 겹쳐 뭉개져 보여 버렸다. 감독 실물 확인).
+  # 쉼이 더 길면(타이틀 카드·장면 사이) 종전처럼 사라졌다 나타난다. 무대 전환 dip 은 자막·날짜 아래에 칠한다(engine/render.py)
+  subtitle: {emphasis_font: sansb, glow_blur: 5, glow_gain: 2.2, glow_alpha: 0.95, bridge_gap_sec: 1.5}   # 자막 — 잉크 글자 + 뒤 흰 번짐(테두리 아님). 번짐 알파 = clip(번진 글자 알파 × gain) × glow_alpha
   date: {size: 11.5, track: 0.04, dot_r: 2.4, dot_gap: 9, dot_dy: -4}   # 날짜 — mono 잉크, 자간 = track × size, 왼쪽 강조 점(글자 시작에서 dot_gap 앞, 기준선에서 dot_dy)
   # v7.4.0 C0.0 2b단계(D917·UF-905·UF-907·UF-908) — 인물·발언·기사(engine/skin_people.py). skin 무대에서만 — 꺼지면 종전 quote_center·article_card 그대로(바이트 동일).
   # 발언 = 큰 인물 카드 + 카드 없이 공간에 뜬 큰 글씨(덮개·상자 없음, UF-907). 맞선 두 발언 = 인물 알약 + 한 줄 글씨. 기사 = 직각 종이 카드 + 뒤에 겹친 종이 한 장.

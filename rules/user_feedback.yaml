@@ -3021,4 +3021,19 @@ entries:
   status: guarded
   decision: "D922 — 수용. assets/audio/bgm/registry.yaml 에 music.yk_two_instruments 로 등록(sha1·길이·실측). 권리(Suno 요금제)와 등록 하한 미달(내레이션 대역 32 %) 두 가지를 사용자에게 알리고 확인 뒤 켠다"
   source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17
+- id: UF-911
+  date: '2026-11-17'
+  project: repo
+  at: "새 디자인 엔진 실물 영상(지도 → 스튜디오 → 지도 전환 시연 14.5초, 소리 없음)을 받은 뒤"
+  quote: "저 짧은 영상에서도 자막이 깜빡거리는 현상이 나오노 어떻게"
+  quote_kind: verbatim
+  category: 화면 — 자막이 깜빡거린다(짧은 시연 영상에서도). 원인 재현·수정·재발 장치 필요
+  guards:
+  - {kind: rule, ref: skin.subtitle.bridge_gap_sec}
+  - {kind: test, ref: tests/test_v740_subtitle_bridge.py::BridgeModelTest::test_no_off_moment_inside_bridge_gap}
+  - {kind: test, ref: tests/test_v740_subtitle_bridge.py::EngineTest::test_showcase_subtitle_never_blinks_between_sentences}
+  - {kind: test, ref: tests/test_v740_subtitle_bridge.py::EngineTest::test_dip_is_painted_below_date_and_subtitle_under_skin}
+  status: guarded
+  decision: "D927 — 수용. 원인 둘(문장 사이마다 자막·번짐이 꺼짐, 전환 dip 이 자막 위)을 프레임 분석으로 재현하고 고쳤다. RENDER-AP-035"
+  source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17
 

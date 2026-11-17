@@ -4208,6 +4208,7 @@ class SkinSubtitle(_Strict):
     glow_blur: float = Field(gt=0)
     glow_gain: float = Field(gt=0)
     glow_alpha: float = Field(ge=0, le=1)
+    bridge_gap_sec: float = Field(ge=0)   # v7.4.0 UF-911(D927) — 이 쉼 이하면 자막을 끄지 않고 다음 문장까지 잇는다
 
 
 class SkinDate(_Strict):

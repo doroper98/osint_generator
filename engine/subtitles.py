@@ -42,10 +42,59 @@ def split_runs(ln: str, j: int, flags: list[int]) -> list[tuple[str, int]]:
     return out
 
 
+LEAD_SEC = 0.05     # 문장 시작보다 이만큼 먼저 나타나기 시작한다(종전 값)
+IN_SEC = 0.18       # 나타남(종전 값)
+OUT_HOLD_SEC = 0.25  # 문장 끝 뒤 이만큼까지 남는다(종전 값)
+OUT_SEC = 0.2       # 사라짐(종전 값)
+
+
+def bridged_sentences(tb: object, t: float) -> list[tuple[str, float]]:
+    """디자인 시스템 무대의 자막 시간 모델(v7.4.0 UF-911, D927) → 시각 t 에 보이는 [(문장 id, 알파)].
+    다음 문장과의 쉼이 rules skin.subtitle.bridge_gap_sec 이하면 앞 문장을 끄지 않고 다음 문장이 나타날 때까지 붙든 뒤
+    그 순간 바로 바꾼다(한 시각에 한 문장 — 꺼졌다 켜지지 않고, 두 문장이 겹쳐 뭉개지지도 않는다). 쉼이 더 길면 종전처럼 사라졌다 나타난다."""
+    S = SKIN.subtitle  # noqa: N806
+    order = tb.order  # type: ignore[attr-defined]
+    out: list[tuple[str, float]] = []
+    for i, sid in enumerate(order):
+        x = tb.sent[sid]  # type: ignore[attr-defined]
+        prev = tb.sent[order[i - 1]] if i > 0 else None  # type: ignore[attr-defined]
+        nxt = tb.sent[order[i + 1]] if i + 1 < len(order) else None  # type: ignore[attr-defined]
+        t_in = x.t0 - LEAD_SEC
+        from_prev = prev is not None and x.t0 - prev.t1 <= S.bridge_gap_sec
+        to_next = nxt is not None and nxt.t0 - x.t1 <= S.bridge_gap_sec
+        t_end = (nxt.t0 - LEAD_SEC) if to_next else x.t1 + OUT_HOLD_SEC  # type: ignore[union-attr]
+        if not t_in <= t <= t_end or (to_next and t >= t_end):   # 이어지는 문장은 다음 문장이 나타나는 순간 바로 물러난다(한 시각에 한 문장)
+            continue
+        a_in = 1.0 if from_prev else smooth((t - t_in) / IN_SEC)
+        a_out = 1.0 if to_next else smooth((x.t1 + OUT_HOLD_SEC - t) / OUT_SEC)
+        out.append((sid, min(a_in, a_out)))
+    return out
+
+
+def _line_boxes(ctx: cairo.Context, x: object) -> list[tuple[float, float, float, float]]:
+    """한 문장의 자막 줄 글자 상자(후광 제외, 설계 px)."""
+    size = SUBTITLE.size
+    txt, _ = emphasis_flags(x.segments)  # type: ignore[attr-defined]
+    lines = wrap(ctx, txt, SUBTITLE_WRAP_PX, size, "sansm")
+    base_y = SUBTITLE.last_line_y - (len(lines) - 1) * SUBTITLE.line_gap
+    out = []
+    for li, ln in enumerate(lines):
+        w = tw(ctx, ln, size, "sansm")
+        by = base_y + li * SUBTITLE.line_gap
+        out.append((W_OUT / 2 - w / 2, by - size * 0.86, W_OUT / 2 + w / 2, by + size * 0.22))   # 글자 상자(후광 제외)
+    return out
+
+
 def subtitle_boxes(ctx: cairo.Context, tb: object, t: float) -> list[tuple[float, float, float, float]]:
     """시각 t 에 보이는 자막 줄 글자 상자(후광 제외 — 글자 자체, 설계 px) — draw_subtitle 과 같은 접기·기준선(v5.3.1 checks subtitle_overlap)."""
+    if skin.active():   # v7.4.0 UF-911 — 이어지는 문장은 쉼 동안에도 남는다(그리기와 같은 시간 모델)
+        vis = bridged_sentences(tb, t)
+        if vis:
+            return [b for sid, _ in vis for b in _line_boxes(ctx, tb.sent[sid])]  # type: ignore[attr-defined]
     for sid in tb.order:  # type: ignore[attr-defined]
         x = tb.sent[sid]  # type: ignore[attr-defined]
+        if skin.active():
+            break
         if x.t0 - 0.05 <= t <= x.t1 + 0.25:
             size = SUBTITLE.size
             txt, _ = emphasis_flags(x.segments)
@@ -91,8 +140,20 @@ def draw_subtitle(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: 
     on = skin.active()
     emph_font = SKIN.subtitle.emphasis_font if on else "sansb"
     halo = 0.0 if on else SUBTITLE.halo
+    if on:   # v7.4.0 UF-911(D927) — 이어지는 문장은 끄지 않고 겹쳐 넘긴다(깜빡임 없음)
+        vis = bridged_sentences(tb, t)
+        if vis:
+            draws = [_sentence_draw(ctx, tb.sent[sid], a, emph_font, halo) for sid, a in vis]
+
+            def draw_all(c: cairo.Context) -> None:
+                for d in draws:
+                    d(c)
+            _paint(ctx, draw_all, subtitle_boxes(ctx, tb, t), on, _map_glow(R))
+            return
     for sid in tb.order:
         x = tb.sent[sid]
+        if on:
+            break
         if x.t0 - 0.05 <= t <= x.t1 + 0.25:
             a = min(smooth((t - x.t0 + 0.05) / 0.18), smooth((x.t1 + 0.25 - t) / 0.2))
             size = SUBTITLE.size
@@ -125,6 +186,26 @@ def draw_subtitle(ctx: cairo.Context, R: RenderCtx, t: float) -> None:  # noqa: 
                 text(c, ln, W_OUT / 2 - _ctx_w(c, ln, SUBTITLE.size) / 2, base_y + li * SUBTITLE.line_gap, SUBTITLE.size, "sansm",
                      ink_rgb(), a, halo, "l", halo_a=SUBTITLE.halo_alpha)
         _paint(ctx, draw_hold, subtitle_boxes(ctx, tb, t) if on else [], on, _map_glow(R))
+
+
+def _sentence_draw(ctx: cairo.Context, x: object, a: float, emph_font: str, halo: float) -> Callable[[cairo.Context], None]:
+    """한 문장을 알파 a 로 그리는 함수(줄바꿈·자리·강조는 draw_subtitle 의 종전 경로와 같다)."""
+    size = SUBTITLE.size
+    txt, flags = emphasis_flags(x.segments)  # type: ignore[attr-defined]
+    lines = wrap(ctx, txt, SUBTITLE_WRAP_PX, size, "sansm")
+    base_y = SUBTITLE.last_line_y - (len(lines) - 1) * SUBTITLE.line_gap
+
+    def draw(c: cairo.Context) -> None:
+        pos = 0
+        for li, ln in enumerate(lines):
+            j = txt.find(ln, pos)
+            pos = j + len(ln)
+            xx = W_OUT / 2 - _ctx_w(c, ln, size) / 2
+            for run, f in split_runs(ln, j, flags):
+                text(c, run, xx, base_y + li * SUBTITLE.line_gap, size, emph_font if f else "sansm",
+                     C[SUBTITLE.emphasis_color] if f else ink_rgb(), a, halo, "l", halo_a=SUBTITLE.halo_alpha)
+                xx += _ctx_w(c, run, size)
+    return draw
 
 
 def _map_glow(R: RenderCtx) -> SkinGlow | None:  # noqa: N803

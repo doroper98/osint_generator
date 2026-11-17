@@ -168,13 +168,19 @@ def _render_frame(P: Project, i: int, cam_i: object, active: str | None) -> tupl
     for e in act:   # v5.1.0 D-0121 §C — 기사 프레스 v2: 화면 전체(프레스 사진·블러 무대 + 덮개) — 카드 층 위, 날짜·자막 아래
         if e["type"] == "article":
             L.resolve(e).render(ctx, R, t, e)
+    dip_below = skin.active()   # v7.4.0 UF-911(D927) — 디자인 시스템 무대의 dip(무대 전환 등)은 날짜·자막 아래에 칠한다(자막이 전환마다 꺼졌다 켜지지 않게)
+    if dip_below:
+        for e in act:
+            if e["type"] == "dip" and not e.get("under"):
+                L.resolve(e).render(ctx, R, t, e)
     draw_date(ctx, R, t)
     draw_fullcards(ctx, R, t)
     draw_subtitle(ctx, R, t)
     draw_source_note(ctx, R, t, R.cache.get("source_notes") or {})   # v5.6.0 — 참조 출처(위키백과 등) 아주 작게 왼쪽 아래
-    for e in act:
-        if e["type"] == "dip" and not e.get("under"):
-            L.resolve(e).render(ctx, R, t, e)
+    if not dip_below:
+        for e in act:
+            if e["type"] == "dip" and not e.get("under"):
+                L.resolve(e).render(ctx, R, t, e)
     total = P.plan.total
     fa = 1 - min(smooth(t / FADE.in_sec), smooth((total - t) / FADE.out_sec))
     if fa > 0.001:   # v7.4.0 C0.0·UF-906(D919) — 디자인 시스템 무대는 검정이 아니라 밝은 판에서 열리고 밝은 판으로 닫힌다(rules skin.fade_rgb)
