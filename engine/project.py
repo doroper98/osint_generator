@@ -21,7 +21,7 @@ import cairo
 import numpy as np
 
 from engine.assets import Assets, load_labels
-from engine.camera import CamKey, build_camera, cam
+from engine.camera import CamKey, ambient, ambient_spec, build_camera, cam
 from engine.context import RenderCtx
 from engine.credits import check_credits, load_credits, required_refs
 from engine.direction import Direction, DirectionError, boundary_routes, geo_unsourced, load_direction_doc, shot_stages
@@ -520,6 +520,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
             R.cache["island"] = {"lane_h_effective": round(chart_stage.y_px_per_unit, 3), "lane_h": TIMELINE.lane_h,
                                  "lanes": chart_stage.n}
     cams = build_camera(keys, n, FPS, creep=[tuple(r) for r in R.cache["pacing"]["creep"]]) if keys else None
+    if cams is not None and ambient_spec(R.stage) is not None:   # v7.4.0 UF-920 — 지도는 이동 사이에도 계속 천천히 움직인다
+        cams = ambient(cams, FPS, ambient_spec(R.stage))
     alt: dict[str, tuple[object, np.ndarray]] = {}   # v7.4.0 R9 — 보조 렌더 무대마다 (무대, 카메라 트랙). 지도 키는 지도 숏에서만, 스튜디오 = 빈 카메라
     for name in rstages[1:]:
         st_ = stages.get(name)
@@ -527,6 +529,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         if not k2:
             raise ProjectError(f"보조 렌더 무대 {name!r} 의 카메라 키가 없다 — 그 무대로 바꾸는 dip 숏에 카메라를 적는다")
         alt[name] = (st_, build_camera(k2, n, FPS))
+        if ambient_spec(st_) is not None:   # v7.4.0 UF-920 — 보조 무대가 지도여도 같다
+            alt[name] = (st_, ambient(alt[name][1], FPS, ambient_spec(st_)))
     map_name = next((s_ for s_ in rstages if not screen_stage(s_)), None)
     map_st, map_cams = (R.stage, cams) if map_name in (None, R.stage.name) else alt[map_name]   # 지도 앵커 이벤트의 월드 좌표·인셋 궤적 = 지도 무대
     A0 = assets  # noqa: N806

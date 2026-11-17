@@ -81,6 +81,42 @@ def build_camera(keys: list[CamKey], n_frames: int, fps: int,
     return out
 
 
+def ambient(track: "np.ndarray", fps: int, spec) -> "np.ndarray":  # noqa: ANN001 — rules camera.ambient(AmbientRules)
+    """지도 카메라 트랙에 느린 연속 흐름을 더한다(v7.4.0 사용자 의견 UF-920 "지도가 멈춰있으면 안된다 … 계속 천천히 움직여야해").
+    중심 = 폭 × pan_ratio 반지름의 원 궤도(주기 pan_period_sec — 속도 크기가 일정해 멈추는 순간이 없다), 폭 = × (1 + zoom_ratio·sin).
+    영상 전역 시각 t 만의 함수다 — 숏 이동·컷과 무관하게 이어지고, 같은 t 는 같은 값이다(무작위 없음)."""
+    t = np.arange(len(track)) / fps
+    out = np.array(track, dtype=float, copy=True)
+    ph = 2 * math.pi * t / spec.pan_period_sec
+    r = out[:, 2] * spec.pan_ratio
+    out[:, 0] += r * np.sin(ph)
+    out[:, 1] += r * np.cos(ph)
+    out[:, 2] *= 1 + spec.zoom_ratio * np.sin(2 * math.pi * t / spec.zoom_period_sec)
+    return out
+
+
+def still_runs(speed_px: Sequence[float], fps: float, min_speed: float, max_sec: float, skip: Sequence[bool] = ()) -> list[tuple[int, int]]:
+    """화면 이동 속도(설계 px/초, 프레임 i→i+1)가 min_speed 아래로 max_sec 넘게 이어진 구간 [(시작 프레임, 끝 프레임)].
+    skip[i] 가 참인 프레임(지도가 가려진 순간)은 멈춤으로 세지 않고 구간을 끊는다. 검사 [map-still] 의 판정 본체."""
+    out: list[tuple[int, int]] = []
+    start: int | None = None
+    for i, v in enumerate(list(speed_px) + [float("inf")]):
+        hidden = bool(skip[i]) if i < len(skip) else False
+        if v < min_speed and not hidden:
+            start = i if start is None else start
+            continue
+        if start is not None and (i - start) / fps > max_sec:
+            out.append((start, i))
+        start = None
+    return out
+
+
+def ambient_spec(stage):  # noqa: ANN001, ANN201 — engine.stage.Stage → AmbientRules | None
+    """이 무대에 느린 연속 흐름을 거는가 — 지도 무대이고 테마가 rules camera.ambient.themes 안이면 그 값, 아니면 None(옛 테마 = 화소 그대로)."""
+    spec = load_rules().camera.ambient
+    return spec if spec is not None and getattr(stage, "theme_name", None) in spec.themes else None
+
+
 def continuity(track: "np.ndarray", cut_frames: Sequence[int] = ()) -> dict[str, "np.ndarray"]:
     """카메라 연속성 측정(v5.21.9 D-0191 §1-1) — 프레임 (x, y, w) 배열에서 ln w·x/w·y/w 의 1·2·3차 차분 절댓값.
 

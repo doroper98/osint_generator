@@ -2188,6 +2188,18 @@ class DriftSpeedMax(_Strict):
     zoom_per_sec: float = Field(gt=0)
 
 
+class AmbientRules(_Strict):
+    """v7.4.0 UF-920(D936) — 지도의 느린 연속 흐름(원 궤도 + 폭의 느린 숨)과 [map-still] 검사 값."""
+
+    themes: list[str] = Field(default_factory=list)
+    pan_ratio: float = Field(ge=0, le=0.1)
+    pan_period_sec: float = Field(gt=0)
+    zoom_ratio: float = Field(ge=0, le=0.1)
+    zoom_period_sec: float = Field(gt=0)
+    min_speed_px_s: float = Field(ge=0)
+    still_max_sec: float = Field(gt=0)
+
+
 class CameraRules(_Strict):
     """v3.3.0 D-0056 — 카메라 자동화 보조(05 §7). v7.4.0 D-0241·D-0242 — 정지 카메라·drift·육지 비율."""
 
@@ -2197,6 +2209,7 @@ class CameraRules(_Strict):
     drift_speed_max: DriftSpeedMax = Field(default_factory=lambda: DriftSpeedMax(pan_w_per_sec=0.02, zoom_per_sec=0.01))
     land_min_ratio: float = Field(default=0.35, ge=0, le=1)
     land_sample_sec: float = Field(default=1.0, gt=0)
+    ambient: Optional[AmbientRules] = None   # v7.4.0 UF-920(D936) — 지도의 느린 연속 흐름. None = 없음
 
 
 class RouteSpeed(_Strict):
