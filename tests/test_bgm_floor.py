@@ -23,6 +23,15 @@ MARIO = "music.zabriskie_mario_bava"
 
 
 class FloorTest(unittest.TestCase):
+    def test_user_track_registered(self) -> None:
+        """v7.4.0 UF-910(D922) — 사용자 제공 곡 "두 개의 악기" 가 레지스트리에 권리·실측과 함께 있다(켜기 전에는 사유가 적혀 있다)."""
+        t = load_registry().tracks["music.yk_two_instruments"]
+        self.assertEqual((t.name, t.author), ("두 개의 악기", "_yk"))
+        self.assertTrue(t.sha1 and t.duration_sec and t.measured is not None)
+        self.assertIn("Suno", t.license)
+        if not t.available:
+            self.assertTrue(t.unavailable_reason)
+
     def test_available_tracks_pass_floor(self) -> None:
         reg = load_registry()
         av = {k: t for k, t in reg.tracks.items() if t.available}

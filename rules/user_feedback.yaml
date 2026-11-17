@@ -3004,3 +3004,16 @@ entries:
   status: guarded
   decision: "D921 — 수용. 진행 중이던 구현 5건은 검토·커밋으로 마무리하고 새 구현은 사용자 지시 뒤에만. CLAUDE.md C8 에 '구현 에이전트를 둘 이상 띄우기 전 범위·예상 비용을 한 줄로 알린다' 추가"
   source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17
+- id: UF-910
+  date: '2026-11-17'
+  project: repo
+  at: "요소 디자인 개편 보고 뒤 — 음악 파일 1개 첨부(mp3, 제목 '두 개의 악기', Suno 제작 태그)"
+  quote: "내가 배경음악 하나 넣어둘께."
+  quote_kind: verbatim
+  category: 소리 — 사용자가 만든 배경음악 1곡 제공. 음악 레지스트리에 권리·실측과 함께 등록해 영상에서 쓸 수 있게 한다
+  guards:
+  - {kind: test, ref: tests/test_bgm_floor.py::FloorTest::test_user_track_registered}
+  status: guarded
+  decision: "D922 — 수용. assets/audio/bgm/registry.yaml 에 music.yk_two_instruments 로 등록(sha1·길이·실측). 권리(Suno 요금제)와 등록 하한 미달(내레이션 대역 32 %) 두 가지를 사용자에게 알리고 확인 뒤 켠다"
+  source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17
+

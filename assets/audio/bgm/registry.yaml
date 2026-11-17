@@ -60,3 +60,19 @@ tracks:
     bpm: null                                          # 3.25초 주기 반복 음형(조사 세션) — BPM 으로 적지 않는다
     measured: {beat_clarity: 6.55, onsets_per_min: 473.5, voice_band: 0.088}   # audio.bgm_measure(0~360초) 실측
     available: true
+  music.yk_two_instruments:   # v7.4.0 사용자 제공 곡(UF-910, D922 — "내가 배경음악 하나 넣어둘께"). Suno 로 만든 연주곡(파일 태그: made with suno, id 351e4e60-1737-479b-9a65-a4282e0c20d6)
+    file: "두 개의 악기 - _yk.mp3"
+    sha1: c18ed525ab6f7a86d1930310344f7e373dda85be     # 사용자가 올린 파일 그대로(2026-11-17)
+    duration_sec: 189.936                              # ffprobe 실측
+    name: "두 개의 악기"
+    author: _yk
+    license: "사용자 제작(Suno 생성) — 상업 이용 권리는 만든 시점의 Suno 요금제 약관에 따른다(사용자 확인 대기)"
+    url: "https://suno.com"
+    attribution: "\"두 개의 악기\" — _yk (Suno 로 제작)"
+    source: "사용자 제공 — 세션 업로드 2026-11-17(파일 태그 created 2026-11-17T05:55:28Z)"
+    mood: []                                           # 추측 금지 — 실측은 measured
+    bpm: null
+    measured: {beat_clarity: 4.12, onsets_per_min: 263.8, voice_band: 0.322}   # audio.bgm_measure(0~360초) 실측 — 등록 하한(6.0·300·0.10) 셋 다 미달
+    available: false
+    unavailable_reason: "켜기 전 두 가지 — ① 권리: Suno 요금제(상업 이용 가능 여부) 사용자 확인 ② 등록 하한 미달(내레이션 대역 32 % > 10 %): 사용자 선택 곡으로 하한을 면제할지 결정(D922)"
+
