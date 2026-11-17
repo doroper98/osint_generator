@@ -73,6 +73,7 @@ hard 실패가 하나라도 있으면 시각 검수 LLM 을 부르지 않고 연
 | geo_unsourced | warning | v4.7.0(D-0107 D2(b)): 지도 무대 places·paths·인라인 좌표 marker·route 가 지명 사전과 대조되지 않음 `[geo-unsourced]`(provenance geo.unsourced[]). v4.10.0: 사전(`data/gazetteer.yaml`)에 없는 이름·paths·route 만 |
 | geo_mismatch | hard | v4.10.0(D-0116 B-1): place 키·그 place 를 쓰는 marker label·인라인 marker label 이 지명 사전과 맞는데 좌표가 맞은 항목 모두의 tol_km 밖 `[geo-mismatch]`(provenance geo.mismatch[]) — `geo.gazetteer` |
 | map_theme_legacy | hard | v7.4.0 UF-903 ③: 지도 테마 = 장르 기본값(porcelain) 하나. direction stage_config.mercator.theme 이 장르 기본값과 다르면 `[map-theme-legacy]` — rules qa_checks.map_theme_legacy_projects 의 옛 프로젝트만 통과 |
+| versus_layout_repeat | hard | v7.4.0 UF-913("세가지 다 적용해"): skin 무대 영상에서 versus 패널이 둘 이상이면 연달아 같은 layout(axis·sheets·piles, 없으면 기본값)을 쓰지 않는다 `[versus-layout-repeat]` — 세 모양을 다 쓰라는 사용자 결정(D929). 옛 테마 영상은 보지 않는다 |
 | static_window | warning | v4.11.0(D-0118 §1): 지도 무대(전면 카드·패널 덮개 밖)의 어떤 pacing.static_window.window_sec 창이든 change_kinds 변화(이벤트 등장 t0·카메라 키) < min_changes `[static-window] t0-t1 changes=n`(provenance pacing.static_windows[]). 표시된 범위에는 느린 푸시인(creep). `engine.pacing` |
 | sentence_still | warning | v7.4.0(UF-400 영상 분석): min_sentence_sec 이상 문장 동안 pacing.sentence_change.change_kinds 이벤트 등장(t0 ∈ [시작 − lead_sec, 끝])이 0 `[sentence-still] sid t0-t1`. 카메라 이동은 세지 않는다(C0). `engine.pacing.still_sentences` |
 | timeline_rescale | hard | v5.1.0(D-0121 §A): 시간축 무대 숏의 w 변화가 장면 안(scene_fixed)·영상당 > axis_scale.w_changes_per_video_max·비율 < w_change_ratio_min `[timeline-rescale] t w a→b (이유)`(provenance timeline.w_changes[]). 지도 무대 제외 `engine.shots` |
@@ -158,7 +159,7 @@ HARD = ("basemap_upscale",     # v7.4.0 D-0630 §2(UF-261) — 지도 확대 때
         "map_contrast", "overlap", "offscreen", "glyphs", "glyph_size", "labels", "date", "subtitles", "rights", "forbidden", "stage_continuity",
         "genre_elements", "chart_honesty", "series_limit_3", "units_visible", "as_of_visible", "boundary_as_route",
         "geo_mismatch", "timeline_rescale", "backdrop_rights", "backdrop_repeat", "island_overlap",
-        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "element_gap", "label_banned_terms", "badge_hold", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled", "map_event_covered", "spoken_number_visible", "sa_obligation", "structure_text_offscreen", "data_stage_bare_on_backdrop", "island_inner_pad", "lane_empty", "backdrop_subject", "island_text_contrast", "map_theme_legacy")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), element_gap·label_banned_terms·badge_hold v7.4.0 UF-160~162, cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
+        "backdrop_main_missing", "island_label_clip", "cascade", "subtitle_overlap", "label_collision", "timeline_span", "route_frame", "panel_overflow", "flag_territory", "badge_over_panel", "opening_establish", "camera_continuity", "card_exposure", "route_label_cross", "route_label_overlap", "article_backdrop", "quote_in_script", "route_missing_other", "frame_missing_target", "route_missing", "frame_missing", "bgm_decision", "endcard_black", "camera_per_sentence", "label_jump", "camera_speed", "title_backdrop", "camera_bounds", "cutaway_churn", "unit_glyph_font", "transition_camera", "media_unused", "inset_clipped", "press_credit", "static_camera", "route_speed", "sea_only_frame", "unit_ton_glyph", "badge_clipped", "series_unused", "panel_dropped", "card_over_panel", "article_outlet", "catalog_label_overlap", "chart_only_run", "chart_world_split", "series_label_overlap", "chart_edge_bleed", "media_density", "flat_lane", "island_pin_collision", "plot_height", "clip_frame", "axis_empty_band", "element_gap", "label_banned_terms", "badge_hold", "clip_date_mismatch", "inset_jump", "text_restates_narration", "scene_visual_void", "flight_unsourced", "template_label", "invest_notice", "badge_covered", "band_line_outside", "photo_subject_background", "photo_subject_unmatched", "label_under_media", "caption_overflow", "chart_overload", "chart_layers_min", "secondary_axis_single", "bars_from_zero", "estimate_actual_pair", "grid_text_cross", "bar_border", "element_hold", "media_overlap", "media_sentence_span", "map_opening", "map_cover_share", "credit_garbled", "map_event_covered", "spoken_number_visible", "sa_obligation", "structure_text_offscreen", "data_stage_bare_on_backdrop", "island_inner_pad", "lane_empty", "backdrop_subject", "island_text_contrast", "map_theme_legacy", "versus_layout_repeat")   # media_sentence_span·map_opening·map_cover_share·credit_garbled v7.4.0 D-0470(UF-173·RIGHTS-AP-002), chart_overload…bar_border v7.4.0 D-0339(UF-151·152·154·155·202, T3), element_gap·label_banned_terms·badge_hold v7.4.0 UF-160~162, cutaway_churn v7.4.0 D-0229 §2.3, island_label_clip v5.2.0 D-0133 §2, backdrop_main_missing v5.2.0 D-0129 §B, island_overlap v5.1.0 D-0126 Q3, geo_mismatch v4.10.0 D-0116, timeline_rescale v5.1.0 D-0121 §A, backdrop_* v5.1.0 D-0123
 WARN = ("shots", "media_beats", "media_upscaled", "endcard_roll", "geo_unsourced",   # endcard_roll v4.7.0 D-0106, geo_unsourced D-0107
         "static_window", "stage_choice", "card_island", "island_label_overlap", "cascade_label_hidden",
         "map_contrast_shape", "battle_geo", "portrait_unused", "ratio_graphic", "inset_overlap", "tempo_density", "article_press_missing", "badge_orphan", "inset_side_change", "series_date_convention", "photo_age", "narration_clarity_note", "sentence_still")   # sentence_still v7.4.0 UF-400   # ratio_graphic v7.4.0 D-0229 §2.6   # v5.21.14 D-0195·D-0199. map_contrast_shape v5.18.0 D-0161 §4   # static_window v4.11.0 D-0118, stage_choice v5.1.0 D-0123, card_island v5.2.0 D-0129 §C, island_label_overlap D-0133 §3
@@ -343,7 +344,9 @@ def check_route_frame(P) -> list[str]:  # noqa: ANN001, N803
 
 
 def check_panel_overflow(P) -> list[str]:  # noqa: ANN001, N803
-    """v5.6.0 RENDER-AP-013 — 연도 카드(precedent) 글자가 카드 폭을 넘으면 hard(렌더 전에). 주석(footnote)은 폭·근거 claim·자막 겹침까지."""
+    """v5.6.0 RENDER-AP-013 — 연도 카드(precedent) 글자가 카드 폭을 넘으면 hard(렌더 전에). 주석(footnote)은 폭·근거 claim·자막 겹침까지.
+    v7.4.0 UF-913 — skin 무대의 versus 배치 셋(axis·sheets·piles)도 렌더 전에 잰다(항목 수·줄 수·폭·세로 맞춤)."""
+    from engine import skin  # noqa: PLC0415
     from engine.panels.precedent import overflow  # noqa: PLC0415
 
     import json  # noqa: PLC0415
@@ -356,6 +359,11 @@ def check_panel_overflow(P) -> list[str]:  # noqa: ANN001, N803
     cp = P.root / "intake" / "claims.json"
     claims = {c["claim_id"] for c in json.loads(cp.read_text(encoding="utf-8"))["claims"]} if cp.exists() else set()
     for e in P.events:
+        if e["type"] == "panel" and e.get("kind") == "versus" and skin.active():   # v7.4.0 UF-913 — 배치 셋(axis·sheets·piles)의 항목 수·줄 수·폭 넘침을 렌더 전에
+            from engine.panels import versus as versus_panel, versus_layouts  # noqa: PLC0415
+
+            out += versus_layouts.overflow(e, versus_panel.layout(e))
+            continue
         if e["type"] != "panel" or e.get("kind") != "precedent":
             continue
         out += overflow(ctx, e)
@@ -897,6 +905,20 @@ def check_geo_mismatch(P) -> list[str]:  # noqa: ANN001, N803
     """지명 사전 좌표 불일치(v4.10.0 back_and_forth D-0116 B-1) — hard. 항목은 load_project 가 `geo.gazetteer.check_doc` 로 모은 것."""
     return [f"[geo-mismatch] {it['kind']} {it['name']} {it['lonlat']} — 사전 {it['gazetteer']} 에서 {it['km']}km(허용 {it['tol_km']}km)"
             for it in (P.R.cache.get("geo_check") or {}).get("mismatch") or []]
+
+
+def check_versus_layout_repeat(P) -> list[str]:  # noqa: ANN001, N803
+    """[versus-layout-repeat] hard(v7.4.0 UF-913 — 사용자 "세가지 다 적용해. 뭐 하나만 정할 필요는 없잖아.", D929). skin 무대 영상의 versus 패널을
+    시작 시각 순으로 놓고, 이웃한 둘이 같은 layout(없으면 rules skin.panel.versus.default)이면 실패 — 기본값만 반복해 한 모양으로 굳는 것을 막는다."""
+    from engine import skin  # noqa: PLC0415
+    from engine.panels.versus import layout  # noqa: PLC0415
+
+    if not skin.active():
+        return []
+    vs = sorted((e for e in P.events if e["type"] == "panel" and e.get("kind") == "versus"), key=lambda e: e["t0"])
+    return [f"[versus-layout-repeat] versus 패널 t0={a['t0']:.1f} 와 t0={b['t0']:.1f} 가 같은 배치 {layout(a)!r} — 이웃한 versus 는 다른 layout 을 쓴다"
+            f"(axis·sheets·piles 가운데 장면에 맞는 것, rules direction_grammar)"
+            for a, b in zip(vs, vs[1:]) if layout(a) == layout(b)]
 
 
 def map_theme_legacy(mt: "dict | None", project_id: str) -> list[str]:
@@ -3212,6 +3234,7 @@ def run_checks(P, times: list[float], provenance: dict, drawn: list[tuple[str, f
         "geo_unsourced": lambda: check_geo_unsourced(P),
         "geo_mismatch": lambda: check_geo_mismatch(P),
         "map_theme_legacy": lambda: map_theme_legacy(P.R.cache.get("map_theme_warn"), P.R.cache.get("project_id") or P.root.name),   # v7.4.0 UF-903 ③
+        "versus_layout_repeat": lambda: check_versus_layout_repeat(P),   # v7.4.0 UF-913(hard)
         "static_window": lambda: check_static_window(P),
         "sentence_still": lambda: check_sentence_still(P),   # v7.4.0 UF-400(warning, 영상 분석)
         "timeline_rescale": lambda: check_timeline_rescale(P),

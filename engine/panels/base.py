@@ -48,8 +48,12 @@ def draw_panel_cover(ctx: cairo.Context, a: float) -> None:
     ctx.paint()
 
 
-def make_panel_renderer(fn: PanelFn) -> Callable[[cairo.Context, RenderCtx, float, dict], None]:
-    """덮개를 칠한 뒤 종류별 본문을 그린다 — v3 draw_panel 과 같은 순서."""
+SkinBacking = Callable[[dict], float]   # skin 무대에서 판 흰 카드를 그리지 않는 패널 — 지도 위에 깔 흰 장막 알파를 돌려준다(패널이 자기 면·글씨를 직접 그린다)
+
+
+def make_panel_renderer(fn: PanelFn, skin_backing: SkinBacking | None = None) -> Callable[[cairo.Context, RenderCtx, float, dict], None]:
+    """덮개를 칠한 뒤 종류별 본문을 그린다 — v3 draw_panel 과 같은 순서.
+    skin_backing(e) — v7.4.0 UF-913: skin 무대에서 판 흰 카드를 그리지 않는 패널(versus 배치 셋)의 지도 위 장막 알파. 없으면 흰 카드 + panel_veil_alpha(종전)."""
 
     def render(ctx: cairo.Context, R: RenderCtx, t: float, e: dict) -> None:  # noqa: N803
         a = panel_alpha(t, e)
@@ -62,10 +66,13 @@ def make_panel_renderer(fn: PanelFn) -> Callable[[cairo.Context, RenderCtx, floa
             from engine.stage import skin_map  # noqa: PLC0415
             from engine.style import ISLAND, SKIN  # noqa: PLC0415
 
+            bare = skin_backing is not None and skin.active()   # UF-913 — 판 카드 없는 배치(skin 무대에서만. 옛 backdrop 무대는 종전 아일랜드 상자 그대로)
             if skin_map(getattr(R, "stage", None)):   # v7.4.0 4b-2 — skin 지도 위 패널: 어두운 덮개 대신 고른 흰 장막(지도는 옅게 비친다)
-                ctx.set_source_rgba(*skin.FILL, SKIN.map_overlays.panel_veil_alpha * a)
+                veil = skin_backing(e) if bare else SKIN.map_overlays.panel_veil_alpha   # 판 카드 없는 배치는 자기 장막(글씨가 지도 위에 직접 뜬다)
+                ctx.set_source_rgba(*skin.FILL, veil * a)
                 ctx.paint()
-            draw_frame(ctx, tuple(ISLAND.panel_box), a)
+            if not bare:
+                draw_frame(ctx, tuple(ISLAND.panel_box), a)
         else:
             draw_panel_cover(ctx, a)
         fn(ctx, R, t, e, a)

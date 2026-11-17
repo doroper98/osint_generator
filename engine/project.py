@@ -385,6 +385,15 @@ def music_ids(sound: Optional[dict]) -> set[str]:
     return {b} if isinstance(b, str) else {g["id"] for g in b}
 
 
+def check_versus_layout(events: list[dict], where: str) -> None:
+    """v7.4.0 UF-913 — skin 이 꺼진 영상의 versus 패널에 layout 이 있으면 ProjectError(옛 두 기둥 상자로 그리므로 배치를 무시하게 된다 — 15 P6)."""
+    bad = [f"{e['t0']}s {e['layout']}" for e in events
+           if e.get("type") == "panel" and e.get("kind") == "versus" and e.get("layout") is not None]
+    if bad:
+        raise ProjectError(f"versus 패널 layout {bad}: skin 무대(rules skin.stages·skin.map_themes)에서만 쓴다 — "
+                           f"이 영상({where})은 옛 두 기둥 상자로 그리므로 layout 을 지운다")
+
+
 def load_project(proj: Path, direction: Optional[Direction] = None, out: Optional[Output] = None,
                  animatic: bool = False, catalog: bool = False) -> Project:
     """렌더 입력 한 벌. direction 을 주면 direction.yaml 대신 그것으로(연출 워커의 저장 전 점검 — 렌더와 같은 경로, 15 P8).
@@ -469,6 +478,8 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R.cache["palette"] = pal
     if skin_on:   # provenance skin(15 P5) — 켜진 영상만
         R.cache["skin"] = {"name": SKIN.palette, "stage": R.stage.name}
+    else:   # v7.4.0 UF-913 — versus layout 은 skin 무대 배치다. 옛 테마 영상에 적으면 조용히 무시하지 않는다(15 P6)
+        check_versus_layout(raw_events, f"무대 {R.stage.name!r}, 지도 테마 {mt['effective'] if mt else None!r}")
     skin_map = skin_on and mt is not None and mt["effective"] in SKIN.map_themes   # v7.4.0 4b — skin 지도: 지형 = 지도 테마 래스터(팔레트 map_* 아님)
     if len(rstages) > 1 and set(rstages) & set(SKIN.stages) and not skin_map:   # v7.4.0 R9 — 스튜디오를 오가는 영상은 skin 영상(지도도 skin 테마)이어야 한다
         raise ProjectError(f"무대 전환 {rstages}: 스튜디오(rules skin.stages)를 쓰는 영상의 지도는 skin 지도 테마 {SKIN.map_themes} 여야 한다 — "

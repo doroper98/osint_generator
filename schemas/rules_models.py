@@ -5174,24 +5174,274 @@ class SkinPanelBar(_Strict):
     h: float = Field(gt=0)
 
 
-class SkinPanelVersus(_Strict):
-    top: float
-    bottom: float
-    bar_h: float = Field(gt=0)
-    title_dy: float = Field(gt=0)
-    item_y0: float
-    item_dy: float = Field(gt=0)
-    dot_dx: float = Field(ge=0)
-    dot_dy: float
-    item_font: str = Field(min_length=1)
-    src_y: float
-    src_rule_dy: float
+VersusLayout = Literal["axis", "sheets", "piles"]   # v7.4.0 UF-912·UF-913 — engine.events.PanelVersus.layout 과 같은 값
+InkName = Literal["primary", "secondary", "tertiary"]
+
+
+class VsText(_Strict):
+    """글자 한 줄 — 크기·글꼴(설계 px)."""
+
+    size: float = Field(gt=0)
+    font: str = Field(min_length=1)
+
+
+class VsTitle(VsText):
+    y: float = Field(gt=0)
+
+
+class VsAxisTitle(VsTitle):
+    ink: InkName
+
+
+class VsTracked(VsText):
+    track: float = Field(ge=0)
+
+
+class VsGlow(_Strict):
+    blur: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+
+
+class VsAxisLine(_Strict):
+    top: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+    w: float = Field(gt=0)
+    tail: float = Field(ge=0)
+
+
+class VsAxisHead(VsText):
+    gap: float = Field(gt=0)
+    min_size: float = Field(gt=0)
+    y: float = Field(gt=0)
+    x_margin: float = Field(ge=0)
 
     @model_validator(mode="after")
-    def _order(self) -> "SkinPanelVersus":
-        if not self.top < self.item_y0 < self.src_y <= self.bottom:
-            raise ValueError("skin.panel.versus — top < item_y0 < src_y ≤ bottom")
+    def _sizes(self) -> "VsAxisHead":
+        if self.min_size > self.size:
+            raise ValueError("skin.panel.versus.axis.head — min_size ≤ size")
         return self
+
+
+class VsAxisSrc(VsTracked):
+    dy: float = Field(gt=0)
+
+
+class VsAxisRow(_Strict):
+    y0: float = Field(gt=0)
+    pitch: float = Field(gt=0)
+    min_pitch: float = Field(gt=0)
+    max_y: float = Field(gt=0)
+
+    @model_validator(mode="after")
+    def _order(self) -> "VsAxisRow":
+        if not (self.min_pitch <= self.pitch and self.y0 < self.max_y):
+            raise ValueError("skin.panel.versus.axis.row — min_pitch ≤ pitch, y0 < max_y")
+        return self
+
+
+class VsAxisDot(_Strict):
+    r: float = Field(gt=0)
+    r_hot: float = Field(gt=0)
+    dy: float
+
+
+class VsAxisTick(_Strict):
+    len: float = Field(gt=0)
+    gap: float = Field(ge=0)
+    w: float = Field(gt=0)
+    w_hot: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+
+
+class VsAxisItem(VsText):
+    gap: float = Field(gt=0)
+    line_gap: float = Field(gt=0)
+    max_lines: int = Field(ge=1)
+
+
+class SkinVersusAxis(_Strict):
+    """axis — 가운데 세로 축 + 거울 배치 옆 제목 + t 순서 항목 줄(바탕 없는 글씨, UF-907)."""
+
+    title: VsAxisTitle
+    line: VsAxisLine
+    head: VsAxisHead
+    src: VsAxisSrc
+    row: VsAxisRow
+    dot: VsAxisDot
+    tick: VsAxisTick
+    item: VsAxisItem
+    glow: VsGlow
+    rise: float = Field(ge=0)
+    map_veil: float = Field(ge=0, le=1)
+
+    @model_validator(mode="after")
+    def _order(self) -> "SkinVersusAxis":
+        if not (self.title.y < self.line.top < self.head.y < self.row.y0):
+            raise ValueError("skin.panel.versus.axis — title.y < line.top < head.y < row.y0")
+        return self
+
+
+class VsSheet(_Strict):
+    w: float = Field(gt=0)
+    h: float = Field(gt=0)
+    pad: float = Field(ge=0)
+
+
+class VsPlace(_Strict):
+    x: float
+    y: float
+    rot: float = Field(ge=-15, le=15)
+
+
+class VsSheetHead(VsText):
+    dy: float = Field(gt=0)
+    rule_dy: float = Field(gt=0)
+    rule_w: float = Field(gt=0)
+
+
+class VsSheetItem(VsText):
+    dx: float = Field(ge=0)
+    y0: float = Field(gt=0)
+    line_gap: float = Field(gt=0)
+    max_lines: int = Field(ge=1)
+    rule_dy: float = Field(gt=0)
+    next_dy: float = Field(gt=0)
+    min_scale: float = Field(gt=0, le=1)
+    max: int = Field(ge=1)
+
+
+class VsRule(_Strict):
+    alpha: float = Field(gt=0, le=1)
+    w: float = Field(gt=0)
+
+
+class VsSheetSrc(VsTracked):
+    dy: float = Field(gt=0)
+    clear: float = Field(ge=0)
+
+
+class VsBadge(VsTracked):
+    x: float
+    y: float
+    d: float = Field(gt=0)
+    text: str = Field(min_length=1)
+    baseline_k: float = Field(ge=0, le=1)
+    level: str = Field(min_length=1)
+
+
+class SkinVersusSheets(_Strict):
+    """sheets — 맞선 직각 흰 종이 두 장 + 가운데 VS 원."""
+
+    title: VsTitle
+    glow: VsGlow
+    sheet: VsSheet
+    left: VsPlace
+    right: VsPlace
+    head: VsSheetHead
+    index: VsTracked
+    item: VsSheetItem
+    rule: VsRule
+    src: VsSheetSrc
+    vs: VsBadge
+    rise: float = Field(ge=0)
+    map_veil: float = Field(ge=0, le=1)
+
+    @model_validator(mode="after")
+    def _order(self) -> "SkinVersusSheets":
+        if not (self.head.dy < self.head.rule_dy < self.item.y0 < self.sheet.h - self.src.dy):
+            raise ValueError("skin.panel.versus.sheets — head.dy < head.rule_dy < item.y0 < sheet.h − src.dy")
+        return self
+
+
+class VsPileHead(VsText):
+    y: float = Field(gt=0)
+    x_left: float
+    x_right: float
+    count_size: float = Field(gt=0)
+    count_font: str = Field(min_length=1)
+    count_gap: float = Field(ge=0)
+
+    @model_validator(mode="after")
+    def _order(self) -> "VsPileHead":
+        if self.x_left >= self.x_right:
+            raise ValueError("skin.panel.versus.piles.head — x_left < x_right")
+        return self
+
+
+class VsPileRule(_Strict):
+    y: float = Field(gt=0)
+    w: float = Field(gt=0)
+    h: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+
+
+class VsPileCard(_Strict):
+    w: float = Field(gt=0)
+    h: float = Field(gt=0)
+    y0: float = Field(gt=0)
+    pitch: float = Field(gt=0)
+    min_pitch: float = Field(gt=0)
+    shift: float = Field(ge=0)
+    rot0: float = Field(ge=-15, le=15)
+    rot_step: float = Field(ge=-15, le=15)
+    max: int = Field(ge=1)
+
+    @model_validator(mode="after")
+    def _order(self) -> "VsPileCard":
+        if self.min_pitch > self.pitch:
+            raise ValueError("skin.panel.versus.piles.card — min_pitch ≤ pitch")
+        return self
+
+
+class VsPileIndex(VsTracked):
+    dx: float = Field(ge=0)
+    dy: float = Field(gt=0)
+
+
+class VsPileItem(VsText):
+    dx: float = Field(ge=0)
+    pad_r: float = Field(ge=0)
+    dy1: float = Field(gt=0)
+    dy2: float = Field(gt=0)
+    line_gap: float = Field(gt=0)
+
+
+class VsPileSrc(VsTracked):
+    y: float = Field(gt=0)
+    gap: float = Field(ge=0)
+
+
+class SkinVersusPiles(_Strict):
+    """piles — 논거 하나 = 직각 카드 한 장, 그쪽 더미에 쌓인다."""
+
+    title: VsTitle
+    glow: VsGlow
+    head: VsPileHead
+    rule: VsPileRule
+    card: VsPileCard
+    index: VsPileIndex
+    item: VsPileItem
+    bar_w: float = Field(gt=0)
+    src: VsPileSrc
+    drop: float = Field(ge=0)
+    rise: float = Field(ge=0)
+    map_veil: float = Field(ge=0, le=1)
+
+    @model_validator(mode="after")
+    def _order(self) -> "SkinVersusPiles":
+        if not (self.title.y < self.head.y < self.rule.y < self.card.y0 < self.src.y):
+            raise ValueError("skin.panel.versus.piles — title.y < head.y < rule.y < card.y0 < src.y")
+        return self
+
+
+class SkinPanelVersus(_Strict):
+    """v7.4.0 UF-912·UF-913 — 두 입장 패널 배치 셋(이벤트 layout, 없으면 default). 판 흰 카드 없음."""
+
+    default: VersusLayout
+    tail_min: float = Field(gt=0, le=1)
+    axis: SkinVersusAxis
+    sheets: SkinVersusSheets
+    piles: SkinVersusPiles
 
 
 class SkinPanelPrecedent(_Strict):

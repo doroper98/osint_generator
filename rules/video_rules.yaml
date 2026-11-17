@@ -401,6 +401,7 @@ direction_grammar:         # v4.7.0 back_and_forth D-0104 D2(a) — 연출 문�
   - 국기 뱃지는 그 나라 땅·바다·화면 가장자리에 둔다 — 다른 나라 땅 위에 두면 시청자가 그 땅을 그 나라 것으로 오해한다(예 — 리투아니아 위 러시아 국기). 슬롯 자리가 남의 땅에 걸리면 슬롯을 바꾼다(v5.6.0 사용자 지적, 검사 [flag-territory]).
   - 기사 조판(article)·실사(photo·clip·cutout)는 입력의 미디어 레지스트리 후보에서 고른다. 인용·기사·실사 중 0건으로 두는 항목이 있으면 direction.yaml media_note 에 이유를 한 줄 적는다 — 게이트 ② 미디어 요약에 보인다(막지 않는다, v5.6.0 사용자 결정 2026-10-05, PIPELINE-AP-019).
   - 양측 비교(versus) 패널이 떠 있는 동안에는 인물 뱃지를 띄우지 않는다 — 발언자는 기둥 제목이 밝힌다. 뱃지가 한 자리에 번갈아 뜨면 누구 의견인지 헷갈리고 기둥 글자를 가린다. 인물 소개는 패널 앞 문장에서 끝낸다(v5.6.0 사용자 지적, 검사 [badge-over-panel]).
+  - "스튜디오·porcelain 지도(skin 무대)의 양측 비교(versus) 패널은 layout 을 고른다 — axis(기본: 두 쪽의 말·주장을 맞세울 때, 가운데 축과 글씨만), sheets(두 문서·성명·보고서의 입장일 때, 맞선 종이 두 장), piles(논거의 수와 쌓임이 요점일 때, 논거 하나가 카드 한 장). 한 영상에서 versus 가 두 번 이상이면 같은 layout 을 연달아 쓰지 않는다. 항목은 쪽마다 4개 이하. 옛 테마 영상에는 layout 을 적지 않는다(v7.4.0 UF-912·UF-913)."
   - 위치가 공개되지 않은 사건 지점은 marker sub 에 '좌표 비공개'(또는 '근사 위치')를 쓴다 — 지도 좌표는 근거가 있을 때만 사건 지점으로 보인다(v4.7.0 D-0107).
   - 청와대·대통령실(한국)이 발언·행위 주체인 문장에는 휘장 뱃지(kind emblem, img cheongwadae)를 건다. 대통령 개인이 주체면 초상 뱃지, 둘 다면 초상을 우선한다(v4.8.0 D-0109, 사용자 결정 D98).
   - 주제가 지리·이동·위치가 아니면(정책·금리·기업·법정·발언 중심) 지도 무대를 쓰지 않는다 — backdrop 무대 + 아일랜드(차트·개념도·사진·기사·패널)로 구성한다. 지도가 중심이면 mercator(v5.1.0 D-0123 §2). 장르 기본 무대와 다르게 고르면 stage_reason 에 이유를 적는다.
@@ -2015,7 +2016,51 @@ skin:                      # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 1
     label: {size: 9.5, font: sansm}         # 한글 꼬리표(선 라벨·월·출처·주석) — 잉크 secondary
     quote: {font: sansb, glow_blur: 7, glow_alpha: 0.9}   # 관계도 위 발언(UF-907) — 바탕 없는 잉크 글씨 + 흰 번짐
     accent_bar: {w: 28, h: 2.4}            # 강조 짧은 윗선(강조 기둥·강조 연도)
-    versus: {top: 120, bottom: 382, bar_h: 2.4, title_dy: 36, item_y0: 196, item_dy: 50, dot_dx: 26, dot_dy: -5, item_font: sansm, src_y: 366, src_rule_dy: -16}   # 기둥 위 끝·아래 끝(가운데 가는 선), 옆 색 = 얇은 윗선(폭 = 기둥) + 항목 점
+    # v7.4.0 UF-912·UF-913("세가지 다 적용해") — 두 입장(versus) 배치 셋. 이벤트 layout(없으면 default). 판 흰 카드 없음 — axis = 글씨만(UF-907),
+    # sheets·piles = 자기 종이·카드만(직각, UF-908). 같은 무게(G4): 두 쪽 제목 같은 크기. 지금 항목(t ≤ 지금 중 가장 늦은 것) 하나만 강조색. 길이 = 설계 px(854×480).
+    # 값 = 감독 시안(scratchpad ds/v_versus.py v2·v1·v3, docs/handoff/reports/skin_design_2026-11-17_versus_*.jpg). 엔진 = engine/panels/versus_layouts.py
+    versus:
+      default: axis
+      tail_min: 0.4          # 두 줄로 접힌 항목의 둘째 줄 폭 ≥ 첫 줄 × 이 값 — 모자라면 첫 줄 끝 낱말을 내린다(끝 낱말 하나만 남는 줄 방지)
+      axis:                  # 가운데 세로 축 + 거울 배치 큰 제목 + 항목 줄(t 순서대로 한 줄씩, 점·짧은 눈금이 그쪽을 가리킨다)
+        title: {size: 17, font: sansb, ink: secondary, y: 82}          # 가운데 정렬 제목(꼬리말 영어 라벨 없음)
+        line: {top: 104, alpha: 0.22, w: 0.6, tail: 6}                  # 축 = W_OUT/2, top ~ 마지막 줄 기준선 + tail
+        head: {gap: 34, size: 32, min_size: 20, font: disp, y: 148, x_margin: 66}   # 옆 제목 = 축 ∓ gap(왼쪽 오른쪽 맞춤). 반쪽(축 − gap − x_margin)에 맞춰 1px 씩 줄임, min 밑 = 오류
+        src: {size: 8.5, font: sansm, track: 0.02, dy: 22}               # 옆 제목 기준선 + dy, 자간 = track × size, 잉크 tertiary. 출처는 한글이 섞이므로 고정폭이 아니라 sansm(skin.panel.label 과 같은 글꼴 — 고정폭은 한글·가운뎃점 간격이 들쭉날쭉)
+        row: {y0: 214, pitch: 40, min_pitch: 28, max_y: 384}           # 항목 줄 기준선(두 줄 항목은 item.line_gap 만큼 더). 넘치면 pitch 를 1px 씩 줄임(min_pitch), 그래도 max_y 밖 = 오류
+        dot: {r: 2.6, r_hot: 3.6, dy: -5}                               # 축 위 점(잉크 secondary / 지금 항목 = 강조색), 기준선 + dy
+        tick: {len: 22, gap: 6, w: 0.7, w_hot: 1.2, alpha: 0.35}        # 축 ± gap 에서 그쪽으로 len(잉크 secondary × alpha / 지금 항목 = 강조색 w_hot)
+        item: {size: 15, font: sansb, gap: 36, line_gap: 19, max_lines: 2}   # 항목 글자 = 축 ∓ gap, 반쪽 폭에 접음(max_lines 넘침 = 오류)
+        glow: {blur: 9, alpha: 0.9}                                     # 덩어리 전체 뒤 흰 번짐(skin.glow)
+        rise: 10                                                        # 등장 때 아래에서 올라오는 거리(패널 알파 따라)
+        map_veil: 0.9                                                   # skin 지도 위 흰 장막(× 패널 알파) — 글씨만 뜨므로 지도를 거의 가린다(지명·국기 채움과 겹쳐 읽히지 않게)
+      sheets:                # 맞선 종이 두 장(살짝 기운 직각 흰 종이) + 가운데 VS 원
+        title: {size: 19, font: sansbb, y: 78}
+        glow: {blur: 8, alpha: 0.85}
+        sheet: {w: 312, h: 264, pad: 26}
+        left: {x: 112, y: 104, rot: -2.2}                               # 왼쪽 위 모서리·기울기(도, 종이 가운데 기준)
+        right: {x: 430, y: 112, rot: 2.0}
+        head: {size: 24, font: sansbb, dy: 58, rule_dy: 70, rule_w: 1.2}   # 옆 제목·그 아래 잉크 선(폭 = 종이 − 2 pad)
+        index: {size: 8, font: mono, track: 0.06}                       # 01·02… (지금 항목 = 강조 잉크, 아니면 tertiary)
+        item: {size: 13.5, font: sansb, dx: 30, y0: 98, line_gap: 18, max_lines: 2, rule_dy: 24, next_dy: 18, min_scale: 0.6, max: 4}   # 접음 max_lines 넘침 = 오류. 마지막 줄 + rule_dy = 가는 선, + next_dy = 다음 항목. 안 들어가면 두 간격을 min_scale 까지 줄임
+        rule: {alpha: 0.08, w: 0.5}
+        src: {size: 8.5, font: sansm, track: 0.02, dy: 20, clear: 12}   # 종이 아래 끝 − dy 기준선. 마지막 가는 선 ≤ 그 기준선 − clear
+        vs: {x: 427, y: 240, d: 36, text: VS, size: 9.5, font: mono, track: 0.06, baseline_k: 0.38, level: chip}   # 잉크 primary 원 + 흰 글자
+        rise: 10
+        map_veil: 0.82                                                  # skin 지도 위 흰 장막 — 제목 글씨가 지도 위에 뜬다(종이는 자기 면)
+      piles:                 # 쌓이는 논거 카드(논거 하나 = 직각 카드 한 장, 그쪽 더미에 쌓인다)
+        title: {size: 19, font: sansbb, y: 78}
+        glow: {blur: 8, alpha: 0.85}
+        head: {size: 15, font: sansbb, y: 124, x_left: 150, x_right: 704, count_size: 11, count_font: mono, count_gap: 8}   # 옆 제목 + 항목 수(잉크 tertiary)
+        rule: {y: 132, w: 250, h: 1.2, alpha: 0.9}
+        card: {w: 250, h: 52, y0: 152, pitch: 62, min_pitch: 46, shift: 9, rot0: -1.2, rot_step: 1.1, max: 4}   # 다음 카드 = 바깥에서 안으로 shift, 기울기 rot0 + rot_step·i(오른쪽 거울). 출처 위에 안 들어가면 pitch 를 min_pitch 까지(겹쳐 쌓임)
+        index: {size: 8, font: mono, track: 0.06, dx: 14, dy: 21}
+        item: {size: 13.5, font: sansb, dx: 40, pad_r: 14, dy1: 31, dy2: 23, line_gap: 17}   # 한 줄 기준선 dy1, 두 줄 dy2 + line_gap(세 줄 = 오류)
+        bar_w: 3                                                        # 지금 카드 왼쪽 강조 막대
+        src: {size: 8.5, font: sansm, track: 0.02, y: 372, gap: 14}     # 더미 아래 출처(마지막 카드 아래 끝 + gap ≤ y)
+        drop: 12                                                        # 카드가 위에서 내려앉는 거리
+        rise: 10
+        map_veil: 0.82
     precedent: {top: 150, rise: 16, year_dy: 42, title_dy: 68, line_dy: 96, line_step: 20, caption_dy: 196, badge_dx: 136, badge_dy: 172, bottom: 362, caption_delay: 0.6, badge_delay: 0.3}   # 연도 기둥 — 윗선(강조 연도 = 강조색) + 기둥 사이 가는 선
     check: {w: 1.8, box_alpha: 0.35}        # checklist — 체크 획 굵기(잉크 primary)·칸 윤곽 알파
     gantt_bar_h: 10                         # 막대 두께(가운데 = 옛 막대 가운데) — 회색 직각 막대, accent_cols 막대만 강조색

@@ -80,7 +80,7 @@ REGISTRY: dict[str, Entry] = {
     "panel:statement": Entry(ev.PanelStatement, make_panel_renderer(statement.draw), "panel"),
     "panel:timeline": Entry(ev.PanelTimeline, make_panel_renderer(timeline.draw), "panel"),
     "panel:precedent": Entry(ev.PanelPrecedent, make_panel_renderer(precedent.draw), "panel"),
-    "panel:versus": Entry(ev.PanelVersus, make_panel_renderer(versus.draw), "panel"),
+    "panel:versus": Entry(ev.PanelVersus, make_panel_renderer(versus.draw, versus.skin_backing), "panel"),
     # v2 번들 차트 이식(D-0032 작업 5, 08 §8)
     "panel:dots": Entry(ev.PanelDots, make_panel_renderer(dots.draw), "panel"),
     "panel:gantt": Entry(ev.PanelGantt, make_panel_renderer(gantt.draw), "panel"),

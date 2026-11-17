@@ -82,7 +82,8 @@ class RulesTest(unittest.TestCase):
         raw = load_rules().skin.panel.model_dump()
         SkinPanel.model_validate(raw)
         for bad in ({**raw, "nope": 1}, {**raw, "x0": raw["x1"]},
-                    {**raw, "versus": {**raw["versus"], "src_y": raw["versus"]["top"]}},
+                    {**raw, "versus": {**raw["versus"], "axis": {**raw["versus"]["axis"], "row": {**raw["versus"]["axis"]["row"], "min_pitch": 99}}}},
+                    {**raw, "versus": {**raw["versus"], "default": "cards"}},
                     {**raw, "precedent": {**raw["precedent"], "title_dy": raw["precedent"]["year_dy"]}}):
             with self.assertRaises(ValidationError):
                 SkinPanel.model_validate(bad)
@@ -111,13 +112,13 @@ class SkinPanelsTest(unittest.TestCase):
                 self.assertLess(float((reg < 0.35).mean()), 0.03)
 
     def test_old_dark_card_areas_light(self) -> None:
-        """옛 어두운 카드 자리(precedent 연도 카드·versus 기둥·fork 갈래 카드) — 속이 밝다(UF-906, 1단계 보고의 저대비 지적)."""
+        """옛 어두운 카드 자리(precedent 연도 카드·fork 갈래 카드) — 속이 밝다(UF-906, 1단계 보고의 저대비 지적).
+        versus 는 v7.4.0 UF-913 부터 배치 셋(판 카드 없음) — tests/test_v740_skin_versus_layouts.py 가 본다."""
         from engine.panels import precedent  # noqa: PLC0415
         from rules import load_rules as _lr  # noqa: PLC0415
 
         F = _lr().panels.charts.fork  # noqa: N806
         areas = {"precedent": (precedent.CARD_X0, SKIN.panel.precedent.top, precedent.CARD_X0 + precedent.CARD_W, SKIN.panel.precedent.bottom),
-                 "versus": (versus_mod._COLS[0][1], SKIN.panel.versus.top, versus_mod._COLS[0][1] + versus_mod.BOX_W, SKIN.panel.versus.bottom),
                  "fork": (F.card_x, F.card_y0 - F.card_h / 2, F.card_x + F.card_w, F.card_y0 + F.card_h / 2)}
         for k, (ax0, ay0, ax1, ay1) in areas.items():
             with self.subTest(kind=k):
@@ -127,6 +128,8 @@ class SkinPanelsTest(unittest.TestCase):
         ink = float(np.array(hexc(SKIN.ink.primary)) @ np.array([0.2126, 0.7152, 0.0722]))
         y = int(PANEL.title_y)
         for k, (lum, _) in self.out.items():
+            if k == "versus":   # v7.4.0 UF-913 — versus 배치 셋은 가운데 정렬 제목(tests/test_v740_skin_versus_layouts.py)
+                continue
             band = lum[y - int(SKIN.panel.title.size * 0.8):y + 2, :]
             dark = np.where(band.min(axis=0) < 0.3)[0]
             with self.subTest(kind=k):
@@ -173,9 +176,10 @@ class OverflowTest(unittest.TestCase):
     def test_versus_overflow_raises_under_skin(self) -> None:
         _on()
         c = cairo.Context(cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1))
-        self.assertEqual(versus_mod.item_font(), SKIN.panel.versus.item_font)
+        e = _event("versus")
+        e["sides"][0]["items"][0]["text"] = "아주 긴 문장 " * 12
         with self.assertRaises(versus_mod.VersusOverflowError):
-            versus_mod.item_lines(c, "아주 긴 문장 " * 12)
+            registry.FULL_LAYERS.resolve(e).render(c, SimpleNamespace(stage=SimpleNamespace(name="studio"), cache={}), e["t1"] - 1.2, e)
 
 
 if __name__ == "__main__":

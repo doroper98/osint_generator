@@ -827,8 +827,14 @@ class VersusSide(_Strict):
 
 
 class PanelVersus(_Panel):
+    DROP_NONE: ClassVar[tuple[str, ...]] = (*_Panel.DROP_NONE, "layout")   # v7.4.0 UF-913 — 안 쓰면 dict 옛 모양(부모 chart 유지)
+
     kind: Literal["versus"]
     sides: list[VersusSide] = Field(min_length=2, max_length=2)  # 양측 같은 무게(G4)
+    # v7.4.0 UF-912·UF-913 — skin 무대(스튜디오·porcelain 지도)의 배치. 없으면 rules skin.panel.versus.default(axis).
+    # 옛 테마 영상에서 적으면 load_project 오류(조용히 무시하지 않는다, 15 P6)
+    layout: Optional[Literal["axis", "sheets", "piles"]] = Field(
+        default=None, description="axis(기본) = 두 쪽 말·주장 맞세움, sheets = 두 문서·성명의 입장, piles = 논거의 수·쌓임이 요점")
 
 
 # ------------------------------------------------------------------ v2 번들 차트 (v2.5.0, D-0032 작업 5, 08 §8·§9)
