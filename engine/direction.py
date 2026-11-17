@@ -591,8 +591,7 @@ def build(doc: Direction, tb: Timebase, stage: "Stage") -> tuple[list[CamKey], l
         bgm = sd.bgm if not isinstance(sd.bgm, list) else [dict(id=g.id, t=resolve_anchor(g.from_, tb)) for g in sd.bgm]
         sound = dict(bgm=bgm, intensity=[(resolve_anchor(t, tb), v) for t, v in sd.intensity],
                      cues=[dict(kind=c.kind, t=resolve_anchor(c.t, tb), v=c.v) for c in sd.cues])
-        if sd.no_music_decision:   # v5.22.2 UF-16 — 있을 때만(없으면 sound dict 무변경)
-            sound["no_music_decision"] = sd.no_music_decision
+        sound.update(sound_decisions(sd))   # v5.22.2 UF-16 — 있을 때만(없으면 sound dict 무변경) · v7.4.0 D935 noncommercial_ok 도 같이
     return keys, events + dips, sound
 
 
@@ -665,6 +664,15 @@ yaml.add_implicit_resolver("tag:yaml.org,2002:bool", re.compile(r"^(?:true|True|
 def yaml_load(text: str) -> object:
     """direction.yaml 전용 안전 로드(코드 실행 없음, off 키 보존)."""
     return yaml.load(text, Loader=_Loader)  # noqa: S506 — SafeLoader 하위 클래스
+
+
+SOUND_DECISION_KEYS: tuple[str, ...] = ("no_music_decision", "noncommercial_ok")   # 연출 sound 의 결정 번호 — 믹서(audio.mix.Sound)까지 그대로 넘긴다
+
+
+def sound_decisions(sd: Sound) -> dict[str, str]:
+    """연출 sound 의 결정 번호 가운데 값이 있는 것 — 앵커 해석 뒤 sound dict 에 그대로 싣는다.
+    v7.4.0 D935(PIPELINE-AP-029): noncommercial_ok 가 여기서 빠져, 비상업 전용 곡을 쓴 연출이 스키마는 통과하고 audio.mix 에서 "결정 번호 없음" 으로 멈췄다."""
+    return {k: getattr(sd, k) for k in SOUND_DECISION_KEYS if getattr(sd, k)}
 
 
 def load_direction_doc(path: Path) -> Direction:

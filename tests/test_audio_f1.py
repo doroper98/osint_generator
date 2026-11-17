@@ -112,6 +112,34 @@ class NoMusicDecisionMixTest(unittest.TestCase):
             Sound.model_validate({"bgm": None, "intensity": [(0.0, 0.0), (1.0, 0.0)], "no_music_decision": "결정"})
 
 
+class SoundDecisionPassThroughTest(unittest.TestCase):
+    """v7.4.0 D935(PIPELINE-AP-029) — 연출 sound 의 결정 번호는 앵커 해석 뒤에도 믹서까지 간다. noncommercial_ok 가 load_direction 에서
+    빠져, 비상업 전용 곡(UF-910)을 쓴 연출이 audio.mix 에서 "결정 번호 없음" 으로 멈췄다(nvidia-chips-china-2026)."""
+
+    def test_every_decision_field_is_passed(self) -> None:
+        from audio.registry import NoMusicDecision  # noqa: PLC0415
+        from engine.direction import SOUND_DECISION_KEYS  # noqa: PLC0415
+        from engine.direction import Sound as DirSound  # noqa: PLC0415
+
+        decided = {k for k, f in DirSound.model_fields.items() if f.annotation == NoMusicDecision.__origin__ and f.metadata == DirSound.model_fields["no_music_decision"].metadata}
+        self.assertIn("noncommercial_ok", decided)
+        self.assertEqual(decided, set(SOUND_DECISION_KEYS), "연출 sound 의 결정 번호 칸은 모두 믹서로 넘긴다")
+
+    def test_noncommercial_ok_reaches_the_mixer_model(self) -> None:
+        from audio.mix import Sound  # noqa: PLC0415
+        from audio.registry import load_registry  # noqa: PLC0415
+        from engine.direction import Sound as DirSound  # noqa: PLC0415
+        from engine.direction import sound_decisions  # noqa: PLC0415
+
+        nc = next(k for k, tr in load_registry().tracks.items() if tr.noncommercial)
+        sd = DirSound.model_validate({"bgm": nc, "intensity": [[0, 0.6], [8, 0.0]], "noncommercial_ok": "D264"})
+        resolved = {"bgm": sd.bgm, "intensity": [(float(t), v) for t, v in sd.intensity], "cues": [], **sound_decisions(sd)}
+        self.assertEqual(resolved["noncommercial_ok"], "D264")
+        self.assertEqual(Sound.model_validate(resolved).noncommercial_ok, "D264")
+        self.assertEqual(sound_decisions(DirSound.model_validate({"bgm": None, "intensity": [[0, 0.0], [1, 0.0]], "no_music_decision": "D-0205"})),
+                         {"no_music_decision": "D-0205"})
+
+
 class MuxDescriptionSkipTest(unittest.TestCase):
     """스케치·렌더 전용 프로젝트(description.yaml·project_manifest.json 없음)는 mux 가 설명문을 건너뛰고 사유를 남긴다.
     오케스트레이터 프로젝트(매니페스트 있음)는 설명문이 없으면 그대로 오류(load_description)."""
