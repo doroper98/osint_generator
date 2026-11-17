@@ -30,5 +30,30 @@ class LicenseWrapTest(unittest.TestCase):
         self.assertEqual(rows[1][2] - rows[0][2], 23 + LICENSE_LINE * (n - 1))
 
 
+SA_NOTICE = ("aismallard · File:Thurgood Marshall United States Courthouse 2018-06-14.jpg · CC BY-SA 3.0 · "
+             "https://commons.wikimedia.org/wiki/File:Thurgood_Marshall_United_States_Courthouse_2018-06-14.jpg · 자르기·크기 조정·색 보정")
+
+
+class LongTokenWrapTest(unittest.TestCase):
+    """v7.4.0 D935(RENDER-AP-041) — CC BY-SA 고지 줄의 링크는 띄어쓰기 없는 한 낱말이라 줄바꿈되지 않고 옆 열 글자 위로 넘어갔다
+    (nvidia-chips-china-2026 엔딩 카드). 돌려주는 모든 줄은 열 폭 안이고, 글자는 하나도 빠지지 않는다."""
+
+    def test_link_is_broken_inside_the_column(self) -> None:
+        for ci in (0, 1):
+            with self.subTest(column=ci):
+                ls = license_lines(SA_NOTICE, ci)
+                self.assertTrue(all(adv(x, END_CARD.license_size, "monom") <= COL_W[ci] for x in ls), ls)
+                self.assertEqual("".join(ls).replace(" ", ""), SA_NOTICE.replace(" ", ""), "글자 유실 없음")
+
+    def test_break_prefers_separator(self) -> None:
+        from engine.fullcards import break_long
+
+        url = "https://commons.wikimedia.org/wiki/File:Thurgood_Marshall_United_States_Courthouse_2018-06-14.jpg"
+        parts = break_long(url, COL_W[0], END_CARD.license_size, "monom")
+        self.assertGreater(len(parts), 1)
+        self.assertEqual("".join(parts), url)
+        self.assertTrue(all(p[-1] in "/_-.·" for p in parts[:-1]), parts)
+
+
 if __name__ == "__main__":
     unittest.main()

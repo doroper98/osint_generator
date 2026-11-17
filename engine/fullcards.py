@@ -81,18 +81,46 @@ def title_fit_size(ctx: cairo.Context, title: str) -> float:
     return fit
 
 
+BREAK_AFTER = "/_-.·"   # 띄어쓰기 없는 긴 낱말(링크·파일 이름)을 끊기 좋은 자리 — 이 글자 뒤에서 먼저 끊는다
+
+
+def break_long(line: str, maxw: float, size: float, name: str) -> list[str]:
+    """한 줄이 폭을 넘으면(띄어쓰기 없는 링크·파일 이름) 폭 안 조각으로 나눈다 — 끊기 좋은 글자(BREAK_AFTER) 뒤를 먼저, 없으면 글자 단위.
+    v7.4.0 D935(RENDER-AP-041): CC BY-SA 고지 줄의 링크가 한 낱말이라 줄바꿈되지 않고 옆 열 글자 위로 넘어갔다."""
+    if adv(line, size, name) <= maxw:
+        return [line]
+    out: list[str] = []
+    rest = line
+    while rest and adv(rest, size, name) > maxw:
+        n = 1
+        while n < len(rest) and adv(rest[:n + 1], size, name) <= maxw:
+            n += 1
+        cut = max((i + 1 for i in range(n // 2, n) if rest[i] in BREAK_AFTER), default=n)
+        out.append(rest[:cut])
+        rest = rest[cut:]
+    if rest:
+        out.append(rest)
+    return out
+
+
+def fit_lines(s: str, maxw: float, size: float, name: str) -> list[str]:
+    """띄어쓰기로 줄바꿈한 뒤, 그래도 폭을 넘는 줄은 break_long 으로 나눈다 — 돌려주는 모든 줄이 폭 안이다."""
+    return [part for ln in wrap(_M, s, maxw, size, name) for part in break_long(ln, maxw, size, name)]
+
+
 def item_lines(m: str, ci: int) -> list[str]:
     """크레딧 항목 글자를 열 폭(COL_W) 안으로 줄바꿈(v7.4.0 D-0229 §2.10 — 긴 항목이 옆 열에 붙던 것). 폭 안이면 한 줄 그대로."""
     if adv(m, END_CARD.item_size, "sans") <= COL_W[ci]:
         return [m]
-    return wrap(_M, m, COL_W[ci], END_CARD.item_size, "sans")
+    return fit_lines(m, COL_W[ci], END_CARD.item_size, "sans")
 
 
 def license_lines(lic: str, ci: int) -> list[str]:
-    """라이선스 줄도 열 폭 안으로 줄바꿈(v7.4.0 — 인물 사진 auto: people 의 긴 권리 문구가 화면 오른쪽 밖으로 나가던 것). 폭 안이면 한 줄."""
+    """라이선스 줄도 열 폭 안으로 줄바꿈(v7.4.0 — 인물 사진 auto: people 의 긴 권리 문구가 화면 오른쪽 밖으로 나가던 것). 폭 안이면 한 줄.
+    띄어쓰기 없는 긴 낱말(CC BY-SA 고지 줄의 링크)도 폭 안으로 나눈다(fit_lines, D935)."""
     if adv(lic, END_CARD.license_size, "monom") <= COL_W[ci]:
         return [lic]
-    return wrap(_M, lic, COL_W[ci], END_CARD.license_size, "monom")
+    return fit_lines(lic, COL_W[ci], END_CARD.license_size, "monom")
 
 
 def endcard_layout(secs: list[tuple[str, list[tuple[str, str]]]], place: list[int]) -> tuple[list[Placed], list[float]]:
