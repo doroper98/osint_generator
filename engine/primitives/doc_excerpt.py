@@ -97,6 +97,29 @@ class DocExcerpt(BaseModel):
             raise ValueError(f"highlight {self.highlight!r} 가 원문에 없다 — 원문 그대로의 구절만 밑줄")
         return self
 
+    @model_validator(mode="after")
+    def _head_fits(self) -> "DocExcerpt":
+        """머리 줄(기관 · 문서)이 오른쪽 날짜까지 넘치지 않는다 — 두 판(기본·skin) 모두에서 잰다(v7.4.0 D935, RENDER-AP-039)."""
+        over = head_overflow(self.issuer, self.doc_title, self.doc_date)
+        if over:
+            raise ValueError(over)
+        return self
+
+
+def head_overflow(issuer: str, doc_title: str, doc_date: str) -> str | None:
+    """머리 줄 폭 + 날짜 폭 + head_date_gap 이 종이 안쪽 폭을 넘으면 오류 문구(아니면 None). 기본 판과 skin 판의 글꼴로 각각 잰다 —
+    넘친 머리 줄이 날짜 위에 겹쳐 그려지던 것을 렌더 전에 막는다(조용한 겹침 금지, 15 P6)."""
+    from engine.primitives import skin_tw  # noqa: PLC0415 — 순환 import 회피
+
+    head = f"{issuer} · {doc_title}"
+    room = _inner_w() - L.head_date_gap
+    for name, hw, dw in (("기본", tw(_MEASURE, head, L.head_size, "sansb"), tw(_MEASURE, doc_date, L.head_size, "sansb")),
+                         ("skin", skin_tw(_MEASURE, SK.masthead, head), skin_tw(_MEASURE, SK.date, doc_date))):
+        if hw + dw > room:
+            return (f"doc_excerpt 머리 줄 {head!r} 이 종이 폭을 넘는다({name} 판 {hw:.0f} + 날짜 {dw:.0f} > {room:.0f}px) — "
+                    "기관 이름을 약칭으로 줄인다(문서 이름은 원어 그대로)")
+    return None
+
 
 SCHEMA = DocExcerpt
 

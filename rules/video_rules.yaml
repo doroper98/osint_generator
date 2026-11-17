@@ -2141,7 +2141,7 @@ skin:                      # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 1
       span: {w: 0.8, alpha: 0.7}
       foot_rule: {w: 0.5, alpha: 0.08, dy: 14}
     doc_excerpt:             # 종이 카드(기사 카드와 같은 조판) — 제호 줄(기관 · 문서 세리프 + mono 날짜) · 굵은 선 · 원문 세리프 · 강조 구절 = 옅은 강조 띠 · 번역 왼쪽 강조 선 · 꼬리 선 · 출처
-      layout: {pad_top: 40, head_gap: 34, src_gap: 30, pad_bottom: 18, ghost_h: 5, ghost_gap: 10}
+      layout: {y: 56, pad_top: 40, head_gap: 34, src_gap: 30, pad_bottom: 18, ghost_h: 5, ghost_gap: 10}   # v7.4.0 D935 y 56 — 기본 40 은 종이 오른쪽 위가 모서리 날짜 상자에 닿았다([card-over-date] hard, RENDER-AP-039)
       back: {dx: 8, dy: 4, rot_deg: 1.8, fill: "#F8F9FA", level: sheet}
       level: lifted
       masthead: {size: 15, font: serifb, track: 0, ink: primary}
@@ -2768,6 +2768,7 @@ primitives:                # v4.2.0 D-0081 작업 4 — 프리미티브(engine/p
     ghost: "rgba(30,30,32,0.12)"   # 읽을 수 없는 문맥 막대(지어낸 글자 대신)
     head_size: 10
     head_gap: 18           # 머리 줄 기준선 → 앞 문맥 막대 위 끝
+    head_date_gap: 12      # v7.4.0 D935 — 머리 줄(기관 · 문서)과 오른쪽 날짜 사이 최소 간격. 넘치면 오류(RENDER-AP-039)
     ghost_before: 2
     ghost_after: 2
     ghost_h: 6

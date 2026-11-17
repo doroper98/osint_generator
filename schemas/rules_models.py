@@ -3447,6 +3447,7 @@ class DocExcerptLayout(_Strict):
     ink_muted: str
     ghost: str
     head_size: float
+    head_date_gap: float = Field(gt=0)   # v7.4.0 D935 — 머리 줄과 날짜 사이 최소 간격(넘치면 오류)
     head_gap: float
     ghost_before: int = Field(ge=0)
     ghost_after: int = Field(ge=0)

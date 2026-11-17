@@ -181,6 +181,18 @@ class SkinPrimitiveDrawTest(unittest.TestCase):
         self.assertEqual(on[0], off[0])
         self.assertNotEqual(on[3] - on[1], off[3] - off[1], "skin 기하(layout 덮어쓰기)가 상자 높이에 반영")
 
+    def test_skin_cards_clear_the_corner_date(self) -> None:
+        """v7.4.0 D935(RENDER-AP-039) — skin 무대의 카드형 프리미티브 상자는 모서리 날짜 상자와 겹치지 않는다.
+        doc_excerpt 가 기본 y 40 그대로라 실제 영상(nvidia-chips-china-2026)에서 [card-over-date] hard 로 떨어졌다."""
+        from engine.hud import date_box  # noqa: PLC0415
+
+        d = date_box()
+        for pid in CARDS:
+            with self.subTest(primitive=pid):
+                b = primitive_box(_event(pid))
+                hit = b[0] < d[2] and d[0] < b[2] and b[1] < d[3] and d[1] < b[3]
+                self.assertFalse(hit, f"{pid} 상자 {b} 가 날짜 상자 {d} 와 겹친다")
+
 
 if __name__ == "__main__":
     unittest.main()

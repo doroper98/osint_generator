@@ -51,6 +51,19 @@ class DocExcerptDataTest(unittest.TestCase):
                 MOD.SCHEMA.model_validate(d)
 
 
+class DocExcerptHeadFitTest(unittest.TestCase):
+    """v7.4.0 D935(RENDER-AP-039) — 머리 줄(기관 · 문서)이 길면 오른쪽 날짜 위에 겹쳐 그려졌다(오류 없음). 넘치면 렌더 전에 오류."""
+
+    def test_long_head_is_error(self) -> None:
+        with self.assertRaises(ValidationError) as cm:
+            MOD.SCHEMA.model_validate(_data(issuer="미국 상무부 산업안보국", doc_title="Addressing Remote Access to Advanced Semiconductors"))
+        self.assertIn("머리 줄", str(cm.exception))
+
+    def test_short_issuer_fits(self) -> None:
+        MOD.SCHEMA.model_validate(_data(issuer="BIS", doc_title="Addressing Remote Access to Advanced Semiconductors"))
+        self.assertIsNone(MOD.head_overflow(FX["issuer"], FX["doc_title"], FX["doc_date"]))
+
+
 class DocExcerptMotionTest(unittest.TestCase):
     def test_underline_waits_for_its_time(self) -> None:
         ht = FX["highlight_t"]
