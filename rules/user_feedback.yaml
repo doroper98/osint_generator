@@ -2889,7 +2889,12 @@ entries:
   quote: "아 그리고 꼭 굳이 뒤에 지도를 띄울 필요가 없는 씬이라면 저 영상 처럼 블루프린트 배경을 우리도 채용하는건 어때? 저기는 각진 블루프린트 공간인데, 우리는 각은 져있지 않고 부드럽게 곡률을 갖고 꺾이는 이런 도트감이 있는 흰 여백으로 하는게 어떪가? 이 이미지는 내가 어떤 영상에서 따온거야"
   quote_kind: verbatim
   category: 화면 — 지도가 필요 없는 장면의 무대. 각진 블루프린트 공간 대신 바닥과 벽이 곡면으로 이어지는 점 격자 흰 여백(스튜디오 무대). 장치는 무대 구현과 함께
-  status: open
+  guards:
+  - {kind: rule, ref: stage_studio.fillet_radius_m}
+  - {kind: test, ref: tests/test_v740_studio_stage.py::RegistryTest::test_three_places}
+  - {kind: test, ref: tests/test_v740_studio_stage.py::BackgroundTest::test_dots_present_and_shrink}
+  - {kind: test, ref: tests/test_v740_studio_stage.py::EnginePathTest::test_island_on_studio_and_no_photo_checks}
+  status: guarded
   decision: "D908 — 채택 방향. 시제품 2종(흰 판·어두운 판)으로 확인. 한 영상 안에서 지도 밝기와 무대 밝기를 맞추는 조건을 감독이 제안(사용자 판정 대기)"
   source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17
 - id: UF-903
@@ -2909,7 +2914,12 @@ entries:
   quote: "그리고 스튜디오 공간이 계속 조금씩 이동을 하는 느낌을 줘서 시청자로 하여금 정적인 화면이 계속 되어 지루함을 느끼지 않도록 하는 장치를 적용해"
   quote_kind: verbatim
   category: 화면 — 스튜디오 무대는 정지 배경이 아니다. 공간이 계속 천천히 움직여(카메라 드리프트·원근 시차) 정적인 화면이 이어지지 않게 한다. 내용물(카드·글자)은 제자리
-  status: open
+  guards:
+  - {kind: rule, ref: stage_studio.drift}
+  - {kind: test, ref: tests/test_v740_studio_stage.py::BackgroundTest::test_space_moves}
+  - {kind: test, ref: tests/test_v740_studio_stage.py::BackgroundTest::test_smooth_motion}
+  - {kind: test, ref: tests/test_v740_studio_stage.py::BackgroundTest::test_wall_moves_less_than_floor}
+  status: guarded
   decision: "D911 — 수용. 스튜디오 배경 카메라를 영상 시각의 매끄러운 함수로 천천히 이동(옆·앞뒤·위아래, 주기가 서로 달라 반복이 보이지 않게). 내용물 화면 위치는 고정. 장치는 R8 구현과 함께"
   source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17
 - id: UF-905

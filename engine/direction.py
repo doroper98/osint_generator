@@ -91,9 +91,9 @@ class Camera(_Strict):
         if sum(kinds) == 0 and self.w is None and self.lane is None:
             return self   # backdrop 무대 `{}` — 무대 앵커 키 검사(Direction)가 다른 무대의 빈 카메라를 막는다(P10)
         if sum(kinds) != 1:
-            raise ValueError("camera 는 lon·lat · place · date(시간축) · row·value(구성 무대) 중 하나(backdrop 무대는 빈 카메라 {})")
+            raise ValueError("camera 는 lon·lat · place · date(시간축) · row·value(구성 무대) 중 하나(backdrop·studio 무대는 빈 카메라 {})")
         if self.w is None:
-            raise ValueError("camera w 가 없다(backdrop 무대의 빈 카메라 {} 만 w 없음)")
+            raise ValueError("camera w 가 없다(backdrop·studio 무대의 빈 카메라 {} 만 w 없음)")
         if kinds[1] and (self.lon is None or self.lat is None):
             raise ValueError("camera lon·lat 은 둘 다")
         if self.lane is not None and self.date is None:
@@ -434,14 +434,17 @@ ISLAND_STAGES: tuple[str, ...] = (ISLAND_STAGE, STRUCTURE_STAGE)
 
 
 def is_island_shot(doc: Direction, s: Shot, main: str, name: Optional[str] = None) -> bool:
-    """주 무대 backdrop 의 아일랜드 무대 숏 = 아일랜드 뷰포트 카메라(D-0126 Q1 A — "숏 무대 ≠ 주 무대"를 아일랜드 뷰포트로 좁힌다).
+    """주 무대가 화면 공간 무대(backdrop·studio — engine.stage.screen_stage)일 때 아일랜드 무대 숏 = 아일랜드 뷰포트 카메라
+    (D-0126 Q1 A — "숏 무대 ≠ 주 무대"를 아일랜드 뷰포트로 좁힌다. studio = v7.4.0 UF-902·UF-903).
     name 을 주면 그 아일랜드 무대(timeline = 차트 아일랜드, structure = 구성 아일랜드)의 숏만."""
+    from engine.stage import screen_stage  # noqa: PLC0415
+
     st = doc.shot_stage(s)
-    return main == "backdrop" and st in ISLAND_STAGES and (name is None or st == name)
+    return screen_stage(main) and st in ISLAND_STAGES and (name is None or st == name)
 
 
 def island_keys(doc: Direction, tb: Timebase, chart_stage: "Stage") -> list[CamKey]:
-    """아일랜드 뷰포트 카메라 키(그 아일랜드 무대의 월드 좌표, w = 뷰포트 폭이 덮는 월드 폭). 주 무대가 backdrop 이 아니면 []."""
+    """아일랜드 뷰포트 카메라 키(그 아일랜드 무대의 월드 좌표, w = 뷰포트 폭이 덮는 월드 폭). 주 무대가 화면 공간 무대(backdrop·studio)가 아니면 []."""
     keys: list[CamKey] = []
     for s in doc.shots:
         if not is_island_shot(doc, s, doc.main_stage(), chart_stage.name):

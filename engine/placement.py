@@ -147,8 +147,10 @@ def resolve_places(events: list[dict], view_at: Callable[[float], object],
                 if err:
                     errs.append(f"[{i}] {tag}: 슬롯 {slot_name!r} — {err}")
                     continue
-            if stage_name == "backdrop" and e["type"] == "badge" and slot.point is not None:
-                e["screen"], e["over_panel"] = list(slot.point), True   # v5.1.0 D-0123 — backdrop 무대 뱃지 = 화면 고정(월드 앵커 없음)
+            from engine.stage import screen_stage  # noqa: PLC0415
+
+            if screen_stage(stage_name) and e["type"] == "badge" and slot.point is not None:
+                e["screen"], e["over_panel"] = list(slot.point), True   # v5.1.0 D-0123 — backdrop·studio(v7.4.0) 무대 뱃지 = 화면 고정(월드 앵커 없음)
                 rec[tag] = f"{how}:{slot_name}"
                 continue
             v = view_at(e["t0"])

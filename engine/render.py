@@ -63,7 +63,7 @@ def render_frame(P: Project, i: int) -> tuple[cairo.ImageSurface, bytearray]:  #
         route_label_slots(P)
     OP = R.out  # noqa: N806
     t = i / FPS
-    view = View(R.stage, P.cams[i])
+    view = View(R.stage, P.cams[i], t=t)   # t = 스튜디오 무대 배경 흐름(v7.4.0) — 다른 무대는 읽지 않는다
     L = P.layers   # noqa: N806 — 전편 FULL_LAYERS · 콘티 판 ANIMATIC_LAYERS(v4.9.0 D-0108) · 카탈로그 판 CATALOG_LAYERS(D-0251), 진입 = load_project
     if L.frame_start is not None:   # 카탈로그 판 — 이 프레임에 그린 글꼴 기록 시작(D-0251)
         L.frame_start(R, t)

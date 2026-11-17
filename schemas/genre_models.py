@@ -73,8 +73,11 @@ class GenreStage(_Strict):
             raise ValueError(f"stage: 무대 이름 중복 {self.names()}")
         if set(self.island_stages) & set(self.names()) or len(set(self.island_stages)) != len(self.island_stages):
             raise ValueError(f"stage.island_stages {self.island_stages} 는 주·보조 무대와 겹치지 않고 중복 없음")
-        if self.island_stages and self.primary != "backdrop":
-            raise ValueError("stage.island_stages 는 주 무대 backdrop 에서만(차트 아일랜드 = 사진 배경 위 뷰포트, D-0126 Q1)")
+        if self.island_stages:
+            from engine.stage import screen_stage  # noqa: PLC0415
+
+            if not screen_stage(self.primary):
+                raise ValueError("stage.island_stages 는 주 무대가 화면 공간 무대(backdrop·studio)일 때만(차트 아일랜드 = 화면 위 뷰포트, D-0126 Q1)")
         # v7.4.0 UF-403 — 장르는 톤 프리셋: 무대별 기본 설정(예: 지도 테마)은 주·보조 무대가 아니어도 둔다(연출이 그 무대를 고르면 기본값이 된다)
         return self
 

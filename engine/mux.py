@@ -240,6 +240,10 @@ def project_provenance(P, stages: dict[str, bool]) -> dict:  # noqa: ANN001, N80
         prov["islands"] = [{"name": n, "t0": round(a, 2), "t1": round(b, 2), "box": [round(v, 1) for v in bx]}
                            for n, a, b, bx in island_boxes(P.events, P.R.assets.media_assets, P.R.stage.name)]
         prov["island"] = P.R.cache.get("island")   # lane_h_effective(Q2 A)
+    if getattr(P.R.stage, "name", None) == "studio":   # v7.4.0 UF-902·UF-903(D910) — 스튜디오 무대: 모양 하나 + 배경 공간 흐름(전역 시각 t). 다른 무대면 기록 없음(P5)
+        from engine.style import STUDIO  # noqa: PLC0415
+
+        prov["studio"] = {"look": "light_gray_cyclorama", "background": "per_frame_t", "drift": STUDIO.drift.model_dump()}
     if P.R.cache.get("structure") is not None:   # v7.4.0 D-1003 §3 — 구성 무대 레코드·원본 지문 대조(없으면 기록 없음, P5)
         prov["structure"] = P.R.cache["structure"]
     ic = P.R.cache.get("island_check")

@@ -283,6 +283,7 @@ slate:
 | R1 지도 테마 `slate` | 완료 — 규칙 값·스키마만(엔진 코드 불변), dark·light 바이트 동일 | 4f63977c · D905 |
 | R2 국기 채움(`country` `fill: flag`) | 완료 — `engine/layers/flag_fill.py`, `rules flag_fill`, 단색 채움 바이트 동일 | 5593f493 · D906 |
 | R7a 지도 위 기체(`flight` `look: model`·편대) | 완료 — 종류 bomber·fighter, 그림자·꼬리선, 쐐기·일렬·사선 편대. 기존 비행 바이트 동일 | b386127a · D907 |
+| R8 스튜디오 무대(`studio`) | 완료 — 밝은 회색 호리존트·조명·느린 연속 이동. 주 무대로만 동작(무대 전환 렌더 R9 필요) | D913 |
 
 R2 뒤에 남긴 것:
 

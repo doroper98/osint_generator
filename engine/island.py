@@ -106,9 +106,11 @@ def inner_box(box: Box) -> Box:
 
 
 def on_backdrop(R: RenderCtx) -> bool:  # noqa: N803
-    """사진 배경(backdrop 주 무대) 위 데이터 무대인가 — 감독 D619: 그때는 무대 표면 팔레트여도 표준 아일랜드 상자(바탕 fill_alpha) 안에 그린다
-    (사용자 결정 D106·D108 의 아일랜드 정본, UF-304 시인성). 무대 표면(D-0328)은 시간축·지도 주 무대 바탕 위에서만."""
-    return getattr(R.stage, "name", "") == "backdrop"
+    """화면 공간 무대(backdrop 사진 배경·studio 스튜디오) 위 데이터 무대인가 — 감독 D619: 그때는 무대 표면 팔레트여도 표준 아일랜드 상자(바탕 fill_alpha) 안에 그린다
+    (사용자 결정 D106·D108 의 아일랜드 정본, UF-304 시인성). 무대 표면(D-0328)은 시간축·지도 주 무대 바탕 위에서만. studio = v7.4.0 UF-902(같은 아일랜드 상자)."""
+    from engine.stage import screen_stage  # noqa: PLC0415
+
+    return screen_stage(getattr(R.stage, "name", ""))
 
 
 def chart_view(chart: dict, t: float, box: Box) -> View:
@@ -195,8 +197,10 @@ def _panel_box() -> Box:
 
 
 def island_boxes(events: list[dict], media_assets: dict, stage_name: str) -> list[tuple[str, float, float, Box]]:
-    """아일랜드 목록 (이름, t0, t1, 제자리 상자). backdrop 무대 밖이면 [](지도·시간축 무대는 기존 규칙)."""
-    if stage_name != "backdrop":
+    """아일랜드 목록 (이름, t0, t1, 제자리 상자). 화면 공간 무대(backdrop·studio) 밖이면 [](지도·시간축 무대는 기존 규칙)."""
+    from engine.stage import screen_stage  # noqa: PLC0415
+
+    if not screen_stage(stage_name):
         return []
     from engine.media_plan import media_box  # noqa: PLC0415
     from engine.primitives import primitive_box  # noqa: PLC0415

@@ -42,7 +42,7 @@ def prepare(P, raw: dict, sources: dict | None = None) -> dict:  # noqa: ANN001 
 def render_event(P, ev: dict, t: float, cam: tuple | None = None) -> tuple[Image.Image, list]:  # noqa: ANN001
     """(이미지, 그린 글자[(크기, 역할, 문자열)]). cam = (x, y, w) 월드 카메라(없으면 프로젝트 첫 카메라)."""
     R = P.R  # noqa: N806
-    view = View(R.stage, cam if cam is not None else P.cams[0])
+    view = View(R.stage, cam if cam is not None else P.cams[0], t=t)   # t = 스튜디오 무대 배경 흐름(v7.4.0 UF-902)
     if hasattr(R.stage, "base_image"):   # 지도 — 지형 래스터
         buf = bytearray(R.stage.base_image(view).tobytes("raw", "BGRX"))
         surf = cairo.ImageSurface.create_for_data(buf, cairo.FORMAT_RGB24, W_OUT, H_OUT, W_OUT * 4)

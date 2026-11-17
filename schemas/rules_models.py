@@ -2624,6 +2624,93 @@ class StageStructureRules(_Strict):
     abs_digits: int = Field(ge=0, le=3)
 
 
+class StudioCamera(_Strict):
+    height_m: float = Field(gt=0)
+    z_m: float
+    pitch_deg: float = Field(ge=0, lt=90)
+    focal: float = Field(gt=0)
+
+
+class StudioTone(_Strict):
+    floor_near: float = Field(ge=0, le=1)
+    floor_fillet: float = Field(ge=0, le=1)
+    floor_gamma: float = Field(gt=0)
+    fillet_dip: float = Field(ge=0, le=1)
+    wall_top_drop: float = Field(ge=0, le=1)
+    wall_span_m: float = Field(gt=0)
+    blue_gain: float = Field(gt=0, le=1)
+
+
+class StudioLight(_Strict):
+    """면 좌표(x, 호 길이 s) 위 타원 가우시안 — 더하기만(amp ≥ 0: 배경을 어둡게 하지 않는다, C0 비네팅 금지와 구분)."""
+
+    amp: float = Field(ge=0)
+    x_m: float
+    rx_m: float = Field(gt=0)
+    rs_m: float = Field(gt=0)
+    falloff: float = Field(gt=0)
+    height_m: Optional[float] = Field(default=None, ge=0)   # 벽 위 높이(빛 웅덩이)
+    z_m: Optional[float] = None                             # 바닥 위 z(바닥 반사광)
+
+    @model_validator(mode="after")
+    def _one(self) -> "StudioLight":
+        if (self.height_m is None) == (self.z_m is None):
+            raise ValueError("stage_studio 조명 위치는 height_m(벽) 또는 z_m(바닥) 하나")
+        return self
+
+
+class StudioDots(_Strict):
+    step_m: float = Field(gt=0)
+    cols: int = Field(ge=1)
+    rgb: tuple[float, float, float]
+    radius_k: float = Field(gt=0)
+    radius_min: float = Field(gt=0)
+    alpha_k: float = Field(gt=0)
+    alpha_min: float = Field(ge=0, le=1)
+    alpha_max: float = Field(ge=0, le=1)
+    margin_px: float = Field(ge=0)
+
+
+class StudioDrift(_Strict):
+    """v7.4.0 사용자 지시 2026-11-17 — 스튜디오 공간의 느린 연속 흐름(전역 시각 t 의 사인 합, 무작위 없음)."""
+
+    truck_m: float = Field(ge=0)
+    truck_period_sec: float = Field(gt=0)
+    truck_phase_deg: float
+    dolly_m: float = Field(ge=0)
+    dolly_period_sec: float = Field(gt=0)
+    dolly_phase_deg: float
+    rise_m: float = Field(ge=0)
+    rise_period_sec: float = Field(gt=0)
+    rise_phase_deg: float
+
+
+class StageStudioRules(_Strict):
+    """v7.4.0 UF-902·UF-903(D910) — 스튜디오 무대(engine/stage_studio.py). 모양 하나 — 테마·stage_config 없음."""
+
+    camera: StudioCamera
+    fillet_z_m: float = Field(gt=0)
+    fillet_radius_m: float = Field(gt=0)
+    arc_range_m: tuple[float, float]
+    arc_samples: int = Field(ge=2)
+    bg_grid_px: float = Field(gt=0)
+    tone: StudioTone
+    light_pool: StudioLight
+    floor_bounce: StudioLight
+    dots: StudioDots
+    drift: StudioDrift
+
+    @model_validator(mode="after")
+    def _shape(self) -> "StageStudioRules":
+        if self.arc_range_m[0] >= 0 or self.arc_range_m[1] <= self.fillet_z_m:
+            raise ValueError("stage_studio.arc_range_m 은 카메라 뒤 바닥부터 벽까지를 덮는다")
+        if self.dots.alpha_min > self.dots.alpha_max:
+            raise ValueError("stage_studio.dots.alpha_min > alpha_max")
+        if self.light_pool.height_m is None or self.floor_bounce.z_m is None:
+            raise ValueError("stage_studio.light_pool 은 height_m(벽), floor_bounce 는 z_m(바닥)")
+        return self
+
+
 class StageBackdropRules(_Strict):
     """v5.1.0 D-0121 §B·D-0123 §1 — 사진 배경 무대·backdrop 이벤트 토큰(engine/stage_backdrop.py·engine/layers/backdrop.py)."""
 
@@ -4086,6 +4173,7 @@ class VideoRules(_Strict):
     primitives: PrimitivesRules = Field(default_factory=PrimitivesRules)   # v4.2.0 D-0081
     stage_timeline: StageTimelineRules   # v4.3.0 — D-0084 작업 3·D-0085
     stage_backdrop: StageBackdropRules   # v5.1.0 — D-0121 §B·D-0123
+    stage_studio: StageStudioRules       # v7.4.0 — UF-902·UF-903(D910) 스튜디오 무대
     stage_structure: StageStructureRules   # v7.4.0 — D-1003 §3 구성 무대
     chart_world: ChartWorldRules   # v7.4.0 — D-0251 §6.2-4
     reference_clip: ReferenceClipRules   # v7.4.0 — D-0274 §2⑤

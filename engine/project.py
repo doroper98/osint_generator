@@ -41,7 +41,7 @@ from engine.layers.badges import assign_person_sizes, drop_person_R, portrait_he
 from engine.placement import PlacementError, resolve_places
 from engine.projection import View
 from engine.shots import ShotStage
-from engine.stage import StageSet, attach_world, make_stage
+from engine.stage import StageSet, attach_world, make_stage, photo_stage, screen_stage
 from engine.refs import emblem_ids
 from engine.registry import FULL_LAYERS, MAP_LAYER_ORDER, LayerSet, RegistryError, validate_events
 from engine.style import FPS, ISLAND, TIMELINE, Output, apply_palette, output_profile
@@ -479,10 +479,10 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         R.cache["timeline"] = {"w_changes": timeline_w_changes(shots, plan.sentences)}
     R.cache["pacing"] = pacing_check(plan.total, tb, shots, raw_events, keys, R.stage.name)   # v4.11.0 D-0118 §1 — 검사·provenance·creep 한 결과
     chart_stage = None
-    if R.stage.name == "backdrop":   # v5.1.0 D-0123·D-0126 Q1 A — 주 무대 카메라 {}(고정), 차트 아일랜드 카메라 = stage: timeline 숏
+    if screen_stage(R.stage.name):   # v5.1.0 D-0123·D-0126 Q1 A — 주 무대 카메라 {}(고정), 차트 아일랜드 카메라 = stage: timeline 숏. studio 도 같다(v7.4.0 UF-902)
         if not keys:
             keys = [cam(0.0, *R.stage.to_world(), R.stage.fixed_w, 0.0, "cut")]
-        if any(is_island_shot(doc, s_, "backdrop", ISLAND_STAGE) for s_ in doc.shots):
+        if any(is_island_shot(doc, s_, R.stage.name, ISLAND_STAGE) for s_ in doc.shots):
             chart_stage = stages.get(ISLAND_STAGE)
             hs = {ISLAND.boxes[e.get("box") or "center"][3] for e in raw_events if e.get("type") == "island" and e.get("kind") == "chart"}
             if len(hs) > 1:   # v7.4.0 D-0268 — 차트 시간축 무대는 영상당 하나 → 차트 아일랜드 상자 높이도 하나(left_tall 등 높이가 다른 상자)
@@ -503,7 +503,10 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
                                    stage_name=R.stage.name)   # v4.4.0 D-0093 — 무대 종류별 자리
     except PlacementError as ex:
         raise ProjectError(str(ex)) from ex
-    if R.stage.name != "backdrop" and any(e.get("type") == "backdrop" for e in raw_events):   # v5.1.0 D-0123 — 배경 사진은 backdrop 무대에만(P10)
+    if not photo_stage(R.stage.name) and any(e.get("type") == "backdrop" for e in raw_events):   # v5.1.0 D-0123 — 배경 사진은 backdrop 무대에만(P10)
+        if R.stage.name == "studio":   # v7.4.0 UF-902·UF-903 — 스튜디오는 모양이 하나(밝은 회색 공간). 사진을 깔지 않는다
+            raise ProjectError("backdrop 이벤트(배경 사진)는 studio 무대에 쓰지 않는다 — 스튜디오 무대는 사진 없이 공간 자체가 배경이다(UF-903). "
+                               "사진 배경이 필요하면 주 무대를 backdrop 으로, 아니면 backdrop 이벤트를 뺀다")
         raise ProjectError(f"backdrop 이벤트는 backdrop 무대에서만 — 주 무대 {R.stage.name!r}")
     bad = [k for e in raw_events if e.get("type") == "series" for k in ("key", "axis", "slot") if k in e]
     if bad:
@@ -520,7 +523,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
     R.cache["stage_choice"] = doc.stage_choice()                          # v5.1.0 D-0123 §2 — checks stage_choice(warning)
     _check_quotes(proj, events)      # v4.4.0 — statement_diff 문구 = intake 원문(D-0090 작업 4)
     _attach_posts(proj, R, events)   # v3.2.0 18 §5 — post 카드 문구·상자는 intake/sources.json 에서(없으면 오류)
-    if R.stage.name == "backdrop":   # v5.2.0 D-0129 §B·§C — 주 아일랜드 상시(checks backdrop_main_missing)·카드 ↔ 아일랜드 교차(card_island)
+    if screen_stage(R.stage.name):   # v5.2.0 D-0129 §B·§C — 주 아일랜드 상시(checks backdrop_main_missing — 사진 배경 무대만, main_missing 이 가른다)·카드 ↔ 아일랜드 교차(card_island — studio 도)
         from engine.island import card_overlap, island_boxes, main_missing  # noqa: PLC0415
 
         R.cache["island_check"] = {
@@ -562,7 +565,7 @@ def load_project(proj: Path, direction: Optional[Direction] = None, out: Optiona
         R.cache["island_chart"] = {"stage": chart_stage, "cams": chart_cams, "order": MAP_LAYER_ORDER,
                                    "events": island_chart_events(events), "resolve": _layers(animatic).resolve}
     struct_stage = None
-    if R.stage.name == "backdrop" and any(is_island_shot(doc, s_, "backdrop", STRUCTURE_STAGE) for s_ in doc.shots):   # v7.4.0 D-1003 §3 — 구성 아일랜드
+    if screen_stage(R.stage.name) and any(is_island_shot(doc, s_, R.stage.name, STRUCTURE_STAGE) for s_ in doc.shots):   # v7.4.0 D-1003 §3 — 구성 아일랜드(backdrop·studio)
         struct_stage = stages.get(STRUCTURE_STAGE)
         from engine.style import STRUCTURE  # noqa: PLC0415
         R.cache["island_structure"] = {"stage": struct_stage, "cams": build_camera(island_keys(doc, tb, struct_stage), n, FPS,
@@ -683,7 +686,7 @@ def check_structure(events: list[dict], stage_name: str, struct_stage: object) -
     ranks = [e for e in events if e["type"] == "rank"]
     errs: list[str] = []
     if (isl or ranks) and struct_stage is None:
-        errs.append("구성 아일랜드·rank 층이 있는데 구성 무대 카메라가 없다 — direction 에 stage: structure 숏(주 무대 backdrop)")
+        errs.append("구성 아일랜드·rank 층이 있는데 구성 무대 카메라가 없다 — direction 에 stage: structure 숏(주 무대 backdrop·studio)")
         return errs
     if struct_stage is None:
         return errs
@@ -704,14 +707,14 @@ def check_islands(events: list[dict], stage_name: str, chart_stage: object) -> l
     같은 순간 차트 아일랜드는 하나, 시간축 앵커 이벤트는 차트 아일랜드가 떠 있는 동안에만(밖이면 조용히 안 보인다 → 오류, P6)."""
     isl = sorted((e for e in events if e["type"] == "island"), key=lambda e: e["t0"])
     errs: list[str] = []
-    if isl and stage_name != "backdrop":
-        errs.append(f"island 이벤트는 backdrop 무대에서만 — 주 무대 {stage_name!r}")
-    if any(e.get("kind") != "structure" for e in isl) and chart_stage is None and stage_name == "backdrop":
+    if isl and not screen_stage(stage_name):
+        errs.append(f"island 이벤트는 화면 공간 무대(backdrop·studio)에서만 — 주 무대 {stage_name!r}")
+    if any(e.get("kind") != "structure" for e in isl) and chart_stage is None and screen_stage(stage_name):
         errs.append("차트 아일랜드 카메라가 없다 — direction 에 stage: timeline 숏(아일랜드 뷰포트 카메라, D-0126 Q1)")
     errs += [f"차트 아일랜드 둘이 겹친다: t={b['t0']:.2f} < 앞 끝 {a['t1']:.2f}(같은 순간 차트 아일랜드는 하나 — 카메라 하나)"
              for a, b in zip(isl, isl[1:]) if b["t0"] < a["t1"]]
-    if stage_name == "backdrop":
-        errs += [f"{e['type']} t={e['t0']:.2f} 시간축 앵커(date·lane) — backdrop 무대에서 차트 아일랜드 안에는 series·marker 만(뱃지는 화면 슬롯)"
+    if screen_stage(stage_name):
+        errs += [f"{e['type']} t={e['t0']:.2f} 시간축 앵커(date·lane) — {stage_name} 무대에서 차트 아일랜드 안에는 series·marker 만(뱃지는 화면 슬롯)"
                  for e in events if e.get("date") is not None and e.get("lane") is not None and e["type"] not in ("series", "marker")]
         for e in events:   # v7.4.0 D-0274 §2 — 아일랜드가 발언 자리(액자 클립)에서 나뉘어도 같은 세계: 아일랜드 구간들의 범위 안이고 한 구간과는 겹쳐야
             inside = any(i["t0"] - 0.05 <= e["t0"] and e["t1"] <= i["t1"] + 0.05 for i in isl) or (

@@ -13,7 +13,7 @@ import unittest
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
-ALLOW = {"engine/stage.py"}
+ALLOW = {"engine/stage.py", "engine/stage_studio.py"}   # stage_studio = v7.4.0 UF-902 스튜디오 무대 자신의 핀홀 투영(카메라 기울기·흐름 위상 각도) — Mercator 계산 아님, 무대 모듈 안
 PROJ_NAMES = {"ym", "ymv", "lat_of", "to_uv"}
 OLD_VIEW_ATTRS = {"xy", "uvs", "u0", "v1"}
 ANCHOR = {"lon", "lat"}

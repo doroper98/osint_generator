@@ -1,0 +1,16 @@
+# 무대 레지스트리 프리뷰 예제 (v7.4.0, 사용자 의견 UF-902·UF-903, 결정 D910) — rules registries.stages 의 무대마다 하나.
+# 스튜디오 무대: 지도가 정보를 싣지 않는 장면의 밝은 회색 호리존트(바닥 → 둥근 모서리 → 벽) + 점 격자 + 조명(배경에만). 모양은 하나 — stage_config 없음.
+# 카메라 = 빈 카메라 {}(내용물은 화면 자리 그대로, 뒤의 공간만 영상 시각 t 로 느리게 흐른다). backdrop 이벤트(배경 사진)는 쓰지 않는다(오류).
+# 내용은 backdrop 무대와 같은 아일랜드·카드·패널·인용 — 사진 자리 backdrop_right_low 도 같다. Direction 모델을 그대로 통과해야 한다(P4).
+schema_version: 1
+key: studio
+anchor_keys: []
+direction:
+  version: 1
+  genre: macro_monetary
+  stage: studio
+  stage_reason: 지도·사진 배경이 정보를 싣지 않는 발언·수치 설명 장면 — 스튜디오 무대(UF-902)
+  shots:
+    - {at: 0, mode: cut, dur: 0, camera: {}}
+  events:
+    - {type: photo, start: {scene_start: decision}, end: {scene_end: decision}, mid: fed_presser_0916_b, place: backdrop_right_low}

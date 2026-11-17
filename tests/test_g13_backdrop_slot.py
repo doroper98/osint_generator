@@ -38,12 +38,13 @@ class SlotRegistryTest(unittest.TestCase):
     def test_slot_exists_backdrop_only(self) -> None:
         s = R.placement.slots[SLOT]
         self.assertEqual(list(s.box), [594, 200, 236])
-        self.assertEqual(s.stages, ["backdrop"])
+        self.assertEqual(s.stages, ["backdrop", "studio"])   # v7.4.0 UF-902 — 스튜디오 무대도 같은 화면 공간 자리
         self.assertTrue(set(s.stages) <= set(R.registries.stages))
         self.assertEqual(sorted(s.kinds), ["clip", "photo"])
         ev = [_photo()]
         rec = resolve_places(ev, lambda t: None, stage_name="backdrop")
         self.assertEqual(rec["p"], f"slot:{SLOT}")
+        self.assertEqual(resolve_places([_photo()], lambda t: None, stage_name="studio")["p"], f"slot:{SLOT}")
         self.assertEqual([ev[0]["x"], ev[0]["y"], ev[0]["w"]], [594, 200, 236])
         for other in ("timeline", "mercator", None):
             with self.assertRaises(PlacementError, msg=other):
@@ -55,7 +56,7 @@ class SlotRegistryTest(unittest.TestCase):
         self.assertIn(SLOT, [e.get("place") for e in doc.events])
         line = [ln for ln in _rules_placeholders(R)["{{RULES.placement_slots}}"].splitlines() if ln.startswith(f"- {SLOT} ")]
         self.assertEqual(len(line), 1)
-        self.assertIn("backdrop 무대 전용", line[0])
+        self.assertIn("backdrop·studio 무대 전용", line[0])
         self.assertIn(SLOT, _rules_placeholders(R)["{{RULES.backdrop_island}}"])
 
 

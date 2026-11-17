@@ -386,9 +386,21 @@ class MercatorStage:
 from engine.stage_backdrop import BackdropStage  # noqa: E402 — 사진 배경 무대(v5.1.0 D-0123)
 from engine.stage_timeline import TimelineStage  # noqa: E402 — 시간축 무대(v4.3.0 D-0084 작업 3)
 from engine.stage_structure import StructureStage  # noqa: E402 — 구성 무대(v7.4.0 D-1003 §3)
+from engine.stage_studio import StudioStage  # noqa: E402 — 스튜디오 무대(v7.4.0 UF-902·UF-903, D910)
 
 STAGE_CLASSES: dict[str, type] = {"mercator": MercatorStage, "timeline": TimelineStage,   # 구현 — rules registries.stages 와 같아야 한다(P10)
-                                  "backdrop": BackdropStage, "structure": StructureStage}
+                                  "backdrop": BackdropStage, "structure": StructureStage, "studio": StudioStage}
+
+
+def screen_stage(name: Optional[str]) -> bool:
+    """화면 공간 무대인가(v7.4.0 — backdrop·studio): 월드 = 화면 설계 px, 카메라 {}, 아일랜드·카드·화면 고정 뱃지가 놓이는 무대.
+    무대 클래스의 `screen_space` 표시 한 곳에서 정한다(이름 목록을 여러 곳에 두지 않는다, P3)."""
+    return bool(getattr(STAGE_CLASSES.get(name or ""), "screen_space", False))
+
+
+def photo_stage(name: Optional[str]) -> bool:
+    """사진 배경(backdrop 이벤트)을 받는 무대인가 — backdrop 만. 스튜디오는 사진을 깔지 않는다(UF-902·UF-903)."""
+    return bool(getattr(STAGE_CLASSES.get(name or ""), "photo_backdrop", False))
 # direction.yaml 에 stage 가 없을 때의 무대 = 장르 프로필 stage.primary(v4.2.0 D-0081 작업 3, 기본 장르 geopolitics → mercator).
 
 
@@ -452,4 +464,4 @@ def attach_world(events: list[dict], stage: Stage, chart_stage: Optional[Stage] 
 
 
 __all__ = ["MERCATOR_LOD", "MercatorStage", "STAGE_CLASSES", "Stage", "StageError", "StageSet", "attach_world", "by_w",
-           "lat_of", "make_stage", "stage_class", "to_uv", "ym", "ymv"]
+           "lat_of", "make_stage", "photo_stage", "screen_stage", "stage_class", "to_uv", "ym", "ymv"]
