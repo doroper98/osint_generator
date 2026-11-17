@@ -2,7 +2,8 @@
 
 - 레지스트리 세 곳: rules registries.stages ↔ engine.stage.STAGE_CLASSES ↔ 프리뷰 예제(tests/fixtures/preview/stage_studio.yaml).
 - rules stage_studio 는 엄격(모르는 키 = 오류), 조명은 더하기만(amp < 0 = 오류 — 비네팅 아님). stage_config·앵커 = 오류, 시각 없는 그리기 = 오류(P6).
-- 배경: 같은 t = 같은 바이트, 1초 뒤 = 다름(공간이 흐른다), 30 fps 한 프레임 이동 < 1 장치 px(튀지 않음), 흐름은 전역 t 의 함수(숏 카메라와 무관).
+- 배경: 같은 t = 같은 바이트, 1초 뒤 = 다름(공간이 흐른다), 가까운 바닥 점 최고 속도가 띠 안(느리지 않고 튀지 않음 — UF-906), 멈춘 순간 없음, 흐름은 전역 t 의 함수(숏 카메라와 무관).
+- 원근: 지평선이 화면 가운데 근처, 점 줄·열 간격이 소실점으로 모인다(UF-906 — 바닥이 서 보이지 않는다).
 - 밝기: 바닥 카메라 쪽 < 모서리 쪽, 벽 빛 웅덩이 > 벽 모서리, 네 귀퉁이 ≥ 바탕 톤 하한(가장자리 어둡게 없음 — C0), 평균 = 밝은 회색(흰색 아님).
 - 점: 있고, 멀수록 작다. 흐름 진폭은 rules 에서(0 이면 멈춘다).
 - 실제 엔진 경로(합성 사본 + 콘티 판 load_project): studio 주 무대 + 차트 아일랜드가 뜨고, 내용물 카메라는 고정, 사진 배경 검사는 하나도 걸리지 않는다.
@@ -129,16 +130,41 @@ class BackgroundTest(unittest.TestCase):
     def test_space_moves(self) -> None:
         self.assertGreater(np.abs(self.img - _render(self.st, 13.0)).max(), 0.05)
 
-    def test_smooth_motion(self) -> None:
-        """가까운 바닥 점의 한 프레임 이동(1080p 장치 px) < 1 — 24·30 fps, 240초 훑기. 흐름은 전역 t 의 연속 함수."""
+    def test_motion_speed_band(self) -> None:
+        """가까운 바닥 점의 최고 속도(1080p 장치 px/초)가 띠 안 — 24·30 fps, 240초 훑기. 흐름은 전역 t 의 연속 함수.
+        하한 = UF-906 "움직임도 너무 느려"(옛 값 최고 12.7 px/초가 불합격), 상한 = 내용물 뒤에서 눈을 끌지 않는 속도."""
         for fps in (FPS, 30):
             worst = 0.0
             for k in range(0, 240 * fps, fps // 3):
                 j = _nearest_row(self.st, k / fps)   # 같은 점(같은 줄·열)을 두 프레임에서 잰다
                 a, b = _dot_xy(self.st, k / fps, j), _dot_xy(self.st, (k + 1) / fps, j)
-                worst = max(worst, math.hypot(b[0] - a[0], b[1] - a[1]) * K_1080)
-            self.assertLess(worst, 1.0, fps)
-            self.assertGreater(worst, 0.1, fps)   # 그래도 움직인다
+                worst = max(worst, math.hypot(b[0] - a[0], b[1] - a[1]) * K_1080 * fps)
+            self.assertGreater(worst, 45.0, fps)    # 느리지 않다(UF-906 ⑤)
+            self.assertLess(worst, 120.0, fps)      # 튀지 않는다 — 한 프레임 5 px 미만
+
+    def test_never_still(self) -> None:
+        """어느 순간에도 멈춘 화면이 없다(UF-904·C0.0 "멈춰 있는 화면") — 240초 동안 0.5초 간격으로 가까운 바닥 점 속도 > 0."""
+        slow = math.inf
+        for k in range(0, 240 * 2):
+            t = k / 2
+            j = _nearest_row(self.st, t)
+            a, b = _dot_xy(self.st, t, j), _dot_xy(self.st, t + 1 / FPS, j)
+            slow = min(slow, math.hypot(b[0] - a[0], b[1] - a[1]) * K_1080 * FPS)
+        self.assertGreater(slow, 4.0)   # 가장 느린 순간에도 1080p 초당 4 px 넘게 흐른다
+
+    def test_floor_lies_flat_with_perspective(self) -> None:
+        """UF-906 ③④ "원근감도 느껴지지 않고, 너무 바닥이 서있어" — 바닥은 누워 있고(지평선이 화면 가운데 근처, 바닥은 그 아래),
+        멀어질수록 점 줄 간격·열 간격이 급하게 줄어든다(소실점으로 모인다)."""
+        rows = sorted(self.st.dots(12.0), key=lambda r: -r[0])              # 화면 아래(가까운 바닥)부터
+        ys = [r[0] for r in rows]
+        gaps = [ys[i] - ys[i + 1] for i in range(len(ys) - 1)]
+        k_min = int(np.argmin(gaps[: len(gaps) // 2 + 1]))                   # 바닥에서 줄 간격이 가장 좁아지는 곳 = 바닥 끝(모서리 앞)
+        horizon = ys[k_min]
+        self.assertTrue(0.45 * H_OUT < horizon < 0.62 * H_OUT, horizon)      # 지평선 = 화면 가운데 조금 아래. 옛 값은 바닥이 화면 대부분을 채웠다(서 보임)
+        self.assertGreater(gaps[0] / gaps[k_min], 12.0)                      # 줄 간격: 가까운 쪽 ÷ 먼 쪽
+        col = lambda r: float(np.median(np.diff(r[3])))                      # noqa: E731 — 열 간격
+        self.assertGreater(col(rows[0]) / col(rows[k_min]), 6.0)             # 열 간격도 소실점으로 모인다
+        self.assertLessEqual(STUDIO.camera.pitch_deg, 4.0)                   # 내려다보지 않는다 — 거의 수평 시선
 
     def test_independent_of_content_camera(self) -> None:
         """배경은 전역 t 만의 함수 — 숏(내용물) 카메라가 바뀌어도 같은 t 면 같은 배경(무대를 오가도 흐름이 이어진다)."""
@@ -161,7 +187,7 @@ class BackgroundTest(unittest.TestCase):
         floor = min(tn.floor_near, tn.floor_fillet - tn.fillet_dip - tn.wall_top_drop) - 0.01
         for y, x in ((0, 0), (0, -1), (-1, 0), (-1, -1)):                    # 가장자리 어둡게(비네팅) 없음 — 귀퉁이 ≥ 바탕 톤 하한
             self.assertGreaterEqual(float(img[y, x]), floor, (y, x))
-        self.assertTrue(0.78 < float(img.mean()) < 0.9, float(img.mean()))   # 밝은 회색(흰색 아님)
+        self.assertTrue(0.92 < float(img.mean()) < 0.96, float(img.mean()))   # 밝은 회색 — 하한 = UF-906 "너무 회색"(옛 0.84 불합격), 상한 = UF-903 "너무 흰색이 아니라"(흰 카드가 바탕에서 떠야 한다)
         self.assertAlmostEqual(float(self.img[..., 2].mean() / self.img[..., 0].mean()), tn.blue_gain, delta=0.004)   # 아주 약한 따뜻한 기
         self.assertTrue(np.all(np.diff(tone_of(np.linspace(*STUDIO.arc_range_m, 50))[:10]) > 0))
 
@@ -248,7 +274,7 @@ class EnginePathTest(unittest.TestCase):
         x, y, bw, bh = (int(v * P.R.out.k) for v in island_box(isl))
         inner = f1[y + bh // 2 - 5:y + bh // 2 + 5, x + 10:x + 30]
         self.assertLess(float(inner.mean()), 120)                         # 아일랜드 상자(판)가 밝은 무대 위에 그려졌다
-        bg_strip = (slice(int(430 * P.R.out.k), int(440 * P.R.out.k)), slice(int(700 * P.R.out.k), int(840 * P.R.out.k)))
+        bg_strip = (slice(int(402 * P.R.out.k), int(478 * P.R.out.k)), slice(int(700 * P.R.out.k), int(840 * P.R.out.k)))   # 아일랜드·카드 아래(396) 오른쪽 바닥 — 점 줄 여럿이 지난다
         self.assertGreater(float(f1[bg_strip].mean()), 180)               # 아일랜드 밖은 밝은 회색 스튜디오
         self.assertGreater(float(np.abs(f1[bg_strip] - f2[bg_strip]).max()), 0)   # 1초 뒤 공간은 흘렀다
         self.assertTrue(ISLAND.fill_alpha > 0)

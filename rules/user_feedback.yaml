@@ -2917,7 +2917,8 @@ entries:
   guards:
   - {kind: rule, ref: stage_studio.drift}
   - {kind: test, ref: tests/test_v740_studio_stage.py::BackgroundTest::test_space_moves}
-  - {kind: test, ref: tests/test_v740_studio_stage.py::BackgroundTest::test_smooth_motion}
+  - {kind: test, ref: tests/test_v740_studio_stage.py::BackgroundTest::test_motion_speed_band}
+  - {kind: test, ref: tests/test_v740_studio_stage.py::BackgroundTest::test_never_still}
   - {kind: test, ref: tests/test_v740_studio_stage.py::BackgroundTest::test_wall_moves_less_than_floor}
   status: guarded
   decision: "D911 — 수용. 스튜디오 배경 카메라를 영상 시각의 매끄러운 함수로 천천히 이동(옆·앞뒤·위아래, 주기가 서로 달라 반복이 보이지 않게). 내용물 화면 위치는 고정. 장치는 R8 구현과 함께"

@@ -1734,61 +1734,61 @@ stage_structure:           # v7.4.0 back_and_forth D-1003 §3 — 구성 무대(
 stage_studio:              # v7.4.0 UF-902·UF-903(D910) — 스튜디오 무대(engine/stage_studio.py). 지도가 필요 없는 장면의 밝은 회색 호리존트(바닥 → 둥근 모서리 → 벽) + 점 격자 + 조명
   # 모양은 하나(어두운 판·테마·stage_config 없음, UF-903 "스튜디오 씬은 그거로만"). 조명(벽의 빛 웅덩이·바닥 반사광)은 배경에만 칠한다 — 내용물 위 덮개(비네팅, C0 금지)가 아니다.
   # 월드 = 화면 설계 px(854×480), 앵커 없음(카메라 {}). 내용물(아일랜드·카드·패널·인용·자막)은 backdrop 무대와 같은 화면 자리 그대로.
-  # 공간의 길이 = m, 화면 길이 = 설계 px(480p) — 출력 해상도가 달라도 같은 그림(장치 변환은 렌더 진입 한 곳, D-0067). 값 = 시제품 cove2.py(D910) 에서 옮겨 육안 조정
+  # 공간의 길이 = m, 화면 길이 = 설계 px(480p) — 출력 해상도가 달라도 같은 그림(장치 변환은 렌더 진입 한 곳, D-0067). 값 = 시제품 cove2.py(D910) 에서 옮겨 육안 조정 → v7.4.0 UF-906(D915) 전면 재조정: 밝기 평균 0.84 → 0.94, 카메라를 낮추고 거의 수평으로(바닥이 눕고 소실점이 생긴다), 흐름 속도 ×5
   camera:                  # 핀홀 카메라 — 바닥 위 height_m, 벽 쪽(+z)을 보며 pitch_deg 만큼 내려다본다. 좌우 회전·기울기 없음(같은 호 길이의 점 줄 = 화면 가로줄)
-    height_m: 2.1
-    z_m: -7.5
-    pitch_deg: 7.0
-    focal: 1.55            # 초점 거리 ÷ 화면 반폭(설계 px 427)
-  fillet_z_m: 7.0          # 바닥이 둥근 모서리로 꺾이기 시작하는 z
-  fillet_radius_m: 3.2     # 바닥 → 벽 사분원 반지름(모서리 선 없음)
-  arc_range_m: [-6.0, 40.0]   # 화면 줄 ↔ 호 길이 대응표의 표본 범위(바닥 카메라 뒤 ~ 벽 위)
+    height_m: 1.25
+    z_m: -3.0
+    pitch_deg: 1.5
+    focal: 1.15            # 초점 거리 ÷ 화면 반폭(설계 px 427)
+  fillet_z_m: 20.0          # 바닥이 둥근 모서리로 꺾이기 시작하는 z
+  fillet_radius_m: 5.0     # 바닥 → 벽 사분원 반지름(모서리 선 없음)
+  arc_range_m: [-4.0, 50.0]   # 화면 줄 ↔ 호 길이 대응표의 표본 범위(바닥 카메라 뒤 ~ 벽 위)
   arc_samples: 4000
   bg_grid_px: 2.0          # 배경 밝기 격자 간격(설계 px) — 장치 해상도로는 이중선형 확대(매끈한 면이라 계단 없음). 1.0 대비 1080p 화소 차 최대 1단계, 프레임당 ~20 → ~8 ms
   tone:                    # 밝기(0~1) — 호 길이 s 의 함수(공간에 붙어 있다: 카메라가 움직이면 시차대로 움직인다)
-    floor_near: 0.800      # 바닥 카메라 쪽(s = arc_range_m[0])
-    floor_fillet: 0.868    # 바닥이 모서리에 닿는 곳
-    floor_gamma: 1.4       # 바닥 오름 곡선 u^gamma
-    fillet_dip: 0.026      # 모서리 안에서 살짝 가라앉음(0.868 → 0.842)
-    wall_top_drop: 0.027   # 벽 위로 갈수록 내려감(0.842 → 0.815)
-    wall_span_m: 14.0      # 그 내려감이 다 되는 벽 호 길이
-    blue_gain: 0.994       # 아주 약한 따뜻한 기(파랑 성분 배율)
+    floor_near: 0.900      # 바닥 카메라 쪽(s = arc_range_m[0])
+    floor_fillet: 0.952    # 바닥이 모서리에 닿는 곳
+    floor_gamma: 0.7       # 바닥 오름 곡선 u^gamma
+    fillet_dip: 0.008      # 모서리 안에서 살짝 가라앉음
+    wall_top_drop: 0.022   # 벽 위로 갈수록 내려감
+    wall_span_m: 18.0      # 그 내려감이 다 되는 벽 호 길이
+    blue_gain: 1.0         # 파랑 성분 배율(1.0 = 무채색 — UF-906 재조정에서 따뜻한 기를 뺐다: 흰 카드가 누렇게 보이지 않게)
   light_pool:              # 벽의 빛 웅덩이(키 조명) — 면 좌표(x, s) 위 타원 가우시안 amp·exp(−falloff·((x−x)/rx)² + ((s−s_c)/rs)²)). 더하기만(어둡게 하지 않는다)
-    amp: 0.085
+    amp: 0.032
     x_m: 0.0
-    height_m: 4.6          # 벽 위 높이(→ 호 길이)
-    rx_m: 10.6
-    rs_m: 3.9
-    falloff: 1.15
+    height_m: 5.2          # 벽 위 높이(→ 호 길이)
+    rx_m: 24.9
+    rs_m: 7.6
+    falloff: 1.0
   floor_bounce:            # 모서리 앞 바닥에 번지는 약한 반사광
-    amp: 0.022
+    amp: 0.008
     x_m: 0.0
-    z_m: 6.0               # 바닥 위 z(= 호 길이)
-    rx_m: 9.9
-    rs_m: 1.6
+    z_m: 18.0               # 바닥 위 z(= 호 길이)
+    rx_m: 22.0
+    rs_m: 4.0
     falloff: 1.3
   dots:                    # 점 격자 — 면 위 정격자(호 길이 방향·가로 같은 간격), 원근으로 투영
-    step_m: 0.55
-    cols: 70               # 가운데에서 좌우 열 수(−cols ~ +cols)
+    step_m: 0.5
+    cols: 90               # 가운데에서 좌우 열 수(−cols ~ +cols)
     rgb: [0.56, 0.575, 0.60]
-    radius_k: 6.67         # 반지름 설계 px = max(radius_min, radius_k / 깊이 m)
-    radius_min: 0.40
-    alpha_k: 8.5           # 알파 = clip(alpha_k / 깊이 m, alpha_min, alpha_max)
-    alpha_min: 0.20
-    alpha_max: 0.95
+    radius_k: 4.4         # 반지름 설계 px = max(radius_min, radius_k / 깊이 m)
+    radius_min: 0.50
+    alpha_k: 4.2           # 알파 = clip(alpha_k / 깊이 m, alpha_min, alpha_max)
+    alpha_min: 0.30
+    alpha_max: 0.70
     margin_px: 4           # 화면 밖 이만큼까지 그린다(설계 px)
   # v7.4.0 사용자 지시(2026-11-17 "스튜디오 공간이 계속 조금씩 이동을 하는 느낌을 줘서 시청자로 하여금 정적인 화면이 계속 되어 지루함을 느끼지 않도록 하는 장치를 적용해") —
-  # 가상 카메라의 느린 연속 흐름. 영상 전역 시각 t 만의 함수(무작위 없음 — 같은 t = 같은 바이트, 다른 무대에 갔다 와도 이어진다). 주기가 서로 맞지 않아 되풀이가 보이지 않는다.
+  # 가상 카메라의 느린 연속 흐름. 영상 전역 시각 t 만의 함수(무작위 없음 — 같은 t = 같은 바이트, 다른 무대에 갔다 와도 이어진다). 옆·앞뒤는 같은 주기의 타원 궤도(늘 움직인다), 위아래는 다른 주기라 되풀이가 보이지 않는다.
   # 점 격자·빛 웅덩이는 공간에 붙어 있어 시차대로 움직인다. 내용물은 움직이지 않는다(화면 자리 그대로). 좌우 회전·기울기 없음
   drift:
-    truck_m: 0.17          # 옆으로(x) ± — 시작값 0.35·0.25·0.06 은 1080p 가까운 바닥 점 최고 24.5 px/s(목표 6~14)라 줄였다: 최고 12.7, 벽 점 3.2 px/s(240초 표본 최댓값)
-    truck_period_sec: 41
+    truck_m: 0.5           # 옆으로(x) ± — v7.4.0 UF-906("움직임도 너무 느려", 옛 0.17 m·주기 41초·최고 12.7 px/s 불합격): 1080p 가까운 바닥 점 33~70 px/s(300초 표본), 중앙값 54
+    truck_period_sec: 22.0 # 옆·앞뒤 주기를 같게, 위상 90° 차 = 타원 궤도 — 두 축 속도가 동시에 0 이 되지 않는다(멈춘 순간 없음, tests test_never_still)
     truck_phase_deg: 0
-    dolly_m: 0.15          # 앞뒤(z) ±
-    dolly_period_sec: 57
+    dolly_m: 0.8           # 앞뒤(z) ±
+    dolly_period_sec: 22.0
     dolly_phase_deg: 90
-    rise_m: 0.04           # 위아래(y) ±
-    rise_period_sec: 73
+    rise_m: 0.05           # 위아래(y) ±
+    rise_period_sec: 31.0
     rise_phase_deg: 30
 
 stage_backdrop:            # v5.1.0 back_and_forth D-0121 §B·D-0123 §1(사용자 결정 D106·D108) — 사진 배경 무대(engine/stage_backdrop.py)·backdrop 이벤트(engine/layers/backdrop.py). 설계 px(480p)
