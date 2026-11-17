@@ -2753,13 +2753,17 @@ class FlightLine(_Strict):
     alpha: float = Field(ge=0, le=1)
 
 
+FlightKind = Literal["drone", "missile", "jet", "bomber", "fighter"]   # v7.4.0 UF-900 R7a — bomber·fighter 추가(engine.events.FlightEvent.kind 와 같은 목록)
+FlightSeg = tuple[tuple[float, float], tuple[float, float]]
+
+
 class FlightIcon(_Strict):
-    size_px: dict[Literal["drone", "missile", "jet"], float]
+    size_px: dict[FlightKind, float]
     halo: float = Field(ge=0)
     halo_alpha: float = Field(ge=0, le=1)
     body_line: FlightLine
-    shapes: dict[Literal["drone", "missile", "jet"], list[tuple[float, float]]]
-    body_lines: dict[Literal["drone", "missile", "jet"], list[tuple[tuple[float, float], tuple[float, float]]]] = Field(default_factory=dict)
+    shapes: dict[FlightKind, list[tuple[float, float]]]
+    body_lines: dict[FlightKind, list[FlightSeg]] = Field(default_factory=dict)
 
     @model_validator(mode="after")
     def _kinds(self) -> "FlightIcon":
@@ -2842,6 +2846,53 @@ class FlagFillRules(_Strict):
     rise: FlagFillRise
 
 
+class FlightModelEdge(_Strict):
+    rgb: RGB
+    width: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+
+
+class FlightModelShadow(_Strict):
+    rgb: RGB
+    offset: tuple[float, float]   # 화면(설계 px) 오른쪽 아래 — 기체 회전과 무관
+    alpha: float = Field(gt=0, le=1)
+    soft: list[tuple[float, float]] = Field(default_factory=list)   # 가장자리 [선 폭, 알파] 바깥 → 안(흐림 없이 겹친 선)
+
+
+class FlightContrail(_Strict):
+    rgb: RGB
+    width: float = Field(gt=0)
+    alpha: float = Field(gt=0, le=1)
+    length_px: float = Field(gt=0)
+    samples: int = Field(ge=2)
+
+
+class FlightModel(_Strict):
+    """v7.4.0 UF-900 R7a — look: model(위에서 본 작은 모델 기체). 설계 px(480p)."""
+
+    size_px: dict[FlightKind, float]
+    body_rgb: RGB
+    shade: float = Field(ge=0, lt=1)
+    edge: FlightModelEdge
+    lines: dict[FlightKind, list[FlightSeg]] = Field(default_factory=dict)
+    shadow: FlightModelShadow
+    contrail: FlightContrail
+
+
+class FlightSlot(_Strict):
+    lateral: float = Field(ge=0)   # 기체 크기 배수(옆)
+    back: float = Field(gt=0)      # 기체 크기 배수(뒤)
+
+
+class FlightFormation(_Strict):
+    """v7.4.0 UF-900 R7a — 편대 간격(선두 기준, 기체 크기 배수). 종류 = engine.events.FlightEvent.formation."""
+
+    max_count: int = Field(ge=2)
+    vee: FlightSlot
+    line: FlightSlot
+    echelon: FlightSlot
+
+
 class FlightRules(_Strict):
     """v7.3.0 back_and_forth D-0206 — 비행 이벤트(flight). 설계 px(480p). engine/layers/flight.py 만 읽는다."""
 
@@ -2853,7 +2904,15 @@ class FlightRules(_Strict):
     trail: FlightTrail
     origin: FlightOriginGlow
     icon: FlightIcon
+    model: FlightModel           # v7.4.0 UF-900 R7a
+    formation: FlightFormation   # v7.4.0 UF-900 R7a
     inset: FlightInsetRules
+
+    @model_validator(mode="after")
+    def _model_kinds(self) -> "FlightRules":
+        if not set(self.model.size_px) <= set(self.icon.shapes) or not set(self.model.lines) <= set(self.icon.shapes):
+            raise ValueError("flight.model: size_px·lines 의 종류는 icon.shapes 에 있어야 한다")
+        return self
 
 
 class BorderGlowRules(_Strict):

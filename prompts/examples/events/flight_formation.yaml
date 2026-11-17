@@ -1,0 +1,19 @@
+# 요소 예시 (v7.4.0 UF-900 R7a) — flight look: model + 편대(count·formation): 위에서 본 회색 기체·오른쪽 아래 그림자·짧은 비행운, 선두 기준 굳은 편대(수치 rules flight.model·flight.formation).
+# prompts/examples/events/flight_formation.yaml 과 tests/fixtures/preview/flight_formation.yaml 은 같은 내용이다(tests/test_v740_flight_formation.py).
+# count 는 claim 출처가 말하는 대수(편대 모양·간격은 개략). 좌표는 benchmark_wartech_2026-11-17.md §2.7 장면(포르도), 시각·claim id 는 예시.
+schema_version: 1
+key: flight_formation
+source: benchmark_wartech_2026-11-17.md §2.7 (레퍼런스 포르도 폭격 장면)
+event:
+  type: flight
+  t0: 48.0
+  t1: 53.0
+  kind: bomber
+  origin: {lon: 44.5, lat: 33.0}
+  lon: 50.99
+  lat: 34.88
+  col: amber
+  claim: c_example_strike
+  look: model
+  count: 7
+  formation: vee

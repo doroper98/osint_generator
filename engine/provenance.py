@@ -36,7 +36,10 @@ def features(keys: list[CamKey], events: list[dict]) -> dict:
         "vignette": False,   # 비네트 없음(라운드 6) — 엔진에 이식하지 않았다(부록 D)
         "private_only_assets": private_only_assets(events),   # v7.3.0 사용자 결정 D234 — 비공개 시청 한정 자산(있으면 공개용 산출물이 아니다)
         **({"flight": {"count": len(fl), "kinds": dict(collections.Counter(e["kind"] for e in fl)),
-                       "insets": sorted(e["inset"]["mid"] for e in fl if e.get("inset"))}}
+                       "insets": sorted(e["inset"]["mid"] for e in fl if e.get("inset")),
+                       **({"model_look": n} if (n := sum(1 for e in fl if e.get("look") == "model")) else {}),   # v7.4.0 UF-900 R7a — 쓴 때만(P5)
+                       **({"formations": dict(collections.Counter(e["formation"] for e in fl if e.get("formation")))}
+                          if any(e.get("formation") for e in fl) else {})}}
            if (fl := [e for e in events if e["type"] == "flight"]) else {}),   # v7.3.0 D-0206 §4 — 비행·인셋 사용 수(없으면 기록 없음, P5)
         **({"flag_fill": sorted({e["flag"] for e in ff})} if (ff := [e for e in events if e["type"] == "country" and e.get("fill") == "flag"])
            else {}),   # v7.4.0 UF-900 R2 — 국기 채움에 쓴 국기(없으면 기록 없음, P5)
