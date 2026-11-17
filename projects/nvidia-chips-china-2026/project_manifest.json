@@ -4,7 +4,7 @@
   "title": "엔비디아 칩은 어떻게 중국에 닿았나",
   "category": "geopolitics",
   "created_at": "2026-11-17T09:18:57.687127Z",
-  "updated_at": "2026-11-17T13:10:42.704610Z",
+  "updated_at": "2026-11-17T23:16:30.154725Z",
   "current_state": "done",
   "target_duration_min": 9,
   "topic_summary": "젠슨 황 사임(2026-11-12)과 엔비디아 GPU의 중국 유입 경로(밀수·해외 데이터센터 임차), 그리고 미국의 통제 수단(11월 16일 원격 접속 규칙·의회 법안)",
@@ -103,6 +103,26 @@
         "quote_candidates": "8",
         "preview": "nvidia-chips-china-2026/prev · 14컷 · direction 6a71b28a9f · script d58c9f9d29",
         "user_feedback": "사용자 의견 208건 모두 장치 있음(최근 UF-921)",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8)",
+      "at": "2026-11-17T23:09:24.010691Z",
+      "comment": "음악 재믹스본. 사용자 의견 UF-922 반영: 음악 베드 내레이션 대비 −28.0 dB(이전 −16.4), 문장 사이에서 올리지 않음(이전 +5.5 dB → +0.3). 화면은 직전 수정본과 같다(연출·원고 불변). 프리뷰 hard 0",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/nvidia-chips-china-2026/prev/sheet.jpg",
+        "cuts": "14",
+        "provenance": "/home/user/osint_generator/projects/nvidia-chips-china-2026/prev/provenance.json",
+        "drops": "0",
+        "media_used": "quote 7 · article 5 · real 15 · backdrop 0 · 밀도 검사 15개 · 1.806/분",
+        "quote_candidates": "8",
+        "preview": "nvidia-chips-china-2026/prev · 14컷 · direction 6a71b28a9f · script d58c9f9d29",
+        "user_feedback": "사용자 의견 209건 모두 장치 있음(최근 UF-922)",
         "asset_library": "공용 자산 미승격 0"
       },
       "chosen_version": null
@@ -254,6 +274,48 @@
       "to_state": "done",
       "transitioned_at": "2026-11-17T13:10:42.704569Z",
       "reason": "수정본 mux 완료 — 오디오 QA hard 0. 완성본 측정: 지도 정지 0초(1차본 1초 이상 정지 합계 9.5초), 경로 머리 3프레임 넘게 멈춘 곳 0, 검은 프레임 0. 감독이 완성본 프레임 16장 확인"
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "transitioned_at": "2026-11-17T23:08:53.482833Z",
+      "reason": "reopen → direction — 감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8): 사용자 의견 UF-922 — 배경음악을 아주 낮게·문장 사이에서 올리지 않게(규칙 개정 D937). 원고·연출 불변, 재믹스 뒤 재렌더"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-11-17T23:09:21.011383Z",
+      "reason": "단일 구현 모드(W0a) — 엔진 CLI 직접 실행 뒤 기록(감독 세션)"
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-11-17T23:09:21.954593Z",
+      "reason": "단일 구현 모드(W0a) — 엔진 CLI 직접 실행 뒤 기록(감독 세션)"
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-11-17T23:09:24.010732Z",
+      "reason": "preview_approval 승인 — 감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8)"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-11-17T23:16:28.646329Z",
+      "reason": "음악 재믹스본 전편 렌더 완료(검사 hard 0, 영상 스트림은 직전 수정본과 같음)"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-11-17T23:16:29.401396Z",
+      "reason": "음악 재믹스본 mux 완료 — 오디오 QA hard 0(내레이션 구간 음악 −27.96 dB, 범위 [−29.54, −25.54]). 완성 파일 실측: 문장 사이 음악 −26.8 → −42.6 dBFS, 엔딩 카드 음악 −18.5 → −33.9 dBFS, 내레이션 −12.9 → −13.1 dBFS(변화 없음)"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-11-17T23:16:30.154690Z",
+      "reason": "음악 재믹스본 mux 완료 — 오디오 QA hard 0(내레이션 구간 음악 −27.96 dB, 범위 [−29.54, −25.54]). 완성 파일 실측: 문장 사이 음악 −26.8 → −42.6 dBFS, 엔딩 카드 음악 −18.5 → −33.9 dBFS, 내레이션 −12.9 → −13.1 dBFS(변화 없음)"
     }
   ],
   "rollbacks": [
@@ -273,6 +335,14 @@
       "by": "감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8)",
       "at": "2026-11-17T13:00:27.264870Z",
       "reason": "사용자 수정 의견 5건(UF-917~921) 반영 — 패널 부분 노출·목록 조판·수도만 표기·지도 흐름·경로 연속 성장. 원고 불변, 연출·엔진 수정 후 재렌더",
+      "direction_version": null
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "by": "감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8)",
+      "at": "2026-11-17T23:08:53.482806Z",
+      "reason": "사용자 의견 UF-922 — 배경음악을 아주 낮게·문장 사이에서 올리지 않게(규칙 개정 D937). 원고·연출 불변, 재믹스 뒤 재렌더",
       "direction_version": null
     }
   ]
