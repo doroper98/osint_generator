@@ -3493,3 +3493,4 @@ last_review: 2026-06-06
 - 2026-11-17 v7.4.0 UF-915(D933) 기록 — 사용자 결정: 사용자 원고(자막) 승인 단계도 폐지. 게이트 ①·② 는 세션·감독이 스스로 기록, 사용자는 완성 영상을 받는다. 원장 open.
 - 2026-11-17 v7.4.0 콘티 판 단계·사용자 원고 승인 폐지 구현(UF-914·UF-915, D934, PIPELINE-AP-028) — require_animatic 삭제 → require_preview(원고 지문·프리뷰 연출 지문·길이·hard 0), gate packet 프리뷰 기록 기반, WORKFLOWS W0 재작성, 원장 superseded_by. 미보호 0.
 - 2026-11-17 v7.4.0 영상 nvidia-chips-china-2026 제작(D935) — 디자인 시스템 첫 실전. 제작 중 엔진·규칙 결함 8건 수정(RENDER-AP-036~041, PIPELINE-AP-029, RIGHTS-AP-004)과 사용자 의견 UF-916(받은 사진은 전부 화면에 — PIPELINE-AP-030, received_photos) 장치 보강. 초상 2장 라이브러리 승격.
+- 2026-11-17 v7.4.0 영상 nvidia-chips-china-2026 수정본(D936) — 사용자 의견 UF-917~921 반영: 패널 부분 노출 검사 [panel-part-hold](RENDER-AP-042), 목록 조판 개편, 배경 지명 수도만(RENDER-AP-043), 지도 상시 흐름 + [map-still](RENDER-AP-044), 자라는 선 머리 보간 — 본 엔진·스케치 공통(RENDER-AP-045). 원장 미보호 0. 720p 재렌더·재전달.

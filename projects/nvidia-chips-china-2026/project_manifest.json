@@ -4,7 +4,7 @@
   "title": "엔비디아 칩은 어떻게 중국에 닿았나",
   "category": "geopolitics",
   "created_at": "2026-11-17T09:18:57.687127Z",
-  "updated_at": "2026-11-17T11:51:35.243848Z",
+  "updated_at": "2026-11-17T13:10:42.704610Z",
   "current_state": "done",
   "target_duration_min": 9,
   "topic_summary": "젠슨 황 사임(2026-11-12)과 엔비디아 GPU의 중국 유입 경로(밀수·해외 데이터센터 임차), 그리고 미국의 통제 수단(11월 16일 원격 접속 규칙·의회 법안)",
@@ -83,6 +83,26 @@
         "quote_candidates": "8",
         "preview": "nvidia-chips-china-2026/prev · 14컷 · direction a7d535eb2a · script d58c9f9d29",
         "user_feedback": "사용자 의견 203건 모두 장치 있음(최근 UF-916)",
+        "asset_library": "공용 자산 미승격 0"
+      },
+      "chosen_version": null
+    },
+    {
+      "gate": "preview_approval",
+      "decision": "approved",
+      "by": "감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8)",
+      "at": "2026-11-17T13:00:40.477128Z",
+      "comment": "수정본. 사용자 의견 UF-917~921 반영: 패널 안 늦게 뜨는 부분 노출 2.5초 이상(5곳 수정), 목록 조판 개편, 배경 도시는 수도만·행정구역 이름 없음, 지도 카메라 느린 흐름 상시, 경로 머리 보간. 프리뷰 hard 0. 감독이 720p 프레임 14장으로 실물 판정(C0.0 §6). 경고 = 미디어 밀도(UF-916 '찾은 사진은 전부' 지시에 따른 것)",
+      "rollback_to": null,
+      "shown": {
+        "sheet": "/home/user/osint_generator/projects/nvidia-chips-china-2026/prev/sheet.jpg",
+        "cuts": "14",
+        "provenance": "/home/user/osint_generator/projects/nvidia-chips-china-2026/prev/provenance.json",
+        "drops": "0",
+        "media_used": "quote 7 · article 5 · real 15 · backdrop 0 · 밀도 검사 15개 · 1.806/분",
+        "quote_candidates": "8",
+        "preview": "nvidia-chips-china-2026/prev · 14컷 · direction 6a71b28a9f · script d58c9f9d29",
+        "user_feedback": "사용자 의견 208건 모두 장치 있음(최근 UF-921)",
         "asset_library": "공용 자산 미승격 0"
       },
       "chosen_version": null
@@ -192,6 +212,48 @@
       "to_state": "done",
       "transitioned_at": "2026-11-17T11:51:35.243737Z",
       "reason": "mux 완료 — 오디오 QA hard 0, 완성본 검수(사진 15·초상 4 전부 화면, 자막 꺼짐 0)"
+    },
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "transitioned_at": "2026-11-17T13:00:27.264889Z",
+      "reason": "reopen → direction — 감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8): 사용자 수정 의견 5건(UF-917~921) 반영 — 패널 부분 노출·목록 조판·수도만 표기·지도 흐름·경로 연속 성장. 원고 불변, 연출·엔진 수정 후 재렌더"
+    },
+    {
+      "from_state": "direction",
+      "to_state": "preview_qa",
+      "transitioned_at": "2026-11-17T13:00:28.179357Z",
+      "reason": ""
+    },
+    {
+      "from_state": "preview_qa",
+      "to_state": "preview_approval",
+      "transitioned_at": "2026-11-17T13:00:29.104615Z",
+      "reason": ""
+    },
+    {
+      "from_state": "preview_approval",
+      "to_state": "render",
+      "transitioned_at": "2026-11-17T13:00:40.477167Z",
+      "reason": "preview_approval 승인 — 감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8)"
+    },
+    {
+      "from_state": "render",
+      "to_state": "audio_mix",
+      "transitioned_at": "2026-11-17T13:10:41.042087Z",
+      "reason": "수정본 전편 렌더 완료(검사 hard 0)"
+    },
+    {
+      "from_state": "audio_mix",
+      "to_state": "deliver",
+      "transitioned_at": "2026-11-17T13:10:41.816896Z",
+      "reason": "수정본 mux 완료 — 오디오 QA hard 0. 완성본 측정: 지도 정지 0초(1차본 1초 이상 정지 합계 9.5초), 경로 머리 3프레임 넘게 멈춘 곳 0, 검은 프레임 0. 감독이 완성본 프레임 16장 확인"
+    },
+    {
+      "from_state": "deliver",
+      "to_state": "done",
+      "transitioned_at": "2026-11-17T13:10:42.704569Z",
+      "reason": "수정본 mux 완료 — 오디오 QA hard 0. 완성본 측정: 지도 정지 0초(1차본 1초 이상 정지 합계 9.5초), 경로 머리 3프레임 넘게 멈춘 곳 0, 검은 프레임 0. 감독이 완성본 프레임 16장 확인"
     }
   ],
   "rollbacks": [
@@ -204,5 +266,14 @@
       "script_fingerprint_before": "d58c9f9d295a96c0be2415bb6c69d4576d5d2fed"
     }
   ],
-  "reopens": []
+  "reopens": [
+    {
+      "from_state": "done",
+      "to_state": "direction",
+      "by": "감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8)",
+      "at": "2026-11-17T13:00:27.264870Z",
+      "reason": "사용자 수정 의견 5건(UF-917~921) 반영 — 패널 부분 노출·목록 조판·수도만 표기·지도 흐름·경로 연속 성장. 원고 불변, 연출·엔진 수정 후 재렌더",
+      "direction_version": null
+    }
+  ]
 }

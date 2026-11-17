@@ -19,13 +19,13 @@ paths:
 shots:
   - {at: 0, mode: cut, dur: 0, camera: {}}
   # ---- 지도 구간(act2·act3)
-  - {at: {sid: act2_0, off: -0.6}, mode: dip, stage: mercator, camera: {lon: 119.0, lat: 21.0, w: 66}, scene: act2,
+  - {at: {sid: act2_0, off: -0.6}, mode: dip, stage: mercator, camera: {lon: 120.5, lat: 21.0, w: 62}, scene: act2,
      allow_sea: "동남아에서 대만·중국에 이르는 해상 경유 구도 전체가 주제 — 남중국해와 필리핀해가 화면 가운데를 차지한다"}
-  - {at: {sid: act2_1, off: 0.4}, mode: move, dur: 6.0, stage: mercator, camera: {lon: 117.0, lat: 18.0, w: 62},
+  - {at: {sid: act2_1, off: 0.4}, mode: move, dur: 6.0, stage: mercator, camera: {lon: 119.0, lat: 18.0, w: 62},
      allow_sea: "동남아에서 대만·중국에 이르는 해상 경유 구도 전체가 주제 — 남중국해가 화면 가운데를 차지한다"}
   - {at: {sid: act2_8, off: -1.0}, mode: move, dur: 4.5, stage: mercator, camera: {lon: 117.0, lat: 23.0, w: 44},
      allow_sea: "넓은 구도에서 대만으로 들어가는 이동 구간"}
-  - {at: {sid: act2_11, off: -0.6}, mode: move, dur: 4.5, stage: mercator, camera: {lon: 117.0, lat: 18.0, w: 62},
+  - {at: {sid: act2_11, off: -0.6}, mode: move, dur: 4.5, stage: mercator, camera: {lon: 119.0, lat: 18.0, w: 62},
      allow_sea: "말레이시아와 중국의 서버 무역이 주제 — 남중국해가 화면 가운데를 차지한다"}
   - {at: {sid: act2_14, off: -1.0}, mode: move, dur: 4.5, stage: mercator, camera: {lon: 113.0, lat: 32.0, w: 44},
      allow_sea: "넓은 구도에서 중국 본토로 들어가는 이동 구간"}
@@ -35,7 +35,7 @@ shots:
      allow_sea: "싱가포르 본사와 말레이시아·인도네시아 데이터센터 소재국이 주제 — 해협과 섬이라 바다 비율이 높다"}
   - {at: {sid: act3_10, off: -1.0}, mode: move, dur: 5.0, stage: mercator, camera: {lon: 112.0, lat: 27.0, w: 48},
      allow_sea: "말레이반도에서 홍콩·중국 본토로 올라가는 이동 구간"}
-  - {at: {sid: act3_14, off: 0.2}, mode: move, dur: 6.0, stage: mercator, camera: {lon: 119.0, lat: 21.0, w: 66},
+  - {at: {sid: act3_14, off: 0.2}, mode: move, dur: 6.0, stage: mercator, camera: {lon: 120.5, lat: 21.0, w: 62},
      allow_sea: "동남아에서 대만·중국에 이르는 구도 전체로 물러난다 — 남중국해와 필리핀해가 화면 가운데"}
   # ---- 스튜디오 복귀(act4·ending)
   - {at: {sid: act4_0, off: -0.6}, mode: dip, camera: {}, scene: act4}
@@ -76,8 +76,8 @@ events:
         - title: 의혹
           src: 뉴욕타임스 10월 29일 보도
           items:
-            - {text: 상대의 첩보 연루, t: {sid: act1_1, off: 2.4}}
-            - {text: 익명의 미 당국자 인용, t: {sid: act1_1, off: 4.6}}
+            - {text: 상대의 첩보 연루, t: {sid: act1_1, off: 1.2}}
+            - {text: 익명의 미 당국자 인용, t: {sid: act1_1, off: 2.6}}
   - type: quote
     start: {sid: act1_2, off: -1.1}
     end: {sid: act1_3, off: 0.48}
@@ -196,7 +196,7 @@ events:
     place: map_pair_left
   - type: panel
     start: {sid: act2_8, off: 7.4}
-    end: {sid: act2_11, edge: end, off: -0.05}
+    end: {sid: act2_11, edge: end, off: -0.5}
     kind: fork
     data:
       title: 대만 검찰이 밝힌 서버의 행방
@@ -208,21 +208,27 @@ events:
       provenance: {verification: verified, sources: [대만 지룽 지방검찰 기소 발표(2026. 08. 24)], claim_status: corroborated}
   - type: country
     start: {sid: act2_11, off: 0.2}
-    end: {word: {sid: act2_12, text: 38억}, off: -2.7}
+    end: {sid: act2_13, edge: end, off: 0.4}
     codes: [MY]
     fill: color
     col: gold
     a: 0.22
   - type: country
     start: {sid: act2_11, off: 0.6}
-    end: {word: {sid: act2_12, text: 38억}, off: -2.7}
+    end: {sid: act2_13, edge: end, off: 0.4}
     codes: [CN]
     fill: color
     col: ru
     a: 0.12
+  - type: photo
+    start: {sid: act2_11, edge: end, off: -0.4}
+    end: {sid: act2_11, edge: end, off: 7.12}
+    mid: nv_malaysia_port
+    for: 클랑항 컨테이너 부두
+    place: map_pair_right
   - type: panel
-    start: {word: {sid: act2_12, text: 38억}, off: -2.6}
-    end: {sid: act2_13, off: 0.5}
+    start: {sid: act2_11, edge: end, off: 7.2}
+    end: {sid: act2_13, edge: end, off: -0.3}
     kind: versus
     data:
       title: 어긋난 세관 기록
@@ -231,27 +237,14 @@ events:
         - title: 중국 수입 기록
           src: Epoch AI · 2024. 04 ~ 2025. 06
           items:
-            - {text: 38억 달러, t: {word: {sid: act2_12, text: 38억}}}
-            - {text: "대당 10만 6,000달러", t: {word: {sid: act2_12, text: 38억}, off: 0.9}}
+            - {text: 38억 달러, t: {sid: act2_11, edge: end, off: 7.7}}
+            - {text: "대당 10만 6,000달러", t: {sid: act2_11, edge: end, off: 8.5}}
         - title: 말레이시아 수출 기록
           src: Epoch AI · 2024. 04 ~ 2025. 06
           items:
             - {text: 6억 달러, t: {word: {sid: act2_12, text: 6억}}}
             - {text: "대당 1만 7,000달러", t: {word: {sid: act2_12, text: 6억}, off: 0.9}}
     claims: [clm_0026]
-  - type: country
-    start: {sid: act2_13, off: 0.7}
-    end: {sid: act2_13, edge: end, off: 0.4}
-    codes: [MY]
-    fill: color
-    col: gold
-    a: 0.22
-  - type: photo
-    start: {sid: act2_13, off: 0.6}
-    end: {sid: act2_13, edge: end, off: 0.6}
-    mid: nv_malaysia_port
-    for: 클랑항 컨테이너 부두
-    place: map_pair_right
   - type: country
     start: {sid: act2_14, off: 0.2}
     end: {sid: act3_1, edge: end, off: 0.3}
@@ -260,8 +253,8 @@ events:
     col: ru
     a: 0.10
   - type: panel
-    start: {word: {sid: act2_14, text: 66만}, off: -1.6}
-    end: {sid: act2_14, edge: end, off: 0.6}
+    start: {sid: act2_14, off: 2.0}
+    end: {sid: act2_15, off: 0.85}
     kind: checklist
     data:
       title: Epoch AI의 밀반입 추정
@@ -271,12 +264,12 @@ events:
         - 90% 구간 29만 ~ 160만 개
       at:
         - {word: {sid: act2_14, text: 66만}}
-        - {word: {sid: act2_14, text: 66만}, off: 1.3}
+        - {word: {sid: act2_14, text: 66만}, off: 0.6}
       footer: 모형 추정 — 적발률 가정에 따라 달라진다
       provenance: {verification: estimated, sources: [Epoch AI(2026. 04. 29)], claim_status: verified}
     claims: [clm_0029, clm_0030]
   - type: badge
-    start: {sid: act2_15, off: -0.2}
+    start: {sid: act2_15, off: 1.0}
     end: {sid: act2_16, edge: end, off: 0.3}
     kind: person
     pid: jensen_huang
@@ -353,7 +346,7 @@ events:
     pos: center
   - type: panel
     start: {sid: act3_6, off: -0.35}
-    end: {sid: act3_6, edge: end, off: 0.4}
+    end: {sid: act3_7, off: 0.3}
     kind: versus
     data:
       title: 두 연구기관의 추정
@@ -369,15 +362,15 @@ events:
             - {text: 100만 개, t: {word: {sid: act3_6, text: 100만}}}
     claims: [clm_0029, clm_0037]
   - type: photo
-    start: {sid: act3_7, off: -0.4}
+    start: {sid: act3_7, off: 0.4}
     end: {sid: act3_7, edge: end, off: 0.2}
     mid: nv_singapore_cbd
     for: 마리나베이 스카이라인
-    x: 40
+    x: 20
     y: 70
     w: 300
   - type: marker
-    start: {sid: act3_7, off: 0.4}
+    start: {sid: act3_7, off: 1.0}
     end: {sid: act3_9, edge: end, off: 0.3}
     at_place: singapore
     label: 메가스피드
@@ -447,7 +440,9 @@ events:
     end: {sid: act3_13, edge: end, off: 0.3}
     mid: nv_nwpu
     for: 대학 정문
-    place: map_pair_right
+    x: 492
+    y: 64
+    w: 320
   # ================================================================ 스튜디오 ② act4 · ending — 미국의 통제
   - type: photo
     start: {sid: act4_0, off: -0.3}
@@ -551,7 +546,7 @@ events:
     w: 460
   - type: panel
     start: {sid: act4_14, off: -0.4}
-    end: {sid: act4_15, edge: end, off: -0.3}
+    end: {sid: act4_15, edge: end, off: -0.6}
     kind: checklist
     data:
       title: 의회에 올라간 수출통제 법안
@@ -564,14 +559,14 @@ events:
       at:
         - {sid: act4_14, off: 0.3}
         - {word: {sid: act4_14, text: 위치}}
-        - {word: {sid: act4_15, text: 네}}
-        - {word: {sid: act4_15, text: 네}, off: 0.8}
+        - {sid: act4_14, edge: end, off: -0.3}
+        - {sid: act4_15, off: 0.2}
       footer: 상원 국방수권법안에 수록 — 최종 포함은 합의 전
       provenance: {verification: verified, sources: [Semafor(2026. 11. 12) · Reuters(2026. 11. 15)], claim_status: corroborated}
     claims: [clm_0057, clm_0059, clm_0060, clm_0061]
   - type: quote
-    start: {sid: act4_16, off: -1.3}
-    end: {sid: act4_16, edge: end, off: 1.3}
+    start: {sid: act4_16, off: -1.37}
+    end: {sid: act4_16, edge: end, off: 1.35}
     flag: cn
     speaker: 마오닝
     role: 중국 외교부 대변인
