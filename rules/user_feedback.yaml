@@ -3036,4 +3036,14 @@ entries:
   status: guarded
   decision: "D927 — 수용. 원인 둘(문장 사이마다 자막·번짐이 꺼짐, 전환 dip 이 자막 위)을 프레임 분석으로 재현하고 고쳤다. RENDER-AP-035"
   source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17
+- id: UF-912
+  date: '2026-11-17'
+  project: repo
+  at: "새 디자인 패널 11종 시트를 본 뒤 — '파병을 둘러싼 두 입장'(versus 패널: 한 카드 안 두 단 목록)"
+  quote: "파병을 둘러싼 두가지 입장 같은 부분은 저 상투적인 레이아웃말고 저것도 디자인 시안을 리팩터링해봐"
+  quote_kind: verbatim
+  category: 화면 — 두 입장을 맞세우는 패널(versus)의 배치가 상투적이다(한 카드 안 두 단 목록). 새 디자인 시안을 내고 고른 안으로 바꾼다
+  status: open
+  decision: "D928 — 수용. 감독이 시안 여러 안을 직접 그려 보내고(구현 에이전트 없이), 사용자가 고른 안을 엔진에 옮긴다"
+  source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17
 
