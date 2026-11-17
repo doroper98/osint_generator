@@ -2063,6 +2063,7 @@ skin:                      # v7.4.0 C0.0·UF-906(D917) — 디자인 시스템 1
         map_veil: 0.82
     precedent: {top: 150, rise: 16, year_dy: 42, title_dy: 68, line_dy: 96, line_step: 20, caption_dy: 196, badge_dx: 136, badge_dy: 172, bottom: 362, caption_delay: 0.6, badge_delay: 0.3}   # 연도 기둥 — 윗선(강조 연도 = 강조색) + 기둥 사이 가는 선
     check: {w: 1.8, box_alpha: 0.35}        # checklist — 체크 획 굵기(잉크 primary)·칸 윤곽 알파
+    relation: {y_min: 110, y_max: 386, gap_min: 6}   # v7.4.0 D935(RENDER-AP-040) — 노드 원이 머무는 세로 범위(제목 선 아래 ~ 종이 아래 끝 402 위). 열이 넘치면 가운데를 옮기고, 그래도 넘치면 간격(panels.relation.*.dy)을 줄인다. 원 사이 gap_min 미만 = 오류
     gantt_bar_h: 10                         # 막대 두께(가운데 = 옛 막대 가운데) — 회색 직각 막대, accent_cols 막대만 강조색
     gantt_year_dy: -7                       # 연도 기준선 = 축 + 이 값(축 위 — 옛 축 아래 +20 은 태그 줄 이동 때 카드 아래 끝 402 밖)
     dual: {line_w: 1.8, ring: 1.4, x_label_dy: 14}   # 계열 선 굵기·점 둘레 흰 고리·가로 라벨 기준선(축 + dy, 카드 아래 끝 안)

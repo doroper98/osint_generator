@@ -33,14 +33,46 @@ def column(e: dict, group: str) -> list[dict]:
     return [n for n in e["nodes"] if n["group"] == group]
 
 
+class RelationOverflowError(ValueError):
+    """노드 열이 패널 종이 안에 들어가지 않는다(조용히 종이 밖으로 밀지 않는다, 15 P6)."""
+
+
+def column_ys(n: int, cy: float, dy: float, r: float, band: tuple[float, float, float] | None) -> list[float]:
+    """열의 노드 y 목록. band = (y_min, y_max, gap_min) 이면(skin 무대) 원이 그 세로 범위 안에 머물게 한다 —
+    넘치지 않으면 종전 그대로(cy·dy), 넘치면 가운데를 범위 가운데로 옮기고, 그래도 넘치면 간격을 줄인다. 원 사이가 gap_min 보다 좁아져야 하면 오류.
+    v7.4.0 D935(RENDER-AP-040): 대상 다섯 곳(cy 262·dy 62·R 19)의 다섯째 원이 흰 종이 아래 끝(402)에 걸렸다."""
+    span = (n - 1) * dy
+    if band is None or n == 0:
+        return [cy - span / 2 + i * dy for i in range(n)]
+    lo, hi, gap = band
+    if cy - span / 2 - r >= lo and cy + span / 2 + r <= hi:
+        return [cy - span / 2 + i * dy for i in range(n)]
+    room = hi - lo - 2 * r
+    if span > room:
+        dy = room / (n - 1)
+        if dy < 2 * r + gap:
+            raise RelationOverflowError(f"relation 패널 한 열에 노드 {n}개 — 종이 안에 들어가지 않는다(간격 {dy:.0f}px < {2 * r + gap:.0f}). 패널을 나눈다")
+        span = room
+    mid = (lo + hi) / 2
+    return [mid - span / 2 + i * dy for i in range(n)]
+
+
+def _band() -> tuple[float, float, float] | None:
+    if not skin.active():
+        return None
+    B = SP.relation  # noqa: N806
+    return (B.y_min, B.y_max, B.gap_min)
+
+
 def node_positions(e: dict) -> dict[str, tuple[float, float, float, float]]:
-    """노드 id → (x, y, R, 등장 시각 오프셋). 열 세로 중심 cy 에 맞춰 dy 간격으로 쌓는다."""
+    """노드 id → (x, y, R, 등장 시각 오프셋). 열 세로 중심 cy 에 맞춰 dy 간격으로 쌓는다(skin 무대는 종이 안 범위로 — column_ys)."""
     out: dict[str, tuple[float, float, float, float]] = {}
+    band = _band()
     for group, col in (("source", REL.source), ("target", REL.target)):
         nodes = column(e, group)
-        y0 = col.cy - (len(nodes) - 1) / 2 * col.dy
+        ys = column_ys(len(nodes), col.cy, col.dy, col.R, band)
         for i, n in enumerate(nodes):
-            out[n["id"]] = (col.x, y0 + i * col.dy, col.R, col.t0 + i * col.step)
+            out[n["id"]] = (col.x, ys[i], col.R, col.t0 + i * col.step)
     return out
 
 

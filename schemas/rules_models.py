@@ -5477,6 +5477,20 @@ class SkinPanelDual(_Strict):
     x_label_dy: float = Field(gt=0)
 
 
+class SkinPanelRelation(_Strict):
+    """v7.4.0 D935(RENDER-AP-040) — skin 관계 패널: 노드 원이 머무는 세로 범위(설계 px)와 원 사이 최소 간격."""
+
+    y_min: float = Field(ge=0)
+    y_max: float = Field(gt=0)
+    gap_min: float = Field(ge=0)
+
+    @model_validator(mode="after")
+    def _span(self) -> "SkinPanelRelation":
+        if self.y_min >= self.y_max:
+            raise ValueError("skin.panel.relation — y_min < y_max")
+        return self
+
+
 class SkinPanel(_Strict):
     """v7.4.0 C0.0 3a(UF-906·UF-908) — 패널 11종 안쪽(engine/panels/*). skin 무대에서만 읽는다. 길이 = 설계 px."""
 
@@ -5497,6 +5511,7 @@ class SkinPanel(_Strict):
     versus: SkinPanelVersus
     precedent: SkinPanelPrecedent
     check: SkinPanelCheck
+    relation: SkinPanelRelation
     gantt_bar_h: float = Field(gt=0)
     gantt_year_dy: float
     dual: SkinPanelDual
