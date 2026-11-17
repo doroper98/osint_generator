@@ -7,7 +7,7 @@ from types import SimpleNamespace
 
 import numpy as np
 
-from engine.checks import HARD, WARN, story_geo_report
+from engine.checks import HARD, WARN, named_countries, story_geo_report
 from engine.events import MarkerEvent
 from engine.stage import MercatorStage
 from rules import load_rules
@@ -120,3 +120,22 @@ class TestFrameMissing(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestNamedCountries(unittest.TestCase):
+    """v7.4.0 RENDER-AP-036 — 다른 나라 이름 안에 든 이름(인도 ⊂ 인도네시아)은 따로 나올 때만 센다."""
+
+    NAMES = {"인도": (79.4, 22.7), "인도네시아": (101.9, -1.0), "일본": (138.4, 36.1), "중국": (106.3, 32.5)}
+
+    def test_longer_name_does_not_call_the_shorter(self) -> None:
+        got = named_countries("검찰은서버74대가인도네시아와일본,홍콩등을거쳐중국으로갔다고주장했습니다.", self.NAMES)
+        self.assertEqual(set(got), {"인도네시아", "일본", "중국"})
+
+    def test_shorter_name_counts_when_it_stands_alone(self) -> None:
+        got = named_countries("인도와인도네시아는서로다른결정을내렸습니다.", self.NAMES)
+        self.assertEqual(set(got), {"인도", "인도네시아"})
+        self.assertEqual(got["인도"], (79.4, 22.7))
+
+    def test_one_char_names_and_absent_names_are_skipped(self) -> None:
+        self.assertEqual(named_countries("미국은규칙을공개했습니다.", {**self.NAMES, "미": (0.0, 0.0)}), {})
+

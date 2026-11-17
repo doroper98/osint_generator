@@ -2484,6 +2484,22 @@ def story_geo_report(P) -> dict[str, list[str]]:  # noqa: ANN001, N803
     if not _map_shown(P) or P.cams is None:
         P.R.cache["story_geo"] = rep
         return rep
+def named_countries(flat: str, names: dict[str, tuple]) -> dict[str, tuple]:
+    """문장(공백을 뗀 글)이 부르는 나라 이름 → 라벨 점. 다른 나라 이름 안에 들어 있는 이름(인도 ⊂ 인도네시아)은 그 긴 이름을 지운 자리에
+    따로 나올 때만 센다 — v7.4.0 RENDER-AP-036: '인도네시아'를 말한 문장이 화면 밖 '인도' 로 [frame-missing] hard 가 됐다(nvidia-chips-china-2026)."""
+    hit = [nm for nm in names if len(nm) >= 2 and nm.replace(" ", "") in flat]
+    out: dict[str, tuple] = {}
+    for nm in hit:
+        key, rest = nm.replace(" ", ""), flat
+        for other in sorted(hit, key=len, reverse=True):
+            longer = other.replace(" ", "")
+            if other != nm and key in longer:
+                rest = rest.replace(longer, "\x00")
+        if key in rest:
+            out[nm] = tuple(names[nm])
+    return out
+
+
     if P.R.cache.get("story_geo_exempt"):   # v5.22.1 D-0205 — 골든 기준 연출(사용자 합격본)만, 사유·결정 번호와 함께(테스트가 범위 강제)
         P.R.cache["story_geo"] = rep
         return rep
@@ -2523,7 +2539,7 @@ def story_geo_report(P) -> dict[str, list[str]]:  # noqa: ANN001, N803
             continue
         want = {m["label"]: tuple(m["world"]) for m in ms}
         flat = s.text.replace(" ", "")
-        want.update({nm: tuple(w) for nm, w in names.items() if len(nm) >= 2 and nm.replace(" ", "") in flat and nm not in want})
+        want.update({nm: w for nm, w in named_countries(flat, names).items() if nm not in want})
         flags = {str(e.get("flag")).lower() for e in P.events if e["type"] in ("badge", "quote") and e.get("flag") and e["t0"] < s.t1 and e["t1"] > s.t0}
         for nm, (wx, wy) in want.items():
             seen = codes.get(nm) in flags   # v5.22.1 D-0205 — 그 나라 국기 뱃지가 문장 구간에 보이면 표시로 인정
