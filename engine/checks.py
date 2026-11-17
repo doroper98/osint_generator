@@ -2484,19 +2484,6 @@ def _story_markers(P, s) -> tuple[list[dict], bool]:  # noqa: ANN001, N803
     return ms, verb
 
 
-def story_geo_report(P) -> dict[str, list[str]]:  # noqa: ANN001, N803
-    """v5.21.14 D-0195·D-0197·D-0199 — 문장 단위 지리 정합.
-    route_missing(warning)/route_missing_other(hard): 이동·공격 동사 + 문장이 부르는 마커가 있는데 그 마커에 끝점이 닿는 경로가 문장 구간에 없음
-    (다른 경로만 보이면 hard — 화면이 사실 방향과 어긋나 오해).
-    frame_missing(warning)/frame_missing_target(hard): 문장이 부르는 나라(라벨 점)·마커가 문장 구간 표본 시각 모두 화면 밖(이동·공격 대상이면 hard).
-    지도 무대가 아니거나 문장 구간 내내 지도가 가려졌으면(전면 카드·패널·암전·기사·인용) 보지 않는다."""
-    if "story_geo" in P.R.cache:
-        return P.R.cache["story_geo"]
-    RM, FM = QA.route_missing, QA.frame_missing  # noqa: N806
-    rep: dict[str, list[str]] = {"route_missing": [], "route_missing_other": [], "frame_missing": [], "frame_missing_target": []}
-    if not _map_shown(P) or P.cams is None:
-        P.R.cache["story_geo"] = rep
-        return rep
 def named_countries(flat: str, names: dict[str, tuple]) -> dict[str, tuple]:
     """문장(공백을 뗀 글)이 부르는 나라 이름 → 라벨 점. 다른 나라 이름 안에 들어 있는 이름(인도 ⊂ 인도네시아)은 그 긴 이름을 지운 자리에
     따로 나올 때만 센다 — v7.4.0 RENDER-AP-036: '인도네시아'를 말한 문장이 화면 밖 '인도' 로 [frame-missing] hard 가 됐다(nvidia-chips-china-2026)."""
@@ -2513,6 +2500,19 @@ def named_countries(flat: str, names: dict[str, tuple]) -> dict[str, tuple]:
     return out
 
 
+def story_geo_report(P) -> dict[str, list[str]]:  # noqa: ANN001, N803
+    """v5.21.14 D-0195·D-0197·D-0199 — 문장 단위 지리 정합.
+    route_missing(warning)/route_missing_other(hard): 이동·공격 동사 + 문장이 부르는 마커가 있는데 그 마커에 끝점이 닿는 경로가 문장 구간에 없음
+    (다른 경로만 보이면 hard — 화면이 사실 방향과 어긋나 오해).
+    frame_missing(warning)/frame_missing_target(hard): 문장이 부르는 나라(라벨 점)·마커가 문장 구간 표본 시각 모두 화면 밖(이동·공격 대상이면 hard).
+    지도 무대가 아니거나 문장 구간 내내 지도가 가려졌으면(전면 카드·패널·암전·기사·인용) 보지 않는다."""
+    if "story_geo" in P.R.cache:
+        return P.R.cache["story_geo"]
+    RM, FM = QA.route_missing, QA.frame_missing  # noqa: N806
+    rep: dict[str, list[str]] = {"route_missing": [], "route_missing_other": [], "frame_missing": [], "frame_missing_target": []}
+    if not _map_shown(P) or P.cams is None:
+        P.R.cache["story_geo"] = rep
+        return rep
     if P.R.cache.get("story_geo_exempt"):   # v5.22.1 D-0205 — 골든 기준 연출(사용자 합격본)만, 사유·결정 번호와 함께(테스트가 범위 강제)
         P.R.cache["story_geo"] = rep
         return rep
@@ -2586,16 +2586,28 @@ def check_battle_geo(P) -> list[str]:  # noqa: ANN001, N803
     return out
 
 
-def media_unused(pid: str, events: list[dict], registry: dict, drops: dict[str, str]) -> list[str]:
+def received_photos(proj: Path, registry: dict) -> set[str]:
+    """이 프로젝트가 실제로 받은 사진 — 프로젝트 `media/` 폴더에 원본(tool.params.source)이 있는 등재 사진(kind photo). id 머리말과 무관하다.
+    v7.4.0 UF-916(UF-118 재발, PIPELINE-AP-030): 장치가 `{pid}_` 머리말만 보아, 짧은 머리말(cn_·nv_)로 등재한 사진은 한 장도 검사 대상이 아니었다."""
+    media = proj / "media"
+    out: set[str] = set()
+    for mid, a in registry.items():
+        src = (a.tool.params or {}).get("source") if a.kind == "photo" else None
+        if src and (media / str(src)).exists():
+            out.add(mid)
+    return out
+
+
+def media_unused(pid: str, events: list[dict], registry: dict, drops: dict[str, str], received: frozenset[str] | set[str] = frozenset()) -> list[str]:
     """v7.4.0 D-0238(UF-118 "사진을 고른거 같은데 그 사진들이 누락되지 않고 영상에 잘 쓰이게 챙겨") — 이 프로젝트가 등재한
-    권리 통과 사진(레지스트리 mid 가 `{pid}_` 로 시작하는 kind photo, rights_status rights_clear·restricted)이 어느 이벤트에도
-    없으면 hard. media_notes.yaml drop(mid·사유)만 예외."""
+    권리 통과 사진(레지스트리 mid 가 `{pid}_` 로 시작하거나 received 에 든 kind photo, rights_status rights_clear·restricted)이 어느 이벤트에도
+    없으면 hard. media_notes.yaml drop(mid·사유)만 예외. received = 프로젝트가 실제로 받은 사진(received_photos — UF-916)."""
     out = []
     for mid, a in registry.items():
-        if not mid.startswith(f"{pid}_") or a.kind != "photo" or a.rights_status == "unverified" or mid in drops:
+        if not (mid.startswith(f"{pid}_") or mid in received) or a.kind != "photo" or a.rights_status == "unverified" or mid in drops:
             continue
         if not any(f"'{mid}'" in repr(e) for e in events):   # photo mid·기사 카드 press 어디든
-            out.append(f"[media-unused] 등재한 사진 {mid}({a.caption}) 이 연출에 없다 — 배치하거나 media_notes.yaml drop 에 사유(UF-118)")
+            out.append(f"[media-unused] 등재한 사진 {mid}({a.caption}) 이 연출에 없다 — 배치하거나 media_notes.yaml drop 에 사유(UF-118·UF-916)")
     return out
 
 
@@ -2604,7 +2616,8 @@ def check_media_unused(P) -> list[str]:  # noqa: ANN001, N803
     from script.media_table import load_notes  # noqa: PLC0415
 
     drops = {d.mid: d.reason for d in load_notes(P.root).drop}
-    return media_unused(P.root.name, P.events, load_media_registry(), drops)
+    reg = load_media_registry()
+    return media_unused(P.root.name, P.events, reg, drops, received_photos(P.root, reg))
 
 
 def check_article_press_missing(P) -> list[str]:  # noqa: ANN001, N803

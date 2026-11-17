@@ -3091,3 +3091,18 @@ entries:
   status: guarded
   decision: "D933 — 수용(사용자 결정이 옛 결정 UF-68·PIPELINE-AP-015 의 '자막 점검 요청' 을 대체). 게이트 ① 은 상태·기록으로 남되 사용자에게 묻지 않고 세션이 린트·출처·미디어 계획 확인 뒤 스스로 기록한다. 게이트 ② 도 감독이 프리뷰를 보고 승인한다. 사용자는 완성 영상을 받는다"
   source: 병합 세션(Fable, session_017Yuw8jC9A25wdybizTBRrk) 사용자 대화 2026-11-17(선택지 답)
+- id: UF-916
+  date: '2026-11-17'
+  project: nvidia-chips-china-2026
+  at: 제작 중(미디어 등록 단계) — "사진 에이전트가 13장을 등록했습니다" 보고 직후
+  quote: "보니까 제작 단계에서 저런 이미지들을 많이 찾았따가 영상완성된 후에 보면 많이 안보이더라구. 꼭 다 보이도록 해."
+  quote_kind: verbatim
+  category: 미디어 — 제작 중 찾아 받은 사진·초상은 완성 영상에 전부 나와야 함(재발 — UF-118)
+  recurs_of: UF-118
+  guards:
+  - {kind: check, ref: media_unused}
+  - {kind: code, ref: engine.checks.received_photos}
+  - {kind: test, ref: tests/test_v740_media_unused.py::ReceivedPhotoTest::test_received_photo_missing_from_direction_is_hard}
+  status: guarded
+  decision: "D935 — 수신 즉시 기록(C12 §1). 이 영상: 받은 사진 15장(Commons 13 + 미 법무부 공개 2)과 초상 4장을 연출에 모두 배치. 재발 원인 = UF-118 장치가 '{pid}_' 머리말 사진만 보아 짧은 머리말(cn_·nv_) 사진은 검사 대상이 0 이었다(PIPELINE-AP-030). 보강 = 프로젝트 media/ 에 원본을 받아 둔 등재 사진 전부를 [media-unused] hard 대상으로(received_photos). 빼려면 media_notes.yaml drop 에 사유"
+  source: 감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8) 사용자 대화 2026-11-17
