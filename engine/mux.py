@@ -1,6 +1,6 @@
 """먹싱·자막·설명문·provenance CLI (v2.1.0, 10 §5, 16 §4).
 
-    python -m engine.mux <proj>   → out/final.mp4, out/final.srt, out/description.txt, out/provenance.json
+    python -m engine.mux <proj>   → out/final.mp4, out/final.srt, out/description.txt, out/thumbnail.png, out/provenance.json
 
 - 영상: out/video_noaudio.mp4 + out/mix.f32 → loudnorm(rules audio.loudnorm) + AAC 192k.
 - 자막: 문장마다 시작 t0, 끝 t1 + 0.15(골든 SRT 실측), 자막 텍스트(발음 텍스트 아님).
@@ -431,6 +431,17 @@ def main(argv: list[str] | None = None) -> int:
             (outd / "description.txt").write_text(desc, encoding="utf-8")
         elif (outd / "description.txt").exists():
             (outd / "description.txt").unlink()   # 지난 실행의 설명문이 이번 영상 것처럼 남지 않게
+        # v7.4.0 사용자 의견 UF-923(D938) — 썸네일(제목 카드 프레임 + 옅은 테두리)을 완성본과 함께 쓴다(전달물에서 빠지지 않게).
+        # 배포 경로 없는 프로젝트(설명문을 쓰지 않는 스케치·렌더 전용)와 제목 카드 없는 영상은 만들지 않고 사유를 남긴다
+        from engine.thumbnail import FILE as THUMB_FILE  # noqa: PLC0415, N811
+        from engine.thumbnail import make as make_thumbnail  # noqa: PLC0415
+
+        if desc_rec["written"]:
+            thumb_rec = make_thumbnail(proj)
+        else:
+            if (outd / THUMB_FILE).exists():
+                (outd / THUMB_FILE).unlink()
+            thumb_rec = {"written": False, "reason": "description.yaml·project_manifest.json 없음(스케치·렌더 전용 프로젝트) — 썸네일을 만들지 않았다"}
         prov = project_provenance(P, {"plan": True, "geo": True, "preview": (proj / "prev" / "provenance.json").exists(),
                                       "render": True, "mix": True, "mux": True, "ai_direction": False, "visual_qa": False})
         from engine.checks import check_audio  # noqa: PLC0415 — v3.4.0 오디오 QA(검사기 하나)
@@ -453,6 +464,9 @@ def main(argv: list[str] | None = None) -> int:
         prov["description"] = desc_rec
         if not desc_rec["written"]:
             warns = [*warns, f"[description-skipped] {desc_rec['reason']}"]
+        prov["thumbnail"] = thumb_rec
+        if not thumb_rec["written"]:
+            warns = [*warns, f"[thumbnail-skipped] {thumb_rec['reason']}"]
         tsum = summarize(proj, last_run_start(proj, "render.final.frames"))
         if tsum is not None:   # D-1000 S0 — 마지막 전편 렌더부터 이 mux 까지(돈 단계만, P5)
             prov["timings"] = tsum
@@ -466,6 +480,7 @@ def main(argv: list[str] | None = None) -> int:
         res = StageResult(ok=True, stage="mux", provenance=prov, warnings=warns,
                           artifacts={"final": str(final), "srt": str(outd / "final.srt"),
                                      **({"description": str(outd / "description.txt")} if desc_rec["written"] else {}),
+                                     **({"thumbnail": str(outd / THUMB_FILE)} if thumb_rec["written"] else {}),
                                      "credits": str(outd / "credits.txt"), "provenance": str(outd / "provenance.json")})
     except (ProjectError, RightsError, AnimaticDeliverError, KeyError, ValueError, OSError, subprocess.CalledProcessError) as ex:
         res = StageResult(ok=False, stage="mux", errors=[str(ex)])

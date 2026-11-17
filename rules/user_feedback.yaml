@@ -3218,3 +3218,37 @@ entries:
   status: guarded
   decision: "D937 — 원인 = 표준 믹스가 음악을 내레이션보다 약 10 dB 아래(이 곡은 음량 배율 0.56 으로 −16.4 dB)에 두고, 문장이 끝날 때마다 덕킹을 풀어 6 dB 올렸다(duck_depth 0.5). 선율이 있는 곡에서는 문장 사이 0.9초마다 음악이 솟아 내레이션을 방해했다. 오디오 QA 는 그 높이를 '범위 안'으로 통과시켰다(PIPELINE-AP-032). 규칙 개정(사용자 지적에 따른 표준 변경, CLAUDE.md C0.2) = ① bed_gain 0.43 → 0.057(내레이션 구간 −11.5 dB, 문장 사이 −17.5 dB) ② duck_depth 0.5 → 0(문장 안팎 같은 높이) ③ QA 범위 [-13, -9] → [-24.5, -20.5](위 끝을 넘으면 mux 실패). 옛 합격 기록 UF-91(0.43)은 이 결정으로 대체. 효과음·클립 원음 덕킹은 그대로. 모든 영상 공통(믹서 하나 — audio.mix, 스케치 트랙은 음악을 섞지 않는다)"
   source: 감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8) 사용자 대화 2026-11-17
+- id: UF-923
+  date: '2026-11-17'
+  project: nvidia-chips-china-2026
+  at: 완성 영상 전달 뒤 — 썸네일 이미지가 전달물에 없었음
+  quote: "썸네일 이미지도 같이 줘. 제목이 표시 되는 이미지있지? 그거면 될거 같아. 그리고 내가 옅은 테두리를 썸네일로 하기로 규약을 정한거 같은데."
+  quote_kind: verbatim
+  category: 전달 — 완성 영상과 함께 썸네일 이미지(제목이 표시되는 화면)를 준다. 썸네일은 정해 둔 규약(옅은 테두리)을 따른다
+  guards:
+  - {kind: code, ref: engine.thumbnail.make}
+  - {kind: rule, ref: thumbnail.border}
+  - {kind: test, ref: tests/test_v740_thumbnail.py::DeliveryWiringTest::test_mux_makes_the_thumbnail_with_the_final_video}
+  - {kind: test, ref: tests/test_v740_thumbnail.py::TitleFrameTest::test_make_writes_the_title_frame_with_the_line}
+  - {kind: test, ref: tests/test_v740_thumbnail.py::DeliveryWiringTest::test_workflow_lists_the_thumbnail_as_a_deliverable}
+  - {kind: doc, ref: WORKFLOWS.md#out/thumbnail.png}
+  status: guarded
+  decision: "D938 — 저장소(규칙·원장·결정 기록·두 브랜치)를 찾았지만 썸네일 규약의 앞선 기록은 없었다(썸네일은 'v2 파이프라인에 없음 — 별도 계획' 상태였다). 이번에 규약을 기록으로 만든다. 썸네일 = 제목 카드 프레임(완성 영상과 같은 렌더러, 1280×720) + 테두리. engine.thumbnail(CLI) 을 만들고 engine.mux 가 완성본과 함께 out/thumbnail.png 를 쓴다 — 따로 부르는 것을 잊어 전달물에서 빠지지 않는다. 제목 카드가 없거나 배포 경로 없는 프로젝트는 만들지 않고 [thumbnail-skipped] 경고와 provenance 사유를 남긴다. 테두리 모양은 UF-924 로 정정. 스케치 트랙은 mux·전달 경로가 없어 대상이 아니다(PIPELINE-AP-033)"
+  source: 감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8) 사용자 대화 2026-11-17
+- id: UF-924
+  date: '2026-11-17'
+  project: nvidia-chips-china-2026
+  at: 썸네일 1차 전달본(out/thumbnail.png) — 이미지 맨 가장자리에 붙여 그린 회색 테두리
+  quote: "아니 저 이미지 외곽 테두리가 아니라 이미지 외곽에서 몇 px 들어와서 그려지는 고급진 테두리를 말하느거잖아"
+  quote_kind: verbatim
+  category: 전달 — 썸네일 테두리는 이미지 맨 가장자리가 아니라 가장자리에서 몇 px 안쪽으로 들어와 그리는 고급스러운 선(안쪽 액자선)
+  recurs_of: UF-923
+  guards:
+  - {kind: rule, ref: thumbnail.border.inset}
+  - {kind: code, ref: engine.thumbnail.frame_rect}
+  - {kind: test, ref: tests/test_v740_thumbnail.py::FrameLineTest::test_line_is_inset_from_the_image_edge}
+  - {kind: test, ref: tests/test_v740_thumbnail.py::FrameLineTest::test_schema_refuses_an_edge_border}
+  - {kind: test, ref: tests/test_v740_thumbnail.py::FrameLineTest::test_line_is_fine_and_faint}
+  status: guarded
+  decision: "D938 — 원인 = UF-923 의 '옅은 테두리'를 이미지 맨 가장자리에 붙인 회색 선(4px)으로 해석해 보냈다. 규약의 기록이 없는데 모양을 확인하지 않고 한 가지로 정했다(PIPELINE-AP-033). 정정 = 안쪽 액자선: 이미지 가장자리에서 24px(설계 16px) 안으로 들어와 가는 선 한 줄(1.5px, 잉크 #141820 알파 0.32). rules thumbnail.border {inset, w, rgb, alpha}. 장치 = 스키마가 가장자리 선(inset < 8)·굵은 띠(w > 2.5)·진한 선(alpha > 0.5)을 거부하고, 시험이 가장자리 띠의 화소가 그대로인지 잰다"
+  source: 감독 세션(session_017Yuw8m2LrtCSQhnE4TVvV8) 사용자 대화 2026-11-17

@@ -3495,3 +3495,4 @@ last_review: 2026-06-06
 - 2026-11-17 v7.4.0 영상 nvidia-chips-china-2026 제작(D935) — 디자인 시스템 첫 실전. 제작 중 엔진·규칙 결함 8건 수정(RENDER-AP-036~041, PIPELINE-AP-029, RIGHTS-AP-004)과 사용자 의견 UF-916(받은 사진은 전부 화면에 — PIPELINE-AP-030, received_photos) 장치 보강. 초상 2장 라이브러리 승격.
 - 2026-11-17 v7.4.0 영상 nvidia-chips-china-2026 수정본(D936) — 사용자 의견 UF-917~921 반영: 패널 부분 노출 검사 [panel-part-hold](RENDER-AP-042), 목록 조판 개편, 배경 지명 수도만(RENDER-AP-043), 지도 상시 흐름 + [map-still](RENDER-AP-044), 자라는 선 머리 보간 — 본 엔진·스케치 공통(RENDER-AP-045). 원장 미보호 0. 720p 재렌더·재전달.
 - 2026-11-17 v7.4.0 음악 베드 표준 변경(UF-922, D937, PIPELINE-AP-032) — 아주 낮게·문장 사이에서 올리지 않음: bed_gain 0.43 → 0.057, duck_depth 0.5 → 0, QA 범위 [-24.5, -20.5]. CLAUDE.md C0.2 개정, UF-91 대체. nvidia-chips-china-2026 재믹스·재전달(내레이션 구간 음악 −16.4 → −28.0 dB).
+- 2026-11-17 v7.4.0 썸네일 규약 신설(UF-923·UF-924, D938, PIPELINE-AP-033) — 제목 카드 프레임 + 안쪽 액자선(가장자리에서 24px, 가는 선). engine.thumbnail CLI, engine.mux 가 완성본과 함께 out/thumbnail.png 를 쓴다. nvidia-chips-china-2026 썸네일 전달.

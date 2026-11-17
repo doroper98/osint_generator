@@ -27,6 +27,7 @@ ALLOWED: dict[str, str] = {
     "engine/skin_people.py": "인물 카드·알약 초상·기사 프레스 타일 래스터 장치 해상도(v7.4.0 2b, D917)",
     "engine/mux.py": "provenance render.resolution",
     "engine/chunk_cache.py": "조각 캐시 전역 키(출력 프로파일 record — v7.4.0 D-1000 S2)",
+    "engine/thumbnail.py": "썸네일 진입 — 완성본 프로파일(rules thumbnail.profile)로 제목 프레임을 뜨고 그 표면에 액자선을 그린다(v7.4.0 UF-923·UF-924, D938)",
 }
 NAMES = frozenset({"Output", "output_profile"})
 

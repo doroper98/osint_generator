@@ -2303,6 +2303,23 @@ class CatalogRules(_Strict):
     label: CatalogLabel
 
 
+class ThumbnailBorder(_Strict):
+    """썸네일 안쪽 액자선(v7.4.0 UF-924 — 이미지 맨 가장자리가 아니라 inset 만큼 안으로 들어온 가는 선). 길이 = 설계 px(854×480)."""
+
+    inset: float = Field(ge=8, le=40)    # 가장자리에서 안으로 들어온 거리 — 가장자리에 붙인 선(0)은 규약 밖이라 오류
+    w: float = Field(gt=0, le=2.5)       # 가는 선 — 굵은 띠는 규약 밖
+    rgb: str = Field(pattern=r"^#[0-9A-Fa-f]{6}$")
+    alpha: float = Field(gt=0, le=0.5)   # '옅은' 테두리 — 0.5 를 넘는 진한 선은 규약 밖
+
+
+class ThumbnailRules(_Strict):
+    """v7.4.0 UF-923·UF-924(D938) — 썸네일 = 제목 카드 프레임 + 안쪽 액자선(engine.thumbnail, mux 가 완성본과 함께 쓴다)."""
+
+    profile: str
+    title_at: float = Field(gt=0, lt=1)
+    border: ThumbnailBorder
+
+
 class PreviewRules(_Strict):
     """v3.3.0 F6 — auto 프리뷰 샘플."""
 
@@ -5631,6 +5648,7 @@ class VideoRules(_Strict):
     registries: Registries
     audio: AudioRules
     preview: PreviewRules          # v3.3.0 — D-0056 F6
+    thumbnail: ThumbnailRules      # v7.4.0 — UF-923·UF-924(D938) 썸네일(제목 카드 + 안쪽 액자선)
     animatic: AnimaticRules        # v4.9.0 — D-0108 콘티 판
     catalog: CatalogRules          # v7.4.0 — D-0251 카탈로그 판
     golden: GoldenRules            # v3.6.0 — D-0066 작업 4

@@ -111,6 +111,7 @@ Private 저장소이므로 페이지가 GitHub API 를 호출하려면 사용자
 | G12 backdrop 무대·아일랜드·축 스케일·기사 프레스 v2·버전 도장 (v5.1.0) | 완료(D-0127·D-0128) |
 | G13 배경 가독·주 아일랜드 상시·보도 인용 = 기사·card-island (v5.2.0) | 완료(D-0134) |
 | G14 겹침 카드(cascade) 채택 (v5.3.0) | 진행 중 |
-| 썸네일 시스템, 텔레그램 인테이크, 유튜브 업로드 | v2 파이프라인에 없음 — 별도 계획 |
+| 썸네일(제목 화면 + 안쪽 액자선, `out/thumbnail.png`) | `engine.mux` 가 완성본과 함께 만든다(v7.4.0 UF-923·UF-924, D938) |
+| 썸네일 후보 여러 장·텔레그램 인테이크·유튜브 업로드 | v2 파이프라인에 없음 — 별도 계획 |
 
 Phase 표와 버전은 [docs/13_IMPLEMENTATION_ROADMAP.md](docs/13_IMPLEMENTATION_ROADMAP.md), 변경 내역은 [CHANGELOG.md](CHANGELOG.md), 합격 커밋은 [docs/handoff/TAGS_PENDING.md](docs/handoff/TAGS_PENDING.md).

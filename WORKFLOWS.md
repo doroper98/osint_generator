@@ -20,7 +20,7 @@ last_review: 2026-09-30
 > 2. **게이트 ①(세션이 스스로 기록 — 사용자에게 묻지 않는다)** — `python -m orchestrator.main approve --project {pid} --gate script_approval --by <세션> --comment "UF-915 사용자 승인 생략"`. 기록에 원고 지문 `script_sha1` 이 남는다. 원고를 사용자에게 보내 자막 점검을 기다리지 않는다.
 > 3. **음성 → 연출 → 믹스 → 프리뷰**(`engine.render --preview auto`, 검사 hard 0). 콘티 판은 만들지 않는다.
 > 4. **게이트 ②(감독이 프리뷰 시트를 보고 승인 — 사용자에게 묻지 않는다)** — 코드 강제(`orchestrator.project_manager.require_preview`, 우회 플래그 없음): 게이트 ① 원고 지문 = 현재 `script.yaml`, 프리뷰 기록(`prev/provenance.json`)이 현재 `direction.yaml`·현재 `plan.json` 길이로 만들어졌고 checks hard 0. 게이트 기록 `shown.preview` 에 프리뷰 폴더·컷 수·연출·원고 지문이 남는다. 사용자 의견 원장·공용 자산 확인은 그대로.
-> 5. **전편 → 사용자에게 완성 영상 전달**(원고·출처·크레딧 자료와 함께).
+> 5. **전편 → 사용자에게 완성 영상 전달**(원고·출처·크레딧 자료, 그리고 썸네일 `out/thumbnail.png` 와 함께 — `engine.mux` 가 제목 화면에 안쪽 액자선을 둘러 같이 만든다, v7.4.0 UF-923·UF-924).
 >
 > 원고를 고치면 게이트 ① 을 다시 기록한다(`reopen --to script_draft` 또는 `rollback`, PIPELINE-AP-015·017) — 승인 지문과 현재 원고가 다르면 게이트 ② 가 거부된다.
 >
@@ -82,7 +82,7 @@ python -m engine.render projects/{pid} --jobs 4           # 게이트 ② 뒤 �
 - **R 은 이 셋과 막힘에만** 올린다. 중간 진행 R·작은 질문 R 을 쓰지 않는다.
 - **작은 판단은 구현 세션이 정한다.** `docs/handoff/DECISIONS.md` 에 "구현 전결" 표시로 한 줄 적고 진행한다(decision_request 남발 금지).
   decision_request 는 사용자 확인점·헌법·합격 수치(v3 골든 값)·되돌리기 어려운 선택에만 쓴다(README §6.4·§7).
-- **사용자 확인점**: 완성 영상 전달(원고·출처·크레딧 자료와 함께). 원고·콘티 판·프리뷰를 사용자에게 보내 승인을 기다리지 않는다(v7.4.0 UF-914·UF-915 — 콘티 판 단계·사용자 원고 승인 폐지).
+- **사용자 확인점**: 완성 영상 전달(원고·출처·크레딧 자료·썸네일 `out/thumbnail.png` 와 함께). 원고·콘티 판·프리뷰를 사용자에게 보내 승인을 기다리지 않는다(v7.4.0 UF-914·UF-915 — 콘티 판 단계·사용자 원고 승인 폐지).
 - **검증 시간**: 변경마다 관련 시험 + `tests/anti_inertia` + 영향 골든만. 전체 pytest 는 전달 경로 밖 — 하루 1회·병합 직전(C8-3, D187).
 - **부분 재렌더**: 연출을 고친 뒤 전편은 그냥 다시 돌린다 — 고정 격자 조각 캐시(`out/chunks/`, config `engine.render.chunk_sec`)가 바뀐 조각만 그린다.
   `render.json chunks[]` 의 reused·rendered 를 보고서에 인용한다. 의심스러우면 `--no-cache`.
