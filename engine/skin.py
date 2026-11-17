@@ -136,13 +136,18 @@ def surface(ctx: cairo.Context, box: Box, a: float = 1.0, level: str = "card", r
     ctx.stroke()
 
 
-def glow(ctx: cairo.Context, draw: Callable[[cairo.Context], None], rect: Rect) -> None:
+def glow(ctx: cairo.Context, draw: Callable[[cairo.Context], None], rect: Rect, blur: float | None = None,
+         gain: float | None = None, alpha: float | None = None) -> None:
     """글자 뒤 부드러운 흰 번짐(테두리 아님) — draw(ctx) 가 글자를 그린다. rect(설계 px, x0·y0·x1·y1) 둘레만 임시 표면에 그려
-    알파를 번지게 해(시그마 = glow_blur × sigma_k × 배율) × glow_gain(잘림) × glow_alpha 흰색으로 칠한 뒤 실제 컨텍스트에 draw."""
+    알파를 번지게 해(시그마 = blur × sigma_k × 배율) × gain(잘림) × alpha 흰색으로 칠한 뒤 실제 컨텍스트에 draw.
+    blur·gain·alpha 를 주지 않으면 자막 값(rules skin.subtitle) — 다른 요소는 자기 rules 토큰을 넘긴다."""
     G = SKIN.subtitle  # noqa: N806
+    g_blur = G.glow_blur if blur is None else blur
+    g_gain = G.glow_gain if gain is None else gain
+    g_alpha = G.glow_alpha if alpha is None else alpha
     ks = device_scale(ctx)
-    sigma = G.glow_blur * SKIN.shadow.sigma_k * ks
-    m = int(math.ceil(G.glow_blur * ks * 3))
+    sigma = g_blur * SKIN.shadow.sigma_k * ks
+    m = int(math.ceil(g_blur * ks * 3))
     xs, ys = zip(*(ctx.user_to_device(px, py) for px in (rect[0], rect[2]) for py in (rect[1], rect[3])))
     dx0, dy0 = int(math.floor(min(xs))) - m, int(math.floor(min(ys))) - m
     dw, dh = int(math.ceil(max(xs))) + m - dx0, int(math.ceil(max(ys))) + m - dy0
@@ -154,14 +159,25 @@ def glow(ctx: cairo.Context, draw: Callable[[cairo.Context], None], rect: Rect) 
         draw(tc)
         tmp.flush()
         a = np.ndarray((dh, tmp.get_stride() // 4, 4), np.uint8, buffer=tmp.get_data())[:, :dw, 3].copy()
-        g = np.clip(_blur(a, sigma).astype(np.float32) * G.glow_gain, 0, 255).astype(np.uint8)
+        g = np.clip(_blur(a, sigma).astype(np.float32) * g_gain, 0, 255).astype(np.uint8)
         ctx.save()
         ctx.identity_matrix()
-        ctx.set_source_rgba(1, 1, 1, G.glow_alpha)
+        ctx.set_source_rgba(1, 1, 1, g_alpha)
         ctx.mask_surface(_a8_from(g), dx0, dy0)
         ctx.restore()
     draw(ctx)
 
 
+def pill(ctx: cairo.Context, box: Box, fill: Color, a: float = 1.0, level: str | None = None) -> None:
+    """알약(높이 절반 반지름) 면 — 꼬리표·칩·인물 알약. level 을 주면 그 그림자(rules skin.shadow.<level>)를 깐다. 알약만 둥글다(UF-908)."""
+    x, y, w, h = box
+    r = h / 2
+    if level is not None:
+        soft_shadow(ctx, box, r, getattr(SKIN.shadow, level), a)
+    rrect(ctx, x, y, w, h, r)
+    ctx.set_source_rgba(*fill, a)
+    ctx.fill()
+
+
 __all__ = ["ACCENT_INK", "ACCENT_SHAPE", "INK", "INK2", "INK3", "SKIN", "active", "apply", "box_path", "device_scale", "glow",
-           "soft_shadow", "surface"]
+           "pill", "soft_shadow", "surface"]
