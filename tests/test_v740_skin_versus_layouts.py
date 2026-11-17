@@ -90,6 +90,21 @@ class RulesTest(unittest.TestCase):
         self.assertEqual(set(get_args(VersusLayout)), set(LAYOUTS))
 
 
+class MinFontTest(unittest.TestCase):
+    """v7.4.0 D935 — 두 입장 패널 출처 줄·패널 추정 태그는 역할 없이 그리는 글자라 최소 글자(layout_480p.min_font_px) 이상이어야 한다.
+    8.5 였을 때 nvidia-chips-china-2026 프리뷰가 [glyph-size] hard 로 떨어졌다(예외 역할은 end_card·media_meta 뿐)."""
+
+    def test_versus_src_and_panel_tag_at_least_min_font(self) -> None:
+        r = load_rules()
+        lo = r.layout_480p.min_font_px
+        for name in LAYOUTS:
+            lay = getattr(r.skin.panel.versus, name)
+            self.assertGreaterEqual(lay.src.size, lo, name)
+            if getattr(lay, "index", None) is not None:   # sheets·piles 의 01·02 번호(8px 였다 — 프리뷰 표본 시각에 따라 뒤늦게 걸렸다)
+                self.assertGreaterEqual(lay.index.size, lo, f"{name}.index")
+        self.assertGreaterEqual(r.skin.panel.tag.size, lo)
+
+
 class SchemaTest(unittest.TestCase):
     def test_layout_optional_absent_not_in_dict(self) -> None:
         self.assertNotIn("layout", _event())
